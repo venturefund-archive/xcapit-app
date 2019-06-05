@@ -3,10 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'usuario',
+    path: 'usuarios',
     children: [
       {
-        path: 'register', loadChildren: './register/register.module#RegisterPageModule'
+        path: 'register',
+        loadChildren: './register/register.module#RegisterPageModule'
+      },
+      {
+        path: 'email-validation',
+        loadChildren:
+          './email-validation/email-validation.module#EmailValidationPageModule'
       }
     ]
   }
@@ -16,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuthRoutingModule { }
+export class UsuariosRoutingModule {}

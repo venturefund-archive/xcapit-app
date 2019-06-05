@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RegisterPage } from './register.page';
+import { EmailValidationPage } from './email-validation.page';
 import { SharedUsuariosModule } from '../shared-usuarios/shared-usuarios.module';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: '/usuarios/register' },
   {
-    path: '',
-    component: RegisterPage
+    path: ':emailValidationToken',
+    component: EmailValidationPage
   }
 ];
 
@@ -16,6 +17,6 @@ const routes: Routes = [
     SharedUsuariosModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [RegisterPage]
+  declarations: [EmailValidationPage]
 })
-export class RegisterPageModule {}
+export class EmailValidationPageModule {}

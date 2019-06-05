@@ -32,7 +32,9 @@ export class LoadingService {
   dismiss() {
     if (this.isVisible) {
       this.isVisible = false;
-      this.loading.dismiss();
+      if (this.loading) {
+        this.loading.dismiss();
+      }
       this.message = null;
     }
   }

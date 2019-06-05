@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { AuthRoutingModule } from './usuarios-routing.module';
+import { UsuariosRoutingModule } from './usuarios-routing.module';
 
 @NgModule({
   declarations: [],
   imports: [
-    AuthRoutingModule
+    UsuariosRoutingModule
   ]
 })
-export class AuthModule { }
+export class UsuariosModule { }

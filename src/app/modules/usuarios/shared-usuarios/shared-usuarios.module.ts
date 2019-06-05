@@ -12,4 +12,4 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AuthFormComponent
   ]
 })
-export class SharedAuthModule { }
+export class SharedUsuariosModule { }

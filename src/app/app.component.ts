@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
+import { LoadingService } from './shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -48,13 +49,16 @@ export class AppComponent implements OnInit, OnDestroy {
     private statusBar: StatusBar,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private submitButtonService: SubmitButtonService
+    private submitButtonService: SubmitButtonService,
+    private loadingService: LoadingService
   ) {
     this.initializeApp();
   }
 
   ngOnInit() {
     this.routeChangeSubscribe();
+    this.submitButtonService.enabled();
+    this.loadingService.enabled();
   }
 
   ngOnDestroy() {

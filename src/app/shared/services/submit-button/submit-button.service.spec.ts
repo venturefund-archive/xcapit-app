@@ -3,10 +3,23 @@ import { TestBed } from '@angular/core/testing';
 import { SubmitButtonService } from './submit-button.service';
 
 describe('SubmitButtonService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: SubmitButtonService;
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.get(SubmitButtonService);
+  });
 
   it('should be created', () => {
-    const service: SubmitButtonService = TestBed.get(SubmitButtonService);
     expect(service).toBeTruthy();
+  });
+
+  it('should be isDisabled return false when call enabled', () => {
+    service.enabled();
+    service.isDisabled.subscribe((data) => expect(data).toBeFalsy());
+  });
+
+  it('should be isDisabled return true when call disaabled', () => {
+    service.disabled();
+    service.isDisabled.subscribe((data) => expect(data).toBeTruthy());
   });
 });

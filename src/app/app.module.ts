@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from './modules/usuarios/usuarios.module';
+import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AuthModule
+    UsuariosModule
   ],
   providers: [
     StatusBar,
