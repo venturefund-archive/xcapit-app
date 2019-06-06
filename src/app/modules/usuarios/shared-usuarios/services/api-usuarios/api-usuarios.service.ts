@@ -4,6 +4,8 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { Observable } from 'rxjs';
 import { API_URL } from 'src/app/config/app-constants.config';
+import { AuthService } from '../auth/auth.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,24 +13,31 @@ import { API_URL } from 'src/app/config/app-constants.config';
 export class ApiUsuariosService {
   crud: CRUD;
 
-  entity = 'usuarios';
+  entity = 'users';
 
   constructor(
     private crudService: CrudService,
-    private http: CustomHttpService
+    private http: CustomHttpService,
+    private authService: AuthService
   ) {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
 
   emailValidation(emailValidationToken: string): Observable<any> {
-    return this.http.post(`${API_URL}/usuarios/email-validation`, {
+    return this.http.post(`${API_URL}/${this.entity}/email-validation`, {
       emailValidationToken
     });
   }
 
   sendEmailValidation(emailValidationToken: string): Observable<any> {
-    return this.http.post(`${API_URL}/usuarios/send-email-validation`, {
+    return this.http.post(`${API_URL}/${this.entity}/send-email-validation`, {
       emailValidationToken
     });
+  }
+
+  login(data: any): Observable<any> {
+    return this.http
+      .post(`${API_URL}/${this.entity}/login`, data)
+      .pipe(tap(response => this.authService.handleLoginResponse(response)));
   }
 }

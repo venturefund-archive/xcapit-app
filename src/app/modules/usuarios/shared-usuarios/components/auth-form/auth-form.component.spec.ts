@@ -43,7 +43,7 @@ describe('AuthFormComponent', () => {
   it('should call handleSubmit on submit event, valid form', () => {
     component.form.get('email').setValue(formData.valid.email);
     component.form.get('password').setValue(formData.valid.pass);
-    component.form.get('repeatPassword').setValue(formData.valid.pass);
+    component.form.get('repeat_password').setValue(formData.valid.pass);
     const spy = spyOn(component, 'handleSubmit');
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
@@ -53,7 +53,7 @@ describe('AuthFormComponent', () => {
   it('should call emit on send, valid form', () => {
     component.form.get('email').setValue(formData.valid.email);
     component.form.get('password').setValue(formData.valid.pass);
-    component.form.get('repeatPassword').setValue(formData.valid.pass);
+    component.form.get('repeat_password').setValue(formData.valid.pass);
     fixture.detectChanges();
     const spy = spyOn(component.send, 'emit');
     component.handleSubmit();
@@ -70,35 +70,35 @@ describe('AuthFormComponent', () => {
     it('form should be invalid when fields are empty', async () => {
       component.form.get('email').setValue('');
       component.form.get('password').setValue('');
-      component.form.get('repeatPassword').setValue('');
+      component.form.get('repeat_password').setValue('');
       expect(component.form.valid).toBeFalsy();
     });
 
     it('form should be invalid when email field are not a valid email', async () => {
       component.form.get('email').setValue(formData.invalid.email);
       component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeatPassword').setValue(formData.valid.pass);
+      component.form.get('repeat_password').setValue(formData.valid.pass);
       expect(component.form.valid).toBeFalsy();
     });
 
     it('form should be invalid when passwords not match', async () => {
       component.form.get('email').setValue(formData.valid.email);
       component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeatPassword').setValue(formData.invalid.pass);
+      component.form.get('repeat_password').setValue(formData.invalid.pass);
       expect(component.form.valid).toBeFalsy();
     });
 
     it('form should be invalid when passwords are not valid', async () => {
       component.form.get('email').setValue(formData.valid.email);
       component.form.get('password').setValue(formData.invalid.pass);
-      component.form.get('repeatPassword').setValue(formData.invalid.pass);
+      component.form.get('repeat_password').setValue(formData.invalid.pass);
       expect(component.form.valid).toBeFalsy();
     });
 
     it('form should be valid', async () => {
       component.form.get('email').setValue(formData.valid.email);
       component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeatPassword').setValue(formData.valid.pass);
+      component.form.get('repeat_password').setValue(formData.valid.pass);
       expect(component.form.valid).toBeTruthy();
     });
   });

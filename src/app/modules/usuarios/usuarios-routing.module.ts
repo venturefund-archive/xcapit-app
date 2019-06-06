@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'usuarios',
+    path: 'users',
     children: [
       {
         path: 'register',
@@ -13,7 +13,8 @@ const routes: Routes = [
         path: 'email-validation',
         loadChildren:
           './email-validation/email-validation.module#EmailValidationPageModule'
-      }
+      },
+      { path: 'login', loadChildren: './login/login.module#LoginPageModule' }
     ]
   }
 ];

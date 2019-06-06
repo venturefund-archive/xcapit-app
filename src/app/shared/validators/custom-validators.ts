@@ -15,7 +15,7 @@ export class CustomValidators {
   static passwordMatchValidator(
     control: AbstractControl,
     pass: string = 'password',
-    rPass: string = 'repeatPassword'
+    rPass: string = 'repeat_password'
   ) {
     const password: string = control.get(pass).value;
     const repeatPassword: string = control.get(rPass).value;

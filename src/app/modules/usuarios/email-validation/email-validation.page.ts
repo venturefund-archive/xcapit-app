@@ -39,7 +39,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
             size="small"
             type="button"
             routerDirection="back"
-            [routerLink]="['/usuarios/register']"
+            [routerLink]="['/users/register']"
           >
             Volver al registro
           </ion-button>
@@ -82,24 +82,28 @@ export class EmailValidationPage implements OnInit, OnDestroy {
           (params: Params) =>
             (this.emailValidationToken = params.emailValidationToken)
         ),
-        switchMap(() => this.apiUsuario.emailValidation(this.emailValidationToken))
+        switchMap(() =>
+          this.apiUsuario.emailValidation(this.emailValidationToken)
+        )
       )
       .subscribe({
-        next: data => {
-          this.isValidating = false;
-          this.isValidEmail = data.isValid;
-          if (this.isValidEmail) {
-            this.navController
-              .navigateForward(['/usuarios/login'], { replaceUrl: true })
-              .then(() =>
-                this.toastService.showToast({
-                  message: 'Email Verificado correctamente!'
-                })
-              );
-          }
-        },
+        next: data => this.handleEmailValidationResponse(data),
         error: () => (this.isValidating = false)
       });
+  }
+
+  private handleEmailValidationResponse(data: any) {
+    this.isValidating = false;
+    this.isValidEmail = data.isValid;
+    if (this.isValidEmail) {
+      this.navController
+        .navigateForward(['/usuarios/login'], { replaceUrl: true })
+        .then(() =>
+          this.toastService.showToast({
+            message: 'Email Verificado correctamente!'
+          })
+        );
+    }
   }
 
   sendEmailValidation() {

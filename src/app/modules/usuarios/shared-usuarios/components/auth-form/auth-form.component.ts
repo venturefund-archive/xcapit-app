@@ -3,7 +3,8 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Input
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
@@ -33,15 +34,16 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           controlName="password"
           [errors]="this.passwordErrors"
         ></app-errors-form-item>
-        <ion-item>
+        <ion-item *ngIf="!this.isLogin">
           <ion-label position="floating">Confirmar Password</ion-label>
           <ion-input
-            formControlName="repeatPassword"
+            formControlName="repeat_password"
             type="password"
           ></ion-input>
         </ion-item>
         <app-errors-form-item
-          controlName="repeatPassword"
+          *ngIf="!this.isLogin"
+          controlName="repeat_password"
           [errors]="this.repeatPasswordErrors"
         ></app-errors-form-item>
 
@@ -54,6 +56,9 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
   styleUrls: ['./auth-form.component.scss']
 })
 export class AuthFormComponent implements OnInit {
+  @Input()
+  isLogin = false;
+
   @Output()
   send = new EventEmitter<any>();
 
@@ -97,7 +102,7 @@ export class AuthFormComponent implements OnInit {
           )
         ]
       ],
-      repeatPassword: [
+      repeat_password: [
         '',
         [
           Validators.required,
@@ -123,11 +128,17 @@ export class AuthFormComponent implements OnInit {
     }
   );
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initForm();
+  }
+
+  private initForm() {
+    if (this.isLogin) {
+      this.form.get('repeat_password').disable();
+    }
+  }
 
   handleSubmit() {
     if (this.form.valid) {

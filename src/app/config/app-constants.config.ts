@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:9050/api';
+export const API_URL = 'api';
 export const AUTH = {
   storageKey: 'jwt',
   userKey: 'userLogged'

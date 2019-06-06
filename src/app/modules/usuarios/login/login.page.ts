@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
-import { AlertController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-login',
   template: `
     <ion-content class="ion-padding">
       <div class="main">
@@ -21,25 +20,25 @@ import { AlertController } from '@ionic/angular';
             >
               <ion-card>
                 <ion-card-header>
-                  Registro de Usuario
+                  Login
                 </ion-card-header>
                 <ion-card-content>
-                  <app-auth-form (send)="this.registerUser($event)">
+                  <app-auth-form
+                    [isLogin]="true"
+                    (send)="this.loginUser($event)"
+                  >
                     <div class="auth-button ion-padding-top ion-margin-top">
                       <ion-button
                         expand="full"
                         size="large"
                         type="submit"
                         [disabled]="
-                          !this.registerForm.form.valid ||
+                          !this.loginForm.form.valid ||
                           (this.submitButtonService.isDisabled | async)
                         "
                       >
-                        <ion-icon
-                          slot="start"
-                          name="checkmark-circle-outline"
-                        ></ion-icon>
-                        Registrar
+                        <ion-icon slot="start" name="log-in"></ion-icon>
+                        Login
                       </ion-button>
                     </div>
                   </app-auth-form>
@@ -51,34 +50,27 @@ import { AlertController } from '@ionic/angular';
       </div>
     </ion-content>
   `,
-  styleUrls: ['./register.page.scss']
+  styleUrls: ['./login.page.scss']
 })
-export class RegisterPage implements OnInit {
-  @ViewChild(AuthFormComponent) registerForm: AuthFormComponent;
+export class LoginPage implements OnInit {
+  @ViewChild(AuthFormComponent) loginForm: AuthFormComponent;
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private apiUsuarios: ApiUsuariosService,
-    private alertController: AlertController
+    private apiUsuarios: ApiUsuariosService
   ) {}
 
   ngOnInit() {}
 
-  registerUser(data: any) {
-    this.apiUsuarios.crud.create({ user: data }).subscribe(this.success);
+  loginUser(data: any) {
+    this.apiUsuarios
+      .login({ user: data})
+      .subscribe(this.success, err => console.log('ERROR --> ', err));
   }
 
-  async success() {
-    this.registerForm.form.reset();
-    const alert = await this.alertController.create({
-      message: `
-        <h4>
-          Te enviamos un email de verificación,
-          revisa tu casilla y sigue las instrucciones
-          para activar la cuenta.
-        </h4>`,
-      buttons: ['Aceptar']
-    });
-    await alert.present();
+  success() {
+    this.loginForm.form.reset();
+    // nav to home..
+    console.log('nav to home...');
   }
 }
