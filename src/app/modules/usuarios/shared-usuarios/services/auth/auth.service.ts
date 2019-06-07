@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   async handleLoginResponse(response: any) {
-    await this.storage.set(AUTH.storageKey, response.token.jwt);
+    await this.storage.set(AUTH.storageKey, response.access);
     await this.storage.set(AUTH.userKey, JSON.stringify(response.usuario));
     this.user.next(response.usuario);
     return response.jwt;
