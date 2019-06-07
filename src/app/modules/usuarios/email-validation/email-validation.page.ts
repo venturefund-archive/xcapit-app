@@ -54,6 +54,8 @@ export class EmailValidationPage implements OnInit, OnDestroy {
 
   emailValidationToken: string;
 
+  uidb64: string;
+
   isValidEmail = false;
 
   isValidating = true;
@@ -77,13 +79,15 @@ export class EmailValidationPage implements OnInit, OnDestroy {
   emailValidation() {
     this.emailValidationSubscription = this.route.params
       .pipe(
-        filter((params: Params) => params.emailValidationToken),
-        tap(
-          (params: Params) =>
-            (this.emailValidationToken = params.emailValidationToken)
+        filter(
+          (params: Params) => params.emailValidationToken && params.uidb64
         ),
+        tap((params: Params) => {
+          this.emailValidationToken = params.emailValidationToken;
+          this.uidb64 = params.uidb64;
+        }),
         switchMap(() =>
-          this.apiUsuario.emailValidation(this.emailValidationToken)
+          this.apiUsuario.emailValidation(this.emailValidationToken, this.uidb64)
         )
       )
       .subscribe({
@@ -107,7 +111,7 @@ export class EmailValidationPage implements OnInit, OnDestroy {
   }
 
   sendEmailValidation() {
-    if (this.emailValidationToken && !this.isValidEmail) {
+    if (this.emailValidationToken && this.uidb64 && !this.isValidEmail) {
       this.apiUsuario
         .sendEmailValidation(this.emailValidationToken)
         .subscribe();

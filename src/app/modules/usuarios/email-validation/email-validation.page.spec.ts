@@ -39,14 +39,15 @@ describe('EmailValidationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call sendEmailvalidation when have token and isValidEmail = false', () => {
+  it('should call sendEmailvalidation when have token, uidb64 and isValidEmail = false', () => {
     component.emailValidationToken = 'asdfsdfa';
+    component.uidb64 = 'asdfsdfa';
     component.isValidEmail = false;
     component.sendEmailValidation();
     expect(apiUsuariosService.sendEmailValidation).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call sendEmailvalidation when have not token and isValidEmail = false', () => {
+  it('should not call sendEmailvalidation when have not token or uidb64 and isValidEmail = false', () => {
     component.emailValidationToken = '';
     component.isValidEmail = false;
     component.sendEmailValidation();

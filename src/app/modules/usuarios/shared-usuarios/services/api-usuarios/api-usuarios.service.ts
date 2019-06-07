@@ -23,9 +23,10 @@ export class ApiUsuariosService {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
 
-  emailValidation(emailValidationToken: string): Observable<any> {
+  emailValidation(emailValidationToken: string, uidb64: string): Observable<any> {
     return this.http.post(`${API_URL}/${this.entity}/email-validation/`, {
-      emailValidationToken
+      token: emailValidationToken,
+      uidb64
     });
   }
 
