@@ -101,7 +101,7 @@ export class EmailValidationPage implements OnInit, OnDestroy {
     this.isValidEmail = data.isValid;
     if (this.isValidEmail) {
       this.navController
-        .navigateForward(['/usuarios/login'], { replaceUrl: true })
+        .navigateForward(['/users/login'], { replaceUrl: true })
         .then(() =>
           this.toastService.showToast({
             message: 'Email Verificado correctamente!'
@@ -113,7 +113,7 @@ export class EmailValidationPage implements OnInit, OnDestroy {
   sendEmailValidation() {
     if (this.emailValidationToken && this.uidb64 && !this.isValidEmail) {
       this.apiUsuario
-        .sendEmailValidation(this.emailValidationToken)
+        .sendEmailValidation(this.uidb64)
         .subscribe();
     }
   }

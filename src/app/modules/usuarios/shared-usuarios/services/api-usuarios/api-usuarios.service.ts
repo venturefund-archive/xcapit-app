@@ -30,9 +30,9 @@ export class ApiUsuariosService {
     });
   }
 
-  sendEmailValidation(emailValidationToken: string): Observable<any> {
+  sendEmailValidation(uidb64: string): Observable<any> {
     return this.http.post(`${API_URL}/${this.entity}/send-email-validation/`, {
-      emailValidationToken
+      uidb64
     });
   }
 
