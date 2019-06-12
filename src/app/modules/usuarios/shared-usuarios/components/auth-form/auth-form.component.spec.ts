@@ -12,6 +12,7 @@ describe('AuthFormComponent', () => {
   const formData = {
     valid: {
       email: 'email@email.com',
+      rEmail: 'email@email.com',
       pass: 'asdfF1',
       rPass: 'asdfF1'
     },
@@ -52,6 +53,7 @@ describe('AuthFormComponent', () => {
 
   it('should call emit on send, valid form', () => {
     component.form.get('email').setValue(formData.valid.email);
+    component.form.get('repeat_email').setValue(formData.valid.rEmail);
     component.form.get('password').setValue(formData.valid.pass);
     component.form.get('repeat_password').setValue(formData.valid.pass);
     fixture.detectChanges();
@@ -69,6 +71,7 @@ describe('AuthFormComponent', () => {
   describe('Form values', () => {
     it('form should be invalid when fields are empty', async () => {
       component.form.get('email').setValue('');
+      component.form.get('repeat_email').setValue('');
       component.form.get('password').setValue('');
       component.form.get('repeat_password').setValue('');
       expect(component.form.valid).toBeFalsy();
@@ -76,6 +79,7 @@ describe('AuthFormComponent', () => {
 
     it('form should be invalid when email field are not a valid email', async () => {
       component.form.get('email').setValue(formData.invalid.email);
+      component.form.get('repeat_email').setValue(formData.invalid.email);
       component.form.get('password').setValue(formData.valid.pass);
       component.form.get('repeat_password').setValue(formData.valid.pass);
       expect(component.form.valid).toBeFalsy();
@@ -83,6 +87,15 @@ describe('AuthFormComponent', () => {
 
     it('form should be invalid when passwords not match', async () => {
       component.form.get('email').setValue(formData.valid.email);
+      component.form.get('repeat_email').setValue(formData.valid.rEmail);
+      component.form.get('password').setValue(formData.valid.pass);
+      component.form.get('repeat_password').setValue(formData.invalid.pass);
+      expect(component.form.valid).toBeFalsy();
+    });
+
+    it('form should be invalid when emails not match', async () => {
+      component.form.get('email').setValue(formData.valid.email);
+      component.form.get('repeat_email').setValue('ups' + formData.valid.rEmail);
       component.form.get('password').setValue(formData.valid.pass);
       component.form.get('repeat_password').setValue(formData.invalid.pass);
       expect(component.form.valid).toBeFalsy();
@@ -97,6 +110,7 @@ describe('AuthFormComponent', () => {
 
     it('form should be valid', async () => {
       component.form.get('email').setValue(formData.valid.email);
+      component.form.get('repeat_email').setValue(formData.valid.rEmail);
       component.form.get('password').setValue(formData.valid.pass);
       component.form.get('repeat_password').setValue(formData.valid.pass);
       expect(component.form.valid).toBeTruthy();

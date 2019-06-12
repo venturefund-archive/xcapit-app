@@ -93,6 +93,13 @@ export const CONFIG = {
         rules: []
       }
     ],
+    repeatUsername: [
+      {
+        name: 'noFieldsMatch',
+        text: 'El email no coincide',
+        rules: []
+      }
+    ],
     username: [
       {
         name: 'minlength',

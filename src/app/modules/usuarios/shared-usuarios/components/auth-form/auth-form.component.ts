@@ -20,11 +20,28 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <ion-item>
           <ion-label position="floating">Email</ion-label>
-          <ion-input formControlName="email" type="text"></ion-input>
+          <ion-input
+            formControlName="email"
+            type="email"
+            inputmode="email"
+          ></ion-input>
         </ion-item>
         <app-errors-form-item
           controlName="email"
           [errors]="this.emailErrors"
+        ></app-errors-form-item>
+        <ion-item *ngIf="!this.isLogin">
+          <ion-label position="floating">Confirmar Email</ion-label>
+          <ion-input
+            formControlName="repeat_email"
+            type="email"
+            inputmode="email"
+          ></ion-input>
+        </ion-item>
+        <app-errors-form-item
+          *ngIf="!this.isLogin"
+          controlName="repeat_email"
+          [errors]="this.repeatEmailErrors"
         ></app-errors-form-item>
         <ion-item>
           <ion-label position="floating">Password</ion-label>
@@ -64,6 +81,11 @@ export class AuthFormComponent implements OnInit {
 
   emailErrors: ItemFormError[] = CONFIG.fieldErrors.username;
 
+  repeatEmailErrors: ItemFormError[] = [
+    ...CONFIG.fieldErrors.username,
+    ...CONFIG.fieldErrors.repeatUsername
+  ];
+
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
   repeatPasswordErrors: ItemFormError[] = [
@@ -74,6 +96,15 @@ export class AuthFormComponent implements OnInit {
   form: FormGroup = this.formBuilder.group(
     {
       email: [
+        '',
+        [
+          Validators.email,
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(100)
+        ]
+      ],
+      repeat_email: [
         '',
         [
           Validators.email,
@@ -124,7 +155,15 @@ export class AuthFormComponent implements OnInit {
       ]
     },
     {
-      validator: CustomValidators.passwordMatchValidator
+      validators: [
+        CustomValidators.passwordMatchValidator,
+        control =>
+          CustomValidators.fieldsdMatchValidator(
+            control,
+            'email',
+            'repeat_email'
+          )
+      ]
     }
   );
 
@@ -137,6 +176,7 @@ export class AuthFormComponent implements OnInit {
   private initForm() {
     if (this.isLogin) {
       this.form.get('repeat_password').disable();
+      this.form.get('repeat_email').disable();
     }
   }
 
