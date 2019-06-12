@@ -7,6 +7,7 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -23,6 +24,7 @@ describe('RegisterPage', () => {
       declarations: [ RegisterPage, AuthFormComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
         IonicModule
       ],

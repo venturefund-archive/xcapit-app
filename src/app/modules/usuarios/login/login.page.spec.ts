@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -20,6 +21,7 @@ describe('LoginPage', () => {
       declarations: [ LoginPage, AuthFormComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
         IonicModule
       ],

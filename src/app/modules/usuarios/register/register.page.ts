@@ -75,7 +75,7 @@ export class RegisterPage implements OnInit {
   ngOnInit() {}
 
   registerUser(data: any) {
-    this.apiUsuarios.crud.create({ user: data }).subscribe(() => this.success());
+    this.apiUsuarios.crud.create(data).subscribe(() => this.success());
   }
 
   async success() {
