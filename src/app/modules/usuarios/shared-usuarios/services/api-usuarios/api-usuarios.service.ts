@@ -24,21 +24,21 @@ export class ApiUsuariosService {
   }
 
   emailValidation(emailValidationToken: string, uidb64: string): Observable<any> {
-    return this.http.post(`${API_URL}/${this.entity}/email-validation/`, {
+    return this.http.post(`${API_URL}/${this.entity}/email_validation`, {
       token: emailValidationToken,
       uidb64
     });
   }
 
   sendEmailValidation(uidb64: string): Observable<any> {
-    return this.http.post(`${API_URL}/${this.entity}/send-email-validation/`, {
+    return this.http.post(`${API_URL}/${this.entity}/send_email_validation`, {
       uidb64
     });
   }
 
   login(data: any): Observable<any> {
     return this.http
-      .post(`${API_URL}/${this.entity}/login/`, data)
+      .post(`${API_URL}/${this.entity}/login`, data)
       .pipe(tap(response => this.authService.handleLoginResponse(response)));
   }
 }
