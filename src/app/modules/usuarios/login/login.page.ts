@@ -41,6 +41,16 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
                         Login
                       </ion-button>
                     </div>
+                    <div class="auth-link ion-text-right ion-padding-top">
+                      <ion-button
+                        fill="clear"
+                        size="small"
+                        type="button"
+                        [routerLink]="['/users/register']"
+                      >
+                        ¿No estas registrado?
+                      </ion-button>
+                    </div>
                   </app-auth-form>
                 </ion-card-content>
               </ion-card>

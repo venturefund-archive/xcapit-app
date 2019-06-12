@@ -42,6 +42,16 @@ import { AlertController } from '@ionic/angular';
                         Registrar
                       </ion-button>
                     </div>
+                    <div class="auth-link ion-text-right ion-padding-top">
+                      <ion-button
+                        fill="clear"
+                        size="small"
+                        type="button"
+                        [routerLink]="['/users/login']"
+                      >
+                        Login
+                      </ion-button>
+                    </div>
                   </app-auth-form>
                 </ion-card-content>
               </ion-card>
