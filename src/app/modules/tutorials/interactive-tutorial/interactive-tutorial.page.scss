@@ -1,0 +1,16 @@
+:host {
+
+  ion-slide .it__content-slide {
+    display: flex;
+    flex-direction: column;
+    height: 73vh;
+    padding-top: 27vh;
+    width: 100%;
+  }
+
+  .it__content-slide__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+}

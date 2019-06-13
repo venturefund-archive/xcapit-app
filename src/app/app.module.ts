@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AUTH } from './config/app-constants.config';
+import { TutorialsModule } from './modules/tutorials/tutorials.module';
 
 
 export function jwtOptionsFactory(storage: Storage) {
@@ -34,6 +35,7 @@ export function jwtOptionsFactory(storage: Storage) {
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     UsuariosModule,
+    TutorialsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

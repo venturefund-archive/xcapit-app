@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -67,7 +68,8 @@ export class LoginPage implements OnInit {
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private apiUsuarios: ApiUsuariosService
+    private apiUsuarios: ApiUsuariosService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
@@ -80,7 +82,6 @@ export class LoginPage implements OnInit {
 
   success() {
     this.loginForm.form.reset();
-    // nav to home..
-    console.log('nav to home...');
+    this.navController.navigateForward(['/tutorials/interactive-tutorial']);
   }
 }
