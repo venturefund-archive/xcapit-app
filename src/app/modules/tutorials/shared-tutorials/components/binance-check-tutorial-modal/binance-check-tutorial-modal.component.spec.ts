@@ -2,15 +2,21 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BinanceCheckTutorialModalComponent } from './binance-check-tutorial-modal.component';
+import { ModalController } from '@ionic/angular';
 
 describe('BinanceCheckTutorialModalComponent', () => {
   let component: BinanceCheckTutorialModalComponent;
   let fixture: ComponentFixture<BinanceCheckTutorialModalComponent>;
+  let modalControllerSpy: any;
 
   beforeEach(async(() => {
+    modalControllerSpy = jasmine.createSpyObj('ModalController', ['create', 'dismiss']);
     TestBed.configureTestingModule({
       declarations: [ BinanceCheckTutorialModalComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: ModalController, useValue: modalControllerSpy }
+      ]
     })
     .compileComponents();
   }));
