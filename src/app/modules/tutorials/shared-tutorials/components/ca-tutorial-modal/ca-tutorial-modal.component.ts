@@ -64,7 +64,7 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
         en mayúscula), confirmar la contraseña y tildar el check donde dice que
         no eres ciudadano Estadounidense u Holandés y haz clic en Registrate.
       </p>
-      <p class="notes">
+      <p class="tutorial__notes">
         Nota: si tiene inconvenientes con la carga de los datos en el formulario
         ingresa a Bitex con otro navegador como Edge, Chrome o FireFox.
       </p>
@@ -84,7 +84,7 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newAccountBitex/es/4.png"
       ></ion-img>
-      <p class="notes">
+      <p class="tutorial__notes">
         Ten en cuenta los requisitos de Bitex para operar localmente:
       </p>
       <ul>
@@ -180,7 +180,7 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
       <p>
         Haz clic en Ingresar
       </p>
-      <p class="notes">
+      <p class="tutorial__notes">
         Nota: si tiene inconvenientes con la carga de los datos en el formulario
         ingresa a Bitex con otro navegador como Edge, Chrome o FireFox.
       </p>
@@ -262,7 +262,7 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/comprarCryptos/es/3.png"
       ></ion-img>
-      <p class="notes">
+      <p class="tutorial__notes">
         Nota: Si tienes dolares en tu cuenta te recomendamos hagas clic en usar
         el mejor precio. En caso que hayas ingresado pesos argentinos, toma las
         órdenes que están en la lista de ask.
@@ -293,7 +293,7 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
         enviar tus BTC, esta dirección es la que Binance te proporciona en su
         plataforma.
       </p>
-      <p class="notes">
+      <p class="tutorial__notes">
         Nota: mira dónde encontrar la dirección a depositar tus BTC en Binance
         <a class="local-a" (click)="this.openBinanceAddress()">
           aquí
