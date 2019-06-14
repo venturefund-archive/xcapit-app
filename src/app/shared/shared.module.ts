@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ErrorsFormItemComponent } from './components/errors-form-item/errors-form-item.component';
+import { GooglePlacesDirective } from './directives/google-places.directive';
 
 @NgModule({
-  declarations: [ErrorsFormItemComponent],
+  declarations: [ErrorsFormItemComponent, GooglePlacesDirective],
   imports: [
     CommonModule,
     IonicModule
@@ -14,7 +15,8 @@ import { ErrorsFormItemComponent } from './components/errors-form-item/errors-fo
     ErrorsFormItemComponent,
     CommonModule,
     ReactiveFormsModule,
-    IonicModule
+    IonicModule,
+    GooglePlacesDirective
   ]
 })
 export class SharedModule { }

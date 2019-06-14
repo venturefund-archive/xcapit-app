@@ -13,3 +13,8 @@
 .tutorial__notes {
   font-style: italic;
 }
+
+.alert-radio-label, ion-label {
+  text-overflow: initial !important;
+  white-space: initial !important;
+}

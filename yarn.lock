@@ -386,6 +386,11 @@
   resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-0.0.34.tgz#ea7addf74ecec3d7629827a0c39e2c9addc73d04"
   integrity sha1-6nrd907Ow9dimCegw54smt3HPQQ=
 
+"@types/googlemaps@^3.36.4":
+  version "3.36.4"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.36.4.tgz#91dcbfafccc93a6c83bb7c7be7322a7b43dc1560"
+  integrity sha512-NKbP/msrLgdPApBFXXPOPQ3N2VexLd4ohe2m0UF0Dv/k4bnWTtUuAa0XS314aICJ6IZ2JrafONSiBBn/WE1iXw==
+
 "@types/jasmine@*":
   version "3.3.13"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.13.tgz#d5daabb0af47bcddee40597acf6e804433bab439"

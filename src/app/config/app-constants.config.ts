@@ -59,6 +59,20 @@ export const CONFIG = {
     }
   ],
   fieldErrors: {
+    cellphone: [
+      {
+        name: 'pattern',
+        text: 'Contiene caracteres inválidos',
+        rules: []
+      }
+    ],
+    onlyNumbers: [
+      {
+        name: 'pattern',
+        text: 'Solo se aceptan números',
+        rules: []
+      }
+    ],
     password: [
       {
         name: 'minlength',

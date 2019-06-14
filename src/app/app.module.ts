@@ -15,6 +15,7 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AUTH } from './config/app-constants.config';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
+import { ProfilesModule } from './modules/profiles/profiles.module';
 
 
 export function jwtOptionsFactory(storage: Storage) {
@@ -36,6 +37,7 @@ export function jwtOptionsFactory(storage: Storage) {
     AppRoutingModule,
     UsuariosModule,
     TutorialsModule,
+    ProfilesModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
