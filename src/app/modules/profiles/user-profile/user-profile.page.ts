@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
+import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -158,7 +158,6 @@ import { CONFIG } from 'src/app/config/app-constants.config';
   styleUrls: ['./user-profile.page.scss']
 })
 export class UserProfilePage implements OnInit {
-
   cellphoneErrors: ItemFormError[] = CONFIG.fieldErrors.cellphone;
 
   onlyNumbersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyNumbers;
@@ -168,17 +167,29 @@ export class UserProfilePage implements OnInit {
     last_name: ['', [Validators.maxLength(150)]],
     nro_dni: [
       '',
-      [Validators.minLength(7), Validators.maxLength(12), Validators.pattern('[0-9][^.a-zA-Z]*$')]
+      [
+        Validators.minLength(7),
+        Validators.maxLength(12),
+        Validators.pattern('[0-9][^.a-zA-Z]*$')
+      ]
     ],
     cellphone: [
       '',
-      [Validators.minLength(7), Validators.maxLength(24), Validators.pattern('[0-9()-+][^.a-zA-Z]*$')]
+      [
+        Validators.minLength(7),
+        Validators.maxLength(24),
+        Validators.pattern('[0-9()-+][^.a-zA-Z]*$')
+      ]
     ],
     condicion_iva: [''],
     tipo_factura: [''],
     cuit: [
       '',
-      [Validators.minLength(7), Validators.maxLength(15), Validators.pattern('[0-9][^.a-zA-Z]*$')]
+      [
+        Validators.minLength(7),
+        Validators.maxLength(15),
+        Validators.pattern('[0-9][^.a-zA-Z]*$')
+      ]
     ],
     direccion: ['', Validators.maxLength(150)]
   });
@@ -186,15 +197,17 @@ export class UserProfilePage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
-    private apiUsuarios: ApiUsuariosService,
+    private apiProfiles: ApiProfilesService,
     private toastService: ToastService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.apiProfiles.crud.get('').subscribe((res) => this.form.patchValue(res));
+  }
 
   save() {
     if (this.form.valid) {
-      this.apiUsuarios.crud.update({ profile: this.form.value }).subscribe(() =>
+      this.apiProfiles.crud.update(this.form.value).subscribe(() =>
         this.toastService.showToast({
           message: 'Datos guardados!'
         })

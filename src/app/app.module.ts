@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -12,7 +13,6 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
-import { HttpClientModule } from '@angular/common/http';
 import { AUTH } from './config/app-constants.config';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';

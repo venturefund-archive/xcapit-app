@@ -4,9 +4,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserProfilePage } from './user-profile.page';
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 
 const formData = {
   valid: {
@@ -34,13 +34,14 @@ const formData = {
 describe('UserProfilePage', () => {
   let component: UserProfilePage;
   let fixture: ComponentFixture<UserProfilePage>;
-  let apiUsuariosServiceMock: any;
-  let apiUsuariosService: ApiUsuariosService;
+  let apiProfilesServiceMock: any;
+  let apiProfilesService: ApiProfilesService;
 
   beforeEach(async(() => {
-    apiUsuariosServiceMock = {
+    apiProfilesServiceMock = {
       crud: {
-        update: () => null
+        update: () => of({}),
+        get: () => of({})
       }
     };
     TestBed.configureTestingModule({
@@ -48,7 +49,7 @@ describe('UserProfilePage', () => {
       imports: [IonicModule, ReactiveFormsModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: ApiUsuariosService, useValue: apiUsuariosServiceMock }
+        { provide: ApiProfilesService, useValue: apiProfilesServiceMock }
       ]
     }).compileComponents();
   }));
@@ -57,11 +58,18 @@ describe('UserProfilePage', () => {
     fixture = TestBed.createComponent(UserProfilePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiUsuariosService = TestBed.get(ApiUsuariosService);
+    apiProfilesService = TestBed.get(ApiProfilesService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call get on apiProfile.crud when ngOnInit', () => {
+    const spy = spyOn(apiProfilesService.crud, 'get');
+    spy.and.returnValue(of({}));
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call save on submit form', () => {
@@ -70,7 +78,7 @@ describe('UserProfilePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call update on apiUsuarios.crud, valid form', () => {
+  it('should call update on apiProfile.crud, valid form', () => {
     component.form.get('first_name').setValue(formData.valid.first_name);
     component.form.get('last_name').setValue(formData.valid.last_name);
     component.form.get('nro_dni').setValue(formData.valid.nro_dni);
@@ -80,13 +88,13 @@ describe('UserProfilePage', () => {
     component.form.get('cuit').setValue(formData.valid.cuit);
     component.form.get('direccion').setValue(formData.valid.direccion);
     fixture.detectChanges();
-    const spy = spyOn(apiUsuariosService.crud, 'update');
+    const spy = spyOn(apiProfilesService.crud, 'update');
     spy.and.returnValue(of(null));
     component.save();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call update on apiUsuarios.crud, invalid form', () => {
+  it('should not call update on apiProfile.crud, invalid form', () => {
     component.form.get('first_name').setValue(formData.valid.first_name);
     component.form.get('last_name').setValue(formData.valid.last_name);
     component.form.get('nro_dni').setValue(formData.valid.nro_dni);
@@ -96,7 +104,7 @@ describe('UserProfilePage', () => {
     component.form.get('cuit').setValue(formData.valid.cuit);
     component.form.get('direccion').setValue(formData.valid.direccion);
     fixture.detectChanges();
-    const spy = spyOn(apiUsuariosService.crud, 'update');
+    const spy = spyOn(apiProfilesService.crud, 'update');
     component.save();
     expect(spy).toHaveBeenCalledTimes(0);
   });

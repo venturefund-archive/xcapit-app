@@ -11,7 +11,7 @@ describe('CustomHttpService', () => {
       imports: [
         HttpClientTestingModule
       ]
-    })
+    });
     service = TestBed.get(CustomHttpService);
   });
 
