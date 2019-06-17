@@ -82,6 +82,6 @@ export class LoginPage implements OnInit {
 
   success() {
     this.loginForm.form.reset();
-    this.navController.navigateForward(['/tutorials/interactive-tutorial']);
+    this.navController.navigateForward(['/funds/list']);
   }
 }

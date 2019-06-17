@@ -10,7 +10,12 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
       <ion-toolbar>
         <ion-title>interactive-tutorial</ion-title>
         <ion-buttons slot="end">
-          <ion-button color="primary">Omitir</ion-button>
+          <ion-button
+            color="primary"
+            [routerLink]="['/funds/new']"
+          >
+            Omitir
+          </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -68,7 +73,7 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       size="large"
                       expand="block"
                       color="success"
-                      (click)="this.openNuevoFondo()"
+                      [routerLink]="['/funds/new']"
                     >
                       Si
                     </ion-button>
@@ -84,7 +89,7 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
   styleUrls: ['./interactive-tutorial.page.scss']
 })
 export class InteractiveTutorialPage implements OnInit {
-  @ViewChild(IonSlides) test: IonSlides;
+  @ViewChild(IonSlides) slide: IonSlides;
 
   constructor(private modalController: ModalController) {}
 
@@ -110,10 +115,6 @@ export class InteractiveTutorialPage implements OnInit {
   }
 
   slideNext() {
-    this.test.slideNext();
-  }
-
-  openNuevoFondo() {
-    console.log('open nuevo fondo');
+    this.slide.slideNext();
   }
 }

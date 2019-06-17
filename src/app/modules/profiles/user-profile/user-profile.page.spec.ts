@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const formData = {
   valid: {
@@ -14,7 +15,7 @@ const formData = {
     last_name: 'Test',
     nro_dni: '21341234',
     cellphone: '12344321',
-    condicion_iva:  'Cliente del Exterior',
+    condicion_iva: 'Cliente del Exterior',
     tipo_factura: 'C',
     cuit: '1234123443',
     direccion: 'calle falsa 123'
@@ -24,7 +25,7 @@ const formData = {
     last_name: 'Test',
     nro_dni: '213412x34',
     cellphone: '12x344321',
-    condicion_iva:  'Cliente del Exterior',
+    condicion_iva: 'Cliente del Exterior',
     tipo_factura: 'C',
     cuit: '12341234x43',
     direccion: 'calle falsa 123'
@@ -46,7 +47,11 @@ describe('UserProfilePage', () => {
     };
     TestBed.configureTestingModule({
       declarations: [UserProfilePage],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [
+        IonicModule,
+        ReactiveFormsModule,
+        RouterTestingModule.withRoutes([])
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ApiProfilesService, useValue: apiProfilesServiceMock }
@@ -74,19 +79,14 @@ describe('UserProfilePage', () => {
 
   it('should call save on submit form', () => {
     const spy = spyOn(component, 'save');
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    fixture.debugElement
+      .query(By.css('form'))
+      .triggerEventHandler('ngSubmit', null);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call update on apiProfile.crud, valid form', () => {
-    component.form.get('first_name').setValue(formData.valid.first_name);
-    component.form.get('last_name').setValue(formData.valid.last_name);
-    component.form.get('nro_dni').setValue(formData.valid.nro_dni);
-    component.form.get('cellphone').setValue(formData.valid.cellphone);
-    component.form.get('condicion_iva').setValue(formData.valid.condicion_iva);
-    component.form.get('tipo_factura').setValue(formData.valid.tipo_factura);
-    component.form.get('cuit').setValue(formData.valid.cuit);
-    component.form.get('direccion').setValue(formData.valid.direccion);
+    component.form.patchValue(formData.valid);
     fixture.detectChanges();
     const spy = spyOn(apiProfilesService.crud, 'update');
     spy.and.returnValue(of(null));
@@ -119,5 +119,4 @@ describe('UserProfilePage', () => {
       expect(component.form.valid).toBeFalsy();
     });
   });
-
 });

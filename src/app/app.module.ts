@@ -16,6 +16,7 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { AUTH } from './config/app-constants.config';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
+import { FundsModule } from './modules/funds/funds.module';
 
 
 export function jwtOptionsFactory(storage: Storage) {
@@ -38,6 +39,7 @@ export function jwtOptionsFactory(storage: Storage) {
     UsuariosModule,
     TutorialsModule,
     ProfilesModule,
+    FundsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

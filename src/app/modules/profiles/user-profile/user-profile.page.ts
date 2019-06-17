@@ -5,6 +5,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-profile',
@@ -198,20 +199,22 @@ export class UserProfilePage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private apiProfiles: ApiProfilesService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
-    this.apiProfiles.crud.get('').subscribe((res) => this.form.patchValue(res));
+    this.apiProfiles.crud.get('').subscribe(res => this.form.patchValue(res));
   }
 
   save() {
     if (this.form.valid) {
-      this.apiProfiles.crud.update(this.form.value).subscribe(() =>
+      this.apiProfiles.crud.update(this.form.value).subscribe(() => {
         this.toastService.showToast({
           message: 'Datos guardados!'
-        })
-      );
+        });
+        this.navController.pop();
+      });
     }
   }
 }

@@ -25,9 +25,21 @@ describe('CaTutorialModalComponent', () => {
     fixture = TestBed.createComponent(CaTutorialModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    modalControllerSpy = TestBed.get(ModalController);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should open Binance Address Tutorial', () => {
+    component.openBinanceAddress().then(() => {
+      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should close modal', () => {
+    component.closeModal();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 });

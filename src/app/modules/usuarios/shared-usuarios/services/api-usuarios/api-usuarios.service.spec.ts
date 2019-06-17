@@ -5,6 +5,7 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { Storage } from '@ionic/storage';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ApiUsuariosService', () => {
   let crudSpy: any;
@@ -17,9 +18,12 @@ describe('ApiUsuariosService', () => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       http: { post: () => null }
     });
-    jwtHelperServiceSpy = jasmine.createSpyObj('JwtHelperService', ['isTokenExpired']);
+    jwtHelperServiceSpy = jasmine.createSpyObj('JwtHelperService', [
+      'isTokenExpired'
+    ]);
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([])],
       providers: [
         { provide: CrudService, useValue: crudSpy },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },

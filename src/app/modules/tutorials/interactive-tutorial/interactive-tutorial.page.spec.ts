@@ -25,9 +25,22 @@ describe('InteractiveTutorialPage', () => {
     fixture = TestBed.createComponent(InteractiveTutorialPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    modalControllerSpy = TestBed.get(ModalController);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should open Binance Tutorial', () => {
+    component.openBinanceTutorial().then(() => {
+      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should open CA Tutorial', () => {
+    component.openCaTutorial().then(() => {
+      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    });
   });
 });

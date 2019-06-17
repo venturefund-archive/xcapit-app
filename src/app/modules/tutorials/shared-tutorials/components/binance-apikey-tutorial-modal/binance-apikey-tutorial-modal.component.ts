@@ -17,7 +17,7 @@ import { ModalController } from '@ionic/angular';
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
-      <h2>Crear APIkey Y SECRETkey En Binance</h2>
+      <h2 class="ion-text-center">Crear APIkey Y SECRETkey En Binance</h2>
       <p>
         Vamos a gestionar la clave para generar la apiKey y el secretKey de tu
         cuenta en Binance, para ello dentro de tu cuenta dirígete a donde dice
