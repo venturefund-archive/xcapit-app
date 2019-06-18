@@ -67,9 +67,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 <ion-select-option>USD</ion-select-option>
               </ion-select>
             </ion-item>
-            <app-errors-form-item
-              controlName="currency"
-            ></app-errors-form-item>
+            <app-errors-form-item controlName="currency"></app-errors-form-item>
             <ion-item>
               <ion-label position="floating">Plazo de Operación</ion-label>
               <ion-select formControlName="cantidad_dias">
@@ -167,11 +165,12 @@ export class NewFundPage implements OnInit {
   save() {
     if (this.form.valid) {
       this.apiFunds.crud.create(this.form.value).subscribe(() => {
-        this.navController.navigateForward(['funds/list']).then(() =>
+        this.navController.navigateForward(['funds/list']).then(() => {
           this.toastService.showToast({
             message: 'El Fondo se creo correctamente!'
-          })
-        );
+          });
+          this.form.reset();
+        });
       });
     }
   }
