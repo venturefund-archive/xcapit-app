@@ -101,6 +101,14 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             <app-errors-form-item
               controlName="stop_loss"
             ></app-errors-form-item>
+            <ion-item>
+              <ion-label position="floating">Nivel de Riesgo</ion-label>
+              <ion-select formControlName="risk_level">
+                <ion-select-option>PRO</ion-select-option>
+                <ion-select-option>CLASSIC</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <app-errors-form-item controlName="risk_level"></app-errors-form-item>
           </div>
         </ion-item-group>
         <div class="ion-padding ion-margin-top">
@@ -148,7 +156,8 @@ export class NewFundPage implements OnInit {
         Validators.max(100),
         Validators.pattern('[0-9][^a-zA-Z]*$')
       ]
-    ]
+    ],
+    risk_level: ['', [Validators.required]]
   });
 
   constructor(

@@ -16,7 +16,8 @@ const formData = {
   currency: 'BTC',
   cantidad_dias: '30',
   take_profit: '30',
-  stop_loss: '32'
+  stop_loss: '32',
+  risk_level: 'PRO'
 };
 
 describe('NewFundPage', () => {
