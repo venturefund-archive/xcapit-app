@@ -66,10 +66,10 @@ export const CONFIG = {
         rules: []
       }
     ],
-    onlyNumbers: [
+    onlyIntegers: [
       {
         name: 'pattern',
-        text: 'Solo se aceptan números',
+        text: 'Solo se aceptan números enteros',
         rules: []
       }
     ],

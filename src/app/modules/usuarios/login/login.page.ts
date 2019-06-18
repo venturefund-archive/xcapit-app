@@ -77,7 +77,7 @@ export class LoginPage implements OnInit {
   loginUser(data: any) {
     this.apiUsuarios
       .login(data)
-      .subscribe(() => this.success(), err => console.log('ERROR --> ', err));
+      .subscribe(() => this.success());
   }
 
   success() {

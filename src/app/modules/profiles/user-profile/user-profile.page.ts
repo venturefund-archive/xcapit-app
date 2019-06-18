@@ -46,7 +46,7 @@ import { NavController } from '@ionic/angular';
             </ion-item>
             <app-errors-form-item
               controlName="nro_dni"
-              [errors]="this.onlyNumbersErrors"
+              [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
               <ion-label position="floating">Celular</ion-label>
@@ -122,7 +122,7 @@ import { NavController } from '@ionic/angular';
             </ion-item>
             <app-errors-form-item
               controlName="cuit"
-              [errors]="this.onlyNumbersErrors"
+              [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
               <ion-label position="floating">Dirección</ion-label>
@@ -161,7 +161,7 @@ import { NavController } from '@ionic/angular';
 export class UserProfilePage implements OnInit {
   cellphoneErrors: ItemFormError[] = CONFIG.fieldErrors.cellphone;
 
-  onlyNumbersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyNumbers;
+  onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   form: FormGroup = this.formBuilder.group({
     first_name: ['', [Validators.maxLength(150)]],

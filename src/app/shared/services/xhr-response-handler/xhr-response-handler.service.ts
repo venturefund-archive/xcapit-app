@@ -32,6 +32,7 @@ export class XhrResponseHandlerService {
         defaultMessage ||
         (typeof response.error === 'string' && response.error) ||
         (typeof response.error === 'object' && typeof response.error.error === 'string' && response.error.error) ||
+        (typeof response.error === 'object' && typeof response.error.detail === 'string' && response.error.detail) ||
         (response.error instanceof ArrayBuffer &&
           JSON.parse(
             String.fromCharCode.apply(null, new Uint8Array(response.error))

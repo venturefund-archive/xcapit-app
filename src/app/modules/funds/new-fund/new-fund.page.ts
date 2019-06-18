@@ -6,6 +6,8 @@ import { BinanceApikeyTutorialModalComponent } from '../../tutorials/shared-tuto
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { ItemFormError } from 'src/app/shared/models/item-form-error';
+import { CONFIG } from 'src/app/config/app-constants.config';
 
 @Component({
   selector: 'app-new-fund',
@@ -89,6 +91,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             </ion-item>
             <app-errors-form-item
               controlName="take_profit"
+              [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
               <ion-label position="floating">Stop Loss</ion-label>
@@ -100,6 +103,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             </ion-item>
             <app-errors-form-item
               controlName="stop_loss"
+              [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
               <ion-label position="floating">Nivel de Riesgo</ion-label>
@@ -131,6 +135,9 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
   styleUrls: ['./new-fund.page.scss']
 })
 export class NewFundPage implements OnInit {
+
+  onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
+
   form: FormGroup = this.formBuilder.group({
     api_key: ['', [Validators.required]],
     secret_key: ['', [Validators.required]],
@@ -144,17 +151,17 @@ export class NewFundPage implements OnInit {
       '',
       [
         Validators.required,
-        Validators.min(0.001),
-        Validators.pattern('[0-9][^a-zA-Z]*$')
+        Validators.min(1),
+        Validators.pattern('[0-9][^.a-zA-Z]*$')
       ]
     ],
     stop_loss: [
       '',
       [
         Validators.required,
-        Validators.min(0.001),
+        Validators.min(1),
         Validators.max(100),
-        Validators.pattern('[0-9][^a-zA-Z]*$')
+        Validators.pattern('[0-9][^.a-zA-Z]*$')
       ]
     ],
     risk_level: ['', [Validators.required]]
