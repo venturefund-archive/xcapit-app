@@ -15,7 +15,7 @@ export class ProfilesHelperService {
   ) {}
 
   isProfileDataOk() {
-    return this.apiProfiles.crud.get('').pipe(
+    return this.apiProfiles.crud.get().pipe(
       map(profileData => {
         let isDataOk = true;
         for (const key in profileData) {

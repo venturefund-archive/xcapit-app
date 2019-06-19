@@ -28,7 +28,7 @@ import { ModalController } from '@ionic/angular';
           target="_blank"
           rel="noopener noreferrer"
         >
-          https://www.binance.com
+          https://www.binance.com <ion-icon name="open"></ion-icon>
         </a>
       </p>
       <p>
@@ -38,17 +38,17 @@ import { ModalController } from '@ionic/angular';
         Nota: si tiene inconvenientes con la carga de los datos en el formulario
         ingresa a Binance desde otro navegador como Edge, Chrome o FireFox.
       </p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/checkBinance/1.png"
-      ></ion-img>
+      >
       <p>Una vez que hayas iniciado sesión, haz click en Lv.2</p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/checkBinance/2.png"
-      ></ion-img>
+      >
       <p>Haz click para verificar que eres una persona:</p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/checkBinance/3.png"
-      ></ion-img>
+      >
       <p>Comenzarás con la verificación, haz click en continuar</p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/checkBinance/4.png"

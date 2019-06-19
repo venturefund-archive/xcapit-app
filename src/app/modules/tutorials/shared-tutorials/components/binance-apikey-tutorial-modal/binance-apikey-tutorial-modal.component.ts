@@ -25,24 +25,24 @@ import { ModalController } from '@ionic/angular';
         real-time trading services on Binance via a third-party site or
         application.” y haz click en API Setting
       </p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/1.png"
-      ></ion-img>
+      >
       <p>
         Debes ingresar una clave para luego generar el APIkey, esta clave puede
         ser una combinación de letras y números, la que más te guste y haz click
         en “Crear nueva clave”
       </p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/2.png"
-      ></ion-img>
+      >
       <p>
         Ten a mano tu móvil, Binance te solicitará el código de segundo factor
         de autenticación de Google, ingresalo y haz click en enviar
       </p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/3.png"
-      ></ion-img>
+      >
       <p>
         Binance te enviará un correo al e-mail con el que te registraste,
         recuerda que si no lo encuentra en tu bandeja de entrada, revisa el

@@ -22,21 +22,21 @@ import { ModalController } from '@ionic/angular';
         Dentro de tu cuenta de Binance, haz clic en “Fondos”, lo encontrarás en
         el menú que está en el margen superior derecho.
       </p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/addressBinance/es/1.png"
-      ></ion-img>
+      >
       <p>En el menú Fondos haz clic en “Depósitos”</p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/addressBinance/es/2.png"
-      ></ion-img>
+      >
       <p>
         En el selector haz clic y escribe el nombre de la cryptomoneda que
         quieres saber la dirección (a fines prácticos buscaremos BTC). En la
         lista que despliega haz clic sobre el nombre.
       </p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/addressBinance/es/3.png"
-      ></ion-img>
+      >
       <p>
         Binance te mostrará un detalle del estado de tu cuenta de BTC, en el
         campo “BTC Dirección de depósito”, encontrarás la dirección. Haz clic en

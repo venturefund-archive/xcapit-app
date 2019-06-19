@@ -7,6 +7,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { NavController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-user-profile',
   template: `
@@ -204,7 +205,7 @@ export class UserProfilePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.apiProfiles.crud.get('').subscribe(res => this.form.patchValue(res));
+    this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
   }
 
   save() {

@@ -26,15 +26,15 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
           target="_blank"
           rel="noopener noreferrer"
         >
-          https://www.binance.com
+          https://www.binance.com <ion-icon name="open"></ion-icon>
         </a>
       </p>
       <p>
         Haz clic en Registrate, lo encontrarás en el margen superior derecho
       </p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/1.png"
-      ></ion-img>
+      >
       <p>
         A continuación deberás ingresar el e-mail con que quieres crear tu
         cuenta en Binance, proporcionar un password (la misma debe ser como
@@ -53,9 +53,9 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
         Nota: si tiene inconvenientes con la carga de los datos en el formulario
         ingresa a Binance desde otro navegador como Edge, Chrome o FireFox.
       </p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/2.png"
-      ></ion-img>
+      >
       <p>
         Binance te enviará un correo al e-mail con el que te registraste para
         que confirmes el e-mail y actives la cuenta.

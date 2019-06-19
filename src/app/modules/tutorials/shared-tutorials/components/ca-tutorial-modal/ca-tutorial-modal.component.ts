@@ -51,13 +51,13 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
           target="_blank"
           rel="noopener noreferrer"
         >
-          https://www.bitex.la
+          https://www.bitex.la <ion-icon name="open"></ion-icon>
         </a>
       </p>
       <p>Haz clic en Registrarte</p>
-      <ion-img
+      <img
         src="https://wallcryptostreet.com/static/institutional/img/newAccountBitex/es/1.png"
-      ></ion-img>
+      >
       <p>
         Completa los campos con tu e-mail, contraseña, (la misma debe ser como
         mínimo de 6 caracteres, compuesta por números y letras con al menos una
@@ -174,7 +174,7 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
           target="_blank"
           rel="noopener noreferrer"
         >
-          https://www.bitex.la
+          https://www.bitex.la <ion-icon name="open"></ion-icon>
         </a>
       </p>
       <p>
