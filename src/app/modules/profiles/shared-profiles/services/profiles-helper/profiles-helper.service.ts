@@ -3,6 +3,7 @@ import { ApiProfilesService } from '../api-profiles/api-profiles.service';
 import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,13 @@ export class ProfilesHelperService {
     private toastService: ToastService
   ) {}
 
-  isProfileDataOk() {
+  private fromGuard: boolean;
+
+  isFromGuard(): boolean {
+    return this.fromGuard;
+  }
+
+  isProfileDataOk(): Observable<boolean> {
     return this.apiProfiles.crud.get().pipe(
       map(profileData => {
         let isDataOk = true;
@@ -24,6 +31,7 @@ export class ProfilesHelperService {
           }
         }
         if (!isDataOk) {
+          this.fromGuard = true;
           this.navController.navigateForward(['profiles/user']).then(() =>
             this.toastService.showToast({
               message:

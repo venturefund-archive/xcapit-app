@@ -6,6 +6,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { NavController } from '@ionic/angular';
+import { ProfilesHelperService } from '../shared-profiles/services/profiles-helper/profiles-helper.service';
 
 
 @Component({
@@ -201,7 +202,8 @@ export class UserProfilePage implements OnInit {
     private formBuilder: FormBuilder,
     private apiProfiles: ApiProfilesService,
     private toastService: ToastService,
-    private navController: NavController
+    private navController: NavController,
+    private profilesHelper: ProfilesHelperService
   ) {}
 
   ngOnInit() {
@@ -214,7 +216,11 @@ export class UserProfilePage implements OnInit {
         this.toastService.showToast({
           message: 'Datos guardados!'
         });
-        this.navController.pop();
+        if (this.profilesHelper.isFromGuard()) {
+          this.navController.navigateBack(['/funds/new'], { replaceUrl: true });
+        } else {
+          this.navController.pop();
+        }
       });
     }
   }
