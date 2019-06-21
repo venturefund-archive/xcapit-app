@@ -4,9 +4,15 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NavController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-login',
   template: `
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <app-language-button></app-language-button>
+      </ion-buttons>
+    </ion-toolbar>
     <ion-content class="ion-padding">
       <div class="main">
         <ion-grid class="ion-no-padding">
@@ -49,7 +55,7 @@ import { NavController } from '@ionic/angular';
                         type="button"
                         [routerLink]="['/users/register']"
                       >
-                        ¿No estas registrado?
+                        {{ 'usuarios.login.register_link' | translate }}
                       </ion-button>
                     </div>
                   </app-auth-form>
@@ -75,9 +81,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   loginUser(data: any) {
-    this.apiUsuarios
-      .login(data)
-      .subscribe(() => this.success());
+    this.apiUsuarios.login(data).subscribe(() => this.success());
   }
 
   success() {

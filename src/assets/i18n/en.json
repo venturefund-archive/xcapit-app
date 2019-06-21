@@ -1,0 +1,27 @@
+{
+  "usuarios": {
+    "email_validation": {
+      "validation_ok": ""
+    },
+    "login": {
+      "register_link": "Not registered yet"
+    },
+    "register": {
+      "card_header": "User Registration",
+      "submit_button": "Sign Up"
+    },
+    "auth_form": {
+      "repeat_email": "Confirm Email",
+      "repeat_password": "Confirm Password"
+    }
+  },
+  "funds": {},
+  "profiles": {
+    "shared": {
+      "profile_helper": {
+        "data_no_ok": "You must complete your personal information in order to create a fund"
+      }
+    }
+  },
+  "tutorials": {}
+}

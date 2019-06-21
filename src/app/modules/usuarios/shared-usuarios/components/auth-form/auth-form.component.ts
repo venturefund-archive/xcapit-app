@@ -31,7 +31,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           [errors]="this.emailErrors"
         ></app-errors-form-item>
         <ion-item *ngIf="!this.isLogin">
-          <ion-label position="floating">Confirmar Email</ion-label>
+          <ion-label position="floating">{{ 'usuarios.auth_form.repeat_email' | translate }}</ion-label>
           <ion-input
             formControlName="repeat_email"
             type="email"
@@ -52,7 +52,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           [errors]="this.passwordErrors"
         ></app-errors-form-item>
         <ion-item *ngIf="!this.isLogin">
-          <ion-label position="floating">Confirmar Password</ion-label>
+          <ion-label position="floating">{{ 'usuarios.auth_form.repeat_password' | translate }}</ion-label>
           <ion-input
             formControlName="repeat_password"
             type="password"

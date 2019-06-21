@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -24,6 +25,7 @@ describe('RegisterPage', () => {
       declarations: [ RegisterPage, AuthFormComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
         IonicModule

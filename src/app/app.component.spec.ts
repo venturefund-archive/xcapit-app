@@ -7,17 +7,20 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
+import { LanguageService } from './shared/services/language/language.service';
 
 describe('AppComponent', () => {
 
   let statusBarSpy, splashScreenSpy, platformReadySpy, platformSpy;
   let fixture: ComponentFixture<AppComponent>;
+  let languageServiceSpy: any;
 
   beforeEach(async(() => {
     statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
     splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
     platformReadySpy = Promise.resolve();
     platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
+    languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -26,6 +29,7 @@ describe('AppComponent', () => {
         { provide: StatusBar, useValue: statusBarSpy },
         { provide: SplashScreen, useValue: splashScreenSpy },
         { provide: Platform, useValue: platformSpy },
+        { provide: LanguageService, useValue: languageServiceSpy },
       ],
       imports: [ RouterTestingModule.withRoutes([])],
     }).compileComponents();

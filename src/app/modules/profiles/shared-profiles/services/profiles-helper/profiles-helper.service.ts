@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class ProfilesHelperService {
   constructor(
     private apiProfiles: ApiProfilesService,
     private navController: NavController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   private fromGuard: boolean;
@@ -34,8 +36,7 @@ export class ProfilesHelperService {
           this.fromGuard = true;
           this.navController.navigateForward(['profiles/user']).then(() =>
             this.toastService.showToast({
-              message:
-                'Debe completar sus datos personales para poder crear un fondo'
+              message: this.translate.instant('profiles.shared.profile_helper.data_no_ok')
             })
           );
         }

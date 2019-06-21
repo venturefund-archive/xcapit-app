@@ -7,6 +7,11 @@ import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-register',
   template: `
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <app-language-button></app-language-button>
+      </ion-buttons>
+    </ion-toolbar>
     <ion-content class="ion-padding">
       <div class="main">
         <ion-grid class="ion-no-padding">
@@ -21,7 +26,7 @@ import { AlertController } from '@ionic/angular';
             >
               <ion-card>
                 <ion-card-header>
-                  Registro de Usuario
+                  {{ 'usuarios.register.card_header' | translate }}
                 </ion-card-header>
                 <ion-card-content>
                   <app-auth-form (send)="this.registerUser($event)">
@@ -39,7 +44,7 @@ import { AlertController } from '@ionic/angular';
                           slot="start"
                           name="checkmark-circle-outline"
                         ></ion-icon>
-                        Registrar
+                        {{ 'usuarios.register.submit_button' | translate }}
                       </ion-button>
                     </div>
                     <div class="auth-link ion-text-right ion-padding-top">

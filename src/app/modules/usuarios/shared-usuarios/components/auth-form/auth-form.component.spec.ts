@@ -5,6 +5,7 @@ import { AuthFormComponent } from './auth-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AuthFormComponent', () => {
   let component: AuthFormComponent;
@@ -26,7 +27,7 @@ describe('AuthFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AuthFormComponent],
-      imports: [ReactiveFormsModule, IonicModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -47,7 +48,9 @@ describe('AuthFormComponent', () => {
     component.form.get('repeat_password').setValue(formData.valid.pass);
     const spy = spyOn(component, 'handleSubmit');
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    fixture.debugElement
+      .query(By.css('form'))
+      .triggerEventHandler('ngSubmit', null);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -95,7 +98,9 @@ describe('AuthFormComponent', () => {
 
     it('form should be invalid when emails not match', async () => {
       component.form.get('email').setValue(formData.valid.email);
-      component.form.get('repeat_email').setValue('ups' + formData.valid.rEmail);
+      component.form
+        .get('repeat_email')
+        .setValue('ups' + formData.valid.rEmail);
       component.form.get('password').setValue(formData.valid.pass);
       component.form.get('repeat_password').setValue(formData.invalid.pass);
       expect(component.form.valid).toBeFalsy();

@@ -1,0 +1,27 @@
+{
+  "usuarios": {
+    "email_validation": {
+      "validation_ok": "Email Verificado correctamente!"
+    },
+    "login": {
+      "register_link": "¿No estas registrado?"
+    },
+    "register": {
+      "card_header": "Registro de Usuario",
+      "submit_button": "Registrar"
+    },
+    "auth_form": {
+      "repeat_email": "Confirmar Email",
+      "repeat_password": "Confirmar Password"
+    }
+  },
+  "funds": {},
+  "profiles": {
+    "shared": {
+      "profile_helper": {
+        "data_no_ok": "Debe completar sus datos personales para poder crear un fondo"
+      }
+    }
+  },
+  "tutorials": {}
+}

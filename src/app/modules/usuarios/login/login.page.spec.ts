@@ -8,6 +8,7 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -21,6 +22,7 @@ describe('LoginPage', () => {
       declarations: [ LoginPage, AuthFormComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([]),
         ReactiveFormsModule,
         IonicModule

@@ -5,6 +5,7 @@ export const AUTH = {
 };
 export const CONFIG = {
   app: {
+    defaultLanguage: 'es',
     mainTitle: '',
     welcomeMsg: {
       title: '',
