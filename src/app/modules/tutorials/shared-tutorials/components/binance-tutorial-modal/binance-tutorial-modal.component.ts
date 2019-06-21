@@ -8,7 +8,7 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
     <ion-header>
       <ion-toolbar>
         <ion-title>
-          Binance - Cuenta
+          {{ 'tutorials.binance_tutorial_modal.header' | translate }}
         </ion-title>
         <ion-buttons slot="end">
           <ion-button icon-only shape="round" (click)="closeModal()">
@@ -18,9 +18,9 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
-      <h2>Como Crear Una Cuenta En Binance</h2>
+      <h2>{{ 'tutorials.binance_tutorial_modal.t1' | translate }}</h2>
       <p>
-        Abre tu navegador favorito e ingresa a:
+      {{ 'tutorials.binance_tutorial_modal.p1' | translate }}
         <a
           href="https://www.binance.com"
           target="_blank"
@@ -30,112 +30,92 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
         </a>
       </p>
       <p>
-        Haz clic en Registrate, lo encontrarás en el margen superior derecho
+      {{ 'tutorials.binance_tutorial_modal.p2' | translate }}
       </p>
       <img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/1.png"
       >
       <p>
-        A continuación deberás ingresar el e-mail con que quieres crear tu
-        cuenta en Binance, proporcionar un password (la misma debe ser como
-        mínimo de 6 caracteres, compuesta por números y letras con al menos una
-        en mayúscula) y confirmar el password.
+      {{ 'tutorials.binance_tutorial_modal.p3' | translate }}
       </p>
       <p>
-        En el campo “Referencial ID (optional)” encontrarás el siguiente ID:
-        36552775, no lo cambies. Si está vacio ingresalo.
+      {{ 'tutorials.binance_tutorial_modal.p4' | translate }}
       </p>
       <p>
-        Tilda el Check para aceptar los términos de uso de Binance y haz clic en
-        Register.
+      {{ 'tutorials.binance_tutorial_modal.p5' | translate }}
       </p>
       <p class="tutorial__notes">
-        Nota: si tiene inconvenientes con la carga de los datos en el formulario
-        ingresa a Binance desde otro navegador como Edge, Chrome o FireFox.
+      {{ 'tutorials.binance_tutorial_modal.p6' | translate }}
       </p>
       <img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/2.png"
       >
       <p>
-        Binance te enviará un correo al e-mail con el que te registraste para
-        que confirmes el e-mail y actives la cuenta.
+      {{ 'tutorials.binance_tutorial_modal.p7' | translate }}
       </p>
       <p>
-        Si no lo encuentras en tu bandeja de entrada, revisa el correo Spam. Haz
-        clic en el link del e-mail que recibiste y continúa para activar tu
-        cuenta.
+      {{ 'tutorials.binance_tutorial_modal.p8' | translate }}
       </p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/3.png"
       ></ion-img>
       <p>
-        El link te enviará a la siguiente página donde deberás posicionar el
-        puzzle en el lugar correcto y así probar que no eres un robot.
+      {{ 'tutorials.binance_tutorial_modal.p9' | translate }}
       </p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/4.png"
       ></ion-img>
-      <p>Una vez que hayas posicionado el puzzle, has activado tu cuenta</p>
+      <p>{{ 'tutorials.binance_tutorial_modal.p10' | translate }}</p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/5.png"
       ></ion-img>
       <p>
-        Cuando ya tengas la cuenta activa, Binance proporcionará sugerencias de
-        seguridad para tu cuenta, te recomendamos tildes todas las opciones y
-        haz clic en continuar.
+      {{ 'tutorials.binance_tutorial_modal.p11' | translate }}
       </p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/6.png"
       ></ion-img>
       <p>
-        Binance recomienda activar el segundo factor de autenticación de google.
-        Descarga la app del playStore, buscala como: Authentication de Google.
+      {{ 'tutorials.binance_tutorial_modal.p12' | translate }}
       </p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/7.png"
       ></ion-img>
       <p>
-        Una vez descargada la app haz clic en Next Step, y sigue los pasos:
+      {{ 'tutorials.binance_tutorial_modal.p13' | translate }}
       </p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/8.png"
       ></ion-img>
       <p>
-        Desde la App, Scanear el código QR y haz clic en Next Step
+      {{ 'tutorials.binance_tutorial_modal.p14' | translate }}
       </p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/9.png"
       ></ion-img>
-      <p>Guarda la Clave proporcionada en papel y haz clic en Next Step</p>
+      <p>{{ 'tutorials.binance_tutorial_modal.p15' | translate }}</p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/10.png"
       ></ion-img>
       <p>
-        Para finalizar con la autenticación ingresa la contraseña de acceso y el
-        código de verificación proporcionado por Authentication Google.
+      {{ 'tutorials.binance_tutorial_modal.p16' | translate }}
       </p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/11.png"
       ></ion-img>
       <p>
-        Si todo salió bien, Binance te lo hará saber con el siguiente mensaje,
-        sino contacta a Binance para que te brinde una solución
+      {{ 'tutorials.binance_tutorial_modal.p17' | translate }}
       </p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/newBinance/12.png"
       ></ion-img>
       <p>
-        Hasta aquí has creado una cuenta en Binance, que en principio no hace
-        falta verificar tu identidad para poder operar, lo que sí sólo podrás
-        retirar hasta 2 BTC(Bitcoins) cada 24hs.
+      {{ 'tutorials.binance_tutorial_modal.p18' | translate }}
       </p>
       <p>
-        En caso de que quieras aumentar el límite de retiro a 100 BTC por cada
-        24hs, entonces sí, deberás realizar la verificación haciendo click en
-        Lv.2 y comenzar con los pasos de verificación.Mirá como verificar tu
-        cuenta
+      {{ 'tutorials.binance_tutorial_modal.p19' | translate }}
         <a class="local-a" (click)="this.openBinanceCheck()">
-          aquí
+        {{ 'tutorials.binance_tutorial_modal.a1' | translate }}
         </a>
       </p>
     </ion-content>

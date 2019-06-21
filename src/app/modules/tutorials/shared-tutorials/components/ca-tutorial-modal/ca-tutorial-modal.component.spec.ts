@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CaTutorialModalComponent } from './ca-tutorial-modal.component';
 import { ModalController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CaTutorialModalComponent', () => {
   let component: CaTutorialModalComponent;
@@ -14,6 +15,7 @@ describe('CaTutorialModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ CaTutorialModalComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy }
       ]

@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 const formData = {
   valid: {
@@ -38,7 +38,6 @@ describe('UserProfilePage', () => {
   let fixture: ComponentFixture<UserProfilePage>;
   let apiProfilesServiceMock: any;
   let apiProfilesService: ApiProfilesService;
-  let translateServiceSpy: any;
 
   beforeEach(async(() => {
     apiProfilesServiceMock = {
@@ -47,19 +46,18 @@ describe('UserProfilePage', () => {
         get: () => of({})
       }
     };
-    translateServiceSpy = jasmine.createSpyObj('TranslateService', ['instant']);
 
     TestBed.configureTestingModule({
       declarations: [UserProfilePage],
       imports: [
+        TranslateModule.forRoot(),
         IonicModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
-        { provide: TranslateService, useValue: translateServiceSpy },
+        { provide: ApiProfilesService, useValue: apiProfilesServiceMock }
       ]
     }).compileComponents();
   }));

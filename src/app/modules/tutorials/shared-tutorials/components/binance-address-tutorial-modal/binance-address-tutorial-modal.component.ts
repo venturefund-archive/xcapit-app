@@ -7,7 +7,7 @@ import { ModalController } from '@ionic/angular';
     <ion-header>
       <ion-toolbar>
         <ion-title>
-          Binance - Dirección
+          {{ 'tutorials.binance_address_tutorial_modal.header' | translate }}
         </ion-title>
         <ion-buttons slot="end">
           <ion-button icon-only shape="round" (click)="closeModal()">
@@ -17,32 +17,21 @@ import { ModalController } from '@ionic/angular';
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
-      <h2>Donde Encontrar La Dirección A Depositar Tus Cryptomonedas</h2>
-      <p>
-        Dentro de tu cuenta de Binance, haz clic en “Fondos”, lo encontrarás en
-        el menú que está en el margen superior derecho.
-      </p>
+      <h2>{{ 'tutorials.binance_address_tutorial_modal.t1' | translate }}</h2>
+      <p>{{ 'tutorials.binance_address_tutorial_modal.p1' | translate }}</p>
       <img
         src="https://wallcryptostreet.com/static/institutional/img/addressBinance/es/1.png"
       >
-      <p>En el menú Fondos haz clic en “Depósitos”</p>
+      <p>{{ 'tutorials.binance_address_tutorial_modal.p2' | translate }}</p>
       <img
         src="https://wallcryptostreet.com/static/institutional/img/addressBinance/es/2.png"
       >
-      <p>
-        En el selector haz clic y escribe el nombre de la cryptomoneda que
-        quieres saber la dirección (a fines prácticos buscaremos BTC). En la
-        lista que despliega haz clic sobre el nombre.
-      </p>
+      <p>{{ 'tutorials.binance_address_tutorial_modal.p3' | translate }}</p>
       <img
         src="https://wallcryptostreet.com/static/institutional/img/addressBinance/es/3.png"
       >
-      <p>
-        Binance te mostrará un detalle del estado de tu cuenta de BTC, en el
-        campo “BTC Dirección de depósito”, encontrarás la dirección. Haz clic en
-        Copiar y ve a tu cuenta de Bitex y pega la dirección.
-      </p>
-      <p>Ten en cuenta que esta información es importante.</p>
+      <p>{{ 'tutorials.binance_address_tutorial_modal.p4' | translate }}</p>
+      <p>{{ 'tutorials.binance_address_tutorial_modal.p5' | translate }}</p>
       <ion-img
         src="https://wallcryptostreet.com/static/institutional/img/addressBinance/es/4.png"
       ></ion-img>

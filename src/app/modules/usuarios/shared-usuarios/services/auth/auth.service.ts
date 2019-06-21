@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import { AUTH, CONFIG } from 'src/app/config/app-constants.config';
+import { AUTH } from 'src/app/config/app-constants.config';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -15,7 +14,6 @@ export class AuthService {
   constructor(
     private storage: Storage,
     private jwtHelper: JwtHelperService,
-    private toastService: ToastService,
     private router: Router
     ) {
       this.checkLogin();

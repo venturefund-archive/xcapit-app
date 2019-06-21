@@ -36,7 +36,7 @@ export class ProfilesHelperService {
           this.fromGuard = true;
           this.navController.navigateForward(['profiles/user']).then(() =>
             this.toastService.showToast({
-              message: this.translate.instant('profiles.shared.profile_helper.data_no_ok')
+              message: this.translate.instant('profiles.profile_helper.data_no_ok')
             })
           );
         }

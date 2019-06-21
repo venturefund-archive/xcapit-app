@@ -8,13 +8,13 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
   template: `
     <ion-header>
       <ion-toolbar>
-        <ion-title>interactive-tutorial</ion-title>
+        <ion-title>{{ 'tutorials.interactive_tutorial.header' | translate }}</ion-title>
         <ion-buttons slot="end">
           <ion-button
             color="primary"
             [routerLink]="['/funds/new']"
           >
-            Omitir
+          {{ 'tutorials.interactive_tutorial.skip_button' | translate }}
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -23,7 +23,7 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
       <ion-slides [options]="this.slideOpts">
         <ion-slide>
           <div class="it__content-slide">
-            <h2>¿Tenés Cryptoactivos?</h2>
+            <h2>{{ 'tutorials.interactive_tutorial.t1' | translate }}</h2>
             <div class="it__content-slide__buttons">
               <ion-grid>
                 <ion-row>
@@ -34,7 +34,7 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       color="primary"
                       (click)="this.openCaTutorial()"
                     >
-                      No
+                    {{ 'tutorials.interactive_tutorial.no_button' | translate }}
                     </ion-button>
                   </ion-col>
                   <ion-col size="6">
@@ -44,7 +44,7 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       color="success"
                       (click)="this.slideNext()"
                     >
-                      Si
+                    {{ 'tutorials.interactive_tutorial.yes_button' | translate }}
                     </ion-button>
                   </ion-col>
                 </ion-row>
@@ -54,7 +54,7 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
         </ion-slide>
         <ion-slide>
           <div class="it__content-slide">
-            <h2>¿Tenés Cuenta en Binance?</h2>
+            <h2>{{ 'tutorials.interactive_tutorial.t2' | translate }}</h2>
             <div class="it__content-slide__buttons">
               <ion-grid>
                 <ion-row>
@@ -65,7 +65,7 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       color="primary"
                       (click)="this.openBinanceTutorial()"
                     >
-                      No
+                      {{ 'tutorials.interactive_tutorial.no_button' | translate }}
                     </ion-button>
                   </ion-col>
                   <ion-col size="6">
@@ -75,7 +75,7 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       color="success"
                       [routerLink]="['/funds/new']"
                     >
-                      Si
+                    {{ 'tutorials.interactive_tutorial.yes_button' | translate }}
                     </ion-button>
                   </ion-col>
                 </ion-row>

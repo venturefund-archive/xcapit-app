@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <ion-header>
       <ion-toolbar>
-        <ion-title>funds-list</ion-title>
+        <ion-title>{{ 'funds.funds_list.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -19,7 +19,7 @@ import { Component, OnInit } from '@angular/core';
           [routerLink]="['/tutorials/interactive-tutorial']"
         >
           <ion-icon slot="start" name="add"></ion-icon>
-          Nuevo Fondo
+          {{ 'funds.funds_list.new_fund_button' | translate }}
         </ion-button>
       </div>
     </ion-content>

@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InteractiveTutorialPage } from './interactive-tutorial.page';
 import { ModalController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('InteractiveTutorialPage', () => {
   let component: InteractiveTutorialPage;
@@ -14,6 +15,7 @@ describe('InteractiveTutorialPage', () => {
     TestBed.configureTestingModule({
       declarations: [ InteractiveTutorialPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy }
       ]

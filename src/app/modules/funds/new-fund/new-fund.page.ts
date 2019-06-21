@@ -8,30 +8,31 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-fund',
   template: `
     <ion-header>
       <ion-toolbar>
-        <ion-title>Nuevo Fondo</ion-title>
+        <ion-title>{{ 'funds.new_fund.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <form [formGroup]="this.form" (ngSubmit)="this.save()">
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
-            <ion-label>Binance API Keys</ion-label>
+            <ion-label>{{ 'funds.new_fund.ion_divider1' | translate }}</ion-label>
           </ion-item-divider>
 
           <div class="ion-padding-start ion-padding-end">
             <ion-item>
-              <ion-label position="floating">Binance API Key</ion-label>
+              <ion-label position="floating">{{ 'funds.new_fund.api_key' | translate }}</ion-label>
               <ion-input formControlName="api_key" type="text"></ion-input>
             </ion-item>
             <app-errors-form-item controlName="api_key"></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Binance Secret Key</ion-label>
+              <ion-label position="floating">{{ 'funds.new_fund.secret_key' | translate }}</ion-label>
               <ion-input formControlName="secret_key" type="text"></ion-input>
             </ion-item>
             <app-errors-form-item
@@ -43,27 +44,27 @@ import { CONFIG } from 'src/app/config/app-constants.config';
           >
             <p>
               <ion-icon name="information-circle-outline"></ion-icon>
-              Mira como obtener las API y Secret key
-              <a class="local-a" (click)="this.openBinanceAPIKeys()">aquí.</a>
+              {{ 'funds.new_fund.p1' | translate }}
+              <a class="local-a" (click)="this.openBinanceAPIKeys()">{{ 'funds.new_fund.a1' | translate }}</a>
             </p>
           </div>
         </ion-item-group>
 
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
-            <ion-label>Fondo</ion-label>
+            <ion-label>{{ 'funds.new_fund.ion_divider2' | translate }}</ion-label>
           </ion-item-divider>
 
           <div class="ion-padding-start ion-padding-end">
             <ion-item>
-              <ion-label position="floating">Nombre del Fondo</ion-label>
+              <ion-label position="floating">{{ 'funds.new_fund.fund_name' | translate }}</ion-label>
               <ion-input formControlName="fund_name" type="text"></ion-input>
             </ion-item>
             <app-errors-form-item
               controlName="fund_name"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Moneda de Visualización</ion-label>
+              <ion-label position="floating">{{ 'funds.new_fund.currency' | translate }}</ion-label>
               <ion-select formControlName="currency">
                 <ion-select-option>BTC</ion-select-option>
                 <ion-select-option>USD</ion-select-option>
@@ -71,18 +72,18 @@ import { CONFIG } from 'src/app/config/app-constants.config';
             </ion-item>
             <app-errors-form-item controlName="currency"></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Plazo de Operación</ion-label>
+              <ion-label position="floating">{{ 'funds.new_fund.cantidad_dias' | translate }}</ion-label>
               <ion-select formControlName="cantidad_dias">
-                <ion-select-option value="30">30 días</ion-select-option>
-                <ion-select-option value="60">60 días</ion-select-option>
-                <ion-select-option value="90">90 días</ion-select-option>
+                <ion-select-option value="30">30 {{ 'funds.new_fund.ion_option_cantidad_dias' | translate }}</ion-select-option>
+                <ion-select-option value="60">60 {{ 'funds.new_fund.ion_option_cantidad_dias' | translate }}</ion-select-option>
+                <ion-select-option value="90">90 {{ 'funds.new_fund.ion_option_cantidad_dias' | translate }}</ion-select-option>
               </ion-select>
             </ion-item>
             <app-errors-form-item
               controlName="cantidad_dias"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Take Profit</ion-label>
+              <ion-label position="floating">{{ 'funds.new_fund.take_profit' | translate }}</ion-label>
               <ion-input
                 formControlName="take_profit"
                 type="text"
@@ -94,7 +95,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
               [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Stop Loss</ion-label>
+              <ion-label position="floating">{{ 'funds.new_fund.stop_loss' | translate }}</ion-label>
               <ion-input
                 formControlName="stop_loss"
                 type="text"
@@ -106,10 +107,10 @@ import { CONFIG } from 'src/app/config/app-constants.config';
               [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Nivel de Riesgo</ion-label>
+              <ion-label position="floating">{{ 'funds.new_fund.risk_level' | translate }}</ion-label>
               <ion-select formControlName="risk_level">
-                <ion-select-option>PRO</ion-select-option>
-                <ion-select-option>CLASSIC</ion-select-option>
+                <ion-select-option>{{ 'funds.new_fund.ion_option_risk_level_pro' | translate }}</ion-select-option>
+                <ion-select-option>{{ 'funds.new_fund.ion_option_risk_level_classic' | translate }}</ion-select-option>
               </ion-select>
             </ion-item>
             <app-errors-form-item controlName="risk_level"></app-errors-form-item>
@@ -126,7 +127,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
             "
           >
             <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
-            Crear Fondo
+            {{ 'funds.new_fund.submit_button' | translate }}
           </ion-button>
         </div>
       </form>
@@ -173,7 +174,8 @@ export class NewFundPage implements OnInit {
     private modalController: ModalController,
     private apiFunds: ApiFundsService,
     private navController: NavController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {}
@@ -183,7 +185,7 @@ export class NewFundPage implements OnInit {
       this.apiFunds.crud.create(this.form.value).subscribe(() => {
         this.navController.navigateForward(['funds/list']).then(() => {
           this.toastService.showToast({
-            message: 'El Fondo se creo correctamente!'
+            message: this.translate.instant('funds.new-fund.success_text')
           });
           this.form.reset();
         });

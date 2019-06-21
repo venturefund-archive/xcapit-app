@@ -3,6 +3,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
@@ -74,7 +75,8 @@ export class RegisterPage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {}
@@ -88,11 +90,9 @@ export class RegisterPage implements OnInit {
     const alert = await this.alertController.create({
       message: `
         <h4>
-          Te enviamos un email de verificación,
-          revisa tu casilla y sigue las instrucciones
-          para activar la cuenta.
+          ${this.translate.instant('usuarios.register.success_text')}
         </h4>`,
-      buttons: ['Aceptar']
+      buttons: [this.translate.instant('usuarios.register.accept_button')]
     });
     await alert.present();
   }

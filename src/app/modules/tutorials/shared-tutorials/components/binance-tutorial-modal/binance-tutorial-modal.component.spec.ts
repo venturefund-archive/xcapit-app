@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BinanceTutorialModalComponent } from './binance-tutorial-modal.component';
 import { ModalController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('BinanceTutorialModalComponent', () => {
   let component: BinanceTutorialModalComponent;
@@ -14,6 +15,7 @@ describe('BinanceTutorialModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ BinanceTutorialModalComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy }
       ]

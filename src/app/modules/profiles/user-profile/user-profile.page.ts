@@ -7,39 +7,47 @@ import { CONFIG } from 'src/app/config/app-constants.config';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { NavController } from '@ionic/angular';
 import { ProfilesHelperService } from '../shared-profiles/services/profiles-helper/profiles-helper.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-profile',
   template: `
     <ion-header>
       <ion-toolbar>
-        <ion-title>Perfil de Usuario</ion-title>
+        <ion-title>{{ 'profiles.user_profile.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <form [formGroup]="this.form" (ngSubmit)="this.save()">
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
-            <ion-label>DATOS PERSONALES</ion-label>
+            <ion-label>{{
+              'profiles.user_profile.ion_divider1' | translate
+            }}</ion-label>
           </ion-item-divider>
           <div class="ion-padding-start ion-padding-end">
             <ion-item>
-              <ion-label position="floating">Nombre</ion-label>
+              <ion-label position="floating">{{
+                'profiles.user_profile.first_name' | translate
+              }}</ion-label>
               <ion-input formControlName="first_name" type="text"></ion-input>
             </ion-item>
             <app-errors-form-item
               controlName="first_name"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Apellido</ion-label>
+              <ion-label position="floating">{{
+                'profiles.user_profile.last_name' | translate
+              }}</ion-label>
               <ion-input formControlName="last_name" type="text"></ion-input>
             </ion-item>
             <app-errors-form-item
               controlName="last_name"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">DNI</ion-label>
+              <ion-label position="floating">{{
+                'profiles.user_profile.nro_dni' | translate
+              }}</ion-label>
               <ion-input
                 formControlName="nro_dni"
                 type="text"
@@ -51,7 +59,9 @@ import { ProfilesHelperService } from '../shared-profiles/services/profiles-help
               [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Celular</ion-label>
+              <ion-label position="floating">{{
+                'profiles.user_profile.cellphone' | translate
+              }}</ion-label>
               <ion-input
                 formControlName="cellphone"
                 type="text"
@@ -67,11 +77,15 @@ import { ProfilesHelperService } from '../shared-profiles/services/profiles-help
 
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
-            <ion-label>DATOS DE FACTURACIÓN</ion-label>
+            <ion-label>{{
+              'profiles.user_profile.ion_divider2' | translate
+            }}</ion-label>
           </ion-item-divider>
           <div class="ion-padding-start ion-padding-end">
             <ion-item>
-              <ion-label position="floating">Condición IVA</ion-label>
+              <ion-label position="floating">{{
+                'profiles.user_profile.condicion_iva' | translate
+              }}</ion-label>
               <ion-select formControlName="condicion_iva">
                 <ion-select-option>IVA Responsable Inscripto</ion-select-option>
                 <ion-select-option
@@ -104,7 +118,9 @@ import { ProfilesHelperService } from '../shared-profiles/services/profiles-help
               controlName="condicion_iva"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Tipo Factura</ion-label>
+              <ion-label position="floating">{{
+                'profiles.user_profile.tipo_factura' | translate
+              }}</ion-label>
               <ion-select formControlName="tipo_factura">
                 <ion-select-option>A</ion-select-option>
                 <ion-select-option>B</ion-select-option>
@@ -115,7 +131,9 @@ import { ProfilesHelperService } from '../shared-profiles/services/profiles-help
               controlName="tipo_factura"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">CUIT</ion-label>
+              <ion-label position="floating">{{
+                'profiles.user_profile.cuit' | translate
+              }}</ion-label>
               <ion-input
                 formControlName="cuit"
                 type="text"
@@ -127,7 +145,9 @@ import { ProfilesHelperService } from '../shared-profiles/services/profiles-help
               [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">Dirección</ion-label>
+              <ion-label position="floating">{{
+                'profiles.user_profile.direccion' | translate
+              }}</ion-label>
               <ion-input
                 class="google-place-input"
                 formControlName="direccion"
@@ -152,7 +172,7 @@ import { ProfilesHelperService } from '../shared-profiles/services/profiles-help
             "
           >
             <ion-icon slot="start" name="save"></ion-icon>
-            Guardar
+            {{ 'profiles.user_profile.submit_button' | translate }}
           </ion-button>
         </div>
       </form>
@@ -203,7 +223,8 @@ export class UserProfilePage implements OnInit {
     private apiProfiles: ApiProfilesService,
     private toastService: ToastService,
     private navController: NavController,
-    private profilesHelper: ProfilesHelperService
+    private profilesHelper: ProfilesHelperService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -214,7 +235,7 @@ export class UserProfilePage implements OnInit {
     if (this.form.valid) {
       this.apiProfiles.crud.update(this.form.value).subscribe(() => {
         this.toastService.showToast({
-          message: 'Datos guardados!'
+          message: this.translate.instant('profiles.user_profile.success_text')
         });
         if (this.profilesHelper.isFromGuard()) {
           this.navController.navigateBack(['/funds/new'], { replaceUrl: true });

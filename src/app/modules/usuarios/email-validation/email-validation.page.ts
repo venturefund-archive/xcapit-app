@@ -6,6 +6,7 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-email-validation',
@@ -16,10 +17,10 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         class="ion-text-center"
       >
         <h3>
-          No pudimos verificar el Email!
+          {{ 'usuarios.email_validation.error_title' | translate }}
         </h3>
         <div class="ion-padding-top">
-          Intenta enviar nuevamente el email de validación.
+          {{ 'usuarios.email_validation.error_text' | translate }}
         </div>
         <div class="auth-button ion-padding-top">
           <ion-button
@@ -30,7 +31,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
             (click)="this.sendEmailValidation()"
           >
             <ion-icon slot="start" name="send"></ion-icon>
-            Enviar
+            {{ 'usuarios.email_validation.error_button' | translate }}
           </ion-button>
         </div>
         <div class="ion-text-left ion-padding-top">
@@ -41,7 +42,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
             routerDirection="back"
             [routerLink]="['/users/register']"
           >
-            Volver al registro
+            {{ 'usuarios.email_validation.register_link' | translate }}
           </ion-button>
         </div>
       </div>
@@ -65,7 +66,8 @@ export class EmailValidationPage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiUsuario: ApiUsuariosService,
     private navController: NavController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -104,7 +106,7 @@ export class EmailValidationPage implements OnInit, OnDestroy {
         .navigateForward(['/users/login'], { replaceUrl: true })
         .then(() =>
           this.toastService.showToast({
-            message: 'Email Verificado correctamente!'
+            message: this.translate.instant('usuarios.email_validation.ok_text')
           })
         );
     }

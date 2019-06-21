@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundsListPage } from './funds-list.page';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('FundsListPage', () => {
   let component: FundsListPage;
@@ -11,6 +12,7 @@ describe('FundsListPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([])
       ],
       declarations: [ FundsListPage ],

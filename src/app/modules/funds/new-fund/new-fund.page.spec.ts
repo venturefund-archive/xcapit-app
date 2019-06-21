@@ -8,6 +8,7 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 
 const formData = {
   api_key: 'asdfad',
@@ -38,6 +39,7 @@ describe('NewFundPage', () => {
     };
     TestBed.configureTestingModule({
       imports: [
+        TranslateModule.forRoot(),
         ReactiveFormsModule,
         IonicModule,
         RouterTestingModule.withRoutes([])

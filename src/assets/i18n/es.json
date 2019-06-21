@@ -1,27 +1,200 @@
 {
   "usuarios": {
     "email_validation": {
-      "validation_ok": "Email Verificado correctamente!"
+      "error_title": "No pudimos verificar el Email!",
+      "error_text": "Intenta enviar nuevamente el email de validación.",
+      "error_button": "Enviar",
+      "register_link": "Volver al registro",
+      "ok_text": "Email Verificado correctamente!"
     },
     "login": {
       "register_link": "¿No estas registrado?"
     },
     "register": {
       "card_header": "Registro de Usuario",
-      "submit_button": "Registrar"
+      "submit_button": "Registrar",
+      "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
+      "accept_button": "Aceptar"
     },
     "auth_form": {
       "repeat_email": "Confirmar Email",
       "repeat_password": "Confirmar Password"
     }
   },
-  "funds": {},
-  "profiles": {
-    "shared": {
-      "profile_helper": {
-        "data_no_ok": "Debe completar sus datos personales para poder crear un fondo"
-      }
+  "funds": {
+    "funds_list": {
+      "header": "funds-list",
+      "new_fund_button": "Nuevo Fondo"
+    },
+    "new_fund": {
+      "header": "Nuevo Fondo",
+      "ion_divider1": "Binance API Keys",
+      "api_key": "Binance API Key",
+      "secret_key": "Binance Secret Key",
+      "p1": "Mira como obtener las API y Secret key",
+      "a1": "aquí.",
+      "ion_divider2": "Fondo",
+      "fund_name": "Nombre del Fondo",
+      "currency": "Moneda de Visualización",
+      "cantidad_dias": "Plazo de Operación",
+      "ion_option_cantidad_dias": "días",
+      "take_profit": "Porcentaje de Ganancia",
+      "stop_loss": "Porcentaje de Perdida",
+      "risk_level": "Nivel de Riesgo",
+      "ion_option_risk_level_pro": "PRO",
+      "ion_option_risk_level_classic": "CLASSIC",
+      "submit_button": "Crear Fondo",
+      "success_text": "El Fondo se creo correctamente!"
     }
   },
-  "tutorials": {}
+  "profiles": {
+    "profile_helper": {
+      "data_no_ok": "Debe completar sus datos personales para poder crear un fondo"
+    },
+    "user_profile": {
+      "header": "Perfil de Usuario",
+      "ion_divider1": "DATOS PERSONALES",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "nro_dni": "DNI",
+      "cellphone": "Celular",
+      "ion_divider2": "DATOS DE FACTURACIÓN",
+      "condicion_iva": "Condición IVA",
+      "tipo_factura": "Tipo Factura",
+      "cuit": "CUIT",
+      "direccion": "Dirección",
+      "submit_button": "Guardar",
+      "success_text": "Datos guardados!"
+    }
+  },
+  "tutorials": {
+    "interactive_tutorial": {
+      "header": "interactive-tutorial",
+      "skip_button": "Omitir",
+      "t1": "¿Tenés Cryptoactivos?",
+      "no_button": "No",
+      "yes_button": "Si",
+      "t2": "¿Tenés Cuenta en Binance?"
+    },
+    "binance_address_tutorial_modal": {
+      "header": "Binance - Dirección",
+      "t1": "Donde Encontrar La Dirección A Depositar Tus Cryptomonedas",
+      "p1": "Dentro de tu cuenta de Binance, haz clic en “Fondos”, lo encontrarás en el menú que está en el margen superior derecho.",
+      "p2": "En el menú Fondos haz clic en “Depósitos”",
+      "p3": "En el selector haz clic y escribe el nombre de la cryptomoneda que quieres saber la dirección (a fines prácticos buscaremos BTC). En la lista que despliega haz clic sobre el nombre.",
+      "p4": "Binance te mostrará un detalle del estado de tu cuenta de BTC, en el campo “BTC Dirección de depósito”, encontrarás la dirección. Haz clic en Copiar y ve a tu cuenta de Bitex y pega la dirección.",
+      "p5": "Ten en cuenta que esta información es importante."
+    },
+    "binance_apikey_tutorial_modal": {
+      "header": "Binance - API Keys",
+      "t1": "Crear APIkey Y SECRETkey En Binance",
+      "p1": "Vamos a gestionar la clave para generar la apiKey y el secretKey de tu cuenta en Binance, para ello dentro de tu cuenta dirígete a donde dice “API, Creating an API private key provides access to markets and real-time trading services on Binance via a third-party site or application.” y haz click en API Setting",
+      "p2": "Debes ingresar una clave para luego generar el APIkey, esta clave puede ser una combinación de letras y números, la que más te guste y haz click en “Crear nueva clave”",
+      "p3": "Ten a mano tu móvil, Binance te solicitará el código de segundo factor de autenticación de Google, ingresalo y haz click en enviar",
+      "p4": "Binance te enviará un correo al e-mail con el que te registraste, recuerda que si no lo encuentra en tu bandeja de entrada, revisa el correo spam. Haz click en el link del correo que recibiste",
+      "p5": "Listo, tu APIkey y SECRETkey estan creados, haz click en cerrar.",
+      "p6": "Lo único que queda por hacer es copiar y pegar el APIkey y SecretKey donde lo requieras.",
+      "p7": "Recuerda que esta información es importante y requiere que cuides de ella, no las compartas ni envies a terceros que no sean de tu confianza."
+    },
+    "binance_check_tutorial_modal": {
+      "header": "Binance - Lv.2",
+      "t1": "Como Verificar Tu Identidad En Binance Y Aumentar El Nivel De La Cuenta A Lv.2",
+      "p1": "Abre tu navegador favorito e ingresa a:",
+      "p2": "Haz clic en iniciar sesión, lo encontrarás en el margen superior derecho",
+      "p3": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Binance desde otro navegador como Edge, Chrome o FireFox.",
+      "p4": "Una vez que hayas iniciado sesión, haz click en Lv.2",
+      "p5": "Haz click para verificar que eres una persona:",
+      "p6": "Comenzarás con la verificación, haz click en continuar",
+      "p7": "Elige tu país de origen y el tipo de documentación que vas a validar, puede ser DNI, Pasaporte o Licencia de Conducir y selecciona sobre el icono",
+      "p8": "Continuarás con la Verificación ingresando las imágenes de tu DNI, elige como subir las imágenes de tu DNI, en este caso subiremos los archivos desde el dispositivo",
+      "p9": "Escoge la imagen que tiene el frente del DNI y haz click en Confirmar",
+      "p10": "A continuación deberás cargar la imagen que contiene el dorso del DNI y haz click en Confirmar",
+      "p11": "Por último debes subir una imagen de ti mismo sosteniendo una hoja con la inscripción en puño y letra “Binance - Fecha de hoy” y haz click en Confirmar",
+      "p12": "Espera a que se carguen los archivos",
+      "p13": "Cuando Binance termine de cargar los archivos te lo informará con el siguiente mensaje",
+      "p14": "Ahora solo te queda esperar que el equipo de Binance verifique tu identidad y eleve el nivel de tu cuenta a Lv.2.",
+      "p15": "En caso de que existiera algún error o faltara información, Binance se contactará contigo por medio del e-mail con el que te registraste. Estate atento a este medio."
+    },
+    "binance_tutorial_modal": {
+      "header": "Binance - Cuenta",
+      "t1": "Como Crear Una Cuenta En Binance",
+      "p1": "Abre tu navegador favorito e ingresa a:",
+      "p2": "Haz clic en Registrate, lo encontrarás en el margen superior derecho",
+      "p3": "A continuación deberás ingresar el e-mail con que quieres crear tu cuenta en Binance, proporcionar un password (la misma debe ser como mínimo de 6 caracteres, compuesta por números y letras con al menos una en mayúscula) y confirmar el password.",
+      "p4": "En el campo “Referencial ID (optional)” encontrarás el siguiente ID: 36552775, no lo cambies. Si está vacio ingresalo.",
+      "p5": "Tilda el Check para aceptar los términos de uso de Binance y haz clic en Register.",
+      "p6": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Binance desde otro navegador como Edge, Chrome o FireFox.",
+      "p7": "Binance te enviará un correo al e-mail con el que te registraste para que confirmes el e-mail y actives la cuenta.",
+      "p8": "Si no lo encuentras en tu bandeja de entrada, revisa el correo Spam. Haz clic en el link del e-mail que recibiste y continúa para activar tu cuenta.",
+      "p9": "El link te enviará a la siguiente página donde deberás posicionar el puzzle en el lugar correcto y así probar que no eres un robot.",
+      "p10": "Una vez que hayas posicionado el puzzle, has activado tu cuenta",
+      "p11": "Cuando ya tengas la cuenta activa, Binance proporcionará sugerencias de seguridad para tu cuenta, te recomendamos tildes todas las opciones y haz clic en continuar.",
+      "p12": "Binance recomienda activar el segundo factor de autenticación de google. Descarga la app del playStore, buscala como: Authentication de Google.",
+      "p13": "Una vez descargada la app haz clic en Next Step, y sigue los pasos:",
+      "p14": "Desde la App, Scanear el código QR y haz clic en Next Step",
+      "p15": "Guarda la Clave proporcionada en papel y haz clic en Next Step",
+      "p16": "Para finalizar con la autenticación ingresa la contraseña de acceso y el código de verificación proporcionado por Authentication Google.",
+      "p17": "Si todo salió bien, Binance te lo hará saber con el siguiente mensaje, sino contacta a Binance para que te brinde una solución",
+      "p18": "Hasta aquí has creado una cuenta en Binance, que en principio no hace falta verificar tu identidad para poder operar, lo que sí sólo podrás retirar hasta 2 BTC(Bitcoins) cada 24hs.",
+      "p19": "En caso de que quieras aumentar el límite de retiro a 100 BTC por cada 24hs, entonces sí, deberás realizar la verificación haciendo click en Lv.2 y comenzar con los pasos de verificación. Mirá como verificar tu cuenta",
+      "a1": "aquí"
+    },
+    "ca_tutorial_modal": {
+      "header": "Cryptomonedas",
+      "t1": "¿Como Adquirir Cryptomonedas?",
+      "p1": "Para poder adquirir cryptomonedas necesitas de una plataforma simple y profesional en la cual los usuarios, sin importar el nivel de conocimientos que tenga, pueda, previa registración, transferir dinero, comprar y vender Bitcoins.",
+      "p2": "Te presentamos Bitex, desde sus inicios desarrolló negocios tanto como mercado de intercambio de bitcoin, pasarela de pagos en bitcoin y más recientemente un servicio de remesas corporativas internacionales que permite a empresas realizar pagos internacionales a través de transferencia bancaria locales, aprovechando la tecnología bitcoin y permitiendo a empresas realizar pagos multiples simultaneos.",
+      "p3": "Te ayudaremos a registrarte y activar tu cuenta para que puedas transferir dinero fiduciario a tu cuenta en Bitex y así poder obtener tus cryptomonedas.",
+      "t2": "Como Crear Una Cuenta En Bitex",
+      "p4": "Abre tu navegador favorito e ingresa a:",
+      "p5": "Haz clic en Registrarte",
+      "p6": "Completa los campos con tu e-mail, contraseña, (la misma debe ser como mínimo de 6 caracteres, compuesta por números y letras con al menos una en mayúscula), confirmar la contraseña y tildar el check donde dice que no eres ciudadano Estadounidense u Holandés y haz clic en Registrate.",
+      "p7": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Bitex con otro navegador como Edge, Chrome o FireFox.",
+      "p8": "Recibirás un correo de Bitex para que confirmes el e-mail con el que te registraste. Si no lo encuentras en tu bandeja de entrada, revisa el correo Spam. Haz clic en el link del e-mail que recibiste y continúa verificando la cuenta.",
+      "p9": "Indica que eres un individuo, no una empresa.",
+      "p10": "Ten en cuenta los requisitos de Bitex para operar localmente:",
+      "ul1li1": "Documento de identidad DNI vigente (a color y completamente legible)",
+      "ul1li2": "Respaldo de ingresos y ahorros (últimos 3 recibos de sueldo o facturas emitidas el último mes o DDJJ de Bienes Personales o Ganancias)",
+      "ul1li3": "Declaración de actividad",
+      "ul1li4": "Servicio a tu nombre",
+      "p11": "A continuación seguiremos con la verificación de la cuenta, recuerda que todos los campos son requeridos, son cuatro pasos:",
+      "p12": "Comencemos por el primer paso, completa tus datos personales",
+      "p13": "Son varios campos, aquí debes subir una imagen de tu DNI de frente y otra del dorso, ten en cuenta que las imágenes tienen que ser nítidas, a color y no presentar cortes o zonas que no puedan leerse",
+      "p14": "En el paso dos, completaras los datos de contacto",
+      "p15": "Aquí debes subir una factura de teléfono, prepaga o cualquier otro servicio a tu nombre con tu domicilio actual y haz clic en siguiente",
+      "p16": "Como tercer paso Bitex necesita verificar de donde proviene el dinero, para ello completa los campos y debes proveer un scan o una imágen como por ejemplo el recibo de sueldo, facturas, contratos, liquidación de inversiones o declaraciones juradas de bienes personales. Elige el archivo y haz clic en siguiente.",
+      "p17": "Como último paso espera la aprobación de la cuenta, puede demorar hasta 4 días.",
+      "p18": "En caso de que existiera algún error o faltara información, Bitex se contactará contigo por medio del e-mail con el que te registraste. Estate atento a este medio.",
+      "p19": "Cuando la cuenta esté aprobada podrás realizar transferencias en pesos o dolares a tu cuenta para así comprar BTC (Bitcoins)",
+      "p20": "Si tienes alguna duda, contactanos",
+      "t3": "Como Transferir Dinero A Tu Cuenta En Bitex",
+      "p21": "Para poder adquirir Bitcoins, lo primero que debes hacer es transferir dinero fiduciario a tu cuenta de Bitex.",
+      "p22": "Abre tu navegador favorito e ingresa a:",
+      "p23": "Haz clic en Ingresar",
+      "p24": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Bitex con otro navegador como Edge, Chrome o FireFox.",
+      "p25": "Una vez en tu cuenta haz clic en depositar fondos en mi cuenta",
+      "p26": "Haz clic en cargar USD o ARG",
+      "p27": "Bitex te proporcionará la información para que puedas realizar la transferencia desde tu homebanking, según tu país de origen y la moneda que hayas elegido",
+      "p28": "Desde tu homebanking haz la transferencia para que se acredite en tu cuenta de bitex, te llegará un e-mail de tu banco con el aviso de transferencia realizada.",
+      "p29": "También te llegará un e-mail de bitex, informándote que la transferencia está en proceso, recuerda que esto puede demorar hasta 72hs. Si pasado el plazo de 72 hs. hábiles aún no ves acreditado tu deposito, comunicate con Bitex.",
+      "p30": "Una vez acreditado el saldo en tu cuenta, Bitex te enviará un e-mail informándote de que se ha cargado el saldo en tu cuenta",
+      "p31": "Bitex, te enviará un último e-mail con la factura, términos y condiciones y el detalle de la operación",
+      "p32": "Si tienes alguna duda, contactanos",
+      "t4": "Como Comprar Bitcoins En Bitex",
+      "p33": "Una vez acreditado el saldo en tu cuenta de bitex, podrás comprar tus Bitcoins al mejor precio de mercado",
+      "p34": "Para ello ve a tu cuenta de bitex y haz clic en “Exchange”",
+      "p35": "Dentro del exchange verás el saldo de tu cuenta, en la moneda fiduciaria que hayas escogido (supondremos que transferiste USD), haz clic en comprar BTC",
+      "p36": "A continuación debes ingresar la cantidad de USD que quieres vender y el precio que vas a pagar para comprar tus BTC.",
+      "p37": "Nota: Si tienes dolares en tu cuenta te recomendamos hagas clic en usar el mejor precio. En caso que hayas ingresado pesos argentinos, toma las órdenes que están en la lista de ask.",
+      "p38": "Te llegará un e-mail con el estado de la transacción en proceso. Cuando tengas los BTC en tu cuenta, Bitex se contactará contigo.",
+      "t5": "Transferir Tus Bitcoins A Binance",
+      "p39": "Ya tienes tus Bitcoins, por lo que ya puedes hacer la transferencia de los mismos a Binance para que WCS Advisor pueda operar.",
+      "p40": "Dentro de tu cuenta de Bitex, ve a Saldos y haz clic en Descargar BTC",
+      "p41": "Bitex te pedirá que ingreses la dirección de BTC a la cual quieres enviar tus BTC, esta dirección es la que Binance te proporciona en su plataforma.",
+      "p42": "Nota: mira dónde encontrar la dirección a depositar tus BTC en Binance",
+      "a1": "aquí",
+      "p43": "También debes ingresar la cantidad de BTC que quieres enviar, el código de Google Authentication y haz clic en Offload",
+      "p44": "Ten en cuenta que las operaciones de envío de BTC, se realizan de lunes a viernes de 9 a 17hs. Los envíos de BTC están sujetos a las condiciones de la red."
+    }
+  }
 }
