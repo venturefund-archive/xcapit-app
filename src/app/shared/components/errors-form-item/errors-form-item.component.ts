@@ -9,7 +9,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
     <div *ngFor="let error of this.errors">
       <ion-item *ngIf="this.getErrorMessage(error)" lines="none">
         <p>
-          {{ this.getErrorMessage(error) }}
+          {{ this.errorMessage | translate }}
         </p>
       </ion-item>
     </div>
@@ -20,6 +20,8 @@ export class ErrorsFormItemComponent implements OnInit {
   @Input() controlName: string;
 
   @Input() errors: ItemFormError[];
+
+  errorMessage: string;
 
   hasError = false;
 
@@ -41,11 +43,11 @@ export class ErrorsFormItemComponent implements OnInit {
   }
 
   getErrorMessage(error: ItemFormError): string {
-    return this.control &&
-      this.control.hasError(error.name) &&
-      this.control.touched
-      ? error.text
-      : '';
+    this.errorMessage =
+      this.control && this.control.hasError(error.name) && this.control.touched
+        ? error.text
+        : '';
+    return this.errorMessage;
   }
 
   private setErrors() {

@@ -8,19 +8,23 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
+import { LoadingService } from './shared/services/loading/loading.service';
 
 describe('AppComponent', () => {
-
   let statusBarSpy, splashScreenSpy, platformReadySpy, platformSpy;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: any;
+  let loadingServiceSpy: any;
 
   beforeEach(async(() => {
     statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
     splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
+    loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
     platformReadySpy = Promise.resolve();
     platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
-    languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
+    languageServiceSpy = jasmine.createSpyObj('LanguageService', [
+      'setInitialAppLanguage'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -30,8 +34,9 @@ describe('AppComponent', () => {
         { provide: SplashScreen, useValue: splashScreenSpy },
         { provide: Platform, useValue: platformSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
+        { provide: LoadingService, useValue: loadingServiceSpy }
       ],
-      imports: [ RouterTestingModule.withRoutes([])],
+      imports: [RouterTestingModule.withRoutes([])]
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
   }));

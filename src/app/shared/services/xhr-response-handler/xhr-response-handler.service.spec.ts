@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { XhrResponseHandlerService } from './xhr-response-handler.service';
 import { ToastService } from '../toast/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('XhrResponseHandlerService', () => {
   let toastServiceSpy: any;
@@ -11,6 +12,9 @@ describe('XhrResponseHandlerService', () => {
   beforeEach(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
     TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot()
+      ],
       providers: [
         { provide: ToastService, useValue: toastServiceSpy }
       ]

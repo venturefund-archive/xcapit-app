@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { ToastService } from '../toast/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { CONFIG } from 'src/app/config/app-constants.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class XhrResponseHandlerService {
-  private msg = 'Error en la comunicación con el servidor';
+  private msg = this.translate.instant(CONFIG.xhrResponseHandlerService.defaultMessage);
 
-  constructor(private toastService: ToastService) {}
+  constructor(private toastService: ToastService, private translate: TranslateService) {}
 
   error(defaultMessage?: string) {
     return (response: HttpErrorResponse) => {

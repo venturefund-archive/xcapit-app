@@ -1,4 +1,45 @@
 {
+  "config": {
+    "form_errors": {
+      "required": "El campo es requerido",
+      "email": "El email no es correcto",
+      "pattern": "El campo no cumple con el patrón requerido",
+      "minlength": "Se requieren más caracteres",
+      "maxlength": "Se requieren menos caracteres",
+      "not_matching": "Los campos no coinciden"
+    },
+    "field_errors": {
+      "cellphone": {
+        "pattern": "Contiene caracteres inválidos"
+      },
+      "only_integers": {
+        "pattern": "Solo se aceptan números enteros"
+      },
+      "password": {
+        "minlength": "Se requieren mínimo 6 caracteres",
+        "maxlength": "Se requieren máximo 100 caracteres",
+        "has_number": "Se requiere mínimo un número",
+        "has_capital_case": "Se requiere mínimo una mayúscula",
+        "has_small_case": "Se requiere mínimo una minúscula"
+      },
+      "repeat_password": {
+        "no_password_match": "La password no coincide"
+      },
+      "repeat_username": {
+        "no_fields_match": "El email no coincide"
+      },
+      "username": {
+        "minlength": "Se requieren mínimo 5 caracteres",
+        "maxlength": "Se requieren máximo 100 caracteres"
+      }
+    },
+    "loading_service": {
+      "default_message": "Cargando..."
+    },
+    "xhr_response_handler_service": {
+      "default_message": "Error en la comunicación con el servidor"
+    }
+  },
   "usuarios": {
     "email_validation": {
       "error_title": "No pudimos verificar el Email!",

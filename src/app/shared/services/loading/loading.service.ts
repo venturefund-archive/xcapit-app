@@ -1,27 +1,32 @@
 import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
+import { TranslateService } from '@ngx-translate/core';
+import { CONFIG } from 'src/app/config/app-constants.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoadingService {
-
   private message: string;
 
-  private defaultMessage = 'Cargando...';
+  private defaultMessage = CONFIG.loadingService.defaultMessage;
 
   private loading: HTMLIonLoadingElement;
 
   private isVisible: boolean;
   private isEnabled: boolean;
 
-  constructor(private loadingController: LoadingController) {}
+  constructor(
+    private loadingController: LoadingController,
+    private translate: TranslateService
+  ) {}
 
   async show(options: LoadingOptions = {}) {
     if (!this.isVisible && this.isEnabled) {
       this.isVisible = true;
-      options = { message: this.message || this.defaultMessage, ...options };
+      const msg = this.message || this.defaultMessage;
+      options = { message: this.translate.instant(msg), ...options };
       this.loading = await this.loadingController.create(options);
       if (this.isVisible) {
         this.loading.present();

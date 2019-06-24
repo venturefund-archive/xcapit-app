@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ErrorsFormItemComponent } from './errors-form-item.component';
 import { FormGroupDirective } from '@angular/forms';
 import { ItemFormError } from '../../models/item-form-error';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ErrorsFormItemComponent', () => {
   let component: ErrorsFormItemComponent;
@@ -16,6 +17,7 @@ describe('ErrorsFormItemComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ErrorsFormItemComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: FormGroupDirective, useValue: formGroupDirectiveMock }
       ]
