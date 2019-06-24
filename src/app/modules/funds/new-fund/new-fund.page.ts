@@ -185,7 +185,7 @@ export class NewFundPage implements OnInit {
       this.apiFunds.crud.create(this.form.value).subscribe(() => {
         this.navController.navigateForward(['funds/list']).then(() => {
           this.toastService.showToast({
-            message: this.translate.instant('funds.new-fund.success_text')
+            message: this.translate.instant('funds.new_fund.success_text')
           });
           this.form.reset();
         });
