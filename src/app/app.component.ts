@@ -3,31 +3,42 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { LanguageService } from './shared/services/language/language.service';
+import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
   template: `
     <ion-app>
       <ion-split-pane>
-        <ion-menu [disabled]="true">
+        <ion-menu [disabled]="!(this.isLoggedIn$ | async)">
           <ion-header>
             <ion-toolbar>
-              <ion-title>Menu</ion-title>
+              <ion-title>{{ 'app.main_menu.header' | translate }}</ion-title>
             </ion-toolbar>
           </ion-header>
           <ion-content>
             <ion-list>
-              <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-                <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
-                  <ion-icon slot="start" [name]="p.icon"></ion-icon>
+              <ion-menu-toggle
+                auto-hide="false"
+                *ngFor="let p of appPages; trackBy: this.trackBy"
+              >
+                <ion-item
+                  [routerDirection]="p.routeDirection"
+                  [routerLink]="[p.url]"
+                >
+                  <ion-icon
+                    *ngIf="p.icon"
+                    slot="start"
+                    [name]="p.icon"
+                  ></ion-icon>
                   <ion-label>
-                    {{ p.title }}
+                    {{ p.title | translate }}
                   </ion-label>
                 </ion-item>
               </ion-menu-toggle>
@@ -40,11 +51,29 @@ import { LanguageService } from './shared/services/language/language.service';
   `
 })
 export class AppComponent implements OnInit, OnDestroy {
-  public appPages = [];
+  public appPages = [
+    {
+      id: 1,
+      title: 'app.main_menu.funds',
+      url: '/funds/list',
+      icon: '',
+      routeDirection: 'root'
+    },
+    {
+      id: 2,
+      title: 'app.main_menu.user_profile',
+      url: '/profiles/user',
+      customIcon: '',
+      routeDirection: 'forward'
+    }
+  ];
+
+  isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
 
   routerEventSubscription: Subscription;
 
   constructor(
+    private authService: AuthService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -92,5 +121,9 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.submitButtonService.enabled();
       });
+  }
+
+  trackBy(index: any, item: any) {
+    return item.id;
   }
 }

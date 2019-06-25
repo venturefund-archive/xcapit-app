@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   user = new ReplaySubject<any>(1);
+  isLoggedIn = new ReplaySubject<boolean>(1);
 
   constructor(
     private storage: Storage,
@@ -30,6 +31,7 @@ export class AuthService {
 
   logout() {
     this.user.next(null);
+    this.isLoggedIn.next(false);
     this.storage.remove(AUTH.storageKey);
     this.storage.remove(AUTH.userKey);
   }
@@ -37,6 +39,7 @@ export class AuthService {
   async handleLoginResponse(response: any) {
     await this.storage.set(AUTH.storageKey, response.access);
     await this.storage.set(AUTH.userKey, JSON.stringify(response.usuario));
+    this.isLoggedIn.next(true);
     this.user.next(response.usuario);
     return response.jwt;
   }

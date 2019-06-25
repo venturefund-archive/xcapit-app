@@ -1,4 +1,11 @@
 {
+  "app": {
+    "main_menu": {
+      "header": "Menú",
+      "funds": "Fondos",
+      "user_profile": "Perfil de Usuario"
+    }
+  },
   "config": {
     "form_errors": {
       "required": "El campo es requerido",

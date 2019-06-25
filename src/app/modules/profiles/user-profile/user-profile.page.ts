@@ -14,6 +14,9 @@ import { TranslateService } from '@ngx-translate/core';
   template: `
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
         <ion-title>{{ 'profiles.user_profile.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>

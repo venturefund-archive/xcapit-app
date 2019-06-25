@@ -9,17 +9,22 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { ReplaySubject } from 'rxjs';
 
 describe('AppComponent', () => {
-  let statusBarSpy, splashScreenSpy, platformReadySpy, platformSpy;
+  let statusBarSpy: any, splashScreenSpy: any, platformReadySpy: any, platformSpy: any;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: any;
   let loadingServiceSpy: any;
+  let authServiceMock: any;
 
   beforeEach(async(() => {
     statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
     splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
     loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
+    authServiceMock = { isLoggedIn: new ReplaySubject<boolean>(1) };
     platformReadySpy = Promise.resolve();
     platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
     languageServiceSpy = jasmine.createSpyObj('LanguageService', [
@@ -34,9 +39,10 @@ describe('AppComponent', () => {
         { provide: SplashScreen, useValue: splashScreenSpy },
         { provide: Platform, useValue: platformSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
-        { provide: LoadingService, useValue: loadingServiceSpy }
+        { provide: LoadingService, useValue: loadingServiceSpy },
+        { provide: AuthService, useValue: authServiceMock }
       ],
-      imports: [RouterTestingModule.withRoutes([])]
+      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot()]
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
   }));
