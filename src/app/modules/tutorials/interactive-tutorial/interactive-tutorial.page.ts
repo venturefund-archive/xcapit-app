@@ -8,15 +8,9 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
   template: `
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{ 'tutorials.interactive_tutorial.header' | translate }}</ion-title>
-        <ion-buttons slot="end">
-          <ion-button
-            color="primary"
-            [routerLink]="['/funds/new']"
-          >
-          {{ 'tutorials.interactive_tutorial.skip_button' | translate }}
-          </ion-button>
-        </ion-buttons>
+        <ion-title>
+          {{ 'tutorials.interactive_tutorial.header' | translate }}
+        </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -34,7 +28,9 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       color="primary"
                       (click)="this.openCaTutorial()"
                     >
-                    {{ 'tutorials.interactive_tutorial.no_button' | translate }}
+                      {{
+                        'tutorials.interactive_tutorial.no_button' | translate
+                      }}
                     </ion-button>
                   </ion-col>
                   <ion-col size="6">
@@ -44,7 +40,9 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       color="success"
                       (click)="this.slideNext()"
                     >
-                    {{ 'tutorials.interactive_tutorial.yes_button' | translate }}
+                      {{
+                        'tutorials.interactive_tutorial.yes_button' | translate
+                      }}
                     </ion-button>
                   </ion-col>
                 </ion-row>
@@ -65,7 +63,9 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       color="primary"
                       (click)="this.openBinanceTutorial()"
                     >
-                      {{ 'tutorials.interactive_tutorial.no_button' | translate }}
+                      {{
+                        'tutorials.interactive_tutorial.no_button' | translate
+                      }}
                     </ion-button>
                   </ion-col>
                   <ion-col size="6">
@@ -75,7 +75,9 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       color="success"
                       [routerLink]="['/funds/new']"
                     >
-                    {{ 'tutorials.interactive_tutorial.yes_button' | translate }}
+                      {{
+                        'tutorials.interactive_tutorial.yes_button' | translate
+                      }}
                     </ion-button>
                   </ion-col>
                 </ion-row>

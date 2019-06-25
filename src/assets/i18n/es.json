@@ -111,7 +111,6 @@
   "tutorials": {
     "interactive_tutorial": {
       "header": "interactive-tutorial",
-      "skip_button": "Omitir",
       "t1": "¿Tenés Cryptoactivos?",
       "no_button": "No",
       "yes_button": "Si",
