@@ -9,7 +9,6 @@ import { CONFIG } from 'src/app/config/app-constants.config';
   providedIn: 'root'
 })
 export class XhrResponseHandlerService {
-  private msg = this.translate.instant(CONFIG.xhrResponseHandlerService.defaultMessage);
 
   constructor(private toastService: ToastService, private translate: TranslateService) {}
 
@@ -40,10 +39,10 @@ export class XhrResponseHandlerService {
             String.fromCharCode.apply(null, new Uint8Array(response.error))
           )) ||
         response.message ||
-        this.msg
+        this.translate.instant(CONFIG.xhrResponseHandlerService.defaultMessage)
       );
     } else {
-      return this.msg;
+      return this.translate.instant(CONFIG.xhrResponseHandlerService.defaultMessage);
     }
   }
 }
