@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InteractiveTutorialPage } from './interactive-tutorial.page';
 import { ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('InteractiveTutorialPage', () => {
   let component: InteractiveTutorialPage;
@@ -11,16 +12,16 @@ describe('InteractiveTutorialPage', () => {
   let modalControllerSpy: any;
 
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', ['create', 'dismiss']);
+    modalControllerSpy = jasmine.createSpyObj('ModalController', [
+      'create',
+      'dismiss'
+    ]);
     TestBed.configureTestingModule({
-      declarations: [ InteractiveTutorialPage ],
+      declarations: [InteractiveTutorialPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [TranslateModule.forRoot()],
-      providers: [
-        { provide: ModalController, useValue: modalControllerSpy }
-      ]
-    })
-    .compileComponents();
+      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
+      providers: [{ provide: ModalController, useValue: modalControllerSpy }]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

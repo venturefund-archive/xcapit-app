@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, ModalController } from '@ionic/angular';
+import { IonSlides, ModalController, NavController } from '@ionic/angular';
 import { BinanceTutorialModalComponent } from '../shared-tutorials/components/binance-tutorial-modal/binance-tutorial-modal.component';
 import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tutorial-modal/ca-tutorial-modal.component';
 // tslint:disable-next-line: max-line-length
 import { BinanceTransferTutorialModalComponent } from '../shared-tutorials/components/binance-transfer-tutorial-modal/binance-transfer-tutorial-modal.component';
+import { ComponentRef } from '@ionic/core';
 
 @Component({
   selector: 'app-interactive-tutorial',
@@ -130,7 +131,10 @@ import { BinanceTransferTutorialModalComponent } from '../shared-tutorials/compo
 export class InteractiveTutorialPage implements OnInit {
   @ViewChild(IonSlides) slide: IonSlides;
 
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    private navController: NavController
+  ) {}
 
   slideOpts = {
     initialSlide: 0,
@@ -139,24 +143,29 @@ export class InteractiveTutorialPage implements OnInit {
 
   ngOnInit() {}
 
-  async openCaTutorial() {
-    const modal = await this.modalController.create({
-      component: CaTutorialModalComponent
-    });
-    return await modal.present();
+  openCaTutorial() {
+    return this.openModal(CaTutorialModalComponent, 'onWillDismiss', () =>
+      this.navController.navigateBack(['/funds/list'], { replaceUrl: true })
+    );
   }
 
-  async openBinanceTutorial() {
-    const modal = await this.modalController.create({
-      component: BinanceTutorialModalComponent
-    });
-    return await modal.present();
+  openBinanceTutorial() {
+    return this.openModal(BinanceTutorialModalComponent);
   }
 
-  async openBinanceTransferTutorial() {
-    const modal = await this.modalController.create({
-      component: BinanceTransferTutorialModalComponent
-    });
+  openBinanceTransferTutorial() {
+    return this.openModal(BinanceTransferTutorialModalComponent);
+  }
+
+  async openModal(
+    component: ComponentRef,
+    methodName: string = '',
+    callback: any = null
+  ) {
+    const modal = await this.modalController.create({ component });
+    if (callback) {
+      modal[methodName]().then(callback);
+    }
     return await modal.present();
   }
 
