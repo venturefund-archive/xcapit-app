@@ -1,21 +1,21 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CaTutorialModalComponent } from './ca-tutorial-modal.component';
-import { ModalController } from '@ionic/angular';
+import { BinanceTransferTutorialModalComponent } from './binance-transfer-tutorial-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ModalController } from '@ionic/angular';
 
-describe('CaTutorialModalComponent', () => {
-  let component: CaTutorialModalComponent;
-  let fixture: ComponentFixture<CaTutorialModalComponent>;
+describe('BinanceTransferTutorialModalComponent', () => {
+  let component: BinanceTransferTutorialModalComponent;
+  let fixture: ComponentFixture<BinanceTransferTutorialModalComponent>;
   let modalControllerSpy: any;
 
   beforeEach(async(() => {
     modalControllerSpy = jasmine.createSpyObj('ModalController', ['create', 'dismiss']);
     TestBed.configureTestingModule({
-      declarations: [ CaTutorialModalComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [ BinanceTransferTutorialModalComponent ],
       imports: [TranslateModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy }
       ]
@@ -24,7 +24,7 @@ describe('CaTutorialModalComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CaTutorialModalComponent);
+    fixture = TestBed.createComponent(BinanceTransferTutorialModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     modalControllerSpy = TestBed.get(ModalController);
@@ -34,8 +34,9 @@ describe('CaTutorialModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should close modal', () => {
-    component.closeModal();
-    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+  it('should open Binance Address Tutorial', () => {
+    component.openBinanceAddress().then(() => {
+      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    });
   });
 });

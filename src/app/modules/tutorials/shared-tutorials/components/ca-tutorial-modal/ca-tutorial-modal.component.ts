@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { BinanceAddressTutorialModalComponent } from '../binance-address-tutorial-modal/binance-address-tutorial-modal.component';
+
 
 @Component({
   selector: 'app-ca-tutorial-modal',
@@ -11,7 +11,7 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
           {{ 'tutorials.ca_tutorial_modal.header' | translate }}
         </ion-title>
         <ion-buttons slot="end">
-          <ion-button icon-only shape="round" (click)="closeModal()">
+          <ion-button icon-only shape="round" (click)="this.closeModal()">
             <ion-icon name="close"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -226,54 +226,14 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
       <p>
       {{ 'tutorials.ca_tutorial_modal.p38' | translate }}
       </p>
-
-      <hr />
-
-      <h2 class="ion-text-center">{{ 'tutorials.ca_tutorial_modal.t5' | translate }}</h2>
-      <p class="ion-text-center">
-      {{ 'tutorials.ca_tutorial_modal.p39' | translate }}
-      </p>
-      <p>
-      {{ 'tutorials.ca_tutorial_modal.p40' | translate }}
-      </p>
-      <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/withdraw/es/1.png"
-      ></ion-img>
-      <p>
-      {{ 'tutorials.ca_tutorial_modal.p41' | translate }}
-      </p>
-      <p class="tutorial__notes">
-      {{ 'tutorials.ca_tutorial_modal.p42' | translate }}
-        <a class="local-a" (click)="this.openBinanceAddress()">
-        {{ 'tutorials.ca_tutorial_modal.a1' | translate }}
-        </a>
-      </p>
-      <p>
-      {{ 'tutorials.ca_tutorial_modal.p43' | translate }}
-      </p>
-      <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/withdraw/es/2.png"
-      ></ion-img>
-      <p>
-      {{ 'tutorials.ca_tutorial_modal.p44' | translate }}
-      </p>
     </ion-content>
   `,
   styleUrls: ['./ca-tutorial-modal.component.scss']
 })
-export class CaTutorialModalComponent implements OnInit {
+export class CaTutorialModalComponent {
   constructor(private modalController: ModalController) {}
-
-  ngOnInit() {}
 
   closeModal() {
     this.modalController.dismiss();
-  }
-
-  async openBinanceAddress() {
-    const modal = await this.modalController.create({
-      component: BinanceAddressTutorialModalComponent
-    });
-    return await modal.present();
   }
 }

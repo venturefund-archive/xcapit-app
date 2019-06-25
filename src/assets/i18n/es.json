@@ -114,7 +114,8 @@
       "t1": "¿Tenés Cryptoactivos?",
       "no_button": "No",
       "yes_button": "Si",
-      "t2": "¿Tenés Cuenta en Binance?"
+      "t2": "¿Tenés Cuenta en Binance?",
+      "t3": "¿Sabes cómo transferir tus Cryptoactivos a Binance?"
     },
     "binance_address_tutorial_modal": {
       "header": "Binance - Dirección",
@@ -154,6 +155,17 @@
       "p13": "Cuando Binance termine de cargar los archivos te lo informará con el siguiente mensaje",
       "p14": "Ahora solo te queda esperar que el equipo de Binance verifique tu identidad y eleve el nivel de tu cuenta a Lv.2.",
       "p15": "En caso de que existiera algún error o faltara información, Binance se contactará contigo por medio del e-mail con el que te registraste. Estate atento a este medio."
+    },
+    "binance_transfer_tutorial_modal": {
+      "header": "Binance - Transferir",
+      "t1": "Transferir Tus Bitcoins A Binance",
+      "p1": "Ya tienes tus Bitcoins, por lo que ya puedes hacer la transferencia de los mismos a Binance para que WCS Advisor pueda operar.",
+      "p2": "Dentro de tu cuenta de Bitex, ve a Saldos y haz clic en Descargar BTC",
+      "p3": "Bitex te pedirá que ingreses la dirección de BTC a la cual quieres enviar tus BTC, esta dirección es la que Binance te proporciona en su plataforma.",
+      "p4": "Nota: mira dónde encontrar la dirección a depositar tus BTC en Binance",
+      "a1": "aquí",
+      "p5": "También debes ingresar la cantidad de BTC que quieres enviar, el código de Google Authentication y haz clic en Offload",
+      "p6": "Ten en cuenta que las operaciones de envío de BTC, se realizan de lunes a viernes de 9 a 17hs. Los envíos de BTC están sujetos a las condiciones de la red."
     },
     "binance_tutorial_modal": {
       "header": "Binance - Cuenta",
@@ -226,15 +238,7 @@
       "p35": "Dentro del exchange verás el saldo de tu cuenta, en la moneda fiduciaria que hayas escogido (supondremos que transferiste USD), haz clic en comprar BTC",
       "p36": "A continuación debes ingresar la cantidad de USD que quieres vender y el precio que vas a pagar para comprar tus BTC.",
       "p37": "Nota: Si tienes dolares en tu cuenta te recomendamos hagas clic en usar el mejor precio. En caso que hayas ingresado pesos argentinos, toma las órdenes que están en la lista de ask.",
-      "p38": "Te llegará un e-mail con el estado de la transacción en proceso. Cuando tengas los BTC en tu cuenta, Bitex se contactará contigo.",
-      "t5": "Transferir Tus Bitcoins A Binance",
-      "p39": "Ya tienes tus Bitcoins, por lo que ya puedes hacer la transferencia de los mismos a Binance para que WCS Advisor pueda operar.",
-      "p40": "Dentro de tu cuenta de Bitex, ve a Saldos y haz clic en Descargar BTC",
-      "p41": "Bitex te pedirá que ingreses la dirección de BTC a la cual quieres enviar tus BTC, esta dirección es la que Binance te proporciona en su plataforma.",
-      "p42": "Nota: mira dónde encontrar la dirección a depositar tus BTC en Binance",
-      "a1": "aquí",
-      "p43": "También debes ingresar la cantidad de BTC que quieres enviar, el código de Google Authentication y haz clic en Offload",
-      "p44": "Ten en cuenta que las operaciones de envío de BTC, se realizan de lunes a viernes de 9 a 17hs. Los envíos de BTC están sujetos a las condiciones de la red."
+      "p38": "Te llegará un e-mail con el estado de la transacción en proceso. Cuando tengas los BTC en tu cuenta, Bitex se contactará contigo."
     }
   }
 }

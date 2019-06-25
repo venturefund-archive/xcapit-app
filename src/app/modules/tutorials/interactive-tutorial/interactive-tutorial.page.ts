@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, ModalController } from '@ionic/angular';
 import { BinanceTutorialModalComponent } from '../shared-tutorials/components/binance-tutorial-modal/binance-tutorial-modal.component';
 import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tutorial-modal/ca-tutorial-modal.component';
+// tslint:disable-next-line: max-line-length
+import { BinanceTransferTutorialModalComponent } from '../shared-tutorials/components/binance-transfer-tutorial-modal/binance-transfer-tutorial-modal.component';
 
 @Component({
   selector: 'app-interactive-tutorial',
@@ -73,6 +75,41 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
                       size="large"
                       expand="block"
                       color="success"
+                      (click)="this.slideNext()"
+                    >
+                      {{
+                        'tutorials.interactive_tutorial.yes_button' | translate
+                      }}
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </div>
+        </ion-slide>
+        <ion-slide>
+          <div class="it__content-slide">
+            <h2>{{ 'tutorials.interactive_tutorial.t3' | translate }}</h2>
+            <div class="it__content-slide__buttons">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-button
+                      size="large"
+                      expand="block"
+                      color="primary"
+                      (click)="this.openBinanceTransferTutorial()"
+                    >
+                      {{
+                        'tutorials.interactive_tutorial.no_button' | translate
+                      }}
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="6">
+                    <ion-button
+                      size="large"
+                      expand="block"
+                      color="success"
                       [routerLink]="['/funds/new']"
                     >
                       {{
@@ -112,6 +149,13 @@ export class InteractiveTutorialPage implements OnInit {
   async openBinanceTutorial() {
     const modal = await this.modalController.create({
       component: BinanceTutorialModalComponent
+    });
+    return await modal.present();
+  }
+
+  async openBinanceTransferTutorial() {
+    const modal = await this.modalController.create({
+      component: BinanceTransferTutorialModalComponent
     });
     return await modal.present();
   }

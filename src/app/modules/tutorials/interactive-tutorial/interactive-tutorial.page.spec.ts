@@ -34,6 +34,12 @@ describe('InteractiveTutorialPage', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should open Binance Trtansfer Tutorial', () => {
+    component.openBinanceTransferTutorial().then(() => {
+      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it('should open Binance Tutorial', () => {
     component.openBinanceTutorial().then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);

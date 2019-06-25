@@ -5,6 +5,8 @@ import { CaTutorialModalComponent } from './components/ca-tutorial-modal/ca-tuto
 import { BinanceAddressTutorialModalComponent } from './components/binance-address-tutorial-modal/binance-address-tutorial-modal.component';
 import { BinanceCheckTutorialModalComponent } from './components/binance-check-tutorial-modal/binance-check-tutorial-modal.component';
 import { BinanceApikeyTutorialModalComponent } from './components/binance-apikey-tutorial-modal/binance-apikey-tutorial-modal.component';
+// tslint:disable-next-line: max-line-length
+import { BinanceTransferTutorialModalComponent } from './components/binance-transfer-tutorial-modal/binance-transfer-tutorial-modal.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +14,8 @@ import { BinanceApikeyTutorialModalComponent } from './components/binance-apikey
     CaTutorialModalComponent,
     BinanceAddressTutorialModalComponent,
     BinanceCheckTutorialModalComponent,
-    BinanceApikeyTutorialModalComponent
+    BinanceApikeyTutorialModalComponent,
+    BinanceTransferTutorialModalComponent
   ],
   imports: [SharedModule],
   entryComponents: [
@@ -20,7 +23,8 @@ import { BinanceApikeyTutorialModalComponent } from './components/binance-apikey
     CaTutorialModalComponent,
     BinanceAddressTutorialModalComponent,
     BinanceCheckTutorialModalComponent,
-    BinanceApikeyTutorialModalComponent
+    BinanceApikeyTutorialModalComponent,
+    BinanceTransferTutorialModalComponent
   ],
   exports: [
     SharedModule,
@@ -28,7 +32,8 @@ import { BinanceApikeyTutorialModalComponent } from './components/binance-apikey
     CaTutorialModalComponent,
     BinanceAddressTutorialModalComponent,
     BinanceCheckTutorialModalComponent,
-    BinanceApikeyTutorialModalComponent
+    BinanceApikeyTutorialModalComponent,
+    BinanceTransferTutorialModalComponent
   ]
 })
 export class SharedTutorialsModule {}
