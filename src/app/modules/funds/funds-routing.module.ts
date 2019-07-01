@@ -19,8 +19,11 @@ const routes: Routes = [
       },
       {
         path: 'fund-summary',
-        canActivate: [AuthGuard],
         loadChildren: './fund-summary/fund-summary.module#FundSummaryPageModule'
+      },
+      {
+        path: 'runs/:nombre_bot',
+        loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
       }
     ]
   }
