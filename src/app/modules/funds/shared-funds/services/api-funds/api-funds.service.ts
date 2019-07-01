@@ -23,4 +23,8 @@ export class ApiFundsService {
     return this.http.get(`${API_URL}/${this.entity}/subscribed_funds`);
   }
 
+  getFundRuns(status, nombre_bot): Observable<any> {
+    return this.http.get(`${API_URL}/${this.entity}/fund_runs/${status}/${nombre_bot}`);
+  }
+
 }

@@ -16,6 +16,10 @@ const routes: Routes = [
         path: 'new',
         canActivate: [UserProfileDataGuard],
         loadChildren: './new-fund/new-fund.module#NewFundPageModule'
+      },
+      {
+        path: 'runs/:nombre_bot',
+        loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
       }
     ]
   }

@@ -72,7 +72,8 @@
   "funds": {
     "funds_list": {
       "header": "funds-list",
-      "new_fund_button": "New Fund"
+      "new_fund_button": "New Fund",
+      "fund_runs_button": "View runs"
     },
     "new_fund": {
       "header": "New Fund",
@@ -93,6 +94,27 @@
       "ion_option_risk_level_classic": "CLASSIC",
       "submit_button": "Create Fund",
       "success_text": "The Fund was created correctly!"
+    },
+    "fund_runs": {
+      "header": "Fund Runs",
+      "subheader": "Fund",
+      "card_title": "Run",
+      "configuration_title": "Configuration",
+      "state_title": "Status",
+      "init_date_title": "Init date",
+      "days_title": "Days",
+      "currency_title": "Currency",
+      "gain_title": "Gain",
+      "loss_title": "Loss",
+      "starting_amount_title": "Strarting amount",
+      "actual_amount_title": "Actual amount",
+      "cant_btc_title": "BTC",
+      "cant_eth_title": "ETH",
+      "cant_xrp_title": "XRP",
+      "cant_bnb_title": "BNB",
+      "cant_usdt_title": "USDT",
+      "cant": "Amount: ",
+      "gain_current_currency_title": "Percentage of profit in"
     }
   },
   "profiles": {

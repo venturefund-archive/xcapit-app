@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ApiFundsService } from './api-funds.service';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
+import { of } from 'rxjs';
 
 describe('ApiFundsService', () => {
   let crudSpy: any;
@@ -11,7 +12,9 @@ describe('ApiFundsService', () => {
   beforeEach(() => {
     crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
-      http: { get: () => null }
+      http: { get: () => null },
+      getFundRuns: () => of(null),
+      getSubscribedFund: () => of(null)
     });
     TestBed.configureTestingModule({
       providers: [
