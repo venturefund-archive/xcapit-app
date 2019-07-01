@@ -9,18 +9,22 @@ import { API_URL } from 'src/app/config/app-constants.config';
   providedIn: 'root'
 })
 export class ApiFundsService {
-
   entity = 'funds';
 
   crud: CRUD;
 
   constructor(
     private crudService: CrudService,
-    private http: CustomHttpService) {
+    private http: CustomHttpService
+  ) {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
+
   getSubscribedFunds(): Observable<any> {
     return this.http.get(`${API_URL}/${this.entity}/subscribed_funds`);
   }
 
+  getStatus(fundName: string): Observable<any> {
+    return this.http.get(`${API_URL}/${this.entity}/name/${fundName}/status`);
+  }
 }

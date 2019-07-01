@@ -24,6 +24,7 @@ export class AuthService {
     const isValidToken = await this.checkToken();
     if (isValidToken) {
       this.user.next(await this.getUserLogged());
+      this.isLoggedIn.next(true);
     } else {
       this.logout();
     }

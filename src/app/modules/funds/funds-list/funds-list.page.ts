@@ -26,17 +26,22 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
           {{ 'funds.funds_list.new_fund_button' | translate }}
         </ion-button>
         <ion-list>
-        <ion-item *ngFor="let sf of subscribedFunds">
-          <ion-row nowrap style="width:100%">
+          <ion-item
+            button
+            routerDirection="forward"
+            *ngFor="let sf of subscribedFunds"
+            [routerLink]="['/funds/fund-summary/' + sf.nombre_bot]"
+          >
+            <ion-row nowrap style="width:100%">
               <ion-col>
-              {{sf.fecha | date: "dd/MM/yyyy hh:mm"}}
+                {{ sf.fecha | date: 'dd/MM/yyyy hh:mm' }}
               </ion-col>
               <ion-col>
-              {{sf.nombre_bot}}
+                {{ sf.nombre_bot }}
               </ion-col>
-          </ion-row>
-        </ion-item>
-      </ion-list>
+            </ion-row>
+          </ion-item>
+        </ion-list>
       </div>
     </ion-content>
   `,
@@ -44,8 +49,8 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 })
 export class FundsListPage implements OnInit {
   subscribedFunds: Array<any> = [];
-  constructor(private apiFundsService: ApiFundsService) { }
-  ngOnInit() { }
+  constructor(private apiFundsService: ApiFundsService) {}
+  ngOnInit() {}
 
   ionViewDidEnter() {
     this.getSubscribedFunds();

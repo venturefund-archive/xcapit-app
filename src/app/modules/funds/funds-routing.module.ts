@@ -14,8 +14,13 @@ const routes: Routes = [
       },
       {
         path: 'new',
-        canActivate: [UserProfileDataGuard],
+        canActivate: [UserProfileDataGuard, AuthGuard],
         loadChildren: './new-fund/new-fund.module#NewFundPageModule'
+      },
+      {
+        path: 'fund-summary',
+        canActivate: [AuthGuard],
+        loadChildren: './fund-summary/fund-summary.module#FundSummaryPageModule'
       }
     ]
   }

@@ -93,6 +93,14 @@
       "ion_option_risk_level_classic": "CLASSIC",
       "submit_button": "Crear Fondo",
       "success_text": "El Fondo se creo correctamente!"
+    },
+    "fund_summary": {
+      "header": "Fondo",
+      "no_status_text": "Todavía no hay estado para mostrar para el fondo.",
+      "no_runs_text": "No tienes una corrida activa en este fondo.",
+      "no_days_left_text": "Este fondo a finalizado",
+      "days_left_text": "Este fondo dejara de operar en {{days}} days {{hours}}hs",
+      "profit_text": "Porcentaje de ganancia en {{days}} days and {{hours}}hs"
     }
   },
   "profiles": {

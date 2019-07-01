@@ -93,6 +93,14 @@
       "ion_option_risk_level_classic": "CLASSIC",
       "submit_button": "Create Fund",
       "success_text": "The Fund was created correctly!"
+    },
+    "fund_summary": {
+      "header": "Fund",
+      "no_status_text": "There is still no status to show for the fund",
+      "no_runs_text": "You have no active run for the fund.",
+      "no_days_left_text": "This fund has finished",
+      "days_left_text": "This fund will cease to operate in {{days}} days {{hours}}hs",
+      "profit_text": "Percentage of profit in {{days}} days and {{hours}}hs"
     }
   },
   "profiles": {
