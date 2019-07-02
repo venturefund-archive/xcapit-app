@@ -47,6 +47,13 @@
       "default_message": "Error en la comunicación con el servidor"
     }
   },
+  "shared": {
+    "services": {
+      "share": {
+        "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"
+      }
+    }
+  },
   "usuarios": {
     "email_validation": {
       "error_title": "No pudimos verificar el Email!",
@@ -101,7 +108,9 @@
       "no_runs_text": "No tienes una corrida activa en este fondo.",
       "no_days_left_text": "Este fondo a finalizado",
       "days_left_text": "Este fondo dejara de operar en {{days}} days {{hours}}hs",
-      "profit_text": "Porcentaje de ganancia en {{days}} days and {{hours}}hs"
+      "profit_text": "Porcentaje de ganancia en {{days}} days and {{hours}}hs",
+      "share_title": "shared title",
+      "share_text": "shared text"
     },
     "fund_runs": {
       "header": "Corridas de fondo",
