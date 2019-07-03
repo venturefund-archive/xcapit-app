@@ -79,8 +79,7 @@
   "funds": {
     "funds_list": {
       "header": "funds-list",
-      "new_fund_button": "Nuevo Fondo",
-      "fund_runs_button": "Ver corridas"
+      "new_fund_button": "Nuevo Fondo"
     },
     "new_fund": {
       "header": "Nuevo Fondo",
@@ -110,7 +109,10 @@
       "days_left_text": "Este fondo dejara de operar en {{days}} days {{hours}}hs",
       "profit_text": "Porcentaje de ganancia en {{days}} days and {{hours}}hs",
       "share_title": "shared title",
-      "share_text": "shared text"
+      "share_text": "shared text",
+      "pause_fund_button": "Pausar fondo",
+      "resume_fund_button": "Activar fondo",
+      "fund_runs_button": "Ver corridas"
     },
     "fund_runs": {
       "header": "Corridas de fondo",

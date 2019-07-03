@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserProfileDataGuard } from '../profiles/shared-profiles/guards/user-profile-data/user-profile-data.guard';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'funds',
     canActivate: [AuthGuard],

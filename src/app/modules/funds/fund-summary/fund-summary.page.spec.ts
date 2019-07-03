@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
 import { FundSummaryPage } from './fund-summary.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -23,14 +23,19 @@ describe('FundSummaryPage', () => {
 
   beforeEach(async(() => {
     apiFundServiceMock = {
-      getStatus: () => of(fundStatusMockData)
+        getStatus: () => of(fundStatusMockData),
+        pauseFundRuns: () => of(null),
+        getFundRuns: () => of(null)
     };
     subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', [
       'shareSubscriptionLink'
     ]);
     TestBed.configureTestingModule({
-      declarations: [FundSummaryPage],
-      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
+      declarations: [ FundSummaryPage ],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes([])
+      ],
       providers: [
         { provide: ApiFundsService, useValue: apiFundServiceMock },
         { provide: SubscriptionsService, useValue: subscriptionsServiceSpy }
@@ -86,5 +91,12 @@ describe('FundSummaryPage', () => {
   it('should call shareSubscriptionLink when getSubscriptionLink is callled', () => {
     component.shareFund();
     expect(subscriptionsServiceSpy.shareSubscriptionLink).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call pauseFundRuns once on pauseFund button click', () => {
+    const pauseFundRunsSpy = spyOn(apiFundServiceMock, 'pauseFundRuns');
+    pauseFundRunsSpy.and.returnValue(of(null));
+    component.pauseFundRuns();
+    expect(pauseFundRunsSpy).toHaveBeenCalledTimes(1);
   });
 });

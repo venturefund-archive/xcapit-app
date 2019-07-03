@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { filter, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
@@ -100,6 +100,32 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           </p>
         </div>
       </div>
+      <ion-col>
+        <ion-button
+          *ngIf="this.fundStatus?.fund.estado == 'active'"
+          type="button"
+          color="danger"
+          expand="block"
+          size="medium"
+          (click)="pauseFundRuns()"
+        >
+          <ion-icon slot="start" name="pause"></ion-icon>
+          {{ 'funds.fund_summary.pause_fund_button' | translate }}
+        </ion-button>
+      </ion-col>
+
+      <ion-col>
+        <ion-button
+          expand="block"
+          size="medium"
+          type="button"
+          color="success"
+          (click)="fundRuns(fundName)"
+        >
+          <ion-icon slot="start" name="list"></ion-icon>
+          {{ 'funds.fund_summary.fund_runs_button' | translate }}
+        </ion-button>
+      </ion-col>
     </ion-content>
   `,
   styleUrls: ['./fund-summary.page.scss']
@@ -117,6 +143,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private apiFunds: ApiFundsService,
     private subscriptionsService: SubscriptionsService
   ) {}
@@ -154,4 +181,18 @@ export class FundSummaryPage implements OnInit, OnDestroy {
       tap((params: Params) => (this.fundName = params.fundName))
     );
   }
+
+  pauseFundRuns(): void {
+    this.apiFunds.pauseFundRuns(this.fundName).subscribe(res => {
+      this.getFundStatus();
+    });
+  }
+
+  fundRuns(selectedFund: string) {
+    this.router.navigate(['funds/runs', selectedFund]);
+  }
+
+  // resumeFund(): void {
+  //   this.apiFunds.resumeFund(this.fundName).subscribe(res => {})
+  // }
 }
