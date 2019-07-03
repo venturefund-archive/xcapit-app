@@ -109,7 +109,7 @@
       "days_left_text": "This fund will cease to operate in {{days}} days {{hours}}hs",
       "profit_text": "Percentage of profit in {{days}} days and {{hours}}hs",
       "share_title": "shared título",
-      "share_text": "shared texto"
+      "share_text": "shared texto",
       "pause_fund_button": "Pause fund",
       "resume_fund_button": "Activate fund",
       "fund_runs_button": "View runs"
