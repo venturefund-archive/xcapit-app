@@ -72,8 +72,7 @@
   "funds": {
     "funds_list": {
       "header": "funds-list",
-      "new_fund_button": "New Fund",
-      "fund_runs_button": "View runs"
+      "new_fund_button": "New Fund"
     },
     "new_fund": {
       "header": "New Fund",
@@ -101,7 +100,10 @@
       "no_runs_text": "You have no active run for the fund.",
       "no_days_left_text": "This fund has finished",
       "days_left_text": "This fund will cease to operate in {{days}} days {{hours}}hs",
-      "profit_text": "Percentage of profit in {{days}} days and {{hours}}hs"
+      "profit_text": "Percentage of profit in {{days}} days and {{hours}}hs",
+      "pause_fund_button": "Pause fund",
+      "resume_fund_button": "Activate fund",
+      "fund_runs_button": "View runs"
     },
     "fund_runs": {
       "header": "Fund Runs",

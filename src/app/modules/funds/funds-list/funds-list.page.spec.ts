@@ -48,7 +48,7 @@ describe('FundsListPage', () => {
 
   it('should call getSubscribedFunds in apiFundsService', () => {
     const spy = spyOn(apiFundsService, 'getSubscribedFunds');
-    spy.and.returnValue(of(null));
+    spy.and.returnValue(of([]));
     component.ionViewDidEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });

@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { NavController } from '@ionic/angular';
-import { FundRunsPage } from '../fund-runs/fund-runs.page';
-import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-funds-list',
@@ -42,15 +39,6 @@ import { NavigationExtras, Router } from '@angular/router';
               <ion-col>
                 {{ sf.nombre_bot }}
               </ion-col>
-              <ion-col>
-              <ion-button
-              type="button"
-              color="success"
-              (click)="fundRuns(sf.nombre_bot)">
-              <ion-icon slot="start" name="list"></ion-icon>
-              {{ 'funds.funds_list.fund_runs_button' | translate }}
-            </ion-button>
-              </ion-col>
           </ion-row>
         </ion-item>
       </ion-list>
@@ -62,8 +50,7 @@ import { NavigationExtras, Router } from '@angular/router';
 export class FundsListPage implements OnInit {
   subscribedFunds: Array<any> = [];
   constructor(
-    private apiFundsService: ApiFundsService,
-    private router: Router) { }
+    private apiFundsService: ApiFundsService) { }
   ngOnInit() { }
 
   ionViewDidEnter() {
@@ -74,9 +61,5 @@ export class FundsListPage implements OnInit {
     this.apiFundsService.getSubscribedFunds().subscribe(res => {
       this.subscribedFunds = res;
     });
-  }
-
-  fundRuns(selectedFund: string) {
-    this.router.navigate(['funds/runs', selectedFund]);
   }
 }

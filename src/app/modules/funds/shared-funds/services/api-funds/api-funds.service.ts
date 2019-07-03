@@ -28,8 +28,18 @@ export class ApiFundsService {
     return this.http.get(`${API_URL}/${this.entity}/name/${fundName}/status`);
   }
 
-  getFundRuns(status, nombre_bot): Observable<any> {
-    return this.http.get(`${API_URL}/${this.entity}/fund_runs/${status}/${nombre_bot}`);
+  getFundRuns(status, fundName): Observable<any> {
+    return this.http.get(
+      `${API_URL}/${this.entity}/fund_runs/${status}/${fundName}`
+    );
   }
-
+  pauseFundRuns(fundName): Observable<any> {
+    return this.http.put(
+      `${API_URL}/${this.entity}/pause_fund_runs/${fundName}`,
+      {}
+    );
+  }
+  // resumeFund(fund_name): Observable<any> {
+  //   return this.http.put(`${API_URL}/${this.entity}/resume_fund_runs/${fund_name}/`, {});
+  // }
 }
