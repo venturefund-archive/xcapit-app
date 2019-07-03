@@ -91,7 +91,7 @@
       "a1": "aquí.",
       "ion_divider2": "Fondo",
       "fund_name": "Nombre del Fondo",
-      "currency": "Moneda de Visualización",
+      "currency": "Moneda a Optimizar",
       "cantidad_dias": "Plazo de Operación",
       "ion_option_cantidad_dias": "días",
       "take_profit": "Porcentaje de Ganancia",
