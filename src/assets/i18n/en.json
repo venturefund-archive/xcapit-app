@@ -288,5 +288,15 @@
       "p37": "Note: If you have dollars in your account we recommend you click on the best price. In case you have entered Argentine pesos, take the orders that are on the ask list.",
       "p38": "You will receive an email with the status of the transaction in process. When you have the BTC in your account, Bitex will contact you."
     }
+  },
+  "subscriptions": {
+    "subscriptions_service": {
+      "share_title": "share title",
+      "share_text": "share text"
+    },
+    "subscribe": {
+      "ok_text": "Successful Subscription!",
+      "error_text": "The subscription has failed. Request the link again to your friend"
+    }
   }
 }

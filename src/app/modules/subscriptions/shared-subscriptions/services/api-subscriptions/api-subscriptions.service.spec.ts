@@ -14,7 +14,7 @@ describe('ApiSubscriptionsService', () => {
         { provide: CustomHttpService, useValue: customHttpServiceSpy }
       ]
     });
-    apiSubscriptionsService = TestBed.get(ApiSubscriptionsService)
+    apiSubscriptionsService = TestBed.get(ApiSubscriptionsService);
   });
 
   it('should be created', () => {

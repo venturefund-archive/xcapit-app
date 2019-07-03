@@ -288,5 +288,15 @@
       "p37": "Nota: Si tienes dolares en tu cuenta te recomendamos hagas clic en usar el mejor precio. En caso que hayas ingresado pesos argentinos, toma las órdenes que están en la lista de ask.",
       "p38": "Te llegará un e-mail con el estado de la transacción en proceso. Cuando tengas los BTC en tu cuenta, Bitex se contactará contigo."
     }
+  },
+  "subscriptions": {
+    "subscriptions_service": {
+      "share_title": "share title",
+      "share_text": "share text"
+    },
+    "subscribe": {
+      "ok_text": "¡Suscripción Exitosa!",
+      "error_text": "La suscripción ha fallado. Solicita nuevamente el link a su amigo"
+    }
   }
 }

@@ -9,9 +9,18 @@ import { Observable } from 'rxjs';
 export class ApiSubscriptionsService {
   entity = 'subscriptions';
 
-  constructor(private http: CustomHttpService) { }
+  constructor(private http: CustomHttpService) {}
 
   getSubscriptionLink(fundName: string): Observable<any> {
-    return this.http.get(`${API_URL}/${this.entity}/link/funds/name/${fundName}`);
+    return this.http.get(
+      `${API_URL}/${this.entity}/link/funds/name/${fundName}`
+    );
+  }
+
+  subscribeToFund(subscriptionToken: string, fundNameb64: string) {
+    return this.http.post(`${API_URL}/${this.entity}/subscribe`, {
+      subscription_token: subscriptionToken,
+      fund_name_b64: fundNameb64
+    });
   }
 }
