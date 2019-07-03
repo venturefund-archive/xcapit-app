@@ -3,6 +3,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { filter, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
+import { ShareService } from 'src/app/shared/services/share/share.service';
+import { ApiSubscriptionsService } from '../shared-funds/services/api-subscriptions/api-subscriptions.service';
 
 @Component({
   selector: 'app-fund-summary',
@@ -19,6 +21,11 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
     </ion-header>
 
     <ion-content padding>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="this.getSubscriptionLink()">
+          <ion-icon name="share"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
       <div class="fs">
         <div class="fs__header">
           <h1>{{ this.fundName }}</h1>
@@ -138,7 +145,9 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private apiFunds: ApiFundsService
+    private apiFunds: ApiFundsService,
+    private apiSubscriptions: ApiSubscriptionsService,
+    private shareService: ShareService
   ) {}
 
   ngOnInit() {}
@@ -152,6 +161,17 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     this.routeParamsSubscription = this.getFundName().subscribe(() =>
       this.getFundStatus()
     );
+  }
+
+  getSubscriptionLink() {
+    this.apiSubscriptions
+      .getSubscriptionLink(this.fundName)
+      .subscribe((data: any) =>
+        this.shareService.share({
+          title: 'share title',
+          text: 'share text',
+          url: data.link })
+      );
   }
 
   getFundStatus() {

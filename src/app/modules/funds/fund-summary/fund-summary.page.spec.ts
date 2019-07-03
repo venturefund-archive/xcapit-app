@@ -6,9 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { routes } from '../funds-routing.module';
-// import {Router} from '@angular/router';
-// import { Location } from '@angular/common';
+import { ApiSubscriptionsService } from '../shared-funds/services/api-subscriptions/api-subscriptions.service';
 
 const fundStatusMockData = {
   fund: {
@@ -21,8 +19,7 @@ describe('FundSummaryPage', () => {
   let component: FundSummaryPage;
   let fixture: ComponentFixture<FundSummaryPage>;
   let apiFundServiceMock: any;
-  // let router: Router;
-  // let location: Location;
+  let apiSubscriptionsServiceMock: any;
 
   beforeEach(async(() => {
     apiFundServiceMock = {
@@ -30,6 +27,9 @@ describe('FundSummaryPage', () => {
         pauseFundRuns: () => of(null),
         getFundRuns: () => of(null)
     };
+    apiSubscriptionsServiceMock = {
+      getSubscriptionLink: () => of(fundStatusMockData)
+  };
     TestBed.configureTestingModule({
       declarations: [ FundSummaryPage ],
       imports: [
@@ -37,7 +37,8 @@ describe('FundSummaryPage', () => {
         RouterTestingModule.withRoutes(routes)
       ],
       providers: [
-        { provide: ApiFundsService, useValue: apiFundServiceMock }
+        { provide: ApiFundsService, useValue: apiFundServiceMock },
+        { provide: ApiSubscriptionsService, useValue: apiSubscriptionsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
@@ -49,8 +50,7 @@ describe('FundSummaryPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiFundServiceMock = TestBed.get(ApiFundsService);
-    // router = TestBed.get(Router);
-    // location = TestBed.get(Location);
+    apiSubscriptionsServiceMock = TestBed.get(ApiSubscriptionsService);
   });
 
   it('should create', () => {
@@ -96,10 +96,11 @@ describe('FundSummaryPage', () => {
     expect(pauseFundRunsSpy).toHaveBeenCalledTimes(1);
   });
 
-  // it('should navigate to fund-runs on view runs', fakeAsync(() => {
-  //   component.fundRuns('test');
-  //   expect(location.path()).toBe('/fund-runs');
-  // }));
 
-
+  it('should call getSubcriptionLink on getSubscriptionLink is callled', () => {
+    const getSubscriptionLinkSpy = spyOn(apiSubscriptionsServiceMock, 'getSubscriptionLink');
+    getSubscriptionLinkSpy.and.returnValue(of({link: 'link'}));
+    component.getSubscriptionLink();
+    expect(getSubscriptionLinkSpy).toHaveBeenCalledTimes(1);
+  });
 });

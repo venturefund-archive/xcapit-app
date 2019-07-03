@@ -47,6 +47,13 @@
       "default_message": "Error en la comunicación con el servidor"
     }
   },
+  "shared": {
+    "services": {
+      "share": {
+        "copy_text": "The subscription link has been copied to the clipboard."
+      }
+    }
+  },
   "usuarios": {
     "email_validation": {
       "error_title": "No pudimos verificar el Email!",
@@ -83,7 +90,7 @@
       "a1": "here.",
       "ion_divider2": "Fund",
       "fund_name": "Fund Name",
-      "currency": "Currency",
+      "currency": "Currency to Optimize",
       "cantidad_dias": "Term of Operation",
       "ion_option_cantidad_dias": "days",
       "take_profit": "Take Profit",
@@ -101,6 +108,8 @@
       "no_days_left_text": "This fund has finished",
       "days_left_text": "This fund will cease to operate in {{days}} days {{hours}}hs",
       "profit_text": "Percentage of profit in {{days}} days and {{hours}}hs",
+      "share_title": "shared título",
+      "share_text": "shared texto"
       "pause_fund_button": "Pause fund",
       "resume_fund_button": "Activate fund",
       "fund_runs_button": "View runs"

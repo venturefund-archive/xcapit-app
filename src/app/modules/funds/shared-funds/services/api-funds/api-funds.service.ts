@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { API_URL } from 'src/app/config/app-constants.config';
 
 @Injectable({
