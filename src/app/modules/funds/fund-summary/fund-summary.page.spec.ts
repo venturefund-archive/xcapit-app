@@ -34,7 +34,7 @@ describe('FundSummaryPage', () => {
       declarations: [ FundSummaryPage ],
       imports: [
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes([])
       ],
       providers: [
         { provide: ApiFundsService, useValue: apiFundServiceMock },
