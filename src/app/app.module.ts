@@ -19,6 +19,7 @@ import { AUTH } from './config/app-constants.config';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { FundsModule } from './modules/funds/funds.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 
 
 export function jwtOptionsFactory(storage: Storage) {
@@ -45,6 +46,7 @@ export function httpLoaderFactory(http: HttpClient) {
     TutorialsModule,
     ProfilesModule,
     FundsModule,
+    SubscriptionsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
