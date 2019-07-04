@@ -58,7 +58,7 @@ export class SubscribePage implements OnInit, OnDestroy {
       )
       .subscribe({
         next: data => this.handleSubscriptionResponse(data),
-        error: () => (this.isSubscribing = false)
+        error: () => this.handleSubscriptionResponse({})
       });
   }
 
