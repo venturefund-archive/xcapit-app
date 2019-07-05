@@ -36,19 +36,19 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           <div class="fs__profit" *ngIf="this.fundStatus.status">
             <div class="fs__profit__main">
               <ion-icon
-                *ngIf="this.fundStatus.status.profit_wcs > 0"
+                *ngIf="(this.fundStatus | currencyPercentage) > 0"
                 name="arrow-round-up"
               ></ion-icon>
               <ion-icon
-                *ngIf="this.fundStatus.status.profit_wcs < 0"
+                *ngIf="(this.fundStatus | currencyPercentage) < 0"
                 name="arrow-round-down"
               ></ion-icon>
               <ion-icon
-                *ngIf="this.fundStatus.status.profit_wcs === 0"
+                *ngIf="(this.fundStatus | currencyPercentage) === 0"
                 name="pause"
                 style="transform: rotate(90deg)"
               ></ion-icon>
-              {{ this.fundStatus.status.profit_wcs | number: '1.2-2' }}%
+              {{ (this.fundStatus | currencyPercentage) | number: '1.2-2' }}%
             </div>
             <div class="fs__profit__days">
               {{

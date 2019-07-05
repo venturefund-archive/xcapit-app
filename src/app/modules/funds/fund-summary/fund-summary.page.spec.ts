@@ -1,5 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed
+} from '@angular/core/testing';
 
 import { FundSummaryPage } from './fund-summary.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -7,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
+import { CurrencyPercentagePipe } from '../shared-funds/pipes/currency-percentage/currency-percentage.pipe';
 
 const fundStatusMockData = {
   fund: {
@@ -33,11 +38,8 @@ describe('FundSummaryPage', () => {
       'shareSubscriptionLink'
     ]);
     TestBed.configureTestingModule({
-      declarations: [ FundSummaryPage ],
-      imports: [
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([])
-      ],
+      declarations: [FundSummaryPage, CurrencyPercentagePipe],
+      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       providers: [
         { provide: ApiFundsService, useValue: apiFundServiceMock },
         { provide: SubscriptionsService, useValue: subscriptionsServiceSpy }
@@ -92,7 +94,9 @@ describe('FundSummaryPage', () => {
 
   it('should call shareSubscriptionLink when getSubscriptionLink is callled', () => {
     component.shareFund();
-    expect(subscriptionsServiceSpy.shareSubscriptionLink).toHaveBeenCalledTimes(1);
+    expect(subscriptionsServiceSpy.shareSubscriptionLink).toHaveBeenCalledTimes(
+      1
+    );
   });
 
   it('should call pauseFundRuns once on pauseFund button click', () => {

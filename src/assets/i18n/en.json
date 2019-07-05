@@ -166,7 +166,8 @@
       "no_button": "No",
       "yes_button": "Yes",
       "t2": "Do you have an account in Binance?",
-      "t3": "Do you know how to transfer your Cryptos to Binance?"
+      "t3": "Do you know how to transfer your Cryptos to Binance?",
+      "no_cryptos_text": "The process will take a while, return to the creation of the fund when you are ready!"
     },
     "binance_address_tutorial_modal": {
       "header": "Binance - Address",
