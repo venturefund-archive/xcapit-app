@@ -79,7 +79,8 @@
   "funds": {
     "funds_list": {
       "header": "funds-list",
-      "new_fund_button": "New Fund"
+      "new_fund_button": "New Fund",
+      "owner_text": "Owner"
     },
     "new_fund": {
       "header": "New Fund",

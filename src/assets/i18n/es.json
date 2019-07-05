@@ -79,7 +79,8 @@
   "funds": {
     "funds_list": {
       "header": "funds-list",
-      "new_fund_button": "Nuevo Fondo"
+      "new_fund_button": "Nuevo Fondo",
+      "owner_text": "Dueño"
     },
     "new_fund": {
       "header": "Nuevo Fondo",

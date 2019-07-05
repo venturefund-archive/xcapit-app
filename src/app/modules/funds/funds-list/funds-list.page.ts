@@ -39,6 +39,9 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
               <ion-col>
                 {{ sf.nombre_bot }}
               </ion-col>
+              <ion-col>
+              <ion-badge *ngIf="sf.is_owner" color="success">{{ 'funds.funds_list.owner_text' | translate }}</ion-badge>
+              </ion-col>
           </ion-row>
         </ion-item>
       </ion-list>
