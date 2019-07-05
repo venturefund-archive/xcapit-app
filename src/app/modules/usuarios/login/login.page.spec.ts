@@ -9,15 +9,18 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let apiUsuariosSpy: any;
+  let subscriptionsService: any;
 
   beforeEach(async(() => {
     apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['login']);
     apiUsuariosSpy.login.and.returnValue(of({}));
+    subscriptionsService = jasmine.createSpyObj('SubscriptionsService', ['checkStoredLink']);
     TestBed.configureTestingModule({
       declarations: [ LoginPage, AuthFormComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -28,7 +31,8 @@ describe('LoginPage', () => {
         IonicModule
       ],
       providers: [
-        { provide: ApiUsuariosService, useValue: apiUsuariosSpy }
+        { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
+        { provide: SubscriptionsService, useValue: subscriptionsService }
       ]
     })
     .compileComponents();
@@ -54,5 +58,10 @@ describe('LoginPage', () => {
     const spy = spyOn(component.loginForm.form, 'reset');
     component.success();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call checkStoredLink on success', () => {
+    component.success();
+    expect(subscriptionsService.checkStoredLink).toHaveBeenCalledTimes(1);
   });
 });

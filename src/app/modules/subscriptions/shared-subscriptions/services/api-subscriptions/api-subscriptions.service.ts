@@ -17,7 +17,7 @@ export class ApiSubscriptionsService {
     );
   }
 
-  subscribeToFund(subscriptionToken: string, fundNameb64: string) {
+  subscribeToFund(subscriptionToken: string, fundNameb64: string): Observable<any> {
     return this.http.post(`${API_URL}/${this.entity}/subscribe`, {
       subscription_token: subscriptionToken,
       fund_name_b64: fundNameb64

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
+import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 
 @Component({
   selector: 'app-funds-list',
@@ -40,11 +41,13 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
                 {{ sf.nombre_bot }}
               </ion-col>
               <ion-col>
-              <ion-badge *ngIf="sf.is_owner" color="success">{{ 'funds.funds_list.owner_text' | translate }}</ion-badge>
+                <ion-badge *ngIf="sf.is_owner" color="success">{{
+                  'funds.funds_list.owner_text' | translate
+                }}</ion-badge>
               </ion-col>
-          </ion-row>
-        </ion-item>
-      </ion-list>
+            </ion-row>
+          </ion-item>
+        </ion-list>
       </div>
     </ion-content>
   `,
@@ -53,8 +56,9 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 export class FundsListPage implements OnInit {
   subscribedFunds: Array<any> = [];
   constructor(
-    private apiFundsService: ApiFundsService) { }
-  ngOnInit() { }
+    private apiFundsService: ApiFundsService
+  ) {}
+  ngOnInit() {}
 
   ionViewDidEnter() {
     this.getSubscribedFunds();

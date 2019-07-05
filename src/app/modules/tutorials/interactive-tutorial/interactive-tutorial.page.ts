@@ -113,6 +113,8 @@ import { TranslateService } from '@ngx-translate/core';
                       size="large"
                       expand="block"
                       color="success"
+                      routerDirection="forward"
+                      [replaceUrl]="true"
                       [routerLink]="['/funds/new']"
                     >
                       {{

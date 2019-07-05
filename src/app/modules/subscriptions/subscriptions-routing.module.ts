@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
+import { SubscribeGuard } from './shared-subscriptions/guards/subscribe/subscribe.guard';
 
 const routes: Routes = [
   {
     path: 'subscriptions',
-    canActivate: [AuthGuard],
     children: [
       {
         path: 'subscribe',
+        canActivate: [SubscribeGuard],
         loadChildren:
           './subscribe/subscribe.module#SubscribePageModule'
       }
