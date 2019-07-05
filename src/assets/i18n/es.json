@@ -165,7 +165,8 @@
       "no_button": "No",
       "yes_button": "Si",
       "t2": "¿Tenés Cuenta en Binance?",
-      "t3": "¿Sabes cómo transferir tus Cryptoactivos a Binance?"
+      "t3": "¿Sabes cómo transferir tus Cryptoactivos a Binance?",
+      "no_cryptos_text": "El proceso llevará un tiempo, vuelve a la creación del fondo cuendo estes listo!"
     },
     "binance_address_tutorial_modal": {
       "header": "Binance - Dirección",

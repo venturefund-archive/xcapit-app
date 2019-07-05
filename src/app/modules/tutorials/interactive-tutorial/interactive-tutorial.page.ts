@@ -5,6 +5,8 @@ import { CaTutorialModalComponent } from '../shared-tutorials/components/ca-tuto
 // tslint:disable-next-line: max-line-length
 import { BinanceTransferTutorialModalComponent } from '../shared-tutorials/components/binance-transfer-tutorial-modal/binance-transfer-tutorial-modal.component';
 import { ComponentRef } from '@ionic/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-interactive-tutorial',
@@ -133,7 +135,9 @@ export class InteractiveTutorialPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private navController: NavController
+    private navController: NavController,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   slideOpts = {
@@ -145,7 +149,15 @@ export class InteractiveTutorialPage implements OnInit {
 
   openCaTutorial() {
     return this.openModal(CaTutorialModalComponent, 'onWillDismiss', () =>
-      this.navController.navigateBack(['/funds/list'], { replaceUrl: true })
+      this.navController
+        .navigateBack(['/funds/list'], { replaceUrl: true })
+        .then(() =>
+          this.toastService.showToast({
+            message: this.translate.instant(
+              'tutorials.interactive_tutorial.no_cryptos_text'
+            )
+          })
+        )
     );
   }
 
