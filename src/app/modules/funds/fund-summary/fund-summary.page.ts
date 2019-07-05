@@ -94,7 +94,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
 
         <app-fund-performance-chart *ngIf="this.fundStatus"
           [currency]="this.fundStatus?.fund.currency"
-          [fundPerformance]="this.fundStatus?.status.rendimiento"
+          [fundPerformance]="this.fundStatus?.status?.rendimiento"
         ></app-fund-performance-chart>
 
         <div class="fs__no-runs">
