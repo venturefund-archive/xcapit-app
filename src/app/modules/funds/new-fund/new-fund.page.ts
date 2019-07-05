@@ -16,6 +16,9 @@ import { Currency } from '../shared-funds/enums/currency.enum';
   template: `
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
         <ion-title>{{ 'funds.new_fund.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -23,17 +26,23 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <form [formGroup]="this.form" (ngSubmit)="this.save()">
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
-            <ion-label>{{ 'funds.new_fund.ion_divider1' | translate }}</ion-label>
+            <ion-label>{{
+              'funds.new_fund.ion_divider1' | translate
+            }}</ion-label>
           </ion-item-divider>
 
           <div class="ion-padding-start ion-padding-end">
             <ion-item>
-              <ion-label position="floating">{{ 'funds.new_fund.api_key' | translate }}</ion-label>
+              <ion-label position="floating">{{
+                'funds.new_fund.api_key' | translate
+              }}</ion-label>
               <ion-input formControlName="api_key" type="text"></ion-input>
             </ion-item>
             <app-errors-form-item controlName="api_key"></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">{{ 'funds.new_fund.secret_key' | translate }}</ion-label>
+              <ion-label position="floating">{{
+                'funds.new_fund.secret_key' | translate
+              }}</ion-label>
               <ion-input formControlName="secret_key" type="text"></ion-input>
             </ion-item>
             <app-errors-form-item
@@ -46,26 +55,34 @@ import { Currency } from '../shared-funds/enums/currency.enum';
             <p>
               <ion-icon name="information-circle-outline"></ion-icon>
               {{ 'funds.new_fund.p1' | translate }}
-              <a class="local-a" (click)="this.openBinanceAPIKeys()">{{ 'funds.new_fund.a1' | translate }}</a>
+              <a class="local-a" (click)="this.openBinanceAPIKeys()">{{
+                'funds.new_fund.a1' | translate
+              }}</a>
             </p>
           </div>
         </ion-item-group>
 
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
-            <ion-label>{{ 'funds.new_fund.ion_divider2' | translate }}</ion-label>
+            <ion-label>{{
+              'funds.new_fund.ion_divider2' | translate
+            }}</ion-label>
           </ion-item-divider>
 
           <div class="ion-padding-start ion-padding-end">
             <ion-item>
-              <ion-label position="floating">{{ 'funds.new_fund.fund_name' | translate }}</ion-label>
+              <ion-label position="floating">{{
+                'funds.new_fund.fund_name' | translate
+              }}</ion-label>
               <ion-input formControlName="fund_name" type="text"></ion-input>
             </ion-item>
             <app-errors-form-item
               controlName="fund_name"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">{{ 'funds.new_fund.currency' | translate }}</ion-label>
+              <ion-label position="floating">{{
+                'funds.new_fund.currency' | translate
+              }}</ion-label>
               <ion-select formControlName="currency">
                 <ion-select-option [value]="this.currencyEnum.BTC">
                   {{ this.currencyEnum.BTC }}
@@ -77,18 +94,37 @@ import { Currency } from '../shared-funds/enums/currency.enum';
             </ion-item>
             <app-errors-form-item controlName="currency"></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">{{ 'funds.new_fund.cantidad_dias' | translate }}</ion-label>
+              <ion-label position="floating">{{
+                'funds.new_fund.cantidad_dias' | translate
+              }}</ion-label>
               <ion-select formControlName="cantidad_dias">
-                <ion-select-option value="30">30 {{ 'funds.new_fund.ion_option_cantidad_dias' | translate }}</ion-select-option>
-                <ion-select-option value="60">60 {{ 'funds.new_fund.ion_option_cantidad_dias' | translate }}</ion-select-option>
-                <ion-select-option value="90">90 {{ 'funds.new_fund.ion_option_cantidad_dias' | translate }}</ion-select-option>
+                <ion-select-option value="30"
+                  >30
+                  {{
+                    'funds.new_fund.ion_option_cantidad_dias' | translate
+                  }}</ion-select-option
+                >
+                <ion-select-option value="60"
+                  >60
+                  {{
+                    'funds.new_fund.ion_option_cantidad_dias' | translate
+                  }}</ion-select-option
+                >
+                <ion-select-option value="90"
+                  >90
+                  {{
+                    'funds.new_fund.ion_option_cantidad_dias' | translate
+                  }}</ion-select-option
+                >
               </ion-select>
             </ion-item>
             <app-errors-form-item
               controlName="cantidad_dias"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">{{ 'funds.new_fund.take_profit' | translate }}</ion-label>
+              <ion-label position="floating">{{
+                'funds.new_fund.take_profit' | translate
+              }}</ion-label>
               <ion-input
                 formControlName="take_profit"
                 type="text"
@@ -100,7 +136,9 @@ import { Currency } from '../shared-funds/enums/currency.enum';
               [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">{{ 'funds.new_fund.stop_loss' | translate }}</ion-label>
+              <ion-label position="floating">{{
+                'funds.new_fund.stop_loss' | translate
+              }}</ion-label>
               <ion-input
                 formControlName="stop_loss"
                 type="text"
@@ -112,13 +150,21 @@ import { Currency } from '../shared-funds/enums/currency.enum';
               [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
-              <ion-label position="floating">{{ 'funds.new_fund.risk_level' | translate }}</ion-label>
+              <ion-label position="floating">{{
+                'funds.new_fund.risk_level' | translate
+              }}</ion-label>
               <ion-select formControlName="risk_level">
-                <ion-select-option>{{ 'funds.new_fund.ion_option_risk_level_pro' | translate }}</ion-select-option>
-                <ion-select-option>{{ 'funds.new_fund.ion_option_risk_level_classic' | translate }}</ion-select-option>
+                <ion-select-option>{{
+                  'funds.new_fund.ion_option_risk_level_pro' | translate
+                }}</ion-select-option>
+                <ion-select-option>{{
+                  'funds.new_fund.ion_option_risk_level_classic' | translate
+                }}</ion-select-option>
               </ion-select>
             </ion-item>
-            <app-errors-form-item controlName="risk_level"></app-errors-form-item>
+            <app-errors-form-item
+              controlName="risk_level"
+            ></app-errors-form-item>
           </div>
         </ion-item-group>
         <div class="ion-padding ion-margin-top">
@@ -141,7 +187,6 @@ import { Currency } from '../shared-funds/enums/currency.enum';
   styleUrls: ['./new-fund.page.scss']
 })
 export class NewFundPage implements OnInit {
-
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   currencyEnum = Currency;
