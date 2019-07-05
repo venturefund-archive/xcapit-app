@@ -9,6 +9,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { TranslateService } from '@ngx-translate/core';
+import { Currency } from '../shared-funds/enums/currency.enum';
 
 @Component({
   selector: 'app-new-fund',
@@ -66,8 +67,12 @@ import { TranslateService } from '@ngx-translate/core';
             <ion-item>
               <ion-label position="floating">{{ 'funds.new_fund.currency' | translate }}</ion-label>
               <ion-select formControlName="currency">
-                <ion-select-option>BTC</ion-select-option>
-                <ion-select-option>USD</ion-select-option>
+                <ion-select-option [value]="this.currencyEnum.BTC">
+                  {{ this.currencyEnum.BTC }}
+                </ion-select-option>
+                <ion-select-option [value]="this.currencyEnum.USDT">
+                  {{ this.currencyEnum.USD }}
+                </ion-select-option>
               </ion-select>
             </ion-item>
             <app-errors-form-item controlName="currency"></app-errors-form-item>
@@ -138,6 +143,8 @@ import { TranslateService } from '@ngx-translate/core';
 export class NewFundPage implements OnInit {
 
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
+
+  currencyEnum = Currency;
 
   form: FormGroup = this.formBuilder.group({
     api_key: ['', [Validators.required]],

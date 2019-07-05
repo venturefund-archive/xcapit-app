@@ -112,7 +112,8 @@
       "share_text": "shared texto",
       "pause_fund_button": "Pause fund",
       "resume_fund_button": "Activate fund",
-      "fund_runs_button": "View runs"
+      "fund_runs_button": "View runs",
+      "chart_title": "Last Update "
     },
     "fund_runs": {
       "header": "Fund Runs",

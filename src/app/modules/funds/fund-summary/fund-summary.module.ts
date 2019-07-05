@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { FundSummaryPage } from './fund-summary.page';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedFundsModule } from '../shared-funds/shared-funds.module';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    SharedModule,
+    SharedFundsModule,
     RouterModule.forChild(routes)
   ],
   declarations: [FundSummaryPage]

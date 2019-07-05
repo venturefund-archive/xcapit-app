@@ -112,7 +112,8 @@
       "share_text": "shared text",
       "pause_fund_button": "Pausar fondo",
       "resume_fund_button": "Activar fondo",
-      "fund_runs_button": "Ver corridas"
+      "fund_runs_button": "Ver corridas",
+      "chart_title": "Última actualización "
     },
     "fund_runs": {
       "header": "Corridas de fondo",

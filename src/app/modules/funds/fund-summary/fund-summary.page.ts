@@ -62,7 +62,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
             </div>
           </div>
           <div
-            class="fs__days-left ion-padding-top ion-margin-top"
+            class="fs__days-left"
             *ngIf="this.fundStatus.status"
           >
             <p
@@ -94,6 +94,12 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
             </p>
           </div>
         </div>
+
+        <app-fund-performance-chart
+          [currency]="this.fundStatus?.fund.currency"
+          [fundPerformance]="this.fundStatus?.status.rendimiento"
+        ></app-fund-performance-chart>
+
         <div class="fs__no-runs">
           <p *ngIf="!this.fundStatus && !this.loadingStatus">
             {{ 'funds.fund_summary.no_runs_text' | translate }}
