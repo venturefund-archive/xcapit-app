@@ -15,6 +15,9 @@ describe('ApiFundsService', () => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       http: { get: () => null },
       getFundRuns: () => of(null),
+      pauseFundRuns: () => of(null),
+      resumeFundRuns: () => of(null),
+      finalizeFundRuns: () => of(null),
       getSubscribedFund: () => of(null)
     });
     TestBed.configureTestingModule({

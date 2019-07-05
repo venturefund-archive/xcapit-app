@@ -61,10 +61,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
               }}
             </div>
           </div>
-          <div
-            class="fs__days-left"
-            *ngIf="this.fundStatus.status"
-          >
+          <div class="fs__days-left" *ngIf="this.fundStatus.status">
             <p
               *ngIf="
                 this.fundStatus.status.cantidad_dias_inicio_restantes < 0;
@@ -95,7 +92,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           </div>
         </div>
 
-        <app-fund-performance-chart
+        <app-fund-performance-chart *ngIf="this.fundStatus"
           [currency]="this.fundStatus?.fund.currency"
           [fundPerformance]="this.fundStatus?.status.rendimiento"
         ></app-fund-performance-chart>
@@ -106,30 +103,49 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           </p>
         </div>
       </div>
-      <ion-col>
-        <ion-button
-          *ngIf="this.fundStatus?.fund.estado == 'active'"
-          type="button"
-          color="danger"
-          expand="block"
-          size="medium"
-          (click)="pauseFundRuns()"
-        >
-          <ion-icon slot="start" name="pause"></ion-icon>
-          {{ 'funds.fund_summary.pause_fund_button' | translate }}
-        </ion-button>
-        <ion-button
-          *ngIf="this.fundStatus?.fund.estado == 'pausado'"
-          type="button"
-          color="success"
-          expand="block"
-          size="medium"
-          (click)="resumeFundRuns()"
-        >
-          <ion-icon slot="start" name="play"></ion-icon>
-          {{ 'funds.fund_summary.resume_fund_button' | translate }}
-        </ion-button>
-      </ion-col>
+
+      <ion-row>
+        <ion-col>
+          <ion-button
+            *ngIf="this.fundStatus?.fund.estado == 'pausado'"
+            type="button"
+            color="success"
+            expand="block"
+            size="medium"
+            (click)="resumeFundRuns()"
+          >
+            <ion-icon slot="start" name="play"></ion-icon>
+            {{ 'funds.fund_summary.resume_fund_button' | translate }}
+          </ion-button>
+          <ion-button
+            *ngIf="this.fundStatus?.fund.estado == 'active'"
+            type="button"
+            color="primary"
+            expand="block"
+            size="medium"
+            (click)="pauseFundRuns()"
+          >
+            <ion-icon slot="start" name="pause"></ion-icon>
+            {{ 'funds.fund_summary.pause_fund_button' | translate }}
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button
+            *ngIf="
+              this.fundStatus?.fund.estado == 'active' ||
+              this.fundStatus?.fund.estado == 'pausado'
+            "
+            type="button"
+            color="danger"
+            expand="block"
+            size="medium"
+            (click)="finalizeFundRuns()"
+          >
+            <ion-icon slot="start" name="square"></ion-icon>
+            {{ 'funds.fund_summary.finalize_fund_button' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
 
       <ion-col>
         <ion-button
@@ -211,8 +227,13 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     });
   }
 
+  finalizeFundRuns(): void {
+    this.apiFunds.finalizeFundRuns(this.fundName).subscribe(res => {
+      this.getFundStatus();
+    });
+  }
+
   fundRuns(selectedFund: string) {
     this.router.navigate(['funds/runs', selectedFund]);
   }
-
 }

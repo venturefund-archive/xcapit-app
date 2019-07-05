@@ -113,6 +113,7 @@
       "share_text": "shared texto",
       "pause_fund_button": "Pause fund",
       "resume_fund_button": "Activate fund",
+      "finalize_fund_button": "Finalize fund",
       "fund_runs_button": "View runs",
       "chart_title": "Last Update "
     },

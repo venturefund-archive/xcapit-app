@@ -40,7 +40,7 @@ export class FundPerformanceChartComponent implements OnChanges {
   constructor(private datePipe: DatePipe) {}
 
   ngOnChanges() {
-    this.setChart();
+      this.setChart();
   }
 
   setChart() {
