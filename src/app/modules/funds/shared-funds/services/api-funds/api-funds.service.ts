@@ -33,15 +33,24 @@ export class ApiFundsService {
       `${API_URL}/${this.entity}/fund_runs/${status}/${fundName}`
     );
   }
+
   pauseFundRuns(fundName: string): Observable<any> {
     return this.http.put(
       `${API_URL}/${this.entity}/pause_fund_runs/${fundName}`,
       {}
     );
   }
+
   resumeFundRuns(fundName: string): Observable<any> {
     return this.http.put(
       `${API_URL}/${this.entity}/resume_fund_runs/${fundName}`,
+      {}
+    );
+  }
+
+  finalizeFundRuns(fundName: string): Observable<any> {
+    return this.http.put(
+      `${API_URL}/${this.entity}/finalize_fund_runs/${fundName}`,
       {}
     );
   }

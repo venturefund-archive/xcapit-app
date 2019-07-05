@@ -28,10 +28,11 @@ describe('FundSummaryPage', () => {
 
   beforeEach(async(() => {
     apiFundServiceMock = {
-      getStatus: () => of(fundStatusMockData),
-      pauseFundRuns: () => of(null),
-      resumeFundRuns: () => of(null),
-      getFundRuns: () => of(null)
+        getStatus: () => of(fundStatusMockData),
+        pauseFundRuns: () => of(null),
+        resumeFundRuns: () => of(null),
+        finalizeFundRuns: () => of(null),
+        getFundRuns: () => of(null)
     };
     subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', [
       'shareSubscriptionLink'
@@ -110,5 +111,12 @@ describe('FundSummaryPage', () => {
     resumeFundRunsSpy.and.returnValue(of(null));
     component.resumeFundRuns();
     expect(resumeFundRunsSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call finalizeFundRuns once on finalizeFund button click', () => {
+    const finalizeFundRunsSpy = spyOn(apiFundServiceMock, 'finalizeFundRuns');
+    finalizeFundRunsSpy.and.returnValue(of(null));
+    component.finalizeFundRuns();
+    expect(finalizeFundRunsSpy).toHaveBeenCalledTimes(1);
   });
 });
