@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Subscription, Observable } from 'rxjs';
@@ -44,6 +44,18 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
               </ion-menu-toggle>
             </ion-list>
           </ion-content>
+          <ion-footer>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item
+                (click)="this.logout()"
+              >
+                <ion-icon slot="start" name="log-out" color="danger"></ion-icon>
+                <ion-label>
+                  {{ 'app.main_menu.logout' | translate }}
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-footer>
         </ion-menu>
         <ion-router-outlet main></ion-router-outlet>
       </ion-split-pane>
@@ -102,6 +114,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  async logout() {
+    await this.authService.logout();
+    this.router.navigate(['users/login']);
   }
 
   routeChangeSubscribe() {

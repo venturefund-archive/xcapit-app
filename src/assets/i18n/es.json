@@ -3,7 +3,8 @@
     "main_menu": {
       "header": "Menú",
       "funds": "Fondos",
-      "user_profile": "Perfil de Usuario"
+      "user_profile": "Perfil de Usuario",
+      "logout": "Cerrar Sesión"
     }
   },
   "config": {

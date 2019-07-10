@@ -30,11 +30,11 @@ export class AuthService {
     }
   }
 
-  logout() {
+  async logout(): Promise<void> {
     this.user.next(null);
     this.isLoggedIn.next(false);
-    this.storage.remove(AUTH.storageKey);
-    this.storage.remove(AUTH.userKey);
+    await this.storage.remove(AUTH.storageKey);
+    await this.storage.remove(AUTH.userKey);
   }
 
   async handleLoginResponse(response: any) {
@@ -55,8 +55,8 @@ export class AuthService {
     return JSON.parse(user);
   }
 
-  sesionExpired() {
-    this.logout();
+  async sesionExpired() {
+    await this.logout();
     this.router.navigate(['/users/login']);
   }
 }

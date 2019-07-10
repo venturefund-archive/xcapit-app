@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NoAuthGuard } from './shared-usuarios/guards/no-auth/no-auth.guard';
 
 const routes: Routes = [
   {
     path: 'users',
+    canActivate: [NoAuthGuard],
     children: [
       {
         path: 'register',
