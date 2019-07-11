@@ -10,6 +10,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { TranslateService } from '@ngx-translate/core';
 import { Currency } from '../shared-funds/enums/currency.enum';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-fund',
@@ -19,12 +20,16 @@ import { Currency } from '../shared-funds/enums/currency.enum';
         <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'funds.new_fund.header' | translate }}</ion-title>
+        <ion-title>{{
+          isRenew
+            ? ('funds.new_fund.header_renew' | translate)
+            : ('funds.new_fund.header_new' | translate)
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <form [formGroup]="this.form" (ngSubmit)="this.save()">
-        <ion-item-group class="ion-padding-top">
+        <ion-item-group class="ion-padding-top" *ngIf="!isRenew">
           <ion-item-divider>
             <ion-label>{{
               'funds.new_fund.ion_divider1' | translate
@@ -74,7 +79,11 @@ import { Currency } from '../shared-funds/enums/currency.enum';
               <ion-label position="floating">{{
                 'funds.new_fund.fund_name' | translate
               }}</ion-label>
-              <ion-input formControlName="fund_name" type="text"></ion-input>
+              <ion-input
+                formControlName="fund_name"
+                type="text"
+                [readonly]="isRenew"
+              ></ion-input>
             </ion-item>
             <app-errors-form-item
               controlName="fund_name"
@@ -178,7 +187,11 @@ import { Currency } from '../shared-funds/enums/currency.enum';
             "
           >
             <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
-            {{ 'funds.new_fund.submit_button' | translate }}
+            {{
+              isRenew
+                ? ('funds.new_fund.submit_button_renew' | translate)
+                : ('funds.new_fund.submit_button_new' | translate)
+            }}
           </ion-button>
         </div>
       </form>
@@ -190,6 +203,8 @@ export class NewFundPage implements OnInit {
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   currencyEnum = Currency;
+  fundName: string;
+  isRenew = false;
 
   form: FormGroup = this.formBuilder.group({
     api_key: ['', [Validators.required]],
@@ -227,21 +242,65 @@ export class NewFundPage implements OnInit {
     private apiFunds: ApiFundsService,
     private navController: NavController,
     private toastService: ToastService,
-    private translate: TranslateService
-  ) {}
+    private translate: TranslateService,
+    private route: ActivatedRoute
+  ) {
+    const fundName = this.route.snapshot.paramMap.get('fund_name');
 
+    if (fundName) {
+      this.isRenew = true;
+      this.fundName = fundName;
+      this.form.removeControl('api_key');
+      this.form.removeControl('secret_key');
+      this.form.patchValue({ fund_name: this.fundName });
+      this.form.updateValueAndValidity();
+    }
+
+    // this.route.params.subscribe(params => {
+    //   console.log(params)
+    //   if (params.fund_name) {
+    //     this.isRenew = true;
+    //     this.fundName = params.fund_name;
+    //     this.form.removeControl('api_key');
+    //     this.form.removeControl('secret_key');
+    //     this.form.patchValue({ fund_name: this.fundName });
+    //     this.form.updateValueAndValidity();
+    //   }
+    // });
+  }
   ngOnInit() {}
 
-  save() {
-    if (this.form.valid) {
-      this.apiFunds.crud.create(this.form.value).subscribe(() => {
-        this.navController.navigateForward(['funds/list']).then(() => {
+  saveNew(values: any) {
+    this.apiFunds.crud.create(values).subscribe(() => {
+      this.navController.navigateForward(['funds/list']).then(() => {
+        this.toastService.showToast({
+          message: this.translate.instant('funds.new_fund.success_text_new')
+        });
+        this.form.reset();
+      });
+    });
+  }
+
+  saveRenew(values: any) {
+    this.apiFunds.renewFund(values).subscribe(() => {
+      this.navController
+        .navigateForward(['funds/fund-summary', this.fundName])
+        .then(() => {
           this.toastService.showToast({
-            message: this.translate.instant('funds.new_fund.success_text')
+            message: this.translate.instant('funds.new_fund.success_text_renew')
           });
           this.form.reset();
         });
-      });
+    });
+  }
+
+  save() {
+    if (this.form.valid) {
+      if (this.isRenew) {
+        this.saveRenew(this.form.value);
+      } else {
+        this.saveNew(this.form.value);
+      }
     }
   }
 

@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
+        <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'funds.fund_runs.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -25,7 +25,7 @@ import { Router, ActivatedRoute } from '@angular/router';
           <ion-card-header>
             <ion-card-title>{{
               'funds.fund_runs.card_title' | translate
-            }}</ion-card-title>
+            }} {{run.id_corrida}}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <!-- Configuracion -->

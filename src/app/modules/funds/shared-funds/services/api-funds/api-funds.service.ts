@@ -55,4 +55,11 @@ export class ApiFundsService {
     );
   }
 
+  renewFund(fundData: any): Observable<any> {
+    return this.http.post(
+      `${API_URL}/${this.entity}/renew_fund`,
+      fundData
+    );
+  }
+
 }

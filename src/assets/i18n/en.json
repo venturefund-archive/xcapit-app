@@ -84,7 +84,8 @@
       "owner_text": "Owner"
     },
     "new_fund": {
-      "header": "New Fund",
+      "header_new": "New Fund",
+      "header_renew": "Renew Fund",
       "ion_divider1": "Binance API Keys",
       "api_key": "Binance API Key",
       "secret_key": "Binance Secret Key",
@@ -100,8 +101,10 @@
       "risk_level": "Risk Level",
       "ion_option_risk_level_pro": "PRO",
       "ion_option_risk_level_classic": "CLASSIC",
-      "submit_button": "Create Fund",
-      "success_text": "The Fund was created correctly!"
+      "submit_button_new": "Create Fund",
+      "submit_button_renew": "Renew Fund",
+      "success_text_new": "The Fund was created correctly!",
+      "success_text_renew": "The Fund was renewed correctly!"
     },
     "fund_summary": {
       "header": "Fund",
@@ -116,6 +119,7 @@
       "resume_fund_button": "Activate fund",
       "finalize_fund_button": "Finalize fund",
       "fund_runs_button": "View runs",
+      "renew_fund_button": "Renew fund",
       "chart_title": "Last Update "
     },
     "fund_runs": {

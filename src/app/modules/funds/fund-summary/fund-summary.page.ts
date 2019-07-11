@@ -48,7 +48,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
                 name="pause"
                 style="transform: rotate(90deg)"
               ></ion-icon>
-              {{ (this.fundStatus | currencyPercentage) | number: '1.2-2' }}%
+              {{ this.fundStatus | currencyPercentage | number: '1.2-2' }}%
             </div>
             <div class="fs__profit__days">
               {{
@@ -92,7 +92,8 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           </div>
         </div>
 
-        <app-fund-performance-chart *ngIf="this.fundStatus"
+        <app-fund-performance-chart
+          *ngIf="this.fundStatus"
           [currency]="this.fundStatus?.fund.currency"
           [fundPerformance]="this.fundStatus?.status?.rendimiento"
         ></app-fund-performance-chart>
@@ -101,6 +102,18 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           <p *ngIf="!this.fundStatus && !this.loadingStatus">
             {{ 'funds.fund_summary.no_runs_text' | translate }}
           </p>
+
+          <ion-button
+            *ngIf="!this.fundStatus && !this.loadingStatus"
+            type="button"
+            color="primary"
+            expand="block"
+            size="medium"
+            (click)="renewFund()"
+          >
+            <ion-icon slot="start" name="refresh"></ion-icon>
+            {{ 'funds.fund_summary.renew_fund_button' | translate }}
+          </ion-button>
         </div>
       </div>
 
@@ -233,7 +246,11 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     });
   }
 
-  fundRuns(selectedFund: string) {
+  renewFund(): void {
+    this.router.navigate(['funds/new', this.fundName]);
+  }
+
+  fundRuns(selectedFund: string): void {
     this.router.navigate(['funds/runs', selectedFund]);
   }
 }
