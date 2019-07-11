@@ -13,6 +13,11 @@ export const routes: Routes = [
         loadChildren: './funds-list/funds-list.module#FundsListPageModule'
       },
       {
+        path: 'new/:fund_name',
+        canActivate: [UserProfileDataGuard, AuthGuard],
+        loadChildren: './new-fund/new-fund.module#NewFundPageModule'
+      },
+      {
         path: 'new',
         canActivate: [UserProfileDataGuard, AuthGuard],
         loadChildren: './new-fund/new-fund.module#NewFundPageModule'

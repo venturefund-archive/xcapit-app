@@ -95,7 +95,8 @@
       "owner_text": "Dueño"
     },
     "new_fund": {
-      "header": "Nuevo Fondo",
+      "header_new": "Nuevo Fondo",
+      "header_renew": "Renovar Fondo",
       "ion_divider1": "Binance API Keys",
       "api_key": "Binance API Key",
       "secret_key": "Binance Secret Key",
@@ -111,8 +112,10 @@
       "risk_level": "Nivel de Riesgo",
       "ion_option_risk_level_pro": "PRO",
       "ion_option_risk_level_classic": "CLASSIC",
-      "submit_button": "Crear Fondo",
-      "success_text": "El Fondo se creo correctamente!"
+      "submit_button_new": "Crear Fondo",
+      "submit_button_renew": "Renovar Fondo",
+      "success_text_new": "El Fondo se creo correctamente!",
+      "success_text_renew": "El Fondo se renovo correctamente!"
     },
     "fund_summary": {
       "header": "Fondo",
@@ -128,6 +131,7 @@
       "finalize_fund_button": "Finalizar fondo",
       "fund_runs_button": "Ver corridas",
       "fund_balance_button": "Ver Balance",
+      "renew_fund_button": "Renovar fondo",
       "chart_title": "Última actualización "
     },
     "fund_runs": {

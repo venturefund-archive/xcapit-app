@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { API_URL } from 'src/app/config/app-constants.config';
 
 @Injectable({
@@ -57,5 +57,9 @@ export class ApiFundsService {
       `${API_URL}/${this.entity}/finalize_fund_runs/${fundName}`,
       {}
     );
+  }
+
+  renewFund(fundData: any): Observable<any> {
+    return this.http.post(`${API_URL}/${this.entity}/renew_fund`, fundData);
   }
 }
