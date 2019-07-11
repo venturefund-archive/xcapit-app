@@ -28,6 +28,10 @@ export class ApiFundsService {
     return this.http.get(`${API_URL}/${this.entity}/name/${fundName}/status`);
   }
 
+  getBalance(fundName: string): Observable<any> {
+    return this.http.get(`${API_URL}/${this.entity}/name/${fundName}/balance`);
+  }
+
   getFundRuns(status, fundName: string): Observable<any> {
     return this.http.get(
       `${API_URL}/${this.entity}/fund_runs/${status}/${fundName}`
@@ -54,5 +58,4 @@ export class ApiFundsService {
       {}
     );
   }
-
 }

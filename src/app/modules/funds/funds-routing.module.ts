@@ -24,6 +24,10 @@ export const routes: Routes = [
       {
         path: 'runs/:nombre_bot',
         loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
+      },
+      {
+        path: 'fund-balance',
+        loadChildren: './fund-balance/fund-balance.module#FundBalancePageModule'
       }
     ]
   }

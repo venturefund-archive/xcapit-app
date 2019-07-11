@@ -48,7 +48,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
                 name="pause"
                 style="transform: rotate(90deg)"
               ></ion-icon>
-              {{ (this.fundStatus | currencyPercentage) | number: '1.2-2' }}%
+              {{ this.fundStatus | currencyPercentage | number: '1.2-2' }}%
             </div>
             <div class="fs__profit__days">
               {{
@@ -92,7 +92,8 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           </div>
         </div>
 
-        <app-fund-performance-chart *ngIf="this.fundStatus"
+        <app-fund-performance-chart
+          *ngIf="this.fundStatus"
           [currency]="this.fundStatus?.fund.currency"
           [fundPerformance]="this.fundStatus?.status?.rendimiento"
         ></app-fund-performance-chart>
@@ -103,51 +104,51 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           </p>
         </div>
       </div>
-
-      <ion-row>
-        <ion-col>
-          <ion-button
-            *ngIf="this.fundStatus?.fund.estado == 'pausado'"
-            type="button"
-            color="success"
-            expand="block"
-            size="medium"
-            (click)="resumeFundRuns()"
-          >
-            <ion-icon slot="start" name="play"></ion-icon>
-            {{ 'funds.fund_summary.resume_fund_button' | translate }}
-          </ion-button>
-          <ion-button
-            *ngIf="this.fundStatus?.fund.estado == 'active'"
-            type="button"
-            color="primary"
-            expand="block"
-            size="medium"
-            (click)="pauseFundRuns()"
-          >
-            <ion-icon slot="start" name="pause"></ion-icon>
-            {{ 'funds.fund_summary.pause_fund_button' | translate }}
-          </ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button
-            *ngIf="
-              this.fundStatus?.fund.estado == 'active' ||
-              this.fundStatus?.fund.estado == 'pausado'
-            "
-            type="button"
-            color="danger"
-            expand="block"
-            size="medium"
-            (click)="finalizeFundRuns()"
-          >
-            <ion-icon slot="start" name="square"></ion-icon>
-            {{ 'funds.fund_summary.finalize_fund_button' | translate }}
-          </ion-button>
-        </ion-col>
-      </ion-row>
-
-      <ion-col>
+      <ion-grid no-padding padding-top>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              *ngIf="this.fundStatus?.fund.estado == 'pausado'"
+              type="button"
+              color="success"
+              expand="block"
+              size="medium"
+              (click)="resumeFundRuns()"
+            >
+              <ion-icon slot="start" name="play"></ion-icon>
+              {{ 'funds.fund_summary.resume_fund_button' | translate }}
+            </ion-button>
+            <ion-button
+              *ngIf="this.fundStatus?.fund.estado == 'active'"
+              type="button"
+              color="primary"
+              expand="block"
+              size="medium"
+              (click)="pauseFundRuns()"
+            >
+              <ion-icon slot="start" name="pause"></ion-icon>
+              {{ 'funds.fund_summary.pause_fund_button' | translate }}
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button
+              *ngIf="
+                this.fundStatus?.fund.estado == 'active' ||
+                this.fundStatus?.fund.estado == 'pausado'
+              "
+              type="button"
+              color="danger"
+              expand="block"
+              size="medium"
+              (click)="finalizeFundRuns()"
+            >
+              <ion-icon slot="start" name="square"></ion-icon>
+              {{ 'funds.fund_summary.finalize_fund_button' | translate }}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div class="ion-padding-top">
         <ion-button
           expand="block"
           size="medium"
@@ -158,7 +159,19 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           <ion-icon slot="start" name="list"></ion-icon>
           {{ 'funds.fund_summary.fund_runs_button' | translate }}
         </ion-button>
-      </ion-col>
+
+        <ion-button
+          margin-top
+          expand="block"
+          size="medium"
+          type="button"
+          color="tertiary"
+          routerDirection="forward"
+          [routerLink]="['/funds/fund-balance', this.fundName]"
+        >
+          {{ 'funds.fund_summary.fund_balance_button' | translate }}
+        </ion-button>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./fund-summary.page.scss']

@@ -78,6 +78,17 @@
     }
   },
   "funds": {
+    "fund_balance": {
+      "header": "Fund Balance",
+      "main_title": "{{fundName}} - Period: {{period}}",
+      "date_info_start_period_text": "Start Period: ",
+      "date_info_last_update_text": "Last Update: ",
+      "balance_table_title": "Balance Fund",
+      "currency_amount_value": {
+        "amount_text": "Amount: "
+      },
+      "balance_total": "Total Balance "
+    },
     "funds_list": {
       "header": "funds-list",
       "new_fund_button": "New Fund",
@@ -116,6 +127,7 @@
       "resume_fund_button": "Activate fund",
       "finalize_fund_button": "Finalize fund",
       "fund_runs_button": "View runs",
+      "fund_balance_button": "View Balance",
       "chart_title": "Last Update "
     },
     "fund_runs": {

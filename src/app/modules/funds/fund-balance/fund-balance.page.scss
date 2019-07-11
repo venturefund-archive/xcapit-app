@@ -1,0 +1,26 @@
+:host {
+  .fb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .fb__header {
+    width: 100%;
+    h1 {
+      margin-bottom: 5px;
+    }
+  }
+
+  .fb__content {
+    width: 100%;
+  }
+
+  .fb__content__balance_table__content {
+    color: #777;
+  }
+
+  .custom_divider {
+    min-height: 0;
+  }
+}
