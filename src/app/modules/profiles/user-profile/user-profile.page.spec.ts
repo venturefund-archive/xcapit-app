@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { ApiRunsService } from '../../funds/shared-funds/services/api-runs/api-runs.service';
 
 const formData = {
   valid: {
@@ -38,8 +39,11 @@ describe('UserProfilePage', () => {
   let fixture: ComponentFixture<UserProfilePage>;
   let apiProfilesServiceMock: any;
   let apiProfilesService: ApiProfilesService;
+  let apiRunsServiceSpy: any;
 
   beforeEach(async(() => {
+    apiRunsServiceSpy = jasmine.createSpyObj('ApiRunsService', ['hasActive']);
+    apiRunsServiceSpy.hasActive.and.returnValue(of(false));
     apiProfilesServiceMock = {
       crud: {
         update: () => of({}),
@@ -57,7 +61,8 @@ describe('UserProfilePage', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock }
+        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+        { provide: ApiRunsService, useValue: apiRunsServiceSpy }
       ]
     }).compileComponents();
   }));
@@ -65,7 +70,6 @@ describe('UserProfilePage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfilePage);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     apiProfilesService = TestBed.get(ApiProfilesService);
   });
 
@@ -81,6 +85,7 @@ describe('UserProfilePage', () => {
   });
 
   it('should call save on submit form', () => {
+    fixture.detectChanges();
     const spy = spyOn(component, 'save');
     fixture.debugElement
       .query(By.css('form'))
@@ -89,6 +94,7 @@ describe('UserProfilePage', () => {
   });
 
   it('should call update on apiProfile.crud, valid form', () => {
+    fixture.detectChanges();
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
     const spy = spyOn(apiProfilesService.crud, 'update');
@@ -98,14 +104,9 @@ describe('UserProfilePage', () => {
   });
 
   it('should not call update on apiProfile.crud, invalid form', () => {
-    component.form.get('first_name').setValue(formData.valid.first_name);
-    component.form.get('last_name').setValue(formData.valid.last_name);
-    component.form.get('nro_dni').setValue(formData.valid.nro_dni);
+    fixture.detectChanges();
+    component.form.patchValue(formData.valid);
     component.form.get('cellphone').setValue(formData.invalid.cellphone);
-    component.form.get('condicion_iva').setValue(formData.valid.condicion_iva);
-    component.form.get('tipo_factura').setValue(formData.valid.tipo_factura);
-    component.form.get('cuit').setValue(formData.valid.cuit);
-    component.form.get('direccion').setValue(formData.valid.direccion);
     fixture.detectChanges();
     const spy = spyOn(apiProfilesService.crud, 'update');
     component.save();
@@ -113,11 +114,20 @@ describe('UserProfilePage', () => {
   });
 
   describe('Form values', () => {
-    it('form should be valid when fields are empty', async () => {
+
+    it('form should be invalid when fields are empty and active runs is true', () => {
+      apiRunsServiceSpy.hasActive.and.returnValue(of(true));
+      fixture.detectChanges();
+      expect(component.form.valid).toBeFalsy();
+    });
+
+    it('form should be valid when fields are empty and active runs is false', () => {
+      fixture.detectChanges();
       expect(component.form.valid).toBeTruthy();
     });
 
-    it('form should be invalid when some fields are notvalid', async () => {
+    it('form should be invalid when some fields are notvalid', () => {
+      fixture.detectChanges();
       component.form.get('cellphone').setValue(formData.invalid.cellphone);
       expect(component.form.valid).toBeFalsy();
     });

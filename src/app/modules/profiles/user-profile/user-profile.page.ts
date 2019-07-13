@@ -8,6 +8,7 @@ import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api
 import { NavController } from '@ionic/angular';
 import { ProfilesHelperService } from '../shared-profiles/services/profiles-helper/profiles-helper.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiRunsService } from '../../funds/shared-funds/services/api-runs/api-runs.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -21,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <form [formGroup]="this.form" (ngSubmit)="this.save()">
+      <form [formGroup]="this.form" (ngSubmit)="this.save()" *ngIf="this.isFormSet">
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
             <ion-label>{{
@@ -184,11 +185,13 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./user-profile.page.scss']
 })
 export class UserProfilePage implements OnInit {
+  isFormSet = false;
+
   cellphoneErrors: ItemFormError[] = CONFIG.fieldErrors.cellphone;
 
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
-  form: FormGroup = this.formBuilder.group({
+  controls = {
     first_name: ['', [Validators.maxLength(150)]],
     last_name: ['', [Validators.maxLength(150)]],
     nro_dni: [
@@ -207,8 +210,8 @@ export class UserProfilePage implements OnInit {
         Validators.pattern('[0-9()-+][^.a-zA-Z]*$')
       ]
     ],
-    condicion_iva: [''],
-    tipo_factura: [''],
+    condicion_iva: ['', []],
+    tipo_factura: ['', []],
     cuit: [
       '',
       [
@@ -217,8 +220,10 @@ export class UserProfilePage implements OnInit {
         Validators.pattern('[0-9][^.a-zA-Z]*$')
       ]
     ],
-    direccion: ['', Validators.maxLength(150)]
-  });
+    direccion: ['', [Validators.maxLength(150)]]
+  };
+
+  form: FormGroup;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -227,11 +232,12 @@ export class UserProfilePage implements OnInit {
     private toastService: ToastService,
     private navController: NavController,
     private profilesHelper: ProfilesHelperService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private apiRuns: ApiRunsService
   ) {}
 
   ngOnInit() {
-    this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
+    this.setForm();
   }
 
   save() {
@@ -246,6 +252,25 @@ export class UserProfilePage implements OnInit {
           this.navController.pop();
         }
       });
+    }
+  }
+
+  setForm() {
+    this.apiRuns.hasActive().subscribe((hasActiveRuns: boolean) => {
+      if (hasActiveRuns) {
+        this.addRequiredValidator();
+      }
+      this.form = this.formBuilder.group({ ...this.controls});
+      this.isFormSet = true;
+      this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
+    });
+  }
+
+  addRequiredValidator() {
+    for (const key in this.controls) {
+      if (Array.isArray(this.controls[key])) {
+        this.controls[key][1] = [Validators.required, ...this.controls[key][1]];
+      }
     }
   }
 }
