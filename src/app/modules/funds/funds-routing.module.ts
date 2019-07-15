@@ -18,6 +18,7 @@ export const routes: Routes = [
       },
       {
         path: 'runs/:nombre_bot',
+        canActivate: [UserProfileDataGuard, AuthGuard],
         loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
       },
       {
@@ -28,6 +29,11 @@ export const routes: Routes = [
         path: 'action',
         canActivate: [UserProfileDataGuard, AuthGuard],
         loadChildren: './new-fund/new-fund.module#NewFundPageModule'
+      },
+      {
+        path: 'deposit-address',
+        loadChildren:
+          './deposit-address/deposit-address.module#DepositAddressPageModule'
       }
     ]
   }

@@ -62,4 +62,8 @@ export class ApiFundsService {
   renewFund(fundData: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/renew_fund`, fundData);
   }
+
+  getDepositAdress(currency: string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/deposit_address/${currency}`);
+  }
 }
