@@ -327,8 +327,10 @@ export class NewFundPage implements OnInit {
       this.form.patchValue(res[0]);
       this.form.get('take_profit').setValue(res[0].ganancia);
       this.form.get('stop_loss').setValue(res[0].perdida);
+      this.form.get('risk_level').setValue(res[0].nivel_de_riesgo);
       this.form.get('cantidad_dias').disable();
       this.form.get('currency').disable();
+      this.form.get('risk_level').disable();
       this.fundId = res[0].id;
     });
   }
