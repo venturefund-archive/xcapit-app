@@ -32,7 +32,7 @@ export class ApiFundsService {
     return this.http.get(`${environment.apiUrl}/${this.entity}/name/${fundName}/balance`);
   }
 
-  getFundRuns(status, fundName: string): Observable<any> {
+  getFundRuns(status: string, fundName: string): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/fund_runs/${status}/${fundName}`
     );

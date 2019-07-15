@@ -97,6 +97,7 @@
     "new_fund": {
       "header_new": "New Fund",
       "header_renew": "Renew Fund",
+      "header_edit": "Edit Fund",
       "ion_divider1": "Binance API Keys",
       "api_key": "Binance API Key",
       "secret_key": "Binance Secret Key",
@@ -114,6 +115,7 @@
       "ion_option_risk_level_classic": "CLASSIC",
       "submit_button_new": "Create Fund",
       "submit_button_renew": "Renew Fund",
+      "submit_button_edit": "Save",
       "success_text_new": "The Fund was created correctly!",
       "success_text_renew": "The Fund was renewed correctly!"
     },

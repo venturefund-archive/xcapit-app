@@ -7,6 +7,7 @@ import { BinanceTransferTutorialModalComponent } from '../shared-tutorials/compo
 import { ComponentRef } from '@ionic/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-actions.enum';
 
 @Component({
   selector: 'app-interactive-tutorial',
@@ -115,7 +116,7 @@ import { TranslateService } from '@ngx-translate/core';
                       color="success"
                       routerDirection="forward"
                       [replaceUrl]="true"
-                      [routerLink]="['/funds/new']"
+                      [routerLink]="['/funds/action', this.fundFormActions.NewFund, '']"
                     >
                       {{
                         'tutorials.interactive_tutorial.yes_button' | translate
@@ -135,17 +136,19 @@ import { TranslateService } from '@ngx-translate/core';
 export class InteractiveTutorialPage implements OnInit {
   @ViewChild(IonSlides) slide: IonSlides;
 
+  fundFormActions = FundFormActions;
+
+  slideOpts = {
+    initialSlide: 0,
+    speed: 400
+  };
+
   constructor(
     private modalController: ModalController,
     private navController: NavController,
     private toastService: ToastService,
     private translate: TranslateService
   ) {}
-
-  slideOpts = {
-    initialSlide: 0,
-    speed: 400
-  };
 
   ngOnInit() {}
 

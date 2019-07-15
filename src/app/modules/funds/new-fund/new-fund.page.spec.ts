@@ -10,6 +10,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
+import { FundActionFormTitlePipe } from './pipes/fund-action-form-title/fund-action-form-title.pipe';
+import { FundActionFormTextButtonPipe } from './pipes/fund-action-form-text-button/fund-action-form-text-button.pipe';
 
 const formData = {
   api_key: 'asdfad',
@@ -45,9 +48,11 @@ describe('NewFundPage', () => {
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
     apiFundsServiceMock = {
       crud: {
-        create: () => of({})
+        create: () => of({}),
+        update: () => of({}),
       },
-      renewFund: () => of({})
+      renewFund: () => of({}),
+      getFundRuns: () => of({})
     };
     TestBed.configureTestingModule({
       imports: [
@@ -56,7 +61,11 @@ describe('NewFundPage', () => {
         IonicModule,
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [NewFundPage],
+      declarations: [
+        NewFundPage,
+        FundActionFormTitlePipe,
+        FundActionFormTextButtonPipe
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ApiFundsService, useValue: apiFundsServiceMock },
@@ -68,23 +77,24 @@ describe('NewFundPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NewFundPage);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     apiFundsService = TestBed.get(ApiFundsService);
     modalController = TestBed.get(ModalController);
-    // activatedRouteSpy = TestBed.get(ActivatedRoute).params = of({ fund_name: 'prueba' });
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should open Binance API Keys Tutorial', () => {
     component.openBinanceAPIKeys().then(() => {
+      fixture.detectChanges();
       expect(modalController.create).toHaveBeenCalledTimes(1);
     });
   });
 
   it('should call save on submit form', () => {
+    fixture.detectChanges();
     const spy = spyOn(component, 'save');
     fixture.debugElement
       .query(By.css('form'))
@@ -93,7 +103,10 @@ describe('NewFundPage', () => {
   });
 
   it('should call create on apiFunds.crud, valid form', () => {
-    TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({ })};
+    TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({
+      action: FundFormActions.NewFund,
+      fundName: ''
+    }) };
     component.form.patchValue(formData);
     fixture.detectChanges();
     const spy = spyOn(apiFundsService.crud, 'create');
@@ -112,10 +125,13 @@ describe('NewFundPage', () => {
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it('should call create when isRenew is false', () => {
-    // TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({ })};
-    TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({ fund_name: 'prueba' })};
-    // component.isRenew = false;
+  it('should call create when action is NewFund', () => {
+    TestBed.get(ActivatedRoute).snapshot = {
+      paramMap: convertToParamMap({
+        action: FundFormActions.NewFund,
+        fundName: ''
+      })
+    };
     fixture.detectChanges();
     component.form.patchValue(formData);
     const spy = spyOn(apiFundsService.crud, 'create');
@@ -123,29 +139,53 @@ describe('NewFundPage', () => {
     component.save();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-  
-  // TODO: Corregir test, hace que el proximo test falle.
-  
-  // it('should call renewFund when isRenew is true', () => {
-  //   TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({ fund_name: 'prueba' })};
-  //   component.isRenew = true;
-  //   fixture.detectChanges();
-  //   component.form.patchValue(formDataRenew);
-  //   const spy = spyOn(apiFundsService, 'renewFund');
-  //   spy.and.returnValue(of({}));
-  //   component.save();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+
+  it('should call renewFund when action is RenewFund', () => {
+    TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({
+      action: FundFormActions.RenewFund,
+      fundName: 'fundName'
+    })};
+    fixture.detectChanges();
+    component.form.patchValue(formDataRenew);
+    const spy = spyOn(apiFundsService, 'renewFund');
+    spy.and.returnValue(of({}));
+    component.save();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call update when action is EditProfitLoss', () => {
+    TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({
+      action: FundFormActions.EditProfitLoss,
+      fundName: 'fundName'
+    })};
+    fixture.detectChanges();
+    component.form.patchValue(formDataRenew);
+    const spy = spyOn(apiFundsService.crud, 'update');
+    spy.and.returnValue(of({}));
+    component.save();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
   describe('Form values', () => {
     it('form should be valid on new when all fields are ok', async () => {
-      TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({})};
+      TestBed.get(ActivatedRoute).snapshot = {
+        paramMap: convertToParamMap({
+          action: FundFormActions.NewFund,
+          fundName: ''
+        })
+      };
+      fixture.detectChanges();
       component.form.patchValue(formData);
       expect(component.form.valid).toBeTruthy();
     });
 
     it('form should be valid on renew when all fields are ok', async () => {
-      TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({ fund_name: 'prueba' })};
+      TestBed.get(ActivatedRoute).snapshot = {
+        paramMap: convertToParamMap({
+          action: FundFormActions.RenewFund,
+          fundName: 'prueba'
+        })
+      };
       fixture = TestBed.createComponent(NewFundPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -154,9 +194,12 @@ describe('NewFundPage', () => {
     });
 
     it('form should be invalid when fields are empty', async () => {
+      fixture.detectChanges();
       expect(component.form.valid).toBeFalsy();
     });
+
     it('form should be invalid when some fields are notvalid', async () => {
+      fixture.detectChanges();
       activatedRouteSpy.params.and.returnValue(of({}));
       component.form.patchValue(formData);
       component.form.get('currency').setValue('');
