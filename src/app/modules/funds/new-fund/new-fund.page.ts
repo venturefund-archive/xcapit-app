@@ -11,6 +11,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
 import { TranslateService } from '@ngx-translate/core';
 import { Currency } from '../shared-funds/enums/currency.enum';
 import { ActivatedRoute } from '@angular/router';
+import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 
 @Component({
   selector: 'app-new-fund',
@@ -20,16 +21,17 @@ import { ActivatedRoute } from '@angular/router';
         <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>{{
-          isRenew
-            ? ('funds.new_fund.header_renew' | translate)
-            : ('funds.new_fund.header_new' | translate)
-        }}</ion-title>
+        <ion-title>
+          {{ this.action | fundActionFormTitle | translate }}
+        </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <form [formGroup]="this.form" (ngSubmit)="this.save()">
-        <ion-item-group class="ion-padding-top" *ngIf="!isRenew">
+        <ion-item-group
+          class="ion-padding-top"
+          *ngIf="this.action === this.fundFormActions.NewFund"
+        >
           <ion-item-divider>
             <ion-label>{{
               'funds.new_fund.ion_divider1' | translate
@@ -82,7 +84,7 @@ import { ActivatedRoute } from '@angular/router';
               <ion-input
                 formControlName="fund_name"
                 type="text"
-                [readonly]="isRenew"
+                [readonly]="this.action !== this.fundFormActions.NewFund"
               ></ion-input>
             </ion-item>
             <app-errors-form-item
@@ -92,7 +94,9 @@ import { ActivatedRoute } from '@angular/router';
               <ion-label position="floating">{{
                 'funds.new_fund.currency' | translate
               }}</ion-label>
-              <ion-select formControlName="currency">
+              <ion-select
+                formControlName="currency"
+              >
                 <ion-select-option [value]="this.currencyEnum.BTC">
                   {{ this.currencyEnum.BTC }}
                 </ion-select-option>
@@ -106,20 +110,22 @@ import { ActivatedRoute } from '@angular/router';
               <ion-label position="floating">{{
                 'funds.new_fund.cantidad_dias' | translate
               }}</ion-label>
-              <ion-select formControlName="cantidad_dias">
-                <ion-select-option value="30"
+              <ion-select
+                formControlName="cantidad_dias"
+              >
+                <ion-select-option [value]="30"
                   >30
                   {{
                     'funds.new_fund.ion_option_cantidad_dias' | translate
                   }}</ion-select-option
                 >
-                <ion-select-option value="60"
+                <ion-select-option [value]="60"
                   >60
                   {{
                     'funds.new_fund.ion_option_cantidad_dias' | translate
                   }}</ion-select-option
                 >
-                <ion-select-option value="90"
+                <ion-select-option [value]="90"
                   >90
                   {{
                     'funds.new_fund.ion_option_cantidad_dias' | translate
@@ -187,11 +193,7 @@ import { ActivatedRoute } from '@angular/router';
             "
           >
             <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
-            {{
-              isRenew
-                ? ('funds.new_fund.submit_button_renew' | translate)
-                : ('funds.new_fund.submit_button_new' | translate)
-            }}
+            {{ this.action | fundActionFormTextButton | translate }}
           </ion-button>
         </div>
       </form>
@@ -200,11 +202,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./new-fund.page.scss']
 })
 export class NewFundPage implements OnInit {
+  fundFormActions = FundFormActions;
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   currencyEnum = Currency;
   fundName: string;
-  isRenew = false;
+  action: string;
+  fundId: number; // abstracción del id del model run en api-bot
 
   form: FormGroup = this.formBuilder.group({
     api_key: ['', [Validators.required]],
@@ -244,62 +248,55 @@ export class NewFundPage implements OnInit {
     private toastService: ToastService,
     private translate: TranslateService,
     private route: ActivatedRoute
-  ) {
-    const fundName = this.route.snapshot.paramMap.get('fund_name');
+  ) {}
 
-    if (fundName) {
-      this.isRenew = true;
-      this.fundName = fundName;
-      this.form.removeControl('api_key');
-      this.form.removeControl('secret_key');
-      this.form.patchValue({ fund_name: this.fundName });
-      this.form.updateValueAndValidity();
-    }
-
-    // this.route.params.subscribe(params => {
-    //   console.log(params)
-    //   if (params.fund_name) {
-    //     this.isRenew = true;
-    //     this.fundName = params.fund_name;
-    //     this.form.removeControl('api_key');
-    //     this.form.removeControl('secret_key');
-    //     this.form.patchValue({ fund_name: this.fundName });
-    //     this.form.updateValueAndValidity();
-    //   }
-    // });
+  ngOnInit() {
+    this.fundName = this.route.snapshot.paramMap.get('fundName');
+    this.action = this.route.snapshot.paramMap.get('action');
+    this.setPageByAction();
   }
-  ngOnInit() {}
 
-  saveNew(values: any) {
-    this.apiFunds.crud.create(values).subscribe(() => {
-      this.navController.navigateForward(['funds/list']).then(() => {
-        this.toastService.showToast({
-          message: this.translate.instant('funds.new_fund.success_text_new')
-        });
-        this.form.reset();
+  saveNew() {
+    this.apiFunds.crud
+      .create(this.form.value)
+      .subscribe(() => this.success());
+  }
+
+  edit() {
+    this.apiFunds.crud
+      .update(this.form.value, this.fundId)
+      .subscribe(() => this.success());
+  }
+
+  saveRenew() {
+    this.apiFunds
+      .renewFund(this.form.value)
+      .subscribe(() => this.success());
+  }
+
+  private success() {
+    this.navController.pop().then(() => {
+      this.toastService.showToast({
+        message: this.translate.instant(
+          `funds.new_fund.success_text_${this.action}`
+        )
       });
-    });
-  }
-
-  saveRenew(values: any) {
-    this.apiFunds.renewFund(values).subscribe(() => {
-      this.navController
-        .navigateForward(['funds/fund-summary', this.fundName])
-        .then(() => {
-          this.toastService.showToast({
-            message: this.translate.instant('funds.new_fund.success_text_renew')
-          });
-          this.form.reset();
-        });
+      this.form.reset();
     });
   }
 
   save() {
     if (this.form.valid) {
-      if (this.isRenew) {
-        this.saveRenew(this.form.value);
-      } else {
-        this.saveNew(this.form.value);
+      switch (this.action) {
+        case FundFormActions.RenewFund:
+          this.saveRenew();
+          break;
+        case FundFormActions.NewFund:
+          this.saveNew();
+          break;
+        case FundFormActions.EditProfitLoss:
+          this.edit();
+          break;
       }
     }
   }
@@ -309,5 +306,43 @@ export class NewFundPage implements OnInit {
       component: BinanceApikeyTutorialModalComponent
     });
     await modal.present();
+  }
+
+  setPageByAction() {
+    switch (this.action) {
+      case FundFormActions.RenewFund:
+        this.setRenewAction();
+        break;
+      case FundFormActions.EditProfitLoss:
+        this.setEditAction();
+        break;
+    }
+  }
+
+  private setEditAction() {
+    this.removeKeys();
+    this.form.updateValueAndValidity();
+    this.form.get('fund_name').setValue(this.fundName);
+    this.apiFunds.getFundRuns('active', this.fundName).subscribe((res: any) => {
+      this.form.patchValue(res[0]);
+      this.form.get('take_profit').setValue(res[0].ganancia);
+      this.form.get('stop_loss').setValue(res[0].perdida);
+      this.form.get('risk_level').setValue(res[0].nivel_de_riesgo);
+      this.form.get('cantidad_dias').disable();
+      this.form.get('currency').disable();
+      this.form.get('risk_level').disable();
+      this.fundId = res[0].id;
+    });
+  }
+
+  private setRenewAction() {
+    this.removeKeys();
+    this.form.get('fund_name').setValue(this.fundName);
+    this.form.updateValueAndValidity();
+  }
+
+  private removeKeys() {
+    this.form.removeControl('api_key');
+    this.form.removeControl('secret_key');
   }
 }

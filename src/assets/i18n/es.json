@@ -97,6 +97,7 @@
     "new_fund": {
       "header_new": "Nuevo Fondo",
       "header_renew": "Renovar Fondo",
+      "header_edit": "Editar Fondo",
       "ion_divider1": "Binance API Keys",
       "api_key": "Binance API Key",
       "secret_key": "Binance Secret Key",
@@ -114,6 +115,7 @@
       "ion_option_risk_level_classic": "CLASSIC",
       "submit_button_new": "Crear Fondo",
       "submit_button_renew": "Renovar Fondo",
+      "submit_button_edit": "Guardar",
       "success_text_new": "El Fondo se creo correctamente!",
       "success_text_renew": "El Fondo se renovo correctamente!"
     },

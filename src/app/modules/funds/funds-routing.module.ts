@@ -13,16 +13,6 @@ export const routes: Routes = [
         loadChildren: './funds-list/funds-list.module#FundsListPageModule'
       },
       {
-        path: 'new/:fund_name',
-        canActivate: [UserProfileDataGuard, AuthGuard],
-        loadChildren: './new-fund/new-fund.module#NewFundPageModule'
-      },
-      {
-        path: 'new',
-        canActivate: [UserProfileDataGuard, AuthGuard],
-        loadChildren: './new-fund/new-fund.module#NewFundPageModule'
-      },
-      {
         path: 'fund-summary',
         loadChildren: './fund-summary/fund-summary.module#FundSummaryPageModule'
       },
@@ -36,12 +26,17 @@ export const routes: Routes = [
         loadChildren: './fund-balance/fund-balance.module#FundBalancePageModule'
       },
       {
+        path: 'action',
+        canActivate: [UserProfileDataGuard, AuthGuard],
+        loadChildren: './new-fund/new-fund.module#NewFundPageModule'
+      },
+      {
         path: 'deposit-address',
-        loadChildren: './deposit-address/deposit-address.module#DepositAddressPageModule'
+        loadChildren:
+          './deposit-address/deposit-address.module#DepositAddressPageModule'
       }
     ]
-  },
-  { path: 'deposit-address', loadChildren: './deposit-address/deposit-address.module#DepositAddressPageModule' }
+  }
 ];
 
 @NgModule({

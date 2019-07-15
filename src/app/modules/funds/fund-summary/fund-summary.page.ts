@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
+import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 
 @Component({
   selector: 'app-fund-summary',
@@ -15,6 +16,17 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
         <ion-title>
           {{ 'funds.fund_summary.header' | translate }}
         </ion-title>
+        <ion-buttons slot="end">
+          <ion-button
+            (click)="this.editFund()"
+            [disabled]="!this.fundStatus"
+          >
+            <ion-icon
+              slot="icon-only"
+              name="create"
+            ></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
@@ -248,10 +260,18 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   }
 
   renewFund(): void {
-    this.router.navigate(['funds/new', this.fundName]);
+    this.router.navigate(['funds/action', FundFormActions.RenewFund, this.fundName]);
   }
 
   fundRuns(selectedFund: string): void {
     this.router.navigate(['funds/runs', selectedFund]);
+  }
+
+  editFund() {
+    this.router.navigate([
+      '/funds/action',
+      FundFormActions.EditProfitLoss,
+      this.fundName
+    ]);
   }
 }
