@@ -179,6 +179,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
           color="tertiary"
           routerDirection="forward"
           [routerLink]="['/funds/fund-balance', this.fundName]"
+          [disabled]="!this.fundStatus?.status"
         >
           {{ 'funds.fund_summary.fund_balance_button' | translate }}
         </ion-button>
