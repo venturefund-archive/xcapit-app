@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { filter, tap } from 'rxjs/operators';
-import { Subscription, Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 
@@ -195,8 +194,6 @@ export class FundSummaryPage implements OnInit, OnDestroy {
 
   fundStatus: any;
 
-  routeParamsSubscription: Subscription;
-
   fundStatusSubscription: Subscription;
 
   constructor(
@@ -209,14 +206,12 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {
-    this.routeParamsSubscription.unsubscribe();
     this.fundStatusSubscription.unsubscribe();
   }
 
   ionViewWillEnter() {
-    this.routeParamsSubscription = this.getFundName().subscribe(() =>
-      this.getFundStatus()
-    );
+    this.fundName = this.route.snapshot.paramMap.get('fundName');
+    this.getFundStatus();
   }
 
   shareFund() {
@@ -231,13 +226,6 @@ export class FundSummaryPage implements OnInit, OnDestroy {
         this.fundStatus = res;
         this.loadingStatus = false;
       });
-  }
-
-  getFundName(): Observable<any> {
-    return this.route.params.pipe(
-      filter((params: Params) => params.fundName),
-      tap((params: Params) => (this.fundName = params.fundName))
-    );
   }
 
   pauseFundRuns(): void {

@@ -61,35 +61,11 @@ describe('FundSummaryPage', () => {
   });
 
   it('should call getFundName on ionViewWillEnter', () => {
-    const getFundNameSpy = spyOn(component, 'getFundName');
-    getFundNameSpy.and.returnValue(of({}));
+    const getFundStatusSpy = spyOn(component, 'getFundStatus');
+    getFundStatusSpy.and.returnValue(of({}));
     component.ionViewWillEnter();
     fixture.detectChanges();
-    expect(getFundNameSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call getStatus on getFundName is callled', () => {
-    const getStatusSpy = spyOn(apiFundServiceMock, 'getStatus');
-    getStatusSpy.and.returnValue(of(fundStatusMockData));
-    component.getFundName().subscribe(() => {
-      expect(getStatusSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it('should call getStatus on getFundName is callled, return empty', () => {
-    const getStatusSpy = spyOn(apiFundServiceMock, 'getStatus');
-    getStatusSpy.and.returnValue(of(null));
-    component.getFundName().subscribe(() => {
-      expect(getStatusSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it('should call getStatus on getFundName is callled, return with not status', () => {
-    const getStatusSpy = spyOn(apiFundServiceMock, 'getStatus');
-    getStatusSpy.and.returnValue(of({}));
-    component.getFundName().subscribe(() => {
-      expect(getStatusSpy).toHaveBeenCalledTimes(1);
-    });
+    expect(getFundStatusSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should call shareSubscriptionLink when getSubscriptionLink is callled', () => {
