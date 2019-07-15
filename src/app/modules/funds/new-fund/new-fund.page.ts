@@ -208,7 +208,7 @@ export class NewFundPage implements OnInit {
   currencyEnum = Currency;
   fundName: string;
   action: string;
-  fundId: number; // abstracción del id del model run en api-bot
+  fundForUpdate: any;
 
   form: FormGroup = this.formBuilder.group({
     api_key: ['', [Validators.required]],
@@ -264,8 +264,18 @@ export class NewFundPage implements OnInit {
 
   edit() {
     this.apiFunds.crud
-      .update(this.form.value, this.fundId)
+      .update(this.getForUpdate(), this.fundForUpdate.id)
       .subscribe(() => this.success());
+  }
+
+  getForUpdate() {
+    return {
+      ...this.form.value,
+      cantidad_dias: this.form.get('cantidad_dias').value,
+      currency: this.form.get('currency').value,
+      risk_level: this.form.get('risk_level').value,
+      id_corrida: this.fundForUpdate.id_corrida
+    };
   }
 
   saveRenew() {
@@ -324,6 +334,7 @@ export class NewFundPage implements OnInit {
     this.form.updateValueAndValidity();
     this.form.get('fund_name').setValue(this.fundName);
     this.apiFunds.getFundRuns('active', this.fundName).subscribe((res: any) => {
+      this.fundForUpdate = {...res[0]};
       this.form.patchValue(res[0]);
       this.form.get('take_profit').setValue(res[0].ganancia);
       this.form.get('stop_loss').setValue(res[0].perdida);
@@ -331,7 +342,6 @@ export class NewFundPage implements OnInit {
       this.form.get('cantidad_dias').disable();
       this.form.get('currency').disable();
       this.form.get('risk_level').disable();
-      this.fundId = res[0].id;
     });
   }
 

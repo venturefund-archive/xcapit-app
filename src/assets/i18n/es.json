@@ -117,7 +117,8 @@
       "submit_button_renew": "Renovar Fondo",
       "submit_button_edit": "Guardar",
       "success_text_new": "El Fondo se creo correctamente!",
-      "success_text_renew": "El Fondo se renovo correctamente!"
+      "success_text_renew": "El Fondo se renovo correctamente!",
+      "success_text_edit": "El Fondo se actualizó correctamente!"
     },
     "fund_summary": {
       "header": "Fondo",
