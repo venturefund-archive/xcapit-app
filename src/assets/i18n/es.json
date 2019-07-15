@@ -90,7 +90,7 @@
       "balance_total": "Total Balance "
     },
     "funds_list": {
-      "header": "funds-list",
+      "header": "Lista de Fondos",
       "new_fund_button": "Nuevo Fondo",
       "owner_text": "Dueño"
     },
@@ -154,6 +154,15 @@
       "cant_usdt_title": "USDT",
       "cant": "Cantidad: ",
       "gain_current_currency_title": "Porcentaje de ganancia en"
+    },
+    "deposit_address": {
+      "header": "Dirección de depósito",
+      "currency_card_title": "Moneda",
+      "deposit_address_card_title": "Informacion de depósito",
+      "currency": "Seleccionar moneda",
+      "address": "Dirección",
+      "address_tag": "Etiqueta",
+      "link": "Enlace"
     }
   },
   "profiles": {

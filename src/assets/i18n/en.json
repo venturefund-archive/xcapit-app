@@ -4,6 +4,7 @@
       "header": "Menu",
       "funds": "Funds",
       "user_profile": "User Profile",
+      "deposit_address": "Deposit address",
       "logout": "Log Out"
     }
   },
@@ -90,7 +91,7 @@
       "balance_total": "Total Balance "
     },
     "funds_list": {
-      "header": "funds-list",
+      "header": "Fund List",
       "new_fund_button": "New Fund",
       "owner_text": "Owner"
     },
@@ -154,6 +155,15 @@
       "cant_usdt_title": "USDT",
       "cant": "Amount: ",
       "gain_current_currency_title": "Percentage of profit in"
+    },
+    "deposit_address": {
+      "header": "Deposit Adress",
+      "currency_card_title": "Currency",
+      "deposit_address_card_title": "Adress info",
+      "currency": "Select currency",
+      "address": "Address",
+      "address_tag": "Address tag",
+      "link": "Link"
     }
   },
   "profiles": {

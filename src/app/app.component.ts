@@ -77,6 +77,13 @@ export class AppComponent implements OnInit, OnDestroy {
       url: '/profiles/user',
       customIcon: '',
       routeDirection: 'forward'
+    },
+    {
+      id: 3,
+      title: 'app.main_menu.deposit_address',
+      url: '/funds/deposit-address',
+      customIcon: '',
+      routeDirection: 'forward'
     }
   ];
 

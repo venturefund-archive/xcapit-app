@@ -28,14 +28,20 @@ export const routes: Routes = [
       },
       {
         path: 'runs/:nombre_bot',
+        canActivate: [UserProfileDataGuard, AuthGuard],
         loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
       },
       {
         path: 'fund-balance',
         loadChildren: './fund-balance/fund-balance.module#FundBalancePageModule'
+      },
+      {
+        path: 'deposit-address',
+        loadChildren: './deposit-address/deposit-address.module#DepositAddressPageModule'
       }
     ]
-  }
+  },
+  { path: 'deposit-address', loadChildren: './deposit-address/deposit-address.module#DepositAddressPageModule' }
 ];
 
 @NgModule({
