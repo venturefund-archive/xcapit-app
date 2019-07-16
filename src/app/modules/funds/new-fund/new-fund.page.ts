@@ -12,6 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Currency } from '../shared-funds/enums/currency.enum';
 import { ActivatedRoute } from '@angular/router';
 import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
+import { Exchanges } from '../shared-funds/enums/exchanges.enum';
+import { DynamicComponentService } from 'src/app/shared/services/dynamic-component/dynamic-component.service';
 
 @Component({
   selector: 'app-new-fund',
@@ -40,6 +42,16 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 
           <div class="ion-padding-start ion-padding-end">
             <ion-item>
+              <ion-label position="floating">
+                {{ 'funds.new_fund.exchange' | translate }}
+              </ion-label>
+              <ion-select formControlName="exchange">
+                <ion-select-option [value]="this.exchanges.Binance">
+                  {{ this.exchanges.Binance }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
               <ion-label position="floating">{{
                 'funds.new_fund.api_key' | translate
               }}</ion-label>
@@ -62,7 +74,7 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
             <p>
               <ion-icon name="information-circle-outline"></ion-icon>
               {{ 'funds.new_fund.p1' | translate }}
-              <a class="local-a" (click)="this.openBinanceAPIKeys()">{{
+              <a class="local-a" (click)="this.openAPIKeysTutorial()">{{
                 'funds.new_fund.a1' | translate
               }}</a>
             </p>
@@ -94,9 +106,7 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
               <ion-label position="floating">{{
                 'funds.new_fund.currency' | translate
               }}</ion-label>
-              <ion-select
-                formControlName="currency"
-              >
+              <ion-select formControlName="currency">
                 <ion-select-option [value]="this.currencyEnum.BTC">
                   {{ this.currencyEnum.BTC }}
                 </ion-select-option>
@@ -110,9 +120,7 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
               <ion-label position="floating">{{
                 'funds.new_fund.cantidad_dias' | translate
               }}</ion-label>
-              <ion-select
-                formControlName="cantidad_dias"
-              >
+              <ion-select formControlName="cantidad_dias">
                 <ion-select-option [value]="30"
                   >30
                   {{
@@ -206,11 +214,13 @@ export class NewFundPage implements OnInit {
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   currencyEnum = Currency;
+  exchanges = Exchanges;
   fundName: string;
   action: string;
   fundForUpdate: any;
 
   form: FormGroup = this.formBuilder.group({
+    exchange: [Exchanges.Binance, [Validators.required]],
     api_key: ['', [Validators.required]],
     secret_key: ['', [Validators.required]],
     fund_name: [
@@ -247,7 +257,8 @@ export class NewFundPage implements OnInit {
     private navController: NavController,
     private toastService: ToastService,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dynamicComponentService: DynamicComponentService
   ) {}
 
   ngOnInit() {
@@ -257,9 +268,7 @@ export class NewFundPage implements OnInit {
   }
 
   saveNew() {
-    this.apiFunds.crud
-      .create(this.form.value)
-      .subscribe(() => this.success());
+    this.apiFunds.crud.create(this.form.value).subscribe(() => this.success());
   }
 
   edit() {
@@ -279,9 +288,7 @@ export class NewFundPage implements OnInit {
   }
 
   saveRenew() {
-    this.apiFunds
-      .renewFund(this.form.value)
-      .subscribe(() => this.success());
+    this.apiFunds.renewFund(this.form.value).subscribe(() => this.success());
   }
 
   private success() {
@@ -311,10 +318,11 @@ export class NewFundPage implements OnInit {
     }
   }
 
-  async openBinanceAPIKeys() {
-    const modal = await this.modalController.create({
-      component: BinanceApikeyTutorialModalComponent
-    });
+  async openAPIKeysTutorial() {
+    const exchange = this.form.get('exchange').value || Exchanges.Binance;
+    const component = this.dynamicComponentService
+      .getComponent(`${exchange}ApikeyTutorialModalComponent`);
+    const modal = await this.modalController.create({ component });
     await modal.present();
   }
 
@@ -330,11 +338,11 @@ export class NewFundPage implements OnInit {
   }
 
   private setEditAction() {
-    this.removeKeys();
+    this.removeExchange();
     this.form.updateValueAndValidity();
     this.form.get('fund_name').setValue(this.fundName);
     this.apiFunds.getFundRuns('active', this.fundName).subscribe((res: any) => {
-      this.fundForUpdate = {...res[0]};
+      this.fundForUpdate = { ...res[0] };
       this.form.patchValue(res[0]);
       this.form.get('take_profit').setValue(res[0].ganancia);
       this.form.get('stop_loss').setValue(res[0].perdida);
@@ -346,12 +354,13 @@ export class NewFundPage implements OnInit {
   }
 
   private setRenewAction() {
-    this.removeKeys();
+    this.removeExchange();
     this.form.get('fund_name').setValue(this.fundName);
     this.form.updateValueAndValidity();
   }
 
-  private removeKeys() {
+  private removeExchange() {
+    this.form.removeControl('exchange');
     this.form.removeControl('api_key');
     this.form.removeControl('secret_key');
   }

@@ -86,8 +86,8 @@ describe('NewFundPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open Binance API Keys Tutorial', () => {
-    component.openBinanceAPIKeys().then(() => {
+  it('should open API Keys Tutorial', () => {
+    component.openAPIKeysTutorial().then(() => {
       fixture.detectChanges();
       expect(modalController.create).toHaveBeenCalledTimes(1);
     });
