@@ -14,6 +14,9 @@ import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-action
   template: `
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
         <ion-title>
           {{ 'tutorials.interactive_tutorial.header' | translate }}
         </ion-title>
@@ -116,7 +119,11 @@ import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-action
                       color="success"
                       routerDirection="forward"
                       [replaceUrl]="true"
-                      [routerLink]="['/funds/action', this.fundFormActions.NewFund, '']"
+                      [routerLink]="[
+                        '/funds/action',
+                        this.fundFormActions.NewFund,
+                        ''
+                      ]"
                     >
                       {{
                         'tutorials.interactive_tutorial.yes_button' | translate
