@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 // tslint:disable-next-line: max-line-length
 import { BinanceApikeyTutorialModalComponent } from '../../tutorials/shared-tutorials/components/binance-apikey-tutorial-modal/binance-apikey-tutorial-modal.component';
@@ -173,6 +178,31 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
               [errors]="this.onlyIntegersErrors"
             ></app-errors-form-item>
             <ion-item>
+              <ion-label>Trailing</ion-label>
+              <ion-toggle
+                [checked]="this.hasTrailing"
+                (ionChange)="this.toggleTrailing($event)"
+              ></ion-toggle>
+            </ion-item>
+            <div *ngIf="this.hasTrailing">
+              <ion-item lines="inset">
+                <ion-label>Profit</ion-label>
+                <ion-range formControlName="trailing_profit" min="0" max="100">
+                  <ion-label class="new-fund__trailing-label" slot="end">
+                    {{ this.form.get('trailing_profit').value || '0' }}%
+                  </ion-label>
+                </ion-range>
+              </ion-item>
+              <ion-item lines="inset">
+                <ion-label>Stop</ion-label>
+                <ion-range formControlName="trailing_stop" min="0" max="100">
+                  <ion-label class="new-fund__trailing-label" slot="end">
+                    {{ this.form.get('trailing_stop').value  || '0' }}%
+                  </ion-label>
+                </ion-range>
+              </ion-item>
+            </div>
+            <ion-item>
               <ion-label position="floating">{{
                 'funds.new_fund.risk_level' | translate
               }}</ion-label>
@@ -218,6 +248,7 @@ export class NewFundPage implements OnInit {
   fundName: string;
   action: string;
   fundForUpdate: any;
+  hasTrailing = false;
 
   form: FormGroup = this.formBuilder.group({
     exchange: [Exchanges.Binance, [Validators.required]],
@@ -320,8 +351,9 @@ export class NewFundPage implements OnInit {
 
   async openAPIKeysTutorial() {
     const exchange = this.form.get('exchange').value || Exchanges.Binance;
-    const component = this.dynamicComponentService
-      .getComponent(`${exchange}ApikeyTutorialModalComponent`);
+    const component = this.dynamicComponentService.getComponent(
+      `${exchange}ApikeyTutorialModalComponent`
+    );
     const modal = await this.modalController.create({ component });
     await modal.present();
   }
@@ -337,12 +369,38 @@ export class NewFundPage implements OnInit {
     }
   }
 
+  toggleTrailing(event: CustomEvent) {
+    this.hasTrailing = event.detail.checked;
+    if (this.hasTrailing) {
+      const validators = [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(100),
+        Validators.pattern('[0-9][^.a-zA-Z]*$')
+      ];
+      this.form.addControl(
+        'trailing_profit',
+        new FormControl(0, [...validators])
+      );
+      this.form.addControl(
+        'trailing_stop',
+        new FormControl(0, [...validators])
+      );
+    } else {
+      this.form.removeControl('trailing_profit');
+      this.form.removeControl('trailing_stop');
+    }
+  }
+
   private setEditAction() {
     this.removeExchange();
     this.form.updateValueAndValidity();
     this.form.get('fund_name').setValue(this.fundName);
     this.apiFunds.getFundRuns('active', this.fundName).subscribe((res: any) => {
       this.fundForUpdate = { ...res[0] };
+      if (res[0].trailing_stop || res[0].trailing_profit) {
+        this.toggleTrailing({ detail: { checked: true } } as CustomEvent);
+      }
       this.form.patchValue(res[0]);
       this.form.get('take_profit').setValue(res[0].ganancia);
       this.form.get('stop_loss').setValue(res[0].perdida);

@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: ':action/:fundName',
     component: NewFundPage
+  },
+  {
+    path: ':action',
+    component: NewFundPage
   }
 ];
 

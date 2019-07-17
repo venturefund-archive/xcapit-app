@@ -179,6 +179,36 @@ describe('NewFundPage', () => {
       expect(component.form.valid).toBeTruthy();
     });
 
+    it('form should be valid on new when all fields (with trailing) are ok', async () => {
+      TestBed.get(ActivatedRoute).snapshot = {
+        paramMap: convertToParamMap({
+          action: FundFormActions.NewFund,
+          fundName: ''
+        })
+      };
+      fixture.detectChanges();
+      component.toggleTrailing({ detail: { checked: true } } as CustomEvent);
+      component.form.patchValue(formData);
+      expect(component.form.valid).toBeTruthy();
+    });
+
+    it('form should be invalid on new when all fields (with trailing) are not ok', async () => {
+      TestBed.get(ActivatedRoute).snapshot = {
+        paramMap: convertToParamMap({
+          action: FundFormActions.NewFund,
+          fundName: ''
+        })
+      };
+      fixture.detectChanges();
+      component.toggleTrailing({ detail: { checked: true } } as CustomEvent);
+      component.form.patchValue(formData);
+      component.form.get('trailing_stop').setValue(null);
+      expect(component.form.valid).toBeFalsy();
+      component.form.get('trailing_stop').setValue(1);
+      component.form.get('trailing_profit').setValue(null);
+      expect(component.form.valid).toBeFalsy();
+    });
+
     it('form should be valid on renew when all fields are ok', async () => {
       TestBed.get(ActivatedRoute).snapshot = {
         paramMap: convertToParamMap({
