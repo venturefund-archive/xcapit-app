@@ -197,7 +197,7 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
                 <ion-label>Stop</ion-label>
                 <ion-range formControlName="trailing_stop" min="0" max="100">
                   <ion-label class="new-fund__trailing-label" slot="end">
-                    {{ this.form.get('trailing_stop').value  || '0' }}%
+                    {{ this.form.get('trailing_stop').value || '0' }}%
                   </ion-label>
                 </ion-range>
               </ion-item>
@@ -397,17 +397,19 @@ export class NewFundPage implements OnInit {
     this.form.updateValueAndValidity();
     this.form.get('fund_name').setValue(this.fundName);
     this.apiFunds.getFundRuns('active', this.fundName).subscribe((res: any) => {
-      this.fundForUpdate = { ...res[0] };
-      if (res[0].trailing_stop || res[0].trailing_profit) {
-        this.toggleTrailing({ detail: { checked: true } } as CustomEvent);
+      if (Array.isArray(res) && res[0]) {
+        this.fundForUpdate = { ...res[0] };
+        if (this.fundForUpdate.trailing_stop || this.fundForUpdate.trailing_profit) {
+          this.toggleTrailing({ detail: { checked: true } } as CustomEvent);
+        }
+        this.form.patchValue(this.fundForUpdate);
+        this.form.get('take_profit').setValue(this.fundForUpdate.ganancia);
+        this.form.get('stop_loss').setValue(this.fundForUpdate.perdida);
+        this.form.get('risk_level').setValue(this.fundForUpdate.nivel_de_riesgo);
+        this.form.get('cantidad_dias').disable();
+        this.form.get('currency').disable();
+        this.form.get('risk_level').disable();
       }
-      this.form.patchValue(res[0]);
-      this.form.get('take_profit').setValue(res[0].ganancia);
-      this.form.get('stop_loss').setValue(res[0].perdida);
-      this.form.get('risk_level').setValue(res[0].nivel_de_riesgo);
-      this.form.get('cantidad_dias').disable();
-      this.form.get('currency').disable();
-      this.form.get('risk_level').disable();
     });
   }
 
