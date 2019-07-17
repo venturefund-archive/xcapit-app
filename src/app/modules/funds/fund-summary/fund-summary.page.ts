@@ -292,12 +292,14 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   }
 
   isInCAStatus() {
-    const estado = this.fundStatus.fund.estado;
-    const re = /^to[A-Z]*-NF$/;
-    if (estado.match(re)) {
-      this.inCAStatus = true;
-    } else {
-      this.inCAStatus = false;
+    if (this.fundStatus) {
+      const estado = this.fundStatus.fund.estado;
+      const re = /^to[A-Z]*-NF$/;
+      if (estado.match(re)) {
+        this.inCAStatus = true;
+      } else {
+        this.inCAStatus = false;
+      }
     }
   }
 
