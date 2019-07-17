@@ -120,7 +120,9 @@
       "submit_button_edit": "Guardar",
       "success_text_new": "El Fondo se creo correctamente!",
       "success_text_renew": "El Fondo se renovo correctamente!",
-      "success_text_edit": "El Fondo se actualizó correctamente!"
+      "success_text_edit": "El Fondo se actualizó correctamente!",
+      "trailing_profit": "Trailing Profit",
+      "trailing_stop": "Trailing Stop"
     },
     "fund_summary": {
       "header": "Fondo",

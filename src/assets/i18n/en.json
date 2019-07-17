@@ -120,7 +120,9 @@
       "submit_button_edit": "Save",
       "success_text_new": "The Fund was created correctly!",
       "success_text_renew": "The Fund was renewed correctly!",
-      "success_text_edit": "The Fund was updated correctly!"
+      "success_text_edit": "The Fund was updated correctly!",
+      "trailing_profit": "Trailing Profit",
+      "trailing_stop": "Trailing Stop"
     },
     "fund_summary": {
       "header": "Fund",
