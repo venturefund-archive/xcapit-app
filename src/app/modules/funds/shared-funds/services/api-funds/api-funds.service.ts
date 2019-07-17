@@ -21,20 +21,35 @@ export class ApiFundsService {
   }
 
   getSubscribedFunds(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/subscribed_funds`);
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/subscribed_funds`
+    );
   }
 
   getStatus(fundName: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/name/${fundName}/status`);
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/status`
+    );
   }
 
   getBalance(fundName: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/name/${fundName}/balance`);
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/balance`
+    );
   }
 
   getFundRuns(status: string, fundName: string): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/fund_runs/${status}/${fundName}`
+    );
+  }
+
+  changeFundCA(fundName: string, ca: string): Observable<any> {
+    return this.http.put(
+      `${environment.apiUrl}/${
+        this.entity
+      }/change_fund_ca/${fundName}/ca/${ca}`,
+      {}
     );
   }
 
@@ -60,10 +75,15 @@ export class ApiFundsService {
   }
 
   renewFund(fundData: any): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/renew_fund`, fundData);
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/renew_fund`,
+      fundData
+    );
   }
 
   getDepositAdress(currency: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/deposit_address/${currency}`);
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/deposit_address/${currency}`
+    );
   }
 }

@@ -137,7 +137,9 @@
       "fund_runs_button": "View runs",
       "fund_balance_button": "View Balance",
       "renew_fund_button": "Renew fund",
-      "chart_title": "Last Update "
+      "chart_title": "Last Update ",
+      "change_fund_ca": "Select a CA",
+      "change_fund_ca_button": "Change"
     },
     "fund_runs": {
       "header": "Fund Runs",

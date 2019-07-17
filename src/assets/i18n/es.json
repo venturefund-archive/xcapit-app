@@ -137,7 +137,9 @@
       "fund_runs_button": "Ver corridas",
       "fund_balance_button": "Ver Balance",
       "renew_fund_button": "Renovar fondo",
-      "chart_title": "Última actualización "
+      "chart_title": "Última actualización ",
+      "change_fund_ca": "Seleccione un CA",
+      "change_fund_ca_button": "Cambiar"
     },
     "fund_runs": {
       "header": "Corridas de fondo",

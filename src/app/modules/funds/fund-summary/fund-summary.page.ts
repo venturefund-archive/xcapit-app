@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
+import { CA } from '../shared-funds/enums/ca.enum';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-fund-summary',
@@ -17,14 +19,8 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
           {{ 'funds.fund_summary.header' | translate }}
         </ion-title>
         <ion-buttons slot="end">
-          <ion-button
-            (click)="this.editFund()"
-            [disabled]="!this.fundStatus"
-          >
-            <ion-icon
-              slot="icon-only"
-              name="create"
-            ></ion-icon>
+          <ion-button (click)="this.editFund()" [disabled]="!this.fundStatus">
+            <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -142,7 +138,9 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
               {{ 'funds.fund_summary.resume_fund_button' | translate }}
             </ion-button>
             <ion-button
-              *ngIf="this.fundStatus?.fund.estado == 'active'"
+              *ngIf="
+                this.fundStatus?.fund.estado == 'active' || this.inCAStatus
+              "
               type="button"
               color="primary"
               expand="block"
@@ -153,12 +151,13 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
               {{ 'funds.fund_summary.pause_fund_button' | translate }}
             </ion-button>
           </ion-col>
-          <ion-col>
+          <ion-col
+            *ngIf="
+              this.fundStatus?.fund.estado == 'active' ||
+              this.fundStatus?.fund.estado == 'pausado'
+            "
+          >
             <ion-button
-              *ngIf="
-                this.fundStatus?.fund.estado == 'active' ||
-                this.fundStatus?.fund.estado == 'pausado'
-              "
               type="button"
               color="danger"
               expand="block"
@@ -170,6 +169,52 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
             </ion-button>
           </ion-col>
         </ion-row>
+        <form
+          [formGroup]="this.form"
+          (ngSubmit)="this.changeFundCA()"
+          style="width:100%;"
+        >
+          <ion-row
+            align-items-end
+            *ngIf="this.fundStatus?.fund.estado == 'pausado'"
+          >
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">
+                  {{ 'funds.fund_summary.change_fund_ca' | translate }}
+                </ion-label>
+                <ion-select formControlName="ca">
+                  <ion-select-option [value]="this.CAEnum.BTC">
+                    {{ this.CAEnum.BTC }}
+                  </ion-select-option>
+                  <ion-select-option [value]="this.CAEnum.USDT">
+                    {{ this.CAEnum.USDT }}
+                  </ion-select-option>
+                  <ion-select-option [value]="this.CAEnum.BNB">
+                    {{ this.CAEnum.BNB }}
+                  </ion-select-option>
+                  <ion-select-option [value]="this.CAEnum.ETH">
+                    {{ this.CAEnum.ETH }}
+                  </ion-select-option>
+                  <ion-select-option [value]="this.CAEnum.LTC">
+                    {{ this.CAEnum.LTC }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-button
+                expand="block"
+                size="medium"
+                type="submit"
+                color="primary"
+              >
+                <ion-icon slot="start" name="checkmark"></ion-icon>
+                {{ 'funds.fund_summary.change_fund_ca_button' | translate }}
+              </ion-button></ion-col
+            >
+          </ion-row>
+        </form>
       </ion-grid>
       <div class="ion-padding-top">
         <ion-button
@@ -206,11 +251,15 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   fundName: string;
 
   fundStatus: any;
-
+  form: FormGroup = this.formBuilder.group({
+    ca: [undefined, [Validators.required]]
+  });
   fundStatusSubscription: Subscription;
-
+  CAEnum = CA;
+  inCAStatus = false;
   constructor(
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private router: Router,
     private apiFunds: ApiFundsService,
     private subscriptionsService: SubscriptionsService
@@ -237,8 +286,29 @@ export class FundSummaryPage implements OnInit, OnDestroy {
       .getStatus(this.fundName)
       .subscribe(res => {
         this.fundStatus = res;
+        this.isInCAStatus();
         this.loadingStatus = false;
       });
+  }
+
+  isInCAStatus() {
+    const estado = this.fundStatus.fund.estado;
+    const re = /^to[A-Z]*-NF$/;
+    if (estado.match(re)) {
+      this.inCAStatus = true;
+    } else {
+      this.inCAStatus = false;
+    }
+  }
+
+  changeFundCA(): void {
+    if (this.form.valid) {
+      this.apiFunds
+        .changeFundCA(this.fundName, this.form.value.ca)
+        .subscribe(res => {
+          this.getFundStatus();
+        });
+    }
   }
 
   pauseFundRuns(): void {
@@ -260,7 +330,11 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   }
 
   renewFund(): void {
-    this.router.navigate(['funds/action', FundFormActions.RenewFund, this.fundName]);
+    this.router.navigate([
+      'funds/action',
+      FundFormActions.RenewFund,
+      this.fundName
+    ]);
   }
 
   fundRuns(selectedFund: string): void {
