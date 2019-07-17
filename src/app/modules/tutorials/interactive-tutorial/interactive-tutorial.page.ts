@@ -121,8 +121,7 @@ import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-action
                       [replaceUrl]="true"
                       [routerLink]="[
                         '/funds/action',
-                        this.fundFormActions.NewFund,
-                        ''
+                        this.fundFormActions.NewFund
                       ]"
                     >
                       {{
