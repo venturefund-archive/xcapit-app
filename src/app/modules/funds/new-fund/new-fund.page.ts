@@ -180,6 +180,7 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
             <ion-item>
               <ion-label>Trailing</ion-label>
               <ion-toggle
+                [checked]="this.hasTrailing"
                 (ionChange)="this.toggleTrailing($event)"
               ></ion-toggle>
             </ion-item>
@@ -188,7 +189,7 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
                 <ion-label>Profit</ion-label>
                 <ion-range formControlName="trailing_profit" min="0" max="100">
                   <ion-label class="new-fund__trailing-label" slot="end">
-                    {{ this.form.get('trailing_profit').value }}%
+                    {{ this.form.get('trailing_profit').value || '0' }}%
                   </ion-label>
                 </ion-range>
               </ion-item>
@@ -196,7 +197,7 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
                 <ion-label>Stop</ion-label>
                 <ion-range formControlName="trailing_stop" min="0" max="100">
                   <ion-label class="new-fund__trailing-label" slot="end">
-                    {{ this.form.get('trailing_stop').value }}%
+                    {{ this.form.get('trailing_stop').value  || '0' }}%
                   </ion-label>
                 </ion-range>
               </ion-item>
@@ -397,6 +398,9 @@ export class NewFundPage implements OnInit {
     this.form.get('fund_name').setValue(this.fundName);
     this.apiFunds.getFundRuns('active', this.fundName).subscribe((res: any) => {
       this.fundForUpdate = { ...res[0] };
+      if (res[0].trailing_stop || res[0].trailing_profit) {
+        this.toggleTrailing({ detail: { checked: true } } as CustomEvent);
+      }
       this.form.patchValue(res[0]);
       this.form.get('take_profit').setValue(res[0].ganancia);
       this.form.get('stop_loss').setValue(res[0].perdida);
