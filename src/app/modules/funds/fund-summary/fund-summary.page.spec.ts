@@ -119,11 +119,11 @@ describe('FundSummaryPage', () => {
     component.isInCAStatus();
     expect(component.inCAStatus).toBeTruthy();
   });
-  // TODO: Solucionar problema que cuando descomentamos este test no funciona el de new fund
-  // it('shouldnt match invalid status', () => {
-  //   component.fundStatus = { fund: {estado: 'active' }};
-  //   fixture.detectChanges();
-  //   component.isInCAStatus();
-  //   expect(component.inCAStatus).toBeFalsy();
-  // });
+
+  it('shouldnt match invalid status', () => {
+    component.fundStatus = { fund: {estado: 'active' }};
+    fixture.detectChanges();
+    component.isInCAStatus();
+    expect(component.inCAStatus).toBeFalsy();
+  });
 });

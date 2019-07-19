@@ -153,25 +153,27 @@ describe('NewFundPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call update when action is EditProfitLoss', () => {
+  it('should call update & getFundRuns when action is EditProfitLoss', () => {
+    const getFundRunSpy = spyOn(apiFundsService, 'getFundRuns');
+    getFundRunSpy.and.returnValue(of([{ id_corrida: 1 }]));
     TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({
       action: FundFormActions.EditProfitLoss,
       fundName: 'fundName'
     })};
     fixture.detectChanges();
     component.form.patchValue(formDataRenew);
-    const spy = spyOn(apiFundsService.crud, 'update');
-    spy.and.returnValue(of({}));
+    const updateSpy = spyOn(apiFundsService.crud, 'update');
+    updateSpy.and.returnValue(of({}));
     component.save();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(updateSpy).toHaveBeenCalledTimes(1);
+    expect(getFundRunSpy).toHaveBeenCalledTimes(1);
   });
 
   describe('Form values', () => {
     it('form should be valid on new when all fields are ok', async () => {
       TestBed.get(ActivatedRoute).snapshot = {
         paramMap: convertToParamMap({
-          action: FundFormActions.NewFund,
-          fundName: ''
+          action: FundFormActions.NewFund
         })
       };
       fixture.detectChanges();
@@ -182,8 +184,7 @@ describe('NewFundPage', () => {
     it('form should be valid on new when all fields (with trailing) are ok', async () => {
       TestBed.get(ActivatedRoute).snapshot = {
         paramMap: convertToParamMap({
-          action: FundFormActions.NewFund,
-          fundName: ''
+          action: FundFormActions.NewFund
         })
       };
       fixture.detectChanges();
@@ -195,8 +196,7 @@ describe('NewFundPage', () => {
     it('form should be invalid on new when all fields (with trailing) are not ok', async () => {
       TestBed.get(ActivatedRoute).snapshot = {
         paramMap: convertToParamMap({
-          action: FundFormActions.NewFund,
-          fundName: ''
+          action: FundFormActions.NewFund
         })
       };
       fixture.detectChanges();

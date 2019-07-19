@@ -49,8 +49,10 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
                   </ion-col>
                   <ion-col>
                     <app-currency-amount-value
+                      [currency]="this.fundBalance.fund.currency"
                       [amount]="this.fundBalance.balance.cant_btc"
-                      [value]="this.fundBalance.balance.btc_usd"
+                      [usdValue]="this.fundBalance.balance.btc_usd"
+                      [btcValue]="this.fundBalance.balance.cant_btc"
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
@@ -58,8 +60,10 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
                   <ion-col size="3">ETH:</ion-col>
                   <ion-col>
                     <app-currency-amount-value
+                      [currency]="this.fundBalance.fund.currency"
                       [amount]="this.fundBalance.balance.cant_eth"
-                      [value]="this.fundBalance.balance.eth_usd"
+                      [usdValue]="this.fundBalance.balance.eth_usd"
+                      [btcValue]="this.fundBalance.balance.eth_btc"
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
@@ -67,8 +71,10 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
                   <ion-col size="3">LTC:</ion-col>
                   <ion-col>
                     <app-currency-amount-value
+                      [currency]="this.fundBalance.fund.currency"
                       [amount]="this.fundBalance.balance.cant_ltc"
-                      [value]="this.fundBalance.balance.ltc_usd"
+                      [usdValue]="this.fundBalance.balance.ltc_usd"
+                      [btcValue]="this.fundBalance.balance.ltc_btc"
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
@@ -76,8 +82,10 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
                   <ion-col size="3">BNB:</ion-col>
                   <ion-col>
                     <app-currency-amount-value
+                      [currency]="this.fundBalance.fund.currency"
                       [amount]="this.fundBalance.balance.cant_bnb"
-                      [value]="this.fundBalance.balance.bnb_usd"
+                      [usdValue]="this.fundBalance.balance.bnb_usd"
+                      [btcValue]="this.fundBalance.balance.bnb_btc"
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
@@ -85,7 +93,10 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
                   <ion-col size="3">USD:</ion-col>
                   <ion-col>
                     <app-currency-amount-value
+                      [currency]="this.fundBalance.fund.currency"
                       [amount]="this.fundBalance.balance.cant_usdt"
+                      [usdValue]="this.fundBalance.balance.cant_usdt"
+                      [btcValue]="this.fundBalance.balance.usd_btc"
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
