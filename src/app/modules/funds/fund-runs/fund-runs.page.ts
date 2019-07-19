@@ -1,7 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { NavParams } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-fund-runs',
@@ -9,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
+          <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'funds.fund_runs.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -23,9 +22,28 @@ import { Router, ActivatedRoute } from '@angular/router';
         >
         <ion-card *ngFor="let run of fundRuns">
           <ion-card-header>
-            <ion-card-title>{{
-              'funds.fund_runs.card_title' | translate
-            }} {{run.id_corrida}}</ion-card-title>
+            <ion-grid>
+              <ion-row justify-content-end>
+                <ion-col align-self-stretch>
+                  <ion-card-title
+                    >{{ 'funds.fund_runs.card_title' | translate }}
+                    {{ run.id_corrida }}</ion-card-title
+                  ></ion-col
+                >
+                <ion-col align-self-stretch>
+                  <ion-button float-right
+                    type="button"
+                    color="primary"
+                    size="small"
+                    [routerLink]="['/runs/run-summary', run.id]"
+                    routerDirection="forward"
+                  >
+                    <ion-icon slot="start" name="stats"></ion-icon>
+                    {{ 'funds.fund_runs.view_details' | translate }}
+                  </ion-button></ion-col
+                >
+              </ion-row>
+            </ion-grid>
           </ion-card-header>
           <ion-card-content>
             <!-- Configuracion -->
@@ -73,129 +91,145 @@ import { Router, ActivatedRoute } from '@angular/router';
             </ion-row>
             <!-- Monto inicial -->
             <div class="monto-actual" *ngIf="run.first_state">
-            <ion-item-divider>
-              <ion-label>
-                {{ 'funds.fund_runs.starting_amount_title' | translate }}
-              </ion-label>
-            </ion-item-divider>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_btc_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.first_state.cant_btc }}</ion-col
-                >-<ion-col>$ {{ run.first_state.precio_btc }}</ion-col></ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_eth_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.first_state.cant_eth }}</ion-col
-                >-<ion-col>$ {{ run.first_state.precio_eth }}</ion-col></ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_xrp_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.first_state.cant_xrp }}</ion-col
-                >-<ion-col>$ {{ run.first_state.precio_xrp }}</ion-col></ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_bnb_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.first_state.cant_bnb }}</ion-col
-                >-<ion-col>$ {{ run.first_state.precio_bnb }}</ion-col></ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_usdt_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.first_state.cant_usdt }}</ion-col
-                ></ion-col
-              >
-            </ion-row>
+              <ion-item-divider>
+                <ion-label>
+                  {{ 'funds.fund_runs.starting_amount_title' | translate }}
+                </ion-label>
+              </ion-item-divider>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_btc_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.first_state.cant_btc }}</ion-col
+                  >-<ion-col
+                    >$ {{ run.first_state.precio_btc }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_eth_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.first_state.cant_eth }}</ion-col
+                  >-<ion-col
+                    >$ {{ run.first_state.precio_eth }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_xrp_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.first_state.cant_xrp }}</ion-col
+                  >-<ion-col
+                    >$ {{ run.first_state.precio_xrp }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_bnb_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.first_state.cant_bnb }}</ion-col
+                  >-<ion-col
+                    >$ {{ run.first_state.precio_bnb }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_usdt_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.first_state.cant_usdt }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
             </div>
             <!-- Monto actual -->
             <div class="monto-actual" *ngIf="run.last_state">
-            <ion-item-divider>
-              <ion-label>
-                {{ 'funds.fund_runs.actual_amount_title' | translate }}
-              </ion-label>
-            </ion-item-divider>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_btc_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.last_state.cant_btc }}</ion-col
-                >-<ion-col>$ {{ run.last_state.precio_btc }}</ion-col></ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_eth_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.last_state.cant_eth }}</ion-col
-                >-<ion-col>$ {{ run.last_state.precio_eth }}</ion-col></ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_xrp_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.last_state.cant_xrp }}</ion-col
-                >-<ion-col>$ {{ run.last_state.precio_xrp }}</ion-col></ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_bnb_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.last_state.cant_bnb }}</ion-col
-                >-<ion-col>$ {{ run.last_state.precio_bnb }}</ion-col></ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col
-                >{{ 'funds.fund_runs.cant_usdt_title' | translate }}:</ion-col
-              >
-              <ion-col
-                ><ion-col
-                  >{{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.last_state.cant_usdt }}</ion-col
-                ></ion-col
-              >
-            </ion-row>
+              <ion-item-divider>
+                <ion-label>
+                  {{ 'funds.fund_runs.actual_amount_title' | translate }}
+                </ion-label>
+              </ion-item-divider>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_btc_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.last_state.cant_btc }}</ion-col
+                  >-<ion-col
+                    >$ {{ run.last_state.precio_btc }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_eth_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.last_state.cant_eth }}</ion-col
+                  >-<ion-col
+                    >$ {{ run.last_state.precio_eth }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_xrp_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.last_state.cant_xrp }}</ion-col
+                  >-<ion-col
+                    >$ {{ run.last_state.precio_xrp }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_bnb_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.last_state.cant_bnb }}</ion-col
+                  >-<ion-col
+                    >$ {{ run.last_state.precio_bnb }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row>
+                <ion-col
+                  >{{ 'funds.fund_runs.cant_usdt_title' | translate }}:</ion-col
+                >
+                <ion-col
+                  ><ion-col
+                    >{{ 'funds.fund_runs.cant' | translate }}
+                    {{ run.last_state.cant_usdt }}</ion-col
+                  ></ion-col
+                >
+              </ion-row>
             </div>
 
             <ion-item-divider> </ion-item-divider>

@@ -17,4 +17,11 @@ export class ApiRunsService {
       .get(`${environment.apiUrl}/${this.entity}/state/active`)
       .pipe(map((res: any) => !!(Array.isArray(res) && res.length)));
   }
+
+  getStatus(pk: string): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/${pk}/status`
+    );
+  }
+
 }

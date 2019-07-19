@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ApiRunsService } from '../../funds/shared-funds/services/api-runs/api-runs.service';
+import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-runs.service';
 
 const formData = {
   valid: {

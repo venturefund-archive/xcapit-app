@@ -8,7 +8,7 @@ import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api
 import { NavController } from '@ionic/angular';
 import { ProfilesHelperService } from '../shared-profiles/services/profiles-helper/profiles-helper.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiRunsService } from '../../funds/shared-funds/services/api-runs/api-runs.service';
+import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-runs.service';
 
 @Component({
   selector: 'app-user-profile',

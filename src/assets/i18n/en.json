@@ -162,7 +162,8 @@
       "cant_bnb_title": "BNB",
       "cant_usdt_title": "USDT",
       "cant": "Amount: ",
-      "gain_current_currency_title": "Percentage of profit in"
+      "gain_current_currency_title": "Percentage of profit in",
+      "view_details": "Details"
     },
     "deposit_address": {
       "header": "Deposit Adress",
@@ -173,6 +174,18 @@
       "address_tag": "Address tag",
       "link": "Link"
     }
+  },
+  "runs": {
+    "run_summary":{
+      "header": "Run",
+      "run_title": "Run",
+      "fund_title": " of Fund",
+      "no_status_text": "There is still no status to show for the run",
+      "no_runs_text": "There aren't an active run.",
+      "profit_text": "Percentage of profit in {{days}} days and {{hours}}hs",
+      "fund_balance_button": "View Balance",
+      "chart_title": "Last Update "
+    } 
   },
   "profiles": {
     "profile_helper": {

@@ -162,7 +162,8 @@
       "cant_bnb_title": "BNB",
       "cant_usdt_title": "USDT",
       "cant": "Cantidad: ",
-      "gain_current_currency_title": "Porcentaje de ganancia en"
+      "gain_current_currency_title": "Porcentaje de ganancia en",
+      "view_details": "Detalles"
     },
     "deposit_address": {
       "header": "Dirección de depósito",
@@ -173,6 +174,18 @@
       "address_tag": "Etiqueta",
       "link": "Enlace"
     }
+  },
+  "runs": {
+    "run_summary":{
+      "header": "Corrida",
+      "run_title": "Corrida",
+      "fund_title": " de Fondo",
+      "no_status_text": "Todavía no hay estado para mostrar para el fondo.",
+      "no_runs_text": "No hay una corrida activa.",
+      "profit_text": "Porcentaje de ganancia en {{days}} días y {{hours}}hs",
+      "fund_balance_button": "Ver Balance",
+      "chart_title": "Última actualización "
+    } 
   },
   "profiles": {
     "profile_helper": {
