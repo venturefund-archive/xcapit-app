@@ -6,6 +6,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
 import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 import { CA } from '../shared-funds/enums/ca.enum';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { StateNamesService } from 'src/app/shared/services/state-names/state-names.service';
 
 @Component({
   selector: 'app-fund-summary',
@@ -36,7 +37,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
         <div class="fs__header">
           <h1>{{ this.fundName }}</h1>
           <ion-label class="fs__header__state">
-            {{ this.fundStatus?.fund.estado }}
+            {{ this.statusShowName }}
           </ion-label>
         </div>
         <div class="fs__content" *ngIf="this.fundStatus">
@@ -257,12 +258,14 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   fundStatusSubscription: Subscription;
   CAEnum = CA;
   inCAStatus = false;
+  statusShowName: string;
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
     private apiFunds: ApiFundsService,
-    private subscriptionsService: SubscriptionsService
+    private subscriptionsService: SubscriptionsService,
+    private stateNamesService: StateNamesService
   ) {}
 
   ngOnInit() {}
@@ -280,6 +283,12 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     this.subscriptionsService.shareSubscriptionLink(this.fundName);
   }
 
+
+  getStateShowName(state: string) {
+    return this.stateNamesService.getStateShowName(state);
+  }
+
+
   getFundStatus() {
     this.loadingStatus = true;
     this.fundStatusSubscription = this.apiFunds
@@ -287,6 +296,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
       .subscribe(res => {
         this.fundStatus = res;
         this.isInCAStatus();
+        this.statusShowName = this.stateNamesService.getStateShowName(this.fundStatus.fund.estado);
         this.loadingStatus = false;
       });
   }

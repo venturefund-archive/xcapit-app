@@ -4,12 +4,14 @@ import { DatePipe } from '@angular/common';
 import { CurrencyPercentagePipe } from './pipes/currency-percentage/currency-percentage.pipe';
 import { CurrencyTextPipe } from './pipes/currency-text/currency-text.pipe';
 import { FundPerformanceChartComponent } from './components/fund-performance-chart/fund-performance-chart.component';
+import { StateShowNamePipe } from './pipes/state-names/state-names.pipe';
 
 @NgModule({
   declarations: [
     FundPerformanceChartComponent,
     CurrencyPercentagePipe,
-    CurrencyTextPipe
+    CurrencyTextPipe,
+    StateShowNamePipe
   ],
   providers: [DatePipe],
   imports: [SharedModule],
@@ -17,7 +19,8 @@ import { FundPerformanceChartComponent } from './components/fund-performance-cha
     SharedModule,
     FundPerformanceChartComponent,
     CurrencyPercentagePipe,
-    CurrencyTextPipe
+    CurrencyTextPipe,
+    StateShowNamePipe
   ]
 })
 export class SharedFundsModule {}
