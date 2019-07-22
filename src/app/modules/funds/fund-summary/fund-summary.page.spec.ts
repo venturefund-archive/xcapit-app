@@ -113,6 +113,14 @@ describe('FundSummaryPage', () => {
     expect(changeFundCASpy).toHaveBeenCalledTimes(0);
   });
 
+  it('should call getStatus once on ionViewWillEnter', () => {
+    const getStatusSpy = spyOn(apiFundServiceMock, 'getStatus');
+    getStatusSpy.and.returnValue(of(fundStatusMockData));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(getStatusSpy).toHaveBeenCalledTimes(1);
+  });
+
   it('should match valid status', () => {
     component.fundStatus = { fund: { estado: 'toBTC-NF' } };
     fixture.detectChanges();

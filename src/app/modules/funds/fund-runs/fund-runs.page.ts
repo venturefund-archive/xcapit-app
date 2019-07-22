@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { ActivatedRoute } from '@angular/router';
+import { StateNamesService } from 'src/app/shared/services/state-names/state-names.service';
 
 @Component({
   selector: 'app-fund-runs',
@@ -31,7 +32,8 @@ import { ActivatedRoute } from '@angular/router';
                   ></ion-col
                 >
                 <ion-col align-self-stretch>
-                  <ion-button float-right
+                  <ion-button
+                    float-right
                     type="button"
                     color="primary"
                     size="small"
@@ -58,9 +60,9 @@ import { ActivatedRoute } from '@angular/router';
                 >{{ 'funds.fund_runs.state_title' | translate }}:</ion-col
               >
               <ion-col
-                ><ion-badge color="primary">{{
-                  run.estado
-                }}</ion-badge></ion-col
+                ><ion-badge color="primary">
+                  {{ run.estado | stateShowName}}</ion-badge
+                ></ion-col
               >
             </ion-row>
             <ion-row>
@@ -160,10 +162,13 @@ import { ActivatedRoute } from '@angular/router';
                 >
               </ion-row>
             </div>
-            <!-- Monto actual -->
+            <!-- Monto actual o final -->
             <div class="monto-actual" *ngIf="run.last_state">
               <ion-item-divider>
-                <ion-label>
+                <ion-label *ngIf="run.estado == 'finalizado'">
+                  {{ 'funds.fund_runs.final_amount_title' | translate }}
+                </ion-label>
+                <ion-label *ngIf="run.estado != 'finalizado'">
                   {{ 'funds.fund_runs.actual_amount_title' | translate }}
                 </ion-label>
               </ion-item-divider>
@@ -232,7 +237,8 @@ import { ActivatedRoute } from '@angular/router';
               </ion-row>
             </div>
 
-            <ion-item-divider> </ion-item-divider>
+            <ion-item-divider *ngIf="run.porcentaje_ganancia">
+            </ion-item-divider>
             <ion-row *ngIf="run.porcentaje_ganancia">
               <ion-col
                 >{{
@@ -262,7 +268,8 @@ export class FundRunsPage implements OnInit {
 
   constructor(
     private apiFundsService: ApiFundsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private stateNamesService: StateNamesService
   ) {
     this.route.params.subscribe(params => {
       this.selectedFund = params.nombre_bot;
@@ -274,6 +281,10 @@ export class FundRunsPage implements OnInit {
 
   ionViewDidEnter() {
     this.getFundRuns();
+  }
+
+  getStateShowName(state: string) {
+    return this.stateNamesService.getStateShowName(state);
   }
 
   private getFundRuns() {

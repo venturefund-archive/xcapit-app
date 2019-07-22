@@ -156,9 +156,10 @@
       "loss_title": "Perdida",
       "starting_amount_title": "Monto inicial",
       "actual_amount_title": "Monto actual",
+      "final_amount_title": "Monto final",
       "cant_btc_title": "BTC",
       "cant_eth_title": "ETH",
-      "cant_xrp_title": "XRP",
+      "cant_xrp_title": "LTC",
       "cant_bnb_title": "BNB",
       "cant_usdt_title": "USDT",
       "cant": "Cantidad: ",
@@ -350,5 +351,13 @@
       "ok_text": "¡Suscripción Exitosa!",
       "error_text": "La suscripción ha fallado. Solicita nuevamente el link a su amigo"
     }
+  },
+  "state_names": {
+    "active": "Activo",
+    "pausado": "Pausado",
+    "to-NF": "Cambiando a {{ca}}", 
+    "toUSDT": "Cambiado a USDT",
+    "toBTC": "Cambiado a BTC",
+    "finalizado": "Finalizado"
   }
 }
