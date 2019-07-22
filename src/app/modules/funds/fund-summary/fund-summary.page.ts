@@ -237,7 +237,7 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
           color="tertiary"
           routerDirection="forward"
           [routerLink]="['/funds/fund-balance', this.fundName]"
-          [disabled]="!this.fundStatus?.status"
+          *ngIf="this.fundStatus?.status"
         >
           {{ 'funds.fund_summary.fund_balance_button' | translate }}
         </ion-button>
