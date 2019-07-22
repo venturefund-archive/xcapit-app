@@ -236,7 +236,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
           color="tertiary"
           routerDirection="forward"
           [routerLink]="['/funds/fund-balance', this.fundName]"
-          [disabled]="!this.fundStatus?.status"
+          *ngIf="this.fundStatus?.status"
         >
           {{ 'funds.fund_summary.fund_balance_button' | translate }}
         </ion-button>
