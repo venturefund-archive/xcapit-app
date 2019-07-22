@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 
 describe('DepositAddressPage', () => {
   let component: DepositAddressPage;
@@ -21,10 +22,12 @@ describe('DepositAddressPage', () => {
     asset: 'BTC',
     url: 'https://123.com'
   };
+  let clipboardServiceSpy: any;
   beforeEach(async(() => {
     apiFundsServiceMock = {
       getDepositAdress: () => of(depositAddressData)
     };
+    clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['copy']);
     TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot(),
@@ -34,7 +37,10 @@ describe('DepositAddressPage', () => {
       ],
       declarations: [DepositAddressPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: ApiFundsService, useValue: apiFundsServiceMock }]
+      providers: [
+        { provide: ApiFundsService, useValue: apiFundsServiceMock },
+        { provide: ClipboardService, useValue: clipboardServiceSpy }
+      ]
     }).compileComponents();
   }));
 
@@ -58,5 +64,18 @@ describe('DepositAddressPage', () => {
     fixture.whenStable().then(() => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('should call copy in ClipboardService when call copyToClipboard', () => {
+    const spy = spyOn(apiFundsService, 'getDepositAdress');
+    spy.and.returnValue(of(depositAddressData));
+    component.ionViewDidEnter();
+    component.form.get('currency').setValue('BTC');
+    fixture.detectChanges();
+    fixture.whenStable()
+      .then(() => {
+        component.copyToClipboard();
+        expect(clipboardServiceSpy.copy).toHaveBeenCalledTimes(1);
+      });
   });
 });

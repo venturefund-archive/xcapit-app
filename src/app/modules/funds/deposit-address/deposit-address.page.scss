@@ -1,6 +1,8 @@
-.qr-code-container {
+:host {
+  .qr-code-container {
     img {
-        max-width: 70%;
-        margin: auto;
+      max-width: 70%;
+      margin: auto;
     }
+  }
 }

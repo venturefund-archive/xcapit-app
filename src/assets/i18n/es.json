@@ -172,7 +172,9 @@
       "currency": "Seleccionar moneda",
       "address": "Dirección",
       "address_tag": "Etiqueta",
-      "link": "Enlace"
+      "link": "Enlace",
+      "copy_address_ok_text": "Se copió la dirección al portapapeles",
+      "copy_address_error_text": "No se pudo copiar la dirección al portapapeles"
     }
   },
   "runs": {
@@ -185,7 +187,7 @@
       "profit_text": "Porcentaje de ganancia en {{days}} días y {{hours}}hs",
       "fund_balance_button": "Ver Balance",
       "chart_title": "Última actualización "
-    } 
+    }
   },
   "profiles": {
     "profile_helper": {

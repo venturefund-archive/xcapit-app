@@ -3,6 +3,9 @@ import { Currency } from '../shared-funds/enums/currency.enum';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import QRCode from 'qrcode';
+import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-deposit-address',
   template: `
@@ -51,23 +54,50 @@ import QRCode from 'qrcode';
           </ion-card-header>
           <ion-card-content>
             <ion-grid>
-              <ion-row *ngIf="depositAddresInfo.address">
-                <ion-col>{{
+              <ion-row
+                *ngIf="depositAddresInfo.address"
+                class="ion-align-items-center"
+              >
+                <ion-col size="3">{{
                   'funds.deposit_address.address' | translate
                 }}</ion-col>
                 <ion-col>{{ depositAddresInfo.address }}</ion-col>
+                <ion-col size="1">
+                  <ion-buttons>
+                    <ion-button (click)="this.copyToClipboard()">
+                      <ion-icon slot="icon-only" name="copy"></ion-icon>
+                    </ion-button>
+                  </ion-buttons>
+                </ion-col>
               </ion-row>
-              <ion-row *ngIf="depositAddresInfo.addressTag">
+              <ion-row
+                *ngIf="depositAddresInfo.addressTag"
+                class="ion-align-items-center"
+              >
                 <ion-col>{{
                   'funds.deposit_address.address_tag' | translate
                 }}</ion-col>
                 <ion-col>{{ depositAddresInfo.addressTag }}</ion-col>
               </ion-row>
-              <ion-row *ngIf="depositAddresInfo.url">
-                <ion-col>{{
+              <ion-row
+                *ngIf="depositAddresInfo.url"
+                class="ion-align-items-center"
+              >
+                <ion-col size="3">{{
                   'funds.deposit_address.link' | translate
                 }}</ion-col>
-                <ion-col>{{ depositAddresInfo.url }}</ion-col>
+                <ion-col>
+                  {{ depositAddresInfo.url }}
+                </ion-col>
+                <ion-col size="1">
+                  <ion-buttons>
+                    <ion-button
+                      (click)="this.openAddressUrlInNewTab()"
+                    >
+                      <ion-icon slot="icon-only" name="open"></ion-icon>
+                    </ion-button>
+                  </ion-buttons>
+                </ion-col>
               </ion-row>
               <ion-row class="ion-padding" *ngIf="this.qrCode">
                 <ion-col>
@@ -97,7 +127,10 @@ export class DepositAddressPage implements OnInit {
   qrCode: string;
   constructor(
     private formBuilder: FormBuilder,
-    private apiFunds: ApiFundsService
+    private apiFunds: ApiFundsService,
+    private clipboard: ClipboardService,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   getDepositAdress(currency: string) {
@@ -127,4 +160,30 @@ export class DepositAddressPage implements OnInit {
     });
   }
   ngOnInit() {}
+
+  openAddressUrlInNewTab() {
+    if (this.depositAddresInfo.url) {
+      // esto se usa porque ionic tiene un bug en que el ion-button no
+      // toma los attr target y rel, si se actualiza a una versión
+      // >= a la 4.6 debería estar resuelto
+      window.open(this.depositAddresInfo.url, '_blank');
+    }
+  }
+
+  copyToClipboard() {
+    if (this.depositAddresInfo.address) {
+      this.clipboard
+        .copy(this.depositAddresInfo.address)
+        .then(
+          () => this.showToast('funds.deposit_address.copy_address_ok_text'),
+          () => this.showToast('funds.deposit_address.copy_address_error_text')
+        );
+    }
+  }
+
+  private showToast(text: string) {
+    this.toastService.showToast({
+      message: this.translate.instant(text)
+    });
+  }
 }

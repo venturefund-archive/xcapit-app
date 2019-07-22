@@ -172,7 +172,9 @@
       "currency": "Select currency",
       "address": "Address",
       "address_tag": "Address tag",
-      "link": "Link"
+      "link": "Link",
+      "copy_address_ok_text": "The address was copied to the clipboard",
+      "copy_address_error_text": "The address could not be copied to the clipboard"
     }
   },
   "runs": {
@@ -185,7 +187,7 @@
       "profit_text": "Percentage of profit in {{days}} days and {{hours}}hs",
       "fund_balance_button": "View Balance",
       "chart_title": "Last Update "
-    } 
+    }
   },
   "profiles": {
     "profile_helper": {
