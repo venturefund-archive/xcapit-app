@@ -61,7 +61,7 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
               >
               <ion-col
                 ><ion-badge color="primary">
-                  {{ run.estado | stateShowName}}</ion-badge
+                  {{ run.estado | stateShowName }}</ion-badge
                 ></ion-col
               >
             </ion-row>
@@ -102,63 +102,61 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
                 <ion-col
                   >{{ 'funds.fund_runs.cant_btc_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.first_state.cant_btc }}</ion-col
-                  >-<ion-col
-                    >$ {{ run.first_state.precio_btc }}</ion-col
-                  ></ion-col
-                >
+                <ion-col>
+                  <app-currency-amount-value
+                    [currency]="run.currency"
+                    [amount]="run.last_state.cant_btc"
+                    [usdValue]="run.last_state.precio_btc"
+                    [btcValue]="run.last_state.precio_btc"
+                  ></app-currency-amount-value
+                ></ion-col>
               </ion-row>
               <ion-row>
                 <ion-col
                   >{{ 'funds.fund_runs.cant_eth_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.first_state.cant_eth }}</ion-col
-                  >-<ion-col
-                    >$ {{ run.first_state.precio_eth }}</ion-col
-                  ></ion-col
-                >
+                <ion-col>
+                  <app-currency-amount-value
+                    [currency]="run.currency"
+                    [amount]="run.last_state.cant_eth"
+                    [usdValue]="run.last_state.precio_eth"
+                    [btcValue]="run.last_state.precio_eth"
+                  ></app-currency-amount-value
+                ></ion-col>
               </ion-row>
               <ion-row>
                 <ion-col
                   >{{ 'funds.fund_runs.cant_xrp_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.first_state.cant_xrp }}</ion-col
-                  >-<ion-col
-                    >$ {{ run.first_state.precio_xrp }}</ion-col
-                  ></ion-col
-                >
+                <ion-col>
+                  <app-currency-amount-value
+                    [currency]="run.currency"
+                    [amount]="run.last_state.cant_xrp"
+                    [usdValue]="run.last_state.precio_xrp"
+                    [btcValue]="run.last_state.precio_xrp"
+                  ></app-currency-amount-value
+                ></ion-col>
               </ion-row>
               <ion-row>
                 <ion-col
                   >{{ 'funds.fund_runs.cant_bnb_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.first_state.cant_bnb }}</ion-col
-                  >-<ion-col
-                    >$ {{ run.first_state.precio_bnb }}</ion-col
-                  ></ion-col
-                >
+                <ion-col>
+                  <app-currency-amount-value
+                    [currency]="run.currency"
+                    [amount]="run.last_state.cant_bnb"
+                    [usdValue]="run.last_state.precio_bnb"
+                    [btcValue]="run.last_state.precio_bnb"
+                  ></app-currency-amount-value
+                ></ion-col>
               </ion-row>
               <ion-row>
                 <ion-col
                   >{{ 'funds.fund_runs.cant_usdt_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.first_state.cant_usdt }}</ion-col
-                  ></ion-col
+                <ion-col>
+                  {{ 'funds.fund_runs.cant' | translate }}
+                  {{ run.first_state.cant_usdt }}</ion-col
                 >
               </ion-row>
             </div>
@@ -176,63 +174,61 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
                 <ion-col
                   >{{ 'funds.fund_runs.cant_btc_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.last_state.cant_btc }}</ion-col
-                  >-<ion-col
-                    >$ {{ run.last_state.precio_btc }}</ion-col
-                  ></ion-col
-                >
+                <ion-col>
+                  <app-currency-amount-value
+                    [currency]="run.currency"
+                    [amount]="run.last_state.cant_btc"
+                    [usdValue]="run.last_state.precio_btc"
+                    [btcValue]="run.last_state.precio_btc"
+                  ></app-currency-amount-value>
+                </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col
                   >{{ 'funds.fund_runs.cant_eth_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.last_state.cant_eth }}</ion-col
-                  >-<ion-col
-                    >$ {{ run.last_state.precio_eth }}</ion-col
-                  ></ion-col
-                >
+                <ion-col>
+                  <app-currency-amount-value
+                    [currency]="run.currency"
+                    [amount]="run.last_state.cant_eth"
+                    [usdValue]="run.last_state.precio_eth"
+                    [btcValue]="run.last_state.precio_eth"
+                  ></app-currency-amount-value
+                ></ion-col>
               </ion-row>
               <ion-row>
                 <ion-col
                   >{{ 'funds.fund_runs.cant_xrp_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.last_state.cant_xrp }}</ion-col
-                  >-<ion-col
-                    >$ {{ run.last_state.precio_xrp }}</ion-col
-                  ></ion-col
-                >
+                <ion-col>
+                  <app-currency-amount-value
+                    [currency]="run.currency"
+                    [amount]="run.last_state.cant_xrp"
+                    [usdValue]="run.last_state.precio_xrp"
+                    [btcValue]="run.last_state.precio_xrp"
+                  ></app-currency-amount-value
+                ></ion-col>
               </ion-row>
               <ion-row>
                 <ion-col
                   >{{ 'funds.fund_runs.cant_bnb_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.last_state.cant_bnb }}</ion-col
-                  >-<ion-col
-                    >$ {{ run.last_state.precio_bnb }}</ion-col
-                  ></ion-col
-                >
+                <ion-col>
+                  <app-currency-amount-value
+                    [currency]="run.currency"
+                    [amount]="run.last_state.cant_bnb"
+                    [usdValue]="run.last_state.precio_bnb"
+                    [btcValue]="run.last_state.precio_bnb"
+                  ></app-currency-amount-value
+                ></ion-col>
               </ion-row>
               <ion-row>
                 <ion-col
                   >{{ 'funds.fund_runs.cant_usdt_title' | translate }}:</ion-col
                 >
-                <ion-col
-                  ><ion-col
-                    >{{ 'funds.fund_runs.cant' | translate }}
-                    {{ run.last_state.cant_usdt }}</ion-col
-                  ></ion-col
+                <ion-col>
+                  {{ 'funds.fund_runs.cant' | translate }}
+                  {{ run.last_state.cant_usdt }}</ion-col
                 >
               </ion-row>
             </div>

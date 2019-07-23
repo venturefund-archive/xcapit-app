@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FundBalancePage } from './fund-balance.page';
 import { SharedFundsModule } from '../shared-funds/shared-funds.module';
 import { FundBalanceChartComponent } from './components/fund-balance-chart/fund-balance-chart.component';
-import { CurrencyAmountValueComponent } from './components/currency-amount-value/currency-amount-value.component';
+import { CurrencyAmountValueComponent } from '../shared-funds/components/currency-amount-value/currency-amount-value.component';
 import { CurrencyEndBalancePipe } from './pipes/currency-end-balance/currency-end-balance.pipe';
 
 const routes: Routes = [
@@ -19,7 +19,6 @@ const routes: Routes = [
   declarations: [
     FundBalancePage,
     FundBalanceChartComponent,
-    CurrencyAmountValueComponent,
     CurrencyEndBalancePipe
   ]
 })

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CurrencyAmountValueComponent } from './currency-amount-value.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { CurrencyTextPipe } from '../../../shared-funds/pipes/currency-text/currency-text.pipe';
+import { CurrencyTextPipe } from '../../pipes/currency-text/currency-text.pipe';
 
 describe('CurrencyAmountValueComponent', () => {
   let component: CurrencyAmountValueComponent;
