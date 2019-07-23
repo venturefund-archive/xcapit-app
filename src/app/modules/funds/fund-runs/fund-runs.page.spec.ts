@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StateShowNamePipe } from '../shared-funds/pipes/state-names/state-names.pipe';
 
 describe('FundRunsPage', () => {
   let component: FundRunsPage;
@@ -24,7 +25,7 @@ describe('FundRunsPage', () => {
         IonicModule,
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ FundRunsPage ],
+      declarations: [ FundRunsPage, StateShowNamePipe ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ApiFundsService, useValue: apiFundsServiceMock}
