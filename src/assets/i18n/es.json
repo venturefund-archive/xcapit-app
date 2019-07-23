@@ -363,6 +363,9 @@
       "p36": "A continuación debes ingresar la cantidad de USD que quieres vender y el precio que vas a pagar para comprar tus BTC.",
       "p37": "Nota: Si tienes dolares en tu cuenta te recomendamos hagas clic en usar el mejor precio. En caso que hayas ingresado pesos argentinos, toma las órdenes que están en la lista de ask.",
       "p38": "Te llegará un e-mail con el estado de la transacción en proceso. Cuando tengas los BTC en tu cuenta, Bitex se contactará contigo."
+    },
+    "extract_tutorial_modal": {
+      "header": "Extraer Ganancias"
     }
   },
   "subscriptions": {

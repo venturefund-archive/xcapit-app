@@ -363,6 +363,9 @@
       "p36": "Then you must enter the amount of USD you want to sell and the price you are going to pay to buy your BTC.",
       "p37": "Note: If you have dollars in your account we recommend you click on the best price. In case you have entered Argentine pesos, take the orders that are on the ask list.",
       "p38": "You will receive an email with the status of the transaction in process. When you have the BTC in your account, Bitex will contact you."
+    },
+    "extract_tutorial_modal": {
+      "header": "Extract Profits"
     }
   },
   "subscriptions": {
