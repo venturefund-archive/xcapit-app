@@ -6,6 +6,7 @@ import { SharedFundsModule } from '../shared-funds/shared-funds.module';
 import { SharedTutorialsModule } from '../../tutorials/shared-tutorials/shared-tutorials.module';
 import { FundActionFormTitlePipe } from './pipes/fund-action-form-title/fund-action-form-title.pipe';
 import { FundActionFormTextButtonPipe } from './pipes/fund-action-form-text-button/fund-action-form-text-button.pipe';
+import { NewFundInfoComponent } from './components/new-fund-info/new-fund-info.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,12 @@ const routes: Routes = [
     SharedTutorialsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [NewFundPage, FundActionFormTitlePipe, FundActionFormTextButtonPipe]
+  declarations: [
+    NewFundPage,
+    FundActionFormTitlePipe,
+    FundActionFormTextButtonPipe,
+    NewFundInfoComponent
+  ],
+  entryComponents: [NewFundInfoComponent]
 })
 export class NewFundPageModule {}

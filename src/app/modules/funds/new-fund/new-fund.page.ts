@@ -6,8 +6,6 @@ import {
   FormControl
 } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
-// tslint:disable-next-line: max-line-length
-import { BinanceApikeyTutorialModalComponent } from '../../tutorials/shared-tutorials/components/binance-apikey-tutorial-modal/binance-apikey-tutorial-modal.component';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
@@ -19,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 import { Exchanges } from '../shared-funds/enums/exchanges.enum';
 import { DynamicComponentService } from 'src/app/shared/services/dynamic-component/dynamic-component.service';
+import { NewFundInfoComponent } from './components/new-fund-info/new-fund-info.component';
 
 @Component({
   selector: 'app-new-fund',
@@ -40,9 +39,9 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
           *ngIf="this.action === this.fundFormActions.NewFund"
         >
           <ion-item-divider>
-            <ion-label>{{
-              'funds.new_fund.ion_divider1' | translate
-            }}</ion-label>
+            <ion-label>
+              {{ 'funds.new_fund.ion_divider1' | translate }}
+            </ion-label>
           </ion-item-divider>
 
           <div class="ion-padding-start ion-padding-end">
@@ -88,9 +87,17 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
 
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
-            <ion-label>{{
-              'funds.new_fund.ion_divider2' | translate
-            }}</ion-label>
+            <ion-buttons slot="end">
+              <ion-button size="small" (click)="this.openNewFormInfo()">
+                <ion-icon
+                  slot="icon-only"
+                  name="information-circle-outline"
+                ></ion-icon>
+              </ion-button>
+            </ion-buttons>
+            <ion-label>
+              {{ 'funds.new_fund.ion_divider2' | translate }}
+            </ion-label>
           </ion-item-divider>
 
           <div class="ion-padding-start ion-padding-end">
@@ -349,6 +356,13 @@ export class NewFundPage implements OnInit {
     }
   }
 
+  async openNewFormInfo() {
+    const modal = await this.modalController.create({
+      component: NewFundInfoComponent
+    });
+    await modal.present();
+  }
+
   async openAPIKeysTutorial() {
     const exchange = this.form.get('exchange').value || Exchanges.Binance;
     const component = this.dynamicComponentService.getComponent(
@@ -399,13 +413,18 @@ export class NewFundPage implements OnInit {
     this.apiFunds.getFundRuns('active', this.fundName).subscribe((res: any) => {
       if (Array.isArray(res) && res[0]) {
         this.fundForUpdate = { ...res[0] };
-        if (this.fundForUpdate.trailing_stop || this.fundForUpdate.trailing_profit) {
+        if (
+          this.fundForUpdate.trailing_stop ||
+          this.fundForUpdate.trailing_profit
+        ) {
           this.toggleTrailing({ detail: { checked: true } } as CustomEvent);
         }
         this.form.patchValue(this.fundForUpdate);
         this.form.get('take_profit').setValue(this.fundForUpdate.ganancia);
         this.form.get('stop_loss').setValue(this.fundForUpdate.perdida);
-        this.form.get('risk_level').setValue(this.fundForUpdate.nivel_de_riesgo);
+        this.form
+          .get('risk_level')
+          .setValue(this.fundForUpdate.nivel_de_riesgo);
         this.form.get('cantidad_dias').disable();
         this.form.get('currency').disable();
         this.form.get('risk_level').disable();

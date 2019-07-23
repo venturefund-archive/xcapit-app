@@ -61,7 +61,7 @@ import { TranslateService } from '@ngx-translate/core';
                 <ion-col size="3">{{
                   'funds.deposit_address.address' | translate
                 }}</ion-col>
-                <ion-col>{{ depositAddresInfo.address }}</ion-col>
+                <ion-col size="8">{{ depositAddresInfo.address }}</ion-col>
                 <ion-col size="1">
                   <ion-buttons>
                     <ion-button (click)="this.copyToClipboard()">
@@ -86,7 +86,7 @@ import { TranslateService } from '@ngx-translate/core';
                 <ion-col size="3">{{
                   'funds.deposit_address.link' | translate
                 }}</ion-col>
-                <ion-col>
+                <ion-col size="8">
                   {{ depositAddresInfo.url }}
                 </ion-col>
                 <ion-col size="1">

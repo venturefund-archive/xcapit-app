@@ -176,6 +176,27 @@
       "link": "Link",
       "copy_address_ok_text": "The address was copied to the clipboard",
       "copy_address_error_text": "The address could not be copied to the clipboard"
+    },
+    "new_fund_info": {
+      "header": "New Fund - Help",
+      "fund_name_title": "Fund Name",
+      "fund_name_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "currency_title": "Currency to Optimize",
+      "currency_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "term_of_operation_title": "Term of Operation",
+      "term_of_operation_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "take_profit_title": "Take Profit",
+      "take_profit_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "stop_loss_title": "Stop Loss",
+      "stop_loss_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "trailing_title": "Trailing",
+      "trailing_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "trailing_profit_title": "Trailing Profit",
+      "trailing_profit_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "trailing_stop_title": "Trailing Stop",
+      "trailing_stop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "risk_level_title": "Risk Level",
+      "risk_level_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis."
     }
   },
   "runs": {
@@ -357,7 +378,7 @@
   "state_names": {
     "active": "Active",
     "pausado": "Paused",
-    "to-NF": "Changing to {{ca}}.", 
+    "to-NF": "Changing to {{ca}}.",
     "toUSDT": "Changed to USDT",
     "toBTC": "Changed to BTC",
     "finalizado": "Finalized"
