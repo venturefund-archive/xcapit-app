@@ -20,7 +20,11 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
           {{ 'funds.fund_summary.header' | translate }}
         </ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="this.editFund()" [disabled]="!this.fundStatus">
+          <ion-button
+            *ngIf="this.isOwner"
+            (click)="this.editFund()"
+            [disabled]="!this.fundStatus"
+          >
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -29,7 +33,7 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
 
     <ion-content padding>
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button (click)="this.shareFund()">
+        <ion-fab-button *ngIf="this.isOwner" (click)="this.shareFund()">
           <ion-icon name="share"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -124,7 +128,7 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
           </ion-button>
         </div>
       </div>
-      <ion-grid no-padding padding-top>
+      <ion-grid no-padding padding-top *ngIf="this.isOwner">
         <ion-row>
           <ion-col>
             <ion-button
@@ -223,7 +227,8 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
           size="medium"
           type="button"
           color="success"
-          (click)="fundRuns(fundName)"
+          routerDirection="forward"
+          [routerLink]="['/funds/runs', this.fundName]"
         >
           <ion-icon slot="start" name="list"></ion-icon>
           {{ 'funds.fund_summary.fund_runs_button' | translate }}
@@ -250,6 +255,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   loadingStatus = true;
 
   fundName: string;
+  isOwner = false;
 
   fundStatus: any;
   form: FormGroup = this.formBuilder.group({
@@ -283,11 +289,9 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     this.subscriptionsService.shareSubscriptionLink(this.fundName);
   }
 
-
   getStateShowName(state: string) {
     return this.stateNamesService.getStateShowName(state);
   }
-
 
   getFundStatus() {
     this.loadingStatus = true;
@@ -295,8 +299,11 @@ export class FundSummaryPage implements OnInit, OnDestroy {
       .getStatus(this.fundName)
       .subscribe(res => {
         this.fundStatus = res;
+        this.isOwner = res && res.status && res.fund.is_owner;
         this.isInCAStatus();
-        this.statusShowName = this.stateNamesService.getStateShowName(this.fundStatus.fund.estado);
+        this.statusShowName = this.stateNamesService.getStateShowName(
+          this.fundStatus.fund.estado
+        );
         this.loadingStatus = false;
       });
   }
@@ -347,10 +354,6 @@ export class FundSummaryPage implements OnInit, OnDestroy {
       FundFormActions.RenewFund,
       this.fundName
     ]);
-  }
-
-  fundRuns(selectedFund: string): void {
-    this.router.navigate(['funds/runs', selectedFund]);
   }
 
   editFund() {
