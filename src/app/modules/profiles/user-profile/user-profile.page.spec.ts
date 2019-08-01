@@ -140,7 +140,7 @@ describe('UserProfilePage', () => {
     spy.and.returnValue(of({}));
     const spyUpdate = spyOn(apiProfilesService.crud, 'update');
     spyUpdate.and.returnValue(of({}));
-    component.setForm()
+    component.setForm();
     component.form.patchValue(formData.valid);
     component.save();
     expect(spy).toHaveBeenCalledTimes(2);

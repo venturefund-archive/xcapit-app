@@ -79,11 +79,10 @@ describe('DepositAddressPage', () => {
     component.ionViewDidEnter();
     component.form.get('currency').setValue('BTC');
     fixture.detectChanges();
-    fixture.whenStable()
-      .then(() => {
-        component.copyToClipboard();
-        expect(clipboardServiceSpy.copy).toHaveBeenCalledTimes(1);
-      });
+    fixture.whenStable().then(() => {
+      component.copyToClipboard();
+      expect(clipboardServiceSpy.copy).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('should call log on ionViewDidEnter', () => {
@@ -101,14 +100,4 @@ describe('DepositAddressPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
-  xit('should call log on copyToClipboard success', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.depositAddresInfo = {address: 'testaddress'};
-    component.copyToClipboard();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
 });

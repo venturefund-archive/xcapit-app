@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LanguageService } from '../../services/language/language.service';
 import { PopoverController } from '@ionic/angular';
-import { LogsService } from '../../services/logs/logs.service';
 
 @Component({
   selector: 'app-language-popover',
@@ -30,8 +29,7 @@ export class LanguagePopoverComponent implements OnInit {
 
   constructor(
     private languageService: LanguageService,
-    private popoverController: PopoverController,
-    private logsService: LogsService
+    private popoverController: PopoverController
   ) {}
 
   ngOnInit() {
@@ -42,6 +40,5 @@ export class LanguagePopoverComponent implements OnInit {
   select(lng: string) {
     this.languageService.setLanguage(lng);
     this.popoverController.dismiss();
-    this.logsService.log(`{ "message": "Changed language to: ${lng}" }`).subscribe();
   }
 }

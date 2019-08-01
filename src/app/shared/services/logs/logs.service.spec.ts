@@ -4,16 +4,14 @@ import { LogsService } from './logs.service';
 import { HttpClient } from '@angular/common/http';
 
 describe('LogsService', () => {
-  let http: any; 
+  let http: any;
   beforeEach(() => {
     http = jasmine.createSpyObj('HttpClient', {
       get: () => null,
       post: () => null
     });
     TestBed.configureTestingModule({
-      providers: [
-        { provide: HttpClient, useValue: http },
-        ]
+      providers: [{ provide: HttpClient, useValue: http }]
     });
   });
 

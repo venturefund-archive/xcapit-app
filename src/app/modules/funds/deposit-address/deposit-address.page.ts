@@ -92,9 +92,7 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                 </ion-col>
                 <ion-col size="1">
                   <ion-buttons>
-                    <ion-button
-                      (click)="this.openAddressUrlInNewTab()"
-                    >
+                    <ion-button (click)="this.openAddressUrlInNewTab()">
                       <ion-icon slot="icon-only" name="open"></ion-icon>
                     </ion-button>
                   </ion-buttons>
@@ -138,9 +136,8 @@ export class DepositAddressPage implements OnInit {
   getDepositAdress(currency: string) {
     this.apiFunds.getDepositAdress(currency).subscribe(res => {
       this.logsService
-      .log(
-        `{"message": "Has requested deposit address"}`
-      ).subscribe();
+        .log(`{"message": "Has requested deposit address"}`)
+        .subscribe();
       this.depositAddresInfo = res;
       if (this.depositAddresInfo.url) {
         this.generateQR(this.depositAddresInfo.url);
@@ -160,9 +157,8 @@ export class DepositAddressPage implements OnInit {
 
   ionViewDidEnter() {
     this.logsService
-    .log(
-      `{"message": "Has entered deposit-address"}`
-    ).subscribe();
+      .log(`{"message": "Has entered deposit-address"}`)
+      .subscribe();
     this.form.valueChanges.subscribe(data => {
       if (data.currency) {
         this.getDepositAdress(data.currency);
@@ -182,22 +178,20 @@ export class DepositAddressPage implements OnInit {
 
   copyToClipboard() {
     if (this.depositAddresInfo.address) {
-      this.clipboard
-        .copy(this.depositAddresInfo.address)
-        .then(
-          () => {
-            this.logsService
-            .log(
-              `{"message": "Has copied deposit address"}`
-            ).subscribe();
-            this.showToast('funds.deposit_address.copy_address_ok_text')},
-          () => {
-            this.logsService
-            .log(
-              `{"message": "Error trying to copy deposit address"}`
-            ).subscribe();
-            this.showToast('funds.deposit_address.copy_address_error_text')}
-        );
+      this.clipboard.copy(this.depositAddresInfo.address).then(
+        () => {
+          this.logsService
+            .log(`{"message": "Has copied deposit address"}`)
+            .subscribe();
+          this.showToast('funds.deposit_address.copy_address_ok_text');
+        },
+        () => {
+          this.logsService
+            .log(`{"message": "Error trying to copy deposit address"}`)
+            .subscribe();
+          this.showToast('funds.deposit_address.copy_address_error_text');
+        }
+      );
     }
   }
 

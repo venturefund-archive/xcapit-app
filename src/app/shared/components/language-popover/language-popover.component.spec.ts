@@ -21,8 +21,10 @@ describe('LanguagePopoverComponent', () => {
       'getLanguages',
       'setLanguage'
     ]);
-    popoverControllerSpy = jasmine.createSpyObj('PopoverController', ['dismiss']);
-    
+    popoverControllerSpy = jasmine.createSpyObj('PopoverController', [
+      'dismiss'
+    ]);
+
     TestBed.configureTestingModule({
       declarations: [LanguagePopoverComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
