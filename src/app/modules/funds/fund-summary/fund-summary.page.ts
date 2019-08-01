@@ -312,10 +312,10 @@ export class FundSummaryPage implements OnInit, OnDestroy {
         .log(`{"message": "Has requested fund status of fund: ${this.fundName}"}`)
         .subscribe();
         this.fundStatus = res;
-        this.isOwner = res && res.status && res.fund.is_owner;
+        this.isOwner = res && res.fund && res.fund.is_owner;
         this.isInCAStatus();
         this.statusShowName = this.stateNamesService.getStateShowName(
-          this.fundStatus.fund.estado
+          (this.fundStatus && this.fundStatus.fund.estado) || '-'
         );
         this.loadingStatus = false;
       });
