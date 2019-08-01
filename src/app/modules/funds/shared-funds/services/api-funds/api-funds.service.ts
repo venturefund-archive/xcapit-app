@@ -82,7 +82,7 @@ export class ApiFundsService {
   }
 
   getDepositAdress(currency: string): Observable<any> {
-    return this.http.get(
+    return this.http.original.get(
       `${environment.apiUrl}/${this.entity}/deposit_address/${currency}`
     );
   }

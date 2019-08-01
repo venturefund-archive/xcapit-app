@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.service';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-run-summary',
@@ -22,7 +23,9 @@ import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.servic
         <div class="fs__header">
           <h1>
             {{ 'runs.run_summary.run_title' | translate }}
-            {{ this.runStatus?.fund?.id_corrida }}{{ 'runs.run_summary.fund_title' | translate }} {{this.runStatus?.fund?.nombre_bot}}
+            {{ this.runStatus?.fund?.id_corrida
+            }}{{ 'runs.run_summary.fund_title' | translate }}
+            {{ this.runStatus?.fund?.nombre_bot }}
           </h1>
           <ion-label class="fs__header__state">
             {{ this.runStatus?.fund.estado }}
@@ -101,9 +104,19 @@ export class RunSummaryPage implements OnInit, OnDestroy {
   loadingStatus = true;
   runStatus: any;
 
-  constructor(private apiRuns: ApiRunsService, private route: ActivatedRoute) {}
+  constructor(
+    private apiRuns: ApiRunsService,
+    private route: ActivatedRoute,
+    private logsService: LogsService
+  ) {}
 
   ngOnInit() {}
+  ionViewDidEnter() {
+    this.logsService
+      .log(`{"message": "Has entered run-summary run: ${this.pk}"}`)
+      .subscribe();
+  }
+
   ionViewWillEnter() {
     this.pk = this.route.snapshot.paramMap.get('pk');
     this.getRunStatus();
@@ -118,6 +131,9 @@ export class RunSummaryPage implements OnInit, OnDestroy {
     this.runStatusSubscription = this.apiRuns
       .getStatus(this.pk)
       .subscribe(res => {
+        this.logsService
+          .log(`{"message": "Has requested run status. run: ${this.pk}"}`)
+          .subscribe();
         this.runStatus = res;
         this.loadingStatus = false;
       });

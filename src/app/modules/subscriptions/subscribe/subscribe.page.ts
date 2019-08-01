@@ -6,6 +6,7 @@ import { NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-subscribe',
@@ -28,10 +29,12 @@ export class SubscribePage implements OnInit, OnDestroy {
     private apiSubscription: ApiSubscriptionsService,
     private navController: NavController,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private logsService: LogsService
   ) {}
 
   ngOnInit() {
+    this.logsService.log(`{"message": "Has entered subscribe"}`).subscribe();
     this.subscribeToFund();
   }
 
@@ -67,9 +70,15 @@ export class SubscribePage implements OnInit, OnDestroy {
     let url: string;
     let message: string;
     if (data.isSubscribe && data.fundName) {
+      this.logsService
+        .log(`{"message": "Has subscribed to fund: ${data.fundName}"}`)
+        .subscribe();
       url = `/funds/fund-summary/${data.fundName}`;
       message = 'subscriptions.subscribe.ok_text';
     } else {
+      this.logsService
+        .log(`{"message": "Error trying to subscribe to fund"}`)
+        .subscribe();
       url = `/funds/list`;
       message = 'subscriptions.subscribe.error_text';
     }

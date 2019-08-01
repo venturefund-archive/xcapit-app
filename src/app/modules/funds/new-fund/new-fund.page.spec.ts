@@ -13,6 +13,7 @@ import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 import { FundActionFormTitlePipe } from './pipes/fund-action-form-title/fund-action-form-title.pipe';
 import { FundActionFormTextButtonPipe } from './pipes/fund-action-form-text-button/fund-action-form-text-button.pipe';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 const formData = {
   api_key: 'asdfad',
@@ -42,14 +43,18 @@ describe('NewFundPage', () => {
   let modalControllerSpy: any;
   let modalController: ModalController;
   let activatedRouteSpy: any;
+  let logsServiceMock: any;
   beforeEach(async(() => {
     modalControllerSpy = jasmine.createSpyObj('ModalController', ['create']);
     modalControllerSpy.create.and.returnValue(of(null).toPromise());
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+    logsServiceMock = {
+      log: () => of({})
+    };
     apiFundsServiceMock = {
       crud: {
         create: () => of({}),
-        update: () => of({}),
+        update: () => of({})
       },
       renewFund: () => of({}),
       getFundRuns: () => of({})
@@ -68,6 +73,7 @@ describe('NewFundPage', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
+        { provide: LogsService, useValue: logsServiceMock },
         { provide: ApiFundsService, useValue: apiFundsServiceMock },
         { provide: ModalController, useValue: modalControllerSpy }
       ]
@@ -79,6 +85,7 @@ describe('NewFundPage', () => {
     component = fixture.componentInstance;
     apiFundsService = TestBed.get(ApiFundsService);
     modalController = TestBed.get(ModalController);
+    logsServiceMock = TestBed.get(LogsService);
   });
 
   it('should create', () => {
@@ -103,10 +110,12 @@ describe('NewFundPage', () => {
   });
 
   it('should call create on apiFunds.crud, valid form', () => {
-    TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({
-      action: FundFormActions.NewFund,
-      fundName: ''
-    }) };
+    TestBed.get(ActivatedRoute).snapshot = {
+      paramMap: convertToParamMap({
+        action: FundFormActions.NewFund,
+        fundName: ''
+      })
+    };
     component.form.patchValue(formData);
     fixture.detectChanges();
     const spy = spyOn(apiFundsService.crud, 'create');
@@ -141,10 +150,12 @@ describe('NewFundPage', () => {
   });
 
   it('should call renewFund when action is RenewFund', () => {
-    TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({
-      action: FundFormActions.RenewFund,
-      fundName: 'fundName'
-    })};
+    TestBed.get(ActivatedRoute).snapshot = {
+      paramMap: convertToParamMap({
+        action: FundFormActions.RenewFund,
+        fundName: 'fundName'
+      })
+    };
     fixture.detectChanges();
     component.form.patchValue(formDataRenew);
     const spy = spyOn(apiFundsService, 'renewFund');
@@ -156,10 +167,12 @@ describe('NewFundPage', () => {
   it('should call update & getFundRuns when action is EditProfitLoss', () => {
     const getFundRunSpy = spyOn(apiFundsService, 'getFundRuns');
     getFundRunSpy.and.returnValue(of([{ id_corrida: 1 }]));
-    TestBed.get(ActivatedRoute).snapshot = { paramMap: convertToParamMap({
-      action: FundFormActions.EditProfitLoss,
-      fundName: 'fundName'
-    })};
+    TestBed.get(ActivatedRoute).snapshot = {
+      paramMap: convertToParamMap({
+        action: FundFormActions.EditProfitLoss,
+        fundName: 'fundName'
+      })
+    };
     fixture.detectChanges();
     component.form.patchValue(formDataRenew);
     const updateSpy = spyOn(apiFundsService.crud, 'update');
@@ -167,6 +180,27 @@ describe('NewFundPage', () => {
     component.save();
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(getFundRunSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on ngOnInit', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on openNewFormInfo', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.openNewFormInfo();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on openAPIKeysTutorial', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.openAPIKeysTutorial();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   describe('Form values', () => {
@@ -236,4 +270,6 @@ describe('NewFundPage', () => {
       expect(component.form.valid).toBeFalsy();
     });
   });
+
+
 });

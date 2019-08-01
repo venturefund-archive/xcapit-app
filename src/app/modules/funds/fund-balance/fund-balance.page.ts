@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-fund-balance',
@@ -135,7 +136,8 @@ export class FundBalancePage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private apiFunds: ApiFundsService
+    private apiFunds: ApiFundsService,
+    private logsService: LogsService
   ) {}
 
   ngOnInit() {}
@@ -144,9 +146,19 @@ export class FundBalancePage implements OnInit {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
     this.getFundBalance();
   }
+  ionViewDidEnter() {
+    this.logsService
+      .log(`{"message": "Has entered fund-balance of fund: ${this.fundName}"}`)
+      .subscribe();
+  }
 
   getFundBalance() {
     this.apiFunds.getBalance(this.fundName).subscribe(res => {
+      this.logsService
+        .log(
+          `{"message": "Has requested fund balance of fund: ${this.fundName}"}`
+        )
+        .subscribe();
       this.fundBalance = res;
       this.loadingBalance = false;
     });

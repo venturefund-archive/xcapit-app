@@ -9,6 +9,7 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { CurrencyPercentagePipe } from '../shared-funds/pipes/currency-percentage/currency-percentage.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 const fundStatusMockData = {
   fund: {
@@ -22,8 +23,11 @@ describe('FundSummaryPage', () => {
   let fixture: ComponentFixture<FundSummaryPage>;
   let apiFundServiceMock: any;
   let subscriptionsServiceSpy: any;
-
+  let logsServiceMock: any;
   beforeEach(async(() => {
+    logsServiceMock = {
+      log: () => of({})
+    };
     apiFundServiceMock = {
       getStatus: () => of(fundStatusMockData),
       pauseFundRuns: () => of(null),
@@ -43,6 +47,7 @@ describe('FundSummaryPage', () => {
         ReactiveFormsModule
       ],
       providers: [
+        { provide: LogsService, useValue: logsServiceMock },
         { provide: ApiFundsService, useValue: apiFundServiceMock },
         { provide: SubscriptionsService, useValue: subscriptionsServiceSpy }
       ],
@@ -56,6 +61,7 @@ describe('FundSummaryPage', () => {
     fixture.detectChanges();
     apiFundServiceMock = TestBed.get(ApiFundsService);
     subscriptionsServiceSpy = TestBed.get(SubscriptionsService);
+    logsServiceMock = TestBed.get(LogsService);
   });
 
   it('should create', () => {
@@ -129,9 +135,63 @@ describe('FundSummaryPage', () => {
   });
 
   it('shouldnt match invalid status', () => {
-    component.fundStatus = { fund: {estado: 'active' }};
+    component.fundStatus = { fund: { estado: 'active' } };
     fixture.detectChanges();
     component.isInCAStatus();
     expect(component.inCAStatus).toBeFalsy();
   });
+
+  it('should call log on ionViewDidEnter', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on getFundStatus', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.getFundStatus();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on changeFundCA', () => {
+    const spyGetFund = spyOn(component, 'getFundStatus');
+    spyGetFund.and.returnValue({});
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.form.patchValue({ ca: 'BTC' });
+    component.changeFundCA();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on pauseFundRuns', () => {
+    const spyGetFund = spyOn(component, 'getFundStatus');
+    spyGetFund.and.returnValue({});
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.pauseFundRuns();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on resumeFundRuns', () => {
+    const spyGetFund = spyOn(component, 'getFundStatus');
+    spyGetFund.and.returnValue({});
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.resumeFundRuns();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on finalizeFundRuns', () => {
+    const spyGetFund = spyOn(component, 'getFundStatus');
+    spyGetFund.and.returnValue({});
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.finalizeFundRuns();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
 });

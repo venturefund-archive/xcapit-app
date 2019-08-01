@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { ActivatedRoute } from '@angular/router';
 import { StateNamesService } from 'src/app/shared/services/state-names/state-names.service';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-fund-runs',
@@ -265,7 +266,8 @@ export class FundRunsPage implements OnInit {
   constructor(
     private apiFundsService: ApiFundsService,
     private route: ActivatedRoute,
-    private stateNamesService: StateNamesService
+    private stateNamesService: StateNamesService,
+    private logsService: LogsService
   ) {
     this.route.params.subscribe(params => {
       this.selectedFund = params.nombre_bot;
@@ -276,6 +278,10 @@ export class FundRunsPage implements OnInit {
   ngOnInit() {}
 
   ionViewDidEnter() {
+    this.logsService
+    .log(
+      `{"message": "Has entered fund-runs of fund: ${this.selectedFund}"}`
+    ).subscribe();
     this.getFundRuns();
   }
 
@@ -287,6 +293,10 @@ export class FundRunsPage implements OnInit {
     this.apiFundsService
       .getFundRuns(this.status, this.selectedFund)
       .subscribe(res => {
+        this.logsService
+        .log(
+          `{"message": "Has requested fund-runs of fund: ${this.selectedFund}"}`
+        ).subscribe();
         this.fundRuns = res;
       });
   }

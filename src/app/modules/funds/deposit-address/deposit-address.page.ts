@@ -6,6 +6,7 @@ import QRCode from 'qrcode';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 @Component({
   selector: 'app-deposit-address',
   template: `
@@ -130,11 +131,16 @@ export class DepositAddressPage implements OnInit {
     private apiFunds: ApiFundsService,
     private clipboard: ClipboardService,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private logsService: LogsService
   ) {}
 
   getDepositAdress(currency: string) {
     this.apiFunds.getDepositAdress(currency).subscribe(res => {
+      this.logsService
+      .log(
+        `{"message": "Has requested deposit address"}`
+      ).subscribe();
       this.depositAddresInfo = res;
       if (this.depositAddresInfo.url) {
         this.generateQR(this.depositAddresInfo.url);
@@ -153,6 +159,10 @@ export class DepositAddressPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.logsService
+    .log(
+      `{"message": "Has entered deposit-address"}`
+    ).subscribe();
     this.form.valueChanges.subscribe(data => {
       if (data.currency) {
         this.getDepositAdress(data.currency);
@@ -175,8 +185,18 @@ export class DepositAddressPage implements OnInit {
       this.clipboard
         .copy(this.depositAddresInfo.address)
         .then(
-          () => this.showToast('funds.deposit_address.copy_address_ok_text'),
-          () => this.showToast('funds.deposit_address.copy_address_error_text')
+          () => {
+            this.logsService
+            .log(
+              `{"message": "Has copied deposit address"}`
+            ).subscribe();
+            this.showToast('funds.deposit_address.copy_address_ok_text')},
+          () => {
+            this.logsService
+            .log(
+              `{"message": "Error trying to copy deposit address"}`
+            ).subscribe();
+            this.showToast('funds.deposit_address.copy_address_error_text')}
         );
     }
   }

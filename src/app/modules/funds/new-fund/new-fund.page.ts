@@ -18,6 +18,7 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 import { Exchanges } from '../shared-funds/enums/exchanges.enum';
 import { DynamicComponentService } from 'src/app/shared/services/dynamic-component/dynamic-component.service';
 import { NewFundInfoComponent } from './components/new-fund-info/new-fund-info.component';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-new-fund',
@@ -296,12 +297,20 @@ export class NewFundPage implements OnInit {
     private toastService: ToastService,
     private translate: TranslateService,
     private route: ActivatedRoute,
-    private dynamicComponentService: DynamicComponentService
+    private dynamicComponentService: DynamicComponentService,
+    private logsService: LogsService
   ) {}
 
   ngOnInit() {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
     this.action = this.route.snapshot.paramMap.get('action');
+    this.logsService
+      .log(
+        `{"message": "Has entered new-fund. action: ${this.action} fund: ${
+          this.fundName
+        }"}`
+      )
+      .subscribe();
     this.setPageByAction();
   }
 
@@ -331,6 +340,13 @@ export class NewFundPage implements OnInit {
 
   private success() {
     this.navController.pop().then(() => {
+      this.logsService
+      .log(
+        `{"message": "Has saved fund. action: ${this.action} fund: ${
+          this.fundName
+        }"}`
+      )
+      .subscribe();
       this.toastService.showToast({
         message: this.translate.instant(
           `funds.new_fund.success_text_${this.action}`
@@ -357,6 +373,13 @@ export class NewFundPage implements OnInit {
   }
 
   async openNewFormInfo() {
+    this.logsService
+    .log(
+      `{"message": "Has opened NewFormInfo. action: ${this.action} fund: ${
+        this.fundName
+      }"}`
+    )
+    .subscribe();
     const modal = await this.modalController.create({
       component: NewFundInfoComponent
     });
@@ -364,6 +387,13 @@ export class NewFundPage implements OnInit {
   }
 
   async openAPIKeysTutorial() {
+    this.logsService
+    .log(
+      `{"message": "Has opened APIKeys tutorial. action: ${this.action} fund: ${
+        this.fundName
+      }"}`
+    )
+    .subscribe();
     const exchange = this.form.get('exchange').value || Exchanges.Binance;
     const component = this.dynamicComponentService.getComponent(
       `${exchange}ApikeyTutorialModalComponent`

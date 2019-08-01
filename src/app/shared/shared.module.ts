@@ -7,6 +7,7 @@ import { GooglePlacesDirective } from './directives/google-places.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
+import { LogsService } from './services/logs/logs.service';
 
 @NgModule({
   declarations: [

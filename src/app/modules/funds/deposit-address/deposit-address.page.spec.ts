@@ -9,12 +9,14 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 describe('DepositAddressPage', () => {
   let component: DepositAddressPage;
   let fixture: ComponentFixture<DepositAddressPage>;
   let apiFundsServiceMock: any;
   let apiFundsService: ApiFundsService;
+  let logsServiceMock: any;
   const depositAddressData = {
     address: 'asd',
     success: true,
@@ -26,6 +28,9 @@ describe('DepositAddressPage', () => {
   beforeEach(async(() => {
     apiFundsServiceMock = {
       getDepositAdress: () => of(depositAddressData)
+    };
+    logsServiceMock = {
+      log: () => of({})
     };
     clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['copy']);
     TestBed.configureTestingModule({
@@ -39,6 +44,7 @@ describe('DepositAddressPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ApiFundsService, useValue: apiFundsServiceMock },
+        { provide: LogsService, useValue: logsServiceMock },
         { provide: ClipboardService, useValue: clipboardServiceSpy }
       ]
     }).compileComponents();
@@ -49,6 +55,7 @@ describe('DepositAddressPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiFundsService = TestBed.get(ApiFundsService);
+    logsServiceMock = TestBed.get(LogsService);
   });
 
   it('should create', () => {
@@ -78,4 +85,30 @@ describe('DepositAddressPage', () => {
         expect(clipboardServiceSpy.copy).toHaveBeenCalledTimes(1);
       });
   });
+
+  it('should call log on ionViewDidEnter', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call log on getDepositAdress', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.getDepositAdress('BTC');
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  xit('should call log on copyToClipboard success', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.depositAddresInfo = {address: 'testaddress'};
+    component.copyToClipboard();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
 });

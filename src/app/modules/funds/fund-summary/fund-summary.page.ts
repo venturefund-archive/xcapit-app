@@ -7,6 +7,7 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 import { CA } from '../shared-funds/enums/ca.enum';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { StateNamesService } from 'src/app/shared/services/state-names/state-names.service';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-fund-summary',
@@ -271,7 +272,8 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     private router: Router,
     private apiFunds: ApiFundsService,
     private subscriptionsService: SubscriptionsService,
-    private stateNamesService: StateNamesService
+    private stateNamesService: StateNamesService,
+    private logsService: LogsService
   ) {}
 
   ngOnInit() {}
@@ -283,6 +285,14 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
     this.getFundStatus();
+  }
+
+  ionViewDidEnter() {
+    this.logsService
+      .log(
+        `{"message": "Has entered on fund-summary of fund: ${this.fundName}"}`
+      )
+      .subscribe();
   }
 
   shareFund() {
@@ -298,6 +308,9 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     this.fundStatusSubscription = this.apiFunds
       .getStatus(this.fundName)
       .subscribe(res => {
+        this.logsService
+        .log(`{"message": "Has requested fund status of fund: ${this.fundName}"}`)
+        .subscribe();
         this.fundStatus = res;
         this.isOwner = res && res.status && res.fund.is_owner;
         this.isInCAStatus();
@@ -326,24 +339,40 @@ export class FundSummaryPage implements OnInit, OnDestroy {
         .changeFundCA(this.fundName, this.form.value.ca)
         .subscribe(res => {
           this.getFundStatus();
+          this.logsService
+            .log(
+              `{"message": "Has changed fund CA. fund: ${this.fundName} - CA: ${
+                this.form.value.ca
+              }"}`
+            )
+            .subscribe();
         });
     }
   }
 
   pauseFundRuns(): void {
     this.apiFunds.pauseFundRuns(this.fundName).subscribe(res => {
+      this.logsService
+        .log(`{"message": "Has paused fund: ${this.fundName}"}`)
+        .subscribe();
       this.getFundStatus();
     });
   }
 
   resumeFundRuns(): void {
     this.apiFunds.resumeFundRuns(this.fundName).subscribe(res => {
+      this.logsService
+        .log(`{"message": "Has resumed fund: ${this.fundName}"}`)
+        .subscribe();
       this.getFundStatus();
     });
   }
 
   finalizeFundRuns(): void {
     this.apiFunds.finalizeFundRuns(this.fundName).subscribe(res => {
+      this.logsService
+        .log(`{"message": "Has finalized fund: ${this.fundName}"}`)
+        .subscribe();
       this.getFundStatus();
     });
   }

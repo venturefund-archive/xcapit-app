@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-funds-list',
@@ -56,16 +57,22 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
 export class FundsListPage implements OnInit {
   subscribedFunds: Array<any> = [];
   constructor(
-    private apiFundsService: ApiFundsService
+    private apiFundsService: ApiFundsService,
+    private logsService: LogsService
   ) {}
   ngOnInit() {}
 
   ionViewDidEnter() {
+    this.logsService.log(`{"message": "Has entered fund-list"}`).subscribe();
     this.getSubscribedFunds();
   }
 
   private getSubscribedFunds() {
     this.apiFundsService.getSubscribedFunds().subscribe(res => {
+      this.logsService
+      .log(
+        `{"message": "Has requested fund list"}`
+      ).subscribe();
       this.subscribedFunds = res;
     });
   }

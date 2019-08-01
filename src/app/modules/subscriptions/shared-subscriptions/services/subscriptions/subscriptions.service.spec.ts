@@ -6,20 +6,26 @@ import { ApiSubscriptionsService } from '../api-subscriptions/api-subscriptions.
 import { TranslateModule } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { RouterTestingModule } from '@angular/router/testing';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 describe('SubscriptionsService', () => {
   let apiSubscriptionsSpy: any;
   let storageSpy: any;
   let subscriptionsService: SubscriptionsService;
+  let logsServiceMock: any;
   beforeEach(() => {
     apiSubscriptionsSpy = jasmine.createSpyObj('ApiSubscriptionsService', [
       'getSubscriptionLink'
     ]);
+    logsServiceMock = {
+      log: () => of({})
+    };
     apiSubscriptionsSpy.getSubscriptionLink.and.returnValue(of({}));
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       providers: [
+        { provide: LogsService, useValue: logsServiceMock },
         { provide: ApiSubscriptionsService, useValue: apiSubscriptionsSpy },
         { provide: Storage, useValue: storageSpy }
       ]

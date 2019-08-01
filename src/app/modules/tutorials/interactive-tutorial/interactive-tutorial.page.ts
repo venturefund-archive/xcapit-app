@@ -8,6 +8,7 @@ import { ComponentRef } from '@ionic/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-actions.enum';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-interactive-tutorial',
@@ -153,12 +154,18 @@ export class InteractiveTutorialPage implements OnInit {
     private modalController: ModalController,
     private navController: NavController,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private logsService: LogsService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.logsService
+      .log(`{"message": "Has entered interactive-tutorial"}`)
+      .subscribe();
+  }
 
   openCaTutorial() {
+    this.logsService.log(`{"message": "Has opened ca tutorial"}`).subscribe();
     return this.openModal(CaTutorialModalComponent, 'onWillDismiss', () =>
       this.navController
         .navigateBack(['/funds/list'], { replaceUrl: true })
@@ -173,10 +180,16 @@ export class InteractiveTutorialPage implements OnInit {
   }
 
   openBinanceTutorial() {
+    this.logsService
+      .log(`{"message": "Has opened binance tutorial"}`)
+      .subscribe();
     return this.openModal(BinanceTutorialModalComponent);
   }
 
   openBinanceTransferTutorial() {
+    this.logsService
+      .log(`{"message": "Has opened binance transfer tutorial"}`)
+      .subscribe();
     return this.openModal(BinanceTransferTutorialModalComponent);
   }
 

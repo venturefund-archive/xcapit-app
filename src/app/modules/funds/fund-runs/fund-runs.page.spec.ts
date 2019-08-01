@@ -8,16 +8,20 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StateShowNamePipe } from '../shared-funds/pipes/state-names/state-names.pipe';
+import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 describe('FundRunsPage', () => {
   let component: FundRunsPage;
   let fixture: ComponentFixture<FundRunsPage>;
   let apiFundsServiceMock: any;
   let apiFundsService: ApiFundsService;
-
+  let logsServiceMock: any;
   beforeEach(async(() => {
     apiFundsServiceMock = {
       getFundRuns: () => of([])
+    };
+    logsServiceMock = {
+      log: () => of({})
     };
     TestBed.configureTestingModule({
       imports: [
@@ -25,13 +29,13 @@ describe('FundRunsPage', () => {
         IonicModule,
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ FundRunsPage, StateShowNamePipe ],
+      declarations: [FundRunsPage, StateShowNamePipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: ApiFundsService, useValue: apiFundsServiceMock}
+        { provide: LogsService, useValue: logsServiceMock },
+        { provide: ApiFundsService, useValue: apiFundsServiceMock }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -39,6 +43,7 @@ describe('FundRunsPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiFundsService = TestBed.get(ApiFundsService);
+    logsServiceMock = TestBed.get(LogsService);
   });
 
   it('should create', () => {
@@ -51,4 +56,13 @@ describe('FundRunsPage', () => {
     component.ionViewDidEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should call log on ionViewDidEnter', () => {
+    const spy = spyOn(logsServiceMock, 'log');
+    spy.and.returnValue(of({}));
+    component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(2);
+  });
+
 });
