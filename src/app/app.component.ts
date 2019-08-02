@@ -46,9 +46,7 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
           </ion-content>
           <ion-footer>
             <ion-menu-toggle auto-hide="false">
-              <ion-item
-                (click)="this.logout()"
-              >
+              <ion-item (click)="this.logout()">
                 <ion-icon slot="start" name="log-out" color="danger"></ion-icon>
                 <ion-label>
                   {{ 'app.main_menu.logout' | translate }}
@@ -82,6 +80,13 @@ export class AppComponent implements OnInit, OnDestroy {
       id: 3,
       title: 'app.main_menu.deposit_address',
       url: '/funds/deposit-address',
+      customIcon: '',
+      routeDirection: 'forward'
+    },
+    {
+      id: 4,
+      title: 'app.main_menu.help',
+      url: '/tutorials/help',
       customIcon: '',
       routeDirection: 'forward'
     }

@@ -11,6 +11,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         loadChildren:
           './interactive-tutorial/interactive-tutorial.module#InteractiveTutorialPageModule'
+      },
+      {
+        path: 'help',
+        canActivate: [AuthGuard],
+        loadChildren: './help/help.module#HelpPageModule'
       }
     ]
   }

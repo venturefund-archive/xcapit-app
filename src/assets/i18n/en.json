@@ -5,7 +5,8 @@
       "funds": "Funds",
       "user_profile": "User Profile",
       "deposit_address": "Deposit address",
-      "logout": "Log Out"
+      "logout": "Log Out",
+      "help": "Help"
     }
   },
   "config": {
@@ -365,7 +366,56 @@
       "p38": "You will receive an email with the status of the transaction in process. When you have the BTC in your account, Bitex will contact you."
     },
     "extract_tutorial_modal": {
-      "header": "Extract Profits"
+      "header": "Extract Profits",
+      "t1": "¿Como pasar los fondos que opera WCS a BTC?",
+      "p1": "Para que puedas pasar el total de la cartera que opera WCS de tu cuenta de Binance a BTC, debes ingresar al bot: ",
+      "p2": "Dentro del bot ingresa /to",
+      "p3": "El bot listara tus fondos, escoge que fondo quieres pasar a BTC",
+      "p4": "El bot te preguntará a cual crypto quieres pasar tu balance, solo debes seleccionar BTC",
+      "p5": "y listo, comprueba en tu cuenta de Binance que el balance está en la crypto que seleccionaste",
+      "t2": "Transferir tus BTC de Binance a Bitex",
+      "p6": "Abre tu navegador favorito e ingresa a: ",
+      "p7": "Haz clic en Ingresar",
+      "p8": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Bitex con otro navegador como Edge, Chrome o FireFox.",
+      "p9": "Ingresa tus datos",
+      "p10": "Ingresa los datos de autenticación de google",
+      "p11": "Una vez en tu cuenta haz clic sobre el icono de saldos.",
+      "p12": "Haz clic en  “Cargar BTC”",
+      "p13": "Bitex mostrará tu dirección de BTC para que transfieras tus BTC que tienes en Binance. Copia o scanea el codigo QR.",
+      "t3": "Transfiere tus BTC  a Bitex",
+      "p14": "Abre tu navegador favorito e ingresa a: ",
+      "p15": "Ingresa a tu cuenta y haz clic en monedo (lo encontrarás en el margen superior derecho), en la lista que se despliega haz clic en retirar",
+      "p16": "En donde dice “Dirección BTC del destinatario”, pega tu dirección de BTC de Bitex y luego ingresa la cantidad que quieres transferir. Haz clic en envia",
+      "p17": "Binance te pedirá que ingreses el código de autenticación de google",
+      "p18": "Luego te enviará un e-mail para que confirmes el retiro.",
+      "p19": "Ve a tu cuenta de e-mail y haz clic en “Confirm withdrawal”",
+      "p20": "Se abrirá una pantalla donde te informará si todo salió bien.",
+      "p21": "Nota: Ten en cuenta que esta transacción puede demorar unas horas.",
+      "t4": "Comprar USD",
+      "p22": "Ingresa a tu navegador favorito e ingresa a: ",
+      "p23": "Haz clic en ingresar tus datos",
+      "p24": "Ingresa el código de google autenticación",
+      "p25": "Una vez dentro de tu cuenta, haz clic en Exchange",
+      "p26": "Haz clic en vender para vender los BTC que tienes en tu cuenta y recibir USD",
+      "p27": "Ingresa la cantidad de BTC que quieres vender y el precio. Bitex recomienda ingresar el Mejor precio (puedes hacer clic en donde dice “Usar este precio”) y haz clic en vender.",
+      "p28": "Nota: Esta operación puede demorar unas horas. Recuerda que bitex opera de lunes a viernes de 9 a 17 hs.",
+      "t5": "Transferir USD a tu cuenta Bancaria",
+      "p29": "Ingresa a tu navegador favorito e ingresa a: ",
+      "p30": "Haz clic en ingresar y completa tus datos",
+      "p31": "Ingresa el código de autenticación de google",
+      "p32": "Una vez que estés dentro de tu cuenta, haz clic en saldos ",
+      "p33": "Haz clic en Descargar USD",
+      "p34": "Selecciona dónde deseas recibir el dinero, haciendo clic sobre “tengo nuevas instrucciones”",
+      "p35": "Selecciona el país de tu cuenta bancaria",
+      "p36": "y el método de pago",
+      "p37": "Luego completa todos los campos del formulario que se despliega",
+      "p38": "Por último haz clic en Descargar y bitex se comunicará",
+      "p39": "Nota: Recuerda que solo podemos realizar transferencias a cuentas que te pertenezcan a tí, no puedes realizar una extracción de bitex a una cuenta de terceros. Las extracciones se procesan de lunes a viernes en horario hábil. Los tipos de cambio de dólares a moneda local están sujetos a variaciones, para mitigarlas recomendamos solicitar tu retiro dentro de nuestros horarios de atención. ",
+      "p40": "Una vez iniciada la transferencia suele llegar a destino dentro de las 48 horas hábiles, aunque puede tardar hasta 5 días. El costo de descargar saldo desde Bitex es de 0.5% y no incluye otros costos extra o impuestos que pudieran aplicar a tu retiro. Todos los costos asociados corren a tu cargo."
+    },
+    "help": {
+      "header": "Help",
+      "extract_tutorial": "Extract profits"
     }
   },
   "subscriptions": {
