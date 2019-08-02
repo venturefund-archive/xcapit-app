@@ -20,27 +20,27 @@ import { ModalController } from '@ionic/angular';
       <h2 class="ion-text-center">{{ 'tutorials.binance_apikey_tutorial_modal.t1' | translate }}</h2>
       <p>{{ 'tutorials.binance_apikey_tutorial_modal.p1' | translate }}</p>
       <img
-        src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/1.png"
+        src="assets/img/tutorials/binance-apikey/binance-apikey-tutorial-img-1.png"
       >
       <p>{{ 'tutorials.binance_apikey_tutorial_modal.p2' | translate }}</p>
       <img
-        src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/2.png"
+        src="assets/img/tutorials/binance-apikey/binance-apikey-tutorial-img-2.png"
       >
       <p>{{ 'tutorials.binance_apikey_tutorial_modal.p3' | translate }}</p>
       <img
-        src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/3.png"
+        src="assets/img/tutorials/binance-apikey/binance-apikey-tutorial-img-3.png"
       >
       <p>{{ 'tutorials.binance_apikey_tutorial_modal.p4' | translate }}</p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/4.png"
+        src="assets/img/tutorials/binance-apikey/binance-apikey-tutorial-img-4.png"
       ></ion-img>
       <p>{{ 'tutorials.binance_apikey_tutorial_modal.p5' | translate }}</p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/5.png"
+        src="assets/img/tutorials/binance-apikey/binance-apikey-tutorial-img-5.png"
       ></ion-img>
       <p>{{ 'tutorials.binance_apikey_tutorial_modal.p6' | translate }}</p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/apiKeyNew/6.png"
+        src="assets/img/tutorials/binance-apikey/binance-apikey-tutorial-img-6.png"
       ></ion-img>
       <p>{{ 'tutorials.binance_apikey_tutorial_modal.p7' | translate }}</p>
     </ion-content>
