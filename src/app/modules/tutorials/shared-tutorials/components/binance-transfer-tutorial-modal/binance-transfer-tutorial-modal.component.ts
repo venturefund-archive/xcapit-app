@@ -27,9 +27,10 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
       <p>
         {{ 'tutorials.binance_transfer_tutorial_modal.p2' | translate }}
       </p>
-      <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/withdraw/es/1.png"
-      ></ion-img>
+      <img
+        src="assets/img/tutorials/binance-transfer/binance-transfer-tutorial-img-1.png"
+        alt=""
+      />
       <p>
         {{ 'tutorials.binance_transfer_tutorial_modal.p3' | translate }}
       </p>
@@ -42,9 +43,10 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
       <p>
         {{ 'tutorials.binance_transfer_tutorial_modal.p5' | translate }}
       </p>
-      <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/withdraw/es/2.png"
-      ></ion-img>
+      <img
+        src="assets/img/tutorials/binance-transfer/binance-transfer-tutorial-img-2.png"
+        alt=""
+      />
       <p>
         {{ 'tutorials.binance_transfer_tutorial_modal.p6' | translate }}
       </p>
@@ -53,7 +55,6 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
   styleUrls: ['./binance-transfer-tutorial-modal.component.scss']
 })
 export class BinanceTransferTutorialModalComponent {
-
   constructor(private modalController: ModalController) {}
 
   closeModal() {

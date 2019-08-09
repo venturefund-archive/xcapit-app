@@ -33,7 +33,7 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
       {{ 'tutorials.binance_tutorial_modal.p2' | translate }}
       </p>
       <img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/1.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-1.png"
       >
       <p>
       {{ 'tutorials.binance_tutorial_modal.p3' | translate }}
@@ -48,7 +48,7 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
       {{ 'tutorials.binance_tutorial_modal.p6' | translate }}
       </p>
       <img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/2.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-2.png"
       >
       <p>
       {{ 'tutorials.binance_tutorial_modal.p7' | translate }}
@@ -57,57 +57,57 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
       {{ 'tutorials.binance_tutorial_modal.p8' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/3.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-3.png"
       ></ion-img>
       <p>
       {{ 'tutorials.binance_tutorial_modal.p9' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/4.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-4.png"
       ></ion-img>
       <p>{{ 'tutorials.binance_tutorial_modal.p10' | translate }}</p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/5.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-5.png"
       ></ion-img>
       <p>
       {{ 'tutorials.binance_tutorial_modal.p11' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/6.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-6.png"
       ></ion-img>
       <p>
       {{ 'tutorials.binance_tutorial_modal.p12' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/7.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-7.png"
       ></ion-img>
       <p>
       {{ 'tutorials.binance_tutorial_modal.p13' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/8.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-8.png"
       ></ion-img>
       <p>
       {{ 'tutorials.binance_tutorial_modal.p14' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/9.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-9.png"
       ></ion-img>
       <p>{{ 'tutorials.binance_tutorial_modal.p15' | translate }}</p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/10.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-10.png"
       ></ion-img>
       <p>
       {{ 'tutorials.binance_tutorial_modal.p16' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/11.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-11.png"
       ></ion-img>
       <p>
       {{ 'tutorials.binance_tutorial_modal.p17' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/newBinance/12.png"
+        src="assets/img/tutorials/binance/binance-tutorial-img-12.png"
       ></ion-img>
       <p>
       {{ 'tutorials.binance_tutorial_modal.p18' | translate }}

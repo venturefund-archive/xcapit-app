@@ -35,59 +35,59 @@ import { ModalController } from '@ionic/angular';
         {{ 'tutorials.binance_check_tutorial_modal.p3' | translate }}
       </p>
       <img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/1.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-1.png"
       />
       <p>{{ 'tutorials.binance_check_tutorial_modal.p4' | translate }}</p>
       <img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/2.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-2.png"
       />
       <p>{{ 'tutorials.binance_check_tutorial_modal.p5' | translate }}</p>
       <img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/3.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-3.png"
       />
       <p>{{ 'tutorials.binance_check_tutorial_modal.p6' | translate }}</p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/4.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-4.png"
       ></ion-img>
       <p>
         {{ 'tutorials.binance_check_tutorial_modal.p7' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/5.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-5.png"
       ></ion-img>
       <p>
         {{ 'tutorials.binance_check_tutorial_modal.p8' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/6.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-6.png"
       ></ion-img>
       <p>
         {{ 'tutorials.binance_check_tutorial_modal.p9' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/7.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-7.png"
       ></ion-img>
       <p>
         {{ 'tutorials.binance_check_tutorial_modal.p10' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/8.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-8.png"
       ></ion-img>
       <p>
         {{ 'tutorials.binance_check_tutorial_modal.p11' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/9.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-9.png"
       ></ion-img>
       <p>{{ 'tutorials.binance_check_tutorial_modal.p12' | translate }}</p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/10.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-10.png"
       ></ion-img>
       <p>
         {{ 'tutorials.binance_check_tutorial_modal.p13' | translate }}
       </p>
       <ion-img
-        src="https://wallcryptostreet.com/static/institutional/img/checkBinance/11.png"
+        src="assets/img/tutorials/binance-check/binance-check-tutorial-img-11.png"
       ></ion-img>
       <p>
         {{ 'tutorials.binance_check_tutorial_modal.p14' | translate }}
