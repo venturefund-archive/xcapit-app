@@ -385,5 +385,58 @@
     "toUSDT": "Changed to USDT",
     "toBTC": "Changed to BTC",
     "finalizado": "Finalized"
+  },
+  "errorCodes": {
+    "funds": {
+      "create": {
+        "invalidExchangeKeys": "Invalid keys.",
+        "keysExists": "Keys already exists.",
+        "checkFundName": "Fund name already exists.",
+        "creatingFund": "Error creating fund.",
+        "creatingRun": "Error creating run.",
+        "creatingSubscriber": "Error subscribing to fund.",
+        "invalidData": "Invalid data."
+      },
+      "update": {
+        "apiCallError": "Error updating fund.",
+        "notOwner": "Not fund owner.",
+        "invalidData": "Invalid data."
+      },
+      "subscribed": {
+        "subscribedFund": "Error listing funds."
+      },
+      "changeFundCA": {
+        "notOwner": "Not fund owner.",
+        "runNotPaused": "You must pause fund to change CA.",
+        "changeCA": "Error changing CA."
+      },
+      "fundStatus": {
+        "notSubscribed": "You are not subscribed to fund."
+      },
+      "pauseFund": {
+        "notOwner": "Not fund owner.",
+        "pauseFund": "Error pausing fund."
+      },
+      "resumeFund": {
+        "notOwner": "Not fund owner.",
+        "resumeFund": "Error resuming fund."
+      },
+      "finalizeFund": {
+        "notOwner": "Not fund owner.",
+        "finalizeFund": "Error finalizing fund."
+      },
+      "fundBalance": {
+        "lastRun": "Error getting last fund's run.",
+        "notSubscribed": "You are not subscribed to fund."
+      },
+      "renewFund": {
+        "notOwner": "Not fund owner.",
+        "invalidData": "Invalid data.",
+        "renewFund": "Error renewing fund."
+      },
+      "depositAddress": {
+        "depositAddress": "Error getting deposit address."
+      }
+    }
   }
 }
