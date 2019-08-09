@@ -201,7 +201,7 @@
     }
   },
   "runs": {
-    "run_summary":{
+    "run_summary": {
       "header": "Corrida",
       "run_title": "Corrida",
       "fund_title": " de Fondo",
@@ -435,5 +435,58 @@
     "toUSDT": "Cambiado a USDT",
     "toBTC": "Cambiado a BTC",
     "finalizado": "Finalizado"
+  },
+  "errorCodes": {
+    "funds": {
+      "create": {
+        "invalidExchangeKeys": "Las keys ingresadas no son validas.",
+        "keysExists": "Las keys ya se encuentran registradas.",
+        "checkFundName": "El nombre del fondo ya existe.",
+        "creatingFund": "Error al crear el fondo.",
+        "creatingRun": "Error al crear la corrida.",
+        "creatingSubscriber": "Error al subscribirse al fondo.",
+        "invalidData": "Los datos ingresados no son validos."
+      },
+      "update": {
+        "apiCallError": "Error al modificar el fondo.",
+        "notOwner": "No es dueño del fondo.",
+        "invalidData": "Los datos ingresados no son correctos."
+      },
+      "subscribed": {
+        "subscribedFund": "No se pudieron listar los fondos."
+      },
+      "changeFundCA": {
+        "notOwner": "No es dueño del fondo.",
+        "runNotPaused": "La corrida debe estar pausada para cambiar de CA.",
+        "changeCA": "Error al cambiar de CA."
+      },
+      "fundStatus": {
+        "notSubscribed": "No esta subscripto al fondo."
+      },
+      "pauseFund": {
+        "notOwner": "No es dueño del fondo.",
+        "pauseFund": "Error al pausar el fondo."
+      },
+      "resumeFund": {
+        "notOwner": "No es dueño del fondo.",
+        "resumeFund": "Error al reanudar el fondo."
+      },
+      "finalizeFund": {
+        "notOwner": "No es dueño del fondo.",
+        "finalizeFund": "Error al finalizar el fondo."
+      },
+      "fundBalance": {
+        "lastRun": "Error al ver el balance.",
+        "notSubscribed": "No esta subscripto al fondo."
+      },
+      "renewFund": {
+        "notOwner": "No es dueño del fondo.",
+        "invalidData": "Los datos ingresados no son validos.",
+        "renewFund": "Error al renovar el fondo."
+      },
+      "depositAddress": {
+        "depositAddress": "Error al consultar la direccion de deposito."
+      }
+    }
   }
 }
