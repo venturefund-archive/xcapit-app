@@ -11,15 +11,12 @@ import { ErrorHandlerService } from '../error-handler/error-handler.service';
 export class XhrResponseHandlerService {
   private allow5xxErrors: boolean;
 
-  constructor(
-    private errorHandlerService: ErrorHandlerService
-  ) {
+  constructor(private errorHandlerService: ErrorHandlerService) {
     this.allow5xxErrors = !environment.production;
   }
 
   error(defaultMessage?: string) {
     return (response: HttpErrorResponse) => {
-      console.log('AAAAAAAAAAAAAAAAAAAAAAAAAA')
       // const message = this.getMessage(defaultMessage, response);
       this.errorHandlerService.handle(response);
       return throwError(response);

@@ -30,7 +30,10 @@ describe('ErrorHandlerService', () => {
   });
 
   it('should call showToast ToastService from error, status 401', () => {
-    const response = new HttpErrorResponse({ status: 401, error: {error_code: 'funds.exmapleError'} });
+    const response = new HttpErrorResponse({
+      status: 401,
+      error: { error_code: 'funds.exmapleError' }
+    });
     service.handle(response);
     expect(toastService.showToast).toHaveBeenCalledTimes(1);
   });

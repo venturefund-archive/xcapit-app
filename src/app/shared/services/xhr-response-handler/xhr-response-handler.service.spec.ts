@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('XhrResponseHandlerService', () => {
   let service: XhrResponseHandlerService;
   beforeEach(() => {
-    TestBed.configureTestingModule({ 
+    TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()]
     });
     service = TestBed.get(XhrResponseHandlerService);
