@@ -13,7 +13,7 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
+          <ion-back-button defaultHref="/funds/list"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'funds.deposit_address.header' | translate }}</ion-title>
       </ion-toolbar>
