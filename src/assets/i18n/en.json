@@ -484,6 +484,23 @@
       "depositAddress": {
         "depositAddress": "Error getting deposit address."
       }
+    },
+    "profiles":{
+      "retrieve":{
+        "doesNotExists": "Profile does not exists."
+      },
+      "update": {
+        "doesNotExists": "Profile does not exists.",
+        "invalidData": "Invalid data."
+      }
+    },
+    "runs": {
+      "runsByState": {
+        "invalidState": "Invalid status."
+      },
+      "statusByRunId": {
+        "notSubscribed": "You are not subscribed to fund."
+      }
     }
   }
 }
