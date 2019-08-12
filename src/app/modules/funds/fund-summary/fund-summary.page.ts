@@ -15,7 +15,9 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
+          <ion-back-button
+            defaultHref="/funds/list"
+          ></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'funds.fund_summary.header' | translate }}
@@ -309,8 +311,10 @@ export class FundSummaryPage implements OnInit, OnDestroy {
       .getStatus(this.fundName)
       .subscribe(res => {
         this.logsService
-        .log(`{"message": "Has requested fund status of fund: ${this.fundName}"}`)
-        .subscribe();
+          .log(
+            `{"message": "Has requested fund status of fund: ${this.fundName}"}`
+          )
+          .subscribe();
         this.fundStatus = res;
         this.isOwner = res && res.fund && res.fund.is_owner;
         this.isInCAStatus();

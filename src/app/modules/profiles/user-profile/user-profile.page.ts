@@ -17,13 +17,17 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
+          <ion-back-button defaultHref="/funds/list"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'profiles.user_profile.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <form [formGroup]="this.form" (ngSubmit)="this.save()" *ngIf="this.isFormSet">
+      <form
+        [formGroup]="this.form"
+        (ngSubmit)="this.save()"
+        *ngIf="this.isFormSet"
+      >
         <ion-item-group class="ion-padding-top">
           <ion-item-divider>
             <ion-label>{{
@@ -239,10 +243,7 @@ export class UserProfilePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.logsService
-    .log(
-      `{"message": "Has entered user-profile"}`
-    ).subscribe();
+    this.logsService.log(`{"message": "Has entered user-profile"}`).subscribe();
     this.setForm();
   }
 
@@ -250,9 +251,8 @@ export class UserProfilePage implements OnInit {
     if (this.form.valid) {
       this.apiProfiles.crud.update(this.form.value).subscribe(() => {
         this.logsService
-        .log(
-          `{"message": "Has edited profile data"}`
-        ).subscribe();
+          .log(`{"message": "Has edited profile data"}`)
+          .subscribe();
         this.toastService.showToast({
           message: this.translate.instant('profiles.user_profile.success_text')
         });
@@ -268,13 +268,12 @@ export class UserProfilePage implements OnInit {
   setForm() {
     this.apiRuns.hasActive().subscribe((hasActiveRuns: boolean) => {
       this.logsService
-      .log(
-        `{"message": "Has requested active runs"}`
-      ).subscribe();
+        .log(`{"message": "Has requested active runs"}`)
+        .subscribe();
       if (hasActiveRuns) {
         this.addRequiredValidator();
       }
-      this.form = this.formBuilder.group({ ...this.controls});
+      this.form = this.formBuilder.group({ ...this.controls });
       this.isFormSet = true;
       this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
     });

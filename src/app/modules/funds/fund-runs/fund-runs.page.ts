@@ -10,7 +10,7 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
+          <ion-back-button defaultHref="/funds/list"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'funds.fund_runs.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -279,9 +279,8 @@ export class FundRunsPage implements OnInit {
 
   ionViewDidEnter() {
     this.logsService
-    .log(
-      `{"message": "Has entered fund-runs of fund: ${this.selectedFund}"}`
-    ).subscribe();
+      .log(`{"message": "Has entered fund-runs of fund: ${this.selectedFund}"}`)
+      .subscribe();
     this.getFundRuns();
   }
 
@@ -294,9 +293,12 @@ export class FundRunsPage implements OnInit {
       .getFundRuns(this.status, this.selectedFund)
       .subscribe(res => {
         this.logsService
-        .log(
-          `{"message": "Has requested fund-runs of fund: ${this.selectedFund}"}`
-        ).subscribe();
+          .log(
+            `{"message": "Has requested fund-runs of fund: ${
+              this.selectedFund
+            }"}`
+          )
+          .subscribe();
         this.fundRuns = res;
       });
   }
