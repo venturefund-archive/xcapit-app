@@ -13,7 +13,7 @@ import { Currency } from '../../../shared-funds/enums/currency.enum';
           ? this.btcValue
           : this.usdValue) | number: '1.2-6'
       }}
-      {{ ' ' }} {{ this.currency | currencyText }}
+      {{ ' ' }} {{ this.currency }}
     </div>
   `,
   styleUrls: ['./currency-amount-value.component.scss']
