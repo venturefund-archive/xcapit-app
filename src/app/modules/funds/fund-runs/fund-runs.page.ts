@@ -10,7 +10,9 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button
+            defaultHref="/funds/fund-summary/{{this.selectedFund}}"
+          ></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'funds.fund_runs.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -262,20 +264,25 @@ export class FundRunsPage implements OnInit {
   fundRuns: Array<any> = [];
   selectedFund: string;
   status: string;
+  defaultBackRoute = '/funds/list';
 
   constructor(
     private apiFundsService: ApiFundsService,
     private route: ActivatedRoute,
     private stateNamesService: StateNamesService,
     private logsService: LogsService
-  ) {
-    this.route.params.subscribe(params => {
-      this.selectedFund = params.nombre_bot;
-    });
+  ) {}
+
+  ngOnInit() {
+    this.selectedFund = this.route.snapshot.paramMap.get('nombre_bot');
+    this.setDefaultBackRoute();
     this.status = 'all';
   }
 
-  ngOnInit() {}
+  private setDefaultBackRoute() {
+    this.defaultBackRoute = this.selectedFund ?
+      `/funds/fund-summary/${this.selectedFund}` : this.defaultBackRoute;
+  }
 
   ionViewDidEnter() {
     this.logsService
