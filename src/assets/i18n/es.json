@@ -496,6 +496,14 @@
         "doesNotExists": "El perfil no existe.",
         "invalidData": "Los datos ingresados no son válidos."
       }
+    },
+    "runs": {
+      "runsByState": {
+        "invalidState": "El estado de la corrida no es válido."
+      },
+      "statusByRunId": {
+        "notSubscribed": "No esta subscripto al fondo."
+      }
     }
   }
 }

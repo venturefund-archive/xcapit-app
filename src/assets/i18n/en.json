@@ -490,11 +490,19 @@
     },
     "profiles":{
       "retrieve":{
-        "doesNotExists": "El perfil no existe."
+        "doesNotExists": "Profile does not exists."
       },
       "update": {
-        "doesNotExists": "El perfil no existe.",
-        "invalidData": "Los datos ingresados no son válidos."
+        "doesNotExists": "Profile does not exists.",
+        "invalidData": "Invalid data."
+      }
+    },
+    "runs": {
+      "runsByState": {
+        "invalidState": "Invalid status."
+      },
+      "statusByRunId": {
+        "notSubscribed": "You are not subscribed to fund."
       }
     }
   }
