@@ -86,9 +86,6 @@
       "date_info_start_period_text": "Inicio del Período: ",
       "date_info_last_update_text": "Última Actualización: ",
       "balance_table_title": "Balance del Fondo",
-      "currency_amount_value": {
-        "amount_text": "Cantidad: "
-      },
       "balance_total": "Total Balance "
     },
     "funds_list": {

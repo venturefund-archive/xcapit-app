@@ -6,7 +6,6 @@ import { Currency } from '../../../shared-funds/enums/currency.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div>
-      {{ 'funds.fund_balance.currency_amount_value.amount_text' | translate }}
       {{ this.amount | number: '1.2-4' }}
       {{ ' / ' }}
       {{

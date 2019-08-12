@@ -19,7 +19,7 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
     <ion-content padding>
       <div class="fb" *ngIf="this.fundBalance?.fund?.id_corrida">
-        <div class="fb__header ion-padding-bottom">
+        <div class="fb__header">
           <h1>
             {{
               'funds.fund_balance.main_title'
@@ -32,6 +32,14 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
           </h1>
         </div>
         <div class="fb__content">
+          <div class="fb__content__total ion-text-center ion-padding-bottom">
+            <h2>
+              {{ 'funds.fund_balance.balance_total' | translate }}
+              {{ this.fundBalance.fund.currency | currencyText }}:
+              {{ this.fundBalance | currencyEndBalance | number: '1.2-4' }}
+            </h2>
+          </div>
+
           <app-fund-balance-chart
             [fundBalance]="this.fundBalance?.balance"
           ></app-fund-balance-chart>
@@ -44,8 +52,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                 {{ 'funds.fund_balance.balance_table_title' | translate }}
               </ion-item-divider>
               <ion-grid class="fb__content__balance_table__content">
-                <ion-row>
-                  <ion-col size="3">
+                <ion-row class="ion-align-items-center">
+                  <ion-col size="6">
                     BTC:
                   </ion-col>
                   <ion-col>
@@ -57,8 +65,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
-                <ion-row>
-                  <ion-col size="3">ETH:</ion-col>
+                <ion-row class="ion-align-items-center">
+                  <ion-col size="6">ETH:</ion-col>
                   <ion-col>
                     <app-currency-amount-value
                       [currency]="this.fundBalance.fund.currency"
@@ -68,8 +76,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
-                <ion-row>
-                  <ion-col size="3">LTC:</ion-col>
+                <ion-row class="ion-align-items-center">
+                  <ion-col size="6">LTC:</ion-col>
                   <ion-col>
                     <app-currency-amount-value
                       [currency]="this.fundBalance.fund.currency"
@@ -79,8 +87,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
-                <ion-row>
-                  <ion-col size="3">BNB:</ion-col>
+                <ion-row class="ion-align-items-center">
+                  <ion-col size="6">BNB:</ion-col>
                   <ion-col>
                     <app-currency-amount-value
                       [currency]="this.fundBalance.fund.currency"
@@ -90,8 +98,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                     ></app-currency-amount-value>
                   </ion-col>
                 </ion-row>
-                <ion-row>
-                  <ion-col size="3">USD:</ion-col>
+                <ion-row class="ion-align-items-center">
+                  <ion-col size="6">USD:</ion-col>
                   <ion-col>
                     <app-currency-amount-value
                       [currency]="this.fundBalance.fund.currency"
@@ -104,14 +112,6 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
               </ion-grid>
               <ion-item-divider class="custom_divider"></ion-item-divider>
             </ion-list>
-          </div>
-
-          <div class="fb__content__total ion-text-center">
-            <h4>
-              {{ 'funds.fund_balance.balance_total' | translate }}
-              {{ this.fundBalance.fund.currency | currencyText }}:
-              {{ this.fundBalance | currencyEndBalance | number: '1.2-4' }}
-            </h4>
           </div>
 
           <div class="fb__content__date_info ion-text-center ion-padding-top">
