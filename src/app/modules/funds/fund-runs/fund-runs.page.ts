@@ -11,7 +11,7 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button
-            defaultHref="/funds/fund-summary/{{this.selectedFund}}"
+            [defaultHref]="this.defaultBackRoute"
           ></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'funds.fund_runs.header' | translate }}</ion-title>

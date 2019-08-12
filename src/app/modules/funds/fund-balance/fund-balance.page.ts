@@ -9,7 +9,9 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button
+            [defaultHref]="this.defaultBackRoute"
+          ></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'funds.fund_balance.header' | translate }}
@@ -134,22 +136,24 @@ export class FundBalancePage implements OnInit {
 
   fundBalance: any;
 
+  defaultBackRoute = '/funds/list';
+
   constructor(
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,
     private logsService: LogsService
   ) {}
 
-  ngOnInit() {}
-
-  ionViewWillEnter() {
+  ngOnInit() {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
-    this.getFundBalance();
+    this.setDefaultBackRoute();
   }
+
   ionViewDidEnter() {
     this.logsService
       .log(`{"message": "Has entered fund-balance of fund: ${this.fundName}"}`)
       .subscribe();
+    this.getFundBalance();
   }
 
   getFundBalance() {
@@ -162,5 +166,10 @@ export class FundBalancePage implements OnInit {
       this.fundBalance = res;
       this.loadingBalance = false;
     });
+  }
+
+  private setDefaultBackRoute() {
+    this.defaultBackRoute = this.fundName ?
+      `/funds/fund-summary/${this.fundName}` : this.defaultBackRoute;
   }
 }

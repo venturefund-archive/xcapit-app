@@ -43,16 +43,16 @@ describe('FundBalancePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getFundBalance on ionViewWillEnter', () => {
+  it('should call getFundBalance on ionViewDidEnter', () => {
     const getFundBalanceSpy = spyOn(component, 'getFundBalance');
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     fixture.detectChanges();
     expect(getFundBalanceSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should call getBalance on getFundBalance is callled', () => {
     apiFundServiceSpy.getBalance.and.returnValue(of({}));
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     fixture.detectChanges();
     expect(apiFundServiceSpy.getBalance).toHaveBeenCalledTimes(1);
   });
@@ -60,9 +60,10 @@ describe('FundBalancePage', () => {
   it('should call log on ionViewDidEnter', () => {
     const spy = spyOn(logsServiceMock, 'log');
     spy.and.returnValue(of({}));
+    apiFundServiceSpy.getBalance.and.returnValue(of({}));
     component.ionViewDidEnter();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 
   it('should call log on getFundBalance', () => {
