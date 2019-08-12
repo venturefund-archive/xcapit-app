@@ -35,7 +35,7 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
           <div class="fb__content__total ion-text-center ion-padding-bottom">
             <h2>
               {{ 'funds.fund_balance.balance_total' | translate }}
-              {{ this.fundBalance.fund.currency | currencyText }}:
+              {{ this.fundBalance.fund.currency }}:
               {{ this.fundBalance | currencyEndBalance | number: '1.2-4' }}
             </h2>
           </div>
