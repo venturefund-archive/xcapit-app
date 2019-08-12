@@ -507,6 +507,17 @@
         "notFound": "No hay subscriptores.",
         "notOwner": "No puedes obtener el link si no eres dueño del fondo."
       }
+    },
+    "users": {
+      "sendEmailValidationToken": {
+        "user": "Error al obtener el usuario a validar."
+      },
+      "registration":{
+        "invalidData": "Los datos ingresados no son válidos."
+      },
+      "emailValidation":{
+        "invalid": "Error al validar el email."
+      }
     }
   }
 }
