@@ -507,6 +507,17 @@
         "notFound": "No subscriptors found.",
         "notOwner": "You can't get subscription link if you're not owner."
       }
+    },
+    "users": {
+      "sendEmailValidationToken": {
+        "user": "Error getting user."
+      },
+      "registration":{
+        "invalidData": "Invalid data."
+      },
+      "emailValidation":{
+        "invalid": "Error validating email."
+      }
     }
   }
 }
