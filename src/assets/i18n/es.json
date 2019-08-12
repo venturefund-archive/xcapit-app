@@ -501,6 +501,12 @@
       "statusByRunId": {
         "notSubscribed": "No esta subscripto al fondo."
       }
+    },
+    "subscriptions": {
+      "subscriptionLink": {
+        "notFound": "No hay subscriptores.",
+        "notOwner": "No puedes obtener el link si no eres dueño del fondo."
+      }
     }
   }
 }
