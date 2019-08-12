@@ -439,18 +439,18 @@
   "errorCodes": {
     "funds": {
       "create": {
-        "invalidExchangeKeys": "Las keys ingresadas no son validas.",
+        "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
         "keysExists": "Las keys ya se encuentran registradas.",
         "checkFundName": "El nombre del fondo ya existe.",
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
         "creatingSubscriber": "Error al subscribirse al fondo.",
-        "invalidData": "Los datos ingresados no son validos."
+        "invalidData": "Los datos ingresados no son válidos."
       },
       "update": {
         "apiCallError": "Error al modificar el fondo.",
         "notOwner": "No es dueño del fondo.",
-        "invalidData": "Los datos ingresados no son correctos."
+        "invalidData": "Los datos ingresados no son válidos."
       },
       "subscribed": {
         "subscribedFund": "No se pudieron listar los fondos."
@@ -481,11 +481,20 @@
       },
       "renewFund": {
         "notOwner": "No es dueño del fondo.",
-        "invalidData": "Los datos ingresados no son validos.",
+        "invalidData": "Los datos ingresados no son válidos.",
         "renewFund": "Error al renovar el fondo."
       },
       "depositAddress": {
-        "depositAddress": "Error al consultar la direccion de deposito."
+        "depositAddress": "Error al consultar la dirección de depósito."
+      }
+    },
+    "profiles":{
+      "retrieve":{
+        "doesNotExists": "El perfil no existe."
+      },
+      "update": {
+        "doesNotExists": "El perfil no existe.",
+        "invalidData": "Los datos ingresados no son válidos."
       }
     }
   }

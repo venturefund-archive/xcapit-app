@@ -487,6 +487,15 @@
       "depositAddress": {
         "depositAddress": "Error getting deposit address."
       }
+    },
+    "profiles":{
+      "retrieve":{
+        "doesNotExists": "El perfil no existe."
+      },
+      "update": {
+        "doesNotExists": "El perfil no existe.",
+        "invalidData": "Los datos ingresados no son válidos."
+      }
     }
   }
 }
