@@ -95,76 +95,21 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
               <ion-col>{{ run.perdida }}%</ion-col>
             </ion-row>
             <!-- Monto inicial -->
-            <div class="monto-actual" *ngIf="run.first_state">
+            <div class="monto-actual" *ngIf="run.total_first_state">
               <ion-item-divider>
                 <ion-label>
                   {{ 'funds.fund_runs.starting_amount_title' | translate }}
                 </ion-label>
               </ion-item-divider>
               <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_btc_title' | translate }}:</ion-col
-                >
+                <ion-col>{{ run.currency }}: </ion-col>
                 <ion-col>
-                  <app-currency-amount-value
-                    [currency]="run.currency"
-                    [amount]="run.last_state.cant_btc"
-                    [usdValue]="run.last_state.precio_btc"
-                    [btcValue]="run.last_state.precio_btc"
-                  ></app-currency-amount-value
-                ></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_eth_title' | translate }}:</ion-col
-                >
-                <ion-col>
-                  <app-currency-amount-value
-                    [currency]="run.currency"
-                    [amount]="run.last_state.cant_eth"
-                    [usdValue]="run.last_state.precio_eth"
-                    [btcValue]="run.last_state.precio_eth"
-                  ></app-currency-amount-value
-                ></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_xrp_title' | translate }}:</ion-col
-                >
-                <ion-col>
-                  <app-currency-amount-value
-                    [currency]="run.currency"
-                    [amount]="run.last_state.cant_xrp"
-                    [usdValue]="run.last_state.precio_xrp"
-                    [btcValue]="run.last_state.precio_xrp"
-                  ></app-currency-amount-value
-                ></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_bnb_title' | translate }}:</ion-col
-                >
-                <ion-col>
-                  <app-currency-amount-value
-                    [currency]="run.currency"
-                    [amount]="run.last_state.cant_bnb"
-                    [usdValue]="run.last_state.precio_bnb"
-                    [btcValue]="run.last_state.precio_bnb"
-                  ></app-currency-amount-value
-                ></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_usdt_title' | translate }}:</ion-col
-                >
-                <ion-col>
-                  {{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.first_state.cant_usdt }}</ion-col
-                >
+                  {{ run.total_first_state | number: '1.2-6' }}
+                </ion-col>
               </ion-row>
             </div>
             <!-- Monto actual o final -->
-            <div class="monto-actual" *ngIf="run.last_state">
+            <div class="monto-actual" *ngIf="run.total_last_state">
               <ion-item-divider>
                 <ion-label *ngIf="run.estado == 'finalizado'">
                   {{ 'funds.fund_runs.final_amount_title' | translate }}
@@ -178,61 +123,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                   >{{ 'funds.fund_runs.cant_btc_title' | translate }}:</ion-col
                 >
                 <ion-col>
-                  <app-currency-amount-value
-                    [currency]="run.currency"
-                    [amount]="run.last_state.cant_btc"
-                    [usdValue]="run.last_state.precio_btc"
-                    [btcValue]="run.last_state.precio_btc"
-                  ></app-currency-amount-value>
+                  {{ run.total_last_state | number: '1.2-6'}}
                 </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_eth_title' | translate }}:</ion-col
-                >
-                <ion-col>
-                  <app-currency-amount-value
-                    [currency]="run.currency"
-                    [amount]="run.last_state.cant_eth"
-                    [usdValue]="run.last_state.precio_eth"
-                    [btcValue]="run.last_state.precio_eth"
-                  ></app-currency-amount-value
-                ></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_xrp_title' | translate }}:</ion-col
-                >
-                <ion-col>
-                  <app-currency-amount-value
-                    [currency]="run.currency"
-                    [amount]="run.last_state.cant_xrp"
-                    [usdValue]="run.last_state.precio_xrp"
-                    [btcValue]="run.last_state.precio_xrp"
-                  ></app-currency-amount-value
-                ></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_bnb_title' | translate }}:</ion-col
-                >
-                <ion-col>
-                  <app-currency-amount-value
-                    [currency]="run.currency"
-                    [amount]="run.last_state.cant_bnb"
-                    [usdValue]="run.last_state.precio_bnb"
-                    [btcValue]="run.last_state.precio_bnb"
-                  ></app-currency-amount-value
-                ></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col
-                  >{{ 'funds.fund_runs.cant_usdt_title' | translate }}:</ion-col
-                >
-                <ion-col>
-                  {{ 'funds.fund_runs.cant' | translate }}
-                  {{ run.last_state.cant_usdt }}</ion-col
-                >
               </ion-row>
             </div>
 
@@ -280,8 +172,9 @@ export class FundRunsPage implements OnInit {
   }
 
   private setDefaultBackRoute() {
-    this.defaultBackRoute = this.selectedFund ?
-      `/funds/fund-summary/${this.selectedFund}` : this.defaultBackRoute;
+    this.defaultBackRoute = this.selectedFund
+      ? `/funds/fund-summary/${this.selectedFund}`
+      : this.defaultBackRoute;
   }
 
   ionViewDidEnter() {
