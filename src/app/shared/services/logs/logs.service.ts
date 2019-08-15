@@ -11,9 +11,12 @@ export class LogsService {
   endpoint = 'stats';
   constructor(private http: HttpClient) {}
   log(action: string): Observable<any> {
+    const logObj = {
+      description: action,
+      button_id: 'ninguno',
+      component_id: 'ninguno'
+    };
     return this.http.post(
-      `${environment.apiUrl}/${this.endpoint}/${this.entity}`,
-      { action }
-    );
+      `${environment.apiUrl}/${this.endpoint}/${this.entity}`, logObj);
   }
 }
