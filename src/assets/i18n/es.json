@@ -413,7 +413,13 @@
     },
     "help": {
       "header": "Ayuda",
-      "extract_tutorial": "Extraer Ganancias"
+      "extract_tutorial": "Extraer Ganancias",
+      "ca_tutorial": "¿Como Adquirir Cryptomonedas?",
+      "binance_tutorial": "Como Crear Una Cuenta En Binance",
+      "binance_transfer_tutorial": "Transferir Tus Bitcoins A Binance",
+      "binance_check_tutorial": "Como Verificar Tu Identidad En Binance Y Aumentar El Nivel De La Cuenta A Lv.2",
+      "binance_apikey_tutorial": "Crear APIkey Y SECRETkey En Binance",
+      "binance_address_tutorial": "Donde Encontrar La Dirección A Depositar Tus Cryptomonedas"
     }
   },
   "subscriptions": {

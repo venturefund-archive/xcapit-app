@@ -413,7 +413,13 @@
     },
     "help": {
       "header": "Help",
-      "extract_tutorial": "Extract profits"
+      "extract_tutorial": "Extract profits",
+      "ca_tutorial": "How to buy cryptos?",
+      "binance_tutorial": "How to create a Binance account",
+      "binance_transfer_tutorial": "Transfer your Bitcoins to Binance",
+      "binance_check_tutorial": "How to verify your Identity in Binance and increase the level of the account to Lv.2",
+      "binance_apikey_tutorial": "Create APIkey and SECRETkey in Binance",
+      "binance_address_tutorial": "Where to find the address to deposit your cryptocurrencies"
     }
   },
   "subscriptions": {
