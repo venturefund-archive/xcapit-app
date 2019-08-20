@@ -86,7 +86,8 @@
       "date_info_start_period_text": "Start Period: ",
       "date_info_last_update_text": "Last Update: ",
       "balance_table_title": "Balance Fund",
-      "balance_total": "Total Balance "
+      "balance_total": "Total Balance ",
+      "change_ca": "Change CA"
     },
     "funds_list": {
       "header": "Fund List",

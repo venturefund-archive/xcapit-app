@@ -32,9 +32,14 @@ export class ApiFundsService {
     );
   }
 
-  getBalance(fundName: string): Observable<any> {
+  getBalance(fundName: string, toCa: string = ''): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/balance`
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/balance`,
+      {
+        params: {
+          to_ca: toCa
+        }
+      }
     );
   }
 

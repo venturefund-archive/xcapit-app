@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { CA } from '../shared-funds/enums/ca.enum';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-fund-balance',
@@ -37,11 +39,85 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
           <div class="fb__content__total ion-text-center ion-padding-bottom">
             <h2>
               {{ 'funds.fund_balance.balance_total' | translate }}
-              {{ this.fundBalance.fund.currency }}:
+              {{
+                (this.fundBalance.balance.to_ca
+                  ? this.fundBalance.balance.to_ca.ca
+                  : this.fundBalance.fund.currency) | uppercase
+              }}:
               {{ this.fundBalance | currencyEndBalance | number: '1.2-4' }}
-            </h2>
-          </div>
+              </h2>
+              <ion-button *ngIf="!this.changingCa"
+                size="small"
+                (click)="this.changingCa = true"
+              >
+                <ion-icon slot="start" name="create"></ion-icon>
+                {{'funds.fund_balance.change_ca' | translate}}
+              </ion-button>
 
+            <ion-grid *ngIf="this.changingCa">
+              <form
+                [formGroup]="this.form"
+                (ngSubmit)="this.changeFundCA()"
+                style="width:100%;"
+              >
+                <ion-row align-items-end>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="floating">
+                        {{ 'funds.fund_summary.change_fund_ca' | translate }}
+                      </ion-label>
+                      <ion-select formControlName="ca">
+                        <ion-select-option
+                          [value]="this.CAEnum.BTC"
+                          [disabled]="this.toCa === this.CAEnum.BTC"
+                        >
+                          {{ this.CAEnum.BTC }}
+                        </ion-select-option>
+                        <ion-select-option
+                          [value]="this.CAEnum.USDT"
+                          [disabled]="this.toCa === this.CAEnum.USDT"
+                        >
+                          {{ this.CAEnum.USDT }}
+                        </ion-select-option>
+                        <ion-select-option
+                          [value]="this.CAEnum.BNB"
+                          [disabled]="this.toCa === this.CAEnum.BNB"
+                        >
+                          {{ this.CAEnum.BNB }}
+                        </ion-select-option>
+                        <ion-select-option
+                          [value]="this.CAEnum.ETH"
+                          [disabled]="this.toCa === this.CAEnum.ETH"
+                        >
+                          {{ this.CAEnum.ETH }}
+                        </ion-select-option>
+                        <ion-select-option
+                          [value]="this.CAEnum.LTC"
+                          [disabled]="this.toCa === this.CAEnum.LTC"
+                        >
+                          {{ this.CAEnum.LTC }}
+                        </ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col>
+                    <ion-button
+                      expand="block"
+                      size="medium"
+                      type="submit"
+                      color="primary"
+                      [disabled]="!this.form.valid"
+                    >
+                      <ion-icon slot="start" name="checkmark"></ion-icon>
+                      {{
+                        'funds.fund_summary.change_fund_ca_button' | translate
+                      }}
+                    </ion-button></ion-col
+                  >
+                </ion-row>
+              </form>
+            </ion-grid>
+          </div>
           <app-fund-balance-chart
             [fundBalance]="this.fundBalance?.balance"
           ></app-fund-balance-chart>
@@ -115,7 +191,6 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
               <ion-item-divider class="custom_divider"></ion-item-divider>
             </ion-list>
           </div>
-
           <div class="fb__content__date_info ion-text-center ion-padding-top">
             {{ 'funds.fund_balance.date_info_start_period_text' | translate }}
             {{ this.fundBalance?.balance?.fecha_inicio | date: 'dd/MM/yyyy' }}
@@ -133,15 +208,21 @@ export class FundBalancePage implements OnInit {
   fundName: string;
 
   loadingBalance = true;
+  changingCa = false;
 
   fundBalance: any;
 
   defaultBackRoute = '/funds/list';
-
+  toCa: string;
+  CAEnum = CA;
+  form: FormGroup = this.formBuilder.group({
+    ca: ['', [Validators.required]]
+  });
   constructor(
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,
-    private logsService: LogsService
+    private logsService: LogsService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -157,7 +238,7 @@ export class FundBalancePage implements OnInit {
   }
 
   getFundBalance() {
-    this.apiFunds.getBalance(this.fundName).subscribe(res => {
+    this.apiFunds.getBalance(this.fundName, this.toCa).subscribe(res => {
       this.logsService
         .log(
           `{"message": "Has requested fund balance of fund: ${this.fundName}"}`
@@ -168,8 +249,17 @@ export class FundBalancePage implements OnInit {
     });
   }
 
+  changeFundCA() {
+    if (this.form.valid) {
+      this.toCa = this.form.value.ca;
+      this.getFundBalance();
+      this.changingCa = false;
+    }
+  }
+
   private setDefaultBackRoute() {
-    this.defaultBackRoute = this.fundName ?
-      `/funds/fund-summary/${this.fundName}` : this.defaultBackRoute;
+    this.defaultBackRoute = this.fundName
+      ? `/funds/fund-summary/${this.fundName}`
+      : this.defaultBackRoute;
   }
 }

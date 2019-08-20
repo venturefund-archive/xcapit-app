@@ -10,6 +10,14 @@ const mockData = [
   {
     fund: { currency: 'USDT' },
     balance: { balance_fin_btc: 3.4, balance_fin_usd: 4.3 }
+  },
+  {
+    fund: { currency: 'USDT' },
+    balance: { balance_fin_btc: 3.4, balance_fin_usd: 4.3, to_ca: { ca: 'BTC', balance_fin: 2.3} }
+  },
+  {
+    fund: { currency: 'BTC' },
+    balance: { balance_fin_btc: 3.4, balance_fin_usd: 4.3, to_ca: { ca: 'USDT', balance_fin: 3.2} }
   }
 ];
 
@@ -54,6 +62,18 @@ describe('CurrencyEndBalancePipe', () => {
       fixture.detectChanges();
       expect(el.textContent).toContain('Balance: 4.3');
     });
+
+    it('shoud return to_ca BTC balance fin', () => {
+      component.fundBalance = mockData[2];
+      fixture.detectChanges();
+      expect(el.textContent).toContain('Balance: 2.3');
+    });
+
+    it('shoud return to_ca USD balance fin', () => {
+      component.fundBalance = mockData[3];
+      fixture.detectChanges();
+      expect(el.textContent).toContain('Balance: 3.2');
+    });
   });
 
   describe('Isolate pipe test', () => {
@@ -63,6 +83,14 @@ describe('CurrencyEndBalancePipe', () => {
 
     it('shoud return USD balance fin', () => {
       expect(pipe.transform(mockData[1])).toBe(4.3);
+    });
+
+    it('shoud return to_ca BTC balance fin', () => {
+      expect(pipe.transform(mockData[2])).toBe(2.3);
+    });
+
+    it('shoud return to_ca USDT balance fin', () => {
+      expect(pipe.transform(mockData[3])).toBe(3.2);
     });
   });
 });

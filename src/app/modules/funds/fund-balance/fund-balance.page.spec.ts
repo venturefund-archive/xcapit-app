@@ -9,6 +9,7 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { of } from 'rxjs';
 import { CurrencyTextPipe } from '../shared-funds/pipes/currency-text/currency-text.pipe';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('FundBalancePage', () => {
   let component: FundBalancePage;
@@ -22,7 +23,11 @@ describe('FundBalancePage', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes([]),
+        ReactiveFormsModule
+      ],
       declarations: [FundBalancePage, CurrencyEndBalancePipe, CurrencyTextPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
@@ -53,6 +58,14 @@ describe('FundBalancePage', () => {
   it('should call getBalance on getFundBalance is callled', () => {
     apiFundServiceSpy.getBalance.and.returnValue(of({}));
     component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(apiFundServiceSpy.getBalance).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call getFundBalance on changeFundCA is callled and form is valid', () => {
+    apiFundServiceSpy.getBalance.and.returnValue(of({}));
+    component.form.setValue({ca: 'BTC'});
+    component.changeFundCA();
     fixture.detectChanges();
     expect(apiFundServiceSpy.getBalance).toHaveBeenCalledTimes(1);
   });

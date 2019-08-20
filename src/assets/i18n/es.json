@@ -86,7 +86,8 @@
       "date_info_start_period_text": "Inicio del Período: ",
       "date_info_last_update_text": "Última Actualización: ",
       "balance_table_title": "Balance del Fondo",
-      "balance_total": "Total Balance "
+      "balance_total": "Total Balance ",
+      "change_ca": "Cambiar CA"
     },
     "funds_list": {
       "header": "Lista de Fondos",
