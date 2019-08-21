@@ -20,29 +20,22 @@ import { ModalController } from '@ionic/angular';
       <h2>{{ 'tutorials.extract_tutorial_modal.t1' | translate }}</h2>
       <p>
         {{ 'tutorials.extract_tutorial_modal.p1' | translate }}
-        <a
-          href="https://t.me/WCSAdvisorbot"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          https://t.me/WCSAdvisorbot <ion-icon name="open"></ion-icon>
-        </a>
       </p>
+      <img
+        src="assets/img/tutorials/extract/extract-tutorial-app-img-1.png"
+        alt=""
+      />
       <p>{{ 'tutorials.extract_tutorial_modal.p2' | translate }}</p>
+      <img
+        src="assets/img/tutorials/extract/extract-tutorial-app-img-2.png"
+        alt=""
+      />
       <p>{{ 'tutorials.extract_tutorial_modal.p3' | translate }}</p>
-      <img
-        src="assets/img/tutorials/extract/extract-tutorial-img-1.jpg"
-        alt=""
-      />
-      <p>{{ 'tutorials.extract_tutorial_modal.p4' | translate }}</p>
-      <img
-        src="assets/img/tutorials/extract/extract-tutorial-img-2.jpeg"
-        alt=""
-      />
-      <p>{{ 'tutorials.extract_tutorial_modal.p5' | translate }}</p>
       <ion-img
-        src="assets/img/tutorials/extract/extract-tutorial-img-3.jpeg"
+        src="assets/img/tutorials/extract/extract-tutorial-app-img-3.png"
       ></ion-img>
+      <p>{{ 'tutorials.extract_tutorial_modal.p4' | translate }}</p>
+      <p>{{ 'tutorials.extract_tutorial_modal.p5' | translate }}</p>
 
       <hr />
 
@@ -112,7 +105,7 @@ import { ModalController } from '@ionic/angular';
       ></ion-img>
       <p>{{ 'tutorials.extract_tutorial_modal.p19' | translate }}</p>
       <ion-img
-      src="assets/img/tutorials/extract/extract-tutorial-img-13.png"
+        src="assets/img/tutorials/extract/extract-tutorial-img-13.png"
       ></ion-img>
       <p>{{ 'tutorials.extract_tutorial_modal.p20' | translate }}</p>
       <ion-img
