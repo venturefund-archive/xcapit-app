@@ -62,14 +62,6 @@ describe('FundBalancePage', () => {
     expect(apiFundServiceSpy.getBalance).toHaveBeenCalledTimes(1);
   });
 
-  it('should call getFundBalance on changeFundCA is callled and form is valid', () => {
-    apiFundServiceSpy.getBalance.and.returnValue(of({}));
-    component.form.setValue({ca: 'BTC'});
-    component.changeFundCA();
-    fixture.detectChanges();
-    expect(apiFundServiceSpy.getBalance).toHaveBeenCalledTimes(1);
-  });
-
   it('should call log on ionViewDidEnter', () => {
     const spy = spyOn(logsServiceMock, 'log');
     spy.and.returnValue(of({}));
