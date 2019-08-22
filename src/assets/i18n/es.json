@@ -526,6 +526,9 @@
       },
       "emailValidation":{
         "invalid": "Error al validar el email."
+      },
+      "login": {
+        "invalidCredentials": "No existe una cuenta activa con las credenciales ingresadas."
       }
     }
   }
