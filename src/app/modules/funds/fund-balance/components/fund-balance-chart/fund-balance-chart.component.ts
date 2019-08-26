@@ -36,7 +36,7 @@ export class FundBalanceChartComponent implements OnChanges {
       this.chart = new Chart('balance_chart', {
         type: 'pie',
         data: {
-          labels: ['BTC', 'ETH', 'LTC', 'BNB', 'USD'],
+          labels: ['BTC', 'ETH', 'LTC', 'BNB', 'USDT'],
           datasets: [
             {
               data: [
