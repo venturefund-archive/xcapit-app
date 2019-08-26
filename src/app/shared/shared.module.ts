@@ -7,7 +7,7 @@ import { GooglePlacesDirective } from './directives/google-places.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
-import { LogsService } from './services/logs/logs.service';
+import { TrackClickModule } from './directives/track-click/track-click.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { LogsService } from './services/logs/logs.service';
     LanguageButtonComponent
   ],
   entryComponents: [LanguagePopoverComponent],
-  imports: [CommonModule, IonicModule, TranslateModule.forChild()],
+  imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule],
   exports: [
     ErrorsFormItemComponent,
     CommonModule,
@@ -25,7 +25,8 @@ import { LogsService } from './services/logs/logs.service';
     IonicModule,
     GooglePlacesDirective,
     TranslateModule,
-    LanguageButtonComponent
+    LanguageButtonComponent,
+    TrackClickModule
   ]
 })
 export class SharedModule {}

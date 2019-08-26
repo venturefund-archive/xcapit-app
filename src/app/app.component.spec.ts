@@ -12,39 +12,69 @@ import { LoadingService } from './shared/services/loading/loading.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
 import { ReplaySubject } from 'rxjs';
+import { TrackService } from './shared/services/track/track.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirective } from './shared/directives/track-click/track-click.directive';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { ActivatedRoute } from '@angular/router';
 
 describe('AppComponent', () => {
-  let statusBarSpy: any, splashScreenSpy: any, platformReadySpy: any, platformSpy: any;
+  let statusBarSpy: any,
+    splashScreenSpy: any,
+    platformReadySpy: any,
+    platformSpy: any;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: any;
   let loadingServiceSpy: any;
   let authServiceMock: any;
+  let trackServiceSpy: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<AppComponent>;
+  let activatedRouteMock: any;
 
   beforeEach(async(() => {
+    trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
     statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
     splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
     loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
-    authServiceMock = { isLoggedIn: new ReplaySubject<boolean>(1) };
+    authServiceMock = {
+      isLoggedIn: new ReplaySubject<boolean>(1),
+      logout: () => null
+    };
     platformReadySpy = Promise.resolve();
     platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
     languageServiceSpy = jasmine.createSpyObj('LanguageService', [
       'setInitialAppLanguage'
     ]);
+    activatedRouteMock = {};
 
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [AppComponent, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
+        { provide: TrackService, useValue: trackServiceSpy },
         { provide: StatusBar, useValue: statusBarSpy },
         { provide: SplashScreen, useValue: splashScreenSpy },
         { provide: Platform, useValue: platformSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
-        { provide: AuthService, useValue: authServiceMock }
+        { provide: AuthService, useValue: authServiceMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ],
-      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot()]
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: 'users/login', component: DummyComponent },
+          { path: 'tutorials/help', component: DummyComponent },
+          { path: 'funds/list', component: DummyComponent },
+          { path: 'profiles/user', component: DummyComponent },
+          { path: 'funds/deposit-address', component: DummyComponent }
+        ]),
+        TranslateModule.forRoot()
+      ]
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
   it('should create the app', async () => {
@@ -69,7 +99,7 @@ describe('AppComponent', () => {
   it('routerEventSubscription should not be null after ngOnInit call', async () => {
     const app = fixture.componentInstance;
     fixture.detectChanges();
-    expect(app.routerEventSubscription).not.toBeNull();
+    expect(app.routerNavEndSubscription).not.toBeNull();
   });
 
   it('should initialize the app', async () => {
@@ -78,5 +108,18 @@ describe('AppComponent', () => {
     await platformReadySpy;
     expect(statusBarSpy.styleDefault).toHaveBeenCalled();
     expect(splashScreenSpy.hide).toHaveBeenCalled();
+  });
+
+  it('should call trackEvent on trackService when elements with the directive are clicked', () => {
+    fixture.detectChanges();
+    const elms = trackClickDirectiveHelper.getAllElementsWithTheDirective();
+    for (const el of elms) {
+      const directive = trackClickDirectiveHelper.getDirective(el);
+      const spy = spyOn(directive, 'clickEvent');
+      el.nativeElement.click();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(1);
+    }
+    expect(elms.length).toBe(5);
   });
 });

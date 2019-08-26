@@ -8,6 +8,10 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { of } from 'rxjs';
 import { IonicModule } from '@ionic/angular';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
 
 describe('FundsListPage', () => {
   let component: FundsListPage;
@@ -15,6 +19,7 @@ describe('FundsListPage', () => {
   let apiFundsServiceMock: any;
   let apiFundsService: ApiFundsService;
   let logsServiceMock: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
   beforeEach(async(() => {
     logsServiceMock = {
       log: () => of({})
@@ -24,13 +29,17 @@ describe('FundsListPage', () => {
     };
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         TranslateModule.forRoot(),
         IonicModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          { path: 'tutorials/interactive-tutorial', component: DummyComponent }
+        ])
       ],
-      declarations: [FundsListPage],
+      declarations: [FundsListPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
+        TrackClickDirective,
         { provide: LogsService, useValue: logsServiceMock },
         { provide: ApiFundsService, useValue: apiFundsServiceMock }
       ]
@@ -43,6 +52,7 @@ describe('FundsListPage', () => {
     fixture.detectChanges();
     apiFundsService = TestBed.get(ApiFundsService);
     logsServiceMock = TestBed.get(LogsService);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -56,11 +66,12 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call log on ionViewDidEnter', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.ionViewDidEnter();
+  it('should call trackEvent on trackService when New Fund button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'New Fund');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(2);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

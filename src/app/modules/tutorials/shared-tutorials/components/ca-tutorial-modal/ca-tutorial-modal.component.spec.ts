@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaTutorialModalComponent } from './ca-tutorial-modal.component';
 import { ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 describe('CaTutorialModalComponent', () => {
   let component: CaTutorialModalComponent;
@@ -11,7 +12,8 @@ describe('CaTutorialModalComponent', () => {
   let modalControllerSpy: any;
 
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', ['create', 'dismiss']);
+    modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
+
     TestBed.configureTestingModule({
       declarations: [ CaTutorialModalComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -18,7 +18,6 @@ export const routes: Routes = [
       },
       {
         path: 'runs/:nombre_bot',
-        canActivate: [AuthGuard],
         loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
       },
       {

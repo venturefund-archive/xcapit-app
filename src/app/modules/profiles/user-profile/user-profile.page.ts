@@ -9,7 +9,6 @@ import { NavController } from '@ionic/angular';
 import { ProfilesHelperService } from '../shared-profiles/services/profiles-helper/profiles-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-runs.service';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -172,6 +171,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
         <div class="ion-padding ion-margin-top">
           <ion-button
+            appTrackClick
+            name="Save Profile"
             expand="block"
             size="large"
             type="submit"
@@ -238,21 +239,16 @@ export class UserProfilePage implements OnInit {
     private navController: NavController,
     private profilesHelper: ProfilesHelperService,
     private translate: TranslateService,
-    private apiRuns: ApiRunsService,
-    private logsService: LogsService
+    private apiRuns: ApiRunsService
   ) {}
 
   ngOnInit() {
-    this.logsService.log(`{"message": "Has entered user-profile"}`).subscribe();
     this.setForm();
   }
 
   save() {
     if (this.form.valid) {
       this.apiProfiles.crud.update(this.form.value).subscribe(() => {
-        this.logsService
-          .log(`{"message": "Has edited profile data"}`)
-          .subscribe();
         this.toastService.showToast({
           message: this.translate.instant('profiles.user_profile.success_text')
         });
@@ -267,9 +263,6 @@ export class UserProfilePage implements OnInit {
 
   setForm() {
     this.apiRuns.hasActive().subscribe((hasActiveRuns: boolean) => {
-      this.logsService
-        .log(`{"message": "Has requested active runs"}`)
-        .subscribe();
       if (hasActiveRuns) {
         this.addRequiredValidator();
       }

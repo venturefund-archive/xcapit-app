@@ -18,6 +18,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
     <ion-content>
       <div class="ion-padding">
         <ion-button
+          appTrackClick
+          name="New Fund"
           type="button"
           expand="full"
           size="large"
@@ -57,22 +59,16 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
 export class FundsListPage implements OnInit {
   subscribedFunds: Array<any> = [];
   constructor(
-    private apiFundsService: ApiFundsService,
-    private logsService: LogsService
+    private apiFundsService: ApiFundsService
   ) {}
   ngOnInit() {}
 
   ionViewDidEnter() {
-    this.logsService.log(`{"message": "Has entered fund-list"}`).subscribe();
     this.getSubscribedFunds();
   }
 
   private getSubscribedFunds() {
     this.apiFundsService.getSubscribedFunds().subscribe(res => {
-      this.logsService
-      .log(
-        `{"message": "Has requested fund list"}`
-      ).subscribe();
       this.subscribedFunds = res;
     });
   }

@@ -6,7 +6,6 @@ import QRCode from 'qrcode';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 @Component({
   selector: 'app-deposit-address',
   template: `
@@ -34,7 +33,13 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                   <ion-label position="floating">{{
                     'funds.deposit_address.currency' | translate
                   }}</ion-label>
-                  <ion-select formControlName="currency">
+                  <ion-select
+                    appTrackClick
+                    [dataToTrack]="{
+                      eventLabel: 'Select Deposit Address Currency'
+                    }"
+                    formControlName="currency"
+                  >
                     <ion-select-option [value]="this.currencyEnum.BTC">
                       {{ this.currencyEnum.BTC }}
                     </ion-select-option>
@@ -65,7 +70,11 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                 <ion-col size="8">{{ depositAddresInfo.address }}</ion-col>
                 <ion-col size="1">
                   <ion-buttons>
-                    <ion-button (click)="this.copyToClipboard()">
+                    <ion-button
+                      appTrackClick
+                      name="Copy Deposit Address"
+                      (click)="this.copyToClipboard()"
+                    >
                       <ion-icon slot="icon-only" name="copy"></ion-icon>
                     </ion-button>
                   </ion-buttons>
@@ -92,7 +101,11 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
                 </ion-col>
                 <ion-col size="1">
                   <ion-buttons>
-                    <ion-button (click)="this.openAddressUrlInNewTab()">
+                    <ion-button
+                      appTrackClick
+                      name="Open URL Deposit Address"
+                      (click)="this.openAddressUrlInNewTab()"
+                    >
                       <ion-icon slot="icon-only" name="open"></ion-icon>
                     </ion-button>
                   </ion-buttons>
@@ -129,15 +142,11 @@ export class DepositAddressPage implements OnInit {
     private apiFunds: ApiFundsService,
     private clipboard: ClipboardService,
     private toastService: ToastService,
-    private translate: TranslateService,
-    private logsService: LogsService
+    private translate: TranslateService
   ) {}
 
   getDepositAdress(currency: string) {
     this.apiFunds.getDepositAdress(currency).subscribe(res => {
-      this.logsService
-        .log(`{"message": "Has requested deposit address"}`)
-        .subscribe();
       this.depositAddresInfo = res;
       if (this.depositAddresInfo.url) {
         this.generateQR(this.depositAddresInfo.url);
@@ -156,9 +165,6 @@ export class DepositAddressPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.logsService
-      .log(`{"message": "Has entered deposit-address"}`)
-      .subscribe();
     this.form.valueChanges.subscribe(data => {
       if (data.currency) {
         this.getDepositAdress(data.currency);
@@ -180,15 +186,9 @@ export class DepositAddressPage implements OnInit {
     if (this.depositAddresInfo.address) {
       this.clipboard.copy(this.depositAddresInfo.address).then(
         () => {
-          this.logsService
-            .log(`{"message": "Has copied deposit address"}`)
-            .subscribe();
           this.showToast('funds.deposit_address.copy_address_ok_text');
         },
         () => {
-          this.logsService
-            .log(`{"message": "Error trying to copy deposit address"}`)
-            .subscribe();
           this.showToast('funds.deposit_address.copy_address_error_text');
         }
       );

@@ -4,7 +4,6 @@ import { ShareService } from 'src/app/shared/services/share/share.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { NavController } from '@ionic/angular';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 const SUBSCRIPTION_LINK_STORAGE_KEY = 'subscriptionLink';
 
@@ -17,17 +16,13 @@ export class SubscriptionsService {
     private shareService: ShareService,
     private translate: TranslateService,
     private storage: Storage,
-    private navController: NavController,
-    private logsService: LogsService
+    private navController: NavController
   ) {}
 
   shareSubscriptionLink(fundName: string) {
     this.apiSubscriptions
       .getSubscriptionLink(fundName)
       .subscribe((data: any) => {
-        this.logsService
-          .log(`{"message": "Has shared fund: ${fundName}"}`)
-          .subscribe();
         this.shareService.share({
           title: this.translate.instant(
             'subscriptions.subscriptions_service.share_title'

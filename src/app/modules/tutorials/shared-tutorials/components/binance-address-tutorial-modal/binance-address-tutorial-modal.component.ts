@@ -10,7 +10,7 @@ import { ModalController } from '@ionic/angular';
           {{ 'tutorials.binance_address_tutorial_modal.header' | translate }}
         </ion-title>
         <ion-buttons slot="end">
-          <ion-button icon-only shape="round" (click)="closeModal()">
+          <ion-button icon-only shape="round" (click)="this.closeModal()">
             <ion-icon name="close"></ion-icon>
           </ion-button>
         </ion-buttons>

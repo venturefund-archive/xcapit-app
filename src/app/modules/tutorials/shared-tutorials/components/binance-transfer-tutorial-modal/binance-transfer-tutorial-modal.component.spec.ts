@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BinanceTransferTutorialModalComponent } from './binance-transfer-tutorial-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
+import { of } from 'rxjs';
 
 describe('BinanceTransferTutorialModalComponent', () => {
   let component: BinanceTransferTutorialModalComponent;
@@ -12,6 +13,9 @@ describe('BinanceTransferTutorialModalComponent', () => {
 
   beforeEach(async(() => {
     modalControllerSpy = jasmine.createSpyObj('ModalController', ['create', 'dismiss']);
+    modalControllerSpy.create.and.returnValue(
+      of({ present: () => {} }).toPromise()
+    );
     TestBed.configureTestingModule({
       declarations: [ BinanceTransferTutorialModalComponent ],
       imports: [TranslateModule.forRoot()],

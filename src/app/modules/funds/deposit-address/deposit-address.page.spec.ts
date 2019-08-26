@@ -10,6 +10,8 @@ import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('DepositAddressPage', () => {
   let component: DepositAddressPage;
@@ -25,6 +27,7 @@ describe('DepositAddressPage', () => {
     url: 'https://123.com'
   };
   let clipboardServiceSpy: any;
+
   beforeEach(async(() => {
     apiFundsServiceMock = {
       getDepositAdress: () => of(depositAddressData)
@@ -35,12 +38,13 @@ describe('DepositAddressPage', () => {
     clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['copy']);
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         TranslateModule.forRoot(),
         ReactiveFormsModule,
         IonicModule,
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [DepositAddressPage],
+      declarations: [DepositAddressPage, TrackClickDirective],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ApiFundsService, useValue: apiFundsServiceMock },
@@ -83,21 +87,5 @@ describe('DepositAddressPage', () => {
       component.copyToClipboard();
       expect(clipboardServiceSpy.copy).toHaveBeenCalledTimes(1);
     });
-  });
-
-  it('should call log on ionViewDidEnter', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.ionViewDidEnter();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on getDepositAdress', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.getDepositAdress('BTC');
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

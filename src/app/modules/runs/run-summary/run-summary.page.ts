@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.service';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-run-summary',
@@ -106,16 +105,11 @@ export class RunSummaryPage implements OnInit, OnDestroy {
 
   constructor(
     private apiRuns: ApiRunsService,
-    private route: ActivatedRoute,
-    private logsService: LogsService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {}
-  ionViewDidEnter() {
-    this.logsService
-      .log(`{"message": "Has entered run-summary run: ${this.pk}"}`)
-      .subscribe();
-  }
+  ionViewDidEnter() {}
 
   ionViewWillEnter() {
     this.pk = this.route.snapshot.paramMap.get('pk');
@@ -131,9 +125,6 @@ export class RunSummaryPage implements OnInit, OnDestroy {
     this.runStatusSubscription = this.apiRuns
       .getStatus(this.pk)
       .subscribe(res => {
-        this.logsService
-          .log(`{"message": "Has requested run status. run: ${this.pk}"}`)
-          .subscribe();
         this.runStatus = res;
         this.loadingStatus = false;
       });

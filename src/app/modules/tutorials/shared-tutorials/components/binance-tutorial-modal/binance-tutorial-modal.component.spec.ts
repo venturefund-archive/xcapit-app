@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BinanceTutorialModalComponent } from './binance-tutorial-modal.component';
 import { ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 describe('BinanceTutorialModalComponent', () => {
   let component: BinanceTutorialModalComponent;
@@ -12,6 +13,9 @@ describe('BinanceTutorialModalComponent', () => {
 
   beforeEach(async(() => {
     modalControllerSpy = jasmine.createSpyObj('ModalController', ['create', 'dismiss']);
+    modalControllerSpy.create.and.returnValue(
+      of({ present: () => {} }).toPromise()
+    );
     TestBed.configureTestingModule({
       declarations: [ BinanceTutorialModalComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -27,7 +31,6 @@ describe('BinanceTutorialModalComponent', () => {
     fixture = TestBed.createComponent(BinanceTutorialModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    modalControllerSpy = TestBed.get(ModalController);
   });
 
   it('should create', () => {

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 export interface DataToTrackView {
   pageUrl?: string;
   screenName?: string;
+  eventAction?: string;
   [propName: string]: any;
 }
 

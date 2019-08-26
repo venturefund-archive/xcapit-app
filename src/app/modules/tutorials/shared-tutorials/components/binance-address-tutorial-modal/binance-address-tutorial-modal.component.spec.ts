@@ -11,16 +11,14 @@ describe('BinanceAddressTutorialModalComponent', () => {
   let modalControllerSpy: any;
 
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', ['create', 'dismiss']);
+    modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
+
     TestBed.configureTestingModule({
-      declarations: [ BinanceAddressTutorialModalComponent ],
+      declarations: [BinanceAddressTutorialModalComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [TranslateModule.forRoot()],
-      providers: [
-        { provide: ModalController, useValue: modalControllerSpy }
-      ]
-    })
-    .compileComponents();
+      providers: [{ provide: ModalController, useValue: modalControllerSpy }]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

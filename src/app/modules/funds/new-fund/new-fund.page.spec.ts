@@ -13,7 +13,9 @@ import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 import { FundActionFormTitlePipe } from './pipes/fund-action-form-title/fund-action-form-title.pipe';
 import { FundActionFormTextButtonPipe } from './pipes/fund-action-form-text-button/fund-action-form-text-button.pipe';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 const formData = {
   api_key: 'asdfad',
@@ -41,16 +43,13 @@ describe('NewFundPage', () => {
   let apiFundsServiceMock: any;
   let apiFundsService: ApiFundsService;
   let modalControllerSpy: any;
-  let modalController: ModalController;
   let activatedRouteSpy: any;
-  let logsServiceMock: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewFundPage>;
+
   beforeEach(async(() => {
     modalControllerSpy = jasmine.createSpyObj('ModalController', ['create']);
-    modalControllerSpy.create.and.returnValue(of(null).toPromise());
+    modalControllerSpy.create.and.returnValue(of({ present: () => {} }).toPromise());
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-    logsServiceMock = {
-      log: () => of({})
-    };
     apiFundsServiceMock = {
       crud: {
         create: () => of({}),
@@ -61,6 +60,7 @@ describe('NewFundPage', () => {
     };
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         TranslateModule.forRoot(),
         ReactiveFormsModule,
         IonicModule,
@@ -69,11 +69,12 @@ describe('NewFundPage', () => {
       declarations: [
         NewFundPage,
         FundActionFormTitlePipe,
-        FundActionFormTextButtonPipe
+        FundActionFormTextButtonPipe,
+        TrackClickDirective
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: LogsService, useValue: logsServiceMock },
+        TrackClickDirective,
         { provide: ApiFundsService, useValue: apiFundsServiceMock },
         { provide: ModalController, useValue: modalControllerSpy }
       ]
@@ -84,8 +85,7 @@ describe('NewFundPage', () => {
     fixture = TestBed.createComponent(NewFundPage);
     component = fixture.componentInstance;
     apiFundsService = TestBed.get(ApiFundsService);
-    modalController = TestBed.get(ModalController);
-    logsServiceMock = TestBed.get(LogsService);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -96,7 +96,7 @@ describe('NewFundPage', () => {
   it('should open API Keys Tutorial', () => {
     component.openAPIKeysTutorial().then(() => {
       fixture.detectChanges();
-      expect(modalController.create).toHaveBeenCalledTimes(1);
+      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -182,27 +182,6 @@ describe('NewFundPage', () => {
     expect(getFundRunSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call log on ngOnInit', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on openNewFormInfo', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.openNewFormInfo();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on openAPIKeysTutorial', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.openAPIKeysTutorial();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   describe('Form values', () => {
     it('form should be valid on new when all fields are ok', async () => {
       TestBed.get(ActivatedRoute).snapshot = {
@@ -271,5 +250,35 @@ describe('NewFundPage', () => {
     });
   });
 
+  it('should call trackEvent on trackService when New Fund Form Info button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'New Fund Form Info'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
+  it('should call trackEvent on trackService when Save Fund button clicked', () => {
+    TestBed.get(ActivatedRoute).snapshot = {
+      paramMap: convertToParamMap({
+        action: FundFormActions.NewFund,
+        fundName: ''
+      })
+    };
+    fixture.detectChanges();
+    component.form.patchValue(formData);
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Save Fund'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });

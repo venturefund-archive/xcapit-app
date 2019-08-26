@@ -7,7 +7,6 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 import { CA } from '../shared-funds/enums/ca.enum';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { StateNamesService } from 'src/app/shared/services/state-names/state-names.service';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-fund-summary',
@@ -15,9 +14,7 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="/funds/list"
-          ></ion-back-button>
+          <ion-back-button defaultHref="/funds/list"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'funds.fund_summary.header' | translate }}
@@ -25,6 +22,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
         <ion-buttons slot="end">
           <ion-button
             *ngIf="this.isOwner"
+            appTrackClick
+            name="Edit Fund"
             (click)="this.editFund()"
             [disabled]="!this.fundStatus"
           >
@@ -36,7 +35,12 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
     <ion-content padding>
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button *ngIf="this.isOwner" (click)="this.shareFund()">
+        <ion-fab-button
+          *ngIf="this.isOwner"
+          (click)="this.shareFund()"
+          appTrackClick
+          [dataToTrack]="{ eventLabel: 'Share Fund' }"
+        >
           <ion-icon name="share"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -120,6 +124,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
           <ion-button
             *ngIf="!this.fundStatus && !this.loadingStatus"
+            appTrackClick
+            name="Renew Fund"
             type="button"
             color="primary"
             expand="block"
@@ -136,6 +142,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
           <ion-col>
             <ion-button
               *ngIf="this.fundStatus?.fund.estado == 'pausado'"
+              appTrackClick
+              name="Resume Fund"
               type="button"
               color="success"
               expand="block"
@@ -149,6 +157,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
               *ngIf="
                 this.fundStatus?.fund.estado == 'active' || this.inCAStatus
               "
+              appTrackClick
+              name="Pause Fund"
               type="button"
               color="primary"
               expand="block"
@@ -166,6 +176,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
             "
           >
             <ion-button
+              appTrackClick
+              name="Finalize Fund"
               type="button"
               color="danger"
               expand="block"
@@ -212,6 +224,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
             </ion-col>
             <ion-col>
               <ion-button
+                appTrackClick
+                name="Change Fund CA"
                 expand="block"
                 size="medium"
                 type="submit"
@@ -226,6 +240,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
       </ion-grid>
       <div class="ion-padding-top">
         <ion-button
+          appTrackClick
+          name="Runs Fund"
           expand="block"
           size="medium"
           type="button"
@@ -238,6 +254,8 @@ import { LogsService } from 'src/app/shared/services/logs/logs.service';
         </ion-button>
 
         <ion-button
+          appTrackClick
+          name="Fund Balance"
           margin-top
           expand="block"
           size="medium"
@@ -274,8 +292,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     private router: Router,
     private apiFunds: ApiFundsService,
     private subscriptionsService: SubscriptionsService,
-    private stateNamesService: StateNamesService,
-    private logsService: LogsService
+    private stateNamesService: StateNamesService
   ) {}
 
   ngOnInit() {}
@@ -289,13 +306,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     this.getFundStatus();
   }
 
-  ionViewDidEnter() {
-    this.logsService
-      .log(
-        `{"message": "Has entered on fund-summary of fund: ${this.fundName}"}`
-      )
-      .subscribe();
-  }
+  ionViewDidEnter() {}
 
   shareFund() {
     this.subscriptionsService.shareSubscriptionLink(this.fundName);
@@ -310,11 +321,6 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     this.fundStatusSubscription = this.apiFunds
       .getStatus(this.fundName)
       .subscribe(res => {
-        this.logsService
-          .log(
-            `{"message": "Has requested fund status of fund: ${this.fundName}"}`
-          )
-          .subscribe();
         this.fundStatus = res;
         this.isOwner = res && res.fund && res.fund.is_owner;
         this.isInCAStatus();
@@ -343,40 +349,24 @@ export class FundSummaryPage implements OnInit, OnDestroy {
         .changeFundCA(this.fundName, this.form.value.ca)
         .subscribe(res => {
           this.getFundStatus();
-          this.logsService
-            .log(
-              `{"message": "Has changed fund CA. fund: ${this.fundName} - CA: ${
-                this.form.value.ca
-              }"}`
-            )
-            .subscribe();
         });
     }
   }
 
   pauseFundRuns(): void {
     this.apiFunds.pauseFundRuns(this.fundName).subscribe(res => {
-      this.logsService
-        .log(`{"message": "Has paused fund: ${this.fundName}"}`)
-        .subscribe();
       this.getFundStatus();
     });
   }
 
   resumeFundRuns(): void {
     this.apiFunds.resumeFundRuns(this.fundName).subscribe(res => {
-      this.logsService
-        .log(`{"message": "Has resumed fund: ${this.fundName}"}`)
-        .subscribe();
       this.getFundStatus();
     });
   }
 
   finalizeFundRuns(): void {
     this.apiFunds.finalizeFundRuns(this.fundName).subscribe(res => {
-      this.logsService
-        .log(`{"message": "Has finalized fund: ${this.fundName}"}`)
-        .subscribe();
       this.getFundStatus();
     });
   }

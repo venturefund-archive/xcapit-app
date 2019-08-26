@@ -1,18 +1,26 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Subscription, Observable } from 'rxjs';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import {
+  Router,
+  NavigationEnd,
+  ActivatedRoute
+} from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { LanguageService } from './shared/services/language/language.service';
 import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { TrackService } from './shared/services/track/track.service';
+import { LogsService } from './shared/services/logs/logs.service';
+import { TrackClickDirective } from './shared/directives/track-click/track-click.directive';
 
 @Component({
   selector: 'app-root',
+  providers: [{ provide: TrackService, useClass: LogsService }],
   template: `
     <ion-app>
       <ion-split-pane>
@@ -29,6 +37,8 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
                 *ngFor="let p of appPages; trackBy: this.trackBy"
               >
                 <ion-item
+                  appTrackClick
+                  [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
                   [routerDirection]="p.routeDirection"
                   [routerLink]="[p.url]"
                 >
@@ -46,7 +56,11 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
           </ion-content>
           <ion-footer>
             <ion-menu-toggle auto-hide="false">
-              <ion-item (click)="this.logout()">
+              <ion-item
+                appTrackClick
+                [dataToTrack]="{ eventLabel: 'Logout', description: 'sideMenu' }"
+                (click)="this.logout()"
+              >
                 <ion-icon slot="start" name="log-out" color="danger"></ion-icon>
                 <ion-label>
                   {{ 'app.main_menu.logout' | translate }}
@@ -61,6 +75,8 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
   `
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @ViewChild(IonRouterOutlet) ionRouterOutlet: IonRouterOutlet;
+
   public appPages = [
     {
       id: 1,
@@ -73,28 +89,28 @@ export class AppComponent implements OnInit, OnDestroy {
       id: 2,
       title: 'app.main_menu.user_profile',
       url: '/profiles/user',
-      customIcon: '',
+      icon: '',
       routeDirection: 'forward'
     },
     {
       id: 3,
       title: 'app.main_menu.deposit_address',
       url: '/funds/deposit-address',
-      customIcon: '',
+      icon: '',
       routeDirection: 'forward'
     },
     {
       id: 4,
       title: 'app.main_menu.help',
       url: '/tutorials/help',
-      customIcon: '',
+      icon: '',
       routeDirection: 'forward'
     }
   ];
 
   isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
 
-  routerEventSubscription: Subscription;
+  routerNavEndSubscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -105,7 +121,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private trackService: TrackService
   ) {
     this.initializeApp();
   }
@@ -117,7 +134,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routerEventSubscription.unsubscribe();
+    this.routerNavEndSubscription.unsubscribe();
   }
 
   initializeApp() {
@@ -134,7 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   routeChangeSubscribe() {
-    this.routerEventSubscription = this.router.events
+    this.routerNavEndSubscription = this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
         map(() => this.activatedRoute),
@@ -144,10 +161,15 @@ export class AppComponent implements OnInit, OnDestroy {
           }
           return route;
         }),
-        filter(route => route.outlet === 'primary'),
-        mergeMap(route => route.data)
+        filter(route => route.outlet === 'primary')
       )
       .subscribe(() => {
+        this.trackService.trackView({
+          pageUrl: window.location.href,
+          screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component
+            .name,
+          eventAction: 'nav'
+        });
         this.submitButtonService.enabled();
       });
   }

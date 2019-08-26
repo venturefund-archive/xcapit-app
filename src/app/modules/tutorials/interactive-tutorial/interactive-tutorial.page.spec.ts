@@ -5,30 +5,42 @@ import { InteractiveTutorialPage } from './interactive-tutorial.page';
 import { ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { of } from 'rxjs';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { SharedTutorialsModule } from '../shared-tutorials/shared-tutorials.module';
 
 describe('InteractiveTutorialPage', () => {
   let component: InteractiveTutorialPage;
   let fixture: ComponentFixture<InteractiveTutorialPage>;
   let modalControllerSpy: any;
-  let logsServiceMock: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<
+    InteractiveTutorialPage
+  >;
 
   beforeEach(async(() => {
-    logsServiceMock = {
-      log: () => of({})
-    };
     modalControllerSpy = jasmine.createSpyObj('ModalController', [
       'create',
       'dismiss'
     ]);
+    modalControllerSpy.create.and.returnValue(
+      of({ present: () => {}, onWillDismiss: () => of({}).toPromise() }).toPromise()
+    );
     TestBed.configureTestingModule({
-      declarations: [InteractiveTutorialPage],
+      declarations: [InteractiveTutorialPage, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
+      imports: [
+        SharedTutorialsModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes([{ path: 'funds/list', component: DummyComponent }])
+      ],
       providers: [
-        { provide: LogsService, useValue: logsServiceMock },
-        { provide: ModalController, useValue: modalControllerSpy }]
+        TrackClickDirective,
+        { provide: ModalController, useValue: modalControllerSpy }
+      ]
     }).compileComponents();
   }));
 
@@ -37,7 +49,7 @@ describe('InteractiveTutorialPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     modalControllerSpy = TestBed.get(ModalController);
-    logsServiceMock = TestBed.get(LogsService);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -60,33 +72,5 @@ describe('InteractiveTutorialPage', () => {
     component.openCaTutorial().then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
-  });
-
-  it('should call log on ngOnInit', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on openCaTutorial', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.openCaTutorial();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on openBinanceTutorial', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.openBinanceTutorial();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on openBinanceTransferTutorial', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.openBinanceTransferTutorial();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

@@ -56,13 +56,4 @@ describe('FundRunsPage', () => {
     component.ionViewDidEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
-  it('should call log on ionViewDidEnter', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.ionViewDidEnter();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(2);
-  });
-
 });

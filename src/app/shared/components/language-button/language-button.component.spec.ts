@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LanguageButtonComponent } from './language-button.component';
 import { PopoverController } from '@ionic/angular';
+import { of } from 'rxjs';
 
 describe('LanguageButtonComponent', () => {
   let component: LanguageButtonComponent;
@@ -11,6 +12,12 @@ describe('LanguageButtonComponent', () => {
 
   beforeEach(async(() => {
     popoverControllerSpy = jasmine.createSpyObj('PopoverController', ['create']);
+    popoverControllerSpy.create.and.returnValue(
+      of({
+        present: () => {},
+        onWillDismiss: () => of({}).toPromise()
+      }).toPromise()
+    );
 
     TestBed.configureTestingModule({
       declarations: [ LanguageButtonComponent ],

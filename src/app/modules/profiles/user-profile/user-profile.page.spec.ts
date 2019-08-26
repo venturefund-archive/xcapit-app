@@ -10,7 +10,9 @@ import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-runs.service';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 const formData = {
   valid: {
@@ -41,11 +43,9 @@ describe('UserProfilePage', () => {
   let apiProfilesServiceMock: any;
   let apiProfilesService: ApiProfilesService;
   let apiRunsServiceSpy: any;
-  let logsServiceMock: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfilePage>;
+
   beforeEach(async(() => {
-    logsServiceMock = {
-      log: () => of({})
-    };
     apiRunsServiceSpy = jasmine.createSpyObj('ApiRunsService', ['hasActive']);
     apiRunsServiceSpy.hasActive.and.returnValue(of(false));
     apiProfilesServiceMock = {
@@ -56,8 +56,9 @@ describe('UserProfilePage', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [UserProfilePage],
+      declarations: [UserProfilePage, TrackClickDirective],
       imports: [
+        HttpClientTestingModule,
         TranslateModule.forRoot(),
         IonicModule,
         ReactiveFormsModule,
@@ -65,7 +66,7 @@ describe('UserProfilePage', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: LogsService, useValue: logsServiceMock },
+        TrackClickDirective,
         { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
         { provide: ApiRunsService, useValue: apiRunsServiceSpy }
       ]
@@ -76,7 +77,7 @@ describe('UserProfilePage', () => {
     fixture = TestBed.createComponent(UserProfilePage);
     component = fixture.componentInstance;
     apiProfilesService = TestBed.get(ApiProfilesService);
-    logsServiceMock = TestBed.get(LogsService);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -119,33 +120,6 @@ describe('UserProfilePage', () => {
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it('should call log on ngOnInit', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    const spySetForm = spyOn(component, 'setForm');
-    spySetForm.and.returnValue(of({}));
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on setForm', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.setForm();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on save', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    const spyUpdate = spyOn(apiProfilesService.crud, 'update');
-    spyUpdate.and.returnValue(of({}));
-    component.setForm();
-    component.form.patchValue(formData.valid);
-    component.save();
-    expect(spy).toHaveBeenCalledTimes(2);
-  });
-
   describe('Form values', () => {
     it('form should be invalid when fields are empty and active runs is true', () => {
       apiRunsServiceSpy.hasActive.and.returnValue(of(true));
@@ -163,5 +137,20 @@ describe('UserProfilePage', () => {
       component.form.get('cellphone').setValue(formData.invalid.cellphone);
       expect(component.form.valid).toBeFalsy();
     });
+  });
+
+  it('should call trackEvent on trackService when Save Profile button clicked', () => {
+    fixture.detectChanges();
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Save Profile'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

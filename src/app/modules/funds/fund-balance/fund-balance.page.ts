@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { CA } from '../shared-funds/enums/ca.enum';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -45,14 +44,17 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
                   : this.fundBalance.fund.currency) | uppercase
               }}:
               {{ this.fundBalance | currencyEndBalance | number: '1.2-4' }}
-              </h2>
-              <ion-button *ngIf="!this.changingCa"
-                size="small"
-                (click)="this.changingCa = true"
-              >
-                <ion-icon slot="start" name="create"></ion-icon>
-                {{'funds.fund_balance.change_ca' | translate}}
-              </ion-button>
+            </h2>
+            <ion-button
+              *ngIf="!this.changingCa"
+              appTrackClick
+              name="ChanginCa"
+              size="small"
+              (click)="this.changingCa = true"
+            >
+              <ion-icon slot="start" name="create"></ion-icon>
+              {{ 'funds.fund_balance.change_ca' | translate }}
+            </ion-button>
 
             <ion-grid *ngIf="this.changingCa">
               <form
@@ -102,6 +104,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
                   </ion-col>
                   <ion-col>
                     <ion-button
+                      appTrackClick
+                      name="Change Fund CA"
                       expand="block"
                       size="medium"
                       type="submit"
@@ -221,7 +225,6 @@ export class FundBalancePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,
-    private logsService: LogsService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -231,19 +234,11 @@ export class FundBalancePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.logsService
-      .log(`{"message": "Has entered fund-balance of fund: ${this.fundName}"}`)
-      .subscribe();
     this.getFundBalance();
   }
 
   getFundBalance() {
     this.apiFunds.getBalance(this.fundName, this.toCa).subscribe(res => {
-      this.logsService
-        .log(
-          `{"message": "Has requested fund balance of fund: ${this.fundName}"}`
-        )
-        .subscribe();
       this.fundBalance = res;
       this.loadingBalance = false;
     });

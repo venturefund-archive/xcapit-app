@@ -8,13 +8,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CurrencyPercentagePipe } from '../../funds/shared-funds/pipes/currency-percentage/currency-percentage.pipe';
 import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.service';
 import { of } from 'rxjs';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 describe('RunSummaryPage', () => {
   let component: RunSummaryPage;
   let fixture: ComponentFixture<RunSummaryPage>;
   let apiRunsServiceMock: any;
-  let logsServiceMock: any;
+
   const fundStatusMockData = {
     fund: {
       estado: 'active'
@@ -25,9 +24,7 @@ describe('RunSummaryPage', () => {
     apiRunsServiceMock = {
       getStatus: () => of(fundStatusMockData)
     };
-    logsServiceMock = {
-      log: () => of({})
-    };
+
     TestBed.configureTestingModule({
       declarations: [RunSummaryPage, CurrencyPercentagePipe],
       imports: [
@@ -36,7 +33,6 @@ describe('RunSummaryPage', () => {
         ReactiveFormsModule
       ],
       providers: [
-        { provide: LogsService, useValue: logsServiceMock },
         { provide: ApiRunsService, useValue: apiRunsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -48,7 +44,6 @@ describe('RunSummaryPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiRunsServiceMock = TestBed.get(ApiRunsService);
-    logsServiceMock = TestBed.get(LogsService);
   });
 
   it('should create', () => {
@@ -61,19 +56,5 @@ describe('RunSummaryPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     expect(getStatusSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on ionViewDidEnter', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.ionViewDidEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call log on getRunStatus', () => {
-    const spy = spyOn(logsServiceMock, 'log');
-    spy.and.returnValue(of({}));
-    component.getRunStatus();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

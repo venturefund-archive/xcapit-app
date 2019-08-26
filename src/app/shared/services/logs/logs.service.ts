@@ -1,22 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import {
+  TrackService,
+  DataToTrackEvent,
+  DataToTrackView
+} from '../track/track.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LogsService {
+export class LogsService implements TrackService {
   entity = 'logs';
   endpoint = 'stats';
   constructor(private http: HttpClient) {}
-  log(action: string): Observable<any> {
-    const logObj = {
-      description: action,
-      button_id: 'ninguno',
-      component_id: 'ninguno'
-    };
-    return this.http.post(
-      `${environment.apiUrl}/${this.endpoint}/${this.entity}`, logObj);
+
+  startTracker() {}
+
+  trackView(data: DataToTrackView): void {
+    this.http
+      .post(`${environment.apiUrl}/${this.endpoint}/${this.entity}`, {
+        component_id: data.screenName,
+        description: data.pageUrl,
+        event_id: data.eventAction,
+        fired_at: new Date()
+      })
+      .subscribe();
+  }
+
+  trackEvent(data: DataToTrackEvent): void {
+      this.http
+        .post(`${environment.apiUrl}/${this.endpoint}/${this.entity}`, {
+          button_id: data.eventLabel,
+          event_id: data.eventAction,
+          description: data.description,
+          fired_at: new Date()
+        })
+        .subscribe();
   }
 }
