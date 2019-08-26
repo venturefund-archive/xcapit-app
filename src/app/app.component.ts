@@ -131,6 +131,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.routeChangeSubscribe();
     this.submitButtonService.enabled();
     this.loadingService.enabled();
+    this.trackLoad();
+  }
+
+  trackLoad() {
+    this.trackService.trackEvent({
+      eventAction: 'load',
+      description: window.location.href
+    });
   }
 
   ngOnDestroy() {

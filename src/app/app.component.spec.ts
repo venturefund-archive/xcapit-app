@@ -102,6 +102,16 @@ describe('AppComponent', () => {
     expect(app.routerNavEndSubscription).not.toBeNull();
   });
 
+  it('should call trackEvent after ngOnInit call', async () => {
+    // el TrackService mediante el injector se debería poder obtener de otra
+    // manera, pero parece que hay un problema con la abstract class, por ahora
+    // queda.
+    const localTrackService = fixture.debugElement.injector.get(TrackService);
+    const spy = spyOn(localTrackService, 'trackEvent');
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
   it('should initialize the app', async () => {
     TestBed.createComponent(AppComponent);
     expect(platformSpy.ready).toHaveBeenCalled();
