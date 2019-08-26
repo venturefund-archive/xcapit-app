@@ -87,7 +87,9 @@
       "date_info_last_update_text": "Última Actualización: ",
       "balance_table_title": "Balance del Fondo",
       "balance_total": "Total Balance ",
-      "change_ca": "Cambiar CA"
+      "change_ca": "Total en",
+      "change_fund_ca": "Seleccione un CA",
+      "change_fund_ca_button": "Cambiar"
     },
     "funds_list": {
       "header": "Lista de Fondos",
@@ -524,6 +526,9 @@
       },
       "emailValidation":{
         "invalid": "Error al validar el email."
+      },
+      "login": {
+        "invalidCredentials": "No existe una cuenta activa con las credenciales ingresadas."
       }
     }
   }
