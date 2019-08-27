@@ -9,6 +9,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StateShowNamePipe } from '../shared-funds/pipes/state-names/state-names.pipe';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
 
 describe('FundRunsPage', () => {
   let component: FundRunsPage;
@@ -16,6 +20,8 @@ describe('FundRunsPage', () => {
   let apiFundsServiceMock: any;
   let apiFundsService: ApiFundsService;
   let logsServiceMock: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundRunsPage>;
+
   beforeEach(async(() => {
     apiFundsServiceMock = {
       getFundRuns: () => of([])
@@ -25,11 +31,14 @@ describe('FundRunsPage', () => {
     };
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         TranslateModule.forRoot(),
         IonicModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          { path: 'runs/run-summary/:id', component: DummyComponent }
+        ])
       ],
-      declarations: [FundRunsPage, StateShowNamePipe],
+      declarations: [FundRunsPage, StateShowNamePipe, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: LogsService, useValue: logsServiceMock },
@@ -44,6 +53,7 @@ describe('FundRunsPage', () => {
     fixture.detectChanges();
     apiFundsService = TestBed.get(ApiFundsService);
     logsServiceMock = TestBed.get(LogsService);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -55,5 +65,19 @@ describe('FundRunsPage', () => {
     spy.and.returnValue(of(null));
     component.ionViewDidEnter();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when View Runs Detail is clicked', () => {
+    component.fundRuns = [{ id: 1, id_corrida: 1, estado: 'active' }];
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'View Runs Detail'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spyClickEvent = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 });

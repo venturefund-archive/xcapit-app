@@ -9,6 +9,12 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { CurrencyPercentagePipe } from '../shared-funds/pipes/currency-percentage/currency-percentage.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { IonicModule } from '@ionic/angular';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 const fundStatusMockData = {
   fund: {
@@ -22,6 +28,8 @@ describe('FundSummaryPage', () => {
   let fixture: ComponentFixture<FundSummaryPage>;
   let apiFundServiceMock: any;
   let subscriptionsServiceSpy: any;
+  let activatedRouteSpy: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundSummaryPage>;
 
   beforeEach(async(() => {
     apiFundServiceMock = {
@@ -35,16 +43,34 @@ describe('FundSummaryPage', () => {
     subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', [
       'shareSubscriptionLink'
     ]);
+    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        fundName: 'asfd'
+      })
+    };
+
     TestBed.configureTestingModule({
-      declarations: [FundSummaryPage, CurrencyPercentagePipe],
+      declarations: [
+        FundSummaryPage,
+        CurrencyPercentagePipe,
+        TrackClickDirective,
+        DummyComponent
+      ],
       imports: [
+        IonicModule,
+        HttpClientTestingModule,
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes([
+          { path: 'funds/runs/:fundName', component: DummyComponent },
+          { path: 'funds/fund-balance/:fundName', component: DummyComponent }
+        ]),
         ReactiveFormsModule
       ],
       providers: [
         { provide: ApiFundsService, useValue: apiFundServiceMock },
-        { provide: SubscriptionsService, useValue: subscriptionsServiceSpy }
+        { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -56,6 +82,7 @@ describe('FundSummaryPage', () => {
     fixture.detectChanges();
     apiFundServiceMock = TestBed.get(ApiFundsService);
     subscriptionsServiceSpy = TestBed.get(SubscriptionsService);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -133,5 +160,139 @@ describe('FundSummaryPage', () => {
     fixture.detectChanges();
     component.isInCAStatus();
     expect(component.inCAStatus).toBeFalsy();
+  });
+
+  describe('with fund and is owner', () => {
+    beforeEach(() => {
+      component.fundStatus = fundStatusMockData;
+      component.isOwner = true;
+      fixture.detectChanges();
+    });
+
+    it('should call trackEvent on trackService when Share Fund is clicked', () => {
+      const el = trackClickDirectiveHelper.getByElementByName(
+        'ion-fab-button',
+        'Share Fund'
+      );
+      const directive = trackClickDirectiveHelper.getDirective(el);
+      const spyClickEvent = spyOn(directive, 'clickEvent');
+      el.nativeElement.click();
+      fixture.detectChanges();
+      expect(spyClickEvent).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call trackEvent on trackService when Edit Fund is clicked', () => {
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getByElementByName(
+          'ion-button',
+          'Edit Fund'
+        );
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spyClickEvent = spyOn(directive, 'clickEvent');
+        el.nativeElement.click();
+        fixture.detectChanges();
+        expect(spyClickEvent).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should call trackEvent on trackService when Renew Fund is clicked', () => {
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getByElementByName(
+          'ion-button',
+          'Renew Fund'
+        );
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spyClickEvent = spyOn(directive, 'clickEvent');
+        el.nativeElement.click();
+        fixture.detectChanges();
+        expect(spyClickEvent).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should call trackEvent on trackService when Runs Fund is clicked', () => {
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getByElementByName(
+          'ion-button',
+          'Runs Fund'
+        );
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spyClickEvent = spyOn(directive, 'clickEvent');
+        el.nativeElement.click();
+        fixture.detectChanges();
+        expect(spyClickEvent).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should call trackEvent on trackService when Fund Balance is clicked', () => {
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getByElementByName(
+          'ion-button',
+          'Fund Balance'
+        );
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spyClickEvent = spyOn(directive, 'clickEvent');
+        el.nativeElement.click();
+        fixture.detectChanges();
+        expect(spyClickEvent).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should call trackEvent on trackService when Finalize Fund is clicked', () => {
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getByElementByName(
+          'ion-button',
+          'Finalize Fund'
+        );
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spyClickEvent = spyOn(directive, 'clickEvent');
+        el.nativeElement.click();
+        fixture.detectChanges();
+        expect(spyClickEvent).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should call trackEvent on trackService when Pause Fund is clicked', () => {
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getByElementByName(
+          'ion-button',
+          'Pause Fund'
+        );
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spyClickEvent = spyOn(directive, 'clickEvent');
+        el.nativeElement.click();
+        fixture.detectChanges();
+        expect(spyClickEvent).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should call trackEvent on trackService when Change Fund CA is clicked', () => {
+      component.fundStatus.fund.estado = 'pausado';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getByElementByName(
+          'ion-button',
+          'Change Fund CA'
+        );
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spyClickEvent = spyOn(directive, 'clickEvent');
+        el.nativeElement.click();
+        fixture.detectChanges();
+        expect(spyClickEvent).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should call trackEvent on trackService when select is change', () => {
+      component.fundStatus.fund.estado = 'pausado';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getElement('ion-select');
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spy = spyOn(directive, 'changeEvent');
+        el.nativeElement.value = 'BTC';
+        el.nativeElement.dispatchEvent(new Event('ionChange'));
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalledTimes(1);
+      });
+    });
   });
 });

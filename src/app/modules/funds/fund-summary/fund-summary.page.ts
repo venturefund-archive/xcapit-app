@@ -39,7 +39,7 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
           *ngIf="this.isOwner"
           (click)="this.shareFund()"
           appTrackClick
-          [dataToTrack]="{ eventLabel: 'Share Fund' }"
+          name="Share Fund"
         >
           <ion-icon name="share"></ion-icon>
         </ion-fab-button>
@@ -203,7 +203,13 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
                 <ion-label position="floating">
                   {{ 'funds.fund_summary.change_fund_ca' | translate }}
                 </ion-label>
-                <ion-select formControlName="ca">
+                <ion-select
+                  appTrackClick
+                  [dataToTrack]="{
+                      eventLabel: 'Select Currency to Change'
+                    }"
+                  formControlName="ca"
+                >
                   <ion-select-option [value]="this.CAEnum.BTC">
                     {{ this.CAEnum.BTC }}
                   </ion-select-option>

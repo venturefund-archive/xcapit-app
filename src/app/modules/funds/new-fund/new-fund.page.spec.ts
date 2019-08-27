@@ -74,7 +74,6 @@ describe('NewFundPage', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        TrackClickDirective,
         { provide: ApiFundsService, useValue: apiFundsServiceMock },
         { provide: ModalController, useValue: modalControllerSpy }
       ]
@@ -262,23 +261,49 @@ describe('NewFundPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Save Fund button clicked', () => {
-    TestBed.get(ActivatedRoute).snapshot = {
-      paramMap: convertToParamMap({
-        action: FundFormActions.NewFund,
-        fundName: ''
-      })
-    };
-    fixture.detectChanges();
-    component.form.patchValue(formData);
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Save Fund'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+  describe('with New Fund Action, for test tracking', () => {
+    beforeEach(() => {
+      TestBed.get(ActivatedRoute).snapshot = {
+        paramMap: convertToParamMap({
+          action: FundFormActions.NewFund,
+          fundName: ''
+        })
+      };
+      component.form.patchValue(formData);
+      fixture.detectChanges();
+    });
+
+    it('should call trackEvent on trackService when Save Fund button clicked', () => {
+      const el = trackClickDirectiveHelper.getByElementByName(
+        'ion-button',
+        'Save Fund'
+      );
+      const directive = trackClickDirectiveHelper.getDirective(el);
+      const spy = spyOn(directive, 'clickEvent');
+      el.nativeElement.click();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call trackEvent on trackService when Api Keys Tutorial button clicked', () => {
+      const el = trackClickDirectiveHelper.getByElementByName(
+        'a',
+        'Api Keys Tutorial'
+      );
+      const directive = trackClickDirectiveHelper.getDirective(el);
+      const spy = spyOn(directive, 'clickEvent');
+      el.nativeElement.click();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call trackEvent on trackService when trailing button toggle', () => {
+      const el = trackClickDirectiveHelper.getElement('ion-toggle');
+      const directive = trackClickDirectiveHelper.getDirective(el);
+      const spy = spyOn(directive, 'clickEvent');
+      el.nativeElement.click();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
   });
 });

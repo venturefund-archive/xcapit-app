@@ -78,9 +78,14 @@ import { NewFundInfoComponent } from './components/new-fund-info/new-fund-info.c
             <p>
               <ion-icon name="information-circle-outline"></ion-icon>
               {{ 'funds.new_fund.p1' | translate }}
-              <a class="local-a" (click)="this.openAPIKeysTutorial()">{{
-                'funds.new_fund.a1' | translate
-              }}</a>
+              <a
+                appTrackClick
+                name="Api Keys Tutorial"
+                class="local-a"
+                (click)="this.openAPIKeysTutorial()"
+              >
+                {{ 'funds.new_fund.a1' | translate }}</a
+              >
             </p>
           </div>
         </ion-item-group>

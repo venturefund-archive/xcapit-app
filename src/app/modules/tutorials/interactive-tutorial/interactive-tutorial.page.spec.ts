@@ -11,6 +11,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { SharedTutorialsModule } from '../shared-tutorials/shared-tutorials.module';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('InteractiveTutorialPage', () => {
   let component: InteractiveTutorialPage;
@@ -19,6 +20,7 @@ describe('InteractiveTutorialPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<
     InteractiveTutorialPage
   >;
+  let toastServiceSpy: any;
 
   beforeEach(async(() => {
     modalControllerSpy = jasmine.createSpyObj('ModalController', [
@@ -26,8 +28,12 @@ describe('InteractiveTutorialPage', () => {
       'dismiss'
     ]);
     modalControllerSpy.create.and.returnValue(
-      of({ present: () => {}, onWillDismiss: () => of({}).toPromise() }).toPromise()
+      of({
+        present: () => {},
+        onWillDismiss: () => of({}).toPromise()
+      }).toPromise()
     );
+    toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
     TestBed.configureTestingModule({
       declarations: [InteractiveTutorialPage, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -35,11 +41,15 @@ describe('InteractiveTutorialPage', () => {
         SharedTutorialsModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([{ path: 'funds/list', component: DummyComponent }])
+        RouterTestingModule.withRoutes([
+          { path: 'funds/list', component: DummyComponent },
+          { path: 'funds/action/new', component: DummyComponent }
+        ])
       ],
       providers: [
         TrackClickDirective,
-        { provide: ModalController, useValue: modalControllerSpy }
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: ToastService, useValue: toastServiceSpy }
       ]
     }).compileComponents();
   }));
@@ -72,5 +82,77 @@ describe('InteractiveTutorialPage', () => {
     component.openCaTutorial().then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('should call trackEvent on trackService when No CA button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'No CA'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Yes CA button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Yes CA'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when No Binance Account button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'No Binance Account'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Yes Binance Account button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Yes Binance Account'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when No Binance Transfer button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'No Binance Transfer'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Yes Binance Transfer button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Yes Binance Transfer'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

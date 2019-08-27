@@ -12,6 +12,7 @@ import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.se
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 describe('DepositAddressPage', () => {
   let component: DepositAddressPage;
@@ -27,6 +28,9 @@ describe('DepositAddressPage', () => {
     url: 'https://123.com'
   };
   let clipboardServiceSpy: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<
+    DepositAddressPage
+  >;
 
   beforeEach(async(() => {
     apiFundsServiceMock = {
@@ -60,6 +64,7 @@ describe('DepositAddressPage', () => {
     fixture.detectChanges();
     apiFundsService = TestBed.get(ApiFundsService);
     logsServiceMock = TestBed.get(LogsService);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -86,6 +91,59 @@ describe('DepositAddressPage', () => {
     fixture.whenStable().then(() => {
       component.copyToClipboard();
       expect(clipboardServiceSpy.copy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call trackEvent on trackService when select is clicked', () => {
+    const el = trackClickDirectiveHelper.getElement('ion-select');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when select is change', () => {
+    const el = trackClickDirectiveHelper.getElement('ion-select');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'changeEvent');
+    el.nativeElement.value = 'BTC';
+    el.nativeElement.dispatchEvent(new Event('ionChange'));
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Currency Selected', () => {
+    beforeEach(() => {
+      const spy = spyOn(apiFundsService, 'getDepositAdress');
+      spy.and.returnValue(of(depositAddressData));
+      component.ionViewDidEnter();
+      component.form.get('currency').setValue('BTC');
+      fixture.detectChanges();
+    });
+
+    it('should call trackEvent on trackService when Copy Deposit Address is clicked', () => {
+      const el = trackClickDirectiveHelper.getByElementByName(
+        'ion-button',
+        'Copy Deposit Address'
+      );
+      const directive = trackClickDirectiveHelper.getDirective(el);
+      const spyClickEvent = spyOn(directive, 'clickEvent');
+      el.nativeElement.click();
+      fixture.detectChanges();
+      expect(spyClickEvent).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call trackEvent on trackService when Open URL Deposit Address is clicked', () => {
+      const el = trackClickDirectiveHelper.getByElementByName(
+        'ion-button',
+        'Open URL Deposit Address'
+      );
+      const directive = trackClickDirectiveHelper.getDirective(el);
+      const spyClickEvent = spyOn(directive, 'clickEvent');
+      el.nativeElement.click();
+      fixture.detectChanges();
+      expect(spyClickEvent).toHaveBeenCalledTimes(1);
     });
   });
 });
