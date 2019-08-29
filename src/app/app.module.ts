@@ -22,6 +22,7 @@ import { FundsModule } from './modules/funds/funds.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { RunsModule } from './modules/runs/runs.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
+import { WildcardRoutingModule } from './wildcard-routing.module';
 
 
 export function jwtOptionsFactory(storage: Storage) {
@@ -64,7 +65,8 @@ export function httpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    TrackClickModule
+    TrackClickModule,
+    WildcardRoutingModule // always to last!
   ],
   providers: [
     StatusBar,
