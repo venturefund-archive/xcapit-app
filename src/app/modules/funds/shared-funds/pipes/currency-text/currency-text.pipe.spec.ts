@@ -42,7 +42,7 @@ describe('CurrencyTextPipe', () => {
     it('shoud return USD', () => {
       component.currency = Currency.USDT;
       fixture.detectChanges();
-      expect(el.textContent).toContain('Currency: USD');
+      expect(el.textContent).toContain('Currency: USDT');
     });
   });
 
@@ -52,7 +52,7 @@ describe('CurrencyTextPipe', () => {
     });
 
     it('shoud return USD', () => {
-      expect(pipe.transform(Currency.USDT)).toBe(Currency.USD);
+      expect(pipe.transform(Currency.USDT)).toBe(Currency.USDT);
     });
   });
 });

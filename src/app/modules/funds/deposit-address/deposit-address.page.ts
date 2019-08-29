@@ -44,7 +44,7 @@ import { TranslateService } from '@ngx-translate/core';
                       {{ this.currencyEnum.BTC }}
                     </ion-select-option>
                     <ion-select-option [value]="this.currencyEnum.USDT">
-                      {{ this.currencyEnum.USD }}
+                      {{ this.currencyEnum.USDT }}
                     </ion-select-option>
                   </ion-select>
                 </ion-item>
