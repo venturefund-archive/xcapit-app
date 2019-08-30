@@ -200,7 +200,7 @@
     }
   },
   "runs": {
-    "run_summary":{
+    "run_summary": {
       "header": "Run",
       "run_title": "Run",
       "fund_title": " of Fund",
@@ -493,8 +493,8 @@
         "depositAddress": "Error getting deposit address."
       }
     },
-    "profiles":{
-      "retrieve":{
+    "profiles": {
+      "retrieve": {
         "doesNotExists": "Profile does not exists."
       },
       "update": {
@@ -513,17 +513,18 @@
     "subscriptions": {
       "subscriptionLink": {
         "notFound": "No subscriptors found.",
-        "notOwner": "You can't get subscription link if you're not owner."
+        "notOwner": "You can't get subscription link if you're not owner.",
+        "alreadySubscribed": "You are already subscribed to this fund."
       }
     },
     "users": {
       "sendEmailValidationToken": {
         "user": "Error getting user."
       },
-      "registration":{
+      "registration": {
         "invalidData": "Invalid data."
       },
-      "emailValidation":{
+      "emailValidation": {
         "invalid": "Error validating email."
       },
       "login": {
