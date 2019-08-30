@@ -34,246 +34,250 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
     </ion-header>
 
     <ion-content padding>
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button
-          *ngIf="this.isOwner"
-          (click)="this.shareFund()"
-          appTrackClick
-          name="Share Fund"
-        >
-          <ion-icon name="share"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-      <div class="fs">
-        <div class="fs__header">
-          <h1>{{ this.fundName }}</h1>
-          <ion-label class="fs__header__state">
-            {{ this.statusShowName }}
-          </ion-label>
-        </div>
-        <div class="fs__content" *ngIf="this.fundStatus">
-          <div class="fs__profit" *ngIf="this.fundStatus.status">
-            <div class="fs__profit__main">
-              <ion-icon
-                *ngIf="(this.fundStatus | currencyPercentage) > 0"
-                name="arrow-round-up"
-              ></ion-icon>
-              <ion-icon
-                *ngIf="(this.fundStatus | currencyPercentage) < 0"
-                name="arrow-round-down"
-              ></ion-icon>
-              <ion-icon
-                *ngIf="(this.fundStatus | currencyPercentage) === 0"
-                name="pause"
-                style="transform: rotate(90deg)"
-              ></ion-icon>
-              {{ this.fundStatus | currencyPercentage | number: '1.2-2' }}%
-            </div>
-            <div class="fs__profit__days">
-              {{
-                'funds.fund_summary.profit_text'
-                  | translate
-                    : {
-                        days: this.fundStatus.status.cantidad_dias,
-                        hours: this.fundStatus.status.cantidad_horas
-                      }
-              }}
-            </div>
+      <app-is-subscribed
+        [fundName]="this.fundName"
+        redirectTo="/funds/list">
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button
+            *ngIf="this.isOwner"
+            (click)="this.shareFund()"
+            appTrackClick
+            name="Share Fund"
+          >
+            <ion-icon name="share"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <div class="fs" *ngIf="!this.loadingStatus">
+          <div class="fs__header">
+            <h1>{{ this.fundName }}</h1>
+            <ion-label class="fs__header__state">
+              {{ this.statusShowName }}
+            </ion-label>
           </div>
-          <div class="fs__days-left" *ngIf="this.fundStatus.status">
-            <p
-              *ngIf="
-                this.fundStatus.status.cantidad_dias_inicio_restantes < 0;
-                else hasDays
-              "
-            >
-              {{ 'funds.fund_summary.no_days_left_text' | translate }}
-            </p>
-            <ng-template #hasDays>
-              <p>
+          <div class="fs__content" *ngIf="this.fundStatus">
+            <div class="fs__profit" *ngIf="this.fundStatus.status">
+              <div class="fs__profit__main">
+                <ion-icon
+                  *ngIf="(this.fundStatus | currencyPercentage) > 0"
+                  name="arrow-round-up"
+                ></ion-icon>
+                <ion-icon
+                  *ngIf="(this.fundStatus | currencyPercentage) < 0"
+                  name="arrow-round-down"
+                ></ion-icon>
+                <ion-icon
+                  *ngIf="(this.fundStatus | currencyPercentage) === 0"
+                  name="pause"
+                  style="transform: rotate(90deg)"
+                ></ion-icon>
+                {{ this.fundStatus | currencyPercentage | number: '1.2-2' }}%
+              </div>
+              <div class="fs__profit__days">
                 {{
-                  'funds.fund_summary.days_left_text'
+                  'funds.fund_summary.profit_text'
                     | translate
                       : {
-                          days: this.fundStatus.status
-                            .cantidad_dias_inicio_restantes,
-                          hours: this.fundStatus.status
-                            .cantidad_horas_inicio_restantes
+                          days: this.fundStatus.status.cantidad_dias,
+                          hours: this.fundStatus.status.cantidad_horas
                         }
                 }}
+              </div>
+            </div>
+            <div class="fs__days-left" *ngIf="this.fundStatus.status">
+              <p
+                *ngIf="
+                  this.fundStatus.status.cantidad_dias_inicio_restantes < 0;
+                  else hasDays
+                "
+              >
+                {{ 'funds.fund_summary.no_days_left_text' | translate }}
               </p>
-            </ng-template>
+              <ng-template #hasDays>
+                <p>
+                  {{
+                    'funds.fund_summary.days_left_text'
+                      | translate
+                        : {
+                            days: this.fundStatus.status
+                              .cantidad_dias_inicio_restantes,
+                            hours: this.fundStatus.status
+                              .cantidad_horas_inicio_restantes
+                          }
+                  }}
+                </p>
+              </ng-template>
+            </div>
+            <div class="fs__no-status">
+              <p *ngIf="!this.fundStatus.status">
+                {{ 'funds.fund_summary.no_status_text' | translate }}
+              </p>
+            </div>
           </div>
-          <div class="fs__no-status">
-            <p *ngIf="!this.fundStatus.status">
-              {{ 'funds.fund_summary.no_status_text' | translate }}
+
+          <app-fund-performance-chart
+            *ngIf="this.fundStatus"
+            [currency]="this.fundStatus?.fund.currency"
+            [fundPerformance]="this.fundStatus?.status?.rendimiento"
+          ></app-fund-performance-chart>
+
+          <div class="fs__no-runs">
+            <p *ngIf="!this.fundStatus && !this.loadingStatus">
+              {{ 'funds.fund_summary.no_runs_text' | translate }}
             </p>
-          </div>
-        </div>
 
-        <app-fund-performance-chart
-          *ngIf="this.fundStatus"
-          [currency]="this.fundStatus?.fund.currency"
-          [fundPerformance]="this.fundStatus?.status?.rendimiento"
-        ></app-fund-performance-chart>
-
-        <div class="fs__no-runs">
-          <p *ngIf="!this.fundStatus && !this.loadingStatus">
-            {{ 'funds.fund_summary.no_runs_text' | translate }}
-          </p>
-
-          <ion-button
-            *ngIf="!this.fundStatus && !this.loadingStatus"
-            appTrackClick
-            name="Renew Fund"
-            type="button"
-            color="primary"
-            expand="block"
-            size="medium"
-            (click)="renewFund()"
-          >
-            <ion-icon slot="start" name="refresh"></ion-icon>
-            {{ 'funds.fund_summary.renew_fund_button' | translate }}
-          </ion-button>
-        </div>
-      </div>
-      <ion-grid no-padding padding-top *ngIf="this.isOwner">
-        <ion-row>
-          <ion-col>
             <ion-button
-              *ngIf="this.fundStatus?.fund.estado == 'pausado'"
+              *ngIf="!this.fundStatus && !this.loadingStatus"
               appTrackClick
-              name="Resume Fund"
-              type="button"
-              color="success"
-              expand="block"
-              size="medium"
-              (click)="resumeFundRuns()"
-            >
-              <ion-icon slot="start" name="play"></ion-icon>
-              {{ 'funds.fund_summary.resume_fund_button' | translate }}
-            </ion-button>
-            <ion-button
-              *ngIf="
-                this.fundStatus?.fund.estado == 'active' || this.inCAStatus
-              "
-              appTrackClick
-              name="Pause Fund"
+              name="Renew Fund"
               type="button"
               color="primary"
               expand="block"
               size="medium"
-              (click)="pauseFundRuns()"
+              (click)="renewFund()"
             >
-              <ion-icon slot="start" name="pause"></ion-icon>
-              {{ 'funds.fund_summary.pause_fund_button' | translate }}
+              <ion-icon slot="start" name="refresh"></ion-icon>
+              {{ 'funds.fund_summary.renew_fund_button' | translate }}
             </ion-button>
-          </ion-col>
-          <ion-col
-            *ngIf="
-              this.fundStatus?.fund.estado == 'active' ||
-              this.fundStatus?.fund.estado == 'pausado'
-            "
-          >
-            <ion-button
-              appTrackClick
-              name="Finalize Fund"
-              type="button"
-              color="danger"
-              expand="block"
-              size="medium"
-              (click)="finalizeFundRuns()"
-            >
-              <ion-icon slot="start" name="square"></ion-icon>
-              {{ 'funds.fund_summary.finalize_fund_button' | translate }}
-            </ion-button>
-          </ion-col>
-        </ion-row>
-        <form
-          [formGroup]="this.form"
-          (ngSubmit)="this.changeFundCA()"
-          style="width:100%;"
-        >
-          <ion-row
-            align-items-end
-            *ngIf="this.fundStatus?.fund.estado == 'pausado'"
-          >
-            <ion-col>
-              <ion-item>
-                <ion-label position="floating">
-                  {{ 'funds.fund_summary.change_fund_ca' | translate }}
-                </ion-label>
-                <ion-select
-                  appTrackClick
-                  [dataToTrack]="{
-                      eventLabel: 'Select Currency to Change'
-                    }"
-                  formControlName="ca"
-                >
-                  <ion-select-option [value]="this.CAEnum.BTC">
-                    {{ this.CAEnum.BTC }}
-                  </ion-select-option>
-                  <ion-select-option [value]="this.CAEnum.USDT">
-                    {{ this.CAEnum.USDT }}
-                  </ion-select-option>
-                  <ion-select-option [value]="this.CAEnum.BNB">
-                    {{ this.CAEnum.BNB }}
-                  </ion-select-option>
-                  <ion-select-option [value]="this.CAEnum.ETH">
-                    {{ this.CAEnum.ETH }}
-                  </ion-select-option>
-                  <ion-select-option [value]="this.CAEnum.LTC">
-                    {{ this.CAEnum.LTC }}
-                  </ion-select-option>
-                </ion-select>
-              </ion-item>
-            </ion-col>
+          </div>
+        </div>
+        <ion-grid no-padding padding-top *ngIf="this.isOwner">
+          <ion-row>
             <ion-col>
               <ion-button
+                *ngIf="this.fundStatus?.fund.estado == 'pausado'"
                 appTrackClick
-                name="Change Fund CA"
+                name="Resume Fund"
+                type="button"
+                color="success"
                 expand="block"
                 size="medium"
-                type="submit"
-                color="primary"
+                (click)="resumeFundRuns()"
               >
-                <ion-icon slot="start" name="checkmark"></ion-icon>
-                {{ 'funds.fund_summary.change_fund_ca_button' | translate }}
-              </ion-button></ion-col
+                <ion-icon slot="start" name="play"></ion-icon>
+                {{ 'funds.fund_summary.resume_fund_button' | translate }}
+              </ion-button>
+              <ion-button
+                *ngIf="
+                  this.fundStatus?.fund.estado == 'active' || this.inCAStatus
+                "
+                appTrackClick
+                name="Pause Fund"
+                type="button"
+                color="primary"
+                expand="block"
+                size="medium"
+                (click)="pauseFundRuns()"
+              >
+                <ion-icon slot="start" name="pause"></ion-icon>
+                {{ 'funds.fund_summary.pause_fund_button' | translate }}
+              </ion-button>
+            </ion-col>
+            <ion-col
+              *ngIf="
+                this.fundStatus?.fund.estado == 'active' ||
+                this.fundStatus?.fund.estado == 'pausado'
+              "
             >
+              <ion-button
+                appTrackClick
+                name="Finalize Fund"
+                type="button"
+                color="danger"
+                expand="block"
+                size="medium"
+                (click)="finalizeFundRuns()"
+              >
+                <ion-icon slot="start" name="square"></ion-icon>
+                {{ 'funds.fund_summary.finalize_fund_button' | translate }}
+              </ion-button>
+            </ion-col>
           </ion-row>
-        </form>
-      </ion-grid>
-      <div class="ion-padding-top">
-        <ion-button
-          appTrackClick
-          name="Runs Fund"
-          expand="block"
-          size="medium"
-          type="button"
-          color="success"
-          routerDirection="forward"
-          [routerLink]="['/funds/runs', this.fundName]"
-        >
-          <ion-icon slot="start" name="list"></ion-icon>
-          {{ 'funds.fund_summary.fund_runs_button' | translate }}
-        </ion-button>
+          <form
+            [formGroup]="this.form"
+            (ngSubmit)="this.changeFundCA()"
+            style="width:100%;"
+          >
+            <ion-row
+              align-items-end
+              *ngIf="this.fundStatus?.fund.estado == 'pausado'"
+            >
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">
+                    {{ 'funds.fund_summary.change_fund_ca' | translate }}
+                  </ion-label>
+                  <ion-select
+                    appTrackClick
+                    [dataToTrack]="{
+                      eventLabel: 'Select Currency to Change'
+                    }"
+                    formControlName="ca"
+                  >
+                    <ion-select-option [value]="this.CAEnum.BTC">
+                      {{ this.CAEnum.BTC }}
+                    </ion-select-option>
+                    <ion-select-option [value]="this.CAEnum.USDT">
+                      {{ this.CAEnum.USDT }}
+                    </ion-select-option>
+                    <ion-select-option [value]="this.CAEnum.BNB">
+                      {{ this.CAEnum.BNB }}
+                    </ion-select-option>
+                    <ion-select-option [value]="this.CAEnum.ETH">
+                      {{ this.CAEnum.ETH }}
+                    </ion-select-option>
+                    <ion-select-option [value]="this.CAEnum.LTC">
+                      {{ this.CAEnum.LTC }}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-button
+                  appTrackClick
+                  name="Change Fund CA"
+                  expand="block"
+                  size="medium"
+                  type="submit"
+                  color="primary"
+                >
+                  <ion-icon slot="start" name="checkmark"></ion-icon>
+                  {{ 'funds.fund_summary.change_fund_ca_button' | translate }}
+                </ion-button></ion-col
+              >
+            </ion-row>
+          </form>
+        </ion-grid>
+        <div *ngIf="!this.loadingStatus" class="ion-padding-top">
+          <ion-button
+            appTrackClick
+            name="Runs Fund"
+            expand="block"
+            size="medium"
+            type="button"
+            color="success"
+            routerDirection="forward"
+            [routerLink]="['/funds/runs', this.fundName]"
+          >
+            <ion-icon slot="start" name="list"></ion-icon>
+            {{ 'funds.fund_summary.fund_runs_button' | translate }}
+          </ion-button>
 
-        <ion-button
-          appTrackClick
-          name="Fund Balance"
-          margin-top
-          expand="block"
-          size="medium"
-          type="button"
-          color="tertiary"
-          routerDirection="forward"
-          [routerLink]="['/funds/fund-balance', this.fundName]"
-          *ngIf="this.fundStatus?.status"
-        >
-          {{ 'funds.fund_summary.fund_balance_button' | translate }}
-        </ion-button>
-      </div>
+          <ion-button
+            appTrackClick
+            name="Fund Balance"
+            margin-top
+            expand="block"
+            size="medium"
+            type="button"
+            color="tertiary"
+            routerDirection="forward"
+            [routerLink]="['/funds/fund-balance', this.fundName]"
+            *ngIf="this.fundStatus?.status"
+          >
+            {{ 'funds.fund_summary.fund_balance_button' | translate }}
+          </ion-button>
+        </div>
+      </app-is-subscribed>
     </ion-content>
   `,
   styleUrls: ['./fund-summary.page.scss']
@@ -295,10 +299,10 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private router: Router,
     private apiFunds: ApiFundsService,
     private subscriptionsService: SubscriptionsService,
-    private stateNamesService: StateNamesService
+    private stateNamesService: StateNamesService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -326,15 +330,17 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     this.loadingStatus = true;
     this.fundStatusSubscription = this.apiFunds
       .getStatus(this.fundName)
-      .subscribe(res => {
-        this.fundStatus = res;
-        this.isOwner = res && res.fund && res.fund.is_owner;
-        this.isInCAStatus();
-        this.statusShowName = this.stateNamesService.getStateShowName(
-          (this.fundStatus && this.fundStatus.fund.estado) || '-'
-        );
-        this.loadingStatus = false;
-      });
+      .subscribe(
+        res => {
+          this.fundStatus = res;
+          this.isOwner = res && res.fund && res.fund.is_owner;
+          this.isInCAStatus();
+          this.statusShowName = this.stateNamesService.getStateShowName(
+            (this.fundStatus && this.fundStatus.fund.estado) || '-'
+          );
+          this.loadingStatus = false;
+        }
+      );
   }
 
   isInCAStatus() {

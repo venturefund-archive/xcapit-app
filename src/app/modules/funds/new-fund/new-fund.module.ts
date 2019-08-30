@@ -16,6 +16,11 @@ const routes: Routes = [
   {
     path: ':action',
     component: NewFundPage
+  },
+  {
+    path: '',
+    redirectTo: '/funds/list',
+    pathMatch: 'full'
   }
 ];
 

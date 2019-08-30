@@ -13,7 +13,7 @@ export const routes: Routes = [
         loadChildren: './funds-list/funds-list.module#FundsListPageModule'
       },
       {
-        path: 'fund-summary',
+        path: 'fund-summary/:fundName',
         loadChildren: './fund-summary/fund-summary.module#FundSummaryPageModule'
       },
       {
@@ -21,7 +21,7 @@ export const routes: Routes = [
         loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
       },
       {
-        path: 'fund-balance',
+        path: 'fund-balance/:fundName',
         loadChildren: './fund-balance/fund-balance.module#FundBalancePageModule'
       },
       {

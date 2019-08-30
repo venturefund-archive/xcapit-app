@@ -6,7 +6,7 @@ import { SharedFundsModule } from '../shared-funds/shared-funds.module';
 
 const routes: Routes = [
   {
-    path: ':fundName',
+    path: '',
     component: FundSummaryPage
   }
 ];

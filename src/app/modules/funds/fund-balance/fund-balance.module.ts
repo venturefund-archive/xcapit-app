@@ -8,7 +8,7 @@ import { CurrencyEndBalancePipe } from './pipes/currency-end-balance/currency-en
 
 const routes: Routes = [
   {
-    path: ':fundName',
+    path: '',
     component: FundBalancePage
   }
 ];

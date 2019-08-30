@@ -7,10 +7,9 @@ const routes: Routes = [
     path: 'subscriptions',
     children: [
       {
-        path: 'subscribe',
+        path: 'subscribe/:subscriptionToken/:fundNameb64',
         canActivate: [SubscribeGuard],
-        loadChildren:
-          './subscribe/subscribe.module#SubscribePageModule'
+        loadChildren: './subscribe/subscribe.module#SubscribePageModule'
       }
     ]
   }
