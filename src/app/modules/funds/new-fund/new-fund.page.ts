@@ -33,231 +33,237 @@ import { NewFundInfoComponent } from './components/new-fund-info/new-fund-info.c
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <form [formGroup]="this.form" (ngSubmit)="this.save()">
-        <ion-item-group
-          class="ion-padding-top"
-          *ngIf="this.action === this.fundFormActions.NewFund"
-        >
-          <ion-item-divider>
-            <ion-label>
-              {{ 'funds.new_fund.ion_divider1' | translate }}
-            </ion-label>
-          </ion-item-divider>
-
-          <div class="ion-padding-start ion-padding-end">
-            <ion-item>
-              <ion-label position="floating">
-                {{ 'funds.new_fund.exchange' | translate }}
+      <app-is-subscribed
+        [disabled]="!this.fundName"
+        [fundName]="this.fundName"
+        redirectTo="/funds/list"
+      >
+        <form [formGroup]="this.form" (ngSubmit)="this.save()">
+          <ion-item-group
+            class="ion-padding-top"
+            *ngIf="this.action === this.fundFormActions.NewFund"
+          >
+            <ion-item-divider>
+              <ion-label>
+                {{ 'funds.new_fund.ion_divider1' | translate }}
               </ion-label>
-              <ion-select formControlName="exchange">
-                <ion-select-option [value]="this.exchanges.Binance">
-                  {{ this.exchanges.Binance }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">{{
-                'funds.new_fund.api_key' | translate
-              }}</ion-label>
-              <ion-input formControlName="api_key" type="text"></ion-input>
-            </ion-item>
-            <app-errors-form-item controlName="api_key"></app-errors-form-item>
-            <ion-item>
-              <ion-label position="floating">{{
-                'funds.new_fund.secret_key' | translate
-              }}</ion-label>
-              <ion-input formControlName="secret_key" type="text"></ion-input>
-            </ion-item>
-            <app-errors-form-item
-              controlName="secret_key"
-            ></app-errors-form-item>
-          </div>
-          <div
-            class="new-fund__apikey-help ion-text-center ion-padding-end ion-padding-start ion-padding-top"
-          >
-            <p>
-              <ion-icon name="information-circle-outline"></ion-icon>
-              {{ 'funds.new_fund.p1' | translate }}
-              <a
-                appTrackClick
-                name="Api Keys Tutorial"
-                class="local-a"
-                (click)="this.openAPIKeysTutorial()"
-              >
-                {{ 'funds.new_fund.a1' | translate }}</a
-              >
-            </p>
-          </div>
-        </ion-item-group>
+            </ion-item-divider>
 
-        <ion-item-group class="ion-padding-top">
-          <ion-item-divider>
-            <ion-buttons slot="end">
-              <ion-button
-                appTrackClick
-                name="New Fund Form Info"
-                size="small"
-                (click)="this.openNewFormInfo()"
-              >
-                <ion-icon
-                  slot="icon-only"
-                  name="information-circle-outline"
-                ></ion-icon>
-              </ion-button>
-            </ion-buttons>
-            <ion-label>
-              {{ 'funds.new_fund.ion_divider2' | translate }}
-            </ion-label>
-          </ion-item-divider>
-
-          <div class="ion-padding-start ion-padding-end">
-            <ion-item>
-              <ion-label position="floating">{{
-                'funds.new_fund.fund_name' | translate
-              }}</ion-label>
-              <ion-input
-                formControlName="fund_name"
-                type="text"
-                [readonly]="this.action !== this.fundFormActions.NewFund"
-              ></ion-input>
-            </ion-item>
-            <app-errors-form-item
-              controlName="fund_name"
-            ></app-errors-form-item>
-            <ion-item>
-              <ion-label position="floating">{{
-                'funds.new_fund.currency' | translate
-              }}</ion-label>
-              <ion-select formControlName="currency">
-                <ion-select-option [value]="this.currencyEnum.BTC">
-                  {{ this.currencyEnum.BTC }}
-                </ion-select-option>
-                <ion-select-option [value]="this.currencyEnum.USDT">
-                  {{ this.currencyEnum.USDT }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-            <app-errors-form-item controlName="currency"></app-errors-form-item>
-            <ion-item>
-              <ion-label position="floating">{{
-                'funds.new_fund.cantidad_dias' | translate
-              }}</ion-label>
-              <ion-select formControlName="cantidad_dias">
-                <ion-select-option [value]="30"
-                  >30
-                  {{
-                    'funds.new_fund.ion_option_cantidad_dias' | translate
-                  }}</ion-select-option
-                >
-                <ion-select-option [value]="60"
-                  >60
-                  {{
-                    'funds.new_fund.ion_option_cantidad_dias' | translate
-                  }}</ion-select-option
-                >
-                <ion-select-option [value]="90"
-                  >90
-                  {{
-                    'funds.new_fund.ion_option_cantidad_dias' | translate
-                  }}</ion-select-option
-                >
-              </ion-select>
-            </ion-item>
-            <app-errors-form-item
-              controlName="cantidad_dias"
-            ></app-errors-form-item>
-            <ion-item>
-              <ion-label position="floating">{{
-                'funds.new_fund.take_profit' | translate
-              }}</ion-label>
-              <ion-input
-                formControlName="take_profit"
-                type="text"
-                inputmode="numeric"
-              ></ion-input>
-            </ion-item>
-            <app-errors-form-item
-              controlName="take_profit"
-              [errors]="this.onlyIntegersErrors"
-            ></app-errors-form-item>
-            <ion-item>
-              <ion-label position="floating">{{
-                'funds.new_fund.stop_loss' | translate
-              }}</ion-label>
-              <ion-input
-                formControlName="stop_loss"
-                type="text"
-                inputmode="numeric"
-              ></ion-input>
-            </ion-item>
-            <app-errors-form-item
-              controlName="stop_loss"
-              [errors]="this.onlyIntegersErrors"
-            ></app-errors-form-item>
-            <ion-item>
-              <ion-label>Trailing</ion-label>
-              <ion-toggle
-                appTrackClick
-                [dataToTrack]="{ eventLabel: 'Toggle Trailing' }"
-                [trackOnlyClick]="true"
-                [checked]="this.hasTrailing"
-                (ionChange)="this.toggleTrailing($event)"
-              ></ion-toggle>
-            </ion-item>
-            <div *ngIf="this.hasTrailing">
-              <ion-item lines="inset">
-                <ion-label>Profit</ion-label>
-                <ion-range formControlName="trailing_profit" min="0" max="100">
-                  <ion-label class="new-fund__trailing-label" slot="end">
-                    {{ this.form.get('trailing_profit').value || '0' }}%
-                  </ion-label>
-                </ion-range>
+            <div class="ion-padding-start ion-padding-end">
+              <ion-item>
+                <ion-label position="floating">
+                  {{ 'funds.new_fund.exchange' | translate }}
+                </ion-label>
+                <ion-select formControlName="exchange">
+                  <ion-select-option [value]="this.exchanges.Binance">
+                    {{ this.exchanges.Binance }}
+                  </ion-select-option>
+                </ion-select>
               </ion-item>
-              <ion-item lines="inset">
-                <ion-label>Stop</ion-label>
-                <ion-range formControlName="trailing_stop" min="0" max="100">
-                  <ion-label class="new-fund__trailing-label" slot="end">
-                    {{ this.form.get('trailing_stop').value || '0' }}%
-                  </ion-label>
-                </ion-range>
+              <ion-item>
+                <ion-label position="floating">{{
+                  'funds.new_fund.api_key' | translate
+                }}</ion-label>
+                <ion-input formControlName="api_key" type="text"></ion-input>
               </ion-item>
+              <app-errors-form-item controlName="api_key"></app-errors-form-item>
+              <ion-item>
+                <ion-label position="floating">{{
+                  'funds.new_fund.secret_key' | translate
+                }}</ion-label>
+                <ion-input formControlName="secret_key" type="text"></ion-input>
+              </ion-item>
+              <app-errors-form-item
+                controlName="secret_key"
+              ></app-errors-form-item>
             </div>
-            <ion-item>
-              <ion-label position="floating">{{
-                'funds.new_fund.risk_level' | translate
-              }}</ion-label>
-              <ion-select formControlName="risk_level">
-                <ion-select-option>{{
-                  'funds.new_fund.ion_option_risk_level_pro' | translate
-                }}</ion-select-option>
-                <ion-select-option>{{
-                  'funds.new_fund.ion_option_risk_level_classic' | translate
-                }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <app-errors-form-item
-              controlName="risk_level"
-            ></app-errors-form-item>
+            <div
+              class="new-fund__apikey-help ion-text-center ion-padding-end ion-padding-start ion-padding-top"
+            >
+              <p>
+                <ion-icon name="information-circle-outline"></ion-icon>
+                {{ 'funds.new_fund.p1' | translate }}
+                <a
+                  appTrackClick
+                  name="Api Keys Tutorial"
+                  class="local-a"
+                  (click)="this.openAPIKeysTutorial()"
+                >
+                  {{ 'funds.new_fund.a1' | translate }}</a
+                >
+              </p>
+            </div>
+          </ion-item-group>
+
+          <ion-item-group class="ion-padding-top">
+            <ion-item-divider>
+              <ion-buttons slot="end">
+                <ion-button
+                  appTrackClick
+                  name="New Fund Form Info"
+                  size="small"
+                  (click)="this.openNewFormInfo()"
+                >
+                  <ion-icon
+                    slot="icon-only"
+                    name="information-circle-outline"
+                  ></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              <ion-label>
+                {{ 'funds.new_fund.ion_divider2' | translate }}
+              </ion-label>
+            </ion-item-divider>
+
+            <div class="ion-padding-start ion-padding-end">
+              <ion-item>
+                <ion-label position="floating">{{
+                  'funds.new_fund.fund_name' | translate
+                }}</ion-label>
+                <ion-input
+                  formControlName="fund_name"
+                  type="text"
+                  [readonly]="this.action !== this.fundFormActions.NewFund"
+                ></ion-input>
+              </ion-item>
+              <app-errors-form-item
+                controlName="fund_name"
+              ></app-errors-form-item>
+              <ion-item>
+                <ion-label position="floating">{{
+                  'funds.new_fund.currency' | translate
+                }}</ion-label>
+                <ion-select formControlName="currency">
+                  <ion-select-option [value]="this.currencyEnum.BTC">
+                    {{ this.currencyEnum.BTC }}
+                  </ion-select-option>
+                  <ion-select-option [value]="this.currencyEnum.USDT">
+                    {{ this.currencyEnum.USDT }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+              <app-errors-form-item controlName="currency"></app-errors-form-item>
+              <ion-item>
+                <ion-label position="floating">{{
+                  'funds.new_fund.cantidad_dias' | translate
+                }}</ion-label>
+                <ion-select formControlName="cantidad_dias">
+                  <ion-select-option [value]="30"
+                    >30
+                    {{
+                      'funds.new_fund.ion_option_cantidad_dias' | translate
+                    }}</ion-select-option
+                  >
+                  <ion-select-option [value]="60"
+                    >60
+                    {{
+                      'funds.new_fund.ion_option_cantidad_dias' | translate
+                    }}</ion-select-option
+                  >
+                  <ion-select-option [value]="90"
+                    >90
+                    {{
+                      'funds.new_fund.ion_option_cantidad_dias' | translate
+                    }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-errors-form-item
+                controlName="cantidad_dias"
+              ></app-errors-form-item>
+              <ion-item>
+                <ion-label position="floating">{{
+                  'funds.new_fund.take_profit' | translate
+                }}</ion-label>
+                <ion-input
+                  formControlName="take_profit"
+                  type="text"
+                  inputmode="numeric"
+                ></ion-input>
+              </ion-item>
+              <app-errors-form-item
+                controlName="take_profit"
+                [errors]="this.onlyIntegersErrors"
+              ></app-errors-form-item>
+              <ion-item>
+                <ion-label position="floating">{{
+                  'funds.new_fund.stop_loss' | translate
+                }}</ion-label>
+                <ion-input
+                  formControlName="stop_loss"
+                  type="text"
+                  inputmode="numeric"
+                ></ion-input>
+              </ion-item>
+              <app-errors-form-item
+                controlName="stop_loss"
+                [errors]="this.onlyIntegersErrors"
+              ></app-errors-form-item>
+              <ion-item>
+                <ion-label>Trailing</ion-label>
+                <ion-toggle
+                  appTrackClick
+                  [dataToTrack]="{ eventLabel: 'Toggle Trailing' }"
+                  [trackOnlyClick]="true"
+                  [checked]="this.hasTrailing"
+                  (ionChange)="this.toggleTrailing($event)"
+                ></ion-toggle>
+              </ion-item>
+              <div *ngIf="this.hasTrailing">
+                <ion-item lines="inset">
+                  <ion-label>Profit</ion-label>
+                  <ion-range formControlName="trailing_profit" min="0" max="100">
+                    <ion-label class="new-fund__trailing-label" slot="end">
+                      {{ this.form.get('trailing_profit').value || '0' }}%
+                    </ion-label>
+                  </ion-range>
+                </ion-item>
+                <ion-item lines="inset">
+                  <ion-label>Stop</ion-label>
+                  <ion-range formControlName="trailing_stop" min="0" max="100">
+                    <ion-label class="new-fund__trailing-label" slot="end">
+                      {{ this.form.get('trailing_stop').value || '0' }}%
+                    </ion-label>
+                  </ion-range>
+                </ion-item>
+              </div>
+              <ion-item>
+                <ion-label position="floating">{{
+                  'funds.new_fund.risk_level' | translate
+                }}</ion-label>
+                <ion-select formControlName="risk_level">
+                  <ion-select-option>{{
+                    'funds.new_fund.ion_option_risk_level_pro' | translate
+                  }}</ion-select-option>
+                  <ion-select-option>{{
+                    'funds.new_fund.ion_option_risk_level_classic' | translate
+                  }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <app-errors-form-item
+                controlName="risk_level"
+              ></app-errors-form-item>
+            </div>
+          </ion-item-group>
+          <div class="ion-padding ion-margin-top">
+            <ion-button
+              appTrackClick
+              [dataToTrack]="{ description: this.action }"
+              name="Save Fund"
+              expand="block"
+              size="large"
+              type="submit"
+              color="success"
+              [disabled]="
+                !this.form.valid || (this.submitButtonService.isDisabled | async)
+              "
+            >
+              <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+              {{ this.action | fundActionFormTextButton | translate }}
+            </ion-button>
           </div>
-        </ion-item-group>
-        <div class="ion-padding ion-margin-top">
-          <ion-button
-            appTrackClick
-            [dataToTrack]="{ description: this.action }"
-            name="Save Fund"
-            expand="block"
-            size="large"
-            type="submit"
-            color="success"
-            [disabled]="
-              !this.form.valid || (this.submitButtonService.isDisabled | async)
-            "
-          >
-            <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
-            {{ this.action | fundActionFormTextButton | translate }}
-          </ion-button>
-        </div>
-      </form>
+        </form>
+      </app-is-subscribed>
     </ion-content>
   `,
   styleUrls: ['./new-fund.page.scss']

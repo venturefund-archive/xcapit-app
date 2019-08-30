@@ -5,7 +5,7 @@ import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api
 @Component({
   selector: 'app-is-subscribed',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content *ngIf="this.isSubscribed"></ng-content>`
+  template: `<ng-content *ngIf="this.showContent"></ng-content>`
 })
 export class IsSubscribedComponent implements OnChanges {
   @Input()
@@ -14,7 +14,10 @@ export class IsSubscribedComponent implements OnChanges {
   @Input()
   fundName: string;
 
-  isSubscribed = false;
+  @Input()
+  disabled = false;
+
+  showContent = false;
 
   constructor(
     private apiFunds: ApiFundsService,
@@ -23,11 +26,19 @@ export class IsSubscribedComponent implements OnChanges {
   ) {}
 
   ngOnChanges() {
+    if (this.disabled) {
+      this.showContent = true;
+    } else {
+      this.checkSubscription();
+    }
+  }
+
+  private checkSubscription() {
     if (this.fundName) {
       this.apiFunds.isSubscribed(this.fundName).subscribe(
         res => {
-          this.isSubscribed = res.is_subscribed;
-          if (!this.isSubscribed && this.redirectTo) {
+          this.showContent = res.is_subscribed;
+          if (!this.showContent && this.redirectTo) {
             this.redirect(this.redirectTo);
           } else {
             this.cd.markForCheck();

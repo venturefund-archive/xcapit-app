@@ -109,4 +109,11 @@ describe('IsSubscribedComponent', () => {
     component.ngOnChanges();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(0);
   });
+
+  it('should not call isSubscribed on apiFundsServices if disabled is true', () => {
+    component.fundName = 'asdf';
+    component.disabled = true;
+    component.ngOnChanges();
+    expect(apiFundsServiceSpy.isSubscribed).toHaveBeenCalledTimes(0);
+  });
 });
