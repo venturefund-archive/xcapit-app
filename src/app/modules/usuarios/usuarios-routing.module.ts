@@ -12,7 +12,7 @@ const routes: Routes = [
         loadChildren: './register/register.module#RegisterPageModule'
       },
       {
-        path: 'email-validation/:emailValidationToken/:uidb64',
+        path: 'email-validation',
         loadChildren:
           './email-validation/email-validation.module#EmailValidationPageModule'
       },
