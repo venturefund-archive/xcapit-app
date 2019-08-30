@@ -58,7 +58,7 @@ export class SubscribePage implements OnInit, OnDestroy {
       )
       .subscribe({
         next: data => this.handleSubscriptionResponse(data),
-        error: () => this.handleSubscriptionResponse({})
+        error: error => this.handleSubscriptionErrorResponse(error)
       });
   }
 
@@ -66,6 +66,7 @@ export class SubscribePage implements OnInit, OnDestroy {
     this.isSubscribing = false;
     let url: string;
     let message: string;
+
     if (data.isSubscribe && data.fundName) {
       url = `/funds/fund-summary/${data.fundName}`;
       message = 'subscriptions.subscribe.ok_text';
@@ -82,5 +83,14 @@ export class SubscribePage implements OnInit, OnDestroy {
           message: this.translate.instant(message)
         })
       );
+  }
+  handleSubscriptionErrorResponse(data: any) {
+    let url = `/funds/list`;
+    if (data.error.error_code && data.error.fundName) {
+      url = `/funds/fund-summary/${data.error.fundName}`;
+    }
+    this.navController.navigateForward([url], {
+      replaceUrl: true
+    });
   }
 }
