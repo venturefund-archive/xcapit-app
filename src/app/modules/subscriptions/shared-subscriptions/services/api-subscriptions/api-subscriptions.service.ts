@@ -29,6 +29,6 @@ export class ApiSubscriptionsService {
 
   unsubscribeToFund(fundName: string): Observable<any> {
     const url = `${environment.apiUrl}/${this.entity}/funds/name/${fundName}/unsubscribe`;
-    return this.http.post(url, {});
+    return this.http.delete(url);
   }
 }

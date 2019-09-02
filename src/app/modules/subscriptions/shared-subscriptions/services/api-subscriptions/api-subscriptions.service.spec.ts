@@ -8,7 +8,7 @@ describe('ApiSubscriptionsService', () => {
   let apiSubscriptionsService: ApiSubscriptionsService;
 
   beforeEach(() => {
-    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', ['get', 'post']);
+    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', ['get', 'post', 'delete']);
     TestBed.configureTestingModule({
       providers: [
         { provide: CustomHttpService, useValue: customHttpServiceSpy }
@@ -31,8 +31,8 @@ describe('ApiSubscriptionsService', () => {
     expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
   });
 
-  it('should call post when unsubscribeToFund is called', () => {
+  it('should call delete when unsubscribeToFund is called', () => {
     apiSubscriptionsService.unsubscribeToFund('test');
-    expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    expect(customHttpServiceSpy.delete).toHaveBeenCalledTimes(1);
   });
 });
