@@ -141,7 +141,12 @@
       "renew_fund_button": "Renew fund",
       "chart_title": "Last Update ",
       "change_fund_ca": "Select a CA",
-      "change_fund_ca_button": "Change"
+      "change_fund_ca_button": "Change",
+      "unsubscribe_header": "Do you want to cancel the fund subscription?",
+      "unsubscribe_message": "You will not be able to access to the fund or view your data.",
+      "unsubscribe_cancel_button": "Cancel",
+      "unsubscribe_accept_button": "Accept",
+      "unsubscribe_success_message": "The subscription to the fund has been canceled."
     },
     "fund_runs": {
       "header": "Fund Runs",

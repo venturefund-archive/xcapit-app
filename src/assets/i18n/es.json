@@ -142,7 +142,12 @@
       "renew_fund_button": "Renovar fondo",
       "chart_title": "Última actualización ",
       "change_fund_ca": "Seleccione un CA",
-      "change_fund_ca_button": "Cambiar"
+      "change_fund_ca_button": "Cambiar",
+      "unsubscribe_header": "¿Desea cancelar la suscripción al fondo?",
+      "unsubscribe_message": "No podrá acceder al fondo ni visualizar sus datos.",
+      "unsubscribe_cancel_button": "Cancelar",
+      "unsubscribe_accept_button": "Aceptar",
+      "unsubscribe_success_message": "La suscripción al fondo ha sido cancelada."
     },
     "fund_runs": {
       "header": "Corridas de fondo",

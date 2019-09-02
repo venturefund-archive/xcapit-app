@@ -30,4 +30,9 @@ describe('ApiSubscriptionsService', () => {
     apiSubscriptionsService.subscribeToFund('', '');
     expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
   });
+
+  it('should call post when unsubscribeToFund is called', () => {
+    apiSubscriptionsService.unsubscribeToFund('test');
+    expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+  });
 });

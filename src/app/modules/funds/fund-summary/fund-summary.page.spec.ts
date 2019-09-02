@@ -15,6 +15,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ApiSubscriptionsService } from '../../subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 
 const fundStatusMockData = {
   fund: {
@@ -30,6 +31,8 @@ describe('FundSummaryPage', () => {
   let subscriptionsServiceSpy: any;
   let activatedRouteSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundSummaryPage>;
+  let apiSubscriptionsServiceSpy: any;
+  let alertControllerSpy: any;
 
   beforeEach(async(() => {
     apiFundServiceMock = {
@@ -43,12 +46,18 @@ describe('FundSummaryPage', () => {
     subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', [
       'shareSubscriptionLink'
     ]);
+    apiSubscriptionsServiceSpy = jasmine.createSpyObj(
+      'ApiSubscriptionsService',
+      ['unsubscribeToFund']
+    );
+    apiSubscriptionsServiceSpy.unsubscribeToFund.and.returnValue(of({}));
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
         fundName: 'asfd'
       })
     };
+    alertControllerSpy = jasmine.createSpyObj('AlertController', ['create']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -70,6 +79,7 @@ describe('FundSummaryPage', () => {
       providers: [
         { provide: ApiFundsService, useValue: apiFundServiceMock },
         { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
+        { provide: ApiSubscriptionsService, useValue: apiSubscriptionsServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -293,6 +303,17 @@ describe('FundSummaryPage', () => {
         fixture.detectChanges();
         expect(spy).toHaveBeenCalledTimes(1);
       });
+    });
+  });
+
+  it('should call unsubscribeToFund when unsubscribe is callled', () => {
+    component.unsubscribe();
+    expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call create on alert when unsubscribeAlert is callled', () => {
+    component.unsubscribeAlert().then(() => {
+      expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
     });
   });
 });
