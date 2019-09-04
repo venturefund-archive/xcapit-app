@@ -18,7 +18,10 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
     </ion-header>
 
     <ion-content>
-      <app-is-subscribed [fundName]="this.selectedFund" redirectTo="/funds/list">
+      <app-is-subscribed
+        [fundName]="this.selectedFund"
+        redirectTo="/funds/list"
+      >
         <div class="ion-padding">
           <ion-text
             >{{ 'funds.fund_runs.subheader' | translate }}:
@@ -128,11 +131,7 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
                   </ion-label>
                 </ion-item-divider>
                 <ion-row>
-                  <ion-col
-                    >{{
-                      'funds.fund_runs.cant_btc_title' | translate
-                    }}:</ion-col
-                  >
+                  <ion-col>{{ run.currency }}:</ion-col>
                   <ion-col>
                     {{ run.total_last_state | number: '1.2-6' }}
                   </ion-col>
