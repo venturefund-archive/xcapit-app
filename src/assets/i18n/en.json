@@ -536,5 +536,12 @@
         "invalidCredentials": "No active account found with the given credentials"
       }
     }
+  },
+  "terms_and_conditions": {
+    "accept": {
+      "header": "Terms & Conditions",
+      "cancel_button": "Cancel",
+      "i_agree_button": "I agree"
+    }
   }
 }

@@ -23,6 +23,10 @@ export class ProfilesHelperService {
     return this.fromGuard;
   }
 
+  isFromGuardHasBeenCalled() {
+    this.fromGuard = false;
+  }
+
   isProfileDataOk(): Observable<boolean> {
     return this.apiProfiles.crud.get().pipe(
       map(profileData => {

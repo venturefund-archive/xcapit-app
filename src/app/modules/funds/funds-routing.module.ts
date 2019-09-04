@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserProfileDataGuard } from '../profiles/shared-profiles/guards/user-profile-data/user-profile-data.guard';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
+import { TacAcceptedGuard } from '../terms-and-conditions/shared-terms-and-conditions/guards/tac-accepted/tac-accepted.guard';
 
 export const routes: Routes = [
   {
@@ -26,8 +27,14 @@ export const routes: Routes = [
       },
       {
         path: 'action',
-        canActivate: [UserProfileDataGuard, AuthGuard],
-        loadChildren: './new-fund/new-fund.module#NewFundPageModule'
+        canActivate: [UserProfileDataGuard],
+        children: [
+          {
+            path: '',
+            canActivate: [TacAcceptedGuard],
+            loadChildren: './new-fund/new-fund.module#NewFundPageModule'
+          }
+        ]
       },
       {
         path: 'deposit-address',

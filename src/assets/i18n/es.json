@@ -537,5 +537,12 @@
         "invalidCredentials": "No existe una cuenta activa con las credenciales ingresadas."
       }
     }
+  },
+  "terms_and_conditions": {
+    "accept": {
+      "header": "Términos y Condiciones",
+      "cancel_button": "Cancelar",
+      "i_agree_button": "Acepto"
+    }
   }
 }
