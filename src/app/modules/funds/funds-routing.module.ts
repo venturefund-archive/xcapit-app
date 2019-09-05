@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserProfileDataGuard } from '../profiles/shared-profiles/guards/user-profile-data/user-profile-data.guard';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 import { TacAcceptedGuard } from '../terms-and-conditions/shared-terms-and-conditions/guards/tac-accepted/tac-accepted.guard';
+import { IsSubscribedGuard } from '../subscriptions/shared-subscriptions/guards/is-subscribed/is-subscribed.guard';
 
 export const routes: Routes = [
   {
@@ -15,10 +16,12 @@ export const routes: Routes = [
       },
       {
         path: 'fund-summary/:fundName',
+        canActivate: [IsSubscribedGuard],
         loadChildren: './fund-summary/fund-summary.module#FundSummaryPageModule'
       },
       {
-        path: 'runs/:nombre_bot',
+        path: 'runs/:fundName',
+        canActivate: [IsSubscribedGuard],
         loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
       },
       {
