@@ -38,7 +38,7 @@ export class ProfilesHelperService {
         }
         if (!isDataOk) {
           this.fromGuard = true;
-          this.navController.navigateForward(['profiles/user']).then(() =>
+          this.navController.navigateForward(['/profiles/user']).then(() =>
             this.toastService.showToast({
               message: this.translate.instant('profiles.profile_helper.data_no_ok')
             })

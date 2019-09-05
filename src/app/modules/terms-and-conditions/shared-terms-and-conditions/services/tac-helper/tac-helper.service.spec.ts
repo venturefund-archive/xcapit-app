@@ -4,18 +4,25 @@ import { TacHelperService } from './tac-helper.service';
 import { of } from 'rxjs';
 import { ApiTacService } from '../api-tac/api-tac.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NavController } from '@ionic/angular';
 
 describe('TacHelperService', () => {
   let apiTacServiceMock: any;
   let service: TacHelperService;
+  let navControllerSpy: any;
+
   beforeEach(() => {
     apiTacServiceMock = {
       crud: jasmine.createSpyObj('CRUD', ['get'])
     };
+    navControllerSpy = jasmine.createSpyObj('NavController', [
+      'navigateForward'
+    ]);
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
-        { provide: ApiTacService, useValue: apiTacServiceMock }
+        { provide: ApiTacService, useValue: apiTacServiceMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     });
   });
@@ -45,6 +52,18 @@ describe('TacHelperService', () => {
     apiTacServiceMock.crud.get.and.returnValue(of({ accepted: false }));
     service.isTaCAccepted('').subscribe(() => {
       expect(apiTacServiceMock.crud.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  // tslint:disable-next-line: max-line-length
+  it('should call navigateForward with ["/terms-and-conditions/accept"], { replaceUrl: true } on navController when isTaCAccepted, { accepted: false }', () => {
+    apiTacServiceMock.crud.get.and.returnValue(of({ accepted: false }));
+    service.isTaCAccepted('').subscribe(() => {
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+        ['/terms-and-conditions/accept'],
+        { replaceUrl: true }
+      );
     });
   });
 });
