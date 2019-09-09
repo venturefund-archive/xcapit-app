@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FundRunsPage } from './fund-runs.page';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';

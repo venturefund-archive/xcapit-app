@@ -186,7 +186,12 @@
       "cant_usdt_title": "USDT",
       "cant": "Cantidad: ",
       "gain_current_currency_title": "Porcentaje de ganancia en",
-      "view_details": "Detalles"
+      "view_details": "Detalles",
+      "commission_amount_title": "Comisión a depositar:",
+      "commission_title": "Comisión",
+      "inversion_title": "Inversión",
+      "commission_percentage_title": "Porcentaje",
+      "no_commission_title": "No aplica comisión"
     },
     "deposit_address": {
       "header": "Dirección de depósito",
