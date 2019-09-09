@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 
 import { Platform } from '@ionic/angular';
@@ -106,7 +106,9 @@ describe('AppComponent', () => {
     // el TrackService mediante el injector se debería poder obtener de otra
     // manera, pero parece que hay un problema con la abstract class, por ahora
     // queda.
-    const localTrackService = fixture.debugElement.injector.get(TrackService);
+    const localTrackService = fixture.debugElement.injector.get<TrackService>(
+      TrackService as Type<TrackService>
+    );
     const spy = spyOn(localTrackService, 'trackEvent');
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);

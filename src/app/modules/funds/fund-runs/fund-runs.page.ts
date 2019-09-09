@@ -145,6 +145,45 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
                 ></ion-col
               >
             </ion-row>
+            <!-- Comision -->
+            <div *ngIf="run.estado == 'finalizado'">
+            <ion-item-divider>
+              <ion-label>
+                {{ 'funds.fund_runs.commission_title' | translate }}
+              </ion-label>
+            </ion-item-divider>
+            <ion-row *ngIf="run.inversion">
+              <ion-col
+                >{{ 'funds.fund_runs.inversion_title' | translate }} </ion-col
+              ><ion-col>{{ run.inversion | number: '1.2-6' }} BTC</ion-col>
+            </ion-row>
+            <ion-row *ngIf="run.porcentaje_deposito">
+              <ion-col
+                >{{
+                  'funds.fund_runs.commission_percentage_title' | translate
+                }} </ion-col
+              ><ion-col
+                >{{
+                  run.porcentaje_deposito * 100 | number: '1.2-2'
+                }}
+                %</ion-col
+              >
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <span *ngIf="run.porcentaje_ganancia > 0">
+                  {{
+                    'funds.fund_runs.commission_amount_title' | translate
+                  }}</span
+                >
+                <span *ngIf="run.porcentaje_ganancia <= 0">
+                  {{ 'funds.fund_runs.no_commission_title' | translate }}
+                </span> </ion-col
+              ><ion-col *ngIf="run.porcentaje_ganancia > 0">
+                {{ run.comision | number: '1.2-6' }} {{ run.currency }}</ion-col
+              >
+            </ion-row>
+            </div>
           </ion-card-content>
         </ion-card>
       </div>

@@ -169,7 +169,12 @@
       "cant_usdt_title": "USDT",
       "cant": "Amount: ",
       "gain_current_currency_title": "Percentage of profit in",
-      "view_details": "Details"
+      "view_details": "Details",
+      "commission_amount_title": "Commission to deposit:",
+      "commission_title": "Commission",
+      "inversion_title": "Inversion",
+      "commission_percentage_title": "Percentage",
+      "no_commission_title": "No commission applies"
     },
     "deposit_address": {
       "header": "Deposit Adress",
