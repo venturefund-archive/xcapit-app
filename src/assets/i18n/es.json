@@ -66,7 +66,8 @@
       "ok_text": "Email Verificado correctamente!"
     },
     "login": {
-      "register_link": "¿No estas registrado?"
+      "register_link": "¿No estas registrado?",
+      "reset_password_link": "¿Olvidaste tu password?"
     },
     "register": {
       "card_header": "Registro de Usuario",
@@ -77,6 +78,21 @@
     "auth_form": {
       "repeat_email": "Confirmar Email",
       "repeat_password": "Confirmar Password"
+    },
+    "reset_password": {
+      "card_header": "Reset Password",
+      "submit_button_recover": "Recuperar",
+      "login_link": "Login",
+      "send_email_button": "Enviar",
+      "reset_button": "Cambiar Password",
+      "toast_send_header": "¡Email Enviado!",
+      "toast_send_message": "Revise su email y siga los pasos para completar la acción.",
+      "toast_reset_password_header": "¡Éxito!",
+      "toast_reset_password_message": "Cambio de password completado satisfactoriamente."
+    },
+    "reset_password_form": {
+      "new_password": "Nueva Password",
+      "repeat_new_password": "Confirmar Nueva Password"
     }
   },
   "funds": {
@@ -524,11 +540,17 @@
       }
     },
     "users": {
+      "sendResetPasswordEmail": {
+        "user": "Error al obtener el usuario a validar."
+      },
       "sendEmailValidationToken": {
         "user": "Error al obtener el usuario a validar."
       },
       "registration":{
         "invalidData": "Los datos ingresados no son válidos."
+      },
+      "resetPassword": {
+        "invalid": "Error al Cambiar la Password."
       },
       "emailValidation":{
         "invalid": "Error al validar el email."

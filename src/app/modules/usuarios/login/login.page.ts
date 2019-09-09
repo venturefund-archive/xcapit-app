@@ -56,6 +56,14 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
                       >
                         {{ 'usuarios.login.register_link' | translate }}
                       </ion-button>
+                      <ion-button
+                        fill="clear"
+                        size="small"
+                        type="button"
+                        [routerLink]="['/users/reset-password']"
+                      >
+                        {{ 'usuarios.login.reset_password_link' | translate }}
+                      </ion-button>
                     </div>
                   </app-auth-form>
                 </ion-card-content>

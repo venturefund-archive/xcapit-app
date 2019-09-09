@@ -16,9 +16,9 @@ export class AuthService {
     private storage: Storage,
     private jwtHelper: JwtHelperService,
     private router: Router
-    ) {
-      this.checkLogin();
-    }
+  ) {
+    this.checkLogin();
+  }
 
   async checkLogin() {
     const isValidToken = await this.checkToken();

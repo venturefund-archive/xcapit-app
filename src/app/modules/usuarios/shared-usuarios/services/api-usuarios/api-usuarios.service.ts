@@ -23,22 +23,45 @@ export class ApiUsuariosService {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
 
-  emailValidation(emailValidationToken: string, uidb64: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/email_validation`, {
-      token: emailValidationToken,
-      uidb64
-    });
+  emailValidation(
+    emailValidationToken: string,
+    uidb64: string
+  ): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/email_validation`,
+      {
+        token: emailValidationToken,
+        uidb64
+      }
+    );
   }
 
   sendEmailValidation(uidb64: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/send_email_validation`, {
-      uidb64
-    });
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/send_email_validation`,
+      {
+        uidb64
+      }
+    );
   }
 
   login(data: any): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}/${this.entity}/login`, data)
       .pipe(tap(response => this.authService.handleLoginResponse(response)));
+  }
+
+  resetPassword(data: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/reset_password`,
+      data
+    );
+  }
+
+  sendResetPasswordEmail(data: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/send_reset_password_email`,
+      data
+    );
   }
 }

@@ -16,7 +16,12 @@ const routes: Routes = [
         loadChildren:
           './email-validation/email-validation.module#EmailValidationPageModule'
       },
-      { path: 'login', loadChildren: './login/login.module#LoginPageModule' }
+      { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
+      {
+        path: 'reset-password',
+        loadChildren:
+          './reset-password/reset-password.module#ResetPasswordPageModule'
+      }
     ]
   }
 ];

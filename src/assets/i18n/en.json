@@ -66,7 +66,8 @@
       "ok_text": "Email Verificado correctamente!"
     },
     "login": {
-      "register_link": "Not registered yet"
+      "register_link": "Not registered yet",
+      "reset_password_link": "Did you forget your password?"
     },
     "register": {
       "card_header": "User Registration",
@@ -77,6 +78,21 @@
     "auth_form": {
       "repeat_email": "Confirm Email",
       "repeat_password": "Confirm Password"
+    },
+    "reset_password": {
+      "card_header": "Reset Password",
+      "submit_button_recover": "Recover",
+      "login_link": "Login",
+      "send_email_button": "Send",
+      "reset_button": "Change Password",
+      "toast_send_email_header": "Email Sent!",
+      "toast_send_email_message": "Check your email and follow the steps to complete the action.",
+      "toast_reset_password_header": "Success!",
+      "toast_reset_password_message": "Password change completed successfully."
+    },
+    "reset_password_form": {
+      "new_password": "New Password",
+      "repeat_new_password": "Confirm New Password"
     }
   },
   "funds": {
@@ -523,11 +539,17 @@
       }
     },
     "users": {
+      "sendResetPasswordEmail": {
+        "user": "Error getting user."
+      },
       "sendEmailValidationToken": {
         "user": "Error getting user."
       },
       "registration": {
         "invalidData": "Invalid data."
+      },
+      "resetPassword": {
+        "invalid": "Error Changing Password."
       },
       "emailValidation": {
         "invalid": "Error validating email."
