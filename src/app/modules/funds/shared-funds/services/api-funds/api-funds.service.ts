@@ -94,4 +94,8 @@ export class ApiFundsService {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/name/${fundName}/is_subscribed`);
   }
+
+  getCommissions(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/commissions`);
+  }
 }

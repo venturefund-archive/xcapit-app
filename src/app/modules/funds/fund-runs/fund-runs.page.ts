@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { ActivatedRoute } from '@angular/router';
 import { StateNamesService } from 'src/app/shared/services/state-names/state-names.service';
+import { ModalController } from '@ionic/angular';
+import { CommissionsModalComponent } from '../shared-funds/components/commissions-modal/commissions-modal.component';
 
 @Component({
   selector: 'app-fund-runs',
@@ -19,10 +21,7 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
 
     <ion-content>
       <div class="ion-padding">
-        <ion-text
-          >{{ 'funds.fund_runs.subheader' | translate }}:
-          {{ selectedFund }}</ion-text
-        >
+        <h4 class="ion-text-center">{{ selectedFund }}</h4>
         <ion-card *ngFor="let run of fundRuns">
           <ion-card-header>
             <ion-grid>
@@ -147,42 +146,55 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
             </ion-row>
             <!-- Comision -->
             <div *ngIf="run.estado == 'finalizado'">
-            <ion-item-divider>
-              <ion-label>
-                {{ 'funds.fund_runs.commission_title' | translate }}
-              </ion-label>
-            </ion-item-divider>
-            <ion-row *ngIf="run.inversion">
-              <ion-col
-                >{{ 'funds.fund_runs.inversion_title' | translate }} </ion-col
-              ><ion-col>{{ run.inversion | number: '1.2-6' }} BTC</ion-col>
-            </ion-row>
-            <ion-row *ngIf="run.porcentaje_deposito">
-              <ion-col
-                >{{
-                  'funds.fund_runs.commission_percentage_title' | translate
-                }} </ion-col
-              ><ion-col
-                >{{
-                  run.porcentaje_deposito * 100 | number: '1.2-2'
-                }}
-                %</ion-col
-              >
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <span *ngIf="run.porcentaje_ganancia > 0">
-                  {{
-                    'funds.fund_runs.commission_amount_title' | translate
-                  }}</span
+              <ion-item-divider>
+                <ion-label>
+                  {{ 'funds.fund_runs.commission_title' | translate }}
+                </ion-label>
+              </ion-item-divider>
+              <ion-row *ngIf="run.inversion">
+                <ion-col
+                  >{{ 'funds.fund_runs.inversion_title' | translate }} </ion-col
+                ><ion-col>{{ run.inversion | number: '1.2-6' }} BTC</ion-col>
+              </ion-row>
+              <ion-row *ngIf="run.porcentaje_deposito">
+                <ion-col
+                  >{{
+                    'funds.fund_runs.commission_percentage_title' | translate
+                  }} </ion-col
+                ><ion-col
+                  >{{
+                    run.porcentaje_deposito * 100 | number: '1.2-2'
+                  }}
+                  %</ion-col
                 >
-                <span *ngIf="run.porcentaje_ganancia <= 0">
-                  {{ 'funds.fund_runs.no_commission_title' | translate }}
-                </span> </ion-col
-              ><ion-col *ngIf="run.porcentaje_ganancia > 0">
-                {{ run.comision | number: '1.2-6' }} {{ run.currency }}</ion-col
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <span *ngIf="run.porcentaje_ganancia > 0">
+                    {{
+                      'funds.fund_runs.commission_amount_title' | translate
+                    }}</span
+                  >
+                  <span *ngIf="run.porcentaje_ganancia <= 0">
+                    {{ 'funds.fund_runs.no_commission_title' | translate }}
+                  </span> </ion-col
+                ><ion-col *ngIf="run.porcentaje_ganancia > 0">
+                  {{ run.comision | number: '1.2-6' }}
+                  {{ run.currency }}</ion-col
+                >
+              </ion-row>
+              <ion-button
+                appTrackClick
+                [dataToTrack]="{ description: 'run_id: ' + run.id }"
+                name="View Commissions"
+                type="button"
+                color="primary"
+                expand="block"
+                size="small"
+                (click)="openShowCommissionsModal()"
               >
-            </ion-row>
+                {{ 'funds.fund_runs.view_commissions' | translate }}
+              </ion-button>
             </div>
           </ion-card-content>
         </ion-card>
@@ -200,7 +212,8 @@ export class FundRunsPage implements OnInit {
   constructor(
     private apiFundsService: ApiFundsService,
     private route: ActivatedRoute,
-    private stateNamesService: StateNamesService
+    private stateNamesService: StateNamesService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -229,5 +242,12 @@ export class FundRunsPage implements OnInit {
       .subscribe(res => {
         this.fundRuns = res;
       });
+  }
+
+  async openShowCommissionsModal() {
+    const modal = await this.modalController.create({
+      component: CommissionsModalComponent
+    });
+    modal.present();
   }
 }

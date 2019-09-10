@@ -19,7 +19,8 @@ describe('ApiFundsService', () => {
       resumeFundRuns: () => of(null),
       finalizeFundRuns: () => of(null),
       getSubscribedFund: () => of(null),
-      changeFundCA: () => of(null)
+      changeFundCA: () => of(null),
+      getCommissions: () => of(null)
     });
     TestBed.configureTestingModule({
       providers: [

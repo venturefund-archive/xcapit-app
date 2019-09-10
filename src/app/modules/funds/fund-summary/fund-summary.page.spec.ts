@@ -79,7 +79,10 @@ describe('FundSummaryPage', () => {
       providers: [
         { provide: ApiFundsService, useValue: apiFundServiceMock },
         { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
-        { provide: ApiSubscriptionsService, useValue: apiSubscriptionsServiceSpy },
+        {
+          provide: ApiSubscriptionsService,
+          useValue: apiSubscriptionsServiceSpy
+        },
         { provide: ActivatedRoute, useValue: activatedRouteSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -308,7 +311,9 @@ describe('FundSummaryPage', () => {
 
   it('should call unsubscribeToFund when unsubscribe is callled', () => {
     component.unsubscribe();
-    expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledTimes(1);
+    expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledTimes(
+      1
+    );
   });
 
   it('should call create on alert when unsubscribeAlert is callled', () => {

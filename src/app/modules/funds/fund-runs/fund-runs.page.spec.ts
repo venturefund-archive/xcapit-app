@@ -20,6 +20,7 @@ describe('FundRunsPage', () => {
   let apiFundsService: ApiFundsService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundRunsPage>;
+  let modalControllerSpy: any;
 
   beforeEach(async(() => {
     apiFundsServiceMock = {
@@ -28,6 +29,16 @@ describe('FundRunsPage', () => {
     logsServiceMock = {
       log: () => of({})
     };
+    modalControllerSpy = jasmine.createSpyObj('ModalController', [
+      'create',
+      'dismiss'
+    ]);
+    modalControllerSpy.create.and.returnValue(
+      of({
+        present: () => {},
+        onWillDismiss: () => of({}).toPromise()
+      }).toPromise()
+    );
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
