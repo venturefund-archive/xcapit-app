@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { Chart, GridLineOptions } from 'chart.js';
 import { DatePipe } from '@angular/common';
-import { Currency } from '../../enums/currency.enum';
 
 @Component({
   selector: 'app-fund-performance-chart',
@@ -58,7 +57,7 @@ export class FundPerformanceChartComponent implements OnChanges {
               fill: false
             },
             {
-              label: this.getUsdLabel(),
+              label: this.currency,
               data: this.fundPerformance.usd,
               backgroundColor: 'green',
               borderColor: 'green',
@@ -82,10 +81,6 @@ export class FundPerformanceChartComponent implements OnChanges {
         }
       });
     }
-  }
-
-  getUsdLabel(): string {
-    return this.currency === Currency.USD ? Currency.USDT : Currency.BTC;
   }
 
   normalizeLabels(): string[] {
