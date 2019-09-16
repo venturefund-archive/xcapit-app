@@ -66,28 +66,17 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <div class="fs__content" *ngIf="this.fundStatus">
           <div class="fs__profit" *ngIf="this.fundStatus.status">
             <div class="fs__profit__main">
-              <ion-icon
-                *ngIf="(this.fundStatus | currencyPercentage) > 0"
-                name="arrow-round-up"
-              ></ion-icon>
-              <ion-icon
-                *ngIf="(this.fundStatus | currencyPercentage) < 0"
-                name="arrow-round-down"
-              ></ion-icon>
-              <ion-icon
-                *ngIf="(this.fundStatus | currencyPercentage) === 0"
-                name="pause"
-                style="transform: rotate(90deg)"
-              ></ion-icon>
-              {{ this.fundStatus | currencyPercentage | number: '1.2-2' }}%
+              <app-percentage-display
+                [percentage]="this.fundStatus.status.porcentaje"
+              ></app-percentage-display>
             </div>
             <div class="fs__profit__days">
               {{
                 'funds.fund_summary.profit_text'
                   | translate
                     : {
-                        days: this.fundStatus.status.cantidad_dias,
-                        hours: this.fundStatus.status.cantidad_horas
+                        days: this.fundStatus.status.date_info.cantidad_dias,
+                        hours: this.fundStatus.status.date_info.cantidad_horas
                       }
               }}
             </div>
@@ -95,7 +84,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
           <div class="fs__days-left" *ngIf="this.fundStatus.status">
             <p
               *ngIf="
-                this.fundStatus.status.cantidad_dias_inicio_restantes < 0;
+                this.fundStatus.status.date_info.cantidad_dias_inicio_restantes < 0;
                 else hasDays
               "
             >
@@ -107,9 +96,9 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
                   'funds.fund_summary.days_left_text'
                     | translate
                       : {
-                          days: this.fundStatus.status
+                          days: this.fundStatus.status.date_info
                             .cantidad_dias_inicio_restantes,
-                          hours: this.fundStatus.status
+                          hours: this.fundStatus.status.date_info
                             .cantidad_horas_inicio_restantes
                         }
                 }}

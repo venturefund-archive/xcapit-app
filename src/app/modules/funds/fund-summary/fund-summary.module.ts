@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { FundSummaryPage } from './fund-summary.page';
 import { SharedFundsModule } from '../shared-funds/shared-funds.module';
+import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,6 @@ const routes: Routes = [
     SharedFundsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [FundSummaryPage]
+  declarations: [FundSummaryPage, PercentageDisplayComponent]
 })
 export class FundSummaryPageModule {}
