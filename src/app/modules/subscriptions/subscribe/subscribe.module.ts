@@ -6,7 +6,7 @@ import { SharedSubscriptionsModule } from '../shared-subscriptions/shared-subscr
 
 const routes: Routes = [
   {
-    path: ':subscriptionToken/:fundNameb64',
+    path: '',
     component: SubscribePage
   }
 ];

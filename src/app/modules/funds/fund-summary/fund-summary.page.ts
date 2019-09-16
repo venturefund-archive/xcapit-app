@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
@@ -7,6 +7,10 @@ import { FundFormActions } from '../shared-funds/enums/fund-form-actions.enum';
 import { CA } from '../shared-funds/enums/ca.enum';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { StateNamesService } from 'src/app/shared/services/state-names/state-names.service';
+import { AlertController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { ApiSubscriptionsService } from '../../subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-fund-summary',
@@ -43,8 +47,16 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
         >
           <ion-icon name="share"></ion-icon>
         </ion-fab-button>
+        <ion-fab-button
+          *ngIf="!this.isOwner"
+          (click)="this.unsubscribeAlert()"
+          appTrackClick
+          name="Unsubscribe Fund"
+        >
+          <ion-icon name="remove-circle-outline"></ion-icon>
+        </ion-fab-button>
       </ion-fab>
-      <div class="fs">
+      <div class="fs" *ngIf="!this.loadingStatus">
         <div class="fs__header">
           <h1>{{ this.fundName }}</h1>
           <ion-label class="fs__header__state">
@@ -206,8 +218,8 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
                 <ion-select
                   appTrackClick
                   [dataToTrack]="{
-                      eventLabel: 'Select Currency to Change'
-                    }"
+                    eventLabel: 'Select Currency to Change'
+                  }"
                   formControlName="ca"
                 >
                   <ion-select-option [value]="this.CAEnum.BTC">
@@ -244,7 +256,7 @@ import { StateNamesService } from 'src/app/shared/services/state-names/state-nam
           </ion-row>
         </form>
       </ion-grid>
-      <div class="ion-padding-top">
+      <div *ngIf="!this.loadingStatus" class="ion-padding-top">
         <ion-button
           appTrackClick
           name="Runs Fund"
@@ -295,10 +307,14 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private router: Router,
     private apiFunds: ApiFundsService,
     private subscriptionsService: SubscriptionsService,
-    private stateNamesService: StateNamesService
+    private stateNamesService: StateNamesService,
+    private alertController: AlertController,
+    private translate: TranslateService,
+    private apiSubscriptions: ApiSubscriptionsService,
+    private navController: NavController,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {}
@@ -316,6 +332,42 @@ export class FundSummaryPage implements OnInit, OnDestroy {
 
   shareFund() {
     this.subscriptionsService.shareSubscriptionLink(this.fundName);
+  }
+
+  async unsubscribeAlert() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('funds.fund_summary.unsubscribe_header'),
+      message: this.translate.instant('funds.fund_summary.unsubscribe_message'),
+      buttons: [
+        {
+          text: this.translate.instant(
+            'funds.fund_summary.unsubscribe_cancel_button'
+          ),
+          role: 'cancel'
+        },
+        {
+          text: this.translate.instant(
+            'funds.fund_summary.unsubscribe_accept_button'
+          ),
+          handler: () => this.unsubscribe()
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  unsubscribe() {
+    this.apiSubscriptions.unsubscribeToFund(this.fundName).subscribe(() => {
+      this.navController
+        .navigateBack(['/funds/list'], { replaceUrl: true })
+        .then(() => {
+          this.toastService.showToast({
+            message: this.translate.instant(
+              `funds.fund_summary.unsubscribe_success_message`
+            )
+          });
+        });
+    });
   }
 
   getStateShowName(state: string) {
@@ -378,7 +430,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   }
 
   renewFund(): void {
-    this.router.navigate([
+    this.navController.navigateForward([
       'funds/action',
       FundFormActions.RenewFund,
       this.fundName
@@ -386,7 +438,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   }
 
   editFund() {
-    this.router.navigate([
+    this.navController.navigateForward([
       '/funds/action',
       FundFormActions.EditProfitLoss,
       this.fundName

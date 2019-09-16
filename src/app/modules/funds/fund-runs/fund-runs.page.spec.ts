@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FundRunsPage } from './fund-runs.page';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
@@ -21,6 +20,7 @@ describe('FundRunsPage', () => {
   let apiFundsService: ApiFundsService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundRunsPage>;
+  let modalControllerSpy: any;
 
   beforeEach(async(() => {
     apiFundsServiceMock = {
@@ -29,6 +29,16 @@ describe('FundRunsPage', () => {
     logsServiceMock = {
       log: () => of({})
     };
+    modalControllerSpy = jasmine.createSpyObj('ModalController', [
+      'create',
+      'dismiss'
+    ]);
+    modalControllerSpy.create.and.returnValue(
+      of({
+        present: () => {},
+        onWillDismiss: () => of({}).toPromise()
+      }).toPromise()
+    );
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,

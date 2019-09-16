@@ -8,7 +8,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'run-summary',
+        path: 'run-summary/:pk',
         loadChildren: './run-summary/run-summary.module#RunSummaryPageModule'
       }
     ]

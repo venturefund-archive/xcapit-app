@@ -8,13 +8,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
 import { TrackClickModule } from './directives/track-click/track-click.module';
+import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
 
 @NgModule({
   declarations: [
     ErrorsFormItemComponent,
     GooglePlacesDirective,
     LanguagePopoverComponent,
-    LanguageButtonComponent
+    LanguageButtonComponent,
+    IsSubscribedComponent
   ],
   entryComponents: [LanguagePopoverComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule],
@@ -26,7 +28,8 @@ import { TrackClickModule } from './directives/track-click/track-click.module';
     GooglePlacesDirective,
     TranslateModule,
     LanguageButtonComponent,
-    TrackClickModule
+    TrackClickModule,
+    IsSubscribedComponent
   ]
 })
 export class SharedModule {}

@@ -5,7 +5,7 @@ import { SharedRunsModule } from '../shared-runs/shared-runs.module';
 
 const routes: Routes = [
   {
-    path: ':pk',
+    path: '',
     component: RunSummaryPage
   }
 ];

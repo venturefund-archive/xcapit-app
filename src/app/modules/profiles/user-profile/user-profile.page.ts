@@ -9,6 +9,7 @@ import { NavController } from '@ionic/angular';
 import { ProfilesHelperService } from '../shared-profiles/services/profiles-helper/profiles-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-runs.service';
+import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-actions.enum';
 
 @Component({
   selector: 'app-user-profile',
@@ -253,7 +254,11 @@ export class UserProfilePage implements OnInit {
           message: this.translate.instant('profiles.user_profile.success_text')
         });
         if (this.profilesHelper.isFromGuard()) {
-          this.navController.navigateBack(['/funds/new'], { replaceUrl: true });
+          this.profilesHelper.isFromGuardHasBeenCalled();
+          this.navController.navigateForward(
+            ['/funds/action', FundFormActions.NewFund],
+            { replaceUrl: true }
+          );
         } else {
           this.navController.pop();
         }

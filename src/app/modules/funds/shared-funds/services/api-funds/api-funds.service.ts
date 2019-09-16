@@ -51,9 +51,7 @@ export class ApiFundsService {
 
   changeFundCA(fundName: string, ca: string): Observable<any> {
     return this.http.put(
-      `${environment.apiUrl}/${
-        this.entity
-      }/change_fund_ca/${fundName}/ca/${ca}`,
+      `${environment.apiUrl}/${this.entity}/change_fund_ca/${fundName}/ca/${ca}`,
       {}
     );
   }
@@ -90,5 +88,14 @@ export class ApiFundsService {
     return this.http.original.get(
       `${environment.apiUrl}/${this.entity}/deposit_address/${currency}`
     );
+  }
+
+  isSubscribed(fundName: string): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/is_subscribed`);
+  }
+
+  getCommissions(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/commissions`);
   }
 }

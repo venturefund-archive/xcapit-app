@@ -66,7 +66,8 @@
       "ok_text": "Email Verificado correctamente!"
     },
     "login": {
-      "register_link": "Not registered yet"
+      "register_link": "Not registered yet",
+      "reset_password_link": "Did you forget your password?"
     },
     "register": {
       "card_header": "User Registration",
@@ -77,6 +78,21 @@
     "auth_form": {
       "repeat_email": "Confirm Email",
       "repeat_password": "Confirm Password"
+    },
+    "reset_password": {
+      "card_header": "Reset Password",
+      "submit_button_recover": "Recover",
+      "login_link": "Login",
+      "send_email_button": "Send",
+      "reset_button": "Change Password",
+      "toast_send_email_header": "Email Sent!",
+      "toast_send_email_message": "Check your email and follow the steps to complete the action.",
+      "toast_reset_password_header": "Success!",
+      "toast_reset_password_message": "Password change completed successfully."
+    },
+    "reset_password_form": {
+      "new_password": "New Password",
+      "repeat_new_password": "Confirm New Password"
     }
   },
   "funds": {
@@ -141,7 +157,12 @@
       "renew_fund_button": "Renew fund",
       "chart_title": "Last Update ",
       "change_fund_ca": "Select a CA",
-      "change_fund_ca_button": "Change"
+      "change_fund_ca_button": "Change",
+      "unsubscribe_header": "Do you want to cancel the fund subscription?",
+      "unsubscribe_message": "You will not be able to access to the fund or view your data.",
+      "unsubscribe_cancel_button": "Cancel",
+      "unsubscribe_accept_button": "Accept",
+      "unsubscribe_success_message": "The subscription to the fund has been canceled."
     },
     "fund_runs": {
       "header": "Fund Runs",
@@ -164,7 +185,19 @@
       "cant_usdt_title": "USDT",
       "cant": "Amount: ",
       "gain_current_currency_title": "Percentage of profit in",
-      "view_details": "Details"
+      "view_details": "Details",
+      "commission_amount_title": "Commission to deposit:",
+      "commission_title": "Commission",
+      "inversion_title": "Inversion",
+      "commission_percentage_title": "Percentage",
+      "no_commission_title": "No commission applies",
+      "view_commissions": "View Commissions",
+      "show_commissions": {
+        "modal_title": "WCS Commissions",
+        "inversion_table_title": "Inversion",
+        "commission_table_title": "Commission",
+        "to": "to"
+      }
     },
     "deposit_address": {
       "header": "Deposit Adress",
@@ -200,7 +233,7 @@
     }
   },
   "runs": {
-    "run_summary":{
+    "run_summary": {
       "header": "Run",
       "run_title": "Run",
       "fund_title": " of Fund",
@@ -493,8 +526,8 @@
         "depositAddress": "Error getting deposit address."
       }
     },
-    "profiles":{
-      "retrieve":{
+    "profiles": {
+      "retrieve": {
         "doesNotExists": "Profile does not exists."
       },
       "update": {
@@ -513,22 +546,36 @@
     "subscriptions": {
       "subscriptionLink": {
         "notFound": "No subscriptors found.",
-        "notOwner": "You can't get subscription link if you're not owner."
+        "notOwner": "You can't get subscription link if you're not owner.",
+        "alreadySubscribed": "You are already subscribed to this fund."
       }
     },
     "users": {
+      "sendResetPasswordEmail": {
+        "user": "Error getting user."
+      },
       "sendEmailValidationToken": {
         "user": "Error getting user."
       },
-      "registration":{
+      "registration": {
         "invalidData": "Invalid data."
       },
-      "emailValidation":{
+      "resetPassword": {
+        "invalid": "Error Changing Password."
+      },
+      "emailValidation": {
         "invalid": "Error validating email."
       },
       "login": {
         "invalidCredentials": "No active account found with the given credentials"
       }
+    }
+  },
+  "terms_and_conditions": {
+    "accept": {
+      "header": "Terms & Conditions",
+      "cancel_button": "Cancel",
+      "i_agree_button": "I agree"
     }
   }
 }

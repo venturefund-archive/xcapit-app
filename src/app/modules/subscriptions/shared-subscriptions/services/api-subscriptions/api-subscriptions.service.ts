@@ -17,10 +17,18 @@ export class ApiSubscriptionsService {
     );
   }
 
-  subscribeToFund(subscriptionToken: string, fundNameb64: string): Observable<any> {
+  subscribeToFund(
+    subscriptionToken: string,
+    fundNameb64: string
+  ): Observable<any> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/subscribe`, {
       subscription_token: subscriptionToken,
       fund_name_b64: fundNameb64
     });
+  }
+
+  unsubscribeToFund(fundName: string): Observable<any> {
+    const url = `${environment.apiUrl}/${this.entity}/funds/name/${fundName}/unsubscribe`;
+    return this.http.delete(url);
   }
 }

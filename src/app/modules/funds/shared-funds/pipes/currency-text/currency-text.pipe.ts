@@ -6,6 +6,6 @@ import { Currency } from '../../enums/currency.enum';
 })
 export class CurrencyTextPipe implements PipeTransform {
   transform(value: string): string {
-    return value === Currency.BTC ? Currency.BTC : Currency.USD;
+    return value === Currency.BTC ? Currency.BTC : Currency.USDT;
   }
 }

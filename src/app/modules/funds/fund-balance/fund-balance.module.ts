@@ -9,7 +9,7 @@ import { FundBalanceDetailComponent } from './components/fund-balance-detail/fun
 
 const routes: Routes = [
   {
-    path: ':fundName',
+    path: '',
     component: FundBalancePage
   }
 ];
