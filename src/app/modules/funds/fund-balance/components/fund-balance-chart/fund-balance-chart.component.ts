@@ -25,27 +25,28 @@ export class FundBalanceChartComponent implements OnChanges {
 
   chart: Chart;
 
+  labels: string[];
+
+  data: number[];
+
   constructor() {}
 
   ngOnChanges() {
+    this.labels = [];
+    this.data = [];
     this.setChart();
   }
 
   setChart() {
     if (this.hasBalanceData()) {
+      this.setChartData();
       this.chart = new Chart('balance_chart', {
         type: 'pie',
         data: {
-          labels: ['BTC', 'ETH', 'LTC', 'BNB', 'USDT'],
+          labels: this.labels,
           datasets: [
             {
-              data: [
-                this.fundBalance.btc_usd,
-                this.fundBalance.eth_usd,
-                this.fundBalance.ltc_usd,
-                this.fundBalance.bnb_usd,
-                this.fundBalance.cant_usdt
-              ],
+              data: this.data,
               backgroundColor: ['orange', 'grey', 'pink', 'yellow', 'green']
             }
           ]
@@ -56,5 +57,12 @@ export class FundBalanceChartComponent implements OnChanges {
 
   hasBalanceData(): boolean {
     return this.fundBalance && typeof this.fundBalance === 'object';
+  }
+
+  setChartData() {
+    for (const item of this.fundBalance.summary) {
+      this.labels = [...this.labels, item.ca];
+      this.data = [...this.data, item.amount];
+    }
   }
 }
