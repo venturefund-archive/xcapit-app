@@ -58,8 +58,8 @@ export class FundPerformanceChartComponent implements OnChanges {
               fill: false
             },
             {
-              label: this.getUsdLabel(),
-              data: this.fundPerformance.usd,
+              label: this.currency,
+              data: this.getDataForCurrencyToOptimize(),
               backgroundColor: 'green',
               borderColor: 'green',
               fill: false
@@ -84,8 +84,10 @@ export class FundPerformanceChartComponent implements OnChanges {
     }
   }
 
-  getUsdLabel(): string {
-    return this.currency === Currency.USD ? Currency.USDT : Currency.BTC;
+  getDataForCurrencyToOptimize() {
+    return this.currency === Currency.BTC
+      ? this.fundPerformance.performance_btc
+      : this.fundPerformance.performance_usdt;
   }
 
   normalizeLabels(): string[] {
@@ -101,8 +103,18 @@ export class FundPerformanceChartComponent implements OnChanges {
       this.fundPerformance.index.length &&
       Array.isArray(this.fundPerformance.wcs_advisor) &&
       this.fundPerformance.wcs_advisor.length &&
-      Array.isArray(this.fundPerformance.usd) &&
-      this.fundPerformance.usd.length
+      this.checkPerformanceDataForCurrency()
+    );
+  }
+
+  checkPerformanceDataForCurrency() {
+    if (this.currency === Currency.BTC) {
+      return Array.isArray(this.fundPerformance.performance_btc) &&
+        this.fundPerformance.performance_btc.length;
+    }
+    return (
+      Array.isArray(this.fundPerformance.performance_usdt) &&
+      this.fundPerformance.performance_usdt.length
     );
   }
 }

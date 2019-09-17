@@ -21,7 +21,9 @@ const fundStatusMockData = {
   fund: {
     estado: 'active'
   },
-  status: {}
+  status: {
+    date_info: {}
+  }
 };
 
 describe('FundSummaryPage', () => {

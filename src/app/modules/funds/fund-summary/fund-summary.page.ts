@@ -115,7 +115,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <app-fund-performance-chart
           *ngIf="this.fundStatus"
           [currency]="this.fundStatus?.fund.currency"
-          [fundPerformance]="this.fundStatus?.status?.rendimiento"
+          [fundPerformance]="this.fundStatus?.status"
         ></app-fund-performance-chart>
 
         <div class="fs__no-runs">
