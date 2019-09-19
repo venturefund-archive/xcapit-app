@@ -58,8 +58,8 @@ export class RunPerformanceChartComponent implements OnChanges {
               fill: false
             },
             {
-              label: this.getUsdLabel(),
-              data: this.runPerformance.usd,
+              label: this.currency,
+              data: this.getDataForCurrencyToOptimize(),
               backgroundColor: 'green',
               borderColor: 'green',
               fill: false
@@ -84,8 +84,10 @@ export class RunPerformanceChartComponent implements OnChanges {
     }
   }
 
-  getUsdLabel(): string {
-    return this.currency === Currency.USD ? Currency.USDT : Currency.BTC;
+  getDataForCurrencyToOptimize() {
+    return this.currency === Currency.BTC
+      ? this.runPerformance.performance_btc
+      : this.runPerformance.performance_usdt;
   }
 
   normalizeLabels(): string[] {
@@ -101,8 +103,20 @@ export class RunPerformanceChartComponent implements OnChanges {
       this.runPerformance.index.length &&
       Array.isArray(this.runPerformance.wcs_advisor) &&
       this.runPerformance.wcs_advisor.length &&
-      Array.isArray(this.runPerformance.usd) &&
-      this.runPerformance.usd.length
+      this.checkPerformanceDataForCurrency()
+    );
+  }
+
+  checkPerformanceDataForCurrency() {
+    if (this.currency === Currency.BTC) {
+      return (
+        Array.isArray(this.runPerformance.performance_btc) &&
+        this.runPerformance.performance_btc.length
+      );
+    }
+    return (
+      Array.isArray(this.runPerformance.performance_usdt) &&
+      this.runPerformance.performance_usdt.length
     );
   }
 }

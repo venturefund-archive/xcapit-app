@@ -33,28 +33,17 @@ import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.servic
         <div class="fs__content" *ngIf="this.runStatus">
           <div class="fs__profit" *ngIf="this.runStatus.status">
             <div class="fs__profit__main">
-              <ion-icon
-                *ngIf="(this.runStatus | currencyPercentage) > 0"
-                name="arrow-round-up"
-              ></ion-icon>
-              <ion-icon
-                *ngIf="(this.runStatus | currencyPercentage) < 0"
-                name="arrow-round-down"
-              ></ion-icon>
-              <ion-icon
-                *ngIf="(this.runStatus | currencyPercentage) === 0"
-                name="pause"
-                style="transform: rotate(90deg)"
-              ></ion-icon>
-              {{ this.runStatus | currencyPercentage | number: '1.2-2' }}%
+              <app-percentage-display
+                [percentage]="this.runStatus.status.porcentaje"
+              ></app-percentage-display>
             </div>
             <div class="fs__profit__days">
               {{
                 'runs.run_summary.profit_text'
                   | translate
                     : {
-                        days: this.runStatus.status.cantidad_dias,
-                        hours: this.runStatus.status.cantidad_horas
+                        days: this.runStatus.status.date_info.cantidad_dias,
+                        hours: this.runStatus.status.date_info.cantidad_horas
                       }
               }}
             </div>
@@ -68,8 +57,8 @@ import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.servic
 
         <app-run-performance-chart
           *ngIf="this.runStatus"
-          [currency]="this.runStatus?.fund?.currency"
-          [runPerformance]="this.runStatus?.status?.rendimiento"
+          [currency]="this.runStatus?.fund.currency"
+          [runPerformance]="this.runStatus?.status"
         ></app-run-performance-chart>
 
         <div class="fs__no-runs">
@@ -103,10 +92,7 @@ export class RunSummaryPage implements OnInit, OnDestroy {
   loadingStatus = true;
   runStatus: any;
 
-  constructor(
-    private apiRuns: ApiRunsService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private apiRuns: ApiRunsService, private route: ActivatedRoute) {}
 
   ngOnInit() {}
   ionViewDidEnter() {}

@@ -40,7 +40,7 @@ export class FundPerformanceChartComponent implements OnChanges {
   constructor(private datePipe: DatePipe) {}
 
   ngOnChanges() {
-      this.setChart();
+    this.setChart();
   }
 
   setChart() {
@@ -109,8 +109,10 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   checkPerformanceDataForCurrency() {
     if (this.currency === Currency.BTC) {
-      return Array.isArray(this.fundPerformance.performance_btc) &&
-        this.fundPerformance.performance_btc.length;
+      return (
+        Array.isArray(this.fundPerformance.performance_btc) &&
+        this.fundPerformance.performance_btc.length
+      );
     }
     return (
       Array.isArray(this.fundPerformance.performance_usdt) &&

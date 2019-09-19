@@ -9,6 +9,7 @@ import { LanguagePopoverComponent } from './components/language-popover/language
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
 import { TrackClickModule } from './directives/track-click/track-click.module';
 import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
+import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.
     GooglePlacesDirective,
     LanguagePopoverComponent,
     LanguageButtonComponent,
-    IsSubscribedComponent
+    IsSubscribedComponent,
+    PercentageDisplayComponent
   ],
   entryComponents: [LanguagePopoverComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule],
@@ -29,7 +31,8 @@ import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.
     TranslateModule,
     LanguageButtonComponent,
     TrackClickModule,
-    IsSubscribedComponent
+    IsSubscribedComponent,
+    PercentageDisplayComponent
   ]
 })
 export class SharedModule {}
