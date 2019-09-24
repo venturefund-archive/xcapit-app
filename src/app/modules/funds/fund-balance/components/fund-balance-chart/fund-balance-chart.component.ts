@@ -62,7 +62,7 @@ export class FundBalanceChartComponent implements OnChanges {
   setChartData() {
     for (const item of this.fundBalance.summary) {
       this.labels = [...this.labels, item.ca];
-      this.data = [...this.data, item.amount];
+      this.data = [...this.data, item.value];
     }
   }
 }
