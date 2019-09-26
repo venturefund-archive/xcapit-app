@@ -98,4 +98,10 @@ export class ApiFundsService {
   getCommissions(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/commissions`);
   }
+
+  isOwner(fundName: string): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`
+    );
+  }
 }

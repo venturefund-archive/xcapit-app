@@ -38,7 +38,11 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
     </ion-header>
 
     <ion-content padding>
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab
+        vertical="bottom"
+        horizontal="end"
+        slot="fixed"
+      >
         <ion-fab-button
           *ngIf="this.isOwner"
           (click)="this.shareFund()"
@@ -149,7 +153,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
           </ion-button>
         </div>
       </div>
-      <ion-grid no-padding padding-top *ngIf="this.isOwner">
+      <ion-grid no-padding padding-top *ngIf="this.isOwner && this.fundStatus?.fund">
         <ion-row>
           <ion-col>
             <ion-button
@@ -330,6 +334,11 @@ export class FundSummaryPage implements OnInit, OnDestroy {
 
   ionViewDidEnter() {}
 
+  setIsOwner() {
+    this.apiFunds.isOwner(this.fundName)
+      .subscribe(res => this.isOwner = res && res.is_owner);
+  }
+
   shareFund() {
     this.subscriptionsService.shareSubscriptionLink(this.fundName);
   }
@@ -379,8 +388,8 @@ export class FundSummaryPage implements OnInit, OnDestroy {
     this.fundStatusSubscription = this.apiFunds
       .getStatus(this.fundName)
       .subscribe(res => {
+        this.setIsOwner();
         this.fundStatus = res;
-        this.isOwner = res && res.fund && res.fund.is_owner;
         this.isInCAStatus();
         this.statusShowName = this.stateNamesService.getStateShowName(
           (this.fundStatus && this.fundStatus.fund.estado) || '-'

@@ -41,7 +41,8 @@ describe('FundSummaryPage', () => {
       resumeFundRuns: () => of(null),
       finalizeFundRuns: () => of(null),
       getFundRuns: () => of(null),
-      changeFundCA: () => of(null)
+      changeFundCA: () => of(null),
+      isOwner: () => of(null)
     };
     subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', [
       'shareSubscriptionLink'
@@ -159,6 +160,20 @@ describe('FundSummaryPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     expect(getStatusSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set isOwner property on setIsOwner', () => {
+    const isOwner = spyOn(apiFundServiceMock, 'isOwner');
+    isOwner.and.returnValue(of({is_owner: true}));
+    component.setIsOwner();
+    fixture.whenStable().then(() => expect(component.isOwner).toBeTruthy());
+  });
+
+  it('should call isOwner once on setIsOwner', () => {
+    const isOwnerSpy = spyOn(apiFundServiceMock, 'isOwner');
+    isOwnerSpy.and.returnValue(of(null));
+    component.setIsOwner();
+    expect(isOwnerSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should match valid status', () => {
