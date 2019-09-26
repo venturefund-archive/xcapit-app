@@ -101,6 +101,13 @@ export class AppComponent implements OnInit, OnDestroy {
     },
     {
       id: 4,
+      title: 'app.main_menu.commissions',
+      url: '/funds/commissions',
+      icon: '',
+      routeDirection: 'forward'
+    },
+    {
+      id: 5,
       title: 'app.main_menu.help',
       url: '/tutorials/help',
       icon: '',

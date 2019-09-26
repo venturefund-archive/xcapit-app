@@ -6,6 +6,7 @@
       "user_profile": "Perfil de Usuario",
       "deposit_address": "Dirección de depósito",
       "logout": "Cerrar Sesión",
+      "commissions": "Comisiones",
       "help": "Ayuda"
     }
   },
@@ -192,13 +193,13 @@
       "inversion_title": "Inversión",
       "commission_percentage_title": "Porcentaje",
       "no_commission_title": "No aplica comisión",
-      "view_commissions": "Ver comisiones",
-      "show_commissions": {
-        "modal_title": "Comisiones de WCS",
-        "inversion_table_title": "Inversión",
-        "commission_table_title": "Comisión",
-        "to": "a"
-      }
+      "view_commissions": "Ver comisiones"
+    },
+    "commissions": {
+      "header": "Comisiones de WCS",
+      "inversion_table_title": "Inversión",
+      "commission_table_title": "Comisión",
+      "to": "a"
     },
     "deposit_address": {
       "header": "Dirección de depósito",

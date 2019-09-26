@@ -1,22 +1,16 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CommissionsModalComponent } from './commissions-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { CommissionNamePipe } from '../../pipes/commission-name/commission-name.pipe';
 import { of } from 'rxjs';
 import { ModalController } from '@ionic/angular';
-import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 
 describe('CommissionsModalComponent', () => {
   let component: CommissionsModalComponent;
   let fixture: ComponentFixture<CommissionsModalComponent>;
   let modalControllerSpy: any;
-  let apiFundsSpy: any;
 
   beforeEach(async(() => {
-    apiFundsSpy = jasmine.createSpyObj('ApiFundsService', ['getCommissions']);
-    apiFundsSpy.getCommissions.and.returnValue(of([]));
     modalControllerSpy = jasmine.createSpyObj('ModalController', [
       'create',
       'dismiss'
@@ -27,14 +21,12 @@ describe('CommissionsModalComponent', () => {
         onWillDismiss: () => of({}).toPromise()
       }).toPromise()
     );
+    modalControllerSpy.dismiss.and.returnValue(of({}));
     TestBed.configureTestingModule({
-      declarations: [CommissionsModalComponent, CommissionNamePipe],
+      declarations: [CommissionsModalComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [TranslateModule.forRoot()],
-      providers: [
-        { provide: ModalController, useValue: modalControllerSpy },
-        { provide: ApiFundsService, useValue: apiFundsSpy }
-      ]
+      providers: [{ provide: ModalController, useValue: modalControllerSpy }]
     }).compileComponents();
   }));
 
@@ -48,8 +40,8 @@ describe('CommissionsModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getCommissions on init', () => {
-    // const spy = spyOn(apiFundsSpy, 'getCommissions')
-    expect(apiFundsSpy.getCommissions).toHaveBeenCalledTimes(1);
+  it('should call ModalController dissmiss on closeModal click', () => {
+    component.closeModal();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 });

@@ -7,6 +7,8 @@ import { FundPerformanceChartComponent } from './components/fund-performance-cha
 import { StateShowNamePipe } from './pipes/state-names/state-names.pipe';
 import { CurrencyAmountValueComponent } from './components/currency-amount-value/currency-amount-value.component';
 import { CommissionNamePipe } from './pipes/commission-name/commission-name.pipe';
+import { CommissionsModalComponent } from './components/commissions-modal/commissions-modal.component';
+import { CommissionsContentComponent } from './components/commissions-content/commissions-content.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { CommissionNamePipe } from './pipes/commission-name/commission-name.pipe
     CurrencyTextPipe,
     StateShowNamePipe,
     CurrencyAmountValueComponent,
-    CommissionNamePipe
+    CommissionNamePipe,
+    CommissionsModalComponent,
+    CommissionsContentComponent
   ],
   providers: [DatePipe],
   imports: [SharedModule],
@@ -26,7 +30,9 @@ import { CommissionNamePipe } from './pipes/commission-name/commission-name.pipe
     CurrencyTextPipe,
     StateShowNamePipe,
     CurrencyAmountValueComponent,
-    CommissionNamePipe
+    CommissionNamePipe,
+    CommissionsModalComponent,
+    CommissionsContentComponent
   ]
 })
 export class SharedFundsModule {}
