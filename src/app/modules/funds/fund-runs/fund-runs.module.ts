@@ -13,7 +13,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [SharedFundsModule, RouterModule.forChild(routes)],
-  declarations: [FundRunsPage, CommissionsModalComponent],
+  declarations: [FundRunsPage],
   entryComponents: [CommissionsModalComponent]
 })
 export class FundRunsPageModule {}

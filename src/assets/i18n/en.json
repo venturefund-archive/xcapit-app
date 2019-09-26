@@ -6,6 +6,7 @@
       "user_profile": "User Profile",
       "deposit_address": "Deposit address",
       "logout": "Log Out",
+      "commissions": "Commissions",
       "help": "Help"
     }
   },
@@ -191,13 +192,13 @@
       "inversion_title": "Inversion",
       "commission_percentage_title": "Percentage",
       "no_commission_title": "No commission applies",
-      "view_commissions": "View Commissions",
-      "show_commissions": {
-        "modal_title": "WCS Commissions",
-        "inversion_table_title": "Inversion",
-        "commission_table_title": "Commission",
-        "to": "to"
-      }
+      "view_commissions": "View Commissions"
+    },
+    "commissions": {
+      "header": "WCS Commissions",
+      "inversion_table_title": "Inversion",
+      "commission_table_title": "Commission",
+      "to": "to"
     },
     "deposit_address": {
       "header": "Deposit Adress",

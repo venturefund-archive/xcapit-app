@@ -43,6 +43,11 @@ export const routes: Routes = [
         path: 'deposit-address',
         loadChildren:
           './deposit-address/deposit-address.module#DepositAddressPageModule'
+      },
+      {
+        path: 'commissions',
+        loadChildren:
+          './commission/commission.module#CommissionPageModule'
       }
     ]
   }

@@ -132,6 +132,6 @@ describe('AppComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(5);
+    expect(elms.length).toBe(6);
   });
 });
