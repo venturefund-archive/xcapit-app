@@ -74,57 +74,45 @@ export class ResetPasswordFormComponent implements OnInit {
     ...CONFIG.fieldErrors.password
   ];
 
-  form: FormGroup = this.formBuilder.group({
-    email: [
-      '',
-      [
-        Validators.email,
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(100)
+  form: FormGroup = this.formBuilder.group(
+    {
+      email: [
+        '',
+        [
+          Validators.email,
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(100)
+        ]
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(100),
+          CustomValidators.patternValidator(
+            /\d/,
+            CustomValidatorErrors.hasNumber
+          ),
+          CustomValidators.patternValidator(
+            /[A-Z]/,
+            CustomValidatorErrors.hasCapitalCase
+          ),
+          CustomValidators.patternValidator(
+            /[a-z]/,
+            CustomValidatorErrors.hasSmallCase
+          )
+        ]
+      ],
+      repeat_password: ['']
+    },
+    {
+      validators: [
+        CustomValidators.passwordMatchValidator
       ]
-    ],
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(100),
-        CustomValidators.patternValidator(
-          /\d/,
-          CustomValidatorErrors.hasNumber
-        ),
-        CustomValidators.patternValidator(
-          /[A-Z]/,
-          CustomValidatorErrors.hasCapitalCase
-        ),
-        CustomValidators.patternValidator(
-          /[a-z]/,
-          CustomValidatorErrors.hasSmallCase
-        )
-      ]
-    ],
-    repeat_password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(100),
-        CustomValidators.patternValidator(
-          /\d/,
-          CustomValidatorErrors.hasNumber
-        ),
-        CustomValidators.patternValidator(
-          /[A-Z]/,
-          CustomValidatorErrors.hasCapitalCase
-        ),
-        CustomValidators.patternValidator(
-          /[a-z]/,
-          CustomValidatorErrors.hasSmallCase
-        )
-      ]
-    ]
-  });
+    }
+  );
 
   constructor(private formBuilder: FormBuilder) {}
 

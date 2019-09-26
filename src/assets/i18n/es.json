@@ -86,8 +86,8 @@
       "login_link": "Login",
       "send_email_button": "Enviar",
       "reset_button": "Cambiar Password",
-      "toast_send_header": "¡Email Enviado!",
-      "toast_send_message": "Revise su email y siga los pasos para completar la acción.",
+      "toast_send_email_header": "¡Email Enviado!",
+      "toast_send_email_message": "Revise su email y siga los pasos para completar la acción.",
       "toast_reset_password_header": "¡Éxito!",
       "toast_reset_password_message": "Cambio de password completado satisfactoriamente."
     },
