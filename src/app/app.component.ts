@@ -58,7 +58,10 @@ import { TrackClickDirective } from './shared/directives/track-click/track-click
             <ion-menu-toggle auto-hide="false">
               <ion-item
                 appTrackClick
-                [dataToTrack]="{ eventLabel: 'Logout', description: 'sideMenu' }"
+                [dataToTrack]="{
+                  eventLabel: 'Logout',
+                  description: 'sideMenu'
+                }"
                 (click)="this.logout()"
               >
                 <ion-icon slot="start" name="log-out" color="danger"></ion-icon>
@@ -110,6 +113,13 @@ export class AppComponent implements OnInit, OnDestroy {
       id: 5,
       title: 'app.main_menu.help',
       url: '/tutorials/help',
+      icon: '',
+      routeDirection: 'forward'
+    },
+    {
+      id: 6,
+      title: 'app.main_menu.password_change',
+      url: '/users/password-change',
       icon: '',
       routeDirection: 'forward'
     }

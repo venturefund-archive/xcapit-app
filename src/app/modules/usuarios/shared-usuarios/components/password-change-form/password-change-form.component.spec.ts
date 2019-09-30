@@ -1,23 +1,23 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResetPasswordFormComponent } from './reset-password-form.component';
+import { PasswordChangeFormComponent } from './password-change-form.component';
+import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 
-describe('ResetPasswordFormComponent', () => {
-  let component: ResetPasswordFormComponent;
-  let fixture: ComponentFixture<ResetPasswordFormComponent>;
+describe('PasswordChangeFormComponent', () => {
+  let component: PasswordChangeFormComponent;
+  let fixture: ComponentFixture<PasswordChangeFormComponent>;
   const formData = {
     valid: {
-      email: 'email@email.com',
+      actual_password: 'asdf',
       password: 'asdfF1',
       repeat_password: 'asdfF1'
     },
     invalid: {
-      email: 'fdaas',
+      actual_password: 'fdaas',
       password: 'dsfaaa',
       repeat_password: 'dsfaa'
     }
@@ -25,14 +25,14 @@ describe('ResetPasswordFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [PasswordChangeFormComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
-      declarations: [ResetPasswordFormComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ResetPasswordFormComponent);
+    fixture = TestBed.createComponent(PasswordChangeFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -51,27 +51,12 @@ describe('ResetPasswordFormComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call emit on send, valid form, isReset false', () => {
+  it('should call emit on send, valid form', () => {
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
     const spy = spyOn(component.send, 'emit');
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call emit on send, valid form, isReset true', () => {
-    const spy = spyOn(component.send, 'emit');
-    component.isReset = true;
-    component.initForm();
-    component.form.get('password').setValue(formData.valid.password);
-    component.form
-      .get('repeat_password')
-      .setValue(formData.valid.repeat_password);
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      component.handleSubmit();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
   });
 
   it('should not call emit on send, no valid form', () => {

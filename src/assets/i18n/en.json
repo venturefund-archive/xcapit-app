@@ -7,7 +7,8 @@
       "deposit_address": "Deposit address",
       "logout": "Log Out",
       "commissions": "Commissions",
-      "help": "Help"
+      "help": "Help",
+      "password_change": "Password Change"
     }
   },
   "config": {
@@ -92,6 +93,17 @@
       "toast_reset_password_message": "Password change completed successfully."
     },
     "reset_password_form": {
+      "new_password": "New Password",
+      "repeat_new_password": "Confirm New Password"
+    },
+    "password_change": {
+      "header": "Password Change",
+      "submit_button": "Change",
+      "toast_password_change_header": "Success!",
+      "toast_password_change_message": "Password change completed successfully. Please log in again."
+    },
+    "password_change_form": {
+      "actual_password": "Actual Password",
       "new_password": "New Password",
       "repeat_new_password": "Confirm New Password"
     }
@@ -569,6 +581,9 @@
       },
       "login": {
         "invalidCredentials": "No active account found with the given credentials"
+      },
+      "changePassword": {
+        "invalid": "Error Changing Password."
       }
     }
   },

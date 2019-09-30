@@ -21,9 +21,7 @@ describe('ResetPasswordPage', () => {
       'resetPassword',
       'sendResetPasswordEmail'
     ]);
-    navControllerSpy = jasmine.createSpyObj('NavController', [
-      'navigateBack'
-    ]);
+    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
     navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
     TestBed.configureTestingModule({
       imports: [
@@ -88,7 +86,9 @@ describe('ResetPasswordPage', () => {
     component.isReset = false;
     apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(of({}));
     component.handleSubmit(null);
-    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(1);
+    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(
+      1
+    );
     expect(apiUsuariosServiceSpy.resetPassword).toHaveBeenCalledTimes(0);
   });
 
@@ -97,7 +97,9 @@ describe('ResetPasswordPage', () => {
     apiUsuariosServiceSpy.resetPassword.and.returnValue(of({}));
     component.handleSubmit(null);
     expect(apiUsuariosServiceSpy.resetPassword).toHaveBeenCalledTimes(1);
-    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(0);
+    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(
+      0
+    );
   });
 
   it('should reset form on success', () => {

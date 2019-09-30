@@ -73,4 +73,10 @@ describe('ApiUsuariosService', () => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should be call post on http when changePassword', () => {
+    service.changePassword({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
 });
