@@ -35,6 +35,8 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
                   >
                     <div class="auth-button ion-padding-top ion-margin-top">
                       <ion-button
+                        appTrackClickUnauth
+                        name="Login"
                         expand="full"
                         size="large"
                         type="submit"
@@ -49,6 +51,8 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
                     </div>
                     <div class="auth-link ion-text-right ion-padding-top">
                       <ion-button
+                        appTrackClickUnauth
+                        name="Go To Register"
                         fill="clear"
                         size="small"
                         type="button"
@@ -57,6 +61,8 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
                         {{ 'usuarios.login.register_link' | translate }}
                       </ion-button>
                       <ion-button
+                        appTrackClickUnauth
+                        name="Reset Password"
                         fill="clear"
                         size="small"
                         type="button"

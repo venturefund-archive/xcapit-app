@@ -149,7 +149,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routerNavEndSubscription.unsubscribe();
+      this.routerNavEndSubscription.unsubscribe();
   }
 
   initializeApp() {

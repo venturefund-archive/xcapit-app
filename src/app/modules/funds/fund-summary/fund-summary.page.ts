@@ -38,11 +38,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
     </ion-header>
 
     <ion-content padding>
-      <ion-fab
-        vertical="bottom"
-        horizontal="end"
-        slot="fixed"
-      >
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button
           *ngIf="this.isOwner"
           (click)="this.shareFund()"
@@ -153,7 +149,11 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
           </ion-button>
         </div>
       </div>
-      <ion-grid no-padding padding-top *ngIf="this.isOwner && this.fundStatus?.fund">
+      <ion-grid
+        no-padding
+        padding-top
+        *ngIf="this.isOwner && this.fundStatus?.fund"
+      >
         <ion-row>
           <ion-col>
             <ion-button
@@ -324,7 +324,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {
-    this.fundStatusSubscription.unsubscribe();
+      this.fundStatusSubscription.unsubscribe();
   }
 
   ionViewWillEnter() {
@@ -335,8 +335,9 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   ionViewDidEnter() {}
 
   setIsOwner() {
-    this.apiFunds.isOwner(this.fundName)
-      .subscribe(res => this.isOwner = res && res.is_owner);
+    this.apiFunds
+      .isOwner(this.fundName)
+      .subscribe(res => (this.isOwner = res && res.is_owner));
   }
 
   shareFund() {

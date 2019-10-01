@@ -9,6 +9,7 @@ import { LanguagePopoverComponent } from './components/language-popover/language
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
 import { TrackClickModule } from './directives/track-click/track-click.module';
 import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
+import { TrackClickUnauthModule } from './directives/track-click-unauth/track-click-unauth.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,13 @@ import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.
     IsSubscribedComponent
   ],
   entryComponents: [LanguagePopoverComponent],
-  imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule],
+  imports: [
+    CommonModule,
+    IonicModule,
+    TranslateModule.forChild(),
+    TrackClickModule,
+    TrackClickUnauthModule
+  ],
   exports: [
     ErrorsFormItemComponent,
     CommonModule,
@@ -29,6 +36,7 @@ import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.
     TranslateModule,
     LanguageButtonComponent,
     TrackClickModule,
+    TrackClickUnauthModule,
     IsSubscribedComponent
   ]
 })

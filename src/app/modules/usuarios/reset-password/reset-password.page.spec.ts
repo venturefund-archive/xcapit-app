@@ -9,6 +9,7 @@ import { ResetPasswordFormComponent } from '../shared-usuarios/components/reset-
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
 
 describe('ResetPasswordPage', () => {
   let component: ResetPasswordPage;
@@ -21,18 +22,24 @@ describe('ResetPasswordPage', () => {
       'resetPassword',
       'sendResetPasswordEmail'
     ]);
-    navControllerSpy = jasmine.createSpyObj('NavController', [
-      'navigateBack'
-    ]);
+    apiUsuariosServiceSpy.resetPassword.and.returnValue(null);
+    apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(null);
+    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
     navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
     TestBed.configureTestingModule({
       imports: [
         IonicModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          { path: 'users/login', component: DummyComponent }
+        ])
       ],
-      declarations: [ResetPasswordPage, ResetPasswordFormComponent],
+      declarations: [
+        ResetPasswordPage,
+        ResetPasswordFormComponent,
+        DummyComponent
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
@@ -88,7 +95,9 @@ describe('ResetPasswordPage', () => {
     component.isReset = false;
     apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(of({}));
     component.handleSubmit(null);
-    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(1);
+    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(
+      1
+    );
     expect(apiUsuariosServiceSpy.resetPassword).toHaveBeenCalledTimes(0);
   });
 
@@ -97,7 +106,9 @@ describe('ResetPasswordPage', () => {
     apiUsuariosServiceSpy.resetPassword.and.returnValue(of({}));
     component.handleSubmit(null);
     expect(apiUsuariosServiceSpy.resetPassword).toHaveBeenCalledTimes(1);
-    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(0);
+    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(
+      0
+    );
   });
 
   it('should reset form on success', () => {

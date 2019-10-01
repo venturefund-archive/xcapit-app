@@ -3,7 +3,7 @@ import { TrackClickDirective } from './track-click.directive';
 
 @NgModule({
   declarations: [
-    TrackClickDirective
+    TrackClickDirective,
   ],
   exports: [
     TrackClickDirective
