@@ -69,7 +69,8 @@ describe('AppComponent', () => {
           { path: 'funds/list', component: DummyComponent },
           { path: 'profiles/user', component: DummyComponent },
           { path: 'funds/deposit-address', component: DummyComponent },
-          { path: 'users/password-change', component: DummyComponent }
+          { path: 'users/password-change', component: DummyComponent },
+          { path: 'referrals/list', component: DummyComponent }
         ]),
         TranslateModule.forRoot()
       ]
@@ -133,6 +134,6 @@ describe('AppComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(7);
+    expect(elms.length).toBe(8);
   });
 });

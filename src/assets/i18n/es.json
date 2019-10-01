@@ -8,7 +8,8 @@
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",
       "help": "Ayuda",
-      "password_change": "Cambio de Password"
+      "password_change": "Cambio de Password",
+      "referrals": "Referidos"
     }
   },
   "config": {
@@ -593,6 +594,20 @@
       "header": "Términos y Condiciones",
       "cancel_button": "Cancelar",
       "i_agree_button": "Acepto"
+    }
+  },
+  "referrals": {
+    "new_referral": {
+      "header": "Nuevo Referido",
+      "submit_button": "Agregar Referido",
+      "toast_header": "¡Éxito!",
+      "toast_message": "El referido fue agregado."
+    },
+    "referrals_list": {
+      "header": "Lista de Referidos"
+    },
+    "referral_form": {
+      "email": "Email"
     }
   }
 }

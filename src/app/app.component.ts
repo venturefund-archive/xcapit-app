@@ -122,6 +122,13 @@ export class AppComponent implements OnInit, OnDestroy {
       url: '/users/password-change',
       icon: '',
       routeDirection: 'forward'
+    },
+    {
+      id: 7,
+      title: 'app.main_menu.referrals',
+      url: '/referrals/list',
+      icon: '',
+      routeDirection: 'root'
     }
   ];
 

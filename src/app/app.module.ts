@@ -24,6 +24,7 @@ import { RunsModule } from './modules/runs/runs.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
 import { WildcardRoutingModule } from './wildcard-routing.module';
 import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
+import { ReferralsModule } from './modules/referrals/referrals.module';
 
 
 export function jwtOptionsFactory(storage: Storage) {
@@ -53,6 +54,7 @@ export function httpLoaderFactory(http: HttpClient) {
     RunsModule,
     SubscriptionsModule,
     TermsAndConditionsModule,
+    ReferralsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

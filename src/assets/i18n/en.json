@@ -8,7 +8,8 @@
       "logout": "Log Out",
       "commissions": "Commissions",
       "help": "Help",
-      "password_change": "Password Change"
+      "password_change": "Password Change",
+      "referrals": "Referrals"
     }
   },
   "config": {
@@ -592,6 +593,20 @@
       "header": "Terms & Conditions",
       "cancel_button": "Cancel",
       "i_agree_button": "I agree"
+    }
+  },
+  "referrals": {
+    "new_referral": {
+      "header": "New Referral",
+      "submit_button": "Add Referral",
+      "toast_header": "Success!",
+      "toast_message": "The referral was added."
+    },
+    "referrals_list": {
+      "header": "Referrals List"
+    },
+    "referral_form": {
+      "email": "Email"
     }
   }
 }
