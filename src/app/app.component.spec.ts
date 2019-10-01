@@ -34,18 +34,24 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
+    trackServiceSpy.trackView.and.returnValue(null);
     statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
+    statusBarSpy.styleDefault.and.returnValue(null);
     splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
+    splashScreenSpy.hide.and.returnValue(null);
     loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
-    authServiceMock = {
-      isLoggedIn: new ReplaySubject<boolean>(1),
-      logout: () => null
-    };
+    loadingServiceSpy.enabled.and.returnValue(null);
     platformReadySpy = Promise.resolve();
     platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
     languageServiceSpy = jasmine.createSpyObj('LanguageService', [
       'setInitialAppLanguage'
     ]);
+    languageServiceSpy.setInitialAppLanguage.and.returnValue(null);
+
+    authServiceMock = {
+      isLoggedIn: new ReplaySubject<boolean>(1),
+      logout: () => null
+    };
     activatedRouteMock = {};
 
     TestBed.configureTestingModule({

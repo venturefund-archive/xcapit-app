@@ -9,7 +9,13 @@ import { PopoverController } from '@ionic/angular';
       <ion-item
         button
         *ngFor="let lng of this.languages"
+        name="Change Language Item"
         (click)="this.select(lng.value)"
+        appTrackClickUnauth
+        [dataToTrack]="{
+          eventLabel: 'Select Language',
+          description: lng.value
+        }"
         detail="false"
       >
         <ion-label class="ion-text-wrap">{{ lng.text }}</ion-label>

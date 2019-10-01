@@ -36,6 +36,8 @@ import { TranslateService } from '@ngx-translate/core';
                         expand="full"
                         size="large"
                         type="submit"
+                        appTrackClickUnauth
+                        name="Register"
                         [disabled]="
                           !this.registerForm.form.valid ||
                           (this.submitButtonService.isDisabled | async)
@@ -53,6 +55,8 @@ import { TranslateService } from '@ngx-translate/core';
                         fill="clear"
                         size="small"
                         type="button"
+                        appTrackClickUnauth
+                        name="Go To Login"
                         [routerLink]="['/users/login']"
                       >
                         Login

@@ -25,6 +25,7 @@ import { TrackClickModule } from './shared/directives/track-click/track-click.mo
 import { WildcardRoutingModule } from './wildcard-routing.module';
 import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
+import { TrackClickUnauthModule } from './shared/directives/track-click-unauth/track-click-unauth.module';
 
 
 export function jwtOptionsFactory(storage: Storage) {
@@ -70,6 +71,7 @@ export function httpLoaderFactory(http: HttpClient) {
       }
     }),
     TrackClickModule,
+    TrackClickUnauthModule,
     WildcardRoutingModule // always to last!
   ],
   providers: [

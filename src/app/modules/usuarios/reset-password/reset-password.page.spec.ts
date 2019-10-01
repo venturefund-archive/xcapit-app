@@ -9,6 +9,7 @@ import { ResetPasswordFormComponent } from '../shared-usuarios/components/reset-
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
 
 describe('ResetPasswordPage', () => {
   let component: ResetPasswordPage;
@@ -21,6 +22,8 @@ describe('ResetPasswordPage', () => {
       'resetPassword',
       'sendResetPasswordEmail'
     ]);
+    apiUsuariosServiceSpy.resetPassword.and.returnValue(null);
+    apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(null);
     navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
     navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
     TestBed.configureTestingModule({
@@ -28,9 +31,15 @@ describe('ResetPasswordPage', () => {
         IonicModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          { path: 'users/login', component: DummyComponent }
+        ])
       ],
-      declarations: [ResetPasswordPage, ResetPasswordFormComponent],
+      declarations: [
+        ResetPasswordPage,
+        ResetPasswordFormComponent,
+        DummyComponent
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: NavController, useValue: navControllerSpy },

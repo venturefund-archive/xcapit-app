@@ -22,7 +22,7 @@ describe('FundBalancePage', () => {
 
   beforeEach(async(() => {
     apiFundServiceSpy = jasmine.createSpyObj('ApiFundsService', ['getBalance']);
-
+    apiFundServiceSpy.getBalance.and.returnValue(of({}));
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -38,9 +38,7 @@ describe('FundBalancePage', () => {
         TrackClickDirective
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: ApiFundsService, useValue: apiFundServiceSpy }
-      ]
+      providers: [{ provide: ApiFundsService, useValue: apiFundServiceSpy }]
     }).compileComponents();
   }));
 
@@ -56,7 +54,10 @@ describe('FundBalancePage', () => {
   });
 
   it('should call getFundBalance on ionViewDidEnter', () => {
-    const getFundBalanceSpy = spyOn(component, 'getFundBalance');
+    const getFundBalanceSpy = spyOn(
+      component,
+      'getFundBalance'
+    ).and.returnValue(of({}));
     component.ionViewDidEnter();
     fixture.detectChanges();
     expect(getFundBalanceSpy).toHaveBeenCalledTimes(1);

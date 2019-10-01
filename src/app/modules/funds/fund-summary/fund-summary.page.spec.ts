@@ -164,7 +164,7 @@ describe('FundSummaryPage', () => {
 
   it('should set isOwner property on setIsOwner', () => {
     const isOwner = spyOn(apiFundServiceMock, 'isOwner');
-    isOwner.and.returnValue(of({is_owner: true}));
+    isOwner.and.returnValue(of({ is_owner: true }));
     component.setIsOwner();
     fixture.whenStable().then(() => expect(component.isOwner).toBeTruthy());
   });
@@ -311,16 +311,13 @@ describe('FundSummaryPage', () => {
 
     it('should call trackEvent on trackService when select is change', () => {
       component.fundStatus.fund.estado = 'pausado';
+      const el = trackClickDirectiveHelper.getElement('ion-select');
+      const directive = trackClickDirectiveHelper.getDirective(el);
+      const spy = spyOn(directive, 'changeEvent');
+      el.nativeElement.value = 'BTC';
+      el.nativeElement.dispatchEvent(new Event('ionChange'));
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const el = trackClickDirectiveHelper.getElement('ion-select');
-        const directive = trackClickDirectiveHelper.getDirective(el);
-        const spy = spyOn(directive, 'changeEvent');
-        el.nativeElement.value = 'BTC';
-        el.nativeElement.dispatchEvent(new Event('ionChange'));
-        fixture.detectChanges();
-        expect(spy).toHaveBeenCalledTimes(1);
-      });
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   });
 

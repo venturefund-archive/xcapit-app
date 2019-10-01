@@ -43,7 +43,7 @@ describe('ResetPasswordFormComponent', () => {
 
   it('should call handleSubmit on submit event, valid form', () => {
     component.form.patchValue(formData.valid);
-    const spy = spyOn(component, 'handleSubmit');
+    const spy = spyOn(component, 'handleSubmit').and.returnValue(null);
     fixture.detectChanges();
     fixture.debugElement
       .query(By.css('form'))
@@ -53,14 +53,14 @@ describe('ResetPasswordFormComponent', () => {
 
   it('should call emit on send, valid form, isReset false', () => {
     component.form.patchValue(formData.valid);
+    const spy = spyOn(component.send, 'emit').and.returnValue(null);
     fixture.detectChanges();
-    const spy = spyOn(component.send, 'emit');
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call emit on send, valid form, isReset true', () => {
-    const spy = spyOn(component.send, 'emit');
+    const spy = spyOn(component.send, 'emit').and.returnValue(null);
     component.isReset = true;
     component.initForm();
     component.form.get('password').setValue(formData.valid.password);
@@ -74,8 +74,8 @@ describe('ResetPasswordFormComponent', () => {
     });
   });
 
-  it('should not call emit on send, no valid form', () => {
-    const spy = spyOn(component.send, 'emit');
+  it('should not call emit on send, valid form', () => {
+    const spy = spyOn(component.send, 'emit').and.returnValue(null);
     component.form.patchValue(formData.invalid);
     fixture.detectChanges();
     component.handleSubmit();
