@@ -64,4 +64,11 @@ export class ApiUsuariosService {
       data
     );
   }
+
+  changePassword(data: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/change_password`,
+      data
+    );
+  }
 }
