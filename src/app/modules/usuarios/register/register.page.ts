@@ -4,6 +4,7 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -76,17 +77,26 @@ import { TranslateService } from '@ngx-translate/core';
 export class RegisterPage implements OnInit {
   @ViewChild(AuthFormComponent) registerForm: AuthFormComponent;
 
+  referralCode: string;
+
   constructor(
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
     private alertController: AlertController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {}
 
+  ionViewWillEnter() {
+    this.referralCode = this.route.snapshot.paramMap.get('code');
+  }
+
   registerUser(data: any) {
-    this.apiUsuarios.crud.create(data).subscribe(() => this.success());
+    this.apiUsuarios.crud
+      .create({ ...data, referral_code: this.referralCode })
+      .subscribe(() => this.success());
   }
 
   async success() {
