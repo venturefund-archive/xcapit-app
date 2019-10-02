@@ -604,7 +604,9 @@
       "toast_message": "El referido fue agregado."
     },
     "referrals_list": {
-      "header": "Lista de Referidos"
+      "header": "Lista de Referidos",
+      "accepted_badge": "Aceptado",
+      "not_accepted_badge": "No Aceptado"
     },
     "referral_form": {
       "email": "Email"

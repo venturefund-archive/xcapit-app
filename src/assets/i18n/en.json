@@ -603,7 +603,9 @@
       "toast_message": "The referral was added."
     },
     "referrals_list": {
-      "header": "Referrals List"
+      "header": "Referrals List",
+      "accepted_badge": "Accepted",
+      "not_accepted_badge": "Not Accepted"
     },
     "referral_form": {
       "email": "Email"

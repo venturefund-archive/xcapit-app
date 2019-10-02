@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ReferralsListPage } from './referrals-list.page';
 import { SharedReferralsModule } from '../shared-referrals/shared-referrals.module';
+import { SkeletonReferralItemComponent } from './components/skeleton-referral-item/skeleton-referral-item.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,6 @@ const routes: Routes = [
     SharedReferralsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ReferralsListPage]
+  declarations: [ReferralsListPage, SkeletonReferralItemComponent]
 })
 export class ReferralsListPageModule {}
