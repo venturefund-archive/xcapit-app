@@ -586,6 +586,12 @@
       "changePassword": {
         "invalid": "Error Changing Password."
       }
+    },
+    "referrals": {
+      "create": {
+        "referralAlreadyExist": "The referral cannot be created.",
+        "referralAlreadyExistsAsUser": "The referral cannot be created."
+      }
     }
   },
   "terms_and_conditions": {
