@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
@@ -178,9 +177,7 @@ import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-action
             size="large"
             type="submit"
             color="success"
-            [disabled]="
-              !this.form.valid || (this.submitButtonService.isDisabled | async)
-            "
+            [disabled]="!this.form.valid || this.disabledButton"
           >
             <ion-icon slot="start" name="save"></ion-icon>
             {{ 'profiles.user_profile.submit_button' | translate }}
@@ -192,6 +189,9 @@ import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-action
   styleUrls: ['./user-profile.page.scss']
 })
 export class UserProfilePage implements OnInit {
+
+  disabledButton = false;
+
   isFormSet = false;
 
   cellphoneErrors: ItemFormError[] = CONFIG.fieldErrors.cellphone;
@@ -233,7 +233,6 @@ export class UserProfilePage implements OnInit {
   form: FormGroup;
 
   constructor(
-    public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private apiProfiles: ApiProfilesService,
     private toastService: ToastService,
@@ -249,6 +248,7 @@ export class UserProfilePage implements OnInit {
 
   save() {
     if (this.form.valid) {
+      this.disabledButton = true;
       this.apiProfiles.crud.update(this.form.value).subscribe(() => {
         this.toastService.showToast({
           message: this.translate.instant('profiles.user_profile.success_text')
