@@ -4,11 +4,7 @@ import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Subscription, Observable } from 'rxjs';
-import {
-  Router,
-  NavigationEnd,
-  ActivatedRoute
-} from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LoadingService } from './shared/services/loading/loading.service';
@@ -17,6 +13,7 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
 import { TrackService } from './shared/services/track/track.service';
 import { LogsService } from './shared/services/logs/logs.service';
 import { TrackClickDirective } from './shared/directives/track-click/track-click.directive';
+import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
 
 @Component({
   selector: 'app-root',
@@ -146,7 +143,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
     private languageService: LanguageService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private publicLogsService: PublicLogsService
   ) {
     this.initializeApp();
   }
@@ -161,6 +159,11 @@ export class AppComponent implements OnInit, OnDestroy {
   trackLoad() {
     if (!this.isUnauthRoute()) {
       this.trackService.trackEvent({
+        eventAction: 'load',
+        description: window.location.href
+      });
+    } else {
+      this.publicLogsService.trackEvent({
         eventAction: 'load',
         description: window.location.href
       });
@@ -211,11 +214,23 @@ export class AppComponent implements OnInit, OnDestroy {
           .name,
         eventAction: 'nav'
       });
+    } else {
+      this.publicLogsService.trackView({
+        pageUrl: window.location.href,
+        screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component
+          .name,
+        eventAction: 'nav'
+      });
     }
   }
 
   isUnauthRoute() {
-    return ['/users/login', '/users/register'].filter(item => {
+    return [
+      '/users/login',
+      '/users/register',
+      '/users/email-validation',
+      '/users/reset-password'
+    ].filter(item => {
       const regex = new RegExp(item, 'gi');
       return window.location.href.match(regex);
     });

@@ -11,19 +11,23 @@ import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, of } from 'rxjs';
 import { TrackService } from './shared/services/track/track.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from './shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ActivatedRoute } from '@angular/router';
+import { isUndefined } from 'util';
+import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
+import { componentFactoryName } from '@angular/compiler';
 
 describe('AppComponent', () => {
   let statusBarSpy: any,
     splashScreenSpy: any,
     platformReadySpy: any,
     platformSpy: any;
+  let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: any;
   let loadingServiceSpy: any;
@@ -31,10 +35,15 @@ describe('AppComponent', () => {
   let trackServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<AppComponent>;
   let activatedRouteMock: any;
+  let publicLogSpy: any;
 
   beforeEach(async(() => {
     trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
     trackServiceSpy.trackView.and.returnValue(null);
+    publicLogSpy = {
+      trackEvent: () => of(null),
+      trackView: () => of(null)
+    };
     statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
     statusBarSpy.styleDefault.and.returnValue(null);
     splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
@@ -65,7 +74,8 @@ describe('AppComponent', () => {
         { provide: LanguageService, useValue: languageServiceSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: AuthService, useValue: authServiceMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock }
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: PublicLogsService, useValue: publicLogSpy }
       ],
       imports: [
         HttpClientTestingModule,
@@ -82,6 +92,8 @@ describe('AppComponent', () => {
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    publicLogSpy = TestBed.get(PublicLogsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
@@ -110,16 +122,27 @@ describe('AppComponent', () => {
     expect(app.routerNavEndSubscription).not.toBeNull();
   });
 
-  it('should call trackEvent after ngOnInit call', async () => {
+  it('should call trackEvent  after ngOnInit call', async () => {
     // el TrackService mediante el injector se debería poder obtener de otra
     // manera, pero parece que hay un problema con la abstract class, por ahora
     // queda.
+    const isUnauthRoute = spyOn(component, 'isUnauthRoute');
+    isUnauthRoute.and.returnValue(false);
     const localTrackService = fixture.debugElement.injector.get<TrackService>(
       TrackService as Type<TrackService>
     );
     const spy = spyOn(localTrackService, 'trackEvent');
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent after ngOnInit call unauth', async () => {
+    const isUnauthRoute = spyOn(component, 'isUnauthRoute');
+    isUnauthRoute.and.returnValue(true);
+    const spy = spyOn(publicLogSpy, 'trackEvent').and.returnValue(of(null));
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(isUnauthRoute).toBeTruthy();
   });
 
   it('should initialize the app', async () => {
