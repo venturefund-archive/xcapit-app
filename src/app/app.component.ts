@@ -159,14 +159,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   trackLoad() {
-    this.trackService.trackEvent({
-      eventAction: 'load',
-      description: window.location.href
-    });
+    if (!this.isUnauthRoute()) {
+      this.trackService.trackEvent({
+        eventAction: 'load',
+        description: window.location.href
+      });
+    }
   }
 
   ngOnDestroy() {
-      this.routerNavEndSubscription.unsubscribe();
+    this.routerNavEndSubscription.unsubscribe();
   }
 
   initializeApp() {
@@ -196,14 +198,27 @@ export class AppComponent implements OnInit, OnDestroy {
         filter(route => route.outlet === 'primary')
       )
       .subscribe(() => {
-        this.trackService.trackView({
-          pageUrl: window.location.href,
-          screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component
-            .name,
-          eventAction: 'nav'
-        });
+        this.trackNav();
         this.submitButtonService.enabled();
       });
+  }
+
+  private trackNav() {
+    if (!this.isUnauthRoute()) {
+      this.trackService.trackView({
+        pageUrl: window.location.href,
+        screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component
+          .name,
+        eventAction: 'nav'
+      });
+    }
+  }
+
+  isUnauthRoute() {
+    return ['/users/login', '/users/register'].filter(item => {
+      const regex = new RegExp(item, 'gi');
+      return window.location.href.match(regex);
+    });
   }
 
   trackBy(index: any, item: any) {
