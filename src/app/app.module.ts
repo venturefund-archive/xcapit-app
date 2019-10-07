@@ -26,6 +26,8 @@ import { WildcardRoutingModule } from './wildcard-routing.module';
 import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
 import { TrackClickUnauthModule } from './shared/directives/track-click-unauth/track-click-unauth.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 export function jwtOptionsFactory(storage: Storage) {
   return {
@@ -71,7 +73,8 @@ export function httpLoaderFactory(http: HttpClient) {
     }),
     TrackClickModule,
     TrackClickUnauthModule,
-    WildcardRoutingModule // always to last!
+    WildcardRoutingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }) // always to last!
   ],
   providers: [
     StatusBar,
