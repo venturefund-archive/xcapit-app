@@ -11,12 +11,17 @@ const routes: Routes = [
       {
         path: 'new',
         canActivate: [UserProfileDataGuard],
-        loadChildren: './new-referral/new-referral.module#NewReferralPageModule'
+        loadChildren: () =>
+          import('./new-referral/new-referral.module').then(
+            m => m.NewReferralPageModule
+          )
       },
       {
         path: 'list',
-        loadChildren:
-          './referrals-list/referrals-list.module#ReferralsListPageModule'
+        loadChildren: () =>
+          import('./referrals-list/referrals-list.module').then(
+            m => m.ReferralsListPageModule
+          )
       }
     ]
   }

@@ -9,7 +9,10 @@ export const routes: Routes = [
     children: [
       {
         path: 'run-summary/:pk',
-        loadChildren: './run-summary/run-summary.module#RunSummaryPageModule'
+        loadChildren: () =>
+          import('./run-summary/run-summary.module').then(
+            m => m.RunSummaryPageModule
+          )
       }
     ]
   }

@@ -9,13 +9,16 @@ const routes: Routes = [
       {
         path: 'interactive-tutorial',
         canActivate: [AuthGuard],
-        loadChildren:
-          './interactive-tutorial/interactive-tutorial.module#InteractiveTutorialPageModule'
+        loadChildren: () =>
+          import('./interactive-tutorial/interactive-tutorial.module').then(
+            m => m.InteractiveTutorialPageModule
+          )
       },
       {
         path: 'help',
         canActivate: [AuthGuard],
-        loadChildren: './help/help.module#HelpPageModule'
+        loadChildren: () =>
+          import('./help/help.module').then(m => m.HelpPageModule)
       }
     ]
   }

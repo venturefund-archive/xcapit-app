@@ -66,22 +66,25 @@ describe('InteractiveTutorialPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open Binance Trtansfer Tutorial', () => {
+  it('should open Binance Transfer Tutorial', async (done) => {
     component.openBinanceTransferTutorial().then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
-  it('should open Binance Tutorial', () => {
+  it('should open Binance Tutorial', async (done) => {
     component.openBinanceTutorial().then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
-  it('should open CA Tutorial', () => {
+  it('should open CA Tutorial', async (done) => {
     component.openCaTutorial().then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
   it('should call trackEvent on trackService when No CA button clicked', () => {

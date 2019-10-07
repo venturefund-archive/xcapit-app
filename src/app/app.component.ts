@@ -12,7 +12,6 @@ import { LanguageService } from './shared/services/language/language.service';
 import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
 import { TrackService } from './shared/services/track/track.service';
 import { LogsService } from './shared/services/logs/logs.service';
-import { TrackClickDirective } from './shared/directives/track-click/track-click.directive';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
 
 @Component({
@@ -75,7 +74,8 @@ import { PublicLogsService } from './shared/services/public-logs/public-logs.ser
   `
 })
 export class AppComponent implements OnInit, OnDestroy {
-  @ViewChild(IonRouterOutlet) ionRouterOutlet: IonRouterOutlet;
+  @ViewChild(IonRouterOutlet, { static: true })
+  ionRouterOutlet: IonRouterOutlet;
 
   public appPages = [
     {

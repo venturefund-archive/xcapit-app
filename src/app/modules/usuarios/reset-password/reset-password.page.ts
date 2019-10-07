@@ -99,7 +99,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./reset-password.page.scss']
 })
 export class ResetPasswordPage implements OnInit {
-  @ViewChild(ResetPasswordFormComponent)
+  @ViewChild(ResetPasswordFormComponent, { static: true })
   formComponent: ResetPasswordFormComponent;
 
   isReset: boolean;

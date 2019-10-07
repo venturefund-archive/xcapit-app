@@ -12,21 +12,31 @@ export const routes: Routes = [
     children: [
       {
         path: 'list',
-        loadChildren: './funds-list/funds-list.module#FundsListPageModule'
+        loadChildren: () =>
+          import('./funds-list/funds-list.module').then(
+            m => m.FundsListPageModule
+          )
       },
       {
         path: 'fund-summary/:fundName',
         canActivate: [IsSubscribedGuard],
-        loadChildren: './fund-summary/fund-summary.module#FundSummaryPageModule'
+        loadChildren: () =>
+          import('./fund-summary/fund-summary.module').then(
+            m => m.FundSummaryPageModule
+          )
       },
       {
         path: 'runs/:fundName',
         canActivate: [IsSubscribedGuard],
-        loadChildren: './fund-runs/fund-runs.module#FundRunsPageModule'
+        loadChildren: () =>
+          import('./fund-runs/fund-runs.module').then(m => m.FundRunsPageModule)
       },
       {
         path: 'fund-balance/:fundName',
-        loadChildren: './fund-balance/fund-balance.module#FundBalancePageModule'
+        loadChildren: () =>
+          import('./fund-balance/fund-balance.module').then(
+            m => m.FundBalancePageModule
+          )
       },
       {
         path: 'action',
@@ -35,19 +45,26 @@ export const routes: Routes = [
           {
             path: '',
             canActivate: [TacAcceptedGuard],
-            loadChildren: './new-fund/new-fund.module#NewFundPageModule'
+            loadChildren: () =>
+              import('./new-fund/new-fund.module').then(
+                m => m.NewFundPageModule
+              )
           }
         ]
       },
       {
         path: 'deposit-address',
-        loadChildren:
-          './deposit-address/deposit-address.module#DepositAddressPageModule'
+        loadChildren: () =>
+          import('./deposit-address/deposit-address.module').then(
+            m => m.DepositAddressPageModule
+          )
       },
       {
         path: 'commissions',
-        loadChildren:
-          './commission/commission.module#CommissionPageModule'
+        loadChildren: () =>
+          import('./commission/commission.module').then(
+            m => m.CommissionPageModule
+          )
       }
     ]
   }

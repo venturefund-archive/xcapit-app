@@ -86,14 +86,15 @@ describe('PasswordChangePage', () => {
     expect(apiUsuariosServiceSpy.changePassword).toHaveBeenCalledTimes(1);
   });
 
-  it('should reset form on success', () => {
+  it('should reset form on success', async (done) => {
     const spy = spyOn(component.formComponent.form, 'reset');
     component.success().then(() => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
-  it('should call navigateBack with ["/users/login"] and { replaceUrl: true }, on navController when from success', () => {
+  it('should call navigateBack with ["/users/login"] and { replaceUrl: true }, on navController when from success', async (done) => {
     component.success().then(() => {
       expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(
@@ -101,6 +102,7 @@ describe('PasswordChangePage', () => {
         { replaceUrl: true }
       );
     });
+    done();
   });
 
   it('should call trackEvent on trackService when Change Password button clicked', () => {

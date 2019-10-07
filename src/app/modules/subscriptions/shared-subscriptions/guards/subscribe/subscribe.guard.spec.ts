@@ -37,35 +37,39 @@ describe('SubscribeGuard', () => {
     expect(subscribeGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is true', () => {
+  it('should be able to hit route when checkToken is true', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
     subscribeGuard
       .canActivate(activatedRouteSnapshotMock)
       .then(res => expect(res).toBe(true));
+    done();
   });
 
-  it('should not be able to hit route when checkToken is false', () => {
+  it('should not be able to hit route when checkToken is false', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
     subscribeGuard
       .canActivate(activatedRouteSnapshotMock)
       .then(res => expect(res).toBe(false));
+    done();
   });
 
-  it('should call sesionExpired on authService when checkToken is false', () => {
+  it('should call sesionExpired on authService when checkToken is false', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
     subscribeGuard
       .canActivate(activatedRouteSnapshotMock)
       .then(res =>
         expect(authServiceSpy.sesionExpired).toHaveBeenCalledTimes(1)
       );
+    done();
   });
 
-  it('should call saveLinkData on subscriptionService when checkToken is false', () => {
+  it('should call saveLinkData on subscriptionService when checkToken is false', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
     subscribeGuard
       .canActivate(activatedRouteSnapshotMock)
       .then(res =>
         expect(subscriptionsServiceSpy.saveLinkData).toHaveBeenCalledTimes(1)
       );
+    done();
   });
 });

@@ -38,9 +38,10 @@ describe('BinanceTransferTutorialModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open Binance Address Tutorial', () => {
+  it('should open Binance Address Tutorial', async (done) => {
     component.openBinanceAddress().then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 });

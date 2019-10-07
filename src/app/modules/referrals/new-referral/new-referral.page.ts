@@ -47,7 +47,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./new-referral.page.scss']
 })
 export class NewReferralPage implements OnInit {
-  @ViewChild(ReferralFormComponent)
+  @ViewChild(ReferralFormComponent, { static: true })
   formComponent: ReferralFormComponent;
 
   constructor(

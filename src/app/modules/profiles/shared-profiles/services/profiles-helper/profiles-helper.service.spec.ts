@@ -43,13 +43,15 @@ describe('ProfilesHelperService', () => {
     expect(profileHelperService.isFromGuard()).toBe(false);
   });
 
-  it('shoud call get on apiProfilesService.crud when isProfileDataOk', () => {
+  it('shoud call get on apiProfilesService.crud when isProfileDataOk', async (done) => {
     apiProfilesServiceMock.crud.get.and.returnValue(of());
     profileHelperService
       .isProfileDataOk()
-      .subscribe(res =>
+      .toPromise()
+      .then(() =>
         expect(apiProfilesServiceMock.crud.get).toHaveBeenCalledTimes(1)
       );
+    done();
   });
 
   it('isProfileDataOk shoud return true when get return { asdf: not_null_or_empty}', () => {

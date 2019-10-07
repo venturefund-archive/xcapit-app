@@ -48,7 +48,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./password-change.page.scss']
 })
 export class PasswordChangePage {
-  @ViewChild(PasswordChangeFormComponent)
+  @ViewChild(PasswordChangeFormComponent, { static: true })
   formComponent: PasswordChangeFormComponent;
 
   constructor(

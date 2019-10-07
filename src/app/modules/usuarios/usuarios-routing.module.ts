@@ -10,30 +10,38 @@ const routes: Routes = [
       {
         path: 'register',
         canActivate: [NoAuthGuard],
-        loadChildren: './register/register.module#RegisterPageModule'
+        loadChildren: () =>
+          import('./register/register.module').then(m => m.RegisterPageModule)
       },
       {
         path: 'email-validation',
         canActivate: [NoAuthGuard],
-        loadChildren:
-          './email-validation/email-validation.module#EmailValidationPageModule'
+        loadChildren: () =>
+          import('./email-validation/email-validation.module').then(
+            m => m.EmailValidationPageModule
+          )
       },
       {
         path: 'login',
         canActivate: [NoAuthGuard],
-        loadChildren: './login/login.module#LoginPageModule'
+        loadChildren: () =>
+          import('./login/login.module').then(m => m.LoginPageModule)
       },
       {
         path: 'reset-password',
         canActivate: [NoAuthGuard],
-        loadChildren:
-          './reset-password/reset-password.module#ResetPasswordPageModule'
+        loadChildren: () =>
+          import('./reset-password/reset-password.module').then(
+            m => m.ResetPasswordPageModule
+          )
       },
       {
         path: 'password-change',
         canActivate: [AuthGuard],
-        loadChildren:
-          './password-change/password-change.module#PasswordChangePageModule'
+        loadChildren: () =>
+          import('./password-change/password-change.module').then(
+            m => m.PasswordChangePageModule
+          )
       }
     ]
   }

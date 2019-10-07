@@ -50,11 +50,12 @@ describe('HelpPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open Extract Tutorial', () => {
+  it('should open Extract Tutorial', async (done) => {
     fixture.detectChanges();
     component.openTutorial('').then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
   it('should call trackEvent on trackService when elements with the directive are clicked', () => {
