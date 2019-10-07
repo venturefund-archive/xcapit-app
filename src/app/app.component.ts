@@ -224,7 +224,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  isUnauthRoute() {
+  isUnauthRoute(): number {
     return [
       '/users/login',
       '/users/register',
@@ -233,7 +233,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ].filter(item => {
       const regex = new RegExp(item, 'gi');
       return window.location.href.match(regex);
-    });
+    }).length;
   }
 
   trackBy(index: any, item: any) {
