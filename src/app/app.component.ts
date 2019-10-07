@@ -232,7 +232,8 @@ export class AppComponent implements OnInit, OnDestroy {
       '/users/reset-password'
     ].filter(item => {
       const regex = new RegExp(item, 'gi');
-      return window.location.href.match(regex);
+      const pathname = window.location.pathname;
+      return pathname.match(regex) || pathname.length === 1;
     }).length;
   }
 
