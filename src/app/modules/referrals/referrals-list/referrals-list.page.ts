@@ -58,7 +58,8 @@ import { IonInfiniteScroll } from '@ionic/angular';
   styleUrls: ['./referrals-list.page.scss']
 })
 export class ReferralsListPage implements OnInit {
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonInfiniteScroll, { static: true })
+  infiniteScroll: IonInfiniteScroll;
   referrals: any[] = [];
   queryOptions = { ordering: '-accepted,email,created_at' };
   paginationOptions = { cursor: '' };

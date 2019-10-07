@@ -68,7 +68,6 @@ describe('ReferralsListPage', () => {
 
   it('should call getUserReferrals on ionViewDidEnter', () => {
     const getUserReferralsSpy = spyOn(component, 'getUserReferrals');
-    getUserReferralsSpy.and.returnValue(of([]));
     component.ionViewDidEnter();
     fixture.detectChanges();
     expect(getUserReferralsSpy).toHaveBeenCalledTimes(1);

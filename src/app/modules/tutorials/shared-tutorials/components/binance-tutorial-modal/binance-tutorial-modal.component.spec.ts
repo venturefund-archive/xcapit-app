@@ -37,10 +37,11 @@ describe('BinanceTutorialModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open Binance Check Tutorial', () => {
+  it('should open Binance Check Tutorial', async (done) => {
     component.openBinanceCheck().then(() => {
       expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
   it('should close modal', () => {

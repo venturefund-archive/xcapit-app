@@ -25,22 +25,25 @@ describe('AuthGuard', () => {
     expect(authGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is true', () => {
+  it('should be able to hit route when checkToken is true', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
     authGuard.canActivate().then(res => expect(res).toBe(true));
+    done();
   });
 
-  it('should not be able to hit route when checkToken is false', () => {
+  it('should not be able to hit route when checkToken is false', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
     authGuard.canActivate().then(res => expect(res).toBe(false));
+    done();
   });
 
-  it('should call sesionExpired on authService when checkToken is false', () => {
+  it('should call sesionExpired on authService when checkToken is false', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
     authGuard
       .canActivate()
       .then(res =>
         expect(authServiceSpy.sesionExpired).toHaveBeenCalledTimes(1)
       );
+    done();
   });
 });

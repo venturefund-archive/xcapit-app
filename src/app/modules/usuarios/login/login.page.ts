@@ -83,7 +83,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
   styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-  @ViewChild(AuthFormComponent) loginForm: AuthFormComponent;
+  @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
 
   constructor(
     public submitButtonService: SubmitButtonService,

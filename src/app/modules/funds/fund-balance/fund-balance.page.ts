@@ -188,7 +188,7 @@ export class FundBalancePage implements OnInit {
     ca: ['', [Validators.required]]
   });
 
-  @ViewChild('selectCA') select: IonSelect;
+  @ViewChild('selectCA', { static: true }) select: IonSelect;
   constructor(
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,

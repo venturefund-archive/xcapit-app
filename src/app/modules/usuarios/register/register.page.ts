@@ -75,7 +75,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./register.page.scss']
 })
 export class RegisterPage implements OnInit {
-  @ViewChild(AuthFormComponent) registerForm: AuthFormComponent;
+  @ViewChild(AuthFormComponent, { static: true })
+  registerForm: AuthFormComponent;
 
   referralCode: string;
 

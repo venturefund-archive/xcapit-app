@@ -59,7 +59,6 @@ describe('FundSummaryPage', () => {
       })
     };
     alertControllerSpy = jasmine.createSpyObj('AlertController', ['create']);
-
     TestBed.configureTestingModule({
       declarations: [
         FundSummaryPage,
@@ -73,7 +72,8 @@ describe('FundSummaryPage', () => {
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
           { path: 'funds/runs/:fundName', component: DummyComponent },
-          { path: 'funds/fund-balance/:fundName', component: DummyComponent }
+          { path: 'funds/fund-balance/:fundName', component: DummyComponent },
+          { path: 'funds/list', component: DummyComponent }
         ]),
         ReactiveFormsModule
       ],
@@ -105,7 +105,6 @@ describe('FundSummaryPage', () => {
 
   it('should call getFundName on ionViewWillEnter', () => {
     const getFundStatusSpy = spyOn(component, 'getFundStatus');
-    getFundStatusSpy.and.returnValue(of({}));
     component.ionViewWillEnter();
     fixture.detectChanges();
     expect(getFundStatusSpy).toHaveBeenCalledTimes(1);
@@ -162,11 +161,12 @@ describe('FundSummaryPage', () => {
     expect(getStatusSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should set isOwner property on setIsOwner', () => {
+  it('should set isOwner property on setIsOwner', async done => {
     const isOwner = spyOn(apiFundServiceMock, 'isOwner');
     isOwner.and.returnValue(of({ is_owner: true }));
     component.setIsOwner();
     fixture.whenStable().then(() => expect(component.isOwner).toBeTruthy());
+    done();
   });
 
   it('should call isOwner once on setIsOwner', () => {
@@ -190,6 +190,20 @@ describe('FundSummaryPage', () => {
     expect(component.inCAStatus).toBeFalsy();
   });
 
+  it('should call unsubscribeToFund when unsubscribe is callled', () => {
+    component.unsubscribe();
+    expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledTimes(
+      1
+    );
+  });
+
+  it('should call create on alert when unsubscribeAlert is callled', async (done) => {
+    component.unsubscribeAlert().then(() => {
+      expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+    });
+    done();
+  });
+
   describe('with fund and is owner', () => {
     beforeEach(() => {
       component.fundStatus = fundStatusMockData;
@@ -197,19 +211,22 @@ describe('FundSummaryPage', () => {
       fixture.detectChanges();
     });
 
-    it('should call trackEvent on trackService when Share Fund is clicked', () => {
-      const el = trackClickDirectiveHelper.getByElementByName(
-        'ion-fab-button',
-        'Share Fund'
-      );
-      const directive = trackClickDirectiveHelper.getDirective(el);
-      const spyClickEvent = spyOn(directive, 'clickEvent');
-      el.nativeElement.click();
-      fixture.detectChanges();
-      expect(spyClickEvent).toHaveBeenCalledTimes(1);
+    it('should call trackEvent on trackService when Share Fund is clicked', async done => {
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getByElementByName(
+          'ion-fab-button',
+          'Share Fund'
+        );
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spyClickEvent = spyOn(directive, 'clickEvent');
+        el.nativeElement.click();
+        fixture.detectChanges();
+        expect(spyClickEvent).toHaveBeenCalledTimes(1);
+      });
+      done();
     });
 
-    it('should call trackEvent on trackService when Edit Fund is clicked', () => {
+    it('should call trackEvent on trackService when Edit Fund is clicked', async done => {
       fixture.whenStable().then(() => {
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
@@ -221,9 +238,10 @@ describe('FundSummaryPage', () => {
         fixture.detectChanges();
         expect(spyClickEvent).toHaveBeenCalledTimes(1);
       });
+      done();
     });
 
-    it('should call trackEvent on trackService when Renew Fund is clicked', () => {
+    it('should call trackEvent on trackService when Renew Fund is clicked', async done => {
       fixture.whenStable().then(() => {
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
@@ -235,9 +253,10 @@ describe('FundSummaryPage', () => {
         fixture.detectChanges();
         expect(spyClickEvent).toHaveBeenCalledTimes(1);
       });
+      done();
     });
 
-    it('should call trackEvent on trackService when Runs Fund is clicked', () => {
+    it('should call trackEvent on trackService when Runs Fund is clicked', async done => {
       fixture.whenStable().then(() => {
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
@@ -249,9 +268,10 @@ describe('FundSummaryPage', () => {
         fixture.detectChanges();
         expect(spyClickEvent).toHaveBeenCalledTimes(1);
       });
+      done();
     });
 
-    it('should call trackEvent on trackService when Fund Balance is clicked', () => {
+    it('should call trackEvent on trackService when Fund Balance is clicked', async done => {
       fixture.whenStable().then(() => {
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
@@ -263,9 +283,10 @@ describe('FundSummaryPage', () => {
         fixture.detectChanges();
         expect(spyClickEvent).toHaveBeenCalledTimes(1);
       });
+      done();
     });
 
-    it('should call trackEvent on trackService when Finalize Fund is clicked', () => {
+    it('should call trackEvent on trackService when Finalize Fund is clicked', async done => {
       fixture.whenStable().then(() => {
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
@@ -277,9 +298,10 @@ describe('FundSummaryPage', () => {
         fixture.detectChanges();
         expect(spyClickEvent).toHaveBeenCalledTimes(1);
       });
+      done();
     });
 
-    it('should call trackEvent on trackService when Pause Fund is clicked', () => {
+    it('should call trackEvent on trackService when Pause Fund is clicked', async done => {
       fixture.whenStable().then(() => {
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
@@ -291,9 +313,10 @@ describe('FundSummaryPage', () => {
         fixture.detectChanges();
         expect(spyClickEvent).toHaveBeenCalledTimes(1);
       });
+      done();
     });
 
-    it('should call trackEvent on trackService when Change Fund CA is clicked', () => {
+    it('should call trackEvent on trackService when Change Fund CA is clicked', async done => {
       component.fundStatus.fund.estado = 'pausado';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -307,30 +330,22 @@ describe('FundSummaryPage', () => {
         fixture.detectChanges();
         expect(spyClickEvent).toHaveBeenCalledTimes(1);
       });
+      done();
     });
 
-    it('should call trackEvent on trackService when select is change', () => {
+    it('should call trackEvent on trackService when select is change', async done => {
       component.fundStatus.fund.estado = 'pausado';
-      const el = trackClickDirectiveHelper.getElement('ion-select');
-      const directive = trackClickDirectiveHelper.getDirective(el);
-      const spy = spyOn(directive, 'changeEvent');
-      el.nativeElement.value = 'BTC';
-      el.nativeElement.dispatchEvent(new Event('ionChange'));
       fixture.detectChanges();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it('should call unsubscribeToFund when unsubscribe is callled', () => {
-    component.unsubscribe();
-    expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledTimes(
-      1
-    );
-  });
-
-  it('should call create on alert when unsubscribeAlert is callled', () => {
-    component.unsubscribeAlert().then(() => {
-      expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+      fixture.whenStable().then(() => {
+        const el = trackClickDirectiveHelper.getElement('ion-select');
+        const directive = trackClickDirectiveHelper.getDirective(el);
+        const spy = spyOn(directive, 'changeEvent');
+        el.nativeElement.value = 'BTC';
+        el.nativeElement.dispatchEvent(new Event('ionChange'));
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalledTimes(1);
+      });
+      done();
     });
   });
 });

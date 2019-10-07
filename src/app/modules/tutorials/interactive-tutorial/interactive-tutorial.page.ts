@@ -152,7 +152,7 @@ import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-action
   styleUrls: ['./interactive-tutorial.page.scss']
 })
 export class InteractiveTutorialPage implements OnInit {
-  @ViewChild(IonSlides) slide: IonSlides;
+  @ViewChild(IonSlides, { static: true }) slide: IonSlides;
 
   fundFormActions = FundFormActions;
 

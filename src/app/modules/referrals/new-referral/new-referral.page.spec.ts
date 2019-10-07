@@ -76,20 +76,22 @@ describe('NewReferralPage', () => {
     expect(apiReferralsServiceMock.crud.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should reset form on success', () => {
+  it('should reset form on success', async (done) => {
     const spy = spyOn(component.formComponent.form, 'reset');
     component.success().then(() => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
-  it('should call navigateBack with ["/referrals/list"], on navController when from success', () => {
+  it('should call navigateBack with ["/referrals/list"], on navController when from success', async (done) => {
     component.success().then(() => {
       expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateBack).toHaveBeenCalledWith([
         '/referrals/list'
       ]);
     });
+    done();
   });
 
   it('should call trackEvent on trackService when Save Referral button clicked', () => {

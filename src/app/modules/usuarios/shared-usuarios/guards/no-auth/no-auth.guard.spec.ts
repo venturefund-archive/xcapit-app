@@ -32,17 +32,19 @@ describe('NoAuthGuard', () => {
     expect(noAuthGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is false', () => {
+  it('should be able to hit route when checkToken is false', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
     noAuthGuard.canActivate().then(res => expect(res).toBe(true));
+    done();
   });
 
-  it('should not be able to hit route when checkToken is true', () => {
+  it('should not be able to hit route when checkToken is true', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
     noAuthGuard.canActivate().then(res => expect(res).toBe(false));
+    done();
   });
 
-  it('should call navigateRoot with ["/funds/list"] on navController when checkToken is true', () => {
+  it('should call navigateRoot with ["/funds/list"] on navController when checkToken is true', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
     noAuthGuard.canActivate().then(res => {
       expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
@@ -50,5 +52,6 @@ describe('NoAuthGuard', () => {
         '/funds/list'
       ]);
     });
+    done();
   });
 });

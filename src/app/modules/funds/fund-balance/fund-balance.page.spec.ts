@@ -57,7 +57,7 @@ describe('FundBalancePage', () => {
     const getFundBalanceSpy = spyOn(
       component,
       'getFundBalance'
-    ).and.returnValue(of({}));
+    );
     component.ionViewDidEnter();
     fixture.detectChanges();
     expect(getFundBalanceSpy).toHaveBeenCalledTimes(1);

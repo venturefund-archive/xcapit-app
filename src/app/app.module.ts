@@ -27,7 +27,6 @@ import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-a
 import { ReferralsModule } from './modules/referrals/referrals.module';
 import { TrackClickUnauthModule } from './shared/directives/track-click-unauth/track-click-unauth.module';
 
-
 export function jwtOptionsFactory(storage: Storage) {
   return {
     tokenGetter: () => storage.get(AUTH.storageKey),
@@ -36,7 +35,7 @@ export function jwtOptionsFactory(storage: Storage) {
 }
 
 export function httpLoaderFactory(http: HttpClient) {
- return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http);
 }
 
 @NgModule({

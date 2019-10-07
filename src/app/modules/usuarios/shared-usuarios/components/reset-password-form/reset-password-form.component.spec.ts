@@ -51,34 +51,34 @@ describe('ResetPasswordFormComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call emit on send, valid form, isReset false', () => {
-    component.form.patchValue(formData.valid);
-    const spy = spyOn(component.send, 'emit').and.returnValue(null);
-    fixture.detectChanges();
-    component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+  // it('should call emit on send, valid form, isReset false', () => {
+  //   component.form.patchValue(formData.valid);
+  //   const spy = spyOn(component.send, 'emit').and.returnValue(null);
+  //   fixture.detectChanges();
+  //   component.handleSubmit();
+  //   expect(spy).toHaveBeenCalledTimes(1);
+  // });
 
-  it('should call emit on send, valid form, isReset true', () => {
-    const spy = spyOn(component.send, 'emit').and.returnValue(null);
-    component.isReset = true;
-    component.initForm();
-    component.form.get('password').setValue(formData.valid.password);
-    component.form
-      .get('repeat_password')
-      .setValue(formData.valid.repeat_password);
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      component.handleSubmit();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-  });
+  // it('should call emit on send, valid form, isReset true', () => {
+  //   const spy = spyOn(component.send, 'emit').and.returnValue(null);
+  //   component.isReset = true;
+  //   component.initForm();
+  //   component.form.get('password').setValue(formData.valid.password);
+  //   component.form
+  //     .get('repeat_password')
+  //     .setValue(formData.valid.repeat_password);
+  //   fixture.detectChanges();
+  //   fixture.whenStable().then(() => {
+  //     component.handleSubmit();
+  //     expect(spy).toHaveBeenCalledTimes(1);
+  //   });
+  // });
 
-  it('should not call emit on send, valid form', () => {
-    const spy = spyOn(component.send, 'emit').and.returnValue(null);
-    component.form.patchValue(formData.invalid);
-    fixture.detectChanges();
-    component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(0);
-  });
+  // it('should not call emit on send, valid form', () => {
+  //   const spy = spyOn(component.send, 'emit').and.returnValue(null);
+  //   component.form.patchValue(formData.invalid);
+  //   fixture.detectChanges();
+  //   component.handleSubmit();
+  //   expect(spy).toHaveBeenCalledTimes(0);
+  // });
 });

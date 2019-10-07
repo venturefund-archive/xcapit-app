@@ -18,9 +18,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from './shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ActivatedRoute } from '@angular/router';
-import { isUndefined } from 'util';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
-import { componentFactoryName } from '@angular/compiler';
 
 describe('AppComponent', () => {
   let statusBarSpy: any,
@@ -127,7 +125,7 @@ describe('AppComponent', () => {
     // manera, pero parece que hay un problema con la abstract class, por ahora
     // queda.
     const isUnauthRoute = spyOn(component, 'isUnauthRoute');
-    isUnauthRoute.and.returnValue(false);
+    isUnauthRoute.and.returnValue(0);
     const localTrackService = fixture.debugElement.injector.get<TrackService>(
       TrackService as Type<TrackService>
     );
@@ -138,11 +136,10 @@ describe('AppComponent', () => {
 
   it('should call trackEvent after ngOnInit call unauth', async () => {
     const isUnauthRoute = spyOn(component, 'isUnauthRoute');
-    isUnauthRoute.and.returnValue(true);
+    isUnauthRoute.and.returnValue(1);
     const spy = spyOn(publicLogSpy, 'trackEvent').and.returnValue(of(null));
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(isUnauthRoute).toBeTruthy();
   });
 
   it('should initialize the app', async () => {

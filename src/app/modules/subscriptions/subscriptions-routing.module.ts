@@ -9,7 +9,10 @@ const routes: Routes = [
       {
         path: 'subscribe/:subscriptionToken/:fundNameb64',
         canActivate: [SubscribeGuard],
-        loadChildren: './subscribe/subscribe.module#SubscribePageModule'
+        loadChildren: () =>
+          import('./subscribe/subscribe.module').then(
+            m => m.SubscribePageModule
+          )
       }
     ]
   }
@@ -19,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SubscriptionsRoutingModule { }
+export class SubscriptionsRoutingModule {}

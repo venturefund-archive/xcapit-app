@@ -9,7 +9,7 @@ const routes: Routes = [
       {
         path: 'accept',
         canActivate: [AuthGuard],
-        loadChildren: './accept/accept.module#AcceptPageModule'
+        loadChildren: () => import('./accept/accept.module').then(m => m.AcceptPageModule)
       }
     ]
   }

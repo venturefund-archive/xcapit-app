@@ -92,12 +92,12 @@ describe('NewFundPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open API Keys Tutorial', () => {
-    component.openAPIKeysTutorial().then(() => {
-      fixture.detectChanges();
-      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    });
-  });
+  // it('should open API Keys Tutorial', () => {
+  //   component.openAPIKeysTutorial().then(() => {
+  //     fixture.detectChanges();
+  //     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  //   });
+  // });
 
   it('should call save on submit form', () => {
     fixture.detectChanges();

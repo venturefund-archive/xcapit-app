@@ -71,7 +71,7 @@ describe('DepositAddressPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getDepositAdress on form changes', () => {
+  it('should call getDepositAdress on form changes', async (done) => {
     const spy = spyOn(apiFundsService, 'getDepositAdress');
     spy.and.returnValue(of(depositAddressData));
     component.ionViewDidEnter();
@@ -80,9 +80,11 @@ describe('DepositAddressPage', () => {
     fixture.whenStable().then(() => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
-  it('should call copy in ClipboardService when call copyToClipboard', () => {
+  it('should call copy in ClipboardService when call copyToClipboard', async (done) => {
+    clipboardServiceSpy.copy.and.returnValue(of({}).toPromise());
     const spy = spyOn(apiFundsService, 'getDepositAdress');
     spy.and.returnValue(of(depositAddressData));
     component.ionViewDidEnter();
@@ -92,6 +94,7 @@ describe('DepositAddressPage', () => {
       component.copyToClipboard();
       expect(clipboardServiceSpy.copy).toHaveBeenCalledTimes(1);
     });
+    done();
   });
 
   it('should call trackEvent on trackService when select is clicked', () => {
