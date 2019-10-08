@@ -18,7 +18,9 @@ describe('RunSummaryPage', () => {
     fund: {
       estado: 'active'
     },
-    status: {}
+    status: {
+      date_info: {}
+    }
   };
   beforeEach(async(() => {
     apiRunsServiceMock = {

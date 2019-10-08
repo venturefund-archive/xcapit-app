@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { Chart, GridLineOptions } from 'chart.js';
 import { DatePipe } from '@angular/common';
+import { Currency } from '../../enums/currency.enum';
 
 @Component({
   selector: 'app-fund-performance-chart',
@@ -39,7 +40,7 @@ export class FundPerformanceChartComponent implements OnChanges {
   constructor(private datePipe: DatePipe) {}
 
   ngOnChanges() {
-      this.setChart();
+    this.setChart();
   }
 
   setChart() {
@@ -58,7 +59,7 @@ export class FundPerformanceChartComponent implements OnChanges {
             },
             {
               label: this.currency,
-              data: this.fundPerformance.usd,
+              data: this.getDataForCurrencyToOptimize(),
               backgroundColor: 'green',
               borderColor: 'green',
               fill: false
@@ -83,6 +84,12 @@ export class FundPerformanceChartComponent implements OnChanges {
     }
   }
 
+  getDataForCurrencyToOptimize() {
+    return this.currency === Currency.BTC
+      ? this.fundPerformance.performance_btc
+      : this.fundPerformance.performance_usdt;
+  }
+
   normalizeLabels(): string[] {
     return this.fundPerformance.index.map((item: string) =>
       this.datePipe.transform(item, 'dd/MM/yyyy')
@@ -96,8 +103,20 @@ export class FundPerformanceChartComponent implements OnChanges {
       this.fundPerformance.index.length &&
       Array.isArray(this.fundPerformance.wcs_advisor) &&
       this.fundPerformance.wcs_advisor.length &&
-      Array.isArray(this.fundPerformance.usd) &&
-      this.fundPerformance.usd.length
+      this.checkPerformanceDataForCurrency()
+    );
+  }
+
+  checkPerformanceDataForCurrency() {
+    if (this.currency === Currency.BTC) {
+      return (
+        Array.isArray(this.fundPerformance.performance_btc) &&
+        this.fundPerformance.performance_btc.length
+      );
+    }
+    return (
+      Array.isArray(this.fundPerformance.performance_usdt) &&
+      this.fundPerformance.performance_usdt.length
     );
   }
 }

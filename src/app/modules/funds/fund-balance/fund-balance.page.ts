@@ -44,7 +44,11 @@ import { IonSelect } from '@ionic/angular';
                   ? this.fundBalance.balance.to_ca.ca
                   : this.fundBalance.fund.currency) | uppercase
               }}:
-              {{ this.fundBalance | currencyEndBalance | number: '1.2-4' }}
+              {{
+                (this.fundBalance.balance.to_ca
+                  ? this.fundBalance?.balance?.to_ca.balance_fin
+                  : this.fundBalance?.balance?.balance_fin) | number: '1.2-4'
+              }}
             </h2>
             <ion-button
               size="small"
@@ -103,65 +107,10 @@ import { IonSelect } from '@ionic/angular';
               <ion-item-divider>
                 {{ 'funds.fund_balance.balance_table_title' | translate }}
               </ion-item-divider>
-              <ion-grid class="fb__content__balance_table__content">
-                <ion-row class="ion-align-items-center">
-                  <ion-col size="6">
-                    BTC:
-                  </ion-col>
-                  <ion-col>
-                    <app-currency-amount-value
-                      [currency]="this.fundBalance.fund.currency"
-                      [amount]="this.fundBalance.balance.cant_btc"
-                      [usdValue]="this.fundBalance.balance.btc_usd"
-                      [btcValue]="this.fundBalance.balance.cant_btc"
-                    ></app-currency-amount-value>
-                  </ion-col>
-                </ion-row>
-                <ion-row class="ion-align-items-center">
-                  <ion-col size="6">ETH:</ion-col>
-                  <ion-col>
-                    <app-currency-amount-value
-                      [currency]="this.fundBalance.fund.currency"
-                      [amount]="this.fundBalance.balance.cant_eth"
-                      [usdValue]="this.fundBalance.balance.eth_usd"
-                      [btcValue]="this.fundBalance.balance.eth_btc"
-                    ></app-currency-amount-value>
-                  </ion-col>
-                </ion-row>
-                <ion-row class="ion-align-items-center">
-                  <ion-col size="6">LTC:</ion-col>
-                  <ion-col>
-                    <app-currency-amount-value
-                      [currency]="this.fundBalance.fund.currency"
-                      [amount]="this.fundBalance.balance.cant_ltc"
-                      [usdValue]="this.fundBalance.balance.ltc_usd"
-                      [btcValue]="this.fundBalance.balance.ltc_btc"
-                    ></app-currency-amount-value>
-                  </ion-col>
-                </ion-row>
-                <ion-row class="ion-align-items-center">
-                  <ion-col size="6">BNB:</ion-col>
-                  <ion-col>
-                    <app-currency-amount-value
-                      [currency]="this.fundBalance.fund.currency"
-                      [amount]="this.fundBalance.balance.cant_bnb"
-                      [usdValue]="this.fundBalance.balance.bnb_usd"
-                      [btcValue]="this.fundBalance.balance.bnb_btc"
-                    ></app-currency-amount-value>
-                  </ion-col>
-                </ion-row>
-                <ion-row class="ion-align-items-center">
-                  <ion-col size="6">USDT:</ion-col>
-                  <ion-col>
-                    <app-currency-amount-value
-                      [currency]="this.fundBalance.fund.currency"
-                      [amount]="this.fundBalance.balance.cant_usdt"
-                      [usdValue]="this.fundBalance.balance.cant_usdt"
-                      [btcValue]="this.fundBalance.balance.usd_btc"
-                    ></app-currency-amount-value>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
+              <app-fund-balance-detail
+                [currency]="this.fundBalance.fund.currency"
+                [detail]="this.fundBalance.balance.summary"
+              ></app-fund-balance-detail>
               <ion-item-divider class="custom_divider"></ion-item-divider>
             </ion-list>
           </div>

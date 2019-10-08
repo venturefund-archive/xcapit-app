@@ -154,7 +154,7 @@ import { CommissionsModalComponent } from '../shared-funds/components/commission
               <ion-row *ngIf="run.inversion">
                 <ion-col
                   >{{ 'funds.fund_runs.inversion_title' | translate }} </ion-col
-                ><ion-col>{{ run.inversion | number: '1.2-6' }} BTC</ion-col>
+                ><ion-col>{{ run.inversion | number: '1.2-6' }} {{ run.currency }}</ion-col>
               </ion-row>
               <ion-row *ngIf="run.porcentaje_deposito">
                 <ion-col
