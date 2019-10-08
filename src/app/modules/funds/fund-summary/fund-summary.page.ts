@@ -140,8 +140,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         </div>
       </div>
       <ion-grid
-        no-padding
-        padding-top
+        class="ion-no-padding ion-padding-top"
         *ngIf="this.isOwner && this.fundStatus?.fund"
       >
         <ion-row>
