@@ -1,3 +1,5 @@
+### Note: La app ya se encuentra con la rama nueva-arquitectura-estado mergeada a dev.
+
 # Instrucciones para update de dependencias
 
 Para hacer update de dependencias, bajar lo último del repo (branch dev) y en el directorio de la App ejecutar:
