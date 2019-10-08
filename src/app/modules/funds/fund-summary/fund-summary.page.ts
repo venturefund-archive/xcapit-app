@@ -38,7 +38,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!this.isOwnerLoading">
         <ion-fab-button
           *ngIf="this.isOwner"
           (click)="this.shareFund()"
@@ -286,6 +286,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 })
 export class FundSummaryPage implements OnInit, OnDestroy {
   loadingStatus = true;
+  isOwnerLoading = true;
 
   fundName: string;
   isOwner = false;
@@ -327,7 +328,10 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   setIsOwner() {
     this.apiFunds
       .isOwner(this.fundName)
-      .subscribe(res => (this.isOwner = res && res.is_owner));
+      .subscribe(res => {
+        this.isOwner = res && res.is_owner;
+        this.isOwnerLoading = false;
+      });
   }
 
   shareFund() {
