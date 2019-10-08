@@ -9,24 +9,17 @@ import { ApiFundsService } from '../../services/api-funds/api-funds.service';
         <ion-row class="head-row ion-text-center">
           <ion-col>
             <h4>
-              {{
-                'funds.commissions.inversion_table_title'
-                  | translate
-              }}
+              {{ 'funds.commissions.inversion_table_title' | translate }}
             </h4>
           </ion-col>
           <ion-col>
             <h4>
-              {{
-                'funds.commissions.commission_table_title'
-                  | translate
-              }}
+              {{ 'funds.commissions.commission_table_title' | translate }}
             </h4>
           </ion-col>
         </ion-row>
         <ion-row
-          padding
-          class="row ion-text-center"
+          class="row ion-text-center ion-padding"
           *ngFor="let commission of commissions"
         >
           <ion-col>

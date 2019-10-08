@@ -21,7 +21,7 @@ import { IonSelect } from '@ionic/angular';
       </ion-toolbar>
     </ion-header>
 
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <div class="fb" *ngIf="this.fundBalance?.fund?.id_corrida">
         <div class="fb__header">
           <h1>

@@ -17,7 +17,7 @@ import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.servic
       </ion-toolbar>
     </ion-header>
 
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <div class="fs">
         <div class="fs__header">
           <h1>
@@ -70,7 +70,7 @@ import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.servic
 
       <div class="ion-padding-top" *ngIf="false">
         <ion-button
-          margin-top
+          class="ion-margin-top"
           expand="block"
           size="medium"
           type="button"

@@ -37,7 +37,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
       </ion-toolbar>
     </ion-header>
 
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button
           *ngIf="this.isOwner"
@@ -84,7 +84,8 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
           <div class="fs__days-left" *ngIf="this.fundStatus.status">
             <p
               *ngIf="
-                this.fundStatus.status.date_info.cantidad_dias_inicio_restantes < 0;
+                this.fundStatus.status.date_info
+                  .cantidad_dias_inicio_restantes < 0;
                 else hasDays
               "
             >
@@ -267,7 +268,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <ion-button
           appTrackClick
           name="Fund Balance"
-          margin-top
+          class="ion-margin-top"
           expand="block"
           size="medium"
           type="button"
@@ -313,7 +314,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {
-      this.fundStatusSubscription.unsubscribe();
+    this.fundStatusSubscription.unsubscribe();
   }
 
   ionViewWillEnter() {

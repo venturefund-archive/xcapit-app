@@ -16,7 +16,7 @@ import { ModalController } from '@ionic/angular';
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <app-commissions-content></app-commissions-content>
     </ion-content>
   `,

@@ -16,7 +16,7 @@ import { ModalController } from '@ionic/angular';
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <h3>{{ 'funds.new_fund_info.fund_name_title' | translate }}</h3>
       <p>{{ 'funds.new_fund_info.fund_name_text' | translate }}</p>
 
@@ -48,7 +48,6 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./new-fund-info.component.scss']
 })
 export class NewFundInfoComponent {
-
   constructor(private modalController: ModalController) {}
 
   closeModal() {

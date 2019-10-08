@@ -17,7 +17,7 @@ import { ModalController } from '@ionic/angular';
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <h2>{{ 'tutorials.ca_tutorial_modal.t1' | translate }}</h2>
       <p>
         {{ 'tutorials.ca_tutorial_modal.p1' | translate }}

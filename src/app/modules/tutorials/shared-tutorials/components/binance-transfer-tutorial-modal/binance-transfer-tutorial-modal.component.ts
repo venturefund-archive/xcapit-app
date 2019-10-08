@@ -17,7 +17,7 @@ import { BinanceAddressTutorialModalComponent } from '../binance-address-tutoria
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <h2 class="ion-text-center">
         {{ 'tutorials.binance_transfer_tutorial_modal.t1' | translate }}
       </h2>

@@ -17,10 +17,10 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content class="ion-padding">
       <h2>{{ 'tutorials.binance_tutorial_modal.t1' | translate }}</h2>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p1' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p1' | translate }}
         <a
           href="https://www.binance.com"
           target="_blank"
@@ -30,37 +30,33 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
         </a>
       </p>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p2' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p2' | translate }}
       </p>
-      <img
-        src="assets/img/tutorials/binance/binance-tutorial-img-1.png"
-      >
+      <img src="assets/img/tutorials/binance/binance-tutorial-img-1.png" />
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p3' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p3' | translate }}
       </p>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p4' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p4' | translate }}
       </p>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p5' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p5' | translate }}
       </p>
       <p class="tutorial__notes">
-      {{ 'tutorials.binance_tutorial_modal.p6' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p6' | translate }}
       </p>
-      <img
-        src="assets/img/tutorials/binance/binance-tutorial-img-2.png"
-      >
+      <img src="assets/img/tutorials/binance/binance-tutorial-img-2.png" />
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p7' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p7' | translate }}
       </p>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p8' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p8' | translate }}
       </p>
       <ion-img
         src="assets/img/tutorials/binance/binance-tutorial-img-3.png"
       ></ion-img>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p9' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p9' | translate }}
       </p>
       <ion-img
         src="assets/img/tutorials/binance/binance-tutorial-img-4.png"
@@ -70,25 +66,25 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
         src="assets/img/tutorials/binance/binance-tutorial-img-5.png"
       ></ion-img>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p11' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p11' | translate }}
       </p>
       <ion-img
         src="assets/img/tutorials/binance/binance-tutorial-img-6.png"
       ></ion-img>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p12' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p12' | translate }}
       </p>
       <ion-img
         src="assets/img/tutorials/binance/binance-tutorial-img-7.png"
       ></ion-img>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p13' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p13' | translate }}
       </p>
       <ion-img
         src="assets/img/tutorials/binance/binance-tutorial-img-8.png"
       ></ion-img>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p14' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p14' | translate }}
       </p>
       <ion-img
         src="assets/img/tutorials/binance/binance-tutorial-img-9.png"
@@ -98,24 +94,24 @@ import { BinanceCheckTutorialModalComponent } from '../binance-check-tutorial-mo
         src="assets/img/tutorials/binance/binance-tutorial-img-10.png"
       ></ion-img>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p16' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p16' | translate }}
       </p>
       <ion-img
         src="assets/img/tutorials/binance/binance-tutorial-img-11.png"
       ></ion-img>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p17' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p17' | translate }}
       </p>
       <ion-img
         src="assets/img/tutorials/binance/binance-tutorial-img-12.png"
       ></ion-img>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p18' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p18' | translate }}
       </p>
       <p>
-      {{ 'tutorials.binance_tutorial_modal.p19' | translate }}
+        {{ 'tutorials.binance_tutorial_modal.p19' | translate }}
         <a class="local-a" (click)="this.openBinanceCheck()">
-        {{ 'tutorials.binance_tutorial_modal.a1' | translate }}
+          {{ 'tutorials.binance_tutorial_modal.a1' | translate }}
         </a>
       </p>
     </ion-content>
