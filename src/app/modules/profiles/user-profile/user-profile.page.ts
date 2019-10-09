@@ -8,7 +8,6 @@ import { NavController } from '@ionic/angular';
 import { ProfilesHelperService } from '../shared-profiles/services/profiles-helper/profiles-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-runs.service';
-import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-actions.enum';
 
 @Component({
   selector: 'app-user-profile',
@@ -246,6 +245,10 @@ export class UserProfilePage implements OnInit {
     this.setForm();
   }
 
+  ionViewWillLeave() {
+    this.profilesHelper.isFromGuardHasBeenCalled();
+  }
+
   save() {
     if (this.form.valid) {
       this.disabledButton = true;
@@ -254,11 +257,8 @@ export class UserProfilePage implements OnInit {
           message: this.translate.instant('profiles.user_profile.success_text')
         });
         if (this.profilesHelper.isFromGuard()) {
-          this.profilesHelper.isFromGuardHasBeenCalled();
-          this.navController.navigateForward(
-            ['/funds/action', FundFormActions.NewFund],
-            { replaceUrl: true }
-          );
+          const url = this.profilesHelper.getUrlToAccess();
+          this.navController.navigateForward([url], { replaceUrl: true });
         } else {
           this.navController.pop();
         }

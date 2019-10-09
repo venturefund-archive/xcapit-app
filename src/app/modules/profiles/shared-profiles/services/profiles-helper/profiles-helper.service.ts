@@ -19,15 +19,23 @@ export class ProfilesHelperService {
 
   private fromGuard: boolean;
 
+  private urlToAccess: string;
+
+  getUrlToAccess(): string {
+    return this.urlToAccess;
+  }
+
   isFromGuard(): boolean {
     return this.fromGuard;
   }
 
   isFromGuardHasBeenCalled() {
     this.fromGuard = false;
+    this.urlToAccess = '';
   }
 
-  isProfileDataOk(): Observable<boolean> {
+  isProfileDataOk(urlToAccess: string): Observable<boolean> {
+    this.urlToAccess = urlToAccess;
     return this.apiProfiles.crud.get().pipe(
       map(profileData => {
         let isDataOk = true;
@@ -40,12 +48,23 @@ export class ProfilesHelperService {
           this.fromGuard = true;
           this.navController.navigateForward(['/profiles/user']).then(() =>
             this.toastService.showToast({
-              message: this.translate.instant('profiles.profile_helper.data_no_ok')
+              message: this.translate.instant(this.getToastMessage())
             })
           );
         }
         return isDataOk;
       })
     );
+  }
+
+  getToastMessage() {
+    switch (this.urlToAccess) {
+      case '/referrals/new':
+        return 'profiles.profile_helper.from_new_referral_data_no_ok';
+      case '/funds/action/new':
+        return 'profiles.profile_helper.from_new_fund_data_no_ok';
+      default:
+        return 'profiles.profile_helper.data_no_ok';
+    }
   }
 }

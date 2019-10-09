@@ -261,7 +261,9 @@
   },
   "profiles": {
     "profile_helper": {
-      "data_no_ok": "You must complete your personal information in order to create a fund"
+      "from_new_fund_data_no_ok": "You must complete your personal information in order to create a fund",
+      "from_new_referral_data_no_ok": "You must complete your personal information in order to refer a friend",
+      "data_no_ok": "You must complete your personal information in order to perform the action"
     },
     "user_profile": {
       "header": "User Profile",

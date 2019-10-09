@@ -13,6 +13,7 @@ import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-run
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ProfilesHelperService } from '../shared-profiles/services/profiles-helper/profiles-helper.service';
 
 const formData = {
   valid: {
@@ -44,6 +45,7 @@ describe('UserProfilePage', () => {
   let apiProfilesService: ApiProfilesService;
   let apiRunsServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfilePage>;
+  let profilesHelperSpy: any;
 
   beforeEach(async(() => {
     apiRunsServiceSpy = jasmine.createSpyObj('ApiRunsService', ['hasActive']);
@@ -54,6 +56,11 @@ describe('UserProfilePage', () => {
         get: () => of({})
       }
     };
+    profilesHelperSpy = jasmine.createSpyObj('ProfilesHelperService', [
+      'isFromGuardHasBeenCalled',
+      'isFromGuard',
+      'getUrlToAccess'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [UserProfilePage, TrackClickDirective],
@@ -68,7 +75,8 @@ describe('UserProfilePage', () => {
       providers: [
         TrackClickDirective,
         { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
-        { provide: ApiRunsService, useValue: apiRunsServiceSpy }
+        { provide: ApiRunsService, useValue: apiRunsServiceSpy },
+        { provide: ProfilesHelperService, useValue: profilesHelperSpy }
       ]
     }).compileComponents();
   }));
@@ -89,6 +97,11 @@ describe('UserProfilePage', () => {
     spy.and.returnValue(of({}));
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call isFromGuardHasBeenCalled on profileHelper when ionViewWillLeave', () => {
+    component.ionViewWillLeave();
+    expect(profilesHelperSpy.isFromGuardHasBeenCalled).toHaveBeenCalledTimes(1);
   });
 
   it('should call save on submit form', () => {
