@@ -76,7 +76,8 @@
       "card_header": "Registro de Usuario",
       "submit_button": "Registrar",
       "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
-      "accept_button": "Aceptar"
+      "accept_button": "Aceptar",
+      "referral_code_text": "Código de Referido"
     },
     "auth_form": {
       "repeat_email": "Confirmar Email",

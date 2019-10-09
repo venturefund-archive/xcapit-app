@@ -10,7 +10,7 @@ const routes: Routes = [
     component: RegisterPage
   },
   {
-    path: ':code',
+    path: ':code/:email',
     component: RegisterPage
   }
 ];

@@ -12,6 +12,7 @@ import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-una
 import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click-unauth/track-click-unauth.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { convertToParamMap, ActivatedRoute } from '@angular/router';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -20,12 +21,14 @@ describe('RegisterPage', () => {
   let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<
     RegisterPage
   >;
+  let activatedRouteMock: any;
   beforeEach(async(() => {
     apiUsuariosMock = {
       crud: {
         create: (data: any) => of(data)
       }
     };
+    activatedRouteMock = {};
     TestBed.configureTestingModule({
       declarations: [
         DummyComponent,
@@ -45,7 +48,8 @@ describe('RegisterPage', () => {
       ],
       providers: [
         TrackClickUnauthDirective,
-        { provide: ApiUsuariosService, useValue: apiUsuariosMock }
+        { provide: ApiUsuariosService, useValue: apiUsuariosMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ]
     }).compileComponents();
   }));
@@ -99,5 +103,45 @@ describe('RegisterPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call setReferralCode & setEmail on ionViewWillEnter', () => {
+    const setReferralCodeSpy = spyOn(component, 'setReferralCode');
+    const setEmailSpy = spyOn(component, 'setEmail');
+    component.ionViewWillEnter();
+    expect(setReferralCodeSpy).toHaveBeenCalledTimes(1);
+    expect(setEmailSpy).toHaveBeenCalledTimes(1);
+  });
+
+  describe('with referral code', () => {
+    beforeEach(() => {
+      activatedRouteMock = TestBed.get(ActivatedRoute);
+    });
+
+    it('should set referral code and a valid email ionViewWillEnter', () => {
+      activatedRouteMock.snapshot = {
+        paramMap: convertToParamMap({
+          code: 'asfd12',
+          email: 'dGVzdEB0ZXN0LmNvbQ'
+        })
+      };
+      component.ionViewWillEnter();
+      expect(component.referralCode).toEqual('asfd12');
+      expect(component.registerForm.form.get('email').value).toEqual(
+        'test@test.com'
+      );
+    });
+
+    it('should set referral code and a invalid email ionViewWillEnter', () => {
+      activatedRouteMock.snapshot = {
+        paramMap: convertToParamMap({
+          code: 'asfd12',
+          email: 'dGVzdEB0ZXN0LmNvb'
+        })
+      };
+      component.ionViewWillEnter();
+      expect(component.referralCode).toEqual('asfd12');
+      expect(component.registerForm.form.get('email').value).toEqual('');
+    });
   });
 });

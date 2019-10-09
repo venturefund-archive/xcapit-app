@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -33,6 +33,17 @@ import { ActivatedRoute } from '@angular/router';
                 <ion-card-content>
                   <app-auth-form (send)="this.registerUser($event)">
                     <div class="auth-button ion-padding-top ion-margin-top">
+                      <div
+                        *ngIf="this.referralCode"
+                        class="ion-padding-bottom ion-text-center"
+                      >
+                        <ion-text>
+                          {{ 'usuarios.register.referral_code_text' | translate }}
+                          {{ ': ' }}
+                          {{ this.referralCode }}
+                        </ion-text>
+                      </div>
+
                       <ion-button
                         expand="full"
                         size="large"
@@ -85,13 +96,43 @@ export class RegisterPage implements OnInit {
     private apiUsuarios: ApiUsuariosService,
     private alertController: AlertController,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.setReferralCode();
+    this.setEmail();
+  }
+
+  setReferralCode() {
     this.referralCode = this.route.snapshot.paramMap.get('code');
+  }
+
+  setEmail() {
+    const email = this.getEmailFromUrl();
+    if (email) {
+      ['email', 'repeat_email'].forEach(fieldName => {
+        const formField = this.registerForm.form.get(fieldName);
+        formField.setValue(email);
+        formField.markAsTouched();
+      });
+    }
+  }
+
+  getEmailFromUrl(): string {
+    let decodeEmail: string;
+    const email = this.route.snapshot.paramMap.get('email');
+    if (email) {
+      try {
+        decodeEmail = atob(email);
+      } catch (error) {
+        decodeEmail = '';
+      }
+    }
+    return decodeEmail;
   }
 
   registerUser(data: any) {
@@ -102,6 +143,7 @@ export class RegisterPage implements OnInit {
 
   async success() {
     this.registerForm.form.reset();
+    await this.navController.navigateBack(['/users/login']);
     const alert = await this.alertController.create({
       message: `
         <h4>
