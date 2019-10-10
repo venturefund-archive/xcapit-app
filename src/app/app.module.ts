@@ -32,7 +32,7 @@ import { environment } from '../environments/environment';
 export function jwtOptionsFactory(storage: Storage) {
   return {
     tokenGetter: () => storage.get(AUTH.storageKey),
-    whitelistedDomains: ['localhost:9050']
+    whitelistedDomains: ['localhost:9050', '192.168.1.100:9050']
   };
 }
 

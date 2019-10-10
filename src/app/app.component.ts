@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 
 import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -13,6 +13,9 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
 import { TrackService } from './shared/services/track/track.service';
 import { LogsService } from './shared/services/logs/logs.service';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
+import { firebase } from '@firebase/app';
+import { environment } from '../environments/environment';
+import { NotificationsService } from './shared/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -73,7 +76,7 @@ import { PublicLogsService } from './shared/services/public-logs/public-logs.ser
     </ion-app>
   `
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(IonRouterOutlet, { static: true })
   ionRouterOutlet: IonRouterOutlet;
 
@@ -144,16 +147,25 @@ export class AppComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private languageService: LanguageService,
     private trackService: TrackService,
-    private publicLogsService: PublicLogsService
+    private publicLogsService: PublicLogsService,
+    private notificationsService: NotificationsService
   ) {
     this.initializeApp();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.routeChangeSubscribe();
     this.submitButtonService.enabled();
     this.loadingService.enabled();
     this.trackLoad();
+    firebase.initializeApp(environment.firebase);
+    await this.notificationsService.init();
+  }
+
+  ngAfterViewInit() {
+    this.platform.ready().then(async () => {
+      await this.notificationsService.requestPermission();
+    });
   }
 
   trackLoad() {
@@ -240,4 +252,5 @@ export class AppComponent implements OnInit, OnDestroy {
   trackBy(index: any, item: any) {
     return item.id;
   }
+
 }
