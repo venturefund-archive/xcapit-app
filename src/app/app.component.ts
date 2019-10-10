@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  AfterViewInit
+} from '@angular/core';
 
 import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -16,6 +22,15 @@ import { PublicLogsService } from './shared/services/public-logs/public-logs.ser
 import { firebase } from '@firebase/app';
 import { environment } from '../environments/environment';
 import { NotificationsService } from './shared/services/notifications/notifications.service';
+
+import {
+  Plugins,
+  PushNotification,
+  PushNotificationToken,
+  PushNotificationActionPerformed
+} from '@capacitor/core';
+
+const { PushNotifications } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -158,13 +173,54 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.submitButtonService.enabled();
     this.loadingService.enabled();
     this.trackLoad();
-    firebase.initializeApp(environment.firebase);
-    await this.notificationsService.init();
+    // firebase.initializeApp(environment.firebase);
+    // await this.notificationsService.init();
+  }
+
+  initCapacitorPushNotifications() {
+    console.log('Initializing HomePage');
+
+    // Register with Apple / Google to receive push via APNS/FCM
+    PushNotifications.register();
+
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener(
+      'registration',
+      (token: PushNotificationToken) => {
+        alert('Push registration success, token: ' + token.value);
+        console.log('Push registration success, token: ' + token.value);
+      }
+    );
+
+    // Some issue with our setup and push will not work
+    PushNotifications.addListener('registrationError', (error: any) => {
+      alert('Error on registration: ' + JSON.stringify(error));
+      console.log('Error on registration: ' + JSON.stringify(error));
+    });
+
+    // Show us the notification payload if the app is open on our device
+    PushNotifications.addListener(
+      'pushNotificationReceived',
+      (notification: PushNotification) => {
+        alert('Push received: ' + JSON.stringify(notification));
+        console.log('Push received: ' + JSON.stringify(notification));
+      }
+    );
+
+    // Method called when tapping on a notification
+    PushNotifications.addListener(
+      'pushNotificationActionPerformed',
+      (notification: PushNotificationActionPerformed) => {
+        alert('Push action performed: ' + JSON.stringify(notification));
+        console.log('Push action performed: ' + JSON.stringify(notification));
+      }
+    );
   }
 
   ngAfterViewInit() {
     this.platform.ready().then(async () => {
-      await this.notificationsService.requestPermission();
+      // await this.notificationsService.requestPermission();
+      this.initCapacitorPushNotifications();
     });
   }
 
@@ -252,5 +308,4 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   trackBy(index: any, item: any) {
     return item.id;
   }
-
 }
