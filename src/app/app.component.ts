@@ -19,18 +19,10 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
 import { TrackService } from './shared/services/track/track.service';
 import { LogsService } from './shared/services/logs/logs.service';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
-import { firebase } from '@firebase/app';
-import { environment } from '../environments/environment';
+
 import { NotificationsService } from './shared/services/notifications/notifications.service';
-
-import {
-  Plugins,
-  PushNotification,
-  PushNotificationToken,
-  PushNotificationActionPerformed
-} from '@capacitor/core';
-
-const { PushNotifications } = Plugins;
+import firebase from '@firebase/app';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -168,59 +160,28 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.initializeApp();
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.routeChangeSubscribe();
     this.submitButtonService.enabled();
     this.loadingService.enabled();
     this.trackLoad();
-    // firebase.initializeApp(environment.firebase);
-    // await this.notificationsService.init();
+    this.initializeFirebase();
   }
 
-  initCapacitorPushNotifications() {
-    console.log('Initializing HomePage');
-
-    // Register with Apple / Google to receive push via APNS/FCM
-    PushNotifications.register();
-
-    // On success, we should be able to receive notifications
-    PushNotifications.addListener(
-      'registration',
-      (token: PushNotificationToken) => {
-        alert('Push registration success, token: ' + token.value);
-        console.log('Push registration success, token: ' + token.value);
-      }
-    );
-
-    // Some issue with our setup and push will not work
-    PushNotifications.addListener('registrationError', (error: any) => {
-      alert('Error on registration: ' + JSON.stringify(error));
-      console.log('Error on registration: ' + JSON.stringify(error));
-    });
-
-    // Show us the notification payload if the app is open on our device
-    PushNotifications.addListener(
-      'pushNotificationReceived',
-      (notification: PushNotification) => {
-        alert('Push received: ' + JSON.stringify(notification));
-        console.log('Push received: ' + JSON.stringify(notification));
-      }
-    );
-
-    // Method called when tapping on a notification
-    PushNotifications.addListener(
-      'pushNotificationActionPerformed',
-      (notification: PushNotificationActionPerformed) => {
-        alert('Push action performed: ' + JSON.stringify(notification));
-        console.log('Push action performed: ' + JSON.stringify(notification));
-      }
-    );
+  private initializeFirebase() {
+    firebase.initializeApp(environment.firebase);
   }
 
   ngAfterViewInit() {
     this.platform.ready().then(async () => {
-      // await this.notificationsService.requestPermission();
-      this.initCapacitorPushNotifications();
+      const notifications = this.notificationsService.getInstance();
+      notifications.init(() =>
+        console.error('Error inicializando notificaciones')
+      );
+      await notifications.requestPermission();
+      notifications.pushNotificationReceived(notificacion => {
+        console.log('CALLBACK NOTIFICACION RECEIVED', notificacion);
+      });
     });
   }
 

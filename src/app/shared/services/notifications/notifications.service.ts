@@ -2,77 +2,38 @@ import { Injectable } from '@angular/core';
 import { firebase } from '@firebase/app';
 import '@firebase/messaging';
 import { environment } from 'src/environments/environment';
+import { CapacitorNotificationsService } from './capacitor-notifications/capacitor-notifications.service';
+import { PwaNotificationsService } from './pwa-notifications/pwa-notifications.service';
+import { INotification } from './notifications.interface';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsService {
-  init(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      navigator.serviceWorker.ready.then(
-        registration => {
-          // Don't crash an error if messaging not supported
-          if (!firebase.messaging.isSupported()) {
-            resolve();
-            return;
-          }
+  constructor(
+    private capacitorNotificationsService: CapacitorNotificationsService,
+    private pwaNotificationsService: PwaNotificationsService,
+    private platform: Platform
+  ) {}
 
-          const messaging = firebase.messaging();
-
-          // Register the Service Worker
-          messaging.useServiceWorker(registration);
-
-          // Initialize your VAPI key
-          messaging.usePublicVapidKey(environment.firebase.vapidKey);
-
-          // Optional and not covered in the article
-          // Listen to messages when your app is in the foreground
-          messaging.onMessage(payload => {
-            console.log(payload);
-          }); // Optional and not covered in the article
-          // Handle token refresh
-          messaging.onTokenRefresh(() => {
-            messaging
-              .getToken()
-              .then((refreshedToken: string) => {
-                console.log(refreshedToken);
-              })
-              .catch(err => {
-                console.error(err);
-              });
-          });
-
-          resolve();
-        },
-        err => {
-          reject(err);
-        }
-      );
-    });
-  }
-
-  requestPermission(): Promise<void> {
-    return new Promise<void>(async resolve => {
-      if (!Notification) {
-        resolve();
-        return;
-      }
-      if (!firebase.messaging.isSupported()) {
-        resolve();
-        return;
-      }
-      try {
-        const messaging = firebase.messaging();
-        await messaging.requestPermission();
-
-        const token: string = await messaging.getToken();
-
-        console.log('User notifications token:', token);
-      } catch (err) {
-        // No notifications granted
-      }
-
-      resolve();
-    });
+  getInstance(): INotification {
+    if (this.platform.is('capacitor')) {
+      console.log('SOY CAPACITOR PLATFORMMMMM');
+      return this.capacitorNotificationsService;
+    } else if (this.platform.is('pwa')) {
+      console.log('SOY PWA PLATFORMMMMM');
+      return this.pwaNotificationsService;
+    } else {
+      console.log('NO ES PWA NI CAPACITOR PLATFORMMMMM');
+      return {
+        init: () => console.log('error notifications init no platform'),
+        requestPermission: () => new Promise(resolve => resolve()),
+        pushNotificationReceived: () =>
+          console.log('error notifications received no platform'),
+        pushNotificationActionPerformed: () =>
+          console.log('error notifications received no platform')
+      };
+    }
   }
 }
