@@ -1,5 +1,63 @@
 ### Note: La app ya se encuentra con la rama nueva-arquitectura-estado mergeada a dev.
 
+# Instrucciones para correr la App y setear assets según brand (wcs/xcapit), si no se desea setear una brand se ejecuta con los scripts mencionados [aquí](#instrucciones).
+
+Nota: para generar los iconos y las splash  correspondientes a la PWA se utilizó [pwa-asset-generator](https://github.com/onderceylan/pwa-asset-generator). Para las nativas (android, ios) [cordova-res](https://github.com/ionic-team/cordova-res) (aunque todavía no se automatizó el seteo de estas últimas).
+
+Para correr la App ejecutar
+
+```bash
+npm run start:wcs
+```
+```bash
+npm run start:xcapit
+```
+
+o
+
+```bash
+yarn start:wcs
+```
+```bash
+yarn start:xcapit
+```
+
+Para crear un build para producción
+
+```bash
+npm run build:prod:wcs
+```
+```bash
+npm run build:prod:xcapit
+```
+
+o
+
+```bash
+yarn build:prod:wcs
+```
+```bash
+yarn build:prod:xcapit
+```
+
+Para crear un build de una PWA para producción
+
+```bash
+npm run build:prod:pwa:wcs
+```
+```bash
+npm run build:prod:pwa:xcapit
+```
+
+o
+
+```bash
+yarn build:prod:pwa:wcs
+```
+```bash
+yarn build:prod:pwa:xcapit
+```
+
 # Instrucciones para update de dependencias
 
 Para hacer update de dependencias, bajar lo último del repo (branch dev) y en el directorio de la App ejecutar:
@@ -20,7 +78,7 @@ o
 yarn install
 ```
 
-# Instrucciones para correr la App
+# <a id="instrucciones"></a> Instrucciones para correr la App
 
 * Versión de node: v11.6.0
 * Versión de npm: 6.5.0-next.0
