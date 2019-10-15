@@ -179,7 +179,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error('Error inicializando notificaciones')
       );
       await notifications.requestPermission();
-      notifications.pushNotificationReceived(notificacion => {
+      notifications.pushNotificationReceived((notificacion: any) => {
         console.log('CALLBACK NOTIFICACION RECEIVED', notificacion);
       });
     });

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { INotification } from '../notifications.interface';
 import { firebase } from '@firebase/app';
 import { environment } from 'src/environments/environment';
+import { FirebaseMessaging } from '@firebase/messaging-types';
 import { PushNotification } from '@capacitor/core';
+
 export interface INotificationObject {
   title: string;
   message: string;
@@ -12,64 +14,42 @@ export interface INotificationObject {
   providedIn: 'root'
 })
 export class PwaNotificationsService implements INotification {
-  messaging: any;
+  messaging: FirebaseMessaging;
   constructor() {}
 
-  init(): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      navigator.serviceWorker.ready.then(
-        registration => {
-          // Don't crash an error if messaging not supported
-          if (!firebase.messaging.isSupported()) {
-            resolve();
-            return;
-          }
+  init(): void {
+    console.log('INIT PUSH in PWA');
+    // navigator.serviceWorker.ready.then(
+    //   registration => {
+    //     // Don't crash an error if messaging not supported
+    //     if (!firebase.messaging.isSupported()) {
+    //       return;
+    //     }
 
-          this.messaging = firebase.messaging();
+    //     this.messaging = firebase.messaging();
 
-          // Register the Service Worker
-          this.messaging.useServiceWorker(registration);
+    //     // Register the Service Worker
+    //     this.messaging.useServiceWorker(registration);
 
-          // Initialize your VAPI key
-          this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
-          resolve();
+    //     // Initialize your VAPI key
+    //     this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
+    //   },
+    //   err => console.log(err)
+    // );
 
-          // Optional and not covered in the article
-          // TODO: Handle token refresh
-          // this.messaging.onTokenRefresh(() => {
-          //   this.messaging
-          //     .getToken()
-          //     .then((refreshedToken: string) => {
-          //       console.log(refreshedToken);
-          //     })
-          //     .catch(err => {
-          //       console.error(err);
-          //     });
-          // });
-        },
-        err => {
-          reject(err);
-        }
-      );
-    });
+    this.messaging = firebase.messaging();
+    this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
   }
 
   requestPermission(): Promise<void> {
     return new Promise<void>(async resolve => {
-      if (!Notification) {
-        resolve();
-        return;
-      }
-      if (!firebase.messaging.isSupported()) {
+      if (!Notification || !firebase.messaging.isSupported()) {
         resolve();
         return;
       }
       try {
-        const messaging = firebase.messaging();
         await Notification.requestPermission();
-
-        const token: string = await messaging.getToken();
-
+        const token: string = await this.messaging.getToken();
         console.log('User notifications token:', token);
       } catch (err) {
         // No notifications granted
