@@ -32,7 +32,7 @@ import { environment } from '../environments/environment';
 export function jwtOptionsFactory(storage: Storage) {
   return {
     tokenGetter: () => storage.get(AUTH.storageKey),
-    whitelistedDomains: ['localhost:9050']
+    whitelistedDomains: ['localhost:9050', '192.168.1.100:9050']
   };
 }
 
@@ -73,8 +73,10 @@ export function httpLoaderFactory(http: HttpClient) {
     }),
     TrackClickModule,
     TrackClickUnauthModule,
-    WildcardRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }) // always to last!
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    }),
+    WildcardRoutingModule // always to last!
   ],
   providers: [
     StatusBar,

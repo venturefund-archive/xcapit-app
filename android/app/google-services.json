@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "753598433776",
+    "firebase_url": "https://prueba-aws-sns.firebaseio.com",
+    "project_id": "prueba-aws-sns",
+    "storage_bucket": "prueba-aws-sns.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753598433776:android:5f00a90d01f8f3827a7535",
+        "android_client_info": {
+          "package_name": "app.wallcryptostreet.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753598433776-79s8vp4flaoodikvj0ih1f8tvtdah1d3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3cCP6TJePSFTXNi5BRsQN1XqsPyrJM7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753598433776-79s8vp4flaoodikvj0ih1f8tvtdah1d3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
