@@ -47,7 +47,7 @@ import { IonSelect } from '@ionic/angular';
               {{
                 (this.fundBalance.balance.to_ca
                   ? this.fundBalance?.balance?.to_ca.balance_fin
-                  : this.fundBalance?.balance?.balance_fin) | number: '1.2-4'
+                  : (this.fundBalance?.balance?.balance_fin)) | number: '1.2-4'
               }}
             </h2>
             <ion-button
@@ -137,7 +137,7 @@ export class FundBalancePage implements OnInit {
     ca: ['', [Validators.required]]
   });
 
-  @ViewChild('selectCA', { static: true }) select: IonSelect;
+  @ViewChild('selectCA', { static: false }) select: IonSelect;
   constructor(
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,
