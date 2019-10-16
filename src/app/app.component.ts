@@ -19,10 +19,7 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
 import { TrackService } from './shared/services/track/track.service';
 import { LogsService } from './shared/services/logs/logs.service';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
-
 import { NotificationsService } from './shared/services/notifications/notifications.service';
-import firebase from '@firebase/app';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -165,11 +162,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.submitButtonService.enabled();
     this.loadingService.enabled();
     this.trackLoad();
-    this.initializeFirebase();
-  }
-
-  private initializeFirebase() {
-    firebase.initializeApp(environment.firebase);
   }
 
   ngAfterViewInit() {

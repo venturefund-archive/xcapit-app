@@ -3,7 +3,6 @@ import { INotification } from '../notifications.interface';
 import { firebase } from '@firebase/app';
 import { environment } from 'src/environments/environment';
 import { FirebaseMessaging } from '@firebase/messaging-types';
-import { PushNotification } from '@capacitor/core';
 
 export interface INotificationObject {
   title: string;
@@ -15,29 +14,12 @@ export interface INotificationObject {
 })
 export class PwaNotificationsService implements INotification {
   messaging: FirebaseMessaging;
+  token: string;
   constructor() {}
 
   init(): void {
-    console.log('INIT PUSH in PWA');
-    // navigator.serviceWorker.ready.then(
-    //   registration => {
-    //     // Don't crash an error if messaging not supported
-    //     if (!firebase.messaging.isSupported()) {
-    //       return;
-    //     }
-
-    //     this.messaging = firebase.messaging();
-
-    //     // Register the Service Worker
-    //     this.messaging.useServiceWorker(registration);
-
-    //     // Initialize your VAPI key
-    //     this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
-    //   },
-    //   err => console.log(err)
-    // );
-
-    this.messaging = firebase.messaging();
+    const firebaseApp = firebase.initializeApp(environment.firebase);
+    this.messaging = firebaseApp.messaging();
     this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
   }
 
@@ -49,25 +31,23 @@ export class PwaNotificationsService implements INotification {
       }
       try {
         await Notification.requestPermission();
-        const token: string = await this.messaging.getToken();
-        console.log('User notifications token:', token);
+        this.token = await this.messaging.getToken();
       } catch (err) {
         // No notifications granted
       }
-
       resolve();
     });
   }
 
-  // Listen to messages when your app is in the foreground
-  pushNotificationReceived(callback): void {
-    this.messaging.onMessage((payload: any) => {
-      callback(payload as PushNotification);
+  pushNotificationReceived(callback: any): void {
+    navigator.serviceWorker.addEventListener('message', message => {
+      console.log({ message });
+      callback(message);
     });
   }
 
   // Method called when tapping on a notification
-  pushNotificationActionPerformed(callback): void {
-    // TODO: implementar
+  pushNotificationActionPerformed(callback: any): void {
+    // TODO
   }
 }

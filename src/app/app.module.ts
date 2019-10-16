@@ -73,8 +73,10 @@ export function httpLoaderFactory(http: HttpClient) {
     }),
     TrackClickModule,
     TrackClickUnauthModule,
-    WildcardRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }) // always to last!
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    }),
+    WildcardRoutingModule // always to last!
   ],
   providers: [
     StatusBar,

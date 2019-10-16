@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { INotification } from '../notifications.interface';
-import { firebase } from '@firebase/app';
 import {
   Plugins,
   PushNotification,

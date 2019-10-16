@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'http://localhost:9050/v1/api'
-  apiUrl: 'http://192.168.1.100:9050/v1/api',
+  apiUrl: 'http://localhost:9050/v1/api',
   firebase: {
     apiKey: 'AIzaSyDNz4_MQzlHuksxOYMgWLzDZbvo_gpRhFs',
     authDomain: 'prueba-aws-sns.firebaseapp.com',
