@@ -19,6 +19,7 @@ import { TrackClickDirective } from './shared/directives/track-click/track-click
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ActivatedRoute } from '@angular/router';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
+import { NotificationsService } from './shared/services/notifications/notifications.service';
 
 describe('AppComponent', () => {
   let statusBarSpy: any,
@@ -34,6 +35,8 @@ describe('AppComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<AppComponent>;
   let activatedRouteMock: any;
   let publicLogSpy: any;
+  let notificationsServiceSpy: any;
+  let pwaNotificationServiceSpy: any;
 
   beforeEach(async(() => {
     trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
@@ -60,6 +63,13 @@ describe('AppComponent', () => {
       logout: () => null
     };
     activatedRouteMock = {};
+    pwaNotificationServiceSpy = jasmine.createSpyObj(
+      'PwaNotificationsService',
+      ['init', 'requestPermission', 'pushNotificationReceived']
+    );
+    pwaNotificationServiceSpy.requestPermission.and.returnValue(of().toPromise());
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['getInstance']);
+    notificationsServiceSpy.getInstance.and.returnValue(pwaNotificationServiceSpy);
 
     TestBed.configureTestingModule({
       declarations: [AppComponent, TrackClickDirective, DummyComponent],
@@ -73,7 +83,8 @@ describe('AppComponent', () => {
         { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: AuthService, useValue: authServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
-        { provide: PublicLogsService, useValue: publicLogSpy }
+        { provide: PublicLogsService, useValue: publicLogSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy }
       ],
       imports: [
         HttpClientTestingModule,
@@ -161,5 +172,20 @@ describe('AppComponent', () => {
       expect(spy).toHaveBeenCalledTimes(1);
     }
     expect(elms.length).toBe(8);
+  });
+
+  it('should get instance of notification service on ngAfterViewInit', () => {
+    fixture.detectChanges();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+  });
+
+  it('should init notification service on ngAfterViewInit', async (done) => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+      expect(pwaNotificationServiceSpy.requestPermission).toHaveBeenCalledTimes(1);
+      expect(pwaNotificationServiceSpy.pushNotificationReceived).toHaveBeenCalledTimes(1);
+    });
+    done();
   });
 });

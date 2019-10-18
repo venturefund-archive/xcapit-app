@@ -3,6 +3,7 @@ import { INotification } from '../notifications.interface';
 import { firebase } from '@firebase/app';
 import { environment } from 'src/environments/environment';
 import { FirebaseMessaging } from '@firebase/messaging-types';
+import { FirebaseNamespace } from '@firebase/app-types';
 
 export interface INotificationObject {
   title: string;
@@ -15,17 +16,18 @@ export interface INotificationObject {
 export class PwaNotificationsService implements INotification {
   messaging: FirebaseMessaging;
   token: string;
+  importedFirebase: FirebaseNamespace = firebase;
   constructor() {}
 
   init(): void {
-    const firebaseApp = firebase.initializeApp(environment.firebase);
+    const firebaseApp = this.importedFirebase.initializeApp(environment.firebase);
     this.messaging = firebaseApp.messaging();
     this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
   }
 
   requestPermission(): Promise<void> {
     return new Promise<void>(async resolve => {
-      if (!Notification || !firebase.messaging.isSupported()) {
+      if (!this.importedFirebase.messaging.isSupported() || !Notification) {
         resolve();
         return;
       }
@@ -41,7 +43,6 @@ export class PwaNotificationsService implements INotification {
 
   pushNotificationReceived(callback: any): void {
     navigator.serviceWorker.addEventListener('message', message => {
-      console.log({ message });
       callback(message);
     });
   }

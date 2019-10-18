@@ -18,23 +18,8 @@ export class NotificationsService {
   ) {}
 
   getInstance(): INotification {
-    if (this.platform.is('capacitor')) {
-      console.log('SOY NATIVE PLATFORMMMMM');
-      return this.capacitorNotificationsService;
-    } else {
-      console.log('SOY NO SOY NATIVE PLATFORMMMMM');
-      return this.pwaNotificationsService;
-    }
-    // else {
-    //   console.log('NO ES PWA NI CAPACITOR PLATFORMMMMM');
-    //   return {
-    //     init: () => console.log('error notifications init no platform'),
-    //     requestPermission: () => new Promise(resolve => resolve()),
-    //     pushNotificationReceived: () =>
-    //       console.log('error notifications received no platform'),
-    //     pushNotificationActionPerformed: () =>
-    //       console.log('error notifications received no platform')
-    //   };
-    // }
+    return this.platform.is('capacitor')
+      ? this.capacitorNotificationsService
+      : this.pwaNotificationsService;
   }
 }

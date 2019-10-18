@@ -164,16 +164,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.trackLoad();
   }
 
-  ngAfterViewInit() {
-    this.platform.ready().then(async () => {
-      const notifications = this.notificationsService.getInstance();
-      notifications.init(() =>
-        console.error('Error inicializando notificaciones')
-      );
-      await notifications.requestPermission();
-      notifications.pushNotificationReceived((notificacion: any) => {
-        console.log('CALLBACK NOTIFICACION RECEIVED', notificacion);
-      });
+  async ngAfterViewInit() {
+    const notifications = this.notificationsService.getInstance();
+    notifications.init(() =>
+      console.error('Error inicializando notificaciones')
+    );
+    await notifications.requestPermission();
+    notifications.pushNotificationReceived((notificacion: any) => {
+      console.log('CALLBACK NOTIFICACION RECEIVED', notificacion);
     });
   }
 
