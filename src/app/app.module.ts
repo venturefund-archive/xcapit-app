@@ -28,6 +28,7 @@ import { ReferralsModule } from './modules/referrals/referrals.module';
 import { TrackClickUnauthModule } from './shared/directives/track-click-unauth/track-click-unauth.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 export function jwtOptionsFactory(storage: Storage) {
   return {
@@ -57,6 +58,7 @@ export function httpLoaderFactory(http: HttpClient) {
     SubscriptionsModule,
     TermsAndConditionsModule,
     ReferralsModule,
+    NotificationsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

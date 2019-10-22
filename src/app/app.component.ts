@@ -19,7 +19,9 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
 import { TrackService } from './shared/services/track/track.service';
 import { LogsService } from './shared/services/logs/logs.service';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
-import { NotificationsService } from './shared/services/notifications/notifications.service';
+import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
+// tslint:disable-next-line: max-line-length
+import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
 
 @Component({
   selector: 'app-root',
@@ -133,6 +135,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       url: '/referrals/list',
       icon: '',
       routeDirection: 'root'
+    },
+    {
+      id: 8,
+      title: 'app.main_menu.notifications',
+      url: '/notifications/list',
+      icon: '',
+      routeDirection: 'root'
     }
   ];
 
@@ -152,7 +161,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private languageService: LanguageService,
     private trackService: TrackService,
     private publicLogsService: PublicLogsService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private notificationsHelper: NotificationsHelperService
   ) {
     this.initializeApp();
   }
@@ -170,8 +180,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       console.error('Error inicializando notificaciones')
     );
     await notifications.requestPermission();
-    notifications.pushNotificationReceived((notificacion: any) => {
-      console.log('CALLBACK NOTIFICACION RECEIVED', notificacion);
+    notifications.pushNotificationReceived((notification: any) => {
+      this.notificationsHelper.handleNewNotification(notification);
     });
   }
 

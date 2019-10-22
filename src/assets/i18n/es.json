@@ -9,7 +9,8 @@
       "commissions": "Comisiones",
       "help": "Ayuda",
       "password_change": "Cambio de Password",
-      "referrals": "Referidos"
+      "referrals": "Referidos",
+      "notifications": "Notificaciones"
     }
   },
   "config": {
@@ -619,6 +620,18 @@
     },
     "referral_form": {
       "email": "Email"
+    }
+  },
+  "notifications": {
+    "notifications_list": {
+      "header": "Notificaciones"
+    },
+    "notification": {
+      "header": "Notificación"
+    },
+    "notifications_helper": {
+      "message": "Tienes una nueva notificación!",
+      "view_button": "Ver"
     }
   }
 }

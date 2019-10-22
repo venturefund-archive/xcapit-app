@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { INotification } from '../notifications.interface';
+import '@firebase/messaging';
 import { firebase } from '@firebase/app';
 import { environment } from 'src/environments/environment';
 import { FirebaseMessaging } from '@firebase/messaging-types';
 import { FirebaseNamespace } from '@firebase/app-types';
+import { INotification } from '../notifications/notifications.interface';
 
 export interface INotificationObject {
   title: string;
@@ -43,6 +44,9 @@ export class PwaNotificationsService implements INotification {
 
   pushNotificationReceived(callback: any): void {
     navigator.serviceWorker.addEventListener('message', message => {
+      callback(message);
+    });
+    this.messaging.onMessage(message => {
       callback(message);
     });
   }

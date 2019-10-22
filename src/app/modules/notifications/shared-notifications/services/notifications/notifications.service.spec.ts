@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { NotificationsService } from './notifications.service';
 import { Platform } from '@ionic/angular';
-import { PwaNotificationsService } from './pwa-notifications/pwa-notifications.service';
-import { CapacitorNotificationsService } from './capacitor-notifications/capacitor-notifications.service';
+import { CapacitorNotificationsService } from '../capacitor-notifications/capacitor-notifications.service';
+import { PwaNotificationsService } from '../pwa-notifications/pwa-notifications.service';
 
 describe('NotificationsService', () => {
   let service: NotificationsService;

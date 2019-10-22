@@ -1,5 +1,3 @@
-import { PushNotification, PromptOptions } from '@capacitor/core';
-
 export interface INotification {
   init: (onError: any) => void;
   requestPermission: () => Promise<void>;

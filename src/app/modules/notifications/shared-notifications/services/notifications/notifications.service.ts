@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { firebase } from '@firebase/app';
-import '@firebase/messaging';
-import { environment } from 'src/environments/environment';
-import { CapacitorNotificationsService } from './capacitor-notifications/capacitor-notifications.service';
-import { PwaNotificationsService } from './pwa-notifications/pwa-notifications.service';
+import { CapacitorNotificationsService } from '../capacitor-notifications/capacitor-notifications.service';
 import { INotification } from './notifications.interface';
 import { Platform } from '@ionic/angular';
+import { PwaNotificationsService } from '../pwa-notifications/pwa-notifications.service';
 
 @Injectable({
   providedIn: 'root'

@@ -9,7 +9,8 @@
       "commissions": "Commissions",
       "help": "Help",
       "password_change": "Password Change",
-      "referrals": "Referrals"
+      "referrals": "Referrals",
+      "notifications": "Notifications"
     }
   },
   "config": {
@@ -618,6 +619,18 @@
     },
     "referral_form": {
       "email": "Email"
+    }
+  },
+  "notifications": {
+    "notifications_list": {
+      "header": "Notifications"
+    },
+    "notification": {
+      "header": "Notification"
+    },
+    "notifications_helper": {
+      "message": "You have a new notifications!",
+      "view_button": "View"
     }
   }
 }

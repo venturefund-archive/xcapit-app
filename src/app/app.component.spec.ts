@@ -19,7 +19,9 @@ import { TrackClickDirective } from './shared/directives/track-click/track-click
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ActivatedRoute } from '@angular/router';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
-import { NotificationsService } from './shared/services/notifications/notifications.service';
+import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
+// tslint:disable-next-line: max-line-length
+import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
 
 describe('AppComponent', () => {
   let statusBarSpy: any,
@@ -37,6 +39,7 @@ describe('AppComponent', () => {
   let publicLogSpy: any;
   let notificationsServiceSpy: any;
   let pwaNotificationServiceSpy: any;
+  let notificationsHelperServiceSpy: any;
 
   beforeEach(async(() => {
     trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
@@ -70,6 +73,7 @@ describe('AppComponent', () => {
     pwaNotificationServiceSpy.requestPermission.and.returnValue(of().toPromise());
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['getInstance']);
     notificationsServiceSpy.getInstance.and.returnValue(pwaNotificationServiceSpy);
+    notificationsHelperServiceSpy = jasmine.createSpyObj('NotificationsHelperService', ['save']);
 
     TestBed.configureTestingModule({
       declarations: [AppComponent, TrackClickDirective, DummyComponent],
@@ -84,7 +88,8 @@ describe('AppComponent', () => {
         { provide: AuthService, useValue: authServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: PublicLogsService, useValue: publicLogSpy },
-        { provide: NotificationsService, useValue: notificationsServiceSpy }
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: NotificationsHelperService, useValue: notificationsHelperServiceSpy }
       ],
       imports: [
         HttpClientTestingModule,
@@ -95,7 +100,8 @@ describe('AppComponent', () => {
           { path: 'profiles/user', component: DummyComponent },
           { path: 'funds/deposit-address', component: DummyComponent },
           { path: 'users/password-change', component: DummyComponent },
-          { path: 'referrals/list', component: DummyComponent }
+          { path: 'referrals/list', component: DummyComponent },
+          { path: 'notifications/list', component: DummyComponent }
         ]),
         TranslateModule.forRoot()
       ]
@@ -171,7 +177,7 @@ describe('AppComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(8);
+    expect(elms.length).toBe(9);
   });
 
   it('should get instance of notification service on ngAfterViewInit', () => {

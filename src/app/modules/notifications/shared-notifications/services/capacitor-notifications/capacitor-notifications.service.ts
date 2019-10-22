@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { INotification } from '../notifications.interface';
+import { INotification } from '../notifications/notifications.interface';
 import {
   Plugins,
   PushNotification,

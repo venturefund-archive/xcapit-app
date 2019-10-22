@@ -48,21 +48,23 @@ export class FundPerformanceChartComponent implements OnChanges {
       this.chart = new Chart('performance_chart', {
         type: 'line',
         data: {
-          labels: this.normalizeLabels(),
+          labels: this.fundPerformance.index,
           datasets: [
             {
               label: 'WCS Advisor',
               data: this.fundPerformance.wcs_advisor,
               backgroundColor: '#fed136',
               borderColor: '#fed136',
-              fill: false
+              fill: false,
+              pointRadius: 1.5
             },
             {
               label: this.currency,
               data: this.getDataForCurrencyToOptimize(),
               backgroundColor: 'green',
               borderColor: 'green',
-              fill: false
+              fill: false,
+              pointRadius: 1.5
             }
           ]
         },
