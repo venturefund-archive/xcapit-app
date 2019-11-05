@@ -48,7 +48,7 @@ export class FundPerformanceChartComponent implements OnChanges {
       this.chart = new Chart('performance_chart', {
         type: 'line',
         data: {
-          labels: this.fundPerformance.index,
+          labels: this.normalizeLabels(),
           datasets: [
             {
               label: 'WCS Advisor',
