@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:9050/v1/api',
+  apiUrl: 'https://preprod.xcapit.com/v1/api',
+  whitelistedDomains: ['preprod.xcapit.com', 'xcapit.com', 'xcapit.com:443', 'preprod.xcapit.com:443'],
   firebase: {
     apiKey: 'AIzaSyCU-F8osRaeWGwTxdAJmDhWFfkjZqzUG7s',
     authDomain: 'test-pwa-2019.firebaseapp.com',

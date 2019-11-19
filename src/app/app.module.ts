@@ -33,7 +33,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 export function jwtOptionsFactory(storage: Storage) {
   return {
     tokenGetter: () => storage.get(AUTH.storageKey),
-    whitelistedDomains: ['localhost:9050', '192.168.1.100:9050']
+    whitelistedDomains: environment.whitelistedDomains
   };
 }
 
