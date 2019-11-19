@@ -1,7 +1,1 @@
-{
-  "appId": "app.wallcryptostreet.com",
-  "appName": "app",
-  "bundledWebRuntime": false,
-  "npmClient": "yarn",
-  "webDir": "www"
-}
+{"appId":"com.xcapit.app","appName":"xcapit","bundledWebRuntime":false,"npmClient":"yarn","webDir":"www","backgroundColor":"#ffffffff"}

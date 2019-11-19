@@ -1,4 +1,4 @@
-package app.wallcryptostreet.com;
+package com.xcapit.app;
 
 import android.os.Bundle;
 
