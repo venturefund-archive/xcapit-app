@@ -44,12 +44,12 @@ describe('NoAuthGuard', () => {
     done();
   });
 
-  it('should call navigateRoot with ["/funds/list"] on navController when checkToken is true', async (done) => {
+  it('should call navigateRoot with ["/tabs/funds"] on navController when checkToken is true', async done => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
     noAuthGuard.canActivate().then(res => {
       expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith([
-        '/funds/list'
+        '/tabs/funds'
       ]);
     });
     done();

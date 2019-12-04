@@ -18,7 +18,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'funds.fund_summary.header' | translate }}
@@ -38,7 +38,12 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!this.isOwnerLoading">
+      <ion-fab
+        vertical="bottom"
+        horizontal="end"
+        slot="fixed"
+        *ngIf="!this.isOwnerLoading"
+      >
         <ion-fab-button
           *ngIf="this.isOwner"
           (click)="this.shareFund()"
@@ -325,12 +330,10 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   ionViewDidEnter() {}
 
   setIsOwner() {
-    this.apiFunds
-      .isOwner(this.fundName)
-      .subscribe(res => {
-        this.isOwner = res && res.is_owner;
-        this.isOwnerLoading = false;
-      });
+    this.apiFunds.isOwner(this.fundName).subscribe(res => {
+      this.isOwner = res && res.is_owner;
+      this.isOwnerLoading = false;
+    });
   }
 
   shareFund() {
@@ -362,7 +365,7 @@ export class FundSummaryPage implements OnInit, OnDestroy {
   unsubscribe() {
     this.apiSubscriptions.unsubscribeToFund(this.fundName).subscribe(() => {
       this.navController
-        .navigateBack(['/funds/list'], { replaceUrl: true })
+        .navigateBack(['/tabs/funds'], { replaceUrl: true })
         .then(() => {
           this.toastService.showToast({
             message: this.translate.instant(

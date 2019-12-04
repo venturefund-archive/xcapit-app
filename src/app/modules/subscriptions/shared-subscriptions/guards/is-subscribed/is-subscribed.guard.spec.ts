@@ -87,7 +87,7 @@ describe('IsSubscribedGuard', () => {
     );
   });
 
-  it('should call navigateBack with ["/funds/list"], { replaceUrl: true } on navController when isSubscribed is false', () => {
+  it('should call navigateBack with ["/tabs/funds"], { replaceUrl: true } on navController when isSubscribed is false', () => {
     apiFundsServiceSpy.isSubscribed.and.returnValue(
       of({ is_subscribed: false })
     );
@@ -97,7 +97,7 @@ describe('IsSubscribedGuard', () => {
     canActivateResult.subscribe(res => {
       expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(
-        ['/funds/list'],
+        ['/tabs/funds'],
         { replaceUrl: true }
       );
     });

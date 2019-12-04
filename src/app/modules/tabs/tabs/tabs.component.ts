@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 
 @Component({
@@ -10,7 +10,7 @@ import { MenuController } from '@ionic/angular';
           <ion-icon name="rocket"></ion-icon>
         </ion-tab-button>
 
-        <ion-tab-button (click)="this.test()">
+        <ion-tab-button (click)="this.showMenu()">
           <ion-icon name="menu"></ion-icon>
         </ion-tab-button>
       </ion-tab-bar>
@@ -18,12 +18,10 @@ import { MenuController } from '@ionic/angular';
   `,
   styleUrls: ['./tabs.component.scss']
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent {
   constructor(private menu: MenuController) {}
 
-  ngOnInit() {}
-
-  test() {
+  showMenu() {
     this.menu.toggle();
   }
 }
