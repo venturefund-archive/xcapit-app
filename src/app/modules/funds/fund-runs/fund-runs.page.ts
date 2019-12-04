@@ -154,7 +154,10 @@ import { CommissionsModalComponent } from '../shared-funds/components/commission
               <ion-row *ngIf="run.inversion">
                 <ion-col
                   >{{ 'funds.fund_runs.inversion_title' | translate }} </ion-col
-                ><ion-col>{{ run.inversion | number: '1.2-6' }} {{ run.currency }}</ion-col>
+                ><ion-col
+                  >{{ run.inversion | number: '1.2-6' }}
+                  {{ run.currency }}</ion-col
+                >
               </ion-row>
               <ion-row *ngIf="run.porcentaje_deposito">
                 <ion-col
@@ -207,7 +210,7 @@ export class FundRunsPage implements OnInit {
   fundRuns: Array<any> = [];
   selectedFund: string;
   status: string;
-  defaultBackRoute = '/funds/list';
+  defaultBackRoute = '/tabs/funds';
 
   constructor(
     private apiFundsService: ApiFundsService,

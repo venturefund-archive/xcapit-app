@@ -42,7 +42,7 @@ describe('InteractiveTutorialPage', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
-          { path: 'funds/list', component: DummyComponent },
+          { path: 'tabs/funds', component: DummyComponent },
           { path: 'funds/action/new', component: DummyComponent }
         ])
       ],

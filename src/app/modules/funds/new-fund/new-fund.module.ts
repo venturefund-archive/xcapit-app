@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/funds/list',
+    redirectTo: '/tabs/funds',
     pathMatch: 'full'
   }
 ];

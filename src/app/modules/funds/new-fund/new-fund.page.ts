@@ -25,7 +25,7 @@ import { NewFundInfoComponent } from './components/new-fund-info/new-fund-info.c
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ this.action | fundActionFormTitle | translate }}
@@ -36,7 +36,7 @@ import { NewFundInfoComponent } from './components/new-fund-info/new-fund-info.c
       <app-is-subscribed
         [disabled]="!this.fundName"
         [fundName]="this.fundName"
-        redirectTo="/funds/list"
+        redirectTo="/tabs/funds"
       >
         <form [formGroup]="this.form" (ngSubmit)="this.save()">
           <ion-item-group
