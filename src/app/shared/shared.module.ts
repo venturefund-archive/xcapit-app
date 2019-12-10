@@ -11,6 +11,9 @@ import { TrackClickModule } from './directives/track-click/track-click.module';
 import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
 import { TrackClickUnauthModule } from './directives/track-click-unauth/track-click-unauth.module';
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
+import { XcapitHeaderTramaComponent } from './components/xcapit-header-trama/xcapit-header-trama.component';
+import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
+import { XcapitInputComponent } from './components/xcapit-input/xcapit-input.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { PercentageDisplayComponent } from './components/percentage-display/perc
     LanguagePopoverComponent,
     LanguageButtonComponent,
     IsSubscribedComponent,
-    PercentageDisplayComponent
+    PercentageDisplayComponent,
+    XcapitHeaderTramaComponent,
+    XcapitLogoComponent,
+    XcapitInputComponent
   ],
   entryComponents: [LanguagePopoverComponent],
   imports: [
@@ -27,7 +33,8 @@ import { PercentageDisplayComponent } from './components/percentage-display/perc
     IonicModule,
     TranslateModule.forChild(),
     TrackClickModule,
-    TrackClickUnauthModule
+    TrackClickUnauthModule,
+    ReactiveFormsModule
   ],
   exports: [
     ErrorsFormItemComponent,
@@ -40,7 +47,10 @@ import { PercentageDisplayComponent } from './components/percentage-display/perc
     TrackClickModule,
     TrackClickUnauthModule,
     IsSubscribedComponent,
-    PercentageDisplayComponent
+    PercentageDisplayComponent,
+    XcapitHeaderTramaComponent,
+    XcapitInputComponent,
+    XcapitLogoComponent
   ]
 })
 export class SharedModule {}

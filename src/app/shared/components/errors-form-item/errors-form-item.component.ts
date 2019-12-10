@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ItemFormError } from '../../models/item-form-error';
-import { AbstractControl, FormGroupDirective } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroupDirective,
+  FormGroup
+} from '@angular/forms';
 import { CONFIG } from 'src/app/config/app-constants.config';
 
 @Component({
@@ -16,6 +20,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
   `,
   styleUrls: ['./errors-form-item.component.scss']
 })
+
 export class ErrorsFormItemComponent implements OnInit {
   @Input() controlName: string;
 
@@ -26,6 +31,7 @@ export class ErrorsFormItemComponent implements OnInit {
   hasError = false;
 
   control: AbstractControl;
+  parentForm: FormGroup;
 
   constructor(private form: FormGroupDirective) {}
 

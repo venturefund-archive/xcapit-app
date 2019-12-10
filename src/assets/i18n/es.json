@@ -71,7 +71,8 @@
     },
     "login": {
       "register_link": "¿No estas registrado?",
-      "reset_password_link": "¿Olvidaste tu password?"
+      "reset_password_link": "Olvidé mi contraseña",
+      "login_button_text": "Iniciar sesión"
     },
     "register": {
       "card_header": "Registro de Usuario",

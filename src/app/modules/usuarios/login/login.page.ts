@@ -7,11 +7,16 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
 @Component({
   selector: 'app-login',
   template: `
-    <ion-toolbar>
-      <ion-buttons slot="end">
-        <app-language-button></app-language-button>
-      </ion-buttons>
-    </ion-toolbar>
+    <div class="app_header_trama">
+      <app-header-trama>
+        <div class="app_language_button">
+          <app-language-button></app-language-button>
+        </div>
+        <div class="app_xcapit_logo">
+          <app-xcapit-logo></app-xcapit-logo>
+        </div>
+      </app-header-trama>
+    </div>
     <ion-content class="ion-padding">
       <div class="main">
         <ion-grid class="ion-no-padding">
@@ -24,56 +29,49 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
               size-lg="4"
               offset-lg="4"
             >
-              <ion-card>
-                <ion-card-header>
-                  Login
-                </ion-card-header>
-                <ion-card-content>
-                  <app-auth-form
-                    [isLogin]="true"
-                    (send)="this.loginUser($event)"
+              <app-auth-form [isLogin]="true" (send)="this.loginUser($event)">
+                <div class="auth-button ion-padding-top ion-margin-top">
+                  <ion-button
+                    appTrackClickUnauth
+                    name="Login"
+                    expand="block"
+                    size="large"
+                    type="submit"
+                    class="login_button"
+                    color="xcprimary"
+                    [disabled]="
+                      !this.loginForm.form.valid ||
+                      (this.submitButtonService.isDisabled | async)
+                    "
                   >
-                    <div class="auth-button ion-padding-top ion-margin-top">
-                      <ion-button
-                        appTrackClickUnauth
-                        name="Login"
-                        expand="full"
-                        size="large"
-                        type="submit"
-                        [disabled]="
-                          !this.loginForm.form.valid ||
-                          (this.submitButtonService.isDisabled | async)
-                        "
-                      >
-                        <ion-icon slot="start" name="log-in"></ion-icon>
-                        Login
-                      </ion-button>
-                    </div>
-                    <div class="auth-link ion-text-right ion-padding-top">
-                      <ion-button
-                        appTrackClickUnauth
-                        name="Go To Register"
-                        fill="clear"
-                        size="small"
-                        type="button"
-                        [routerLink]="['/users/register']"
-                      >
-                        {{ 'usuarios.login.register_link' | translate }}
-                      </ion-button>
-                      <ion-button
-                        appTrackClickUnauth
-                        name="Reset Password"
-                        fill="clear"
-                        size="small"
-                        type="button"
-                        [routerLink]="['/users/reset-password']"
-                      >
-                        {{ 'usuarios.login.reset_password_link' | translate }}
-                      </ion-button>
-                    </div>
-                  </app-auth-form>
-                </ion-card-content>
-              </ion-card>
+                    {{ 'usuarios.login.login_button_text' | translate }}
+                  </ion-button>
+                </div>
+                <div class="auth-link ion-text-center ion-padding-top">
+                  <ion-button
+                    appTrackClickUnauth
+                    name="Go To Register"
+                    fill="clear"
+                    size="small"
+                    type="button"
+                    color="xcprimary"
+                    [routerLink]="['/users/register']"
+                  >
+                    {{ 'usuarios.login.register_link' | translate }}
+                  </ion-button>
+                  <ion-button
+                    appTrackClickUnauth
+                    name="Reset Password"
+                    fill="clear"
+                    size="small"
+                    type="button"
+                    color="xcprimary"
+                    [routerLink]="['/users/reset-password']"
+                  >
+                    {{ 'usuarios.login.reset_password_link' | translate }}
+                  </ion-button>
+                </div>
+              </app-auth-form>
             </ion-col>
           </ion-row>
         </ion-grid>

@@ -18,20 +18,18 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
   template: `
     <div>
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
-        <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input
-            formControlName="email"
-            type="email"
-            inputmode="email"
-          ></ion-input>
-        </ion-item>
-        <app-errors-form-item
+        <app-xcapit-input
           controlName="email"
+          type="email"
+          inputmode="email"
+          label="Email"
           [errors]="this.emailErrors"
-        ></app-errors-form-item>
+        ></app-xcapit-input>
+
         <ion-item *ngIf="!this.isLogin">
-          <ion-label position="floating">{{ 'usuarios.auth_form.repeat_email' | translate }}</ion-label>
+          <ion-label position="floating">{{
+            'usuarios.auth_form.repeat_email' | translate
+          }}</ion-label>
           <ion-input
             formControlName="repeat_email"
             type="email"
@@ -43,16 +41,19 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           controlName="repeat_email"
           [errors]="this.repeatEmailErrors"
         ></app-errors-form-item>
-        <ion-item>
-          <ion-label position="floating">Password</ion-label>
-          <ion-input formControlName="password" type="password"></ion-input>
-        </ion-item>
-        <app-errors-form-item
+        <app-xcapit-input
+          *ngIf="this.isLogin"
           controlName="password"
+          type="password"
+          inputmode="password"
+          label="Password"
           [errors]="this.passwordErrors"
-        ></app-errors-form-item>
+        ></app-xcapit-input>
+
         <ion-item *ngIf="!this.isLogin">
-          <ion-label position="floating">{{ 'usuarios.auth_form.repeat_password' | translate }}</ion-label>
+          <ion-label position="floating">{{
+            'usuarios.auth_form.repeat_password' | translate
+          }}</ion-label>
           <ion-input
             formControlName="repeat_password"
             type="password"
