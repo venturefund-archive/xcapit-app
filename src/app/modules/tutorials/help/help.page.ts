@@ -9,7 +9,7 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'tutorials.help.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -22,7 +22,10 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
           button
           (click)="this.openTutorial(tutorial.component)"
           appTrackClick
-          [dataToTrack]="{ eventLabel: tutorial.component, description: tutorial.logMsg }"
+          [dataToTrack]="{
+            eventLabel: tutorial.component,
+            description: tutorial.logMsg
+          }"
         >
           <ion-icon slot="start" name="help-circle-outline"></ion-icon>
           <ion-label>

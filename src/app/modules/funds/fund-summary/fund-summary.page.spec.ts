@@ -75,7 +75,7 @@ describe('FundSummaryPage', () => {
         RouterTestingModule.withRoutes([
           { path: 'funds/runs/:fundName', component: DummyComponent },
           { path: 'funds/fund-balance/:fundName', component: DummyComponent },
-          { path: 'funds/list', component: DummyComponent }
+          { path: 'tabs/funds', component: DummyComponent }
         ]),
         ReactiveFormsModule
       ],

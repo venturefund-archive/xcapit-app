@@ -42,12 +42,14 @@ import { IonSelect } from '@ionic/angular';
               {{
                 (this.fundBalance.balance.to_ca
                   ? this.fundBalance.balance.to_ca.ca
-                  : this.fundBalance.fund.currency) | uppercase
+                  : this.fundBalance.fund.currency
+                ) | uppercase
               }}:
               {{
                 (this.fundBalance.balance.to_ca
                   ? this.fundBalance?.balance?.to_ca.balance_fin
-                  : (this.fundBalance?.balance?.balance_fin)) | number: '1.2-4'
+                  : this.fundBalance?.balance?.balance_fin
+                ) | number: '1.2-4'
               }}
             </h2>
             <ion-button
@@ -131,7 +133,7 @@ export class FundBalancePage implements OnInit {
   fundName: string;
   loadingBalance = true;
   fundBalance: any;
-  defaultBackRoute = '/funds/list';
+  defaultBackRoute = '/tabs/funds';
   CAEnum = CA;
   form: FormGroup = this.formBuilder.group({
     ca: ['', [Validators.required]]

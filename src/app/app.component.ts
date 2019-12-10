@@ -90,7 +90,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     {
       id: 1,
       title: 'app.main_menu.funds',
-      url: '/funds/list',
+      url: '/tabs/funds',
       icon: '',
       routeDirection: 'root'
     },

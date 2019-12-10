@@ -71,7 +71,7 @@ export class SubscribePage implements OnInit, OnDestroy {
       url = `/funds/fund-summary/${data.fundName}`;
       message = 'subscriptions.subscribe.ok_text';
     } else {
-      url = `/funds/list`;
+      url = `/tabs/funds`;
       message = 'subscriptions.subscribe.error_text';
     }
     this.navController
@@ -85,7 +85,7 @@ export class SubscribePage implements OnInit, OnDestroy {
       );
   }
   handleSubscriptionErrorResponse(data: any) {
-    let url = `/funds/list`;
+    let url = `/tabs/funds`;
     if (data.error.error_code && data.error.fundName) {
       url = `/funds/fund-summary/${data.error.fundName}`;
     }

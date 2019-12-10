@@ -22,7 +22,7 @@ export class IsSubscribedGuard implements CanActivate {
     return this.apiFunds.isSubscribed(next.paramMap.get('fundName')).pipe(
       map(res => {
         if (!res.is_subscribed) {
-          this.navController.navigateBack(['/funds/list'], {
+          this.navController.navigateBack(['/tabs/funds'], {
             replaceUrl: true
           });
         }

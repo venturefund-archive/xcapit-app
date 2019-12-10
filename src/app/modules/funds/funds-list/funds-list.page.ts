@@ -1,16 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
-import { LogsService } from 'src/app/shared/services/logs/logs.service';
 
 @Component({
   selector: 'app-funds-list',
   template: `
     <ion-header>
       <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
         <ion-title>{{ 'funds.funds_list.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
