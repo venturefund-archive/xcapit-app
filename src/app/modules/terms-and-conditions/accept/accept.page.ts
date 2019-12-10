@@ -11,7 +11,7 @@ import { TacHelperService } from '../shared-terms-and-conditions/services/tac-he
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'terms_and_conditions.accept.header' | translate }}
@@ -73,7 +73,7 @@ import { TacHelperService } from '../shared-terms-and-conditions/services/tac-he
           size="large"
           fill="clear"
           routerDirection="back"
-          [routerLink]="['/funds/list']"
+          [routerLink]="['/tabs/funds']"
           class="ion-no-padding ion-no-margin"
         >
           {{ 'terms_and_conditions.accept.cancel_button' | translate }}

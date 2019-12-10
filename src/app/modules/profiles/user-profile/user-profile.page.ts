@@ -15,7 +15,7 @@ import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-run
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'profiles.user_profile.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -188,7 +188,6 @@ import { ApiRunsService } from '../../runs/shared-runs/services/api-runs/api-run
   styleUrls: ['./user-profile.page.scss']
 })
 export class UserProfilePage implements OnInit {
-
   disabledButton = false;
 
   isFormSet = false;

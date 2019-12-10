@@ -15,7 +15,7 @@ import { FundFormActions } from '../../funds/shared-funds/enums/fund-form-action
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'tutorials.interactive_tutorial.header' | translate }}
@@ -173,7 +173,7 @@ export class InteractiveTutorialPage implements OnInit {
   openCaTutorial() {
     return this.openModal(CaTutorialModalComponent, 'onWillDismiss', () =>
       this.navController
-        .navigateBack(['/funds/list'], { replaceUrl: true })
+        .navigateBack(['/tabs/funds'], { replaceUrl: true })
         .then(() =>
           this.toastService.showToast({
             message: this.translate.instant(

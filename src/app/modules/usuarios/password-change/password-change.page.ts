@@ -13,7 +13,7 @@ import { NavController } from '@ionic/angular';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/list"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'usuarios.password_change.header' | translate }}
