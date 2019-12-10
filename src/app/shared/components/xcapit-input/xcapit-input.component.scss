@@ -1,0 +1,18 @@
+:host {
+   .xcapit_input_container {
+       padding-top: 15px;
+    }
+    ion-item {
+        border: 1.5px solid var(--ion-color-xclight-shade);
+        border-radius: 10px;
+        --inner-border-width: 0;
+        margin-top: 5px;
+        --highlight-background: none;
+        &.ion-valid {
+            border: 2px solid var(--ion-color-xcsecondary);
+        }
+        &.ion-invalid.ion-touched {
+            border: 2px solid var(--ion-color-danger);
+        }
+    }
+}

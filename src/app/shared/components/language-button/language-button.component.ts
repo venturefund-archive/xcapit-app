@@ -8,8 +8,9 @@ import { LanguagePopoverComponent } from '../language-popover/language-popover.c
     <ion-button
       (click)="this.openLanguagePopover($event)"
       icon-only
-      shape="round"
       appTrackClickUnauth
+      color="xlight"
+      fill="clear"
       name="Open Language Popover"
     >
       <ion-icon name="globe"></ion-icon>

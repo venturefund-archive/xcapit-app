@@ -12,6 +12,9 @@ import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.
 import { TrackClickUnauthModule } from './directives/track-click-unauth/track-click-unauth.module';
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 import { StepperComponent } from './components/stepper/stepper.component';
+import { XcapitHeaderTramaComponent } from './components/xcapit-header-trama/xcapit-header-trama.component';
+import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
+import { XcapitInputComponent } from './components/xcapit-input/xcapit-input.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { StepperComponent } from './components/stepper/stepper.component';
     LanguageButtonComponent,
     IsSubscribedComponent,
     PercentageDisplayComponent,
-    StepperComponent
+    StepperComponent,
+    XcapitHeaderTramaComponent,
+    XcapitLogoComponent,
+    XcapitInputComponent
   ],
   entryComponents: [LanguagePopoverComponent],
   imports: [
@@ -29,7 +35,8 @@ import { StepperComponent } from './components/stepper/stepper.component';
     IonicModule,
     TranslateModule.forChild(),
     TrackClickModule,
-    TrackClickUnauthModule
+    TrackClickUnauthModule,
+    ReactiveFormsModule
   ],
   exports: [
     ErrorsFormItemComponent,
@@ -43,7 +50,10 @@ import { StepperComponent } from './components/stepper/stepper.component';
     TrackClickUnauthModule,
     IsSubscribedComponent,
     PercentageDisplayComponent,
-    StepperComponent
+    StepperComponent,
+    XcapitHeaderTramaComponent,
+    XcapitInputComponent,
+    XcapitLogoComponent
   ]
 })
 export class SharedModule {}

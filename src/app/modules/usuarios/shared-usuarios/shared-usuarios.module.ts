@@ -5,10 +5,12 @@ import { ResetPasswordFormComponent } from './components/reset-password-form/res
 import { PasswordChangeFormComponent } from './components/password-change-form/password-change-form.component';
 
 @NgModule({
-  declarations: [AuthFormComponent, ResetPasswordFormComponent, PasswordChangeFormComponent],
-  imports: [
-    SharedModule
+  declarations: [
+    AuthFormComponent,
+    ResetPasswordFormComponent,
+    PasswordChangeFormComponent
   ],
+  imports: [SharedModule],
   exports: [
     SharedModule,
     AuthFormComponent,
@@ -16,4 +18,4 @@ import { PasswordChangeFormComponent } from './components/password-change-form/p
     PasswordChangeFormComponent
   ]
 })
-export class SharedUsuariosModule { }
+export class SharedUsuariosModule {}
