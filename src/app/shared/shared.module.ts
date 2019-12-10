@@ -11,6 +11,7 @@ import { TrackClickModule } from './directives/track-click/track-click.module';
 import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
 import { TrackClickUnauthModule } from './directives/track-click-unauth/track-click-unauth.module';
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
+import { StepperComponent } from './components/stepper/stepper.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PercentageDisplayComponent } from './components/percentage-display/perc
     LanguagePopoverComponent,
     LanguageButtonComponent,
     IsSubscribedComponent,
-    PercentageDisplayComponent
+    PercentageDisplayComponent,
+    StepperComponent
   ],
   entryComponents: [LanguagePopoverComponent],
   imports: [
@@ -40,7 +42,8 @@ import { PercentageDisplayComponent } from './components/percentage-display/perc
     TrackClickModule,
     TrackClickUnauthModule,
     IsSubscribedComponent,
-    PercentageDisplayComponent
+    PercentageDisplayComponent,
+    StepperComponent
   ]
 })
 export class SharedModule {}

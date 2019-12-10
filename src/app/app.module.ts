@@ -30,6 +30,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { TabsModule } from './modules/tabs/tabs.module';
+import { ApikeysModule } from './modules/apikeys/apikeys.module';
 
 export function jwtOptionsFactory(storage: Storage) {
   return {
@@ -60,6 +61,7 @@ export function httpLoaderFactory(http: HttpClient) {
     TermsAndConditionsModule,
     ReferralsModule,
     TabsModule,
+    ApikeysModule,
     NotificationsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
