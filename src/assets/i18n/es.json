@@ -248,6 +248,12 @@
       "trailing_stop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
       "risk_level_title": "Nivel de Riesgo",
       "risk_level_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis."
+    },
+    "fund_created": {
+      "go_to_fund_button_text": "Ver mi inversión",
+      "congrats_header_text": "¡Felicitaciones!",
+      "subtitle_header_text": "Ya estás invirtiendo en el mundo crypto",
+    "description_text": "Ya creamos tu fondo y nuestro robot empezará a gestionar tu capital en base a la información que configuraste."
     }
   },
   "runs": {
@@ -546,8 +552,8 @@
         "depositAddress": "Error al consultar la dirección de depósito."
       }
     },
-    "profiles":{
-      "retrieve":{
+    "profiles": {
+      "retrieve": {
         "doesNotExists": "El perfil no existe."
       },
       "update": {
@@ -577,13 +583,13 @@
       "sendEmailValidationToken": {
         "user": "Error al obtener el usuario a validar."
       },
-      "registration":{
+      "registration": {
         "invalidData": "Los datos ingresados no son válidos."
       },
       "resetPassword": {
         "invalid": "Error al Cambiar la Password."
       },
-      "emailValidation":{
+      "emailValidation": {
         "invalid": "Error al validar el email."
       },
       "login": {

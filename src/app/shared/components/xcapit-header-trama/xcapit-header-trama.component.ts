@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header-trama',
   template: `
-    <div class="xcapit_header_trama">
-      <div class="xcapit_header_content">
+    <div [class]="this.headerClasses">
+      <div class="xcapit_header_content" >
         <ng-content></ng-content>
       </div>
     </div>
@@ -12,7 +12,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./xcapit-header-trama.component.scss']
 })
 export class XcapitHeaderTramaComponent implements OnInit {
-  constructor() {}
+  @Input() mode = 'normal';
+  headerClasses = 'xcapit_header_trama';
 
-  ngOnInit() {}
+  constructor() {
+  }
+
+  ngOnInit() {
+    this.headerClasses = `${this.headerClasses} ${this.mode}`;
+  }
 }
