@@ -13,7 +13,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { ApiSubscriptionsService } from '../../subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 
@@ -60,7 +60,9 @@ describe('FundSummaryPage', () => {
         fundName: 'asfd'
       })
     };
-    alertControllerSpy = jasmine.createSpyObj('AlertController', ['create']);
+    alertControllerSpy = {
+      create: () => Promise.resolve({ present: () => Promise.resolve(true) })
+    };
     TestBed.configureTestingModule({
       declarations: [
         FundSummaryPage,
@@ -86,7 +88,8 @@ describe('FundSummaryPage', () => {
           provide: ApiSubscriptionsService,
           useValue: apiSubscriptionsServiceSpy
         },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: AlertController, useValue: alertControllerSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -99,6 +102,7 @@ describe('FundSummaryPage', () => {
     apiFundServiceMock = TestBed.get(ApiFundsService);
     subscriptionsServiceSpy = TestBed.get(SubscriptionsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    alertControllerSpy = TestBed.get(AlertController);
   });
 
   it('should create', () => {
@@ -199,12 +203,17 @@ describe('FundSummaryPage', () => {
     );
   });
 
-  it('should call create on alert when unsubscribeAlert is callled', async (done) => {
+  it('should call create on alert when unsubscribeAlert is callled', async(() => {
+    const spy = spyOn(alertControllerSpy, 'create');
+    spy.and.returnValue(
+      Promise.resolve({ present: () => Promise.resolve(true) })
+    );
+    fixture.detectChanges();
     component.unsubscribeAlert().then(() => {
+      fixture.detectChanges();
       expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
     });
-    done();
-  });
+  }));
 
   describe('with fund and is owner', () => {
     beforeEach(() => {
@@ -214,7 +223,10 @@ describe('FundSummaryPage', () => {
     });
 
     it('should call trackEvent on trackService when Share Fund is clicked', async done => {
+      component.loadingStatus = false;
+      component.isOwnerLoading = false;
       fixture.whenStable().then(() => {
+        fixture.detectChanges();
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-fab-button',
           'Share Fund'
@@ -244,7 +256,10 @@ describe('FundSummaryPage', () => {
     });
 
     it('should call trackEvent on trackService when Renew Fund is clicked', async done => {
+      component.fundStatus = false;
+      component.loadingStatus = false;
       fixture.whenStable().then(() => {
+        fixture.detectChanges();
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
           'Renew Fund'
@@ -259,7 +274,9 @@ describe('FundSummaryPage', () => {
     });
 
     it('should call trackEvent on trackService when Runs Fund is clicked', async done => {
+      component.loadingStatus = false;
       fixture.whenStable().then(() => {
+        fixture.detectChanges();
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
           'Runs Fund'
@@ -274,7 +291,9 @@ describe('FundSummaryPage', () => {
     });
 
     it('should call trackEvent on trackService when Fund Balance is clicked', async done => {
+      component.loadingStatus = false;
       fixture.whenStable().then(() => {
+        fixture.detectChanges();
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
           'Fund Balance'
@@ -304,7 +323,9 @@ describe('FundSummaryPage', () => {
     });
 
     it('should call trackEvent on trackService when Pause Fund is clicked', async done => {
+      component.inCAStatus = true;
       fixture.whenStable().then(() => {
+        fixture.detectChanges();
         const el = trackClickDirectiveHelper.getByElementByName(
           'ion-button',
           'Pause Fund'
