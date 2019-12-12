@@ -112,6 +112,15 @@
       "repeat_new_password": "Confirm New Password"
     }
   },
+  "apikeys": {
+    "linked_apikeys": {
+      "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
+      "subtitle_header_text": "Ya comenzaste tu viaje crypto",
+      "create_fund_button_text": "Crear un fondo de inversión",
+      "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
+      "create_fund_later_button_text": "Lo voy a crear mas tarde"
+    }
+  },
   "funds": {
     "fund_balance": {
       "header": "Balance del Fondo",
@@ -253,7 +262,7 @@
       "go_to_fund_button_text": "Ver mi inversión",
       "congrats_header_text": "¡Felicitaciones!",
       "subtitle_header_text": "Ya estás invirtiendo en el mundo crypto",
-    "description_text": "Ya creamos tu fondo y nuestro robot empezará a gestionar tu capital en base a la información que configuraste."
+      "description_text": "Ya creamos tu fondo y nuestro robot empezará a gestionar tu capital en base a la información que configuraste."
     }
   },
   "runs": {

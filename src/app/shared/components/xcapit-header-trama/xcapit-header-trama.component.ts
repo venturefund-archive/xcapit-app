@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'app-header-trama',
   template: `
     <div [class]="this.headerClasses">
-      <div class="xcapit_header_content" >
+      <div class="xcapit_header_trama__content" >
         <ng-content></ng-content>
       </div>
     </div>
