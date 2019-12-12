@@ -28,7 +28,7 @@
     }
   }
 
-  .fund_created_content {
+  .linked_apikeys_content {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -39,7 +39,7 @@
       padding-right: 2rem;
     }
 
-    &__go_to_fund_button {
+    &__create_fund_button {
       width: 70%;
       margin-top: 3rem;
     }

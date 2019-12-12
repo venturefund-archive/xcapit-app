@@ -9,11 +9,13 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
   template: `
     <div class="app_header_trama">
       <app-header-trama>
-        <div class="app_language_button">
-          <app-language-button></app-language-button>
-        </div>
-        <div class="app_xcapit_logo">
-          <app-xcapit-logo></app-xcapit-logo>
+        <div class="app_header_trama__content">
+          <div class="app_header_trama__content__app_language_button">
+            <app-language-button></app-language-button>
+          </div>
+          <div class="app_header_trama__content__app_xcapit_logo">
+            <app-xcapit-logo></app-xcapit-logo>
+          </div>
         </div>
       </app-header-trama>
     </div>
@@ -37,7 +39,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
                     expand="block"
                     size="large"
                     type="submit"
-                    class="login_button"
+                    class="main__login_button"
                     color="xcprimary"
                     [disabled]="
                       !this.loginForm.form.valid ||
