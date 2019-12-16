@@ -65,9 +65,17 @@ export const routes: Routes = [
           import('./commission/commission.module').then(
             m => m.CommissionPageModule
           )
+      },
+      {
+        path: 'created',
+        loadChildren: () =>
+          import('./fund-created/fund-created.module').then(
+            m => m.FundCreatedPageModule
+          )
       }
     ]
-  }
+  },
+  { path: 'fund-created', loadChildren: './fund-created/fund-created.module#FundCreatedPageModule' }
 ];
 
 @NgModule({

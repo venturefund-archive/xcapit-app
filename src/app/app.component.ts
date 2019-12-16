@@ -28,8 +28,8 @@ import { NotificationsHelperService } from './modules/notifications/shared-notif
   providers: [{ provide: TrackService, useClass: LogsService }],
   template: `
     <ion-app>
-      <ion-split-pane>
-        <ion-menu [disabled]="!(this.isLoggedIn$ | async)">
+      <ion-split-pane contentId="main-content">
+        <ion-menu contentId="main-content" [disabled]="!(this.isLoggedIn$ | async)" >
           <ion-header>
             <ion-toolbar>
               <ion-title>{{ 'app.main_menu.header' | translate }}</ion-title>
@@ -77,7 +77,7 @@ import { NotificationsHelperService } from './modules/notifications/shared-notif
             </ion-menu-toggle>
           </ion-footer>
         </ion-menu>
-        <ion-router-outlet main></ion-router-outlet>
+        <ion-router-outlet id="main-content"></ion-router-outlet>
       </ion-split-pane>
     </ion-app>
   `

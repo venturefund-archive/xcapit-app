@@ -1,0 +1,47 @@
+:host {
+  .app_header_trama {
+    height: calc(100vh - 50%);
+    width: 100%;
+
+    &__header_title {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      &__title_text {
+        color: var(--ion-color-xcprimary-contrast);
+        h1 {
+          font-weight: 900;
+          font-size: 2.2rem;
+        }
+      }
+
+      &__subtitle_text {
+        color: var(--ion-color-xcprimary-contrast);
+        h4 {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  .fund_created_content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+
+    &__description {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    &__go_to_fund_button {
+      width: 70%;
+      margin-top: 3rem;
+    }
+  }
+}

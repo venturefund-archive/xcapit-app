@@ -112,6 +112,15 @@
       "repeat_new_password": "Confirm New Password"
     }
   },
+  "apikeys": {
+    "linked_apikeys": {
+      "title_header_text": "You linked your binance account!",
+      "subtitle_header_text": "Your crypto journey has begun",
+      "create_fund_button_text": "Create an investment fund",
+      "description_text": "We are able to create your fund to start managing your investment.",
+      "create_fund_later_button_text": "I'll create it later"
+    }
+  },
   "funds": {
     "fund_balance": {
       "header": "Fund Balance",
@@ -247,6 +256,12 @@
       "trailing_stop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
       "risk_level_title": "Risk Level",
       "risk_level_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis."
+    },
+    "fund_created": {
+      "go_to_fund_button_text": "See my investment",
+      "congrats_header_text": "Congratulations!",
+      "subtitle_header_text": "You are investing in the crypto world",
+      "description_text": "We have already created your fund and our robot will start managing your capital based on the information you set up."
     }
   },
   "runs": {

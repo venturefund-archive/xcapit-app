@@ -15,6 +15,13 @@ const routes: Routes = [
           import('./new-apikeys/new-apikeys.module').then(
             m => m.NewApikeysPageModule
           )
+      },
+      {
+        path: 'linked',
+        loadChildren: () =>
+          import('./linked-apikeys/linked-apikeys.module').then(
+            m => m.LinkedApikeysPageModule
+          )
       }
     ]
   }
