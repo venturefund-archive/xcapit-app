@@ -112,15 +112,6 @@
       "repeat_new_password": "Confirm New Password"
     }
   },
-  "apikeys": {
-    "linked_apikeys": {
-      "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
-      "subtitle_header_text": "Ya comenzaste tu viaje crypto",
-      "create_fund_button_text": "Crear un fondo de inversión",
-      "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
-      "create_fund_later_button_text": "Lo voy a crear mas tarde"
-    }
-  },
   "funds": {
     "fund_balance": {
       "header": "Balance del Fondo",
@@ -674,6 +665,13 @@
       "slide4_text2": "Ingresá tu SECRET KEY",
       "slide4_input_label": "SECRET Key",
       "slide4_option_next": "Siguiente"
+    },
+    "linked_apikeys": {
+      "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
+      "subtitle_header_text": "Ya comenzaste tu viaje crypto",
+      "create_fund_button_text": "Crear un fondo de inversión",
+      "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
+      "create_fund_later_button_text": "Lo voy a crear mas tarde"
     }
   }
 }

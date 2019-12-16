@@ -112,15 +112,6 @@
       "repeat_new_password": "Confirm New Password"
     }
   },
-  "apikeys": {
-    "linked_apikeys": {
-      "title_header_text": "You linked your binance account!",
-      "subtitle_header_text": "Your crypto journey has begun",
-      "create_fund_button_text": "Create an investment fund",
-      "description_text": "We are able to create your fund to start managing your investment.",
-      "create_fund_later_button_text": "I'll create it later"
-    }
-  },
   "funds": {
     "fund_balance": {
       "header": "Fund Balance",
@@ -673,6 +664,13 @@
       "slide4_text2": "Enter your SECRET KEY",
       "slide4_input_label": "SECRET Key",
       "slide4_option_next": "Next"
+    },
+    "linked_apikeys": {
+      "title_header_text": "You linked your binance account!",
+      "subtitle_header_text": "Your crypto journey has begun",
+      "create_fund_button_text": "Create an investment fund",
+      "description_text": "We are able to create your fund to start managing your investment.",
+      "create_fund_later_button_text": "I'll create it later"
     }
   }
 }
