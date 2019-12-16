@@ -1,0 +1,29 @@
+:host {
+
+  div {
+    display: flex;
+    margin-bottom: 24px;
+  }
+
+  li {
+    counter-increment: circle-counter;
+    &:before {
+      content: counter(circle-counter);
+      background-color: var(--ion-color-xsecondary);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-block;
+      color: #fff;
+      text-align: center;
+      margin-right: 16px;
+      position: relative;
+    }
+  }
+
+  &:last-child {
+    div {
+      margin-bottom: 0;
+    }
+  }
+}

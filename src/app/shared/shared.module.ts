@@ -15,6 +15,9 @@ import { StepperComponent } from './components/stepper/stepper.component';
 import { XcapitHeaderTramaComponent } from './components/xcapit-header-trama/xcapit-header-trama.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
 import { XcapitInputComponent } from './components/xcapit-input/xcapit-input.component';
+import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
+import { NcListComponent } from './components/nc-list/nc-list.component';
+import { NcListItemComponent } from './components/nc-list-item/nc-list-item.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { XcapitInputComponent } from './components/xcapit-input/xcapit-input.com
     StepperComponent,
     XcapitHeaderTramaComponent,
     XcapitLogoComponent,
-    XcapitInputComponent
+    XcapitInputComponent,
+    BinanceLogoComponent,
+    NcListComponent,
+    NcListItemComponent
   ],
   entryComponents: [LanguagePopoverComponent],
   imports: [
@@ -53,7 +59,10 @@ import { XcapitInputComponent } from './components/xcapit-input/xcapit-input.com
     StepperComponent,
     XcapitHeaderTramaComponent,
     XcapitInputComponent,
-    XcapitLogoComponent
+    XcapitLogoComponent,
+    BinanceLogoComponent,
+    NcListComponent,
+    NcListItemComponent
   ]
 })
 export class SharedModule {}

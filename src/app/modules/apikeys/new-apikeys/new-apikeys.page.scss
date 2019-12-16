@@ -1,9 +1,71 @@
 :host {
-  ion-content {
-    --background: orange;
-  }
-
   ion-card {
     --background: #fff;
+  }
+
+  .xcapit-logo {
+    width: 30%;
+    padding-top: 2rem;
+  }
+
+  .header-trama {
+    // TODO: ver que caso se comporta mejor.
+    // height: calc(100vh - 32.5rem);
+    height: calc(100vh - 71vh);
+    width: 100%;
+  }
+
+  .header-trama-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-binance {
+    padding: 3rem 3.5rem 2rem 3.5rem;
+  }
+
+  .slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .slide__title {
+    width: 100%;
+    text-align: left;
+  }
+
+  .slide__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 99%;
+  }
+
+  .slide__content__text {
+    text-align: left;
+    width: 100%;
+
+    &:not(:first-child) {
+      margin-top: 14px;
+    }
+  }
+
+  .slide__content__options {
+    width: 100%;
+    padding-top: 2rem;
+  }
+
+  .slide__content__list {
+    padding-left: 1.5rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .slide__content__form-controls {
+    width: 100%;
+    padding-top: 32px;
+    text-align: left;
   }
 }

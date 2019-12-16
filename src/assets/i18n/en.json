@@ -633,5 +633,31 @@
       "message": "You have a new notifications!",
       "view_button": "View"
     }
+  },
+  "apikeys": {
+    "new_apikeys": {
+      "slide1_title": "Do you have an account in Binance?",
+      "slide1_text": "We recommend that you access your account in order to find the information we will need.",
+      "slide1_option_no": "NO",
+      "slide1_option_yes": "YES",
+      "slide1_link_text": "What is Binance and why do I need it?",
+      "slide2_title": "Create an API KEY",
+      "slide2_text1": "The API KEY is a code that will allow us to manage your Binance account.",
+      "slide2_text2": "Login to your Binance account and follow these steps to create a new API KEY.",
+      "slide2_bullettext1": "Go to \"My Account\"",
+      "slide2_bullettext2": "Find the \"API\" module",
+      "slide2_bullettext3": "Enter a password (it can be whatever you want)",
+      "slide2_bullettext4": "Follow the steps to create your API KEY",
+      "slide2_option_next": "Next",
+      "slide3_title": "Enter your API key",
+      "slide3_text": "Now copy the 18 digits of your Key",
+      "slide3_input_label": "API Key",
+      "slide3_option_next": "Next",
+      "slide4_title": "SECRET Key",
+      "slide4_text1": "Together with the creation of your API Key, binance generated a \"SECRET Key\" to ensure the security of transactions (you can find it just below the API Key).",
+      "slide4_text2": "Enter your SECRET KEY",
+      "slide4_input_label": "SECRET Key",
+      "slide4_option_next": "Next"
+    }
   }
 }
