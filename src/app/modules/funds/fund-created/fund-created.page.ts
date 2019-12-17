@@ -37,6 +37,7 @@ import { Component, OnInit } from '@angular/core';
             appTrackClick
             name="Go To Fund"
             expand="block"
+            size="large"
             color="xcprimary"
             routerLink="/tabs/funds"
           >

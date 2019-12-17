@@ -37,6 +37,7 @@ import { Component, OnInit } from '@angular/core';
             appTrackClick
             name="Create Fund"
             expand="block"
+            size="large"
             color="xcprimary"
             routerLink="/tutorials/interactive-tutorial"
           >
