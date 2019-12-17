@@ -10,8 +10,8 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
   selector: 'app-xcapit-input',
   template: `
     <div class="xcapit_input_container">
-      <ion-label>{{ this.label }}</ion-label>
-      <ion-item>
+      <ion-label class="xcapit_input_container__label" color="xdark">{{ this.label }}</ion-label>
+      <ion-item class="xcapit_input_container__item">
         <ion-input
           [formControlName]="this.controlName"
           [type]="this.type"
@@ -19,6 +19,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
         ></ion-input>
       </ion-item>
       <app-errors-form-item
+        class="xcapit_input_container__item__errors"
         [controlName]="this.controlName"
         [errors]="this.errors"
       ></app-errors-form-item>
