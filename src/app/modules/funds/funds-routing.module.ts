@@ -74,8 +74,7 @@ export const routes: Routes = [
           )
       }
     ]
-  },
-  { path: 'fund-created', loadChildren: './fund-created/fund-created.module#FundCreatedPageModule' }
+  }
 ];
 
 @NgModule({
