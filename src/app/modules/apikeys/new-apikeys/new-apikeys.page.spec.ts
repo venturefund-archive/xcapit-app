@@ -4,16 +4,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewApikeysPage } from './new-apikeys.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 const formData = {
-  apikey: 'asdfad',
+  api_key: 'asdfad',
   secret_key: 'asdfasdfa'
 };
 
@@ -22,8 +23,11 @@ describe('NewApikeysPage', () => {
   let fixture: ComponentFixture<NewApikeysPage>;
   let apiApikeysServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewApikeysPage>;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
+    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
+    navControllerSpy.navigateForward.and.returnValue(of({}).toPromise());
     apiApikeysServiceMock = {
       crud: jasmine.createSpyObj('CRUD', ['create'])
     };
@@ -38,10 +42,12 @@ describe('NewApikeysPage', () => {
       declarations: [NewApikeysPage, TrackClickDirective],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
+        TrackClickDirective,
         {
           provide: ApiApikeysService,
           useValue: apiApikeysServiceMock
-        }
+        },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
   }));
@@ -62,6 +68,44 @@ describe('NewApikeysPage', () => {
     component.ionViewDidEnter();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call success from handleSubmit', () => {
+    fixture.detectChanges();
+    apiApikeysServiceMock.crud.create.and.returnValue(of({}));
+    component.form.patchValue(formData);
+    const spy = spyOn(component, 'success');
+    component.handleSubmit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call crud.create on handleSubmit', () => {
+    fixture.detectChanges();
+    apiApikeysServiceMock.crud.create.and.returnValue(of({}));
+    component.form.patchValue(formData);
+    component.handleSubmit();
+    expect(apiApikeysServiceMock.crud.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should reset form on success', async done => {
+    fixture.detectChanges();
+    const spy = spyOn(component.form, 'reset');
+    component.success().then(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+    done();
+  });
+
+  it('should call navigateForward with ["/apikeys/linked"], on navController when from success', async done => {
+    fixture.detectChanges();
+    component.success().then(() => {
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+        ['/apikeys/linked'],
+        { replaceUrl: true }
+      );
+    });
+    done();
   });
 
   xit('should stepper be set', async () => {

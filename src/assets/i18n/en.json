@@ -603,6 +603,13 @@
         "referralAlreadyExist": "The referral cannot be created.",
         "referralAlreadyExistsAsUser": "The referral cannot be created."
       }
+    },
+    "apikeys": {
+      "create": {
+        "invalidExchangeKeys": "Invalid keys.",
+        "keysExists": "Keys already exists.",
+        "invalidData": "Invalid data."
+      }
     }
   },
   "terms_and_conditions": {
@@ -663,7 +670,8 @@
       "slide4_text1": "Together with the creation of your API Key, binance generated a \"SECRET Key\" to ensure the security of transactions (you can find it just below the API Key).",
       "slide4_text2": "Enter your SECRET KEY",
       "slide4_input_label": "SECRET Key",
-      "slide4_option_next": "Next"
+      "slide4_option_next": "Next",
+      "success_text_new": "The link with the Exchange was successful!"
     },
     "linked_apikeys": {
       "title_header_text": "You linked your binance account!",

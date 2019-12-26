@@ -604,6 +604,13 @@
         "referralAlreadyExist": "No se puede crear el referido.",
         "referralAlreadyExistsAsUser": "No se puede crear el referido."
       }
+    },
+    "apikeys": {
+      "create": {
+        "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
+        "keysExists": "Las keys ya se encuentran registradas.",
+        "invalidData": "Los datos ingresados no son válidos."
+      }
     }
   },
   "terms_and_conditions": {
@@ -664,7 +671,8 @@
       "slide4_text1": "Junto con la creación de tu API Key, binance generó una \"SECRET Key\" para asegurar la seguridad de las transacciones (podrás encontrarlo justo debajo del API Key).",
       "slide4_text2": "Ingresá tu SECRET KEY",
       "slide4_input_label": "SECRET Key",
-      "slide4_option_next": "Siguiente"
+      "slide4_option_next": "Siguiente",
+      "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
     },
     "linked_apikeys": {
       "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",

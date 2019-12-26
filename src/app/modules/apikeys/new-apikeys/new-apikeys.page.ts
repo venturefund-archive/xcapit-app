@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, NavController } from '@ionic/angular';
 import {
   FormGroup,
   FormBuilder,
@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-apikeys',
@@ -178,7 +180,7 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
                   </div>
                   <div class="slide__content__form-controls">
                     <app-xcapit-input
-                      controlName="apikey"
+                      controlName="api_key"
                       type="text"
                       inputmode="text"
                       label="API Key"
@@ -195,8 +197,8 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
                             size="large"
                             expand="block"
                             color="xcprimary"
-                            [disabled]="!this.form.get('apikey').valid"
-                            (click)="this.slideTo(4, this.form.get('apikey'))"
+                            [disabled]="!this.form.get('api_key').valid"
+                            (click)="this.slideTo(4, this.form.get('api_key'))"
                           >
                             {{
                               'apikeys.new_apikeys.slide3_option_next'
@@ -273,7 +275,7 @@ export class NewApikeysPage implements OnInit {
   steps: number;
 
   form: FormGroup = this.formBuilder.group({
-    apikey: ['', [Validators.required]],
+    api_key: ['', [Validators.required]],
     secret_key: ['', [Validators.required]]
   });
 
@@ -283,7 +285,10 @@ export class NewApikeysPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private apiApikeys: ApiApikeysService
+    private apiApikeys: ApiApikeysService,
+    private navController: NavController,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   async ngOnInit() {
@@ -296,9 +301,11 @@ export class NewApikeysPage implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
-      // TODO: descomentar cuando este el endpoint
-      // this.apiApikeys.crud.create(this.form.value);
-      console.log({ data: this.form.value });
+      const data = this.form.value;
+      data.exchange = 'Binance';
+      this.apiApikeys.crud
+        .create(this.form.value)
+        .subscribe(() => this.success());
     }
   }
 
@@ -326,5 +333,11 @@ export class NewApikeysPage implements OnInit {
     if (activeSteps > stepClicked) {
       this.slideTo(stepClicked);
     }
+  }
+
+  async success() {
+    this.navController
+      .navigateForward(['/apikeys/linked'], { replaceUrl: true })
+      .then(() => this.form.reset());
   }
 }
