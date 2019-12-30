@@ -601,7 +601,8 @@
     "referrals": {
       "create": {
         "referralAlreadyExist": "The referral cannot be created.",
-        "referralAlreadyExistsAsUser": "The referral cannot be created."
+        "referralAlreadyExistsAsUser": "The referral cannot be created.",
+        "emailDidNotSend": "The email could not be sent."
       }
     },
     "apikeys": {

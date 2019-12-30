@@ -602,7 +602,8 @@
     "referrals": {
       "create": {
         "referralAlreadyExist": "No se puede crear el referido.",
-        "referralAlreadyExistsAsUser": "No se puede crear el referido."
+        "referralAlreadyExistsAsUser": "No se puede crear el referido.",
+        "emailDidNotSend": "No se pudo enviar el email."
       }
     },
     "apikeys": {
