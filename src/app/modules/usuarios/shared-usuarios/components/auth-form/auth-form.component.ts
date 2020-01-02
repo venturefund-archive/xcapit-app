@@ -42,7 +42,6 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           [errors]="this.repeatEmailErrors"
         ></app-errors-form-item>
         <app-xcapit-input
-          *ngIf="this.isLogin"
           controlName="password"
           type="password"
           inputmode="password"
