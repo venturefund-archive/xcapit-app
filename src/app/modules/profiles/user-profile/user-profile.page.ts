@@ -261,6 +261,7 @@ export class UserProfilePage implements OnInit {
         } else {
           this.navController.pop();
         }
+        this.disabledButton = false;
       });
     }
   }
