@@ -33,7 +33,9 @@
 
 ion-button {
   --border-radius: 7px;
-  &[fill='clear'] {
-    font-weight: 600;
-  }
+  font-family: var(--ux-font-lato);
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: none;
+  height: 48px;
 }

@@ -14,7 +14,7 @@ import { PercentageDisplayComponent } from './components/percentage-display/perc
 import { StepperComponent } from './components/stepper/stepper.component';
 import { XcapitHeaderTramaComponent } from './components/xcapit-header-trama/xcapit-header-trama.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
-import { XcapitInputComponent } from './components/xcapit-input/xcapit-input.component';
+import { UxInputComponent } from './components/ux-input/ux-input.component';
 import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
 import { NcListComponent } from './components/nc-list/nc-list.component';
 import { NcListItemComponent } from './components/nc-list-item/nc-list-item.component';
@@ -30,7 +30,7 @@ import { NcListItemComponent } from './components/nc-list-item/nc-list-item.comp
     StepperComponent,
     XcapitHeaderTramaComponent,
     XcapitLogoComponent,
-    XcapitInputComponent,
+    UxInputComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent
@@ -58,7 +58,7 @@ import { NcListItemComponent } from './components/nc-list-item/nc-list-item.comp
     PercentageDisplayComponent,
     StepperComponent,
     XcapitHeaderTramaComponent,
-    XcapitInputComponent,
+    UxInputComponent,
     XcapitLogoComponent,
     BinanceLogoComponent,
     NcListComponent,

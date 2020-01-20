@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { XcapitInputComponent } from './xcapit-input.component';
+import { UxHeaderLoginComponent } from './ux-header-login.component';
 
-describe('XcapitInputComponent', () => {
-  let component: XcapitInputComponent;
-  let fixture: ComponentFixture<XcapitInputComponent>;
+describe('UxHeaderLoginComponent', () => {
+  let component: UxHeaderLoginComponent;
+  let fixture: ComponentFixture<UxHeaderLoginComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ XcapitInputComponent ],
+      declarations: [ UxHeaderLoginComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(XcapitInputComponent);
+    fixture = TestBed.createComponent(UxHeaderLoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

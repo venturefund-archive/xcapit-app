@@ -1,5 +1,5 @@
 :host {
-  .xcapit_header_trama {
+  .xcapit_header_login {
     display: flex;
     height: 100%;
     width: 100%;
@@ -11,17 +11,6 @@
     
     &.success {
       background-image: linear-gradient(#31e7a2, #33ca60);
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
-      background-image: url('src/assets/img/header-trama/item-trama.svg');
-      background-repeat: repeat;
-      background-size: 80px auto;
-      opacity: 0.12;
-      width: 100%;
-      height: 100%;
     }
 
     &__content {

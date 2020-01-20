@@ -18,14 +18,14 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
   template: `
     <div>
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
-        <app-xcapit-input
+        <app-ux-input
           controlName="email"
           type="email"
           inputmode="email"
           label="Email"
+          [placeholder]="'usuarios.login.email_placeholder_label' | translate"
           [errors]="this.emailErrors"
-        ></app-xcapit-input>
-
+        ></app-ux-input>
         <ion-item *ngIf="!this.isLogin">
           <ion-label position="floating">{{
             'usuarios.auth_form.repeat_email' | translate
@@ -41,13 +41,15 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           controlName="repeat_email"
           [errors]="this.repeatEmailErrors"
         ></app-errors-form-item>
-        <app-xcapit-input
-          controlName="password"
-          type="password"
-          inputmode="password"
-          label="Password"
-          [errors]="this.passwordErrors"
-        ></app-xcapit-input>
+        <app-ux-input
+        controlName="password"
+        type="password"
+        inputmode="password"
+        [label]="'usuarios.login.password_label' | translate"
+        [errors]="this.passwordErrors"
+        ></app-ux-input>
+
+        <ng-content select=".auth-link-reset-password"></ng-content>
 
         <ion-item *ngIf="!this.isLogin">
           <ion-label position="floating">{{

@@ -70,9 +70,12 @@
       "ok_text": "Email Verificado correctamente!"
     },
     "login": {
-      "register_link": "Not registered yet",
+      "email_placeholder_label": "email@example.com",
+      "password_label": "Password",
+      "register_link": "Create new account",
       "reset_password_link": "I forgot my password",
-      "login_button_text": "Login"
+      "login_button_text": "Login",
+      "title": "Login"
     },
     "register": {
       "card_header": "User Registration",

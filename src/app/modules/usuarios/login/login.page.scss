@@ -1,6 +1,6 @@
 :host {
   .app_header_trama {
-    height: calc(100vh - 60%);
+    height: calc(100vh - 63%);
     width: 100%;
 
     &__content {
@@ -11,16 +11,48 @@
       justify-content: center;
       &__app_language_button {
         position: absolute;
-        top: 5px;
-        right: 3px;
+        top: 38px;
+        right: 16px;
       }
 
       &__app_xcapit_logo {
-        width: 50%;
+        align-self: start;
+        margin-left: 16px;
+        margin-top: 48px;
+        width: 30%;
         max-width: 400px;
-        min-width: 200px;
+        min-width: 100px;
       }
     }
   }
 
+  .login_title {
+    margin-top: 24px;
+    h1 {
+      height: 28px;
+      font-family: var(--ux-font-gilroy);
+      font-weight: 600;
+      font-size: 22px;
+      margin: 0;
+    }
+  }
+  .main {
+    margin-top: 8px;
+    &__reset_password__button {
+      float: right;
+      height: auto;
+      font-size: 12px;
+      .button-native {
+        padding-right: 0 !important;
+      }
+    }
+
+    &__go_to_register {
+      margin-top: 8px;
+    }
+  }
+
+  .auth-button {
+    margin-top: 63px;
+  }
 }
