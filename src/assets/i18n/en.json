@@ -290,6 +290,12 @@
       "direccion": "Address",
       "submit_button": "Save",
       "success_text": "Saved!"
+    },
+    "success_profile": {
+      "textPrimary": "¡You have setted up your account!",
+      "textSecondary": "Now we need you to link your Exchange (Binance) to see your capital.",
+      "namePrimaryAction": "Link to Binance",
+      "nameSecondaryAction": "Skip for now"
     }
   },
   "tutorials": {

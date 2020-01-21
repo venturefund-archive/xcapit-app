@@ -291,6 +291,12 @@
       "direccion": "Dirección",
       "submit_button": "Guardar",
       "success_text": "Datos guardados!"
+    },
+    "success_profile": {
+      "textPrimary": "¡Ya configuraste tu cuenta!",
+      "textSecondary": "Ahora necesitamos que vincules tu Exchange (Binance) para poder ver tu capital.",
+      "namePrimaryAction": "Comenzar a vincular con Binance",
+      "nameSecondaryAction": "Omitir por ahora"
     }
   },
   "tutorials": {

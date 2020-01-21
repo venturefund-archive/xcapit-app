@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 
+
 @Component({
   selector: 'app-funds-list',
   template: `
@@ -67,4 +68,5 @@ export class FundsListPage implements OnInit {
       this.subscribedFunds = res;
     });
   }
+
 }

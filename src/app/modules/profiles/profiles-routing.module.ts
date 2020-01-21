@@ -13,9 +13,17 @@ const routes: Routes = [
           import('./user-profile/user-profile.module').then(
             m => m.UserProfilePageModule
           )
+      },
+      {
+        path: 'success',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./success-profile/success-profile.module').then(
+            m => m.SuccessProfilePageModule
+          )
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

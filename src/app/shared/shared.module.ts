@@ -18,6 +18,10 @@ import { UxInputComponent } from './components/ux-input/ux-input.component';
 import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
 import { NcListComponent } from './components/nc-list/nc-list.component';
 import { NcListItemComponent } from './components/nc-list-item/nc-list-item.component';
+import { UxSuccessImgComponent } from './components/ux-success-img/ux-success-img.component';
+import { SuccessContentComponent } from './components/success-content/success-content.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -31,9 +35,11 @@ import { NcListItemComponent } from './components/nc-list-item/nc-list-item.comp
     XcapitHeaderTramaComponent,
     XcapitLogoComponent,
     UxInputComponent,
+    UxSuccessImgComponent,
     BinanceLogoComponent,
     NcListComponent,
-    NcListItemComponent
+    NcListItemComponent,
+    SuccessContentComponent
   ],
   entryComponents: [LanguagePopoverComponent],
   imports: [
@@ -58,11 +64,13 @@ import { NcListItemComponent } from './components/nc-list-item/nc-list-item.comp
     PercentageDisplayComponent,
     StepperComponent,
     XcapitHeaderTramaComponent,
-    UxInputComponent,
     XcapitLogoComponent,
+    UxInputComponent,
+    UxSuccessImgComponent,
     BinanceLogoComponent,
     NcListComponent,
-    NcListItemComponent
+    NcListItemComponent,
+    SuccessContentComponent
   ]
 })
 export class SharedModule {}

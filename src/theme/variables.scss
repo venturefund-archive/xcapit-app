@@ -101,7 +101,13 @@
   --ion-color-uxdanger-shade: #d2140c;
   --ion-color-uxdanger-tint: #f12e26;
 
-  /** medium **/
+  /** ux medium **/
+  --ion-color-uxmedium: #757575;
+  --ion-color-uxmedium-rgb: 117, 117, 117;
+  --ion-color-uxmedium-contrast: #ffffff;
+  --ion-color-uxmedium-contrast-rgb: 255, 255, 255;
+  --ion-color-uxmedium-shade: #676767;
+  --ion-color-uxmedium-tint: #838383;
 
   /** dark **/
 
@@ -140,15 +146,14 @@
   --ion-color-tint: var(--ion-color-uxdanger-tint);
 }
 
-// .ion-color-xmedium {
-//   --ion-color-base: var(--ion-color-xmedium);
-//   --ion-color-base-rgb: var(--ion-color-xmedium-rgb);
-//   --ion-color-contrast: var(--ion-color-xmedium-contrast);
-//   --ion-color-contrast-rgb: var(--ion-color-xmedium-contrast-rgb);
-//   --ion-color-shade: var(--ion-color-xmedium-shade);
-//   --ion-color-tint: var(--ion-color-xmedium-tint);
-// }
-
+.ion-color-uxmedium {
+  --ion-color-base: var(--ion-color-uxmedium);
+  --ion-color-base-rgb: var(--ion-color-uxmedium-rgb);
+  --ion-color-contrast: var(--ion-color-uxmedium-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-uxmedium-contrast-rgb);
+  --ion-color-shade: var(--ion-color-uxmedium-shade);
+  --ion-color-tint: var(--ion-color-uxmedium-tint);
+}
 // .ion-color-xdark {
 //   --ion-color-base: var(--ion-color-xdark);
 //   --ion-color-base-rgb: var(--ion-color-xdark-rgb);
@@ -234,7 +239,7 @@
 @font-face {
   font-family: 'Gilroy';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 800;
   src: url('../assets/fonts/Gilroy/Gilroy-ExtraBold.otf');
 }
 
