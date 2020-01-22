@@ -494,7 +494,8 @@
   "subscriptions": {
     "subscriptions_service": {
       "share_title": "share title",
-      "share_text": "share text"
+      "share_text": "share text",
+      "toast_text_copied": "El enlace de suscripción al fondo se ha copiado al portapapeles"
     },
     "subscribe": {
       "ok_text": "¡Suscripción Exitosa!",
@@ -640,7 +641,11 @@
     "referrals_list": {
       "header": "Lista de Referidos",
       "accepted_badge": "Aceptado",
-      "not_accepted_badge": "No Aceptado"
+      "not_accepted_badge": "No Aceptado",
+      "referral_id_title": "Tu ID de referido",
+      "share_title": "Este es mi ID de referido",
+      "share_dialogTitle": "Compartí tu ID de referido",
+      "toast_text_copied": "El ID de referido fué copiado al portapapeles"
     },
     "referral_form": {
       "email": "Email"

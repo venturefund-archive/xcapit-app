@@ -493,7 +493,8 @@
   "subscriptions": {
     "subscriptions_service": {
       "share_title": "share title",
-      "share_text": "share text"
+      "share_text": "share text",
+      "toast_text_copied": "The subscription link has been copied to the clipboard."
     },
     "subscribe": {
       "ok_text": "Successful Subscription!",
@@ -639,7 +640,11 @@
     "referrals_list": {
       "header": "Referrals List",
       "accepted_badge": "Accepted",
-      "not_accepted_badge": "Not Accepted"
+      "not_accepted_badge": "Not Accepted",
+      "referral_id_title": "Your referral ID",
+      "share_title": "This is my referral ID",
+      "share_dialogTitle": "Share your referral ID",
+      "toast_text_copied": "The referral ID has been copied to the clipboard"
     },
     "referral_form": {
       "email": "Email"

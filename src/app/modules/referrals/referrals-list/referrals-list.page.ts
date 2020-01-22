@@ -1,6 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiReferralsService } from '../shared-referrals/services/api-referrals/api-referrals.service';
 import { IonInfiniteScroll } from '@ionic/angular';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { map } from 'rxjs/operators';
+import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { ShareService } from 'src/app/shared/services/share/share.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 @Component({
   selector: 'app-referrals-list',
   template: `
@@ -26,6 +32,37 @@ import { IonInfiniteScroll } from '@ionic/angular';
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-fab>
+
+      <div class="referral_id" *ngIf="this.referralId">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4">
+              <ion-label>
+                {{ 'referrals.referrals_list.referral_id_title' | translate }}:
+              </ion-label>
+            </ion-col>
+            <ion-col size="5">{{ this.referralId }}</ion-col>
+            <ion-col size="3">
+              <ion-buttons>
+                <ion-button
+                  appTrackClick
+                  name="Copy Referral Id"
+                  (click)="this.copyReferralId()"
+                >
+                  <ion-icon slot="icon-only" name="copy"></ion-icon>
+                </ion-button>
+                <ion-button
+                  appTrackClick
+                  name="Share Referral Id"
+                  (click)="this.shareReferralId()"
+                >
+                  <ion-icon slot="icon-only" name="share"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
       <ion-list *ngIf="this.referrals.length === 0 && this.loading">
         <app-skeleton-referral-item
           *ngFor="let i of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
@@ -64,10 +101,49 @@ export class ReferralsListPage implements OnInit {
   queryOptions = { ordering: '-accepted,email,created_at' };
   paginationOptions = { cursor: '' };
   loading = true;
-  constructor(private apiReferrals: ApiReferralsService) {}
+  referralId: any;
+  constructor(
+    private apiReferrals: ApiReferralsService,
+    private apiUsuarios: ApiUsuariosService,
+    private clipboardService: ClipboardService,
+    private shareService: ShareService,
+    private translate: TranslateService,
+    private toastService: ToastService
+  ) {}
 
   ionViewDidEnter() {
+    this.getReferralId();
     this.getUserReferrals(this.getQueryParams());
+  }
+
+  getReferralId() {
+    this.apiUsuarios
+      .getUser()
+      .subscribe((data: any) => (this.referralId = data.referral_id));
+  }
+
+  shareReferralId() {
+    this.shareService.share(
+      {
+        title: this.translate.instant('referrals.referrals_list.share_title'),
+        dialogTitle: this.translate.instant(
+          'referrals.referrals_list.share_dialogTitle'
+        ),
+        text: this.referralId
+      },
+      this.translate.instant('referrals.referrals_list.toast_text_copied')
+    );
+  }
+
+  copyReferralId() {
+    this.clipboardService.write({ string: this.referralId }).then(() => {
+      this.toastService.showToast({
+        message: this.translate.instant(
+          'referrals.referrals_list.toast_text_copied'
+        ),
+        position: 'middle'
+      });
+    });
   }
 
   getUserReferrals(options: any = null, hasInfiniteScroll?: boolean) {

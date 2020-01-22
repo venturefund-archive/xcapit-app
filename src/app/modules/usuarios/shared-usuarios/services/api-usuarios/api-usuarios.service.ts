@@ -71,4 +71,8 @@ export class ApiUsuariosService {
       data
     );
   }
+
+  getUser(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/get_user`);
+  }
 }
