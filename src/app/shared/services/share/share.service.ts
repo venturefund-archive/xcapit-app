@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ShareOptions } from './share-options';
 import { ToastService } from '../toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from '../clipboard/clipboard.service';
-
-declare var navigator: any;
+import { Plugins, ShareOptions } from '@capacitor/core';
+const { Share } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -13,17 +12,29 @@ export class ShareService {
   constructor(
     private toastService: ToastService,
     private translate: TranslateService,
-    private clipboard: ClipboardService
-  ) {}
-
-  share(options: ShareOptions): Promise<void|string|boolean> {
-    return navigator.share ?
-      navigator.share(options) : this.clipboard.copy(options.url).then(() => this.showToast());
+    private clipboardService: ClipboardService
+  ) {
   }
 
-  private showToast() {
+  share(data: ShareOptions) {
+    console.log(data);
+    Share.share(data).then(
+      () => {},
+      () => {
+        this.clipboardService
+          .write(data)
+          .then(() =>
+            this.showToast(
+              this.translate.instant('shared.services.share.copy_text')
+            )
+          );
+      }
+    );
+  }
+
+  private showToast(message) {
     this.toastService.showToast({
-      message: this.translate.instant('shared.services.share.copy_text'),
+      message,
       position: 'middle'
     });
   }

@@ -39,7 +39,7 @@ describe('DepositAddressPage', () => {
     logsServiceMock = {
       log: () => of({})
     };
-    clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['copy']);
+    clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -83,8 +83,8 @@ describe('DepositAddressPage', () => {
     done();
   });
 
-  it('should call copy in ClipboardService when call copyToClipboard', async (done) => {
-    clipboardServiceSpy.copy.and.returnValue(of({}).toPromise());
+  it('should call write in ClipboardService when call copyToClipboard', async (done) => {
+    clipboardServiceSpy.write.and.returnValue(of({}).toPromise());
     const spy = spyOn(apiFundsService, 'getDepositAdress');
     spy.and.returnValue(of(depositAddressData));
     component.ionViewDidEnter();
@@ -92,7 +92,7 @@ describe('DepositAddressPage', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       component.copyToClipboard();
-      expect(clipboardServiceSpy.copy).toHaveBeenCalledTimes(1);
+      expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
     });
     done();
   });

@@ -6,6 +6,9 @@ import QRCode from 'qrcode';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Plugins } from '@capacitor/core';
+const { Clipboard } = Plugins;
+
 @Component({
   selector: 'app-deposit-address',
   template: `
@@ -140,7 +143,7 @@ export class DepositAddressPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiFunds: ApiFundsService,
-    private clipboard: ClipboardService,
+    private clipboardService: ClipboardService,
     private toastService: ToastService,
     private translate: TranslateService
   ) {}
@@ -184,7 +187,7 @@ export class DepositAddressPage implements OnInit {
 
   copyToClipboard() {
     if (this.depositAddresInfo.address) {
-      this.clipboard.copy(this.depositAddresInfo.address).then(
+      this.clipboardService.write({ url: this.depositAddresInfo.address }).then(
         () => {
           this.showToast('funds.deposit_address.copy_address_ok_text');
         },

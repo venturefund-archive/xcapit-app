@@ -4,7 +4,6 @@ import { ShareService } from 'src/app/shared/services/share/share.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { NavController } from '@ionic/angular';
-
 const SUBSCRIPTION_LINK_STORAGE_KEY = 'subscriptionLink';
 
 @Injectable({
@@ -30,7 +29,10 @@ export class SubscriptionsService {
           text: this.translate.instant(
             'subscriptions.subscriptions_service.share_text'
           ),
-          url: data.link
+          url: data.link,
+          dialogTitle: this.translate.instant(
+            'subscriptions.subscriptions_service.share_title'
+          )
         });
       });
   }

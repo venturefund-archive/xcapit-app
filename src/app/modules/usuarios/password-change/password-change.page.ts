@@ -61,7 +61,6 @@ export class PasswordChangePage {
   ) {}
 
   handleSubmit(data: any) {
-    console.log({ data });
     this.apiUsuarios.changePassword(data).subscribe(() => this.success());
   }
 
