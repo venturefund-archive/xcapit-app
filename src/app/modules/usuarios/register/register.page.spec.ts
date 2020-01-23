@@ -122,11 +122,12 @@ describe('RegisterPage', () => {
       activatedRouteMock.snapshot = {
         paramMap: convertToParamMap({
           code: 'asfd12',
-          email: 'dGVzdEB0ZXN0LmNvbQ'
+          email: 'dGVzdEB0ZXN0LmNvbQ==' // test@test.com
         })
       };
       component.ionViewWillEnter();
-      expect(component.referralCode).toEqual('asfd12');
+      expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
+      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual(
         'test@test.com'
       );
@@ -140,7 +141,8 @@ describe('RegisterPage', () => {
         })
       };
       component.ionViewWillEnter();
-      expect(component.referralCode).toEqual('asfd12');
+      expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
+      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual('');
     });
   });

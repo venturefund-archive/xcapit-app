@@ -41,12 +41,30 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           controlName="repeat_email"
           [errors]="this.repeatEmailErrors"
         ></app-errors-form-item>
+        <ion-item *ngIf="!this.isLogin">
+          <ion-label>{{
+            'usuarios.register.manual_referral' | translate
+          }}</ion-label>
+          <ion-checkbox
+            formControlName="manual_referral"
+            color="uxsecondary"
+            slot="start"
+          ></ion-checkbox>
+        </ion-item>
         <app-ux-input
-        controlName="password"
-        type="password"
-        inputmode="password"
-        [label]="'usuarios.login.password_label' | translate"
-        [errors]="this.passwordErrors"
+          *ngIf="this.showReferralCode"
+          controlName="referral_code"
+          type="text"
+          inputmode="text"
+          [label]="'usuarios.register.referral_code_label' | translate"
+        ></app-ux-input>
+
+        <app-ux-input
+          controlName="password"
+          type="password"
+          inputmode="password"
+          [label]="'usuarios.login.password_label' | translate"
+          [errors]="this.passwordErrors"
         ></app-ux-input>
 
         <ng-content select=".auth-link-reset-password"></ng-content>
@@ -80,6 +98,8 @@ export class AuthFormComponent implements OnInit {
 
   @Output()
   send = new EventEmitter<any>();
+
+  showReferralCode: boolean;
 
   emailErrors: ItemFormError[] = CONFIG.fieldErrors.username;
 
@@ -154,7 +174,9 @@ export class AuthFormComponent implements OnInit {
             CustomValidatorErrors.hasSmallCase
           )
         ]
-      ]
+      ],
+      referral_code: ['', Validators.required],
+      manual_referral: [false]
     },
     {
       validators: [
@@ -173,6 +195,19 @@ export class AuthFormComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.toggleReferralCode();
+  }
+
+  toggleReferralCode() {
+    this.form.get('referral_code').disable();
+    this.form.get('manual_referral').valueChanges.subscribe(val => {
+      this.showReferralCode = val;
+      if (this.showReferralCode) {
+        this.form.get('referral_code').enable();
+      } else {
+        this.form.get('referral_code').disable();
+      }
+    });
   }
 
   private initForm() {

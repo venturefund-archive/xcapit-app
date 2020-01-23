@@ -82,7 +82,10 @@
       "submit_button": "Registrar",
       "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
       "accept_button": "Aceptar",
-      "referral_code_text": "Código de Referido"
+      "referral_code_text": "Código de Referido",
+      "manual_referral": "Ingresar codigo de referido",
+      "referral_code_label": "Codigo de referido"
+
     },
     "auth_form": {
       "repeat_email": "Confirmar Email",
@@ -594,7 +597,8 @@
         "user": "Error al obtener el usuario a validar."
       },
       "registration": {
-        "invalidData": "Los datos ingresados no son válidos."
+        "invalidData": "Los datos ingresados no son válidos.",
+        "referralIdNotExists": "No existe un usuario con el codigo de referido ingresado."
       },
       "resetPassword": {
         "invalid": "Error al Cambiar la Password."

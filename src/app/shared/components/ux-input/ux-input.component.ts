@@ -38,6 +38,7 @@ import {
         <button
           [hidden]="!this.passwordType"
           item-end
+          type="button"
           class="ux_input_container__item__eye_icon"
           (click)="this.togglePasswordMode()"
         >
