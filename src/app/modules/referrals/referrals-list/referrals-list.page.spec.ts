@@ -8,6 +8,9 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { ApiReferralsService } from '../shared-referrals/services/api-referrals/api-referrals.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { ShareService } from 'src/app/shared/services/share/share.service';
 
 describe('ReferralsListPage', () => {
   let component: ReferralsListPage;
@@ -17,10 +20,18 @@ describe('ReferralsListPage', () => {
   >;
   let ionInfiniteScrollMock: any;
   let apiReferralsServiceSpy: any;
+  let apiUsuariosServiceSpy: any;
+  let shareServiceSpy: any;
+  let clipboardServiceSpy: any;
   const referralsTestData = {
     cursors: { previous: '', next: '' },
     links: { previous: '', next: '' },
     results: []
+  };
+  const user = {
+    id: '',
+    referral_id: 'test',
+    profile: {}
   };
   beforeEach(async(() => {
     ionInfiniteScrollMock = {
@@ -30,12 +41,24 @@ describe('ReferralsListPage', () => {
     apiReferralsServiceSpy = {
       getUserReferrals: () => of(referralsTestData)
     };
+    apiUsuariosServiceSpy = {
+      getUser: () => of(user)
+    };
+    clipboardServiceSpy = {
+      write: () => Promise.resolve()
+    };
+    shareServiceSpy = {
+      share: () => Promise.resolve()
+    };
     TestBed.configureTestingModule({
       declarations: [ReferralsListPage, TrackClickDirective],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         TrackClickDirective,
-        { provide: ApiReferralsService, useValue: apiReferralsServiceSpy }
+        { provide: ApiReferralsService, useValue: apiReferralsServiceSpy },
+        { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+        { provide: ClipboardService, useValue: clipboardServiceSpy },
+        { provide: ShareService, useValue: shareServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -46,6 +69,9 @@ describe('ReferralsListPage', () => {
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     apiReferralsServiceSpy = TestBed.get(ApiReferralsService);
+    apiUsuariosServiceSpy = TestBed.get(ApiUsuariosService);
+    clipboardServiceSpy = TestBed.get(ClipboardService);
+    shareServiceSpy = TestBed.get(ShareService);
     component.infiniteScroll = ionInfiniteScrollMock;
     fixture.detectChanges();
   });
@@ -80,4 +106,30 @@ describe('ReferralsListPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should call apiUsuarios.getUser on getReferralId', () => {
+    const spy = spyOn(apiUsuariosServiceSpy, 'getUser');
+    spy.and.returnValue(of(user));
+    component.getReferralId();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.referralId).toBe('test');
+  });
+
+  it('should call clipboardService.write on copyReferralId', () => {
+    const spy = spyOn(clipboardServiceSpy, 'write');
+    spy.and.returnValue(Promise.resolve());
+    component.copyReferralId();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call shareService.share on shareReferralId', () => {
+    const spy = spyOn(shareServiceSpy, 'share');
+    spy.and.returnValue(Promise.resolve());
+    component.shareReferralId();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
 });

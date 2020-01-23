@@ -37,10 +37,10 @@ describe('ShareService', () => {
 
   xit('should not call clipboardService write on share success', () => {
   // TODO: Ver como mockear Plugins.Share
-    const spy = spyOn(shareMock, 'share').and.returnValue(Promise.resolve({}));
-    const service: ShareService = TestBed.get(ShareService);
-    service.share(data);
-    expect(spy).toHaveBeenCalledTimes(1);
+    // const spy = spyOn(shareMock, 'share').and.returnValue(Promise.resolve({}));
+    // const service: ShareService = TestBed.get(ShareService);
+    // service.share(data);
+    // expect(spy).toHaveBeenCalledTimes(1);
   });
 
   xit('should call clipboardService write on share error', async () => {

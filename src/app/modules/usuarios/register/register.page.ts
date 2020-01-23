@@ -33,17 +33,6 @@ import { ActivatedRoute } from '@angular/router';
                 <ion-card-content>
                   <app-auth-form (send)="this.registerUser($event)">
                     <div class="auth-button ion-padding-top ion-margin-top">
-                      <div
-                        *ngIf="this.referralCode"
-                        class="ion-padding-bottom ion-text-center"
-                      >
-                        <ion-text>
-                          {{ 'usuarios.register.referral_code_text' | translate }}
-                          {{ ': ' }}
-                          {{ this.referralCode }}
-                        </ion-text>
-                      </div>
-
                       <ion-button
                         expand="full"
                         size="large"
@@ -90,6 +79,7 @@ export class RegisterPage implements OnInit {
   registerForm: AuthFormComponent;
 
   referralCode: string;
+  manualReferral = true;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -108,7 +98,13 @@ export class RegisterPage implements OnInit {
   }
 
   setReferralCode() {
-    this.referralCode = this.route.snapshot.paramMap.get('code');
+    const code = this.route.snapshot.paramMap.get('code');
+    if (code) {
+      this.registerForm.form.patchValue({
+        manual_referral: true,
+        referral_code: code
+      });
+    }
   }
 
   setEmail() {
@@ -136,9 +132,10 @@ export class RegisterPage implements OnInit {
   }
 
   registerUser(data: any) {
-    this.apiUsuarios.crud
-      .create({ ...data, referral_code: this.referralCode })
-      .subscribe(() => this.success());
+    if (data && !data.manual_referral) {
+      delete data.referral_code;
+    }
+    this.apiUsuarios.crud.create(data).subscribe(() => this.success());
   }
 
   async success() {

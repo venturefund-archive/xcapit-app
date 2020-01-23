@@ -15,12 +15,14 @@ describe('AuthFormComponent', () => {
       email: 'email@email.com',
       rEmail: 'email@email.com',
       pass: 'asdfF1',
-      rPass: 'asdfF1'
+      rPass: 'asdfF1',
+      rCode: 'asd123'
     },
     invalid: {
       email: 'fdaas',
       pass: 'dsfaaa',
-      rPass: 'dsfaa'
+      rPass: 'dsfaa',
+      rCode: ''
     }
   };
 
@@ -113,11 +115,32 @@ describe('AuthFormComponent', () => {
       expect(component.form.valid).toBeFalsy();
     });
 
-    it('form should be valid', async () => {
+    it('form should be invalid when manual_referral is true and referral_code is empty', async () => {
+      component.form.get('email').setValue(formData.valid.email);
+      component.form.get('repeat_email').setValue(formData.valid.rEmail);
+      component.form.get('password').setValue(formData.valid.pass);
+      component.form.get('repeat_password').setValue(formData.valid.rPass);
+      component.form.get('manual_referral').setValue(true);
+      component.form.get('referral_code').setValue(formData.invalid.rCode);
+      expect(component.form.valid).toBeFalsy();
+    });
+
+    it('form should be valid when manual_referral is true and referral_code is valid', async () => {
+      component.form.get('email').setValue(formData.valid.email);
+      component.form.get('repeat_email').setValue(formData.valid.rEmail);
+      component.form.get('password').setValue(formData.valid.pass);
+      component.form.get('repeat_password').setValue(formData.valid.rPass);
+      component.form.get('manual_referral').setValue(true);
+      component.form.get('referral_code').setValue(formData.valid.rCode);
+      expect(component.form.valid).toBeTruthy();
+    });
+
+    it('form should be valid when manual_referral is False', async () => {
       component.form.get('email').setValue(formData.valid.email);
       component.form.get('repeat_email').setValue(formData.valid.rEmail);
       component.form.get('password').setValue(formData.valid.pass);
       component.form.get('repeat_password').setValue(formData.valid.pass);
+      component.form.get('manual_referral').setValue(false);
       expect(component.form.valid).toBeTruthy();
     });
   });
