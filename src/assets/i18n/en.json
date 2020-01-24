@@ -490,6 +490,15 @@
       "binance_check_tutorial": "How to verify your Identity in Binance and increase the level of the account to Lv.2",
       "binance_apikey_tutorial": "Create APIkey and SECRETkey in Binance",
       "binance_address_tutorial": "Where to find the address to deposit your cryptocurrencies"
+    },
+    "first_steps": {
+      "step1": {
+        "primary_text": "Set up your profile",
+        "secondary_text": "We will ask you for some information to validate identity and have the necessary information to start operating.",
+        "next_button": "Next",
+        "back_button": "Back",
+        "config_button": "Start setting up"
+      }
     }
   },
   "subscriptions": {

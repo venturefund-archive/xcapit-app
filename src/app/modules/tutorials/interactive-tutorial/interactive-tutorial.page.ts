@@ -207,4 +207,5 @@ export class InteractiveTutorialPage implements OnInit {
   slideNext() {
     this.slide.slideNext();
   }
+
 }

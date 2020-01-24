@@ -492,6 +492,25 @@
       "binance_check_tutorial": "Como Verificar Tu Identidad En Binance Y Aumentar El Nivel De La Cuenta A Lv.2",
       "binance_apikey_tutorial": "Crear APIkey Y SECRETkey En Binance",
       "binance_address_tutorial": "Donde Encontrar La Dirección A Depositar Tus Cryptomonedas"
+    },
+    "first_steps": {
+      "step1": {
+        "primary_text": "Configurá tu perfil",
+        "secondary_text": "Te pediremos algunos datos para validar identidad y tener información necesaria para poder comenzar a operar.",
+        "next_button": "Siguiente"
+      },
+      "step2": {
+        "primary_text": "Vincula con Binance",
+        "secondary_text": "Operamos sobre el capital de tu billetera. Te guiaremos paso a paso para vincular tu cuenta.",
+        "next_button": "Siguiente",
+        "back_button": "Anterior"
+      },
+      "step3": {
+        "primary_text": "Crea tu fondo",
+        "secondary_text": "Podes personalizar cada detalle. Una vez creado podrás modificar ó cerrar el fondo en cualquier momento.",
+        "back_button": "Anterior",
+        "config_button": "Comenzar a configurar"
+      }
     }
   },
   "subscriptions": {

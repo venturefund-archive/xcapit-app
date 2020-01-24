@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
+import { HasFundsGuard } from './shared-tutorials/guards/has-funds/has-funds.guard';
 
 const routes: Routes = [
   {
@@ -19,6 +20,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         loadChildren: () =>
           import('./help/help.module').then(m => m.HelpPageModule)
+      },
+      {
+        path: 'first-steps',
+        canActivate: [AuthGuard, HasFundsGuard],
+        loadChildren: () =>
+          import('./first-steps/first-steps.module').then(
+            m => m.FirstStepsPageModule
+          )
       }
     ]
   }

@@ -61,7 +61,7 @@ export class SubscriptionsService {
       ];
       this.removeStoredLink();
     } else {
-      url = ['/tabs/funds'];
+      url = ['/tutorials/first-steps'];
     }
     this.navController.navigateForward(url, { replaceUrl: true });
   }

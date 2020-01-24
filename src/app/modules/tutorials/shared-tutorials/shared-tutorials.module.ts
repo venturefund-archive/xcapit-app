@@ -8,6 +8,7 @@ import { BinanceApikeyTutorialModalComponent } from './components/binance-apikey
 // tslint:disable-next-line: max-line-length
 import { BinanceTransferTutorialModalComponent } from './components/binance-transfer-tutorial-modal/binance-transfer-tutorial-modal.component';
 import { ExtractTutorialModalComponent } from './components/extract-tutorial-modal/extract-tutorial-modal.component';
+import { UxSlideStepShowComponent } from '../first-steps/ux-slide-step-show/ux-slide-step-show.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ExtractTutorialModalComponent } from './components/extract-tutorial-mod
     BinanceCheckTutorialModalComponent,
     BinanceApikeyTutorialModalComponent,
     BinanceTransferTutorialModalComponent,
-    ExtractTutorialModalComponent
+    ExtractTutorialModalComponent,
+    UxSlideStepShowComponent
   ],
   imports: [SharedModule],
   entryComponents: [
@@ -37,7 +39,8 @@ import { ExtractTutorialModalComponent } from './components/extract-tutorial-mod
     BinanceCheckTutorialModalComponent,
     BinanceApikeyTutorialModalComponent,
     BinanceTransferTutorialModalComponent,
-    ExtractTutorialModalComponent
+    ExtractTutorialModalComponent,
+    UxSlideStepShowComponent
   ]
 })
 export class SharedTutorialsModule {}

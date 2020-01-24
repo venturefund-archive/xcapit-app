@@ -19,11 +19,11 @@
 @import '~@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
 
 /* Custom CSS */
 .stepper-card {
@@ -38,4 +38,34 @@ ion-button {
   font-size: 15px;
   text-transform: none;
   height: 48px;
+}
+
+.ux-title {
+  font-family: var(--ux-font-gilroy);
+  font-weight: 800;
+  font-size: 22px;
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+
+.ux-text {
+  margin-top: 16px;
+  margin-bottom: 0px;
+  font-family: var(--ux-font-lato);
+  font-weight: 400;
+  font-size: 14px;
+  color: #0000008a;
+}
+
+.translucent {
+  ion-toolbar {
+    --background: transparent;
+    --ion-color-base: transparent !important;
+    --background-color: transparent;
+   --ion-color-base: transparent !important;
+  }
+}
+
+.fullscreen {
+    --offset-top: 0px !important;
 }
