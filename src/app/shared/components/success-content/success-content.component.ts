@@ -23,14 +23,15 @@ import { Router } from '@angular/router';
         <app-ux-success-img></app-ux-success-img>
       </div>
       <div class="main__primary_text">
-        <p>{{ this.data?.textPrimary | translate }}</p>
+        <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
       </div>
       <div class="main__secondary_text">
-        <p>{{ this.data?.textSecondary | translate }}</p>
+        <app-ux-text>{{ this.data?.textSecondary | translate }}</app-ux-text>
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">
           <ion-button
+            class="ux_button"
             appTrackClick
             name="Success Action Primary"
             (click)="this.primaryAction()"
@@ -38,8 +39,12 @@ import { Router } from '@angular/router';
             {{ this.data?.namePrimaryAction | translate }}
           </ion-button>
         </div>
-        <div class="main__actions__secondary" *ngIf="this.data.nameSecondaryAction">
+        <div
+          class="main__actions__secondary"
+          *ngIf="this.data.nameSecondaryAction"
+        >
           <ion-button
+            class="ux_button"
             appTrackClick
             fill="clear"
             name="Success Action Secondary"

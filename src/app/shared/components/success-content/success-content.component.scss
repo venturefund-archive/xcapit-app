@@ -27,31 +27,23 @@
 
     &__primary_text {
       margin-top: 16px;
-      margin-bottom: 0px;
-      font-family: var(--ux-font-gilroy);
-      font-weight: 800;
-      font-size: 22px;
       text-align: center;
-      p {
-        margin: 0px;
-      }
     }
 
     &__secondary_text {
       margin-top: 16px;
-      font-family: var(--ux-font-lato);
-      font-weight: 400;
-      font-size: 14px;
       text-align: center;
-      color: #0000008a;
-      p {
-        margin: 0px;
-      }
     }
 
     &__actions {
+      padding-left: 13px;
+      padding-right: 13px;
+      width: 100%;
       margin-top: 24px;
       text-align: center;
+      ion-button {
+        width: 100%;
+      }
       &__secondary {
         margin-top: 8px;
       }

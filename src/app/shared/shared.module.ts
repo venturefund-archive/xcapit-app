@@ -20,8 +20,8 @@ import { NcListComponent } from './components/nc-list/nc-list.component';
 import { NcListItemComponent } from './components/nc-list-item/nc-list-item.component';
 import { UxSuccessImgComponent } from './components/ux-success-img/ux-success-img.component';
 import { SuccessContentComponent } from './components/success-content/success-content.component';
-import { AppRoutingModule } from '../app-routing.module';
-import { RouterModule } from '@angular/router';
+import { UxTitleComponent } from './components/ux-title/ux-title.component';
+import { UxTextComponent } from './components/ux-text/ux-text.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +36,8 @@ import { RouterModule } from '@angular/router';
     XcapitLogoComponent,
     UxInputComponent,
     UxSuccessImgComponent,
+    UxTitleComponent,
+    UxTextComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,
@@ -67,6 +69,8 @@ import { RouterModule } from '@angular/router';
     XcapitLogoComponent,
     UxInputComponent,
     UxSuccessImgComponent,
+    UxTitleComponent,
+    UxTextComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,

@@ -19,16 +19,17 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
         </div>
       </app-ux-header-login>
     </div>
-    <div class="login_title ion-padding-start">
-      <h1>{{ 'usuarios.login.title' | translate }}</h1>
+    <div class="login_title">
+      <app-ux-title>
+        {{ 'usuarios.login.title' | translate }}
+      </app-ux-title>
     </div>
     <ion-content class="ion-padding-horizontal ion-padding-bottom">
       <div class="main">
-
         <app-auth-form [isLogin]="true" (send)="this.loginUser($event)">
           <div class="auth-link-reset-password main__reset_password">
             <ion-button
-              class="main__reset_password__button"
+              class="main__reset_password__button ux_button"
               appTrackClickUnauth
               name="Reset Password"
               fill="clear"
@@ -47,7 +48,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
               expand="block"
               size="large"
               type="submit"
-              class="main__login_button"
+              class="main__login_button ux_button"
               color="uxsecondary"
               [disabled]="
                 !this.loginForm.form.valid ||
@@ -67,6 +68,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
               type="button"
               color="uxsecondary"
               [routerLink]="['/users/register']"
+              class="ux_button"
             >
               {{ 'usuarios.login.register_link' | translate }}
             </ion-button>

@@ -13,6 +13,5 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UxHeaderLoginComponent implements OnInit {
   constructor() {}
-
   ngOnInit() {}
 }

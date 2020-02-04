@@ -26,16 +26,6 @@
     }
   }
 
-  .login_title {
-    margin-top: 24px;
-    h1 {
-      height: 28px;
-      font-family: var(--ux-font-gilroy);
-      font-weight: 600;
-      font-size: 22px;
-      margin: 0;
-    }
-  }
   .main {
     margin-top: 8px;
     &__reset_password__button {
@@ -54,5 +44,10 @@
 
   .auth-button {
     margin-top: 63px;
+  }
+
+  .login_title {
+    margin-top: 24px;
+    margin-left: 16px;
   }
 }

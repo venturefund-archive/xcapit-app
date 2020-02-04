@@ -31,21 +31,13 @@
   box-shadow: none;
 }
 
-ion-button {
+.ux_button {
   --border-radius: 7px;
   font-family: var(--ux-font-lato);
   font-weight: 600;
   font-size: 15px;
   text-transform: none;
   height: 48px;
-}
-
-.ux-title {
-  font-family: var(--ux-font-gilroy);
-  font-weight: 800;
-  font-size: 22px;
-  margin-top: 16px;
-  margin-bottom: 0px;
 }
 
 .ux-text {
