@@ -49,7 +49,11 @@ export function httpLoaderFactory(http: HttpClient) {
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'ios',
+      backButtonText: '',
+      backButtonIcon: 'ux-back'
+    }),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     UsuariosModule,

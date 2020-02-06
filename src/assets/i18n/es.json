@@ -85,7 +85,6 @@
       "referral_code_text": "Código de Referido",
       "manual_referral": "Ingresar codigo de referido",
       "referral_code_label": "Codigo de referido"
-
     },
     "auth_form": {
       "repeat_email": "Confirmar Email",
@@ -300,6 +299,33 @@
       "textSecondary": "Ahora necesitamos que vincules tu Exchange (Binance) para poder ver tu capital.",
       "namePrimaryAction": "Comenzar a vincular con Binance",
       "nameSecondaryAction": "Omitir por ahora"
+    },
+    "personal_data": {
+      "header": "Configurar cuenta",
+      "personal_data_title": "Datos personales",
+      "nro_dni": "Documento de identidad",
+      "cellphone": "Teléfono",
+      "cuit": "CUIL",
+      "address": "Domicilio",
+      "submit_button": "Siguiente",
+      "address_placeholder": "Ej: Río Negro 350, Cordoba, Argentina",
+      "nro_dni_placeholder": "Ej: 35485865",
+      "cuit_placeholder": "Ej: 23000000009",
+      "cellphone_placeholder": "Ej: 3512556525"
+    },
+    "fiscal_data": {
+      "header": "Configurar cuenta",
+      "fiscal_data_title": "Información fiscal",
+      "not_sure_text": "Si no estas seguro podrás cambiar mas tarde este dato desde tu perfil.",
+      "cuit": "CUIT",
+      "country": "País",
+      "country_modal_ok_text": "Ok",
+      "country_modal_cancel_text": "Cancelar",
+      "iva_condition": "Condicion frente al IVA",
+      "tipo_factura": "Tipo de factura",
+      "submit_button": "Finalizar configuración",
+      "country_placeholder": "Elije un país",
+      "cuit_placeholder": "Ej: 23000000009"
     }
   },
   "tutorials": {

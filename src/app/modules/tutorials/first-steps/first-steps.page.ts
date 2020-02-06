@@ -20,14 +20,14 @@ import { IonSlides } from '@ionic/angular';
               />
             </div>
             <div class="fs__content_slide__primary_text">
-              <p class="ux-title">
+              <app-ux-title>
                 {{ 'tutorials.first_steps.step1.primary_text' | translate }}
-              </p>
+              </app-ux-title>
             </div>
             <div class="fs__content_slide__secondary_text">
-              <p class="ux-text">
+              <app-ux-text>
                 {{ 'tutorials.first_steps.step1.secondary_text' | translate }}
-              </p>
+              </app-ux-text>
             </div>
             <div class="fs__content_slide__slide_step_show">
               <app-ux-slide-step-show
@@ -38,6 +38,7 @@ import { IonSlides } from '@ionic/angular';
 
             <div class="fs__content_slide__button_next">
               <ion-button
+                class="ux_button"
                 appTrackClick
                 name="Ion Slide Next Button S1"
                 size="large"
@@ -59,14 +60,14 @@ import { IonSlides } from '@ionic/angular';
               />
             </div>
             <div class="fs__content_slide__primary_text">
-              <p class="ux-title">
+              <app-ux-title>
                 {{ 'tutorials.first_steps.step2.primary_text' | translate }}
-              </p>
+              </app-ux-title>
             </div>
             <div class="fs__content_slide__secondary_text">
-              <p class="ux-text">
+              <app-ux-text>
                 {{ 'tutorials.first_steps.step2.secondary_text' | translate }}
-              </p>
+              </app-ux-text>
             </div>
             <div class="fs__content_slide__slide_step_show">
               <app-ux-slide-step-show
@@ -77,6 +78,7 @@ import { IonSlides } from '@ionic/angular';
 
             <div class="fs__content_slide__button_back">
               <ion-button
+                class="ux_button"
                 appTrackClick
                 name="Ion Slide Back Button S2"
                 fill="clear"
@@ -89,6 +91,7 @@ import { IonSlides } from '@ionic/angular';
             </div>
             <div class="fs__content_slide__button_next">
               <ion-button
+                class="ux_button"
                 appTrackClick
                 name="Ion Slide Next Button S2"
                 size="large"
@@ -110,14 +113,14 @@ import { IonSlides } from '@ionic/angular';
               />
             </div>
             <div class="fs__content_slide__primary_text">
-              <p class="ux-title">
+              <app-ux-title>
                 {{ 'tutorials.first_steps.step3.primary_text' | translate }}
-              </p>
+              </app-ux-title>
             </div>
             <div class="fs__content_slide__secondary_text">
-              <p class="ux-text">
+              <app-ux-text>
                 {{ 'tutorials.first_steps.step3.secondary_text' | translate }}
-              </p>
+              </app-ux-text>
             </div>
             <div class="fs__content_slide__slide_step_show">
               <app-ux-slide-step-show
@@ -128,12 +131,13 @@ import { IonSlides } from '@ionic/angular';
 
             <div class="fs__content_slide__button_config">
               <ion-button
+                class="ux_button"
                 appTrackClick
                 name="Ion Slide Config Button S3"
                 type="button"
                 expand="block"
                 color="uxsecondary"
-                routerLink="/tabs/funds"
+                routerLink="/profiles/personal-data"
               >
                 {{ 'tutorials.first_steps.step3.config_button' | translate }}
               </ion-button>

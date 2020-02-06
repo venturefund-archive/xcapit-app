@@ -17,4 +17,4 @@ const routes: Routes = [
   ],
   declarations: [FirstStepsPage]
 })
-export class FirstStepsPageModule {}
+export class   FirstStepsPageModule {}

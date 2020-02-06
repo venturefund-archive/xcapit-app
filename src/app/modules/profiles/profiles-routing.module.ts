@@ -15,6 +15,22 @@ const routes: Routes = [
           )
       },
       {
+        path: 'personal-data',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./personal-data/personal-data.module').then(
+            m => m.PersonalDataPageModule
+          )
+      },
+      {
+        path: 'fiscal-data',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./fiscal-data/fiscal-data.module').then(
+            m => m.FiscalDataPageModule
+          )
+      },
+      {
         path: 'success',
         canActivate: [AuthGuard],
         loadChildren: () =>
@@ -23,7 +39,7 @@ const routes: Routes = [
           )
       }
     ]
-  },
+  }
 ];
 
 @NgModule({

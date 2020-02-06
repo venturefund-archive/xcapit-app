@@ -15,6 +15,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
 import { XcapitHeaderTramaComponent } from './components/xcapit-header-trama/xcapit-header-trama.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
 import { UxInputComponent } from './components/ux-input/ux-input.component';
+import { UxInputGooglePlacesComponent } from './components/ux-input-google-places/ux-input-google-places.component';
 import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
 import { NcListComponent } from './components/nc-list/nc-list.component';
 import { NcListItemComponent } from './components/nc-list-item/nc-list-item.component';
@@ -22,6 +23,8 @@ import { UxSuccessImgComponent } from './components/ux-success-img/ux-success-im
 import { SuccessContentComponent } from './components/success-content/success-content.component';
 import { UxTitleComponent } from './components/ux-title/ux-title.component';
 import { UxTextComponent } from './components/ux-text/ux-text.component';
+import { UxDropDownSelectComponent } from './components/ux-drop-down-select/ux-drop-down-select.component';
+import { UxRadioGroupComponent } from './components/ux-radio-group/ux-radio-group.component';
 
 @NgModule({
   declarations: [
@@ -35,9 +38,12 @@ import { UxTextComponent } from './components/ux-text/ux-text.component';
     XcapitHeaderTramaComponent,
     XcapitLogoComponent,
     UxInputComponent,
+    UxInputGooglePlacesComponent,
     UxSuccessImgComponent,
     UxTitleComponent,
     UxTextComponent,
+    UxDropDownSelectComponent,
+    UxRadioGroupComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,
@@ -68,9 +74,12 @@ import { UxTextComponent } from './components/ux-text/ux-text.component';
     XcapitHeaderTramaComponent,
     XcapitLogoComponent,
     UxInputComponent,
+    UxInputGooglePlacesComponent,
     UxSuccessImgComponent,
     UxTitleComponent,
     UxTextComponent,
+    UxDropDownSelectComponent,
+    UxRadioGroupComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,

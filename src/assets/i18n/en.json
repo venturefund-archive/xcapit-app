@@ -298,6 +298,33 @@
       "textSecondary": "Now we need you to link your Exchange (Binance) to see your capital.",
       "namePrimaryAction": "Link to Binance",
       "nameSecondaryAction": "Skip for now"
+    },
+    "personal_data": {
+      "header": "Configure account",
+      "personal_data_title": "Personal data",
+      "nro_dni": "ID",
+      "cellphone": "Cellphone",
+      "cuit": "CUIL",
+      "address": "Address",
+      "submit_button": "Next",
+      "address_placeholder": "Ej: Río Negro 350, Cordoba, Argentina",
+      "nro_dni_placeholder": "Ej: 35485865",
+      "cuit_placeholder": "Ej: 23000000009",
+      "cellphone_placeholder": "Ej: 3512556525"
+    },
+    "fiscal_data": {
+      "header": "Configure account",
+      "fiscal_data_title": "Fiscal information",
+      "not_sure_text": "If you are not sure you can change this data from your profile later.",
+      "cuit": "CUIT",
+      "country": "Country",
+      "country_modal_ok_text": "Ok",
+      "country_modal_cancel_text": "Cancel",
+      "iva_condition": "IVA condition",
+      "tipo_factura": "Type of invoice",
+      "submit_button": "Finalize configuration",
+      "country_placeholder": "Select a country",
+      "cuit_placeholder": "Ej: 23000000009"
     }
   },
   "tutorials": {

@@ -1,0 +1,37 @@
+:host {
+  ::ng-deep {
+    .ux_rg {
+      padding-top: 16px;
+      &__label {
+        font-weight: 600;
+        font-size: 12px;
+        font-family: var(--ux-font-lato);
+        color: #0000008a; // Color negro con opacity 0.54
+      }
+
+      --background: white;
+
+      ion-item,
+      ion-label,
+      ion-radio {
+        --background: white;
+      }
+
+      ion-list {
+        border-radius: 4px;
+        margin-top: 4px;
+        padding-bottom: 0px;
+      }
+
+      ion-item {
+        --inner-border-width: 0px 0px 1px 0px;
+        --border-color: #0000000a;
+      }
+
+      ion-radio {
+        --color-checked: var(--ion-color-uxsecondary);
+        --color: #00000029;
+      }
+    }
+  }
+}

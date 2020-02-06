@@ -11,21 +11,22 @@ import {
   FormGroupDirective,
   AbstractControl
 } from '@angular/forms';
+import { GooglePlacesDirective } from '../../directives/google-places.directive';
 
 @Component({
-  selector: 'app-ux-input',
+  selector: 'app-ux-input-google-places',
   template: `
     <div class="ux_input_container">
       <ion-label class="ux_input_container__label">{{ this.label }}</ion-label>
       <ion-item class="ux_input_container__item">
         <ion-input
           #inputRegister
-          [ngClass]="{ 'google-place-input': this.type === 'google-places' }"
+          ngClass="google-place-input"
           [formControlName]="this.controlName"
-          [type]="this.typeSetted"
-          [inputmode]="this.inputmode"
+          type="text"
           [placeholder]="this.placeholder"
-          ></ion-input>
+          appGooglePlaces
+        ></ion-input>
 
         <ion-icon
           class="ux_input_container__item__error_icon"
@@ -36,17 +37,6 @@ import {
           name="ux-error"
           color="uxsecondary"
         ></ion-icon>
-        <button
-          [hidden]="!this.passwordType"
-          item-end
-          type="button"
-          class="ux_input_container__item__eye_icon"
-          (click)="this.togglePasswordMode()"
-        >
-          <ion-icon
-            [name]="this.typeSetted === 'text' ? 'eye-off' : 'eye'"
-          ></ion-icon>
-        </button>
       </ion-item>
       <app-errors-form-item
         class="ux_input_container__item__errors"
@@ -55,24 +45,22 @@ import {
       ></app-errors-form-item>
     </div>
   `,
-  styleUrls: ['./ux-input.component.scss'],
+  styleUrls: ['./ux-input-google-places.component.scss'],
   viewProviders: [
     {
       provide: ControlContainer,
       useExisting: FormGroupDirective
-    }
+    },
+    GooglePlacesDirective
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UxInputComponent implements OnInit {
+export class UxInputGooglePlacesComponent implements OnInit {
   @Input() label: string;
-  @Input() inputmode: string;
-  @Input() type: string;
   @Input() errors: any[] = [];
   @Input() controlName: string;
   @Input() placeholder: string;
-  typeSetted: string;
-  passwordType: boolean;
+
   @ViewChild('inputRegister', { read: ElementRef, static: true })
   input: ElementRef;
 
@@ -81,23 +69,6 @@ export class UxInputComponent implements OnInit {
   constructor(private form: FormGroupDirective) {}
 
   ngOnInit() {
-    this.typeSetted = this.type === 'google-places' ? 'text' : this.type;
-    this.passwordType = this.typeSetted === 'password';
     this.control = this.form.control.get(this.controlName);
-  }
-
-  togglePasswordMode() {
-    // cambiar tipo input
-    this.typeSetted = this.typeSetted === 'text' ? 'password' : 'text';
-    // obtener el input
-    const nativeEl = this.input.nativeElement.querySelector('input');
-    // obtener el indice de la posición del texto actual en el input
-    const inputSelection = nativeEl.selectionStart;
-    // ejecuto el focus al input
-    nativeEl.focus();
-    // espero un milisegundo y actualizo la posición del indice del texto
-    setTimeout(() => {
-      nativeEl.setSelectionRange(inputSelection, inputSelection);
-    }, 1);
   }
 }

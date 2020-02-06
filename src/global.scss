@@ -31,6 +31,8 @@
   box-shadow: none;
 }
 
+:root {
+
 .ux_button {
   --border-radius: 7px;
   font-family: var(--ux-font-lato);
@@ -38,26 +40,19 @@
   font-size: 15px;
   text-transform: none;
   height: 48px;
+  min-width: 116px;
 }
 
-.ux-text {
-  margin-top: 16px;
-  margin-bottom: 0px;
-  font-family: var(--ux-font-lato);
-  font-weight: 400;
-  font-size: 14px;
-  color: #0000008a;
-}
-
-.translucent {
-  ion-toolbar {
-    --background: transparent;
-    --ion-color-base: transparent !important;
-    --background-color: transparent;
-   --ion-color-base: transparent !important;
+.ux_toolbar {
+  --min-height: 60px;
+  ion-title {
+    font-family: var(--ux-font-gilroy);
+    font-weight: 800;
+    font-size: 16px;
   }
 }
 
-.fullscreen {
-    --offset-top: 0px !important;
+  ion-back-button {
+    --margin-start: 7px;
+  }
 }
