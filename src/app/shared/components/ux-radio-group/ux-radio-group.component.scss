@@ -1,5 +1,4 @@
-:host {
-  ::ng-deep {
+:host ::ng-deep {
     .ux_rg {
       padding-top: 16px;
       &__label {
@@ -32,6 +31,5 @@
         --color-checked: var(--ion-color-uxsecondary);
         --color: #00000029;
       }
-    }
   }
 }

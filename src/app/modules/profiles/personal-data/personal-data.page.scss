@@ -1,18 +1,13 @@
 :host {
-  .main {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  .pd {
+    &__form {
+      height: 100%;
+    }
     &__personal_data_title {
       margin-top: 8px;
       margin-bottom: 8px;
     }
-
-    &__content {
-      flex: 1 0 auto;
-    }
-    &__sticky_footer {
-      flex-shrink: 0;
+    &__submit_button {
       display: flex;
       flex-direction: column;
       align-items: flex-end;

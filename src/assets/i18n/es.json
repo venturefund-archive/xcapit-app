@@ -744,6 +744,20 @@
       "create_fund_button_text": "Crear un fondo de inversión",
       "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
+    },
+    "tutorial_apikeys": {
+      "header": "Vincular con Binance",
+      "title": "Crea una API Key",
+      "text_before": "LA API Key es un código que nos permitirá gestionar sobre tu cuenta.",
+      "text_before_2": "Ingresá a tu cuenta de Binance y seguí estos pasos para crear una nueva API Key.",
+      "step1": "Ingresá a la sección \"Mi Cuenta\".",
+      "step2": "Encontra el modulo \"API\".",
+      "step3": "Ingresa una clave.",
+      "step4": "Segui los pasos para crear la Key.",
+      "text_after": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
+      "text_help": "¿Tenés dudas?",
+      "text_help_link": "Conocé más.",
+      "next_button": "Siguiente"
     }
   }
 }

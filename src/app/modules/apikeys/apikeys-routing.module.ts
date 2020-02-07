@@ -17,6 +17,14 @@ const routes: Routes = [
           )
       },
       {
+        path: 'tutorial',
+        canActivate: [UserProfileDataGuard],
+        loadChildren: () =>
+          import('./tutorial-apikeys/tutorial-apikeys.module').then(
+            m => m.TutorialApikeysPageModule
+          )
+      },
+      {
         path: 'linked',
         loadChildren: () =>
           import('./linked-apikeys/linked-apikeys.module').then(
