@@ -7,18 +7,21 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
 
-fdescribe('TutorialApikeysPage', () => {
+describe('TutorialApikeysPage', () => {
   let component: TutorialApikeysPage;
   let fixture: ComponentFixture<TutorialApikeysPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TutorialApikeysPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TutorialApikeysPage, TrackClickDirective],
+      declarations: [TutorialApikeysPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes([
+          { path: 'apikeys/insert-key', component: DummyComponent }
+        ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule
       ],

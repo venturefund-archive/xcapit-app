@@ -758,6 +758,24 @@
       "text_help": "¿Tenés dudas?",
       "text_help_link": "Conocé más.",
       "next_button": "Siguiente"
+    },
+    "insert_key": {
+      "header": "Vincular con Binance",
+      "title": "Ingresa tu API Key",
+      "text_before": "Copia los 18 dígitos de la API Key que creaste. Recordá que no tendremos permisos para retirar dinero, solo podremos operar.",
+      "insert_key": "API Key",
+      "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help_link": "Conocé más.",
+      "next_button": "Siguiente"
+    },
+    "insert_secret": {
+      "header": "Vincular con Binance",
+      "title": "Ingresa tu Secret Key",
+      "text_before": "Junto con la creación de tu API Key, Binance generó un \"Secret Key\" por razones de seguridad. Podrás encontrarlo justo debajo del API Key.",
+      "insert_secret": "Secret Key",
+      "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
+      "submit_button": "Finalizar configuración"
     }
   }
 }

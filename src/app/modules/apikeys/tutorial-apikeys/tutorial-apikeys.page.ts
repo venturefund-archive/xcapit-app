@@ -120,7 +120,7 @@ import { Component, OnInit } from '@angular/core';
               type="button"
               color="uxsecondary"
               size="large"
-              routerLink=""
+              routerLink="/apikeys/insert-key"
             >
               {{ 'apikeys.tutorial_apikeys.next_button' | translate }}
             </ion-button>
