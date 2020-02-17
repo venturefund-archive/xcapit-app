@@ -18,7 +18,6 @@ export class ApiKeyDataGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    console.log(this.storageApikeysService.valid);
     if (this.storageApikeysService.valid) {
       return of(true);
     } else {

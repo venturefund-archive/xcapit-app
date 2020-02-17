@@ -42,6 +42,14 @@ const routes: Routes = [
           )
       },
       {
+        path: 'success',
+        canActivate: [UserProfileDataGuard],
+        loadChildren: () =>
+          import('./success-apikeys/success-apikeys.module').then(
+            m => m.SuccessApikeysPageModule
+          )
+      },
+      {
         path: 'linked',
         loadChildren: () =>
           import('./linked-apikeys/linked-apikeys.module').then(

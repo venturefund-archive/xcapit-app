@@ -776,6 +776,12 @@
       "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
       "text_help": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
       "submit_button": "Finalizar configuración"
+    },
+    "success_apikeys": {
+      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
+      "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
+      "namePrimaryAction": "Crear mi primer fondo de inversión",
+      "nameSecondaryAction": "Omitir por ahora"
     }
   }
 }

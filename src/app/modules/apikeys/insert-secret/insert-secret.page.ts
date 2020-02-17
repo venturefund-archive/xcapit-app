@@ -61,7 +61,6 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
               type="submit"
               color="uxsecondary"
               size="large"
-              routerLink="/apikeys/insert-key"
               [disabled]="
                 !this.form.valid ||
                 (this.submitButtonService.isDisabled | async)
@@ -107,13 +106,13 @@ export class InsertSecretPage implements OnInit {
   }
 
   success() {
-    this.navController.navigateForward(['/apikeys/tutorial']).then(() => {
+    this.navController.navigateForward(['/apikeys/success']).then(() => {
       this.form.reset();
       this.storageApikeysService.clear();
     });
   }
 
   error() {
-    this.navController.navigateForward(['/apikeys/insert-key']);
+    this.navController.navigateBack(['/apikeys/insert-key']);
   }
 }
