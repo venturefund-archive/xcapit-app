@@ -32,27 +32,41 @@
 }
 
 :root {
-
-.ux_button {
-  --border-radius: 7px;
-  font-family: var(--ux-font-lato);
-  font-weight: 600;
-  font-size: 15px;
-  text-transform: none;
-  height: 48px;
-  min-width: 116px;
-}
-
-.ux_toolbar {
-  --min-height: 60px;
-  ion-title {
-    font-family: var(--ux-font-gilroy);
-    font-weight: 800;
-    font-size: 16px;
+  .ux_button {
+    --border-radius: 7px;
+    font-family: var(--ux-font-lato);
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: none;
+    height: 48px;
+    min-width: 116px;
   }
-}
+
+  .ux_toolbar {
+    --min-height: 60px;
+    ion-title {
+      font-family: var(--ux-font-gilroy);
+      font-weight: 800;
+      font-size: 16px;
+    }
+  }
 
   ion-back-button {
     --margin-start: 7px;
+  }
+
+  // Con estas clases dentro del ion-content se logra el sticky footer
+  .ux_main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .ux_content {
+    flex: 1 0 auto;
+  }
+
+  .ux_footer {
+    flex-shrink: 0;
   }
 }

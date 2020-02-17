@@ -23,10 +23,10 @@ import { NavController } from '@ionic/angular';
         [formGroup]="this.form"
         (ngSubmit)="this.save()"
         *ngIf="this.isFormSet"
-        class="ion-padding main"
+        class="ion-padding ux_main"
       >
-        <div class="main__content">
-          <div class="main__personal_data_title">
+        <div class="ux_content">
+          <div class="pd__personal_data_title">
             <app-ux-title>{{
               'profiles.personal_data.personal_data_title' | translate
             }}</app-ux-title>
@@ -77,18 +77,20 @@ import { NavController } from '@ionic/angular';
             [errors]="this.cellphoneErrors"
           ></app-ux-input>
         </div>
-        <div class="main__sticky_footer">
-          <ion-button
-            class="ux_button"
-            appTrackClick
-            name="Save Personal Data"
-            type="submit"
-            color="uxsecondary"
-            size="large"
-            [disabled]="!this.form.valid || this.disabledButton"
-          >
-            {{ 'profiles.personal_data.submit_button' | translate }}
-          </ion-button>
+        <div class="ux_footer">
+          <div class="pd__submit_button">
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="Save Personal Data"
+              type="submit"
+              color="uxsecondary"
+              size="large"
+              [disabled]="!this.form.valid || this.disabledButton"
+            >
+              {{ 'profiles.personal_data.submit_button' | translate }}
+            </ion-button>
+          </div>
         </div>
       </form>
     </ion-content>

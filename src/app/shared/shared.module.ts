@@ -25,6 +25,7 @@ import { UxTitleComponent } from './components/ux-title/ux-title.component';
 import { UxTextComponent } from './components/ux-text/ux-text.component';
 import { UxDropDownSelectComponent } from './components/ux-drop-down-select/ux-drop-down-select.component';
 import { UxRadioGroupComponent } from './components/ux-radio-group/ux-radio-group.component';
+import { UxAlertMessageComponent } from './components/ux-alert-message/ux-alert-message.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { UxRadioGroupComponent } from './components/ux-radio-group/ux-radio-grou
     UxTextComponent,
     UxDropDownSelectComponent,
     UxRadioGroupComponent,
+    UxAlertMessageComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,
@@ -80,6 +82,7 @@ import { UxRadioGroupComponent } from './components/ux-radio-group/ux-radio-grou
     UxTextComponent,
     UxDropDownSelectComponent,
     UxRadioGroupComponent,
+    UxAlertMessageComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,

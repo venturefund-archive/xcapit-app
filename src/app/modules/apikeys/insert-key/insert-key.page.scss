@@ -1,13 +1,18 @@
 :host {
-  .pd {
-    &__form {
-      height: 100%;
-    }
-    &__personal_data_title {
+  .ik {
+    &__title {
       margin-top: 8px;
-      margin-bottom: 8px;
     }
-    &__submit_button {
+
+    &__text_before {
+      margin-top: 16px;
+    }
+
+    &__ak_input {
+      margin-top: 8px;
+    }
+
+    &__next_button {
       display: flex;
       flex-direction: column;
       align-items: flex-end;

@@ -27,15 +27,15 @@ import { TranslateService } from '@ngx-translate/core';
         [formGroup]="this.form"
         (ngSubmit)="this.save()"
         *ngIf="this.isFormSet"
-        class="ion-padding main"
+        class="ion-padding ux_main"
       >
-        <div class="main__content">
-          <div class="main__content__fiscal_data_title">
+        <div class="ux_content">
+          <div class="fd__fiscal_data_title">
             <app-ux-title>{{
               'profiles.fiscal_data.fiscal_data_title' | translate
             }}</app-ux-title>
           </div>
-          <div class="main__content__fiscal_data_not_sure_text">
+          <div class="fd__fiscal_data_not_sure_text">
             <app-ux-text>{{
               'profiles.fiscal_data.not_sure_text' | translate
             }}</app-ux-text>
@@ -118,18 +118,20 @@ import { TranslateService } from '@ngx-translate/core';
             ></app-errors-form-item>
           </app-ux-radio-group>
         </div>
-        <div class="main__sticky_footer">
-          <ion-button
-            class="ux_button"
-            appTrackClick
-            name="Save Fiscal Data"
-            type="submit"
-            color="uxsecondary"
-            size="large"
-            [disabled]="!this.form.valid || this.disabledButton"
-          >
-            {{ 'profiles.fiscal_data.submit_button' | translate }}
-          </ion-button>
+        <div class="ux_footer">
+          <div class="fd__submit_button">
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="Save Fiscal Data"
+              type="submit"
+              color="uxsecondary"
+              size="large"
+              [disabled]="!this.form.valid || this.disabledButton"
+            >
+              {{ 'profiles.fiscal_data.submit_button' | translate }}
+            </ion-button>
+          </div>
         </div>
       </form>
     </ion-content>
@@ -203,7 +205,9 @@ export class FiscalDataPage implements OnInit {
     if (this.form.valid) {
       this.disabledButton = true;
       this.apiProfiles.crud.update(this.form.value).subscribe(() => {
-        this.navController.navigateForward(['/tabs/funds'], { replaceUrl: true });
+        this.navController.navigateForward(['/profiles/success'], {
+          replaceUrl: true
+        });
         this.disabledButton = false;
       });
     }

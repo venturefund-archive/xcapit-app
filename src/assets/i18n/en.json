@@ -733,6 +733,38 @@
       "create_fund_button_text": "Create an investment fund",
       "description_text": "We are able to create your fund to start managing your investment.",
       "create_fund_later_button_text": "I'll create it later"
+    },
+    "tutorial_apikeys": {
+      "header": "Link with Binance",
+      "title": "Create an API Key",
+      "text_before": "The API Key is a code that allows us to manage your account.",
+      "text_before_2": "Login to your Binance account and follow these steps to create a new API Key.",
+      "step1": "Enter the \"My Account\" section.",
+      "step2": "Find the module \"API\".",
+      "step3": "Enter a password.",
+      "step4": "Follow the steps to create the Key.",
+      "text_after": "Remember, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
+      "text_help": "Do you have doubts?",
+      "text_help_link": "Learn more.",
+      "next_button": "Next"
+    },
+    "insert_key": {
+      "header": "Link with Binance",
+      "title": "Enter your API Key",
+      "text_before": "Copy the 18 digits of the API Key you created. Remember that we will not have permission to withdraw money, we can only operate.",
+      "insert_key": "API Key",
+      "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help_link": "Learn more.",
+      "next_button": "Next"
+    },
+    "insert_secret": {
+      "header": "Link with Binance",
+      "title": "Enter your Secret Key",
+      "text_before": "Together with the creation of your API Key, Binance generated a \"Secret Key\" for security reasons. You can find it just below the API Key.",
+      "insert_secret": "Secret Key",
+      "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help": "Remember that, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
+      "submit_button": "Finish Configuration"
     }
   }
 }
