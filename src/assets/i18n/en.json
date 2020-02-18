@@ -635,7 +635,7 @@
         "referralIdNotExists": "The user with entered referral code does not exists."
       },
       "resetPassword": {
-        "invalid": "Error Changing Password."
+        "invalid": "Error Changing PasswIniciar sesiónord."
       },
       "emailValidation": {
         "invalid": "Error validating email."

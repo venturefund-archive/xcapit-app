@@ -259,6 +259,14 @@
       "congrats_header_text": "¡Felicitaciones!",
       "subtitle_header_text": "Ya estás invirtiendo en el mundo crypto",
       "description_text": "Ya creamos tu fondo y nuestro robot empezará a gestionar tu capital en base a la información que configuraste."
+    },
+    "fund_name": {
+      "header": "Crea un fondo",
+      "title": "Nombrá tu fondo",
+      "text_before": "Puese ser lo que vos quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
+      "fund_name": "Nombre de mi fondo",
+      "fund_name_placeholder": "Ej: Mi Primer Fondo",
+      "next_button": "Siguiente"
     }
   },
   "runs": {
