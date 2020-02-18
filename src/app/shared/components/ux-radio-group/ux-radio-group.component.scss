@@ -27,6 +27,12 @@
         --border-color: #0000000a;
       }
 
+      .item-label {
+        font-family: var(--ux-font-lato);
+        font-size: 14px;
+        color: #000000DE;
+      }
+
       ion-radio {
         --color-checked: var(--ion-color-uxsecondary);
         --color: #00000029;

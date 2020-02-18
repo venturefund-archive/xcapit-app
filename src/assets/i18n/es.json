@@ -267,6 +267,28 @@
       "fund_name": "Nombre de mi fondo",
       "fund_name_placeholder": "Ej: Mi Primer Fondo",
       "next_button": "Siguiente"
+    },
+    "fund_risk": {
+      "header": "Crea un fondo",
+      "title": "¿Qué tan agresivo quieres que sea la inversión?",
+      "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo que asumirás a la hora de invertir.",
+      "risk_level": "Nivel de riesgo a asumir",
+      "risk_level_options": {
+        "low": "Bajo, voy a ser conservador",
+        "mid": "Medio, solo tomaré algunos riesgos",
+        "high": "Alto, asumo riesgos buscando posibilidades"
+      },
+      "next_button": "Siguiente",
+      "back_button": "Anterior"
+    },
+    "fund_duration": {
+      "header": "Crea un fondo",
+      "title": "¿Cuál va a ser la duración de tu fondo de inversión?",
+      "text_before": "Esta es la moneda en base a la cual mediremos si tu inversión esta rindiendo y buscaremos mejorarla.",
+      "duration": "Duración",
+      "duration_metric": "días",
+      "next_button": "Siguiente",
+      "back_button": "Anterior"
     }
   },
   "runs": {

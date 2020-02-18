@@ -31,6 +31,7 @@ export const routes: Routes = [
       },
       {
         path: 'fund-duration',
+        canActivate: [BeforeStepDataGuard],
         loadChildren: () =>
           import('./fund-duration/fund-duration.module').then(
             m => m.FundDurationPageModule
@@ -38,6 +39,7 @@ export const routes: Routes = [
       },
       {
         path: 'fund-currency',
+        canActivate: [BeforeStepDataGuard],
         loadChildren: () =>
           import('./fund-currency/fund-currency.module').then(
             m => m.FundCurrencyPageModule

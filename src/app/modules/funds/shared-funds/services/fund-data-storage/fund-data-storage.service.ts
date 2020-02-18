@@ -7,7 +7,9 @@ import { isDefined } from '@angular/compiler/src/util';
 })
 export class FundDataStorageService {
   pageKeys = {
-    '/funds/fund-risk': 'fundName'
+    '/funds/fund-risk': 'fundName',
+    '/funds/fund-duration': 'fundRisk',
+    '/funds/fund-currency': 'fundDuration'
   };
 
   constructor(private storage: Storage) {}
@@ -23,5 +25,14 @@ export class FundDataStorageService {
 
   public canActivatePage(page: string): Promise<boolean> {
     return this.exists(this.pageKeys[page]);
+  }
+
+  public async getData(name: string) {
+    const data = await this.storage.get(name);
+    if (data) {
+      return JSON.parse(data);
+    } else {
+      return {};
+    }
   }
 }

@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
-import { IonicModule } from '@ionic/angular';
-
 import { FundDurationPage } from './fund-duration.page';
+import { SharedFundsModule } from '../shared-funds/shared-funds.module';
 
 const routes: Routes = [
   {
@@ -15,12 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+  imports: [SharedFundsModule, RouterModule.forChild(routes)],
   declarations: [FundDurationPage]
 })
 export class FundDurationPageModule {}
