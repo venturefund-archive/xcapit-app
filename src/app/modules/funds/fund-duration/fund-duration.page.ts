@@ -35,7 +35,7 @@ import { NavController } from '@ionic/angular';
           </div>
           <div class="fd__input">
             <app-ux-range
-              min="0"
+              min="30"
               max="90"
               [minText]="'funds.fund_duration.duration_metric' | translate"
               [maxText]="'funds.fund_duration.duration_metric' | translate"
@@ -45,7 +45,7 @@ import { NavController } from '@ionic/angular';
                 <ion-range
                   formControlName="cantidad_dias"
                   mode="md"
-                  min="0"
+                  min="30"
                   max="90"
                   step="10"
                   pin="true"
@@ -53,6 +53,11 @@ import { NavController } from '@ionic/angular';
                 ></ion-range>
               </ion-item>
             </app-ux-range>
+          </div>
+          <div class="fd__alert">
+            <app-ux-alert-message type="info">
+              {{ 'funds.fund_duration.text_help' | translate }}
+            </app-ux-alert-message>
           </div>
         </div>
         <div class="ux_footer">

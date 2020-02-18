@@ -47,6 +47,7 @@ export const routes: Routes = [
       },
       {
         path: 'fund-take-profit',
+        canActivate: [BeforeStepDataGuard],
         loadChildren: () =>
           import('./fund-take-profit/fund-take-profit.module').then(
             m => m.FundTakeProfitPageModule

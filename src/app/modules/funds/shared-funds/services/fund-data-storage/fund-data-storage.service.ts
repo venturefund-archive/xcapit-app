@@ -6,10 +6,13 @@ import { isDefined } from '@angular/compiler/src/util';
   providedIn: 'root'
 })
 export class FundDataStorageService {
+  // Por cada page (url) indica la key del storage en la cual fijarse si existe para poder acceder a la url.
+  // EJ: Para acceder a fund-duration debe existir la key fundName en el storage.
   pageKeys = {
     '/funds/fund-risk': 'fundName',
     '/funds/fund-duration': 'fundRisk',
-    '/funds/fund-currency': 'fundDuration'
+    '/funds/fund-currency': 'fundDuration',
+    '/funds/fund-take-profit': 'fundCurrency'
   };
 
   constructor(private storage: Storage) {}

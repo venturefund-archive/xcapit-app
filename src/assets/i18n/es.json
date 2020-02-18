@@ -288,7 +288,19 @@
       "duration": "Duración",
       "duration_metric": "días",
       "next_button": "Siguiente",
-      "back_button": "Anterior"
+      "back_button": "Anterior",
+      "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
+    },
+    "fund_currency": {
+      "header": "Crea un fondo",
+      "title": "¿En qué moneda querrás que optimicemos tu capital?",
+      "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda verás la evolución de tu inversión a través del tiempo.",
+      "currency": "Moneda",
+      "btc_text": "Bitcoin BTC",
+      "usdt_text": "Dolar USDT",
+      "next_button": "Siguiente",
+      "back_button": "Anterior",
+      "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio"
     }
   },
   "runs": {
