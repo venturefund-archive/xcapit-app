@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { isDefined } from '@angular/compiler/src/util';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class FundDataStorageService {
 
   private async exists(key: string): Promise<boolean> {
     const data = await this.storage.get(key);
-    return isDefined(data);
+    return !!data;
   }
 
   public setData(name: string, data: any) {

@@ -20,7 +20,6 @@ export class BeforeStepDataGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-    console.log('asd', state)
     const can = await this.fundDataStorage.canActivatePage(state.url);
     if (!can) {
       this.router.navigate(['funds/fund-name']);

@@ -9,6 +9,7 @@ import { CurrencyAmountValueComponent } from './components/currency-amount-value
 import { CommissionNamePipe } from './pipes/commission-name/commission-name.pipe';
 import { CommissionsModalComponent } from './components/commissions-modal/commissions-modal.component';
 import { CommissionsContentComponent } from './components/commissions-content/commissions-content.component';
+import { CustomRangeModalComponent } from './components/custom-range-modal/custom-range-modal.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CommissionsContentComponent } from './components/commissions-content/co
     CurrencyAmountValueComponent,
     CommissionNamePipe,
     CommissionsModalComponent,
-    CommissionsContentComponent
+    CommissionsContentComponent,
+    CustomRangeModalComponent
   ],
   providers: [DatePipe],
   imports: [SharedModule],
@@ -32,7 +34,9 @@ import { CommissionsContentComponent } from './components/commissions-content/co
     CurrencyAmountValueComponent,
     CommissionNamePipe,
     CommissionsModalComponent,
-    CommissionsContentComponent
-  ]
+    CommissionsContentComponent,
+    CustomRangeModalComponent
+  ],
+  entryComponents: [CustomRangeModalComponent]
 })
 export class SharedFundsModule {}

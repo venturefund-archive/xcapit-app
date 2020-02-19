@@ -17,7 +17,7 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
   styleUrls: ['./ux-range.component.scss']
 })
 export class UxRangeComponent implements OnInit {
-  @Input() label: string;
+  @Input() label = '';
   @Input() min: string | number;
   @Input() max: string | number;
   @Input() minText = '';

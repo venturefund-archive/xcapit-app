@@ -301,6 +301,22 @@
       "next_button": "Siguiente",
       "back_button": "Anterior",
       "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio"
+    },
+    "fund_take_profit": {
+      "header": "Crea un fondo",
+      "title": "¿Cuándo querés que dejemos de invertir y tomemos las ganancias?",
+      "text_before": "En caso en que tu inversión genere ganancias necesitamos que decidas hasta que porcentaje seguiremos invirtiendo.",
+      "take_profit": "Take profit",
+      "most_chosen": "Más elegida",
+      "custom_tp_button": "Elegir otra opción",
+      "btc_text": "Bitcoin BTC",
+      "usdt_text": "Dolar USDT",
+      "next_button": "Siguiente",
+      "back_button": "Anterior",
+      "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio",
+      "edit_custom": "Editar",
+      "custom_tp_cancel_button": "Cancelar",
+      "custom_tp_confirm_button": "Confirmar"
     }
   },
   "runs": {
