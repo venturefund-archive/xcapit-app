@@ -4,6 +4,7 @@ import { UserProfileDataGuard } from '../profiles/shared-profiles/guards/user-pr
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 import { TacAcceptedGuard } from '../terms-and-conditions/shared-terms-and-conditions/guards/tac-accepted/tac-accepted.guard';
 import { IsSubscribedGuard } from '../subscriptions/shared-subscriptions/guards/is-subscribed/is-subscribed.guard';
+import { BeforeStepDataGuard } from './shared-funds/guards/before-steps-data-guard/before-step-data.guard';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,55 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./funds-list/funds-list.module').then(
             m => m.FundsListPageModule
+          )
+      },
+      {
+        path: 'fund-name',
+        loadChildren: () =>
+          import('./fund-name/fund-name.module').then(m => m.FundNamePageModule)
+      },
+      {
+        path: 'fund-risk',
+        canActivate: [BeforeStepDataGuard],
+        loadChildren: () =>
+          import('./fund-risk/fund-risk.module').then(m => m.FundRiskPageModule)
+      },
+      {
+        path: 'fund-duration',
+        canActivate: [BeforeStepDataGuard],
+        loadChildren: () =>
+          import('./fund-duration/fund-duration.module').then(
+            m => m.FundDurationPageModule
+          )
+      },
+      {
+        path: 'fund-currency',
+        canActivate: [BeforeStepDataGuard],
+        loadChildren: () =>
+          import('./fund-currency/fund-currency.module').then(
+            m => m.FundCurrencyPageModule
+          )
+      },
+      {
+        path: 'fund-take-profit',
+        canActivate: [BeforeStepDataGuard],
+        loadChildren: () =>
+          import('./fund-take-profit/fund-take-profit.module').then(
+            m => m.FundTakeProfitPageModule
+          )
+      },
+      {
+        path: 'fund-stop-loss',
+        loadChildren: () =>
+          import('./fund-stop-loss/fund-stop-loss.module').then(
+            m => m.FundStopLossPageModule
+          )
+      },
+      {
+        path: 'fund-success',
+        loadChildren: () =>
+          import('./fund-success/fund-success.module').then(
+            m => m.FundSuccessPageModule
           )
       },
       {

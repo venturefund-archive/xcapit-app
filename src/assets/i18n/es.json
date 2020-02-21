@@ -259,6 +259,80 @@
       "congrats_header_text": "¡Felicitaciones!",
       "subtitle_header_text": "Ya estás invirtiendo en el mundo crypto",
       "description_text": "Ya creamos tu fondo y nuestro robot empezará a gestionar tu capital en base a la información que configuraste."
+    },
+    "fund_name": {
+      "header": "Crea un fondo",
+      "title": "Nombrá tu fondo",
+      "text_before": "Puede ser lo que vos quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
+      "fund_name": "Nombre de mi fondo",
+      "fund_name_placeholder": "Ej: Mi Primer Fondo",
+      "next_button": "Siguiente"
+    },
+    "fund_risk": {
+      "header": "Crea un fondo",
+      "title": "¿Qué tan agresivo quieres que sea la inversión?",
+      "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo que asumirás a la hora de invertir.",
+      "risk_level": "Nivel de riesgo a asumir",
+      "risk_level_options": {
+        "low": "Bajo, voy a ser conservador",
+        "mid": "Medio, solo tomaré algunos riesgos",
+        "high": "Alto, asumo riesgos buscando posibilidades"
+      },
+      "next_button": "Siguiente",
+      "back_button": "Anterior"
+    },
+    "fund_duration": {
+      "header": "Crea un fondo",
+      "title": "¿Cuál va a ser la duración de tu fondo de inversión?",
+      "text_before": "Fijaremos una duración para que tu fondo tenga un inicio y un fin, pero podrás detenerlo y extraer tus ganancias en cualquier momento.",
+      "duration": "Duración",
+      "duration_metric": "días",
+      "next_button": "Siguiente",
+      "back_button": "Anterior",
+      "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
+    },
+    "fund_currency": {
+      "header": "Crea un fondo",
+      "title": "¿En qué moneda querrás que optimicemos tu capital?",
+      "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda verás la evolución de tu inversión a través del tiempo.",
+      "currency": "Moneda",
+      "btc_text": "Bitcoin BTC",
+      "usdt_text": "Dolar USDT",
+      "next_button": "Siguiente",
+      "back_button": "Anterior",
+      "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio"
+    },
+    "fund_take_profit": {
+      "header": "Crea un fondo",
+      "title": "¿Cuándo querés que dejemos de invertir y tomemos las ganancias?",
+      "text_before": "En caso en que tu inversión genere ganancias necesitamos que decidas hasta que porcentaje seguiremos invirtiendo.",
+      "take_profit": "Take profit",
+      "most_chosen": "Más elegida",
+      "custom_tp_button": "Elegir otra opción",
+      "next_button": "Siguiente",
+      "back_button": "Anterior",
+      "edit_custom": "Editar"
+    },
+    "fund_stop_loss": {
+      "header": "Crea un fondo",
+      "title": "En caso de pérdida, hasta que porcentaje de tu capital estas dispuesto a arriesgar?",
+      "text_before": "Una vez alcanzado este porcentaje, detendremos la operatoria del fondo para resguardar tu capital.",
+      "stop_loss": "Stop loss",
+      "most_chosen": "Más elegida",
+      "custom_tp_button": "Elegir otra opción",
+      "btc_text": "Bitcoin BTC",
+      "usdt_text": "Dolar USDT",
+      "submit_button": "Crear fondo",
+      "edit_custom": "Editar"
+    },
+    "custom_range_component": {
+      "cancel_button": "Cancelar",
+      "confirm_button": "Confirmar"
+    },
+    "fund_success": {
+      "textPrimary": "¡Felicitaciones, ya estas invirtiendo en el mundo crypto!",
+      "textSecondary": "Ya creamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
+      "namePrimaryAction": "Ver mi inversión"
     }
   },
   "runs": {
@@ -567,7 +641,9 @@
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
         "creatingSubscriber": "Error al subscribirse al fondo.",
-        "invalidData": "Los datos ingresados no son válidos."
+        "invalidData": "Los datos ingresados no son válidos.",
+        "notLinkedApiKeys": "No posee API/Secret key para crear el fondo.",
+        "cantUpdateKeys": "No fue posible vincular la API key."
       },
       "update": {
         "apiCallError": "Error al modificar el fondo.",

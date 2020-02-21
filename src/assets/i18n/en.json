@@ -258,6 +258,78 @@
       "congrats_header_text": "Congratulations!",
       "subtitle_header_text": "You are investing in the crypto world",
       "description_text": "We have already created your fund and our robot will start managing your capital based on the information you set up."
+    },
+    "fund_name": {
+      "header": "Create a fund",
+      "title": "Name your fund",
+      "text_before": "It can be what you want, it is simply so that you can identify it within our application.",
+      "fund_name": "My fund name",
+      "fund_name_placeholder": "Ej: My first fund",
+      "next_button": "Next"
+    },
+    "fund_risk": {
+      "header": "Create a fund",
+      "title": "How aggressive do you want the investment to be?",
+      "text_before": "This will condition the way of operating and the consequent risk you will assume when investing.",
+      "risk_level": "Risk level to assume",
+      "risk_level_options": {
+        "low": "Low, I will be conservative",
+        "mid": "Medium, I will only take some risks",
+        "high": "High, I take risks looking for possibilities"
+      },
+      "next_button": "Next",
+      "back_button": "Back"
+    },
+    "fund_duration": {
+      "header": "Create a fund",
+      "title": "What will be the duration of your investment fund?",
+      "text_before": "We will set a duration for your fund to have a beginning and an end, but you can stop it and extract your earnings at any time.",
+      "duration": "Duration",
+      "duration_metric": "days",
+      "next_button": "Next",
+      "back_button": "Back",
+      "text_help": "In short terms, the robot is more likely to have performance problems."
+    },
+    "fund_currency": {
+      "header": "Create a fund",
+      "title": "In what currency will you want us to optimize your capital?",
+      "text_before": "This is the currency on which we will seek to have returns. In this same currency you will see the evolution of your investment over time.",
+      "currency": "Currency",
+      "btc_text": "Bitcoin BTC",
+      "usdt_text": "Dolar USDT",
+      "next_button": "Next",
+      "back_button": "Back",
+      "text_help": "The currency choice is independent of the behavior of other currencies that make up the portfolio."
+    },
+    "fund_take_profit": {
+      "header": "Create a fund",
+      "title": "When do you want us to stop investing and take the profits?",
+      "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
+      "take_profit": "Take profit",
+      "most_chosen": "Most chosen",
+      "custom_tp_button": "Choose another option",
+      "next_button": "Next",
+      "back_button": "Back",
+      "edit_custom": "Edit"
+    },
+    "fund_stop_loss": {
+      "header": "Create a fund",
+      "title": "In case of loss, until what percentage of your capital are you willing to risk?",
+      "text_before": "Once this percentage is reached, we will stop the operation of the fund to safeguard your capital.",
+      "stop_loss": "Stop loss",
+      "most_chosen": "Most chosen",
+      "custom_tp_button": "Choose another option",
+      "submit_button": "Create fund",
+      "edit_custom": "Edit"
+    },
+    "custom_range_component": {
+      "cancel_button": "Cancel",
+      "confirm_button": "Confirm"
+    },
+    "fund_success": {
+      "textPrimary": "Congratulations, you are already investing in the crypto world!",
+      "textSecondary": "We have already created your fund and our robot will start managing your capital based on the information you set up.",
+      "namePrimaryAction": "See my investment"
     }
   },
   "runs": {
@@ -556,7 +628,9 @@
         "creatingFund": "Error creating fund.",
         "creatingRun": "Error creating run.",
         "creatingSubscriber": "Error subscribing to fund.",
-        "invalidData": "Invalid data."
+        "invalidData": "Invalid data.",
+        "notLinkedApiKeys": "You have not API/Secret key to create a new fund.",
+        "cantUpdateKeys": "We can't link the API key with new fund."
       },
       "update": {
         "apiCallError": "Error updating fund.",
@@ -635,7 +709,7 @@
         "referralIdNotExists": "The user with entered referral code does not exists."
       },
       "resetPassword": {
-        "invalid": "Error Changing Password."
+        "invalid": "Error Changing PasswIniciar sesiónord."
       },
       "emailValidation": {
         "invalid": "Error validating email."
