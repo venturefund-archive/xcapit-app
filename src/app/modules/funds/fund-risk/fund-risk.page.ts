@@ -94,10 +94,7 @@ import { NavController } from '@ionic/angular';
 })
 export class FundRiskPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    risk_level: [
-      '',
-      [Validators.required]
-    ]
+    risk_level: ['', [Validators.required]]
   });
 
   riskLevels = [
@@ -113,9 +110,9 @@ export class FundRiskPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fundDataStorage
-      .getData('fundRisk')
-      .then(data => this.form.patchValue(data));
+    this.fundDataStorage.getData('fundRisk').then(data => {
+      this.form.patchValue(data);
+    });
   }
 
   handleSubmit() {

@@ -82,6 +82,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
                     <ion-radio
                       appTrackClick
                       mode="md"
+                      name="Edit Custom Take Profit"
                       slot="start"
                       (click)="this.openCustomTP()"
                       [value]="this.customTP"

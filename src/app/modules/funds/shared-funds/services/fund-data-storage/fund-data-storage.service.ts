@@ -30,8 +30,8 @@ export class FundDataStorageService {
     return !!data;
   }
 
-  public setData(name: string, data: any) {
-    this.storage.set(name, JSON.stringify(data));
+  public async setData(name: string, data: any) {
+    return await this.storage.set(name, JSON.stringify(data));
   }
 
   public canActivatePage(page: string): Promise<boolean> {

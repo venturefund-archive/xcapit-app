@@ -1,53 +1,58 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { BeforeStepDataGuard } from './before-step-data.guard';
-import { ProfilesHelperService } from '../../services/profiles-helper/profiles-helper.service';
-import { of } from 'rxjs';
 import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { FundDataStorageService } from '../../services/fund-data-storage/fund-data-storage.service';
+import { RouterTestingModule } from '@angular/router/testing';
+let fundDataStorageServiceMock;
+let fundDataStorageService;
 
 describe('BeforeStepDataGuard', () => {
-  let BeforeStepDataGuard: BeforeStepDataGuard;
-  let profilesHelperSpy: any;
+  let beforeStepDataGuard: BeforeStepDataGuard;
   beforeEach(() => {
-    profilesHelperSpy = jasmine.createSpyObj('ProfilesHelperService', [
-      'isProfileDataOk'
-    ]);
+    fundDataStorageServiceMock = {
+      canActivatePage: () => Promise.resolve(true)
+    };
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([])],
       providers: [
         BeforeStepDataGuard,
-        { provide: ProfilesHelperService, useValue: profilesHelperSpy }
+        {
+          provide: FundDataStorageService,
+          useValue: fundDataStorageServiceMock
+        }
       ]
     });
   });
 
   beforeEach(() => {
-    BeforeStepDataGuard = TestBed.get(BeforeStepDataGuard);
+    beforeStepDataGuard = TestBed.get(BeforeStepDataGuard);
+    fundDataStorageService = TestBed.get(FundDataStorageService);
   });
 
   it('should ...', () => {
     expect(BeforeStepDataGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when isProfileDataOk is true', () => {
-    profilesHelperSpy.isProfileDataOk.and.returnValue(of(true));
-    BeforeStepDataGuard
+  it('should be able to hit route when before data is valid', async done => {
+    const spy = spyOn(fundDataStorageService, 'canActivatePage');
+    spy.and.returnValue(Promise.resolve(true));
+    beforeStepDataGuard
       .canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
-      .subscribe(result => expect(result).toBe(true));
+      .then(result => {
+        expect(result).toBeTruthy();
+        done();
+      });
   });
 
-  it('should not be able to hit route when isTaCAccepted is false', () => {
-    profilesHelperSpy.isProfileDataOk.and.returnValue(of(false));
-    BeforeStepDataGuard
+  it('should not be able to hit route when before data is invalid', async done => {
+    const spy = spyOn(fundDataStorageService, 'canActivatePage');
+    spy.and.returnValue(Promise.resolve(false));
+    beforeStepDataGuard
       .canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
-      .subscribe(result => expect(result).toBe(false));
-  });
-
-  it('should call isProfileDataOk on profilesHelper when canActivate', () => {
-    profilesHelperSpy.isProfileDataOk.and.returnValue(of(false));
-    BeforeStepDataGuard
-      .canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
-      .subscribe(result =>
-        expect(profilesHelperSpy.isProfileDataOk).toHaveBeenCalledTimes(1)
-      );
+      .then(result => {
+        expect(result).toBeFalsy();
+        done();
+      });
   });
 });

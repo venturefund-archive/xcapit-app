@@ -51,7 +51,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
                       [value]="sl.value"
                     ></ion-radio>
                     <ion-badge
-                      *ngIf="sl.value == this.mostChosenTP"
+                      *ngIf="sl.value == this.mostChosenSL"
                       class="ux_badge_primary"
                       slot="end"
                       >{{
@@ -81,12 +81,13 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
                     <ion-label>+{{ this.customSL }}%</ion-label>
                     <ion-radio
                       appTrackClick
+                      name="Edit Custom Stop Loss"
                       mode="md"
                       slot="start"
                       (click)="this.openCustomSL()"
                       [value]="this.customSL"
                       checked
-                      [dataToTrack]="{ eventLabel: 'Edit Custom Take Profit' }"
+                      [dataToTrack]="{ eventLabel: 'Edit Custom Stop Loss' }"
                     ></ion-radio>
                     <ion-button
                       class="ux_button"
@@ -139,7 +140,7 @@ export class FundStopLossPage implements OnInit {
     ]
   });
 
-  mostChosenTP;
+  mostChosenSL;
 
   stopLossOptions = [
     { name: '+5%', value: 5 },
@@ -164,13 +165,13 @@ export class FundStopLossPage implements OnInit {
         this.customSL = data.stop_loss;
       }
     });
-    this.getMostChosenTP();
+    this.getMostChosenSL();
   }
 
-  getMostChosenTP() {
+  getMostChosenSL() {
     this.apiFunds
-      .getMostChosenTP()
-      .subscribe(data => (this.mostChosenTP = data));
+      .getMostChosenSL()
+      .subscribe(data => (this.mostChosenSL = data));
   }
 
   async openCustomSL() {
@@ -206,7 +207,7 @@ export class FundStopLossPage implements OnInit {
       if (fund.risk_level === 'MID') {
         fund.risk_level = 'PRO';
       }
-      this.apiFunds.crud.create(fund).subscribe(() => {
+      this.apiFunds.crud.create(fund).subscribe(a => {
         this.navController.navigateForward(['funds/fund-success']).then(() => {
           this.fundDataStorage.clearAll();
         });

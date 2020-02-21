@@ -89,7 +89,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
               <ion-button
                 class="ux_button"
                 appTrackClick
-                name="Save Fund Risk"
+                name="Save Fund Currency"
                 type="submit"
                 color="uxsecondary"
                 size="large"
