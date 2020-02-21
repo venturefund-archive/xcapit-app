@@ -17,9 +17,16 @@ export const SUCCESS_TYPES = {
   },
   apikeys: {
     urlClose: '/tabs/funds',
-    textPrimary: 'profiles.success_apikeys.textPrimary',
-    textSecondary: 'profiles.success_apikeys.textSecondary',
-    urlPrimaryAction: '/funds/action/new',
-    namePrimaryAction: 'profiles.success_apikeys.namePrimaryAction'
+    textPrimary: 'apikeys.success_apikeys.textPrimary',
+    textSecondary: 'apikeys.success_apikeys.textSecondary',
+    urlPrimaryAction: '/funds/fund-name',
+    namePrimaryAction: 'apikeys.success_apikeys.namePrimaryAction'
+  },
+  fund: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'funds.fund_success.textPrimary',
+    textSecondary: 'funds.fund_success.textSecondary',
+    urlPrimaryAction: '/tabs/funds',
+    namePrimaryAction: 'funds.fund_success.namePrimaryAction'
   }
 };

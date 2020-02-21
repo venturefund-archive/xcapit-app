@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -92,7 +92,8 @@ export class ApiFundsService {
 
   isSubscribed(fundName: string): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/is_subscribed`);
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/is_subscribed`
+    );
   }
 
   getCommissions(): Observable<any> {
@@ -103,5 +104,21 @@ export class ApiFundsService {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`
     );
+  }
+
+  getMostChosenTP() {
+    // TODO: Ver como hacer para tener el mas elegido sin hacer el calculo cada vez.
+    return of(10);
+    // return this.http.get(
+    //   `${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`
+    // );
+  }
+
+  getMostChosenSL() {
+    // TODO: Ver como hacer para tener el mas elegido sin hacer el calculo cada vez.
+    return of(10);
+    // return this.http.get(
+    //   `${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`
+    // );
   }
 }
