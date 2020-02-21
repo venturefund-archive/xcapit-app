@@ -29,7 +29,7 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
             fill="clear"
             (click)="closeModal()"
           >
-            {{ 'funds.fund_take_profit.custom_tp_cancel_button' | translate }}
+            {{ 'funds.custom_range_component.cancel_button' | translate }}
           </ion-button>
           <ion-button
             [disabled]="!this.form.valid"
@@ -40,7 +40,7 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
             color="uxsecondary"
             fill="clear"
           >
-            {{ 'funds.fund_take_profit.custom_tp_confirm_button' | translate }}
+            {{ 'funds.custom_range_component.confirm_button' | translate }}
           </ion-button>
         </div>
       </form>

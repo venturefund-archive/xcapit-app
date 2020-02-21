@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +11,17 @@ export class FundDataStorageService {
     '/funds/fund-risk': 'fundName',
     '/funds/fund-duration': 'fundRisk',
     '/funds/fund-currency': 'fundDuration',
-    '/funds/fund-take-profit': 'fundCurrency'
+    '/funds/fund-take-profit': 'fundCurrency',
+    '/funds/fund-stop-loss': 'fundTakeProfit'
   };
+
+  allKeys = [
+    'fundName',
+    'fundRisk',
+    'fundDuration',
+    'fundCurrency',
+    'fundTakeProfit'
+  ];
 
   constructor(private storage: Storage) {}
 
@@ -36,6 +44,20 @@ export class FundDataStorageService {
       return JSON.parse(data);
     } else {
       return {};
+    }
+  }
+
+  public async getFund() {
+    let fund = {};
+    for (const name of this.allKeys) {
+      fund = { ...fund, ...(await this.getData(name)) };
+    }
+    return fund;
+  }
+
+  public clearAll() {
+    for (const name of this.allKeys) {
+      this.storage.remove(name);
     }
   }
 }

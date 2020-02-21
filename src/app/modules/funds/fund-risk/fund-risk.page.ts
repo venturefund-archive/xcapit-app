@@ -9,7 +9,7 @@ import { NavController } from '@ionic/angular';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/profiles/success"></ion-back-button>
+          <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'funds.fund_risk.header' | translate

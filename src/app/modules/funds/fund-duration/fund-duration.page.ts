@@ -9,7 +9,7 @@ import { NavController } from '@ionic/angular';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/profiles/success"></ion-back-button>
+          <ion-back-button defaultHref="/funds/fund-risk"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'funds.fund_duration.header' | translate
@@ -36,7 +36,7 @@ import { NavController } from '@ionic/angular';
           <div class="fd__input">
             <app-ux-range
               min="30"
-              max="90"
+              max="120"
               [minText]="'funds.fund_duration.duration_metric' | translate"
               [maxText]="'funds.fund_duration.duration_metric' | translate"
               [label]="'funds.fund_duration.duration' | translate"

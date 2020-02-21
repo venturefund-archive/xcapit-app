@@ -10,7 +10,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/profiles/success"></ion-back-button>
+          <ion-back-button defaultHref="/funds/fund-duration"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'funds.fund_currency.header' | translate
@@ -41,7 +41,9 @@ import { Currency } from '../shared-funds/enums/currency.enum';
               <ion-list>
                 <ion-radio-group formControlName="currency">
                   <ion-item>
-                    <ion-label>{{ 'funds.fund_currency.btc_text' | translate }}</ion-label>
+                    <ion-label>{{
+                      'funds.fund_currency.btc_text' | translate
+                    }}</ion-label>
                     <ion-radio
                       mode="md"
                       slot="start"
@@ -49,7 +51,9 @@ import { Currency } from '../shared-funds/enums/currency.enum';
                     ></ion-radio>
                   </ion-item>
                   <ion-item>
-                    <ion-label>{{ 'funds.fund_currency.usdt_text' | translate }}</ion-label>
+                    <ion-label>{{
+                      'funds.fund_currency.usdt_text' | translate
+                    }}</ion-label>
                     <ion-radio
                       mode="md"
                       slot="start"

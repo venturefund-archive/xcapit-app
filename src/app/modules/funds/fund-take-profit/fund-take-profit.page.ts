@@ -11,7 +11,9 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/profiles/success"></ion-back-button>
+          <ion-back-button
+            defaultHref="/funds/fund-currency"
+          ></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'funds.fund_take_profit.header' | translate
