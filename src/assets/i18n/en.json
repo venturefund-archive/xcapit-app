@@ -846,5 +846,11 @@
       "namePrimaryAction": "Create my first investment fund",
       "nameSecondaryAction": "Skip for now"
     }
+  },
+  "tabs": {
+    "home": "Home",
+    "refer": "Refer",
+    "new_fund": "New",
+    "menu": "More"
   }
 }

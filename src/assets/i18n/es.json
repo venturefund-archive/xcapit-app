@@ -859,5 +859,11 @@
       "namePrimaryAction": "Crear mi primer fondo de inversión",
       "nameSecondaryAction": "Omitir por ahora"
     }
+  },
+  "tabs": {
+    "home": "Inicio",
+    "refer": "Referir",
+    "new_fund": "Nuevo",
+    "menu": "Más"
   }
 }
