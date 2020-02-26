@@ -119,7 +119,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
                 color="uxsecondary"
                 size="large"
                 fill="clear"
-                routerLink="/funds/fund-name"
+                routerLink="/funds/fund-currency"
                 routerDirection="backward"
               >
                 {{ 'funds.fund_take_profit.back_button' | translate }}

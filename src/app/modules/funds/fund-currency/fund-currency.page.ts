@@ -79,7 +79,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
                 color="uxsecondary"
                 size="large"
                 fill="clear"
-                routerLink="/funds/fund-name"
+                routerLink="/funds/fund-duration"
                 routerDirection="backward"
               >
                 {{ 'funds.fund_currency.back_button' | translate }}
