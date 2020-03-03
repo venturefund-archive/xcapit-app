@@ -1,19 +1,12 @@
 :host {
   ion-tab-bar {
     height: 56px;
-    --background: white;
+    --background: var(--ion-color-uxlight);
   }
   ion-tab-button {
     --color: #0000008a;
     --color-selected: var(--ion-color-uxprimary);
 
-    //   &[aria-selected=true] {
-    //       ion-icon {
-    //           --color: red;
-    //           --color-selected: red;
-
-    //       }
-    //   }
     font-family: var(--ux-font-lato);
     font-weight: 400;
     font-size: 12px;

@@ -20,28 +20,40 @@ describe('FundsListPage', () => {
   let apiFundsService: ApiFundsService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
+
   beforeEach(async(() => {
     logsServiceMock = {
       log: () => of({})
     };
+
     apiFundsServiceMock = {
-      getSubscribedFunds: () => of([])
+      getFundBalances: () => of([])
     };
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         IonicModule,
         RouterTestingModule.withRoutes([
-          { path: 'tutorials/interactive-tutorial', component: DummyComponent }
+          {
+            path: 'tutorials/interactive-tutorial',
+            component: DummyComponent
+          }
         ])
       ],
       declarations: [FundsListPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         TrackClickDirective,
-        { provide: LogsService, useValue: logsServiceMock },
-        { provide: ApiFundsService, useValue: apiFundsServiceMock }
+        {
+          provide: LogsService,
+          useValue: logsServiceMock
+        },
+        {
+          provide: ApiFundsService,
+          useValue: apiFundsServiceMock
+        }
       ]
     }).compileComponents();
   }));
@@ -59,15 +71,30 @@ describe('FundsListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getSubscribedFunds in apiFundsService', () => {
-    const spy = spyOn(apiFundsService, 'getSubscribedFunds');
+  it('should call getFundBalances in apiFundsService', () => {
+    const spy = spyOn(apiFundsService, 'getFundBalances');
     spy.and.returnValue(of([]));
     component.ionViewDidEnter();
+    expect(spy).toHaveBeenCalledTimes(2);
+  });
+
+  it('should call trackEvent on trackService when Go To Profile button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Go To Profile'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when New Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'New Fund');
+  it('should call trackEvent on trackService when Show Notifications button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Show Notifications'
+    );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

@@ -8,12 +8,12 @@
         color: #0000008a; // Color negro con opacity 0.54
       }
 
-      --background: white;
+      --background: var(--ion-color-uxlight);
 
       ion-item,
       ion-label,
       ion-radio {
-        --background: white;
+        --background: var(--ion-color-uxlight);
       }
 
       ion-list {

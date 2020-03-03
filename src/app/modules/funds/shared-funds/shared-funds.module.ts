@@ -10,6 +10,10 @@ import { CommissionNamePipe } from './pipes/commission-name/commission-name.pipe
 import { CommissionsModalComponent } from './components/commissions-modal/commissions-modal.component';
 import { CommissionsContentComponent } from './components/commissions-content/commissions-content.component';
 import { CustomRangeModalComponent } from './components/custom-range-modal/custom-range-modal.component';
+import { AbsoluteValuePipe } from './pipes/absolute-value/absolute-value.pipe';
+import { FundCardComponent } from './components/fund-card/fund-card.component';
+import { FundListSubHeaderComponent } from './components/fund-list-sub-header/fund-list-sub-header.component';
+import { ChangeCurrencyModalComponent } from './components/change-currency-modal/change-currency-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { CustomRangeModalComponent } from './components/custom-range-modal/custo
     CommissionNamePipe,
     CommissionsModalComponent,
     CommissionsContentComponent,
-    CustomRangeModalComponent
+    CustomRangeModalComponent,
+    FundListSubHeaderComponent,
+    ChangeCurrencyModalComponent,
+    AbsoluteValuePipe,
+    FundCardComponent
   ],
   providers: [DatePipe],
   imports: [SharedModule],
@@ -35,8 +43,12 @@ import { CustomRangeModalComponent } from './components/custom-range-modal/custo
     CommissionNamePipe,
     CommissionsModalComponent,
     CommissionsContentComponent,
-    CustomRangeModalComponent
+    CustomRangeModalComponent,
+    ChangeCurrencyModalComponent,
+    FundListSubHeaderComponent,
+    AbsoluteValuePipe,
+    FundCardComponent
   ],
-  entryComponents: [CustomRangeModalComponent]
+  entryComponents: [CustomRangeModalComponent, ChangeCurrencyModalComponent]
 })
 export class SharedFundsModule {}

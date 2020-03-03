@@ -20,7 +20,8 @@ describe('TutorialApikeysPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterTestingModule.withRoutes([
-          { path: 'apikeys/insert-key', component: DummyComponent }
+          { path: 'apikeys/insert-key', component: DummyComponent },
+          { path: 'tutorials/help', component: DummyComponent }
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule

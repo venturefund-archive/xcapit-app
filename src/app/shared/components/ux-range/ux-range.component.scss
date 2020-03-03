@@ -8,7 +8,7 @@
       color: #0000008a; // Color negro con opacity 0.54
     }
     &__content {
-      background: white;
+      background: var(--ion-color-uxlight);
       border-radius: 4px;
       &__max_min {
         display: flex;
@@ -26,7 +26,7 @@
     ion-item,
     ion-label,
     ion-radio {
-      --background: white;
+      --background: var(--ion-color-uxlight);
     }
 
     ion-item {
@@ -42,7 +42,7 @@
       --bar-background: #00000029;
       --knob-background: var(--ion-color-uxsecondary);
       --knob-size: 26px;
-      --pin-color: white;
+      --pin-color: var(--ion-color-uxlight);
     }
 
     // .item-label {

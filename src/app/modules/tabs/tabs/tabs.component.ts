@@ -6,22 +6,31 @@ import { MenuController, NavController } from '@ionic/angular';
   template: `
     <ion-tabs #tabs>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="funds">
+        <ion-tab-button tab="funds" appTrackClick name="Tab Home">
           <ion-icon name="ux-bag-outline"></ion-icon>
           <ion-label>{{ 'tabs.home' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="refer">
+        <ion-tab-button tab="refer" appTrackClick name="Tab Refer">
           <ion-icon name="ux-bookmark"></ion-icon>
           <ion-label>{{ 'tabs.refer' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button (click)="this.goToNewFund()">
+        <ion-tab-button
+          (click)="this.goToNewFund()"
+          appTrackClick
+          name="Tab New Fund"
+        >
           <ion-icon name="ux-more"></ion-icon>
           <ion-label>{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button (click)="this.showMenu()" tab="menu">
+        <ion-tab-button
+          (click)="this.showMenu()"
+          tab="menu"
+          appTrackClick
+          name="Tab Menu"
+        >
           <ion-icon name="ux-menu"></ion-icon>
           <ion-label>{{ 'tabs.menu' | translate }}</ion-label>
         </ion-tab-button>

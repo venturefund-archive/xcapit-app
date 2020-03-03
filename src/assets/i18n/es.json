@@ -59,6 +59,11 @@
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"
       }
+    },
+    "card_info_robot": {
+      "title": "¿Cómo funciona nuestro robot?",
+      "content": "Conoce todos los detalles de la forma en la que operamos.",
+      "action": "Más información"
     }
   },
   "usuarios": {
@@ -130,8 +135,11 @@
       "change_fund_ca_button": "Cambiar"
     },
     "funds_list": {
-      "header": "Lista de Fondos",
-      "new_fund_button": "Nuevo Fondo",
+      "sub_header": {
+        "total_title": "Capital total operado"
+      },
+      "funds_title": "MIS FONDOS",
+      "shared_funds_title": "FONDOS COMPARTIDOS",
       "owner_text": "Dueño"
     },
     "new_fund": {
@@ -333,6 +341,15 @@
       "textPrimary": "¡Felicitaciones, ya estas invirtiendo en el mundo crypto!",
       "textSecondary": "Ya creamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
       "namePrimaryAction": "Ver mi inversión"
+    },
+    "fund_card": {
+      "current_capital": "Capital actual",
+      "last_24hs": "Últimas 24 hs",
+      "view_fund": "Ver fondo"
+    },
+    "change_currency_modal": {
+      "submit_button": "Aceptar",
+      "cancel_button": "Cancelar"
     }
   },
   "runs": {

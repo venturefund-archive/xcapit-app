@@ -64,11 +64,13 @@ describe('FundNamePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on init', () => {
+  it('should call fundDataStorageService.getData on init', async done => {
     const spy = spyOn(fundDataStorageService, 'getData');
-    spy.and.returnValue(Promise.resolve({}));
+    spy.and.returnValue(Promise.resolve(formData.valid));
     component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
+    done();
   });
 
   it('should call fundDataStorageService.setData on handleSubmit and form valid', () => {

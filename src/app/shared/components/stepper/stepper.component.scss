@@ -75,7 +75,7 @@
       transition-delay: 0.1s;
     }
     &.active {
-      background: white;
+      background: var(--ion-color-uxlight);
       top: -12px;
       width: 24px;
       height: 24px;
@@ -85,7 +85,7 @@
     }
 
     &.passed {
-      background: white;
+      background: var(--ion-color-uxlight);
     }
   }
 }

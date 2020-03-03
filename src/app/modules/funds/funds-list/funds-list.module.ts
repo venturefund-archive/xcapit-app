@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FundsListPage } from './funds-list.page';
 import { SharedFundsModule } from '../shared-funds/shared-funds.module';
 
+
 const routes: Routes = [
   {
     path: '',

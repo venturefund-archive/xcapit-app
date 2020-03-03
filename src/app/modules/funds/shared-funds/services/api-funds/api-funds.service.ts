@@ -106,6 +106,12 @@ export class ApiFundsService {
     );
   }
 
+  getFundBalances(owner: string | boolean = 'all'): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/balances/owner/${owner}`
+    );
+  }
+
   getMostChosenTP() {
     // TODO: Ver como hacer para tener el mas elegido sin hacer el calculo cada vez.
     return of(10);
@@ -120,5 +126,11 @@ export class ApiFundsService {
     // return this.http.get(
     //   `${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`
     // );
+  }
+
+  getTotalBalance(ca: string) {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/total_balance/ca/${ca}`
+    );
   }
 }

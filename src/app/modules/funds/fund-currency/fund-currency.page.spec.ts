@@ -39,7 +39,8 @@ describe('FundCurrencyPage', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           { path: 'funds/fund-take-profit', component: DummyComponent },
-          { path: 'funds/fund-name', component: DummyComponent }
+          { path: 'funds/fund-name', component: DummyComponent },
+          { path: 'funds/fund-duration', component: DummyComponent }
         ]),
         HttpClientTestingModule,
         TranslateModule.forRoot(),
@@ -66,11 +67,13 @@ describe('FundCurrencyPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on init', () => {
+  it('should call fundDataStorageService.getData on init', async done => {
     const spy = spyOn(fundDataStorageService, 'getData');
-    spy.and.returnValue(Promise.resolve({}));
+    spy.and.returnValue(Promise.resolve(formData.valid));
     component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
+    done();
   });
 
   it('should call fundDataStorageService.setData on handleSubmit and form valid', async done => {

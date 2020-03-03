@@ -32,6 +32,67 @@
 }
 
 :root {
+  // Font family, weight, size
+  // Family
+  .ux-font-gilroy {
+    font-family: var(--ux-font-gilroy);
+  }
+  
+  .ux-font-lato {
+    font-family: var(--ux-font-lato);
+  }
+  
+  // Weight
+  .ux-fweight-regular {
+    font-weight: 400;
+  }
+  
+  .ux-fweight-semibold {
+    font-weight: 600;
+  }
+  
+  .ux-fweight-extrabold {
+    font-weight: 800;
+  }
+  
+  // Size
+  .ux-fsize-10 {
+    font-size: 10px;
+  }
+
+  .ux-fsize-12 {
+    font-size: 12px;
+  }
+
+  .ux-fsize-14 {
+    font-size: 14px;
+  }
+
+  .ux-fsize-16 {
+    font-size: 16px;
+  }
+
+  .ux-fsize-18 {
+    font-size: 18px;
+  }
+
+  .ux-fsize-20 {
+    font-size: 20px;
+  }
+
+  .ux-fsize-22 {
+    font-size: 22px;
+  }
+
+  .ux-fsize-24 {
+    font-size: 24px;
+  }
+
+  .ux-fsize-40 {
+    font-size: 40px;
+  }
+  
+  // Estilo de la toolbar para botones ux
   .ux_button {
     --border-radius: 7px;
     font-family: var(--ux-font-lato);
@@ -42,6 +103,7 @@
     min-width: 116px;
   }
 
+  // Estilo de la toolbar para el diseño ux
   .ux_toolbar {
     --min-height: 60px;
     ion-title {
@@ -51,6 +113,7 @@
     }
   }
 
+  // Badge color nararnja para la opcion mas seleccionada
   .ux_badge_primary {
     border-radius: 4px;
     height: 21px;
@@ -63,8 +126,8 @@
     font-size: 10px;
   }
 
+  // Clase para que el modal no sea en pantalla completa, sino un alert
   .ux_modal_crm {
-
     --max-height: 195px;
     --max-width: 85%;
     .modal-wrapper {
@@ -72,6 +135,7 @@
     }
   }
 
+  // Fix para back button
   ion-back-button {
     --margin-start: 7px;
   }
@@ -90,5 +154,4 @@
   .ux_footer {
     flex-shrink: 0;
   }
-
 }

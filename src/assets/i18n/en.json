@@ -330,6 +330,10 @@
       "textPrimary": "Congratulations, you are already investing in the crypto world!",
       "textSecondary": "We have already created your fund and our robot will start managing your capital based on the information you set up.",
       "namePrimaryAction": "See my investment"
+    },
+    "change_currency_modal": {
+      "submit_button": "Ok",
+      "cancel_button": "Cancel"
     }
   },
   "runs": {
