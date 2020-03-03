@@ -58,6 +58,7 @@ import { ModalController } from '@ionic/angular';
                 color="uxsecondary"
                 size="large"
                 fill="clear"
+                (click)="this.cancel()"
               >
                 {{ 'funds.change_currency_modal.cancel_button' | translate }}
               </ion-button>
@@ -83,7 +84,6 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./change-currency-modal.component.scss']
 })
 export class ChangeCurrencyModalComponent implements OnInit {
-
   form: FormGroup = this.formBuilder.group({
     currency: ['', [Validators.required]]
   });
@@ -102,5 +102,9 @@ export class ChangeCurrencyModalComponent implements OnInit {
 
   handleSubmit() {
     this.modalController.dismiss(this.form.value);
+  }
+
+  cancel() {
+    this.modalController.dismiss();
   }
 }

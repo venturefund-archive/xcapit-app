@@ -22,16 +22,20 @@
       height: 100%;
       width: 100%;
       margin-top: 8px;
-      font-family: var(--ux-font-lato);
-      font-weight: 600;
       color: #0000008a;
-      font-size: 12px;
+
       &__card {
         &:first-child {
           margin-top: 8px;
         }
         margin-top: 25px;
       }
+    }
+  }
+  .academy {
+    color: #0000008a;
+    &__card_info_robot {
+      margin-top: 8px;
     }
   }
 }

@@ -45,7 +45,9 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
       <div class="fl">
         <app-fund-list-sub-header></app-fund-list-sub-header>
         <div class="fl__funds ion-padding">
-          <div class="fl__funds__title">
+          <div
+            class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12"
+          >
             {{ 'funds.funds_list.funds_title' | translate }}
           </div>
 
@@ -54,16 +56,26 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
           </div>
         </div>
         <div class="fl__funds ion-padding">
-          <div class="fl__funds__title">
+          <div
+            class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12"
+          >
             {{ 'funds.funds_list.shared_funds_title' | translate }}
           </div>
 
-          <div class="fl__funds__card" *ngFor="let nofb of notOwnerFundBalances">
+          <div
+            class="fl__funds__card"
+            *ngFor="let nofb of notOwnerFundBalances"
+          >
             <app-fund-card [fund]="nofb"></app-fund-card>
           </div>
         </div>
       </div>
       <div class="academy ion-padding">
+        <div
+          class="academy__info__title ux-font-lato ux-fweight-semibold ux-fsize-12"
+        >
+          {{ 'funds.funds_list.info_title' | translate }}
+        </div>
         <div class="academy__card_info_robot">
           <app-ux-card-info-robot></app-ux-card-info-robot>
         </div>
@@ -82,12 +94,12 @@ export class FundsListPage implements OnInit {
 
   ionViewDidEnter() {
     this.getOwnerFundBalances();
-    this.getNotOwnerFundBalances();
   }
 
   private getOwnerFundBalances() {
     this.apiFundsService.getFundBalances(true).subscribe(res => {
       this.ownerFundBalances = res;
+      this.getNotOwnerFundBalances();
     });
   }
 

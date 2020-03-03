@@ -59,6 +59,11 @@
       "share": {
         "copy_text": "The subscription link has been copied to the clipboard."
       }
+    },
+    "card_info_robot": {
+      "title": "How does our robot work?",
+      "content": "Know all the details of the way we operate.",
+      "action": "More information"
     }
   },
   "usuarios": {
@@ -129,8 +134,12 @@
       "change_ca": "Total in"
     },
     "funds_list": {
-      "header": "Fund List",
-      "new_fund_button": "New Fund",
+      "sub_header": {
+        "total_title": "Total operated capital"
+      },
+      "funds_title": "MY FUNDS",
+      "shared_funds_title": "SHARED FUNDS",
+      "info_title": "KNOW MORE",
       "owner_text": "Owner"
     },
     "new_fund": {
@@ -330,6 +339,11 @@
       "textPrimary": "Congratulations, you are already investing in the crypto world!",
       "textSecondary": "We have already created your fund and our robot will start managing your capital based on the information you set up.",
       "namePrimaryAction": "See my investment"
+    },
+    "fund_card": {
+      "current_capital": "Current capital",
+      "last_24hs": "Last 24 hs",
+      "view_fund": "View fund"
     },
     "change_currency_modal": {
       "submit_button": "Ok",

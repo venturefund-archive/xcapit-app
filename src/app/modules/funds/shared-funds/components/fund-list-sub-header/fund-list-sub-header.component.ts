@@ -81,7 +81,9 @@ export class FundListSubHeaderComponent implements OnInit {
     });
 
     modal.onDidDismiss().then(data => {
-      this.getTotalBalance(data.data.currency);
+      if (data.data) {
+        this.getTotalBalance(data.data.currency);
+      }
     });
 
     await modal.present();
