@@ -28,6 +28,7 @@ import { UxRadioGroupComponent } from './components/ux-radio-group/ux-radio-grou
 import { UxAlertMessageComponent } from './components/ux-alert-message/ux-alert-message.component';
 import { UxRangeComponent } from './components/ux-range/ux-range.component';
 import { UxCardInfoRobotComponent } from './components/ux-card-info-robot/ux-card-info-robot.component';
+import { UxCardInfoBinanceComponent } from './components/ux-card-info-binance/ux-card-info-binance.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { UxCardInfoRobotComponent } from './components/ux-card-info-robot/ux-car
     UxAlertMessageComponent,
     UxRangeComponent,
     UxCardInfoRobotComponent,
+    UxCardInfoBinanceComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,
@@ -89,6 +91,7 @@ import { UxCardInfoRobotComponent } from './components/ux-card-info-robot/ux-car
     UxAlertMessageComponent,
     UxRangeComponent,
     UxCardInfoRobotComponent,
+    UxCardInfoBinanceComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,

@@ -96,7 +96,6 @@ import { Component, OnInit } from '@angular/core';
                 {{ 'apikeys.tutorial_apikeys.text_help' | translate }}
               </div>
               <div class="akt__text_help__link">
-                <!-- TODO: Añadir Trackclick   -->
                 <ion-button
                   name="Go To Help"
                   routerLink="/tutorials/help"

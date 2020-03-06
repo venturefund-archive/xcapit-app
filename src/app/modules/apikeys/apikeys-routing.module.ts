@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 import { UserProfileDataGuard } from '../profiles/shared-profiles/guards/user-profile-data/user-profile-data.guard';
 import { ApiKeyDataGuard } from './shared-apikeys/guards/apikey-data/apikey-data.guard';
+import { NoEmptyAKGuard } from './shared-apikeys/guards/no-empty-ak/no-empty-ak.guard';
 
 const routes: Routes = [
   {
     path: 'apikeys',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, NoEmptyAKGuard],
     children: [
       {
         path: 'action',

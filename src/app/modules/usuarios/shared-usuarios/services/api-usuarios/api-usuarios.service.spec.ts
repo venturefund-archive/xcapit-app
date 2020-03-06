@@ -79,4 +79,16 @@ describe('ApiUsuariosService', () => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should be call get on http when getUser', () => {
+    service.getUser().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call get on http when status', () => {
+    service.status().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

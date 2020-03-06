@@ -54,7 +54,10 @@ export function httpLoaderFactory(http: HttpClient) {
       backButtonText: '',
       backButtonIcon: 'ux-back'
     }),
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: '__xcapitdb',
+      driverOrder: ['sqlite', 'indexeddb' , 'websql']
+    }),
     AppRoutingModule,
     UsuariosModule,
     TutorialsModule,

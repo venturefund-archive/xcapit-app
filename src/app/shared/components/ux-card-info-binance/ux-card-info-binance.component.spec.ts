@@ -1,32 +1,36 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
-import { UxCardInfoRobotComponent } from './ux-card-info-robot.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { UxCardInfoBinanceComponent } from './ux-card-info-binance.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from '../../directives/track-click/track-click.directive';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TrackClickDirective } from '../../directives/track-click/track-click.directive';
 
-describe('UxCardInfoRobotComponent', () => {
-  let component: UxCardInfoRobotComponent;
-  let fixture: ComponentFixture<UxCardInfoRobotComponent>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxCardInfoRobotComponent>;
+describe('UxCardInfoBinanceComponent', () => {
+  let component: UxCardInfoBinanceComponent;
+  let fixture: ComponentFixture<UxCardInfoBinanceComponent>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxCardInfoBinanceComponent>;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UxCardInfoRobotComponent, TrackClickDirective, DummyComponent],
+      declarations: [
+        UxCardInfoBinanceComponent,
+        TrackClickDirective,
+        DummyComponent
+      ],
       imports: [
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         IonicModule,
         RouterTestingModule.withRoutes([
-          {path: 'tutorials/help', component: DummyComponent}
+          { path: 'tutorials/help', component: DummyComponent }
         ])
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UxCardInfoRobotComponent);
+    fixture = TestBed.createComponent(UxCardInfoBinanceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);

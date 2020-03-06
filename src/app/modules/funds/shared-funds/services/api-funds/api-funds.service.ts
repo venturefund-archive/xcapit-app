@@ -115,22 +115,20 @@ export class ApiFundsService {
   getMostChosenTP() {
     // TODO: Ver como hacer para tener el mas elegido sin hacer el calculo cada vez.
     return of(10);
-    // return this.http.get(
-    //   `${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`
-    // );
   }
 
   getMostChosenSL() {
     // TODO: Ver como hacer para tener el mas elegido sin hacer el calculo cada vez.
     return of(10);
-    // return this.http.get(
-    //   `${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`
-    // );
   }
 
   getTotalBalance(ca: string) {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/total_balance/ca/${ca}`
     );
+  }
+
+  count(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/count`);
   }
 }

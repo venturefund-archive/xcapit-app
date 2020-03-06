@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ApiUsuariosService {
-
   crud: CRUD;
 
   entity = 'users';
@@ -77,7 +76,7 @@ export class ApiUsuariosService {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_user`);
   }
 
-  hasFunds(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/has_funds`);
+  status(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/status`);
   }
 }

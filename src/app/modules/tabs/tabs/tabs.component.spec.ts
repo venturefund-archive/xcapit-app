@@ -20,7 +20,7 @@ describe('TabsComponent', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([{
-          path: 'funds/fund-name',
+          path: 'apikeys/tutorial',
           component: DummyComponent
         }])
       ],

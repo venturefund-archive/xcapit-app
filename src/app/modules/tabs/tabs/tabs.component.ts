@@ -50,6 +50,6 @@ export class TabsComponent {
   }
 
   goToNewFund() {
-    this.navController.navigateForward('funds/fund-name');
+    this.navController.navigateForward('apikeys/tutorial');
   }
 }

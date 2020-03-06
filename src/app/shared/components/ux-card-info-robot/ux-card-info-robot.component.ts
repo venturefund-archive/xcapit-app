@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-ux-card-info-robot',
@@ -20,7 +21,7 @@ import { Component, OnInit } from '@angular/core';
           name="More Info"
           (click)="this.moreInfo()"
           expand="block"
-          class="ux-font-lato ux-font-weight-semibold ux-fsize-15"
+          class="ux_button"
         >
           {{ 'shared.card_info_robot.action' | translate }}
         </ion-button>
@@ -30,12 +31,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ux-card-info-robot.component.scss']
 })
 export class UxCardInfoRobotComponent implements OnInit {
-  constructor() {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
   moreInfo() {
-    // TODO: Implementar more info
-    console.error('More info no implementado');
+    this.navController.navigateForward('tutorials/help');
   }
+
 }

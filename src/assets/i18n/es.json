@@ -64,6 +64,11 @@
       "title": "¿Cómo funciona nuestro robot?",
       "content": "Conoce todos los detalles de la forma en la que operamos.",
       "action": "Más información"
+    },
+    "card_info_binance": {
+      "title": "¿Qué es Binance?",
+      "content": "Todo lo que necesitas saber antes de vincular tu cuenta.",
+      "action": "Más información"
     }
   },
   "usuarios": {
@@ -137,6 +142,15 @@
     "funds_list": {
       "sub_header": {
         "total_title": "Capital total operado"
+      },
+      "fund_steps": {
+        "title": "Configurá tu cuenta y empezá a invertir",
+        "step1": "Configurar cuenta",
+        "step2": "Vincular con Binance",
+        "step3": "Crea un nuevo fondo",
+        "action_button1": "Configurar cuenta",
+        "action_button2": "Vincular con Binance",
+        "action_button3": "Crear mi primer fondo de inversión"
       },
       "funds_title": "MIS FONDOS",
       "shared_funds_title": "FONDOS COMPARTIDOS",

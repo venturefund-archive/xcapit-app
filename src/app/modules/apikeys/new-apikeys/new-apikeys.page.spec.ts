@@ -108,15 +108,6 @@ describe('NewApikeysPage', () => {
     done();
   });
 
-  xit('should stepper be set', async () => {
-    // TODO: falta probar que el stepper sea seteado con los
-    // datos correctos, al ser ésto el resultado de conectar el
-    // ion-slides con el stepper y al ser ion-slides un componente
-    // referenciado con ViewChild no estoy pudiendo realizar el test.
-    // A lo mejor conviene crear un stub de ion-slides y del stepper y
-    // probar con eso.
-  });
-
   describe('TrackService', () => {
     it('should call trackEvent on trackService when YES option was clicked', () => {
       const el = trackClickDirectiveHelper.getByElementByName(

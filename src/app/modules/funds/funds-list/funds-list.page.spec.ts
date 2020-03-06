@@ -12,12 +12,15 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 describe('FundsListPage', () => {
   let component: FundsListPage;
   let fixture: ComponentFixture<FundsListPage>;
   let apiFundsServiceMock: any;
+  let apiUsuariosServiceMock: any;
   let apiFundsService: ApiFundsService;
+  let apiUsuariosService: ApiUsuariosService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
 
@@ -27,7 +30,16 @@ describe('FundsListPage', () => {
     };
 
     apiFundsServiceMock = {
-      getFundBalances: () => of([])
+      getFundBalances: () => of([]),
+      count: () => of({})
+    };
+
+    apiUsuariosServiceMock = {
+      status: () =>
+        of({
+          profile_valid: false,
+          empty_linked_keys: false
+        })
     };
 
     TestBed.configureTestingModule({
@@ -38,6 +50,10 @@ describe('FundsListPage', () => {
         RouterTestingModule.withRoutes([
           {
             path: 'tutorials/interactive-tutorial',
+            component: DummyComponent
+          },
+          {
+            path: 'profiles/personal-data',
             component: DummyComponent
           }
         ])
@@ -53,6 +69,10 @@ describe('FundsListPage', () => {
         {
           provide: ApiFundsService,
           useValue: apiFundsServiceMock
+        },
+        {
+          provide: ApiUsuariosService,
+          useValue: apiUsuariosServiceMock
         }
       ]
     }).compileComponents();
@@ -63,12 +83,31 @@ describe('FundsListPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiFundsService = TestBed.get(ApiFundsService);
+    apiUsuariosService = TestBed.get(ApiUsuariosService);
     logsServiceMock = TestBed.get(LogsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call status and set it in apiUsuariosService on ionViewWillEnter', () => {
+    const spy = spyOn(apiUsuariosService, 'status');
+    spy.and.returnValue(of({}));
+    const spySetSteps = spyOn(component, 'setSteps');
+    const spySetActionButton = spyOn(component, 'setActionButton');
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spySetSteps).toHaveBeenCalledTimes(1);
+    expect(spySetActionButton).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call count in apiFundsService on ionViewWillEnter', () => {
+    const spy = spyOn(apiFundsService, 'count');
+    spy.and.returnValue(of({ owners: 2, not_owners: 0 }));
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call getFundBalances in apiFundsService', () => {
@@ -94,6 +133,18 @@ describe('FundsListPage', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Show Notifications'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Action Button button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Action Button'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
