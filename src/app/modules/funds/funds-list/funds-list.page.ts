@@ -256,8 +256,8 @@ export class FundsListPage implements OnInit {
   }
 
   goToProfile() {
+    this.navController.navigateForward('profiles/user')
     // TODO: Implementar profile.
-    console.error('Profile no implementado');
   }
 
   doActionButton() {

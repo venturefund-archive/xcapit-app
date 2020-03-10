@@ -1,5 +1,8 @@
 :host {
-  .item-group-md ion-item:last-child {
-    --border-width: 0 0 1px 0;
+  .ux_toolbar {
+    --border-width: 0;
   }
+  // .item-group-md ion-item:last-child {
+  //   --border-width: 0 0 1px 0;
+  // }
 }

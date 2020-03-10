@@ -16,7 +16,7 @@ import {
 })
 export class UxRadioGroupComponent implements OnInit {
   constructor() {}
-  @Input() label: string;
+  @Input() label = '';
 
   ngOnInit() {}
 }

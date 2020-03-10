@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ErrorsFormItemComponent } from './components/errors-form-item/errors-form-item.component';
 import { GooglePlacesDirective } from './directives/google-places.directive';
@@ -29,6 +29,9 @@ import { UxAlertMessageComponent } from './components/ux-alert-message/ux-alert-
 import { UxRangeComponent } from './components/ux-range/ux-range.component';
 import { UxCardInfoRobotComponent } from './components/ux-card-info-robot/ux-card-info-robot.component';
 import { UxCardInfoBinanceComponent } from './components/ux-card-info-binance/ux-card-info-binance.component';
+import { UxListComponent } from './components/ux-list/ux-list.component';
+import { UxSelectModalComponent } from './components/ux-select-modal/ux-select-modal.component';
+import { UxInputSelectComponent } from './components/ux-input-select/ux-input-select.component';
 
 @NgModule({
   declarations: [
@@ -52,12 +55,15 @@ import { UxCardInfoBinanceComponent } from './components/ux-card-info-binance/ux
     UxRangeComponent,
     UxCardInfoRobotComponent,
     UxCardInfoBinanceComponent,
+    UxListComponent,
+    UxSelectModalComponent,
+    UxInputSelectComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,
     SuccessContentComponent
   ],
-  entryComponents: [LanguagePopoverComponent],
+  entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -92,6 +98,9 @@ import { UxCardInfoBinanceComponent } from './components/ux-card-info-binance/ux
     UxRangeComponent,
     UxCardInfoRobotComponent,
     UxCardInfoBinanceComponent,
+    UxListComponent,
+    UxSelectModalComponent,
+    UxInputSelectComponent,
     BinanceLogoComponent,
     NcListComponent,
     NcListItemComponent,

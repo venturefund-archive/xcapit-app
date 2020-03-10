@@ -72,7 +72,6 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
   styleUrls: ['./insert-key.page.scss']
 })
 export class InsertKeyPage implements OnInit {
-
   form: FormGroup = this.formBuilder.group({
     api_key: ['', [Validators.required]]
   });
