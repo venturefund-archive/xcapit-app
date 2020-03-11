@@ -12,7 +12,7 @@ import { Component, OnInit, Input } from '@angular/core';
         <div class="hp__avatar" [ngClass]="{ editing: this.editing }">
           <ion-avatar (click)="this.changeImage()"
             ><img
-              src="https://netbranding.co.nz/wp-content/uploads/2014/05/avatar-1-1.png"
+              src="assets/img/user-profile/avatar-default.png"
             />
             <div class="change-image">
               <img src="assets/img/user-profile/camera.svg" alt="Camera" />
