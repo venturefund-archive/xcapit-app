@@ -34,7 +34,8 @@ describe('InsertKeyPage', () => {
       declarations: [InsertKeyPage, TrackClickDirective, DummyComponent],
       imports: [
         RouterTestingModule.withRoutes([
-          { path: 'apikeys/tutorial', component: DummyComponent }
+          { path: 'apikeys/tutorial', component: DummyComponent },
+          { path: 'apikeys/insert-key', component: DummyComponent }
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule,

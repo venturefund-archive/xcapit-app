@@ -110,7 +110,6 @@ describe('FundStopLossPage', () => {
     const spy = spyOn(fundDataStorageService, 'getData');
     spy.and.returnValue(Promise.resolve({}));
     component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
     fixture.detectChanges();
     fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
     done();

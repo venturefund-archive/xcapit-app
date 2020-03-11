@@ -49,7 +49,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
   styleUrls: ['./user-profile.page.scss']
 })
 export class UserProfilePage implements OnInit {
-  editing = true;
+  editing = false;
   data: any;
   @ViewChild('editProfile', { static: false })
   editProfile: EditProfileComponent;
@@ -62,11 +62,16 @@ export class UserProfilePage implements OnInit {
     this.apiProfiles.crud.get().subscribe(res => (this.data = res));
   }
 
-  toggleEditProfile() {
+  async toggleEditProfile() {
     if (this.editing) {
-      this.editProfile.save();
+      const result = await this.editProfile.save().toPromise();
+      if (result) {
+        this.getData();
+        this.editing = !this.editing;
+      }
+    } else {
+      this.editing = !this.editing;
     }
-    this.editing = !this.editing;
   }
 
   ionViewWillEnter() {

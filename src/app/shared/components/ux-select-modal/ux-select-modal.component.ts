@@ -19,6 +19,7 @@ import {
       <ion-button
         appTrackClick
         name="Close"
+        [dataToTrack]="{ description: this.title }"
         (click)="this.close()"
         fill="clear"
         size="small"
@@ -86,6 +87,7 @@ export class UxSelectModalComponent implements OnInit {
   }
 
   close() {
+    console.log(this.modalController);
     this.modalController.dismiss();
   }
 }

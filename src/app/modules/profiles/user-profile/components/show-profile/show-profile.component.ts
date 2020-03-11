@@ -98,7 +98,7 @@ import { ApiProfilesService } from '../../../shared-profiles/services/api-profil
 })
 export class ShowProfileComponent implements OnInit {
   @Input() data: any;
-  constructor(private apiProfiles: ApiProfilesService) {}
+  constructor() {}
   ngOnInit() {
   }
 }

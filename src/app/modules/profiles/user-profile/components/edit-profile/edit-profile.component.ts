@@ -1,18 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder, Form } from '@angular/forms';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiProfilesService } from '../../../shared-profiles/services/api-profiles/api-profiles.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalController, IonRouterOutlet } from '@ionic/angular';
-import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
-
+import { of, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-edit-profile',
   template: `
     <div class="ep ion-padding-start ion-padding-end ion-padding-bottom">
       <form
+        #formElement
         [formGroup]="this.form"
         (ngSubmit)="this.save()"
         *ngIf="this.isFormSet"
@@ -157,11 +157,11 @@ export class EditProfileComponent implements OnInit {
   };
 
   form: FormGroup;
-  @Input() data: any;
+  @ViewChild('formElement', { static: false }) formElement: any;
+  @Input()
+  data: any;
   constructor(
-    private toastService: ToastService,
     private apiProfiles: ApiProfilesService,
-    private translate: TranslateService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -169,16 +169,17 @@ export class EditProfileComponent implements OnInit {
     this.setForm();
   }
 
-  save() {
+  save(): Observable<boolean> {
     if (this.form.valid) {
       this.disabledButton = true;
-      this.apiProfiles.crud.update(this.form.value).subscribe(() => {
-        this.toastService.showToast({
-          message: this.translate.instant('profiles.user_profile.success_text')
-        });
-        this.disabledButton = false;
-      });
+      return this.apiProfiles.crud.update(this.form.value).pipe(
+        map(() => {
+          this.disabledButton = false;
+          return true;
+        })
+      );
     }
+    return of(false);
   }
 
   setForm() {
