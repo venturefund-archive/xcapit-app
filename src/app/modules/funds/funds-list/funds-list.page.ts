@@ -15,7 +15,9 @@ import { NavController } from '@ionic/angular';
             name="Go To Profile"
             (click)="this.goToProfile()"
           >
-            <ion-icon slot="icon-only" name="person"></ion-icon>
+          <ion-avatar class="avatar">
+            <img src="assets/img/user-profile/avatar-default.png">
+          </ion-avatar>
           </ion-button>
         </ion-buttons>
         <ion-buttons slot="end">

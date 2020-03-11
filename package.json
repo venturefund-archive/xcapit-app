@@ -14,6 +14,7 @@
     "build:prod:local:wcs": "node set-brand.js wcs && ng build --prod && git checkout -- src/index.html && git checkout -- src/manifest.webmanifest && git checkout -- capacitor.config.json",
     "build:prod:local:pwa:xcapit": "node set-brand.js xcapit && ng build --prod --serviceWorker=true && git checkout -- src/index.html && git checkout -- src/manifest.webmanifest && git checkout -- capacitor.config.json",
     "build:prod:local:pwa:wcs": "node set-brand.js wcs && ng build --prod --serviceWorker=true && git checkout -- src/index.html && git checkout -- src/manifest.webmanifest && git checkout -- capacitor.config.json",
+    "build:test:app": "ionic build && npx cap copy && npx cap open android",
     "ng": "ng",
     "start": "ionic serve",
     "start:xcapit": "node set-brand.js xcapit && ionic serve",
