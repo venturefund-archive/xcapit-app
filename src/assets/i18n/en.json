@@ -140,7 +140,10 @@
     },
     "funds_list": {
       "sub_header": {
-        "total_title": "Total operated capital"
+        "total_title": "Total operated capital",
+        "total_detail": "In the last 24 hs",
+        "change_currency": "Change currency"
+
       },
       "fund_steps": {
         "title": "Set up your account and start investing",

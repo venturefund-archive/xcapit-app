@@ -71,7 +71,7 @@ export class UxInputSelectComponent implements OnInit {
         valueName: this.valueName,
         selected: this.control.value
       },
-      swipeToClose: true,
+      swipeToClose: false,
       presentingElement: this.routerOutlet.nativeEl
     });
     modal.present();

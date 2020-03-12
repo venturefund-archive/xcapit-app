@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ApiFundsService } from '../../services/api-funds/api-funds.service';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ChangeCurrencyModalComponent } from '../change-currency-modal/change-currency-modal.component';
+import { Component, OnInit } from '@angular/core';
+import { ApiFundsService } from '../../../shared-funds/services/api-funds/api-funds.service';
+import { ModalController, IonRouterOutlet } from '@ionic/angular';
+import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
+import { Currency } from '../../../shared-funds/enums/currency.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fund-list-sub-header',
@@ -47,16 +48,16 @@ import { ChangeCurrencyModalComponent } from '../change-currency-modal/change-cu
           }}
           %
         </ion-badge>
-        <!-- <div
+        <div
           class="fl__total__detail__text ux-font-lato ux-fweight-regular ux-fsize-12"
         >
           <ion-text>
             {{
               'funds.funds_list.sub_header.total_detail'
-                | translate: { days: this.totalBalance.days }
+                | translate
             }}
           </ion-text>
-        </div> -->
+        </div>
       </div>
     </div>
   `,
@@ -64,10 +65,13 @@ import { ChangeCurrencyModalComponent } from '../change-currency-modal/change-cu
 })
 export class FundListSubHeaderComponent implements OnInit {
   totalBalance: any;
+  currencies = [Currency.BTC, Currency.USDT];
 
   constructor(
     private apiFunds: ApiFundsService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translate: TranslateService,
+    private routerOutlet: IonRouterOutlet
   ) {}
 
   ngOnInit() {
@@ -76,17 +80,25 @@ export class FundListSubHeaderComponent implements OnInit {
 
   async changeCurrency() {
     const modal = await this.modalController.create({
-      component: ChangeCurrencyModalComponent,
-      componentProps: { selected: this.totalBalance.currency }
+      component: UxSelectModalComponent,
+      componentProps: {
+        title: this.translate.instant(
+          'funds.funds_list.sub_header.change_currency'
+        ),
+        data: this.currencies,
+        selected: this.totalBalance ? this.totalBalance.currency : 'BTC'
+      },
+      swipeToClose: false,
+      presentingElement: this.routerOutlet.nativeEl
     });
 
-    modal.onDidDismiss().then(data => {
-      if (data.data) {
-        this.getTotalBalance(data.data.currency);
-      }
-    });
+    modal.present();
 
-    await modal.present();
+    const data = await modal.onDidDismiss();
+
+    if (data.role === 'selected') {
+      this.getTotalBalance(data.data);
+    }
   }
 
   getTotalBalance(ca: string) {

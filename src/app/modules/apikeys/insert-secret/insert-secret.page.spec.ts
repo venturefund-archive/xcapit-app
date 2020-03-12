@@ -58,7 +58,7 @@ describe('InsertSecretPage', () => {
       data: of(apikeyStorageData.valid.data),
       valid: apikeyStorageData.valid.valid,
       clear: () => of({})
-    }
+    };
     TestBed.configureTestingModule({
       declarations: [InsertSecretPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -110,7 +110,6 @@ describe('InsertSecretPage', () => {
     component.handleSubmit();
     expect(apiApikeysServiceMock.crud.create).toHaveBeenCalledTimes(0);
   });
-
 
   it('should call trackEvent on trackService when Save API Keys Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(

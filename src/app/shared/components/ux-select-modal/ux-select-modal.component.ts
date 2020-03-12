@@ -87,7 +87,6 @@ export class UxSelectModalComponent implements OnInit {
   }
 
   close() {
-    console.log(this.modalController);
     this.modalController.dismiss();
   }
 }

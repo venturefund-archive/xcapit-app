@@ -15,9 +15,9 @@ import { NavController } from '@ionic/angular';
             name="Go To Profile"
             (click)="this.goToProfile()"
           >
-          <ion-avatar class="avatar">
-            <img src="assets/img/user-profile/avatar-default.png">
-          </ion-avatar>
+            <ion-avatar class="avatar">
+              <img src="assets/img/user-profile/avatar-default.png" />
+            </ion-avatar>
           </ion-button>
         </ion-buttons>
         <ion-buttons slot="end">
@@ -52,10 +52,7 @@ import { NavController } from '@ionic/angular';
       ></app-fund-list-sub-header>
 
       <!-- Steps -->
-      <div
-        class="fund_steps"
-        *ngIf="!this.hasOwnerFunds"
-      >
+      <div class="fund_steps" *ngIf="!this.hasOwnerFunds">
         <div class="fund_steps__subheader_bg"></div>
         <div class="fund_steps__card ion-padding">
           <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
@@ -134,7 +131,11 @@ import { NavController } from '@ionic/angular';
         </div>
         <div
           class="academy__card_info_binance"
-          *ngIf="this.status.profile_valid && !this.status.empty_linked_keys && !this.hasOwnerFunds"
+          *ngIf="
+            this.status.profile_valid &&
+            !this.status.empty_linked_keys &&
+            !this.hasOwnerFunds
+          "
         >
           <app-ux-card-info-binance></app-ux-card-info-binance>
         </div>
@@ -254,12 +255,11 @@ export class FundsListPage implements OnInit {
 
   showNotifications() {
     // TODO: Implementar notificaciones.
-    console.error('Notificaciones no implementadas');
+    this.navController.navigateForward('notifications/list');
   }
 
   goToProfile() {
-    this.navController.navigateForward('profiles/user')
-    // TODO: Implementar profile.
+    this.navController.navigateForward('profiles/user');
   }
 
   doActionButton() {

@@ -7,16 +7,15 @@ import { NavController } from '@ionic/angular';
   selector: 'app-notifications-list',
   template: `
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title>
-          {{ 'notifications.notifications_list.header' | translate }}
-        </ion-title>
+        <ion-title class="ion-text-center">{{
+          'notifications.notifications_list.header' | translate
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
-
     <ion-content>
       <ion-list
         *ngIf="this.notifications$ | async as notifications; else loading"
@@ -59,6 +58,8 @@ export class NotificationsListPage implements OnInit {
   }
 
   showNotification(notificationId: any) {
-    this.navController.navigateForward([`/notifications/view/${notificationId}`]);
+    this.navController.navigateForward([
+      `/notifications/view/${notificationId}`
+    ]);
   }
 }

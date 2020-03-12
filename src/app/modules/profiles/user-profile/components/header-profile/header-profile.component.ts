@@ -11,9 +11,7 @@ import { Component, OnInit, Input } from '@angular/core';
         ></div>
         <div class="hp__avatar" [ngClass]="{ editing: this.editing }">
           <ion-avatar (click)="this.changeImage()"
-            ><img
-              src="assets/img/user-profile/avatar-default.png"
-            />
+            ><img src="assets/img/user-profile/avatar-default.png" />
             <div class="change-image">
               <img src="assets/img/user-profile/camera.svg" alt="Camera" />
             </div>
@@ -60,6 +58,8 @@ export class HeaderProfileComponent implements OnInit {
 
   changeImage() {
     // TODO: Implementar changeImage
-    console.error('Change image not implemented.');
+    if (this.editing) {
+      console.error('Change image not implemented.');
+    }
   }
 }

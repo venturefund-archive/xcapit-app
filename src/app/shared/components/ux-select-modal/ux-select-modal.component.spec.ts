@@ -23,6 +23,7 @@ describe('UxSelectModalComponent', () => {
       }),
       dismiss: Promise.resolve()
     };
+
     TestBed.configureTestingModule({
       declarations: [UxSelectModalComponent, TrackClickDirective],
 

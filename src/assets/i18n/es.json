@@ -141,7 +141,9 @@
     },
     "funds_list": {
       "sub_header": {
-        "total_title": "Capital total operado"
+        "total_title": "Capital total operado",
+        "total_detail": "En las ultimas 24 hs",
+        "change_currency": "Cambiar moneda"
       },
       "fund_steps": {
         "title": "Configurá tu cuenta y empezá a invertir",

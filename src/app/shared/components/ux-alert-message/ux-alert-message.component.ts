@@ -5,7 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
   template: `
     <div class="am" [ngClass]="this.type">
       <div class="am__icon">
-      <ion-icon [name]="this.iconName"></ion-icon>
+        <ion-icon [name]="this.iconName"></ion-icon>
       </div>
       <div class="am__message">
         <ng-content></ng-content>
@@ -25,7 +25,7 @@ export class UxAlertMessageComponent implements OnInit {
   }
 
   setIconName() {
-    if (this.type === 'info'){
+    if (this.type === 'info') {
       this.iconName = 'ux-warning-circle';
     }
   }
