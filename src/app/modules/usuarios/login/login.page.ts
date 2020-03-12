@@ -50,10 +50,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
               type="submit"
               class="main__login_button ux_button"
               color="uxsecondary"
-              [disabled]="
-                !this.loginForm.form.valid ||
-                (this.submitButtonService.isDisabled | async)
-              "
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'usuarios.login.login_button_text' | translate }}
             </ion-button>
@@ -91,7 +88,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   loginUser(data: any) {
-    this.apiUsuarios.login(data).subscribe(() => this.success());
+      this.apiUsuarios.login(data).subscribe(() => this.success());
   }
 
   success() {

@@ -220,6 +220,8 @@ export class AuthFormComponent implements OnInit {
   handleSubmit() {
     if (this.form.valid) {
       this.send.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

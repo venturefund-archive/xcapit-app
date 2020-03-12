@@ -42,32 +42,17 @@ import { TranslateService } from '@ngx-translate/core';
           </div>
 
           <!-- Pais -->
-          <app-ux-drop-down-select [withSearch]="true">
-            <ion-item>
-              <ion-select
-                (click)="loadFlags()"
-                mode="md"
-                [okText]="
-                  'profiles.fiscal_data.country_modal_ok_text' | translate
-                "
-                [cancelText]="
-                  'profiles.fiscal_data.country_modal_cancel_text' | translate
-                "
-                formControlName="pais"
-                [placeholder]="
-                  'profiles.fiscal_data.country_placeholder' | translate
-                "
-                interface="alert"
-                [interfaceOptions]="interfaceOptions"
-              >
-                <ion-select-option
-                  *ngFor="let p of paises"
-                  [value]="p.nombre"
-                  >{{ p.nombre }}</ion-select-option
-                >
-              </ion-select>
-            </ion-item>
-          </app-ux-drop-down-select>
+          <app-ux-input-select
+            [label]="'profiles.fiscal_data.country' | translate"
+            [modalTitle]="
+              'profiles.fiscal_data.country_placeholder' | translate
+            "
+            [placeholder]="
+              'profiles.fiscal_data.country_placeholder' | translate
+            "
+            controlName="pais"
+            [data]="this.paises"
+          ></app-ux-input-select>
 
           <!-- CUIT -->
           <app-ux-input
@@ -180,11 +165,7 @@ export class FiscalDataPage implements OnInit {
 
   tiposFactura = ['A', 'B', 'C'];
 
-  paises = [
-    { nombre: 'Argentina', icon: 'assets/img/fiscal-data/argentina.svg' },
-    { nombre: 'Colombia', icon: 'assets/img/fiscal-data/colombia.svg' },
-    { nombre: 'Chile', icon: 'assets/img/fiscal-data/chile.svg' }
-  ];
+  paises = ['Argentina', 'Colombia', 'Chile'];
 
   interfaceOptions = {
     header: this.translate.instant('profiles.fiscal_data.country')
@@ -217,17 +198,5 @@ export class FiscalDataPage implements OnInit {
     this.form = this.formBuilder.group({ ...this.controls });
     this.isFormSet = true;
     this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
-  }
-
-  loadFlags() {
-    const self = this;
-    setTimeout(() => {
-      const radios = document.getElementsByClassName('alert-radio-label');
-      for (let index = 0; index < radios.length; index++) {
-        const element = radios[index];
-        const htmlFlag = `<img class="country-image" style="width: 30px;height:16px;" src="${self.paises[index].icon}"/>`;
-        element.insertAdjacentHTML('afterbegin', htmlFlag);
-      }
-    }, 300);
   }
 }
