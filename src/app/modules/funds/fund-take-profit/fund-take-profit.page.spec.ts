@@ -173,6 +173,12 @@ describe('FundTakeProfitPage', () => {
   });
 
   it('should call trackEvent on trackService when Edit Custom Take Profit button clicked', () => {
+    component.takeProfitsOptions = [{
+      name: '+35%',
+      value: 35,
+      custom: true
+    }];
+    fixture.detectChanges();
     const spyModal = spyOn(modalControllerService, 'create');
     spyModal.and.returnValue(
       of({
@@ -181,7 +187,7 @@ describe('FundTakeProfitPage', () => {
       }).toPromise()
     );
     const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-radio',
+      'ion-button',
       'Edit Custom Take Profit'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);

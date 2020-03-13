@@ -169,7 +169,16 @@ describe('FundStopLossPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+
   it('should call trackEvent on trackService when Edit Custom Stop Loss button clicked', () => {
+    component.stopLossOptions = [
+      {
+        name: '+35%',
+        value: 35,
+        custom: true
+      }
+    ];
+    fixture.detectChanges();
     const spyModal = spyOn(modalControllerService, 'create');
     spyModal.and.returnValue(
       of({
@@ -178,7 +187,7 @@ describe('FundStopLossPage', () => {
       }).toPromise()
     );
     const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-radio',
+      'ion-button',
       'Edit Custom Stop Loss'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);

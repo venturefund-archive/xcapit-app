@@ -4,7 +4,7 @@ import {
   FormGroupDirective,
   AbstractControl
 } from '@angular/forms';
-import { ModalController, IonRouterOutlet } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.component';
 
 @Component({
@@ -49,7 +49,6 @@ export class UxInputSelectComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet,
     private form: FormGroupDirective
   ) {}
 
@@ -71,8 +70,8 @@ export class UxInputSelectComponent implements OnInit {
         valueName: this.valueName,
         selected: this.control.value
       },
-      swipeToClose: false,
-      presentingElement: this.routerOutlet.nativeEl
+      cssClass: 'ux-routeroutlet-modal',
+      swipeToClose: false
     });
     modal.present();
 

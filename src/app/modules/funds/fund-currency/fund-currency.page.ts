@@ -40,26 +40,29 @@ import { Currency } from '../shared-funds/enums/currency.enum';
             >
               <ion-list>
                 <ion-radio-group formControlName="currency">
-                  <ion-item>
-                    <ion-label>{{
-                      'funds.fund_currency.btc_text' | translate
-                    }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="currencies.BTC"
-                    ></ion-radio>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label>{{
-                      'funds.fund_currency.usdt_text' | translate
-                    }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="currencies.USDT"
-                    ></ion-radio>
-                  </ion-item>
+                  <div class="container">
+                    <ion-item>
+                      <ion-label>{{
+                        'funds.fund_currency.btc_text' | translate
+                      }}</ion-label>
+                      <ion-radio
+                        mode="md"
+                        slot="start"
+                        [value]="currencies.BTC"
+                      ></ion-radio>
+                    </ion-item>
+                    <div class="list-divider"></div>
+                    <ion-item>
+                      <ion-label>{{
+                        'funds.fund_currency.usdt_text' | translate
+                      }}</ion-label>
+                      <ion-radio
+                        mode="md"
+                        slot="start"
+                        [value]="currencies.USDT"
+                      ></ion-radio>
+                    </ion-item>
+                  </div>
                 </ion-radio-group>
               </ion-list>
               <app-errors-form-item

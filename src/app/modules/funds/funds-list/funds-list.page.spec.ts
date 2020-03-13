@@ -55,6 +55,14 @@ describe('FundsListPage', () => {
           {
             path: 'profiles/personal-data',
             component: DummyComponent
+          },
+          {
+            path: 'profiles/user',
+            component: DummyComponent
+          },
+          {
+            path: 'notifications/list',
+            component: DummyComponent
           }
         ])
       ],

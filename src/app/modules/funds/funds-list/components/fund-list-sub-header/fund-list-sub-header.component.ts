@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../../../shared-funds/services/api-funds/api-funds.service';
-import { ModalController, IonRouterOutlet } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { Currency } from '../../../shared-funds/enums/currency.enum';
 import { TranslateService } from '@ngx-translate/core';
@@ -70,8 +70,7 @@ export class FundListSubHeaderComponent implements OnInit {
   constructor(
     private apiFunds: ApiFundsService,
     private modalController: ModalController,
-    private translate: TranslateService,
-    private routerOutlet: IonRouterOutlet
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -89,7 +88,7 @@ export class FundListSubHeaderComponent implements OnInit {
         selected: this.totalBalance ? this.totalBalance.currency : 'BTC'
       },
       swipeToClose: false,
-      presentingElement: this.routerOutlet.nativeEl
+      cssClass: 'ux-routeroutlet-modal'
     });
 
     modal.present();

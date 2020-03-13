@@ -29,7 +29,7 @@ import {
         <ion-icon name="close"></ion-icon>
       </ion-button>
     </div>
-    <ion-content class="sm__content ion-padding-start ion-padding-end">
+    <ion-content class="sm__content ion-padding-start ion-padding-end ion-padding-bottom">
       <form [formGroup]="this.form">
         <app-ux-radio-group>
           <ion-list>
@@ -37,16 +37,22 @@ import {
               (ionChange)="this.select($event)"
               formControlName="radio"
             >
-              <ion-item *ngFor="let item of this.data">
-                <ion-label>{{
-                  this.rawData ? item : item[this.keyName]
-                }}</ion-label>
-                <ion-radio
-                  mode="md"
-                  slot="start"
-                  [value]="this.rawData ? item : item[this.valueName]"
-                ></ion-radio>
-              </ion-item>
+              <div
+                class="container"
+                *ngFor="let item of this.data; let last = last"
+              >
+                <ion-item>
+                  <ion-label>{{
+                    this.rawData ? item : item[this.keyName]
+                  }}</ion-label>
+                  <ion-radio
+                    mode="md"
+                    slot="start"
+                    [value]="this.rawData ? item : item[this.valueName]"
+                  ></ion-radio>
+                </ion-item>
+                <div class="list-divider" *ngIf="!last"></div>
+              </div>
             </ion-radio-group>
           </ion-list>
         </app-ux-radio-group>

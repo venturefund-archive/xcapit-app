@@ -29,7 +29,7 @@ const formData = {
   }
 };
 
-fdescribe('FiscalDataPage', () => {
+describe('FiscalDataPage', () => {
   let component: FiscalDataPage;
   let fixture: ComponentFixture<FiscalDataPage>;
   let apiProfilesServiceMock: any;

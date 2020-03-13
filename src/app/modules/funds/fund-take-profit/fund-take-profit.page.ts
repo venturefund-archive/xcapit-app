@@ -11,9 +11,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="/funds/fund-currency"
-          ></ion-back-button>
+          <ion-back-button defaultHref="/funds/fund-currency"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'funds.fund_take_profit.header' | translate
@@ -43,63 +41,62 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
             >
               <ion-list>
                 <ion-radio-group formControlName="take_profit">
-                  <ion-item *ngFor="let tp of this.takeProfitsOptions">
-                    <ion-label>{{ tp.name }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="tp.value"
-                    ></ion-radio>
-                    <ion-badge
-                      *ngIf="tp.value == this.mostChosenTP"
-                      class="ux_badge_primary"
-                      slot="end"
-                      >{{
-                        'funds.fund_take_profit.most_chosen' | translate
-                      }}</ion-badge
-                    >
-                  </ion-item>
-                  <ion-item *ngIf="!this.customTP">
-                    <div class="ftp__input__custom_tp_button">
-                      <ion-button
-                        class="ux_button"
-                        appTrackClick
-                        name="Back"
-                        type="button"
-                        color="uxsecondary"
-                        fill="clear"
-                        expand="block"
-                        (click)="this.openCustomTP()"
+                  <div
+                    *ngFor="let tp of this.takeProfitsOptions; let last = last"
+                    class="container"
+                    [ngClass]="{ custom: tp.custom }"
+                  >
+                    <ion-item>
+                      <ion-label>{{ tp.name }}</ion-label>
+                      <ion-radio
+                        mode="md"
+                        slot="start"
+                        [value]="tp.value"
+                      ></ion-radio>
+                      <ion-badge
+                        *ngIf="tp.value == this.mostChosenTP"
+                        class="ux_badge_primary"
+                        slot="end"
+                        >{{
+                          'funds.fund_take_profit.most_chosen' | translate
+                        }}</ion-badge
                       >
-                        {{
-                          'funds.fund_take_profit.custom_tp_button' | translate
-                        }}
-                      </ion-button>
-                    </div>
-                  </ion-item>
-                  <ion-item [hidden]="!this.customTP">
-                    <ion-label>+{{ this.customTP }}%</ion-label>
-                    <ion-radio
-                      appTrackClick
-                      mode="md"
-                      name="Edit Custom Take Profit"
-                      slot="start"
-                      (click)="this.openCustomTP()"
-                      [value]="this.customTP"
-                      checked
-                      [dataToTrack]="{ eventLabel: 'Edit Custom Take Profit' }"
-                    ></ion-radio>
+                    </ion-item>
                     <ion-button
+                      *ngIf="tp.custom"
+                      appTrackClick
                       class="ux_button"
-                      name="Back"
-                      slot="end"
+                      name="Edit Custom Take Profit"
                       fill="clear"
                       color="uxsecondary"
+                      (click)="this.openCustomTP()"
                       >{{
                         'funds.fund_take_profit.edit_custom' | translate
                       }}</ion-button
                     >
-                  </ion-item>
+                    <div class="list-divider" *ngIf="!last || !this.customTP"></div>
+                  </div>
+                  <div>
+                    <ion-item [hidden]="this.customTP">
+                      <div class="ftp__input__custom_tp_button">
+                        <ion-button
+                          class="ux_button"
+                          appTrackClick
+                          name="Back"
+                          type="button"
+                          color="uxsecondary"
+                          fill="clear"
+                          expand="block"
+                          (click)="this.openCustomTP()"
+                        >
+                          {{
+                            'funds.fund_take_profit.custom_tp_button'
+                              | translate
+                          }}
+                        </ion-button>
+                      </div>
+                    </ion-item>
+                  </div>
                 </ion-radio-group>
               </ion-list>
               <app-errors-form-item
@@ -108,6 +105,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
             </app-ux-radio-group>
           </div>
         </div>
+
         <div class="ux_footer">
           <div class="ftp__buttons">
             <div class="ftp__back_button">
@@ -157,15 +155,15 @@ export class FundTakeProfitPage implements OnInit {
     ]
   });
 
-  mostChosenTP;
+  mostChosenTP: number;
 
   takeProfitsOptions = [
-    { name: '+5%', value: 5 },
-    { name: '+10%', value: 10 },
-    { name: '+15%', value: 15 }
+    { name: '+5%', value: 5, custom: false },
+    { name: '+10%', value: 10, custom: false },
+    { name: '+15%', value: 15, custom: false }
   ];
 
-  customTP;
+  customTP: any;
 
   constructor(
     private fundDataStorage: FundDataStorageService,
@@ -179,7 +177,7 @@ export class FundTakeProfitPage implements OnInit {
     this.fundDataStorage.getData('fundTakeProfit').then(data => {
       this.form.patchValue(data);
       if (!this.existsInRadio(data.take_profit)) {
-        this.customTP = data.take_profit;
+        this.addCustom(data.take_profit);
       }
     });
     this.getMostChosenTP();
@@ -198,20 +196,43 @@ export class FundTakeProfitPage implements OnInit {
       cssClass: 'ux_modal_crm'
     });
 
-    modal.onDidDismiss().then(data => {
-      // Si no existe creo el nuevo item
-      if (this.existsInRadio(data.data)) {
-        this.customTP = null;
-      } else {
-        this.customTP = data.data;
-      }
-      this.form.patchValue({ take_profit: data.data });
-    });
     await modal.present();
+    const data = await modal.onDidDismiss();
+
+    // Si no existe creo el nuevo item
+    if (this.existsInRadio(data.data)) {
+      this.removeCustom();
+    } else {
+      this.addCustom(data.data);
+    }
+    this.form.patchValue({ take_profit: data.data });
   }
 
-  existsInRadio(takeProfit) {
+  existsInRadio(takeProfit: number) {
     return this.takeProfitsOptions.some(item => item.value === takeProfit);
+  }
+
+  removeCustom() {
+    const customIndex = this.takeProfitsOptions.findIndex(item => item.custom);
+    if (customIndex !== -1) {
+      this.takeProfitsOptions.splice(customIndex, 1);
+      this.customTP = false;
+    }
+  }
+
+  addCustom(value: number) {
+    const custom = {
+      name: `+${value}%`,
+      value,
+      custom: true
+    };
+    const customIndex = this.takeProfitsOptions.findIndex(item => item.custom);
+    if (customIndex !== -1) {
+      this.takeProfitsOptions[customIndex] = custom;
+    } else {
+      this.takeProfitsOptions.push(custom);
+    }
+    this.customTP = true;
   }
 
   handleSubmit() {

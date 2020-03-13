@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController, IonRouterOutlet } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { FundListSubHeaderComponent } from './fund-list-sub-header.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbsoluteValuePipe } from '../../../shared-funds/pipes/absolute-value/absolute-value.pipe';
@@ -17,7 +17,6 @@ describe('FundListSubHeaderComponent', () => {
   let apiFundsMock: any;
   let modalControllerMock: any;
   let modalController: any;
-  let ionRouterOuletMock: any;
   beforeEach(async(() => {
     modalControllerMock = {
       create: Promise.resolve({
@@ -29,9 +28,7 @@ describe('FundListSubHeaderComponent', () => {
     apiFundsMock = {
       getTotalBalance: () => of({})
     };
-    ionRouterOuletMock = {
-      nativeEl: {} as HTMLIonRouterOutletElement
-    };
+
     TestBed.configureTestingModule({
       declarations: [
         FundListSubHeaderComponent,
@@ -49,8 +46,7 @@ describe('FundListSubHeaderComponent', () => {
         {
           provide: ModalController,
           useValue: modalControllerMock
-        },
-        { provide: IonRouterOutlet, useValue: ionRouterOuletMock }
+        }
       ]
     }).compileComponents();
 

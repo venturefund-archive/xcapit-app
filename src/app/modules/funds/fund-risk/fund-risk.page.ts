@@ -39,14 +39,17 @@ import { NavController } from '@ionic/angular';
             >
               <ion-list>
                 <ion-radio-group formControlName="risk_level">
-                  <ion-item *ngFor="let rl of this.riskLevels">
-                    <ion-label>{{ rl.name | translate }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="rl.value"
-                    ></ion-radio>
-                  </ion-item>
+                  <div *ngFor="let rl of this.riskLevels; let last = last" class="container">
+                    <ion-item>
+                      <ion-label>{{ rl.name | translate }}</ion-label>
+                      <ion-radio
+                        mode="md"
+                        slot="start"
+                        [value]="rl.value"
+                      ></ion-radio>
+                    </ion-item>
+                    <div class="list-divider" *ngIf="!last"></div>
+                  </div>
                 </ion-radio-group>
               </ion-list>
               <app-errors-form-item

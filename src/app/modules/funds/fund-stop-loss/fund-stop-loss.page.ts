@@ -43,63 +43,65 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
             >
               <ion-list>
                 <ion-radio-group formControlName="stop_loss">
-                  <ion-item *ngFor="let sl of this.stopLossOptions">
-                    <ion-label>{{ sl.name }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="sl.value"
-                    ></ion-radio>
-                    <ion-badge
-                      *ngIf="sl.value == this.mostChosenSL"
-                      class="ux_badge_primary"
-                      slot="end"
-                      >{{
-                        'funds.fund_stop_loss.most_chosen' | translate
-                      }}</ion-badge
-                    >
-                  </ion-item>
-                  <ion-item *ngIf="!this.customSL">
-                    <div class="fsl__input__custom_tp_button">
-                      <ion-button
-                        class="ux_button"
-                        appTrackClick
-                        name="Back"
-                        type="button"
-                        color="uxsecondary"
-                        fill="clear"
-                        expand="block"
-                        (click)="this.openCustomSL()"
+                  <div
+                    *ngFor="let sl of this.stopLossOptions; let last = last"
+                    class="container"
+                    [ngClass]="{ custom: sl.custom }"
+                  >
+                    <ion-item>
+                      <ion-label>{{ sl.name }}</ion-label>
+                      <ion-radio
+                        mode="md"
+                        slot="start"
+                        [value]="sl.value"
+                      ></ion-radio>
+                      <ion-badge
+                        *ngIf="sl.value == this.mostChosenSL"
+                        class="ux_badge_primary"
+                        slot="end"
+                        >{{
+                          'funds.fund_stop_loss.most_chosen' | translate
+                        }}</ion-badge
                       >
-                        {{
-                          'funds.fund_stop_loss.custom_tp_button' | translate
-                        }}
-                      </ion-button>
-                    </div>
-                  </ion-item>
-                  <ion-item [hidden]="!this.customSL">
-                    <ion-label>+{{ this.customSL }}%</ion-label>
-                    <ion-radio
-                      appTrackClick
-                      name="Edit Custom Stop Loss"
-                      mode="md"
-                      slot="start"
-                      (click)="this.openCustomSL()"
-                      [value]="this.customSL"
-                      checked
-                      [dataToTrack]="{ eventLabel: 'Edit Custom Stop Loss' }"
-                    ></ion-radio>
+                    </ion-item>
                     <ion-button
+                      *ngIf="sl.custom"
+                      appTrackClick
                       class="ux_button"
-                      name="Back"
-                      slot="end"
+                      name="Edit Custom Stop Loss"
                       fill="clear"
                       color="uxsecondary"
+                      (click)="this.openCustomSL()"
                       >{{
                         'funds.fund_stop_loss.edit_custom' | translate
                       }}</ion-button
                     >
-                  </ion-item>
+                    <div
+                      class="list-divider"
+                      *ngIf="!last || !this.customSL"
+                    ></div>
+                  </div>
+                  <div>
+                    <ion-item [hidden]="this.customSL">
+                      <div class="fsl__input__custom_tp_button">
+                        <ion-button
+                          class="ux_button"
+                          appTrackClick
+                          name="Back"
+                          type="button"
+                          color="uxsecondary"
+                          fill="clear"
+                          expand="block"
+                          (click)="this.openCustomSL()"
+                        >
+                          {{
+                            'funds.fund_stop_loss.custom_tp_button'
+                              | translate
+                          }}
+                        </ion-button>
+                      </div>
+                    </ion-item>
+                  </div>
                 </ion-radio-group>
               </ion-list>
               <app-errors-form-item
@@ -140,15 +142,15 @@ export class FundStopLossPage implements OnInit {
     ]
   });
 
-  mostChosenSL;
+  mostChosenSL: number;
 
   stopLossOptions = [
-    { name: '+5%', value: 5 },
-    { name: '+10%', value: 10 },
-    { name: '+15%', value: 15 }
+    { name: '+5%', value: 5, custom: false },
+    { name: '+10%', value: 10, custom: false },
+    { name: '+15%', value: 15, custom: false }
   ];
 
-  customSL;
+  customSL: boolean;
 
   constructor(
     private fundDataStorage: FundDataStorageService,
@@ -181,20 +183,43 @@ export class FundStopLossPage implements OnInit {
       cssClass: 'ux_modal_crm'
     });
 
-    modal.onDidDismiss().then(data => {
-      // Si no existe creo el nuevo item
-      if (this.existsInRadio(data.data)) {
-        this.customSL = null;
-      } else {
-        this.customSL = data.data;
-      }
-      this.form.patchValue({ stop_loss: data.data });
-    });
     await modal.present();
+    const data = await modal.onDidDismiss();
+
+    // Si no existe creo el nuevo item
+    if (this.existsInRadio(data.data)) {
+      this.removeCustom();
+    } else {
+      this.addCustom(data.data);
+    }
+    this.form.patchValue({ stop_loss: data.data });
   }
 
   existsInRadio(stopLoss) {
     return this.stopLossOptions.some(item => item.value === stopLoss);
+  }
+
+  removeCustom() {
+    const customIndex = this.stopLossOptions.findIndex(item => item.custom);
+    if (customIndex !== -1) {
+      this.stopLossOptions.splice(customIndex, 1);
+      this.customSL = false;
+    }
+  }
+
+  addCustom(value: number) {
+    const custom = {
+      name: `+${value}%`,
+      value,
+      custom: true
+    };
+    const customIndex = this.stopLossOptions.findIndex(item => item.custom);
+    if (customIndex !== -1) {
+      this.stopLossOptions[customIndex] = custom;
+    } else {
+      this.stopLossOptions.push(custom);
+    }
+    this.customSL = true;
   }
 
   async handleSubmit() {

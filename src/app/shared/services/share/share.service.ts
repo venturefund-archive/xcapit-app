@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ToastService } from '../toast/toast.service';
-import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from '../clipboard/clipboard.service';
 import { Plugins, ShareOptions, ClipboardWrite } from '@capacitor/core';
 const { Share } = Plugins;
@@ -11,7 +10,6 @@ const { Share } = Plugins;
 export class ShareService {
   constructor(
     private toastService: ToastService,
-    private translate: TranslateService,
     private clipboardService: ClipboardService
   ) {}
   /**
@@ -19,7 +17,8 @@ export class ShareService {
    * @param data - Data para compartir.
    * @param copiedMessage - Es el mensaje que se muestra cuando no se puede compartir y en cambio se copia al clipboard.
    */
-  share(data: ShareOptions, copiedMessage: string) {
+  async share(data: ShareOptions, copiedMessage: string) {
+    const res = await Share.share(data);
     Share.share(data).then(
       () => {},
       () => {

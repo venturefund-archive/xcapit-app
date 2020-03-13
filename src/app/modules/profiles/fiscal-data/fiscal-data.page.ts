@@ -70,15 +70,21 @@ import { TranslateService } from '@ngx-translate/core';
           >
             <ion-list>
               <ion-radio-group formControlName="condicion_iva">
-                <ion-item *ngFor="let ci of condicionesIva">
-                  <ion-label>{{ ci }}</ion-label>
-                  <ion-radio
-                    mode="md"
-                    slot="start"
-                    [value]="ci"
-                    checked
-                  ></ion-radio>
-                </ion-item>
+                <div
+                  class="container"
+                  *ngFor="let ci of condicionesIva; let last = last"
+                >
+                  <ion-item>
+                    <ion-label>{{ ci }}</ion-label>
+                    <ion-radio
+                      mode="md"
+                      slot="start"
+                      [value]="ci"
+                      checked
+                    ></ion-radio>
+                  </ion-item>
+                  <div class="list-divider" *ngIf="!last"></div>
+                </div>
               </ion-radio-group>
             </ion-list>
             <app-errors-form-item
@@ -92,10 +98,17 @@ import { TranslateService } from '@ngx-translate/core';
           >
             <ion-list>
               <ion-radio-group formControlName="tipo_factura">
-                <ion-item *ngFor="let tf of tiposFactura">
-                  <ion-label>{{ tf }}</ion-label>
-                  <ion-radio mode="md" slot="start" [value]="tf"></ion-radio>
-                </ion-item>
+                <div
+                  class="container"
+                  *ngFor="let tf of tiposFactura; let last = last"
+                >
+                  <ion-item>
+                    <ion-label>{{ tf }}</ion-label>
+                    <ion-radio mode="md" slot="start" [value]="tf"></ion-radio>
+                  </ion-item>
+
+                  <div class="list-divider" *ngIf="!last"></div>
+                </div>
               </ion-radio-group>
             </ion-list>
             <app-errors-form-item
