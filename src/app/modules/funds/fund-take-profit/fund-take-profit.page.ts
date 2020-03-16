@@ -134,7 +134,6 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
                 type="submit"
                 color="uxsecondary"
                 size="large"
-                [disabled]="!this.form.valid"
               >
                 {{ 'funds.fund_take_profit.next_button' | translate }}
               </ion-button>
@@ -248,6 +247,8 @@ export class FundTakeProfitPage implements OnInit {
     if (this.form.valid) {
       this.fundDataStorage.setData('fundTakeProfit', this.form.value);
       this.navController.navigateForward(['funds/fund-stop-loss']);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

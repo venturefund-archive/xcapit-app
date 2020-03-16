@@ -74,6 +74,8 @@ describe('EditProfileComponent', () => {
   });
 
   it('should call get on apiProfile update when save', () => {
+    fixture.detectChanges();
+    component.form.patchValue(formData.valid);
     const spy = spyOn(apiProfiles.crud, 'update');
     spy.and.returnValue(of({}));
     component.save();

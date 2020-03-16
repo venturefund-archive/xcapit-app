@@ -56,7 +56,6 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="!this.form.valid"
             >
               {{ 'funds.fund_name.next_button' | translate }}
             </ion-button>
@@ -93,6 +92,8 @@ export class FundNamePage implements OnInit {
     if (this.form.valid) {
       this.fundDataStorage.setData('fundName', this.form.value);
       this.navController.navigateForward(['funds/fund-risk']);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

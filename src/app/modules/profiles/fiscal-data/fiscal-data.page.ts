@@ -125,7 +125,7 @@ import { TranslateService } from '@ngx-translate/core';
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="!this.form.valid || this.disabledButton"
+              [disabled]="this.disabledButton"
             >
               {{ 'profiles.fiscal_data.submit_button' | translate }}
             </ion-button>
@@ -204,6 +204,8 @@ export class FiscalDataPage implements OnInit {
         });
         this.disabledButton = false;
       });
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 

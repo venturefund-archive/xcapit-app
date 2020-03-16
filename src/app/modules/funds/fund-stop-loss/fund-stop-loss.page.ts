@@ -118,7 +118,6 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="!this.form.valid"
             >
               {{ 'funds.fund_stop_loss.submit_button' | translate }}
             </ion-button>
@@ -239,6 +238,8 @@ export class FundStopLossPage implements OnInit {
         this.fundDataStorage.clearAll();
         this.navController.navigateForward(['funds/fund-success']);
       });
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

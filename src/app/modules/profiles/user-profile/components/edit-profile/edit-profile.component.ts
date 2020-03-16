@@ -21,7 +21,7 @@ import { map } from 'rxjs/operators';
           <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
             'profiles.user_profile.personal_data' | translate
           }}</ion-text>
-
+          <!-- First name -->
           <app-ux-input
             controlName="first_name"
             type="text"
@@ -29,6 +29,7 @@ import { map } from 'rxjs/operators';
             inputmode="text"
           ></app-ux-input>
 
+          <!-- Last name -->
           <app-ux-input
             controlName="last_name"
             type="text"
@@ -36,6 +37,7 @@ import { map } from 'rxjs/operators';
             inputmode="text"
           ></app-ux-input>
 
+          <!-- DNI -->
           <app-ux-input
             controlName="nro_dni"
             type="text"
@@ -44,6 +46,7 @@ import { map } from 'rxjs/operators';
             [errors]="this.onlyIntegersErrors"
           ></app-ux-input>
 
+          <!-- Cellphone -->
           <app-ux-input
             controlName="cellphone"
             type="text"
@@ -58,6 +61,7 @@ import { map } from 'rxjs/operators';
             'profiles.user_profile.bill_data' | translate
           }}</ion-text>
 
+          <!-- Condicion IVA -->
           <app-ux-input-select
             [label]="'profiles.user_profile.condicion_iva' | translate"
             [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
@@ -68,6 +72,7 @@ import { map } from 'rxjs/operators';
             [data]="this.condicionesIVA"
           ></app-ux-input-select>
 
+          <!-- Tipo factura -->
           <app-ux-input-select
             [label]="'profiles.user_profile.tipo_factura' | translate"
             [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
@@ -78,6 +83,7 @@ import { map } from 'rxjs/operators';
             [data]="this.tiposFactura"
           ></app-ux-input-select>
 
+          <!-- CUIT -->
           <app-ux-input
             controlName="cuit"
             type="text"
@@ -86,6 +92,7 @@ import { map } from 'rxjs/operators';
             [errors]="this.onlyIntegersErrors"
           ></app-ux-input>
 
+          <!-- Direccion -->
           <app-ux-input-google-places
             controlName="direccion"
             type="text"
@@ -125,11 +132,12 @@ export class EditProfileComponent implements OnInit {
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   controls = {
-    first_name: ['', [Validators.maxLength(150)]],
-    last_name: ['', [Validators.maxLength(150)]],
+    first_name: ['', [Validators.required, Validators.maxLength(150)]],
+    last_name: ['', [Validators.required, Validators.maxLength(150)]],
     nro_dni: [
       '',
       [
+        Validators.required,
         Validators.minLength(7),
         Validators.maxLength(12),
         Validators.pattern('[0-9][^.a-zA-Z]*$')
@@ -138,22 +146,24 @@ export class EditProfileComponent implements OnInit {
     cellphone: [
       '',
       [
+        Validators.required,
         Validators.minLength(7),
         Validators.maxLength(24),
         Validators.pattern('[0-9()-+][^.a-zA-Z]*$')
       ]
     ],
-    condicion_iva: ['', []],
-    tipo_factura: ['', []],
+    condicion_iva: ['', [Validators.required]],
+    tipo_factura: ['', [Validators.required]],
     cuit: [
       '',
       [
+        Validators.required,
         Validators.minLength(7),
         Validators.maxLength(15),
         Validators.pattern('[0-9][^.a-zA-Z]*$')
       ]
     ],
-    direccion: ['', [Validators.maxLength(150)]]
+    direccion: ['', [Validators.required, Validators.maxLength(150)]]
   };
 
   form: FormGroup;
@@ -178,6 +188,8 @@ export class EditProfileComponent implements OnInit {
           return true;
         })
       );
+    } else {
+      this.form.markAllAsTouched();
     }
     return of(false);
   }

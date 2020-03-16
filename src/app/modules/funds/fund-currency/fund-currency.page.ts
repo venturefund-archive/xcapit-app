@@ -66,7 +66,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
                 </ion-radio-group>
               </ion-list>
               <app-errors-form-item
-                controlName="risk_level"
+                controlName="currency"
               ></app-errors-form-item>
             </app-ux-radio-group>
           </div>
@@ -96,7 +96,6 @@ import { Currency } from '../shared-funds/enums/currency.enum';
                 type="submit"
                 color="uxsecondary"
                 size="large"
-                [disabled]="!this.form.valid"
               >
                 {{ 'funds.fund_currency.next_button' | translate }}
               </ion-button>
@@ -132,6 +131,8 @@ export class FundCurrencyPage implements OnInit {
     if (this.form.valid) {
       this.fundDataStorage.setData('fundCurrency', this.form.value);
       this.navController.navigateForward(['funds/fund-take-profit']);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

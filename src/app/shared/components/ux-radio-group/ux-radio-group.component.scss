@@ -14,6 +14,9 @@
     ion-label,
     ion-radio {
       --background: var(--ion-color-uxlight);
+      &.ux-error__item {
+        --background: transparent;
+      }
     }
 
     ion-list {
@@ -30,6 +33,10 @@
       min-height: 51px;
       background: white;
       display: flex;
+      &.ux-error__item {
+        background: transparent;
+        min-height: 10px;
+      }
     }
 
     .item-label {

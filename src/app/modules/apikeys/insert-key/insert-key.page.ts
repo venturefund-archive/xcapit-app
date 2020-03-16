@@ -58,7 +58,6 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
               size="large"
               routerLink="/apikeys/insert-key"
               [disabled]="
-                !this.form.valid ||
                 (this.submitButtonService.isDisabled | async)
               "
             >
@@ -91,6 +90,8 @@ export class InsertKeyPage implements OnInit {
       data.exchange = 'Binance';
       this.storageApikeysService.updateData(data);
       this.navController.navigateForward(['/apikeys/insert-secret']);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

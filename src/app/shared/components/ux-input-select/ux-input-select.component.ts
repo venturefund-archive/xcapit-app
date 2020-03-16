@@ -27,6 +27,9 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
           name="ux-down"
         ></ion-icon>
       </ion-item>
+      <app-errors-form-item
+        [controlName]="this.controlName"
+      ></app-errors-form-item>
     </div>
   `,
   viewProviders: [

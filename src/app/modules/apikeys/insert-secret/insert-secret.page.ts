@@ -62,7 +62,6 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
               color="uxsecondary"
               size="large"
               [disabled]="
-                !this.form.valid ||
                 (this.submitButtonService.isDisabled | async)
               "
             >
@@ -102,6 +101,8 @@ export class InsertSecretPage implements OnInit {
           () => this.success(),
           () => this.error()
         );
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 

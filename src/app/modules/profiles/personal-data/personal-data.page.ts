@@ -37,6 +37,9 @@ import { NavController } from '@ionic/angular';
             type="text"
             [label]="'profiles.personal_data.first_name' | translate"
             inputmode="text"
+            [placeholder]="
+              'profiles.personal_data.first_name_placeholder' | translate
+            "
           ></app-ux-input>
 
           <!-- Apellido -->
@@ -45,9 +48,12 @@ import { NavController } from '@ionic/angular';
             type="text"
             [label]="'profiles.personal_data.last_name' | translate"
             inputmode="text"
+            [placeholder]="
+              'profiles.personal_data.last_name_placeholder' | translate
+            "
           ></app-ux-input>
-          <!-- Direccion -->
 
+          <!-- Direccion -->
           <app-ux-input-google-places
             controlName="direccion"
             [label]="'profiles.personal_data.address' | translate"
@@ -89,7 +95,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="!this.form.valid || this.disabledButton"
+              [disabled]="this.disabledButton"
             >
               {{ 'profiles.personal_data.submit_button' | translate }}
             </ion-button>
@@ -110,8 +116,8 @@ export class PersonalDataPage implements OnInit {
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   controls = {
-    first_name: ['', [Validators.maxLength(150)]],
-    last_name: ['', [Validators.maxLength(150)]],
+    first_name: ['', [Validators.required, Validators.maxLength(150)]],
+    last_name: ['', [Validators.required, Validators.maxLength(150)]],
     direccion: ['', [Validators.required, Validators.maxLength(150)]],
     nro_dni: [
       '',
@@ -154,6 +160,8 @@ export class PersonalDataPage implements OnInit {
         });
         this.disabledButton = false;
       });
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 

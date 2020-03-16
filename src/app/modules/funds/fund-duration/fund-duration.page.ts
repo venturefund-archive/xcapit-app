@@ -86,7 +86,6 @@ import { NavController } from '@ionic/angular';
                 type="submit"
                 color="uxsecondary"
                 size="large"
-                [disabled]="!this.form.valid"
               >
                 {{ 'funds.fund_duration.next_button' | translate }}
               </ion-button>
@@ -120,6 +119,8 @@ export class FundDurationPage implements OnInit {
     if (this.form.valid) {
       this.fundDataStorage.setData('fundDuration', this.form.value);
       this.navController.navigateForward(['funds/fund-currency']);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

@@ -61,8 +61,7 @@ import {
       provide: ControlContainer,
       useExisting: FormGroupDirective
     }
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  ]
 })
 export class UxInputComponent implements OnInit {
   @Input() label: string;

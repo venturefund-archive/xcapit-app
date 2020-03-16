@@ -52,8 +52,7 @@ import { GooglePlacesDirective } from '../../directives/google-places.directive'
       useExisting: FormGroupDirective
     },
     GooglePlacesDirective
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  ]
 })
 export class UxInputGooglePlacesComponent implements OnInit {
   @Input() label: string;
