@@ -23,7 +23,6 @@ import { UxSuccessImgComponent } from './components/ux-success-img/ux-success-im
 import { SuccessContentComponent } from './components/success-content/success-content.component';
 import { UxTitleComponent } from './components/ux-title/ux-title.component';
 import { UxTextComponent } from './components/ux-text/ux-text.component';
-import { UxDropDownSelectComponent } from './components/ux-drop-down-select/ux-drop-down-select.component';
 import { UxRadioGroupComponent } from './components/ux-radio-group/ux-radio-group.component';
 import { UxAlertMessageComponent } from './components/ux-alert-message/ux-alert-message.component';
 import { UxRangeComponent } from './components/ux-range/ux-range.component';
@@ -49,7 +48,6 @@ import { UxInputSelectComponent } from './components/ux-input-select/ux-input-se
     UxSuccessImgComponent,
     UxTitleComponent,
     UxTextComponent,
-    UxDropDownSelectComponent,
     UxRadioGroupComponent,
     UxAlertMessageComponent,
     UxRangeComponent,
@@ -92,7 +90,6 @@ import { UxInputSelectComponent } from './components/ux-input-select/ux-input-se
     UxSuccessImgComponent,
     UxTitleComponent,
     UxTextComponent,
-    UxDropDownSelectComponent,
     UxRadioGroupComponent,
     UxAlertMessageComponent,
     UxRangeComponent,

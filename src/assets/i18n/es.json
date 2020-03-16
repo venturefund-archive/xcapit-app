@@ -419,6 +419,8 @@
       "header": "Configurar cuenta",
       "personal_data_title": "Datos personales",
       "nro_dni": "Documento de identidad",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
       "cellphone": "Teléfono",
       "address": "Domicilio",
       "submit_button": "Siguiente",

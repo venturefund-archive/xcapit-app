@@ -95,8 +95,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
                           (click)="this.openCustomSL()"
                         >
                           {{
-                            'funds.fund_stop_loss.custom_tp_button'
-                              | translate
+                            'funds.fund_stop_loss.custom_tp_button' | translate
                           }}
                         </ion-button>
                       </div>
@@ -161,10 +160,12 @@ export class FundStopLossPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fundDataStorage.getData('fundTakeProfit').then(data => {
-      this.form.patchValue(data);
-      if (!this.existsInRadio(data.stop_loss)) {
-        this.customSL = data.stop_loss;
+    this.fundDataStorage.getData('fundStopLoss').then(data => {
+      if (data) {
+        if (!this.existsInRadio(data.stop_loss)) {
+          this.addCustom(data.stop_loss);
+        }
+        this.form.patchValue(data);
       }
     });
     this.getMostChosenSL();
@@ -186,17 +187,19 @@ export class FundStopLossPage implements OnInit {
     await modal.present();
     const data = await modal.onDidDismiss();
 
-    // Si no existe creo el nuevo item
-    if (this.existsInRadio(data.data)) {
-      this.removeCustom();
-    } else {
-      this.addCustom(data.data);
+    if (data.role === 'selected') {
+      // Si no existe creo el nuevo item
+      if (this.existsInRadio(data.data)) {
+        this.removeCustom();
+      } else {
+        this.addCustom(data.data);
+      }
+      this.form.patchValue({ stop_loss: data.data });
     }
-    this.form.patchValue({ stop_loss: data.data });
   }
 
   existsInRadio(stopLoss) {
-    return this.stopLossOptions.some(item => item.value === stopLoss);
+    return this.stopLossOptions.some(item => item.value === stopLoss && !item.custom);
   }
 
   removeCustom() {

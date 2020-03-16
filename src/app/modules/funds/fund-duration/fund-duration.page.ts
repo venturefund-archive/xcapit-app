@@ -40,17 +40,18 @@ import { NavController } from '@ionic/angular';
               [minText]="'funds.fund_duration.duration_metric' | translate"
               [maxText]="'funds.fund_duration.duration_metric' | translate"
               [label]="'funds.fund_duration.duration' | translate"
+              controlName="cantidad_dias"
             >
               <ion-item>
                 <ion-range
                   formControlName="cantidad_dias"
                   mode="md"
                   min="30"
-                  max="90"
+                  max="120"
                   step="10"
-                  pin="true"
                   ticks="true"
-                ></ion-range>
+                >
+                </ion-range>
               </ion-item>
             </app-ux-range>
           </div>
@@ -99,7 +100,7 @@ import { NavController } from '@ionic/angular';
 })
 export class FundDurationPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    cantidad_dias: ['', [Validators.required, Validators.min(30)]]
+    cantidad_dias: [30, [Validators.required, Validators.min(30)]]
   });
   constructor(
     private fundDataStorage: FundDataStorageService,

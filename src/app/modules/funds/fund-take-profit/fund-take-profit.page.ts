@@ -74,7 +74,10 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
                         'funds.fund_take_profit.edit_custom' | translate
                       }}</ion-button
                     >
-                    <div class="list-divider" *ngIf="!last || !this.customTP"></div>
+                    <div
+                      class="list-divider"
+                      *ngIf="!last || !this.customTP"
+                    ></div>
                   </div>
                   <div>
                     <ion-item [hidden]="this.customTP">
@@ -163,7 +166,7 @@ export class FundTakeProfitPage implements OnInit {
     { name: '+15%', value: 15, custom: false }
   ];
 
-  customTP: any;
+  customTP = false;
 
   constructor(
     private fundDataStorage: FundDataStorageService,
@@ -175,9 +178,11 @@ export class FundTakeProfitPage implements OnInit {
 
   ngOnInit() {
     this.fundDataStorage.getData('fundTakeProfit').then(data => {
-      this.form.patchValue(data);
-      if (!this.existsInRadio(data.take_profit)) {
-        this.addCustom(data.take_profit);
+      if (data) {
+        if (!this.existsInRadio(data.take_profit)) {
+          this.addCustom(data.take_profit);
+        }
+        this.form.patchValue(data);
       }
     });
     this.getMostChosenTP();
@@ -199,17 +204,21 @@ export class FundTakeProfitPage implements OnInit {
     await modal.present();
     const data = await modal.onDidDismiss();
 
-    // Si no existe creo el nuevo item
-    if (this.existsInRadio(data.data)) {
-      this.removeCustom();
-    } else {
-      this.addCustom(data.data);
+    if (data.role === 'selected') {
+      // Si no existe creo el nuevo item
+      if (this.existsInRadio(data.data)) {
+        this.removeCustom();
+      } else {
+        this.addCustom(data.data);
+      }
+      this.form.patchValue({ take_profit: data.data });
     }
-    this.form.patchValue({ take_profit: data.data });
   }
 
   existsInRadio(takeProfit: number) {
-    return this.takeProfitsOptions.some(item => item.value === takeProfit);
+    return this.takeProfitsOptions.some(
+      item => item.value === takeProfit && !item.custom
+    );
   }
 
   removeCustom() {

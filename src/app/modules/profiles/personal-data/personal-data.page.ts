@@ -35,7 +35,7 @@ import { NavController } from '@ionic/angular';
           <app-ux-input
             controlName="first_name"
             type="text"
-            [label]="'profiles.user_profile.first_name' | translate"
+            [label]="'profiles.personal_data.first_name' | translate"
             inputmode="text"
           ></app-ux-input>
 
@@ -43,7 +43,7 @@ import { NavController } from '@ionic/angular';
           <app-ux-input
             controlName="last_name"
             type="text"
-            [label]="'profiles.user_profile.last_name' | translate"
+            [label]="'profiles.personal_data.last_name' | translate"
             inputmode="text"
           ></app-ux-input>
           <!-- Direccion -->

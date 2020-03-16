@@ -8,13 +8,12 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
     <div class="crm ion-padding-start ion-padding-end">
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <div class="crm__input">
-          <app-ux-range min="5" max="50" minText="%" maxText="%">
+          <app-ux-range min="5" max="50" minText="%" maxText="%" controlName="selected">
             <ion-range
               mode="md"
               min="5"
               max="50"
               step="5"
-              pin="true"
               ticks="true"
               formControlName="selected"
             ></ion-range
@@ -53,15 +52,16 @@ export class CustomRangeModalComponent implements OnInit {
     private modalController: ModalController,
     private formBuilder: FormBuilder
   ) {}
-  selected;
+  selected: string;
+
 
   form: FormGroup = this.formBuilder.group({
-    selected: ['', [Validators.required]]
+    selected: [5, [Validators.required]]
   });
 
   handleSubmit() {
     if (this.form.valid) {
-      this.modalController.dismiss(this.form.value.selected);
+      this.modalController.dismiss(this.form.value.selected, 'selected');
     }
   }
 

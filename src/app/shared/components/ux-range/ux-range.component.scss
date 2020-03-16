@@ -1,6 +1,5 @@
 :host ::ng-deep {
   .ux_range {
-    padding-top: 16px;
     &__label {
       font-weight: 600;
       font-size: 12px;
@@ -10,6 +9,13 @@
     &__content {
       background: var(--ion-color-uxlight);
       border-radius: 4px;
+      &__display-on-release {
+        padding-left: 24px;
+        padding-top: 16px;
+        .text {
+          color: var(--ion-color-uxsemidark);
+        }
+      }
       &__max_min {
         display: flex;
         justify-content: space-between;
@@ -38,17 +44,9 @@
     ion-range {
       --height: 50px;
       --bar-height: 4px;
-      --pin-background: var(--ion-color-uxsecondary);
       --bar-background: #00000029;
       --knob-background: var(--ion-color-uxsecondary);
       --knob-size: 26px;
-      --pin-color: var(--ion-color-uxlight);
     }
-
-    // .item-label {
-    //   font-family: var(--ux-font-lato);
-    //   font-size: 14px;
-    //   color: #000000DE;
-    // }
   }
 }

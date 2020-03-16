@@ -40,11 +40,7 @@ export class FundDataStorageService {
 
   public async getData(name: string) {
     const data = await this.storage.get(name);
-    if (data) {
-      return JSON.parse(data);
-    } else {
-      return {};
-    }
+    return JSON.parse(data);
   }
 
   public async getFund() {
