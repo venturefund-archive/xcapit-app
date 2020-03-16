@@ -429,7 +429,7 @@
       "header": "Configure account",
       "fiscal_data_title": "Fiscal information",
       "not_sure_text": "If you are not sure you can change this data from your profile later.",
-      "cuit": "CUIT",
+      "cuit": "CUIL/CUIT",
       "country": "Country",
       "country_modal_ok_text": "Ok",
       "country_modal_cancel_text": "Cancel",

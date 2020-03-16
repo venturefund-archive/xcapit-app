@@ -53,18 +53,6 @@ import { NavController } from '@ionic/angular';
             [errors]="this.onlyIntegersErrors"
           ></app-ux-input>
 
-          <!-- CUIL -->
-          <app-ux-input
-            controlName="cuit"
-            type="text"
-            inputmode="numeric"
-            [label]="'profiles.personal_data.cuit' | translate"
-            [placeholder]="
-              'profiles.personal_data.cuit_placeholder' | translate
-            "
-            [errors]="this.onlyIntegersErrors"
-          ></app-ux-input>
-
           <!-- Telefono -->
           <app-ux-input
             controlName="cellphone"
@@ -114,15 +102,6 @@ export class PersonalDataPage implements OnInit {
         Validators.required,
         Validators.minLength(7),
         Validators.maxLength(12),
-        Validators.pattern('[0-9][^.a-zA-Z]*$')
-      ]
-    ],
-    cuit: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(7),
-        Validators.maxLength(15),
         Validators.pattern('[0-9][^.a-zA-Z]*$')
       ]
     ],

@@ -19,7 +19,6 @@ const formData = {
     last_name: 'Test',
     nro_dni: '21341234',
     cellphone: '12344321',
-    cuit: '1234123443',
     direccion: 'calle falsa 123'
   },
   invalid: {
@@ -27,7 +26,6 @@ const formData = {
     last_name: 'Test',
     nro_dni: '213412x34',
     cellphone: '12x344321',
-    cuit: '12341234x43',
     direccion: 'calle falsa 123'
   }
 };
@@ -107,7 +105,7 @@ describe('PersonalDataPage', () => {
   it('should not call update on apiProfile.crud, invalid form', () => {
     fixture.detectChanges();
     component.form.patchValue(formData.valid);
-    component.form.get('cuit').setValue(formData.invalid.cuit);
+    component.form.get('nro_dni').setValue(formData.invalid.nro_dni);
     fixture.detectChanges();
     const spy = spyOn(apiProfilesService.crud, 'update');
     component.save();
@@ -117,7 +115,7 @@ describe('PersonalDataPage', () => {
   describe('Form values', () => {
     it('form should be invalid when some fields are notvalid', () => {
       fixture.detectChanges();
-      component.form.get('cuit').setValue(formData.invalid.cuit);
+      component.form.get('nro_dni').setValue(formData.invalid.nro_dni);
       expect(component.form.valid).toBeFalsy();
     });
   });
