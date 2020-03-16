@@ -31,6 +31,21 @@ import { NavController } from '@ionic/angular';
               'profiles.personal_data.personal_data_title' | translate
             }}</app-ux-title>
           </div>
+          <!-- Nombre -->
+          <app-ux-input
+            controlName="first_name"
+            type="text"
+            [label]="'profiles.user_profile.first_name' | translate"
+            inputmode="text"
+          ></app-ux-input>
+
+          <!-- Apellido -->
+          <app-ux-input
+            controlName="last_name"
+            type="text"
+            [label]="'profiles.user_profile.last_name' | translate"
+            inputmode="text"
+          ></app-ux-input>
           <!-- Direccion -->
 
           <app-ux-input-google-places
@@ -95,6 +110,8 @@ export class PersonalDataPage implements OnInit {
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   controls = {
+    first_name: ['', [Validators.maxLength(150)]],
+    last_name: ['', [Validators.maxLength(150)]],
     direccion: ['', [Validators.required, Validators.maxLength(150)]],
     nro_dni: [
       '',
