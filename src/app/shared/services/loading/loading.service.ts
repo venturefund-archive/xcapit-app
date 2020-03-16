@@ -23,6 +23,9 @@ export class LoadingService {
   ) {}
 
   async show(options: LoadingOptions = {}) {
+    options.cssClass = 'ux-loading';
+    options.message = '';
+    options.spinner = null;
     if (!this.isVisible && this.isEnabled) {
       this.isVisible = true;
       const msg = this.message || this.defaultMessage;

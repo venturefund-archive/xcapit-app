@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-funds-list',
