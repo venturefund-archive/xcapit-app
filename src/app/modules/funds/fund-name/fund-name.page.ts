@@ -82,9 +82,11 @@ export class FundNamePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fundDataStorage
-      .getData('fundName')
-      .then(data => this.form.patchValue(data));
+    this.fundDataStorage.getData('fundName').then(data => {
+      if (data) {
+        this.form.patchValue(data);
+      }
+    });
   }
 
   handleSubmit() {

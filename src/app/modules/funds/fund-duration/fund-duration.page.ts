@@ -109,9 +109,11 @@ export class FundDurationPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fundDataStorage
-      .getData('fundDuration')
-      .then(data => this.form.patchValue(data));
+    this.fundDataStorage.getData('fundDuration').then(data => {
+      if (data) {
+        this.form.patchValue(data);
+      }
+    });
   }
 
   handleSubmit() {

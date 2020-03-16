@@ -39,7 +39,10 @@ import { NavController } from '@ionic/angular';
             >
               <ion-list>
                 <ion-radio-group formControlName="risk_level">
-                  <div *ngFor="let rl of this.riskLevels; let last = last" class="container">
+                  <div
+                    *ngFor="let rl of this.riskLevels; let last = last"
+                    class="container"
+                  >
                     <ion-item>
                       <ion-label>{{ rl.name | translate }}</ion-label>
                       <ion-radio
@@ -114,7 +117,9 @@ export class FundRiskPage implements OnInit {
 
   ngOnInit() {
     this.fundDataStorage.getData('fundRisk').then(data => {
-      this.form.patchValue(data);
+      if (data) {
+        this.form.patchValue(data);
+      }
     });
   }
 
