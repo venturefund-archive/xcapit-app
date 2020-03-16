@@ -236,9 +236,8 @@ export class FundStopLossPage implements OnInit {
         fund.risk_level = 'PRO';
       }
       this.apiFunds.crud.create(fund).subscribe(a => {
-        this.navController.navigateForward(['funds/fund-success']).then(() => {
-          this.fundDataStorage.clearAll();
-        });
+        this.fundDataStorage.clearAll();
+        this.navController.navigateForward(['funds/fund-success']);
       });
     }
   }

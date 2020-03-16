@@ -121,9 +121,11 @@ export class FundCurrencyPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fundDataStorage
-      .getData('fundCurrency')
-      .then(data => this.form.patchValue(data));
+    this.fundDataStorage.getData('fundCurrency').then(data => {
+      if (data) {
+        this.form.patchValue(data);
+      }
+    });
   }
 
   handleSubmit() {
