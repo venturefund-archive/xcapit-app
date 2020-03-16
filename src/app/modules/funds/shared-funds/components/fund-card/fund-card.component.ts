@@ -31,12 +31,12 @@ import { Component, OnInit, Input } from '@angular/core';
               <ion-icon
                 class="fc__main__content__right__amount__up"
                 name="ux-triangle-up"
-                *ngIf="this.fund?.porcentaje > 0"
+                *ngIf="this.fund?.profit > 0"
               ></ion-icon>
               <ion-icon
                 class="fc__main__content__right__amount__down"
                 name="ux-triangle-down"
-                *ngIf="this.fund?.porcentaje < 0"
+                *ngIf="this.fund?.profit < 0"
               ></ion-icon>
               <ion-text color="uxdark"
                 >{{
