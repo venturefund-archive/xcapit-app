@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-fund-card',
@@ -40,9 +42,7 @@ import { Component, OnInit, Input } from '@angular/core';
               ></ion-icon>
               <ion-text color="uxdark"
                 >{{
-                  this.fund?.profit * 100
-                    | number: '1.2-2'
-                    | absoluteValue
+                  this.fund?.profit * 100 | number: '1.2-2' | absoluteValue
                 }}%</ion-text
               >
             </div>
@@ -74,12 +74,11 @@ import { Component, OnInit, Input } from '@angular/core';
 export class FundCardComponent implements OnInit {
   @Input() fund: any;
 
-  constructor() {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
   viewFund() {
-    // TODO: Implementar View Fund
-    console.error('View Fund no implementado');
+    this.navController.navigateRoot(['funds/detail', this.fund.fund_name]);
   }
 }

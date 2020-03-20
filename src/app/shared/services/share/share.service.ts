@@ -18,7 +18,6 @@ export class ShareService {
    * @param copiedMessage - Es el mensaje que se muestra cuando no se puede compartir y en cambio se copia al clipboard.
    */
   async share(data: ShareOptions, copiedMessage: string) {
-    const res = await Share.share(data);
     Share.share(data).then(
       () => {},
       () => {

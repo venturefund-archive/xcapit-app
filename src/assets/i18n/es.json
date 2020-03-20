@@ -212,6 +212,37 @@
       "unsubscribe_accept_button": "Aceptar",
       "unsubscribe_success_message": "La suscripción al fondo ha sido cancelada."
     },
+    "fund_detail": {
+      "header": "Detalle del fondo",
+      "edit_button": "Editar",
+      "fund_summary_card": {
+        "actual_amount": "Capital actual",
+        "initial_amount": "Capital inicial",
+        "remaining_time": "Tiempo restante",
+        "days_label": "días"
+      },
+      "performance_chart_card": {
+        "title": "TU INVERSIÓN EN EL TIEMPO",
+        "days_label": "días",
+        "profit": "Ganancia",
+        "loss": "Pérdida"
+      },
+      "fund_metrics_card": {
+        "title": "RESUMEN",
+        "cumulative_return": "Retorno acumulado",
+        "higher_drop": "Higher drop",
+        "profit": "Ganancia en {{currency}",
+        "longest_recovery": "Recupero más largo"
+      },
+      "fund_portfolio_card": {
+        "title": "COMPOSICIÓN DE CARTERA",
+        "view_detail": "Ver detalle"
+      },
+      "operations_history": {
+        "title": "Historial de operaciones",
+        "run": "Corrida {{id_corrida}}"
+      }
+    },
     "fund_runs": {
       "header": "Corridas de fondo",
       "subheader": "Fondo",

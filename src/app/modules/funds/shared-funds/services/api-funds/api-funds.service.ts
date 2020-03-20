@@ -4,6 +4,7 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -33,14 +34,15 @@ export class ApiFundsService {
   }
 
   getBalance(fundName: string, toCa: string = ''): Observable<any> {
-    return this.http.get(
+    // TODO: Sacar timeout, es solo para probar el loading.
+    return this.http.original.get(
       `${environment.apiUrl}/${this.entity}/name/${fundName}/balance`,
       {
         params: {
           to_ca: toCa
         }
       }
-    );
+    ).pipe(timeout(2000));
   }
 
   getFundRuns(status: string, fundName: string): Observable<any> {

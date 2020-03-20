@@ -12,6 +12,12 @@ import { CommissionsContentComponent } from './components/commissions-content/co
 import { CustomRangeModalComponent } from './components/custom-range-modal/custom-range-modal.component';
 import { AbsoluteValuePipe } from './pipes/absolute-value/absolute-value.pipe';
 import { FundCardComponent } from './components/fund-card/fund-card.component';
+import { FundSummaryCardComponent } from './components/fund-summary-card/fund-summary-card.component';
+import { PerformanceChartCardComponent } from './components/performance-chart-card/performance-chart-card.component';
+import { FundMetricsCardComponent } from './components/fund-metrics-card/fund-metrics-card.component';
+import { FundPortfolioCardComponent } from './components/fund-portfolio-card/fund-portfolio-card.component';
+import { FundOperationsHistoryComponent } from './components/fund-operations-history/fund-operations-history.component';
+import { FundBalanceChartComponent } from './components/fund-balance-chart/fund-balance-chart.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +31,13 @@ import { FundCardComponent } from './components/fund-card/fund-card.component';
     CommissionsContentComponent,
     CustomRangeModalComponent,
     AbsoluteValuePipe,
-    FundCardComponent
+    FundCardComponent,
+    FundSummaryCardComponent,
+    PerformanceChartCardComponent,
+    FundMetricsCardComponent,
+    FundPortfolioCardComponent,
+    FundOperationsHistoryComponent,
+    FundBalanceChartComponent,
   ],
   providers: [DatePipe],
   imports: [SharedModule],
@@ -41,7 +53,13 @@ import { FundCardComponent } from './components/fund-card/fund-card.component';
     CommissionsContentComponent,
     CustomRangeModalComponent,
     AbsoluteValuePipe,
-    FundCardComponent
+    FundCardComponent,
+    FundSummaryCardComponent,
+    PerformanceChartCardComponent,
+    FundMetricsCardComponent,
+    FundPortfolioCardComponent,
+    FundOperationsHistoryComponent,
+    FundBalanceChartComponent,
   ],
   entryComponents: [CustomRangeModalComponent]
 })

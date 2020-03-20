@@ -19,6 +19,13 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'detail/:fundName',
+        loadChildren: () =>
+          import('./fund-detail/fund-detail.module').then(
+            m => m.FundDetailPageModule
+          )
+      },
+      {
         path: 'fund-name',
         loadChildren: () =>
           import('./fund-name/fund-name.module').then(m => m.FundNamePageModule)
@@ -124,6 +131,13 @@ export const routes: Routes = [
           )
       }
     ]
+  },
+  {
+    path: 'fund-detail',
+    loadChildren: () =>
+      import('./fund-detail/fund-detail.module').then(
+        m => m.FundDetailPageModule
+      )
   }
 ];
 
