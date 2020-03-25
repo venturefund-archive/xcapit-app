@@ -18,7 +18,6 @@ const routes: Routes = [
   imports: [SharedFundsModule, RouterModule.forChild(routes)],
   declarations: [
     FundBalancePage,
-    FundBalanceChartComponent,
     FundBalanceDetailComponent,
     CurrencyEndBalancePipe
   ]

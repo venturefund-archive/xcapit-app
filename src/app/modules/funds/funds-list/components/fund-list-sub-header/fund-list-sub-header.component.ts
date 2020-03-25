@@ -44,7 +44,7 @@ import { TranslateService } from '@ngx-translate/core';
             *ngIf="this.totalBalance?.total_profit < 0"
           ></ion-icon>
           {{
-            this.totalBalance?.total_profit | number: '1.2-2' | absoluteValue
+            this.totalBalance?.total_profit | absoluteValue | number: '1.2-2'
           }}
           %
         </ion-badge>
@@ -52,10 +52,7 @@ import { TranslateService } from '@ngx-translate/core';
           class="fl__total__detail__text ux-font-lato ux-fweight-regular ux-fsize-12"
         >
           <ion-text>
-            {{
-              'funds.funds_list.sub_header.total_detail'
-                | translate
-            }}
+            {{ 'funds.funds_list.sub_header.total_detail' | translate }}
           </ion-text>
         </div>
       </div>

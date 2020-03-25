@@ -42,7 +42,7 @@ import { NavigationExtras } from '@angular/router';
               ></ion-icon>
               <ion-text color="uxdark"
                 >{{
-                  this.fund?.profit * 100 | number: '1.2-2' | absoluteValue
+                  this.fund?.profit * 100 | absoluteValue | number: '1.2-2'
                 }}%</ion-text
               >
             </div>

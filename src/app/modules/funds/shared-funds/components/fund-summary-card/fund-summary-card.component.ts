@@ -25,7 +25,6 @@ import { TranslateService } from '@ngx-translate/core';
               {{ this.summary?.balance.balance_fin | number: '1.2-2' }}
               {{ this.summary?.fund.currency }}
             </ion-text>
-            {{ this.fund?.balance_fin }}
           </div>
           <div class="actual-text">
             <ion-text

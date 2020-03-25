@@ -11,14 +11,6 @@ const routes: Routes = [
     canActivate: [AuthGuard, NoEmptyAKGuard],
     children: [
       {
-        path: 'action',
-        canActivate: [UserProfileDataGuard],
-        loadChildren: () =>
-          import('./new-apikeys/new-apikeys.module').then(
-            m => m.NewApikeysPageModule
-          )
-      },
-      {
         path: 'tutorial',
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
