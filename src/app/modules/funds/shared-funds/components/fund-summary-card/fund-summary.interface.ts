@@ -1,6 +1,7 @@
 export interface FundSummaryInterface {
   fund: {
     nombre_bot: string;
+    currency: string;
   };
   balance: {
     balance_inicio: string;

@@ -34,27 +34,29 @@ import { FundSummaryInterface } from '../shared-funds/components/fund-summary-ca
           [summary]="this.fundSummary"
         ></app-fund-summary-card>
       </div>
-      <div class="fd__performance-chart-card">
+      <!-- <div class="fd__performance-chart-card">
         <app-performance-chart-card></app-performance-chart-card>
-      </div>
+      </div> -->
 
-      <div class="fd__fund-metrics-card">
+      <div class="fd__fund-metrics-card" *ngIf="this.fundMetrics">
         <app-fund-metrics-card
-          [metrics]="this.fundMetricsCardInfo$ | async"
+          [metrics]="this.fundMetrics"
+          [currency]="this.currency"
         ></app-fund-metrics-card>
       </div>
 
-      <div class="fd__fund-portfolio-card" *ngIf="this.fundPortfolio">
+      <!-- <div class="fd__fund-portfolio-card" *ngIf="this.fundPortfolio">
         <app-fund-portfolio-card
           [portfolio]="this.fundPortfolio"
+          [currency]="this.fundSummary.fund.currency"
         ></app-fund-portfolio-card>
-      </div>
+      </div> -->
 
-      <div class="fd__fund-operations-history">
+      <!-- <div class="fd__fund-operations-history">
         <app-fund-operations-history
           [operations]="this.fundOperationsHistory"
         ></app-fund-operations-history>
-      </div>
+      </div> -->
     </ion-content>
   `,
   styleUrls: ['./fund-detail.page.scss']
@@ -63,10 +65,10 @@ export class FundDetailPage implements OnInit {
   fundName: string;
   fundSummary: FundSummaryInterface;
   profitGraphCardInfo$: Observable<any>;
-  fundMetricsCardInfo$: Observable<FundMetricsInterface>;
+  fundMetrics: FundMetricsInterface;
   fundPortfolio: Array<any>;
   fundOperationsHistory: Array<any>;
-
+  currency: string;
   constructor(
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService
@@ -76,18 +78,10 @@ export class FundDetailPage implements OnInit {
 
   ionViewWillEnter() {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
-    this.getFundBalance();
     this.getProfitGraphCardInfo();
     this.getFundMetricsCardInfo();
     this.getFundPortfolioCardInfo();
     this.getFundOperationsHistoryInfo();
-  }
-
-  getFundBalance() {
-    this.apiFunds.getBalance(this.fundName).subscribe(data => {
-      this.fundSummary = data;
-      this.fundPortfolio = data.balance.summary;
-    });
   }
 
   getProfitGraphCardInfo() {
@@ -96,19 +90,22 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundMetricsCardInfo() {
-    // TODO: Implementar getProfitGraphCardInfo
-    console.error('getProfitGraphCardInfo no implementado');
+    this.apiFunds.getMetrics(this.fundName).subscribe(data => {
+      this.fundMetrics = data.metrics;
+      this.currency = data.fund.currency;
+    });
   }
 
   getFundPortfolioCardInfo() {
-    // TODO: Implementar getFundPortfolioCardInfo
-    console.error('getFundPortfolioCardInfo no implementado');
+    this.apiFunds.getBalance(this.fundName).subscribe(data => {
+      this.fundSummary = data;
+      this.fundPortfolio = data.balance.summary;
+    });
   }
 
   getFundOperationsHistoryInfo() {
     this.apiFunds.getFundRuns('active', this.fundName).subscribe(data => {
       this.fundOperationsHistory = data;
-      console.log(data);
     });
   }
 

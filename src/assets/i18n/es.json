@@ -229,10 +229,11 @@
       },
       "fund_metrics_card": {
         "title": "RESUMEN",
-        "cumulative_return": "Retorno acumulado",
-        "higher_drop": "Higher drop",
-        "profit": "Ganancia en {{currency}",
-        "longest_recovery": "Recupero más largo"
+        "profit": "Ganancia en {{currency}}",
+        "longest_drawdown": "Recupero más largo",
+        "longest_drawdown_metric": "días",
+        "sharpe": "Sharpe",
+        "max_drawdown": "Mayor caida"
       },
       "fund_portfolio_card": {
         "title": "COMPOSICIÓN DE CARTERA",

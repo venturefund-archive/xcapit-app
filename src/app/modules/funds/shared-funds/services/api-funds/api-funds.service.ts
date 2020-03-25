@@ -34,7 +34,6 @@ export class ApiFundsService {
   }
 
   getBalance(fundName: string, toCa: string = ''): Observable<any> {
-    // TODO: Sacar timeout, es solo para probar el loading.
     return this.http.original.get(
       `${environment.apiUrl}/${this.entity}/name/${fundName}/balance`,
       {
@@ -42,7 +41,13 @@ export class ApiFundsService {
           to_ca: toCa
         }
       }
-    ).pipe(timeout(2000));
+    );
+  }
+
+  getMetrics(fundName: string): Observable<any> {
+    return this.http.original.get(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/metrics`
+    );
   }
 
   getFundRuns(status: string, fundName: string): Observable<any> {

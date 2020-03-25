@@ -17,7 +17,7 @@ import { Chart } from 'chart.js';
         <div class="fpc__content__left">
           <app-fund-balance-chart
             [fundBalance]="this.portfolio"
-            [currency]="'BTC'"
+            [currency]="this.currency"
           ></app-fund-balance-chart>
         </div>
         <div class="fpc__content__right">
@@ -44,6 +44,7 @@ export class FundPortfolioCardComponent implements OnInit {
     percentage: number;
     color: string;
   }>;
+  @Input() currency: string;
   data: any;
 
   constructor() {}
@@ -51,6 +52,4 @@ export class FundPortfolioCardComponent implements OnInit {
   ngOnInit() {
     console.log('asdasdasdasd', this.portfolio);
   }
-
-
 }
