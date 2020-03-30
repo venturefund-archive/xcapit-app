@@ -21,9 +21,16 @@ export class CustomHttpService {
     return this.http;
   }
 
-  get(url: string, options?: any, errorMsg?: string): Observable<any> {
+  get(
+    url: string,
+    options?: any,
+    errorMsg?: string,
+    loading = true
+  ): Observable<any> {
     this.submitButtonService.disabled();
-    this.loadingService.show();
+    if (loading) {
+      this.loadingService.show();
+    }
     return this.http.get(url, options).pipe(
       catchError((response: HttpErrorResponse) =>
         this.xhr.error(errorMsg)(response)
@@ -35,9 +42,17 @@ export class CustomHttpService {
     );
   }
 
-  post(url: string, data: any, errorMsg?: string): Observable<any> {
+  post(
+    url: string,
+    data: any,
+    errorMsg?: string,
+    loading = true
+  ): Observable<any> {
     this.submitButtonService.disabled();
-    this.loadingService.show();
+
+    if (loading) {
+      this.loadingService.show();
+    }
     return this.http.post(url, data).pipe(
       catchError((response: HttpErrorResponse) =>
         this.xhr.error(errorMsg)(response)
@@ -49,9 +64,16 @@ export class CustomHttpService {
     );
   }
 
-  put(url: string, data: any, errorMsg?: string): Observable<any> {
+  put(
+    url: string,
+    data: any,
+    errorMsg?: string,
+    loading = true
+  ): Observable<any> {
     this.submitButtonService.disabled();
-    this.loadingService.show();
+    if (loading) {
+      this.loadingService.show();
+    }
     return this.http.put(url, data).pipe(
       catchError((response: HttpErrorResponse) =>
         this.xhr.error(errorMsg)(response)
@@ -63,9 +85,11 @@ export class CustomHttpService {
     );
   }
 
-  delete(url: string, errorMsg?: string): Observable<any> {
+  delete(url: string, errorMsg?: string, loading = true): Observable<any> {
     this.submitButtonService.disabled();
-    this.loadingService.show();
+    if (loading) {
+      this.loadingService.show();
+    }
     return this.http.delete(url).pipe(
       catchError((response: HttpErrorResponse) =>
         this.xhr.error(errorMsg)(response)

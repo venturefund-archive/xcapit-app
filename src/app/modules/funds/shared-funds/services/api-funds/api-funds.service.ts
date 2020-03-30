@@ -33,26 +33,39 @@ export class ApiFundsService {
     );
   }
 
-  getBalance(fundName: string, toCa: string = ''): Observable<any> {
-    return this.http.original.get(
+  getBalance(
+    fundName: string,
+    toCa: string = '',
+    loading = true
+  ): Observable<any> {
+    return this.http.get(
       `${environment.apiUrl}/${this.entity}/name/${fundName}/balance`,
       {
         params: {
           to_ca: toCa
         }
-      }
+      },
+      undefined,
+      loading
     );
   }
 
-  getMetrics(fundName: string): Observable<any> {
-    return this.http.original.get(
+  getMetrics(fundName: string, loading = true): Observable<any> {
+    return this.http.get(
       `${environment.apiUrl}/${this.entity}/name/${fundName}/metrics`
     );
   }
 
-  getFundRuns(status: string, fundName: string): Observable<any> {
+  getFundRuns(
+    status: string,
+    fundName: string,
+    loading = true
+  ): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/fund_runs/${status}/${fundName}`
+      `${environment.apiUrl}/${this.entity}/fund_runs/${status}/${fundName}`,
+      undefined,
+      undefined,
+      loading
     );
   }
 

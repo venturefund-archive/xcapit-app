@@ -30,7 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
           class="fl__total__amount__edit"
           [disabled]="!totalBalance"
         >
-          <ion-icon slot="icon-only" name="ux-pencil"></ion-icon>
+          <ion-icon slot="icon-only" name="ux-pencil" color="uxlight"></ion-icon>
         </ion-button>
       </div>
       <div class="fl__total__detail">

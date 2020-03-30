@@ -29,9 +29,9 @@ import { FundSummaryInterface } from '../shared-funds/components/fund-summary-ca
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="fd__fund-summary-card">
+      <div class="fd__fund-summary-card" *ngIf="this.fundBalance">
         <app-fund-summary-card
-          [summary]="this.fundSummary"
+          [summary]="this.fundBalance"
         ></app-fund-summary-card>
       </div>
       <!-- <div class="fd__performance-chart-card">
@@ -45,25 +45,24 @@ import { FundSummaryInterface } from '../shared-funds/components/fund-summary-ca
         ></app-fund-metrics-card>
       </div>
 
-      <!-- <div class="fd__fund-portfolio-card" *ngIf="this.fundPortfolio">
+      <div class="fd__fund-portfolio-card" *ngIf="this.fundBalance">
         <app-fund-portfolio-card
-          [portfolio]="this.fundPortfolio"
-          [currency]="this.fundSummary.fund.currency"
+          [fundBalance]="this.fundBalance"
         ></app-fund-portfolio-card>
-      </div> -->
+      </div>
 
-      <!-- <div class="fd__fund-operations-history">
+      <div class="fd__fund-operations-history-card" *ngIf="this.fundOperationsHistory">
         <app-fund-operations-history
           [operations]="this.fundOperationsHistory"
         ></app-fund-operations-history>
-      </div> -->
+      </div>
     </ion-content>
   `,
   styleUrls: ['./fund-detail.page.scss']
 })
 export class FundDetailPage implements OnInit {
   fundName: string;
-  fundSummary: FundSummaryInterface;
+  fundBalance: any;
   profitGraphCardInfo$: Observable<any>;
   fundMetrics: FundMetricsInterface;
   fundPortfolio: Array<any>;
@@ -90,21 +89,20 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundMetricsCardInfo() {
-    this.apiFunds.getMetrics(this.fundName).subscribe(data => {
+    this.apiFunds.getMetrics(this.fundName, false).subscribe(data => {
       this.fundMetrics = data.metrics;
       this.currency = data.fund.currency;
     });
   }
 
   getFundPortfolioCardInfo() {
-    this.apiFunds.getBalance(this.fundName).subscribe(data => {
-      this.fundSummary = data;
-      this.fundPortfolio = data.balance.summary;
+    this.apiFunds.getBalance(this.fundName, undefined, false).subscribe(data => {
+      this.fundBalance = data;
     });
   }
 
   getFundOperationsHistoryInfo() {
-    this.apiFunds.getFundRuns('active', this.fundName).subscribe(data => {
+    this.apiFunds.getFundRuns('all', this.fundName, false).subscribe(data => {
       this.fundOperationsHistory = data;
     });
   }

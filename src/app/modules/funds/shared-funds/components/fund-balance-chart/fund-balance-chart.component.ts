@@ -2,9 +2,7 @@ import {
   Component,
   OnChanges,
   Input,
-  ChangeDetectionStrategy,
-  EventEmitter,
-  Output
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Chart } from 'chart.js';
 
@@ -50,7 +48,20 @@ export class FundBalanceChartComponent implements OnChanges {
               data: this.data,
               backgroundColor: this.colors
             }
-          ]
+          ],
+          labels: this.labels
+        },
+        options: {
+          legend: {
+            display: false
+          },
+          tooltips: {
+            enabled: false
+          },
+          cutoutPercentage: 70,
+          responsive: true,
+          maintainAspectRatio: false,
+          aspectRatio: 1
         }
       });
     }

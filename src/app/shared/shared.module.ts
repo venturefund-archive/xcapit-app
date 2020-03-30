@@ -11,14 +11,10 @@ import { TrackClickModule } from './directives/track-click/track-click.module';
 import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
 import { TrackClickUnauthModule } from './directives/track-click-unauth/track-click-unauth.module';
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
-import { StepperComponent } from './components/stepper/stepper.component';
-import { XcapitHeaderTramaComponent } from './components/xcapit-header-trama/xcapit-header-trama.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
 import { UxInputComponent } from './components/ux-input/ux-input.component';
 import { UxInputGooglePlacesComponent } from './components/ux-input-google-places/ux-input-google-places.component';
 import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
-import { NcListComponent } from './components/nc-list/nc-list.component';
-import { NcListItemComponent } from './components/nc-list-item/nc-list-item.component';
 import { UxSuccessImgComponent } from './components/ux-success-img/ux-success-img.component';
 import { SuccessContentComponent } from './components/success-content/success-content.component';
 import { UxTitleComponent } from './components/ux-title/ux-title.component';
@@ -31,6 +27,8 @@ import { UxCardInfoBinanceComponent } from './components/ux-card-info-binance/ux
 import { UxListComponent } from './components/ux-list/ux-list.component';
 import { UxSelectModalComponent } from './components/ux-select-modal/ux-select-modal.component';
 import { UxInputSelectComponent } from './components/ux-input-select/ux-input-select.component';
+import { UxSelectableListComponent } from './components/ux-selectable-list/ux-selectable-list.component';
+import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
 
 @NgModule({
   declarations: [
@@ -40,9 +38,8 @@ import { UxInputSelectComponent } from './components/ux-input-select/ux-input-se
     LanguageButtonComponent,
     IsSubscribedComponent,
     PercentageDisplayComponent,
-    StepperComponent,
-    XcapitHeaderTramaComponent,
     XcapitLogoComponent,
+    // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
     UxSuccessImgComponent,
@@ -56,10 +53,11 @@ import { UxInputSelectComponent } from './components/ux-input-select/ux-input-se
     UxListComponent,
     UxSelectModalComponent,
     UxInputSelectComponent,
+    UxSelectableListComponent,
     BinanceLogoComponent,
-    NcListComponent,
-    NcListItemComponent,
-    SuccessContentComponent
+    SuccessContentComponent,
+    // Pipes
+    LocalizedDatePipe
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [
@@ -82,9 +80,8 @@ import { UxInputSelectComponent } from './components/ux-input-select/ux-input-se
     TrackClickUnauthModule,
     IsSubscribedComponent,
     PercentageDisplayComponent,
-    StepperComponent,
-    XcapitHeaderTramaComponent,
     XcapitLogoComponent,
+    // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
     UxSuccessImgComponent,
@@ -98,10 +95,11 @@ import { UxInputSelectComponent } from './components/ux-input-select/ux-input-se
     UxListComponent,
     UxSelectModalComponent,
     UxInputSelectComponent,
+    UxSelectableListComponent,
     BinanceLogoComponent,
-    NcListComponent,
-    NcListItemComponent,
-    SuccessContentComponent
+    SuccessContentComponent,
+    // Pipes
+    LocalizedDatePipe
   ]
 })
 export class SharedModule {}

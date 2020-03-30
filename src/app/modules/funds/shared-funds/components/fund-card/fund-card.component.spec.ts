@@ -6,6 +6,8 @@ import { AbsoluteValuePipe } from '../../pipes/absolute-value/absolute-value.pip
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DummyComponent } from 'src/testing/dummy.component.spec';
 
 describe('FundCardComponent', () => {
   let component: FundCardComponent;
@@ -13,16 +15,25 @@ describe('FundCardComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundCardComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FundCardComponent, AbsoluteValuePipe, TrackClickDirective],
+      declarations: [
+        FundCardComponent,
+        AbsoluteValuePipe,
+        TrackClickDirective,
+        DummyComponent
+      ],
       imports: [
-        IonicModule.forRoot(),
+        IonicModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: 'funds/detail/:fundName', component: DummyComponent }
+        ])
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FundCardComponent);
     component = fixture.componentInstance;
+    component.fund = { fund_name: 'Test' };
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));

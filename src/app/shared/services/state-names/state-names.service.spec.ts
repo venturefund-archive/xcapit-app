@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { StateNamesService } from './state-names.service';
-import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('StateNamesService', () => {
   beforeEach(() =>

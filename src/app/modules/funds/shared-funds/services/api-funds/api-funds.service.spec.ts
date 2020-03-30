@@ -21,15 +21,11 @@ describe('ApiFundsService', () => {
       'isTokenExpired'
     ]);
     crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
-    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', [
-      'post',
-      'get',
-      'put'
-    ]);
-
-    customHttpServiceSpy.put.and.returnValue(of({}));
-    customHttpServiceSpy.get.and.returnValue(of({}));
-    customHttpServiceSpy.post.and.returnValue(of({}));
+    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
+      post: of({}),
+      get: of({}),
+      put: of({})
+    });
 
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
@@ -160,4 +156,9 @@ describe('ApiFundsService', () => {
     });
   });
 
+  it('should be call get on http when getMetrics', () => {
+    service.getMetrics('test').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

@@ -89,27 +89,6 @@ export const routes: Routes = [
           import('./fund-runs/fund-runs.module').then(m => m.FundRunsPageModule)
       },
       {
-        path: 'fund-balance/:fundName',
-        loadChildren: () =>
-          import('./fund-balance/fund-balance.module').then(
-            m => m.FundBalancePageModule
-          )
-      },
-      {
-        path: 'action',
-        canActivate: [UserProfileDataGuard],
-        children: [
-          {
-            path: '',
-            canActivate: [TacAcceptedGuard],
-            loadChildren: () =>
-              import('./new-fund/new-fund.module').then(
-                m => m.NewFundPageModule
-              )
-          }
-        ]
-      },
-      {
         path: 'deposit-address',
         loadChildren: () =>
           import('./deposit-address/deposit-address.module').then(

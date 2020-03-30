@@ -18,6 +18,8 @@ import { FundMetricsCardComponent } from './components/fund-metrics-card/fund-me
 import { FundPortfolioCardComponent } from './components/fund-portfolio-card/fund-portfolio-card.component';
 import { FundOperationsHistoryComponent } from './components/fund-operations-history/fund-operations-history.component';
 import { FundBalanceChartComponent } from './components/fund-balance-chart/fund-balance-chart.component';
+import { FundBalanceDetailComponent } from './components/fund-balance-detail/fund-balance-detail.component';
+import { FundBalanceDetailItemComponent } from './components/fund-balance-detail-item/fund-balance-detail-item.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { FundBalanceChartComponent } from './components/fund-balance-chart/fund-
     FundPortfolioCardComponent,
     FundOperationsHistoryComponent,
     FundBalanceChartComponent,
+    FundBalanceDetailComponent,
+    FundBalanceDetailItemComponent,
   ],
   providers: [DatePipe],
   imports: [SharedModule],
@@ -60,7 +64,9 @@ import { FundBalanceChartComponent } from './components/fund-balance-chart/fund-
     FundPortfolioCardComponent,
     FundOperationsHistoryComponent,
     FundBalanceChartComponent,
+    FundBalanceDetailComponent,
+    FundBalanceDetailItemComponent
   ],
-  entryComponents: [CustomRangeModalComponent]
+  entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent]
 })
 export class SharedFundsModule {}

@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FundSummaryInterface } from './fund-summary.interface';
 import { ShareService } from 'src/app/shared/services/share/share.service';
-import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
+import {
+  ApiSubscriptionsService
+} from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

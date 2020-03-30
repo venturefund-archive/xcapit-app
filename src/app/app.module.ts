@@ -31,6 +31,12 @@ import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { TabsModule } from './modules/tabs/tabs.module';
 import { ApikeysModule } from './modules/apikeys/apikeys.module';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+import localeEn from '@angular/common/locales/en';
+
+registerLocaleData(localeEs, 'es');
+registerLocaleData(localeEn, 'en');
 
 export function jwtOptionsFactory(storage: Storage) {
   return {
@@ -56,7 +62,7 @@ export function httpLoaderFactory(http: HttpClient) {
     }),
     IonicStorageModule.forRoot({
       name: '__xcapitdb',
-      driverOrder: ['sqlite', 'indexeddb' , 'websql']
+      driverOrder: ['sqlite', 'indexeddb', 'websql']
     }),
     AppRoutingModule,
     UsuariosModule,

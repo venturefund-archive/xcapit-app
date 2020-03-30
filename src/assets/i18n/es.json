@@ -237,10 +237,14 @@
       },
       "fund_portfolio_card": {
         "title": "COMPOSICIÓN DE CARTERA",
-        "view_detail": "Ver detalle"
+        "view_detail": "Ver detalle",
+        "change_currency": "Cambiar moneda",
+        "fund_balance_detail_title": "Detalle Balance",
+        "fund_balance_detail_period_begin": "Inicio del período",
+        "fund_balance_detail_last_update": "Última actualización"
       },
-      "operations_history": {
-        "title": "Historial de operaciones",
+      "operations_history_card": {
+        "title": "HISTORIAL DE OPERACIONES",
         "run": "Corrida {{id_corrida}}"
       }
     },

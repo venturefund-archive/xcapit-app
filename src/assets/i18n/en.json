@@ -210,6 +210,42 @@
       "unsubscribe_accept_button": "Accept",
       "unsubscribe_success_message": "The subscription to the fund has been canceled."
     },
+     "fund_detail": {
+      "header": "Fund detail",
+      "edit_button": "Edit",
+      "fund_summary_card": {
+        "actual_amount": "Actual amount",
+        "initial_amount": "Initial amount",
+        "remaining_time": "Remaining time",
+        "days_label": "days"
+      },
+      "performance_chart_card": {
+        "title": "YOUR INVESTMENT IN TIME",
+        "days_label": "days",
+        "profit": "Profit",
+        "loss": "Loss"
+      },
+      "fund_metrics_card": {
+        "title": "SUMMARY",
+        "profit": "Profit in {{currency}}",
+        "longest_drawdown": "Longest drawdown",
+        "longest_drawdown_metric": "days",
+        "sharpe": "Sharpe",
+        "max_drawdown": "Max drawdown"
+      },
+      "fund_portfolio_card": {
+        "title": "PORTFOLIO COMPOSITION",
+        "view_detail": "View details",
+        "change_currency": "Change currency",
+        "fund_balance_detail_title": "Balance details",
+        "fund_balance_detail_period_begin": "Period begin",
+        "fund_balance_detail_last_update": "Last update"
+      },
+      "operations_history_card": {
+        "title": "OPERATIONS HISTORY",
+        "run": "Run {{id_corrida}}"
+      }
+    },
     "fund_runs": {
       "header": "Fund Runs",
       "subheader": "Fund",

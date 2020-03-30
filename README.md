@@ -126,3 +126,22 @@ o
 ```bash
 yarn build --prod --serviceWorker=true
 ```
+
+# Instrucciones para generar docker para preproducción
+Pararse en rama release/vx.x.x 
+
+Hacer merge de dev
+
+Buildear el docker
+
+```bash
+docker build -t app_user:vx.x.x .
+```
+
+Levantar el docker
+
+```bash
+docker run --restart always --name app_user -d -p 4200:4200 app_user:vx.x.x
+```
+
+Nota: Para hacer el run con el nombre app_user hay que renombrar/eliminar el docker anterior
