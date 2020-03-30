@@ -4,24 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-linked-apikeys',
   template: `
     <div class="app_header_trama">
-      <app-header-trama mode="success">
-        <div class="app_header_trama__header_title">
-          <ion-text
-            class="app_header_trama__header_title__title_text ion-text-center"
-          >
-            <h1>
-              {{ 'apikeys.linked_apikeys.title_header_text' | translate }}
-            </h1>
-          </ion-text>
-          <ion-text
-            class="app_header_trama__header_title__subtitle_text ion-text-center"
-          >
-            <h4>
-              {{ 'apikeys.linked_apikeys.subtitle_header_text' | translate }}
-            </h4>
-          </ion-text>
-        </div>
-      </app-header-trama>
+
     </div>
     <ion-content class="ion-padding">
       <div class="linked_apikeys_content">
