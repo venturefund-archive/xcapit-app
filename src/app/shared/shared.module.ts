@@ -29,6 +29,7 @@ import { UxSelectModalComponent } from './components/ux-select-modal/ux-select-m
 import { UxInputSelectComponent } from './components/ux-input-select/ux-input-select.component';
 import { UxSelectableListComponent } from './components/ux-selectable-list/ux-selectable-list.component';
 import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
+import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loading-block.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,8 @@ import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
     UxSelectModalComponent,
     UxInputSelectComponent,
     UxSelectableListComponent,
+    UxLoadingBlockComponent,
+
     BinanceLogoComponent,
     SuccessContentComponent,
     // Pipes
@@ -96,6 +99,7 @@ import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
     UxSelectModalComponent,
     UxInputSelectComponent,
     UxSelectableListComponent,
+    UxLoadingBlockComponent,
     BinanceLogoComponent,
     SuccessContentComponent,
     // Pipes

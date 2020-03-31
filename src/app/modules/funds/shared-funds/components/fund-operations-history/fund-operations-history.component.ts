@@ -3,14 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-fund-operations-history',
   template: `
-    <div class="foh__title">
-      <ion-text
-        class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-        color="uxsemidark"
-      >
-        {{ 'funds.fund_detail.operations_history_card.title' | translate }}
-      </ion-text>
-    </div>
     <div class="foh">
       <div class="foh__content">
         <app-ux-selectable-list>

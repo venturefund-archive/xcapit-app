@@ -17,6 +17,10 @@ import { TranslateService } from '@ngx-translate/core';
       <div
         class="fl__total__amount ux-font-gilroy ux-fweight-extrabold ux-fsize-40"
       >
+        <app-ux-loading-block
+          *ngIf="!totalBalance"
+          minSize="25px"
+        ></app-ux-loading-block>
         <ion-text>
           {{ this.totalBalance?.total_balance | number: '1.2-6' }}
           {{ this.totalBalance?.currency }}
@@ -30,7 +34,11 @@ import { TranslateService } from '@ngx-translate/core';
           class="fl__total__amount__edit"
           [disabled]="!totalBalance"
         >
-          <ion-icon slot="icon-only" name="ux-pencil" color="uxlight"></ion-icon>
+          <ion-icon
+            slot="icon-only"
+            name="ux-pencil"
+            color="uxlight"
+          ></ion-icon>
         </ion-button>
       </div>
       <div class="fl__total__detail">
@@ -99,7 +107,7 @@ export class FundListSubHeaderComponent implements OnInit {
 
   getTotalBalance(ca: string) {
     this.apiFunds
-      .getTotalBalance(ca)
+      .getTotalBalance(ca, false)
       .subscribe(data => (this.totalBalance = data));
   }
 }

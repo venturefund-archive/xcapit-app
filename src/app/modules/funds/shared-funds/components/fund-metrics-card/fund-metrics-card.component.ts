@@ -4,14 +4,6 @@ import { FundMetricsInterface } from './fund-metrics.interface';
 @Component({
   selector: 'app-fund-metrics-card',
   template: `
-    <div class="fmc__title">
-      <ion-text
-        class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-        color="uxsemidark"
-      >
-        {{ 'funds.fund_detail.fund_metrics_card.title' | translate }}
-      </ion-text>
-    </div>
     <div class="fmc">
       <div class="fmc__content">
         <div

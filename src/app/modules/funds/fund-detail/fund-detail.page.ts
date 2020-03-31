@@ -29,8 +29,13 @@ import { FundSummaryInterface } from '../shared-funds/components/fund-summary-ca
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="fd__fund-summary-card" *ngIf="this.fundBalance">
+      <div class="fd__fund-summary-card">
+        <app-ux-loading-block
+          *ngIf="!this.fundBalance"
+          minSize="40px"
+        ></app-ux-loading-block>
         <app-fund-summary-card
+          *ngIf="this.fundBalance"
           [summary]="this.fundBalance"
         ></app-fund-summary-card>
       </div>
@@ -38,21 +43,60 @@ import { FundSummaryInterface } from '../shared-funds/components/fund-summary-ca
         <app-performance-chart-card></app-performance-chart-card>
       </div> -->
 
-      <div class="fd__fund-metrics-card" *ngIf="this.fundMetrics">
+      <div class="fd__fund-metrics-card">
+        <div class="fd__fund-metrics-card__title">
+          <ion-text
+            class="ux-font-lato ux-fweight-semibold ux-fsize-12"
+            color="uxsemidark"
+          >
+            {{ 'funds.fund_detail.fund_metrics_card.title' | translate }}
+          </ion-text>
+        </div>
+        <app-ux-loading-block
+          *ngIf="!this.fundMetrics"
+          minSize="40px"
+        ></app-ux-loading-block>
         <app-fund-metrics-card
+          *ngIf="this.fundMetrics"
           [metrics]="this.fundMetrics"
           [currency]="this.currency"
         ></app-fund-metrics-card>
       </div>
 
-      <div class="fd__fund-portfolio-card" *ngIf="this.fundBalance">
+      <div class="fd__fund-portfolio-card">
+        <div class="fd__fund-portfolio-card__title">
+          <ion-text
+            class="ux-font-lato ux-fweight-semibold ux-fsize-12"
+            color="uxsemidark"
+          >
+            {{ 'funds.fund_detail.fund_portfolio_card.title' | translate }}
+          </ion-text>
+        </div>
+        <app-ux-loading-block
+          *ngIf="!this.fundBalance"
+          minSize="40px"
+        ></app-ux-loading-block>
         <app-fund-portfolio-card
+          *ngIf="this.fundBalance"
           [fundBalance]="this.fundBalance"
         ></app-fund-portfolio-card>
       </div>
 
-      <div class="fd__fund-operations-history-card" *ngIf="this.fundOperationsHistory">
+      <div class="fd__fund-operations-history-card">
+        <div class="fd__fund-operations-history-card__title">
+          <ion-text
+            class="ux-font-lato ux-fweight-semibold ux-fsize-12"
+            color="uxsemidark"
+          >
+            {{ 'funds.fund_detail.operations_history_card.title' | translate }}
+          </ion-text>
+        </div>
+        <app-ux-loading-block
+          *ngIf="!this.fundOperationsHistory"
+          minSize="40px"
+        ></app-ux-loading-block>
         <app-fund-operations-history
+          *ngIf="this.fundOperationsHistory"
           [operations]="this.fundOperationsHistory"
         ></app-fund-operations-history>
       </div>
@@ -96,9 +140,11 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundPortfolioCardInfo() {
-    this.apiFunds.getBalance(this.fundName, undefined, false).subscribe(data => {
-      this.fundBalance = data;
-    });
+    this.apiFunds
+      .getBalance(this.fundName, undefined, false)
+      .subscribe(data => {
+        this.fundBalance = data;
+      });
   }
 
   getFundOperationsHistoryInfo() {

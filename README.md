@@ -144,4 +144,4 @@ Levantar el docker
 docker run --restart always --name app_user -d -p 4200:4200 app_user:vx.x.x
 ```
 
-Nota: Para hacer el run con el nombre app_user hay que renombrar/eliminar el docker anterior
+Nota: Para hacer el run con el nombre app_user hay que renombrar/eliminar el docker anterior.

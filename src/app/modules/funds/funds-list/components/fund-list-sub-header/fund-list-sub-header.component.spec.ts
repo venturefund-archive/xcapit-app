@@ -8,6 +8,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ApiFundsService } from '../../../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('FundListSubHeaderComponent', () => {
   let component: FundListSubHeaderComponent;
@@ -47,7 +48,8 @@ describe('FundListSubHeaderComponent', () => {
           provide: ModalController,
           useValue: modalControllerMock
         }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FundListSubHeaderComponent);

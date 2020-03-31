@@ -76,7 +76,12 @@ export class ApiUsuariosService {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_user`);
   }
 
-  status(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/status`);
+  status(loading = true): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/status`,
+      undefined,
+      undefined,
+      loading
+    );
   }
 }

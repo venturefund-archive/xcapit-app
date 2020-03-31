@@ -52,7 +52,10 @@ export class ApiFundsService {
 
   getMetrics(fundName: string, loading = true): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/metrics`
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/metrics`,
+      undefined,
+      undefined,
+      loading
     );
   }
 
@@ -126,9 +129,15 @@ export class ApiFundsService {
     );
   }
 
-  getFundBalances(owner: string | boolean = 'all'): Observable<any> {
+  getFundBalances(
+    owner: string | boolean = 'all',
+    loading = true
+  ): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/balances/owner/${owner}`
+      `${environment.apiUrl}/${this.entity}/balances/owner/${owner}`,
+      undefined,
+      undefined,
+      loading
     );
   }
 
@@ -142,13 +151,21 @@ export class ApiFundsService {
     return of(10);
   }
 
-  getTotalBalance(ca: string) {
+  getTotalBalance(ca: string, loading = true) {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/total_balance/ca/${ca}`
+      `${environment.apiUrl}/${this.entity}/total_balance/ca/${ca}`,
+      undefined,
+      undefined,
+      loading
     );
   }
 
   count(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/count`);
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/count`,
+      undefined,
+      undefined,
+      false
+    );
   }
 }

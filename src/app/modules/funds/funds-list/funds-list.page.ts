@@ -103,8 +103,12 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             {{ 'funds.funds_list.funds_title' | translate }}
           </div>
 
+          <app-ux-loading-block
+            minSize="50px"
+            *ngIf="!this.ownerFundBalances"
+          ></app-ux-loading-block>
           <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
-            <app-fund-card [fund]="fb"></app-fund-card>
+            <app-fund-card [fund]="fb" *ngIf="fb"></app-fund-card>
           </div>
         </div>
         <div *ngIf="this.hasNotOwnerFunds" class="fl__funds ion-padding">
@@ -113,7 +117,10 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
           >
             {{ 'funds.funds_list.shared_funds_title' | translate }}
           </div>
-
+          <app-ux-loading-block
+            minSize="50px"
+            *ngIf="!this.notOwnerFundBalances"
+          ></app-ux-loading-block>
           <div
             class="fl__funds__card"
             *ngFor="let nofb of notOwnerFundBalances"
@@ -149,8 +156,8 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
   styleUrls: ['./funds-list.page.scss']
 })
 export class FundsListPage implements OnInit {
-  ownerFundBalances: Array<any> = [];
-  notOwnerFundBalances: Array<any> = [];
+  ownerFundBalances: Array<any>;
+  notOwnerFundBalances: Array<any>;
   hasNotifications = true;
   hasOwnerFunds = false;
   hasNotOwnerFunds = false;
@@ -185,7 +192,7 @@ export class FundsListPage implements OnInit {
   }
 
   checkStatus() {
-    this.apiUsuarios.status().subscribe(res => {
+    this.apiUsuarios.status(false).subscribe(res => {
       this.status = res;
       this.setSteps();
       this.setActionButton();
@@ -242,14 +249,14 @@ export class FundsListPage implements OnInit {
   }
 
   private getOwnerFundBalances() {
-    this.apiFundsService.getFundBalances(true).subscribe(res => {
+    this.apiFundsService.getFundBalances(true, false).subscribe(res => {
       this.ownerFundBalances = res;
       this.getNotOwnerFundBalances();
     });
   }
 
   private getNotOwnerFundBalances() {
-    this.apiFundsService.getFundBalances(false).subscribe(res => {
+    this.apiFundsService.getFundBalances(false, false).subscribe(res => {
       this.notOwnerFundBalances = res;
     });
   }

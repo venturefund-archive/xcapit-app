@@ -9,14 +9,6 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
 @Component({
   selector: 'app-fund-portfolio-card',
   template: `
-    <div class="fpc__title">
-      <ion-text
-        class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-        color="uxsemidark"
-      >
-        {{ 'funds.fund_detail.fund_portfolio_card.title' | translate }}
-      </ion-text>
-    </div>
     <div class="fpc">
       <div class="fpc__content ion-padding">
         <div class="fpc__content__left">
