@@ -4,14 +4,15 @@ import { CRUD } from 'src/app/shared/services/crud/crud';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
 import { CustomHttpService } from '../../../../../shared/services/custom-http/custom-http.service';
-interface ApiKeysInterface{
-  id:number;
-  ak:string;
-  secret:string;
-  alias:string;
+interface ApiKeysInterface {
+  id: number;
+  nombre_bot: string;
+  ak: string;
+  secret: string;
+  alias: string;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiApikeysService {
   entity = 'apikeys';
@@ -26,10 +27,12 @@ export class ApiApikeysService {
   }
 
   getByFundName(fundName: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/fund_name/${fundName}`);
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/fund_name/${fundName}`
+    );
   }
 
   updateData(data: ApiKeysInterface) {
-    return; 
+    return;
   }
 }

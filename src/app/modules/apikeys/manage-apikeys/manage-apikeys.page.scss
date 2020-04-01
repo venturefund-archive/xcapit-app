@@ -1,17 +1,10 @@
 :host {
 
-  .icon{
-    width: 40px;
+  .add-button{
+    margin-right: 9px;
   };
 
   .nr {
-    &__add-button {
-      
-      width: 26px;
-      height: 26px;
-      left: 319px;
-      top: 39px;
-    }
 
     &__image-container {
       display: flex;

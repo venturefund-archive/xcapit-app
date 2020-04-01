@@ -80,6 +80,11 @@
       "title": "¿Qué es Binance?",
       "content": "Todo lo que necesitas saber antes de vincular tu cuenta.",
       "action": "Más información"
+    },
+    "card_apikeys": {
+      "title": "A",
+      "content": "Fondo:",
+      "action": "Gestionar"
     }
   },
   "usuarios": {
