@@ -48,7 +48,7 @@ describe('UxInputSelectComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call modal.present on openModal', async done => {
+  it('should call modal.create on openModal', async done => {
     const spy = spyOn(modalController, 'create');
     spy.and.returnValue(
       Promise.resolve({

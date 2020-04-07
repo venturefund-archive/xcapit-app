@@ -75,14 +75,6 @@ export const routes: Routes = [
           )
       },
       {
-        path: 'fund-summary/:fundName',
-        canActivate: [IsSubscribedGuard],
-        loadChildren: () =>
-          import('./fund-summary/fund-summary.module').then(
-            m => m.FundSummaryPageModule
-          )
-      },
-      {
         path: 'runs/:fundName',
         canActivate: [IsSubscribedGuard],
         loadChildren: () =>
@@ -101,22 +93,8 @@ export const routes: Routes = [
           import('./commission/commission.module').then(
             m => m.CommissionPageModule
           )
-      },
-      {
-        path: 'created',
-        loadChildren: () =>
-          import('./fund-created/fund-created.module').then(
-            m => m.FundCreatedPageModule
-          )
       }
     ]
-  },
-  {
-    path: 'fund-detail',
-    loadChildren: () =>
-      import('./fund-detail/fund-detail.module').then(
-        m => m.FundDetailPageModule
-      )
   }
 ];
 

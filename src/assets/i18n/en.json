@@ -186,31 +186,7 @@
       "trailing_profit": "Trailing Profit",
       "trailing_stop": "Trailing Stop"
     },
-    "fund_summary": {
-      "header": "Fund",
-      "no_status_text": "There is still no status to show for the fund",
-      "no_runs_text": "You have no active run for the fund.",
-      "no_days_left_text": "This fund has finished",
-      "days_left_text": "This fund will cease to operate in {{days}} days {{hours}}hs",
-      "profit_text": "Percentage of profit in {{days}} days and {{hours}}hs",
-      "share_title": "shared título",
-      "share_text": "shared texto",
-      "pause_fund_button": "Pause fund",
-      "resume_fund_button": "Activate fund",
-      "finalize_fund_button": "Finalize fund",
-      "fund_runs_button": "View runs",
-      "fund_balance_button": "View Balance",
-      "renew_fund_button": "Renew fund",
-      "chart_title": "Last Update ",
-      "change_fund_ca": "Select a CA",
-      "change_fund_ca_button": "Change",
-      "unsubscribe_header": "Do you want to cancel the fund subscription?",
-      "unsubscribe_message": "You will not be able to access to the fund or view your data.",
-      "unsubscribe_cancel_button": "Cancel",
-      "unsubscribe_accept_button": "Accept",
-      "unsubscribe_success_message": "The subscription to the fund has been canceled."
-    },
-     "fund_detail": {
+    "fund_detail": {
       "header": "Fund detail",
       "edit_button": "Edit",
       "fund_summary_card": {
@@ -223,7 +199,14 @@
         "title": "YOUR INVESTMENT IN TIME",
         "days_label": "days",
         "profit": "Profit",
-        "loss": "Loss"
+        "loss": "Loss",
+        "delta": {
+          "title": "Interval",
+          "one_day": "Last day",
+          "one_week": "7 days",
+          "thirty_days": "30 days",
+          "all": "All"
+        }
       },
       "fund_metrics_card": {
         "title": "SUMMARY",

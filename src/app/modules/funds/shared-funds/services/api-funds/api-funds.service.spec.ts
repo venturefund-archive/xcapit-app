@@ -55,7 +55,7 @@ describe('ApiFundsService', () => {
   });
 
   it('should be call get on http when getStatus', () => {
-    service.getStatus('test').subscribe(() => {
+    service.getPerformance('test').subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });

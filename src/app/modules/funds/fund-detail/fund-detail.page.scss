@@ -1,13 +1,26 @@
 :host {
-    .fd {
-        &__fund-metrics-card {
-            margin-top: 24px;
-        }
-        &__fund-portfolio-card {
-            margin-top: 24px;
-        }
-        &__fund-operations-history-card {
-            margin-top: 24px;
-        }
+  .fd {
+    &__fund-metrics-card {
+      margin-top: 24px;
     }
+    &__fund-portfolio-card {
+      margin-top: 24px;
+    }
+    &__fund-operations-history-card {
+      margin-top: 24px;
+    }
+    &__fund-performance-chart-card {
+      margin-top: 24px;
+      &__title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .delta-button {
+          ion-icon {
+            width: 8px;
+          }
+        }
+      }
+    }
+  }
 }

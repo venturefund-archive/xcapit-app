@@ -4,7 +4,6 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +26,17 @@ export class ApiFundsService {
     );
   }
 
-  getStatus(fundName: string): Observable<any> {
+  getPerformance(
+    fundName: string,
+    run: string = '',
+    delta: string = '',
+    loading = true
+  ): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/status`
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/performance`,
+      { params: { id_corrida: run, delta } },
+      undefined,
+      loading
     );
   }
 

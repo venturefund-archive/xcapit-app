@@ -25,6 +25,7 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
           class="uxselect__item__arrow_icon"
           item-end
           name="ux-down"
+          color="uxdark"
         ></ion-icon>
       </ion-item>
       <app-errors-form-item

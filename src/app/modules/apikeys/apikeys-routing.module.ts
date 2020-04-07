@@ -41,13 +41,6 @@ const routes: Routes = [
           import('./success-apikeys/success-apikeys.module').then(
             m => m.SuccessApikeysPageModule
           )
-      },
-      {
-        path: 'linked',
-        loadChildren: () =>
-          import('./linked-apikeys/linked-apikeys.module').then(
-            m => m.LinkedApikeysPageModule
-          )
       }
     ]
   }

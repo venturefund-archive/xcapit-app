@@ -188,30 +188,6 @@
       "trailing_profit": "Trailing Profit",
       "trailing_stop": "Trailing Stop"
     },
-    "fund_summary": {
-      "header": "Fondo",
-      "no_status_text": "Todavía no hay estado para mostrar para el fondo.",
-      "no_runs_text": "No tienes una corrida activa en este fondo.",
-      "no_days_left_text": "Este fondo a finalizado",
-      "days_left_text": "Este fondo dejara de operar en {{days}} days {{hours}}hs",
-      "profit_text": "Porcentaje de ganancia en {{days}} days and {{hours}}hs",
-      "share_title": "shared title",
-      "share_text": "shared text",
-      "pause_fund_button": "Pausar fondo",
-      "resume_fund_button": "Activar fondo",
-      "finalize_fund_button": "Finalizar fondo",
-      "fund_runs_button": "Ver corridas",
-      "fund_balance_button": "Ver Balance",
-      "renew_fund_button": "Renovar fondo",
-      "chart_title": "Última actualización ",
-      "change_fund_ca": "Seleccione un CA",
-      "change_fund_ca_button": "Cambiar",
-      "unsubscribe_header": "¿Desea cancelar la suscripción al fondo?",
-      "unsubscribe_message": "No podrá acceder al fondo ni visualizar sus datos.",
-      "unsubscribe_cancel_button": "Cancelar",
-      "unsubscribe_accept_button": "Aceptar",
-      "unsubscribe_success_message": "La suscripción al fondo ha sido cancelada."
-    },
     "fund_detail": {
       "header": "Detalle del fondo",
       "edit_button": "Editar",
@@ -225,7 +201,14 @@
         "title": "TU INVERSIÓN EN EL TIEMPO",
         "days_label": "días",
         "profit": "Ganancia",
-        "loss": "Pérdida"
+        "loss": "Pérdida",
+        "delta": {
+          "title": "Intérvalo",
+          "one_day": "Último día",
+          "one_week": "7 días",
+          "thirty_days": "30 días",
+          "all": "Todo"
+        }
       },
       "fund_metrics_card": {
         "title": "RESUMEN",
