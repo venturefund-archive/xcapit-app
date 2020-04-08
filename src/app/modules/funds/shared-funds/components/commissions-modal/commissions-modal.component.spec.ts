@@ -2,26 +2,19 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommissionsModalComponent } from './commissions-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
 import { ModalController } from '@ionic/angular';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 describe('CommissionsModalComponent', () => {
   let component: CommissionsModalComponent;
   let fixture: ComponentFixture<CommissionsModalComponent>;
   let modalControllerSpy: any;
-
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', [
-      'create',
-      'dismiss'
-    ]);
-    modalControllerSpy.create.and.returnValue(
-      of({
-        present: () => {},
-        onWillDismiss: () => of({}).toPromise()
-      }).toPromise()
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
     );
-    modalControllerSpy.dismiss.and.returnValue(of({}));
+
     TestBed.configureTestingModule({
       declarations: [CommissionsModalComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

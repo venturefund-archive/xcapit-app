@@ -5,13 +5,13 @@ import { InteractiveTutorialPage } from './interactive-tutorial.page';
 import { ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { SharedTutorialsModule } from '../shared-tutorials/shared-tutorials.module';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 describe('InteractiveTutorialPage', () => {
   let component: InteractiveTutorialPage;
@@ -23,15 +23,9 @@ describe('InteractiveTutorialPage', () => {
   let toastServiceSpy: any;
 
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', [
-      'create',
-      'dismiss'
-    ]);
-    modalControllerSpy.create.and.returnValue(
-      of({
-        present: () => {},
-        onWillDismiss: () => of({}).toPromise()
-      }).toPromise()
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
     );
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
     TestBed.configureTestingModule({

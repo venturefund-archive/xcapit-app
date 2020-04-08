@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BinanceCheckTutorialModalComponent } from './binance-check-tutorial-modal.component';
 import { ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 describe('BinanceCheckTutorialModalComponent', () => {
   let component: BinanceCheckTutorialModalComponent;
@@ -12,8 +12,10 @@ describe('BinanceCheckTutorialModalComponent', () => {
   let modalControllerSpy: any;
 
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
-
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
     TestBed.configureTestingModule({
       declarations: [ BinanceCheckTutorialModalComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

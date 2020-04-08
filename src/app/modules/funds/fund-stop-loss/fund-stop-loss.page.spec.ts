@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundStopLossPage } from './fund-stop-loss.page';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { FundTakeProfitPage } from '../fund-take-profit/fund-take-profit.page';
 import { of } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -27,13 +26,13 @@ const formData = {
 describe('FundStopLossPage', () => {
   let component: FundStopLossPage;
   let fixture: ComponentFixture<FundStopLossPage>;
-  let fundDataStorageServiceMock;
-  let fundDataStorageService;
+  let fundDataStorageServiceMock: any;
+  let fundDataStorageService: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundStopLossPage>;
-  let apiFundsMock;
-  let apiFundsService;
+  let apiFundsMock: any;
+  let apiFundsService: any;
   let modalControllerMock: any;
-  let modalControllerService;
+  let modalControllerService: any;
   let navControllerSpy: any;
 
   beforeEach(async(() => {

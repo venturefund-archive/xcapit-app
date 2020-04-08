@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExtractTutorialModalComponent } from './extract-tutorial-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 describe('ExtractTutorialModalComponent', () => {
   let component: ExtractTutorialModalComponent;
@@ -11,8 +12,10 @@ describe('ExtractTutorialModalComponent', () => {
   let modalControllerSpy: any;
 
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
-
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
     TestBed.configureTestingModule({
       declarations: [ ExtractTutorialModalComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

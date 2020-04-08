@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundRunsPage } from './fund-runs.page';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StateShowNamePipe } from '../shared-funds/pipes/state-names/state-names.pipe';
@@ -12,6 +12,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 describe('FundRunsPage', () => {
   let component: FundRunsPage;
@@ -21,24 +22,19 @@ describe('FundRunsPage', () => {
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundRunsPage>;
   let modalControllerSpy: any;
-
   beforeEach(async(() => {
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
+
     apiFundsServiceMock = {
       getFundRuns: () => of([])
     };
     logsServiceMock = {
       log: () => of({})
     };
-    modalControllerSpy = jasmine.createSpyObj('ModalController', [
-      'create',
-      'dismiss'
-    ]);
-    modalControllerSpy.create.and.returnValue(
-      of({
-        present: () => {},
-        onWillDismiss: () => of({}).toPromise()
-      }).toPromise()
-    );
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -52,7 +48,8 @@ describe('FundRunsPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: LogsService, useValue: logsServiceMock },
-        { provide: ApiFundsService, useValue: apiFundsServiceMock }
+        { provide: ApiFundsService, useValue: apiFundsServiceMock },
+        { provide: ModalController, useValue: modalControllerSpy}
       ]
     }).compileComponents();
   }));

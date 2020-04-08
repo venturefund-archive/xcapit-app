@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HelpPage } from './help.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
@@ -8,19 +7,19 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+
 
 describe('HelpPage', () => {
   let component: HelpPage;
   let fixture: ComponentFixture<HelpPage>;
-  let modalControllerSpy: any;
   let dynamicComponentServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HelpPage>;
-
+  let modalControllerSpy: any;
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', ['create']);
-    modalControllerSpy.create.and.returnValue(
-      of({ present: () => {} }).toPromise()
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
     );
     dynamicComponentServiceSpy = jasmine.createSpyObj(
       'DynamicComponentService',

@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
 import { FundPerformanceChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
-import { modalControllerSpy } from 'src/testing/spies/modal-controller-spy.spec';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -33,7 +33,13 @@ describe('FundDetailPage', () => {
   let fixture: ComponentFixture<FundDetailPage>;
   let apiFundsSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundDetailPage>;
+  let modalControllerSpy: any;
   beforeEach(async(() => {
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
+
     apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
       getPerformance: of(testPerformance),
       getMetrics: of(testMetrics),

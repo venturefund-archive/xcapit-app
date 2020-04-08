@@ -9,49 +9,42 @@ import { of } from 'rxjs';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 const testBalance = {
   balance: {
     balance_fin: 23,
-    summary: []
+    summary: [],
   },
   fund: {
-    currency: 'BTC'
-  }
+    currency: 'BTC',
+  },
 };
 
 describe('FundPortfolioCardComponent', () => {
   let component: FundPortfolioCardComponent;
   let fixture: ComponentFixture<FundPortfolioCardComponent>;
   let apiFundsSpy: any;
-  let modalControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundPortfolioCardComponent>;
-
+  let modalControllerSpy: any;
   beforeEach(async(() => {
+    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
     apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
-      getBalance: of(testBalance)
+      getBalance: of(testBalance),
     });
 
-    modalControllerSpy = jasmine.createSpyObj('ModalController', {
-      create: Promise.resolve({
-        present: () => Promise.resolve(),
-        onWillDismiss: () => Promise.resolve({}),
-        onDidDismiss: () => Promise.resolve({})
-      }),
-      dismiss: Promise.resolve()
-    });
     TestBed.configureTestingModule({
       declarations: [FundPortfolioCardComponent, TrackClickDirective],
       imports: [
         IonicModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ApiFundsService, useValue: apiFundsSpy },
-        { provide: ModalController, useValue: modalControllerSpy }
-      ]
+        { provide: ModalController, useValue: modalControllerSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FundPortfolioCardComponent);
@@ -83,23 +76,17 @@ describe('FundPortfolioCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call ModalController create on changeCurrency', async done => {
+  it('should call ModalController create on changeCurrency', () => {
     component.changeCurrency();
-    fixture.whenStable().then(() => {
-      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call ModalController create on viewDetails', async done => {
+  it('should call ModalController create on viewDetails', () => {
     component.viewDetails();
-    fixture.whenStable().then(() => {
-      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Change Currency is clicked', async done => {
+  it('should call trackEvent on trackService when Change Currency is clicked', async (done) => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Change Currency'
@@ -114,7 +101,7 @@ describe('FundPortfolioCardComponent', () => {
     done();
   });
 
-  it('should call trackEvent on trackService when View Details is clicked', async done => {
+  it('should call trackEvent on trackService when View Details is clicked', async (done) => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'View Details'
