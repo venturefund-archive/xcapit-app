@@ -13,6 +13,7 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 import { of } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 const formData = {
   valid: {
     take_profit: 15
@@ -27,10 +28,9 @@ describe('FundTakeProfitPage', () => {
   let fundDataStorageServiceMock;
   let fundDataStorageService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundTakeProfitPage>;
-  let apiFundsMock;
-  let apiFundsService;
-  let modalControllerMock: any;
-  let modalControllerService;
+  let apiFundsMock: any;
+  let apiFundsService: any;
+  let modalControllerSpy: any;
 
   beforeEach(async(() => {
     fundDataStorageServiceMock = {
@@ -40,13 +40,11 @@ describe('FundTakeProfitPage', () => {
     apiFundsMock = {
       getMostChosenTP: () => of(15)
     };
-    modalControllerMock = {
-      create: of({
-        present: () => {},
-        onDidDismiss: () => of({}).toPromise()
-      }).toPromise(),
-      dismiss: of().toPromise()
-    };
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
+
 
     TestBed.configureTestingModule({
       declarations: [FundTakeProfitPage, TrackClickDirective, DummyComponent],
@@ -72,7 +70,7 @@ describe('FundTakeProfitPage', () => {
           provide: ApiFundsService,
           useValue: apiFundsMock
         },
-        { provide: ModalController, useValue: modalControllerMock }
+        { provide: ModalController, useValue: modalControllerSpy }
       ]
     }).compileComponents();
   }));
@@ -83,7 +81,6 @@ describe('FundTakeProfitPage', () => {
     fixture.detectChanges();
     fundDataStorageService = TestBed.get(FundDataStorageService);
     apiFundsService = TestBed.get(ApiFundsService);
-    modalControllerService = TestBed.get(ModalController);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -127,28 +124,12 @@ describe('FundTakeProfitPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call modal.present on openCustomTP', async done => {
-    const spy = spyOn(modalControllerService, 'create');
-    spy.and.returnValue(
-      of({
-        present: () => {},
-        onDidDismiss: () => of({}).toPromise()
-      }).toPromise()
-    );
+  it('should call modal.present on openCustomTP',  () => {
     component.openCustomTP();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Back button clicked', () => {
-    const spyModal = spyOn(modalControllerService, 'create');
-    spyModal.and.returnValue(
-      of({
-        present: () => {},
-        onDidDismiss: () => of({}).toPromise()
-      }).toPromise()
-    );
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Back'
@@ -179,13 +160,6 @@ describe('FundTakeProfitPage', () => {
       custom: true
     }];
     fixture.detectChanges();
-    const spyModal = spyOn(modalControllerService, 'create');
-    spyModal.and.returnValue(
-      of({
-        present: () => {},
-        onDidDismiss: () => of({}).toPromise()
-      }).toPromise()
-    );
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Edit Custom Take Profit'

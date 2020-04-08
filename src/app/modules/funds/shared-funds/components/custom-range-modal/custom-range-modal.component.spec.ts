@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -23,16 +23,13 @@ describe('CustomRangeModalComponent', () => {
   let component: CustomRangeModalComponent;
   let fixture: ComponentFixture<CustomRangeModalComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CustomRangeModalComponent>;
-  let modalControllerMock: any;
-  let modalControllerService;
+  let modalControllerSpy: any;
+
   beforeEach(async(() => {
-    modalControllerMock = {
-      create: of({
-        present: () => {},
-        onWillDismiss: () => of({}).toPromise()
-      }).toPromise(),
-      dismiss: of().toPromise()
-    };
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
     TestBed.configureTestingModule({
       declarations: [CustomRangeModalComponent, TrackClickDirective],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -40,9 +37,9 @@ describe('CustomRangeModalComponent', () => {
         ReactiveFormsModule,
         IonicModule,
         TranslateModule.forRoot(),
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
-      providers: [{ provide: ModalController, useValue: modalControllerMock }]
+      providers: [{ provide: ModalController, useValue: modalControllerSpy }],
     }).compileComponents();
   }));
 
@@ -50,7 +47,6 @@ describe('CustomRangeModalComponent', () => {
     fixture = TestBed.createComponent(CustomRangeModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    modalControllerService = TestBed.get(ModalController);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -58,15 +54,12 @@ describe('CustomRangeModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call modalControllerService.dismiss on handleSubmit and form valid', async done => {
-    const spy = spyOn(modalControllerService, 'dismiss');
-    spy.and.returnValue(of({}));
+  it('should call modalControllerService.dismiss on handleSubmit and form valid', () => {
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
     component.handleSubmit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Confirm button clicked', () => {

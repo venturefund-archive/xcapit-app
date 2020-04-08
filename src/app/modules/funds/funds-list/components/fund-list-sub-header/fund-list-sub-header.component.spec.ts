@@ -9,6 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ApiFundsService } from '../../../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 describe('FundListSubHeaderComponent', () => {
   let component: FundListSubHeaderComponent;
@@ -16,16 +17,12 @@ describe('FundListSubHeaderComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundListSubHeaderComponent>;
   let apiFunds: ApiFundsService;
   let apiFundsMock: any;
-  let modalControllerMock: any;
-  let modalController: any;
+  let modalControllerSpy: any;
   beforeEach(async(() => {
-    modalControllerMock = {
-      create: Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => Promise.resolve({})
-      }),
-      dismiss: Promise.resolve()
-    };
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
     apiFundsMock = {
       getTotalBalance: () => of({})
     };
@@ -38,7 +35,7 @@ describe('FundListSubHeaderComponent', () => {
       ],
 
       imports: [
-        IonicModule.forRoot(),
+        IonicModule,
         TranslateModule.forRoot(),
         HttpClientTestingModule
       ],
@@ -46,7 +43,7 @@ describe('FundListSubHeaderComponent', () => {
         { provide: ApiFundsService, useValue: apiFundsMock },
         {
           provide: ModalController,
-          useValue: modalControllerMock
+          useValue: modalControllerSpy
         }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -57,7 +54,6 @@ describe('FundListSubHeaderComponent', () => {
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     apiFunds = TestBed.get(ApiFundsService);
-    modalController = TestBed.get(ModalController);
   }));
 
   it('should create', () => {
@@ -65,14 +61,6 @@ describe('FundListSubHeaderComponent', () => {
   });
 
   it('should call trackEvent on trackService when Change Total Currency button clicked', () => {
-    const spyModal = spyOn(modalController, 'create');
-    spyModal.and.returnValue(
-      Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => Promise.resolve({})
-      })
-    );
-
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Change Total Currency'
@@ -85,13 +73,6 @@ describe('FundListSubHeaderComponent', () => {
   });
 
   it('should call get on apiFunds.getTotalBalance when ngOnInit', () => {
-    const spyModal = spyOn(modalController, 'create');
-    spyModal.and.returnValue(
-      Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => Promise.resolve({})
-      })
-    );
     const spy = spyOn(apiFunds, 'getTotalBalance');
     spy.and.returnValue(of({}));
     component.ngOnInit();

@@ -4,15 +4,18 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UxInputSelectComponent } from './ux-input-select.component';
 import { FormGroupDirective } from '@angular/forms';
 import {  ModalController } from '@ionic/angular';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 describe('UxInputSelectComponent', () => {
   let component: UxInputSelectComponent;
   let fixture: ComponentFixture<UxInputSelectComponent>;
   let formGroupDirectiveMock: any;
-  let modalControllerMock: any;
-  let modalController: any;
+  let modalControllerSpy: any;
   beforeEach(async(() => {
-
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
     formGroupDirectiveMock = {
       control: {
         get: () => {
@@ -20,19 +23,13 @@ describe('UxInputSelectComponent', () => {
         }
       }
     };
-    modalControllerMock = {
-      create: Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => Promise.resolve({})
-      }),
-      dismiss: Promise.resolve()
-    };
+
     TestBed.configureTestingModule({
       declarations: [UxInputSelectComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
-        { provide: ModalController, useValue: modalControllerMock }
+        { provide: ModalController, useValue: modalControllerSpy }
       ]
     }).compileComponents();
   }));
@@ -41,25 +38,16 @@ describe('UxInputSelectComponent', () => {
     fixture = TestBed.createComponent(UxInputSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    modalController = TestBed.get(ModalController);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call modal.create on openModal', async done => {
-    const spy = spyOn(modalController, 'create');
-    spy.and.returnValue(
-      Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => Promise.resolve({})
-      })
-    );
+  it('should call modal.create on openModal', () => {
     component.openModal(undefined);
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
 });

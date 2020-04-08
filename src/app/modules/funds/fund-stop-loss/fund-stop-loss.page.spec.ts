@@ -13,6 +13,7 @@ import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -31,8 +32,7 @@ describe('FundStopLossPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundStopLossPage>;
   let apiFundsMock: any;
   let apiFundsService: any;
-  let modalControllerMock: any;
-  let modalControllerService: any;
+  let modalControllerSpy: any;
   let navControllerSpy: any;
 
   beforeEach(async(() => {
@@ -53,13 +53,7 @@ describe('FundStopLossPage', () => {
       },
       getMostChosenSL: () => of(10)
     };
-    modalControllerMock = {
-      create: of({
-        present: () => {},
-        onDidDismiss: () => of({}).toPromise()
-      }).toPromise(),
-      dismiss: of().toPromise()
-    };
+    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock)
 
     TestBed.configureTestingModule({
       declarations: [FundStopLossPage, TrackClickDirective, DummyComponent],
@@ -85,7 +79,7 @@ describe('FundStopLossPage', () => {
           provide: ApiFundsService,
           useValue: apiFundsMock
         },
-        { provide: ModalController, useValue: modalControllerMock },
+        { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
@@ -97,7 +91,6 @@ describe('FundStopLossPage', () => {
     fixture.detectChanges();
     fundDataStorageService = TestBed.get(FundDataStorageService);
     apiFundsService = TestBed.get(ApiFundsService);
-    modalControllerService = TestBed.get(ModalController);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -142,18 +135,9 @@ describe('FundStopLossPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call modal.present on openCustomSL', async done => {
-    const spy = spyOn(modalControllerService, 'create');
-    spy.and.returnValue(
-      of({
-        present: () => {},
-        onDidDismiss: () => of({}).toPromise()
-      }).toPromise()
-    );
+  it('should call modal.present on openCustomSL', () => {
     component.openCustomSL();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Create Fund button clicked', () => {
@@ -178,13 +162,6 @@ describe('FundStopLossPage', () => {
       }
     ];
     fixture.detectChanges();
-    const spyModal = spyOn(modalControllerService, 'create');
-    spyModal.and.returnValue(
-      of({
-        present: () => {},
-        onDidDismiss: () => of({}).toPromise()
-      }).toPromise()
-    );
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Edit Custom Stop Loss'
