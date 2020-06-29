@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { log } from 'util';
 
 @Component({
   selector: 'app-fund-performance-chart',
@@ -25,7 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./fund-performance-chart.component.scss'],
 })
 export class FundPerformanceChartComponent implements OnChanges {
-  @Input() fundPerformance: any;
+  @Input() fundPercentageEvolution: any;
   @Input() interval: string;
 
   chart: Chart;
@@ -40,6 +41,10 @@ export class FundPerformanceChartComponent implements OnChanges {
     drawBorder: false,
     drawOnChartArea: true,
   };
+
+  parsePercentageToFloat(percentage) {
+    return parseFloat(`0.${percentage.toString()}`);
+  }
 
   scalesOptions(): ChartScales {
     return {
@@ -62,8 +67,8 @@ export class FundPerformanceChartComponent implements OnChanges {
       yAxes: [
         {
           ticks: {
-            min: -this.fundPerformance.stop_loss * 1.3, // Minima altura un 30 % mas abajo que el stop_loss
-            max: this.fundPerformance.take_profit * 1.3, // Maxima altura un 30 % mas arriba que el take_profit
+            min: -this.fundPercentageEvolution.stop_loss * 1.1, // 30 % minus than stop_loss
+            max: this.fundPercentageEvolution.take_profit * 1.1, // 30 % more than take_profit
           },
           offset: false,
           display: false,
@@ -96,7 +101,7 @@ export class FundPerformanceChartComponent implements OnChanges {
       callbacks: {
         title: () => null,
         label: (tooltipItem) => {
-          const value = parseFloat(tooltipItem.value) * 100;
+          const value = parseFloat(tooltipItem.value);
           return `${value > 0 ? '+' : ''}${Math.round(value * 100) / 100}%`;
         },
         labelTextColor: () => '#FF9100',
@@ -117,7 +122,7 @@ export class FundPerformanceChartComponent implements OnChanges {
           datasets: [
             {
               label: 'Performance',
-              data: this.fundPerformance.performance,
+              data: this.fundPercentageEvolution.percentage_evolution,
               borderColor: '#FFFFFF',
               borderWidth: 2,
               fill: true,
@@ -158,14 +163,14 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   setStopLossData() {
-    return new Array<number>(this.fundPerformance.performance.length).fill(
-      -this.fundPerformance.stop_loss
+    return new Array<number>(this.fundPercentageEvolution.percentage_evolution.length).fill(
+      -parseFloat(this.fundPercentageEvolution.stop_loss)
     );
   }
 
   setTakeProfitData() {
-    return new Array<number>(this.fundPerformance.performance.length).fill(
-      this.fundPerformance.take_profit
+    return new Array<number>(this.fundPercentageEvolution.percentage_evolution.length).fill(
+      parseFloat(this.fundPercentageEvolution.take_profit)
     );
   }
 
@@ -182,7 +187,7 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   normalizeLabels(): string[] {
     const pattern = this.getIntervalPattern(this.interval);
-    return this.fundPerformance.dates.map((item: string) =>
+    return this.fundPercentageEvolution.timestamp.map((item: string) =>
       this.datePipe
         .transform(item, pattern, undefined, this.translate.currentLang)
         .toUpperCase()
@@ -191,11 +196,11 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   hasPerformanceData(): boolean {
     return (
-      this.fundPerformance &&
-      Array.isArray(this.fundPerformance.dates) &&
-      this.fundPerformance.dates.length &&
-      Array.isArray(this.fundPerformance.performance) &&
-      this.fundPerformance.performance.length
+      this.fundPercentageEvolution &&
+      Array.isArray(this.fundPercentageEvolution.timestamp) &&
+      this.fundPercentageEvolution.timestamp.length &&
+      Array.isArray(this.fundPercentageEvolution.percentage_evolution) &&
+      this.fundPercentageEvolution.percentage_evolution.length
     );
   }
 
@@ -203,9 +208,9 @@ export class FundPerformanceChartComponent implements OnChanges {
     let pattern: string;
     switch (interval) {
       case '1d':
-        pattern = 'EEEE';
+        pattern = 'hh:mm';
         break;
-      case '1w':
+      case '7d':
         pattern = 'EEE';
         break;
       case '30d':
@@ -214,7 +219,6 @@ export class FundPerformanceChartComponent implements OnChanges {
       case 'all':
         pattern = 'd/M';
         break;
-
       default:
         pattern = 'd/M';
         break;

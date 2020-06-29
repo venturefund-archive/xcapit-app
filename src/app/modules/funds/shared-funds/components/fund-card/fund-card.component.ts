@@ -18,7 +18,7 @@ import { NavigationExtras } from '@angular/router';
           <div class="fc__main__content__left">
             <div class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold">
               <ion-text color="uxdark"
-                >{{ this.fund?.balance_fin | number: '1.2-8' }}
+                >{{ this.fund?.end_balance | number: '1.2-8' }}
                 {{ this.fund?.currency }}</ion-text
               >
             </div>

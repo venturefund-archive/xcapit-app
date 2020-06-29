@@ -5,11 +5,11 @@ import { FundPerformanceChartComponent } from './fund-performance-chart.componen
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { translateServiceSpy } from 'src/testing/spies/translate-service-spy.spec';
-import { FundPerformanceChartInterface } from '../performance-chart-card/fund-performance-chart.interface';
+import { FundPercentageEvolutionChartInterface } from '../performance-chart-card/fund-performance-chart.interface';
 import * as Chart from 'chart.js';
-const fundPerformanceMock: FundPerformanceChartInterface = {
-  dates: ['01/10/2019'],
-  performance: [0.2],
+const fundPerformanceMock: FundPercentageEvolutionChartInterface = {
+  timestamp: ['01/10/2019'],
+  percentage_evolution: [0.2],
   stop_loss: -0.1,
   take_profit: 0.2,
 };
@@ -43,7 +43,7 @@ describe('FundPerformanceChartComponent', () => {
     fixture = TestBed.createComponent(FundPerformanceChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.fundPerformance = fundPerformanceMock;
+    component.fundPercentageEvolution = fundPerformanceMock;
   });
 
   it('should create', () => {

@@ -26,15 +26,16 @@ export class ApiFundsService {
     );
   }
 
-  getPerformance(
+  getPercentageEvolution(
     fundName: string,
     run: string = '',
     delta: string = '',
+    frequency = '1m',
     loading = true
   ): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/performance`,
-      { params: { id_corrida: run, delta } },
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/percentage_evolution`,
+      { params: { id_corrida: run, delta, frequency } },
       undefined,
       loading
     );
