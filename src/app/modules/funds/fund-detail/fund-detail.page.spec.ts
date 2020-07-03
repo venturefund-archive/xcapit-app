@@ -7,7 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
-import { FundPerformanceChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
+import { FundPercentageEvolutionChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
@@ -25,7 +25,7 @@ const testPerformance = {
     fundName: 'Test',
     currency: 'BTC',
   },
-  performance: {} as FundPerformanceChartInterface,
+  percentage_evolution: {} as FundPercentageEvolutionChartInterface,
 };
 
 describe('FundDetailPage', () => {
@@ -41,7 +41,7 @@ describe('FundDetailPage', () => {
     );
 
     apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
-      getPerformance: of(testPerformance),
+      getPercentageEvolution: of(testPerformance),
       getMetrics: of(testMetrics),
       getBalance: of({}),
       getFundRuns: of({}),
@@ -72,9 +72,9 @@ describe('FundDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call apiFunds.getPerformance on ionViewWillEnter', () => {
+  it('should call apiFunds.getPercentageEvolution on ionViewWillEnter', () => {
     component.ionViewWillEnter();
-    expect(apiFundsSpy.getPerformance).toHaveBeenCalledTimes(1);
+    expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
   });
 
   it('should call apiFunds.getBalance on ionViewWillEnter', () => {
@@ -97,9 +97,9 @@ describe('FundDetailPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call apiFunds.getPerformance on setDelta', () => {
+  it('should call apiFunds.getPercentageEvolution on setDelta', () => {
     component.setDelta('1d');
-    expect(apiFundsSpy.getPerformance).toHaveBeenCalledTimes(1);
+    expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Edit Fund button clicked', () => {

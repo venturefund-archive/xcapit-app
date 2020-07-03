@@ -24,7 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
               class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
               color="uxdark"
             >
-              {{ this.summary?.balance.balance_fin | number: '1.2-2' }}
+              {{ this.summary?.balance.end_balance | number: '1.2-2' }}
               {{ this.summary?.fund.currency }}
             </ion-text>
           </div>
@@ -44,7 +44,7 @@ import { TranslateService } from '@ngx-translate/core';
               class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
               color="uxdark"
             >
-              {{ this.summary?.balance.balance_inicio | number: '1.2-2' }}
+              {{ this.summary?.balance.start_balance | number: '1.2-2' }}
               {{ this.summary?.fund.currency }}
             </ion-text>
           </div>
@@ -62,27 +62,27 @@ import { TranslateService } from '@ngx-translate/core';
       </div>
       <div class="fsc__footer">
         <div class="fsc__footer__left">
-          <div class="remaining-time-text">
-            <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-12"
-              color="uxmedium"
-            >
-              {{
-                'funds.fund_detail.fund_summary_card.remaining_time' | translate
-              }}
-            </ion-text>
-          </div>
-          <div class="remaining-time">
-            <ion-text
-              class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-              color="uxdark"
-            >
-              {{
-                this.summary?.balance.date_info.cantidad_dias_inicio_restantes
-              }}
-              {{ 'funds.fund_detail.fund_summary_card.days_label' | translate }}
-            </ion-text>
-          </div>
+<!--          <div class="remaining-time-text">-->
+<!--            <ion-text-->
+<!--              class="ux-font-lato ux-fweight-regular ux-fsize-12"-->
+<!--              color="uxmedium"-->
+<!--            >-->
+<!--              {{-->
+<!--                'funds.fund_detail.fund_summary_card.remaining_time' | translate-->
+<!--              }}-->
+<!--            </ion-text>-->
+<!--          </div>-->
+<!--          <div class="remaining-time">-->
+<!--            <ion-text-->
+<!--              class="ux-font-lato ux-fweight-semibold ux-fsize-12"-->
+<!--              color="uxdark"-->
+<!--            >-->
+<!--              {{-->
+<!--                this.summary?.balance.date_info.cantidad_dias_inicio_restantes-->
+<!--              }}-->
+<!--              {{ 'funds.fund_detail.fund_summary_card.days_label' | translate }}-->
+<!--            </ion-text>-->
+<!--          </div>-->
         </div>
         <div class="fsc__footer__right">
           <div class="share-button">

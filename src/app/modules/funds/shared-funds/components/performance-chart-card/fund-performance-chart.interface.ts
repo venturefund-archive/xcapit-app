@@ -1,6 +1,6 @@
-export interface FundPerformanceChartInterface {
+export interface FundPercentageEvolutionChartInterface {
   take_profit: number;
   stop_loss: number;
-  performance: number[];
-  dates: any[];
+  percentage_evolution: number[];
+  timestamp: any[];
 }

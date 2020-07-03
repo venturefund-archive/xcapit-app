@@ -1,13 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FundPerformanceChartInterface } from './fund-performance-chart.interface';
+import { FundPercentageEvolutionChartInterface } from './fund-performance-chart.interface';
 
 @Component({
   selector: 'app-performance-chart-card',
   template: `
     <div class="fpcc">
       <app-fund-performance-chart
-        *ngIf="this.fundPerformance"
-        [fundPerformance]="this.fundPerformance"
+        *ngIf="this.fundPercentageEvolution"
+        [fundPercentageEvolution]="this.fundPercentageEvolution"
         [interval]="interval"
       ></app-fund-performance-chart>
     </div>
@@ -15,7 +15,7 @@ import { FundPerformanceChartInterface } from './fund-performance-chart.interfac
   styleUrls: ['./performance-chart-card.component.scss'],
 })
 export class PerformanceChartCardComponent implements OnInit {
-  @Input() fundPerformance: FundPerformanceChartInterface;
+  @Input() fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   @Input() interval: string;
 
   constructor() {}
