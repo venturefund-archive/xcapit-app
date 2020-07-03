@@ -45,7 +45,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
       </div>
 
       <!-- Fund Performance Chart Card -->
-      <div class="fd__fund-performance-chart-card">
+      <div class="fd__fund-performance-chart-card" *ngIf="fundPercentageEvolution?.percentage_evolution">
         <div class="fd__fund-performance-chart-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -79,7 +79,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
       </div>
 
       <!-- Fund Metrics Card -->
-      <div class="fd__fund-metrics-card">
+      <div class="fd__fund-metrics-card" *ngIf="fundPercentageEvolution?.percentage_evolution">
         <div class="fd__fund-metrics-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -120,7 +120,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
       </div>
 
       <!-- Fund Operations History Card -->
-      <div class="fd__fund-operations-history-card">
+      <div class="fd__fund-operations-history-card" *ngIf="this.fundOperationsHistory?.length > 0">
         <div class="fd__fund-operations-history-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -212,9 +212,9 @@ export class FundDetailPage implements OnInit {
     this.apiFunds
       .getPercentageEvolution(this.fundName, '', delta.value, frequency, false)
       .subscribe(data => {
+        data.take_profit = data.fund.ganancia;
+        data.stop_loss = data.fund.perdida;
         this.fundPercentageEvolution = data.percentage_evolution;
-        this.fundPercentageEvolution.take_profit = data.fund.ganancia;
-        this.fundPercentageEvolution.stop_loss = data.fund.perdida;
         this.selectedDelta = delta;
       });
   }

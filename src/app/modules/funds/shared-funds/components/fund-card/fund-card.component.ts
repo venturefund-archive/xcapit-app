@@ -14,7 +14,7 @@ import { NavigationExtras } from '@angular/router';
             {{ this.fund?.fund_name }}
           </ion-text>
         </div>
-        <div class="fc__main__content">
+        <div class="fc__main__content" *ngIf="this.fund?.end_balance">
           <div class="fc__main__content__left">
             <div class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold">
               <ion-text color="uxdark"
@@ -53,6 +53,12 @@ import { NavigationExtras } from '@angular/router';
             </div>
           </div>
         </div>
+          <div *ngIf="!this.fund?.end_balance"
+               class="fl__total__amount ux-font-lato ux-fweight-regular ux-fsize-14">
+              <ion-text>
+                  {{ 'funds.fund_card.not_balance_found' | translate }}
+              </ion-text>
+          </div>
       </div>
       <div class="fc__footer">
         <ion-button
@@ -62,6 +68,7 @@ import { NavigationExtras } from '@angular/router';
           fill="clear"
           size="small"
           class="fc__footer__view_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
+          [disabled]="!this.fund.end_balance"
         >
           {{ 'funds.fund_card.view_fund' | translate }}
           <ion-icon slot="end" name="ux-forward"></ion-icon>

@@ -14,8 +14,14 @@ import { TranslateService } from '@ngx-translate/core';
           {{ 'funds.funds_list.sub_header.total_title' | translate }}
         </ion-text>
       </div>
-      <div
-        class="fl__total__amount ux-font-gilroy ux-fweight-extrabold ux-fsize-40"
+      <div *ngIf="totalBalance?.start_balance === 0"
+           class="fl__total__amount ux-font-lato ux-fweight-regular ux-fsize-14">
+          <ion-text>
+              {{ 'funds.funds_list.sub_header.not_balance_found' | translate }}
+          </ion-text>
+      </div>
+      <div *ngIf="totalBalance?.start_balance != 0"
+           class="fl__total__amount ux-font-gilroy ux-fweight-extrabold ux-fsize-40"
       >
         <app-ux-loading-block
           *ngIf="!totalBalance"
@@ -41,7 +47,7 @@ import { TranslateService } from '@ngx-translate/core';
           ></ion-icon>
         </ion-button>
       </div>
-      <div class="fl__total__detail">
+      <div class="fl__total__detail" *ngIf="totalBalance?.start_balance != 0">
         <ion-badge class="ux-font-gilroy ux-fweight-extrabold ux-fsize-10">
           <ion-icon
             name="ux-triangle-up"
@@ -96,7 +102,7 @@ export class FundListSubHeaderComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal'
     });
 
-    modal.present();
+    await modal.present();
 
     const data = await modal.onDidDismiss();
 
@@ -108,6 +114,8 @@ export class FundListSubHeaderComponent implements OnInit {
   getTotalBalance(ca: string) {
     this.apiFunds
       .getTotalBalance(ca, false)
-      .subscribe(data => (this.totalBalance = data));
+      .subscribe((data: any) => {
+        this.totalBalance = data;
+      });
   }
 }
