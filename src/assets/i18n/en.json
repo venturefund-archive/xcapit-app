@@ -377,7 +377,8 @@
     "fund_card": {
       "current_capital": "Current capital",
       "last_24hs": "Last 24 hs",
-      "view_fund": "View fund"
+      "view_fund": "View fund",
+      "not_balance_found": "No hay balance para mostrar",,
     },
     "change_currency_modal": {
       "submit_button": "Ok",
@@ -691,6 +692,7 @@
         "creatingFund": "Error creating fund.",
         "creatingRun": "Error creating run.",
         "creatingSubscriber": "Error subscribing to fund.",
+        "creatingPartialsBalance": "You do not have enough funds in the account.",
         "invalidData": "Invalid data.",
         "notLinkedApiKeys": "You have not API/Secret key to create a new fund.",
         "cantUpdateKeys": "We can't link the API key with new fund."

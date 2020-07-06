@@ -125,7 +125,7 @@ export class FundRiskPage implements OnInit {
   handleSubmit() {
     if (this.form.valid) {
       this.fundDataStorage.setData('fundRisk', this.form.value);
-      this.navController.navigateForward(['funds/fund-duration']);
+      this.navController.navigateForward(['funds/fund-currency']);
     } else {
       this.form.markAllAsTouched();
     }

@@ -9,8 +9,7 @@ export class FundDataStorageService {
   // EJ: Para acceder a fund-duration debe existir la key fundName en el storage.
   pageKeys = {
     '/funds/fund-risk': 'fundName',
-    '/funds/fund-duration': 'fundRisk',
-    '/funds/fund-currency': 'fundDuration',
+    '/funds/fund-currency': 'fundRisk',
     '/funds/fund-take-profit': 'fundCurrency',
     '/funds/fund-stop-loss': 'fundTakeProfit'
   };
@@ -18,7 +17,6 @@ export class FundDataStorageService {
   allKeys = [
     'fundName',
     'fundRisk',
-    'fundDuration',
     'fundCurrency',
     'fundTakeProfit'
   ];
