@@ -143,9 +143,9 @@ export class FundStopLossPage implements OnInit {
   mostChosenSL: number;
 
   stopLossOptions = [
-    { name: '+5%', value: 5, custom: false },
-    { name: '+10%', value: 10, custom: false },
-    { name: '+15%', value: 15, custom: false }
+    { name: '-5%', value: 5, custom: false },
+    { name: '-10%', value: 10, custom: false },
+    { name: '-15%', value: 15, custom: false }
   ];
 
   customSL: boolean;
@@ -211,7 +211,7 @@ export class FundStopLossPage implements OnInit {
 
   addCustom(value: number) {
     const custom = {
-      name: `+${value}%`,
+      name: `-${value}%`,
       value,
       custom: true
     };

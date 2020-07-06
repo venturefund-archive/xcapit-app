@@ -142,6 +142,7 @@
     "funds_list": {
       "sub_header": {
         "total_title": "Capital total operado",
+        "not_balance_found": "No hay balance para mostrar",
         "total_detail": "En las ultimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
@@ -381,7 +382,8 @@
     "fund_card": {
       "current_capital": "Capital actual",
       "last_24hs": "Últimas 24 hs",
-      "view_fund": "Ver fondo"
+      "view_fund": "Ver fondo",
+      "not_balance_found": "No hay balance para mostrar"
     },
     "change_currency_modal": {
       "submit_button": "Aceptar",
@@ -704,6 +706,7 @@
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
         "creatingSubscriber": "Error al subscribirse al fondo.",
+        "creatingPartialsBalance": "No tienes suficientes fondos en la cuenta.",
         "invalidData": "Los datos ingresados no son válidos.",
         "notLinkedApiKeys": "No posee API/Secret key para crear el fondo.",
         "cantUpdateKeys": "No fue posible vincular la API key."
