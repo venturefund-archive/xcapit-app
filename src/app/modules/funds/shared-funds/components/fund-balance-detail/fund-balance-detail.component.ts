@@ -48,7 +48,7 @@ import { ModalController } from '@ionic/angular';
               'funds.fund_detail.fund_portfolio_card.fund_balance_detail_period_begin'
                 | translate
             }}
-            {{ this.fechaInicio | date: 'dd/MM/yyyy' }}</ion-text
+            {{ this.startDate | date: 'dd/MM/yyyy' }}</ion-text
           >
           <ion-text
             class="ux-font-lato ux-fweight-regular ux-fsize-14"
@@ -57,7 +57,7 @@ import { ModalController } from '@ionic/angular';
               'funds.fund_detail.fund_portfolio_card.fund_balance_detail_last_update'
                 | translate
             }}
-            {{ this.fechaFin | date: 'dd/MM/yyyy' }} </ion-text
+            {{ this.endDate | date: 'dd/MM/yyyy' }} </ion-text
           >
         </div>
       </div>
@@ -67,15 +67,15 @@ import { ModalController } from '@ionic/angular';
 })
 export class FundBalanceDetailComponent implements OnInit {
   orderedPortfolio: any[];
-  fechaInicio: any;
-  fechaFin: any;
+  startDate: any;
+  endDate: any;
   currency: string;
 
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
 
-  close() {
-    this.modalController.dismiss();
+  async close() {
+    await this.modalController.dismiss();
   }
 }

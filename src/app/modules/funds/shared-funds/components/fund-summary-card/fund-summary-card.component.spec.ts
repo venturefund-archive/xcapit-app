@@ -15,12 +15,8 @@ const testData = { link: 'https://test.link' };
 const testSummary: FundSummaryInterface = {
   fund: { nombre_bot: 'Test', currency: 'BTC' },
   balance: {
-    balance_inicio: '',
-    balance_fin: '',
-    date_info: {
-      cantidad_dias_inicio_restantes: '2',
-      cantidad_horas_inicio_restantes: '3'
-    }
+    start_balance: '',
+    end_balance: ''
   }
 };
 describe('FundSummaryCardComponent', () => {

@@ -3,8 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { Observable } from 'rxjs';
 import { FundMetricsInterface } from '../shared-funds/components/fund-metrics-card/fund-metrics.interface';
-import { FundPerformanceChartComponent } from '../shared-funds/components/fund-performance-chart/fund-performance-chart.component';
-import { FundPerformanceChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
+import { FundPercentageEvolutionChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
@@ -46,7 +45,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
       </div>
 
       <!-- Fund Performance Chart Card -->
-      <div class="fd__fund-performance-chart-card">
+      <div class="fd__fund-performance-chart-card" *ngIf="fundPercentageEvolution?.percentage_evolution">
         <div class="fd__fund-performance-chart-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -62,25 +61,25 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
             fill="clear"
             size="small"
             (click)="this.changeDelta()"
-            [disabled]="!this.fundPerformance"
+            [disabled]="!this.fundPercentageEvolution"
           >
             {{ this.selectedDelta.name }}
             <ion-icon slot="end" name="ux-down"></ion-icon>
           </ion-button>
         </div>
         <app-ux-loading-block
-          *ngIf="!this.fundPerformance"
+          *ngIf="!this.fundPercentageEvolution"
           minSize="40px"
         ></app-ux-loading-block>
         <app-performance-chart-card
-          *ngIf="this.fundPerformance"
-          [fundPerformance]="this.fundPerformance"
+          *ngIf="this.fundPercentageEvolution"
+          [fundPercentageEvolution]="this.fundPercentageEvolution"
           [interval]="this.selectedDelta.value"
         ></app-performance-chart-card>
       </div>
 
       <!-- Fund Metrics Card -->
-      <div class="fd__fund-metrics-card">
+      <div class="fd__fund-metrics-card" *ngIf="fundPercentageEvolution?.percentage_evolution">
         <div class="fd__fund-metrics-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -121,7 +120,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
       </div>
 
       <!-- Fund Operations History Card -->
-      <div class="fd__fund-operations-history-card">
+      <div class="fd__fund-operations-history-card" *ngIf="this.fundOperationsHistory?.length > 0">
         <div class="fd__fund-operations-history-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -146,7 +145,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
 export class FundDetailPage implements OnInit {
   fundName: string;
   fundBalance: any;
-  fundPerformance: FundPerformanceChartInterface;
+  fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   profitGraphCardInfo$: Observable<any>;
   fundMetrics: FundMetricsInterface;
   fundPortfolio: Array<any>;
@@ -160,7 +159,7 @@ export class FundDetailPage implements OnInit {
       )
     },
     {
-      value: '1w',
+      value: '7d',
       name: this.translate.instant(
         'funds.fund_detail.performance_chart_card.delta.one_week'
       )
@@ -197,11 +196,25 @@ export class FundDetailPage implements OnInit {
     this.getFundOperationsHistoryInfo();
   }
 
+
+  getFrequencyByDelta(delta) {
+    let frequency: string;
+    if (delta.value === '1d') {
+      frequency = '1m';
+    } else {
+      frequency = '1d';
+    }
+    return frequency;
+  }
+
   getFundPerformanceCardInfo(delta: any = this.selectedDelta) {
+    const frequency = this.getFrequencyByDelta(delta);
     this.apiFunds
-      .getPerformance(this.fundName, '', delta.value, false)
+      .getPercentageEvolution(this.fundName, '', delta.value, frequency, false)
       .subscribe(data => {
-        this.fundPerformance = data.performance;
+        data.take_profit = data.fund.ganancia;
+        data.stop_loss = data.fund.perdida;
+        this.fundPercentageEvolution = data.percentage_evolution;
         this.selectedDelta = delta;
       });
   }
@@ -248,7 +261,7 @@ export class FundDetailPage implements OnInit {
       cssClass: 'ux-routeroutlet-modal'
     });
 
-    modal.present();
+    await modal.present();
 
     const data = await modal.onDidDismiss();
 
@@ -259,7 +272,7 @@ export class FundDetailPage implements OnInit {
 
   setDelta(selected: string) {
     const deltaItem = this.deltas.find(item => item.value === selected);
-    this.fundPerformance = undefined;
+    this.fundPercentageEvolution = undefined;
     this.getFundPerformanceCardInfo(deltaItem);
   }
 }
