@@ -38,7 +38,7 @@ describe('FundRiskPage', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           { path: 'funds/fund-name', component: DummyComponent },
-          { path: 'funds/fund-duration', component: DummyComponent }
+          { path: 'funds/fund-currency', component: DummyComponent }
         ]),
         IonicModule
       ],

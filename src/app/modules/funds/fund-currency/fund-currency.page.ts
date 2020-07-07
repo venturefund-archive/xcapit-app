@@ -10,7 +10,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/fund-duration"></ion-back-button>
+          <ion-back-button defaultHref="/funds/fund-risk"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'funds.fund_currency.header' | translate
