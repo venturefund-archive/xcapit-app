@@ -378,11 +378,29 @@
       "current_capital": "Current capital",
       "last_24hs": "Last 24 hs",
       "view_fund": "View fund",
-      "not_balance_found": "No hay balance para mostrar",,
+      "not_balance_found": "No hay balance para mostrar"
     },
     "change_currency_modal": {
       "submit_button": "Ok",
       "cancel_button": "Cancel"
+    },
+    "fund_settings": {
+      "header": "Fund settings",
+      "fund_info_title": "INFORMATION",
+      "currency": "Currency",
+      "fund_modify_title": "EDIT",
+      "apikey": "Api key",
+      "secretkey": "Secret key",
+      "take_profit": "Take profit",
+      "stop_loss": "Stop loss"
+    },
+    "fund_finish_pause_fund_card": {
+      "finish_fund": "Finish",
+      "pause_fund": "Pause",
+      "resume_fund": "Resume",
+      "fund_paused": "The fund was paused",
+      "fund_resumed": "The fund was resumed",
+      "fund_finished": "The fund was finished"
     }
   },
   "runs": {

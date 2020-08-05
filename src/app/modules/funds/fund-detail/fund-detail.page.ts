@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { Observable } from 'rxjs';
 import { FundMetricsInterface } from '../shared-funds/components/fund-metrics-card/fund-metrics.interface';
@@ -183,7 +183,8 @@ export class FundDetailPage implements OnInit {
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,
     private translate: TranslateService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -235,14 +236,13 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundOperationsHistoryInfo() {
-    this.apiFunds.getFundRuns('all', this.fundName, false).subscribe(data => {
+    this.apiFunds.getFundRuns('finalizado', this.fundName, false).subscribe(data => {
       this.fundOperationsHistory = data;
     });
   }
 
   editFund() {
-    // TODO: Implementar edit fund
-    console.error('Edit fund no implementado');
+    this.router.navigate(['/funds/fund-settings', this.fundName]);
   }
 
   async changeDelta() {

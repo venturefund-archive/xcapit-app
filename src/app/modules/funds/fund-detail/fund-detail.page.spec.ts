@@ -12,6 +12,7 @@ import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spe
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DummyComponent } from '../../../../testing/dummy.component.spec';
 const testMetrics = {
   fund: {
     fundName: 'Test',
@@ -48,11 +49,13 @@ describe('FundDetailPage', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [FundDetailPage, TrackClickDirective],
+      declarations: [FundDetailPage, TrackClickDirective, DummyComponent],
       imports: [
         IonicModule,
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes([
+          {path: 'funds/fund-settings/:name', component: DummyComponent}
+        ]),
         HttpClientTestingModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
