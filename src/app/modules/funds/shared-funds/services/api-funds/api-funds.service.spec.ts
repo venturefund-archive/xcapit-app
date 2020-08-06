@@ -161,4 +161,10 @@ describe('ApiFundsService', () => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should be call get on http when getLastFundRun', () => {
+    service.getLastFundRun('test').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

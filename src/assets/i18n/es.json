@@ -388,6 +388,24 @@
     "change_currency_modal": {
       "submit_button": "Aceptar",
       "cancel_button": "Cancelar"
+    },
+    "fund_settings": {
+      "header": "Ajustes de fondo",
+      "fund_info_title": "INFORMACIÓN",
+      "currency": "Moneda",
+      "fund_modify_title": "MODIFICAR",
+      "apikey": "Api key",
+      "secretkey": "Secret key",
+      "take_profit": "Take profit",
+      "stop_loss": "Stop loss"
+    },
+    "fund_finish_pause_fund_card": {
+      "finish_fund": "Finalizar",
+      "pause_fund": "Pausar",
+      "resume_fund": "Activar",
+      "fund_paused": "Se ha pausado el fondo",
+      "fund_resumed": "Se ha activado el fondo",
+      "fund_finished": "Se ha finalizado el fondo"
     }
   },
   "runs": {

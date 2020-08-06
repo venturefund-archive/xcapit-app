@@ -93,9 +93,16 @@ export const routes: Routes = [
           import('./commission/commission.module').then(
             m => m.CommissionPageModule
           )
+      },
+      {
+        path: 'fund-settings/:name',
+        loadChildren: () =>
+          import('./fund-settings/fund-settings.module').then(
+            m => m.FundSettingsPageModule
+          )
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

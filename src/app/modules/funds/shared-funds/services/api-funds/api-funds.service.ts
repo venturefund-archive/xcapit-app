@@ -176,4 +176,13 @@ export class ApiFundsService {
       false
     );
   }
+
+  getLastFundRun(fundName: string, loading = true): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/last_run`,
+      undefined,
+      undefined,
+      loading
+    );
+  }
 }

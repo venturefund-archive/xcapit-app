@@ -30,6 +30,7 @@ import { UxInputSelectComponent } from './components/ux-input-select/ux-input-se
 import { UxSelectableListComponent } from './components/ux-selectable-list/ux-selectable-list.component';
 import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
 import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loading-block.component';
+import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
 
 @NgModule({
   declarations: [
@@ -52,11 +53,11 @@ import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loadin
     UxCardInfoRobotComponent,
     UxCardInfoBinanceComponent,
     UxListComponent,
+    UxListInvertedComponent,
     UxSelectModalComponent,
     UxInputSelectComponent,
     UxSelectableListComponent,
     UxLoadingBlockComponent,
-
     BinanceLogoComponent,
     SuccessContentComponent,
     // Pipes
@@ -96,6 +97,7 @@ import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loadin
     UxCardInfoRobotComponent,
     UxCardInfoBinanceComponent,
     UxListComponent,
+    UxListInvertedComponent,
     UxSelectModalComponent,
     UxInputSelectComponent,
     UxSelectableListComponent,
