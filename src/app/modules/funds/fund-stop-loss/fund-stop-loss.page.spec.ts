@@ -53,7 +53,7 @@ describe('FundStopLossPage', () => {
       },
       getMostChosenSL: () => of(10)
     };
-    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock)
+    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
 
     TestBed.configureTestingModule({
       declarations: [FundStopLossPage, TrackClickDirective, DummyComponent],

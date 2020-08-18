@@ -51,7 +51,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 export class UserProfilePage implements OnInit {
   editing = false;
   data: any;
-  @ViewChild('editProfile', { static: false })
+  @ViewChild('editProfile')
   editProfile: EditProfileComponent;
 
   constructor(private apiProfiles: ApiProfilesService) {}
