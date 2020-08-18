@@ -1,16 +1,15 @@
-# Build
-FROM node:14-alpine AS builder
+FROM node:14-alpine as builder
 WORKDIR /usr/src/app
-ADD . .
-RUN apk update && apk upgrade
+COPY . .
+## Install build toolchain, install node deps and compile native add-ons
+RUN apk add --no-cache python make g++
 RUN npm install
-
 RUN npm run build:prod:pwa:xcapit
-RUN yes | npm install -g @angular/cli
 
-# Run
-FROM node:14-alpine
-RUN apk update && apk upgrade
-RUN npm install -g http-server
+FROM node:14-alpine as app
+
+## Copy built node modules and binaries without including the toolchain
 COPY --from=builder /usr/src/app/www /www
+RUN npm install -g http-server
+EXPOSE 4200
 CMD http-server /www -p 4200
