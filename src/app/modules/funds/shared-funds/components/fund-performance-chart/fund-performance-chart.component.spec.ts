@@ -16,7 +16,7 @@ const fundPerformanceMock: FundPercentageEvolutionChartInterface = {
 
 class ChartMock {
   constructor() {}
-  getDatasetMeta: () => null
+  getDatasetMeta: () => null;
 }
 describe('FundPerformanceChartComponent', () => {
   let component: FundPerformanceChartComponent;

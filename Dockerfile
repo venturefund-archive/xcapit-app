@@ -2,7 +2,6 @@ FROM node:14-alpine as builder
 WORKDIR /usr/src/app
 COPY . .
 ## Install build toolchain, install node deps and compile native add-ons
-RUN apk add --no-cache python make g++
 RUN npm install
 RUN npm run build:prod:pwa:xcapit
 

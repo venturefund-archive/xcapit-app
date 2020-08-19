@@ -167,7 +167,7 @@ export class EditProfileComponent implements OnInit {
   };
 
   form: FormGroup;
-  @ViewChild('formElement', { static: false }) formElement: any;
+  @ViewChild('formElement') formElement: any;
   @Input()
   data: any;
   constructor(
