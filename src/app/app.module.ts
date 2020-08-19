@@ -41,7 +41,7 @@ registerLocaleData(localeEn, 'en');
 export function jwtOptionsFactory(storage: Storage) {
   return {
     tokenGetter: () => storage.get(AUTH.storageKey),
-    whitelistedDomains: environment.whitelistedDomains
+    allowedDomains: environment.whitelistedDomains
   };
 }
 
