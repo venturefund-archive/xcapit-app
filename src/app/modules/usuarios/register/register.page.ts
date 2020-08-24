@@ -9,66 +9,78 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-register',
   template: `
-    <ion-toolbar>
-      <ion-buttons slot="end">
-        <app-language-button></app-language-button>
-      </ion-buttons>
-    </ion-toolbar>
-    <ion-content class="ion-padding">
+    <ion-header>
+      <div >
+        <div class="app_header_register">
+          <div class="app_header_register__content">
+            <div class="app_header_register__content__app_xcapit_logo">
+            <app-xcapit-logo [whiteLogo]=false></app-xcapit-logo>
+            </div>
+          </div>
+        </div>
+        <div class="register_title">
+          <app-ux-title>
+            {{ 'usuarios.register.card_header' | translate }}
+          </app-ux-title>
+        </div>
+      </div>
+    </ion-header>
+
+    <ion-content class="ion-padding-horizontal ion-padding-bottom">
       <div class="main">
-        <ion-grid class="ion-no-padding">
-          <ion-row>
-            <ion-col
-              size-sm="8"
-              offset-sm="2"
-              size-md="6"
-              offset-md="3"
-              size-lg="4"
-              offset-lg="4"
+        <app-auth-form (send)="this.registerUser($event)">
+          <div class="tos-text">
+            <div class="tos-text__label">
+              {{'usuarios.register.accept_tos' | translate}}
+
+              <ion-button
+                fill="clear"
+                size="small"
+                type="button"
+                appTrackClickUnauth
+                name="Go To Login"
+                class="tos-text__button ux_button"
+                [routerLink]="['/users/login']"
+                routerDirection="back"
+              >
+                  {{ 'usuarios.register.link_tos' | translate }}
+              </ion-button>
+            </div>
+          </div>
+
+          <div class="auth-button ion-padding-top">
+            <ion-button
+              expand="block"
+              size="large"
+              type="submit"
+              appTrackClickUnauth
+              name="Register"
+              class="ux_button"
+              color="uxsecondary"
+              [disabled]="
+                !this.registerForm.form.valid ||
+                (this.submitButtonService.isDisabled | async)
+              "
             >
-              <ion-card>
-                <ion-card-header>
-                  {{ 'usuarios.register.card_header' | translate }}
-                </ion-card-header>
-                <ion-card-content>
-                  <app-auth-form (send)="this.registerUser($event)">
-                    <div class="auth-button ion-padding-top ion-margin-top">
-                      <ion-button
-                        expand="full"
-                        size="large"
-                        type="submit"
-                        appTrackClickUnauth
-                        name="Register"
-                        [disabled]="
-                          !this.registerForm.form.valid ||
-                          (this.submitButtonService.isDisabled | async)
-                        "
-                      >
-                        <ion-icon
-                          slot="start"
-                          name="checkmark-circle-outline"
-                        ></ion-icon>
-                        {{ 'usuarios.register.submit_button' | translate }}
-                      </ion-button>
-                    </div>
-                    <div class="auth-link ion-text-right ion-padding-top">
-                      <ion-button
-                        fill="clear"
-                        size="small"
-                        type="button"
-                        appTrackClickUnauth
-                        name="Go To Login"
-                        [routerLink]="['/users/login']"
-                      >
-                        Login
-                      </ion-button>
-                    </div>
-                  </app-auth-form>
-                </ion-card-content>
-              </ion-card>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+              {{ 'usuarios.register.submit_button' | translate }}
+            </ion-button>
+          </div>
+          <div class="auth-link ion-text-right ion-padding-top">
+          {{ 'usuarios.register.have_an_account' | translate }}
+            <ion-button
+              fill="clear"
+              size="small"
+              type="button"
+              appTrackClickUnauth
+              name="Go To Login"
+              class="main__back_login__button ux_button"
+              [routerLink]="['/users/login']"
+              routerDirection="back"
+            >
+              {{ 'usuarios.register.back_login' | translate }}
+            </ion-button>
+          </div>
+        </app-auth-form>
       </div>
     </ion-content>
   `,

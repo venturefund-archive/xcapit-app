@@ -26,37 +26,15 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           [placeholder]="'usuarios.login.email_placeholder_label' | translate"
           [errors]="this.emailErrors"
         ></app-ux-input>
-        <ion-item *ngIf="!this.isLogin">
-          <ion-label position="floating">{{
-            'usuarios.auth_form.repeat_email' | translate
-          }}</ion-label>
-          <ion-input
-            formControlName="repeat_email"
-            type="email"
-            inputmode="email"
-          ></ion-input>
-        </ion-item>
-        <app-errors-form-item
+        
+        <app-ux-input
           *ngIf="!this.isLogin"
           controlName="repeat_email"
+          type="email"
+          inputmode="email"
+          [label]="'usuarios.auth_form.repeat_email' | translate"
+          [placeholder]="'usuarios.login.email_placeholder_label' | translate"
           [errors]="this.repeatEmailErrors"
-        ></app-errors-form-item>
-        <ion-item *ngIf="!this.isLogin">
-          <ion-label>{{
-            'usuarios.register.manual_referral' | translate
-          }}</ion-label>
-          <ion-checkbox
-            formControlName="manual_referral"
-            color="uxsecondary"
-            slot="start"
-          ></ion-checkbox>
-        </ion-item>
-        <app-ux-input
-          *ngIf="this.showReferralCode"
-          controlName="referral_code"
-          type="text"
-          inputmode="text"
-          [label]="'usuarios.register.referral_code_label' | translate"
         ></app-ux-input>
 
         <app-ux-input
@@ -69,20 +47,43 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
 
         <ng-content select=".auth-link-reset-password"></ng-content>
 
-        <ion-item *ngIf="!this.isLogin">
-          <ion-label position="floating">{{
-            'usuarios.auth_form.repeat_password' | translate
-          }}</ion-label>
-          <ion-input
-            formControlName="repeat_password"
-            type="password"
-          ></ion-input>
-        </ion-item>
-        <app-errors-form-item
+        <app-ux-input
           *ngIf="!this.isLogin"
           controlName="repeat_password"
+          type="password"
+          inputmode="password"
+          [label]="'usuarios.auth_form.repeat_password' | translate"
           [errors]="this.repeatPasswordErrors"
-        ></app-errors-form-item>
+        ></app-ux-input>
+
+        <app-ux-checkbox
+          *ngIf="!this.isLogin"
+          class="normal"
+          [label]="'usuarios.register.manual_referral' | translate"
+          controlName="manual_referral"
+          color="uxsecondary"
+          slot="start"
+        ></app-ux-checkbox>
+
+        <app-ux-input
+          *ngIf="this.showReferralCode"
+          controlName="referral_code"
+          type="text"
+          inputmode="text"
+          [label]="'usuarios.register.referral_code_label' | translate"
+        ></app-ux-input>
+        
+        <ion-item class="tos_item" *ngIf="!this.isLogin">
+          <ng-content select=".tos-text"></ng-content>
+          
+          <app-ux-checkbox
+            *ngIf="!this.isLogin"
+            class="small"
+            controlName="tos"
+            color="uxsecondary"
+            slot="start"
+          ></app-ux-checkbox>
+        </ion-item>
 
         <ng-content select=".auth-button"></ng-content>
 
@@ -176,7 +177,14 @@ export class AuthFormComponent implements OnInit {
         ]
       ],
       referral_code: ['', Validators.required],
-      manual_referral: [false]
+      manual_referral: [false],
+      tos: [
+        false, 
+        [
+          Validators.required,
+          CustomValidators.mustBeTrue
+        ]
+      ]
     },
     {
       validators: [
@@ -214,6 +222,7 @@ export class AuthFormComponent implements OnInit {
     if (this.isLogin) {
       this.form.get('repeat_password').disable();
       this.form.get('repeat_email').disable();
+      this.form.get('tos').disable();
     }
   }
 

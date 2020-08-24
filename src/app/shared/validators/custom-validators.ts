@@ -37,4 +37,14 @@ export class CustomValidators {
       control.get(controlName2).setErrors(error);
     }
   }
+
+  static mustBeTrue(
+    control: AbstractControl
+  ): { [key: string]: boolean } {
+    let check: { [key: string]: boolean } = {};
+    if (!control.value) {
+      check['notChecked'] = true;
+    }
+    return check;
+  }
 }
