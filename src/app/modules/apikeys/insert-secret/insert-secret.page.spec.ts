@@ -14,6 +14,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 const formData = {
   valid: {
@@ -45,9 +46,9 @@ describe('InsertSecretPage', () => {
   let component: InsertSecretPage;
   let fixture: ComponentFixture<InsertSecretPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InsertSecretPage>;
-  // let storageApikeysServiceSpy;
-  let storageApikeysServiceMock;
-  let storageApikeysService;
+  let storageApikeysServiceMock: any;
+  let storageApikeysService: any;
+  let apiUsuariosServiceMock: any;
   let apiApikeysServiceMock: any;
 
   beforeEach(async(() => {
@@ -65,7 +66,8 @@ describe('InsertSecretPage', () => {
       imports: [
         RouterTestingModule.withRoutes([
           { path: 'apikeys/tutorial', component: DummyComponent },
-          { path: 'apikeys/insert-key', component: DummyComponent }
+          { path: 'apikeys/insert-key', component: DummyComponent },
+          { path: 'apikeys/success', component: DummyComponent }
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule,
@@ -77,6 +79,9 @@ describe('InsertSecretPage', () => {
         {
           provide: ApiApikeysService,
           useValue: apiApikeysServiceMock
+        },        {
+          provide: ApiUsuariosService,
+          useValue: apiUsuariosServiceMock
         },
         { provide: StorageApikeysService, useValue: storageApikeysServiceMock }
       ]

@@ -11,13 +11,19 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { Storage } from '@ionic/storage';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 describe('UserProfilePage', () => {
   let component: UserProfilePage;
   let fixture: ComponentFixture<UserProfilePage>;
   let apiProfilesServiceMock: any;
   let apiProfilesService: ApiProfilesService;
+  let apiUsuariosServiceMock: any;
+  let apiUsuariosService: ApiUsuariosService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfilePage>;
+  let storageSpy: any;
+  let storageService: any;
 
   beforeEach(async(() => {
     apiProfilesServiceMock = {
@@ -26,6 +32,13 @@ describe('UserProfilePage', () => {
         get: () => of({})
       }
     };
+    apiUsuariosServiceMock = {
+      status: () => of({status_name: 'COMPLETE'})
+    };
+    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
+    storageSpy.get.and.returnValue(new Promise(resolve => {}));
+    storageSpy.set.and.returnValue(new Promise(resolve => {}));
+    storageSpy.remove.and.returnValue(new Promise(resolve => {}));
 
     TestBed.configureTestingModule({
       declarations: [UserProfilePage, TrackClickDirective],
@@ -38,7 +51,9 @@ describe('UserProfilePage', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock }
+        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+        { provide: Storage, useValue: storageSpy },
+        { provide: ApiUsuariosService, useValue: apiUsuariosServiceMock }
       ]
     }).compileComponents();
   }));
@@ -47,6 +62,8 @@ describe('UserProfilePage', () => {
     fixture = TestBed.createComponent(UserProfilePage);
     component = fixture.componentInstance;
     apiProfilesService = TestBed.get(ApiProfilesService);
+    storageService = TestBed.inject(Storage);
+    apiUsuariosService = TestBed.inject(ApiUsuariosService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -57,6 +74,13 @@ describe('UserProfilePage', () => {
   it('should call get on apiProfile.crud when ionViewWillEnter', () => {
     const spy = spyOn(apiProfilesService.crud, 'get');
     spy.and.returnValue(of({}));
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call status on apiUsuarios when ionViewWillEnter', () => {
+    const spy = spyOn(apiUsuariosService, 'status');
+    spy.and.returnValue(of({status_name: 'COMPLETE'}));
     component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });

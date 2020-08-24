@@ -8,6 +8,7 @@ import { ApiTacService } from '../shared-terms-and-conditions/services/api-tac/a
 import { RouterTestingModule } from '@angular/router/testing';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DummyComponent } from '../../../../testing/dummy.component.spec';
 
 describe('AcceptPage', () => {
   let component: AcceptPage;
@@ -26,7 +27,9 @@ describe('AcceptPage', () => {
       imports: [
         HttpClientTestingModule,
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          {path: 'funds/action/new', component: DummyComponent}
+        ])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
