@@ -5,6 +5,8 @@ import { FirstStepsPage } from './first-steps.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonSlides } from '@ionic/angular';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { of } from 'rxjs';
 
 class IonSlidesMock {
   public constructor() {}
@@ -18,17 +20,26 @@ class IonSlidesMock {
 describe('FirstStepsPage', () => {
   let component: FirstStepsPage;
   let fixture: ComponentFixture<FirstStepsPage>;
+  let apiUsuariosService: any;
+  let apiUsuariosServiceMock: any;
 
   beforeEach(async(() => {
+    apiUsuariosServiceMock = {
+      status: () => of({})
+    };
     TestBed.configureTestingModule({
       declarations: [FirstStepsPage],
       imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: IonSlides, useClass: IonSlidesMock }]
+      providers: [
+        { provide: IonSlides, useClass: IonSlidesMock },
+        { provide: ApiUsuariosService, useValue: apiUsuariosServiceMock },
+      ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    apiUsuariosService = TestBed.inject(ApiUsuariosService);
     fixture = TestBed.createComponent(FirstStepsPage);
     component = fixture.componentInstance;
     component.slide = TestBed.get(IonSlides);
@@ -48,6 +59,13 @@ describe('FirstStepsPage', () => {
   it('should call setSliderLength on init', () => {
     const spy = spyOn(component, 'setSliderLength');
     component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call apiUsuarios.status on ionViewWillEnter', () => {
+    const spy = spyOn(apiUsuariosService, 'status');
+    spy.and.returnValue(of({}));
+    component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
