@@ -88,6 +88,8 @@ export class UserProfilePage implements OnInit {
             this.editing = !this.editing;
           }
         });
+    } else {
+      this.editing = true;
     }
   }
 
