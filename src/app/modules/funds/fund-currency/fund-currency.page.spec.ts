@@ -40,7 +40,8 @@ describe('FundCurrencyPage', () => {
         RouterTestingModule.withRoutes([
           { path: 'funds/fund-take-profit', component: DummyComponent },
           { path: 'funds/fund-name', component: DummyComponent },
-          { path: 'funds/fund-risk', component: DummyComponent }
+          { path: 'funds/fund-risk', component: DummyComponent },
+          { path: 'funds/fund-duration', component: DummyComponent }
         ]),
         HttpClientTestingModule,
         TranslateModule.forRoot(),

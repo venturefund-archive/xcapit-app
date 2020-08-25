@@ -4,6 +4,8 @@ import { BeforeStepDataGuard } from './before-step-data.guard';
 import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { FundDataStorageService } from '../../services/fund-data-storage/fund-data-storage.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DummyComponent } from '../../../../../../testing/dummy.component.spec';
+
 let fundDataStorageServiceMock;
 let fundDataStorageService;
 
@@ -14,7 +16,9 @@ describe('BeforeStepDataGuard', () => {
       canActivatePage: () => Promise.resolve(true)
     };
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
+      imports: [RouterTestingModule.withRoutes([
+        { path: 'funds/fund-name', component: DummyComponent }
+      ])],
       providers: [
         BeforeStepDataGuard,
         {

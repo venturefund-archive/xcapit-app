@@ -3,6 +3,9 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
+import { Router } from '@angular/router';
+import { LoadingService } from '../../../shared/services/loading/loading.service';
+import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
 
 @Component({
   selector: 'app-login',
@@ -81,17 +84,62 @@ export class LoginPage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
-    private subscriptionsService: SubscriptionsService
-  ) {}
-
-  ngOnInit() {}
-
-  loginUser(data: any) {
-      this.apiUsuarios.login(data).subscribe(() => this.success());
+    private subscriptionsService: SubscriptionsService,
+    private router: Router,
+    private loadingService: LoadingService
+  ) {
   }
 
-  success() {
+  ngOnInit() {
+  }
+
+  loginUser(data: any) {
+    this.apiUsuarios.login(data).subscribe(() => this.success());
+  }
+
+  async success() {
+    this.loadingService.enabled();
     this.loginForm.form.reset();
-    this.subscriptionsService.checkStoredLink();
+    const storedLink = await this.subscriptionsService.checkStoredLink();
+    if (!storedLink) {
+      this.apiUsuarios.status(false).subscribe(
+        res => this.redirectByStatus(res));
+    }
+  }
+
+  getUrlByStatus(statusName) {
+    let url: string[];
+    switch (statusName) {
+      case UserStatus.COMPLETE: {
+        url = ['tabs/funds'];
+        break;
+      }
+      case UserStatus.EXPLORER: {
+        url = ['tabs/funds'];
+        break;
+      }
+      case UserStatus.CREATOR: {
+        url = ['tabs/funds'];
+        break;
+      }
+      case UserStatus.FROM_BOT: {
+        url = ['tutorials/first-steps'];
+        break;
+      }
+      case UserStatus.BEGINNER: {
+        url = ['tutorials/first-steps'];
+        break;
+      }
+      default: {
+        url = ['tabs/funds'];
+        break;
+      }
+    }
+    return url;
+  }
+
+  redirectByStatus(userStatus) {
+    const url = this.getUrlByStatus(userStatus.status_name);
+    this.router.navigate(url).then(() => this.loadingService.disabled());
   }
 }

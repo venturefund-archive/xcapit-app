@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, TestBedStatic, tick } from '@angular/core/testing';
 import { LoginPage } from './login.page';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -13,15 +13,18 @@ import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click
 import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { Test } from 'tslint';
 
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let apiUsuariosSpy: any;
+  let apiUsuariosService: any;
   let subscriptionsService: any;
-  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<
-    LoginPage
-  >;
+  let subscriptionsServiceSpy: any;
+  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<LoginPage>;
 
   const formData = {
     valid: {
@@ -33,12 +36,13 @@ describe('LoginPage', () => {
   };
 
   beforeEach(async(() => {
-    apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['login']);
+    apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['login', 'status']);
     apiUsuariosSpy.login.and.returnValue(of({}));
-    subscriptionsService = jasmine.createSpyObj('SubscriptionsService', [
+    apiUsuariosSpy.status.and.returnValue(of({ status_name: 'COMPLETE' }));
+    subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', [
       'checkStoredLink'
     ]);
-    subscriptionsService.checkStoredLink.and.returnValue(true);
+    subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(true));
     TestBed.configureTestingModule({
       declarations: [
         LoginPage,
@@ -52,6 +56,8 @@ describe('LoginPage', () => {
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
           { path: 'users/register', component: DummyComponent },
+          { path: 'tabs/funds', component: DummyComponent },
+          { path: 'tutorials/first-steps', component: DummyComponent },
           { path: 'users/reset-password', component: DummyComponent }
         ]),
         ReactiveFormsModule,
@@ -60,13 +66,15 @@ describe('LoginPage', () => {
       providers: [
         TrackClickUnauthDirective,
         { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
-        { provide: SubscriptionsService, useValue: subscriptionsService }
+        { provide: SubscriptionsService, useValue: subscriptionsServiceSpy }
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginPage);
+    subscriptionsService = TestBed.inject(SubscriptionsService);
+    apiUsuariosService = TestBed.inject(ApiUsuariosService);
     component = fixture.componentInstance;
     trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(
       fixture
@@ -94,6 +102,42 @@ describe('LoginPage', () => {
     component.success();
     expect(subscriptionsService.checkStoredLink).toHaveBeenCalledTimes(1);
   });
+
+  it('should call status on storedLink not exists', async (done) => {
+    subscriptionsService.checkStoredLink.and.returnValue(Promise.resolve(false));
+    component.success();
+    fixture.whenStable().then(() => {
+      expect(apiUsuariosService.status).toHaveBeenCalledTimes(1);
+    });
+    done();
+  });
+
+
+  it('should redirect to fund list when status is COMPLETE', () => {
+    const url = component.getUrlByStatus('COMPLETE');
+    expect(url).toEqual(['tabs/funds']);
+  });
+
+  it('should redirect to fund list when status is CREATOR', () => {
+    const url = component.getUrlByStatus('CREATOR');
+    expect(url).toEqual(['tabs/funds']);
+  });
+
+  it('should redirect to fund list when status is EXPLORER', () => {
+    const url = component.getUrlByStatus('EXPLORER');
+    expect(url).toEqual(['tabs/funds']);
+  });
+
+  it('should redirect to fund list when status is FROM_BOT', () => {
+    const url = component.getUrlByStatus('FROM_BOT');
+    expect(url).toEqual(['tutorials/first-steps']);
+  });
+
+  it('should redirect to first steps when status is BEGINNER', () => {
+    const url = component.getUrlByStatus('BEGINNER');
+    expect(url).toEqual(['tutorials/first-steps']);
+  });
+
 
   it('should call trackEvent on trackService when Login button clicked', () => {
     fixture.detectChanges();
@@ -134,4 +178,5 @@ describe('LoginPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-});
+})
+;

@@ -60,9 +60,9 @@ export class SubscriptionsService {
         data.fundNameb64
       ];
       this.removeStoredLink();
-    } else {
-      url = ['/tutorials/first-steps'];
+      await this.navController.navigateForward(url, { replaceUrl: true });
+      return true;
     }
-    this.navController.navigateForward(url, { replaceUrl: true });
+    return false;
   }
 }

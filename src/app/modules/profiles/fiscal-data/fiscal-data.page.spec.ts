@@ -54,6 +54,10 @@ describe('FiscalDataPage', () => {
           {
             path: 'tabs/funds',
             component: DummyComponent
+          },
+          {
+            path: 'profiles/success',
+            component: DummyComponent
           }
         ])
       ],
