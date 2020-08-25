@@ -1,7 +1,10 @@
 :host {
+  justify-content: start !important;
+    
   .app_header_trama {
     height: calc(100vh - 63%);
     width: 100%;
+    flex: none;
 
     &__content {
       width: 100%;
@@ -28,6 +31,7 @@
 
   .main {
     margin-top: 8px;
+    overflow: auto;
     &__reset_password__button {
       float: right;
       height: auto;

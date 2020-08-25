@@ -31,6 +31,7 @@ import { UxSelectableListComponent } from './components/ux-selectable-list/ux-se
 import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
 import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loading-block.component';
 import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
+import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-i
     UxLoadingBlockComponent,
     BinanceLogoComponent,
     SuccessContentComponent,
+    UxCheckboxComponent,
     // Pipes
     LocalizedDatePipe
   ],
@@ -104,6 +106,7 @@ import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-i
     UxLoadingBlockComponent,
     BinanceLogoComponent,
     SuccessContentComponent,
+    UxCheckboxComponent,
     // Pipes
     LocalizedDatePipe
   ]

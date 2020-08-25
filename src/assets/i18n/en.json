@@ -94,7 +94,11 @@
       "accept_button": "Accept",
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
-      "referral_code_label": "Referral code"
+      "referral_code_label": "Referral code",
+      "have_an_account": "Already have an account?",
+      "back_login": "Sign in",
+      "accept_tos": "I agree the",
+      "link_tos": "Terms and conditions"
     },
     "auth_form": {
       "repeat_email": "Confirm Email",

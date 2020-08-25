@@ -89,16 +89,20 @@
     },
     "register": {
       "card_header": "Registro de Usuario",
-      "submit_button": "Registrar",
+      "submit_button": "Crear Cuenta",
       "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
       "accept_button": "Aceptar",
       "referral_code_text": "Código de Referido",
-      "manual_referral": "Ingresar codigo de referido",
-      "referral_code_label": "Codigo de referido"
+      "manual_referral": "Ingresar código de referido",
+      "referral_code_label": "Código de referido",
+      "have_an_account": "¿Ya tienes una cuenta?",
+      "back_login": "Inicia sesión",
+      "accept_tos": "Acepto los",
+      "link_tos": "Términos y condiciones"
     },
     "auth_form": {
       "repeat_email": "Confirmar Email",
-      "repeat_password": "Confirmar Password"
+      "repeat_password": "Confirmar contraseña"
     },
     "reset_password": {
       "card_header": "Reset Password",
