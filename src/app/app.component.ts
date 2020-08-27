@@ -29,54 +29,6 @@ import { NotificationsHelperService } from './modules/notifications/shared-notif
   template: `
     <ion-app>
       <ion-split-pane contentId="main-content">
-        <ion-menu contentId="main-content" [disabled]="!(this.isLoggedIn$ | async)" >
-          <ion-header>
-            <ion-toolbar>
-              <ion-title>{{ 'app.main_menu.header' | translate }}</ion-title>
-            </ion-toolbar>
-          </ion-header>
-          <ion-content>
-            <ion-list>
-              <ion-menu-toggle
-                auto-hide="false"
-                *ngFor="let p of appPages; trackBy: this.trackBy"
-              >
-                <ion-item
-                  appTrackClick
-                  [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
-                  [routerDirection]="p.routeDirection"
-                  [routerLink]="[p.url]"
-                >
-                  <ion-icon
-                    *ngIf="p.icon"
-                    slot="start"
-                    [name]="p.icon"
-                  ></ion-icon>
-                  <ion-label>
-                    {{ p.title | translate }}
-                  </ion-label>
-                </ion-item>
-              </ion-menu-toggle>
-            </ion-list>
-          </ion-content>
-          <ion-footer>
-            <ion-menu-toggle auto-hide="false">
-              <ion-item
-                appTrackClick
-                [dataToTrack]="{
-                  eventLabel: 'Logout',
-                  description: 'sideMenu'
-                }"
-                (click)="this.logout()"
-              >
-                <ion-icon slot="start" name="log-out" color="danger"></ion-icon>
-                <ion-label>
-                  {{ 'app.main_menu.logout' | translate }}
-                </ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-          </ion-footer>
-        </ion-menu>
         <ion-router-outlet id="main-content"></ion-router-outlet>
       </ion-split-pane>
     </ion-app>
@@ -85,65 +37,6 @@ import { NotificationsHelperService } from './modules/notifications/shared-notif
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(IonRouterOutlet, { static: true })
   ionRouterOutlet: IonRouterOutlet;
-
-  public appPages = [
-    {
-      id: 1,
-      title: 'app.main_menu.funds',
-      url: '/tabs/funds',
-      icon: '',
-      routeDirection: 'root'
-    },
-    {
-      id: 2,
-      title: 'app.main_menu.user_profile',
-      url: '/profiles/user',
-      icon: '',
-      routeDirection: 'forward'
-    },
-    {
-      id: 3,
-      title: 'app.main_menu.deposit_address',
-      url: '/funds/deposit-address',
-      icon: '',
-      routeDirection: 'forward'
-    },
-    {
-      id: 4,
-      title: 'app.main_menu.commissions',
-      url: '/funds/commissions',
-      icon: '',
-      routeDirection: 'forward'
-    },
-    {
-      id: 5,
-      title: 'app.main_menu.help',
-      url: '/tutorials/help',
-      icon: '',
-      routeDirection: 'forward'
-    },
-    {
-      id: 6,
-      title: 'app.main_menu.password_change',
-      url: '/users/password-change',
-      icon: '',
-      routeDirection: 'forward'
-    },
-    {
-      id: 7,
-      title: 'app.main_menu.referrals',
-      url: '/referrals/list',
-      icon: '',
-      routeDirection: 'root'
-    },
-    {
-      id: 8,
-      title: 'app.main_menu.notifications',
-      url: '/notifications/list',
-      icon: '',
-      routeDirection: 'root'
-    }
-  ];
 
   isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
 

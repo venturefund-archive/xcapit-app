@@ -34,6 +34,7 @@ import { ApikeysModule } from './modules/apikeys/apikeys.module';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
+import { MenusModule } from './modules/menus/menus.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -76,6 +77,7 @@ export function httpLoaderFactory(http: HttpClient) {
     TabsModule,
     ApikeysModule,
     NotificationsModule,
+    MenusModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

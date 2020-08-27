@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MenuController, NavController } from '@ionic/angular';
+import { MainMenuPageModule } from '../../menus/main-menu/main-menu.module';
 
 @Component({
   selector: 'app-tabs',
@@ -25,12 +26,7 @@ import { MenuController, NavController } from '@ionic/angular';
           <ion-label>{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button
-          (click)="this.showMenu()"
-          tab="menu"
-          appTrackClick
-          name="Tab Menu"
-        >
+        <ion-tab-button (click)="showMenu()" appTrackClick name="Tab Menu" >
           <ion-icon name="ux-menu"></ion-icon>
           <ion-label>{{ 'tabs.menu' | translate }}</ion-label>
         </ion-tab-button>
@@ -40,13 +36,15 @@ import { MenuController, NavController } from '@ionic/angular';
   styleUrls: ['./tabs.component.scss']
 })
 export class TabsComponent {
+  private openMenu: boolean = false;
   constructor(
     private menu: MenuController,
     private navController: NavController
   ) {}
 
   showMenu() {
-    this.menu.toggle();
+    //this.menu.toggle();
+    this.navController.navigateForward('menus/main-menu');
   }
 
   goToNewFund() {
