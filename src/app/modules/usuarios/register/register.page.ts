@@ -5,7 +5,9 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 
+const { Browser } = Plugins;
 @Component({
   selector: 'app-register',
   template: `
@@ -40,8 +42,9 @@ import { ActivatedRoute } from '@angular/router';
                 appTrackClickUnauth
                 name="Go To Login"
                 class="tos-text__button ux_button"
-                [routerLink]="['/users/login']"
+                
                 routerDirection="back"
+                (click)="openTOS()"
               >
                   {{ 'usuarios.register.link_tos' | translate }}
               </ion-button>
@@ -100,7 +103,11 @@ export class RegisterPage implements OnInit {
     private translate: TranslateService,
     private route: ActivatedRoute,
     private navController: NavController
-  ) {}
+  ) {
+    Browser.prefetch({
+      urls: ['https://www.info.xcapit.com/terms']
+    });
+  }
 
   ngOnInit() {}
 
@@ -161,5 +168,9 @@ export class RegisterPage implements OnInit {
       buttons: [this.translate.instant('usuarios.register.accept_button')]
     });
     await alert.present();
+  }
+
+  async openTOS() {
+    await Browser.open({ toolbarColor:"red", url: 'https://www.info.xcapit.com/terms' });
   }
 }
