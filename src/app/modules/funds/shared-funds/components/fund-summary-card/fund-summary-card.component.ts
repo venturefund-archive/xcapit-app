@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FundSummaryInterface } from './fund-summary.interface';
 import { ShareService } from 'src/app/shared/services/share/share.service';
-import {
-  ApiSubscriptionsService
-} from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
+import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -24,8 +22,15 @@ import { TranslateService } from '@ngx-translate/core';
               class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
               color="uxdark"
             >
-              {{ this.summary?.balance.end_balance | number: '1.2-2' }}
-              {{ this.summary?.fund.currency }}
+              {{
+                this.summary?.balance.end_balance
+                  | currencyFormat
+                    : {
+                        currency: this.summary?.fund.currency,
+                        formatUSDT: '1.2-2',
+                        formatBTC: '1.2-4'
+                      }
+              }}
             </ion-text>
           </div>
           <div class="actual-text">
@@ -44,8 +49,15 @@ import { TranslateService } from '@ngx-translate/core';
               class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
               color="uxdark"
             >
-              {{ this.summary?.balance.start_balance | number: '1.2-2' }}
-              {{ this.summary?.fund.currency }}
+              {{
+                this.summary?.balance.start_balance
+                  | currencyFormat
+                    : {
+                        currency: this.summary?.fund.currency,
+                        formatUSDT: '1.2-2',
+                        formatBTC: '1.2-4'
+                      }
+              }}
             </ion-text>
           </div>
           <div class="initial-text">
@@ -62,27 +74,27 @@ import { TranslateService } from '@ngx-translate/core';
       </div>
       <div class="fsc__footer">
         <div class="fsc__footer__left">
-<!--          <div class="remaining-time-text">-->
-<!--            <ion-text-->
-<!--              class="ux-font-lato ux-fweight-regular ux-fsize-12"-->
-<!--              color="uxmedium"-->
-<!--            >-->
-<!--              {{-->
-<!--                'funds.fund_detail.fund_summary_card.remaining_time' | translate-->
-<!--              }}-->
-<!--            </ion-text>-->
-<!--          </div>-->
-<!--          <div class="remaining-time">-->
-<!--            <ion-text-->
-<!--              class="ux-font-lato ux-fweight-semibold ux-fsize-12"-->
-<!--              color="uxdark"-->
-<!--            >-->
-<!--              {{-->
-<!--                this.summary?.balance.date_info.cantidad_dias_inicio_restantes-->
-<!--              }}-->
-<!--              {{ 'funds.fund_detail.fund_summary_card.days_label' | translate }}-->
-<!--            </ion-text>-->
-<!--          </div>-->
+          <!--          <div class="remaining-time-text">-->
+          <!--            <ion-text-->
+          <!--              class="ux-font-lato ux-fweight-regular ux-fsize-12"-->
+          <!--              color="uxmedium"-->
+          <!--            >-->
+          <!--              {{-->
+          <!--                'funds.fund_detail.fund_summary_card.remaining_time' | translate-->
+          <!--              }}-->
+          <!--            </ion-text>-->
+          <!--          </div>-->
+          <!--          <div class="remaining-time">-->
+          <!--            <ion-text-->
+          <!--              class="ux-font-lato ux-fweight-semibold ux-fsize-12"-->
+          <!--              color="uxdark"-->
+          <!--            >-->
+          <!--              {{-->
+          <!--                this.summary?.balance.date_info.cantidad_dias_inicio_restantes-->
+          <!--              }}-->
+          <!--              {{ 'funds.fund_detail.fund_summary_card.days_label' | translate }}-->
+          <!--            </ion-text>-->
+          <!--          </div>-->
         </div>
         <div class="fsc__footer__right">
           <div class="share-button">
@@ -102,7 +114,7 @@ import { TranslateService } from '@ngx-translate/core';
       </div>
     </div>
   `,
-  styleUrls: ['./fund-summary-card.component.scss']
+  styleUrls: ['./fund-summary-card.component.scss'],
 })
 export class FundSummaryCardComponent implements OnInit {
   @Input() summary: FundSummaryInterface;
@@ -129,7 +141,7 @@ export class FundSummaryCardComponent implements OnInit {
             url: data.link,
             dialogTitle: this.translate.instant(
               'subscriptions.subscriptions_service.share_title'
-            )
+            ),
           },
           this.translate.instant(
             'subscriptions.subscriptions_service.toast_text_copied'

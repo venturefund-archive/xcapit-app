@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { CurrencyPercentagePipe } from './pipes/currency-percentage/currency-percentage.pipe';
 import { CurrencyTextPipe } from './pipes/currency-text/currency-text.pipe';
 import { FundPerformanceChartComponent } from './components/fund-performance-chart/fund-performance-chart.component';
@@ -21,6 +21,7 @@ import { FundBalanceChartComponent } from './components/fund-balance-chart/fund-
 import { FundBalanceDetailComponent } from './components/fund-balance-detail/fund-balance-detail.component';
 import { FundBalanceDetailItemComponent } from './components/fund-balance-detail-item/fund-balance-detail-item.component';
 import { FundFinishPauseCardComponent } from './components/fund-finish-pause-card/fund-finish-pause-card.component';
+import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe';
 
 @NgModule({
   declarations: [
@@ -43,9 +44,10 @@ import { FundFinishPauseCardComponent } from './components/fund-finish-pause-car
     FundBalanceChartComponent,
     FundBalanceDetailComponent,
     FundBalanceDetailItemComponent,
-    FundFinishPauseCardComponent
+    FundFinishPauseCardComponent,
+    CurrencyFormatPipe,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, DecimalPipe],
   imports: [SharedModule],
   exports: [
     SharedModule,
@@ -68,8 +70,9 @@ import { FundFinishPauseCardComponent } from './components/fund-finish-pause-car
     FundBalanceChartComponent,
     FundBalanceDetailComponent,
     FundBalanceDetailItemComponent,
-    FundFinishPauseCardComponent
+    FundFinishPauseCardComponent,
+    CurrencyFormatPipe,
   ],
-  entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent]
+  entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent],
 })
 export class SharedFundsModule {}

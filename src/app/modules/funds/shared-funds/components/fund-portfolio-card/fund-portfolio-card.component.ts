@@ -44,8 +44,17 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
             <ion-text
               class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
               color="uxdark"
-              >{{ this.total | number: '1.0-2' }} {{ this.currency }}</ion-text
             >
+              {{
+                this.total
+                  | currencyFormat
+                    : {
+                        currency: this.currency,
+                        formatUSDT: '1.2-2',
+                        formatBTC: '1.2-4'
+                      }
+              }}
+            </ion-text>
             <ion-button
               appTrackClick
               name="Change Currency"
@@ -79,7 +88,7 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
       </div>
     </div>
   `,
-  styleUrls: ['./fund-portfolio-card.component.scss']
+  styleUrls: ['./fund-portfolio-card.component.scss'],
 })
 export class FundPortfolioCardComponent implements OnInit {
   @Input() fundBalance: any;
@@ -116,8 +125,9 @@ export class FundPortfolioCardComponent implements OnInit {
   }
 
   orderChartData() {
-    this.orderedPortfolio = this.fundBalance.balance.summary.sort((a: any, b: any) =>
-      a.percentage < b.percentage ? 1 : a.percentage > b.percentage ? -1 : 0
+    this.orderedPortfolio = this.fundBalance.balance.summary.sort(
+      (a: any, b: any) =>
+        a.percentage < b.percentage ? 1 : a.percentage > b.percentage ? -1 : 0
     );
   }
 
@@ -129,10 +139,10 @@ export class FundPortfolioCardComponent implements OnInit {
           'funds.fund_detail.fund_portfolio_card.change_currency'
         ),
         data: this.currencies,
-        selected: this.currency
+        selected: this.currency,
       },
       swipeToClose: false,
-      cssClass: 'ux-routeroutlet-modal'
+      cssClass: 'ux-routeroutlet-modal',
     });
 
     await modal.present();
@@ -145,10 +155,12 @@ export class FundPortfolioCardComponent implements OnInit {
   }
 
   getBalanceInCa(ca: string) {
-    this.apiFunds.getBalance(this.fundBalance.fund.nombre_bot, ca, false).subscribe(data => {
-      this.total = data.balance.to_ca.end_balance;
-      this.currency = ca;
-    });
+    this.apiFunds
+      .getBalance(this.fundBalance.fund.nombre_bot, ca, false)
+      .subscribe((data) => {
+        this.total = data.balance.to_ca.end_balance;
+        this.currency = ca;
+      });
   }
 
   async viewDetails() {
@@ -158,10 +170,10 @@ export class FundPortfolioCardComponent implements OnInit {
         orderedPortfolio: this.orderedPortfolio,
         startDate: this.fundBalance.balance.start_date,
         endDate: this.fundBalance.balance.end_date,
-        currency: this.fundBalance.fund.currency
+        currency: this.fundBalance.fund.currency,
       },
       swipeToClose: false,
-      cssClass: 'ux-routeroutlet-modal'
+      cssClass: 'ux-routeroutlet-modal',
     });
 
     await modal.present();

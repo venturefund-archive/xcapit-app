@@ -1,13 +1,15 @@
+import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { FundBalanceDetailItemComponent } from './fund-balance-detail-item.component';
 import { By } from '@angular/platform-browser';
+import { DecimalPipe } from '@angular/common';
 const testItem = {
   color: '#FABEA1',
-  amount: '14.00',
-  value: '12.00',
-  ca: 'BTC'
+  amount: '14.000000',
+  value: '12.000000',
+  ca: 'BTC',
 };
 
 describe('FundBalanceDetailItemComponent', () => {
@@ -16,8 +18,9 @@ describe('FundBalanceDetailItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FundBalanceDetailItemComponent],
-      imports: [IonicModule]
+      declarations: [FundBalanceDetailItemComponent, CurrencyFormatPipe, DecimalPipe],
+      imports: [IonicModule],
+      providers: [CurrencyFormatPipe, DecimalPipe]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FundBalanceDetailItemComponent);
@@ -38,8 +41,8 @@ describe('FundBalanceDetailItemComponent', () => {
       .children[0].textContent;
     const ca = fixture.debugElement.query(By.css('div.ca')).nativeElement
       .children[0].textContent;
-    expect(amount).toBe(testItem.amount);
-    expect(value).toBe(`${testItem.value} ${component.currency}`);
-    expect(ca).toBe(testItem.ca);
+    expect(amount).toContain(testItem.amount);
+    expect(value).toContain(`${testItem.value} ${component.currency}`);
+    expect(ca).toContain(testItem.ca);
   });
 });
