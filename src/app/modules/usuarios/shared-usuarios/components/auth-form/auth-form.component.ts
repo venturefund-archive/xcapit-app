@@ -26,16 +26,6 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           [placeholder]="'usuarios.login.email_placeholder_label' | translate"
           [errors]="this.emailErrors"
         ></app-ux-input>
-        
-        <app-ux-input
-          *ngIf="!this.isLogin"
-          controlName="repeat_email"
-          type="email"
-          inputmode="email"
-          [label]="'usuarios.auth_form.repeat_email' | translate"
-          [placeholder]="'usuarios.login.email_placeholder_label' | translate"
-          [errors]="this.repeatEmailErrors"
-        ></app-ux-input>
 
         <app-ux-input
           controlName="password"
@@ -46,15 +36,6 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
         ></app-ux-input>
 
         <ng-content select=".auth-link-reset-password"></ng-content>
-
-        <app-ux-input
-          *ngIf="!this.isLogin"
-          controlName="repeat_password"
-          type="password"
-          inputmode="password"
-          [label]="'usuarios.auth_form.repeat_password' | translate"
-          [errors]="this.repeatPasswordErrors"
-        ></app-ux-input>
 
         <app-ux-checkbox
           *ngIf="!this.isLogin"
@@ -127,36 +108,7 @@ export class AuthFormComponent implements OnInit {
           Validators.maxLength(100)
         ]
       ],
-      repeat_email: [
-        '',
-        [
-          Validators.email,
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(100)
-        ]
-      ],
       password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(100),
-          CustomValidators.patternValidator(
-            /\d/,
-            CustomValidatorErrors.hasNumber
-          ),
-          CustomValidators.patternValidator(
-            /[A-Z]/,
-            CustomValidatorErrors.hasCapitalCase
-          ),
-          CustomValidators.patternValidator(
-            /[a-z]/,
-            CustomValidatorErrors.hasSmallCase
-          )
-        ]
-      ],
-      repeat_password: [
         '',
         [
           Validators.required,
@@ -185,17 +137,6 @@ export class AuthFormComponent implements OnInit {
           CustomValidators.mustBeTrue
         ]
       ]
-    },
-    {
-      validators: [
-        CustomValidators.passwordMatchValidator,
-        control =>
-          CustomValidators.fieldsdMatchValidator(
-            control,
-            'email',
-            'repeat_email'
-          )
-      ]
     }
   );
 
@@ -220,8 +161,6 @@ export class AuthFormComponent implements OnInit {
 
   private initForm() {
     if (this.isLogin) {
-      this.form.get('repeat_password').disable();
-      this.form.get('repeat_email').disable();
       this.form.get('tos').disable();
     }
   }
