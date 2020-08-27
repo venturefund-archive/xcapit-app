@@ -1,0 +1,17 @@
+:host {
+  ion-icon {
+    color: rgba(0,0,0,0.38);
+  }
+
+  .item-style {
+    height: 50px;
+    margin: 0 16px;
+    border-bottom: 1px solid #0000000A;
+    --inner-border-width: 0px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    padding-inline-end: 0px;
+    font-size: 14px;
+    font-family: var(--ux-font-lato);
+  }
+}
