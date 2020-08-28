@@ -1,3 +1,4 @@
+import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
@@ -11,6 +12,7 @@ import { FundSummaryInterface } from './fund-summary.interface';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DecimalPipe } from '@angular/common';
 const testData = { link: 'https://test.link' };
 const testSummary: FundSummaryInterface = {
   fund: { nombre_bot: 'Test', currency: 'BTC' },
@@ -32,9 +34,11 @@ describe('FundSummaryCardComponent', () => {
     ]);
     shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
     TestBed.configureTestingModule({
-      declarations: [FundSummaryCardComponent, TrackClickDirective],
+      declarations: [FundSummaryCardComponent, TrackClickDirective, CurrencyFormatPipe, DecimalPipe],
       imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
+        CurrencyFormatPipe,
+        DecimalPipe,
         { provide: ApiSubscriptionsService, useValue: apiSubscriptionsSpy },
         { provide: ShareService, useValue: shareServiceSpy }
       ]

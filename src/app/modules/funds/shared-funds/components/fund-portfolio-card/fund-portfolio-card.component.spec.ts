@@ -1,3 +1,4 @@
+import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 
@@ -10,6 +11,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+import { DecimalPipe } from '@angular/common';
 
 const testBalance = {
   balance: {
@@ -28,13 +30,21 @@ describe('FundPortfolioCardComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundPortfolioCardComponent>;
   let modalControllerSpy: any;
   beforeEach(async(() => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
     apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
       getBalance: of(testBalance),
     });
 
     TestBed.configureTestingModule({
-      declarations: [FundPortfolioCardComponent, TrackClickDirective],
+      declarations: [
+        FundPortfolioCardComponent,
+        TrackClickDirective,
+        CurrencyFormatPipe,
+        DecimalPipe,
+      ],
       imports: [
         IonicModule,
         TranslateModule.forRoot(),
@@ -42,6 +52,8 @@ describe('FundPortfolioCardComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
+        CurrencyFormatPipe,
+        DecimalPipe,
         { provide: ApiFundsService, useValue: apiFundsSpy },
         { provide: ModalController, useValue: modalControllerSpy },
       ],

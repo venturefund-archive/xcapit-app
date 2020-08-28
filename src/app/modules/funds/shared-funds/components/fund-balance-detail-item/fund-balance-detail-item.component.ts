@@ -17,7 +17,7 @@ import { Component, OnInit, Input } from '@angular/core';
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-14"
             color="uxdark"
-            >{{ item.amount | number: '1.2-6' }}</ion-text
+            >{{ item.amount | number: '1.6-6' }}</ion-text
           >
         </div>
       </div>
@@ -26,14 +26,22 @@ import { Component, OnInit, Input } from '@angular/core';
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-14"
             color="uxmedium"
-            >{{ item.value | number: '1.2-6' }} {{ this.currency }}</ion-text
           >
+            {{
+              item.value
+                | currencyFormat
+                  : {
+                      currency: this.currency,
+                      formatUSDT: '1.6-6',
+                      formatBTC: '1.6-6'
+                    }
+            }}
+          </ion-text>
         </div>
       </div>
     </div>
-
   `,
-  styleUrls: ['./fund-balance-detail-item.component.scss']
+  styleUrls: ['./fund-balance-detail-item.component.scss'],
 })
 export class FundBalanceDetailItemComponent implements OnInit {
   @Input() item: any;

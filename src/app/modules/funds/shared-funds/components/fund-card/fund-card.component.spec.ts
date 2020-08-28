@@ -1,3 +1,4 @@
+import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { FundCardComponent } from './fund-card.component';
@@ -8,6 +9,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { DecimalPipe } from '@angular/common';
 
 describe('FundCardComponent', () => {
   let component: FundCardComponent;
@@ -19,7 +21,9 @@ describe('FundCardComponent', () => {
         FundCardComponent,
         AbsoluteValuePipe,
         TrackClickDirective,
-        DummyComponent
+        DummyComponent,
+        CurrencyFormatPipe,
+        DecimalPipe
       ],
       imports: [
         IonicModule,
@@ -28,7 +32,8 @@ describe('FundCardComponent', () => {
         RouterTestingModule.withRoutes([
           { path: 'funds/detail/:fundName', component: DummyComponent }
         ])
-      ]
+      ],
+      providers: [CurrencyFormatPipe, DecimalPipe]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FundCardComponent);
