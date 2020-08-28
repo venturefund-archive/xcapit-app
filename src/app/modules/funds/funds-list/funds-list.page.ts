@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NavController, LoadingController } from '@ionic/angular';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { TabsComponent } from '../../tabs/tabs/tabs.component';
 
 @Component({
   selector: 'app-funds-list',
@@ -49,11 +50,11 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 
     <ion-content>
       <app-fund-list-sub-header
-        *ngIf="this.hasOwnerFunds"
+        *ngIf="this.status.has_own_funds"
       ></app-fund-list-sub-header>
 
       <!-- Steps -->
-      <div class="fund_steps" *ngIf="!this.hasOwnerFunds">
+      <div class="fund_steps" *ngIf="!this.status.has_own_funds">
         <div class="fund_steps__subheader_bg"></div>
         <div class="fund_steps__card ion-padding">
           <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
@@ -96,7 +97,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 
       <!-- Fund lists -->
       <div class="fl">
-        <div *ngIf="this.hasOwnerFunds" class="fl__funds ion-padding">
+        <div *ngIf="this.status.has_own_funds" class="fl__funds ion-padding">
           <div
             class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12"
           >
@@ -111,7 +112,10 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             <app-fund-card [fund]="fb" *ngIf="fb"></app-fund-card>
           </div>
         </div>
-        <div *ngIf="this.hasNotOwnerFunds" class="fl__funds ion-padding">
+        <div
+          *ngIf="this.status.has_subscribed_funds"
+          class="fl__funds ion-padding"
+        >
           <div
             class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12"
           >
@@ -142,7 +146,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
           *ngIf="
             this.status.profile_valid &&
             !this.status.empty_linked_keys &&
-            !this.hasOwnerFunds
+            !this.status.has_own_funds
           "
         >
           <app-ux-card-info-binance></app-ux-card-info-binance>
@@ -153,23 +157,26 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
       </div>
     </ion-content>
   `,
-  styleUrls: ['./funds-list.page.scss']
+  styleUrls: ['./funds-list.page.scss'],
 })
 export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
   hasNotifications = true;
-  hasOwnerFunds = false;
-  hasNotOwnerFunds = false;
+
   status = {
     profile_valid: false,
-    empty_linked_keys: false
+    empty_linked_keys: false,
+    has_own_funds: false,
+    has_subscribed_funds: false,
+    status_name: ''
   };
 
   actionButton: {
     name: string;
     text: string;
   };
+  newFundUrl: string;
 
   steps: any;
 
@@ -177,32 +184,27 @@ export class FundsListPage implements OnInit {
     private apiFundsService: ApiFundsService,
     private translate: TranslateService,
     private apiUsuarios: ApiUsuariosService,
-    private navController: NavController
+    private navController: NavController,
+    private tabsComponent: TabsComponent
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.checkStatus();
-    this.checkFunds();
+    this.getStatus();
   }
 
   ionViewDidEnter() {
     this.getOwnerFundBalances();
   }
 
-  checkStatus() {
-    this.apiUsuarios.status(false).subscribe(res => {
+  getStatus() {
+    this.apiUsuarios.status(false).subscribe((res) => {
       this.status = res;
+      console.log(this.status);
       this.setSteps();
       this.setActionButton();
-    });
-  }
-
-  checkFunds() {
-    this.apiFundsService.count().subscribe(res => {
-      this.hasOwnerFunds = res.owners > 0;
-      this.hasNotOwnerFunds = res.not_owners > 0;
+      this.setNewFundUrl();
     });
   }
 
@@ -210,16 +212,16 @@ export class FundsListPage implements OnInit {
     this.steps = [
       {
         icon: this.status.profile_valid ? 'ux-checked-circle' : 'ux-step-1',
-        text: this.translate.instant('funds.funds_list.fund_steps.step1')
+        text: this.translate.instant('funds.funds_list.fund_steps.step1'),
       },
       {
         icon: this.status.empty_linked_keys ? 'ux-checked-circle' : 'ux-step-2',
-        text: this.translate.instant('funds.funds_list.fund_steps.step2')
+        text: this.translate.instant('funds.funds_list.fund_steps.step2'),
       },
       {
         icon: 'ux-step-3',
-        text: this.translate.instant('funds.funds_list.fund_steps.step3')
-      }
+        text: this.translate.instant('funds.funds_list.fund_steps.step3'),
+      },
     ];
   }
 
@@ -229,34 +231,34 @@ export class FundsListPage implements OnInit {
         name: 'Configure Account',
         text: this.translate.instant(
           'funds.funds_list.fund_steps.action_button1'
-        )
+        ),
       };
     } else if (!this.status.empty_linked_keys) {
       this.actionButton = {
         name: 'Link with Binance',
         text: this.translate.instant(
           'funds.funds_list.fund_steps.action_button2'
-        )
+        ),
       };
     } else {
       this.actionButton = {
         name: 'Create New Fund',
         text: this.translate.instant(
           'funds.funds_list.fund_steps.action_button3'
-        )
+        ),
       };
     }
   }
 
   private getOwnerFundBalances() {
-    this.apiFundsService.getFundBalances(true, false).subscribe(res => {
+    this.apiFundsService.getFundBalances(true, false).subscribe((res) => {
       this.ownerFundBalances = res;
       this.getNotOwnerFundBalances();
     });
   }
 
   private getNotOwnerFundBalances() {
-    this.apiFundsService.getFundBalances(false, false).subscribe(res => {
+    this.apiFundsService.getFundBalances(false, false).subscribe((res) => {
       this.notOwnerFundBalances = res;
     });
   }
@@ -271,12 +273,15 @@ export class FundsListPage implements OnInit {
   }
 
   doActionButton() {
-    if (!this.status.profile_valid) {
-      this.navController.navigateRoot('profiles/personal-data');
-    } else if (!this.status.empty_linked_keys) {
-      this.navController.navigateRoot('apikeys/tutorial');
-    } else {
-      this.navController.navigateRoot('funds/fund-name');
-    }
+    this.navController.navigateRoot(this.newFundUrl);
+  }
+
+  setNewFundUrl() {
+    this.newFundUrl = !this.status.profile_valid
+      ? 'profiles/personal-data'
+      : !this.status.empty_linked_keys
+      ? 'apikeys/tutorial'
+      : 'funds/fund-name';
+    this.tabsComponent.newFundUrl = this.newFundUrl;
   }
 }
