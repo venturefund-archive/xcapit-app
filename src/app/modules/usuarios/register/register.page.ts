@@ -129,7 +129,7 @@ export class RegisterPage implements OnInit {
   setEmail() {
     const email = this.getEmailFromUrl();
     if (email) {
-      ['email', 'repeat_email'].forEach(fieldName => {
+      ['email'].forEach(fieldName => {
         const formField = this.registerForm.form.get(fieldName);
         formField.setValue(email);
         formField.markAsTouched();
