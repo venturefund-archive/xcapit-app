@@ -13,16 +13,15 @@ describe('AuthFormComponent', () => {
   const formData = {
     valid: {
       email: 'email@email.com',
-      rEmail: 'email@email.com',
       pass: 'asdfF1',
-      rPass: 'asdfF1',
-      rCode: 'asd123'
+      rCode: 'asd123',
+      rTOS: true
     },
     invalid: {
       email: 'fdaas',
       pass: 'dsfaaa',
-      rPass: 'dsfaa',
-      rCode: ''
+      rCode: '',
+      rTOS: false
     }
   };
 
@@ -47,7 +46,6 @@ describe('AuthFormComponent', () => {
   it('should call handleSubmit on submit event, valid form', () => {
     component.form.get('email').setValue(formData.valid.email);
     component.form.get('password').setValue(formData.valid.pass);
-    component.form.get('repeat_password').setValue(formData.valid.pass);
     const spy = spyOn(component, 'handleSubmit');
     fixture.detectChanges();
     fixture.debugElement
@@ -58,9 +56,8 @@ describe('AuthFormComponent', () => {
 
   it('should call emit on send, valid form', () => {
     component.form.get('email').setValue(formData.valid.email);
-    component.form.get('repeat_email').setValue(formData.valid.rEmail);
     component.form.get('password').setValue(formData.valid.pass);
-    component.form.get('repeat_password').setValue(formData.valid.pass);
+    component.form.get('tos').setValue(formData.valid.rTOS);
     fixture.detectChanges();
     const spy = spyOn(component.send, 'emit');
     component.handleSubmit();
@@ -76,50 +73,35 @@ describe('AuthFormComponent', () => {
   describe('Form values', () => {
     it('form should be invalid when fields are empty', async () => {
       component.form.get('email').setValue('');
-      component.form.get('repeat_email').setValue('');
       component.form.get('password').setValue('');
-      component.form.get('repeat_password').setValue('');
+      component.form.get('tos').setValue(false);
       expect(component.form.valid).toBeFalsy();
     });
 
     it('form should be invalid when email field are not a valid email', async () => {
       component.form.get('email').setValue(formData.invalid.email);
-      component.form.get('repeat_email').setValue(formData.invalid.email);
       component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeat_password').setValue(formData.valid.pass);
-      expect(component.form.valid).toBeFalsy();
-    });
-
-    it('form should be invalid when passwords not match', async () => {
-      component.form.get('email').setValue(formData.valid.email);
-      component.form.get('repeat_email').setValue(formData.valid.rEmail);
-      component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeat_password').setValue(formData.invalid.pass);
-      expect(component.form.valid).toBeFalsy();
-    });
-
-    it('form should be invalid when emails not match', async () => {
-      component.form.get('email').setValue(formData.valid.email);
-      component.form
-        .get('repeat_email')
-        .setValue('ups' + formData.valid.rEmail);
-      component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeat_password').setValue(formData.invalid.pass);
+      component.form.get('tos').setValue(formData.valid.rTOS);
       expect(component.form.valid).toBeFalsy();
     });
 
     it('form should be invalid when passwords are not valid', async () => {
       component.form.get('email').setValue(formData.valid.email);
       component.form.get('password').setValue(formData.invalid.pass);
-      component.form.get('repeat_password').setValue(formData.invalid.pass);
+      expect(component.form.valid).toBeFalsy();
+    });
+
+    it('form should be invalid when TOS are not accepted', async () => {
+      component.form.get('email').setValue(formData.valid.email);
+      component.form.get('password').setValue(formData.valid.pass);
+      component.form.get('tos').setValue(formData.invalid.rTOS);
       expect(component.form.valid).toBeFalsy();
     });
 
     it('form should be invalid when manual_referral is true and referral_code is empty', async () => {
       component.form.get('email').setValue(formData.valid.email);
-      component.form.get('repeat_email').setValue(formData.valid.rEmail);
       component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeat_password').setValue(formData.valid.rPass);
+      component.form.get('tos').setValue(formData.valid.rTOS);
       component.form.get('manual_referral').setValue(true);
       component.form.get('referral_code').setValue(formData.invalid.rCode);
       expect(component.form.valid).toBeFalsy();
@@ -127,9 +109,8 @@ describe('AuthFormComponent', () => {
 
     it('form should be valid when manual_referral is true and referral_code is valid', async () => {
       component.form.get('email').setValue(formData.valid.email);
-      component.form.get('repeat_email').setValue(formData.valid.rEmail);
       component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeat_password').setValue(formData.valid.rPass);
+      component.form.get('tos').setValue(formData.valid.rTOS);
       component.form.get('manual_referral').setValue(true);
       component.form.get('referral_code').setValue(formData.valid.rCode);
       expect(component.form.valid).toBeTruthy();
@@ -137,9 +118,8 @@ describe('AuthFormComponent', () => {
 
     it('form should be valid when manual_referral is False', async () => {
       component.form.get('email').setValue(formData.valid.email);
-      component.form.get('repeat_email').setValue(formData.valid.rEmail);
       component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('repeat_password').setValue(formData.valid.pass);
+      component.form.get('tos').setValue(formData.valid.rTOS);
       component.form.get('manual_referral').setValue(false);
       expect(component.form.valid).toBeTruthy();
     });
