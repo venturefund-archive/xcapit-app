@@ -14,8 +14,6 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
 import { ReplaySubject, of } from 'rxjs';
 import { TrackService } from './shared/services/track/track.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from './shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ActivatedRoute } from '@angular/router';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
@@ -34,7 +32,6 @@ describe('AppComponent', () => {
   let loadingServiceSpy: any;
   let authServiceMock: any;
   let trackServiceSpy: any;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<AppComponent>;
   let activatedRouteMock: any;
   let publicLogSpy: any;
   let notificationsServiceSpy: any;
@@ -76,7 +73,7 @@ describe('AppComponent', () => {
     notificationsHelperServiceSpy = jasmine.createSpyObj('NotificationsHelperService', ['save']);
 
     TestBed.configureTestingModule({
-      declarations: [AppComponent, TrackClickDirective, DummyComponent],
+      declarations: [AppComponent, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: TrackService, useValue: trackServiceSpy },
@@ -93,23 +90,12 @@ describe('AppComponent', () => {
       ],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
-          { path: 'users/login', component: DummyComponent },
-          { path: 'tutorials/help', component: DummyComponent },
-          { path: 'tabs/funds', component: DummyComponent },
-          { path: 'profiles/user', component: DummyComponent },
-          { path: 'funds/deposit-address', component: DummyComponent },
-          { path: 'users/password-change', component: DummyComponent },
-          { path: 'referrals/list', component: DummyComponent },
-          { path: 'notifications/list', component: DummyComponent }
-        ]),
         TranslateModule.forRoot()
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     publicLogSpy = TestBed.get(PublicLogsService);
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
   it('should create the app', async () => {
@@ -165,19 +151,6 @@ describe('AppComponent', () => {
     await platformReadySpy;
     expect(statusBarSpy.styleDefault).toHaveBeenCalled();
     expect(splashScreenSpy.hide).toHaveBeenCalled();
-  });
-
-  it('should call trackEvent on trackService when elements with the directive are clicked', () => {
-    fixture.detectChanges();
-    const elms = trackClickDirectiveHelper.getAllElementsWithTheDirective();
-    for (const el of elms) {
-      const directive = trackClickDirectiveHelper.getDirective(el);
-      const spy = spyOn(directive, 'clickEvent');
-      el.nativeElement.click();
-      fixture.detectChanges();
-      expect(spy).toHaveBeenCalledTimes(1);
-    }
-    expect(elms.length).toBe(9);
   });
 
   it('should get instance of notification service on ngAfterViewInit', () => {

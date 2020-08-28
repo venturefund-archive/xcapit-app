@@ -85,17 +85,7 @@ export class AuthFormComponent implements OnInit {
 
   emailErrors: ItemFormError[] = CONFIG.fieldErrors.username;
 
-  repeatEmailErrors: ItemFormError[] = [
-    ...CONFIG.fieldErrors.username,
-    ...CONFIG.fieldErrors.repeatUsername
-  ];
-
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
-
-  repeatPasswordErrors: ItemFormError[] = [
-    ...CONFIG.fieldErrors.repeatPassword,
-    ...CONFIG.fieldErrors.password
-  ];
 
   form: FormGroup = this.formBuilder.group(
     {
