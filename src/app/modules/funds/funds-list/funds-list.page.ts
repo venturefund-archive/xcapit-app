@@ -201,7 +201,6 @@ export class FundsListPage implements OnInit {
   getStatus() {
     this.apiUsuarios.status(false).subscribe((res) => {
       this.status = res;
-      console.log(this.status);
       this.setSteps();
       this.setActionButton();
       this.setNewFundUrl();
