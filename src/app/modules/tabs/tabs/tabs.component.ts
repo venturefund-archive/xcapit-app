@@ -37,6 +37,7 @@ import { MainMenuPageModule } from '../../menus/main-menu/main-menu.module';
 })
 export class TabsComponent {
   private openMenu: boolean = false;
+  newFundUrl: string;
   constructor(
     private menu: MenuController,
     private navController: NavController
@@ -48,6 +49,6 @@ export class TabsComponent {
   }
 
   goToNewFund() {
-    this.navController.navigateForward('apikeys/tutorial');
+    this.navController.navigateForward(this.newFundUrl);
   }
 }

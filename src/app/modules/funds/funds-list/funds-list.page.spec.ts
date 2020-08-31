@@ -1,3 +1,4 @@
+import { TabsComponent } from './../../tabs/tabs/tabs.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -23,23 +24,31 @@ describe('FundsListPage', () => {
   let apiUsuariosService: ApiUsuariosService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
+  let tabsComponentMock: any;
+  let tabsComponent: TabsComponent;
 
   beforeEach(async(() => {
     logsServiceMock = {
-      log: () => of({})
+      log: () => of({}),
+    };
+    tabsComponentMock = {
+      newFundUrl: '',
     };
 
     apiFundsServiceMock = {
       getFundBalances: () => of([]),
-      count: () => of({})
+      status: () => of({}),
     };
 
     apiUsuariosServiceMock = {
       status: () =>
         of({
-          profile_valid: false,
-          empty_linked_keys: false
-        })
+          profile_valid: true,
+          empty_linked_keys: false,
+          has_own_funds: true,
+          has_subscribed_funds: true,
+          status_name: 'COMPLETE',
+        }),
     };
 
     TestBed.configureTestingModule({
@@ -50,39 +59,40 @@ describe('FundsListPage', () => {
         RouterTestingModule.withRoutes([
           {
             path: 'tutorials/interactive-tutorial',
-            component: DummyComponent
+            component: DummyComponent,
           },
           {
             path: 'profiles/personal-data',
-            component: DummyComponent
+            component: DummyComponent,
           },
           {
             path: 'profiles/user',
-            component: DummyComponent
+            component: DummyComponent,
           },
           {
             path: 'notifications/list',
-            component: DummyComponent
-          }
-        ])
+            component: DummyComponent,
+          },
+        ]),
       ],
       declarations: [FundsListPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         TrackClickDirective,
+        { provide: TabsComponent, useValue: tabsComponentMock },
         {
           provide: LogsService,
-          useValue: logsServiceMock
+          useValue: logsServiceMock,
         },
         {
           provide: ApiFundsService,
-          useValue: apiFundsServiceMock
+          useValue: apiFundsServiceMock,
         },
         {
           provide: ApiUsuariosService,
-          useValue: apiUsuariosServiceMock
-        }
-      ]
+          useValue: apiUsuariosServiceMock,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -91,6 +101,7 @@ describe('FundsListPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiFundsService = TestBed.get(ApiFundsService);
+    tabsComponent = TestBed.inject(TabsComponent);
     apiUsuariosService = TestBed.get(ApiUsuariosService);
     logsServiceMock = TestBed.get(LogsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
@@ -105,17 +116,58 @@ describe('FundsListPage', () => {
     spy.and.returnValue(of({}));
     const spySetSteps = spyOn(component, 'setSteps');
     const spySetActionButton = spyOn(component, 'setActionButton');
+    const spySetNewFundUrl = spyOn(component, 'setNewFundUrl');
     component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spySetSteps).toHaveBeenCalledTimes(1);
     expect(spySetActionButton).toHaveBeenCalledTimes(1);
+    expect(spySetNewFundUrl).toHaveBeenCalledTimes(1);
   });
 
-  it('should call count in apiFundsService on ionViewWillEnter', () => {
-    const spy = spyOn(apiFundsService, 'count');
-    spy.and.returnValue(of({ owners: 2, not_owners: 0 }));
-    component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
+  it('should return profiles/personal-data when profile not valid', () => {
+    component.status = {
+      profile_valid: false,
+      empty_linked_keys: false,
+      has_own_funds: true,
+      has_subscribed_funds: true,
+      status_name: 'FROM_BOT',
+    };
+    fixture.detectChanges();
+    component.setNewFundUrl();
+    fixture.detectChanges();
+    expect(component.newFundUrl).toBe('profiles/personal-data');
+    expect(tabsComponent.newFundUrl).toBe('profiles/personal-data');
+  });
+
+  it('should return apikeys/tutorial when profile valid and not empty linked keys', () => {
+    component.status = {
+      profile_valid: true,
+      empty_linked_keys: false,
+      has_own_funds: true,
+      has_subscribed_funds: true,
+      status_name: 'EXOLORER',
+    };
+    fixture.detectChanges();
+    component.setNewFundUrl();
+    fixture.detectChanges();
+    expect(component.newFundUrl).toBe('apikeys/tutorial');
+    expect(tabsComponent.newFundUrl).toBe('apikeys/tutorial');
+  });
+
+
+  it('should return funds/fund-name when profile valid and empty linked keys', () => {
+    component.status = {
+      profile_valid: true,
+      empty_linked_keys: true,
+      has_own_funds: false,
+      has_subscribed_funds: false,
+      status_name: 'BEGINNER',
+    };
+    fixture.detectChanges();
+    component.setNewFundUrl();
+    fixture.detectChanges();
+    expect(component.newFundUrl).toBe('funds/fund-name');
+    expect(tabsComponent.newFundUrl).toBe('funds/fund-name');
   });
 
   it('should call getFundBalances in apiFundsService', () => {
