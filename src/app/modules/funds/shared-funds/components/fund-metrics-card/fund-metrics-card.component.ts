@@ -43,7 +43,7 @@ import { FundMetricsInterface } from './fund-metrics.interface';
               class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14"
               color="uxdark"
             >
-              {{ this.metrics.sharpe | number: '1.2-2' }} %
+              {{ this.metrics.sharpe | number: '1.2-2' }}
             </ion-text>
           </div>
         </div>
@@ -83,17 +83,24 @@ import { FundMetricsInterface } from './fund-metrics.interface';
               class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14"
               color="uxdark"
             >
+              {{ this.metrics.longest_drawdown | number: '1.0' }}
               {{
-                this.metrics.longest_drawdown | number: '1.0'
+                'funds.fund_detail.fund_metrics_card.longest_drawdown_metric'
+                  | translate
               }}
-              {{'funds.fund_detail.fund_metrics_card.longest_drawdown_metric' | translate}}
             </ion-text>
           </div>
         </div>
       </div>
+      <div class="fmc__clarification">
+        <div class="fmc__clarification__icon"></div>
+        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12" color="uxmedium">{{
+          'funds.fund_detail.fund_metrics_card.clarification' | translate
+        }}</ion-text>
+      </div>
     </div>
   `,
-  styleUrls: ['./fund-metrics-card.component.scss']
+  styleUrls: ['./fund-metrics-card.component.scss'],
 })
 export class FundMetricsCardComponent implements OnInit {
   @Input() metrics: FundMetricsInterface;
