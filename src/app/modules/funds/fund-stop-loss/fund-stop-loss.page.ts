@@ -230,10 +230,7 @@ export class FundStopLossPage implements OnInit {
         ...(await this.fundDataStorage.getFund()),
         ...this.form.value
       };
-      // TODO: Verificar bien que hacer con los niveles de riesgo
-      if (fund.risk_level === 'MID') {
-        fund.risk_level = 'PRO';
-      }
+
       this.apiFunds.crud.create(fund).subscribe(a => {
         this.fundDataStorage.clearAll();
         this.navController.navigateForward(['funds/fund-success']);

@@ -103,8 +103,7 @@ export class FundRiskPage implements OnInit {
   });
 
   riskLevels = [
-    { name: 'funds.fund_risk.risk_level_options.low', value: 'CLASSIC' },
-    { name: 'funds.fund_risk.risk_level_options.mid', value: 'MID' },
+    { name: 'funds.fund_risk.risk_level_options.mid', value: 'CLASSIC' },
     { name: 'funds.fund_risk.risk_level_options.high', value: 'PRO' }
   ];
 
