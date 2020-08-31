@@ -1,3 +1,4 @@
+import { LanguageService } from './../../../../../shared/services/language/language.service';
 import {
   Component,
   Input,
@@ -12,8 +13,6 @@ import {
   ChartLayoutOptions,
 } from 'chart.js';
 import { DatePipe } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
-import { log } from 'util';
 
 @Component({
   selector: 'app-fund-performance-chart',
@@ -33,7 +32,7 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   constructor(
     private datePipe: DatePipe,
-    private translate: TranslateService
+    private languageService: LanguageService
   ) {}
 
   gridLineOptions: GridLineOptions = {
@@ -261,7 +260,7 @@ export class FundPerformanceChartComponent implements OnChanges {
     const pattern = this.getIntervalPattern(this.interval);
     return this.fundPercentageEvolution.timestamp.map((item: string) =>
       this.datePipe
-        .transform(item, pattern, undefined, this.translate.currentLang)
+        .transform(item, pattern, undefined, this.languageService.selected)
         .toUpperCase()
     );
   }
