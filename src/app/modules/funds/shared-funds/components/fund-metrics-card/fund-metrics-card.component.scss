@@ -23,5 +23,10 @@
           margin-top: 18px;
       }
     }
+
+    &__clarification {
+      display: flex;
+      padding: 0 16px 16px 16px;
+    }
   }
 }

@@ -58,7 +58,7 @@ export class FundBalanceChartComponent implements OnChanges {
           tooltips: {
             enabled: false
           },
-          cutoutPercentage: 70,
+          cutoutPercentage: 60,
           responsive: true,
           maintainAspectRatio: false,
           aspectRatio: 1

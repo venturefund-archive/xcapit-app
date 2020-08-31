@@ -8,7 +8,7 @@
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",
       "help": "Ayuda",
-      "password_change": "Cambio de Password",
+      "password_change":"Cambio de Password",
       "referrals": "Referidos",
       "notifications": "Notificaciones"
     }
@@ -221,7 +221,8 @@
         "longest_drawdown": "Recupero más largo",
         "longest_drawdown_metric": "días",
         "sharpe": "Sharpe",
-        "max_drawdown": "Mayor caida"
+        "max_drawdown": "Mayor caida",
+        "clarification": "Resumen de tu fondo anualizado con periodos de 2hs."
       },
       "fund_portfolio_card": {
         "title": "COMPOSICIÓN DE CARTERA",
