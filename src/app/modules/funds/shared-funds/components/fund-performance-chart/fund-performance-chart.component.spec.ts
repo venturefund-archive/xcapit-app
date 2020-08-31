@@ -7,6 +7,8 @@ import { DatePipe } from '@angular/common';
 import { translateServiceSpy } from 'src/testing/spies/translate-service-spy.spec';
 import { FundPercentageEvolutionChartInterface } from '../performance-chart-card/fund-performance-chart.interface';
 import * as Chart from 'chart.js';
+import { LanguageService } from 'src/app/shared/services/language/language.service';
+import { constants } from 'crypto';
 const fundPerformanceMock: FundPercentageEvolutionChartInterface = {
   timestamp: ['01/10/2019'],
   percentage_evolution: [0.2],
@@ -21,6 +23,8 @@ class ChartMock {
 describe('FundPerformanceChartComponent', () => {
   let component: FundPerformanceChartComponent;
   let fixture: ComponentFixture<FundPerformanceChartComponent>;
+  const languageServiceMock = {selected: 'en'};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
@@ -34,8 +38,12 @@ describe('FundPerformanceChartComponent', () => {
         },
         {
           provide: Chart,
-          useClass: ChartMock
-        }
+          useClass: ChartMock,
+        },
+        {
+          provide: LanguageService,
+          useValue: languageServiceMock,
+        },
       ],
     }).compileComponents();
   }));
