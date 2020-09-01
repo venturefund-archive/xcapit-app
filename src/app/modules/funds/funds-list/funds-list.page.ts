@@ -50,11 +50,11 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
 
     <ion-content>
       <app-fund-list-sub-header
-        *ngIf="this.status.has_own_funds"
+        *ngIf="this.ownerFundBalances?.length"
       ></app-fund-list-sub-header>
 
       <!-- Steps -->
-      <div class="fund_steps" *ngIf="!this.status.has_own_funds">
+      <div class="fund_steps" *ngIf="!this.ownerFundBalances?.length">
         <div class="fund_steps__subheader_bg"></div>
         <div class="fund_steps__card ion-padding">
           <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
@@ -97,7 +97,10 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
 
       <!-- Fund lists -->
       <div class="fl">
-        <div *ngIf="this.status.has_own_funds" class="fl__funds ion-padding">
+        <div
+          *ngIf="this.ownerFundBalances?.length"
+          class="fl__funds ion-padding"
+        >
           <div
             class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12"
           >
@@ -113,7 +116,7 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
           </div>
         </div>
         <div
-          *ngIf="this.status.has_subscribed_funds"
+          *ngIf="this.notOwnerFundBalances?.length"
           class="fl__funds ion-padding"
         >
           <div
@@ -169,7 +172,7 @@ export class FundsListPage implements OnInit {
     empty_linked_keys: false,
     has_own_funds: false,
     has_subscribed_funds: false,
-    status_name: ''
+    status_name: '',
   };
 
   actionButton: {
