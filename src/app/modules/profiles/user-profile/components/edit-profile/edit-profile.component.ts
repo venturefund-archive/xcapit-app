@@ -51,7 +51,7 @@ import { map } from 'rxjs/operators';
             controlName="cellphone"
             type="text"
             [label]="'profiles.user_profile.cellphone' | translate"
-            inputmode="tel"
+            inputmode="numeric"
             [errors]="this.cellphoneErrors"
           ></app-ux-input>
         </div>
@@ -132,8 +132,22 @@ export class EditProfileComponent implements OnInit {
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
   controls = {
-    first_name: ['', [Validators.required, Validators.maxLength(150)]],
-    last_name: ['', [Validators.required, Validators.maxLength(150)]],
+    first_name: [
+      '', 
+      [
+        Validators.required, 
+        Validators.maxLength(150), 
+        Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
+      ]
+    ],
+    last_name: [
+      '', 
+      [
+        Validators.required, 
+        Validators.maxLength(150),
+        Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
+      ]
+    ],
     nro_dni: [
       '',
       [
@@ -149,7 +163,7 @@ export class EditProfileComponent implements OnInit {
         Validators.required,
         Validators.minLength(7),
         Validators.maxLength(24),
-        Validators.pattern('[0-9()-+][^.a-zA-Z]*$')
+        Validators.pattern('[0-9]*$')
       ]
     ],
     condicion_iva: ['', [Validators.required]],
