@@ -7,7 +7,7 @@ import { DynamicComponentService } from 'src/app/shared/services/dynamic-compone
   selector: 'app-help',
   template: `
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
