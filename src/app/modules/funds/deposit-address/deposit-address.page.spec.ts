@@ -132,6 +132,7 @@ describe('DepositAddressPage', () => {
       );
       const directive = trackClickDirectiveHelper.getDirective(el);
       const spyClickEvent = spyOn(directive, 'clickEvent');
+      clipboardServiceSpy.write.and.returnValue(of({}).toPromise());
       el.nativeElement.click();
       fixture.detectChanges();
       expect(spyClickEvent).toHaveBeenCalledTimes(1);

@@ -103,7 +103,9 @@ export class RunSummaryPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.runStatusSubscription.unsubscribe();
+    if (!!this.runStatusSubscription) {
+      this.runStatusSubscription.unsubscribe();
+    }
   }
 
   getRunStatus() {

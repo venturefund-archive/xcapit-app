@@ -36,7 +36,9 @@ export class SubscribePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscribeToFundSubscription.unsubscribe();
+    if (!!this.subscribeToFundSubscription) {
+      this.subscribeToFundSubscription.unsubscribe();
+    }
   }
 
   subscribeToFund() {

@@ -106,6 +106,7 @@ describe('FundDetailPage', () => {
   });
 
   it('should call trackEvent on trackService when Edit Fund button clicked', () => {
+    component.fundName = 'Test';
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Edit Fund'
