@@ -51,14 +51,14 @@ import { TranslateService } from '@ngx-translate/core';
               <ion-badge class="ux-font-gilroy ux-fweight-extrabold ux-fsize-10">
                   <ion-icon
                           name="ux-triangle-up"
-                          *ngIf="this.totalBalance?.total_profit > 0"
+                          *ngIf="this.totalBalance?.profit > 0"
                   ></ion-icon>
                   <ion-icon
                           name="ux-triangle-down"
-                          *ngIf="this.totalBalance?.total_profit < 0"
+                          *ngIf="this.totalBalance?.profit < 0"
                   ></ion-icon>
                   {{
-                  this.totalBalance?.total_profit | absoluteValue | number: '1.2-2'
+                  this.totalBalance?.profit | absoluteValue | number: '1.2-2'
                   }}
                   %
               </ion-badge>
