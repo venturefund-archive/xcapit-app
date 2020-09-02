@@ -19,10 +19,10 @@ describe('TabsComponent', () => {
       imports: [
         HttpClientTestingModule,
         TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([{
-          path: 'apikeys/tutorial',
-          component: DummyComponent
-        }])
+        RouterTestingModule.withRoutes([
+          { path: 'apikeys/tutorial', component: DummyComponent },
+          { path: 'menus/main-menu', component: DummyComponent }
+        ])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

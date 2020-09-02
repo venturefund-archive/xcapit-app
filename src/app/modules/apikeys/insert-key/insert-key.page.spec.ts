@@ -35,7 +35,8 @@ describe('InsertKeyPage', () => {
       imports: [
         RouterTestingModule.withRoutes([
           { path: 'apikeys/tutorial', component: DummyComponent },
-          { path: 'apikeys/insert-key', component: DummyComponent }
+          { path: 'apikeys/insert-key', component: DummyComponent },
+          { path: 'apikeys/insert-secret', component: DummyComponent }
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule,

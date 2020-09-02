@@ -69,6 +69,9 @@ describe('FundSummaryCardComponent', () => {
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
+    apiSubscriptionsSpy.getSubscriptionLink.and.returnValue(of(testData));
+    shareServiceSpy.share.and.returnValue(Promise.resolve());
+    component.shareSubscriptionLink();
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spyClickEvent).toHaveBeenCalledTimes(1);

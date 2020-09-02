@@ -75,7 +75,9 @@ export class EmailValidationPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.emailValidationSubscription.unsubscribe();
+    if (!!this.emailValidationSubscription) {
+      this.emailValidationSubscription.unsubscribe();
+    }
   }
 
   emailValidation() {

@@ -93,7 +93,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.routerNavEndSubscription.unsubscribe();
+    if (!!this.routerNavEndSubscription) {
+      this.routerNavEndSubscription.unsubscribe();
+    }
   }
 
   initializeApp() {
