@@ -28,7 +28,8 @@ describe('HeaderProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Edit Profile Photo button clicked', () => {
+  xit('should call trackEvent on trackService when Edit Profile Photo button clicked', () => {
+    // TODO: Skipped until enable edit photo button, now is hidden.
     component.editing = true;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName(

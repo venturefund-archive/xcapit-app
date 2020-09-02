@@ -7,121 +7,124 @@ import { ApiProfilesService } from '../../../shared-profiles/services/api-profil
 import { TranslateService } from '@ngx-translate/core';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Countries } from '../../enums/countries.enum';
+import { IvaConditions } from '../../enums/iva_conditions.enum';
+import { BillType } from '../../enums/bill_types.enum';
+
 @Component({
   selector: 'app-edit-profile',
   template: `
-    <div class="ep ion-padding-start ion-padding-end ion-padding-bottom">
-      <form
-        #formElement
-        [formGroup]="this.form"
-        (ngSubmit)="this.save()"
-        *ngIf="this.isFormSet"
-      >
-        <div class="ep__personal">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-            'profiles.user_profile.personal_data' | translate
-          }}</ion-text>
-          <!-- First name -->
-          <app-ux-input
-            controlName="first_name"
-            type="text"
-            [label]="'profiles.user_profile.first_name' | translate"
-            inputmode="text"
-          ></app-ux-input>
+      <div class="ep ion-padding-start ion-padding-end ion-padding-bottom">
+          <form
+                  #formElement
+                  [formGroup]="this.form"
+                  (ngSubmit)="this.save()"
+                  *ngIf="this.isFormSet"
+          >
+              <div class="ep__personal">
+                  <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
+                      'profiles.user_profile.personal_data' | translate
+                      }}</ion-text>
+                  <!-- First name -->
+                  <app-ux-input
+                          controlName="first_name"
+                          type="text"
+                          [label]="'profiles.user_profile.first_name' | translate"
+                          inputmode="text"
+                  ></app-ux-input>
 
-          <!-- Last name -->
-          <app-ux-input
-            controlName="last_name"
-            type="text"
-            [label]="'profiles.user_profile.last_name' | translate"
-            inputmode="text"
-          ></app-ux-input>
+                  <!-- Last name -->
+                  <app-ux-input
+                          controlName="last_name"
+                          type="text"
+                          [label]="'profiles.user_profile.last_name' | translate"
+                          inputmode="text"
+                  ></app-ux-input>
 
-          <!-- DNI -->
-          <app-ux-input
-            controlName="nro_dni"
-            type="text"
-            [label]="'profiles.user_profile.nro_dni' | translate"
-            inputmode="numeric"
-            [errors]="this.onlyIntegersErrors"
-          ></app-ux-input>
+                  <!-- DNI -->
+                  <app-ux-input
+                          controlName="nro_dni"
+                          type="text"
+                          [label]="'profiles.user_profile.nro_dni' | translate"
+                          inputmode="numeric"
+                          [errors]="this.onlyIntegersErrors"
+                  ></app-ux-input>
 
-          <!-- Cellphone -->
-          <app-ux-input
-            controlName="cellphone"
-            type="text"
-            [label]="'profiles.user_profile.cellphone' | translate"
-            inputmode="numeric"
-            [errors]="this.cellphoneErrors"
-          ></app-ux-input>
-        </div>
+                  <!-- Cellphone -->
+                  <app-ux-input
+                          controlName="cellphone"
+                          type="text"
+                          [label]="'profiles.user_profile.cellphone' | translate"
+                          inputmode="numeric"
+                          [errors]="this.cellphoneErrors"
+                  ></app-ux-input>
 
-        <div class="ep__bill">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-            'profiles.user_profile.bill_data' | translate
-          }}</ion-text>
+                  <div class="ep__bill">
+                      <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
+                          'profiles.user_profile.bill_data' | translate
+                          }}</ion-text>
 
-          <!-- Condicion IVA -->
-          <app-ux-input-select
-            [label]="'profiles.user_profile.condicion_iva' | translate"
-            [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
-            [placeholder]="
+                      <!-- Pais -->
+                      <app-ux-input-select
+                              [label]="'profiles.user_profile.country' | translate"
+                              [modalTitle]="
+              'profiles.user_profile.country_placeholder' | translate
+            "
+                              [placeholder]="
+              'profiles.user_profile.country_placeholder' | translate
+            "
+                              controlName="pais"
+                              [data]="this.countries"
+                      ></app-ux-input-select>
+                  </div>
+
+                  <!-- Condicion IVA -->
+                  <app-ux-input-select
+                          [label]="'profiles.user_profile.condicion_iva' | translate"
+                          [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
+                          [placeholder]="
               'profiles.user_profile.condicion_iva_placeholder' | translate
             "
-            controlName="condicion_iva"
-            [data]="this.condicionesIVA"
-          ></app-ux-input-select>
+                          controlName="condicion_iva"
+                          [data]="this.condicionesIVA"
+                  ></app-ux-input-select>
 
-          <!-- Tipo factura -->
-          <app-ux-input-select
-            [label]="'profiles.user_profile.tipo_factura' | translate"
-            [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
-            [placeholder]="
+                  <!-- Tipo factura -->
+                  <app-ux-input-select
+                          [label]="'profiles.user_profile.tipo_factura' | translate"
+                          [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
+                          [placeholder]="
               'profiles.user_profile.tipo_factura_placeholder' | translate
             "
-            controlName="tipo_factura"
-            [data]="this.tiposFactura"
-          ></app-ux-input-select>
+                          controlName="tipo_factura"
+                          [data]="this.tiposFactura"
+                  ></app-ux-input-select>
 
-          <!-- CUIT -->
-          <app-ux-input
-            controlName="cuit"
-            type="text"
-            [label]="'profiles.user_profile.cuit' | translate"
-            inputmode="numeric"
-            [errors]="this.onlyIntegersErrors"
-          ></app-ux-input>
+                  <!-- CUIT -->
+                  <app-ux-input
+                          controlName="cuit"
+                          type="text"
+                          [label]="'profiles.user_profile.cuit' | translate"
+                          inputmode="numeric"
+                          [errors]="this.onlyIntegersErrors"
+                  ></app-ux-input>
 
-          <!-- Direccion -->
-          <app-ux-input-google-places
-            controlName="direccion"
-            type="text"
-            [label]="'profiles.user_profile.direccion' | translate"
-          ></app-ux-input-google-places>
-        </div>
-      </form>
-    </div>
+                  <!-- Direccion -->
+                  <app-ux-input-google-places
+                          controlName="direccion"
+                          type="text"
+                          [label]="'profiles.user_profile.direccion' | translate"
+                  ></app-ux-input-google-places>
+              </div>
+          </form>
+      </div>
   `,
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
-  condicionesIVA = [
-    'IVA Responsable Inscripto',
-    'IVA Responsable no Inscripto',
-    'IVA Sujeto Exento',
-    'Consumidor Final',
-    'Responsable Monotributo',
-    'Sujeto no Categorizado',
-    'Proveedor del Exterior',
-    'Cliente del Exterior',
-    'IVA Liberado – Ley Nº 19.640',
-    'IVA Responsable Inscripto – Agente de Percepción',
-    'Pequeño Contribuyente Eventual',
-    'Monotributista Social',
-    'Pequeño Contribuyente Eventual Social'
-  ];
+  condicionesIVA = Object.values(IvaConditions);
 
-  tiposFactura = ['A', 'B', 'C'];
+  tiposFactura = Object.values(BillType);
 
   disabledButton = false;
 
@@ -131,19 +134,21 @@ export class EditProfileComponent implements OnInit {
 
   onlyIntegersErrors: ItemFormError[] = CONFIG.fieldErrors.onlyIntegers;
 
+  countries = Object.values(Countries);
+
   controls = {
     first_name: [
-      '', 
+      '',
       [
-        Validators.required, 
-        Validators.maxLength(150), 
+        Validators.required,
+        Validators.maxLength(150),
         Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
       ]
     ],
     last_name: [
-      '', 
+      '',
       [
-        Validators.required, 
+        Validators.required,
         Validators.maxLength(150),
         Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
       ]
@@ -166,6 +171,7 @@ export class EditProfileComponent implements OnInit {
         Validators.pattern('[0-9]*$')
       ]
     ],
+    pais: ['', [Validators.required, Validators.maxLength(150)]],
     condicion_iva: ['', [Validators.required]],
     tipo_factura: ['', [Validators.required]],
     cuit: [
@@ -184,10 +190,12 @@ export class EditProfileComponent implements OnInit {
   @ViewChild('formElement') formElement: any;
   @Input()
   data: any;
+
   constructor(
     private apiProfiles: ApiProfilesService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.setForm();

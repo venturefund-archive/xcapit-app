@@ -447,7 +447,9 @@
       "cuit": "CUIT",
       "direccion": "Address",
       "submit_button": "Save",
-      "success_text": "Data saved!"
+      "success_text": "Data saved!",
+      "country": "Country",
+      "country_placeholder": "Select a country"
     },
     "success_profile": {
       "textPrimary": "¡You have setted up your account!",
