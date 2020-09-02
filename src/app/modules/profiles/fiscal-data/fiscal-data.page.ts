@@ -5,6 +5,9 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Countries } from '../user-profile/enums/countries.enum';
+import { IvaConditions } from '../user-profile/enums/iva_conditions.enum';
+import { BillType } from '../user-profile/enums/bill_types.enum';
 
 @Component({
   selector: 'app-fiscal-data',
@@ -51,7 +54,7 @@ import { TranslateService } from '@ngx-translate/core';
               'profiles.fiscal_data.country_placeholder' | translate
             "
             controlName="pais"
-            [data]="this.paises"
+            [data]="this.countries"
           ></app-ux-input-select>
 
           <!-- CUIT -->
@@ -159,26 +162,11 @@ export class FiscalDataPage implements OnInit {
 
   form: FormGroup;
 
-  condicionesIva = [
-    'IVA Responsable Inscripto',
-    'IVA Responsable no Inscripto',
-    'IVA no Responsable',
-    'IVA Sujeto Exento',
-    'Consumidor Final',
-    'Responsable Monotributo',
-    'Sujeto no Categorizad',
-    'Proveedor del Exterior',
-    'Cliente del Exterior',
-    'IVA Liberado – Ley Nº 19.640',
-    'IVA Responsable Inscripto – Agente de Percepción',
-    'Pequeño Contribuyente Eventual',
-    'Monotributista Social',
-    'Pequeño Contribuyente Eventual Social'
-  ];
+  condicionesIva = Object.values(IvaConditions);
 
-  tiposFactura = ['A', 'B', 'C'];
+  tiposFactura = Object.values(BillType);
 
-  paises = ['Argentina', 'Colombia', 'Chile'];
+  countries = Object.values(Countries);
 
   interfaceOptions = {
     header: this.translate.instant('profiles.fiscal_data.country')

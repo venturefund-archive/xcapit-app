@@ -33,7 +33,7 @@ import { Component, OnInit, Input } from '@angular/core';
             </ion-text>
           </div>
 
-          <div class="hp__info__editing" *ngIf="this.editing">
+          <div class="hp__info__editing" *ngIf="this.editing && false">
             <ion-button
               appTrackClick
               name="Edit Profile Photo"

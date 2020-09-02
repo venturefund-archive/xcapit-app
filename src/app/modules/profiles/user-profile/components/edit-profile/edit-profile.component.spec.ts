@@ -15,6 +15,7 @@ const formData = {
     cellphone: '12344321',
     condicion_iva: 'Cliente del Exterior',
     tipo_factura: 'C',
+    pais: 'Argentina',
     cuit: '1234123443',
     direccion: 'calle falsa 123'
   },
@@ -25,6 +26,7 @@ const formData = {
     cellphone: '12x344321',
     condicion_iva: 'Cliente del Exterior',
     tipo_factura: 'C',
+    pais: 'Argentina',
     cuit: '12341234x43',
     direccion: 'calle falsa 123'
   }

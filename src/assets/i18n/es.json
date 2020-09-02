@@ -451,7 +451,9 @@
       "cuit": "CUIT",
       "direccion": "Dirección",
       "submit_button": "Guardar",
-      "success_text": "Datos guardados!"
+      "success_text": "Datos guardados!",
+      "country": "País",
+      "country_placeholder": "Elije un país"
     },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",

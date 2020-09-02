@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
-
 @Component({
   selector: 'app-user-profile',
   template: `
