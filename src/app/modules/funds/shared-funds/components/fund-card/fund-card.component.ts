@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-fund-card',
@@ -39,22 +40,23 @@ import { NavController } from '@ionic/angular';
               <ion-icon
                 class="fc__main__content__right__amount__up"
                 name="ux-triangle-up"
-                *ngIf="this.fund?.profit > 0"
+                *ngIf="this.fund?.total_profit > 0"
               ></ion-icon>
               <ion-icon
                 class="fc__main__content__right__amount__down"
                 name="ux-triangle-down"
-                *ngIf="this.fund?.profit < 0"
+                *ngIf="this.fund?.total_profit < 0"
               ></ion-icon>
               <ion-text color="uxdark"
                 >{{
-                  this.fund?.profit * 100 | absoluteValue | number: '1.2-2'
+                  this.fund?.total_profit * 100 | absoluteValue | number: '1.2-2'
                 }}%
               </ion-text>
             </div>
-            <div class="ux-font-lato ux-fweight-regular ux-fsize-12">
+            <div class="ux-font-lato ux-fweight-regular ux-fsize-12 fc__main__content__right__flex">
               <ion-text color="uxmedium">
-                {{ 'funds.fund_card.last_24hs' | translate }}
+                {{ this.getDays(this.fund) }}
+                {{ 'funds.fund_card.days' | translate }}
               </ion-text>
             </div>
           </div>
@@ -95,5 +97,12 @@ export class FundCardComponent implements OnInit {
 
   viewFund() {
     this.navController.navigateRoot(['funds/detail', this.fund.fund_name]);
+  }
+
+  getDays(fund) {
+    let a = moment(fund.start_time);
+    let b = moment(fund.end_time);
+
+    return b.diff(a, 'days');
   }
 }
