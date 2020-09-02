@@ -159,7 +159,7 @@ export class EditProfileComponent implements OnInit {
         Validators.required,
         Validators.minLength(7),
         Validators.maxLength(12),
-        Validators.pattern('[0-9][^.a-zA-Z]*$')
+        Validators.pattern('[a-zA-Z0-9]*$')
       ]
     ],
     cellphone: [
