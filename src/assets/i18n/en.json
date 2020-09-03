@@ -821,8 +821,9 @@
     },
     "apikeys": {
       "create": {
-        "invalidExchangeKeys": "Invalid keys.",
-        "keysExists": "Keys already exists.",
+        "invalidExchangeKeys": "The keys not exists in binance.",
+        "keysExists": "Keys already used.",
+        "balanceNotEnough": "You don't have enough balance. The minimum balance is the equivalent of 300 USD.",
         "invalidData": "Invalid data."
       }
     }

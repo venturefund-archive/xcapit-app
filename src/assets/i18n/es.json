@@ -835,9 +835,10 @@
     },
     "apikeys": {
       "create": {
-        "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
+        "invalidExchangeKeys": "Las keys ingresadas no existen en binance.",
         "keysExists": "Las keys ya se encuentran registradas.",
-        "invalidData": "Los datos ingresados no son válidos."
+        "invalidData": "Los datos ingresados no son válidos.",
+        "balanceNotEnough": "No tienes el balance suficiente. El mínimo balance es el equivalente a 300 USD."
       }
     }
   },
