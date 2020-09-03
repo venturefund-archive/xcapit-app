@@ -116,19 +116,19 @@
       "toast_reset_password_message": "Cambio de password completado satisfactoriamente."
     },
     "reset_password_form": {
-      "new_password": "Nueva Password",
-      "repeat_new_password": "Confirmar Nueva Password"
+      "new_password": "Nueva contraseña",
+      "repeat_new_password": "Confirmar nueva contraseña"
     },
     "password_change": {
-      "header": "Cambio de Password",
+      "header": "Cambio de contraseña",
       "submit_button": "Cambiar",
       "toast_password_change_header": "¡Éxito!",
-      "toast_password_change_message": "Cambio de password completado satisfactoriamente. Por favor inicia sesión nuevamente."
+      "toast_password_change_message": "Cambio de contraseña completado satisfactoriamente. Por favor inicia sesión nuevamente."
     },
     "password_change_form": {
-      "actual_password": "Actual Password",
-      "new_password": "New Password",
-      "repeat_new_password": "Confirm New Password"
+      "actual_password": "Contraseña actual",
+      "new_password": "Nueva contraseña",
+      "repeat_new_password": "Confirmar nueva contraseña"
     }
   },
   "funds": {
