@@ -14,48 +14,33 @@ import { CONFIG } from 'src/app/config/app-constants.config';
   selector: 'app-password-change-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
-      <ion-item-group>
-        <div class="ion-padding-start ion-padding-end">
-          <ion-item>
-            <ion-label position="floating">
-              {{ 'usuarios.password_change_form.actual_password' | translate }}
-            </ion-label>
-            <ion-input
-              formControlName="actual_password"
-              type="password"
-            ></ion-input>
-          </ion-item>
-          <app-errors-form-item
-            controlName="actual_password"
-          ></app-errors-form-item>
-          <ion-item>
-            <ion-label position="floating">
-              {{ 'usuarios.password_change_form.new_password' | translate }}
-            </ion-label>
-            <ion-input formControlName="password" type="password"></ion-input>
-          </ion-item>
-          <app-errors-form-item
-            controlName="password"
-            [errors]="this.passwordErrors"
-          ></app-errors-form-item>
-          <ion-item>
-            <ion-label position="floating">{{
-              'usuarios.password_change_form.repeat_new_password' | translate
-            }}</ion-label>
-            <ion-input
-              formControlName="repeat_password"
-              type="password"
-            ></ion-input>
-          </ion-item>
-          <app-errors-form-item
-            controlName="repeat_password"
-            [errors]="this.repeatPasswordErrors"
-          ></app-errors-form-item>
-        </div>
+    <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
+      <div class="ion-padding-start ion-padding-end ux_content">
+        <app-ux-input
+          controlName="actual_password"
+          type="password"
+          [label]="'usuarios.password_change_form.actual_password' | translate"
+          inputmode="password"
+        ></app-ux-input>
 
-        <ng-content select=".submit-button"></ng-content>
-      </ion-item-group>
+        <app-ux-input
+          controlName="password"
+          type="password"
+          [label]="'usuarios.password_change_form.new_password' | translate"
+          inputmode="password"
+          [errors]="this.passwordErrors"
+        ></app-ux-input>
+        
+        <app-ux-input
+          controlName="repeat_password"
+          type="password"
+          [label]="'usuarios.password_change_form.repeat_new_password' | translate"
+          inputmode="password"
+          [errors]="this.repeatPasswordErrors"
+        ></app-ux-input>
+      </div>
+
+      <ng-content select=".submit-button"></ng-content>
     </form>
   `,
   styleUrls: ['./password-change-form.component.scss']
@@ -87,10 +72,10 @@ export class PasswordChangeFormComponent {
           )
         ]
       ],
-      repeat_password: ['']
+      repeat_password: ['', [Validators.required]]
     },
     {
-      validators: [CustomValidators.passwordMatchValidator]
+      validators: [CustomValidators.passwordMatchValidator],
     }
   );
 
@@ -106,6 +91,8 @@ export class PasswordChangeFormComponent {
   handleSubmit() {
     if (this.form.valid) {
       this.send.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

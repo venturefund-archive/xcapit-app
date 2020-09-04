@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-password-change',
   template: `
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
@@ -21,23 +21,19 @@ import { NavController } from '@ionic/angular';
       </ion-toolbar>
     </ion-header>
 
-    <ion-content>
+    <ion-content class="ion-padding-top ion-margin-top ion-padding-bottom">
       <app-password-change-form (send)="this.handleSubmit($event)">
         <div class="submit-button">
-          <div class="auth-button ion-padding-top ion-margin-top">
+          <div class="ion-padding-top ion-margin-top ion-padding-horizontal ux_footer">
             <ion-button
               appTrackClick
               name="Change Password"
-              expand="full"
+              expand="block"
               size="large"
               type="submit"
-              color="success"
-              [disabled]="
-                !this.formComponent.form.valid ||
-                (this.submitButtonService.isDisabled | async)
-              "
+              color="uxsecondary"
+              class="ux_button"
             >
-              <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
               {{ 'usuarios.password_change.submit_button' | translate }}
             </ion-button>
           </div>
