@@ -115,12 +115,6 @@ export class ApiFundsService {
     );
   }
 
-  getDepositAdress(currency: string): Observable<any> {
-    return this.http.original.get(
-      `${environment.apiUrl}/${this.entity}/deposit_address/${currency}`
-    );
-  }
-
   isSubscribed(fundName: string): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/name/${fundName}/is_subscribed`

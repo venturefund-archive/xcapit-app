@@ -42,7 +42,7 @@ describe('MainMenuPage', () => {
           { path: 'tutorials/help', component: DummyComponent },
           { path: 'tabs/funds', component: DummyComponent },
           { path: 'profiles/user', component: DummyComponent },
-          { path: 'funds/deposit-address', component: DummyComponent },
+          { path: 'deposits/currency', component: DummyComponent },
           { path: 'users/password-change', component: DummyComponent },
           { path: 'referrals/list', component: DummyComponent },
           { path: 'notifications/list', component: DummyComponent }

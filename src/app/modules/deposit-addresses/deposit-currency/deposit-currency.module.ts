@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DepositAddressPage } from './deposit-address.page';
+import { DepositCurrencyPage } from './deposit-currency.page';
 import { IonicModule } from '@ionic/angular';
-import { SharedFundsModule } from '../shared-funds/shared-funds.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: DepositAddressPage
+    component: DepositCurrencyPage
   }
 ];
 
 @NgModule({
   imports: [
     IonicModule,
-    SharedFundsModule,
+    SharedModule,
     RouterModule.forChild(routes)
   ],
   providers: [],
-  declarations: [DepositAddressPage]
+  declarations: [DepositCurrencyPage]
 })
-export class DepositAddressPageModule {}
+export class DepositCurrencyPageModule {}

@@ -957,5 +957,26 @@
     "refer": "Referir",
     "new_fund": "Nuevo",
     "menu": "Más"
+  },
+  "deposit_addresses": {
+    "deposit_currency": {
+      "header": "Dirección de depósito",
+      "currency_title": "Moneda",
+      "title": "¿En qué moneda pagarás la comisión?",
+      "text_before": "Elegí la moneda con la que quieres hacer el depósito",
+      "next_button": "Siguiente"
+    },
+    "deposit_address": {
+      "header": "Dirección de depósito",
+      "title": "Informacion de depósito",
+      "text_before": "Utiliza cualquiera de los siguientes datos para realizar el depósito",
+      "address_title": "Dirección",
+      "address_tag_title": "Etiqueta",
+      "link_title": "Enlace",
+      "qr_title": "QR",
+      "copy_address_ok_text": "Se copió la dirección al portapapeles",
+      "copy_address_error_text": "No se pudo copiar la dirección al portapapeles",
+      "back_link": "Ir al inicio"
+    }
   }
 }
