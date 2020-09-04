@@ -22,7 +22,7 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
             </ion-avatar>
           </ion-button>
         </ion-buttons>
-        <ion-buttons slot="end">
+        <ion-buttons slot="end" *ngIf="false">
           <ion-button
             appTrackClick
             name="Show Notifications"
