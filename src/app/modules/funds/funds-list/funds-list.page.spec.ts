@@ -189,7 +189,8 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Show Notifications button clicked', () => {
+  xit('should call trackEvent on trackService when Show Notifications button clicked', () => {
+    // TODO: Activate this test when notifications button shows
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Show Notifications'
