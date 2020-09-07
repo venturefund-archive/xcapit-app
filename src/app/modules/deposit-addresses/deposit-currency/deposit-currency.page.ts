@@ -29,7 +29,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
             </div>
           </app-ux-text>
 
-          <app-ux-radio-group [label]="currency">
+          <app-ux-radio-group [label]="'deposit_addresses.deposit_currency.currency_title' | translate">
             <ion-list>
               <app-ux-text>
                 <div class="dc__radio_text">
