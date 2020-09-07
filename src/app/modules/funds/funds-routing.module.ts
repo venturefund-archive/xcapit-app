@@ -81,13 +81,6 @@ export const routes: Routes = [
           import('./fund-runs/fund-runs.module').then(m => m.FundRunsPageModule)
       },
       {
-        path: 'deposit-address',
-        loadChildren: () =>
-          import('./deposit-address/deposit-address.module').then(
-            m => m.DepositAddressPageModule
-          )
-      },
-      {
         path: 'commissions',
         loadChildren: () =>
           import('./commission/commission.module').then(

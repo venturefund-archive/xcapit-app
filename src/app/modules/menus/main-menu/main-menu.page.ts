@@ -73,7 +73,7 @@ export class MainMenuPage implements OnInit {
     {
       id: 3,
       title: 'app.main_menu.deposit_address',
-      url: '/funds/deposit-address',
+      url: '/deposits/currency',
       icon: 'journal',
       routeDirection: 'forward'
     },
