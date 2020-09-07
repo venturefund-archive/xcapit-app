@@ -1,6 +1,7 @@
 export const environment = {
-  production: true,
-  apiUrl: 'https://preprod.xcapit.com/v1/api',
+  production: $ENV.PRODUCTION,
+  environment: $ENV.ENVIRONMENT,
+  apiUrl: $ENV.API_URL,
   whitelistedDomains: ['preprod.xcapit.com', 'xcapit.com', 'xcapit.com:443', 'preprod.xcapit.com:443'],
   firebase: {
     apiKey: 'AIzaSyCU-F8osRaeWGwTxdAJmDhWFfkjZqzUG7s',

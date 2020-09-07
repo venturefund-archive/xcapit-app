@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  environment: 'DEV',
   apiUrl: 'http://localhost:9050/v1/api',
   // apiUrl: 'http://192.168.1.100:9050/v1/api', // para testear en app
   whitelistedDomains: ['localhost:9050', '192.168.1.100:9050'],
