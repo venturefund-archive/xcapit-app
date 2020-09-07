@@ -31,11 +31,6 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
           <app-ux-radio-group [label]="'deposit_addresses.deposit_currency.currency_title' | translate">
             <ion-list>
-              <app-ux-text>
-                <div class="dc__radio_text">
-                  {{ 'deposit_addresses.deposit_currency.currency_title' | translate }}
-                </div>
-              </app-ux-text>
               <ion-radio-group formControlName="currency">
                 <div class="container">
                   <ion-item>
