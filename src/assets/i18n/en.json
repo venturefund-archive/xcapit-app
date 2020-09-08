@@ -837,10 +837,14 @@
   },
   "referrals": {
     "new_referral": {
-      "header": "New Referral",
-      "submit_button": "Add Referral",
+      "header": "Refer",
+      "submit_button": "Share",
+      "referral_title": "Share xcapit!",
+      "referral_subtitle": "Share xcapit with yout friends so they can start to invest.",
       "toast_header": "Success!",
-      "toast_message": "The referral was added."
+      "toast_message": "The referral was added.",
+      "email_label": "Email",
+      "email_placeholder": "myemail@example.com"
     },
     "referrals_list": {
       "header": "Referrals List",

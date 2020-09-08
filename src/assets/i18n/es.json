@@ -851,10 +851,14 @@
   },
   "referrals": {
     "new_referral": {
-      "header": "Nuevo Referido",
-      "submit_button": "Agregar Referido",
-      "toast_header": "¡Éxito!",
-      "toast_message": "El referido fue agregado."
+      "header": "Referir",
+      "submit_button": "Compartir",
+      "referral_title": "¡Comparte xcapit!",
+      "referral_subtitle": "Comparte xcapit con tus amigos para que ellos también puedan comenzar a invertir.",
+      "toast_header": "¡Exito!",
+      "toast_message": "El referido fue creado.",
+      "email_label": "Email",
+      "email_placeholder": "myemail@example.com"
     },
     "referrals_list": {
       "header": "Lista de Referidos",
