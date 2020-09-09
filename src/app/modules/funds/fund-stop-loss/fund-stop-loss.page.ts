@@ -230,6 +230,7 @@ export class FundStopLossPage implements OnInit {
         ...(await this.fundDataStorage.getFund()),
         ...this.form.value
       };
+      fund.risk_level = `${fund.risk_level}_${fund.currency}`;
 
       this.apiFunds.crud.create(fund).subscribe(a => {
         this.fundDataStorage.clearAll();
