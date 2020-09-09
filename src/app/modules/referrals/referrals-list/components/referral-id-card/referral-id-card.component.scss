@@ -1,0 +1,25 @@
+:host {
+  width: 100%;
+  .ric {
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+
+    &__content {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 16px 24px 16px;
+      &__right {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+      }
+      &__left {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+      }
+    }
+  }
+}

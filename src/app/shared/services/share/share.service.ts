@@ -36,7 +36,6 @@ export class ShareService {
   private showToast(message) {
     this.toastService.showToast({
       message,
-      position: 'middle'
     });
   }
 }

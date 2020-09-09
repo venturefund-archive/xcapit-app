@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { ReferralsListPage } from './referrals-list.page';
 import { SharedReferralsModule } from '../shared-referrals/shared-referrals.module';
-import { SkeletonReferralItemComponent } from './components/skeleton-referral-item/skeleton-referral-item.component';
+import { ReferralIdCardComponent } from './components/referral-id-card/referral-id-card.component';
 
 const routes: Routes = [
   {
@@ -17,6 +16,6 @@ const routes: Routes = [
     SharedReferralsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ReferralsListPage, SkeletonReferralItemComponent]
+  declarations: [ReferralsListPage, ReferralIdCardComponent]
 })
 export class ReferralsListPageModule {}
