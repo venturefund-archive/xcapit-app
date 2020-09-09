@@ -11,10 +11,11 @@ ENV API_URL=$API_URL
 RUN npm install
 RUN npm run build:prod:pwa:xcapit
 
-FROM node:14-alpine as app
+FROM nginx as app
 
-## Copy built node modules and binaries without including the toolchain
-COPY --from=builder /usr/src/app/www /www
-RUN npm install -g http-server
-EXPOSE 4200
-CMD http-server /www -p 4200
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder /usr/src/app/www /usr/share/nginx/html
+
+EXPOSE 4200 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
