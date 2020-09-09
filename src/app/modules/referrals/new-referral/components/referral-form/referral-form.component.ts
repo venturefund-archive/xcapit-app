@@ -12,24 +12,21 @@ import { CONFIG } from 'src/app/config/app-constants.config';
   selector: 'app-referral-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
-      <ion-item-group>
-        <div class="ion-padding-start ion-padding-end">
-          <ion-item>
-            <ion-label position="floating">
-              {{ 'referrals.referral_form.email' | translate }}
-            </ion-label>
-            <ion-input formControlName="email" type="email"></ion-input>
-          </ion-item>
-          <app-errors-form-item
-            controlName="email"
-            [errors]="this.emailErrors"
-          ></app-errors-form-item>
-        </div>
+      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
+          <div class="rf__input ion-padding-start ion-padding-end">
+              <app-ux-input
+                      controlName="email"
+                      type="text"
+                      inputmode="text"
+                      [label]=""
+                      [placeholder]="'referrals.new_referral.email_placeholder' | translate
+              "
+                      [errors]="this.emailErrors"
+              ></app-ux-input>
+          </div>
 
-        <ng-content select=".submit-button"></ng-content>
-      </ion-item-group>
-    </form>
+          <ng-content select=".submit-button"></ng-content>
+      </form>
   `,
   styleUrls: ['./referral-form.component.scss']
 })
@@ -51,7 +48,8 @@ export class ReferralFormComponent {
     ]
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+  }
 
   handleSubmit() {
     if (this.form.valid) {
