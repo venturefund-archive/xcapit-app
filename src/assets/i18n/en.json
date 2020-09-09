@@ -843,13 +843,16 @@
       "toast_message": "The referral was added."
     },
     "referrals_list": {
-      "header": "Referrals List",
-      "accepted_badge": "Accepted",
-      "not_accepted_badge": "Not Accepted",
-      "referral_id_title": "Your referral ID",
-      "share_title": "This is my referral ID",
-      "share_dialogTitle": "Share your referral ID",
-      "toast_text_copied": "The referral ID has been copied to the clipboard"
+      "header": "Referrals",
+      "new_button": "New",
+      "list_title": "MY REFERRALS",
+      "referral_id_card": {
+        "share_title": "This is my referral ID",
+        "share_dialogTitle": "Share your referral ID",
+        "toast_text_copied": "The referral ID has been copied to the clipboard",
+        "title": "Your referral code",
+        "subtitle": "Invite your friends to invest"
+      }
     },
     "referral_form": {
       "email": "Email"

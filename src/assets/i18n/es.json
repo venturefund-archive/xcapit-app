@@ -8,7 +8,7 @@
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",
       "help": "Ayuda",
-      "password_change":"Cambio de Password",
+      "password_change": "Cambio de Password",
       "referrals": "Referidos",
       "notifications": "Notificaciones"
     }
@@ -857,13 +857,16 @@
       "toast_message": "El referido fue agregado."
     },
     "referrals_list": {
-      "header": "Lista de Referidos",
-      "accepted_badge": "Aceptado",
-      "not_accepted_badge": "No Aceptado",
-      "referral_id_title": "Tu ID de referido",
-      "share_title": "Este es mi ID de referido",
-      "share_dialogTitle": "Compartí tu ID de referido",
-      "toast_text_copied": "El ID de referido fué copiado al portapapeles"
+      "header": "Referidos",
+      "new_button": "Nuevo",
+      "list_title": "MIS REFERIDOS",
+      "referral_id_card": {
+        "share_title": "Este es mi ID de referido",
+        "share_dialogTitle": "Compartí tu ID de referido",
+        "toast_text_copied": "El ID de referido fué copiado al portapapeles",
+        "title": "Tu código de referido",
+        "subtitle": "Invita a tus amigos a invertir"
+      }
     },
     "referral_form": {
       "email": "Email"
