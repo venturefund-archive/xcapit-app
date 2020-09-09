@@ -26,7 +26,8 @@ export class ApiReferralsService {
   getUserReferrals(options: any = {}): Observable<any> {
     this.loadingService.disabled();
     return this.http
-      .get(`${environment.apiUrl}/${this.entity}/user_referrals`, {
+      // .get(`${environment.apiUrl}/${this.entity}/user_referrals`, {
+      .get(`${environment.apiUrl}/${this.entity}/`, {
         params: options
       })
       .pipe(finalize(() => this.loadingService.enabled()));
