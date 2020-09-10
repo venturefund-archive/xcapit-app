@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../../usuarios/shared-usuarios/services/auth/auth.service';
+import { Plugins } from '@capacitor/core';
 
+const { Browser } = Plugins;
 @Component({
   selector: 'app-main-menu',
   template: `
@@ -17,12 +19,13 @@ import { AuthService } from '../../usuarios/shared-usuarios/services/auth/auth.s
 
     <ion-content>
       <ion-list>
-        <div *ngFor="let p of appPages; trackBy: this.trackBy">
+        <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p.elementClick)" >
           <ion-item class="item-style"
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
             [routerDirection]="p.routeDirection"
             [routerLink]="[p.url]"
+            (click)="p.actionClick"
             replaceUrl=true
           >
             <ion-icon
@@ -87,9 +90,10 @@ export class MainMenuPage implements OnInit {
     {
       id: 5,
       title: 'app.main_menu.help',
-      url: '/tutorials/help',
+      url: '/tabs/funds',
       icon: 'help-circle-outline',
-      routeDirection: 'forward'
+      routeDirection: 'forward',
+      elementClick: 'openTutorials'
     },
     {
       id: 6,
@@ -118,7 +122,11 @@ export class MainMenuPage implements OnInit {
     private authService: AuthService,
     private router: Router,
     public navController: NavController
-  ) { }
+  ) { 
+    Browser.prefetch({
+      urls: ['https://www.info.xcapit.com/']
+    });
+  }
 
   ngOnInit() {
     this.navController.consumeTransition();
@@ -131,6 +139,12 @@ export class MainMenuPage implements OnInit {
   async logout() {
     await this.authService.logout();
     this.router.navigate(['users/login']);
+  }
+
+  async clickAction(element) {
+    if(element === 'openTutorials') {
+      await Browser.open({ toolbarColor:"#ff9100", url: 'https://www.info.xcapit.com/' });
+    }
   }
 
 }
