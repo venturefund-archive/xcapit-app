@@ -13,9 +13,6 @@ import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click
 import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { Test } from 'tslint';
 
 describe('LoginPage', () => {
   let component: LoginPage;
