@@ -20,7 +20,7 @@ import { FundOperationsHistoryComponent } from './components/fund-operations-his
 import { FundBalanceChartComponent } from './components/fund-balance-chart/fund-balance-chart.component';
 import { FundBalanceDetailComponent } from './components/fund-balance-detail/fund-balance-detail.component';
 import { FundBalanceDetailItemComponent } from './components/fund-balance-detail-item/fund-balance-detail-item.component';
-import { FundFinishPauseCardComponent } from './components/fund-finish-pause-card/fund-finish-pause-card.component';
+import { FundFinishComponent } from './components/fund-finish/fund-finish.component';
 import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe';
 
 @NgModule({
@@ -44,7 +44,7 @@ import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe
     FundBalanceChartComponent,
     FundBalanceDetailComponent,
     FundBalanceDetailItemComponent,
-    FundFinishPauseCardComponent,
+    FundFinishComponent,
     CurrencyFormatPipe,
   ],
   providers: [DatePipe, DecimalPipe],
@@ -70,7 +70,7 @@ import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe
     FundBalanceChartComponent,
     FundBalanceDetailComponent,
     FundBalanceDetailItemComponent,
-    FundFinishPauseCardComponent,
+    FundFinishComponent,
     CurrencyFormatPipe,
   ],
   entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent],

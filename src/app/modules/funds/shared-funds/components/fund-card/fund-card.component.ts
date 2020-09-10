@@ -100,8 +100,8 @@ export class FundCardComponent implements OnInit {
   }
 
   getDays(fund) {
-    let a = moment(fund.start_time);
-    let b = moment(fund.end_time);
+    const a = moment(fund.start_time);
+    const b = moment(fund.end_time);
 
     return b.diff(a, 'days');
   }

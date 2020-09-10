@@ -1,0 +1,16 @@
+:host {
+  width: 100%;
+
+  .ffp {
+    &__content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &__finish-button {
+        width: 100%;
+      }
+
+    }
+  }
+}
+

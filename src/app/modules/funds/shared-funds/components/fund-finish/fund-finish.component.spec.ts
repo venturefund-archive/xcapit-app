@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { FundFinishPauseCardComponent } from './fund-finish-pause-card.component';
+import { IonicModule, NavController } from '@ionic/angular';
+import { FundFinishComponent } from './fund-finish.component';
 import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
 import { of } from 'rxjs';
@@ -13,23 +13,26 @@ import { ToastService } from '../../../../../shared/services/toast/toast.service
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('FundFinishPauseCardComponent', () => {
-  let component: FundFinishPauseCardComponent;
-  let fixture: ComponentFixture<FundFinishPauseCardComponent>;
+  let component: FundFinishComponent;
+  let fixture: ComponentFixture<FundFinishComponent>;
   let apiFundsServiceMock: any;
   let apiFundsService: ApiFundsService;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundFinishPauseCardComponent>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundFinishComponent>;
   let toastServiceSpy: any;
   let toastService: ToastService;
+  let navControllerMock: any;
+  let navController: NavController;
 
   beforeEach(async(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
     apiFundsServiceMock = {
-      pauseFundRuns: () => of([]),
-      resumeFundRuns: () => of({}),
       finalizeFundRuns: () => of({})
     };
+    navControllerMock = {
+      navigateBack: () => Promise.resolve(true)
+    };
     TestBed.configureTestingModule({
-      declarations: [ FundFinishPauseCardComponent, TrackClickDirective, DummyComponent ],
+      declarations: [FundFinishComponent, TrackClickDirective, DummyComponent],
       imports: [
         IonicModule,
         HttpClientTestingModule,
@@ -44,6 +47,7 @@ describe('FundFinishPauseCardComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         TrackClickDirective,
+        { provide: NavController, useValue: navControllerMock },
         {
           provide: ApiFundsService,
           useValue: apiFundsServiceMock
@@ -52,52 +56,40 @@ describe('FundFinishPauseCardComponent', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FundFinishPauseCardComponent);
+    fixture = TestBed.createComponent(FundFinishComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiFundsService = TestBed.get(ApiFundsService);
+    apiFundsService = TestBed.inject(ApiFundsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    toastService = TestBed.get(ToastService);
+    toastService = TestBed.inject(ToastService);
+    navController = TestBed.inject(NavController);
   }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call pauseFundRuns in apiFundsService when pauseResumeFund and status is active', () => {
-    component.status = 'active';
-    fixture.detectChanges();
-    const spy = spyOn(apiFundsService, 'pauseFundRuns');
+
+  it('should call finalizeFundRuns when finishFund is called', () => {
+    const spy = spyOn(apiFundsService, 'finalizeFundRuns');
     spy.and.returnValue(of({}));
-    component.pauseResumeFund();
+    component.finishFund();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call resumeFundRuns in apiFundsService when pauseResumeFund and status is pausado', () => {
-    component.status = 'pausado';
-    fixture.detectChanges();
-    const spy = spyOn(apiFundsService, 'resumeFundRuns');
-    spy.and.returnValue(of({}));
-    component.pauseResumeFund();
+  it('should call navController.navigateBack when successFinish is called', () => {
+    const spy = spyOn(navController, 'navigateBack');
+    spy.and.returnValue(Promise.resolve(true));
+    component.successFinish();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Pause or Resume Fund button clicked', () => {
-    component.status = 'active';
-    fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Pause or Resume Fund'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+  it('should call toastService.showToast when showToast is called', () => {
+    component.showToast();
+    expect(toastServiceSpy.showToast).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Finish Fund button clicked', () => {
-    component.status = 'active';
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',

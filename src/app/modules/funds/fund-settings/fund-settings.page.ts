@@ -104,13 +104,12 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
           </app-ux-list-inverted>
         </div>
       </div>
-      <div class="fs__fund-finish-pause-card" *ngIf="this.fund">
-        <app-fund-finish-pause-card
+      <div class="fs__fund-finish" *ngIf="this.fund">
+        <app-fund-finish
           [fundName]="this.fund.nombre_bot"
           [runId]="this.fund.id_corrida"
-          [status]="this.fund.estado"
         >
-        </app-fund-finish-pause-card>
+        </app-fund-finish>
       </div>
     </ion-content>
   `,
