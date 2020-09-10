@@ -25,7 +25,6 @@ const { Browser } = Plugins;
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
             [routerDirection]="p.routeDirection"
             [routerLink]="[p.url]"
-            (click)="p.actionClick"
             replaceUrl=true
           >
             <ion-icon
