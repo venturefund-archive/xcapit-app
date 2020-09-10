@@ -177,16 +177,16 @@ export class DepositAddressPage implements OnInit {
   getDepositAdress(currency: string) {
     this.apiDa.getDepositAddress(currency).pipe(take(1)).subscribe(res => {
       this.depositAddresInfo = res;
-      if (this.depositAddresInfo.url) {
-        this.generateQR(this.depositAddresInfo.url);
+      if (this.depositAddresInfo.address) {
+        this.generateQR(this.depositAddresInfo.address);
       }
     });
   }
 
-  generateQR(depositAddressUrl: string) {
-    QRCode.toDataURL(depositAddressUrl)
-      .then(url => {
-        this.qrCode = url;
+  generateQR(depositAddressAddress: string) {
+    QRCode.toDataURL(depositAddressAddress)
+      .then(address => {
+        this.qrCode = address;
       })
       .catch(err => {
         console.error(err);
