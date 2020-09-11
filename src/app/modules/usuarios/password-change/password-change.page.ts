@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-password-change',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>

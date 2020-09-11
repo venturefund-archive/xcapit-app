@@ -24,15 +24,15 @@ describe('ResetPasswordPage', () => {
     ]);
     apiUsuariosServiceSpy.resetPassword.and.returnValue(null);
     apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(null);
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
-    navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
+    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
+    navControllerSpy.navigateForward.and.returnValue(of({}).toPromise());
     TestBed.configureTestingModule({
       imports: [
         IonicModule,
         ReactiveFormsModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
-          { path: 'users/login', component: DummyComponent }
+          { path: 'users/success-reset/:isReset', component: DummyComponent }
         ])
       ],
       declarations: [
@@ -111,19 +111,24 @@ describe('ResetPasswordPage', () => {
     );
   });
 
-  it('should reset form on success', async (done) => {
-    const spy = spyOn(component.formComponent.form, 'reset');
+  it('should call navigateForward with ["/users/success-reset", false] and { replaceUrl: true }, on navController when from success', async (done) => {
+    component.isReset = false;
     component.success().then(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+        ['/users/success-reset', false],
+        { replaceUrl: true }
+      );
     });
     done();
   });
 
-  it('should call navigateBack with ["/users/login"] and { replaceUrl: true }, on navController when from success', async (done) => {
+  it('should call navigateForward with ["/users/success-reset", true] and { replaceUrl: true }, on navController when from success', async (done) => {
+    component.isReset = true;
     component.success().then(() => {
-      expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(
-        ['/users/login'],
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+        ['/users/success-reset', true],
         { replaceUrl: true }
       );
     });

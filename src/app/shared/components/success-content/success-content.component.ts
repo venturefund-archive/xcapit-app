@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
       <div class="main__close_button">
         <ion-button
           fill="clear"
-          appTrackClick
+          appTrackClick="!this.unauth"
+          appTrackClickUnauth="this.unauth"
           name="Close Success"
           (click)="this.close()"
         >
@@ -32,7 +33,8 @@ import { Router } from '@angular/router';
         <div class="main__actions__primary">
           <ion-button
             class="ux_button"
-            appTrackClick
+            appTrackClick="!this.unauth"
+            appTrackClickUnauth="this.unauth"
             name="Success Action Primary"
             (click)="this.primaryAction()"
           >
@@ -45,7 +47,8 @@ import { Router } from '@angular/router';
         >
           <ion-button
             class="ux_button"
-            appTrackClick
+            appTrackClick="!this.unauth"
+            appTrackClickUnauth="this.unauth"
             fill="clear"
             name="Success Action Secondary"
             (click)="this.secondaryAction()"
@@ -60,6 +63,7 @@ import { Router } from '@angular/router';
 })
 export class SuccessContentComponent implements OnInit {
   @Input() data: any;
+  @Input() unauth: any = false;
 
   constructor(private router: Router) {}
 

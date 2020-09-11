@@ -9,52 +9,53 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
   selector: 'app-reset-password-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div>
-      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
-        <ion-item *ngIf="!this.isReset">
-          <ion-label position="floating">Email</ion-label>
-          <ion-input
-            formControlName="email"
-            type="email"
-            inputmode="email"
-          ></ion-input>
-        </ion-item>
-        <app-errors-form-item
-          *ngIf="!this.isReset"
+
+    <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
+      <div *ngIf="!this.isReset">
+        <app-ux-title class="ion-padding-top ion-margin-top">
+          <div class="ion-margin-top">
+            {{ 'usuarios.reset_password.title' | translate }}
+          </div>
+        </app-ux-title>
+
+        <app-ux-text>
+          <div class="ion-margin-top ion-margin-bottom">
+            {{ 'usuarios.reset_password.text_before' | translate }}
+          </div>
+        </app-ux-text>
+        
+        <app-ux-input
           controlName="email"
+          type="email"
+          [label]="'usuarios.reset_password.title_email' | translate"
+          [placeholder]="'usuarios.reset_password.email_placeholder_label' | translate"
+          inputmode="email"
           [errors]="this.emailErrors"
-        ></app-errors-form-item>
-        <ion-item *ngIf="this.isReset">
-          <ion-label position="floating">
-            {{ 'usuarios.reset_password_form.new_password' | translate }}
-          </ion-label>
-          <ion-input formControlName="password" type="password"></ion-input>
-        </ion-item>
-        <app-errors-form-item
-          *ngIf="this.isReset"
+        ></app-ux-input>
+      </div>
+
+      <div *ngIf="this.isReset">
+        <app-ux-input
           controlName="password"
+          type="password"
+          [label]="'usuarios.reset_password_form.new_password' | translate"
+          inputmode="password"
           [errors]="this.passwordErrors"
-        ></app-errors-form-item>
-        <ion-item *ngIf="this.isReset">
-          <ion-label position="floating">{{
-            'usuarios.reset_password_form.repeat_new_password' | translate
-          }}</ion-label>
-          <ion-input
-            formControlName="repeat_password"
-            type="password"
-          ></ion-input>
-        </ion-item>
-        <app-errors-form-item
-          *ngIf="this.isReset"
+        ></app-ux-input>
+
+        <app-ux-input
           controlName="repeat_password"
+          type="password"
+          [label]="'usuarios.reset_password_form.repeat_new_password' | translate"
+          inputmode="password"
           [errors]="this.repeatPasswordErrors"
-        ></app-errors-form-item>
+        ></app-ux-input>
+      </div>
 
-        <ng-content select=".submit-button"></ng-content>
+      <ng-content select=".submit-button"></ng-content>
 
-        <ng-content select=".other-links"></ng-content>
-      </form>
-    </div>
+      <ng-content select=".other-links"></ng-content>
+    </form>
   `,
   styleUrls: ['./reset-password-form.component.scss']
 })
@@ -123,6 +124,8 @@ export class ResetPasswordFormComponent implements OnInit {
   handleSubmit() {
     if (this.form.valid) {
       this.send.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 
