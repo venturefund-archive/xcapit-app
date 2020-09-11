@@ -3,7 +3,6 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { TranslateService } from '@ngx-translate/core';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NavController, LoadingController } from '@ionic/angular';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { TabsComponent } from '../../tabs/tabs/tabs.component';
 
 @Component({

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { LoadingService } from '../../../shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-fund-settings',
@@ -104,13 +105,12 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
           </app-ux-list-inverted>
         </div>
       </div>
-      <div class="fs__fund-finish-pause-card" *ngIf="this.fund">
-        <app-fund-finish-pause-card
+      <div class="fs__fund-finish" *ngIf="this.fund">
+        <app-fund-finish
           [fundName]="this.fund.nombre_bot"
           [runId]="this.fund.id_corrida"
-          [status]="this.fund.estado"
         >
-        </app-fund-finish-pause-card>
+        </app-fund-finish>
       </div>
     </ion-content>
   `,
