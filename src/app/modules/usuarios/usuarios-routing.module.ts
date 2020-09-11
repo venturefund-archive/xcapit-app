@@ -36,6 +36,14 @@ const routes: Routes = [
           )
       },
       {
+        path: 'success-reset',
+        canActivate: [NoAuthGuard],
+        loadChildren: () =>
+          import('./success-reset-password/success-reset-password.module').then(
+            m => m.SuccessResetPasswordPageModule
+          )
+      },
+      {
         path: 'password-change',
         canActivate: [AuthGuard],
         loadChildren: () =>

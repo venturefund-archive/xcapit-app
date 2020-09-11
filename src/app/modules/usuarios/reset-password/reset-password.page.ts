@@ -11,89 +11,49 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-reset-password',
   template: `
-    <ion-toolbar>
-      <ion-buttons slot="end">
-        <app-language-button></app-language-button>
-      </ion-buttons>
-    </ion-toolbar>
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/users/login"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+          {{ 'usuarios.reset_password.header' | translate }}
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-    <ion-content>
-      <ion-grid class="ion-no-padding">
-        <ion-row>
-          <ion-col
-            size-sm="8"
-            offset-sm="2"
-            size-md="6"
-            offset-md="3"
-            size-lg="4"
-            offset-lg="4"
-          >
-            <ion-card>
-              <ion-card-header>
-                {{ 'usuarios.reset_password.card_header' | translate }}
-              </ion-card-header>
-              <ion-card-content>
-                <app-reset-password-form
-                  [isReset]="this.isReset"
-                  (send)="this.handleSubmit($event)"
-                >
-                  <div class="submit-button">
-                    <div class="auth-button ion-padding-top ion-margin-top">
-                      <ion-button
-                        *ngIf="this.isReset"
-                        expand="full"
-                        size="large"
-                        type="submit"
-                        [disabled]="
-                          !this.formComponent.form.valid ||
-                          (this.submitButtonService.isDisabled | async)
-                        "
-                      >
-                        <ion-icon
-                          slot="start"
-                          name="checkmark-circle-outline"
-                        ></ion-icon>
-                        {{ 'usuarios.reset_password.reset_button' | translate }}
-                      </ion-button>
-                      <ion-button
-                        *ngIf="!this.isReset"
-                        expand="full"
-                        size="large"
-                        type="submit"
-                        [disabled]="
-                          !this.formComponent.form.valid ||
-                          (this.submitButtonService.isDisabled | async)
-                        "
-                      >
-                        <ion-icon slot="start" name="send"></ion-icon>
-                        {{
-                          'usuarios.reset_password.send_email_button'
-                            | translate
-                        }}
-                      </ion-button>
-                    </div>
-                  </div>
+    <ion-content class="ion-padding-top ion-margin-top ion-padding-bottom ion-padding">
+      <app-reset-password-form [isReset]="this.isReset" (send)="this.handleSubmit($event)">
+        <div class="submit-button">
+          <div class="ion-padding-top">
+            <ion-button
+              *ngIf="!this.isReset"
+              appTrackClickUnauth
+              name="Reset Password Email"
+              expand="block"
+              size="large"
+              type="submit"
+              color="uxsecondary"
+              class="ux_button"
+            >
+              {{ 'usuarios.reset_password.reset_button' | translate }}
+            </ion-button>
 
-                  <div class="other-links">
-                    <div class="ion-text-left ion-padding-top">
-                      <ion-button
-                        fill="clear"
-                        size="small"
-                        type="button"
-                        routerDirection="back"
-                        [replaceUrl]="true"
-                        [routerLink]="['/users/login']"
-                      >
-                        {{ 'usuarios.reset_password.login_link' | translate }}
-                      </ion-button>
-                    </div>
-                  </div>
-                </app-reset-password-form>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+            <ion-button
+              *ngIf="this.isReset"
+              appTrackClickUnauth
+              name="Reset Password Confirm"
+              expand="block"
+              size="large"
+              type="submit"
+              color="uxsecondary"
+              class="ux_button"
+            >
+              {{ 'usuarios.reset_password.send_email_button' | translate }}
+            </ion-button>
+          </div>
+        </div>
+      </app-reset-password-form>
     </ion-content>
   `,
   styleUrls: ['./reset-password.page.scss']
@@ -145,20 +105,6 @@ export class ResetPasswordPage implements OnInit {
   }
 
   async success() {
-    const header = this.isReset
-      ? 'usuarios.reset_password.toast_reset_password_header'
-      : 'usuarios.reset_password.toast_send_email_header';
-    const message = this.isReset
-      ? 'usuarios.reset_password.toast_reset_password_message'
-      : 'usuarios.reset_password.toast_send_email_message';
-    await this.navController
-      .navigateBack(['/users/login'], { replaceUrl: true })
-      .then(() => {
-        this.formComponent.form.reset();
-        this.toast.showToast({
-          header: this.translate.instant(header),
-          message: this.translate.instant(message)
-        });
-      });
+    this.navController.navigateForward(['/users/success-reset', this.isReset], { replaceUrl: true });
   }
 }

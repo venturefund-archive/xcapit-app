@@ -28,5 +28,19 @@ export const SUCCESS_TYPES = {
     textSecondary: 'funds.fund_success.textSecondary',
     urlPrimaryAction: '/tabs/funds',
     namePrimaryAction: 'funds.fund_success.namePrimaryAction'
+  },
+  email_reset_password: {
+    urlClose: '/users/login',
+    textPrimary: 'usuarios.reset_password.success_send_email_title',
+    textSecondary: 'usuarios.reset_password.success_send_email_text',
+    urlPrimaryAction: '/users/login',
+    namePrimaryAction: 'usuarios.reset_password.success_button'
+  },
+  reset_password: {
+    urlClose: '/users/login',
+    textPrimary: 'usuarios.reset_password.success_reset_password_header',
+    textSecondary: 'usuarios.reset_password.success_reset_password_message',
+    urlPrimaryAction: '/users/login',
+    namePrimaryAction: 'usuarios.reset_password.success_button'
   }
 };

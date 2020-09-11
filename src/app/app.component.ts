@@ -153,7 +153,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       '/users/login',
       '/users/register',
       '/users/email-validation',
-      '/users/reset-password'
+      '/users/reset-password',
+      '/users/success-reset'
     ].filter(item => {
       const regex = new RegExp(item, 'gi');
       const pathname = window.location.pathname;
