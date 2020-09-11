@@ -32,16 +32,16 @@ export class LoadingService {
       options = { message: this.translate.instant(msg), ...options };
       this.loading = await this.loadingController.create(options);
       if (this.isVisible) {
-        this.loading.present();
+        await this.loading.present();
       }
     }
   }
 
-  dismiss() {
+  async dismiss() {
     if (this.isVisible) {
       this.isVisible = false;
       if (this.loading) {
-        this.loading.dismiss();
+        await this.loading.dismiss();
       }
       this.message = null;
     }

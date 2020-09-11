@@ -13,10 +13,10 @@ import { NavController } from '@ionic/angular';
                       appTrackClick
                       name="Finish Fund"
                       (click)="this.finishFund()"
-                      fill="clear"
                       class="ux-button ffp__content__finish-button"
-                      color="uxdanger"
+                      color="uxsecondary"
               >
+                  <ion-icon name="stop-circle-outline"></ion-icon>
                   {{
                   'funds.fund_finish_pause_fund_card.finish_fund' | translate
                   }}
@@ -34,7 +34,7 @@ export class FundFinishComponent implements OnInit {
     private apiFunds: ApiFundsService,
     private navController: NavController,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
   }
 
