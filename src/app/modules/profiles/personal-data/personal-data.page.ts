@@ -54,13 +54,13 @@ import { NavController } from '@ionic/angular';
           ></app-ux-input>
 
           <!-- Direccion -->
-          <app-ux-input-google-places
+          <app-ux-input
             controlName="direccion"
-            [label]="'profiles.personal_data.address' | translate"
-            [placeholder]="
-              'profiles.personal_data.address_placeholder' | translate
-            "
-          ></app-ux-input-google-places>
+            type="text"
+            [label]="'profiles.user_profile.direccion' | translate"
+            [placeholder]="'profiles.personal_data.address_placeholder' | translate"
+            inputmode="text"
+          ></app-ux-input>
 
           <!-- DNI -->
           <app-ux-input
@@ -118,7 +118,14 @@ export class PersonalDataPage implements OnInit {
   controls = {
     first_name: ['', [Validators.required, Validators.maxLength(150)]],
     last_name: ['', [Validators.required, Validators.maxLength(150)]],
-    direccion: ['', [Validators.required, Validators.maxLength(150)]],
+    direccion: [
+      '', 
+      [
+        Validators.required, 
+        Validators.maxLength(150),
+        Validators.pattern('[A-Za-zÀ-ÿ0-9 \'-,]*$')
+      ]
+    ],
     nro_dni: [
       '',
       [
