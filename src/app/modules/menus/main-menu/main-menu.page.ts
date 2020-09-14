@@ -79,13 +79,13 @@ export class MainMenuPage implements OnInit {
       icon: 'journal',
       routeDirection: 'forward'
     },
-    {
+    /*{
       id: 4,
       title: 'app.main_menu.commissions',
       url: '/funds/commissions',
       icon: 'wallet',
       routeDirection: 'forward'
-    },
+    },*/
     {
       id: 5,
       title: 'app.main_menu.help',

@@ -72,6 +72,6 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(9);
+    expect(elms.length).toBe(8);
   });
 });
