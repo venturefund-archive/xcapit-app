@@ -1,0 +1,63 @@
+:host {
+  width: 100%;
+  .fpc {
+    margin-top: 8px;
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+    &__content {
+      display: flex;
+      &__left {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      &__right {
+        flex: 1;
+        .by-currency {
+          &__item {
+            &:not(:first-child) {
+              margin-top: 10px;
+            }
+            display: flex;
+            justify-content: space-between;
+            &__left {
+              display: flex;
+              .color {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+              }
+              .text {
+                margin-left: 8px;
+              }
+            }
+          }
+        }
+        .base {
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .change-currency {
+            ion-icon {
+              width: 14px;
+              height: 14px;
+            }
+          }
+        }
+      }
+    }
+    &__footer {
+      border-top: 1px solid #0000000a;
+      height: 46px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      &__details-button {
+        ion-icon {
+          height: 10px;
+        }
+      }
+    }
+  }
+}

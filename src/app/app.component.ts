@@ -1,56 +1,61 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  AfterViewInit
+} from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LoadingService } from './shared/services/loading/loading.service';
+import { LanguageService } from './shared/services/language/language.service';
+import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { TrackService } from './shared/services/track/track.service';
+import { LogsService } from './shared/services/logs/logs.service';
+import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
+import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
+// tslint:disable-next-line: max-line-length
+import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
 
 @Component({
   selector: 'app-root',
+  providers: [{ provide: TrackService, useClass: LogsService }],
   template: `
     <ion-app>
-      <ion-split-pane>
-        <ion-menu [disabled]="true">
-          <ion-header>
-            <ion-toolbar>
-              <ion-title>Menu</ion-title>
-            </ion-toolbar>
-          </ion-header>
-          <ion-content>
-            <ion-list>
-              <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-                <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
-                  <ion-icon slot="start" [name]="p.icon"></ion-icon>
-                  <ion-label>
-                    {{ p.title }}
-                  </ion-label>
-                </ion-item>
-              </ion-menu-toggle>
-            </ion-list>
-          </ion-content>
-        </ion-menu>
-        <ion-router-outlet main></ion-router-outlet>
+      <ion-split-pane contentId="main-content">
+        <ion-router-outlet id="main-content"></ion-router-outlet>
       </ion-split-pane>
     </ion-app>
   `
 })
-export class AppComponent implements OnInit, OnDestroy {
-  public appPages = [];
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild(IonRouterOutlet, { static: true })
+  ionRouterOutlet: IonRouterOutlet;
 
-  routerEventSubscription: Subscription;
+  isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
+
+  routerNavEndSubscription: Subscription;
 
   constructor(
+    private authService: AuthService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private submitButtonService: SubmitButtonService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private languageService: LanguageService,
+    private trackService: TrackService,
+    private publicLogsService: PublicLogsService,
+    private notificationsService: NotificationsService,
+    private notificationsHelper: NotificationsHelperService
   ) {
     this.initializeApp();
   }
@@ -59,21 +64,55 @@ export class AppComponent implements OnInit, OnDestroy {
     this.routeChangeSubscribe();
     this.submitButtonService.enabled();
     this.loadingService.enabled();
+    this.trackLoad();
+  }
+
+  async ngAfterViewInit() {
+    const notifications = this.notificationsService.getInstance();
+    notifications.init(() =>
+      console.error('Error inicializando notificaciones')
+    );
+    await notifications.requestPermission();
+    notifications.pushNotificationReceived((notification: any) => {
+      this.notificationsHelper.handleNewNotification(notification);
+    });
+  }
+
+  trackLoad() {
+    if (!this.isUnauthRoute()) {
+      this.trackService.trackEvent({
+        eventAction: 'load',
+        description: window.location.href
+      });
+    } else {
+      this.publicLogsService.trackEvent({
+        eventAction: 'load',
+        description: window.location.href
+      });
+    }
   }
 
   ngOnDestroy() {
-    this.routerEventSubscription.unsubscribe();
+    if (!!this.routerNavEndSubscription) {
+      this.routerNavEndSubscription.unsubscribe();
+    }
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.languageService.setInitialAppLanguage();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
+  async logout() {
+    await this.authService.logout();
+    this.router.navigate(['users/login']);
+  }
+
   routeChangeSubscribe() {
-    this.routerEventSubscription = this.router.events
+    this.routerNavEndSubscription = this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
         map(() => this.activatedRoute),
@@ -83,11 +122,47 @@ export class AppComponent implements OnInit, OnDestroy {
           }
           return route;
         }),
-        filter(route => route.outlet === 'primary'),
-        mergeMap(route => route.data)
+        filter(route => route.outlet === 'primary')
       )
       .subscribe(() => {
+        this.trackNav();
         this.submitButtonService.enabled();
       });
+  }
+
+  private trackNav() {
+    if (!this.isUnauthRoute()) {
+      this.trackService.trackView({
+        pageUrl: window.location.href,
+        screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component
+          .name,
+        eventAction: 'nav'
+      });
+    } else {
+      this.publicLogsService.trackView({
+        pageUrl: window.location.href,
+        screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component
+          .name,
+        eventAction: 'nav'
+      });
+    }
+  }
+
+  isUnauthRoute(): number {
+    return [
+      '/users/login',
+      '/users/register',
+      '/users/email-validation',
+      '/users/reset-password',
+      '/users/success-reset'
+    ].filter(item => {
+      const regex = new RegExp(item, 'gi');
+      const pathname = window.location.pathname;
+      return pathname.match(regex) || pathname.length === 1;
+    }).length;
+  }
+
+  trackBy(index: any, item: any) {
+    return item.id;
   }
 }

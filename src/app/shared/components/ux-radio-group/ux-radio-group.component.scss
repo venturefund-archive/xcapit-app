@@ -1,0 +1,53 @@
+:host ::ng-deep {
+  .ux_rg {
+    padding-top: 16px;
+    &__label {
+      font-weight: 600;
+      font-size: 12px;
+      font-family: var(--ux-font-lato);
+      color: #0000008a; // Color negro con opacity 0.54
+    }
+
+    --background: var(--ion-color-uxlight);
+
+    ion-item,
+    ion-label,
+    ion-radio {
+      --background: var(--ion-color-uxlight);
+      &.ux-error__item {
+        --background: transparent;
+      }
+    }
+
+    ion-list {
+      border-radius: 4px;
+      margin-top: 4px;
+      padding-bottom: 0px;
+    }
+    .container {
+      background-color: var(--ion-color-uxlight);
+    }
+    ion-item {
+      --background-hover-opacity: 0.03;
+      --inner-border-width: 0px;
+      min-height: 51px;
+      background: white;
+      display: flex;
+      &.ux-error__item {
+        background: transparent;
+        min-height: 10px;
+      }
+    }
+
+    .item-label {
+      font-family: var(--ux-font-lato);
+      font-size: 14px;
+      color: #000000de;
+    }
+
+    ion-radio {
+      --color-checked: var(--ion-color-uxsecondary);
+      --color: #00000029;
+    }
+  }
+}

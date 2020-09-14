@@ -2,83 +2,175 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 
+const { Browser } = Plugins;
 @Component({
   selector: 'app-register',
   template: `
-    <ion-content class="ion-padding">
+    <ion-header>
+      <div >
+        <div class="app_header_register">
+          <div class="app_header_register__content">
+            <div class="app_header_register__content__app_xcapit_logo">
+            <app-xcapit-logo [whiteLogo]=false></app-xcapit-logo>
+            </div>
+          </div>
+        </div>
+        <div class="register_title">
+          <app-ux-title>
+            {{ 'usuarios.register.card_header' | translate }}
+          </app-ux-title>
+        </div>
+      </div>
+    </ion-header>
+
+    <ion-content class="ion-padding-horizontal ion-padding-bottom">
       <div class="main">
-        <ion-grid class="ion-no-padding">
-          <ion-row>
-            <ion-col
-              size-sm="8"
-              offset-sm="2"
-              size-md="6"
-              offset-md="3"
-              size-lg="4"
-              offset-lg="4"
+        <app-auth-form (send)="this.registerUser($event)">
+          <div class="tos-text">
+            <div class="tos-text__label">
+              {{'usuarios.register.accept_tos' | translate}}
+
+              <ion-button
+                fill="clear"
+                size="small"
+                type="button"
+                appTrackClickUnauth
+                name="Go To Login"
+                class="tos-text__button ux_button"
+                
+                routerDirection="back"
+                (click)="openTOS()"
+              >
+                  {{ 'usuarios.register.link_tos' | translate }}
+              </ion-button>
+            </div>
+          </div>
+
+          <div class="auth-button ion-padding-top">
+            <ion-button
+              expand="block"
+              size="large"
+              type="submit"
+              appTrackClickUnauth
+              name="Register"
+              class="ux_button"
+              color="uxsecondary"
+              [disabled]="
+                !this.registerForm.form.valid ||
+                (this.submitButtonService.isDisabled | async)
+              "
             >
-              <ion-card>
-                <ion-card-header>
-                  Registro de Usuario
-                </ion-card-header>
-                <ion-card-content>
-                  <app-auth-form (send)="this.registerUser($event)">
-                    <div class="auth-button ion-padding-top ion-margin-top">
-                      <ion-button
-                        expand="full"
-                        size="large"
-                        type="submit"
-                        [disabled]="
-                          !this.registerForm.form.valid ||
-                          (this.submitButtonService.isDisabled | async)
-                        "
-                      >
-                        <ion-icon
-                          slot="start"
-                          name="checkmark-circle-outline"
-                        ></ion-icon>
-                        Registrar
-                      </ion-button>
-                    </div>
-                  </app-auth-form>
-                </ion-card-content>
-              </ion-card>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+              {{ 'usuarios.register.submit_button' | translate }}
+            </ion-button>
+          </div>
+          <div class="auth-link ion-text-right ion-padding-top">
+          {{ 'usuarios.register.have_an_account' | translate }}
+            <ion-button
+              fill="clear"
+              size="small"
+              type="button"
+              appTrackClickUnauth
+              name="Go To Login"
+              class="main__back_login__button ux_button"
+              [routerLink]="['/users/login']"
+              routerDirection="back"
+            >
+              {{ 'usuarios.register.back_login' | translate }}
+            </ion-button>
+          </div>
+        </app-auth-form>
       </div>
     </ion-content>
   `,
   styleUrls: ['./register.page.scss']
 })
 export class RegisterPage implements OnInit {
-  @ViewChild(AuthFormComponent) registerForm: AuthFormComponent;
+  @ViewChild(AuthFormComponent, { static: true })
+  registerForm: AuthFormComponent;
+
+  referralCode: string;
+  manualReferral = true;
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
-    private alertController: AlertController
-  ) {}
+    private alertController: AlertController,
+    private translate: TranslateService,
+    private route: ActivatedRoute,
+    private navController: NavController
+  ) {
+    Browser.prefetch({
+      urls: ['https://www.info.xcapit.com/terms']
+    });
+  }
 
   ngOnInit() {}
 
+  ionViewWillEnter() {
+    this.setReferralCode();
+    this.setEmail();
+  }
+
+  setReferralCode() {
+    const code = this.route.snapshot.paramMap.get('code');
+    if (code) {
+      this.registerForm.form.patchValue({
+        manual_referral: true,
+        referral_code: code
+      });
+    }
+  }
+
+  setEmail() {
+    const email = this.getEmailFromUrl();
+    if (email) {
+      ['email'].forEach(fieldName => {
+        const formField = this.registerForm.form.get(fieldName);
+        formField.setValue(email);
+        formField.markAsTouched();
+      });
+    }
+  }
+
+  getEmailFromUrl(): string {
+    let decodeEmail: string;
+    const email = this.route.snapshot.paramMap.get('email');
+    if (email) {
+      try {
+        decodeEmail = atob(email);
+      } catch (error) {
+        decodeEmail = '';
+      }
+    }
+    return decodeEmail;
+  }
+
   registerUser(data: any) {
-    this.apiUsuarios.crud.create({ user: data }).subscribe(() => this.success());
+    if (data && !data.manual_referral) {
+      delete data.referral_code;
+    }
+    this.apiUsuarios.crud.create(data).subscribe(() => this.success());
   }
 
   async success() {
     this.registerForm.form.reset();
+    await this.navController.navigateBack(['/users/login']);
     const alert = await this.alertController.create({
       message: `
         <h4>
-          Te enviamos un email de verificación,
-          revisa tu casilla y sigue las instrucciones
-          para activar la cuenta.
+          ${this.translate.instant('usuarios.register.success_text')}
         </h4>`,
-      buttons: ['Aceptar']
+      buttons: [this.translate.instant('usuarios.register.accept_button')]
     });
     await alert.present();
+  }
+
+  async openTOS() {
+    await Browser.open({ toolbarColor:"red", url: 'https://www.info.xcapit.com/terms' });
   }
 }

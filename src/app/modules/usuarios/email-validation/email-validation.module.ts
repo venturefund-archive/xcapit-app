@@ -5,7 +5,7 @@ import { EmailValidationPage } from './email-validation.page';
 import { SharedUsuariosModule } from '../shared-usuarios/shared-usuarios.module';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/usuarios/register' },
+  { path: '', pathMatch: 'full', redirectTo: '/users/register' },
   {
     path: ':emailValidationToken/:uidb64',
     component: EmailValidationPage

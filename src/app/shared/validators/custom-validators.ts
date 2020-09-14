@@ -17,10 +17,34 @@ export class CustomValidators {
     pass: string = 'password',
     rPass: string = 'repeat_password'
   ) {
-    const password: string = control.get(pass).value;
-    const repeatPassword: string = control.get(rPass).value;
-    if (password !== repeatPassword) {
-      control.get(rPass).setErrors(CustomValidatorErrors.noPasswordMatch);
+    CustomValidators.fieldsdMatchValidator(
+      control,
+      pass,
+      rPass,
+      CustomValidatorErrors.noPasswordMatch
+    );
+  }
+
+  static fieldsdMatchValidator(
+    control: AbstractControl,
+    controlName1: string,
+    controlName2: string,
+    error: ValidationErrors = CustomValidatorErrors.noFieldsMatch
+  ) {
+    const field1: string = control.get(controlName1).value;
+    const field2: string = control.get(controlName2).value;
+    if (field1 !== field2) {
+      control.get(controlName2).setErrors(error);
     }
+  }
+
+  static mustBeTrue(
+    control: AbstractControl
+  ): { [key: string]: boolean } {
+    let check: { [key: string]: boolean } = {};
+    if (!control.value) {
+      check['notChecked'] = true;
+    }
+    return check;
   }
 }

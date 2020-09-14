@@ -5,6 +5,7 @@ import { EmailValidationPage } from './email-validation.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('EmailValidationPage', () => {
   let component: EmailValidationPage;
@@ -18,6 +19,7 @@ describe('EmailValidationPage', () => {
     TestBed.configureTestingModule({
       declarations: [ EmailValidationPage ],
       imports: [
+        TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

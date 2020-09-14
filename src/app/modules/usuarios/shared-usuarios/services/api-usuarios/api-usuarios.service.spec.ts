@@ -5,8 +5,11 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { Storage } from '@ionic/storage';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
 describe('ApiUsuariosService', () => {
+  let service: ApiUsuariosService;
   let crudSpy: any;
   let customHttpServiceSpy: any;
   let storageSpy: any;
@@ -14,12 +17,16 @@ describe('ApiUsuariosService', () => {
 
   beforeEach(() => {
     crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
-    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
-      http: { post: () => null }
-    });
-    jwtHelperServiceSpy = jasmine.createSpyObj('JwtHelperService', ['isTokenExpired']);
+    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', ['post', 'get', 'put']);
+    customHttpServiceSpy.put.and.returnValue(of({}));
+    customHttpServiceSpy.get.and.returnValue(of({}));
+    customHttpServiceSpy.post.and.returnValue(of({}));
+    jwtHelperServiceSpy = jasmine.createSpyObj('JwtHelperService', [
+      'isTokenExpired'
+    ]);
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([])],
       providers: [
         { provide: CrudService, useValue: crudSpy },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
@@ -29,8 +36,59 @@ describe('ApiUsuariosService', () => {
     });
   });
 
+  beforeEach(() => {
+    service = TestBed.get(ApiUsuariosService);
+  });
+
   it('should be created', () => {
-    const service: ApiUsuariosService = TestBed.get(ApiUsuariosService);
     expect(service).toBeTruthy();
+  });
+
+  it('should be call post on http when resetPassword', () => {
+    service.resetPassword({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call post on http when sendResetPasswordEmail', () => {
+    service.sendResetPasswordEmail({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call post on http when login', () => {
+    service.login({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call post on http when sendEmailValidation', () => {
+    service.sendEmailValidation('').subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call post on http when emailValidation', () => {
+    service.emailValidation('', '').subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call post on http when changePassword', () => {
+    service.changePassword({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call get on http when getUser', () => {
+    service.getUser().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call get on http when status', () => {
+    service.status().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
   });
 });

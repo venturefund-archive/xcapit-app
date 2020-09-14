@@ -1,0 +1,993 @@
+{
+  "app": {
+    "main_menu": {
+      "header": "Menú",
+      "funds": "Fondos",
+      "user_profile": "Perfil de Usuario",
+      "deposit_address": "Dirección de depósito",
+      "logout": "Cerrar Sesión",
+      "commissions": "Comisiones",
+      "help": "Ayuda",
+      "password_change": "Cambio de Password",
+      "referrals": "Referidos",
+      "notifications": "Notificaciones"
+    }
+  },
+  "config": {
+    "form_errors": {
+      "required": "El campo es requerido",
+      "email": "El email no es correcto",
+      "pattern": "El campo no cumple con el patrón requerido",
+      "minlength": "Se requieren más caracteres",
+      "maxlength": "Se requieren menos caracteres",
+      "not_matching": "Los campos no coinciden"
+    },
+    "field_errors": {
+      "cellphone": {
+        "pattern": "Contiene caracteres inválidos"
+      },
+      "only_integers": {
+        "pattern": "Solo se aceptan números enteros"
+      },
+      "password": {
+        "minlength": "Se requieren mínimo 6 caracteres",
+        "maxlength": "Se requieren máximo 100 caracteres",
+        "has_number": "Se requiere mínimo un número",
+        "has_capital_case": "Se requiere mínimo una mayúscula",
+        "has_small_case": "Se requiere mínimo una minúscula"
+      },
+      "repeat_password": {
+        "no_password_match": "La password no coincide"
+      },
+      "repeat_username": {
+        "no_fields_match": "El email no coincide"
+      },
+      "username": {
+        "minlength": "Se requieren mínimo 5 caracteres",
+        "maxlength": "Se requieren máximo 100 caracteres"
+      }
+    },
+    "loading_service": {
+      "default_message": "Cargando..."
+    },
+    "xhr_response_handler_service": {
+      "default_message": "Error en la comunicación con el servidor"
+    }
+  },
+  "shared": {
+    "services": {
+      "share": {
+        "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"
+      }
+    },
+    "card_info_robot": {
+      "title": "¿Cómo funciona nuestro robot?",
+      "content": "Conoce todos los detalles de la forma en la que operamos.",
+      "action": "Más información"
+    },
+    "card_info_binance": {
+      "title": "¿Qué es Binance?",
+      "content": "Todo lo que necesitas saber antes de vincular tu cuenta.",
+      "action": "Más información"
+    }
+  },
+  "usuarios": {
+    "email_validation": {
+      "error_title": "No pudimos verificar el Email!",
+      "error_text": "Intenta enviar nuevamente el email de validación.",
+      "error_button": "Enviar",
+      "register_link": "Volver al registro",
+      "ok_text": "Email Verificado correctamente!"
+    },
+    "login": {
+      "email_placeholder_label": "email@ejemplo.com",
+      "password_label": "Contraseña",
+      "register_link": "Crear nueva cuenta",
+      "reset_password_link": "Olvidé mi contraseña",
+      "login_button_text": "Iniciar sesión",
+      "title": "Iniciar sesión"
+    },
+    "register": {
+      "card_header": "Registro de Usuario",
+      "submit_button": "Crear Cuenta",
+      "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
+      "accept_button": "Aceptar",
+      "referral_code_text": "Código de Referido",
+      "manual_referral": "Ingresar código de referido",
+      "referral_code_label": "Código de referido",
+      "have_an_account": "¿Ya tienes una cuenta?",
+      "back_login": "Inicia sesión",
+      "accept_tos": "Acepto los",
+      "link_tos": "Términos y condiciones"
+    },
+    "auth_form": {
+      "repeat_email": "Confirmar Email",
+      "repeat_password": "Confirmar contraseña"
+    },
+    "reset_password": {
+      "header": "Reestabler contraseña",
+      "title": "Olvidé mi contraseña",
+      "text_before": "Ingresa la dirección de correo que usaste al momento de registrarte para que podamos enviarte las instrucciones para reestablecer tu contraseña.",
+      "title_email": "Correo electrónico",
+      "email_placeholder_label": "email@ejemplo.com",
+      "send_email_button": "Enviar",
+      "reset_button": "Enviar instrucciones",
+      "success_send_email_title": "¡Listo, enviamos instrucciones a tu correo electrónico!",
+      "success_send_email_text": "Seguí las instrucciones para recuperar tu contraseña y comenzar a operar con nosotros.",
+      "success_reset_password_header": "¡Éxito!",
+      "success_reset_password_message": "Cambio de password completado satisfactoriamente.",
+      "success_button": "Iniciar sesión"
+    },
+    "reset_password_form": {
+      "new_password": "Nueva contraseña",
+      "repeat_new_password": "Confirmar nueva contraseña"
+    },
+    "password_change": {
+      "header": "Cambio de contraseña",
+      "submit_button": "Cambiar",
+      "toast_password_change_header": "¡Éxito!",
+      "toast_password_change_message": "Cambio de contraseña completado satisfactoriamente. Por favor inicia sesión nuevamente."
+    },
+    "password_change_form": {
+      "actual_password": "Contraseña actual",
+      "new_password": "Nueva contraseña",
+      "repeat_new_password": "Confirmar nueva contraseña"
+    }
+  },
+  "funds": {
+    "fund_balance": {
+      "header": "Balance del Fondo",
+      "main_title": "{{fundName}} - Período: {{period}}",
+      "date_info_start_period_text": "Inicio del Período: ",
+      "date_info_last_update_text": "Última Actualización: ",
+      "balance_table_title": "Balance del Fondo",
+      "balance_total": "Total Balance ",
+      "change_ca": "Total en",
+      "change_fund_ca": "Seleccione un CA",
+      "change_fund_ca_button": "Cambiar"
+    },
+    "funds_list": {
+      "sub_header": {
+        "total_title": "Capital total operado",
+        "not_balance_found": "No hay balance para mostrar",
+        "total_detail": "En las ultimas 24 hs",
+        "change_currency": "Cambiar moneda"
+      },
+      "fund_steps": {
+        "title": "Configurá tu cuenta y empezá a invertir",
+        "step1": "Configurar cuenta",
+        "step2": "Vincular con Binance",
+        "step3": "Crea un nuevo fondo",
+        "action_button1": "Configurar cuenta",
+        "action_button2": "Vincular con Binance",
+        "action_button3": "Crear mi primer fondo de inversión"
+      },
+      "funds_title": "MIS FONDOS",
+      "shared_funds_title": "FONDOS COMPARTIDOS",
+      "info_title": "CONOCÉ MÁS",
+      "owner_text": "Dueño"
+    },
+    "new_fund": {
+      "header_new": "Nuevo Fondo",
+      "header_renew": "Renovar Fondo",
+      "header_edit": "Editar Fondo",
+      "ion_divider1": "Información del Exchange",
+      "exchange": "Exchange",
+      "api_key": "API Key",
+      "secret_key": "Secret Key",
+      "p1": "Mira como obtener las API y Secret key",
+      "a1": "aquí.",
+      "ion_divider2": "Fondo",
+      "fund_name": "Nombre del Fondo",
+      "currency": "Moneda a Optimizar",
+      "cantidad_dias": "Plazo de Operación",
+      "ion_option_cantidad_dias": "días",
+      "take_profit": "Porcentaje de Ganancia",
+      "stop_loss": "Porcentaje de Perdida",
+      "risk_level": "Nivel de Riesgo",
+      "ion_option_risk_level_pro": "PRO",
+      "ion_option_risk_level_classic": "CLASSIC",
+      "submit_button_new": "Crear Fondo",
+      "submit_button_renew": "Renovar Fondo",
+      "submit_button_edit": "Guardar",
+      "success_text_new": "El Fondo se creo correctamente!",
+      "success_text_renew": "El Fondo se renovo correctamente!",
+      "success_text_edit": "El Fondo se actualizó correctamente!",
+      "trailing_profit": "Trailing Profit",
+      "trailing_stop": "Trailing Stop"
+    },
+    "fund_detail": {
+      "header": "Detalle del fondo",
+      "edit_button": "Editar",
+      "fund_summary_card": {
+        "actual_amount": "Capital actual",
+        "initial_amount": "Capital inicial",
+        "remaining_time": "Tiempo restante",
+        "days_label": "días"
+      },
+      "performance_chart_card": {
+        "title": "TU INVERSIÓN EN EL TIEMPO",
+        "days_label": "días",
+        "profit": "Ganancia",
+        "loss": "Pérdida",
+        "delta": {
+          "title": "Intérvalo",
+          "one_day": "Último día",
+          "one_week": "7 días",
+          "thirty_days": "30 días",
+          "all": "Todo"
+        }
+      },
+      "fund_metrics_card": {
+        "title": "RESUMEN",
+        "profit": "Ganancia en {{currency}}",
+        "longest_drawdown": "Recupero más largo",
+        "longest_drawdown_metric": "días",
+        "sharpe": "Sharpe",
+        "max_drawdown": "Mayor caida",
+        "clarification": "Resumen de tu fondo anualizado con periodos de 2hs."
+      },
+      "fund_portfolio_card": {
+        "title": "COMPOSICIÓN DE CARTERA",
+        "view_detail": "Ver detalle",
+        "change_currency": "Cambiar moneda",
+        "fund_balance_detail_title": "Detalle Balance",
+        "fund_balance_detail_period_begin": "Inicio del período",
+        "fund_balance_detail_last_update": "Última actualización"
+      },
+      "operations_history_card": {
+        "title": "HISTORIAL DE OPERACIONES",
+        "run": "Corrida {{id_corrida}}"
+      }
+    },
+    "fund_runs": {
+      "header": "Corridas de fondo",
+      "subheader": "Fondo",
+      "card_title": "Corrida",
+      "configuration_title": "Configuración",
+      "state_title": "Estado",
+      "init_date_title": "Fecha de inicio",
+      "days_title": "Cantidad de dias",
+      "currency_title": "Moneda",
+      "gain_title": "Ganancia",
+      "loss_title": "Perdida",
+      "starting_amount_title": "Monto inicial",
+      "actual_amount_title": "Monto actual",
+      "final_amount_title": "Monto final",
+      "cant_btc_title": "BTC",
+      "cant_eth_title": "ETH",
+      "cant_xrp_title": "LTC",
+      "cant_bnb_title": "BNB",
+      "cant_usdt_title": "USDT",
+      "cant": "Cantidad: ",
+      "gain_current_currency_title": "Porcentaje de ganancia en",
+      "view_details": "Detalles",
+      "commission_amount_title": "Comisión a depositar:",
+      "commission_title": "Comisión",
+      "inversion_title": "Inversión",
+      "commission_percentage_title": "Porcentaje",
+      "no_commission_title": "No aplica comisión",
+      "view_commissions": "Ver comisiones"
+    },
+    "commissions": {
+      "header": "Comisiones de WCS",
+      "inversion_table_title": "Inversión",
+      "commission_table_title": "Comisión",
+      "to": "a"
+    },
+    "deposit_address": {
+      "header": "Dirección de depósito",
+      "currency_card_title": "Moneda",
+      "deposit_address_card_title": "Informacion de depósito",
+      "currency": "Seleccionar moneda",
+      "address": "Dirección",
+      "address_tag": "Etiqueta",
+      "link": "Enlace",
+      "copy_address_ok_text": "Se copió la dirección al portapapeles",
+      "copy_address_error_text": "No se pudo copiar la dirección al portapapeles"
+    },
+    "new_fund_info": {
+      "header": "Nuevo fondo - Ayuda",
+      "fund_name_title": "Nombre del Fondo",
+      "fund_name_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "currency_title": "Moneda a Optimizar",
+      "currency_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "term_of_operation_title": "Plazo de Operación",
+      "term_of_operation_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "take_profit_title": "Porcentaje de Ganancia",
+      "take_profit_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "stop_loss_title": "Porcentaje de Perdida",
+      "stop_loss_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "trailing_title": "Trailing",
+      "trailing_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "trailing_profit_title": "Trailing Profit",
+      "trailing_profit_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "trailing_stop_title": "Trailing Stop",
+      "trailing_stop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
+      "risk_level_title": "Nivel de Riesgo",
+      "risk_level_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis."
+    },
+    "fund_created": {
+      "go_to_fund_button_text": "Ver mi inversión",
+      "congrats_header_text": "¡Felicitaciones!",
+      "subtitle_header_text": "Ya estás invirtiendo en el mundo crypto",
+      "description_text": "Ya creamos tu fondo y nuestro robot empezará a gestionar tu capital en base a la información que configuraste."
+    },
+    "fund_name": {
+      "header": "Crea un fondo",
+      "title": "Nombrá tu fondo",
+      "text_before": "Puede ser lo que vos quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
+      "fund_name": "Nombre de mi fondo",
+      "fund_name_placeholder": "Ej: Mi Primer Fondo",
+      "next_button": "Siguiente"
+    },
+    "fund_risk": {
+      "header": "Crea un fondo",
+      "title": "¿Qué tan agresivo quieres que sea la inversión?",
+      "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo que asumirás a la hora de invertir.",
+      "risk_level": "Nivel de riesgo a asumir",
+      "risk_level_options": {
+        "low": "Bajo, voy a ser conservador",
+        "mid": "Medio, solo tomaré algunos riesgos",
+        "high": "Alto, asumo riesgos buscando posibilidades"
+      },
+      "next_button": "Siguiente",
+      "back_button": "Anterior"
+    },
+    "fund_duration": {
+      "header": "Crea un fondo",
+      "title": "¿Cuál va a ser la duración de tu fondo de inversión?",
+      "text_before": "Fijaremos una duración para que tu fondo tenga un inicio y un fin, pero podrás detenerlo y extraer tus ganancias en cualquier momento.",
+      "duration": "Duración",
+      "duration_metric": "días",
+      "next_button": "Siguiente",
+      "back_button": "Anterior",
+      "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
+    },
+    "fund_currency": {
+      "header": "Crea un fondo",
+      "title": "¿En qué moneda querrás que optimicemos tu capital?",
+      "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda verás la evolución de tu inversión a través del tiempo.",
+      "currency": "Moneda",
+      "btc_text": "Bitcoin BTC",
+      "usdt_text": "Dolar USDT",
+      "next_button": "Siguiente",
+      "back_button": "Anterior",
+      "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio"
+    },
+    "fund_take_profit": {
+      "header": "Crea un fondo",
+      "title": "¿Cuándo querés que dejemos de invertir y tomemos las ganancias?",
+      "text_before": "En caso en que tu inversión genere ganancias necesitamos que decidas hasta que porcentaje seguiremos invirtiendo.",
+      "take_profit": "Take profit",
+      "most_chosen": "Más elegida",
+      "custom_tp_button": "Elegir otra opción",
+      "next_button": "Siguiente",
+      "back_button": "Anterior",
+      "edit_custom": "Editar"
+    },
+    "fund_stop_loss": {
+      "header": "Crea un fondo",
+      "title": "En caso de pérdida, hasta que porcentaje de tu capital estas dispuesto a arriesgar?",
+      "text_before": "Una vez alcanzado este porcentaje, detendremos la operatoria del fondo para resguardar tu capital.",
+      "stop_loss": "Stop loss",
+      "most_chosen": "Más elegida",
+      "custom_tp_button": "Elegir otra opción",
+      "btc_text": "Bitcoin BTC",
+      "usdt_text": "Dolar USDT",
+      "submit_button": "Crear fondo",
+      "edit_custom": "Editar"
+    },
+    "custom_range_component": {
+      "cancel_button": "Cancelar",
+      "confirm_button": "Confirmar"
+    },
+    "fund_success": {
+      "textPrimary": "¡Felicitaciones, ya estas invirtiendo en el mundo crypto!",
+      "textSecondary": "Ya creamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
+      "namePrimaryAction": "Ver mi inversión"
+    },
+    "fund_card": {
+      "current_capital": "Capital actual",
+      "last_24hs": "Últimas 24 hs",
+      "view_fund": "Ver fondo",
+      "not_balance_found": "No hay balance para mostrar",
+      "days": "días"
+    },
+    "change_currency_modal": {
+      "submit_button": "Aceptar",
+      "cancel_button": "Cancelar"
+    },
+    "fund_settings": {
+      "header": "Ajustes de fondo",
+      "fund_info_title": "INFORMACIÓN",
+      "currency": "Moneda",
+      "fund_modify_title": "MODIFICAR",
+      "apikey": "Api key",
+      "secretkey": "Secret key",
+      "take_profit": "Take profit",
+      "stop_loss": "Stop loss"
+    },
+    "fund_finish_pause_fund_card": {
+      "finish_fund": "Finalizar",
+      "pause_fund": "Pausar",
+      "resume_fund": "Activar",
+      "fund_paused": "Se ha pausado el fondo",
+      "fund_resumed": "Se ha activado el fondo",
+      "fund_finished": "Se ha finalizado el fondo"
+    }
+  },
+  "runs": {
+    "run_summary": {
+      "header": "Corrida",
+      "run_title": "Corrida",
+      "fund_title": " de Fondo",
+      "no_status_text": "Todavía no hay estado para mostrar para el fondo.",
+      "no_runs_text": "No hay una corrida activa.",
+      "profit_text": "Porcentaje de ganancia en {{days}} días y {{hours}}hs",
+      "fund_balance_button": "Ver Balance",
+      "chart_title": "Última actualización "
+    }
+  },
+  "profiles": {
+    "profile_helper": {
+      "from_new_fund_data_no_ok": "Debe completar sus datos personales para poder crear un fondo",
+      "from_new_referral_data_no_ok": "Debe completar sus datos personales para poder referir a un amigo",
+      "data_no_ok": "Debe completar sus datos personales para poder ejecutar la acción"
+    },
+    "user_profile": {
+      "header": "Modificar perfil",
+      "edit_photo": "Editar",
+      "save_button": "Guardar",
+      "edit_button": "Editar",
+      "personal_data": "Datos personales",
+      "show_personal_data": "DATOS PERSONALES",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "nro_dni": "Documento de Identidad",
+      "cellphone": "Celular",
+      "show_bill_data": "DATOS DE FACTURACIÓN",
+      "bill_data": "Datos de facturación",
+      "condicion_iva": "Condición IVA",
+      "condicion_iva_placeholder": "Seleccionar..",
+      "tipo_factura": "Tipo Factura",
+      "tipo_factura_placeholder": "Seleccionar..",
+      "cuit": "CUIT",
+      "direccion": "Dirección",
+      "submit_button": "Guardar",
+      "success_text": "Datos guardados!",
+      "country": "País",
+      "country_placeholder": "Elije un país"
+    },
+    "success_profile": {
+      "textPrimary": "¡Ya configuraste tu cuenta!",
+      "textSecondary": "Ahora necesitamos que vincules tu Exchange (Binance) para poder ver tu capital.",
+      "namePrimaryAction": "Comenzar a vincular con Binance",
+      "nameSecondaryAction": "Omitir por ahora"
+    },
+    "personal_data": {
+      "header": "Configurar cuenta",
+      "personal_data_title": "Datos personales",
+      "nro_dni": "Documento de identidad",
+      "first_name": "Nombre",
+      "first_name_placeholder": "Mi nombre",
+      "last_name": "Apellido",
+      "last_name_placeholder": "Mi apellido",
+      "cellphone": "Teléfono",
+      "address": "Domicilio",
+      "submit_button": "Siguiente",
+      "address_placeholder": "Ej: Río Negro 350, Cordoba, Argentina",
+      "nro_dni_placeholder": "Ej: 35485865",
+      "cuit_placeholder": "Ej: 23000000009",
+      "cellphone_placeholder": "Ej: 3512556525"
+    },
+    "fiscal_data": {
+      "header": "Configurar cuenta",
+      "fiscal_data_title": "Información fiscal",
+      "not_sure_text": "Si no estas seguro podrás cambiar mas tarde este dato desde tu perfil.",
+      "cuit": "CUIL/CUIT",
+      "country": "País",
+      "country_modal_ok_text": "Ok",
+      "country_modal_cancel_text": "Cancelar",
+      "iva_condition": "Condicion frente al IVA",
+      "tipo_factura": "Tipo de factura",
+      "submit_button": "Finalizar configuración",
+      "country_placeholder": "Elije un país",
+      "cuit_placeholder": "Ej: 23000000009"
+    }
+  },
+  "tutorials": {
+    "interactive_tutorial": {
+      "header": "interactive-tutorial",
+      "t1": "¿Tenés Cryptoactivos?",
+      "no_button": "No",
+      "yes_button": "Si",
+      "t2": "¿Tenés Cuenta en Binance?",
+      "t3": "¿Sabes cómo transferir tus Cryptoactivos a Binance?",
+      "no_cryptos_text": "El proceso llevará un tiempo, vuelve a la creación del fondo cuendo estes listo!"
+    },
+    "binance_address_tutorial_modal": {
+      "header": "Binance - Dirección",
+      "t1": "Donde Encontrar La Dirección A Depositar Tus Cryptomonedas",
+      "p1": "Dentro de tu cuenta de Binance, haz clic en “Fondos”, lo encontrarás en el menú que está en el margen superior derecho.",
+      "p2": "En el menú Fondos haz clic en “Depósitos”",
+      "p3": "En el selector haz clic y escribe el nombre de la cryptomoneda que quieres saber la dirección (a fines prácticos buscaremos BTC). En la lista que despliega haz clic sobre el nombre.",
+      "p4": "Binance te mostrará un detalle del estado de tu cuenta de BTC, en el campo “BTC Dirección de depósito”, encontrarás la dirección. Haz clic en Copiar y ve a tu cuenta de Bitex y pega la dirección.",
+      "p5": "Ten en cuenta que esta información es importante."
+    },
+    "binance_apikey_tutorial_modal": {
+      "header": "Binance - API Keys",
+      "t1": "Crear APIkey Y SECRETkey En Binance",
+      "p1": "Vamos a gestionar la clave para generar la apiKey y el secretKey de tu cuenta en Binance, para ello dentro de tu cuenta dirígete a donde dice “API, Creating an API private key provides access to markets and real-time trading services on Binance via a third-party site or application.” y haz click en API Setting",
+      "p2": "Debes ingresar una clave para luego generar el APIkey, esta clave puede ser una combinación de letras y números, la que más te guste y haz click en “Crear nueva clave”",
+      "p3": "Ten a mano tu móvil, Binance te solicitará el código de segundo factor de autenticación de Google, ingresalo y haz click en enviar",
+      "p4": "Binance te enviará un correo al e-mail con el que te registraste, recuerda que si no lo encuentra en tu bandeja de entrada, revisa el correo spam. Haz click en el link del correo que recibiste",
+      "p5": "Listo, tu APIkey y SECRETkey estan creados, haz click en cerrar.",
+      "p6": "Lo único que queda por hacer es copiar y pegar el APIkey y SecretKey donde lo requieras.",
+      "p7": "Recuerda que esta información es importante y requiere que cuides de ella, no las compartas ni envies a terceros que no sean de tu confianza."
+    },
+    "binance_check_tutorial_modal": {
+      "header": "Binance - Lv.2",
+      "t1": "Como Verificar Tu Identidad En Binance Y Aumentar El Nivel De La Cuenta A Lv.2",
+      "p1": "Abre tu navegador favorito e ingresa a:",
+      "p2": "Haz clic en iniciar sesión, lo encontrarás en el margen superior derecho",
+      "p3": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Binance desde otro navegador como Edge, Chrome o FireFox.",
+      "p4": "Una vez que hayas iniciado sesión, haz click en Lv.2",
+      "p5": "Haz click para verificar que eres una persona:",
+      "p6": "Comenzarás con la verificación, haz click en continuar",
+      "p7": "Elige tu país de origen y el tipo de documentación que vas a validar, puede ser DNI, Pasaporte o Licencia de Conducir y selecciona sobre el icono",
+      "p8": "Continuarás con la Verificación ingresando las imágenes de tu DNI, elige como subir las imágenes de tu DNI, en este caso subiremos los archivos desde el dispositivo",
+      "p9": "Escoge la imagen que tiene el frente del DNI y haz click en Confirmar",
+      "p10": "A continuación deberás cargar la imagen que contiene el dorso del DNI y haz click en Confirmar",
+      "p11": "Por último debes subir una imagen de ti mismo sosteniendo una hoja con la inscripción en puño y letra “Binance - Fecha de hoy” y haz click en Confirmar",
+      "p12": "Espera a que se carguen los archivos",
+      "p13": "Cuando Binance termine de cargar los archivos te lo informará con el siguiente mensaje",
+      "p14": "Ahora solo te queda esperar que el equipo de Binance verifique tu identidad y eleve el nivel de tu cuenta a Lv.2.",
+      "p15": "En caso de que existiera algún error o faltara información, Binance se contactará contigo por medio del e-mail con el que te registraste. Estate atento a este medio."
+    },
+    "binance_transfer_tutorial_modal": {
+      "header": "Binance - Transferir",
+      "t1": "Transferir Tus Bitcoins A Binance",
+      "p1": "Ya tienes tus Bitcoins, por lo que ya puedes hacer la transferencia de los mismos a Binance para que WCS Advisor pueda operar.",
+      "p2": "Dentro de tu cuenta de Bitex, ve a Saldos y haz clic en Descargar BTC",
+      "p3": "Bitex te pedirá que ingreses la dirección de BTC a la cual quieres enviar tus BTC, esta dirección es la que Binance te proporciona en su plataforma.",
+      "p4": "Nota: mira dónde encontrar la dirección a depositar tus BTC en Binance",
+      "a1": "aquí",
+      "p5": "También debes ingresar la cantidad de BTC que quieres enviar, el código de Google Authentication y haz clic en Offload",
+      "p6": "Ten en cuenta que las operaciones de envío de BTC, se realizan de lunes a viernes de 9 a 17hs. Los envíos de BTC están sujetos a las condiciones de la red."
+    },
+    "binance_tutorial_modal": {
+      "header": "Binance - Cuenta",
+      "t1": "Como Crear Una Cuenta En Binance",
+      "p1": "Abre tu navegador favorito e ingresa a:",
+      "p2": "Haz clic en Registrate, lo encontrarás en el margen superior derecho",
+      "p3": "A continuación deberás ingresar el e-mail con que quieres crear tu cuenta en Binance, proporcionar un password (la misma debe ser como mínimo de 6 caracteres, compuesta por números y letras con al menos una en mayúscula) y confirmar el password.",
+      "p4": "En el campo “Referencial ID (optional)” encontrarás el siguiente ID: 36552775, no lo cambies. Si está vacio ingresalo.",
+      "p5": "Tilda el Check para aceptar los términos de uso de Binance y haz clic en Register.",
+      "p6": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Binance desde otro navegador como Edge, Chrome o FireFox.",
+      "p7": "Binance te enviará un correo al e-mail con el que te registraste para que confirmes el e-mail y actives la cuenta.",
+      "p8": "Si no lo encuentras en tu bandeja de entrada, revisa el correo Spam. Haz clic en el link del e-mail que recibiste y continúa para activar tu cuenta.",
+      "p9": "El link te enviará a la siguiente página donde deberás posicionar el puzzle en el lugar correcto y así probar que no eres un robot.",
+      "p10": "Una vez que hayas posicionado el puzzle, has activado tu cuenta",
+      "p11": "Cuando ya tengas la cuenta activa, Binance proporcionará sugerencias de seguridad para tu cuenta, te recomendamos tildes todas las opciones y haz clic en continuar.",
+      "p12": "Binance recomienda activar el segundo factor de autenticación de google. Descarga la app del playStore, buscala como: Authentication de Google.",
+      "p13": "Una vez descargada la app haz clic en Next Step, y sigue los pasos:",
+      "p14": "Desde la App, Scanear el código QR y haz clic en Next Step",
+      "p15": "Guarda la Clave proporcionada en papel y haz clic en Next Step",
+      "p16": "Para finalizar con la autenticación ingresa la contraseña de acceso y el código de verificación proporcionado por Authentication Google.",
+      "p17": "Si todo salió bien, Binance te lo hará saber con el siguiente mensaje, sino contacta a Binance para que te brinde una solución",
+      "p18": "Hasta aquí has creado una cuenta en Binance, que en principio no hace falta verificar tu identidad para poder operar, lo que sí sólo podrás retirar hasta 2 BTC(Bitcoins) cada 24hs.",
+      "p19": "En caso de que quieras aumentar el límite de retiro a 100 BTC por cada 24hs, entonces sí, deberás realizar la verificación haciendo click en Lv.2 y comenzar con los pasos de verificación. Mirá como verificar tu cuenta",
+      "a1": "aquí"
+    },
+    "ca_tutorial_modal": {
+      "header": "Cryptomonedas",
+      "t1": "¿Como Adquirir Cryptomonedas?",
+      "p1": "Para poder adquirir cryptomonedas necesitas de una plataforma simple y profesional en la cual los usuarios, sin importar el nivel de conocimientos que tenga, pueda, previa registración, transferir dinero, comprar y vender Bitcoins.",
+      "p2": "Te presentamos Bitex, desde sus inicios desarrolló negocios tanto como mercado de intercambio de bitcoin, pasarela de pagos en bitcoin y más recientemente un servicio de remesas corporativas internacionales que permite a empresas realizar pagos internacionales a través de transferencia bancaria locales, aprovechando la tecnología bitcoin y permitiendo a empresas realizar pagos multiples simultaneos.",
+      "p3": "Te ayudaremos a registrarte y activar tu cuenta para que puedas transferir dinero fiduciario a tu cuenta en Bitex y así poder obtener tus cryptomonedas.",
+      "t2": "Como Crear Una Cuenta En Bitex",
+      "p4": "Abre tu navegador favorito e ingresa a:",
+      "p5": "Haz clic en Registrarte",
+      "p6": "Completa los campos con tu e-mail, contraseña, (la misma debe ser como mínimo de 6 caracteres, compuesta por números y letras con al menos una en mayúscula), confirmar la contraseña y tildar el check donde dice que no eres ciudadano Estadounidense u Holandés y haz clic en Registrate.",
+      "p7": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Bitex con otro navegador como Edge, Chrome o FireFox.",
+      "p8": "Recibirás un correo de Bitex para que confirmes el e-mail con el que te registraste. Si no lo encuentras en tu bandeja de entrada, revisa el correo Spam. Haz clic en el link del e-mail que recibiste y continúa verificando la cuenta.",
+      "p9": "Indica que eres un individuo, no una empresa.",
+      "p10": "Ten en cuenta los requisitos de Bitex para operar localmente:",
+      "ul1li1": "Documento de identidad DNI vigente (a color y completamente legible)",
+      "ul1li2": "Respaldo de ingresos y ahorros (últimos 3 recibos de sueldo o facturas emitidas el último mes o DDJJ de Bienes Personales o Ganancias)",
+      "ul1li3": "Declaración de actividad",
+      "ul1li4": "Servicio a tu nombre",
+      "p11": "A continuación seguiremos con la verificación de la cuenta, recuerda que todos los campos son requeridos, son cuatro pasos:",
+      "p12": "Comencemos por el primer paso, completa tus datos personales",
+      "p13": "Son varios campos, aquí debes subir una imagen de tu DNI de frente y otra del dorso, ten en cuenta que las imágenes tienen que ser nítidas, a color y no presentar cortes o zonas que no puedan leerse",
+      "p14": "En el paso dos, completaras los datos de contacto",
+      "p15": "Aquí debes subir una factura de teléfono, prepaga o cualquier otro servicio a tu nombre con tu domicilio actual y haz clic en siguiente",
+      "p16": "Como tercer paso Bitex necesita verificar de donde proviene el dinero, para ello completa los campos y debes proveer un scan o una imágen como por ejemplo el recibo de sueldo, facturas, contratos, liquidación de inversiones o declaraciones juradas de bienes personales. Elige el archivo y haz clic en siguiente.",
+      "p17": "Como último paso espera la aprobación de la cuenta, puede demorar hasta 4 días.",
+      "p18": "En caso de que existiera algún error o faltara información, Bitex se contactará contigo por medio del e-mail con el que te registraste. Estate atento a este medio.",
+      "p19": "Cuando la cuenta esté aprobada podrás realizar transferencias en pesos o dolares a tu cuenta para así comprar BTC (Bitcoins)",
+      "p20": "Si tienes alguna duda, contactanos",
+      "t3": "Como Transferir Dinero A Tu Cuenta En Bitex",
+      "p21": "Para poder adquirir Bitcoins, lo primero que debes hacer es transferir dinero fiduciario a tu cuenta de Bitex.",
+      "p22": "Abre tu navegador favorito e ingresa a:",
+      "p23": "Haz clic en Ingresar",
+      "p24": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Bitex con otro navegador como Edge, Chrome o FireFox.",
+      "p25": "Una vez en tu cuenta haz clic en depositar fondos en mi cuenta",
+      "p26": "Haz clic en cargar USD o ARG",
+      "p27": "Bitex te proporcionará la información para que puedas realizar la transferencia desde tu homebanking, según tu país de origen y la moneda que hayas elegido",
+      "p28": "Desde tu homebanking haz la transferencia para que se acredite en tu cuenta de bitex, te llegará un e-mail de tu banco con el aviso de transferencia realizada.",
+      "p29": "También te llegará un e-mail de bitex, informándote que la transferencia está en proceso, recuerda que esto puede demorar hasta 72hs. Si pasado el plazo de 72 hs. hábiles aún no ves acreditado tu deposito, comunicate con Bitex.",
+      "p30": "Una vez acreditado el saldo en tu cuenta, Bitex te enviará un e-mail informándote de que se ha cargado el saldo en tu cuenta",
+      "p31": "Bitex, te enviará un último e-mail con la factura, términos y condiciones y el detalle de la operación",
+      "p32": "Si tienes alguna duda, contactanos",
+      "t4": "Como Comprar Bitcoins En Bitex",
+      "p33": "Una vez acreditado el saldo en tu cuenta de bitex, podrás comprar tus Bitcoins al mejor precio de mercado",
+      "p34": "Para ello ve a tu cuenta de bitex y haz clic en “Exchange”",
+      "p35": "Dentro del exchange verás el saldo de tu cuenta, en la moneda fiduciaria que hayas escogido (supondremos que transferiste USD), haz clic en comprar BTC",
+      "p36": "A continuación debes ingresar la cantidad de USD que quieres vender y el precio que vas a pagar para comprar tus BTC.",
+      "p37": "Nota: Si tienes dolares en tu cuenta te recomendamos hagas clic en usar el mejor precio. En caso que hayas ingresado pesos argentinos, toma las órdenes que están en la lista de ask.",
+      "p38": "Te llegará un e-mail con el estado de la transacción en proceso. Cuando tengas los BTC en tu cuenta, Bitex se contactará contigo."
+    },
+    "extract_tutorial_modal": {
+      "header": "Extraer Ganancias",
+      "t1": "¿Como pasar los fondos que opera WCS a BTC?",
+      "p1": "Para que puedas pasar el total de la cartera que opera WCS de tu cuenta de Binance a BTC debes seleccionar el fondo: ",
+      "p2": "Presiona Pausar Fondo.",
+      "p3": "Ahora debes seleccionar BTC y presionar Cambiar",
+      "p4": "",
+      "p5": "y listo, comprueba en tu cuenta de Binance que el balance está en la crypto que seleccionaste.",
+      "t2": "Transferir tus BTC de Binance a Bitex",
+      "p6": "Abre tu navegador favorito e ingresa a: ",
+      "p7": "Haz clic en Ingresar",
+      "p8": "Nota: si tiene inconvenientes con la carga de los datos en el formulario ingresa a Bitex con otro navegador como Edge, Chrome o FireFox.",
+      "p9": "Ingresa tus datos",
+      "p10": "Ingresa los datos de autenticación de google",
+      "p11": "Una vez en tu cuenta haz clic sobre el icono de saldos.",
+      "p12": "Haz clic en  “Cargar BTC”",
+      "p13": "Bitex mostrará tu dirección de BTC para que transfieras tus BTC que tienes en Binance. Copia o scanea el codigo QR.",
+      "t3": "Transfiere tus BTC  a Bitex",
+      "p14": "Abre tu navegador favorito e ingresa a: ",
+      "p15": "Ingresa a tu cuenta y haz clic en monedo (lo encontrarás en el margen superior derecho), en la lista que se despliega haz clic en retirar",
+      "p16": "En donde dice “Dirección BTC del destinatario”, pega tu dirección de BTC de Bitex y luego ingresa la cantidad que quieres transferir. Haz clic en envia",
+      "p17": "Binance te pedirá que ingreses el código de autenticación de google",
+      "p18": "Luego te enviará un e-mail para que confirmes el retiro.",
+      "p19": "Ve a tu cuenta de e-mail y haz clic en “Confirm withdrawal”",
+      "p20": "Se abrirá una pantalla donde te informará si todo salió bien.",
+      "p21": "Nota: Ten en cuenta que esta transacción puede demorar unas horas.",
+      "t4": "Comprar USD",
+      "p22": "Ingresa a tu navegador favorito e ingresa a: ",
+      "p23": "Haz clic en ingresar tus datos",
+      "p24": "Ingresa el código de google autenticación",
+      "p25": "Una vez dentro de tu cuenta, haz clic en Exchange",
+      "p26": "Haz clic en vender para vender los BTC que tienes en tu cuenta y recibir USD",
+      "p27": "Ingresa la cantidad de BTC que quieres vender y el precio. Bitex recomienda ingresar el Mejor precio (puedes hacer clic en donde dice “Usar este precio”) y haz clic en vender.",
+      "p28": "Nota: Esta operación puede demorar unas horas. Recuerda que bitex opera de lunes a viernes de 9 a 17 hs.",
+      "t5": "Transferir USD a tu cuenta Bancaria",
+      "p29": "Ingresa a tu navegador favorito e ingresa a: ",
+      "p30": "Haz clic en ingresar y completa tus datos",
+      "p31": "Ingresa el código de autenticación de google",
+      "p32": "Una vez que estés dentro de tu cuenta, haz clic en saldos ",
+      "p33": "Haz clic en Descargar USD",
+      "p34": "Selecciona dónde deseas recibir el dinero, haciendo clic sobre “tengo nuevas instrucciones”",
+      "p35": "Selecciona el país de tu cuenta bancaria",
+      "p36": "y el método de pago",
+      "p37": "Luego completa todos los campos del formulario que se despliega",
+      "p38": "Por último haz clic en Descargar y bitex se comunicará",
+      "p39": "Nota: Recuerda que solo podemos realizar transferencias a cuentas que te pertenezcan a tí, no puedes realizar una extracción de bitex a una cuenta de terceros. Las extracciones se procesan de lunes a viernes en horario hábil. Los tipos de cambio de dólares a moneda local están sujetos a variaciones, para mitigarlas recomendamos solicitar tu retiro dentro de nuestros horarios de atención. ",
+      "p40": "Una vez iniciada la transferencia suele llegar a destino dentro de las 48 horas hábiles, aunque puede tardar hasta 5 días. El costo de descargar saldo desde Bitex es de 0.5% y no incluye otros costos extra o impuestos que pudieran aplicar a tu retiro. Todos los costos asociados corren a tu cargo."
+    },
+    "help": {
+      "header": "Ayuda",
+      "extract_tutorial": "Extraer Ganancias",
+      "ca_tutorial": "¿Como Adquirir Cryptomonedas?",
+      "binance_tutorial": "Como Crear Una Cuenta En Binance",
+      "binance_transfer_tutorial": "Transferir Tus Bitcoins A Binance",
+      "binance_check_tutorial": "Como Verificar Tu Identidad En Binance Y Aumentar El Nivel De La Cuenta A Lv.2",
+      "binance_apikey_tutorial": "Crear APIkey Y SECRETkey En Binance",
+      "binance_address_tutorial": "Donde Encontrar La Dirección A Depositar Tus Cryptomonedas"
+    },
+    "first_steps": {
+      "step1": {
+        "primary_text": "Configurá tu perfil",
+        "secondary_text": "Te pediremos algunos datos para validar identidad y tener información necesaria para poder comenzar a operar.",
+        "next_button": "Siguiente"
+      },
+      "step2": {
+        "primary_text": "Vincula con Binance",
+        "secondary_text": "Operamos sobre el capital de tu billetera. Te guiaremos paso a paso para vincular tu cuenta.",
+        "next_button": "Siguiente",
+        "back_button": "Anterior"
+      },
+      "step3": {
+        "primary_text": "Crea tu fondo",
+        "secondary_text": "Podes personalizar cada detalle. Una vez creado podrás modificar ó cerrar el fondo en cualquier momento.",
+        "back_button": "Anterior",
+        "config_button": "Comenzar a configurar"
+      }
+    }
+  },
+  "subscriptions": {
+    "subscriptions_service": {
+      "share_title": "share title",
+      "share_text": "share text",
+      "toast_text_copied": "El enlace de suscripción al fondo se ha copiado al portapapeles"
+    },
+    "subscribe": {
+      "ok_text": "¡Suscripción Exitosa!",
+      "error_text": "La suscripción ha fallado. Solicita nuevamente el link a su amigo"
+    }
+  },
+  "state_names": {
+    "active": "Activo",
+    "pausado": "Pausado",
+    "to-NF": "Cambiando a {{ca}}",
+    "toUSDT": "Cambiado a USDT",
+    "toBTC": "Cambiado a BTC",
+    "finalizado": "Finalizado"
+  },
+  "errorCodes": {
+    "funds": {
+      "create": {
+        "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
+        "keysExists": "Las keys ya se encuentran registradas.",
+        "checkFundName": "El nombre del fondo ya existe.",
+        "creatingFund": "Error al crear el fondo.",
+        "creatingRun": "Error al crear la corrida.",
+        "creatingSubscriber": "Error al subscribirse al fondo.",
+        "creatingPartialsBalance": "No tienes suficientes fondos en la cuenta.",
+        "invalidData": "Los datos ingresados no son válidos.",
+        "notLinkedApiKeys": "No posee API/Secret key para crear el fondo.",
+        "cantUpdateKeys": "No fue posible vincular la API key."
+      },
+      "update": {
+        "apiCallError": "Error al modificar el fondo.",
+        "notOwner": "No es dueño del fondo.",
+        "invalidData": "Los datos ingresados no son válidos."
+      },
+      "subscribed": {
+        "subscribedFund": "No se pudieron listar los fondos."
+      },
+      "changeFundCA": {
+        "notOwner": "No es dueño del fondo.",
+        "runNotPaused": "La corrida debe estar pausada para cambiar de CA.",
+        "changeCA": "Error al cambiar de CA."
+      },
+      "fundStatus": {
+        "notSubscribed": "No esta subscripto al fondo."
+      },
+      "pauseFund": {
+        "notOwner": "No es dueño del fondo.",
+        "pauseFund": "Error al pausar el fondo."
+      },
+      "resumeFund": {
+        "notOwner": "No es dueño del fondo.",
+        "resumeFund": "Error al reanudar el fondo."
+      },
+      "finalizeFund": {
+        "notOwner": "No es dueño del fondo.",
+        "finalizeFund": "Error al finalizar el fondo."
+      },
+      "fundBalance": {
+        "lastRun": "Error al ver el balance.",
+        "notSubscribed": "No esta subscripto al fondo."
+      },
+      "renewFund": {
+        "notOwner": "No es dueño del fondo.",
+        "invalidData": "Los datos ingresados no son válidos.",
+        "renewFund": "Error al renovar el fondo."
+      },
+      "depositAddress": {
+        "depositAddress": "Error al consultar la dirección de depósito."
+      }
+    },
+    "profiles": {
+      "retrieve": {
+        "doesNotExists": "El perfil no existe."
+      },
+      "update": {
+        "doesNotExists": "El perfil no existe.",
+        "invalidData": "Los datos ingresados no son válidos."
+      }
+    },
+    "runs": {
+      "runsByState": {
+        "invalidState": "El estado de la corrida no es válido."
+      },
+      "statusByRunId": {
+        "notSubscribed": "No esta subscripto al fondo."
+      }
+    },
+    "subscriptions": {
+      "subscriptionLink": {
+        "notFound": "No hay subscriptores.",
+        "notOwner": "No puedes obtener el link si no eres dueño del fondo.",
+        "alreadySubscribed": "Ya estas subscripto a este fondo."
+      }
+    },
+    "users": {
+      "sendResetPasswordEmail": {
+        "user": "Error al obtener el usuario a validar."
+      },
+      "sendEmailValidationToken": {
+        "user": "Error al obtener el usuario a validar."
+      },
+      "registration": {
+        "invalidData": "Los datos ingresados no son válidos.",
+        "referralIdNotExists": "No existe un usuario con el codigo de referido ingresado."
+      },
+      "resetPassword": {
+        "invalid": "Error al Cambiar la Password."
+      },
+      "emailValidation": {
+        "invalid": "Error al validar el email."
+      },
+      "login": {
+        "invalidCredentials": "No existe una cuenta activa con las credenciales ingresadas."
+      },
+      "changePassword": {
+        "invalid": "Error al Cambiar la Password."
+      }
+    },
+    "referrals": {
+      "create": {
+        "referralAlreadyExist": "No se puede crear el referido.",
+        "referralAlreadyExistsAsUser": "No se puede crear el referido.",
+        "emailDidNotSend": "No se pudo enviar el email."
+      }
+    },
+    "apikeys": {
+      "create": {
+        "invalidExchangeKeys": "Las keys ingresadas no existen en binance.",
+        "keysExists": "Las keys ya se encuentran registradas.",
+        "invalidData": "Los datos ingresados no son válidos.",
+        "balanceNotEnough": "No tienes el balance suficiente. El mínimo balance es el equivalente a 300 USD."
+      }
+    }
+  },
+  "terms_and_conditions": {
+    "accept": {
+      "header": "Términos y Condiciones",
+      "cancel_button": "Cancelar",
+      "i_agree_button": "Acepto"
+    }
+  },
+  "referrals": {
+    "new_referral": {
+      "header": "Referir",
+      "submit_button": "Compartir",
+      "referral_title": "¡Comparte xcapit!",
+      "referral_subtitle": "Comparte xcapit con tus amigos para que ellos también puedan comenzar a invertir.",
+      "toast_header": "¡Exito!",
+      "toast_message": "El referido fue creado.",
+      "email_label": "Email",
+      "email_placeholder": "myemail@example.com"
+    },
+    "referrals_list": {
+      "header": "Referidos",
+      "new_button": "Nuevo",
+      "list_title": "MIS REFERIDOS",
+      "referral_id_card": {
+        "share_title": "Este es mi ID de referido",
+        "share_dialogTitle": "Compartí tu ID de referido",
+        "toast_text_copied": "El ID de referido fué copiado al portapapeles",
+        "title": "Tu código de referido",
+        "subtitle": "Invita a tus amigos a invertir"
+      }
+    },
+    "referral_form": {
+      "email": "Email"
+    }
+  },
+  "notifications": {
+    "notifications_list": {
+      "header": "Notificaciones"
+    },
+    "notification": {
+      "header": "Notificación"
+    },
+    "notifications_helper": {
+      "message": "Tienes una nueva notificación!",
+      "view_button": "Ver"
+    }
+  },
+  "apikeys": {
+    "new_apikeys": {
+      "slide1_title": "¿Tenés cuenta en Binance?",
+      "slide1_text": "Te recomendamos que accedas a tu cuenta para poder buscar la información que necesitaremos.",
+      "slide1_option_no": "NO",
+      "slide1_option_yes": "SI",
+      "slide1_link_text": "¿Qué es Binance y por que lo necesito?",
+      "slide2_title": "Crear una API KEY",
+      "slide2_text1": "La API KEY es un código que nos permitirá gestionar sobre tu cuenta de Binance.",
+      "slide2_text2": "Ingresá a tu cuenta de Binance y seguí estos pasos para crear una nueva API Key.",
+      "slide2_bullettext1": "Ingresá a \"Mi Cuenta\"",
+      "slide2_bullettext2": "Encontrá el módule \"API\"",
+      "slide2_bullettext3": "Ingresá una clave (puede ser lo que quieras)",
+      "slide2_bullettext4": "Seguí los pasos para crear tu API Key",
+      "slide2_option_next": "Siguiente",
+      "slide3_title": "Ingresá tu API Key",
+      "slide3_text": "Ahora copiá los 18 dígitos de tu Key",
+      "slide3_input_label": "API Key",
+      "slide3_option_next": "Siguiente",
+      "slide4_title": "SECRET Key",
+      "slide4_text1": "Junto con la creación de tu API Key, binance generó una \"SECRET Key\" para asegurar la seguridad de las transacciones (podrás encontrarlo justo debajo del API Key).",
+      "slide4_text2": "Ingresá tu SECRET KEY",
+      "slide4_input_label": "SECRET Key",
+      "slide4_option_next": "Siguiente",
+      "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
+    },
+    "linked_apikeys": {
+      "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
+      "subtitle_header_text": "Ya comenzaste tu viaje crypto",
+      "create_fund_button_text": "Crear un fondo de inversión",
+      "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
+      "create_fund_later_button_text": "Lo voy a crear mas tarde"
+    },
+    "tutorial_apikeys": {
+      "header": "Vincular con Binance",
+      "title": "Crea una API Key",
+      "text_before": "LA API Key es un código que nos permitirá gestionar sobre tu cuenta.",
+      "text_before_2": "Ingresá a tu cuenta de Binance y seguí estos pasos para crear una nueva API Key.",
+      "step1": "Ingresá a la sección \"Mi Cuenta\".",
+      "step2": "Encontra el modulo \"API\".",
+      "step3": "Ingresa una clave.",
+      "step4": "Segui los pasos para crear la Key.",
+      "text_after": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
+      "text_help": "¿Tenés dudas?",
+      "text_help_link": "Conocé más.",
+      "next_button": "Siguiente"
+    },
+    "insert_key": {
+      "header": "Vincular con Binance",
+      "title": "Ingresa tu API Key",
+      "text_before": "Copia los 18 dígitos de la API Key que creaste. Recordá que no tendremos permisos para retirar dinero, solo podremos operar.",
+      "insert_key": "API Key",
+      "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help_link": "Conocé más.",
+      "next_button": "Siguiente"
+    },
+    "insert_secret": {
+      "header": "Vincular con Binance",
+      "title": "Ingresa tu Secret Key",
+      "text_before": "Junto con la creación de tu API Key, Binance generó un \"Secret Key\" por razones de seguridad. Podrás encontrarlo justo debajo del API Key.",
+      "insert_secret": "Secret Key",
+      "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
+      "submit_button": "Finalizar configuración"
+    },
+    "success_apikeys": {
+      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
+      "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
+      "namePrimaryAction": "Crear mi primer fondo de inversión",
+      "nameSecondaryAction": "Omitir por ahora"
+    }
+  },
+  "tabs": {
+    "home": "Inicio",
+    "refer": "Referir",
+    "new_fund": "Nuevo",
+    "menu": "Más"
+  },
+  "deposit_addresses": {
+    "deposit_currency": {
+      "header": "Dirección de depósito",
+      "currency_title": "Moneda",
+      "title": "¿En qué moneda pagarás la comisión?",
+      "text_before": "Elegí la moneda con la que quieres hacer el depósito",
+      "next_button": "Siguiente"
+    },
+    "deposit_address": {
+      "header": "Dirección de depósito",
+      "title": "Informacion de depósito",
+      "text_before": "Utiliza cualquiera de los siguientes datos para realizar el depósito",
+      "address_title": "Dirección",
+      "address_tag_title": "Etiqueta",
+      "link_title": "Enlace",
+      "qr_title": "QR",
+      "copy_address_ok_text": "Se copió la dirección al portapapeles",
+      "copy_address_error_text": "No se pudo copiar la dirección al portapapeles",
+      "back_link": "Ir al inicio"
+    }
+  }
+}

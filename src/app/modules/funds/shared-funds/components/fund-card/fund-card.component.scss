@@ -1,0 +1,41 @@
+:host {
+  width: 100%;
+  .fc {
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+    &__main {
+      border-bottom: 1px solid #0000000A;
+      &__content {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 2px;
+        &__right__amount {
+          &__up {
+            color: var(--ion-color-uxsuccess);
+            height: 10px;
+            padding-bottom: 3px;
+          }
+          &__down {
+            color: var(--ion-color-uxdanger);
+            height: 10px;
+            padding-bottom: 3px;
+          }
+        }
+        &__right__flex {
+          display: flex;
+          justify-content: flex-end;
+        }
+      }
+    }
+    &__footer {
+      height: 44px;
+      display: flex;
+      justify-content: flex-end;
+      &__view_fund {
+        ion-icon {
+          height: 10px;
+        }
+      }
+    }
+  }
+}

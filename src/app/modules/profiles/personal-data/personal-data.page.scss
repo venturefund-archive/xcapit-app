@@ -1,0 +1,17 @@
+:host {
+  .pd {
+    &__form {
+      height: 100%;
+    }
+    &__personal_data_title {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    &__submit_button {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-top: 16px;
+    }
+  }
+}

@@ -8,6 +8,10 @@ const routes: Routes = [
   {
     path: '',
     component: RegisterPage
+  },
+  {
+    path: ':code/:email',
+    component: RegisterPage
   }
 ];
 

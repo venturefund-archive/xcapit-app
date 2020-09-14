@@ -1,107 +1,114 @@
-export const API_URL = 'http://localhost:9050/api';
 export const AUTH = {
   storageKey: 'jwt',
   userKey: 'userLogged'
 };
 export const CONFIG = {
   app: {
-    mainTitle: '',
-    welcomeMsg: {
-      title: '',
-      message: ''
-    }
+    defaultLanguage: 'es'
   },
-  auth: {
-    sessionExpired: {
-      message: ''
-    }
+  loadingService: {
+    defaultMessage: 'config.loading_service.default_message'
   },
-  successMessages: {},
-  actionSheet: {
-    buttons: {}
-  },
-  errors: {
-    auth: {
-      title: '',
-      message: ``
-    }
+  xhrResponseHandlerService: {
+    defaultMessage: 'config.xhr_response_handler_service.default_message'
   },
   formErrors: [
     {
       name: 'required',
-      text: 'El campo es requerido',
+      text: 'config.form_errors.required',
       rules: []
     },
     {
       name: 'email',
-      text: 'El email no es correcto',
+      text: 'config.form_errors.email',
       rules: []
     },
     {
       name: 'pattern',
-      text: 'El campo no cumple con el patrón requerido',
+      text: 'config.form_errors.pattern',
       rules: []
     },
     {
       name: 'minlength',
-      text: 'Se requieren más caracteres',
+      text: 'config.form_errors.minlength',
       rules: []
     },
     {
       name: 'maxlength',
-      text: 'Se requieren menos caracteres',
+      text: 'config.form_errors.maxlength',
       rules: []
     },
     {
       name: 'notMatching',
-      text: 'Los campos no coinciden',
+      text: 'config.form_errors.not_matching',
       rules: []
     }
   ],
   fieldErrors: {
+    cellphone: [
+      {
+        name: 'pattern',
+        text: 'config.field_errors.cellphone.pattern',
+        rules: []
+      }
+    ],
+    onlyIntegers: [
+      {
+        name: 'pattern',
+        text: 'config.field_errors.only_integers.pattern',
+        rules: []
+      }
+    ],
     password: [
       {
         name: 'minlength',
-        text: 'Se requieren mínimo 6 caracteres',
+        text: 'config.field_errors.password.minlength',
         rules: []
       },
       {
         name: 'maxlength',
-        text: 'Se requieren máximo 100 caracteres',
+        text: 'config.field_errors.password.maxlength',
         rules: []
       },
       {
         name: 'hasNumber',
-        text: 'Se requiere mínimo un número',
+        text: 'config.field_errors.password.has_number',
         rules: []
       },
       {
         name: 'hasCapitalCase',
-        text: 'Se requiere mínimo una mayúscula',
+        text: 'config.field_errors.password.has_capital_case',
         rules: []
       },
       {
         name: 'hasSmallCase',
-        text: 'Se requiere mínimo una minúscula',
+        text: 'config.field_errors.password.has_small_case',
         rules: []
       }
     ],
     repeatPassword: [
       {
         name: 'noPasswordMatch',
-        text: 'La password no coincide',
+        text: 'config.field_errors.repeat_password.no_password_match',
+        rules: []
+      }
+    ],
+    repeatUsername: [
+      {
+        name: 'noFieldsMatch',
+        text: 'config.field_errors.repeat_username.no_fields_match',
         rules: []
       }
     ],
     username: [
       {
         name: 'minlength',
-        text: 'Se requieren mínimo 5 caracteres',
+        text: 'config.field_errors.username.minlength',
         rules: []
       },
       {
         name: 'maxlength',
-        text: 'Se requieren máximo 100 caracteres',
+        text: 'config.field_errors.username.maxlength',
         rules: []
       }
     ]

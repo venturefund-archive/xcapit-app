@@ -1,0 +1,19 @@
+:host {
+  .fd {
+    &__fiscal_data_title {
+      margin-top: 8px;
+    }
+
+    &__fiscal_data_not_sure_text {
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+    &__submit_button {
+      margin-top: 30px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: normal;
+    }
+  }
+}

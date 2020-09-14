@@ -1,0 +1,14 @@
+:host {
+    .dc {
+        &__radio_text {
+            font-size: 12px;
+        }
+
+        &__next_button {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-top: 16px;
+        }
+    }
+}

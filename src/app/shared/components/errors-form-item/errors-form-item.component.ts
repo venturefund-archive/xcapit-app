@@ -1,15 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { ItemFormError } from '../../models/item-form-error';
-import { AbstractControl, FormGroupDirective } from '@angular/forms';
+import { AbstractControl, FormGroupDirective, FormGroup } from '@angular/forms';
 import { CONFIG } from 'src/app/config/app-constants.config';
 
 @Component({
   selector: 'app-errors-form-item',
   template: `
-    <div *ngFor="let error of this.errors">
-      <ion-item *ngIf="this.getErrorMessage(error)" lines="none">
-        <p>
-          {{ this.getErrorMessage(error) }}
+    <div class="ux-error" *ngIf="this.invalid">
+      <ion-item class="ux-error__item" lines="none">
+        <p class="ux-error__item__message">
+          {{ this.getError() | translate }}
         </p>
       </ion-item>
     </div>
@@ -21,9 +28,12 @@ export class ErrorsFormItemComponent implements OnInit {
 
   @Input() errors: ItemFormError[];
 
+  errorMessage: string;
+
   hasError = false;
 
   control: AbstractControl;
+  parentForm: FormGroup;
 
   constructor(private form: FormGroupDirective) {}
 
@@ -40,14 +50,6 @@ export class ErrorsFormItemComponent implements OnInit {
     return this.control && this.control.invalid && this.control.touched;
   }
 
-  getErrorMessage(error: ItemFormError): string {
-    return this.control &&
-      this.control.hasError(error.name) &&
-      this.control.touched
-      ? error.text
-      : '';
-  }
-
   private setErrors() {
     if (Array.isArray(this.errors)) {
       this.errors = [
@@ -59,5 +61,22 @@ export class ErrorsFormItemComponent implements OnInit {
     } else {
       this.errors = CONFIG.formErrors;
     }
+  }
+
+  getError() {
+    for (const error of this.errors) {
+      this.errorMessage = this.getErrorMessage(error);
+      if (this.errorMessage) {
+        return this.errorMessage;
+      }
+    }
+  }
+
+  private getErrorMessage(error): string {
+    this.errorMessage =
+      this.control && this.control.hasError(error.name) && this.control.touched
+        ? error.text
+        : '';
+    return this.errorMessage;
   }
 }

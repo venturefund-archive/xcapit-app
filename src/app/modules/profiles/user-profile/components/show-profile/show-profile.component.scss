@@ -1,0 +1,17 @@
+:host {
+  .sp {
+    &__personal {
+      margin-top: 24px;
+      &__card {
+        margin-top: 8px;
+      }
+    }
+
+    &__bill {
+      margin-top: 24px;
+      &__card {
+        margin-top: 8px;
+      }
+    }
+  }
+}

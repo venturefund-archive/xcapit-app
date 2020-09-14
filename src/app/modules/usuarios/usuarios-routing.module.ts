@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NoAuthGuard } from './shared-usuarios/guards/no-auth/no-auth.guard';
+import { AuthGuard } from './shared-usuarios/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -7,14 +9,48 @@ const routes: Routes = [
     children: [
       {
         path: 'register',
-        loadChildren: './register/register.module#RegisterPageModule'
+        canActivate: [NoAuthGuard],
+        loadChildren: () =>
+          import('./register/register.module').then(m => m.RegisterPageModule)
       },
       {
         path: 'email-validation',
-        loadChildren:
-          './email-validation/email-validation.module#EmailValidationPageModule'
+        canActivate: [NoAuthGuard],
+        loadChildren: () =>
+          import('./email-validation/email-validation.module').then(
+            m => m.EmailValidationPageModule
+          )
       },
-      { path: 'login', loadChildren: './login/login.module#LoginPageModule' }
+      {
+        path: 'login',
+        canActivate: [NoAuthGuard],
+        loadChildren: () =>
+          import('./login/login.module').then(m => m.LoginPageModule)
+      },
+      {
+        path: 'reset-password',
+        canActivate: [NoAuthGuard],
+        loadChildren: () =>
+          import('./reset-password/reset-password.module').then(
+            m => m.ResetPasswordPageModule
+          )
+      },
+      {
+        path: 'success-reset',
+        canActivate: [NoAuthGuard],
+        loadChildren: () =>
+          import('./success-reset-password/success-reset-password.module').then(
+            m => m.SuccessResetPasswordPageModule
+          )
+      },
+      {
+        path: 'password-change',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./password-change/password-change.module').then(
+            m => m.PasswordChangePageModule
+          )
+      }
     ]
   }
 ];

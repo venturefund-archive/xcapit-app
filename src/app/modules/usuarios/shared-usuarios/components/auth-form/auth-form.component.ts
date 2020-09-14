@@ -18,34 +18,53 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
   template: `
     <div>
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
-        <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input formControlName="email" type="text"></ion-input>
-        </ion-item>
-        <app-errors-form-item
+        <app-ux-input
           controlName="email"
+          type="email"
+          inputmode="email"
+          label="Email"
+          [placeholder]="'usuarios.login.email_placeholder_label' | translate"
           [errors]="this.emailErrors"
-        ></app-errors-form-item>
-        <ion-item>
-          <ion-label position="floating">Password</ion-label>
-          <ion-input formControlName="password" type="password"></ion-input>
-        </ion-item>
-        <app-errors-form-item
+        ></app-ux-input>
+
+        <app-ux-input
           controlName="password"
+          type="password"
+          inputmode="password"
+          [label]="'usuarios.login.password_label' | translate"
           [errors]="this.passwordErrors"
-        ></app-errors-form-item>
-        <ion-item *ngIf="!this.isLogin">
-          <ion-label position="floating">Confirmar Password</ion-label>
-          <ion-input
-            formControlName="repeat_password"
-            type="password"
-          ></ion-input>
-        </ion-item>
-        <app-errors-form-item
+        ></app-ux-input>
+
+        <ng-content select=".auth-link-reset-password"></ng-content>
+
+        <app-ux-checkbox
           *ngIf="!this.isLogin"
-          controlName="repeat_password"
-          [errors]="this.repeatPasswordErrors"
-        ></app-errors-form-item>
+          class="normal"
+          [label]="'usuarios.register.manual_referral' | translate"
+          controlName="manual_referral"
+          color="uxsecondary"
+          slot="start"
+        ></app-ux-checkbox>
+
+        <app-ux-input
+          *ngIf="this.showReferralCode"
+          controlName="referral_code"
+          type="text"
+          inputmode="text"
+          [label]="'usuarios.register.referral_code_label' | translate"
+        ></app-ux-input>
+        
+        <ion-item class="tos_item" *ngIf="!this.isLogin">
+          <ng-content select=".tos-text"></ng-content>
+          
+          <app-ux-checkbox
+            *ngIf="!this.isLogin"
+            class="small"
+            controlName="tos"
+            color="uxsecondary"
+            slot="start"
+          ></app-ux-checkbox>
+        </ion-item>
 
         <ng-content select=".auth-button"></ng-content>
 
@@ -62,14 +81,11 @@ export class AuthFormComponent implements OnInit {
   @Output()
   send = new EventEmitter<any>();
 
+  showReferralCode: boolean;
+
   emailErrors: ItemFormError[] = CONFIG.fieldErrors.username;
 
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
-
-  repeatPasswordErrors: ItemFormError[] = [
-    ...CONFIG.fieldErrors.repeatPassword,
-    ...CONFIG.fieldErrors.password
-  ];
 
   form: FormGroup = this.formBuilder.group(
     {
@@ -102,29 +118,15 @@ export class AuthFormComponent implements OnInit {
           )
         ]
       ],
-      repeat_password: [
-        '',
+      referral_code: ['', Validators.required],
+      manual_referral: [false],
+      tos: [
+        false, 
         [
           Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(100),
-          CustomValidators.patternValidator(
-            /\d/,
-            CustomValidatorErrors.hasNumber
-          ),
-          CustomValidators.patternValidator(
-            /[A-Z]/,
-            CustomValidatorErrors.hasCapitalCase
-          ),
-          CustomValidators.patternValidator(
-            /[a-z]/,
-            CustomValidatorErrors.hasSmallCase
-          )
+          CustomValidators.mustBeTrue
         ]
       ]
-    },
-    {
-      validator: CustomValidators.passwordMatchValidator
     }
   );
 
@@ -132,17 +134,32 @@ export class AuthFormComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.toggleReferralCode();
+  }
+
+  toggleReferralCode() {
+    this.form.get('referral_code').disable();
+    this.form.get('manual_referral').valueChanges.subscribe(val => {
+      this.showReferralCode = val;
+      if (this.showReferralCode) {
+        this.form.get('referral_code').enable();
+      } else {
+        this.form.get('referral_code').disable();
+      }
+    });
   }
 
   private initForm() {
     if (this.isLogin) {
-      this.form.get('repeat_password').disable();
+      this.form.get('tos').disable();
     }
   }
 
   handleSubmit() {
     if (this.form.valid) {
       this.send.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }

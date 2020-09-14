@@ -1,0 +1,7 @@
+export enum UserStatus {
+  COMPLETE = 'COMPLETE',
+  EXPLORER = 'EXPLORER',
+  CREATOR = 'CREATOR',
+  FROM_BOT = 'FROM_BOT',
+  BEGINNER = 'BEGINNER'
+}

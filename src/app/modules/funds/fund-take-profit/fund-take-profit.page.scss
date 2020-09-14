@@ -1,0 +1,33 @@
+:host {
+  .ftp {
+    &__title {
+      margin-top: 8px;
+    }
+
+    &__text_before {
+      margin-top: 16px;
+    }
+
+    &__input {
+      margin-top: 8px;
+      &__custom_tp_button {
+        width: 100%;
+      }
+      .custom {
+        display: flex;
+        justify-content: space-between;
+        background-color: white;
+      }
+    }
+
+    &__alert {
+      margin-top: 24px;
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+  }
+}

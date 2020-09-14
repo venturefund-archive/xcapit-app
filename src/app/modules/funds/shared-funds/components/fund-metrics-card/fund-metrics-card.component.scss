@@ -1,0 +1,32 @@
+:host {
+  width: 100%;
+  .fmc {
+    margin-top: 8px;
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+    &__content {
+      display: flex;
+      &__left {
+          flex: 1;
+      }
+      &__right {
+          flex: 1;
+      }
+    }
+    .item {
+      display: flex;
+      flex-direction: column;
+      &__value {
+          margin-top: 4px;
+      }
+      &.second {
+          margin-top: 18px;
+      }
+    }
+
+    &__clarification {
+      display: flex;
+      padding: 0 16px 16px 16px;
+    }
+  }
+}
