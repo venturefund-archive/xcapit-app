@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 
+const { Browser } = Plugins;
 @Component({
   selector: 'app-ux-card-info-binance',
   template: `
@@ -49,11 +51,15 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./ux-card-info-binance.component.scss']
 })
 export class UxCardInfoBinanceComponent implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController) {
+    Browser.prefetch({
+      urls: ['https://www.info.xcapit.com/']
+    });
+  }
 
   ngOnInit() {}
 
-  moreInfo() {
-    this.navController.navigateForward('tutorials/help');
+  async moreInfo() {
+    await Browser.open({ toolbarColor:"#ff9100", url: 'https://www.info.xcapit.com/' });
   }
 }
