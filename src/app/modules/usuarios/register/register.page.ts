@@ -159,15 +159,7 @@ export class RegisterPage implements OnInit {
 
   async success() {
     this.registerForm.form.reset();
-    await this.navController.navigateBack(['/users/login']);
-    const alert = await this.alertController.create({
-      message: `
-        <h4>
-          ${this.translate.instant('usuarios.register.success_text')}
-        </h4>`,
-      buttons: [this.translate.instant('usuarios.register.accept_button')]
-    });
-    await alert.present();
+    this.navController.navigateForward(['/users/success-register'], { replaceUrl: true });
   }
 
   async openTOS() {

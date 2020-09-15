@@ -90,7 +90,8 @@
     "register": {
       "card_header": "User Registration",
       "submit_button": "Sign Up",
-      "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
+      "success_title": "You just need to validate your email address!",
+      "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
       "accept_button": "Accept",
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",

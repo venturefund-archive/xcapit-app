@@ -42,5 +42,12 @@ export const SUCCESS_TYPES = {
     textSecondary: 'usuarios.reset_password.success_reset_password_message',
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'usuarios.reset_password.success_button'
+  },
+  register: {
+    urlClose: '/users/login',
+    textPrimary: 'usuarios.register.success_title',
+    textSecondary: 'usuarios.register.success_text',
+    urlPrimaryAction: '/users/login',
+    namePrimaryAction: 'usuarios.register.accept_button'
   }
 };
