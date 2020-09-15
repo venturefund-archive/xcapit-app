@@ -2,7 +2,7 @@ export const environment = {
   production: $ENV.PRODUCTION,
   environment: $ENV.ENVIRONMENT,
   apiUrl: $ENV.API_URL,
-  whitelistedDomains: ['preprod.xcapit.com', 'xcapit.com', 'xcapit.com:443', 'preprod.xcapit.com:443'],
+  whitelistedDomains: ['preprod.xcapit.com', 'xcapit.com', 'app.xcapit.com', 'app.xcapit.com:443', 'xcapit.com:443', 'preprod.xcapit.com:443'],
   firebase: {
     apiKey: 'AIzaSyCU-F8osRaeWGwTxdAJmDhWFfkjZqzUG7s',
     authDomain: 'test-pwa-2019.firebaseapp.com',

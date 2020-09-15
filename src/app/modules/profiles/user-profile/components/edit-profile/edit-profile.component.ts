@@ -108,11 +108,12 @@ import { BillType } from '../../enums/bill_types.enum';
                   ></app-ux-input>
 
                   <!-- Direccion -->
-                  <app-ux-input-google-places
+                  <app-ux-input
                           controlName="direccion"
                           type="text"
                           [label]="'profiles.user_profile.direccion' | translate"
-                  ></app-ux-input-google-places>
+                          inputmode="text"
+                  ></app-ux-input>
               </div>
           </form>
       </div>
@@ -180,7 +181,14 @@ export class EditProfileComponent implements OnInit {
         Validators.pattern('[0-9][^.a-zA-Z]*$')
       ]
     ],
-    direccion: ['', [Validators.maxLength(150)]]
+    direccion: [
+      '', 
+      [
+        Validators.required, 
+        Validators.maxLength(150),
+        Validators.pattern('[A-Za-zÀ-ÿ0-9 \'-,]*$')
+      ]
+    ]
   };
 
   form: FormGroup;

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Plugins } from '@capacitor/core';
 
+const { Browser } = Plugins;
 @Component({
   selector: 'app-tutorial-apikeys',
   template: `
@@ -98,7 +100,7 @@ import { Component, OnInit } from '@angular/core';
               <div class="akt__text_help__link">
                 <ion-button
                   name="Go To Help"
-                  routerLink="/tutorials/help"
+                  (click)="this.moreInfo()"
                   appTrackClick
                   fill="clear"
                   size="small"
@@ -131,7 +133,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tutorial-apikeys.page.scss']
 })
 export class TutorialApikeysPage implements OnInit {
-  constructor() {}
+  constructor() {
+    Browser.prefetch({
+      urls: ['https://www.info.xcapit.com/']
+    });
+  }
 
   ngOnInit() {}
+
+  async moreInfo() {
+    await Browser.open({ toolbarColor:"#ff9100", url: 'https://www.info.xcapit.com/' });
+  }
 }
