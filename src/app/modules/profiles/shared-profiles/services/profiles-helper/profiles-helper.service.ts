@@ -15,7 +15,8 @@ export class ProfilesHelperService {
     private navController: NavController,
     private toastService: ToastService,
     private translate: TranslateService
-  ) {}
+  ) {
+  }
 
   private fromGuard: boolean;
 
@@ -36,15 +37,9 @@ export class ProfilesHelperService {
 
   isProfileDataOk(urlToAccess: string): Observable<boolean> {
     this.urlToAccess = urlToAccess;
-    return this.apiProfiles.crud.get().pipe(
-      map(profileData => {
-        let isDataOk = true;
-        for (const key in profileData) {
-          if (profileData[key] === '') {
-            isDataOk = false;
-          }
-        }
-        if (!isDataOk) {
+    return this.apiProfiles.profileValid('personal_data').pipe(
+      map(res => {
+        if (!res.valid) {
           this.fromGuard = true;
           this.navController.navigateForward(['/profiles/user']).then(() =>
             this.toastService.showToast({
@@ -52,7 +47,7 @@ export class ProfilesHelperService {
             })
           );
         }
-        return isDataOk;
+        return res.valid;
       })
     );
   }
