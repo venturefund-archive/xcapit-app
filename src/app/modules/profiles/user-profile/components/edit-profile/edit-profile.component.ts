@@ -2,9 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { Validators, FormGroup, FormBuilder, Form } from '@angular/forms';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiProfilesService } from '../../../shared-profiles/services/api-profiles/api-profiles.service';
-import { TranslateService } from '@ngx-translate/core';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Countries } from '../../enums/countries.enum';
@@ -172,13 +170,12 @@ export class EditProfileComponent implements OnInit {
         Validators.pattern('[0-9]*$')
       ]
     ],
-    pais: ['', [Validators.required, Validators.maxLength(150)]],
-    condicion_iva: ['', [Validators.required]],
-    tipo_factura: ['', [Validators.required]],
+    pais: ['', [Validators.maxLength(150)]],
+    condicion_iva: ['', []],
+    tipo_factura: ['', []],
     cuit: [
       '',
       [
-        Validators.required,
         Validators.minLength(7),
         Validators.maxLength(15),
         Validators.pattern('[0-9][^.a-zA-Z]*$')
@@ -228,7 +225,6 @@ export class EditProfileComponent implements OnInit {
     this.form = this.formBuilder.group({ ...this.controls });
     this.isFormSet = true;
     this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
-    this.addRequiredValidator();
   }
 
   addRequiredValidator() {
