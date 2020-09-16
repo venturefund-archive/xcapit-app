@@ -34,8 +34,8 @@ describe('SubscribeGuard', () => {
 
   beforeEach(() => {
 
-    subscribeGuard = TestBed.get(SubscribeGuard);
-    authServiceSpy = TestBed.get(AuthService);
+    subscribeGuard = TestBed.inject(SubscribeGuard);
+    authServiceSpy = TestBed.inject(AuthService);
   });
 
   it('should create', () => {

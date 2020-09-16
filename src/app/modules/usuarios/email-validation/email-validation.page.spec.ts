@@ -32,7 +32,7 @@ describe('EmailValidationPage', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EmailValidationPage);
-    apiUsuariosService = TestBed.get(ApiUsuariosService);
+    apiUsuariosService = TestBed.inject(ApiUsuariosService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

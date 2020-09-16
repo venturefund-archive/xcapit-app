@@ -47,7 +47,7 @@ describe('DepositCurrencyPage', () => {
     fixture = TestBed.createComponent(DepositCurrencyPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    logsServiceMock = TestBed.get(LogsService);
+    logsServiceMock = TestBed.inject(LogsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

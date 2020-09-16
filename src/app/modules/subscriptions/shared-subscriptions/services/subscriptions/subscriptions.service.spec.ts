@@ -30,7 +30,7 @@ describe('SubscriptionsService', () => {
         { provide: Storage, useValue: storageSpy }
       ]
     });
-    subscriptionsService = TestBed.get(SubscriptionsService);
+    subscriptionsService = TestBed.inject(SubscriptionsService);
   });
 
   it('should be created', () => {

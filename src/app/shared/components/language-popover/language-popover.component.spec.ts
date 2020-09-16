@@ -54,7 +54,7 @@ describe('LanguagePopoverComponent', () => {
       fixture
     );
     fixture.detectChanges();
-    popoverControllerSpy = TestBed.get(PopoverController);
+    popoverControllerSpy = TestBed.inject(PopoverController);
   });
 
   it('should create', () => {

@@ -74,7 +74,7 @@ describe('PersonalDataPage', () => {
     fixture = TestBed.createComponent(PersonalDataPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiProfilesService = TestBed.get(ApiProfilesService);
+    apiProfilesService = TestBed.inject(ApiProfilesService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

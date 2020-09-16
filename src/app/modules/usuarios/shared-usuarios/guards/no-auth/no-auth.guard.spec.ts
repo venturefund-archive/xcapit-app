@@ -25,7 +25,7 @@ describe('NoAuthGuard', () => {
   });
 
   beforeEach(() => {
-    noAuthGuard = TestBed.get(NoAuthGuard);
+    noAuthGuard = TestBed.inject(NoAuthGuard);
   });
 
   it('should ...', () => {

@@ -52,7 +52,7 @@ describe('InteractiveTutorialPage', () => {
     fixture = TestBed.createComponent(InteractiveTutorialPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    modalControllerSpy = TestBed.get(ModalController);
+    modalControllerSpy = TestBed.inject(ModalController);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

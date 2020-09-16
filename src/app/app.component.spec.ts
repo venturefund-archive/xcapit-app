@@ -105,7 +105,7 @@ describe('AppComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
-    publicLogSpy = TestBed.get(PublicLogsService);
+    publicLogSpy = TestBed.inject(PublicLogsService);
   }));
 
   it('should create the app', async () => {

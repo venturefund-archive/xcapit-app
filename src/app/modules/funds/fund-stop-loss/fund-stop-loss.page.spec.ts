@@ -89,8 +89,8 @@ describe('FundStopLossPage', () => {
     fixture = TestBed.createComponent(FundStopLossPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.get(FundDataStorageService);
-    apiFundsService = TestBed.get(ApiFundsService);
+    fundDataStorageService = TestBed.inject(FundDataStorageService);
+    apiFundsService = TestBed.inject(ApiFundsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

@@ -56,7 +56,7 @@ describe('InsertKeyPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    storageApikeysServiceSpy = TestBed.get(StorageApikeysService);
+    storageApikeysServiceSpy = TestBed.inject(StorageApikeysService);
   });
 
   it('should create', () => {

@@ -56,7 +56,7 @@ describe('FundRiskPage', () => {
     fixture = TestBed.createComponent(FundRiskPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.get(FundDataStorageService);
+    fundDataStorageService = TestBed.inject(FundDataStorageService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

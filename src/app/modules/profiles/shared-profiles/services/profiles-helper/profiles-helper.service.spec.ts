@@ -32,7 +32,7 @@ describe('ProfilesHelperService', () => {
   });
 
   beforeEach(() => {
-    profileHelperService = TestBed.get(ProfilesHelperService);
+    profileHelperService = TestBed.inject(ProfilesHelperService);
   });
 
   it('should be created', () => {

@@ -72,7 +72,7 @@ describe('FiscalDataPage', () => {
     fixture = TestBed.createComponent(FiscalDataPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiProfilesService = TestBed.get(ApiProfilesService);
+    apiProfilesService = TestBed.inject(ApiProfilesService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

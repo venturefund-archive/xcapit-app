@@ -28,7 +28,7 @@ describe('TacHelperService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(TacHelperService);
+    service = TestBed.inject(TacHelperService);
   });
 
   it('should be created', () => {

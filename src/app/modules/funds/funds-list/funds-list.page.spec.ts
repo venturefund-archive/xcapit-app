@@ -100,10 +100,10 @@ describe('FundsListPage', () => {
     fixture = TestBed.createComponent(FundsListPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiFundsService = TestBed.get(ApiFundsService);
+    apiFundsService = TestBed.inject(ApiFundsService);
     tabsComponent = TestBed.inject(TabsComponent);
-    apiUsuariosService = TestBed.get(ApiUsuariosService);
-    logsServiceMock = TestBed.get(LogsService);
+    apiUsuariosService = TestBed.inject(ApiUsuariosService);
+    logsServiceMock = TestBed.inject(LogsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

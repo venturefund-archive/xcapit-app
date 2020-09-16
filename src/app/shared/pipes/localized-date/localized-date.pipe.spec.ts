@@ -42,8 +42,8 @@ describe('LocalizedDatePipe', () => {
       fixture = TestBed.createComponent(TestComponent);
       component = fixture.componentInstance;
       el = fixture.nativeElement;
-      translateService = TestBed.get(TranslateService);
-      pipe = TestBed.get(LocalizedDatePipe);
+      translateService = TestBed.inject(TranslateService);
+      pipe = TestBed.inject(LocalizedDatePipe);
     });
 
     it('create an instance', () => {

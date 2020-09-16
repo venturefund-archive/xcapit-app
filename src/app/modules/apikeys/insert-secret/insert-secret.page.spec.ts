@@ -92,7 +92,7 @@ describe('InsertSecretPage', () => {
     fixture = TestBed.createComponent(InsertSecretPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    storageApikeysService = TestBed.get(StorageApikeysService);
+    storageApikeysService = TestBed.inject(StorageApikeysService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

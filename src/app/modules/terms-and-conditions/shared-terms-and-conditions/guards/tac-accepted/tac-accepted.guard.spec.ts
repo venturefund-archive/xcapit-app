@@ -22,7 +22,7 @@ describe('TacAcceptedGuard', () => {
   });
 
   beforeEach(() => {
-    tacAcceptedGuard = TestBed.get(TacAcceptedGuard);
+    tacAcceptedGuard = TestBed.inject(TacAcceptedGuard);
   });
 
   it('should ...', () => {

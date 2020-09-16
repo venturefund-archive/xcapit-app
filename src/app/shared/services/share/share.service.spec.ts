@@ -15,7 +15,7 @@ describe('ShareService', () => {
   } as ShareOptions;
   let shareMock: any;
   let service: ShareService;
-  let sharePlugin: any;
+  // let sharePlugin: any;
   let clipboardServiceMock: any;
   let clipboardService: any;
   let toastServiceMock: any;
@@ -52,32 +52,32 @@ describe('ShareService', () => {
   });
 
   beforeEach(() => {
-    sharePlugin = TestBed.get(Plugins.Share);
-    clipboardService = TestBed.get(ClipboardService);
-    toastService = TestBed.get(ToastService);
-    // sharePluginWebService = TestBed.get(SharePluginWeb);
-    service = TestBed.get(ShareService);
+    // sharePlugin = TestBed.inject(Plugins.Share);
+    clipboardService = TestBed.inject(ClipboardService);
+    toastService = TestBed.inject(ToastService);
+    // sharePluginWebService = TestBed.inject(SharePluginWeb);
+    service = TestBed.inject(ShareService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  xit('should not call clipboardService write on share success', () => {
-    // TODO: Ver como mockear Plugins.Share
-    const spy = spyOn(sharePlugin, 'share').and.returnValue(
-      Promise.resolve({})
-    );
-    const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(
-      Promise.resolve({})
-    );
-    const spyToast = spyOn(toastService, 'showToast').and.returnValue(
-      Promise.resolve()
-    );
-
-    service.share(data, 'Copied');
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+  // xit('should not call clipboardService write on share success', () => {
+  //   // TODO: Ver como mockear Plugins.Share
+  //   const spy = spyOn(sharePlugin, 'share').and.returnValue(
+  //     Promise.resolve({})
+  //   );
+  //   const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(
+  //     Promise.resolve({})
+  //   );
+  //   const spyToast = spyOn(toastService, 'showToast').and.returnValue(
+  //     Promise.resolve()
+  //   );
+  //
+  //   service.share(data, 'Copied');
+  //   expect(spy).toHaveBeenCalledTimes(1);
+  // });
 
   xit('should call clipboardService write on share error', async () => {
     // TODO: Ver como mockear Plugins.Share

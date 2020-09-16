@@ -15,8 +15,8 @@ describe('ApiCommissionService', () => {
         { provide: CustomHttpService, useValue: customHttpServiceSpy }
       ]
     });
-    customHttpServiceSpy = TestBed.get(CustomHttpService);
-    apiCommissionsService = TestBed.get(ApiCommissionsService);
+    customHttpServiceSpy = TestBed.inject(CustomHttpService);
+    apiCommissionsService = TestBed.inject(ApiCommissionsService);
   });
 
   it('should be created', () => {

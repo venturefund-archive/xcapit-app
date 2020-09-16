@@ -79,8 +79,8 @@ describe('FundTakeProfitPage', () => {
     fixture = TestBed.createComponent(FundTakeProfitPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.get(FundDataStorageService);
-    apiFundsService = TestBed.get(ApiFundsService);
+    fundDataStorageService = TestBed.inject(FundDataStorageService);
+    apiFundsService = TestBed.inject(ApiFundsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

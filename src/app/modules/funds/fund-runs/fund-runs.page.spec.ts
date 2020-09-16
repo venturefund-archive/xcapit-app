@@ -58,8 +58,8 @@ describe('FundRunsPage', () => {
     fixture = TestBed.createComponent(FundRunsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiFundsService = TestBed.get(ApiFundsService);
-    logsServiceMock = TestBed.get(LogsService);
+    apiFundsService = TestBed.inject(ApiFundsService);
+    logsServiceMock = TestBed.inject(LogsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

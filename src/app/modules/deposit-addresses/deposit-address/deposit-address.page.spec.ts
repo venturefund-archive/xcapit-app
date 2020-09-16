@@ -71,8 +71,8 @@ describe('DepositAddressPage', () => {
     fixture = TestBed.createComponent(DepositAddressPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiDaService = TestBed.get(ApiDaService);
-    logsServiceMock = TestBed.get(LogsService);
+    apiDaService = TestBed.inject(ApiDaService);
+    logsServiceMock = TestBed.inject(LogsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

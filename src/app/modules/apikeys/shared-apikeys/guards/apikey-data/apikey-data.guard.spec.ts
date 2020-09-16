@@ -29,8 +29,8 @@ describe('ApiKeyDataGuard', () => {
   });
 
   beforeEach(() => {
-    apiKeyDataGuard = TestBed.get(ApiKeyDataGuard);
-    storageApikeysService = TestBed.get(StorageApikeysService);
+    apiKeyDataGuard = TestBed.inject(ApiKeyDataGuard);
+    storageApikeysService = TestBed.inject(StorageApikeysService);
   });
 
   it('should ...', () => {

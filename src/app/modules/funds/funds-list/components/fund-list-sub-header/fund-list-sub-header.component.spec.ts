@@ -53,7 +53,7 @@ describe('FundListSubHeaderComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    apiFunds = TestBed.get(ApiFundsService);
+    apiFunds = TestBed.inject(ApiFundsService);
   }));
 
   it('should create', () => {

@@ -39,7 +39,7 @@ describe('IsSubscribedGuard', () => {
   });
 
   beforeEach(() => {
-    isSubscribedGuard = TestBed.get(IsSubscribedGuard);
+    isSubscribedGuard = TestBed.inject(IsSubscribedGuard);
   });
 
   it('should ...', () => {

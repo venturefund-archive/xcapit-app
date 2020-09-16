@@ -19,7 +19,7 @@ describe('LanguageService', () => {
         { provide: Storage, useValue: storageSpy },
       ]
     });
-    service = TestBed.get(LanguageService);
+    service = TestBed.inject(LanguageService);
   });
 
   it('should be created', () => {

@@ -115,7 +115,7 @@ describe('RegisterPage', () => {
 
   describe('with referral code', () => {
     beforeEach(() => {
-      activatedRouteMock = TestBed.get(ActivatedRoute);
+      activatedRouteMock = TestBed.inject(ActivatedRoute);
     });
 
     it('should set referral code and a valid email ionViewWillEnter', () => {
