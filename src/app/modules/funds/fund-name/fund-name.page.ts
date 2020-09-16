@@ -91,6 +91,7 @@ export class FundNamePage implements OnInit {
   handleSubmit() {
     if (this.form.valid) {
       this.fundDataStorage.setData('fundName', this.form.value);
+      this.fundDataStorage.setData('fundRenew', false);
       this.navController.navigateForward(['funds/fund-risk']);
     } else {
       this.form.markAllAsTouched();

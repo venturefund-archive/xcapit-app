@@ -42,5 +42,12 @@ export const SUCCESS_TYPES = {
     textSecondary: 'usuarios.reset_password.success_reset_password_message',
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'usuarios.reset_password.success_button'
+  },
+  fund_renew: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'funds.fund_success_renew.textPrimary',
+    textSecondary: 'funds.fund_success_renew.textSecondary',
+    urlPrimaryAction: '/tabs/funds',
+    namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction'
   }
 };
