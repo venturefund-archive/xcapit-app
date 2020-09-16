@@ -1,0 +1,20 @@
+:host {
+    .ff {
+      &__list {
+        margin-top: 8px;
+  
+        &__label {
+          margin-top: 24px;
+        }
+  
+        &__renew {
+          margin-right: 10px;
+          margin-top: 6px;
+
+          ion-icon {
+              font-size: 25px;
+          }
+        }
+      }
+    }
+  }

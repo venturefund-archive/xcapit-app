@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: FundSuccessPage
+  },
+  {
+    path: ':isRenew',
+    component: FundSuccessPage
   }
 ];
 

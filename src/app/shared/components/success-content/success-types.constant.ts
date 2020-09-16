@@ -49,5 +49,12 @@ export const SUCCESS_TYPES = {
     textSecondary: 'usuarios.register.success_text',
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'usuarios.register.accept_button'
+  },
+  fund_renew: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'funds.fund_success_renew.textPrimary',
+    textSecondary: 'funds.fund_success_renew.textSecondary',
+    urlPrimaryAction: '/tabs/funds',
+    namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction'
   }
 };

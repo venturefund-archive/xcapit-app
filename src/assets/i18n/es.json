@@ -324,6 +324,7 @@
     },
     "fund_risk": {
       "header": "Crea un fondo",
+      "header_renew": "Renueva un fondo",
       "title": "¿Qué tan agresivo quieres que sea la inversión?",
       "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo que asumirás a la hora de invertir.",
       "risk_level": "Nivel de riesgo a asumir",
@@ -347,6 +348,7 @@
     },
     "fund_currency": {
       "header": "Crea un fondo",
+      "header_renew": "Renueva un fondo",
       "title": "¿En qué moneda querrás que optimicemos tu capital?",
       "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda verás la evolución de tu inversión a través del tiempo.",
       "currency": "Moneda",
@@ -358,6 +360,7 @@
     },
     "fund_take_profit": {
       "header": "Crea un fondo",
+      "header_renew": "Renueva un fondo",
       "title": "¿Cuándo querés que dejemos de invertir y tomemos las ganancias?",
       "text_before": "En caso en que tu inversión genere ganancias necesitamos que decidas hasta que porcentaje seguiremos invirtiendo.",
       "take_profit": "Take profit",
@@ -369,6 +372,7 @@
     },
     "fund_stop_loss": {
       "header": "Crea un fondo",
+      "header_renew": "Renueva un fondo",
       "title": "En caso de pérdida, hasta que porcentaje de tu capital estas dispuesto a arriesgar?",
       "text_before": "Una vez alcanzado este porcentaje, detendremos la operatoria del fondo para resguardar tu capital.",
       "stop_loss": "Stop loss",
@@ -377,6 +381,7 @@
       "btc_text": "Bitcoin BTC",
       "usdt_text": "Dolar USDT",
       "submit_button": "Crear fondo",
+      "submit_button_renew": "Renovar fondo",
       "edit_custom": "Editar"
     },
     "custom_range_component": {
@@ -386,6 +391,11 @@
     "fund_success": {
       "textPrimary": "¡Felicitaciones, ya estas invirtiendo en el mundo crypto!",
       "textSecondary": "Ya creamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
+      "namePrimaryAction": "Ver mi inversión"
+    },
+    "fund_success_renew": {
+      "textPrimary": "¡Tu fondo ha sido renovado!",
+      "textSecondary": "Ya renovamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
       "namePrimaryAction": "Ver mi inversión"
     },
     "fund_card": {
@@ -416,6 +426,9 @@
       "fund_paused": "Se ha pausado el fondo",
       "fund_resumed": "Se ha activado el fondo",
       "fund_finished": "Se ha finalizado el fondo"
+    },
+    "funds_finished": {
+      "header": "Mis fondos finalizados"
     }
   },
   "runs": {
@@ -832,7 +845,7 @@
     },
     "referrals": {
       "create": {
-        "referralAlreadyExist": "No se puede crear el referido.",
+        "referralAlreadyExist": "El e-mail ingresado ya fue referido.",
         "referralAlreadyExistsAsUser": "No se puede crear el referido.",
         "emailDidNotSend": "No se pudo enviar el email."
       }

@@ -12,7 +12,7 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
-          'funds.fund_risk.header' | translate
+          ((this.fundRenew) ? 'funds.fund_risk.header_renew' : 'funds.fund_risk.header') | translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -74,6 +74,7 @@ import { NavController } from '@ionic/angular';
                 fill="clear"
                 routerLink="/funds/fund-name"
                 routerDirection="backward"
+                *ngIf="!this.fundRenew"
               >
                 {{ 'funds.fund_risk.back_button' | translate }}
               </ion-button>
@@ -107,6 +108,8 @@ export class FundRiskPage implements OnInit {
     { name: 'funds.fund_risk.risk_level_options.high', value: 'pro' }
   ];
 
+  fundRenew: any;
+
   constructor(
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
@@ -119,6 +122,10 @@ export class FundRiskPage implements OnInit {
         this.form.patchValue(data);
       }
     });
+
+    this.fundDataStorage.getData('fundRenew').then(data => {
+      this.fundRenew = data;
+    })
   }
 
   handleSubmit() {
