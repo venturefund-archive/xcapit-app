@@ -28,7 +28,7 @@ describe('DepositAddressPage', () => {
     success: true,
     addressTag: '',
     asset: 'BTC',
-    url: 'https://123.com'
+    url: 'https://1234.com'
   };
   let clipboardServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DepositAddressPage>;
@@ -130,6 +130,7 @@ describe('DepositAddressPage', () => {
     });
 
     it('should call trackEvent on trackService when Open URL Deposit Address is clicked', () => {
+      spyOn(window, 'open');
       const el = trackClickDirectiveHelper.getByElementByName(
         'ion-button',
         'Open URL Deposit Address'

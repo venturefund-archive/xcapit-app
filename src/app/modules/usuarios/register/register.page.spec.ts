@@ -67,6 +67,12 @@ describe('RegisterPage', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call window.open when openTOS is called', () => {
+    spyOn(window, 'open');
+    component.openTOS();
+    expect(window.open).toHaveBeenCalledTimes(1);
+  });
+
   it('should call success from regiterUser', () => {
     const spy = spyOn(component, 'success').and.returnValue(null);
     component.registerUser(null);
@@ -97,6 +103,19 @@ describe('RegisterPage', () => {
     const el = trackClickUnauthDirectiveHelper.getByElementByName(
       'ion-button',
       'Go To Login'
+    );
+    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Open TOS button clicked', () => {
+    spyOn(window, 'open');
+    const el = trackClickUnauthDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Open TOS'
     );
     const directive = trackClickUnauthDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);

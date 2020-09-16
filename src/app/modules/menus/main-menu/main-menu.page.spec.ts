@@ -36,7 +36,7 @@ describe('MainMenuPage', () => {
       ],
       imports: [
         HttpClientTestingModule,
-        TranslateModule.forRoot(), 
+        TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
           { path: 'users/login', component: DummyComponent },
           { path: 'tutorials/help', component: DummyComponent },
@@ -63,6 +63,7 @@ describe('MainMenuPage', () => {
   });
 
   it('should call trackEvent on trackService when elements with the directive are clicked', () => {
+    spyOn(window, 'open');
     fixture.detectChanges();
     const elms = trackClickDirectiveHelper.getAllElementsWithTheDirective();
     for (const el of elms) {

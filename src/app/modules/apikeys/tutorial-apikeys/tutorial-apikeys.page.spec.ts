@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 
+
 describe('TutorialApikeysPage', () => {
   let component: TutorialApikeysPage;
   let fixture: ComponentFixture<TutorialApikeysPage>;
@@ -42,6 +43,7 @@ describe('TutorialApikeysPage', () => {
   });
 
   it('should call trackEvent on trackService when Next Button clicked', () => {
+    spyOn(window, 'open');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Next'
@@ -53,7 +55,14 @@ describe('TutorialApikeysPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should call window.open when moreInfo is called', () => {
+    spyOn(window, 'open');
+    component.moreInfo();
+    expect(window.open).toHaveBeenCalledTimes(1);
+  });
+
   it('should call trackEvent on trackService when Go To Help link clicked', () => {
+    spyOn(window, 'open');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Go To Help'
