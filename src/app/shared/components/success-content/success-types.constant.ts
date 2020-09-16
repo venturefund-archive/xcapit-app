@@ -43,6 +43,13 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'usuarios.reset_password.success_button'
   },
+  register: {
+    urlClose: '/users/login',
+    textPrimary: 'usuarios.register.success_title',
+    textSecondary: 'usuarios.register.success_text',
+    urlPrimaryAction: '/users/login',
+    namePrimaryAction: 'usuarios.register.accept_button'
+  },
   fund_renew: {
     urlClose: '/tabs/funds',
     textPrimary: 'funds.fund_success_renew.textPrimary',
