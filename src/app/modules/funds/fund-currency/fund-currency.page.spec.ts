@@ -73,7 +73,7 @@ describe('FundCurrencyPage', () => {
     spy.and.returnValue(Promise.resolve(formData.valid));
     component.ngOnInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
+    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(2));
     done();
   });
 

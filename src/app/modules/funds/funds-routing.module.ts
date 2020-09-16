@@ -93,9 +93,16 @@ export const routes: Routes = [
           import('./fund-settings/fund-settings.module').then(
             m => m.FundSettingsPageModule
           )
+      },
+      {
+        path: 'funds-finished',
+        loadChildren: () =>
+          import('./funds-finished/funds-finished.module').then(
+            m => m.FundsFinishedPageModule
+          )
       }
     ]
-  },
+  }
 ];
 
 @NgModule({

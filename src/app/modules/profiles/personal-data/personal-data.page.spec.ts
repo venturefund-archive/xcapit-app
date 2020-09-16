@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
@@ -13,6 +13,8 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { By } from '@angular/platform-browser';
 import { PersonalDataPage } from './personal-data.page';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import createSpyObj = jasmine.createSpyObj;
+
 const formData = {
   valid: {
     first_name: 'Test',
@@ -35,14 +37,17 @@ describe('PersonalDataPage', () => {
   let apiProfilesServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<PersonalDataPage>;
   let apiProfilesService: ApiProfilesService;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     apiProfilesServiceMock = {
+      updatePersonalData: () => of({}),
       crud: {
         update: () => of({}),
         get: () => of({})
       }
     };
+    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
     TestBed.configureTestingModule({
       declarations: [PersonalDataPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -59,7 +64,8 @@ describe('PersonalDataPage', () => {
       ],
       providers: [
         TrackClickDirective,
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock }
+        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
   }));
@@ -92,14 +98,24 @@ describe('PersonalDataPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call update on apiProfile.crud, valid form', () => {
+  it('should call updatePersonalData on apiProfile when form is valid', () => {
     fixture.detectChanges();
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
-    const spy = spyOn(apiProfilesService.crud, 'update');
+    const spy = spyOn(apiProfilesService, 'updatePersonalData');
     spy.and.returnValue(of(null));
     component.save();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to profile success view when successSave is called', () => {
+    component.successSave();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/profiles/success'],
+      {
+        replaceUrl: true
+      });
   });
 
   it('should not call update on apiProfile.crud, invalid form', () => {
