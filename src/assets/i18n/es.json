@@ -99,7 +99,8 @@
       "have_an_account": "¿Ya tienes una cuenta?",
       "back_login": "Inicia sesión",
       "accept_tos": "Acepto los",
-      "link_tos": "Términos y condiciones"
+      "link_tos": "Términos y condiciones",
+      "register_alert": "Si ya tienes fondos en Brainy bot, migra tu usuario a la app con el comando /app desde Telegram"
     },
     "auth_form": {
       "repeat_email": "Confirmar Email",
