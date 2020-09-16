@@ -184,7 +184,6 @@ export class EditProfileComponent implements OnInit {
     direccion: [
       '', 
       [
-        Validators.required, 
         Validators.maxLength(150),
         Validators.pattern('[A-Za-zÀ-ÿ0-9 \'-,]*$')
       ]
