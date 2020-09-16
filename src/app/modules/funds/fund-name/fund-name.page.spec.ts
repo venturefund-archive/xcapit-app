@@ -78,7 +78,7 @@ describe('FundNamePage', () => {
     spy.and.returnValue(Promise.resolve());
     component.form.patchValue(formData.valid);
     component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 
   it('should not call fundDataStorageService.setData on handleSubmit and form invalid', () => {

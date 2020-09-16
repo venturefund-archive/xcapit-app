@@ -13,7 +13,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
           <ion-back-button defaultHref="/funds/fund-risk"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
-          'funds.fund_currency.header' | translate
+          ((this.fundRenew) ? 'funds.fund_currency.header_renew' : 'funds.fund_currency.header') | translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -82,7 +82,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
                 color="uxsecondary"
                 size="large"
                 fill="clear"
-                routerLink="/funds/fund-duration"
+                routerLink="/funds/fund-risk"
                 routerDirection="backward"
               >
                 {{ 'funds.fund_currency.back_button' | translate }}
@@ -113,6 +113,8 @@ export class FundCurrencyPage implements OnInit {
   });
   currencies = Currency;
 
+  fundRenew: any;
+
   constructor(
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
@@ -125,6 +127,10 @@ export class FundCurrencyPage implements OnInit {
         this.form.patchValue(data);
       }
     });
+
+    this.fundDataStorage.getData('fundRenew').then(data => {
+      this.fundRenew = data;
+    })
   }
 
   handleSubmit() {

@@ -67,13 +67,20 @@ export class MainMenuPage implements OnInit {
     },
     {
       id: 2,
+      title: 'Mis fondos finalizados',
+      url: '/funds/funds-finished',
+      icon: 'film',
+      routeDirection: 'forward'
+    },
+    {
+      id: 3,
       title: 'app.main_menu.user_profile',
       url: '/profiles/user',
       icon: 'person',
       routeDirection: 'forward'
     },
     {
-      id: 3,
+      id: 4,
       title: 'app.main_menu.deposit_address',
       url: '/deposits/currency',
       icon: 'journal',
