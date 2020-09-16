@@ -18,13 +18,15 @@ describe('FundFinishPauseCardComponent', () => {
   let apiFundsServiceMock: any;
   let apiFundsService: ApiFundsService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundFinishComponent>;
-  let toastServiceSpy: any;
   let toastService: ToastService;
   let navControllerMock: any;
   let navController: NavController;
+  let toastServiceSpy: any;
 
   beforeEach(async(() => {
-    toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast',
+    ]);
     apiFundsServiceMock = {
       finalizeFundRuns: () => of({})
     };

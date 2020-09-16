@@ -1,33 +1,38 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { EmailValidationPage } from './email-validation.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { ToastService } from '../../../shared/services/toast/toast.service';
 
 describe('EmailValidationPage', () => {
   let component: EmailValidationPage;
   let fixture: ComponentFixture<EmailValidationPage>;
   let apiUsuariosSpy: any;
   let apiUsuariosService: ApiUsuariosService;
+  let toastServiceSpy: any;
 
   beforeEach(async(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast'
+    ]);
     apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['sendEmailValidation', 'emailValidation']);
     apiUsuariosSpy.sendEmailValidation.and.returnValue(of({}));
     TestBed.configureTestingModule({
-      declarations: [ EmailValidationPage ],
+      declarations: [EmailValidationPage],
       imports: [
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: ApiUsuariosService, useValue: apiUsuariosSpy }
+        { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
+        { provide: ToastService, useValue: toastServiceSpy }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

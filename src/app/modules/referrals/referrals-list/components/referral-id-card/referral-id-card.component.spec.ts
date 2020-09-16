@@ -8,7 +8,6 @@ import { ShareService } from '../../../../../shared/services/share/share.service
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
 import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
-import { toastServiceSpy } from '../../../../../../testing/spies/toast-service-spy.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ReferralIdCardComponent', () => {
@@ -18,8 +17,13 @@ describe('ReferralIdCardComponent', () => {
   let clipboardServiceMock: any;
   let shareService: any;
   let clipboardService: any;
+  let toastServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralIdCardComponent>;
   beforeEach(async(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast'
+      ,
+    ]);
     clipboardServiceMock = {
       write: () => Promise.resolve()
     };

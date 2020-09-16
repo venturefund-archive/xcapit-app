@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PasswordChangePage } from './password-change.page';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +12,7 @@ import { PasswordChangeFormComponent } from '../shared-usuarios/components/passw
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ToastService } from '../../../shared/services/toast/toast.service';
 
 const formData = {
   valid: {
@@ -34,8 +34,12 @@ describe('PasswordChangePage', () => {
   let authServiceSpy: any;
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<PasswordChangePage>;
+  let toastServiceSpy: any;
 
   beforeEach(async(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast',
+    ]);
     apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
       'changePassword'
     ]);
@@ -57,7 +61,8 @@ describe('PasswordChangePage', () => {
         TrackClickDirective,
         { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ToastService, useValue: toastServiceSpy }
       ]
     }).compileComponents();
   }));

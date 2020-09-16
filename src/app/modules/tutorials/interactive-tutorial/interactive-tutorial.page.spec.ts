@@ -17,17 +17,17 @@ describe('InteractiveTutorialPage', () => {
   let component: InteractiveTutorialPage;
   let fixture: ComponentFixture<InteractiveTutorialPage>;
   let modalControllerSpy: any;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<
-    InteractiveTutorialPage
-  >;
-  let toastServiceSpy: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InteractiveTutorialPage>;
 
+  let toastServiceSpy: any;
   beforeEach(async(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast'
+    ]);
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock
     );
-    toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
     TestBed.configureTestingModule({
       declarations: [InteractiveTutorialPage, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
