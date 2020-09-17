@@ -21,7 +21,7 @@ describe('UserProfileDataGuard', () => {
   });
 
   beforeEach(() => {
-    userProfileDataGuard = TestBed.get(UserProfileDataGuard);
+    userProfileDataGuard = TestBed.inject(UserProfileDataGuard);
   });
 
   it('should ...', () => {

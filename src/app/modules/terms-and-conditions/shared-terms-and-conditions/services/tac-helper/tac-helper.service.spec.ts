@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { ApiTacService } from '../api-tac/api-tac.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 describe('TacHelperService', () => {
   let apiTacServiceMock: any;
@@ -15,9 +16,7 @@ describe('TacHelperService', () => {
     apiTacServiceMock = {
       crud: jasmine.createSpyObj('CRUD', ['get'])
     };
-    navControllerSpy = jasmine.createSpyObj('NavController', [
-      'navigateForward'
-    ]);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
@@ -28,7 +27,7 @@ describe('TacHelperService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(TacHelperService);
+    service = TestBed.inject(TacHelperService);
   });
 
   it('should be created', () => {

@@ -8,9 +8,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -25,11 +26,12 @@ describe('InsertKeyPage', () => {
   let fixture: ComponentFixture<InsertKeyPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InsertKeyPage>;
   let storageApikeysServiceSpy;
-
+  let navControllerSpy: any;
   beforeEach(async(() => {
     storageApikeysServiceSpy = jasmine.createSpyObj('StorageApikeysService', [
       'updateData'
     ]);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [InsertKeyPage, TrackClickDirective, DummyComponent],
       imports: [
@@ -45,7 +47,9 @@ describe('InsertKeyPage', () => {
       ],
       providers: [
         TrackClickDirective,
-        { provide: StorageApikeysService, useValue: storageApikeysServiceSpy }
+        { provide: StorageApikeysService, useValue: storageApikeysServiceSpy },
+        { provide: NavController, useValue: navControllerSpy }
+
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -56,7 +60,7 @@ describe('InsertKeyPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    storageApikeysServiceSpy = TestBed.get(StorageApikeysService);
+    storageApikeysServiceSpy = TestBed.inject(StorageApikeysService);
   });
 
   it('should create', () => {

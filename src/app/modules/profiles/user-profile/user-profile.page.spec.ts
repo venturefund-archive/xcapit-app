@@ -61,10 +61,12 @@ describe('UserProfilePage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfilePage);
     component = fixture.componentInstance;
-    apiProfilesService = TestBed.get(ApiProfilesService);
+    apiProfilesService = TestBed.inject(ApiProfilesService);
     storageService = TestBed.inject(Storage);
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component.userStatus = {status_name: 'COMPLETE'};
+    fixture.detectChanges();
   });
 
   it('should create', () => {

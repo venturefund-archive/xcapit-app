@@ -48,7 +48,7 @@ describe('TrackClickDirective', () => {
       ]
     });
 
-    directive = testBed.get(TrackClickDirective);
+    directive = TestBed.inject(TrackClickDirective);
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     inputEl = fixture.debugElement.query(By.css('button'));

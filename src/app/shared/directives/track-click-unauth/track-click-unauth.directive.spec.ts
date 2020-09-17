@@ -48,7 +48,7 @@ describe('TrackClickUnauthDirective', () => {
       ]
     });
 
-    directive = testBed.get(TrackClickUnauthDirective);
+    directive = TestBed.inject(TrackClickUnauthDirective);
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     inputEl = fixture.debugElement.query(By.css('button'));

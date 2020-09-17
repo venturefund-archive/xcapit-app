@@ -15,7 +15,7 @@ describe('CrudService', () => {
         { provide: CustomHttpService, useValue: customHttpServiceSpy }
       ]
     });
-    service = TestBed.get(CrudService);
+    service = TestBed.inject(CrudService);
     endpoint = service.getEndpoints('usuarios');
   });
 

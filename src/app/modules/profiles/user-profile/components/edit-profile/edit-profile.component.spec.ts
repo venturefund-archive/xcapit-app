@@ -60,7 +60,7 @@ describe('EditProfileComponent', () => {
     fixture = TestBed.createComponent(EditProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiProfiles = TestBed.get(ApiProfilesService);
+    apiProfiles = TestBed.inject(ApiProfilesService);
   });
 
   it('should create', () => {

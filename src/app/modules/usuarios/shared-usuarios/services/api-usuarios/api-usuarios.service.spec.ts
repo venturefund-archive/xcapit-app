@@ -37,7 +37,7 @@ describe('ApiUsuariosService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(ApiUsuariosService);
+    service = TestBed.inject(ApiUsuariosService);
   });
 
   it('should be created', () => {

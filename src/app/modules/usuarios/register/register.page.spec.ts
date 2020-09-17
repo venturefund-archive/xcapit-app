@@ -4,7 +4,7 @@ import { RegisterPage } from './register.page';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,6 +13,7 @@ import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -22,6 +23,7 @@ describe('RegisterPage', () => {
     RegisterPage
   >;
   let activatedRouteMock: any;
+  let navControllerSpy: any;
   beforeEach(async(() => {
     apiUsuariosMock = {
       crud: {
@@ -29,6 +31,7 @@ describe('RegisterPage', () => {
       }
     };
     activatedRouteMock = {};
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [
         DummyComponent,
@@ -41,7 +44,8 @@ describe('RegisterPage', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
-          { path: 'users/login', component: DummyComponent }
+          { path: 'users/login', component: DummyComponent },
+          { path: 'users/success-register', component: DummyComponent }
         ]),
         ReactiveFormsModule,
         IonicModule
@@ -49,7 +53,8 @@ describe('RegisterPage', () => {
       providers: [
         TrackClickUnauthDirective,
         { provide: ApiUsuariosService, useValue: apiUsuariosMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock }
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
   }));
@@ -65,6 +70,12 @@ describe('RegisterPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call window.open when openTOS is called', () => {
+    spyOn(window, 'open');
+    component.openTOS();
+    expect(window.open).toHaveBeenCalledTimes(1);
   });
 
   it('should call success from regiterUser', () => {
@@ -105,6 +116,19 @@ describe('RegisterPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should call trackEvent on trackService when Open TOS button clicked', () => {
+    spyOn(window, 'open');
+    const el = trackClickUnauthDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Open TOS'
+    );
+    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
   it('should call setReferralCode & setEmail on ionViewWillEnter', () => {
     const setReferralCodeSpy = spyOn(component, 'setReferralCode');
     const setEmailSpy = spyOn(component, 'setEmail');
@@ -115,7 +139,7 @@ describe('RegisterPage', () => {
 
   describe('with referral code', () => {
     beforeEach(() => {
-      activatedRouteMock = TestBed.get(ActivatedRoute);
+      activatedRouteMock = TestBed.inject(ActivatedRoute);
     });
 
     it('should set referral code and a valid email ionViewWillEnter', () => {

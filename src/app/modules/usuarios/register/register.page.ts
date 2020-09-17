@@ -40,9 +40,8 @@ const { Browser } = Plugins;
                 size="small"
                 type="button"
                 appTrackClickUnauth
-                name="Go To Login"
+                name="Open TOS"
                 class="tos-text__button ux_button"
-                
                 routerDirection="back"
                 (click)="openTOS()"
               >

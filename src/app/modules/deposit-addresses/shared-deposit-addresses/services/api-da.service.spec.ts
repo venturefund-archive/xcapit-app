@@ -34,13 +34,13 @@ describe('ApiDaService', () => {
         { provide: JwtHelperService, useValue: jwtHelperServiceSpy }
       ]
     });
-    customHttpServiceSpy = TestBed.get(CustomHttpService);
-    apiDaService = TestBed.get(ApiDaService);
+    customHttpServiceSpy = TestBed.inject(CustomHttpService);
+    apiDaService = TestBed.inject(ApiDaService);
   });
 
   beforeEach(() => {
-    service = TestBed.get(ApiDaService);
-    serviceHttp = TestBed.get(CustomHttpService)
+    service = TestBed.inject(ApiDaService);
+    serviceHttp = TestBed.inject(CustomHttpService)
   });
 
   it('should be created', () => {

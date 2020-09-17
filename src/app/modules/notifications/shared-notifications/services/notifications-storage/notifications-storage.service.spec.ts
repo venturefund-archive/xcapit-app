@@ -19,7 +19,7 @@ describe('NotificationsStorageService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(NotificationsStorageService);
+    service = TestBed.inject(NotificationsStorageService);
   });
 
   it('should be created', () => {

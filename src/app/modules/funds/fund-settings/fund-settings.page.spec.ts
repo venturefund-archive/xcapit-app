@@ -38,7 +38,7 @@ describe('FundSettingsPage', () => {
     TestBed.configureTestingModule({
       declarations: [FundSettingsPage, DummyComponent],
       imports: [
-        IonicModule.forRoot(),
+        IonicModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
@@ -62,8 +62,8 @@ describe('FundSettingsPage', () => {
     fixture = TestBed.createComponent(FundSettingsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiFundsService = TestBed.get(ApiFundsService);
-    apiApiKeysService = TestBed.get(ApiApikeysService);
+    apiFundsService = TestBed.inject(ApiFundsService);
+    apiApiKeysService = TestBed.inject(ApiApikeysService);
   }));
 
   it('should create', () => {
