@@ -41,7 +41,8 @@ describe('RegisterPage', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
-          { path: 'users/login', component: DummyComponent }
+          { path: 'users/login', component: DummyComponent },
+          { path: 'users/success-register', component: DummyComponent }
         ]),
         ReactiveFormsModule,
         IonicModule

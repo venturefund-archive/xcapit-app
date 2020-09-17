@@ -65,6 +65,8 @@ describe('UserProfilePage', () => {
     storageService = TestBed.inject(Storage);
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component.userStatus = {status_name: 'COMPLETE'};
+    fixture.detectChanges();
   });
 
   it('should create', () => {

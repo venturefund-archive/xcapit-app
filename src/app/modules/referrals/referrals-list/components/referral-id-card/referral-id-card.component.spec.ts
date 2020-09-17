@@ -13,10 +13,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 describe('ReferralIdCardComponent', () => {
   let component: ReferralIdCardComponent;
   let fixture: ComponentFixture<ReferralIdCardComponent>;
-  let shareServiceMock: any;
-  let clipboardServiceMock: any;
-  let shareService: any;
-  let clipboardService: any;
+  let shareServiceSpy: any;
+  let clipboardServiceSpy: any;
   let toastServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralIdCardComponent>;
   beforeEach(async(() => {
@@ -24,12 +22,8 @@ describe('ReferralIdCardComponent', () => {
       'showToast'
       ,
     ]);
-    clipboardServiceMock = {
-      write: () => Promise.resolve()
-    };
-    shareServiceMock = {
-      share: () => Promise.resolve()
-    };
+    shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
+    clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
     TestBed.configureTestingModule({
       declarations: [ReferralIdCardComponent, TrackClickDirective],
       imports: [
@@ -41,8 +35,8 @@ describe('ReferralIdCardComponent', () => {
       providers: [
         TrackClickDirective,
         TranslateService,
-        { provide: ClipboardService, useValue: clipboardServiceMock },
-        { provide: ShareService, useValue: shareServiceMock },
+        { provide: ClipboardService, useValue: clipboardServiceSpy },
+        { provide: ShareService, useValue: shareServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy }
       ]
     }).compileComponents();
@@ -50,8 +44,6 @@ describe('ReferralIdCardComponent', () => {
     fixture = TestBed.createComponent(ReferralIdCardComponent);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    clipboardService = TestBed.inject(ClipboardService);
-    shareService = TestBed.inject(ShareService);
     fixture.detectChanges();
   }));
 
@@ -60,17 +52,15 @@ describe('ReferralIdCardComponent', () => {
   });
 
   it('should call clipboardService.write on copyReferralId', () => {
-    const spy = spyOn(clipboardService, 'write');
     component.copyReferralId();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
   });
 
   it('should call shareService.share on shareReferralId', () => {
-    const spy = spyOn(shareService, 'share');
     component.shareReferralId();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(shareServiceSpy.share).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Share is clicked', () => {

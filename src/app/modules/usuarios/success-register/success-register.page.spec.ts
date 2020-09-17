@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { SuccessRegisterPage } from './success-register.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SuccessRegisterPage', () => {
   let component: SuccessRegisterPage;
@@ -10,7 +11,8 @@ describe('SuccessRegisterPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SuccessRegisterPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SuccessRegisterPage);

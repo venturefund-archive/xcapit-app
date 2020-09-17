@@ -7,13 +7,16 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { ShareService } from '../../../../../shared/services/share/share.service';
 
 describe('SubscriptionsService', () => {
   let apiSubscriptionsSpy: any;
   let storageSpy: any;
   let subscriptionsService: SubscriptionsService;
   let logsServiceMock: any;
+  let shareServiceSpy: any;
   beforeEach(() => {
+    shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
     apiSubscriptionsSpy = jasmine.createSpyObj('ApiSubscriptionsService', [
       'getSubscriptionLink'
     ]);
@@ -27,7 +30,8 @@ describe('SubscriptionsService', () => {
       providers: [
         { provide: LogsService, useValue: logsServiceMock },
         { provide: ApiSubscriptionsService, useValue: apiSubscriptionsSpy },
-        { provide: Storage, useValue: storageSpy }
+        { provide: Storage, useValue: storageSpy },
+        { provide: ShareService, useValue: shareServiceSpy },
       ]
     });
     subscriptionsService = TestBed.inject(SubscriptionsService);
