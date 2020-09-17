@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InteractiveTutorialPage } from './interactive-tutorial.page';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -18,8 +18,8 @@ describe('InteractiveTutorialPage', () => {
   let fixture: ComponentFixture<InteractiveTutorialPage>;
   let modalControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InteractiveTutorialPage>;
-
   let toastServiceSpy: any;
+  let ionSlideMock: any;
   beforeEach(async(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast'
@@ -28,10 +28,15 @@ describe('InteractiveTutorialPage', () => {
       'ModalController',
       modalControllerMock
     );
+    ionSlideMock = {
+      slideNext: () => Promise.resolve(),
+      slidePrev: () => Promise.resolve()
+    };
     TestBed.configureTestingModule({
       declarations: [InteractiveTutorialPage, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        IonicModule,
         SharedTutorialsModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
@@ -43,7 +48,7 @@ describe('InteractiveTutorialPage', () => {
       providers: [
         TrackClickDirective,
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: ToastService, useValue: toastServiceSpy }
+        { provide: ToastService, useValue: toastServiceSpy },
       ]
     }).compileComponents();
   }));
@@ -51,6 +56,7 @@ describe('InteractiveTutorialPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InteractiveTutorialPage);
     component = fixture.componentInstance;
+    component.slide = ionSlideMock;
     fixture.detectChanges();
     modalControllerSpy = TestBed.inject(ModalController);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);

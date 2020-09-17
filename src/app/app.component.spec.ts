@@ -113,12 +113,13 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  xit('should call ngOnInit', async () => {
-    const app = fixture.debugElement.componentInstance;
-    const spy = spyOn(app, 'ngOnInit');
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+  // TODO: detectChanges bug on angular v10
+  // xit('should call ngOnInit', async () => {
+  //   const app = fixture.debugElement.componentInstance;
+  //   const spy = spyOn(app, 'ngOnInit');
+  //   fixture.detectChanges();
+  //   expect(spy).toHaveBeenCalledTimes(1);
+  // });
 
   it('should call routeChangeSubscribe from ngOnInit', async () => {
     const app = fixture.debugElement.componentInstance;

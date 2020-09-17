@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -26,18 +26,19 @@ describe('FundsListPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
   let tabsComponentMock: any;
   let tabsComponent: TabsComponent;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     logsServiceMock = {
-      log: () => of({}),
+      log: () => of({})
     };
     tabsComponentMock = {
-      newFundUrl: '',
+      newFundUrl: ''
     };
 
     apiFundsServiceMock = {
       getFundBalances: () => of([]),
-      status: () => of({}),
+      status: () => of({})
     };
 
     apiUsuariosServiceMock = {
@@ -47,9 +48,10 @@ describe('FundsListPage', () => {
           empty_linked_keys: false,
           has_own_funds: true,
           has_subscribed_funds: true,
-          status_name: 'COMPLETE',
-        }),
+          status_name: 'COMPLETE'
+        })
     };
+    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward', 'navigateRoot']);
 
     TestBed.configureTestingModule({
       imports: [
@@ -59,21 +61,21 @@ describe('FundsListPage', () => {
         RouterTestingModule.withRoutes([
           {
             path: 'tutorials/interactive-tutorial',
-            component: DummyComponent,
+            component: DummyComponent
           },
           {
             path: 'profiles/personal-data',
-            component: DummyComponent,
+            component: DummyComponent
           },
           {
             path: 'profiles/user',
-            component: DummyComponent,
+            component: DummyComponent
           },
           {
             path: 'notifications/list',
-            component: DummyComponent,
-          },
-        ]),
+            component: DummyComponent
+          }
+        ])
       ],
       declarations: [FundsListPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -82,17 +84,21 @@ describe('FundsListPage', () => {
         { provide: TabsComponent, useValue: tabsComponentMock },
         {
           provide: LogsService,
-          useValue: logsServiceMock,
+          useValue: logsServiceMock
         },
         {
           provide: ApiFundsService,
-          useValue: apiFundsServiceMock,
+          useValue: apiFundsServiceMock
         },
         {
           provide: ApiUsuariosService,
-          useValue: apiUsuariosServiceMock,
+          useValue: apiUsuariosServiceMock
         },
-      ],
+        {
+          provide: NavController,
+          useValue: navControllerSpy
+        }
+      ]
     }).compileComponents();
   }));
 
@@ -130,7 +136,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: false,
       has_own_funds: true,
       has_subscribed_funds: true,
-      status_name: 'FROM_BOT',
+      status_name: 'FROM_BOT'
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -145,7 +151,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: false,
       has_own_funds: true,
       has_subscribed_funds: true,
-      status_name: 'EXOLORER',
+      status_name: 'EXOLORER'
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -161,7 +167,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: true,
       has_own_funds: false,
       has_subscribed_funds: false,
-      status_name: 'BEGINNER',
+      status_name: 'BEGINNER'
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -189,18 +195,18 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  xit('should call trackEvent on trackService when Show Notifications button clicked', () => {
-    // TODO: Activate this test when notifications button shows
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Show Notifications'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+  // TODO: Activate this test when notifications button shows
+  // xit('should call trackEvent on trackService when Show Notifications button clicked', () => {
+  //   const el = trackClickDirectiveHelper.getByElementByName(
+  //     'ion-button',
+  //     'Show Notifications'
+  //   );
+  //   const directive = trackClickDirectiveHelper.getDirective(el);
+  //   const spy = spyOn(directive, 'clickEvent');
+  //   el.nativeElement.click();
+  //   fixture.detectChanges();
+  //   expect(spy).toHaveBeenCalledTimes(1);
+  // });
 
   it('should call trackEvent on trackService when Action Button button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(

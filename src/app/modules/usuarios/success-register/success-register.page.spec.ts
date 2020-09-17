@@ -11,7 +11,7 @@ describe('SuccessRegisterPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SuccessRegisterPage ],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

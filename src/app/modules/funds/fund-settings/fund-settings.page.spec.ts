@@ -38,7 +38,7 @@ describe('FundSettingsPage', () => {
     TestBed.configureTestingModule({
       declarations: [FundSettingsPage, DummyComponent],
       imports: [
-        IonicModule.forRoot(),
+        IonicModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([

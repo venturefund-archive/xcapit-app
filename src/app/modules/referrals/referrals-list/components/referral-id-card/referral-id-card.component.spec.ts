@@ -10,7 +10,7 @@ import { TrackClickDirective } from '../../../../../shared/directives/track-clic
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-gidescribe('ReferralIdCardComponent', () => {
+describe('ReferralIdCardComponent', () => {
   let component: ReferralIdCardComponent;
   let fixture: ComponentFixture<ReferralIdCardComponent>;
   let shareServiceSpy: any;
@@ -28,7 +28,7 @@ gidescribe('ReferralIdCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ReferralIdCardComponent, TrackClickDirective],
       imports: [
-        IonicModule.forRoot(),
+        IonicModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
         TranslateModule.forRoot()

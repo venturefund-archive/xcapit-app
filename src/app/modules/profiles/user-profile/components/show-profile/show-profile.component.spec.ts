@@ -11,7 +11,7 @@ describe('ShowProfileComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ShowProfileComponent],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      imports: [IonicModule, TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
