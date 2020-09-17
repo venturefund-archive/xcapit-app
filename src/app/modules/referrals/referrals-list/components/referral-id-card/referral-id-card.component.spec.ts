@@ -10,7 +10,7 @@ import { TrackClickDirective } from '../../../../../shared/directives/track-clic
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('ReferralIdCardComponent', () => {
+gidescribe('ReferralIdCardComponent', () => {
   let component: ReferralIdCardComponent;
   let fixture: ComponentFixture<ReferralIdCardComponent>;
   let shareServiceSpy: any;
@@ -24,6 +24,7 @@ describe('ReferralIdCardComponent', () => {
     ]);
     shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
     clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
+    clipboardServiceSpy.write.and.returnValue(Promise.resolve());
     TestBed.configureTestingModule({
       declarations: [ReferralIdCardComponent, TrackClickDirective],
       imports: [

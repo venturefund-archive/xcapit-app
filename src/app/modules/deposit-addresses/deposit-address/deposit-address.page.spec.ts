@@ -45,6 +45,7 @@ describe('DepositAddressPage', () => {
       log: () => of({})
     };
     clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
+    clipboardServiceSpy.write.and.returnValue(Promise.resolve());
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
