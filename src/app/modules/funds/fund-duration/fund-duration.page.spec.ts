@@ -9,8 +9,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 const formData = {
   valid: {
     cantidad_dias: 30
@@ -25,12 +26,14 @@ describe('FundDurationPage', () => {
   let fundDataStorageServiceMock;
   let fundDataStorageService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundDurationPage>;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve({}),
       setData: () => Promise.resolve()
     };
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [FundDurationPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -48,6 +51,10 @@ describe('FundDurationPage', () => {
         {
           provide: FundDataStorageService,
           useValue: fundDataStorageServiceMock
+        },
+        {
+          provide: NavController,
+          useValue: navControllerSpy
         }
       ]
     }).compileComponents();

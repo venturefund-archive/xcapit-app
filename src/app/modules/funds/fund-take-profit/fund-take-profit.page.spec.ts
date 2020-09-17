@@ -8,12 +8,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { of } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 const formData = {
   valid: {
     take_profit: 15
@@ -31,6 +32,7 @@ describe('FundTakeProfitPage', () => {
   let apiFundsMock: any;
   let apiFundsService: any;
   let modalControllerSpy: any;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     fundDataStorageServiceMock = {
@@ -44,6 +46,7 @@ describe('FundTakeProfitPage', () => {
       'ModalController',
       modalControllerMock
     );
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
 
     TestBed.configureTestingModule({
@@ -69,6 +72,10 @@ describe('FundTakeProfitPage', () => {
         {
           provide: ApiFundsService,
           useValue: apiFundsMock
+        },
+        {
+          provide: NavController,
+          useValue: navControllerSpy
         },
         { provide: ModalController, useValue: modalControllerSpy }
       ]

@@ -6,6 +6,8 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('EmailValidationPage', () => {
   let component: EmailValidationPage;
@@ -13,11 +15,13 @@ describe('EmailValidationPage', () => {
   let apiUsuariosSpy: any;
   let apiUsuariosService: ApiUsuariosService;
   let toastServiceSpy: any;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast'
     ]);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['sendEmailValidation', 'emailValidation']);
     apiUsuariosSpy.sendEmailValidation.and.returnValue(of({}));
     TestBed.configureTestingModule({
@@ -29,7 +33,8 @@ describe('EmailValidationPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
-        { provide: ToastService, useValue: toastServiceSpy }
+        { provide: ToastService, useValue: toastServiceSpy },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     })
       .compileComponents();

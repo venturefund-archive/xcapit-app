@@ -8,9 +8,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 const formData = {
   valid: {
     currency: 'BTC'
@@ -26,12 +27,13 @@ describe('FundCurrencyPage', () => {
   let fundDataStorageServiceMock;
   let fundDataStorageService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundCurrencyPage>;
-
+  let navControllerSpy: any;
   beforeEach(async(() => {
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve({}),
       setData: () => Promise.resolve()
     };
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [FundCurrencyPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -51,6 +53,10 @@ describe('FundCurrencyPage', () => {
         {
           provide: FundDataStorageService,
           useValue: fundDataStorageServiceMock
+        },
+        {
+          provide: NavController,
+          useValue: navControllerSpy
         }
       ]
     }).compileComponents();

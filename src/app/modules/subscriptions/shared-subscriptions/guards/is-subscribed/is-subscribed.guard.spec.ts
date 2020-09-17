@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, Observable } from 'rxjs';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 function getObservable(obj: any): Observable<any> {
   if (obj instanceof Observable) {
@@ -24,7 +25,7 @@ describe('IsSubscribedGuard', () => {
     apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', [
       'isSubscribed'
     ]);
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     activatedRouteSnapshotMock = {
       paramMap: { get: param => 'test' }
     } as ActivatedRouteSnapshot;

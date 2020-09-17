@@ -6,6 +6,7 @@ import { ApiProfilesService } from '../api-profiles/api-profiles.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 describe('ProfilesHelperService', () => {
   let profileHelperService: ProfilesHelperService;
@@ -19,7 +20,7 @@ describe('ProfilesHelperService', () => {
       crud: jasmine.createSpyObj('CRUD', ['get'])
     };
     translateServiceSpy = jasmine.createSpyObj('TranslateService', ['instant']);
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     navControllerSpy.navigateForward.and.returnValue(of({}).toPromise());
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],

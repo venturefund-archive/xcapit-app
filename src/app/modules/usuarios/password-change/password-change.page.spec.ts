@@ -13,6 +13,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -43,7 +44,7 @@ describe('PasswordChangePage', () => {
     apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
       'changePassword'
     ]);
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
     authServiceSpy = jasmine.createSpyObj('AuthService', ['logout']);
     authServiceSpy.logout.and.returnValue(of({}).toPromise());

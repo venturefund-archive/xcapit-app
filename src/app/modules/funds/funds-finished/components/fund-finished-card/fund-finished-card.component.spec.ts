@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { FundFinishedCardComponent } from './fund-finished-card.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FundDataStorageService } from '../../../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 describe('FundFinishedCardComponent', () => {
   let component: FundFinishedCardComponent;
@@ -15,11 +16,13 @@ describe('FundFinishedCardComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundFinishedCardComponent>;
   let fundDataStorageServiceMock: any;
   let fundDataStorageService: any;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     fundDataStorageServiceMock = {
       setData: () => Promise.resolve()
     };
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
     TestBed.configureTestingModule({
       declarations: [ 
@@ -37,6 +40,7 @@ describe('FundFinishedCardComponent', () => {
       ],
       providers: [
         { provide: FundDataStorageService, useValue: fundDataStorageServiceMock },
+        { provide: NavController, useValue: navControllerSpy },
       ]
     }).compileComponents();
 

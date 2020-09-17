@@ -4,13 +4,17 @@ import { ApiKeyDataGuard } from './apikey-data.guard';
 import { StorageApikeysService } from '../../services/storage-apikeys/storage-apikeys.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 describe('ApiKeyDataGuard', () => {
   let apiKeyDataGuard: ApiKeyDataGuard;
   let storageApikeysServiceMock: any;
   let storageApikeysService;
+  let navControllerSpy: any;
 
   beforeEach(() => {
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     storageApikeysServiceMock = {
       valid: false
     };
@@ -23,7 +27,8 @@ describe('ApiKeyDataGuard', () => {
       ],
       providers: [
         ApiKeyDataGuard,
-        { provide: StorageApikeysService, useValue: storageApikeysServiceMock }
+        { provide: StorageApikeysService, useValue: storageApikeysServiceMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     });
   });

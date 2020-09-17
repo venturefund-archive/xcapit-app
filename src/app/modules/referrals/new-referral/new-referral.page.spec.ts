@@ -11,6 +11,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -32,7 +33,7 @@ describe('NewReferralPage', () => {
     apiReferralsServiceMock = {
       crud: jasmine.createSpyObj('CRUD', ['create'])
     };
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
     TestBed.configureTestingModule({
       declarations: [

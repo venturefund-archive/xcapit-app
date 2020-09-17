@@ -9,6 +9,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TranslateModule } from '@ngx-translate/core';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -25,13 +27,14 @@ describe('FundNamePage', () => {
   let fundDataStorageServiceMock;
   let fundDataStorageService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundNamePage>;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve({}),
       setData: () => Promise.resolve()
     };
-
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [FundNamePage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -47,6 +50,10 @@ describe('FundNamePage', () => {
         {
           provide: FundDataStorageService,
           useValue: fundDataStorageServiceMock
+        },
+        {
+          provide: NavController,
+          useValue: navControllerSpy
         }
       ]
     }).compileComponents();

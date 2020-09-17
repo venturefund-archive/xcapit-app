@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InteractiveTutorialPage } from './interactive-tutorial.page';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -12,6 +12,7 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { SharedTutorialsModule } from '../shared-tutorials/shared-tutorials.module';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('InteractiveTutorialPage', () => {
   let component: InteractiveTutorialPage;
@@ -20,6 +21,7 @@ describe('InteractiveTutorialPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InteractiveTutorialPage>;
   let toastServiceSpy: any;
   let ionSlideMock: any;
+  let navControllerSpy: any;
   beforeEach(async(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast'
@@ -32,6 +34,8 @@ describe('InteractiveTutorialPage', () => {
       slideNext: () => Promise.resolve(),
       slidePrev: () => Promise.resolve()
     };
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+    navControllerSpy.navigateBack.and.returnValue(Promise.resolve());
     TestBed.configureTestingModule({
       declarations: [InteractiveTutorialPage, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -49,6 +53,7 @@ describe('InteractiveTutorialPage', () => {
         TrackClickDirective,
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: ToastService, useValue: toastServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
       ]
     }).compileComponents();
   }));

@@ -4,11 +4,13 @@ import { DepositCurrencyPage } from './deposit-currency.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
+import { DummyComponent } from '../../../../testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -17,16 +19,17 @@ const formData = {
   invalid: {
     currency: ''
   }
-}
+};
 
 describe('DepositCurrencyPage', () => {
   let component: DepositCurrencyPage;
   let fixture: ComponentFixture<DepositCurrencyPage>;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DepositCurrencyPage>;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
-  
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [ DepositCurrencyPage, TrackClickDirective ],
       imports: [
@@ -34,11 +37,14 @@ describe('DepositCurrencyPage', () => {
         TranslateModule.forRoot(),
         ReactiveFormsModule,
         IonicModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          {path: 'deposits/address', component: DummyComponent}
+        ])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: LogsService, useValue: logsServiceMock }
+        { provide: LogsService, useValue: logsServiceMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
   }));

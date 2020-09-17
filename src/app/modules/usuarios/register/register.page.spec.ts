@@ -4,7 +4,7 @@ import { RegisterPage } from './register.page';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,6 +13,7 @@ import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -22,6 +23,7 @@ describe('RegisterPage', () => {
     RegisterPage
   >;
   let activatedRouteMock: any;
+  let navControllerSpy: any;
   beforeEach(async(() => {
     apiUsuariosMock = {
       crud: {
@@ -29,6 +31,7 @@ describe('RegisterPage', () => {
       }
     };
     activatedRouteMock = {};
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [
         DummyComponent,
@@ -50,7 +53,8 @@ describe('RegisterPage', () => {
       providers: [
         TrackClickUnauthDirective,
         { provide: ApiUsuariosService, useValue: apiUsuariosMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock }
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
   }));

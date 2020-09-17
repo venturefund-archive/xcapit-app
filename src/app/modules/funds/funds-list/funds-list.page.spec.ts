@@ -14,6 +14,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('FundsListPage', () => {
   let component: FundsListPage;
@@ -51,7 +52,7 @@ describe('FundsListPage', () => {
           status_name: 'COMPLETE'
         })
     };
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward', 'navigateRoot']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
     TestBed.configureTestingModule({
       imports: [

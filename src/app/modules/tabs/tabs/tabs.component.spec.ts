@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('TabsComponent', () => {
   let component: TabsComponent;
@@ -15,7 +16,7 @@ describe('TabsComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TabsComponent>;
   let navControllerSpy: any;
   beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward', 'navigateRoot']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [TabsComponent, TrackClickDirective, DummyComponent],
       imports: [

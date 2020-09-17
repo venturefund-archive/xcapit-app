@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 describe('NoAuthGuard', () => {
   let noAuthGuard: NoAuthGuard;
@@ -13,7 +14,7 @@ describe('NoAuthGuard', () => {
 
   beforeEach(() => {
     authServiceSpy = jasmine.createSpyObj('AuthService', ['checkToken']);
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateRoot']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
