@@ -20,6 +20,7 @@ import { PublicLogsService } from './shared/services/public-logs/public-logs.ser
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 // tslint:disable-next-line: max-line-length
 import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
+import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
 
 describe('AppComponent', () => {
   let statusBarSpy: any,
@@ -37,9 +38,12 @@ describe('AppComponent', () => {
   let notificationsServiceSpy: any;
   let pwaNotificationServiceSpy: any;
   let notificationsHelperServiceSpy: any;
+  let updatePWAServiceSpy: any;
 
   beforeEach(async(() => {
     trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
+    updatePWAServiceSpy = jasmine.createSpyObj('UpdatePWAService', ['update']);
+    updatePWAServiceSpy.update.and.returnValue(of({}));
     trackServiceSpy.trackView.and.returnValue(null);
     publicLogSpy = {
       trackEvent: () => of(null),
@@ -86,7 +90,8 @@ describe('AppComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: PublicLogsService, useValue: publicLogSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
-        { provide: NotificationsHelperService, useValue: notificationsHelperServiceSpy }
+        { provide: NotificationsHelperService, useValue: notificationsHelperServiceSpy },
+        { provide: UpdatePWAService, useValue: updatePWAServiceSpy }
       ],
       imports: [
         HttpClientTestingModule,
@@ -132,6 +137,14 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     fixture.detectChanges();
     expect(app.routerNavEndSubscription).not.toBeNull();
+  });
+
+  it('updateAppSubscription should not be null after ngAfterViewInit call', async () => {
+    const app = fixture.componentInstance;
+    await component.ngAfterViewInit();
+    fixture.detectChanges();
+    expect(app.updateAppSubscription).not.toBeNull();
+    expect(updatePWAServiceSpy.update).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent  after ngOnInit call', async () => {
