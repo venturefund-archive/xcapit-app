@@ -70,6 +70,11 @@ import { Currency } from '../shared-funds/enums/currency.enum';
               ></app-errors-form-item>
             </app-ux-radio-group>
           </div>
+          <div class="fc__alert">
+            <app-ux-alert-message type="info">
+              {{ 'funds.fund_currency.text_help' | translate }}
+            </app-ux-alert-message>
+          </div>
         </div>
         <div class="ux_footer">
           <div class="fc__buttons">
