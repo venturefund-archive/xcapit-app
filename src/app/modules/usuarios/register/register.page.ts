@@ -84,6 +84,12 @@ const { Browser } = Plugins;
           </div>
         </app-auth-form>
       </div>
+
+      <div class="register_alert">
+        <app-ux-alert-message type="info">
+          {{ 'usuarios.register.register_alert' | translate }}
+        </app-ux-alert-message>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./register.page.scss']
