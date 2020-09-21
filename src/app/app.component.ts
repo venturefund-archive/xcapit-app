@@ -22,16 +22,17 @@ import { PublicLogsService } from './shared/services/public-logs/public-logs.ser
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 // tslint:disable-next-line: max-line-length
 import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
+import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
 
 @Component({
   selector: 'app-root',
   providers: [{ provide: TrackService, useClass: LogsService }],
   template: `
-    <ion-app>
-      <ion-split-pane contentId="main-content">
-        <ion-router-outlet id="main-content"></ion-router-outlet>
-      </ion-split-pane>
-    </ion-app>
+      <ion-app>
+          <ion-split-pane contentId="main-content">
+              <ion-router-outlet id="main-content"></ion-router-outlet>
+          </ion-split-pane>
+      </ion-app>
   `
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -41,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
 
   routerNavEndSubscription: Subscription;
+  updateAppSubscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -55,7 +57,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private trackService: TrackService,
     private publicLogsService: PublicLogsService,
     private notificationsService: NotificationsService,
-    private notificationsHelper: NotificationsHelperService
+    private notificationsHelper: NotificationsHelperService,
+    private updatePWAService: UpdatePWAService
   ) {
     this.initializeApp();
   }
@@ -76,6 +79,23 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     notifications.pushNotificationReceived((notification: any) => {
       this.notificationsHelper.handleNewNotification(notification);
     });
+    await this.updateApp();
+  }
+
+  private async updateApp() {
+    this.updateAppSubscription = this.updatePWAService.update().subscribe();
+  }
+
+  private unsubscribeUpdateAppSubscription() {
+    if (!!this.updateAppSubscription) {
+      this.updateAppSubscription.unsubscribe();
+    }
+  }
+
+  private unsubscribeRouterNavEndSubscription() {
+    if (!!this.routerNavEndSubscription) {
+      this.routerNavEndSubscription.unsubscribe();
+    }
   }
 
   trackLoad() {
@@ -93,9 +113,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    if (!!this.routerNavEndSubscription) {
-      this.routerNavEndSubscription.unsubscribe();
-    }
+    this.unsubscribeUpdateAppSubscription();
+    this.unsubscribeRouterNavEndSubscription();
   }
 
   initializeApp() {

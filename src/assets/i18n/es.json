@@ -56,6 +56,12 @@
   },
   "shared": {
     "services": {
+      "update_pwa_service": {
+        "alert_header": "Actualización Disponible",
+        "alert_message": "¡Una nueva versión de la app esta disponible!",
+        "alert_cancel_button": "Cancelar",
+        "alert_update_button": "Actualizar"
+      },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"
       }
