@@ -55,8 +55,13 @@ import * as moment from 'moment';
             </div>
             <div class="ux-font-lato ux-fweight-regular ux-fsize-12 fc__main__content__right__flex">
               <ion-text color="uxmedium">
-                {{ this.getDays(this.fund) }}
-                {{ 'funds.fund_card.days' | translate }}
+                {{ 
+                  'funds.fund_card.' + this.createdTime[0] | translate : 
+                  {
+                    value: this.createdTime[1], 
+                    s: (this.createdTime[1] != 1) ? 's' : ''
+                  }
+                }}
               </ion-text>
             </div>
           </div>
@@ -91,18 +96,30 @@ import * as moment from 'moment';
 export class FundCardComponent implements OnInit {
   @Input() fund: any;
 
+  private createdTime: any;
+
   constructor(private navController: NavController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.createdTime = this.getCreatedTime(this.fund);
+  }
 
   viewFund() {
     this.navController.navigateRoot(['funds/detail', this.fund.fund_name]);
   }
 
-  getDays(fund) {
+  getCreatedTime(fund) {
     const a = moment(fund.start_time);
     const b = moment(fund.end_time);
-
-    return b.diff(a, 'days');
+    
+    if (b.diff(a, 'days') > 0) {
+      return ['days', b.diff(a, 'days')];
+    } else if (b.diff(a, 'hours') > 0) {
+      return ['hours', b.diff(a, 'hours')];
+    } else if (b.diff(a, 'minutes') > 0){
+      return ['minutes', b.diff(a, 'minutes')];
+    } else {
+      return ['seconds', b.diff(a, 'seconds')];
+    }
   }
 }
