@@ -56,56 +56,57 @@ import { BillType } from '../../enums/bill_types.enum';
                           inputmode="numeric"
                           [errors]="this.cellphoneErrors"
                   ></app-ux-input>
+                  <div *ngIf="this.data?.viewBillData">
+                    <div class="ep__bill">
+                        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
+                            'profiles.user_profile.bill_data' | translate
+                            }}</ion-text>
 
-                  <div class="ep__bill">
-                      <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-                          'profiles.user_profile.bill_data' | translate
-                          }}</ion-text>
+                        <!-- Pais -->
+                        <app-ux-input-select
+                                [label]="'profiles.user_profile.country' | translate"
+                                [modalTitle]="
+                'profiles.user_profile.country_placeholder' | translate
+              "
+                                [placeholder]="
+                'profiles.user_profile.country_placeholder' | translate
+              "
+                                controlName="pais"
+                                [data]="this.countries"
+                        ></app-ux-input-select>
+                    </div>
 
-                      <!-- Pais -->
-                      <app-ux-input-select
-                              [label]="'profiles.user_profile.country' | translate"
-                              [modalTitle]="
-              'profiles.user_profile.country_placeholder' | translate
-            "
-                              [placeholder]="
-              'profiles.user_profile.country_placeholder' | translate
-            "
-                              controlName="pais"
-                              [data]="this.countries"
-                      ></app-ux-input-select>
+                    <!-- Condicion IVA -->
+                    <app-ux-input-select
+                            [label]="'profiles.user_profile.condicion_iva' | translate"
+                            [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
+                            [placeholder]="
+                'profiles.user_profile.condicion_iva_placeholder' | translate
+              "
+                            controlName="condicion_iva"
+                            [data]="this.condicionesIVA"
+                    ></app-ux-input-select>
+
+                    <!-- Tipo factura -->
+                    <app-ux-input-select
+                            [label]="'profiles.user_profile.tipo_factura' | translate"
+                            [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
+                            [placeholder]="
+                'profiles.user_profile.tipo_factura_placeholder' | translate
+              "
+                            controlName="tipo_factura"
+                            [data]="this.tiposFactura"
+                    ></app-ux-input-select>
+
+                    <!-- CUIT -->
+                    <app-ux-input
+                            controlName="cuit"
+                            type="text"
+                            [label]="'profiles.user_profile.cuit' | translate"
+                            inputmode="numeric"
+                            [errors]="this.onlyIntegersErrors"
+                    ></app-ux-input>
                   </div>
-
-                  <!-- Condicion IVA -->
-                  <app-ux-input-select
-                          [label]="'profiles.user_profile.condicion_iva' | translate"
-                          [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
-                          [placeholder]="
-              'profiles.user_profile.condicion_iva_placeholder' | translate
-            "
-                          controlName="condicion_iva"
-                          [data]="this.condicionesIVA"
-                  ></app-ux-input-select>
-
-                  <!-- Tipo factura -->
-                  <app-ux-input-select
-                          [label]="'profiles.user_profile.tipo_factura' | translate"
-                          [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
-                          [placeholder]="
-              'profiles.user_profile.tipo_factura_placeholder' | translate
-            "
-                          controlName="tipo_factura"
-                          [data]="this.tiposFactura"
-                  ></app-ux-input-select>
-
-                  <!-- CUIT -->
-                  <app-ux-input
-                          controlName="cuit"
-                          type="text"
-                          [label]="'profiles.user_profile.cuit' | translate"
-                          inputmode="numeric"
-                          [errors]="this.onlyIntegersErrors"
-                  ></app-ux-input>
 
                   <!-- Direccion -->
                   <app-ux-input

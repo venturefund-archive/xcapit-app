@@ -8,7 +8,7 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds" (click)="this.clearStorage()"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'funds.funds_finished.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -48,6 +48,10 @@ export class FundsFinishedPage implements OnInit {
   }
 
   ngOnInit() {
+    this.clearStorage();
+  }
+
+  clearStorage() {
     this.fundDataStorage.clearAll();
   }
 

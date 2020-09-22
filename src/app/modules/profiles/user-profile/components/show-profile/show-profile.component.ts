@@ -39,7 +39,7 @@ import { Component, OnInit, Input } from '@angular/core';
           </div>
       </div>
 
-      <div class="sp__bill ion-padding-start ion-padding-end">
+      <div class="sp__bill ion-padding-start ion-padding-end" *ngIf="this.data?.viewBillData">
           <div class="sp__bill__label">
               <ion-label
                       class="ux-font-lato ux-fweight-bold ux-fsize-12"

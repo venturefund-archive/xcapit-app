@@ -405,7 +405,10 @@
       "last_24hs": "Last 24 hs",
       "view_fund": "View fund",
       "not_balance_found": "No hay balance para mostrar",
-      "days": "days"
+      "days": "{{value}} day{{s}}",
+      "hours": "{{value}} hour{{s}}",
+      "minutes": "{{value}} minute{{s}}",
+      "seconds": "{{value}} second{{s}}"
     },
     "change_currency_modal": {
       "submit_button": "Ok",
