@@ -1,32 +1,16 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
-  production: false,
-  environment: 'DEV',
-  apiUrl: 'http://localhost:9050/v1/api',
-  // apiUrl: 'http://192.168.1.100:9050/v1/api', // para testear en app
-  whitelistedDomains: ['localhost:9050', '192.168.1.100:9050'],
-  firebase: {
-    apiKey: 'AIzaSyDNz4_MQzlHuksxOYMgWLzDZbvo_gpRhFs',
-    authDomain: 'prueba-aws-sns.firebaseapp.com',
-    databaseURL: 'https://prueba-aws-sns.firebaseio.com',
-    projectId: 'prueba-aws-sns',
-    storageBucket: 'prueba-aws-sns.appspot.com',
-    messagingSenderId: '753598433776',
-    appId: '1:753598433776:web:476b346a93daba7b7a7535',
-    measurementId: 'G-K4EFRL7ZJX',
-    vapidKey:
-      'BIt_nrgl0XMKQu9uny-1ScB01RfevXBLDQ6MR6KHhWhI4Td2W2cKRSbG31zKU37HONxdCDSdZodNvLZhb9BJ7WM'
+   apiUrl: 'https://localhost:9050/v1/api',
+   production: true,
+   environment: 'PREPROD',
+   whitelistedDomains: ['preprod.xcapit.com', 'xcapit.com', 'app.xcapit.com', 'app.xcapit.com:443', 'xcapit.com:443', 'preprod.xcapit.com:443'],
+   firebase: {
+    apiKey: 'AIzaSyCU-F8osRaeWGwTxdAJmDhWFfkjZqzUG7s',
+    authDomain: 'test-pwa-2019.firebaseapp.com',
+    databaseURL: 'https://test-pwa-2019.firebaseio.com',
+    projectId: 'test-pwa-2019',
+    storageBucket: 'test-pwa-2019.appspot.com',
+    messagingSenderId: '1059796815977',
+    appId: '1:1059796815977:web:00d4a1e1de77f5eb8592f8',
+    vapidKey: 'BBQTZJVBY9gH70xupGlC91sfxy-BvpKwlHkE0Gk-XN12NrPmirbm5Hf7FS-r65XnRRHNzQekOcLRfRlvMq9maEA'
   }
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

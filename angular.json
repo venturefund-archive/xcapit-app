@@ -12,11 +12,8 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "customWebpackConfig": {
-              "path":"custom-webpack.config.js"
-            },
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -59,7 +56,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "variables.env.ts"
                 }
               ],
               "optimization": true,
