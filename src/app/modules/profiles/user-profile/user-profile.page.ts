@@ -72,7 +72,9 @@ export class UserProfilePage implements OnInit {
   ngOnInit() {}
 
   getData() {
-    this.apiProfiles.crud.get().subscribe(res => (this.data = res));
+    this.apiProfiles.crud.get().subscribe(res => {
+      this.data = res;
+    });
   }
 
   toggleEditProfile() {
@@ -98,6 +100,7 @@ export class UserProfilePage implements OnInit {
       this.userStatus = res;
       this.editing = (this.userStatus.status_name === this.userStatusEnum.FROM_BOT);
       this.loadingService.disabled();
+      this.data.viewBillData = !(this.userStatus.status_name === this.userStatusEnum.FROM_BOT);
     });
     this.getData();
   }
