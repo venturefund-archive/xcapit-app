@@ -96,7 +96,7 @@ import * as moment from 'moment';
 export class FundCardComponent implements OnInit {
   @Input() fund: any;
 
-  private createdTime: any;
+  createdTime: any;
 
   constructor(private navController: NavController) {}
 
