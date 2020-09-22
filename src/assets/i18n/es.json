@@ -403,7 +403,10 @@
       "last_24hs": "Últimas 24 hs",
       "view_fund": "Ver fondo",
       "not_balance_found": "No hay balance para mostrar",
-      "days": "días"
+      "days": "{{value}} día{{s}}",
+      "hours": "{{value}} hora{{s}}",
+      "minutes": "{{value}} minuto{{s}}",
+      "seconds": "{{value}} segundo{{s}}"
     },
     "change_currency_modal": {
       "submit_button": "Aceptar",
