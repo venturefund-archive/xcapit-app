@@ -1,5 +1,6 @@
 export const AUTH = {
   storageKey: 'jwt',
+  refreshKey: 'jwt_refresh',
   userKey: 'userLogged'
 };
 export const CONFIG = {

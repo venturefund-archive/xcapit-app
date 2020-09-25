@@ -6,12 +6,18 @@ import { AuthService } from '../../services/auth/auth.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
+  constructor(
+  private authService: AuthService,
+  ) {}
 
   canActivate(): Promise<boolean> {
     return this.authService.checkToken().then(isValid => {
       if (!isValid) {
-        this.authService.sesionExpired();
+        this.authService.checkRefreshToken().then(isRefreshed => {
+          if (!isRefreshed) {
+            this.authService.sesionExpired();
+          }
+        });
       }
       return isValid;
     });

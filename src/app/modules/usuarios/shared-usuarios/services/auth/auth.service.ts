@@ -4,6 +4,12 @@ import { Storage } from '@ionic/storage';
 import { AUTH } from 'src/app/config/app-constants.config';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { CRUD } from 'src/app/shared/services/crud/crud';
+import { CrudService } from 'src/app/shared/services/crud/crud.service';
+import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
+import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +17,18 @@ import { Router } from '@angular/router';
 export class AuthService {
   user = new ReplaySubject<any>(1);
   isLoggedIn = new ReplaySubject<boolean>(1);
+  crud: CRUD;
+  entity = 'users';
 
   constructor(
     private storage: Storage,
     private jwtHelper: JwtHelperService,
-    private router: Router
+    private router: Router,
+    private crudService: CrudService,
+    private http: CustomHttpService,
   ) {
     this.checkLogin();
+    this.crud = this.crudService.getEndpoints("users");
   }
 
   async checkLogin() {
@@ -26,7 +37,14 @@ export class AuthService {
       this.user.next(await this.getUserLogged());
       this.isLoggedIn.next(true);
     } else {
-      this.logout();
+      this.checkRefreshToken().then(isRefreshed => {
+        if (isRefreshed) {
+          this.user.next(this.getUserLogged());
+          this.isLoggedIn.next(true);
+        } else {
+          this.logout();
+        }
+      });
     }
   }
 
@@ -39,6 +57,16 @@ export class AuthService {
 
   async handleLoginResponse(response: any) {
     await this.storage.set(AUTH.storageKey, response.access);
+    await this.storage.set(AUTH.refreshKey, response.refresh);
+    await this.storage.set(AUTH.userKey, JSON.stringify(response.usuario));
+    this.isLoggedIn.next(true);
+    this.user.next(response.usuario);
+    return response.jwt;
+  }
+
+  async handleRefreshResponse(response: any) {
+    await this.storage.set(AUTH.storageKey, response.access);
+    await this.storage.set(AUTH.refreshKey, response.refresh);
     await this.storage.set(AUTH.userKey, JSON.stringify(response.usuario));
     this.isLoggedIn.next(true);
     this.user.next(response.usuario);
@@ -50,12 +78,30 @@ export class AuthService {
     return jwt && !this.jwtHelper.isTokenExpired(jwt);
   }
 
+  async checkRefreshToken(): Promise<boolean> {
+    var jwtRefresh = await this.storage.get(AUTH.refreshKey);
+    if (jwtRefresh && !this.jwtHelper.isTokenExpired(jwtRefresh)) {
+      var jwtRefreshJSON = JSON.parse(`{"refresh" : "${jwtRefresh}"}`);
+      await this.refreshToken(jwtRefreshJSON).subscribe();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  refreshToken(data: any): Observable<any> {
+    return this.http
+      .post(`${environment.apiUrl}/${this.entity}/refresh_token`, data)
+      .pipe(tap(response => this.handleRefreshResponse(response)));
+  }
+
   private async getUserLogged() {
     const user = await this.storage.get(AUTH.userKey);
     return JSON.parse(user);
   }
 
   async sesionExpired() {
+
     await this.logout();
     this.router.navigate(['/users/login']);
   }
