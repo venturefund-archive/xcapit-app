@@ -9,6 +9,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TranslateModule } from '@ngx-translate/core';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -25,13 +27,14 @@ describe('FundNamePage', () => {
   let fundDataStorageServiceMock;
   let fundDataStorageService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundNamePage>;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve({}),
       setData: () => Promise.resolve()
     };
-
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [FundNamePage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -47,6 +50,10 @@ describe('FundNamePage', () => {
         {
           provide: FundDataStorageService,
           useValue: fundDataStorageServiceMock
+        },
+        {
+          provide: NavController,
+          useValue: navControllerSpy
         }
       ]
     }).compileComponents();
@@ -56,7 +63,7 @@ describe('FundNamePage', () => {
     fixture = TestBed.createComponent(FundNamePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.get(FundDataStorageService);
+    fundDataStorageService = TestBed.inject(FundDataStorageService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -78,7 +85,7 @@ describe('FundNamePage', () => {
     spy.and.returnValue(Promise.resolve());
     component.form.patchValue(formData.valid);
     component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 
   it('should not call fundDataStorageService.setData on handleSubmit and form invalid', () => {

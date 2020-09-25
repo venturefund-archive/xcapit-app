@@ -46,7 +46,7 @@ describe('LanguageButtonComponent', () => {
     trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(
       fixture
     );
-    popoverControllerSpy = TestBed.get(PopoverController);
+    popoverControllerSpy = TestBed.inject(PopoverController);
     fixture.detectChanges();
   });
 

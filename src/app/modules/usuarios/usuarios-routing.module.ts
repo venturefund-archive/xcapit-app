@@ -44,6 +44,14 @@ const routes: Routes = [
           )
       },
       {
+        path: 'success-register',
+        canActivate: [NoAuthGuard],
+        loadChildren: () =>
+          import('./success-register/success-register.module').then(
+            m => m.SuccessRegisterPageModule
+          )
+      },
+      {
         path: 'password-change',
         canActivate: [AuthGuard],
         loadChildren: () =>

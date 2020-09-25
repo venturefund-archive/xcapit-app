@@ -14,7 +14,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
           <ion-back-button defaultHref="/funds/fund-currency"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
-          'funds.fund_take_profit.header' | translate
+          ((this.fundRenew) ? 'funds.fund_take_profit.header_renew' : 'funds.fund_take_profit.header') | translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -167,6 +167,8 @@ export class FundTakeProfitPage implements OnInit {
 
   customTP = false;
 
+  fundRenew: any;
+
   constructor(
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
@@ -185,6 +187,10 @@ export class FundTakeProfitPage implements OnInit {
       }
     });
     this.getMostChosenTP();
+
+    this.fundDataStorage.getData('fundRenew').then(data => {
+      this.fundRenew = data;
+    })
   }
 
   getMostChosenTP() {

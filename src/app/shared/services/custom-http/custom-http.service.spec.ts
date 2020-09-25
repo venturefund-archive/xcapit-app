@@ -29,7 +29,7 @@ describe('CustomHttpService', () => {
         }
       ]
     });
-    service = TestBed.get(CustomHttpService);
+    service = TestBed.inject(CustomHttpService);
   });
 
   it('should be created', () => {

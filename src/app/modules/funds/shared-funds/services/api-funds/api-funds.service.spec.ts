@@ -36,12 +36,12 @@ describe('ApiFundsService', () => {
         { provide: JwtHelperService, useValue: jwtHelperServiceSpy }
       ]
     });
-    customHttpServiceSpy = TestBed.get(CustomHttpService);
-    apiFundsService = TestBed.get(ApiFundsService);
+    customHttpServiceSpy = TestBed.inject(CustomHttpService);
+    apiFundsService = TestBed.inject(ApiFundsService);
   });
 
   beforeEach(() => {
-    service = TestBed.get(ApiFundsService);
+    service = TestBed.inject(ApiFundsService);
   });
 
   it('should be created', () => {

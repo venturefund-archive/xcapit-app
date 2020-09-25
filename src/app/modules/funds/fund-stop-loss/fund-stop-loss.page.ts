@@ -4,6 +4,7 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 import { NavController, ModalController } from '@ionic/angular';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { CustomRangeModalComponent } from '../shared-funds/components/custom-range-modal/custom-range-modal.component';
+import { SuccessApikeysPage } from '../../apikeys/success-apikeys/success-apikeys.page';
 
 @Component({
   selector: 'app-fund-stop-loss',
@@ -16,7 +17,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
           ></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
-          'funds.fund_stop_loss.header' | translate
+          ((this.fundRenew) ? 'funds.fund_stop_loss.header_renew' : 'funds.fund_stop_loss.header' )| translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -119,7 +120,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
               color="uxsecondary"
               size="large"
             >
-              {{ 'funds.fund_stop_loss.submit_button' | translate }}
+              {{ ((this.fundRenew) ? 'funds.fund_stop_loss.submit_button_renew' : 'funds.fund_stop_loss.submit_button') | translate }}
             </ion-button>
           </div>
         </div>
@@ -150,6 +151,8 @@ export class FundStopLossPage implements OnInit {
 
   customSL: boolean;
 
+  fundRenew: any;
+
   constructor(
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
@@ -168,6 +171,10 @@ export class FundStopLossPage implements OnInit {
       }
     });
     this.getMostChosenSL();
+
+    this.fundDataStorage.getData('fundRenew').then(data => {
+      this.fundRenew = data;
+    })
   }
 
   getMostChosenSL() {
@@ -232,12 +239,18 @@ export class FundStopLossPage implements OnInit {
       };
       fund.risk_level = `${fund.risk_level}_${fund.currency}`;
 
-      this.apiFunds.crud.create(fund).subscribe(a => {
-        this.fundDataStorage.clearAll();
-        this.navController.navigateForward(['funds/fund-success']);
-      });
+      if(this.fundRenew === true) {
+        this.apiFunds.renewFund(fund).subscribe(() => this.success());
+      } else {
+        this.apiFunds.crud.create(fund).subscribe(() => this.success());
+      }
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  async success() {
+    this.fundDataStorage.clearAll();
+    this.navController.navigateForward(['funds/fund-success', this.fundRenew], { replaceUrl: true });
   }
 }

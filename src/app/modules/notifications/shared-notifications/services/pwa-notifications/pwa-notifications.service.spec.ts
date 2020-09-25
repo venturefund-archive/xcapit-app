@@ -22,7 +22,7 @@ describe('PwaNotificationsService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(PwaNotificationsService);
+    service = TestBed.inject(PwaNotificationsService);
     service.importedFirebase = firebaseSpy;
   });
 

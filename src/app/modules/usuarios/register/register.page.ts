@@ -40,9 +40,8 @@ const { Browser } = Plugins;
                 size="small"
                 type="button"
                 appTrackClickUnauth
-                name="Go To Login"
+                name="Open TOS"
                 class="tos-text__button ux_button"
-                
                 routerDirection="back"
                 (click)="openTOS()"
               >
@@ -84,6 +83,12 @@ const { Browser } = Plugins;
             </ion-button>
           </div>
         </app-auth-form>
+      </div>
+
+      <div class="register_alert">
+        <app-ux-alert-message type="info">
+          {{ 'usuarios.register.register_alert' | translate }}
+        </app-ux-alert-message>
       </div>
     </ion-content>
   `,
@@ -159,15 +164,7 @@ export class RegisterPage implements OnInit {
 
   async success() {
     this.registerForm.form.reset();
-    await this.navController.navigateBack(['/users/login']);
-    const alert = await this.alertController.create({
-      message: `
-        <h4>
-          ${this.translate.instant('usuarios.register.success_text')}
-        </h4>`,
-      buttons: [this.translate.instant('usuarios.register.accept_button')]
-    });
-    await alert.present();
+    this.navController.navigateForward(['/users/success-register'], { replaceUrl: true });
   }
 
   async openTOS() {

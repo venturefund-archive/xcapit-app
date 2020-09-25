@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('ResetPasswordPage', () => {
   let component: ResetPasswordPage;
@@ -24,7 +25,7 @@ describe('ResetPasswordPage', () => {
     ]);
     apiUsuariosServiceSpy.resetPassword.and.returnValue(null);
     apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(null);
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     navControllerSpy.navigateForward.and.returnValue(of({}).toPromise());
     TestBed.configureTestingModule({
       imports: [

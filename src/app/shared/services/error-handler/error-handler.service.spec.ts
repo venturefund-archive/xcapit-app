@@ -15,8 +15,8 @@ describe('ErrorHandlerService', () => {
       imports: [TranslateModule.forRoot()],
       providers: [{ provide: ToastService, useValue: toastServiceSpy }]
     });
-    service = TestBed.get(ErrorHandlerService);
-    toastService = TestBed.get(ToastService);
+    service = TestBed.inject(ErrorHandlerService);
+    toastService = TestBed.inject(ToastService);
   });
 
   it('should be created', () => {

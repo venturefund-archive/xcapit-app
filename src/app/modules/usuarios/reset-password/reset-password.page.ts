@@ -4,9 +4,6 @@ import { ResetPasswordFormComponent } from '../shared-usuarios/components/reset-
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NavController } from '@ionic/angular';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-password',
@@ -72,9 +69,7 @@ export class ResetPasswordPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private activatedRoute: ActivatedRoute,
     private apiUsuarios: ApiUsuariosService,
-    private navController: NavController,
-    private toast: ToastService,
-    private translate: TranslateService
+    private navController: NavController
   ) {}
 
   ngOnInit() {

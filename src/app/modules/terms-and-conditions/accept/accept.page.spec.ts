@@ -9,11 +9,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from '../../../../testing/dummy.component.spec';
+import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('AcceptPage', () => {
   let component: AcceptPage;
   let fixture: ComponentFixture<AcceptPage>;
   let apiTacServiceMock: any;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     apiTacServiceMock = {
@@ -22,6 +25,7 @@ describe('AcceptPage', () => {
     apiTacServiceMock.crud.get.and.returnValue(of(null));
     apiTacServiceMock.crud.update.and.returnValue(of(null));
     apiTacServiceMock.crud.create.and.returnValue(of(null));
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [AcceptPage, TrackClickDirective],
       imports: [
@@ -34,7 +38,8 @@ describe('AcceptPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         TrackClickDirective,
-        { provide: ApiTacService, useValue: apiTacServiceMock }
+        { provide: ApiTacService, useValue: apiTacServiceMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
   }));

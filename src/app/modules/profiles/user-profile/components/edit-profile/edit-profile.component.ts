@@ -2,9 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { Validators, FormGroup, FormBuilder, Form } from '@angular/forms';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiProfilesService } from '../../../shared-profiles/services/api-profiles/api-profiles.service';
-import { TranslateService } from '@ngx-translate/core';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Countries } from '../../enums/countries.enum';
@@ -58,56 +56,57 @@ import { BillType } from '../../enums/bill_types.enum';
                           inputmode="numeric"
                           [errors]="this.cellphoneErrors"
                   ></app-ux-input>
+                  <div *ngIf="this.data?.viewBillData">
+                    <div class="ep__bill">
+                        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
+                            'profiles.user_profile.bill_data' | translate
+                            }}</ion-text>
 
-                  <div class="ep__bill">
-                      <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-                          'profiles.user_profile.bill_data' | translate
-                          }}</ion-text>
+                        <!-- Pais -->
+                        <app-ux-input-select
+                                [label]="'profiles.user_profile.country' | translate"
+                                [modalTitle]="
+                'profiles.user_profile.country_placeholder' | translate
+              "
+                                [placeholder]="
+                'profiles.user_profile.country_placeholder' | translate
+              "
+                                controlName="pais"
+                                [data]="this.countries"
+                        ></app-ux-input-select>
+                    </div>
 
-                      <!-- Pais -->
-                      <app-ux-input-select
-                              [label]="'profiles.user_profile.country' | translate"
-                              [modalTitle]="
-              'profiles.user_profile.country_placeholder' | translate
-            "
-                              [placeholder]="
-              'profiles.user_profile.country_placeholder' | translate
-            "
-                              controlName="pais"
-                              [data]="this.countries"
-                      ></app-ux-input-select>
+                    <!-- Condicion IVA -->
+                    <app-ux-input-select
+                            [label]="'profiles.user_profile.condicion_iva' | translate"
+                            [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
+                            [placeholder]="
+                'profiles.user_profile.condicion_iva_placeholder' | translate
+              "
+                            controlName="condicion_iva"
+                            [data]="this.condicionesIVA"
+                    ></app-ux-input-select>
+
+                    <!-- Tipo factura -->
+                    <app-ux-input-select
+                            [label]="'profiles.user_profile.tipo_factura' | translate"
+                            [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
+                            [placeholder]="
+                'profiles.user_profile.tipo_factura_placeholder' | translate
+              "
+                            controlName="tipo_factura"
+                            [data]="this.tiposFactura"
+                    ></app-ux-input-select>
+
+                    <!-- CUIT -->
+                    <app-ux-input
+                            controlName="cuit"
+                            type="text"
+                            [label]="'profiles.user_profile.cuit' | translate"
+                            inputmode="numeric"
+                            [errors]="this.onlyIntegersErrors"
+                    ></app-ux-input>
                   </div>
-
-                  <!-- Condicion IVA -->
-                  <app-ux-input-select
-                          [label]="'profiles.user_profile.condicion_iva' | translate"
-                          [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
-                          [placeholder]="
-              'profiles.user_profile.condicion_iva_placeholder' | translate
-            "
-                          controlName="condicion_iva"
-                          [data]="this.condicionesIVA"
-                  ></app-ux-input-select>
-
-                  <!-- Tipo factura -->
-                  <app-ux-input-select
-                          [label]="'profiles.user_profile.tipo_factura' | translate"
-                          [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
-                          [placeholder]="
-              'profiles.user_profile.tipo_factura_placeholder' | translate
-            "
-                          controlName="tipo_factura"
-                          [data]="this.tiposFactura"
-                  ></app-ux-input-select>
-
-                  <!-- CUIT -->
-                  <app-ux-input
-                          controlName="cuit"
-                          type="text"
-                          [label]="'profiles.user_profile.cuit' | translate"
-                          inputmode="numeric"
-                          [errors]="this.onlyIntegersErrors"
-                  ></app-ux-input>
 
                   <!-- Direccion -->
                   <app-ux-input
@@ -172,13 +171,12 @@ export class EditProfileComponent implements OnInit {
         Validators.pattern('[0-9]*$')
       ]
     ],
-    pais: ['', [Validators.required, Validators.maxLength(150)]],
-    condicion_iva: ['', [Validators.required]],
-    tipo_factura: ['', [Validators.required]],
+    pais: ['', [Validators.maxLength(150)]],
+    condicion_iva: ['', []],
+    tipo_factura: ['', []],
     cuit: [
       '',
       [
-        Validators.required,
         Validators.minLength(7),
         Validators.maxLength(15),
         Validators.pattern('[0-9][^.a-zA-Z]*$')
@@ -187,7 +185,6 @@ export class EditProfileComponent implements OnInit {
     direccion: [
       '', 
       [
-        Validators.required, 
         Validators.maxLength(150),
         Validators.pattern('[A-Za-zÀ-ÿ0-9 \'-,]*$')
       ]
@@ -228,7 +225,6 @@ export class EditProfileComponent implements OnInit {
     this.form = this.formBuilder.group({ ...this.controls });
     this.isFormSet = true;
     this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
-    this.addRequiredValidator();
   }
 
   addRequiredValidator() {

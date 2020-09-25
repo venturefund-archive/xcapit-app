@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NewReferralPage } from './new-referral.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReferralFormComponent } from './components/referral-form/referral-form.component';
@@ -11,6 +10,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { ToastService } from '../../../shared/services/toast/toast.service';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -24,12 +25,15 @@ describe('NewReferralPage', () => {
   let apiReferralsServiceMock: any;
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewReferralPage>;
-
+  let toastServiceSpy: any;
   beforeEach(async(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast'
+    ]);
     apiReferralsServiceMock = {
       crud: jasmine.createSpyObj('CRUD', ['create'])
     };
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
     TestBed.configureTestingModule({
       declarations: [
@@ -46,7 +50,8 @@ describe('NewReferralPage', () => {
       providers: [
         TrackClickDirective,
         { provide: ApiReferralsService, useValue: apiReferralsServiceMock },
-        { provide: NavController, useValue: navControllerSpy }
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ToastService, useValue: toastServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

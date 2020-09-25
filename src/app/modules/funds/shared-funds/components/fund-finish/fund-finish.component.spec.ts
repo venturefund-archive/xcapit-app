@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 describe('FundFinishPauseCardComponent', () => {
   let component: FundFinishComponent;
@@ -18,19 +19,21 @@ describe('FundFinishPauseCardComponent', () => {
   let apiFundsServiceMock: any;
   let apiFundsService: ApiFundsService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundFinishComponent>;
-  let toastServiceSpy: any;
   let toastService: ToastService;
-  let navControllerMock: any;
-  let navController: NavController;
+  let navControllerSpy: any;
+  let toastServiceSpy: any;
 
   beforeEach(async(() => {
-    toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast',
+    ]);
     apiFundsServiceMock = {
       finalizeFundRuns: () => of({})
     };
-    navControllerMock = {
-      navigateBack: () => Promise.resolve(true)
-    };
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+    navControllerSpy.navigateBack.and.returnValue(Promise.resolve(true));
+    navControllerSpy.navigateForward.and.returnValue(Promise.resolve(true));
+    navControllerSpy.navigateRoot.and.returnValue(Promise.resolve(true));
     TestBed.configureTestingModule({
       declarations: [FundFinishComponent, TrackClickDirective, DummyComponent],
       imports: [
@@ -47,7 +50,7 @@ describe('FundFinishPauseCardComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         TrackClickDirective,
-        { provide: NavController, useValue: navControllerMock },
+        { provide: NavController, useValue: navControllerSpy },
         {
           provide: ApiFundsService,
           useValue: apiFundsServiceMock
@@ -62,7 +65,6 @@ describe('FundFinishPauseCardComponent', () => {
     apiFundsService = TestBed.inject(ApiFundsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     toastService = TestBed.inject(ToastService);
-    navController = TestBed.inject(NavController);
   }));
 
   it('should create', () => {
@@ -78,10 +80,8 @@ describe('FundFinishPauseCardComponent', () => {
   });
 
   it('should call navController.navigateBack when successFinish is called', () => {
-    const spy = spyOn(navController, 'navigateBack');
-    spy.and.returnValue(Promise.resolve(true));
     component.successFinish();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
   });
 
   it('should call toastService.showToast when showToast is called', () => {
