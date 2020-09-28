@@ -10,7 +10,7 @@ export class SubscribeGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private subscriptionService: SubscriptionsService,
-  ) {}
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     return this.authService.checkToken().then(isValid => {
@@ -21,7 +21,7 @@ export class SubscribeGuard implements CanActivate {
               subscriptionToken: route.firstChild.paramMap.get('subscriptionToken'),
               fundNameb64: route.firstChild.paramMap.get('fundNameb64')
             });
-          this.authService.sesionExpired();
+            this.authService.sesionExpired();
           }
         });
       }
