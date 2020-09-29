@@ -14,24 +14,35 @@ const { PushNotifications } = Plugins;
 })
 export class CapacitorNotificationsService implements INotification {
   token = '';
-  constructor() {}
+
+  constructor() {
+  }
+
   init(onError?: any): void {
-      // Register with Apple / Google to receive push via APNS/FCM
-      PushNotifications.register();
+    // Register with Apple / Google to receive push via APNS/FCM
+    PushNotifications.requestPermission().then(result => {
+      if (result.granted) {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register().then();
+      } else {
+        console.log('Notifications permission not granted');
+      }
+    });
 
-      // On success, we should be able to receive notifications
-      PushNotifications.addListener(
-        'registration',
-        (token: PushNotificationToken) => {
-          this.token = token.value;
-          console.log('Push registration success, token: ' + this.token);
-        }
-      );
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener(
+      'registration',
+      (token: PushNotificationToken) => {
+        this.token = token.value;
+        console.log('Push registration success, token: ' + this.token);
+      }
+    );
 
-      // Some issue with our setup and push will not work
-      PushNotifications.addListener('registrationError', (error: any) => {
-        onError();
-      });
+    // Some issue with our setup and push will not work
+    PushNotifications.addListener('registrationError', (error: any) => {
+      onError();
+      console.log('REGISTRATION NOTIFICATION ERROR ' + JSON.stringify(error));
+    });
   }
 
   // Method called when notification received
@@ -46,12 +57,12 @@ export class CapacitorNotificationsService implements INotification {
 
   // Method called when tapping on a notification
   pushNotificationActionPerformed(callback): void {
-      PushNotifications.addListener(
-        'pushNotificationActionPerformed',
-        (notification: PushNotificationActionPerformed) => {
-          callback(notification);
-        }
-      );
+    PushNotifications.addListener(
+      'pushNotificationActionPerformed',
+      (notification: PushNotificationActionPerformed) => {
+        callback(notification);
+      }
+    );
   }
 
   requestPermission(): Promise<void> {

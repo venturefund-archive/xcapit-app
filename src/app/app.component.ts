@@ -23,6 +23,14 @@ import { NotificationsService } from './modules/notifications/shared-notificatio
 // tslint:disable-next-line: max-line-length
 import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
 import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
+import {
+  Plugins,
+  PushNotification,
+  PushNotificationToken,
+  PushNotificationActionPerformed
+} from '@capacitor/core';
+
+const { PushNotifications } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -71,15 +79,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async ngAfterViewInit() {
+    await this.updateApp();
+  }
+
+  initNotifications() {
     const notifications = this.notificationsService.getInstance();
     notifications.init(() =>
       console.error('Error inicializando notificaciones')
     );
-    await notifications.requestPermission();
-    notifications.pushNotificationReceived((notification: any) => {
-      this.notificationsHelper.handleNewNotification(notification);
-    });
-    await this.updateApp();
   }
 
   private async updateApp() {
@@ -122,6 +129,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       this.languageService.setInitialAppLanguage();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.initNotifications();
     });
   }
 
