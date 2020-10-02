@@ -79,7 +79,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
       </div>
 
       <!-- Fund Metrics Card -->
-      <div class="fd__fund-metrics-card" *ngIf="fundPercentageEvolution?.percentage_evolution">
+      <div class="fd__fund-metrics-card" *ngIf="this.fundMetrics">
         <div class="fd__fund-metrics-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -185,9 +185,9 @@ export class FundDetailPage implements OnInit {
     private translate: TranslateService,
     private modalController: ModalController,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ionViewWillEnter() {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
@@ -222,7 +222,9 @@ export class FundDetailPage implements OnInit {
 
   getFundMetricsCardInfo() {
     this.apiFunds.getMetrics(this.fundName, false).subscribe(data => {
-      this.fundMetrics = data.metrics;
+      if (Object.keys(data.metrics).length !== 0) {
+        this.fundMetrics = data.metrics;
+      }
       this.currency = data.fund.currency;
     });
   }
