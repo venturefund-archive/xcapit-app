@@ -714,7 +714,7 @@
     "first_steps": {
       "step1": {
         "primary_text": "Configura tu perfil",
-        "secondary_text": "Te pediremos algunos datos para validar *tu *identidad y tener información necesaria para poder comenzar a operar.",
+        "secondary_text": "Te pediremos algunos datos para validar tu identidad y tener información necesaria para poder comenzar a operar.",
         "next_button": "Siguiente"
       },
       "step2": {
