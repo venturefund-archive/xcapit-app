@@ -733,8 +733,8 @@
   },
   "subscriptions": {
     "subscriptions_service": {
-      "share_title": "share title",
-      "share_text": "share text",
+      "share_title": "Suscribete",
+      "share_text": "Suscribete a mi fondo de inversión y sigue mis rendimientos: ",
       "toast_text_copied": "El enlace de suscripción al fondo se ha copiado al portapapeles"
     },
     "subscribe": {
