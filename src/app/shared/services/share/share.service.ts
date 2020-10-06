@@ -22,7 +22,7 @@ export class ShareService {
       () => {},
       () => {
         const clipboardData = {
-          string: data.text,
+          string: data.text.concat(data.url),
           label: data.title,
           url: data.url
         } as ClipboardWrite;

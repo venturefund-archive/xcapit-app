@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { Plugins, ShareOptions } from '@capacitor/core';
+import { Plugins, ShareOptions, ClipboardWrite } from '@capacitor/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ShareService } from './share.service';
 import { ClipboardService } from '../clipboard/clipboard.service';
@@ -13,6 +13,13 @@ describe('ShareService', () => {
     url: 'testurl',
     dialogTitle: 'testdialogtitle'
   } as ShareOptions;
+
+  const data_clipboard = {
+    string: 'testext testurl',
+    label: 'testitle',
+    url: 'testurl'
+  } as ClipboardWrite;
+
   let shareMock: any;
   let service: ShareService;
   let clipboardServiceMock: any;
@@ -47,27 +54,39 @@ describe('ShareService', () => {
     service = TestBed.inject(ShareService);
   });
 
-  it('should be created', () => {
+  fit('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  // xit('should not call clipboardService write on share success', () => {
-  //   // TODO: Ver como mockear Plugins.Share
-  //   const spy = spyOn(sharePlugin, 'share').and.returnValue(
-  //     Promise.resolve({})
-  //   );
-  //   const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(
-  //     Promise.resolve({})
-  //   );
-  //   const spyToast = spyOn(toastService, 'showToast').and.returnValue(
-  //     Promise.resolve()
-  //   );
-  //
-  //   service.share(data, 'Copied');
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+  fit('should not call clipboardService write on share success', () => {
+    const spy = spyOn(Plugins.Share, 'share').and.returnValue(
+      Promise.resolve({})
+    );
+    const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(
+      Promise.resolve({})
+    );
+    const spyToast = spyOn(toastService, 'showToast').and.returnValue(
+      Promise.resolve()
+    );
 
-  // xit('should call clipboardService write on share error', async () => {
-  //   // TODO: Ver como mockear Plugins.Share
-  // });
+    service.share(data, 'Copied');
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  fit('should call clipboardService write on share error', fakeAsync(() => {
+    const spy = spyOn(Plugins.Share, 'share').and.returnValue(
+      Promise.reject({})
+    );
+    const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(
+      Promise.resolve({})
+    );
+    const spyToast = spyOn(toastService, 'showToast').and.returnValue(
+      Promise.resolve()
+    );
+    service.share(data, 'Copied');
+    tick();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spyClipboard).toHaveBeenCalledTimes(1);
+    expect(spyToast).toHaveBeenCalledTimes(1);
+  }));
 });

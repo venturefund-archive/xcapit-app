@@ -719,8 +719,8 @@
   },
   "subscriptions": {
     "subscriptions_service": {
-      "share_title": "share title",
-      "share_text": "share text",
+      "share_title": "Subscribe",
+      "share_text": "Subscribe to my investment fund and follow my returns: ",
       "toast_text_copied": "The subscription link has been copied to the clipboard."
     },
     "subscribe": {
