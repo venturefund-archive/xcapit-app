@@ -234,15 +234,18 @@ export class FundStopLossPage implements OnInit {
   async handleSubmit() {
     if (this.form.valid) {
       const fund = {
-        ...(await this.fundDataStorage.getFund()),
-        ...this.form.value
+      ...(await this.fundDataStorage.getFund()),
+      ...this.form.value
       };
       fund.risk_level = `${fund.risk_level}_${fund.currency}`;
 
       if(this.fundRenew === true) {
         this.apiFunds.renewFund(fund).subscribe(() => this.success());
       } else {
-        this.apiFunds.crud.create(fund).subscribe(() => this.success());
+        this.apiFunds.crud.create(fund).subscribe(
+        () => this.success(),
+        (e) => this.error(e)
+        );
       }
     } else {
       this.form.markAllAsTouched();
@@ -253,4 +256,11 @@ export class FundStopLossPage implements OnInit {
     this.fundDataStorage.clearAll();
     this.navController.navigateForward(['funds/fund-success', this.fundRenew], { replaceUrl: true });
   }
+
+  async error(e) {
+    if (e.error.error_code == "funds.create.fundNameExists") {
+      this.navController.navigateBack(['funds/fund-name']);
+    }
+  }
 }
+

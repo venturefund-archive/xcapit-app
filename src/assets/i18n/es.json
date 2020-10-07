@@ -755,7 +755,7 @@
       "create": {
         "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
         "keysExists": "Las keys ya se encuentran registradas.",
-        "checkFundName": "El nombre del fondo ya existe.",
+        "fundNameExists": "El nombre del fondo ya existe.",
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
         "creatingSubscriber": "Error al subscribirse al fondo.",

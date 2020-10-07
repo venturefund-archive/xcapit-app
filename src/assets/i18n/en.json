@@ -741,7 +741,7 @@
       "create": {
         "invalidExchangeKeys": "Invalid keys.",
         "keysExists": "Keys already exists.",
-        "checkFundName": "Fund name already exists.",
+        "fundNameExists": "Fund name already exists.",
         "creatingFund": "Error creating fund.",
         "creatingRun": "Error creating run.",
         "creatingSubscriber": "Error subscribing to fund.",
