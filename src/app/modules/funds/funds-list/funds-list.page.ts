@@ -49,11 +49,25 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
 
     <ion-content>
       <app-fund-list-sub-header
-        *ngIf="this.ownerFundBalances?.length"
+        *ngIf="
+          this.ownerFundBalances?.length &&
+          this.status?.status_name == 'COMPLETE'
+        "
       ></app-fund-list-sub-header>
 
+      <app-ux-loading-block
+        *ngIf="this.status?.status_name == ''"
+        minSize="50px"
+      ></app-ux-loading-block>
+
       <!-- Steps -->
-      <div class="fund_steps" *ngIf="!this.ownerFundBalances?.length">
+      <div
+        class="fund_steps"
+        *ngIf="
+          this.status?.status_name != 'COMPLETE' &&
+          this.status?.status_name != ''
+        "
+      >
         <div class="fund_steps__subheader_bg"></div>
         <div class="fund_steps__card ion-padding">
           <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
@@ -95,7 +109,7 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
       </div>
 
       <!-- Fund lists -->
-      <div class="fl">
+      <div class="fl" *ngIf="this.status?.status_name == 'COMPLETE'">
         <div
           *ngIf="this.ownerFundBalances?.length"
           class="fl__funds ion-padding"
@@ -110,6 +124,7 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
             minSize="50px"
             *ngIf="!this.ownerFundBalances"
           ></app-ux-loading-block>
+          
           <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
             <app-fund-card [fund]="fb" *ngIf="fb"></app-fund-card>
           </div>
