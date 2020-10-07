@@ -325,7 +325,7 @@
       "header": "Crea un fondo",
       "title": "Nombra tu fondo",
       "text_before": "Puede ser lo que quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
-      "fund_name": "Nombre de mi fondo",
+      "fund_name": "Nombre de mi fondo (solo puede contener mayúsculas, minúsculas y números).",
       "fund_name_placeholder": "Ej: Mi Primer Fondo",
       "next_button": "Siguiente"
     },
@@ -762,7 +762,8 @@
         "creatingPartialsBalance": "No tienes suficientes fondos en la cuenta.",
         "invalidData": "Los datos ingresados no son válidos.",
         "notLinkedApiKeys": "No posee API/Secret key para crear el fondo.",
-        "cantUpdateKeys": "No fue posible vincular la API key."
+        "cantUpdateKeys": "No fue posible vincular la API key.",
+        "hasSpecialCharacters": "El nombre del fondo tiene caracteres prohibidos."
       },
       "update": {
         "apiCallError": "Error al modificar el fondo.",

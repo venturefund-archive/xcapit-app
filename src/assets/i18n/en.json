@@ -748,7 +748,8 @@
         "creatingPartialsBalance": "You do not have enough funds in the account.",
         "invalidData": "Invalid data.",
         "notLinkedApiKeys": "You have not API/Secret key to create a new fund.",
-        "cantUpdateKeys": "We can't link the API key with new fund."
+        "cantUpdateKeys": "We can't link the API key with new fund.",
+        "hasSpecialCharacters": "Fund name has prohibited characters"
       },
       "update": {
         "apiCallError": "Error updating fund.",
