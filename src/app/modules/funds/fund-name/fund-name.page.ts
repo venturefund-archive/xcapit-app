@@ -56,6 +56,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               size="large"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'funds.fund_name.next_button' | translate }}
             </ion-button>
@@ -75,6 +76,7 @@ export class FundNamePage implements OnInit {
   });
 
   constructor(
+    public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
     private navController: NavController

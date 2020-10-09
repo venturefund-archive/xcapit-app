@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
 @Component({
   selector: 'app-custom-range-modal',
@@ -38,6 +39,7 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
             type="submit"
             color="uxsecondary"
             fill="clear"
+            [disabled]="(this.submitButtonService.isDisabled | async)"
           >
             {{ 'funds.custom_range_component.confirm_button' | translate }}
           </ion-button>
@@ -49,6 +51,7 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CustomRangeModalComponent implements OnInit {
   constructor(
+    public submitButtonService: SubmitButtonService,
     private modalController: ModalController,
     private formBuilder: FormBuilder
   ) {}

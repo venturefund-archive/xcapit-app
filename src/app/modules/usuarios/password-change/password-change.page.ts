@@ -33,6 +33,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               class="ux_button"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'usuarios.password_change.submit_button' | translate }}
             </ion-button>

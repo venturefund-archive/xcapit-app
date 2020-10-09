@@ -32,6 +32,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               class="ux_button"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'usuarios.reset_password.reset_button' | translate }}
             </ion-button>
@@ -45,6 +46,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               class="ux_button"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'usuarios.reset_password.send_email_button' | translate }}
             </ion-button>
