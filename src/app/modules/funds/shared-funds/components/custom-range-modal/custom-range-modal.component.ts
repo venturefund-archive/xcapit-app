@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
 @Component({
   selector: 'app-custom-range-modal',
@@ -50,6 +51,7 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CustomRangeModalComponent implements OnInit {
   constructor(
+    public submitButtonService: SubmitButtonService,
     private modalController: ModalController,
     private formBuilder: FormBuilder
   ) {}

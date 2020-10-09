@@ -76,6 +76,7 @@ export class FundNamePage implements OnInit {
   });
 
   constructor(
+    public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
     private navController: NavController

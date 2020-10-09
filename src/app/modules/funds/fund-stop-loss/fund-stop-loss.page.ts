@@ -5,6 +5,7 @@ import { NavController, ModalController } from '@ionic/angular';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { CustomRangeModalComponent } from '../shared-funds/components/custom-range-modal/custom-range-modal.component';
 import { SuccessApikeysPage } from '../../apikeys/success-apikeys/success-apikeys.page';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
 @Component({
   selector: 'app-fund-stop-loss',
@@ -155,6 +156,7 @@ export class FundStopLossPage implements OnInit {
   fundRenew: any;
 
   constructor(
+    public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
     private navController: NavController,
