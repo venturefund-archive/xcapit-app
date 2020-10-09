@@ -859,6 +859,9 @@
         "referralAlreadyExist": "El e-mail ingresado ya fue referido.",
         "referralAlreadyExistsAsUser": "No se puede crear el referido.",
         "emailDidNotSend": "No se pudo enviar el email."
+      },
+      "count":{
+        "getCountReferrals": "No se pudo comprobar si hay referidos previos"
       }
     },
     "apikeys": {
