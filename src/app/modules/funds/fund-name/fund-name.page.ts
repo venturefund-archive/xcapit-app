@@ -56,6 +56,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               size="large"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'funds.fund_name.next_button' | translate }}
             </ion-button>

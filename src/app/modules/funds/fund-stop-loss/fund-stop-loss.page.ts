@@ -119,6 +119,7 @@ import { SuccessApikeysPage } from '../../apikeys/success-apikeys/success-apikey
               type="submit"
               color="uxsecondary"
               size="large"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ ((this.fundRenew) ? 'funds.fund_stop_loss.submit_button_renew' : 'funds.fund_stop_loss.submit_button') | translate }}
             </ion-button>

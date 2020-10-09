@@ -134,6 +134,7 @@ import { CustomRangeModalComponent } from '../shared-funds/components/custom-ran
                 type="submit"
                 color="uxsecondary"
                 size="large"
+                [disabled]="(this.submitButtonService.isDisabled | async)"
               >
                 {{ 'funds.fund_take_profit.next_button' | translate }}
               </ion-button>

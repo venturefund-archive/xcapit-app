@@ -68,6 +68,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
               type="submit"
               color="uxsecondary"
               size="large"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'deposit_addresses.deposit_currency.next_button' | translate }}
             </ion-button>

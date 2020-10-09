@@ -38,6 +38,7 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
             type="submit"
             color="uxsecondary"
             fill="clear"
+            [disabled]="(this.submitButtonService.isDisabled | async)"
           >
             {{ 'funds.custom_range_component.confirm_button' | translate }}
           </ion-button>

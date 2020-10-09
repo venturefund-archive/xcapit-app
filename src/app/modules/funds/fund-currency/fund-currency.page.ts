@@ -101,6 +101,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
                 type="submit"
                 color="uxsecondary"
                 size="large"
+                [disabled]="(this.submitButtonService.isDisabled | async)"
               >
                 {{ 'funds.fund_currency.next_button' | translate }}
               </ion-button>
