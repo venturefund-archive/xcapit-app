@@ -763,7 +763,8 @@
         "invalidData": "Los datos ingresados no son válidos.",
         "notLinkedApiKeys": "No posee API/Secret key para crear el fondo.",
         "cantUpdateKeys": "No fue posible vincular la API key.",
-        "hasSpecialCharacters": "El nombre del fondo tiene caracteres prohibidos."
+        "hasSpecialCharacters": "El nombre del fondo tiene caracteres prohibidos.",
+        "accountBalanceIsNotEnough": "No posee capital suficiente para crear el fondo."
       },
       "update": {
         "apiCallError": "Error al modificar el fondo.",

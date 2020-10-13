@@ -749,7 +749,8 @@
         "invalidData": "Invalid data.",
         "notLinkedApiKeys": "You have not API/Secret key to create a new fund.",
         "cantUpdateKeys": "We can't link the API key with new fund.",
-        "hasSpecialCharacters": "Fund name has prohibited characters"
+        "hasSpecialCharacters": "Fund name has prohibited characters.",
+        "accountBalanceIsNotEnough": "You do not have enough capital to create the fund."
       },
       "update": {
         "apiCallError": "Error updating fund.",
