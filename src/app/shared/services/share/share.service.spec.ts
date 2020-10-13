@@ -54,11 +54,11 @@ describe('ShareService', () => {
     service = TestBed.inject(ShareService);
   });
 
-  fit('should be created', () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('should not call clipboardService write on share success', () => {
+  it('should not call clipboardService write on share success', () => {
     const spy = spyOn(Plugins.Share, 'share').and.returnValue(
       Promise.resolve({})
     );
@@ -73,7 +73,7 @@ describe('ShareService', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  fit('should call clipboardService write on share error', fakeAsync(() => {
+  it('should call clipboardService write on share error', fakeAsync(() => {
     const spy = spyOn(Plugins.Share, 'share').and.returnValue(
       Promise.reject({})
     );

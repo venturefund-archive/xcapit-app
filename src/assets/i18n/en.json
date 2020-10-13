@@ -241,7 +241,7 @@
         "fund_balance_detail_last_update": "Last update"
       },
       "operations_history_card": {
-        "title": "OPERATIONS HISTORY",
+        "title": "MY LAST MOVEMENTS",
         "run": "Run {{id_corrida}}"
       }
     },
