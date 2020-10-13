@@ -21,9 +21,13 @@
             height: 14px;
           }
         }
+        &__btcValue {
+          margin-top: 5px;
+        }
       }
       &__detail {
         display: flex;
+        margin-top:15px;
         ion-badge {
           --background: #ffffff29;
           display: flex;
