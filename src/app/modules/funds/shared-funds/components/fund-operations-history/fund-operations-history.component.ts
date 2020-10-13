@@ -14,10 +14,7 @@ import { Component, OnInit, Input } from '@angular/core';
             (click)="this.viewRunDetails()"
           >
             <div class="title">
-              {{
-                'funds.fund_detail.operations_history_card.run'
-                  | translate: { id_corrida: o.id_corrida }
-              }}
+              {{o.nombre_bot}} {{o.estado | titlecase}}
             </div>
             <div class="subtitle">
               {{ o.fecha_inicio | localizedDate: 'longDate' }}

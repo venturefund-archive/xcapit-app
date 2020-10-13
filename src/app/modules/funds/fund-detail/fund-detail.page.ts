@@ -194,7 +194,10 @@ export class FundDetailPage implements OnInit {
     this.getFundPerformanceCardInfo();
     this.getFundMetricsCardInfo();
     this.getFundPortfolioCardInfo();
-    this.getFundOperationsHistoryInfo();
+
+    // Comentado hasta que se implemente el componente del detalle de cada movimiento
+
+    // this.getFundOperationsHistoryInfo(); 
   }
 
 
