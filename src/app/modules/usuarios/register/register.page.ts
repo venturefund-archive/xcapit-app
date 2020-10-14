@@ -168,6 +168,6 @@ export class RegisterPage implements OnInit {
   }
 
   async openTOS() {
-    await Browser.open({ toolbarColor:"red", url: 'https://www.info.xcapit.com/terms' });
+    await Browser.open({ toolbarColor:"red", url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html' });
   }
 }
