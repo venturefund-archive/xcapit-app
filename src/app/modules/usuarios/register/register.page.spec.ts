@@ -4,7 +4,7 @@ import { RegisterPage } from './register.page';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, NavController, AlertController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,6 +14,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -24,7 +25,9 @@ describe('RegisterPage', () => {
   >;
   let activatedRouteMock: any;
   let navControllerSpy: any;
+  let alertControllerSpy: any;
   beforeEach(async(() => {
+    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
     apiUsuariosMock = {
       crud: {
         create: (data: any) => of(data)
@@ -54,7 +57,8 @@ describe('RegisterPage', () => {
         TrackClickUnauthDirective,
         { provide: ApiUsuariosService, useValue: apiUsuariosMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
-        { provide: NavController, useValue: navControllerSpy }
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: AlertController, useValue: alertControllerSpy }
       ]
     }).compileComponents();
   }));
@@ -88,7 +92,7 @@ describe('RegisterPage', () => {
     const spy = spyOn(component.registerForm.form, 'reset').and.returnValue(
       null
     );
-    component.success();
+    component.success("test");
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -135,6 +139,18 @@ describe('RegisterPage', () => {
     component.ionViewWillEnter();
     expect(setReferralCodeSpy).toHaveBeenCalledTimes(1);
     expect(setEmailSpy).toHaveBeenCalledTimes(1);
+  });
+
+
+  it('should call alert controller create when showWhiteListAlert is called', () => {
+    component.showWhiteListAlert();
+    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call window.open when openWaitingList is called', () => {
+    spyOn(window, 'open');
+    component.openWaitingList();
+    expect(window.open).toHaveBeenCalledTimes(1);
   });
 
   describe('with referral code', () => {
