@@ -106,8 +106,14 @@
       "back_login": "Sign in",
       "accept_tos": "I agree the",
       "link_tos": "Terms and conditions",
-      "register_alert": "If you already have funds in Brainy bot, migrate your user to the app with the command /app from Telegram"
-    },
+      "register_alert": "If you already have funds in Brainy bot, migrate your user to the app with the command /app from Telegram",
+      "waiting_list_alert": {
+        "alert_header": "Do you want to try the App?",
+        "alert_message": "To enter, join the waiting list and be one of the first to try it.",
+        "alert_cancel_button": "Cancel",
+        "alert_join_button": "Join"
+      }
+    }},
     "auth_form": {
       "repeat_email": "Confirm Email",
       "repeat_password": "Confirm Password"
