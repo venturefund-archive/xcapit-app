@@ -47,7 +47,7 @@ import { ModalController } from '@ionic/angular';
             {{
               'funds.fund_detail.fund_portfolio_card.fund_balance_detail_period_begin'
                 | translate
-            }}
+            }}:
             {{ this.startDate | date: 'dd/MM/yyyy' }}</ion-text
           >
           <ion-text
@@ -56,7 +56,7 @@ import { ModalController } from '@ionic/angular';
             >{{
               'funds.fund_detail.fund_portfolio_card.fund_balance_detail_last_update'
                 | translate
-            }}
+            }}:
             {{ this.endDate | date: 'dd/MM/yyyy' }} </ion-text
           >
         </div>
