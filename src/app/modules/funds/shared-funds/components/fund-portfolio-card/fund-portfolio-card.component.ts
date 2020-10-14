@@ -168,8 +168,8 @@ export class FundPortfolioCardComponent implements OnInit {
       component: FundBalanceDetailComponent,
       componentProps: {
         orderedPortfolio: this.orderedPortfolio,
-        startDate: this.fundBalance.balance.start_date,
-        endDate: this.fundBalance.balance.end_date,
+        startDate: this.fundBalance.balance.start_time,
+        endDate: this.fundBalance.balance.end_time,
         currency: this.fundBalance.fund.currency,
       },
       swipeToClose: false,
