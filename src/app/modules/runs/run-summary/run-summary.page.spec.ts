@@ -45,7 +45,7 @@ describe('RunSummaryPage', () => {
     fixture = TestBed.createComponent(RunSummaryPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiRunsServiceMock = TestBed.get(ApiRunsService);
+    apiRunsServiceMock = TestBed.inject(ApiRunsService);
   });
 
   it('should create', () => {

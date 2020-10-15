@@ -56,6 +56,12 @@
   },
   "shared": {
     "services": {
+      "update_pwa_service": {
+        "alert_header": "Actualización Disponible",
+        "alert_message": "¡Una nueva versión de la app esta disponible!",
+        "alert_cancel_button": "Cancelar",
+        "alert_update_button": "Actualizar"
+      },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"
       }
@@ -99,7 +105,14 @@
       "have_an_account": "¿Ya tienes una cuenta?",
       "back_login": "Inicia sesión",
       "accept_tos": "Acepto los",
-      "link_tos": "Términos y condiciones"
+      "link_tos": "Términos y condiciones",
+      "register_alert": "Si ya tienes fondos en Brainy bot, migra tu usuario a la app con el comando /app desde Telegram",
+      "waiting_list_alert": {
+        "alert_header": "¿Quieres probar la App?",
+        "alert_message": "Para ingresar, únete a la waiting list y se uno de los primeros en probarla.",
+        "alert_cancel_button": "Cancelar",
+        "alert_join_button": "Unirme"
+      }
     },
     "auth_form": {
       "repeat_email": "Confirmar Email",
@@ -237,7 +250,7 @@
         "fund_balance_detail_last_update": "Última actualización"
       },
       "operations_history_card": {
-        "title": "HISTORIAL DE OPERACIONES",
+        "title": "MIS ÚLTIMOS MOVIMIENTOS",
         "run": "Corrida {{id_corrida}}"
       }
     },
@@ -316,17 +329,17 @@
     },
     "fund_name": {
       "header": "Crea un fondo",
-      "title": "Nombrá tu fondo",
-      "text_before": "Puede ser lo que vos quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
-      "fund_name": "Nombre de mi fondo",
+      "title": "Nombra tu fondo",
+      "text_before": "Puede ser lo que quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
+      "fund_name": "Nombre de mi fondo (solo puede contener mayúsculas, minúsculas y números).",
       "fund_name_placeholder": "Ej: Mi Primer Fondo",
       "next_button": "Siguiente"
     },
     "fund_risk": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
-      "title": "¿Qué tan agresivo quieres que sea la inversión?",
-      "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo que asumirás a la hora de invertir.",
+      "title": "¿Qué tan agresiva quieres que sea la inversión?",
+      "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo a asumir a la hora de invertir.",
       "risk_level": "Nivel de riesgo a asumir",
       "risk_level_options": {
         "low": "Bajo, voy a ser conservador",
@@ -349,11 +362,11 @@
     "fund_currency": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
-      "title": "¿En qué moneda querrás que optimicemos tu capital?",
-      "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda verás la evolución de tu inversión a través del tiempo.",
+      "title": "¿En qué moneda quieres que optimicemos tu capital?",
+      "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda vas a ver la evolución de tu inversión a través del tiempo.",
       "currency": "Moneda",
       "btc_text": "Bitcoin BTC",
-      "usdt_text": "Dolar USDT",
+      "usdt_text": "Dólar USDT",
       "next_button": "Siguiente",
       "back_button": "Anterior",
       "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio"
@@ -361,7 +374,7 @@
     "fund_take_profit": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
-      "title": "¿Cuándo querés que dejemos de invertir y tomemos las ganancias?",
+      "title": "¿Cuándo vas a querer que dejemos de invertir y tomemos las ganancias?",
       "text_before": "En caso en que tu inversión genere ganancias necesitamos que decidas hasta que porcentaje seguiremos invirtiendo.",
       "take_profit": "Take profit",
       "most_chosen": "Más elegida",
@@ -373,13 +386,13 @@
     "fund_stop_loss": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
-      "title": "En caso de pérdida, hasta que porcentaje de tu capital estas dispuesto a arriesgar?",
+      "title": "En caso de pérdida… ¿Hasta que porcentaje de tu capital estas dispuesto a arriesgar?",
       "text_before": "Una vez alcanzado este porcentaje, detendremos la operatoria del fondo para resguardar tu capital.",
       "stop_loss": "Stop loss",
       "most_chosen": "Más elegida",
       "custom_tp_button": "Elegir otra opción",
       "btc_text": "Bitcoin BTC",
-      "usdt_text": "Dolar USDT",
+      "usdt_text": "Dólar USDT",
       "submit_button": "Crear fondo",
       "submit_button_renew": "Renovar fondo",
       "edit_custom": "Editar"
@@ -403,7 +416,10 @@
       "last_24hs": "Últimas 24 hs",
       "view_fund": "Ver fondo",
       "not_balance_found": "No hay balance para mostrar",
-      "days": "días"
+      "days": "{{value}} día{{s}}",
+      "hours": "{{value}} hora{{s}}",
+      "minutes": "{{value}} minuto{{s}}",
+      "seconds": "{{value}} segundo{{s}}"
     },
     "change_currency_modal": {
       "submit_button": "Aceptar",
@@ -475,7 +491,7 @@
     },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
-      "textSecondary": "Ahora necesitamos que vincules tu Exchange (Binance) para poder ver tu capital.",
+      "textSecondary": "Ahora necesitamos que vincules tu “billetera virtual de criptomonedas“(Exchange) para que comencemos a gestionarlas.",
       "namePrimaryAction": "Comenzar a vincular con Binance",
       "nameSecondaryAction": "Omitir por ahora"
     },
@@ -703,8 +719,8 @@
     },
     "first_steps": {
       "step1": {
-        "primary_text": "Configurá tu perfil",
-        "secondary_text": "Te pediremos algunos datos para validar identidad y tener información necesaria para poder comenzar a operar.",
+        "primary_text": "Configura tu perfil",
+        "secondary_text": "Te pediremos algunos datos para validar tu identidad y tener información necesaria para poder comenzar a operar.",
         "next_button": "Siguiente"
       },
       "step2": {
@@ -715,7 +731,7 @@
       },
       "step3": {
         "primary_text": "Crea tu fondo",
-        "secondary_text": "Podes personalizar cada detalle. Una vez creado podrás modificar ó cerrar el fondo en cualquier momento.",
+        "secondary_text": "Puedes personalizar cada detalle. Una vez creado podrás modificar o cerrar el fondo en cualquier momento.",
         "back_button": "Anterior",
         "config_button": "Comenzar a configurar"
       }
@@ -723,8 +739,8 @@
   },
   "subscriptions": {
     "subscriptions_service": {
-      "share_title": "share title",
-      "share_text": "share text",
+      "share_title": "Suscribete",
+      "share_text": "Suscribete a mi fondo de inversión y sigue mis rendimientos: ",
       "toast_text_copied": "El enlace de suscripción al fondo se ha copiado al portapapeles"
     },
     "subscribe": {
@@ -745,14 +761,16 @@
       "create": {
         "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
         "keysExists": "Las keys ya se encuentran registradas.",
-        "checkFundName": "El nombre del fondo ya existe.",
+        "fundNameExists": "El nombre del fondo ya existe.",
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
         "creatingSubscriber": "Error al subscribirse al fondo.",
         "creatingPartialsBalance": "No tienes suficientes fondos en la cuenta.",
         "invalidData": "Los datos ingresados no son válidos.",
         "notLinkedApiKeys": "No posee API/Secret key para crear el fondo.",
-        "cantUpdateKeys": "No fue posible vincular la API key."
+        "cantUpdateKeys": "No fue posible vincular la API key.",
+        "hasSpecialCharacters": "El nombre del fondo tiene caracteres prohibidos.",
+        "accountBalanceIsNotEnough": "No posee capital suficiente para crear el fondo."
       },
       "update": {
         "apiCallError": "Error al modificar el fondo.",
@@ -848,6 +866,9 @@
         "referralAlreadyExist": "El e-mail ingresado ya fue referido.",
         "referralAlreadyExistsAsUser": "No se puede crear el referido.",
         "emailDidNotSend": "No se pudo enviar el email."
+      },
+      "count":{
+        "getCountReferrals": "No se pudo comprobar si hay referidos previos"
       }
     },
     "apikeys": {
@@ -914,7 +935,7 @@
       "slide1_link_text": "¿Qué es Binance y por que lo necesito?",
       "slide2_title": "Crear una API KEY",
       "slide2_text1": "La API KEY es un código que nos permitirá gestionar sobre tu cuenta de Binance.",
-      "slide2_text2": "Ingresá a tu cuenta de Binance y seguí estos pasos para crear una nueva API Key.",
+      "slide2_text2": "Ingresa a tu cuenta de Binance y sigue estos pasos para crear una nueva API Key.",
       "slide2_bullettext1": "Ingresá a \"Mi Cuenta\"",
       "slide2_bullettext2": "Encontrá el módule \"API\"",
       "slide2_bullettext3": "Ingresá una clave (puede ser lo que quieras)",
@@ -942,14 +963,14 @@
       "header": "Vincular con Binance",
       "title": "Crea una API Key",
       "text_before": "LA API Key es un código que nos permitirá gestionar sobre tu cuenta.",
-      "text_before_2": "Ingresá a tu cuenta de Binance y seguí estos pasos para crear una nueva API Key.",
-      "step1": "Ingresá a la sección \"Mi Cuenta\".",
-      "step2": "Encontra el modulo \"API\".",
+      "text_before_2": "Ingresa a tu cuenta de Binance y sigue estos pasos para crear una nueva API Key.",
+      "step1": "Ingresa a la sección \"Mi Cuenta\".",
+      "step2": "Encuentra el modulo \"API\".",
       "step3": "Ingresa una clave.",
-      "step4": "Segui los pasos para crear la Key.",
+      "step4": "Sigue los pasos para crear la Key.",
       "text_after": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
       "text_help": "¿Tenés dudas?",
-      "text_help_link": "Conocé más.",
+      "text_help_link": "Aprende más.",
       "next_button": "Siguiente"
     },
     "insert_key": {

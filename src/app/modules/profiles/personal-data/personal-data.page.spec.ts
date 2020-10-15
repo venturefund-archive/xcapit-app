@@ -14,6 +14,7 @@ import { By } from '@angular/platform-browser';
 import { PersonalDataPage } from './personal-data.page';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import createSpyObj = jasmine.createSpyObj;
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -47,7 +48,7 @@ describe('PersonalDataPage', () => {
         get: () => of({})
       }
     };
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [PersonalDataPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -74,7 +75,7 @@ describe('PersonalDataPage', () => {
     fixture = TestBed.createComponent(PersonalDataPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiProfilesService = TestBed.get(ApiProfilesService);
+    apiProfilesService = TestBed.inject(ApiProfilesService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

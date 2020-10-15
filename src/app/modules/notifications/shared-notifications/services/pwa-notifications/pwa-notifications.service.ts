@@ -24,6 +24,7 @@ export class PwaNotificationsService implements INotification {
     const firebaseApp = this.importedFirebase.initializeApp(environment.firebase);
     this.messaging = firebaseApp.messaging();
     this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
+    this.requestPermission().then();
   }
 
   requestPermission(): Promise<void> {

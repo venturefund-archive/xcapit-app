@@ -58,8 +58,8 @@ describe('FundsFinishedPage', () => {
     fixture = TestBed.createComponent(FundsFinishedPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.get(FundDataStorageService);
-    apiFundsService = TestBed.get(ApiFundsService);
+    fundDataStorageService = TestBed.inject(FundDataStorageService);
+    apiFundsService = TestBed.inject(ApiFundsService);
   });
 
   it('should create', () => {

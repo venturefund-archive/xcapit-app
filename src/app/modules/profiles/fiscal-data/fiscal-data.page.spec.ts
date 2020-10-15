@@ -5,7 +5,7 @@ import { FiscalDataPage } from './fiscal-data.page';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
@@ -13,6 +13,7 @@ import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { By } from '@angular/platform-browser';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -35,7 +36,9 @@ describe('FiscalDataPage', () => {
   let apiProfilesServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FiscalDataPage>;
   let apiProfilesService: ApiProfilesService;
+  let navControllerSpy: any;
   beforeEach(async(() => {
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     apiProfilesServiceMock = {
       crud: {
         update: () => of({}),
@@ -63,7 +66,8 @@ describe('FiscalDataPage', () => {
       ],
       providers: [
         TrackClickDirective,
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock }
+        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
   }));
@@ -72,7 +76,7 @@ describe('FiscalDataPage', () => {
     fixture = TestBed.createComponent(FiscalDataPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiProfilesService = TestBed.get(ApiProfilesService);
+    apiProfilesService = TestBed.inject(ApiProfilesService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

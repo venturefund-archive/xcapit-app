@@ -14,6 +14,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { ToastService } from '../../../shared/services/toast/toast.service';
 
 describe('DepositAddressPage', () => {
   let component: DepositAddressPage;
@@ -27,12 +28,16 @@ describe('DepositAddressPage', () => {
     success: true,
     addressTag: '',
     asset: 'BTC',
-    url: 'https://123.com'
+    url: 'https://1234.com'
   };
   let clipboardServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DepositAddressPage>;
+  let toastServiceSpy: any;
 
   beforeEach(async(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast',
+    ]);
     apiDaServiceMock = {
       getDepositAddress: () => of(depositAddressData)
     };
@@ -40,6 +45,7 @@ describe('DepositAddressPage', () => {
       log: () => of({})
     };
     clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
+    clipboardServiceSpy.write.and.returnValue(Promise.resolve());
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
@@ -62,7 +68,8 @@ describe('DepositAddressPage', () => {
         { provide: ApiDaService, useValue: apiDaServiceMock },
         { provide: LogsService, useValue: logsServiceMock },
         { provide: ClipboardService, useValue: clipboardServiceSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: ToastService, useValue: toastServiceSpy }
       ]
     }).compileComponents();
   }));
@@ -71,8 +78,8 @@ describe('DepositAddressPage', () => {
     fixture = TestBed.createComponent(DepositAddressPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiDaService = TestBed.get(ApiDaService);
-    logsServiceMock = TestBed.get(LogsService);
+    apiDaService = TestBed.inject(ApiDaService);
+    logsServiceMock = TestBed.inject(LogsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -97,7 +104,7 @@ describe('DepositAddressPage', () => {
       const spy = spyOn(apiDaService, 'getDepositAddress');
       spy.and.returnValue(of(depositAddressData));
       component.ionViewWillEnter();
-      component.currency='BTC';
+      component.currency = 'BTC';
       fixture.detectChanges();
     });
 
@@ -109,7 +116,7 @@ describe('DepositAddressPage', () => {
       });
       done();
     });
-  
+
     it('should call trackEvent on trackService when Copy Deposit Address is clicked', () => {
       const el = trackClickDirectiveHelper.getByElementByName(
         'ion-button',
@@ -124,6 +131,7 @@ describe('DepositAddressPage', () => {
     });
 
     it('should call trackEvent on trackService when Open URL Deposit Address is clicked', () => {
+      spyOn(window, 'open');
       const el = trackClickDirectiveHelper.getByElementByName(
         'ion-button',
         'Open URL Deposit Address'

@@ -6,7 +6,7 @@ describe('SubmitButtonService', () => {
   let service: SubmitButtonService;
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.get(SubmitButtonService);
+    service = TestBed.inject(SubmitButtonService);
   });
 
   it('should be created', () => {

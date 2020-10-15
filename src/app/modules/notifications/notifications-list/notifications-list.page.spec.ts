@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NotificationsStorageService } from '../shared-notifications/services/notifications-storage/notifications-storage.service';
 import { NavController } from '@ionic/angular';
 import { ReplaySubject } from 'rxjs';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('NotificationsListPage', () => {
   let component: NotificationsListPage;
@@ -19,9 +20,7 @@ describe('NotificationsListPage', () => {
       ['remove']
     );
     notificationsStorageSpy.notifications = new ReplaySubject<any[]>(1);
-    navControllerSpy = jasmine.createSpyObj('NavController', [
-      'navigateForward'
-    ]);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [NotificationsListPage],
       imports: [TranslateModule.forRoot()],

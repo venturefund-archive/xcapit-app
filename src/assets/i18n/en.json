@@ -58,6 +58,12 @@
     "services": {
       "share": {
         "copy_text": "The subscription link has been copied to the clipboard."
+      },
+      "update_pwa_service": {
+        "alert_header": "Update available",
+        "alert_message": "A new version of the app is available!",
+        "alert_cancel_button": "Cancel",
+        "alert_update_button": "Update"
       }
     },
     "card_info_robot": {
@@ -99,8 +105,15 @@
       "have_an_account": "Already have an account?",
       "back_login": "Sign in",
       "accept_tos": "I agree the",
-      "link_tos": "Terms and conditions"
-    },
+      "link_tos": "Terms and conditions",
+      "register_alert": "If you already have funds in Brainy bot, migrate your user to the app with the command /app from Telegram",
+      "waiting_list_alert": {
+        "alert_header": "Do you want to try the App?",
+        "alert_message": "To enter, join the waiting list and be one of the first to try it.",
+        "alert_cancel_button": "Cancel",
+        "alert_join_button": "Join"
+      }
+    }},
     "auth_form": {
       "repeat_email": "Confirm Email",
       "repeat_password": "Confirm Password"
@@ -234,7 +247,7 @@
         "fund_balance_detail_last_update": "Last update"
       },
       "operations_history_card": {
-        "title": "OPERATIONS HISTORY",
+        "title": "MY LAST MOVEMENTS",
         "run": "Run {{id_corrida}}"
       }
     },
@@ -398,7 +411,10 @@
       "last_24hs": "Last 24 hs",
       "view_fund": "View fund",
       "not_balance_found": "No hay balance para mostrar",
-      "days": "days"
+      "days": "{{value}} day{{s}}",
+      "hours": "{{value}} hour{{s}}",
+      "minutes": "{{value}} minute{{s}}",
+      "seconds": "{{value}} second{{s}}"
     },
     "change_currency_modal": {
       "submit_button": "Ok",
@@ -709,8 +725,8 @@
   },
   "subscriptions": {
     "subscriptions_service": {
-      "share_title": "share title",
-      "share_text": "share text",
+      "share_title": "Subscribe",
+      "share_text": "Subscribe to my investment fund and follow my returns: ",
       "toast_text_copied": "The subscription link has been copied to the clipboard."
     },
     "subscribe": {
@@ -731,14 +747,16 @@
       "create": {
         "invalidExchangeKeys": "Invalid keys.",
         "keysExists": "Keys already exists.",
-        "checkFundName": "Fund name already exists.",
+        "fundNameExists": "Fund name already exists.",
         "creatingFund": "Error creating fund.",
         "creatingRun": "Error creating run.",
         "creatingSubscriber": "Error subscribing to fund.",
         "creatingPartialsBalance": "You do not have enough funds in the account.",
         "invalidData": "Invalid data.",
         "notLinkedApiKeys": "You have not API/Secret key to create a new fund.",
-        "cantUpdateKeys": "We can't link the API key with new fund."
+        "cantUpdateKeys": "We can't link the API key with new fund.",
+        "hasSpecialCharacters": "Fund name has prohibited characters.",
+        "accountBalanceIsNotEnough": "You do not have enough capital to create the fund."
       },
       "update": {
         "apiCallError": "Error updating fund.",
@@ -834,6 +852,9 @@
         "referralAlreadyExist": "The referral cannot be created.",
         "referralAlreadyExistsAsUser": "The referral cannot be created.",
         "emailDidNotSend": "The email could not be sent."
+      },
+      "count":{
+        "getCountReferrals": "Could not check for previous referrals"
       }
     },
     "apikeys": {

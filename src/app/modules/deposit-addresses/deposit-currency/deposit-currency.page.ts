@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Currency } from 'src/app/modules/funds/shared-funds/enums/currency.enum';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
 @Component({
   selector: 'app-deposit-currency',
@@ -68,6 +69,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
               type="submit"
               color="uxsecondary"
               size="large"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'deposit_addresses.deposit_currency.next_button' | translate }}
             </ion-button>
@@ -86,6 +88,7 @@ export class DepositCurrencyPage implements OnInit {
   });
 
   constructor(
+    public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private router: Router
   ) { }

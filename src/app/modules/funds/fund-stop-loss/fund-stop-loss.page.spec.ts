@@ -14,6 +14,7 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -36,10 +37,7 @@ describe('FundStopLossPage', () => {
   let navControllerSpy: any;
 
   beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', [
-      'navigateForward'
-    ]);
-    navControllerSpy.navigateForward.and.returnValue(of({}).toPromise());
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve({}),
@@ -89,8 +87,8 @@ describe('FundStopLossPage', () => {
     fixture = TestBed.createComponent(FundStopLossPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.get(FundDataStorageService);
-    apiFundsService = TestBed.get(ApiFundsService);
+    fundDataStorageService = TestBed.inject(FundDataStorageService);
+    apiFundsService = TestBed.inject(ApiFundsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

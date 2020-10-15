@@ -5,6 +5,7 @@ import { NavController, ModalController } from '@ionic/angular';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { CustomRangeModalComponent } from '../shared-funds/components/custom-range-modal/custom-range-modal.component';
 import { SuccessApikeysPage } from '../../apikeys/success-apikeys/success-apikeys.page';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
 @Component({
   selector: 'app-fund-stop-loss',
@@ -119,6 +120,7 @@ import { SuccessApikeysPage } from '../../apikeys/success-apikeys/success-apikey
               type="submit"
               color="uxsecondary"
               size="large"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ ((this.fundRenew) ? 'funds.fund_stop_loss.submit_button_renew' : 'funds.fund_stop_loss.submit_button') | translate }}
             </ion-button>
@@ -154,6 +156,7 @@ export class FundStopLossPage implements OnInit {
   fundRenew: any;
 
   constructor(
+    public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
     private navController: NavController,
@@ -234,15 +237,18 @@ export class FundStopLossPage implements OnInit {
   async handleSubmit() {
     if (this.form.valid) {
       const fund = {
-        ...(await this.fundDataStorage.getFund()),
-        ...this.form.value
+      ...(await this.fundDataStorage.getFund()),
+      ...this.form.value
       };
       fund.risk_level = `${fund.risk_level}_${fund.currency}`;
 
       if(this.fundRenew === true) {
         this.apiFunds.renewFund(fund).subscribe(() => this.success());
       } else {
-        this.apiFunds.crud.create(fund).subscribe(() => this.success());
+        this.apiFunds.crud.create(fund).subscribe(
+        () => this.success(),
+        (e) => this.error(e)
+        );
       }
     } else {
       this.form.markAllAsTouched();
@@ -253,4 +259,11 @@ export class FundStopLossPage implements OnInit {
     this.fundDataStorage.clearAll();
     this.navController.navigateForward(['funds/fund-success', this.fundRenew], { replaceUrl: true });
   }
+
+  async error(e) {
+    if (e.error.error_code == "funds.create.fundNameExists") {
+      this.navController.navigateBack(['funds/fund-name']);
+    }
+  }
 }
+

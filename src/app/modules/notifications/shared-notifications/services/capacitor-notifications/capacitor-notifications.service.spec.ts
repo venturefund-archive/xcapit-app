@@ -9,7 +9,7 @@ describe('CapacitorNotificationsService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(CapacitorNotificationsService);
+    service = TestBed.inject(CapacitorNotificationsService);
   });
 
   it('should be created', () => {

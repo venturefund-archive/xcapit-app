@@ -8,7 +8,7 @@ import { finalize } from 'rxjs/operators';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiReferralsService {
   crud: CRUD;
@@ -27,8 +27,15 @@ export class ApiReferralsService {
     this.loadingService.disabled();
     return this.http
       .get(`${environment.apiUrl}/${this.entity}/`, {
-        params: options
+        params: options,
       })
+      .pipe(finalize(() => this.loadingService.enabled()));
+  }
+
+  getUserReferralsCount(): Observable<any> {
+    this.loadingService.disabled();
+    return this.http
+      .get(`${environment.apiUrl}/${this.entity}/count`, {})
       .pipe(finalize(() => this.loadingService.enabled()));
   }
 }

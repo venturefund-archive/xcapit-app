@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { NavController } from '@ionic/angular';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
 @Component({
   selector: 'app-fund-risk',
@@ -87,6 +88,7 @@ import { NavController } from '@ionic/angular';
                 type="submit"
                 color="uxsecondary"
                 size="large"
+                [disabled]="(this.submitButtonService.isDisabled | async)"
               >
                 {{ 'funds.fund_risk.next_button' | translate }}
               </ion-button>
@@ -111,6 +113,7 @@ export class FundRiskPage implements OnInit {
   fundRenew: any;
 
   constructor(
+    public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
     private navController: NavController

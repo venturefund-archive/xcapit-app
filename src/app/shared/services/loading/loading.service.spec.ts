@@ -9,7 +9,7 @@ describe('LoadingService', () => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()]
     });
-    service = TestBed.get(LoadingService);
+    service = TestBed.inject(LoadingService);
   });
 
   it('should be created', () => {

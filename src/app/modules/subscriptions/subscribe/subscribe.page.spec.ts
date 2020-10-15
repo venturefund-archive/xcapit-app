@@ -5,17 +5,26 @@ import { SubscribePage } from './subscribe.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApiSubscriptionsService } from '../shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { ToastService } from '../../../shared/services/toast/toast.service';
+import { NavController } from '@ionic/angular';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('SubscribePage', () => {
   let component: SubscribePage;
   let fixture: ComponentFixture<SubscribePage>;
   let apiSubscriptionsServiceSpy: any;
+  let toastServiceSpy: any;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast'
+    ]);
     apiSubscriptionsServiceSpy = jasmine.createSpyObj(
       'ApiSubscriptionsService',
       ['subscribeToFund']
     );
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       declarations: [SubscribePage],
@@ -24,6 +33,12 @@ describe('SubscribePage', () => {
         {
           provide: ApiSubscriptionsService,
           useValue: apiSubscriptionsServiceSpy
+        }, {
+          provide: ToastService,
+          useValue: toastServiceSpy
+        }, {
+          provide: NavController,
+          useValue: navControllerSpy
         }
       ]
     }).compileComponents();

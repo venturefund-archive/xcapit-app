@@ -13,7 +13,7 @@ describe('ApiReferralsService', () => {
   });
 
   it('should be created', () => {
-    const service: ApiReferralsService = TestBed.get(ApiReferralsService);
+    const service: ApiReferralsService = TestBed.inject(ApiReferralsService);
     expect(service).toBeTruthy();
   });
 });

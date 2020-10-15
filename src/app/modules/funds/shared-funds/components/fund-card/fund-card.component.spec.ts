@@ -1,6 +1,6 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { FundCardComponent } from './fund-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbsoluteValuePipe } from '../../pipes/absolute-value/absolute-value.pipe';
@@ -10,12 +10,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { DecimalPipe } from '@angular/common';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 describe('FundCardComponent', () => {
   let component: FundCardComponent;
   let fixture: ComponentFixture<FundCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundCardComponent>;
+  let navControllerSpy: any;
   beforeEach(async(() => {
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [
         FundCardComponent,
@@ -33,7 +36,9 @@ describe('FundCardComponent', () => {
           { path: 'funds/detail/:fundName', component: DummyComponent }
         ])
       ],
-      providers: [CurrencyFormatPipe, DecimalPipe]
+      providers: [CurrencyFormatPipe, DecimalPipe,
+        { provide: NavController, useValue: navControllerSpy }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FundCardComponent);

@@ -12,7 +12,7 @@ describe('PublicLogsService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: HttpClient, useValue: http }]
     });
-    service = TestBed.get(PublicLogsService);
+    service = TestBed.inject(PublicLogsService);
   });
 
   it('should be created', () => {

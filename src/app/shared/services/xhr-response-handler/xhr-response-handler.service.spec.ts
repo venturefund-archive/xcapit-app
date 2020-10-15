@@ -8,7 +8,7 @@ describe('XhrResponseHandlerService', () => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()]
     });
-    service = TestBed.get(XhrResponseHandlerService);
+    service = TestBed.inject(XhrResponseHandlerService);
   });
 
   it('should be created', () => {

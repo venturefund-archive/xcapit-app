@@ -30,8 +30,8 @@ describe('BeforeStepDataGuard', () => {
   });
 
   beforeEach(() => {
-    beforeStepDataGuard = TestBed.get(BeforeStepDataGuard);
-    fundDataStorageService = TestBed.get(FundDataStorageService);
+    beforeStepDataGuard = TestBed.inject(BeforeStepDataGuard);
+    fundDataStorageService = TestBed.inject(FundDataStorageService);
   });
 
   it('should ...', () => {

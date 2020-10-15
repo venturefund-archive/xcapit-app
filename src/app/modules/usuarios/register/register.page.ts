@@ -40,9 +40,8 @@ const { Browser } = Plugins;
                 size="small"
                 type="button"
                 appTrackClickUnauth
-                name="Go To Login"
+                name="Open TOS"
                 class="tos-text__button ux_button"
-                
                 routerDirection="back"
                 (click)="openTOS()"
               >
@@ -84,6 +83,12 @@ const { Browser } = Plugins;
             </ion-button>
           </div>
         </app-auth-form>
+      </div>
+
+      <div class="register_alert">
+        <app-ux-alert-message type="info">
+          {{ 'usuarios.register.register_alert' | translate }}
+        </app-ux-alert-message>
       </div>
     </ion-content>
   `,
@@ -154,15 +159,44 @@ export class RegisterPage implements OnInit {
     if (data && !data.manual_referral) {
       delete data.referral_code;
     }
-    this.apiUsuarios.crud.create(data).subscribe(() => this.success());
+    this.apiUsuarios.crud.create(data).subscribe((response) => this.success(response));
   }
 
-  async success() {
+  async success(response = null) {
+    if(!response.length){
+      this.showWhiteListAlert();
+    }
+    else{
     this.registerForm.form.reset();
     this.navController.navigateForward(['/users/success-register'], { replaceUrl: true });
+    }
+  }
+
+  async showWhiteListAlert() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('usuarios.register.waiting_list_alert.alert_header'),
+      message: this.translate.instant('usuarios.register.waiting_list_alert.alert_message'),
+      buttons: [
+        {
+          text: this.translate.instant('usuarios.register.waiting_list_alert.alert_cancel_button'),
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: this.translate.instant('usuarios.register.waiting_list_alert.alert_join_button'),
+          handler: _ =>
+            this.openWaitingList()
+        }
+      ]
+    });
+    await alert.present();
   }
 
   async openTOS() {
-    await Browser.open({ toolbarColor:"red", url: 'https://www.info.xcapit.com/terms' });
+    await Browser.open({ toolbarColor:"red", url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html' });
+  }
+
+  async openWaitingList() {
+    await Browser.open({ toolbarColor:"red", url: 'https://www.xcapit.com/waiting-list' });
   }
 }
