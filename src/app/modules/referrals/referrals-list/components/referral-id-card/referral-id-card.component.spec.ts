@@ -58,8 +58,8 @@ describe('ReferralIdCardComponent', () => {
     expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
   });
 
-  it('should call shareService.share on shareReferralId', () => {
-    component.shareReferralId();
+  it('should call shareService.share on shareReferralLink', () => {
+    component.shareReferralLink();
     fixture.detectChanges();
     expect(shareServiceSpy.share).toHaveBeenCalledTimes(1);
   });

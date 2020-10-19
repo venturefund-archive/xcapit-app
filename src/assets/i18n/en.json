@@ -889,11 +889,12 @@
       "new_button": "New",
       "list_title": "MY REFERRALS",
       "referral_id_card": {
-        "share_title": "This is my referral ID",
-        "share_dialogTitle": "Share your referral ID",
-        "toast_text_copied": "The referral ID has been copied to the clipboard",
+        "share_title": "This is my referral link",
+        "share_dialogTitle": "Share your referral link",
+        "toast_text_copied": "The referral link has been copied to the clipboard",
         "title": "Your referral code",
-        "subtitle": "Invite your friends to invest"
+        "subtitle": "Invite your friends to invest",
+        "share_text": "Refer to this link and start to invest: "
       }
     },
     "referral_form": {

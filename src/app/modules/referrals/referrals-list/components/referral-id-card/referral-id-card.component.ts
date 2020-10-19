@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-referral-id-card',
@@ -55,7 +56,7 @@ import { ToastService } from '../../../../../shared/services/toast/toast.service
                               type="button"
                               fill="clear"
                               size="small"
-                              (click)="this.shareReferralId()"
+                              (click)="this.shareReferralLink()"
                       >
                           <ion-icon slot="icon-only" name="ux-share"></ion-icon>
                       </ion-button>
@@ -81,14 +82,17 @@ export class ReferralIdCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  async shareReferralId() {
+  async shareReferralLink() {
     await this.shareService.share(
       {
         title: this.translate.instant('referrals.referrals_list.referral_id_card.share_title'),
         dialogTitle: this.translate.instant(
           'referrals.referrals_list.referral_id_card.share_dialogTitle'
         ),
-        text: this.referralId
+        url: `${environment.appUrl}users/register/${this.referralId}`,
+        text: this.translate.instant(
+          'referrals.referrals_list.referral_id_card.share_text'
+        )
       },
       this.translate.instant('referrals.referrals_list.referral_id_card.toast_text_copied')
     );
