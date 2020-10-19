@@ -73,7 +73,11 @@ export class UserProfilePage implements OnInit {
 
   getData() {
     this.apiProfiles.crud.get().subscribe(res => {
+      if (this.data) {
+        var aux = this.data.viewBillData;
+      }
       this.data = res;
+      this.data.viewBillData = aux;
     });
   }
 
