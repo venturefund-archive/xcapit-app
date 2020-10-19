@@ -72,9 +72,10 @@ export class UserProfilePage implements OnInit {
   ngOnInit() {}
 
   getData() {
+    let aux = undefined;
     this.apiProfiles.crud.get().subscribe(res => {
       if (this.data) {
-        var aux = this.data.viewBillData;
+        aux = this.data.viewBillData;
       }
       this.data = res;
       this.data.viewBillData = aux;
