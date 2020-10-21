@@ -71,34 +71,34 @@ describe('FundPortfolioCardComponent', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
-  fit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should call setTotals on init', () => {
+  it('should call setTotals on init', () => {
     const spy = spyOn(component, 'setTotals');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  fit('should call setCurrency on init', () => {
+  it('should call setCurrency on init', () => {
     const spy = spyOn(component, 'setCurrency');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  fit('should call orderChartData on init', () => {
+  it('should call orderChartData on init', () => {
     const spy = spyOn(component, 'orderChartData');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  fit('should call ModalController create on viewDetails', () => {
+  it('should call ModalController create on viewDetails', () => {
     component.viewDetails();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  fit('should call trackEvent on trackService when Change Currency is clicked', async (done) => {
+  it('should call trackEvent on trackService when Change Currency is clicked', async (done) => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Change Currency'
@@ -113,7 +113,7 @@ describe('FundPortfolioCardComponent', () => {
     done();
   });
 
-  fit('should call trackEvent on trackService when View Details is clicked', async (done) => {
+  it('should call trackEvent on trackService when View Details is clicked', async (done) => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'View Details'
