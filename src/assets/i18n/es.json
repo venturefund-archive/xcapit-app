@@ -770,7 +770,8 @@
         "notLinkedApiKeys": "No posee API/Secret key para crear el fondo.",
         "cantUpdateKeys": "No fue posible vincular la API key.",
         "hasSpecialCharacters": "El nombre del fondo tiene caracteres prohibidos.",
-        "accountBalanceIsNotEnough": "No posee capital suficiente para crear el fondo."
+        "accountBalanceIsNotEnough": "No posee capital suficiente para crear el fondo.",
+        "creatingSnapshot": "Error al crear el fondo"
       },
       "update": {
         "apiCallError": "Error al modificar el fondo.",

@@ -756,7 +756,8 @@
         "notLinkedApiKeys": "You have not API/Secret key to create a new fund.",
         "cantUpdateKeys": "We can't link the API key with new fund.",
         "hasSpecialCharacters": "Fund name has prohibited characters.",
-        "accountBalanceIsNotEnough": "You do not have enough capital to create the fund."
+        "accountBalanceIsNotEnough": "You do not have enough capital to create the fund.",
+        "creatingSnapshot": "Error creating fund."
       },
       "update": {
         "apiCallError": "Error updating fund.",
