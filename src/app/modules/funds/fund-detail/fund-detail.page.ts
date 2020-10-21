@@ -237,7 +237,7 @@ export class FundDetailPage implements OnInit {
 
   getFundPortfolioCardInfo() {
     this.apiFunds
-      .getBalance(this.fundName, undefined, false)
+      .getBalance(this.fundName, "USDT", false)
       .subscribe(data => {
         this.fundBalance = data;
       });

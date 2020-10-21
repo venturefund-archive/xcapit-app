@@ -17,6 +17,11 @@ const testBalance = {
   balance: {
     balance_fin: 23,
     summary: [],
+    to_ca: [
+      {
+        end_balance: 1,
+      }
+    ],
   },
   fund: {
     currency: 'BTC',
@@ -66,39 +71,34 @@ describe('FundPortfolioCardComponent', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call setTotal on init', () => {
-    const spy = spyOn(component, 'setTotal');
+  fit('should call setTotals on init', () => {
+    const spy = spyOn(component, 'setTotals');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call setCurrency on init', () => {
+  fit('should call setCurrency on init', () => {
     const spy = spyOn(component, 'setCurrency');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call orderChartData on init', () => {
+  fit('should call orderChartData on init', () => {
     const spy = spyOn(component, 'orderChartData');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call ModalController create on changeCurrency', () => {
-    component.changeCurrency();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call ModalController create on viewDetails', () => {
+  fit('should call ModalController create on viewDetails', () => {
     component.viewDetails();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Change Currency is clicked', async (done) => {
+  fit('should call trackEvent on trackService when Change Currency is clicked', async (done) => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Change Currency'
@@ -113,7 +113,7 @@ describe('FundPortfolioCardComponent', () => {
     done();
   });
 
-  it('should call trackEvent on trackService when View Details is clicked', async (done) => {
+  fit('should call trackEvent on trackService when View Details is clicked', async (done) => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'View Details'
