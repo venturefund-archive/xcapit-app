@@ -977,7 +977,7 @@
     "insert_key": {
       "header": "Vincular con Binance",
       "title": "Ingresa tu API Key",
-      "text_before": "Copia los 18 dígitos de la API Key que creaste. Recordá que no tendremos permisos para retirar dinero, solo podremos operar.",
+      "text_before": "Copia la API Key que creaste. Recuerda que no tendremos permisos para retirar dinero, solo podremos operar.",
       "insert_key": "API Key",
       "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
       "text_help_link": "Conocé más.",
