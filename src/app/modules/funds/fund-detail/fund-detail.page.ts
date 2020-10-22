@@ -196,7 +196,6 @@ export class FundDetailPage implements OnInit {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
     this.getFundPerformanceCardInfo();
     this.getFundMetricsCardInfo();
-    this.getFundPortfolioCardInfo();
 
     // Comentado hasta que se implemente el componente del detalle de cada movimiento
 
@@ -232,15 +231,26 @@ export class FundDetailPage implements OnInit {
         this.fundMetrics = data.metrics;
       }
       this.currency = data.fund.currency;
+      this.getFundPortfolioCardInfo()
     });
   }
 
   getFundPortfolioCardInfo() {
-    this.apiFunds
-      .getBalance(this.fundName, "USDT", false)
-      .subscribe(data => {
-        this.fundBalance = data;
+    if (this.currency == "BTC") {
+      this.apiFunds
+        .getBalance(this.fundName, "USDT", false)
+        .subscribe(data => {
+          this.fundBalance = data;
       });
+      console.log(this.currency)
+    } else {
+      this.apiFunds
+        .getBalance(this.fundName, "BTC", false)
+        .subscribe(data => {
+          this.fundBalance = data;
+      });
+      console.log(this.currency)
+    }
   }
 
   getFundOperationsHistoryInfo() {
