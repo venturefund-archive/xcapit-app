@@ -84,11 +84,6 @@ describe('FundDetailPage', () => {
     expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
   });
 
-  it('should call apiFunds.getBalance on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-    expect(apiFundsSpy.getBalance).toHaveBeenCalledTimes(1);
-  });
-
   it('should call apiFunds.getMetrics on ionViewWillEnter', () => {
     component.ionViewWillEnter();
     expect(apiFundsSpy.getMetrics).toHaveBeenCalledTimes(1);

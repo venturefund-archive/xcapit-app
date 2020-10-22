@@ -46,11 +46,12 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
               color="uxdark"
             >
               {{
-                this.totalBTC
+                this.totalBase
                   | currencyFormat
                     : {
-                        currency: "BTC ",
-                        formatBTC: '1.2-6'
+                        currency: this.currencyBase,
+                        formatBTC: '1.2-6',
+                        formatUSDT: '1.2-2'
                       }
               }}
             </ion-text>
@@ -62,10 +63,11 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
             >
             &nbsp;≈
               {{
-                this.totalUSDT
+                this.totalSecond
                   | currencyFormat
                     : {
-                        currency: "USDT",
+                        currency: this.currencySecond,
+                        formatBTC: '1.2-6',
                         formatUSDT: '1.2-2'
                       }
               }}
@@ -99,9 +101,10 @@ export class FundPortfolioCardComponent implements OnInit {
     percentage: number;
     color: string;
   }>;
-  currency: string;
-  totalBTC: number;
-  totalUSDT: number;
+  currencyBase: string;
+  currencySecond: string;
+  totalBase: number;
+  totalSecond: number;
 
   currencies = [Currency.BTC, Currency.USDT];
 
@@ -118,12 +121,17 @@ export class FundPortfolioCardComponent implements OnInit {
   }
 
   setTotals() {
-    this.totalBTC = this.fundBalance.balance.end_balance;
-    this.totalUSDT = this.fundBalance.balance.to_ca.end_balance;
+    this.totalBase = this.fundBalance.balance.end_balance;
+    this.totalSecond = this.fundBalance.balance.to_ca.end_balance;
   }
 
   setCurrency() {
-    this.currency = this.fundBalance.fund.currency;
+    this.currencyBase = this.fundBalance.fund.currency;
+    if (this.currencyBase == "BTC") {
+      this.currencySecond = "USDT"
+    } else {
+      this.currencySecond = "BTC"
+    }
   }
 
   orderChartData() {
