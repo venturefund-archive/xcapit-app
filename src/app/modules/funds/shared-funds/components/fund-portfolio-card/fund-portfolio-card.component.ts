@@ -14,7 +14,7 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
         <div class="fpc__content__left">
           <app-fund-balance-chart
             [fundBalance]="this.orderedPortfolio"
-            [currency]="this.currency"
+            [currency]="this.currencyBase"
           ></app-fund-balance-chart>
         </div>
         <div class="fpc__content__right">
