@@ -40,9 +40,9 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
               </div>
             </div>
           </div>
-          <div class="base" style="float:left">
+          <div class="base">
             <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
+              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
               color="uxdark"
             >
               {{
@@ -56,12 +56,11 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
               }}
             </ion-text>
           </div>
-          <div class="base">
+          <div class="base" style="margin-top:0px">
             <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
+              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-18"
               color="uxdark"
             >
-            &nbsp;≈
               {{
                 this.totalSecond
                   | currencyFormat
