@@ -856,7 +856,7 @@
         "invalid": "Error al validar el email."
       },
       "login": {
-        "invalidCredentials": "No existe una cuenta activa con las credenciales ingresadas."
+        "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente."
       },
       "changePassword": {
         "invalid": "Error al Cambiar la Password."
