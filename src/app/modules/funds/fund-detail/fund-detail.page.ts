@@ -17,10 +17,10 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <div>
-          <ion-title class="ion-text-center" style="margin-top:-10px">{{
+          <ion-title class="fd__header-title ion-text-center">{{
             'funds.fund_detail.header' | translate
           }}</ion-title>
-          <ion-title class="ion-text-center" style="margin-top:10px;font-weight:500;">{{
+          <ion-title class="fd__header-fund ion-text-center">{{
             this.fundName
           }}</ion-title>
         </div>

@@ -1,5 +1,12 @@
 :host {
   .fd {
+    &__header-title {
+      margin-top: -10px;
+    }
+    &__header-fund {
+      margin-top: 10px;
+      font-weight: 500;
+    }
     &__fund-metrics-card {
       margin-top: 24px;
     }
