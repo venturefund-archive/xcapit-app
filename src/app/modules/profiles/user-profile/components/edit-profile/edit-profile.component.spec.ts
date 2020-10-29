@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
 import { EditProfileComponent } from './edit-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -61,7 +60,7 @@ describe('EditProfileComponent', () => {
     fixture = TestBed.createComponent(EditProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiProfiles = TestBed.get(ApiProfilesService);
+    apiProfiles = TestBed.inject(ApiProfilesService);
   });
 
   it('should create', () => {
@@ -81,13 +80,6 @@ describe('EditProfileComponent', () => {
     const spy = spyOn(apiProfiles.crud, 'update');
     spy.and.returnValue(of({}));
     component.save();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call addRequiredValidator when setForm', () => {
-    const spy = spyOn(component, 'addRequiredValidator');
-    spy.and.returnValue();
-    component.setForm();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 

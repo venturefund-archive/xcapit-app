@@ -10,7 +10,7 @@ describe('UxListInvertedComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UxListInvertedComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(UxListInvertedComponent);

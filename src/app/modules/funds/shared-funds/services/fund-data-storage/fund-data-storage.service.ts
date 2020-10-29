@@ -18,7 +18,8 @@ export class FundDataStorageService {
     'fundName',
     'fundRisk',
     'fundCurrency',
-    'fundTakeProfit'
+    'fundTakeProfit',
+    'fundRenew'
   ];
 
   constructor(private storage: Storage) {}

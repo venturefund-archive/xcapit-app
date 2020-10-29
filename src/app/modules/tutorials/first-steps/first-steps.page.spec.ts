@@ -42,7 +42,7 @@ describe('FirstStepsPage', () => {
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     fixture = TestBed.createComponent(FirstStepsPage);
     component = fixture.componentInstance;
-    component.slide = TestBed.get(IonSlides);
+    component.slide = TestBed.inject(IonSlides);
     fixture.detectChanges();
   });
 

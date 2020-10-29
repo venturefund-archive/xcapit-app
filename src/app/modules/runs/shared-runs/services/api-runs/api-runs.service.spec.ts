@@ -19,7 +19,7 @@ describe('ApiRunsService', () => {
   });
 
   it('should be created', () => {
-    const service: ApiRunsService = TestBed.get(ApiRunsService);
+    const service: ApiRunsService = TestBed.inject(ApiRunsService);
     expect(service).toBeTruthy();
   });
 });

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { NavController } from '@ionic/angular';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
 @Component({
   selector: 'app-fund-risk',
@@ -12,7 +13,7 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
-          'funds.fund_risk.header' | translate
+          ((this.fundRenew) ? 'funds.fund_risk.header_renew' : 'funds.fund_risk.header') | translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -74,6 +75,7 @@ import { NavController } from '@ionic/angular';
                 fill="clear"
                 routerLink="/funds/fund-name"
                 routerDirection="backward"
+                *ngIf="!this.fundRenew"
               >
                 {{ 'funds.fund_risk.back_button' | translate }}
               </ion-button>
@@ -86,6 +88,7 @@ import { NavController } from '@ionic/angular';
                 type="submit"
                 color="uxsecondary"
                 size="large"
+                [disabled]="(this.submitButtonService.isDisabled | async)"
               >
                 {{ 'funds.fund_risk.next_button' | translate }}
               </ion-button>
@@ -107,7 +110,10 @@ export class FundRiskPage implements OnInit {
     { name: 'funds.fund_risk.risk_level_options.high', value: 'pro' }
   ];
 
+  fundRenew: any;
+
   constructor(
+    public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
     private navController: NavController
@@ -119,6 +125,10 @@ export class FundRiskPage implements OnInit {
         this.form.patchValue(data);
       }
     });
+
+    this.fundDataStorage.getData('fundRenew').then(data => {
+      this.fundRenew = data;
+    })
   }
 
   handleSubmit() {

@@ -3,18 +3,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InsertSecretPage } from './insert-secret.page';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { InsertKeyPage } from '../insert-key/insert-key.page';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -48,10 +47,12 @@ describe('InsertSecretPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InsertSecretPage>;
   let storageApikeysServiceMock: any;
   let storageApikeysService: any;
-  let apiUsuariosServiceMock: any;
   let apiApikeysServiceMock: any;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+    navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
     apiApikeysServiceMock = {
       crud: jasmine.createSpyObj('CRUD', ['create'])
     };
@@ -79,11 +80,9 @@ describe('InsertSecretPage', () => {
         {
           provide: ApiApikeysService,
           useValue: apiApikeysServiceMock
-        },        {
-          provide: ApiUsuariosService,
-          useValue: apiUsuariosServiceMock
         },
-        { provide: StorageApikeysService, useValue: storageApikeysServiceMock }
+        { provide: StorageApikeysService, useValue: storageApikeysServiceMock },
+        { provide: NavController, useValue: navControllerSpy }
       ]
     }).compileComponents();
   }));
@@ -92,7 +91,7 @@ describe('InsertSecretPage', () => {
     fixture = TestBed.createComponent(InsertSecretPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    storageApikeysService = TestBed.get(StorageApikeysService);
+    storageApikeysService = TestBed.inject(StorageApikeysService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 

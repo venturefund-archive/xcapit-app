@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 
 const pwaNotificationMock = { data: {} };
 pwaNotificationMock.data[FIREBASE_OBJ_KEY] = {
@@ -29,9 +30,7 @@ describe('NotificationsHelperService', () => {
 
   beforeEach(() => {
     notificationsStorageSpy = jasmine.createSpyObj('NotificationsStorageService', ['save']);
-    navControllerSpy = jasmine.createSpyObj('NavController', [
-      'navigateForward'
-    ]);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
     TestBed.configureTestingModule({
       imports: [
@@ -47,7 +46,7 @@ describe('NotificationsHelperService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(NotificationsHelperService);
+    service = TestBed.inject(NotificationsHelperService);
   });
 
   it('should be created', () => {

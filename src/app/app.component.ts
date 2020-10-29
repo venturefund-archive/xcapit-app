@@ -22,16 +22,25 @@ import { PublicLogsService } from './shared/services/public-logs/public-logs.ser
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 // tslint:disable-next-line: max-line-length
 import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
+import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
+import {
+  Plugins,
+  PushNotification,
+  PushNotificationToken,
+  PushNotificationActionPerformed
+} from '@capacitor/core';
+
+const { PushNotifications } = Plugins;
 
 @Component({
   selector: 'app-root',
   providers: [{ provide: TrackService, useClass: LogsService }],
   template: `
-    <ion-app>
-      <ion-split-pane contentId="main-content">
-        <ion-router-outlet id="main-content"></ion-router-outlet>
-      </ion-split-pane>
-    </ion-app>
+      <ion-app>
+          <ion-split-pane contentId="main-content">
+              <ion-router-outlet id="main-content"></ion-router-outlet>
+          </ion-split-pane>
+      </ion-app>
   `
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -41,6 +50,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
 
   routerNavEndSubscription: Subscription;
+  updateAppSubscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -55,7 +65,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private trackService: TrackService,
     private publicLogsService: PublicLogsService,
     private notificationsService: NotificationsService,
-    private notificationsHelper: NotificationsHelperService
+    private notificationsHelper: NotificationsHelperService,
+    private updatePWAService: UpdatePWAService
   ) {
     this.initializeApp();
   }
@@ -68,14 +79,30 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async ngAfterViewInit() {
+    await this.updateApp();
+  }
+
+  initNotifications() {
     const notifications = this.notificationsService.getInstance();
     notifications.init(() =>
       console.error('Error inicializando notificaciones')
     );
-    await notifications.requestPermission();
-    notifications.pushNotificationReceived((notification: any) => {
-      this.notificationsHelper.handleNewNotification(notification);
-    });
+  }
+
+  private async updateApp() {
+    this.updateAppSubscription = this.updatePWAService.update().subscribe();
+  }
+
+  private unsubscribeUpdateAppSubscription() {
+    if (!!this.updateAppSubscription) {
+      this.updateAppSubscription.unsubscribe();
+    }
+  }
+
+  private unsubscribeRouterNavEndSubscription() {
+    if (!!this.routerNavEndSubscription) {
+      this.routerNavEndSubscription.unsubscribe();
+    }
   }
 
   trackLoad() {
@@ -93,9 +120,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    if (!!this.routerNavEndSubscription) {
-      this.routerNavEndSubscription.unsubscribe();
-    }
+    this.unsubscribeUpdateAppSubscription();
+    this.unsubscribeRouterNavEndSubscription();
   }
 
   initializeApp() {
@@ -103,6 +129,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       this.languageService.setInitialAppLanguage();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.initNotifications();
     });
   }
 
@@ -154,7 +181,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       '/users/register',
       '/users/email-validation',
       '/users/reset-password',
-      '/users/success-reset'
+      '/users/success-reset',
+      '/users/success-register'
     ].filter(item => {
       const regex = new RegExp(item, 'gi');
       const pathname = window.location.pathname;

@@ -58,6 +58,12 @@
     "services": {
       "share": {
         "copy_text": "The subscription link has been copied to the clipboard."
+      },
+      "update_pwa_service": {
+        "alert_header": "Update available",
+        "alert_message": "A new version of the app is available!",
+        "alert_cancel_button": "Cancel",
+        "alert_update_button": "Update"
       }
     },
     "card_info_robot": {
@@ -90,7 +96,8 @@
     "register": {
       "card_header": "User Registration",
       "submit_button": "Sign Up",
-      "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
+      "success_title": "You just need to validate your email address!",
+      "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
       "accept_button": "Accept",
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
@@ -98,8 +105,15 @@
       "have_an_account": "Already have an account?",
       "back_login": "Sign in",
       "accept_tos": "I agree the",
-      "link_tos": "Terms and conditions"
-    },
+      "link_tos": "Terms and conditions",
+      "register_alert": "If you already have funds in Brainy bot, migrate your user to the app with the command /app from Telegram",
+      "waiting_list_alert": {
+        "alert_header": "Do you want to try the App?",
+        "alert_message": "To enter, join the waiting list and be one of the first to try it.",
+        "alert_cancel_button": "Cancel",
+        "alert_join_button": "Join"
+      }
+    }},
     "auth_form": {
       "repeat_email": "Confirm Email",
       "repeat_password": "Confirm Password"
@@ -233,7 +247,7 @@
         "fund_balance_detail_last_update": "Last update"
       },
       "operations_history_card": {
-        "title": "OPERATIONS HISTORY",
+        "title": "MY LAST MOVEMENTS",
         "run": "Run {{id_corrida}}"
       }
     },
@@ -320,6 +334,7 @@
     },
     "fund_risk": {
       "header": "Create a fund",
+      "header_renew": "Renew a fund",
       "title": "How aggressive do you want the investment to be?",
       "text_before": "This will condition the way of operating and the consequent risk you will assume when investing.",
       "risk_level": "Risk level to assume",
@@ -343,6 +358,7 @@
     },
     "fund_currency": {
       "header": "Create a fund",
+      "header_renew": "Renueva un fondo",
       "title": "In what currency will you want us to optimize your capital?",
       "text_before": "This is the currency on which we will seek to have returns. In this same currency you will see the evolution of your investment over time.",
       "currency": "Currency",
@@ -354,6 +370,7 @@
     },
     "fund_take_profit": {
       "header": "Create a fund",
+      "header_renew": "Renueva un fondo",
       "title": "When do you want us to stop investing and take the profits?",
       "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
       "take_profit": "Take profit",
@@ -365,12 +382,14 @@
     },
     "fund_stop_loss": {
       "header": "Create a fund",
+      "header_renew": "Renueva un fondo",
       "title": "In case of loss, until what percentage of your capital are you willing to risk?",
       "text_before": "Once this percentage is reached, we will stop the operation of the fund to safeguard your capital.",
       "stop_loss": "Stop loss",
       "most_chosen": "Most chosen",
       "custom_tp_button": "Choose another option",
       "submit_button": "Create fund",
+      "submit_button_renew": "Renew fund",
       "edit_custom": "Edit"
     },
     "custom_range_component": {
@@ -382,12 +401,20 @@
       "textSecondary": "We have already created your fund and our robot will start managing your capital based on the information you set up.",
       "namePrimaryAction": "See my investment"
     },
+    "fund_success_renew": {
+      "textPrimary": "Your fund has been renewed!",
+      "textSecondary": "We have already renewed your fund and our robot will start managing your capital based on the information you set up.",
+      "namePrimaryAction": "See my investment"
+    },
     "fund_card": {
       "current_capital": "Current capital",
       "last_24hs": "Last 24 hs",
       "view_fund": "View fund",
       "not_balance_found": "No hay balance para mostrar",
-      "days": "days"
+      "days": "{{value}} day{{s}}",
+      "hours": "{{value}} hour{{s}}",
+      "minutes": "{{value}} minute{{s}}",
+      "seconds": "{{value}} second{{s}}"
     },
     "change_currency_modal": {
       "submit_button": "Ok",
@@ -410,6 +437,9 @@
       "fund_paused": "The fund was paused",
       "fund_resumed": "The fund was resumed",
       "fund_finished": "The fund was finished"
+    },
+    "funds_finished": {
+      "header": "My finished funds"
     }
   },
   "runs": {
@@ -695,8 +725,8 @@
   },
   "subscriptions": {
     "subscriptions_service": {
-      "share_title": "share title",
-      "share_text": "share text",
+      "share_title": "Subscribe",
+      "share_text": "Subscribe to my investment fund and follow my returns: ",
       "toast_text_copied": "The subscription link has been copied to the clipboard."
     },
     "subscribe": {
@@ -717,14 +747,16 @@
       "create": {
         "invalidExchangeKeys": "Invalid keys.",
         "keysExists": "Keys already exists.",
-        "checkFundName": "Fund name already exists.",
+        "fundNameExists": "Fund name already exists.",
         "creatingFund": "Error creating fund.",
         "creatingRun": "Error creating run.",
         "creatingSubscriber": "Error subscribing to fund.",
         "creatingPartialsBalance": "You do not have enough funds in the account.",
         "invalidData": "Invalid data.",
         "notLinkedApiKeys": "You have not API/Secret key to create a new fund.",
-        "cantUpdateKeys": "We can't link the API key with new fund."
+        "cantUpdateKeys": "We can't link the API key with new fund.",
+        "hasSpecialCharacters": "Fund name has prohibited characters.",
+        "accountBalanceIsNotEnough": "You do not have enough capital to create the fund."
       },
       "update": {
         "apiCallError": "Error updating fund.",
@@ -820,6 +852,9 @@
         "referralAlreadyExist": "The referral cannot be created.",
         "referralAlreadyExistsAsUser": "The referral cannot be created.",
         "emailDidNotSend": "The email could not be sent."
+      },
+      "count":{
+        "getCountReferrals": "Could not check for previous referrals"
       }
     },
     "apikeys": {

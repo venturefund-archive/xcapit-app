@@ -8,9 +8,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 const formData = {
   valid: {
     currency: 'BTC'
@@ -26,12 +27,13 @@ describe('FundCurrencyPage', () => {
   let fundDataStorageServiceMock;
   let fundDataStorageService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundCurrencyPage>;
-
+  let navControllerSpy: any;
   beforeEach(async(() => {
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve({}),
       setData: () => Promise.resolve()
     };
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [FundCurrencyPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -51,6 +53,10 @@ describe('FundCurrencyPage', () => {
         {
           provide: FundDataStorageService,
           useValue: fundDataStorageServiceMock
+        },
+        {
+          provide: NavController,
+          useValue: navControllerSpy
         }
       ]
     }).compileComponents();
@@ -60,7 +66,7 @@ describe('FundCurrencyPage', () => {
     fixture = TestBed.createComponent(FundCurrencyPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.get(FundDataStorageService);
+    fundDataStorageService = TestBed.inject(FundDataStorageService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -73,7 +79,7 @@ describe('FundCurrencyPage', () => {
     spy.and.returnValue(Promise.resolve(formData.valid));
     component.ngOnInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
+    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(2));
     done();
   });
 

@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('IsSubscribedComponent', () => {
   let component: IsSubscribedComponent;
@@ -18,7 +19,7 @@ describe('IsSubscribedComponent', () => {
     apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', [
       'isSubscribed'
     ]);
-    navControllerSpy = jasmine.createSpyObj('NavController', ['navigateBack']);
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
     TestBed.configureTestingModule({
       declarations: [IsSubscribedComponent, DummyComponent],

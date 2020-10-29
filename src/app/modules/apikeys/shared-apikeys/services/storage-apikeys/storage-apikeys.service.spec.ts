@@ -6,7 +6,7 @@ describe('StorageApikeysService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: StorageApikeysService = TestBed.get(StorageApikeysService);
+    const service: StorageApikeysService = TestBed.inject(StorageApikeysService);
     expect(service).toBeTruthy();
   });
 });

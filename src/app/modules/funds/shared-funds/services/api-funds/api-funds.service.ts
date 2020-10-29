@@ -179,4 +179,13 @@ export class ApiFundsService {
       loading
     );
   }
+
+  getFundsToRenew(loading = true): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/funds_to_renew`,
+      undefined,
+      undefined,
+      loading
+    );
+  }
 }

@@ -31,7 +31,7 @@ describe('CaTutorialModalComponent', () => {
     fixture = TestBed.createComponent(CaTutorialModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    modalControllerSpy = TestBed.get(ModalController);
+    modalControllerSpy = TestBed.inject(ModalController);
   });
 
   it('should create', () => {

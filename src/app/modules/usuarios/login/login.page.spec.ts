@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, TestBedStatic, tick } from '@angular/core/testing';
 import { LoginPage } from './login.page';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { of } from 'rxjs';
@@ -13,6 +13,7 @@ import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click
 import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -22,6 +23,7 @@ describe('LoginPage', () => {
   let subscriptionsService: any;
   let subscriptionsServiceSpy: any;
   let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<LoginPage>;
+  let navControllerSpy: any;
 
   const formData = {
     valid: {
@@ -40,6 +42,7 @@ describe('LoginPage', () => {
       'checkStoredLink'
     ]);
     subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(true));
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [
         LoginPage,
@@ -63,6 +66,7 @@ describe('LoginPage', () => {
       providers: [
         TrackClickUnauthDirective,
         { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
+        { provide: NavController, useValue: navControllerSpy },
         { provide: SubscriptionsService, useValue: subscriptionsServiceSpy }
       ]
     }).compileComponents();

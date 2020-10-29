@@ -56,6 +56,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               size="large"
+              [disabled]="(this.submitButtonService.isDisabled | async)"
             >
               {{ 'funds.fund_name.next_button' | translate }}
             </ion-button>
@@ -70,11 +71,12 @@ export class FundNamePage implements OnInit {
   form: FormGroup = this.formBuilder.group({
     fund_name: [
       '',
-      [Validators.required, Validators.minLength(2), Validators.maxLength(150)]
+      [Validators.required, Validators.minLength(2), Validators.maxLength(150), Validators.pattern('^[a-zA-Z0-9]*')]
     ]
   });
 
   constructor(
+    public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
     private navController: NavController
@@ -91,6 +93,7 @@ export class FundNamePage implements OnInit {
   handleSubmit() {
     if (this.form.valid) {
       this.fundDataStorage.setData('fundName', this.form.value);
+      this.fundDataStorage.setData('fundRenew', false);
       this.navController.navigateForward(['funds/fund-risk']);
     } else {
       this.form.markAllAsTouched();

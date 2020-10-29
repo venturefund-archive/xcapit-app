@@ -37,7 +37,7 @@ describe('NotificationsService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(NotificationsService);
+    service = TestBed.inject(NotificationsService);
   });
 
   it('should be created', () => {

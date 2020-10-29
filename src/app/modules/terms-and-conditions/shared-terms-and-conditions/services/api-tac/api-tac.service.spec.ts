@@ -14,7 +14,7 @@ describe('ApiTacService', () => {
   });
 
   it('should be created', () => {
-    const service: ApiTacService = TestBed.get(ApiTacService);
+    const service: ApiTacService = TestBed.inject(ApiTacService);
     expect(service).toBeTruthy();
   });
 });

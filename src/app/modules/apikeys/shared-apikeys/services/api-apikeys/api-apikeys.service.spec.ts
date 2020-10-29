@@ -23,8 +23,8 @@ describe('ApiApikeysService', () => {
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
         ]
     });
-    apiApikeysService = TestBed.get(ApiApikeysService);
-    customHttpServiceSpy = TestBed.get(CustomHttpService);
+    apiApikeysService = TestBed.inject(ApiApikeysService);
+    customHttpServiceSpy = TestBed.inject(CustomHttpService);
   });
 
   it('should be created', () => {

@@ -40,7 +40,14 @@ describe('UxCardInfoBinanceComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call window.open when moreInfo is called', () => {
+    spyOn(window, 'open');
+    component.moreInfo();
+    expect(window.open).toHaveBeenCalledTimes(1);
+  });
+
   it('should call trackEvent on trackService when More Info button clicked', () => {
+    spyOn(window, 'open');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'More Info'

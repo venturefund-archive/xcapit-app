@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
 import { ShowProfileComponent } from './show-profile.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -12,7 +11,7 @@ describe('ShowProfileComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ShowProfileComponent],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      imports: [IonicModule, TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 

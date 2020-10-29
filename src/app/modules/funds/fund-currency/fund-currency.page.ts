@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { NavController } from '@ionic/angular';
 import { Currency } from '../shared-funds/enums/currency.enum';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
 @Component({
   selector: 'app-fund-currency',
@@ -13,7 +14,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
           <ion-back-button defaultHref="/funds/fund-risk"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
-          'funds.fund_currency.header' | translate
+          ((this.fundRenew) ? 'funds.fund_currency.header_renew' : 'funds.fund_currency.header') | translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -70,6 +71,11 @@ import { Currency } from '../shared-funds/enums/currency.enum';
               ></app-errors-form-item>
             </app-ux-radio-group>
           </div>
+          <div class="fc__alert">
+            <app-ux-alert-message type="info">
+              {{ 'funds.fund_currency.text_help' | translate }}
+            </app-ux-alert-message>
+          </div>
         </div>
         <div class="ux_footer">
           <div class="fc__buttons">
@@ -82,7 +88,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
                 color="uxsecondary"
                 size="large"
                 fill="clear"
-                routerLink="/funds/fund-duration"
+                routerLink="/funds/fund-risk"
                 routerDirection="backward"
               >
                 {{ 'funds.fund_currency.back_button' | translate }}
@@ -96,6 +102,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
                 type="submit"
                 color="uxsecondary"
                 size="large"
+                [disabled]="(this.submitButtonService.isDisabled | async)"
               >
                 {{ 'funds.fund_currency.next_button' | translate }}
               </ion-button>
@@ -113,7 +120,10 @@ export class FundCurrencyPage implements OnInit {
   });
   currencies = Currency;
 
+  fundRenew: any;
+
   constructor(
+    public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private formBuilder: FormBuilder,
     private navController: NavController
@@ -125,6 +135,10 @@ export class FundCurrencyPage implements OnInit {
         this.form.patchValue(data);
       }
     });
+
+    this.fundDataStorage.getData('fundRenew').then(data => {
+      this.fundRenew = data;
+    })
   }
 
   handleSubmit() {

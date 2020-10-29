@@ -16,7 +16,7 @@ import { NavController } from '@ionic/angular';
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content class="ion-padding">
       <ion-list
         *ngIf="this.notifications$ | async as notifications; else loading"
       >
@@ -27,7 +27,7 @@ import { NavController } from '@ionic/angular';
           (clickNotification)="this.showNotification($event)"
         ></app-notification-item>
         <div *ngIf="!notifications.length">
-          <ion-text>No hay notificaciones</ion-text>
+          <ion-text>No hay notificaciones para mostrar.</ion-text>
         </div>
       </ion-list>
       <ng-template #loading>

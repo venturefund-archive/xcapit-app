@@ -8,28 +8,27 @@ import { ShareService } from '../../../../../shared/services/share/share.service
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
 import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
-import { toastServiceSpy } from '../../../../../../testing/spies/toast-service-spy.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ReferralIdCardComponent', () => {
   let component: ReferralIdCardComponent;
   let fixture: ComponentFixture<ReferralIdCardComponent>;
-  let shareServiceMock: any;
-  let clipboardServiceMock: any;
-  let shareService: any;
-  let clipboardService: any;
+  let shareServiceSpy: any;
+  let clipboardServiceSpy: any;
+  let toastServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralIdCardComponent>;
   beforeEach(async(() => {
-    clipboardServiceMock = {
-      write: () => Promise.resolve()
-    };
-    shareServiceMock = {
-      share: () => Promise.resolve()
-    };
+    toastServiceSpy = jasmine.createSpyObj('ToastService', [
+      'showToast'
+      ,
+    ]);
+    shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
+    clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
+    clipboardServiceSpy.write.and.returnValue(Promise.resolve());
     TestBed.configureTestingModule({
       declarations: [ReferralIdCardComponent, TrackClickDirective],
       imports: [
-        IonicModule.forRoot(),
+        IonicModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
         TranslateModule.forRoot()
@@ -37,8 +36,8 @@ describe('ReferralIdCardComponent', () => {
       providers: [
         TrackClickDirective,
         TranslateService,
-        { provide: ClipboardService, useValue: clipboardServiceMock },
-        { provide: ShareService, useValue: shareServiceMock },
+        { provide: ClipboardService, useValue: clipboardServiceSpy },
+        { provide: ShareService, useValue: shareServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy }
       ]
     }).compileComponents();
@@ -46,8 +45,6 @@ describe('ReferralIdCardComponent', () => {
     fixture = TestBed.createComponent(ReferralIdCardComponent);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    clipboardService = TestBed.inject(ClipboardService);
-    shareService = TestBed.inject(ShareService);
     fixture.detectChanges();
   }));
 
@@ -56,17 +53,15 @@ describe('ReferralIdCardComponent', () => {
   });
 
   it('should call clipboardService.write on copyReferralId', () => {
-    const spy = spyOn(clipboardService, 'write');
     component.copyReferralId();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
   });
 
   it('should call shareService.share on shareReferralId', () => {
-    const spy = spyOn(shareService, 'share');
     component.shareReferralId();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(shareServiceSpy.share).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Share is clicked', () => {

@@ -17,7 +17,7 @@ describe('FundDataStorageService', () => {
       providers: [{ provide: Storage, useValue: storageSpy }]
     });
     storageService = TestBed.inject(Storage);
-    service = TestBed.get(FundDataStorageService);
+    service = TestBed.inject(FundDataStorageService);
   });
 
   it('should be created', () => {

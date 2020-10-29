@@ -40,7 +40,7 @@ describe('UxSelectModalComponent', () => {
     fixture = TestBed.createComponent(UxSelectModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    modalController = TestBed.get(ModalController);
+    modalController = TestBed.inject(ModalController);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
