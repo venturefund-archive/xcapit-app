@@ -124,15 +124,14 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
             minSize="50px"
             *ngIf="!this.ownerFundBalances"
           ></app-ux-loading-block>
-          
+
           <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
             <app-fund-card [fund]="fb" *ngIf="fb"></app-fund-card>
           </div>
         </div>
-        <div
-          *ngIf="this.notOwnerFundBalances?.length"
-          class="fl__funds ion-padding"
-        >
+      </div>
+      <div class="fl" *ngIf="this.notOwnerFundBalances?.length">
+        <div class="fl__funds ion-padding">
           <div
             class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12"
           >
