@@ -808,7 +808,9 @@
       "renewFund": {
         "notOwner": "No es dueño del fondo.",
         "invalidData": "Los datos ingresados no son válidos.",
-        "renewFund": "Error al renovar el fondo."
+        "renewFund": "Error al renovar el fondo.",
+        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 300 USD.",
+        "invalidExchangeKeys": "Las keys ingresadas no existen en binance."
       },
       "depositAddress": {
         "depositAddress": "Error al consultar la dirección de depósito."
@@ -878,7 +880,7 @@
         "invalidExchangeKeys": "Las keys ingresadas no existen en binance.",
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Los datos ingresados no son válidos.",
-        "balanceNotEnough": "No tienes el balance suficiente. El mínimo balance es el equivalente a 300 USD."
+        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 300 USD."
       }
     }
   },
