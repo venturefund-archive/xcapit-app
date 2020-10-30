@@ -843,7 +843,8 @@
         "user": "Error al obtener el usuario a validar."
       },
       "sendEmailValidationToken": {
-        "user": "Error al obtener el usuario a validar."
+        "user": "Error al obtener el usuario a validar.",
+        "userAlreadyActive": "Tus credenciales ya fueron validadas. Ya puedes iniciar sesión."
       },
       "registration": {
         "invalidData": "Los datos ingresados no son válidos.",

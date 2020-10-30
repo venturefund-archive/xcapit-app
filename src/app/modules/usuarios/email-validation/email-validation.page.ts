@@ -118,7 +118,26 @@ export class EmailValidationPage implements OnInit, OnDestroy {
     if (this.emailValidationToken && this.uidb64 && !this.isValidEmail) {
       this.apiUsuario
         .sendEmailValidation(this.uidb64)
-        .subscribe();
+        .subscribe({
+          next: data => this.success(data),
+          error: e => this.error(e)
+        });
     }
+}
+
+  async success(res) {
+    this.toastService.showToast({
+      message: this.translate.instant('usuarios.register.success_text')
+    })
+  }
+
+  async error(e) {
+    this.navController
+      .navigateForward(['/users/login'], { replaceUrl: true })
+      .then(() =>
+        this.toastService.showToast({
+          message: this.translate.instant(e.error_code)
+        })
+      );
   }
 }

@@ -829,7 +829,8 @@
         "user": "Error getting user."
       },
       "sendEmailValidationToken": {
-        "user": "Error getting user."
+        "user": "Error getting user.",
+        "userAlreadyActive": "Your credentials have already been validated. You can login."
       },
       "registration": {
         "invalidData": "Invalid data.",
