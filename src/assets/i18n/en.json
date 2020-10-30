@@ -794,7 +794,9 @@
       "renewFund": {
         "notOwner": "Not fund owner.",
         "invalidData": "Invalid data.",
-        "renewFund": "Error renewing fund."
+        "renewFund": "Error renewing fund.",
+        "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 300 USD.",
+        "invalidExchangeKeys": "The keys not exists in binance."
       },
       "depositAddress": {
         "depositAddress": "Error getting deposit address."
@@ -863,7 +865,7 @@
       "create": {
         "invalidExchangeKeys": "The keys not exists in binance.",
         "keysExists": "Keys already used.",
-        "balanceNotEnough": "You don't have enough balance. The minimum balance is the equivalent of 300 USD.",
+        "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 300 USD.",
         "invalidData": "Invalid data."
       }
     }
