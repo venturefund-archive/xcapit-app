@@ -55,7 +55,7 @@ export class TabsComponent {
   }
 
   goToNewFund() {
-    this.navController.navigateForward(this.newFundUrl);
+    this.navController.navigateRoot(this.newFundUrl);
   }
 
   checkReferrals() {
