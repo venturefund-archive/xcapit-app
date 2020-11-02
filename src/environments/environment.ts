@@ -13,5 +13,6 @@ export const environment = {
     appId: '1:753598433776:web:476b346a93daba7b7a7535',
     measurementId: 'G-K4EFRL7ZJX',
     vapidKey: 'BIt_nrgl0XMKQu9uny-1ScB01RfevXBLDQ6MR6KHhWhI4Td2W2cKRSbG31zKU37HONxdCDSdZodNvLZhb9BJ7WM'
-  }
+  },
+  appUrl: "http://localhost:8100/"
 };

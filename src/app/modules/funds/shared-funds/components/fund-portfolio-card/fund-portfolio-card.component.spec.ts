@@ -17,6 +17,11 @@ const testBalance = {
   balance: {
     balance_fin: 23,
     summary: [],
+    to_ca: [
+      {
+        end_balance: 1,
+      }
+    ],
   },
   fund: {
     currency: 'BTC',
@@ -70,8 +75,8 @@ describe('FundPortfolioCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call setTotal on init', () => {
-    const spy = spyOn(component, 'setTotal');
+  it('should call setTotals on init', () => {
+    const spy = spyOn(component, 'setTotals');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -86,11 +91,6 @@ describe('FundPortfolioCardComponent', () => {
     const spy = spyOn(component, 'orderChartData');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call ModalController create on changeCurrency', () => {
-    component.changeCurrency();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should call ModalController create on viewDetails', () => {

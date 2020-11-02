@@ -106,7 +106,6 @@ import { BillType } from '../../enums/bill_types.enum';
                             inputmode="numeric"
                             [errors]="this.onlyIntegersErrors"
                     ></app-ux-input>
-                  </div>
 
                   <!-- Direccion -->
                   <app-ux-input
@@ -115,6 +114,7 @@ import { BillType } from '../../enums/bill_types.enum';
                           [label]="'profiles.user_profile.direccion' | translate"
                           inputmode="text"
                   ></app-ux-input>
+                  </div>
               </div>
           </form>
       </div>

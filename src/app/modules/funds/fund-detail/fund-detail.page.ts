@@ -16,9 +16,14 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'funds.fund_detail.header' | translate
-        }}</ion-title>
+        <div>
+          <ion-title class="fd__header-title ion-text-center">{{
+            'funds.fund_detail.header' | translate
+          }}</ion-title>
+          <ion-title class="fd__header-fund ion-text-center">{{
+            this.fundName
+          }}</ion-title>
+        </div>
         <ion-buttons slot="end">
           <ion-button
             class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
@@ -193,7 +198,6 @@ export class FundDetailPage implements OnInit {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
     this.getFundPerformanceCardInfo();
     this.getFundMetricsCardInfo();
-    this.getFundPortfolioCardInfo();
 
     // Comentado hasta que se implemente el componente del detalle de cada movimiento
 
@@ -229,15 +233,26 @@ export class FundDetailPage implements OnInit {
         this.fundMetrics = data.metrics;
       }
       this.currency = data.fund.currency;
+      this.getFundPortfolioCardInfo()
     });
   }
 
   getFundPortfolioCardInfo() {
-    this.apiFunds
-      .getBalance(this.fundName, undefined, false)
-      .subscribe(data => {
-        this.fundBalance = data;
+    if (this.currency == "BTC") {
+      this.apiFunds
+        .getBalance(this.fundName, "USDT", false)
+        .subscribe(data => {
+          this.fundBalance = data;
       });
+      console.log(this.currency)
+    } else {
+      this.apiFunds
+        .getBalance(this.fundName, "BTC", false)
+        .subscribe(data => {
+          this.fundBalance = data;
+      });
+      console.log(this.currency)
+    }
   }
 
   getFundOperationsHistoryInfo() {

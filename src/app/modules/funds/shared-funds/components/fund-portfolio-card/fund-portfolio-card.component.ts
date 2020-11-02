@@ -14,7 +14,7 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
         <div class="fpc__content__left">
           <app-fund-balance-chart
             [fundBalance]="this.orderedPortfolio"
-            [currency]="this.currency"
+            [currency]="this.currencyBase"
           ></app-fund-balance-chart>
         </div>
         <div class="fpc__content__right">
@@ -42,34 +42,35 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
           </div>
           <div class="base">
             <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
+              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
               color="uxdark"
             >
               {{
-                this.total
+                this.totalBase
                   | currencyFormat
                     : {
-                        currency: this.currency,
-                        formatUSDT: '1.2-2',
-                        formatBTC: '1.2-4'
+                        currency: this.currencyBase,
+                        formatBTC: '1.2-6',
+                        formatUSDT: '1.2-2'
                       }
               }}
             </ion-text>
-            <ion-button
-              appTrackClick
-              name="Change Currency"
-              (click)="this.changeCurrency()"
-              fill="clear"
-              size="small"
-              class="change-currency"
-              [disabled]="!this.currency"
+          </div>
+          <div class="base" style="margin-top:0px">
+            <ion-text
+              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-18"
+              color="uxdark"
             >
-              <ion-icon
-                slot="icon-only"
-                name="ux-pencil"
-                color="uxmedium"
-              ></ion-icon>
-            </ion-button>
+              {{
+                this.totalSecond
+                  | currencyFormat
+                    : {
+                        currency: this.currencySecond,
+                        formatBTC: '1.2-6',
+                        formatUSDT: '1.2-2'
+                      }
+              }}
+            </ion-text>
           </div>
         </div>
       </div>
@@ -99,8 +100,10 @@ export class FundPortfolioCardComponent implements OnInit {
     percentage: number;
     color: string;
   }>;
-  currency: string;
-  total: number;
+  currencyBase: string;
+  currencySecond: string;
+  totalBase: number;
+  totalSecond: number;
 
   currencies = [Currency.BTC, Currency.USDT];
 
@@ -112,16 +115,22 @@ export class FundPortfolioCardComponent implements OnInit {
 
   ngOnInit() {
     this.orderChartData();
-    this.setTotal();
+    this.setTotals();
     this.setCurrency();
   }
 
-  setTotal() {
-    this.total = this.fundBalance.balance.end_balance;
+  setTotals() {
+    this.totalBase = this.fundBalance.balance.end_balance;
+    this.totalSecond = this.fundBalance.balance.to_ca.end_balance;
   }
 
   setCurrency() {
-    this.currency = this.fundBalance.fund.currency;
+    this.currencyBase = this.fundBalance.fund.currency;
+    if (this.currencyBase == "BTC") {
+      this.currencySecond = "USDT"
+    } else {
+      this.currencySecond = "BTC"
+    }
   }
 
   orderChartData() {
@@ -129,38 +138,6 @@ export class FundPortfolioCardComponent implements OnInit {
       (a: any, b: any) =>
         a.percentage < b.percentage ? 1 : a.percentage > b.percentage ? -1 : 0
     );
-  }
-
-  async changeCurrency() {
-    const modal = await this.modalController.create({
-      component: UxSelectModalComponent,
-      componentProps: {
-        title: this.translate.instant(
-          'funds.fund_detail.fund_portfolio_card.change_currency'
-        ),
-        data: this.currencies,
-        selected: this.currency,
-      },
-      swipeToClose: false,
-      cssClass: 'ux-routeroutlet-modal',
-    });
-
-    await modal.present();
-
-    const data = await modal.onDidDismiss();
-
-    if (data.role === 'selected') {
-      this.getBalanceInCa(data.data);
-    }
-  }
-
-  getBalanceInCa(ca: string) {
-    this.apiFunds
-      .getBalance(this.fundBalance.fund.nombre_bot, ca, false)
-      .subscribe((data) => {
-        this.total = data.balance.to_ca.end_balance;
-        this.currency = ca;
-      });
   }
 
   async viewDetails() {
