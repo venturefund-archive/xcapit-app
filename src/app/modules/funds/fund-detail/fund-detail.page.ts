@@ -24,16 +24,18 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
             this.fundName
           }}</ion-title>
         </div>
-        <ion-buttons slot="end">
-          <ion-button
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
-            appTrackClick
-            name="Edit Fund"
-            (click)="this.editFund()"
-          >
-            {{ 'funds.fund_detail.edit_button' | translate }}
-          </ion-button>
-        </ion-buttons>
+        <div class="fd__header-button" *ngIf="this.isOwner">
+          <ion-buttons class="fd__header-button" slot="end">
+            <ion-button
+              class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
+              appTrackClick
+              name="Edit Fund"
+              (click)="this.editFund()"
+            >
+              {{ 'funds.fund_detail.edit_button' | translate }}
+            </ion-button>
+          </ion-buttons>
+        </div>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -156,6 +158,7 @@ export class FundDetailPage implements OnInit {
   fundPortfolio: Array<any>;
   fundOperationsHistory: Array<any>;
   currency: string;
+  isOwner: any;
   deltas = [
     {
       value: '1d',
@@ -233,6 +236,7 @@ export class FundDetailPage implements OnInit {
         this.fundMetrics = data.metrics;
       }
       this.currency = data.fund.currency;
+      this.isOwner = data.fund.is_owner;
       this.getFundPortfolioCardInfo()
     });
   }
@@ -244,14 +248,12 @@ export class FundDetailPage implements OnInit {
         .subscribe(data => {
           this.fundBalance = data;
       });
-      console.log(this.currency)
     } else {
       this.apiFunds
         .getBalance(this.fundName, "BTC", false)
         .subscribe(data => {
           this.fundBalance = data;
       });
-      console.log(this.currency)
     }
   }
 
