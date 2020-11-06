@@ -9,7 +9,7 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
 @Component({
   selector: 'app-fund-portfolio-card',
   template: `
-    <div class="fpc">
+    <div class="fpc" (click)="this.viewDetails()">
       <div class="fpc__content ion-padding">
         <div class="fpc__content__left">
           <app-fund-balance-chart

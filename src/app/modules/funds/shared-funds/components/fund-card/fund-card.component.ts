@@ -5,7 +5,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-fund-card',
   template: `
-    <div class="fc">
+    <div class="fc" (click)="this.viewFund()">
       <div class="fc__main ion-padding">
         <div
           class="fc__main__title ux-font-lato ux-fweight-semibold ux-fsize-12"

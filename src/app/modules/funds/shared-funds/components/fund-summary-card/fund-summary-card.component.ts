@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-fund-summary-card',
   template: `
-    <div class="fsc">
+    <div class="fsc" (click)="this.shareSubscriptionLink()">
       <div class="fsc__content">
         <div class="fsc__content__left">
           <div class="fund-name">
