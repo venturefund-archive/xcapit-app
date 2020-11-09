@@ -162,8 +162,8 @@ export class RegisterPage implements OnInit {
     this.apiUsuarios.crud.create(data).subscribe((response) => this.success(response));
   }
 
-  async success(response = null) {
-    if(!response.length){
+  async success(response) {
+    if(!Object.keys(response).length!){
       this.showWhiteListAlert();
     }
     else{
