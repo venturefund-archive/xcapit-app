@@ -239,7 +239,8 @@
         "longest_drawdown_metric": "días",
         "sharpe": "Sharpe",
         "max_drawdown": "Mayor caida",
-        "clarification": "Resumen de tu fondo anualizado con periodos de 2hs."
+        "clarification": "Resumen de tu fondo anualizado con periodos de 2hs.",
+        "advanced": "Avanzado"
       },
       "fund_portfolio_card": {
         "title": "COMPOSICIÓN DE CARTERA",

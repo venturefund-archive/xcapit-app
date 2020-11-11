@@ -1,0 +1,51 @@
+:host {
+  .ux_la {
+    margin-bottom: 20px;
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+      background: #e6e6e6;
+      border-radius: 8px 8px 0 0;
+      padding: 15px;
+      &__left {
+        display: flex;
+        &__left {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: flex-end;
+          padding-right: 10px;
+        }
+        &__right {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: flex-start;
+        }
+      }
+      &__right {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+      }
+    }
+    &__body {
+      background-color: white;
+      border-radius: 0 0 8px 8px;
+      padding: 18px;
+      &__description {
+        color: #b6b6b6;
+      }
+    }
+  }
+}
+
+.active {
+  display: block
+}
+
+.inactive {
+  display: none;
+}

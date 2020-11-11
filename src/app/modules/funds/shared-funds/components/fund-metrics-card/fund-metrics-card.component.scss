@@ -28,5 +28,17 @@
       display: flex;
       padding: 0 16px 16px 16px;
     }
+    &__footer {
+      border-top: 1px solid #0000000a;
+      height: 46px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      &__advanced-button {
+        ion-icon {
+          height: 10px;
+        }
+      }
+    }
   }
 }

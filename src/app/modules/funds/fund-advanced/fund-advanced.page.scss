@@ -1,0 +1,11 @@
+:host {
+  .fa {
+    &__header-title {
+      margin-top: -10px;
+    }
+    &__header-fund {
+      margin-top: 10px;
+      font-weight: 500;
+    }
+  }
+}

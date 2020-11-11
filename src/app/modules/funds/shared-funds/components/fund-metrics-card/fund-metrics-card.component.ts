@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FundMetricsInterface } from './fund-metrics.interface';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-fund-metrics-card',
@@ -98,6 +99,19 @@ import { FundMetricsInterface } from './fund-metrics.interface';
           'funds.fund_detail.fund_metrics_card.clarification' | translate
         }}</ion-text>
       </div>
+      <div class="fmc__footer">
+        <ion-button
+          appTrackClick
+          name="View Details"
+          (click)="this.viewAdvancedFund()"
+          fill="clear"
+          size="small"
+          class="fmc__footer__advanced-button ux-font-lato ux-fweight-semibold ux-fsize-14"
+        >
+          {{ 'funds.fund_detail.fund_metrics_card.advanced' | translate }}
+          <ion-icon slot="end" name="ux-forward"></ion-icon>
+        </ion-button>
+      </div>
     </div>
   `,
   styleUrls: ['./fund-metrics-card.component.scss'],
@@ -105,8 +119,15 @@ import { FundMetricsInterface } from './fund-metrics.interface';
 export class FundMetricsCardComponent implements OnInit {
   @Input() metrics: FundMetricsInterface;
   @Input() currency: string;
+  @Input() fundName: string;
 
-  constructor() {}
+  constructor(private navController: NavController) {
+
+  }
 
   ngOnInit() {}
+
+  viewAdvancedFund() {
+    this.navController.navigateForward(['funds/advanced', this.fundName]);
+  }
 }

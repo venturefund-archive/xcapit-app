@@ -103,6 +103,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
           *ngIf="this.fundMetrics"
           [metrics]="this.fundMetrics"
           [currency]="this.currency"
+          [fundName]="this.fundName"
         ></app-fund-metrics-card>
       </div>
 
