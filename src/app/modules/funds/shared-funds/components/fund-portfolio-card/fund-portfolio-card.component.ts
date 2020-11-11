@@ -78,7 +78,6 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
         <ion-button
           appTrackClick
           name="View Details"
-          (click)="this.viewDetails()"
           fill="clear"
           size="small"
           class="fpc__footer__details-button ux-font-lato ux-fweight-semibold ux-fsize-14"
