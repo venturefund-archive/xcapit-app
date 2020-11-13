@@ -231,12 +231,10 @@
       },
       "fund_metrics_card": {
         "title": "SUMMARY",
-        "profit": "Profit in {{currency}}",
-        "longest_drawdown": "Longest drawdown",
-        "longest_drawdown_metric": "days",
-        "sharpe": "Sharpe",
-        "max_drawdown": "Max drawdown",
-        "clarification": "Summary of your fund, annualized with periods of 2 hours."
+        "period": "period",
+        "performance": "performance",
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss"
       },
       "fund_portfolio_card": {
         "title": "PORTFOLIO COMPOSITION",
