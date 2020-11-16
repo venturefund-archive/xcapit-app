@@ -217,7 +217,12 @@
         "actual_amount": "Capital actual",
         "initial_amount": "Capital inicial",
         "remaining_time": "Tiempo restante",
-        "days_label": "días"
+        "days_label": "días",
+        "invite": "Invitar",
+        "alert_header": "Invita a tus amigos a ver tu fondo",
+        "alert_message": "Comparte tu link y ellos podrán ver la información de tu fondo",
+        "alert_exit_button": "Salir",
+        "alert_share_button": "Compartir"
       },
       "performance_chart_card": {
         "title": "TU INVERSIÓN EN EL TIEMPO",
