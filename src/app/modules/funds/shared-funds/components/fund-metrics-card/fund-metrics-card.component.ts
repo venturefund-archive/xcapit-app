@@ -120,17 +120,17 @@ export class FundMetricsCardComponent implements OnInit {
   }
 
   getCreatedTime(fund) {
-    const a = moment(fund.start_time);
-    const b = moment(fund.end_time);
+    const startTime = moment(fund.start_time);
+    const endTime = moment(fund.end_time);
 
-    if (b.diff(a, 'days') > 0) {
-      return ['days', b.diff(a, 'days')];
-    } else if (b.diff(a, 'hours') > 0) {
-      return ['hours', b.diff(a, 'hours')];
-    } else if (b.diff(a, 'minutes') > 0){
-      return ['minutes', b.diff(a, 'minutes')];
+    if (endTime.diff(startTime, 'days') > 0) {
+      return ['days', endTime.diff(startTime, 'days')];
+    } else if (endTime.diff(startTime, 'hours') > 0) {
+      return ['hours', endTime.diff(startTime, 'hours')];
+    } else if (endTime.diff(startTime, 'minutes') > 0){
+      return ['minutes', endTime.diff(startTime, 'minutes')];
     } else {
-      return ['seconds', b.diff(a, 'seconds')];
+      return ['seconds', endTime.diff(startTime, 'seconds')];
     }
   }
 }

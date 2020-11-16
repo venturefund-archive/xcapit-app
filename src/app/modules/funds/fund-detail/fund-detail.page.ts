@@ -236,10 +236,10 @@ export class FundDetailPage implements OnInit {
 
   getFundMetricsCardInfo() {
     this.apiFunds.getFundBalances("all", false).subscribe((data) => {
-      let x;
-      for (x of data) {
-        if (x.fund_name == this.fundName) {
-          this.fundResume = x;
+      let fund;
+      for (fund of data) {
+        if (fund.fund_name == this.fundName) {
+          this.fundResume = fund;
           break;
         }
       }
