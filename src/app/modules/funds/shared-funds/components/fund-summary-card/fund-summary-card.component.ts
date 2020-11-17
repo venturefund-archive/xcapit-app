@@ -8,7 +8,7 @@ import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-fund-summary-card',
   template: `
-    <div class="fsc" (click)="this.showUpdateAppAlert()">
+    <div class="fsc" (click)="this.showShareSubscriptionAlert()">
       <div class="fsc__content">
         <div class="fsc__content__left">
           <div class="fund-name">
@@ -128,7 +128,7 @@ export class FundSummaryCardComponent implements OnInit {
 
   ngOnInit() {}
 
-  async showUpdateAppAlert() {
+  async showShareSubscriptionAlert() {
     const alert = await this.alertController.create({
       header: this.translate.instant('funds.fund_detail.fund_summary_card.alert_header'),
       message: this.translate.instant('funds.fund_detail.fund_summary_card.alert_message'),
