@@ -234,12 +234,10 @@
       },
       "fund_metrics_card": {
         "title": "RESUMEN",
-        "profit": "Ganancia en {{currency}}",
-        "longest_drawdown": "Recupero más largo",
-        "longest_drawdown_metric": "días",
-        "sharpe": "Sharpe",
-        "max_drawdown": "Mayor caida",
-        "clarification": "Resumen de tu fondo anualizado con periodos de 2hs."
+        "period": "Período",
+        "performance": "Rendimiento",
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss"
       },
       "fund_portfolio_card": {
         "title": "COMPOSICIÓN DE CARTERA",

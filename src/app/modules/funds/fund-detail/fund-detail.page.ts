@@ -86,7 +86,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
       </div>
 
       <!-- Fund Metrics Card -->
-      <div class="fd__fund-metrics-card" *ngIf="this.fundMetrics">
+      <div class="fd__fund-metrics-card">
         <div class="fd__fund-metrics-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -96,13 +96,13 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
           </ion-text>
         </div>
         <app-ux-loading-block
-          *ngIf="!this.fundMetrics"
+          *ngIf="!this.fundResume || !this.fundSettings"
           minSize="40px"
         ></app-ux-loading-block>
         <app-fund-metrics-card
-          *ngIf="this.fundMetrics"
-          [metrics]="this.fundMetrics"
-          [currency]="this.currency"
+          *ngIf="this.fundResume && this.fundSettings"
+          [resume]="this.fundResume"
+          [settings]="this.fundSettings"
         ></app-fund-metrics-card>
       </div>
 
@@ -154,7 +154,8 @@ export class FundDetailPage implements OnInit {
   fundBalance: any;
   fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   profitGraphCardInfo$: Observable<any>;
-  fundMetrics: FundMetricsInterface;
+  fundResume: any;
+  fundSettings: any;
   fundPortfolio: Array<any>;
   fundOperationsHistory: Array<any>;
   currency: string;
@@ -227,17 +228,24 @@ export class FundDetailPage implements OnInit {
         data.stop_loss = data.fund.perdida;
         this.fundPercentageEvolution = data.percentage_evolution;
         this.selectedDelta = delta;
+        this.currency = data.fund.currency;
+        this.isOwner = data.fund.is_owner;
+        this.getFundPortfolioCardInfo();
       });
   }
 
   getFundMetricsCardInfo() {
-    this.apiFunds.getMetrics(this.fundName, false).subscribe(data => {
-      if (Object.keys(data.metrics).length !== 0) {
-        this.fundMetrics = data.metrics;
+    this.apiFunds.getFundBalances("all", false).subscribe((data) => {
+      let fund;
+      for (fund of data) {
+        if (fund.fund_name == this.fundName) {
+          this.fundResume = fund;
+          break;
+        }
       }
-      this.currency = data.fund.currency;
-      this.isOwner = data.fund.is_owner;
-      this.getFundPortfolioCardInfo()
+    });
+    this.apiFunds.getLastFundRun(this.fundName, false).subscribe((data) => {
+      this.fundSettings = data
     });
   }
 
