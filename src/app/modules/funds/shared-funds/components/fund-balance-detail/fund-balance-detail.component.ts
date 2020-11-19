@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-fund-balance-detail',
@@ -43,12 +44,11 @@ import { ModalController } from '@ionic/angular';
           <ion-text
             class="ux-font-lato ux-fweight-regular ux-fsize-14"
             color="uxsemidark"
-            >
+          >
             {{
               'funds.fund_detail.fund_portfolio_card.fund_balance_detail_period_begin'
                 | translate
-            }}:
-            {{ this.startDate | date: 'dd/MM/yyyy' }}</ion-text
+            }}: {{ this.startDate | date: 'dd/MM/yyyy' }}</ion-text
           >
           <ion-text
             class="ux-font-lato ux-fweight-regular ux-fsize-14"
@@ -56,26 +56,45 @@ import { ModalController } from '@ionic/angular';
             >{{
               'funds.fund_detail.fund_portfolio_card.fund_balance_detail_last_update'
                 | translate
-            }}:
-            {{ this.endDate | date: 'dd/MM/yyyy' }} </ion-text
+            }}: {{ this.endDate | date: 'dd/MM/yyyy' }}
+          </ion-text>
+        </div>
+        <div class="fbd__content__history ion-padding">
+          <ion-button
+            name="View Operation History"
+            (click)="this.viewOperations()"
+            fill="clear"
+            size="small"
+            class="fbd__content__history__button ux-font-lato ux-fweight-semibold ux-fsize-14"
           >
+            Ver historial de operaciones
+          </ion-button>
         </div>
       </div>
     </ion-content>
   `,
-  styleUrls: ['./fund-balance-detail.component.scss']
+  styleUrls: ['./fund-balance-detail.component.scss'],
 })
 export class FundBalanceDetailComponent implements OnInit {
   orderedPortfolio: any[];
   startDate: any;
   endDate: any;
   currency: string;
+  fundName: string;
 
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
   async close() {
     await this.modalController.dismiss();
+  }
+
+  viewOperations() {
+    this.close();
+    this.router.navigate(['funds/fund-operations', this.fundName], { replaceUrl: true });
   }
 }

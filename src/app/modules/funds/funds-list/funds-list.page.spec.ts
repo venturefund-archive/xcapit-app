@@ -210,6 +210,14 @@ describe('FundsListPage', () => {
   // });
 
   it('should call trackEvent on trackService when Action Button button clicked', () => {
+    component.status = {
+      profile_valid: true,
+      empty_linked_keys: true,
+      has_own_funds: false,
+      has_subscribed_funds: false,
+      status_name: 'BEGINNER'
+    };
+    fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Action Button'

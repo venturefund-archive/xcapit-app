@@ -448,6 +448,30 @@
     },
     "funds_finished": {
       "header": "Mis fondos finalizados"
+    },
+    "fund_operations": {
+      "title": "Historial de operaciones",
+      "since_date_range": "Inicio",
+      "until_date_range": "Fin",
+      "header_pair": "Par",
+      "header_price": "Precio",
+      "header_qty": "Cantidad",
+      "order_side_buy": "COMPRA",
+      "order_side_sell": "VENTA",
+      "order_type_market": "Mercado",
+      "cancel_datepicker_text": "Cancelar",
+      "done_datepicker_text": "Confirmar"
+    },
+    "fund_operations_detail": {
+      "title": "Detalle de la orden",
+      "order_type_market": "Mercado",
+      "price": "Precio",
+      "quantity": "Cantidad",
+      "order_type_label": "Tipo",
+      "fee_currency": "Moneda del fee",
+      "status": "Estado",
+      "date": "Fecha",
+      "status_closed": "Cerrado"
     }
   },
   "runs": {
@@ -817,6 +841,10 @@
       },
       "depositAddress": {
         "depositAddress": "Error al consultar la dirección de depósito."
+      },
+      "fund_operations":{
+        "error_on_get_orders": "No se pudieron obtener las ordenes.",
+        "notOwner": "No puedes obtener las ordenes si no eres dueño del fondo."
       }
     },
     "profiles": {
@@ -874,7 +902,7 @@
         "referralAlreadyExistsAsUser": "No se puede crear el referido.",
         "emailDidNotSend": "No se pudo enviar el email."
       },
-      "count":{
+      "count": {
         "getCountReferrals": "No se pudo comprobar si hay referidos previos"
       }
     },
