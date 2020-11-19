@@ -113,7 +113,7 @@
         "alert_cancel_button": "Cancel",
         "alert_join_button": "Join"
       }
-    }},
+    },
     "auth_form": {
       "repeat_email": "Confirm Email",
       "repeat_password": "Confirm Password"
@@ -443,6 +443,30 @@
     },
     "funds_finished": {
       "header": "My finished funds"
+    },
+    "fund_operations": {
+      "title": "Operations History",
+      "since_date_range": "Begin:",
+      "until_date_range": "End",
+      "header_pair": "Pair",
+      "header_price": "Price",
+      "header_qty": "Quantity",
+      "order_side_buy": "BUY",
+      "order_side_sell": "SELL",
+      "order_type_market": "Market",
+      "cancel_datepicker_text": "Cancel",
+      "done_datepicker_text": "Done"
+    },
+    "fund_operations_detail": {
+      "title": "Order Detail",
+      "order_type_market": "Market",
+      "price": "Price",
+      "quantity": "Quantity",
+      "order_type_label": "Type",
+      "fee_currency": "Fee currency",
+      "status": "Status",
+      "date": "Date",
+      "status_closed": "Closed"
     }
   },
   "runs": {
@@ -803,6 +827,10 @@
       },
       "depositAddress": {
         "depositAddress": "Error getting deposit address."
+      },
+      "fund_operations": {
+        "error_on_get_orders": "Orders could not be obtained.",
+        "notOwner": "You can't get the orders if you don't own the fund."
       }
     },
     "profiles": {
@@ -860,7 +888,7 @@
         "referralAlreadyExistsAsUser": "The referral cannot be created.",
         "emailDidNotSend": "The email could not be sent."
       },
-      "count":{
+      "count": {
         "getCountReferrals": "Could not check for previous referrals"
       }
     },

@@ -98,21 +98,6 @@ describe('FundPortfolioCardComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Change Currency is clicked', async (done) => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Change Currency'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spyClickEvent = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(spyClickEvent).toHaveBeenCalledTimes(1);
-    });
-    done();
-  });
-
   it('should call trackEvent on trackService when View Details is clicked', async (done) => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
