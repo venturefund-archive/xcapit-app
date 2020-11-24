@@ -7,6 +7,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ModalController } from '@ionic/angular';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('FundBalanceDetailComponent', () => {
   let component: FundBalanceDetailComponent;
@@ -21,7 +22,7 @@ describe('FundBalanceDetailComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [FundBalanceDetailComponent, TrackClickDirective],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [{ provide: ModalController, useValue: modalControllerSpy }],
     }).compileComponents();

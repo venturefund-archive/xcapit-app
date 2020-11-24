@@ -4,12 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FundMetricsCardComponent } from './fund-metrics-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FundMetricsInterface } from './fund-metrics.interface';
-const testMetrics: FundMetricsInterface = {
-  cumulative_return: 40,
-  longest_drawdown: 30,
-  max_drawdown: 20,
-  sharpe: 10
-};
+import { AbsoluteValuePipe } from '../../pipes/absolute-value/absolute-value.pipe';
 
 describe('FundMetricsCardComponent', () => {
   let component: FundMetricsCardComponent;
@@ -17,14 +12,13 @@ describe('FundMetricsCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FundMetricsCardComponent],
+      declarations: [FundMetricsCardComponent, AbsoluteValuePipe],
       imports: [IonicModule, TranslateModule.forRoot()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FundMetricsCardComponent);
     component = fixture.componentInstance;
-    component.metrics = testMetrics;
-    component.currency = 'BTC';
+    component.resume = { fund_name: 'Test' };
     fixture.detectChanges();
   }));
 
