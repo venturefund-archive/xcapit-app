@@ -55,17 +55,17 @@ export class NotificationItemComponent {
   }
 
   getCreatedTime(date) {
-    const a = moment(date);
-    const b = moment(new Date());
+    const initial_date = moment(date);
+    const actual_date = moment(new Date());
     
-    if (b.diff(a, 'days') > 0) {
-      return b.diff(a, 'days') + 'd';
-    } else if (b.diff(a, 'hours') > 0) {
-      return b.diff(a, 'hours') + 'h';
-    } else if (b.diff(a, 'minutes') > 0){
-      return b.diff(a, 'minutes') + 'm';
+    if (actual_date.diff(initial_date, 'days') > 0) {
+      return actual_date.diff(initial_date, 'days') + 'd';
+    } else if (actual_date.diff(initial_date, 'hours') > 0) {
+      return actual_date.diff(initial_date, 'hours') + 'h';
+    } else if (actual_date.diff(initial_date, 'minutes') > 0){
+      return actual_date.diff(initial_date, 'minutes') + 'm';
     } else {
-      return b.diff(a, 'seconds') + 's';
+      return actual_date.diff(initial_date, 'seconds') + 's';
     }
   }
 }

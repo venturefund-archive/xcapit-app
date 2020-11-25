@@ -215,7 +215,6 @@ export class FundsListPage implements OnInit {
   ngOnInit() {
     this.initQtyNotifications();
 
-    // Inicializar Stream del Timer.
     const minutes = 0.5;
     this.timerSubscription = timer(0, minutes * 60000).subscribe(() => {
       this.notificationQtySubject.next();
@@ -236,15 +235,13 @@ export class FundsListPage implements OnInit {
         () => this.notificationsService.getCountNotifications().pipe(
           catchError(
             (err) => {
-              console.error(err);
               return EMPTY;
             },
           ),
         ),
       ),
     ).subscribe(
-      (res: any) => this.unreadNotifications = res['count'],
-      (err: any) => console.error(err),
+      (res: any) => this.unreadNotifications = res['count']
     );
 
     this.notificationQtySubject.next();
