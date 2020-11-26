@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController, LoadingController } from '@ionic/angular';
 import { TabsComponent } from '../../tabs/tabs/tabs.component';
+import { EMPTY, Subject, Subscription, timer } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-funds-list',
@@ -21,7 +24,7 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
             </ion-avatar>
           </ion-button>
         </ion-buttons>
-        <ion-buttons slot="end" *ngIf="false">
+        <ion-buttons slot="end" *ngIf="true">
           <ion-button
             appTrackClick
             name="Show Notifications"
@@ -30,13 +33,10 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
             <ion-icon
               slot="icon-only"
               name="ux-bell"
-              *ngIf="!this.hasNotifications"
             ></ion-icon>
-            <ion-icon
-              slot="icon-only"
-              name="ux-bell-badge"
-              *ngIf="this.hasNotifications"
-            ></ion-icon>
+            <div class="notificationQty" *ngIf="this.unreadNotifications > 0">
+              {{ this.unreadNotifications }}
+            </div>
           </ion-button>
         </ion-buttons>
         <div class="header">
@@ -178,7 +178,7 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
 export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
-  hasNotifications = true;
+  hasNotifications = false;
 
   status = {
     profile_valid: false,
@@ -196,15 +196,30 @@ export class FundsListPage implements OnInit {
 
   steps: any;
 
+  private notificationQtySubscription: Subscription;
+  private notificationQtySubject = new Subject();
+
+  private timerSubscription: Subscription;
+
+  public unreadNotifications: number;
+
   constructor(
     private apiFundsService: ApiFundsService,
     private translate: TranslateService,
     private apiUsuarios: ApiUsuariosService,
     private navController: NavController,
-    private tabsComponent: TabsComponent
+    private tabsComponent: TabsComponent,
+    private notificationsService: NotificationsService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initQtyNotifications();
+
+    const minutes = 0.5;
+    this.timerSubscription = timer(0, minutes * 60000).subscribe(() => {
+      this.notificationQtySubject.next();
+    });
+  }
 
   ionViewWillEnter() {
     this.getStatus();
@@ -212,6 +227,24 @@ export class FundsListPage implements OnInit {
 
   ionViewDidEnter() {
     this.getOwnerFundBalances();
+  }
+
+  initQtyNotifications() {
+    this.notificationQtySubscription = this.notificationQtySubject.pipe(
+      switchMap(
+        () => this.notificationsService.getCountNotifications().pipe(
+          catchError(
+            (err) => {
+              return EMPTY;
+            },
+          ),
+        ),
+      ),
+    ).subscribe(
+      (res: any) => this.unreadNotifications = res['count']
+    );
+
+    this.notificationQtySubject.next();
   }
 
   getStatus() {
@@ -281,6 +314,7 @@ export class FundsListPage implements OnInit {
   showNotifications() {
     // TODO: Implementar notificaciones.
     this.navController.navigateForward('notifications/list');
+    this.unreadNotifications = 0;
   }
 
   goToProfile() {
@@ -298,5 +332,10 @@ export class FundsListPage implements OnInit {
       ? 'apikeys/tutorial'
       : 'funds/fund-name';
     this.tabsComponent.newFundUrl = this.newFundUrl;
+  }
+
+  ngOnDestroy() {
+    this.notificationQtySubscription.unsubscribe();
+    this.timerSubscription.unsubscribe();
   }
 }

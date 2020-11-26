@@ -15,6 +15,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 describe('FundsListPage', () => {
   let component: FundsListPage;
@@ -28,6 +29,8 @@ describe('FundsListPage', () => {
   let tabsComponentMock: any;
   let tabsComponent: TabsComponent;
   let navControllerSpy: any;
+  let notificationsService: NotificationsService;
+  let notificationsServiceMock: any;
 
   beforeEach(async(() => {
     logsServiceMock = {
@@ -53,6 +56,10 @@ describe('FundsListPage', () => {
         })
     };
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+
+    notificationsServiceMock = {
+      getNotifications: () => of({})
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -98,6 +105,10 @@ describe('FundsListPage', () => {
         {
           provide: NavController,
           useValue: navControllerSpy
+        },
+        {
+          provide: NotificationsService,
+          useValue: notificationsServiceMock
         }
       ]
     }).compileComponents();
@@ -197,17 +208,17 @@ describe('FundsListPage', () => {
   });
 
   // TODO: Activate this test when notifications button shows
-  // xit('should call trackEvent on trackService when Show Notifications button clicked', () => {
-  //   const el = trackClickDirectiveHelper.getByElementByName(
-  //     'ion-button',
-  //     'Show Notifications'
-  //   );
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+  it('should call trackEvent on trackService when Show Notifications button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Show Notifications'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
   it('should call trackEvent on trackService when Action Button button clicked', () => {
     component.status = {

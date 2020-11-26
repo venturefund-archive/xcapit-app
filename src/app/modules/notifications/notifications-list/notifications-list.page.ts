@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NotificationsStorageService } from '../shared-notifications/services/notifications-storage/notifications-storage.service';
+import { NotificationsService } from '../shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -16,10 +17,8 @@ import { NavController } from '@ionic/angular';
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      <ion-list
-        *ngIf="this.notifications$ | async as notifications; else loading"
-      >
+    <ion-content class="">
+      <ion-list *ngIf="this.notifications">
         <app-notification-item
           *ngFor="let notification of notifications"
           [notification]="notification"
@@ -43,14 +42,21 @@ import { NavController } from '@ionic/angular';
 })
 export class NotificationsListPage implements OnInit {
   notifications$: Observable<any>;
+  notifications: any;
 
   constructor(
     private notificationsStorage: NotificationsStorageService,
-    private navController: NavController
+    private navController: NavController,
+    private notificationsService: NotificationsService
   ) {}
 
   ngOnInit() {
     this.notifications$ = this.notificationsStorage.notifications;
+    this.getNotifications();
+  }
+
+  ionViewWillLeave(){
+    this.markAsRead();
   }
 
   removeNotification(notificationId: any) {
@@ -61,5 +67,19 @@ export class NotificationsListPage implements OnInit {
     this.navController.navigateForward([
       `/notifications/view/${notificationId}`
     ]);
+  }
+
+  async getNotifications() {
+    this.notificationsService.getNotifications()
+    .subscribe((res) => {
+      this.notifications = res;
+    });
+  }
+
+  async markAsRead() {
+    this.notificationsService.markAsRead()
+    .subscribe((res) => {
+      null
+    })
   }
 }
