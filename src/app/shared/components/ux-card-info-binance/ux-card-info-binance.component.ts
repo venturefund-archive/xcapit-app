@@ -6,7 +6,7 @@ const { Browser } = Plugins;
 @Component({
   selector: 'app-ux-card-info-binance',
   template: `
-    <div class="cib ">
+    <div class="cib " (click)="this.moreInfo()">
       <div class="cib__main">
         <div class="cib__main__content ion-padding">
           <div
@@ -37,7 +37,6 @@ const { Browser } = Plugins;
         <ion-button
           appTrackClick
           name="More Info"
-          (click)="this.moreInfo()"
           fill="clear"
           size="small"
           class="cib__footer__more_info ux-font-lato ux-fweight-semibold ux-fsize-14"
