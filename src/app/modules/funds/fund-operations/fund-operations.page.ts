@@ -24,16 +24,21 @@ import * as moment from 'moment';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="foc">
+      <div>
         <app-ux-date-range>
-          <ion-list>
-            <ion-item class="foc__since">
-              <ion-label
-                color="uxmedium"
-                class="ux-font-lato ux-fweight-regular ux-fsize-12"
-                >{{ 'funds.fund_operations.since_date_range' | translate }}:
-              </ion-label>
-              <section>
+          <div class="foc">
+            <div class="foc__date">
+              <div class="foc__date__label">
+                <ion-label
+                  color="uxmedium"
+                  class="ux-font-lato ux-fweight-regular ux-fsize-12"
+                >
+                  <ion-text>
+                    {{ 'funds.fund_operations.since_date_range' | translate }}:
+                  </ion-text>
+                </ion-label>
+              </div>
+              <div class="foc__date__datetime-section">
                 <ion-icon [name]="'ux-calendar'"></ion-icon>
                 <ion-datetime
                   class="ux-font-lato ux-fweight-regular ux-fsize-12"
@@ -43,16 +48,18 @@ import * as moment from 'moment';
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'since')"
                 ></ion-datetime>
-              </section>
-            </ion-item>
-            <ion-item class="foc__until">
-              <ion-label
-                color="uxmedium"
-                class="ux-font-lato ux-fweight-regular ux-fsize-12"
-              >
-                {{ 'funds.fund_operations.until_date_range' | translate }}:
-              </ion-label>
-              <section>
+              </div>
+            </div>
+            <div class="foc__date">
+              <div class="foc__date__label">
+                <ion-label
+                  color="uxmedium"
+                  class="ux-font-lato ux-fweight-regular ux-fsize-12"
+                >
+                  {{ 'funds.fund_operations.until_date_range' | translate }}:
+                </ion-label>
+              </div>
+              <div class="foc__date__datetime-section">
                 <ion-icon [name]="'ux-calendar'"></ion-icon>
                 <ion-datetime
                   class="ux-font-lato ux-fweight-regular ux-fsize-12"
@@ -62,9 +69,9 @@ import * as moment from 'moment';
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'until')"
                 ></ion-datetime>
-              </section>
-            </ion-item>
-          </ion-list>
+              </div>
+            </div>
+          </div>
         </app-ux-date-range>
       </div>
       <div class="fol">
