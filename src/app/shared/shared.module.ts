@@ -32,6 +32,7 @@ import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
 import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loading-block.component';
 import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
 import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
+import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 
 @NgModule({
   declarations: [
@@ -62,8 +63,9 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
     BinanceLogoComponent,
     SuccessContentComponent,
     UxCheckboxComponent,
+    UxDateRangeComponent,
     // Pipes
-    LocalizedDatePipe
+    LocalizedDatePipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [
@@ -72,7 +74,7 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
     TranslateModule.forChild(),
     TrackClickModule,
     TrackClickUnauthModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [
     ErrorsFormItemComponent,
@@ -107,8 +109,9 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
     BinanceLogoComponent,
     SuccessContentComponent,
     UxCheckboxComponent,
+    UxDateRangeComponent,
     // Pipes
-    LocalizedDatePipe
-  ]
+    LocalizedDatePipe,
+  ],
 })
 export class SharedModule {}

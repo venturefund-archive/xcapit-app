@@ -3,11 +3,12 @@ import { FundSummaryInterface } from './fund-summary.interface';
 import { ShareService } from 'src/app/shared/services/share/share.service';
 import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-fund-summary-card',
   template: `
-    <div class="fsc" (click)="this.shareSubscriptionLink()">
+    <div class="fsc" (click)="this.showShareSubscriptionAlert()">
       <div class="fsc__content">
         <div class="fsc__content__left">
           <div class="fund-name">
@@ -104,10 +105,10 @@ import { TranslateService } from '@ngx-translate/core';
               type="submit"
               fill="clear"
               size="small"
-              (click)="this.shareSubscriptionLink()"
               [disabled]="!this.summary"
+              class="ux-font-lato ux-fweight-semibold ux-fsize-14"
             >
-              <ion-icon slot="icon-only" name="ux-share"></ion-icon>
+              {{ 'funds.fund_detail.fund_summary_card.invite' | translate }}
             </ion-button>
           </div>
         </div>
@@ -121,10 +122,30 @@ export class FundSummaryCardComponent implements OnInit {
   constructor(
     private shareService: ShareService,
     private translate: TranslateService,
-    private apiSubscriptions: ApiSubscriptionsService
+    private apiSubscriptions: ApiSubscriptionsService,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {}
+
+  async showShareSubscriptionAlert() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('funds.fund_detail.fund_summary_card.alert_header'),
+      message: this.translate.instant('funds.fund_detail.fund_summary_card.alert_message'),
+      buttons: [
+        {
+          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_exit_button'),
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_share_button'),
+          handler: _ => this.shareSubscriptionLink()
+        }
+      ]
+    });
+    await alert.present();
+  }
 
   shareSubscriptionLink() {
     this.apiSubscriptions

@@ -100,6 +100,20 @@ export const routes: Routes = [
           import('./funds-finished/funds-finished.module').then(
             m => m.FundsFinishedPageModule
           )
+      },
+      {
+        path: 'fund-operations/:fundName',
+        loadChildren: () =>
+          import('./fund-operations/fund-operations.module').then(
+            m => m.FundOperationsPageModule
+          )
+      },
+      {
+        path: 'fund-operations-detail/:orderID',
+        loadChildren: () =>
+          import('./fund-operations-detail/fund-operations-detail.module').then(
+            m => m.FundOperationsDetailPageModule
+          )
       }
     ]
   }

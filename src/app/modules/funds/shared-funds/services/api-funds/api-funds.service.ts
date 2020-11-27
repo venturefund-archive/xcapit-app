@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiFundsService {
   entity = 'funds';
@@ -50,8 +50,8 @@ export class ApiFundsService {
       `${environment.apiUrl}/${this.entity}/name/${fundName}/balance`,
       {
         params: {
-          to_ca: toCa
-        }
+          to_ca: toCa,
+        },
       },
       undefined,
       loading
@@ -186,6 +186,33 @@ export class ApiFundsService {
       undefined,
       undefined,
       loading
+    );
+  }
+
+  getOperationsHistory(
+    fundName: string,
+    options: any = {}
+  ): Observable<any> {
+    // this.loadingService.disabled();
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/orders/get_by_fund_name/${fundName}`,
+      {
+        params: options,
+      },
+      undefined,
+      false
+    );
+  }
+
+  getOrderDetail(order_id: string, options: any = {}): Observable<any> {
+    // this.loadingService.disabled();
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/orders/get_by_id/${order_id}`,
+      {
+        params: options,
+      },
+      undefined,
+      false
     );
   }
 }

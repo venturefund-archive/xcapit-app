@@ -71,6 +71,7 @@ describe('FundDetailPage', () => {
 
     fixture = TestBed.createComponent(FundDetailPage);
     component = fixture.componentInstance;
+    component.isOwner = true;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
