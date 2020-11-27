@@ -132,10 +132,17 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   createChart() {
     const width = window.innerWidth * 0.8;
-    const height = window.innerHeight * 0.8;
+    let height = window.innerHeight * 0.4;
     const div = document.getElementById('chart');
     const dataSet = this.createDataSet();
     const limitDataSet = this.createLimitDataSet();
+
+    if (height > 300){
+      height = 300;
+    } else if (height < 200) {
+      height = 200;
+    }
+    
     this.chart = createChart(div, {
       width: width,
       height: height,
