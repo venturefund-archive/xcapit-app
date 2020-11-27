@@ -456,7 +456,8 @@
       "order_side_sell": "SELL",
       "order_type_market": "Market",
       "cancel_datepicker_text": "Cancel",
-      "done_datepicker_text": "Done"
+      "done_datepicker_text": "Done",
+      "loading_infinite_scroll": "Loading more data"
     },
     "fund_operations_detail": {
       "title": "Order Detail",

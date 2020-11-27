@@ -134,7 +134,7 @@ import * as moment from 'moment';
       <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadMore()">
         <ion-infinite-scroll-content
           loadingSpinner="bubbles"
-          loadingText="Loading more data..."
+          loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
         >
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
