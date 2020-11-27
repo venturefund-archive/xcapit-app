@@ -127,6 +127,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
           *ngIf="this.fundBalance"
           [fundBalance]="this.fundBalance"
           [fundName]="this.fundName"
+          [isOwner]="this.isOwner"
         ></app-fund-portfolio-card>
       </div>
 

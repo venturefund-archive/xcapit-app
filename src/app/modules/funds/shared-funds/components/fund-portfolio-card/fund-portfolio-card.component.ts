@@ -93,6 +93,8 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
 export class FundPortfolioCardComponent implements OnInit {
   @Input() fundBalance: any;
   @Input() fundName: string;
+  @Input() isOwner: any;
+
   orderedPortfolio: Array<{
     ca: string;
     amount: number;
@@ -148,7 +150,8 @@ export class FundPortfolioCardComponent implements OnInit {
         startDate: this.fundBalance.balance.start_time,
         endDate: this.fundBalance.balance.end_time,
         currency: this.fundBalance.fund.currency,
-        fundName: this.fundName
+        fundName: this.fundName,
+        isOwner: this.isOwner
       },
       swipeToClose: false,
       cssClass: 'ux-routeroutlet-modal',
