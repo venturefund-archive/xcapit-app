@@ -81,12 +81,10 @@
   }
 
   .academy {
-    color: #0000008a;
-    &__card_info_robot {
-      margin-top: 16px;
-    }
-    &__card_info_binance {
-      margin-top: 8px;
+    &__news{
+      &__title{
+        margin-bottom:8px;
+      }
     }
   }
 

@@ -15,6 +15,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 describe('FundsListPage', () => {
@@ -24,11 +25,13 @@ describe('FundsListPage', () => {
   let apiUsuariosServiceMock: any;
   let apiFundsService: ApiFundsService;
   let apiUsuariosService: ApiUsuariosService;
+  let apiWebflowService : ApiWebflowService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
   let tabsComponentMock: any;
   let tabsComponent: TabsComponent;
   let navControllerSpy: any;
+  let apiWebflowServiceMock: any;
   let notificationsService: NotificationsService;
   let notificationsServiceMock: any;
 
@@ -42,6 +45,11 @@ describe('FundsListPage', () => {
 
     apiFundsServiceMock = {
       getFundBalances: () => of([]),
+      status: () => of({})
+    };
+
+    apiWebflowServiceMock = {
+      getNews: () => of([]),
       status: () => of({})
     };
 
@@ -107,6 +115,10 @@ describe('FundsListPage', () => {
           useValue: navControllerSpy
         },
         {
+          provide: ApiWebflowService,
+          useValue: apiWebflowServiceMock
+        },
+        {
           provide: NotificationsService,
           useValue: notificationsServiceMock
         }
@@ -119,6 +131,7 @@ describe('FundsListPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiFundsService = TestBed.inject(ApiFundsService);
+    apiWebflowService = TestBed.inject(ApiWebflowService);
     tabsComponent = TestBed.inject(TabsComponent);
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     logsServiceMock = TestBed.inject(LogsService);
@@ -237,6 +250,13 @@ describe('FundsListPage', () => {
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call getNews in apiWebflow', () => {
+    const spy = spyOn(apiWebflowService, 'getNews');
+    spy.and.returnValue(of([]));
+    component.ionViewDidEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });
