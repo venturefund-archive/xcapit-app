@@ -102,11 +102,6 @@ describe('FundDetailPage', () => {
   //   expect(apiFundsSpy.getFundRuns).toHaveBeenCalledTimes(1);
   // });
 
-  it('should call mockController create on changeDelta', () => {
-    component.changeDelta();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
   it('should call apiFunds.getPercentageEvolution on setDelta', () => {
     component.setDelta('1d');
     expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
