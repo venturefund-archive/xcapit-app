@@ -13,13 +13,15 @@ import {
   ChartLayoutOptions,
 } from 'chart.js';
 import { DatePipe } from '@angular/common';
+import { createChart } from 'lightweight-charts';
+import { HostListener } from "@angular/core";
 
 @Component({
   selector: 'app-fund-performance-chart',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
       <div class="fund_performance_chart">
-          <canvas id="performance_chart"></canvas>
+          <div id="chart" class="fund_performance_chart__chart"></div>
       </div>
   `,
   styleUrls: ['./fund-performance-chart.component.scss'],
@@ -28,12 +30,18 @@ export class FundPerformanceChartComponent implements OnChanges {
   @Input() fundPercentageEvolution: any;
   @Input() interval: string;
 
-  chart: Chart;
+  chart: any;
+  limit: string;
 
   constructor(
     private datePipe: DatePipe,
     private languageService: LanguageService
   ) {}
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.chart.resize(event.target.innerWidth * 0.8, event.target.innerHeight * 0.8);
+  }
 
   gridLineOptions: GridLineOptions = {
     display: false,
@@ -118,182 +126,126 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.setChart();
+    //this.setChart();
+    this.createChart();
   }
 
-  getPerformanceDataset() {
-    return {
-      label: 'Performance',
-        data: this.fundPercentageEvolution.percentage_evolution,
-      borderColor: '#FFFFFF',
-      borderWidth: 2,
-      fill: true,
-      pointRadius: 1,
-    };
-  }
-
-  getTakeProfitDataset() {
-    return [
-      {
-      label: 'Take Profit',
-      data: this.setTakeProfitData(),
-      backgroundColor: '#FFFFFF',
-      borderColor: '#FFFFFF4D',
-      borderWidth: 1,
-      fill: false,
-      pointRadius: 0,
-    }, {
-      label: 'Take Profit',
-      data: this.setTakeProfitPointData(),
-      backgroundColor: '#21DD62',
-      borderColor: '#FFFFFF',
-      borderWidth: 1,
-      fill: false,
-      pointRadius: 5,
-      showLine: false,
-      tooltip: false,
-      hoverRadius: 0
-    }
-    ];
-  }
-
-  getStopLossDataset() {
-    return [{
-      label: 'Stop Loss',
-      data: this.setStopLossData(),
-      backgroundColor: '#FFFFFF',
-      borderColor: '#FFFFFF4D',
-      borderWidth: 1,
-      fill: false,
-      pointRadius: 0,
-    }, {
-      label: 'Stop Loss',
-      data: this.setStopLossPointData(),
-      backgroundColor: '#ef170e',
-      borderColor: '#FFFFFF',
-      borderWidth: 1,
-      fill: false,
-      pointRadius: 5,
-      showLine: false,
-      hoverRadius: 0
-    }
-    ];
-  }
-
-  getDatasets() {
-    let datasets: any[] = [this.getPerformanceDataset()];
-    const lastPerformanceValue = this.fundPercentageEvolution.percentage_evolution[
-    this.fundPercentageEvolution.percentage_evolution.length - 1];
-
-    if ((this.fundPercentageEvolution.take_profit <= 5) || (lastPerformanceValue >= (this.fundPercentageEvolution.take_profit - 5))) {
-      datasets = datasets.concat(this.getTakeProfitDataset());
-    }
-
-    if ((this.fundPercentageEvolution.stop_loss <= 5) || (lastPerformanceValue <= (-this.fundPercentageEvolution.stop_loss + 5))) {
-      datasets = datasets.concat(this.getStopLossDataset());
-    }
-    return datasets;
-  }
-
-  setChart() {
-    if (this.hasPerformanceData()) {
-      this.chart = new Chart('performance_chart', {
-        type: 'line',
-        data: {
-          labels: this.normalizeLabels(),
-          datasets: this.getDatasets(),
+  createChart() {
+    const width = window.innerWidth * 0.8;
+    const height = window.innerHeight * 0.8;
+    const div = document.getElementById('chart');
+    const dataSet = this.createDataSet();
+    const limitDataSet = this.createLimitDataSet();
+    this.chart = createChart(div, {
+      width: width,
+      height: height,
+      localization: {
+        dateFormat: 'dd/MM/yyyy',
+      },
+      layout: {
+		    backgroundColor: '#FF9100',
+		    textColor: 'rgba(255, 255, 255, 0.9)',
+	    },
+	    grid: {
+		    vertLines: {
+			    color: 'rgba(255, 255, 255, 0.5)',
+			    visible: false
+		    },
+		    horzLines: {
+			    color: 'rgba(255, 255, 255, 0.5)',
+			    visible: false
+		    },
+	    },
+      crosshair: {
+        vertLine: {
+          color: 'rgba(255, 255, 255, 0.5)',
         },
-        options: {
-          responsive: true,
-          legend: {
-            display: false,
-          },
-          layout: this.layoutOptions(),
-          scales: this.scalesOptions(),
-          tooltips: this.tooltipsOptions(),
-        },
+        horzLine: {
+          color: 'rgba(255, 255, 255, 0.5)',
+        }
+      },
+	    rightPriceScale: {
+		    borderColor: 'rgba(255, 255, 255, 0.8)',
+	    },
+	    timeScale: {
+		    borderColor: 'rgba(255, 255, 255, 0.8)',
+		    timeVisible: this.interval == '1d' ? true : false,
+        secondsVisible: false,
+	    },
+	  });
+
+	  if (limitDataSet) {
+      const lineSeries = this.chart.addLineSeries({
+        color: this.limit == "take_profit" ? '#00FF04' : '#FF0000'
       });
-      this.setGradient();
+      lineSeries.setData(limitDataSet);
     }
+
+    const areaSeries = this.chart.addAreaSeries({
+      lineColor: '#FFFFFF',
+      topColor: '#FFFFFF',
+      bottomColor: '#FF9100'
+    });
+    areaSeries.setData(dataSet);
+
+    this.setXAxisRange()
   }
 
-  setStopLossData() {
-    return new Array<number>(this.fundPercentageEvolution.percentage_evolution.length).fill(
-      -parseFloat(this.fundPercentageEvolution.stop_loss)
-    );
-  }
-
-  setTakeProfitData() {
-    return new Array<number>(this.fundPercentageEvolution.percentage_evolution.length).fill(
-      parseFloat(this.fundPercentageEvolution.take_profit)
-    );
-  }
-
-  setStopLossPointData() {
-    const emptyArray = new Array<number>(this.fundPercentageEvolution.percentage_evolution.length).fill(
-      null
-    );
-    emptyArray[emptyArray.length - 1] = -parseFloat(this.fundPercentageEvolution.stop_loss);
-    return emptyArray;
-  }
-
-  setTakeProfitPointData() {
-    const emptyArray = new Array<number>(this.fundPercentageEvolution.percentage_evolution.length).fill(
-      null
-    );
-    emptyArray[emptyArray.length - 1] = parseFloat(this.fundPercentageEvolution.take_profit);
-    return emptyArray;
-  }
-
-  setGradient() {
-    const context = this.chart.canvas.getContext('2d');
-    const gradient = context.createLinearGradient(0, 0, 0, 1214);
-    gradient.addColorStop(0.5, '#FFFFFF4D');
-    gradient.addColorStop(1, '#FFFFFF');
-    const newData = this.chart.data;
-    newData.datasets[0].backgroundColor = gradient;
-    this.chart.data = newData;
-    this.chart.update();
-  }
-
-  normalizeLabels(): string[] {
-    const pattern = this.getIntervalPattern(this.interval);
-    return this.fundPercentageEvolution.timestamp.map((item: string) =>
-      this.datePipe
-        .transform(item, pattern, undefined, this.languageService.selected)
-        .toUpperCase()
-    );
-  }
-
-  hasPerformanceData(): boolean {
-    return (
-      this.fundPercentageEvolution &&
-      Array.isArray(this.fundPercentageEvolution.timestamp) &&
-      this.fundPercentageEvolution.timestamp.length &&
-      Array.isArray(this.fundPercentageEvolution.percentage_evolution) &&
-      this.fundPercentageEvolution.percentage_evolution.length
-    );
-  }
-
-  getIntervalPattern(interval: string): string {
-    let pattern: string;
-    switch (interval) {
-      case '1d':
-        pattern = 'hh:mm';
-        break;
-      case '7d':
-        pattern = 'EEE';
-        break;
-      case '30d':
-        pattern = 'd/M';
-        break;
-      case 'all':
-        pattern = 'd/M';
-        break;
-      default:
-        pattern = 'd/M';
-        break;
+  createDataSet() {
+    let dataSet = [];
+    let i;
+    let time;
+    let value;
+    let date;
+    for (i = 0; i < this.fundPercentageEvolution.percentage_evolution.length ; i++) {
+      if (i != this.fundPercentageEvolution.percentage_evolution.length - 2) {
+        date = new Date(this.fundPercentageEvolution.timestamp[i])
+        time = (new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0))).getTime() / 1000,
+        value = this.fundPercentageEvolution.percentage_evolution[i];
+        dataSet.push({time: time, value: value})
+      }
     }
-    return pattern;
+    return dataSet;
+  }
+
+  setXAxisRange() {
+    let dateFrom = new Date(this.fundPercentageEvolution.timestamp[0]);
+    let dateTo = new Date(this.fundPercentageEvolution.timestamp[this.fundPercentageEvolution.timestamp.length - 1]);
+    this.chart.timeScale().setVisibleRange({
+      from: (new Date(Date.UTC(dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
+      to: (new Date(Date.UTC(dateTo.getFullYear(), dateTo.getMonth(), dateTo.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
+    });
+  }
+
+  createLimitDataSet(): any[] {
+    const lastPerformanceValue = this.fundPercentageEvolution.percentage_evolution[this.fundPercentageEvolution.percentage_evolution.length - 1];
+    let limitDataSet;
+    if (Math.abs(this.fundPercentageEvolution.take_profit - lastPerformanceValue) <= 5) {
+      limitDataSet = this.getLimitDataSet(this.fundPercentageEvolution.take_profit);
+      this.limit = "take_profit";
+    }
+
+    if (Math.abs(- this.fundPercentageEvolution.stop_loss - lastPerformanceValue) <= 5) {
+      limitDataSet = this.getLimitDataSet(-this.fundPercentageEvolution.stop_loss);
+      this.limit = "stop_loss";
+    }
+    return limitDataSet;
+  }
+
+  getLimitDataSet(limit): any[] {
+    let dataSet = [];
+    let i;
+    let time;
+    let value;
+    let date;
+    for (i = 0; i < this.fundPercentageEvolution.timestamp.length ; i++) {
+      if (i != this.fundPercentageEvolution.timestamp.length - 2) {
+        date = new Date(this.fundPercentageEvolution.timestamp[i])
+        time = (new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0))).getTime() / 1000,
+        value = limit;
+        dataSet.push({time: time, value: value})
+      }
+    }
+    return dataSet;
   }
 }

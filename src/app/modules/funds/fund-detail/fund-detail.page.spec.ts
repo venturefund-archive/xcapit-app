@@ -96,10 +96,12 @@ describe('FundDetailPage', () => {
     expect(apiFundsSpy.getLastFundRun).toHaveBeenCalledTimes(1);
   });
 
-  it('should call mockController create on changeDelta', () => {
-    component.changeDelta();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
+  // Comentado hasta que se implemente el componente del detalle de cada movimiento
+
+  // it('should call apiFunds.getFundRuns on ionViewWillEnter', () => {
+  //   component.ionViewWillEnter();
+  //   expect(apiFundsSpy.getFundRuns).toHaveBeenCalledTimes(1);
+  // });
 
   it('should call apiFunds.getPercentageEvolution on setDelta', () => {
     component.setDelta('1d');

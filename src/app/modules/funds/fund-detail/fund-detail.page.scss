@@ -32,6 +32,20 @@
           }
         }
       }
+      &__periods {
+        height: 40px;
+        &__period {
+          float: left;
+          cursor: pointer;
+          margin: 0 10px 0 2px;
+          &__button {
+            color: #0000008A;
+          }
+          .active{
+	          color: #FF9100
+          }
+        }
+      }
     }
   }
 }
