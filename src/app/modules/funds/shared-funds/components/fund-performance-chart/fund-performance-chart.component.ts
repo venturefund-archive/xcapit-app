@@ -40,7 +40,7 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.chart.resize(event.target.innerWidth * 0.8, event.target.innerHeight * 0.8);
+    this.chart.resize(event.target.innerWidth * 0.8, event.target.innerHeight * 0.3);
   }
 
   gridLineOptions: GridLineOptions = {
@@ -132,7 +132,7 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   createChart() {
     const width = window.innerWidth * 0.8;
-    const height = window.innerHeight * 0.8;
+    const height = 300;
     const div = document.getElementById('chart');
     const dataSet = this.createDataSet();
     const limitDataSet = this.createLimitDataSet();
