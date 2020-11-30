@@ -228,8 +228,10 @@ export class FundDetailPage implements OnInit {
     this.apiFunds
       .getPercentageEvolution(this.fundName, '', delta.value, frequency, false)
       .subscribe(data => {
-        data.percentage_evolution.take_profit = data.fund.ganancia;
-        data.percentage_evolution.stop_loss = data.fund.perdida;
+        if (data.percentage_evolution) {
+          data.percentage_evolution.take_profit = data.fund.ganancia;
+          data.percentage_evolution.stop_loss = data.fund.perdida;
+        }
         this.fundPercentageEvolution = data.percentage_evolution;
         this.selectedDelta = delta;
         this.currency = data.fund.currency;
