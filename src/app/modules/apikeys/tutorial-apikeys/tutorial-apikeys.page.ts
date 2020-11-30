@@ -45,6 +45,7 @@ const { Browser } = Plugins;
                   <ion-col>
                     <app-ux-text>
                       {{ 'apikeys.tutorial_apikeys.step1' | translate }}
+                    <ion-icon slot="end" name="person"></ion-icon>
                     </app-ux-text>
                   </ion-col>
                 </ion-row>
@@ -130,18 +131,21 @@ const { Browser } = Plugins;
       </div>
     </ion-content>
   `,
-  styleUrls: ['./tutorial-apikeys.page.scss']
+  styleUrls: ['./tutorial-apikeys.page.scss'],
 })
 export class TutorialApikeysPage implements OnInit {
   constructor() {
     Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/']
+      urls: ['https://www.info.xcapit.com/'],
     });
   }
 
   ngOnInit() {}
 
   async moreInfo() {
-    await Browser.open({ toolbarColor:"#ff9100", url: 'https://www.info.xcapit.com/' });
+    await Browser.open({
+      toolbarColor: '#ff9100',
+      url: 'https://www.info.xcapit.com/',
+    });
   }
 }
