@@ -7,6 +7,10 @@
       margin-top: 10px;
       font-weight: 500;
     }
+    &__header-button {
+      text-align: right;
+      display: block;
+    }
     &__fund-metrics-card {
       margin-top: 24px;
     }
@@ -25,6 +29,20 @@
         .delta-button {
           ion-icon {
             width: 8px;
+          }
+        }
+      }
+      &__periods {
+        height: 40px;
+        &__period {
+          float: left;
+          cursor: pointer;
+          margin: 0 10px 0 2px;
+          &__button {
+            color: #0000008A;
+          }
+          .active{
+	          color: #FF9100
           }
         }
       }

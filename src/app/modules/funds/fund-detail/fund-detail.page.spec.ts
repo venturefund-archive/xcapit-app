@@ -14,13 +14,12 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from '../../../../testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
-const testMetrics = {
-  fund: {
+
+const testFund = [
+  {
     fundName: 'Test',
-    currency: 'BTC',
-  },
-  balance: {},
-};
+  }
+];
 
 const testPerformance = {
   fund: {
@@ -46,7 +45,8 @@ describe('FundDetailPage', () => {
 
     apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
       getPercentageEvolution: of(testPerformance),
-      getMetrics: of(testMetrics),
+      getFundBalances: of(testFund),
+      getLastFundRun: of({}),
       getBalance: of({}),
       getFundRuns: of({}),
     });
@@ -71,6 +71,7 @@ describe('FundDetailPage', () => {
 
     fixture = TestBed.createComponent(FundDetailPage);
     component = fixture.componentInstance;
+    component.isOwner = true;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
@@ -84,9 +85,15 @@ describe('FundDetailPage', () => {
     expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
   });
 
-  it('should call apiFunds.getMetrics on ionViewWillEnter', () => {
+  it('should call apiFunds.getFundBalances on ionViewWillEnter', () => {
     component.ionViewWillEnter();
-    expect(apiFundsSpy.getMetrics).toHaveBeenCalledTimes(1);
+    component.fundName = "test";
+    expect(apiFundsSpy.getFundBalances).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call apiFunds.getLastFundRun on ionViewWillEnter', () => {
+    component.ionViewWillEnter();
+    expect(apiFundsSpy.getLastFundRun).toHaveBeenCalledTimes(1);
   });
 
   // Comentado hasta que se implemente el componente del detalle de cada movimiento
@@ -95,11 +102,6 @@ describe('FundDetailPage', () => {
   //   component.ionViewWillEnter();
   //   expect(apiFundsSpy.getFundRuns).toHaveBeenCalledTimes(1);
   // });
-
-  it('should call mockController create on changeDelta', () => {
-    component.changeDelta();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
 
   it('should call apiFunds.getPercentageEvolution on setDelta', () => {
     component.setDelta('1d');

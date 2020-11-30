@@ -62,89 +62,29 @@ describe('FundPerformanceChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call setChart on changes', () => {
-    const spy = spyOn(component, 'setChart');
+  it('should call createChart on changes', () => {
+    const spy = spyOn(component, 'createChart');
     component.ngOnChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call scalesOptions on setChart', () => {
-    const spy = spyOn(component, 'scalesOptions');
-    component.setChart();
+  it('should call createDataSet on createChart', () => {
+    const spy = spyOn(component, 'createDataSet');
+    spy.and.returnValue([{time: 1605883607, value: 3.14}])
+    component.createChart();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call layoutOptions on setChart', () => {
-    const spy = spyOn(component, 'layoutOptions');
-    component.setChart();
+  it('should call createLimitDataSet on createChart', () => {
+    const spy = spyOn(component, 'createLimitDataSet');
+    spy.and.returnValue([{time: 1605883607, value: 3.14}])
+    component.createChart();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call setGradient on setChart', () => {
-    const spy = spyOn(component, 'setGradient');
-    component.setChart();
+  it('should call setXAxisrange on createChart', () => {
+    const spy = spyOn(component, 'setXAxisRange');
+    component.createChart();
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call normalizeLabels on setChart', () => {
-    const spy = spyOn(component, 'normalizeLabels');
-    component.setChart();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call hasPerformanceData on setChart', () => {
-    const spy = spyOn(component, 'hasPerformanceData');
-    component.setChart();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call getTakeProfitDataset on getDatasets when TP is 5', () => {
-    component.fundPercentageEvolution.take_profit = 5;
-    fixture.detectChanges();
-    const spy = spyOn(component, 'getTakeProfitDataset');
-    component.getDatasets();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call getStopLossDataset on getDatasets when SL is 5', () => {
-    component.fundPercentageEvolution.stop_loss = 5;
-    fixture.detectChanges();
-    const spy = spyOn(component, 'getStopLossDataset');
-    component.getDatasets();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not call getTakeProfitDataset on getDatasets when TP is 10 and last percentage is 4', () => {
-    component.fundPercentageEvolution.take_profit = 10;
-    component.fundPercentageEvolution.percentage_evolution = [4];
-    fixture.detectChanges();
-    const spy = spyOn(component, 'getTakeProfitDataset');
-    component.getDatasets();
-    expect(spy).toHaveBeenCalledTimes(0);
-  });
-
-  it('should not call getStopLossDataset on getDatasets when SL is -10 and last percentage is -4', () => {
-    component.fundPercentageEvolution.stop_loss = 10;
-    component.fundPercentageEvolution.percentage_evolution = [-4];
-    fixture.detectChanges();
-    const spy = spyOn(component, 'getStopLossDataset');
-    component.getDatasets();
-    expect(spy).toHaveBeenCalledTimes(0);
-  });
-
-  it('should return correct point data on setStopLossPointData is called', () => {
-    component.fundPercentageEvolution.stop_loss = 10;
-    component.fundPercentageEvolution.percentage_evolution = [2, -7];
-    fixture.detectChanges();
-    const returnValue = component.setStopLossPointData();
-    expect(returnValue).toEqual([null, -10]);
-  });
-
-  it('should return correct point data on setTakeProfitPointData is called', () => {
-    component.fundPercentageEvolution.take_profit = 10;
-    component.fundPercentageEvolution.percentage_evolution = [2, 7];
-    fixture.detectChanges();
-    const returnValue = component.setTakeProfitPointData();
-    expect(returnValue).toEqual([null, 10]);
   });
 });

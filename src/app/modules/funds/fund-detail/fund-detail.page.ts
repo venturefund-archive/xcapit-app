@@ -24,16 +24,18 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
             this.fundName
           }}</ion-title>
         </div>
-        <ion-buttons slot="end">
-          <ion-button
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
-            appTrackClick
-            name="Edit Fund"
-            (click)="this.editFund()"
-          >
-            {{ 'funds.fund_detail.edit_button' | translate }}
-          </ion-button>
-        </ion-buttons>
+        <div class="fd__header-button" *ngIf="this.isOwner">
+          <ion-buttons class="fd__header-button" slot="end">
+            <ion-button
+              class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
+              appTrackClick
+              name="Edit Fund"
+              (click)="this.editFund()"
+            >
+              {{ 'funds.fund_detail.edit_button' | translate }}
+            </ion-button>
+          </ion-buttons>
+        </div>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -58,19 +60,22 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
           >
             {{ 'funds.fund_detail.performance_chart_card.title' | translate }}
           </ion-text>
-          <ion-button
-            color="uxsecondary"
-            class="delta-button ux-font-lato ux-fweight-semibold ux-fsize-14"
-            appTrackClick
-            name="Change Delta"
-            fill="clear"
-            size="small"
-            (click)="this.changeDelta()"
-            [disabled]="!this.fundPercentageEvolution"
+        </div>
+        <div class="fd__fund-performance-chart-card__periods">
+          <div
+            class="fd__fund-performance-chart-card__periods__period"
+            *ngFor="let delta of deltas"
           >
-            {{ this.selectedDelta.name }}
-            <ion-icon slot="end" name="ux-down"></ion-icon>
-          </ion-button>
+            <ion-button
+              [ngClass] = "{ 'active': this.selectedDelta.value == delta.value }"
+              class="fd__fund-performance-chart-card__periods__period__button ux-font-lato ux-fweight-semibold ux-fsize-14"
+              fill="clear"
+              size="small"
+              (click)="this.setDelta(delta.value)"
+            >
+              {{delta.name}}
+            </ion-button>
+          </div>
         </div>
         <app-ux-loading-block
           *ngIf="!this.fundPercentageEvolution"
@@ -84,7 +89,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
       </div>
 
       <!-- Fund Metrics Card -->
-      <div class="fd__fund-metrics-card" *ngIf="this.fundMetrics">
+      <div class="fd__fund-metrics-card">
         <div class="fd__fund-metrics-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -94,13 +99,13 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
           </ion-text>
         </div>
         <app-ux-loading-block
-          *ngIf="!this.fundMetrics"
+          *ngIf="!this.fundResume || !this.fundSettings"
           minSize="40px"
         ></app-ux-loading-block>
         <app-fund-metrics-card
-          *ngIf="this.fundMetrics"
-          [metrics]="this.fundMetrics"
-          [currency]="this.currency"
+          *ngIf="this.fundResume && this.fundSettings"
+          [resume]="this.fundResume"
+          [settings]="this.fundSettings"
         ></app-fund-metrics-card>
       </div>
 
@@ -121,6 +126,8 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
         <app-fund-portfolio-card
           *ngIf="this.fundBalance"
           [fundBalance]="this.fundBalance"
+          [fundName]="this.fundName"
+          [isOwner]="this.isOwner"
         ></app-fund-portfolio-card>
       </div>
 
@@ -152,10 +159,12 @@ export class FundDetailPage implements OnInit {
   fundBalance: any;
   fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   profitGraphCardInfo$: Observable<any>;
-  fundMetrics: FundMetricsInterface;
+  fundResume: any;
+  fundSettings: any;
   fundPortfolio: Array<any>;
   fundOperationsHistory: Array<any>;
   currency: string;
+  isOwner: any;
   deltas = [
     {
       value: '1d',
@@ -220,20 +229,28 @@ export class FundDetailPage implements OnInit {
     this.apiFunds
       .getPercentageEvolution(this.fundName, '', delta.value, frequency, false)
       .subscribe(data => {
-        data.take_profit = data.fund.ganancia;
-        data.stop_loss = data.fund.perdida;
+        data.percentage_evolution.take_profit = data.fund.ganancia;
+        data.percentage_evolution.stop_loss = data.fund.perdida;
         this.fundPercentageEvolution = data.percentage_evolution;
         this.selectedDelta = delta;
+        this.currency = data.fund.currency;
+        this.isOwner = data.fund.is_owner;
+        this.getFundPortfolioCardInfo();
       });
   }
 
   getFundMetricsCardInfo() {
-    this.apiFunds.getMetrics(this.fundName, false).subscribe(data => {
-      if (Object.keys(data.metrics).length !== 0) {
-        this.fundMetrics = data.metrics;
+    this.apiFunds.getFundBalances("all", false).subscribe((data) => {
+      let fund;
+      for (fund of data) {
+        if (fund.fund_name == this.fundName) {
+          this.fundResume = fund;
+          break;
+        }
       }
-      this.currency = data.fund.currency;
-      this.getFundPortfolioCardInfo()
+    });
+    this.apiFunds.getLastFundRun(this.fundName, false).subscribe((data) => {
+      this.fundSettings = data
     });
   }
 
@@ -244,14 +261,12 @@ export class FundDetailPage implements OnInit {
         .subscribe(data => {
           this.fundBalance = data;
       });
-      console.log(this.currency)
     } else {
       this.apiFunds
         .getBalance(this.fundName, "BTC", false)
         .subscribe(data => {
           this.fundBalance = data;
       });
-      console.log(this.currency)
     }
   }
 
@@ -263,31 +278,6 @@ export class FundDetailPage implements OnInit {
 
   editFund() {
     this.router.navigate(['/funds/fund-settings', this.fundName]);
-  }
-
-  async changeDelta() {
-    const modal = await this.modalController.create({
-      component: UxSelectModalComponent,
-      componentProps: {
-        title: this.translate.instant(
-          'funds.fund_detail.performance_chart_card.delta.title'
-        ),
-        data: this.deltas,
-        keyName: 'name',
-        valueName: 'value',
-        selected: this.selectedDelta.value
-      },
-      swipeToClose: false,
-      cssClass: 'ux-routeroutlet-modal'
-    });
-
-    await modal.present();
-
-    const data = await modal.onDidDismiss();
-
-    if (data.role === 'selected') {
-      this.setDelta(data.data);
-    }
   }
 
   setDelta(selected: string) {

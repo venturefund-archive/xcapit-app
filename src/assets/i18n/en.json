@@ -113,7 +113,7 @@
         "alert_cancel_button": "Cancel",
         "alert_join_button": "Join"
       }
-    }},
+    },
     "auth_form": {
       "repeat_email": "Confirm Email",
       "repeat_password": "Confirm Password"
@@ -176,7 +176,8 @@
       },
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
-      "info_title": "KNOW MORE"
+      "info_title": "KNOW MORE",
+      "news_title": "NEWS"
     },
     "new_fund": {
       "header_new": "New Fund",
@@ -214,7 +215,12 @@
         "actual_amount": "Actual amount",
         "initial_amount": "Initial amount",
         "remaining_time": "Remaining time",
-        "days_label": "days"
+        "days_label": "days",
+        "invite": "Invite",
+        "alert_header": "Invite your friends to follow your fund",
+        "alert_message": "Share your link and they will be able to see your fund information",
+        "alert_exit_button": "Exit",
+        "alert_share_button": "Share"
       },
       "performance_chart_card": {
         "title": "YOUR INVESTMENT IN TIME",
@@ -231,12 +237,10 @@
       },
       "fund_metrics_card": {
         "title": "SUMMARY",
-        "profit": "Profit in {{currency}}",
-        "longest_drawdown": "Longest drawdown",
-        "longest_drawdown_metric": "days",
-        "sharpe": "Sharpe",
-        "max_drawdown": "Max drawdown",
-        "clarification": "Summary of your fund, annualized with periods of 2 hours."
+        "period": "period",
+        "performance": "performance",
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss"
       },
       "fund_portfolio_card": {
         "title": "PORTFOLIO COMPOSITION",
@@ -440,6 +444,31 @@
     },
     "funds_finished": {
       "header": "My finished funds"
+    },
+    "fund_operations": {
+      "title": "Operations History",
+      "since_date_range": "Begin:",
+      "until_date_range": "End",
+      "header_pair": "Pair",
+      "header_price": "Price",
+      "header_qty": "Quantity",
+      "order_side_buy": "BUY",
+      "order_side_sell": "SELL",
+      "order_type_market": "Market",
+      "cancel_datepicker_text": "Cancel",
+      "done_datepicker_text": "Done",
+      "loading_infinite_scroll": "Loading more data"
+    },
+    "fund_operations_detail": {
+      "title": "Order Detail",
+      "order_type_market": "Market",
+      "price": "Price",
+      "quantity": "Quantity",
+      "order_type_label": "Type",
+      "fee_currency": "Fee currency",
+      "status": "Status",
+      "date": "Date",
+      "status_closed": "Closed"
     }
   },
   "runs": {
@@ -800,6 +829,10 @@
       },
       "depositAddress": {
         "depositAddress": "Error getting deposit address."
+      },
+      "fund_operations": {
+        "error_on_get_orders": "Orders could not be obtained.",
+        "notOwner": "You can't get the orders if you don't own the fund."
       }
     },
     "profiles": {
@@ -857,7 +890,7 @@
         "referralAlreadyExistsAsUser": "The referral cannot be created.",
         "emailDidNotSend": "The email could not be sent."
       },
-      "count":{
+      "count": {
         "getCountReferrals": "Could not check for previous referrals"
       }
     },
@@ -898,7 +931,7 @@
         "toast_text_copied": "The referral link has been copied to the clipboard",
         "title": "Your referral code",
         "subtitle": "Invite your friends to invest",
-        "share_text": "Refer to this link and start to invest: "
+        "share_text": "Create your account at Xcapit and start investing in cryptocurrencies like me "
       }
     },
     "referral_form": {

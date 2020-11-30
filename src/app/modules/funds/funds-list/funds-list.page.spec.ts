@@ -15,6 +15,8 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 describe('FundsListPage', () => {
   let component: FundsListPage;
@@ -23,11 +25,15 @@ describe('FundsListPage', () => {
   let apiUsuariosServiceMock: any;
   let apiFundsService: ApiFundsService;
   let apiUsuariosService: ApiUsuariosService;
+  let apiWebflowService : ApiWebflowService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
   let tabsComponentMock: any;
   let tabsComponent: TabsComponent;
   let navControllerSpy: any;
+  let apiWebflowServiceMock: any;
+  let notificationsService: NotificationsService;
+  let notificationsServiceMock: any;
 
   beforeEach(async(() => {
     logsServiceMock = {
@@ -42,6 +48,11 @@ describe('FundsListPage', () => {
       status: () => of({})
     };
 
+    apiWebflowServiceMock = {
+      getNews: () => of([]),
+      status: () => of({})
+    };
+
     apiUsuariosServiceMock = {
       status: () =>
         of({
@@ -53,6 +64,10 @@ describe('FundsListPage', () => {
         })
     };
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+
+    notificationsServiceMock = {
+      getNotifications: () => of({})
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -98,6 +113,14 @@ describe('FundsListPage', () => {
         {
           provide: NavController,
           useValue: navControllerSpy
+        },
+        {
+          provide: ApiWebflowService,
+          useValue: apiWebflowServiceMock
+        },
+        {
+          provide: NotificationsService,
+          useValue: notificationsServiceMock
         }
       ]
     }).compileComponents();
@@ -108,6 +131,7 @@ describe('FundsListPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiFundsService = TestBed.inject(ApiFundsService);
+    apiWebflowService = TestBed.inject(ApiWebflowService);
     tabsComponent = TestBed.inject(TabsComponent);
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     logsServiceMock = TestBed.inject(LogsService);
@@ -197,19 +221,27 @@ describe('FundsListPage', () => {
   });
 
   // TODO: Activate this test when notifications button shows
-  // xit('should call trackEvent on trackService when Show Notifications button clicked', () => {
-  //   const el = trackClickDirectiveHelper.getByElementByName(
-  //     'ion-button',
-  //     'Show Notifications'
-  //   );
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+  it('should call trackEvent on trackService when Show Notifications button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Show Notifications'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
   it('should call trackEvent on trackService when Action Button button clicked', () => {
+    component.status = {
+      profile_valid: true,
+      empty_linked_keys: true,
+      has_own_funds: false,
+      has_subscribed_funds: false,
+      status_name: 'BEGINNER'
+    };
+    fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Action Button'
@@ -218,6 +250,13 @@ describe('FundsListPage', () => {
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call getNews in apiWebflow', () => {
+    const spy = spyOn(apiWebflowService, 'getNews');
+    spy.and.returnValue(of([]));
+    component.ionViewDidEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });

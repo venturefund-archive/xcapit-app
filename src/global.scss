@@ -31,6 +31,10 @@
   box-shadow: none;
 }
 
+ion-picker {
+  touch-action: none;
+}
+
 :root {
   // Font family, weight, size
   // Family
@@ -216,5 +220,13 @@
 
   .ux_footer {
     flex-shrink: 0;
+  }
+
+  .picker-wrapper {
+    border-radius: 10px;
+  }
+  .picker-toolbar-cancel>button, .picker-toolbar-button>button{
+    color: #FF9100;
+    font-weight: bold;
   }
 }

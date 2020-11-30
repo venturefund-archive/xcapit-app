@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController, LoadingController } from '@ionic/angular';
 import { TabsComponent } from '../../tabs/tabs/tabs.component';
+import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
+import { EMPTY, Subject, Subscription, timer } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-funds-list',
@@ -21,7 +25,7 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
             </ion-avatar>
           </ion-button>
         </ion-buttons>
-        <ion-buttons slot="end" *ngIf="false">
+        <ion-buttons slot="end" *ngIf="true">
           <ion-button
             appTrackClick
             name="Show Notifications"
@@ -30,13 +34,10 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
             <ion-icon
               slot="icon-only"
               name="ux-bell"
-              *ngIf="!this.hasNotifications"
             ></ion-icon>
-            <ion-icon
-              slot="icon-only"
-              name="ux-bell-badge"
-              *ngIf="this.hasNotifications"
-            ></ion-icon>
+            <div class="notificationQty" *ngIf="this.unreadNotifications > 0">
+              {{ this.unreadNotifications }}
+            </div>
           </ion-button>
         </ion-buttons>
         <div class="header">
@@ -150,26 +151,15 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
         </div>
       </div>
 
-      <!-- Info -->
-      <div class="academy ion-padding">
+      <!-- Slider News -->
+      <div class="academy ion-padding" *ngIf="this.news">
         <div
-          class="academy__info__title ux-font-lato ux-fweight-semibold ux-fsize-12"
+          class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12"
         >
-          {{ 'funds.funds_list.info_title' | translate }}
+        <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
+          
         </div>
-        <div
-          class="academy__card_info_binance"
-          *ngIf="
-            this.status.profile_valid &&
-            !this.status.empty_linked_keys &&
-            !this.status.has_own_funds
-          "
-        >
-          <app-ux-card-info-binance></app-ux-card-info-binance>
-        </div>
-        <div class="academy__card_info_robot">
-          <app-ux-card-info-robot></app-ux-card-info-robot>
-        </div>
+        <app-fund-slider-news [news]="this.news"></app-fund-slider-news>
       </div>
     </ion-content>
   `,
@@ -178,7 +168,8 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
 export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
-  hasNotifications = true;
+  news:  Array<any>;
+  hasNotifications = false;
 
   status = {
     profile_valid: false,
@@ -196,15 +187,31 @@ export class FundsListPage implements OnInit {
 
   steps: any;
 
+  private notificationQtySubscription: Subscription;
+  private notificationQtySubject = new Subject();
+
+  private timerSubscription: Subscription;
+
+  public unreadNotifications: number;
+
   constructor(
     private apiFundsService: ApiFundsService,
     private translate: TranslateService,
     private apiUsuarios: ApiUsuariosService,
     private navController: NavController,
-    private tabsComponent: TabsComponent
+    private tabsComponent: TabsComponent,
+    private apiWebflow: ApiWebflowService,
+    private notificationsService: NotificationsService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initQtyNotifications();
+
+    const minutes = 0.5;
+    this.timerSubscription = timer(0, minutes * 60000).subscribe(() => {
+      this.notificationQtySubject.next();
+    });
+  }
 
   ionViewWillEnter() {
     this.getStatus();
@@ -212,6 +219,25 @@ export class FundsListPage implements OnInit {
 
   ionViewDidEnter() {
     this.getOwnerFundBalances();
+    this.getNews();
+  }
+
+  initQtyNotifications() {
+    this.notificationQtySubscription = this.notificationQtySubject.pipe(
+      switchMap(
+        () => this.notificationsService.getCountNotifications().pipe(
+          catchError(
+            (err) => {
+              return EMPTY;
+            },
+          ),
+        ),
+      ),
+    ).subscribe(
+      (res: any) => this.unreadNotifications = res['count']
+    );
+
+    this.notificationQtySubject.next();
   }
 
   getStatus() {
@@ -281,6 +307,7 @@ export class FundsListPage implements OnInit {
   showNotifications() {
     // TODO: Implementar notificaciones.
     this.navController.navigateForward('notifications/list');
+    this.unreadNotifications = 0;
   }
 
   goToProfile() {
@@ -298,5 +325,16 @@ export class FundsListPage implements OnInit {
       ? 'apikeys/tutorial'
       : 'funds/fund-name';
     this.tabsComponent.newFundUrl = this.newFundUrl;
+  }
+
+  getNews() {
+    this.apiWebflow.getNews().subscribe((response) => {
+      this.news = response;
+    });
+  }
+
+  ngOnDestroy() {
+    this.notificationQtySubscription.unsubscribe();
+    this.timerSubscription.unsubscribe();
   }
 }

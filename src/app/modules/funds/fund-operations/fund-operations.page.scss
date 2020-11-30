@@ -1,0 +1,71 @@
+:host {
+  .foh {
+    &__header-title {
+      margin-top: -10px;
+    }
+    &__header-fund {
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    &__header-button {
+      text-align: right;
+      display: block;
+    }
+  }
+  .fol {
+    margin-top: 25px;
+    &__headers {
+      display: flex;
+      flex-direction: row;
+      color: #bababa;
+      font-size: 11px;
+      margin-bottom: 0px;
+      &__label-left {
+        text-align: left;
+      }
+      &__label-center {
+        text-align: center;
+      }
+      &__label-right {
+        text-align: right;
+      }
+    }
+    &__list {
+      &__pair {
+        &__type {
+          &__sell {
+            background: #eba3ac;
+            color: #ffffff;
+            padding: 2px 2px;
+            font-size: 6.5px;
+            margin-left: 2px;
+            overflow-wrap: normal;
+          }
+          &__buy {
+            background: #96d8bd;
+            color: #ffffff;
+            padding: 2px 2px;
+            font-size: 6.5px;
+            margin-left: 2px;
+            overflow-wrap: normal;
+          }
+        }
+        &h3 {
+          text-align: left;
+          margin-top: 0px;
+        }
+      }
+      &__price {
+        text-align: center;
+        &h3 {
+          text-align: center;
+          color: #bababa;
+          margin-top: 0px;
+        }
+      }
+      &__qty {
+        text-align: right;
+      }
+    }
+  }
+}

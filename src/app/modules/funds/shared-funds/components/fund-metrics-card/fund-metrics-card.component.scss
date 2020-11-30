@@ -11,6 +11,14 @@
       }
       &__right {
           flex: 1;
+          &__amount__up {
+            color: var(--ion-color-uxsuccess);
+            height: 10px;
+          }
+          &__amount__down {
+            color: var(--ion-color-uxdanger);
+            height: 10px;
+          }
       }
     }
     .item {
@@ -22,11 +30,6 @@
       &.second {
           margin-top: 18px;
       }
-    }
-
-    &__clarification {
-      display: flex;
-      padding: 0 16px 16px 16px;
     }
   }
 }

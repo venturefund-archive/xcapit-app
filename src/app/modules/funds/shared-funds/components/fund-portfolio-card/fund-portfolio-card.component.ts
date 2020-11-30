@@ -9,7 +9,7 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
 @Component({
   selector: 'app-fund-portfolio-card',
   template: `
-    <div class="fpc">
+    <div class="fpc" (click)="this.viewDetails()">
       <div class="fpc__content ion-padding">
         <div class="fpc__content__left">
           <app-fund-balance-chart
@@ -78,7 +78,6 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
         <ion-button
           appTrackClick
           name="View Details"
-          (click)="this.viewDetails()"
           fill="clear"
           size="small"
           class="fpc__footer__details-button ux-font-lato ux-fweight-semibold ux-fsize-14"
@@ -93,6 +92,9 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
 })
 export class FundPortfolioCardComponent implements OnInit {
   @Input() fundBalance: any;
+  @Input() fundName: string;
+  @Input() isOwner: any;
+
   orderedPortfolio: Array<{
     ca: string;
     amount: number;
@@ -148,6 +150,8 @@ export class FundPortfolioCardComponent implements OnInit {
         startDate: this.fundBalance.balance.start_time,
         endDate: this.fundBalance.balance.end_time,
         currency: this.fundBalance.fund.currency,
+        fundName: this.fundName,
+        isOwner: this.isOwner
       },
       swipeToClose: false,
       cssClass: 'ux-routeroutlet-modal',

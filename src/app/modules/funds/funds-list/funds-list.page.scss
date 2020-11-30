@@ -81,12 +81,28 @@
   }
 
   .academy {
-    color: #0000008a;
-    &__card_info_robot {
-      margin-top: 16px;
+    &__news{
+      &__title{
+        margin-bottom:8px;
+      }
     }
-    &__card_info_binance {
-      margin-top: 8px;
-    }
+  }
+
+  .notificationQty {
+    font-size: 12px;
+    background: red;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: -6px;
+    bottom: 3px;
+    border: 1px solid #FF9100;
   }
 }
