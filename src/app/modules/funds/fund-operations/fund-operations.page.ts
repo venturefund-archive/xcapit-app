@@ -4,6 +4,8 @@ import { IonInfiniteScroll } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { Storage } from '@ionic/storage';
+import { CONFIG } from 'src/app/config/app-constants.config';
 
 @Component({
   selector: 'app-fund-operations-history',
@@ -141,7 +143,9 @@ import * as moment from 'moment';
       <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadMore()">
         <ion-infinite-scroll-content
           loadingSpinner="bubbles"
-          loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
+          loadingText="{{
+            'funds.fund_operations.loading_infinite_scroll' | translate
+          }}"
         >
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
@@ -161,16 +165,20 @@ export class FundOperationsPage implements OnInit {
     cancelText: '',
     doneText: '',
   };
+  storage_since = '';
+  storage_until = '';
 
   constructor(
     private apiFunds: ApiFundsService,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
+    private storage: Storage
   ) {}
 
   ionViewWillEnter() {
     this.fundName = this.route.snapshot.params.fundName;
+    this.getStorageDates();
     this.setInitialDatePicker();
   }
   ionViewDidEnter() {
@@ -178,8 +186,19 @@ export class FundOperationsPage implements OnInit {
   }
 
   setInitialDatePicker() {
-    this.queryOptions.since = moment().subtract(7, 'd').startOf('day').format();
-    this.queryOptions.until = moment().endOf('day').format();
+    if (this.storage_since != '') {
+      this.queryOptions.since = this.storage_since;
+    } else {
+      this.queryOptions.since = moment()
+        .subtract(7, 'd')
+        .startOf('day')
+        .format();
+    }
+    if (this.storage_until != '') {
+      this.queryOptions.until = this.storage_until;
+    } else {
+      this.queryOptions.until = moment().endOf('day').format();
+    }
 
     this.datepicker.cancelText = this.translate.instant(
       'funds.fund_operations.cancel_datepicker_text'
@@ -218,7 +237,7 @@ export class FundOperationsPage implements OnInit {
     };
   }
 
-  changeDate(event, type) {
+  async changeDate(event, type) {
     if (type === 'since') {
       this.queryOptions.since = event.detail.value;
     }
@@ -233,5 +252,34 @@ export class FundOperationsPage implements OnInit {
     this.router.navigate(['funds/fund-operations-detail', order.id]);
   }
 
+  async getStorageDates() {
+    this.storage_since = await this.storage.get(
+      CONFIG.operationHistoryDates.since
+    );
+    this.storage_until = await this.storage.get(
+      CONFIG.operationHistoryDates.until
+    );
+  }
+
+  async setDatesInStorage(since = undefined, until = undefined) {
+    if (since) {
+      await this.storage.set(
+        CONFIG.operationHistoryDates.since,
+        this.queryOptions.since
+      );
+    }
+    if (until) {
+      await this.storage.set(
+        CONFIG.operationHistoryDates.until,
+        this.queryOptions.until
+      );
+    }
+  }
+
   ngOnInit() {}
+
+  ionViewWillLeave(){
+    this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
+    this.getStorageDates();
+  }
 }
