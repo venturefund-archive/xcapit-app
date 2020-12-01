@@ -31,6 +31,10 @@
   box-shadow: none;
 }
 
+ion-picker {
+  touch-action: none;
+}
+
 :root {
   // Font family, weight, size
   // Family

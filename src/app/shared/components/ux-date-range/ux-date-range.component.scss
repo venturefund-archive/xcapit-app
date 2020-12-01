@@ -1,33 +1,27 @@
 :host ::ng-deep {
   width: 100%;
   --ion-background-color: var(--ion-color-uxlight);
-  ion-list {
+  .foc {
     border-radius: 8px;
     --inner-border-width: 0px;
     display: flex;
-    ion-item {
+    &__date {
       --inner-border-width: 0px;
       display: flex;
-      flex-basis: 50%;
+      flex-wrap: wrap;
       justify-content: space-around;
       align-items: center;
-      padding: 15px 0px;
+      flex-basis: 50%;
 
-      ion-label {
-        flex-basis: 22%;
-      }
-      section {
-        flex-basis: 78%;
+      &__datetime-section {
+        min-width: 112px;
         display: flex;
         border: 0.5px solid #bababa;
         border-radius: 3px;
         ion-datetime {
-          width: 100%;
-          flex-basis: 80%;
           padding: 8px;
         }
         ion-icon {
-          flex-basis: 20%;
           padding: 6px;
           height: inherit;
         }

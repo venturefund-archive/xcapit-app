@@ -179,7 +179,8 @@
       "funds_title": "MIS FONDOS",
       "shared_funds_title": "FONDOS COMPARTIDOS",
       "info_title": "CONOCÉ MÁS",
-      "owner_text": "Dueño"
+      "owner_text": "Dueño",
+      "news_title": "NOTICIAS"
     },
     "new_fund": {
       "header_new": "Nuevo Fondo",
@@ -460,7 +461,8 @@
       "order_side_sell": "VENTA",
       "order_type_market": "Mercado",
       "cancel_datepicker_text": "Cancelar",
-      "done_datepicker_text": "Confirmar"
+      "done_datepicker_text": "Confirmar",
+      "loading_infinite_scroll": "Cargando más datos"
     },
     "fund_operations_detail": {
       "title": "Detalle de la orden",

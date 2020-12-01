@@ -59,7 +59,7 @@ import { Router } from '@angular/router';
             }}: {{ this.endDate | date: 'dd/MM/yyyy' }}
           </ion-text>
         </div>
-        <div class="fbd__content__history ion-padding">
+        <div class="fbd__content__history ion-padding" *ngIf="this.isOwner">
           <ion-button
             name="View Operation History"
             (click)="this.viewOperations()"
@@ -81,6 +81,7 @@ export class FundBalanceDetailComponent implements OnInit {
   endDate: any;
   currency: string;
   fundName: string;
+  isOwner: any;
 
   constructor(
     private modalController: ModalController,

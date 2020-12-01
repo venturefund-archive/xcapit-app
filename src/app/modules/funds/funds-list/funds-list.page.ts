@@ -5,6 +5,7 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController, LoadingController } from '@ionic/angular';
 import { TabsComponent } from '../../tabs/tabs/tabs.component';
+import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
@@ -124,7 +125,7 @@ import { catchError, switchMap } from 'rxjs/operators';
             minSize="50px"
             *ngIf="!this.ownerFundBalances"
           ></app-ux-loading-block>
-          
+
           <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
             <app-fund-card [fund]="fb" *ngIf="fb"></app-fund-card>
           </div>
@@ -150,26 +151,15 @@ import { catchError, switchMap } from 'rxjs/operators';
         </div>
       </div>
 
-      <!-- Info -->
-      <div class="academy ion-padding">
+      <!-- Slider News -->
+      <div class="academy ion-padding" *ngIf="this.news">
         <div
-          class="academy__info__title ux-font-lato ux-fweight-semibold ux-fsize-12"
+          class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12"
         >
-          {{ 'funds.funds_list.info_title' | translate }}
+        <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
+          
         </div>
-        <div
-          class="academy__card_info_binance"
-          *ngIf="
-            this.status.profile_valid &&
-            !this.status.empty_linked_keys &&
-            !this.status.has_own_funds
-          "
-        >
-          <app-ux-card-info-binance></app-ux-card-info-binance>
-        </div>
-        <div class="academy__card_info_robot">
-          <app-ux-card-info-robot></app-ux-card-info-robot>
-        </div>
+        <app-fund-slider-news [news]="this.news"></app-fund-slider-news>
       </div>
     </ion-content>
   `,
@@ -178,6 +168,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
+  news:  Array<any>;
   hasNotifications = false;
 
   status = {
@@ -209,6 +200,7 @@ export class FundsListPage implements OnInit {
     private apiUsuarios: ApiUsuariosService,
     private navController: NavController,
     private tabsComponent: TabsComponent,
+    private apiWebflow: ApiWebflowService,
     private notificationsService: NotificationsService,
   ) {}
 
@@ -227,6 +219,7 @@ export class FundsListPage implements OnInit {
 
   ionViewDidEnter() {
     this.getOwnerFundBalances();
+    this.getNews();
   }
 
   initQtyNotifications() {
@@ -334,8 +327,14 @@ export class FundsListPage implements OnInit {
     this.tabsComponent.newFundUrl = this.newFundUrl;
   }
 
+  getNews() {
+    this.apiWebflow.getNews().subscribe((response) => {
+      this.news = response;
+    });
+  }
+
   ngOnDestroy() {
-    this.notificationQtySubscription.unsubscribe();
     this.timerSubscription.unsubscribe();
+    this.notificationQtySubscription.unsubscribe();
   }
 }
