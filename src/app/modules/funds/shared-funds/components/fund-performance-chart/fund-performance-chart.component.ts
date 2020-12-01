@@ -43,90 +43,7 @@ export class FundPerformanceChartComponent implements OnChanges {
     this.chart.resize(event.target.innerWidth * 0.8, event.target.innerHeight * 0.3);
   }
 
-  gridLineOptions: GridLineOptions = {
-    display: false,
-    drawBorder: false,
-    drawOnChartArea: true,
-  };
-
-  parsePercentageToFloat(percentage) {
-    return parseFloat(`0.${percentage.toString()}`);
-  }
-
-  scalesOptions(): ChartScales {
-    return {
-      xAxes: [
-        {
-          ticks: {
-            // autoSkip: true,
-            maxRotation: 0,
-            minRotation: 0,
-            maxTicksLimit: 7,
-            fontFamily: 'Lato',
-            fontSize: 10,
-            fontColor: '#FFFFFF',
-            fontStyle: '800',
-          },
-          gridLines: this.gridLineOptions,
-          offset: false,
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true
-          },
-          // ticks: {
-          //   min: -this.fundPercentageEvolution.stop_loss * 1.1, // 30 % minus than stop_loss
-          //   max: this.fundPercentageEvolution.take_profit * 1.1, // 30 % more than take_profit
-          // },
-          offset: false,
-          display: false,
-        },
-      ],
-    };
-  }
-
-  layoutOptions(): ChartLayoutOptions {
-    return {
-      padding: {
-        left: 0,
-        right: 72,
-        top: 10
-      },
-    };
-  }
-
-  tooltipsOptions(): ChartTooltipOptions {
-    return {
-      enabled: true,
-      mode: 'nearest',
-      intersect: false,
-      backgroundColor: '#FFFFFF',
-      cornerRadius: 4,
-      borderWidth: 0,
-      bodyFontFamily: 'Gilroy',
-      bodyFontStyle: '800',
-      bodyFontSize: 10,
-      displayColors: false,
-      filter: (tooltipItem) => {
-        return tooltipItem.datasetIndex === 0 ||
-          tooltipItem.datasetIndex === 1 ||
-          tooltipItem.datasetIndex === 3;
-      },
-      callbacks: {
-        title: () => null,
-        label: (tooltipItem) => {
-          const value = parseFloat(tooltipItem.value);
-          return `${value > 0 ? '+' : ''}${Math.round(value * 100) / 100}%`;
-        },
-        labelTextColor: () => '#FF9100',
-      },
-    };
-  }
-
   ngOnChanges() {
-    //this.setChart();
     this.createChart();
   }
 
@@ -148,6 +65,7 @@ export class FundPerformanceChartComponent implements OnChanges {
       height: height,
       localization: {
         dateFormat: 'dd/MM/yyyy',
+        priceFormatter: price => price.toFixed(2) + '%',
       },
       layout: {
 		    backgroundColor: '#FFFFFF',
