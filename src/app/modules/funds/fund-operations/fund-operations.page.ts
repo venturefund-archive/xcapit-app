@@ -38,15 +38,20 @@ import * as moment from 'moment';
                   </ion-text>
                 </ion-label>
               </div>
-              <div class="foc__date__datetime-section">
+              <div
+                class="foc__date__datetime-section"
+                (click)="since_datetime.open()"
+              >
                 <ion-icon [name]="'ux-calendar'"></ion-icon>
                 <ion-datetime
+                  #since_datetime
                   class="ux-font-lato ux-fweight-regular ux-fsize-12"
                   value="{{ this.queryOptions.since }}"
                   display-format="YYYY-MM-DD"
                   cancelText="{{ this.datepicker.cancelText }}"
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'since')"
+                  (click)="$event.stopPropagation(); $event.preventDefault()"
                 ></ion-datetime>
               </div>
             </div>
@@ -59,15 +64,20 @@ import * as moment from 'moment';
                   {{ 'funds.fund_operations.until_date_range' | translate }}:
                 </ion-label>
               </div>
-              <div class="foc__date__datetime-section">
+              <div
+                class="foc__date__datetime-section"
+                (click)="until_datetime.open()"
+              >
                 <ion-icon [name]="'ux-calendar'"></ion-icon>
                 <ion-datetime
+                  #until_datetime
                   class="ux-font-lato ux-fweight-regular ux-fsize-12"
                   value="{{ this.queryOptions.until }}"
                   display-format="YYYY-MM-DD"
                   cancelText="{{ this.datepicker.cancelText }}"
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'until')"
+                  (click)="$event.stopPropagation(); $event.preventDefault()"
                 ></ion-datetime>
               </div>
             </div>
@@ -141,7 +151,9 @@ import * as moment from 'moment';
       <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadMore()">
         <ion-infinite-scroll-content
           loadingSpinner="bubbles"
-          loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
+          loadingText="{{
+            'funds.fund_operations.loading_infinite_scroll' | translate
+          }}"
         >
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
