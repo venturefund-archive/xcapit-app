@@ -334,7 +334,7 @@ export class FundsListPage implements OnInit {
   }
 
   ngOnDestroy() {
-    this.notificationQtySubscription.unsubscribe();
     this.timerSubscription.unsubscribe();
+    this.notificationQtySubscription.unsubscribe();
   }
 }

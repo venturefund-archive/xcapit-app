@@ -144,7 +144,7 @@ export class MainMenuPage implements OnInit {
 
   async logout() {
     await this.authService.logout();
-    this.router.navigate(['users/login']);
+    this.navController.navigateRoot('users/login');
   }
 
   async clickAction(element) {
