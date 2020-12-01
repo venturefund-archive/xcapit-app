@@ -40,7 +40,7 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.chart.resize(event.target.innerWidth * 0.8, event.target.innerHeight * 0.8);
+    this.chart.resize(event.target.innerWidth * 0.8, event.target.innerHeight * 0.3);
   }
 
   gridLineOptions: GridLineOptions = {
