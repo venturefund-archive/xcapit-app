@@ -150,32 +150,32 @@ export class FundPerformanceChartComponent implements OnChanges {
         dateFormat: 'dd/MM/yyyy',
       },
       layout: {
-		    backgroundColor: '#FF9100',
-		    textColor: 'rgba(255, 255, 255, 0.9)',
+		    backgroundColor: '#FFFFFF',
+		    textColor: 'rgba(0, 0, 0, 0.9)',
 	    },
 	    grid: {
 		    vertLines: {
-			    color: 'rgba(255, 255, 255, 0.5)',
+			    color: 'rgba(0, 0, 0, 0.5)',
 			    visible: false
 		    },
 		    horzLines: {
-			    color: 'rgba(255, 255, 255, 0.5)',
+			    color: 'rgba(0, 0, 0, 0.5)',
 			    visible: false
 		    },
 	    },
       crosshair: {
         vertLine: {
-          color: 'rgba(255, 255, 255, 0.5)',
+          color: 'rgba(0, 0, 0, 0.5)',
         },
         horzLine: {
-          color: 'rgba(255, 255, 255, 0.5)',
+          color: 'rgba(0, 0, 0, 0.5)',
         }
       },
 	    rightPriceScale: {
-		    borderColor: 'rgba(255, 255, 255, 0.8)',
+		    borderColor: 'rgba(0, 0, 0, 0.8)',
 	    },
 	    timeScale: {
-		    borderColor: 'rgba(255, 255, 255, 0.8)',
+		    borderColor: 'rgba(0, 0, 0, 0.8)',
 		    timeVisible: this.interval == '1d' ? true : false,
         secondsVisible: false,
 	    },
@@ -189,9 +189,9 @@ export class FundPerformanceChartComponent implements OnChanges {
     }
 
     const areaSeries = this.chart.addAreaSeries({
-      lineColor: '#FFFFFF',
-      topColor: '#FFFFFF',
-      bottomColor: '#FF9100'
+      lineColor: '#FF9100',
+      topColor: '#FF9100',
+      bottomColor: '#FFFFFF'
     });
     areaSeries.setData(dataSet);
 
