@@ -21,7 +21,9 @@ import { HostListener } from "@angular/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
       <div class="fund_performance_chart">
-          <div id="chart" class="fund_performance_chart__chart"></div>
+        <div id="chart" class="fund_performance_chart__chart">
+          <div id="tooltip" class="fund_performance_chart__chart__tooltip"></div>
+        </div>
       </div>
   `,
   styleUrls: ['./fund-performance-chart.component.scss'],
@@ -114,6 +116,24 @@ export class FundPerformanceChartComponent implements OnChanges {
     areaSeries.setData(dataSet);
 
     this.setXAxisRange()
+
+    let toolTip = document.getElementById('tooltip');
+    div.appendChild(toolTip);
+
+    this.chart.subscribeCrosshairMove(function(param) {
+        if (param.point === undefined || !param.time || param.point.x < 0 || param.point.x > div.clientWidth || param.point.y < 0 || param.point.y > div.clientHeight) {
+          toolTip.style.display = 'none';
+        } else {
+          toolTip.style.display = 'block';
+          let price = param.seriesPrices.get(areaSeries);
+          toolTip.innerHTML = '<div style="font-size: 24px; margin: 4px 0px; color: #21384d">' + Math.round(100 * price) / 100 + '%</div>';
+
+          let coordinateX = param.point.x + (window.innerWidth * 0.05);
+          let coordinateY = param.point.y + (window.innerHeight * 0.21) + (50000 / window.innerHeight) ;
+          toolTip.style.left = coordinateX + 'px';
+          toolTip.style.top = coordinateY + 'px';
+        }
+    });
   }
 
   createDataSet() {
