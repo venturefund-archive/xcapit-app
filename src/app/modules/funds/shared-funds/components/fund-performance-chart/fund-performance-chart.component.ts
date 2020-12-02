@@ -52,7 +52,6 @@ export class FundPerformanceChartComponent implements OnChanges {
     let height = window.innerHeight * 0.4;
     const div = document.getElementById('chart');
     const dataSet = this.createDataSet();
-    const limitDataSet = this.createLimitDataSet();
 
     if (height > 300){
       height = 300;
@@ -99,14 +98,6 @@ export class FundPerformanceChartComponent implements OnChanges {
 	    },
 	  });
 
-// Setear TP y SL. Actualmente no se utiliza pero se deja por si se cambia en un futuro.
-// 	  if (limitDataSet) {
-//       const lineSeries = this.chart.addLineSeries({
-//         color: this.limit == "take_profit" ? '#00FF04' : '#FF0000'
-//       });
-//       lineSeries.setData(limitDataSet);
-//     }
-
     const areaSeries = this.chart.addAreaSeries({
       lineColor: '#FF9100',
       topColor: '#FF9100',
@@ -141,37 +132,5 @@ export class FundPerformanceChartComponent implements OnChanges {
       from: (new Date(Date.UTC(dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
       to: (new Date(Date.UTC(dateTo.getFullYear(), dateTo.getMonth(), dateTo.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
     });
-  }
-
-  createLimitDataSet(): any[] {
-    const lastPerformanceValue = this.fundPercentageEvolution.percentage_evolution[this.fundPercentageEvolution.percentage_evolution.length - 1];
-    let limitDataSet;
-    if (Math.abs(this.fundPercentageEvolution.take_profit - lastPerformanceValue) <= 5) {
-      limitDataSet = this.getLimitDataSet(this.fundPercentageEvolution.take_profit);
-      this.limit = "take_profit";
-    }
-
-    if (Math.abs(- this.fundPercentageEvolution.stop_loss - lastPerformanceValue) <= 5) {
-      limitDataSet = this.getLimitDataSet(-this.fundPercentageEvolution.stop_loss);
-      this.limit = "stop_loss";
-    }
-    return limitDataSet;
-  }
-
-  getLimitDataSet(limit): any[] {
-    let dataSet = [];
-    let i;
-    let time;
-    let value;
-    let date;
-    for (i = 0; i < this.fundPercentageEvolution.timestamp.length ; i++) {
-      if (i != this.fundPercentageEvolution.timestamp.length - 2) {
-        date = new Date(this.fundPercentageEvolution.timestamp[i])
-        time = (new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0))).getTime() / 1000,
-        value = limit;
-        dataSet.push({time: time, value: value})
-      }
-    }
-    return dataSet;
   }
 }
