@@ -50,66 +50,67 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   createChart() {
-    const width = window.innerWidth * 0.8;
-    let height = window.innerHeight * 0.4;
-    const div = document.getElementById('chart');
-    const dataSet = this.createDataSet();
+    if (!this.chart) {
+      const width = window.innerWidth * 0.8;
+      let height = window.innerHeight * 0.4;
+      const div = document.getElementById('chart');
+      const dataSet = this.createDataSet();
 
-    if (height > 300){
-      height = 300;
-    } else if (height < 200) {
-      height = 200;
-    }
-    
-    this.chart = createChart(div, {
-      width: width,
-      height: height,
-      localization: {
-        dateFormat: 'dd/MM/yyyy',
-        priceFormatter: price => price.toFixed(2) + '%',
-      },
-      layout: {
-		    backgroundColor: '#FFFFFF',
-		    textColor: 'rgba(0, 0, 0, 0.9)',
-	    },
-	    grid: {
-		    vertLines: {
-			    color: 'rgba(0, 0, 0, 0.5)',
-			    visible: false
-		    },
-		    horzLines: {
-			    color: 'rgba(0, 0, 0, 0.5)',
-			    visible: false
-		    },
-	    },
-      crosshair: {
-        vertLine: {
-          color: 'rgba(0, 0, 0, 0.5)',
+      if (height > 300){
+        height = 300;
+      } else if (height < 200) {
+        height = 200;
+      }
+
+      this.chart = createChart(div, {
+        width: width,
+        height: height,
+        localization: {
+          dateFormat: 'dd/MM/yyyy',
+          priceFormatter: price => price.toFixed(2) + '%',
         },
-        horzLine: {
-          color: 'rgba(0, 0, 0, 0.5)',
-        }
-      },
-	    rightPriceScale: {
-		    borderColor: 'rgba(0, 0, 0, 0.8)',
-	    },
-	    timeScale: {
-		    borderColor: 'rgba(0, 0, 0, 0.8)',
-		    timeVisible: this.interval == '1d' ? true : false,
-        secondsVisible: false,
-	    },
-	  });
+        layout: {
+          backgroundColor: '#FFFFFF',
+          textColor: 'rgba(0, 0, 0, 0.9)',
+        },
+        grid: {
+          vertLines: {
+            color: 'rgba(0, 0, 0, 0.5)',
+            visible: false
+          },
+          horzLines: {
+            color: 'rgba(0, 0, 0, 0.5)',
+            visible: false
+          },
+        },
+        crosshair: {
+          vertLine: {
+            color: 'rgba(0, 0, 0, 0.5)',
+          },
+          horzLine: {
+            color: 'rgba(0, 0, 0, 0.5)',
+          }
+        },
+        rightPriceScale: {
+          borderColor: 'rgba(0, 0, 0, 0.8)',
+        },
+        timeScale: {
+          borderColor: 'rgba(0, 0, 0, 0.8)',
+          timeVisible: this.interval == '1d' ? true : false,
+          secondsVisible: false,
+        },
+      });
 
-    const areaSeries = this.chart.addAreaSeries({
-      lineColor: '#FF9100',
-      topColor: '#FF9100',
-      bottomColor: '#FFFFFF'
-    });
-    areaSeries.setData(dataSet);
+      const areaSeries = this.chart.addAreaSeries({
+        lineColor: '#FF9100',
+        topColor: '#FF9100',
+        bottomColor: '#FFFFFF'
+      });
+      areaSeries.setData(dataSet);
 
-    this.setXAxisRange();
-    this.setTooltip(areaSeries);
-
+      this.setXAxisRange();
+      this.setTooltip(areaSeries);
+    }
   }
 
   createDataSet() {
