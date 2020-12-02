@@ -31,10 +31,7 @@ import { catchError, switchMap } from 'rxjs/operators';
             name="Show Notifications"
             (click)="this.showNotifications()"
           >
-            <ion-icon
-              slot="icon-only"
-              name="ux-bell"
-            ></ion-icon>
+            <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
             <div class="notificationQty" *ngIf="this.unreadNotifications > 0">
               {{ this.unreadNotifications }}
             </div>
@@ -150,14 +147,33 @@ import { catchError, switchMap } from 'rxjs/operators';
           </div>
         </div>
       </div>
-
+      <div
+        class="academy ion-padding"
+        *ngIf="
+          this.status.profile_valid &&
+          !this.status.empty_linked_keys &&
+          !this.status.has_own_funds
+        "
+      >
+        <div
+          class="academy__info__title ux-font-lato ux-fweight-semibold ux-fsize-12"
+        >
+          <ion-label color="uxsemidark">
+            {{ 'funds.funds_list.info_title' | translate }}
+          </ion-label>
+        </div>
+        <div class="academy__card_info_binance">
+          <app-ux-card-info-binance></app-ux-card-info-binance>
+        </div>
+      </div>
       <!-- Slider News -->
       <div class="academy ion-padding" *ngIf="this.news">
         <div
           class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12"
         >
-        <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
-          
+          <ion-label color="uxsemidark">{{
+            'funds.funds_list.news_title' | translate
+          }}</ion-label>
         </div>
         <app-fund-slider-news [news]="this.news"></app-fund-slider-news>
       </div>
@@ -168,7 +184,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
-  news:  Array<any>;
+  news: Array<any>;
   hasNotifications = false;
 
   status = {
@@ -201,7 +217,7 @@ export class FundsListPage implements OnInit {
     private navController: NavController,
     private tabsComponent: TabsComponent,
     private apiWebflow: ApiWebflowService,
-    private notificationsService: NotificationsService,
+    private notificationsService: NotificationsService
   ) {}
 
   ngOnInit() {
@@ -223,19 +239,17 @@ export class FundsListPage implements OnInit {
   }
 
   initQtyNotifications() {
-    this.notificationQtySubscription = this.notificationQtySubject.pipe(
-      switchMap(
-        () => this.notificationsService.getCountNotifications().pipe(
-          catchError(
-            (err) => {
+    this.notificationQtySubscription = this.notificationQtySubject
+      .pipe(
+        switchMap(() =>
+          this.notificationsService.getCountNotifications().pipe(
+            catchError((err) => {
               return EMPTY;
-            },
-          ),
-        ),
-      ),
-    ).subscribe(
-      (res: any) => this.unreadNotifications = res['count']
-    );
+            })
+          )
+        )
+      )
+      .subscribe((res: any) => (this.unreadNotifications = res['count']));
 
     this.notificationQtySubject.next();
   }
