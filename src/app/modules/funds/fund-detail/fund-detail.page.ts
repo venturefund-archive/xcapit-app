@@ -185,6 +185,12 @@ export class FundDetailPage implements OnInit {
       )
     },
     {
+      value: '90d',
+      name: this.translate.instant(
+        'funds.fund_detail.performance_chart_card.delta.ninety_days'
+      )
+    },
+    {
       value: '',
       name: this.translate.instant(
         'funds.fund_detail.performance_chart_card.delta.all'
