@@ -99,12 +99,13 @@ export class FundPerformanceChartComponent implements OnChanges {
 	    },
 	  });
 
-	  if (limitDataSet) {
-      const lineSeries = this.chart.addLineSeries({
-        color: this.limit == "take_profit" ? '#00FF04' : '#FF0000'
-      });
-      lineSeries.setData(limitDataSet);
-    }
+// Setear TP y SL. Actualmente no se utiliza pero se deja por si se cambia en un futuro.
+// 	  if (limitDataSet) {
+//       const lineSeries = this.chart.addLineSeries({
+//         color: this.limit == "take_profit" ? '#00FF04' : '#FF0000'
+//       });
+//       lineSeries.setData(limitDataSet);
+//     }
 
     const areaSeries = this.chart.addAreaSeries({
       lineColor: '#FF9100',
