@@ -79,6 +79,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
                   cancelText="{{ this.datepicker.cancelText }}"
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'until')"
+                  [min]="this.queryOptions.since"
                   (click)="$event.stopPropagation(); $event.preventDefault()"
                 ></ion-datetime>
               </div>
