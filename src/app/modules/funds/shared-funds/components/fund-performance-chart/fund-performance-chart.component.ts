@@ -115,25 +115,9 @@ export class FundPerformanceChartComponent implements OnChanges {
     });
     areaSeries.setData(dataSet);
 
-    this.setXAxisRange()
+    this.setXAxisRange();
+    this.setTooltip(areaSeries);
 
-    let toolTip = document.getElementById('tooltip');
-    div.appendChild(toolTip);
-
-    this.chart.subscribeCrosshairMove(function(param) {
-        if (param.point === undefined || !param.time || param.point.x < 0 || param.point.x > div.clientWidth || param.point.y < 0 || param.point.y > div.clientHeight) {
-          toolTip.style.display = 'none';
-        } else {
-          toolTip.style.display = 'block';
-          let price = param.seriesPrices.get(areaSeries);
-          toolTip.innerHTML = '<div style="font-size: 24px; margin: 4px 0px; color: #21384d">' + Math.round(100 * price) / 100 + '%</div>';
-
-          let coordinateX = param.point.x + (window.innerWidth * 0.05);
-          let coordinateY = param.point.y + (window.innerHeight * 0.21) + (50000 / window.innerHeight) ;
-          toolTip.style.left = coordinateX + 'px';
-          toolTip.style.top = coordinateY + 'px';
-        }
-    });
   }
 
   createDataSet() {
@@ -160,6 +144,51 @@ export class FundPerformanceChartComponent implements OnChanges {
       from: (new Date(Date.UTC(dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
       to: (new Date(Date.UTC(dateTo.getFullYear(), dateTo.getMonth(), dateTo.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
     });
+  }
+
+  setTooltip(areaSeries) {
+    const div = document.getElementById('chart');
+    let toolTip = document.getElementById('tooltip');
+    div.appendChild(toolTip);
+
+    this.chart.subscribeCrosshairMove(function(param) {
+        if (point_is_undefined(param) || (time_is_not_exists(param)) || x_point_is_less_than_zero(param) || x_point_is_grather_than_clientWidth(param, div) || y_point_is_less_than_zero(param) || y_point_is_grather_than_clientHeight(param, div)) {
+          toolTip.style.display = 'none';
+        } else {
+          toolTip.style.display = 'block';
+          let price = param.seriesPrices.get(areaSeries);
+          toolTip.innerHTML = '<div>' + Math.round(100 * price) / 100 + '%</div>';
+
+          let coordinateX = param.point.x + (window.innerWidth * 0.05);
+          let coordinateY = param.point.y + (window.innerHeight * 0.24) + (50000 / window.innerHeight) ;
+          toolTip.style.left = coordinateX + 'px';
+          toolTip.style.top = coordinateY + 'px';
+        }
+    });
+
+    function point_is_undefined(param) {
+      return param.point === undefined;
+    }
+
+    function time_is_not_exists(param) {
+      return !param.time;
+    }
+
+    function x_point_is_less_than_zero(param) {
+      return param.point.x < 0;
+    }
+
+    function x_point_is_grather_than_clientWidth(param, div) {
+      return param.point.x > div.clientWidth;
+    }
+
+    function y_point_is_less_than_zero(param) {
+      return param.point.y < 0;
+    }
+
+    function y_point_is_grather_than_clientHeight(param, div) {
+      return param.point.y > div.clientHeight;
+    }
   }
 
   createLimitDataSet(): any[] {
