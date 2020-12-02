@@ -81,9 +81,9 @@
   }
 
   .academy {
-    &__news{
-      &__title{
-        margin-bottom:8px;
+    &__info {
+      &__title {
+        margin-bottom: 8px;
       }
     }
   }
@@ -103,6 +103,6 @@
     position: absolute;
     right: -6px;
     bottom: 3px;
-    border: 1px solid #FF9100;
+    border: 1px solid #ff9100;
   }
 }
