@@ -21,7 +21,9 @@ import { HostListener } from "@angular/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
       <div class="fund_performance_chart">
-          <div id="chart" class="fund_performance_chart__chart"></div>
+        <div id="chart" class="fund_performance_chart__chart">
+          <div id="tooltip" class="fund_performance_chart__chart__tooltip"></div>
+        </div>
       </div>
   `,
   styleUrls: ['./fund-performance-chart.component.scss'],
@@ -105,7 +107,9 @@ export class FundPerformanceChartComponent implements OnChanges {
     });
     areaSeries.setData(dataSet);
 
-    this.setXAxisRange()
+    this.setXAxisRange();
+    this.setTooltip(areaSeries);
+
   }
 
   createDataSet() {
@@ -132,5 +136,82 @@ export class FundPerformanceChartComponent implements OnChanges {
       from: (new Date(Date.UTC(dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
       to: (new Date(Date.UTC(dateTo.getFullYear(), dateTo.getMonth(), dateTo.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
     });
+  }
+
+  setTooltip(areaSeries) {
+    const div = document.getElementById('chart');
+    let toolTip = document.getElementById('tooltip');
+    div.appendChild(toolTip);
+
+    this.chart.subscribeCrosshairMove(function(param) {
+        if (point_is_undefined(param) || (time_is_not_exists(param)) || x_point_is_less_than_zero(param) || x_point_is_grather_than_clientWidth(param, div) || y_point_is_less_than_zero(param) || y_point_is_grather_than_clientHeight(param, div)) {
+          toolTip.style.display = 'none';
+        } else {
+          toolTip.style.display = 'block';
+          let price = param.seriesPrices.get(areaSeries);
+          toolTip.innerHTML = '<div>' + Math.round(100 * price) / 100 + '%</div>';
+
+          let coordinateX = param.point.x + (window.innerWidth * 0.05);
+          let coordinateY = param.point.y + (window.innerHeight * 0.24) + (50000 / window.innerHeight) ;
+          toolTip.style.left = coordinateX + 'px';
+          toolTip.style.top = coordinateY + 'px';
+        }
+    });
+
+    function point_is_undefined(param) {
+      return param.point === undefined;
+    }
+
+    function time_is_not_exists(param) {
+      return !param.time;
+    }
+
+    function x_point_is_less_than_zero(param) {
+      return param.point.x < 0;
+    }
+
+    function x_point_is_grather_than_clientWidth(param, div) {
+      return param.point.x > div.clientWidth;
+    }
+
+    function y_point_is_less_than_zero(param) {
+      return param.point.y < 0;
+    }
+
+    function y_point_is_grather_than_clientHeight(param, div) {
+      return param.point.y > div.clientHeight;
+    }
+  }
+
+  createLimitDataSet(): any[] {
+    const lastPerformanceValue = this.fundPercentageEvolution.percentage_evolution[this.fundPercentageEvolution.percentage_evolution.length - 1];
+    let limitDataSet;
+    if (Math.abs(this.fundPercentageEvolution.take_profit - lastPerformanceValue) <= 5) {
+      limitDataSet = this.getLimitDataSet(this.fundPercentageEvolution.take_profit);
+      this.limit = "take_profit";
+    }
+
+    if (Math.abs(- this.fundPercentageEvolution.stop_loss - lastPerformanceValue) <= 5) {
+      limitDataSet = this.getLimitDataSet(-this.fundPercentageEvolution.stop_loss);
+      this.limit = "stop_loss";
+    }
+    return limitDataSet;
+  }
+
+  getLimitDataSet(limit): any[] {
+    let dataSet = [];
+    let i;
+    let time;
+    let value;
+    let date;
+    for (i = 0; i < this.fundPercentageEvolution.timestamp.length ; i++) {
+      if (i != this.fundPercentageEvolution.timestamp.length - 2) {
+        date = new Date(this.fundPercentageEvolution.timestamp[i])
+        time = (new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0))).getTime() / 1000,
+        value = limit;
+        dataSet.push({time: time, value: value})
+      }
+    }
+    return dataSet;
   }
 }
