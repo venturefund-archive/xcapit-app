@@ -54,7 +54,6 @@ export class FundPerformanceChartComponent implements OnChanges {
     let height = window.innerHeight * 0.4;
     const div = document.getElementById('chart');
     const dataSet = this.createDataSet();
-    const limitDataSet = this.createLimitDataSet();
 
     if (height > 300){
       height = 300;
@@ -100,13 +99,6 @@ export class FundPerformanceChartComponent implements OnChanges {
         secondsVisible: false,
 	    },
 	  });
-
-	  if (limitDataSet) {
-      const lineSeries = this.chart.addLineSeries({
-        color: this.limit == "take_profit" ? '#00FF04' : '#FF0000'
-      });
-      lineSeries.setData(limitDataSet);
-    }
 
     const areaSeries = this.chart.addAreaSeries({
       lineColor: '#FF9100',
