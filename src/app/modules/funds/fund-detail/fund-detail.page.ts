@@ -240,7 +240,6 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundPerformanceCardInfo() {
-  console.log("hola");
     const frequency = this.getFrequencyByDelta();
     this.apiFunds
       .getPercentageEvolution(this.fundName, '', this.selectedDelta, frequency, false)
