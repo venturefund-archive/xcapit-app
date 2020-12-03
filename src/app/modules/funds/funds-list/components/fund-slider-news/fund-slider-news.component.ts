@@ -36,6 +36,8 @@ export class FundSliderNewsCardComponent implements OnInit {
   @Input() news: any;
   slideOpts = {
     initialSlide: 0,
+    slidesPerView: 1.25,
+    spaceBetween: 10
   };
   constructor() {}
 
