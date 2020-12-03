@@ -117,5 +117,8 @@ export const CONFIG = {
   operationHistoryDates: {
     since: 'since',
     until: 'until'
+  },
+  chartRangeValues: {
+    selected: '7d'
   }
 };
