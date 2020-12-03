@@ -7,6 +7,7 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
+import { Global } from 'src/global';
 
 @Component({
   selector: 'app-fund-detail',
@@ -197,14 +198,15 @@ export class FundDetailPage implements OnInit {
       )
     }
   ];
-  selectedDelta = this.deltas[1];
+  selectedDelta = global.selectedDelta == undefined ? this.deltas[1] : global.selectedDelta;
 
   constructor(
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,
     private translate: TranslateService,
     private modalController: ModalController,
-    private router: Router
+    private router: Router,
+    private global: Global
   ) { }
 
   ngOnInit() { }
@@ -290,6 +292,7 @@ export class FundDetailPage implements OnInit {
 
   setDelta(selected: string) {
     const deltaItem = this.deltas.find(item => item.value === selected);
+    this.global.selectedDelta = deltaItem;
     this.fundPercentageEvolution = undefined;
     this.getFundPerformanceCardInfo(deltaItem);
   }
