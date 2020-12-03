@@ -1,6 +1,8 @@
 :host {
-    .fpcc {
-        background-color: #FFFFFF;
-        border-radius: 8px;
-    }
+  .fpcc {
+    display: inline-block;
+    width: -webkit-fill-available;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+  }
 }
