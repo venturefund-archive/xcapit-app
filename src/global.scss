@@ -223,10 +223,12 @@ ion-picker {
   }
 
   .picker-wrapper {
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
-  .picker-toolbar-cancel>button, .picker-toolbar-button>button{
-    color: #FF9100;
+  .picker-toolbar-cancel > button,
+  .picker-toolbar-button > button {
+    color: #ff9100;
     font-weight: bold;
   }
 }
