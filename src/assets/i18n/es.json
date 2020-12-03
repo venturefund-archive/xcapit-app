@@ -916,6 +916,11 @@
         "invalidData": "Los datos ingresados no son válidos.",
         "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 300 USD."
       }
+    },
+    "fund_slider_news": {
+      "get": {
+        "errorGetNews": "Hubo un problema en mostrar las noticias. No te preocupes, pronto lo solucionaremos. "
+      }
     }
   },
   "terms_and_conditions": {
