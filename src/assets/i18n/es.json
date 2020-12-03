@@ -1003,7 +1003,7 @@
       "title": "Crea una API Key",
       "text_before": "LA API Key es un código que nos permitirá gestionar sobre tu cuenta.",
       "text_before_2": "Ingresa a tu cuenta de Binance y sigue estos pasos para crear una nueva API Key.",
-      "step1": "Ingresa a la sección \"Mi Cuenta\" ",
+      "step1": "Ingresa a la sección \"Mi Cuenta\". ",
       "step2": "Encuentra el modulo \"API\".",
       "step3": "Ingrese una etiqueta de identificación.",
       "step4": "Copia la api key y secret key, las necesitas en el próximo paso.",

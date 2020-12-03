@@ -45,7 +45,7 @@ const { Browser } = Plugins;
                   <ion-col>
                     <app-ux-text>
                       {{ 'apikeys.tutorial_apikeys.step1' | translate }}
-                    <ion-icon slot="end" name="person"></ion-icon>
+                    <ion-icon class="person_icon" slot="end" name="person"></ion-icon>
                     </app-ux-text>
                   </ion-col>
                 </ion-row>
