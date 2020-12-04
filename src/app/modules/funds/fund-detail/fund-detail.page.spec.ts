@@ -83,11 +83,6 @@ describe('FundDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call apiFunds.getPercentageEvolution on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-    expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
-  });
-
   it('should call apiFunds.getFundBalances on ionViewWillEnter', () => {
     component.ionViewWillEnter();
     component.fundName = "test";
