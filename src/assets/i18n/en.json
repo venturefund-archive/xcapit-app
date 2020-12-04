@@ -902,6 +902,11 @@
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 300 USD.",
         "invalidData": "Invalid data."
       }
+    },
+    "fund_slider_news": {
+      "get": {
+        "errorGetNews": "There was a problem displaying the news. Don't worry, we'll fix it soon."
+      }
     }
   },
   "terms_and_conditions": {
