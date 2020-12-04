@@ -99,7 +99,6 @@ export class FundPerformanceChartComponent implements OnChanges {
           timeVisible: this.interval == '1d' ? true : false,
           secondsVisible: false,
           tickMarkFormatter: (time, tickMarkType, locale) => {
-            console.log(time, tickMarkType, locale);
             const date = new Date(time * 1000);
             if (this.interval == "1d") {
               const minutes = date.getMinutes() <= 9 ? "0" + date.getMinutes() : date.getMinutes()
