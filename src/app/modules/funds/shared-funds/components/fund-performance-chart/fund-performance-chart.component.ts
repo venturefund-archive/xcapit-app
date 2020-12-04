@@ -98,9 +98,26 @@ export class FundPerformanceChartComponent implements OnChanges {
           borderColor: 'rgba(0, 0, 0, 0.8)',
           timeVisible: this.interval == '1d' ? true : false,
           secondsVisible: false,
+          tickMarkFormatter: (time, tickMarkType, locale) => {
+            const date = new Date(time * 1000);
+            if (this.interval == "1d") {
+              const minutes = date.getMinutes() <= 9 ? "0" + date.getMinutes() : date.getMinutes()
+              const hours = date.getHours() <= 9 ? "0" + date.getHours() : date.getHours()
+              return hours + ':' + minutes;
+            } else {
+              if (tickMarkType == 0) {
+                return date.getFullYear();
+              } else if (tickMarkType == 1) {
+                const month = date.toLocaleString('default', { month: 'short' });
+                return month;
+              } else {
+                return date.getDate() + '/' + (date.getMonth() + 1);
+              }
+
+            }
+          },
         },
       });
-
       const areaSeries = this.chart.addAreaSeries({
         lineColor: '#FF9100',
         topColor: '#FF9100',
