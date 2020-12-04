@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 import { CONFIG } from 'src/app/config/app-constants.config';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-fund-operations-history',
@@ -103,51 +104,56 @@ import { CONFIG } from 'src/app/config/app-constants.config';
                 {{ 'funds.fund_operations.header_qty' | translate }}
               </ion-label>
             </ion-item>
-            <div
-              class="container fol__list"
-              *ngFor="let order of this.orders; let last = last"
-            >
-              <ion-item
-                (click)="viewOrderDetail(order.id)"
-                class="ux-font-lato ux-fweight-regular ux-fsize-12"
+              <div
+                class="container fol__list"
+                *ngFor="let order of this.orders; let last = last"
               >
-                <ion-label class="fol__list__pair">
-                  <app-symbol-format
-                    [symbol]="this.order.symbol"
-                    *ngIf="this.order.symbol"
-                  ></app-symbol-format>
+                <ion-item
+                  (click)="viewOrderDetail(order.id)"
+                  class="ux-font-lato ux-fweight-regular ux-fsize-12"
+                >
+                  <ion-label class="fol__list__pair">
+                    <app-symbol-format
+                      [symbol]="this.order.symbol"
+                      *ngIf="this.order.symbol"
+                    ></app-symbol-format>
 
-                  <ion-text
-                    *ngIf="order.side == 'buy'"
-                    class="fol__list__pair__type__buy ux-fweight-semibold"
-                    >{{
-                      'funds.fund_operations.order_side_buy' | translate
-                    }}</ion-text
-                  >
-                  <ion-text
-                    *ngIf="order.side == 'sell'"
-                    class="fol__list__pair__type__sell ux-fweight-semibold"
-                    >{{
-                      'funds.fund_operations.order_side_sell' | translate
-                    }}</ion-text
-                  >
-                  <h3>
-                    {{ order.creation_datetime | date: 'dd-MM-yy HH:mm:ss' }}
-                  </h3>
-                </ion-label>
-                <ion-label class="fol__list__price">
-                  {{ order.price | number: '1.2-6' }}
-                  <h3 *ngIf="order.order_type == 'market'">
-                    {{ 'funds.fund_operations.order_type_market' | translate }}
-                  </h3>
-                </ion-label>
+                    <ion-text
+                      *ngIf="order.side == 'buy'"
+                      class="fol__list__pair__type__buy ux-fweight-semibold"
+                      >{{
+                        'funds.fund_operations.order_side_buy' | translate
+                      }}</ion-text
+                    >
+                    <ion-text
+                      *ngIf="order.side == 'sell'"
+                      class="fol__list__pair__type__sell ux-fweight-semibold"
+                      >{{
+                        'funds.fund_operations.order_side_sell' | translate
+                      }}</ion-text
+                    >
+                    <h3>
+                      {{ order.creation_datetime | date: 'dd-MM-yy HH:mm:ss' }}
+                    </h3>
+                  </ion-label>
+                  <ion-label class="fol__list__price">
+                    {{ order.price | number: '1.2-6' }}
+                    <h3 *ngIf="order.order_type == 'market'">
+                      {{
+                        'funds.fund_operations.order_type_market' | translate
+                      }}
+                    </h3>
+                  </ion-label>
 
-                <ion-label class="fol__list__qty">
-                  {{ order.executedQty }}
-                </ion-label>
-              </ion-item>
-              <div class="list-divider" *ngIf="!last"></div>
-            </div>
+                  <ion-label class="fol__list__qty">
+                    {{ order.executedQty }}
+                  </ion-label>
+                </ion-item>
+                <div class="list-divider" *ngIf="!last"></div>
+              </div>
+            <ion-item *ngIf="!this.orders">
+              <app-ux-loading-block minSize="30px"></app-ux-loading-block>
+            </ion-item>
           </ion-list>
         </app-ux-list-inverted>
       </div>
@@ -167,7 +173,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
 export class FundOperationsPage implements OnInit {
   @ViewChild(IonInfiniteScroll, { static: true })
   infiniteScroll: IonInfiniteScroll;
-  orders: any[] = [];
+  orders: any[];
   queryOptions = { ordering: '-creation_datetime', since: '', until: '' };
   paginationOptions = { cursor: '' };
   loading = true;
@@ -184,7 +190,8 @@ export class FundOperationsPage implements OnInit {
     private route: ActivatedRoute,
     private translate: TranslateService,
     private router: Router,
-    private storage: Storage
+    private storage: Storage,
+    private loadingService: LoadingService
   ) {}
 
   ionViewWillEnter() {
@@ -264,32 +271,39 @@ export class FundOperationsPage implements OnInit {
   }
 
   async getStorageDates() {
+    this.loadingService.show();
     this.storage_since = await this.storage.get(
       CONFIG.operationHistoryDates.since
     );
     this.storage_until = await this.storage.get(
       CONFIG.operationHistoryDates.until
     );
+    this.loadingService.dismiss();
   }
 
   async setDatesInStorage(since = undefined, until = undefined) {
     if (since) {
-      await this.storage.set(
-        CONFIG.operationHistoryDates.since,
-        this.queryOptions.since
-      );
+      this.loadingService.show();
+      await this.storage
+        .set(CONFIG.operationHistoryDates.since, this.queryOptions.since)
+        .then(() => {
+          this.loadingService.dismiss();
+        });
     }
+
     if (until) {
-      await this.storage.set(
-        CONFIG.operationHistoryDates.until,
-        this.queryOptions.until
-      );
+      this.loadingService.show();
+      await this.storage
+        .set(CONFIG.operationHistoryDates.until, this.queryOptions.until)
+        .then(() => {
+          this.loadingService.dismiss();
+        });
     }
   }
 
   ngOnInit() {}
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
     this.getStorageDates();
   }
