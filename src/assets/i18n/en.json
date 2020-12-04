@@ -229,7 +229,7 @@
         "loss": "Loss",
         "delta": {
           "title": "Interval",
-          "one_day": "Last day",
+          "one_day": "24 hours",
           "one_week": "7 days",
           "thirty_days": "30 days",
           "ninety_days": "90 days",

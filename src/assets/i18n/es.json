@@ -232,7 +232,7 @@
         "loss": "Pérdida",
         "delta": {
           "title": "Intérvalo",
-          "one_day": "Último día",
+          "one_day": "24 horas",
           "one_week": "7 días",
           "thirty_days": "30 días",
           "ninety_days": "90 días",
