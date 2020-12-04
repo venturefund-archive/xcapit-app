@@ -79,22 +79,17 @@ describe('FundDetailPage', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call apiFunds.getPercentageEvolution on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-    expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call apiFunds.getFundBalances on ionViewWillEnter', () => {
+  fit('should call apiFunds.getFundBalances on ionViewWillEnter', () => {
     component.ionViewWillEnter();
     component.fundName = "test";
     expect(apiFundsSpy.getFundBalances).toHaveBeenCalledTimes(1);
   });
 
-  it('should call apiFunds.getLastFundRun on ionViewWillEnter', () => {
+  fit('should call apiFunds.getLastFundRun on ionViewWillEnter', () => {
     component.ionViewWillEnter();
     expect(apiFundsSpy.getLastFundRun).toHaveBeenCalledTimes(1);
   });
@@ -106,12 +101,12 @@ describe('FundDetailPage', () => {
   //   expect(apiFundsSpy.getFundRuns).toHaveBeenCalledTimes(1);
   // });
 
-  it('should call apiFunds.getPercentageEvolution on setDelta', () => {
+  fit('should call apiFunds.getPercentageEvolution on setDelta', () => {
     component.setDelta('1d');
     expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Edit Fund button clicked', () => {
+  fit('should call trackEvent on trackService when Edit Fund button clicked', () => {
     component.fundName = 'Test';
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',

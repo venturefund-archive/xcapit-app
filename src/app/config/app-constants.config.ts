@@ -119,6 +119,6 @@ export const CONFIG = {
     until: 'until'
   },
   chartRangeValues: {
-    selected: '7d'
+    selected: 'selected'
   }
 };

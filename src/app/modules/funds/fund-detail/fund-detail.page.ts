@@ -217,7 +217,7 @@ export class FundDetailPage implements OnInit {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
     this.getStorageRange()
     this.getFundMetricsCardInfo();
-    this.getFundPerformanceCardInfo();
+
 
     // Comentado hasta que se implemente el componente del detalle de cada movimiento
 
@@ -226,6 +226,7 @@ export class FundDetailPage implements OnInit {
 
   async getStorageRange() {
     this.selectedDelta = await this.storage.get(CONFIG.chartRangeValues.selected);
+    this.selectedDelta = this.selectedDelta == null || this.selectedDelta == undefined ? "7d" : this.selectedDelta;
     this.getFundPerformanceCardInfo();
   }
 
