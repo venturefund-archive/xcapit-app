@@ -18,12 +18,14 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             defaultHref="funds/detail/{{ this.fundName }}"
           ></ion-back-button>
         </ion-buttons>
-        <ion-title class="foh__header-title ion-text-center">
-          {{ 'funds.fund_operations.title' | translate }}</ion-title
-        >
-        <ion-title class="foh__header-fund ion-text-center">{{
-          this.fundName
-        }}</ion-title>
+        <div>
+          <ion-title class="foh__header-title ion-text-center">
+            {{ 'funds.fund_operations.title' | translate }}</ion-title
+          >
+          <ion-title class="foh__header-fund ion-text-center">{{
+            this.fundName
+          }}</ion-title>
+        </div>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -104,53 +106,51 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
                 {{ 'funds.fund_operations.header_qty' | translate }}
               </ion-label>
             </ion-item>
-              <div
-                class="container fol__list"
-                *ngFor="let order of this.orders; let last = last"
+            <div
+              class="container fol__list"
+              *ngFor="let order of this.orders; let last = last"
+            >
+              <ion-item
+                (click)="viewOrderDetail(order.id)"
+                class="ux-font-lato ux-fweight-regular ux-fsize-12"
               >
-                <ion-item
-                  (click)="viewOrderDetail(order.id)"
-                  class="ux-font-lato ux-fweight-regular ux-fsize-12"
-                >
-                  <ion-label class="fol__list__pair">
-                    <app-symbol-format
-                      [symbol]="this.order.symbol"
-                      *ngIf="this.order.symbol"
-                    ></app-symbol-format>
+                <ion-label class="fol__list__pair">
+                  <app-symbol-format
+                    [symbol]="this.order.symbol"
+                    *ngIf="this.order.symbol"
+                  ></app-symbol-format>
 
-                    <ion-text
-                      *ngIf="order.side == 'buy'"
-                      class="fol__list__pair__type__buy ux-fweight-semibold"
-                      >{{
-                        'funds.fund_operations.order_side_buy' | translate
-                      }}</ion-text
-                    >
-                    <ion-text
-                      *ngIf="order.side == 'sell'"
-                      class="fol__list__pair__type__sell ux-fweight-semibold"
-                      >{{
-                        'funds.fund_operations.order_side_sell' | translate
-                      }}</ion-text
-                    >
-                    <h3>
-                      {{ order.creation_datetime | date: 'dd-MM-yy HH:mm:ss' }}
-                    </h3>
-                  </ion-label>
-                  <ion-label class="fol__list__price">
-                    {{ order.price | number: '1.2-6' }}
-                    <h3 *ngIf="order.order_type == 'market'">
-                      {{
-                        'funds.fund_operations.order_type_market' | translate
-                      }}
-                    </h3>
-                  </ion-label>
+                  <ion-text
+                    *ngIf="order.side == 'buy'"
+                    class="fol__list__pair__type__buy ux-fweight-semibold"
+                    >{{
+                      'funds.fund_operations.order_side_buy' | translate
+                    }}</ion-text
+                  >
+                  <ion-text
+                    *ngIf="order.side == 'sell'"
+                    class="fol__list__pair__type__sell ux-fweight-semibold"
+                    >{{
+                      'funds.fund_operations.order_side_sell' | translate
+                    }}</ion-text
+                  >
+                  <h3>
+                    {{ order.creation_datetime | date: 'dd-MM-yy HH:mm:ss' }}
+                  </h3>
+                </ion-label>
+                <ion-label class="fol__list__price">
+                  {{ order.price | number: '1.2-6' }}
+                  <h3 *ngIf="order.order_type == 'market'">
+                    {{ 'funds.fund_operations.order_type_market' | translate }}
+                  </h3>
+                </ion-label>
 
-                  <ion-label class="fol__list__qty">
-                    {{ order.executedQty }}
-                  </ion-label>
-                </ion-item>
-                <div class="list-divider" *ngIf="!last"></div>
-              </div>
+                <ion-label class="fol__list__qty">
+                  {{ order.executedQty }}
+                </ion-label>
+              </ion-item>
+              <div class="list-divider" *ngIf="!last"></div>
+            </div>
             <ion-item *ngIf="!this.orders">
               <app-ux-loading-block minSize="30px"></app-ux-loading-block>
             </ion-item>
@@ -306,6 +306,5 @@ export class FundOperationsPage implements OnInit {
   ionViewWillLeave() {
     this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
     this.getStorageDates();
-    this.fundName = '';
   }
 }
