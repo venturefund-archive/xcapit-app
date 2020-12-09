@@ -204,7 +204,7 @@ export class ApiFundsService {
     );
   }
 
-  getOrderDetail(order_id: string, options: any = {}): Observable<any> {
+  getOrderDetail(order_id: string, options: any = {}, loading = false): Observable<any> {
     // this.loadingService.disabled();
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/orders/get_by_id/${order_id}`,
@@ -212,7 +212,7 @@ export class ApiFundsService {
         params: options,
       },
       undefined,
-      false
+      loading
     );
   }
 }

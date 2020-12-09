@@ -148,6 +148,10 @@ import { ActivatedRoute } from '@angular/router';
             </div>
           </ion-list>
         </app-ux-list-inverted>
+        <app-ux-loading-block
+          *ngIf="!this.order"
+          minSize="60px"
+        ></app-ux-loading-block>
       </div>
     </ion-content>
   `,
@@ -172,11 +176,13 @@ export class FundOperationsDetailPage implements OnInit {
   }
 
   getOrder() {
-    this.apiFunds.getOrderDetail(this.order_id).subscribe((data) => {
-      this.order = data;
-      this.fundName = data.fund_name;
-      this.loading = false;
-    });
+    this.apiFunds
+      .getOrderDetail(this.order_id, this.loading)
+      .subscribe((data) => {
+        this.order = data;
+        this.fundName = data.fund_name;
+        this.loading = false;
+      });
   }
 
   ngOnInit() {}
