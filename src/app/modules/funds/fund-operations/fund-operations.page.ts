@@ -306,5 +306,6 @@ export class FundOperationsPage implements OnInit {
   ionViewWillLeave() {
     this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
     this.getStorageDates();
+    this.fundName = '';
   }
 }
