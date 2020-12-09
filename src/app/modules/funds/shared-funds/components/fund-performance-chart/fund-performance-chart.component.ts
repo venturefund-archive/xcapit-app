@@ -91,8 +91,11 @@ export class FundPerformanceChartComponent implements OnChanges {
             color: 'rgba(0, 0, 0, 0.5)',
           }
         },
-        priceScale: {
-          position: 'left',
+        rightPriceScale: {
+          visible: false,
+        },
+        leftPriceScale: {
+          visible: true,
           borderColor: 'rgba(0, 0, 0, 0.8)',
         },
         timeScale: {
