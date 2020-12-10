@@ -163,7 +163,9 @@ export class FundPerformanceChartComponent implements OnChanges {
     div.appendChild(toolTip);
 
     this.chart.subscribeCrosshairMove(function(param) {
-        if (!(point_is_undefined(param) || (time_is_not_exists(param)) || x_point_is_less_than_zero(param) || x_point_is_grather_than_clientWidth(param, div) || y_point_is_less_than_zero(param) || y_point_is_grather_than_clientHeight(param, div))) {
+        if (point_is_undefined(param) || (time_is_not_exists(param)) || x_point_is_less_than_zero(param) || x_point_is_grather_than_clientWidth(param, div) || y_point_is_less_than_zero(param) || y_point_is_grather_than_clientHeight(param, div)) {
+          toolTip.style.display = 'none';
+        } else {
           toolTip.style.display = 'block';
           let price = param.seriesPrices.get(areaSeries);
           toolTip.innerHTML = '<div>' + Math.round(100 * price) / 100 + '%</div>';
