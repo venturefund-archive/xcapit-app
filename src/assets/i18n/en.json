@@ -444,7 +444,13 @@
       "fund_finished": "The fund was finished"
     },
     "funds_finished": {
-      "header": "My finished funds"
+      "header": "My finished funds",
+      "fund_finished_card": {
+        "risk": "Risk",
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss",
+        "renovate": "Renovate"
+      }
     },
     "fund_operations": {
       "title": "Operations History",

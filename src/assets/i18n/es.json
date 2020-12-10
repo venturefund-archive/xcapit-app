@@ -449,7 +449,13 @@
       "fund_finished": "Se ha finalizado el fondo"
     },
     "funds_finished": {
-      "header": "Mis fondos finalizados"
+      "header": "Mis fondos finalizados",
+      "fund_finished_card": {
+        "risk": "Riesgo",
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss",
+        "renovate": "Renovar"
+      }
     },
     "fund_operations": {
       "title": "Historial de operaciones",
