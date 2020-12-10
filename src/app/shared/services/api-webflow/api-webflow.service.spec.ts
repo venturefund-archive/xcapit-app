@@ -1,21 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { ApiWebflowService } from './api-webflow.service';
-import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
+import { HttpClient } from '@angular/common/http';
 
-describe('ApiCommissionService', () => {
-  let customHttpServiceSpy: any;
+describe('ApiWebflowService', () => {
+  let HttpServiceSpy: any;
   let apiCommissionsService: ApiWebflowService;
 
   beforeEach(() => {
-    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
+    HttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       http: { get: () => null }
     });
     TestBed.configureTestingModule({
       providers: [
-        { provide: CustomHttpService, useValue: customHttpServiceSpy }
+        { provide: HttpClient, useValue: HttpServiceSpy }
       ]
     });
-    customHttpServiceSpy = TestBed.inject(CustomHttpService);
+    HttpServiceSpy = TestBed.inject(HttpClient);
     apiCommissionsService = TestBed.inject(ApiWebflowService);
   });
 

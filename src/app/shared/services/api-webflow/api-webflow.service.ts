@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -9,16 +9,11 @@ import { environment } from 'src/environments/environment';
 export class ApiWebflowService {
   entity = 'webflow';
 
-  constructor(private http: CustomHttpService) {}
+  constructor(private http: HttpClient) {}
 
   getNews(options: any = {}): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/`,
-      {
-        params: options,
-      },
-      undefined,
-      false
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/`, {
+      params: options,
+    });
   }
 }

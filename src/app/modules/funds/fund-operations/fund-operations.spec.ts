@@ -7,12 +7,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Storage } from '@ionic/storage';
 
 describe('FundOperationsPage', () => {
   let component: FundOperationsPage;
   let fixture: ComponentFixture<FundOperationsPage>;
   let ionInfiniteScrollMock: any;
   let apiFundsServiceSpy: any;
+  let storageSpy: any;
+
   const ordersTestData = {
     links: {
       next: null,
@@ -56,6 +59,7 @@ describe('FundOperationsPage', () => {
     apiFundsServiceSpy = {
       getOperationsHistory: () => of(ordersTestData),
     };
+    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
     TestBed.configureTestingModule({
       declarations: [FundOperationsPage],
       imports: [
@@ -66,6 +70,7 @@ describe('FundOperationsPage', () => {
       providers: [
         TranslateService,
         { provide: ApiFundsService, useValue: apiFundsServiceSpy },
+        { provide: Storage, useValue: storageSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
