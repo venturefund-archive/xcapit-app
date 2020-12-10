@@ -75,19 +75,44 @@ import * as moment from 'moment';
           </ion-text>
         </div>
       </div>
-      <div class="fc__footer">
-        <ion-button
-          appTrackClick
-          name="View Fund"
-          (click)="this.viewFund()"
-          fill="clear"
-          size="small"
-          class="fc__footer__view_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
-          [disabled]="!this.fund.end_balance"
-        >
-          {{ 'funds.fund_card.view_fund' | translate }}
-          <ion-icon slot="end" name="ux-forward"></ion-icon>
-        </ion-button>
+      <div class="fc__footer" *ngIf="this.fund.state == 'active'">
+        <div class="fc__footer__left">
+        </div>
+        <div class="fc__footer__right" *ngIf="this.fund.state == 'active'">
+          <ion-button
+            appTrackClick
+            name="View Fund"
+            (click)="this.viewFund()"
+            fill="clear"
+            size="small"
+            class="fc__footer__view_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
+            [disabled]="!this.fund.end_balance"
+          >
+            {{ 'funds.fund_card.view_fund' | translate }}
+            <ion-icon slot="end" name="ux-forward"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+      <div class="fc__footer" *ngIf="this.fund.state == 'finalizado'">
+        <div class="fc__footer__left">
+          <ion-text class="fc__footer__view_fund ux-font-lato ux-fweight-semibold ux-fsize-14">
+            Finalizado
+          </ion-text>
+        </div>
+        <div class="fc__footer__right">
+          <ion-button
+            appTrackClick
+            name="View Fund"
+            (click)="this.viewFund()"
+            fill="clear"
+            size="small"
+            class="fc__footer__view_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
+            [disabled]="!this.fund.end_balance"
+          >
+            Renovar
+            <ion-icon slot="end" name="ux-forward"></ion-icon>
+          </ion-button>
+        </div>
       </div>
     </div>
   `,

@@ -109,7 +109,7 @@ import { catchError, switchMap } from 'rxjs/operators';
       <!-- Fund lists -->
       <div class="fl" *ngIf="this.status?.status_name == 'COMPLETE'">
         <div
-          *ngIf="this.ownerFundBalances?.length"
+          *ngIf="this.ownerFundBalances?.length || this.finalizedFundBalances?.length"
           class="fl__funds ion-padding"
         >
           <div
@@ -124,8 +124,13 @@ import { catchError, switchMap } from 'rxjs/operators';
           ></app-ux-loading-block>
 
           <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
-            <app-fund-card [fund]="fb" *ngIf="fb"></app-fund-card>
+            <app-fund-card [fund]="fb" *ngIf="fb.state == 'active'"></app-fund-card>
           </div>
+
+          <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
+            <app-fund-card [fund]="fb" *ngIf="fb.state == 'finalizado'"></app-fund-card>
+          </div>
+
         </div>
       </div>
       <div class="fl" *ngIf="this.notOwnerFundBalances?.length">
@@ -184,6 +189,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
+  finalizedFundBalances: Array<any>;
   news: Array<any>;
   hasNotifications = false;
 
@@ -307,6 +313,7 @@ export class FundsListPage implements OnInit {
 
   private getOwnerFundBalances() {
     this.apiFundsService.getFundBalances(true, false).subscribe((res) => {
+      console.log("hola");
       this.ownerFundBalances = res;
       this.getNotOwnerFundBalances();
     });
