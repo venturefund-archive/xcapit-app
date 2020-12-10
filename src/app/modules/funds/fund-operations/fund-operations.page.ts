@@ -284,6 +284,7 @@ export class FundOperationsPage implements OnInit {
   async setDatesInStorage(since = undefined, until = undefined) {
     if (since) {
       this.loadingService.show();
+      this.storage_since = this.queryOptions.since;
       await this.storage
         .set(CONFIG.operationHistoryDates.since, this.queryOptions.since)
         .then(() => {
@@ -293,6 +294,7 @@ export class FundOperationsPage implements OnInit {
 
     if (until) {
       this.loadingService.show();
+      this.storage_until = this.queryOptions.until;
       await this.storage
         .set(CONFIG.operationHistoryDates.until, this.queryOptions.until)
         .then(() => {
@@ -305,6 +307,5 @@ export class FundOperationsPage implements OnInit {
 
   ionViewWillLeave() {
     this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
-    this.getStorageDates();
   }
 }
