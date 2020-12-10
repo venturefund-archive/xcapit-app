@@ -75,13 +75,6 @@ describe('FundPerformanceChartComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call createLimitDataSet on createChart', () => {
-    const spy = spyOn(component, 'createLimitDataSet');
-    spy.and.returnValue([{time: 1605883607, value: 3.14}])
-    component.createChart();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('should call setXAxisrange on createChart', () => {
     const spy = spyOn(component, 'setXAxisRange');
     component.createChart();
