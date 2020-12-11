@@ -113,5 +113,12 @@ export const CONFIG = {
         rules: []
       }
     ]
+  },
+  operationHistoryDates: {
+    since: 'since',
+    until: 'until'
+  },
+  chartRangeValues: {
+    selected: 'selected'
   }
 };

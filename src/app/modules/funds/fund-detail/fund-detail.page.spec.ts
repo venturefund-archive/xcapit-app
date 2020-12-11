@@ -14,6 +14,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from '../../../../testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { Storage } from '@ionic/storage';
 
 const testFund = [
   {
@@ -36,6 +37,7 @@ describe('FundDetailPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundDetailPage>;
   let modalControllerSpy: any;
   let navControllerSpy: any;
+  let storageSpy: any;
   beforeEach(async(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
@@ -50,7 +52,7 @@ describe('FundDetailPage', () => {
       getBalance: of({}),
       getFundRuns: of({}),
     });
-
+    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
     TestBed.configureTestingModule({
       declarations: [FundDetailPage, TrackClickDirective, DummyComponent],
       imports: [
@@ -65,7 +67,8 @@ describe('FundDetailPage', () => {
       providers: [
         { provide: ApiFundsService, useValue: apiFundsSpy },
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: NavController, useValue: navControllerSpy }
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: Storage, useValue: storageSpy }
       ],
     }).compileComponents();
 
@@ -78,11 +81,6 @@ describe('FundDetailPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call apiFunds.getPercentageEvolution on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-    expect(apiFundsSpy.getPercentageEvolution).toHaveBeenCalledTimes(1);
   });
 
   it('should call apiFunds.getFundBalances on ionViewWillEnter', () => {

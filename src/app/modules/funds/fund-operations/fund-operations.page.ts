@@ -4,6 +4,9 @@ import { IonInfiniteScroll } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { Storage } from '@ionic/storage';
+import { CONFIG } from 'src/app/config/app-constants.config';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-fund-operations-history',
@@ -15,12 +18,14 @@ import * as moment from 'moment';
             defaultHref="funds/detail/{{ this.fundName }}"
           ></ion-back-button>
         </ion-buttons>
-        <ion-title class="foh__header-title ion-text-center">
-          {{ 'funds.fund_operations.title' | translate }}</ion-title
-        >
-        <ion-title class="foh__header-fund ion-text-center">{{
-          this.fundName
-        }}</ion-title>
+        <div>
+          <ion-title class="foh__header-title ion-text-center">
+            {{ 'funds.fund_operations.title' | translate }}</ion-title
+          >
+          <ion-title class="foh__header-fund ion-text-center">{{
+            this.fundName
+          }}</ion-title>
+        </div>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -38,15 +43,20 @@ import * as moment from 'moment';
                   </ion-text>
                 </ion-label>
               </div>
-              <div class="foc__date__datetime-section">
+              <div
+                class="foc__date__datetime-section"
+                (click)="since_datetime.open()"
+              >
                 <ion-icon [name]="'ux-calendar'"></ion-icon>
                 <ion-datetime
+                  #since_datetime
                   class="ux-font-lato ux-fweight-regular ux-fsize-12"
                   value="{{ this.queryOptions.since }}"
                   display-format="YYYY-MM-DD"
                   cancelText="{{ this.datepicker.cancelText }}"
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'since')"
+                  (click)="$event.stopPropagation(); $event.preventDefault()"
                 ></ion-datetime>
               </div>
             </div>
@@ -59,15 +69,21 @@ import * as moment from 'moment';
                   {{ 'funds.fund_operations.until_date_range' | translate }}:
                 </ion-label>
               </div>
-              <div class="foc__date__datetime-section">
+              <div
+                class="foc__date__datetime-section"
+                (click)="until_datetime.open()"
+              >
                 <ion-icon [name]="'ux-calendar'"></ion-icon>
                 <ion-datetime
+                  #until_datetime
                   class="ux-font-lato ux-fweight-regular ux-fsize-12"
                   value="{{ this.queryOptions.until }}"
                   display-format="YYYY-MM-DD"
                   cancelText="{{ this.datepicker.cancelText }}"
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'until')"
+                  [min]="this.queryOptions.since"
+                  (click)="$event.stopPropagation(); $event.preventDefault()"
                 ></ion-datetime>
               </div>
             </div>
@@ -135,13 +151,18 @@ import * as moment from 'moment';
               </ion-item>
               <div class="list-divider" *ngIf="!last"></div>
             </div>
+            <ion-item *ngIf="!this.orders">
+              <app-ux-loading-block minSize="30px"></app-ux-loading-block>
+            </ion-item>
           </ion-list>
         </app-ux-list-inverted>
       </div>
       <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadMore()">
         <ion-infinite-scroll-content
           loadingSpinner="bubbles"
-          loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
+          loadingText="{{
+            'funds.fund_operations.loading_infinite_scroll' | translate
+          }}"
         >
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
@@ -152,7 +173,7 @@ import * as moment from 'moment';
 export class FundOperationsPage implements OnInit {
   @ViewChild(IonInfiniteScroll, { static: true })
   infiniteScroll: IonInfiniteScroll;
-  orders: any[] = [];
+  orders: any[];
   queryOptions = { ordering: '-creation_datetime', since: '', until: '' };
   paginationOptions = { cursor: '' };
   loading = true;
@@ -161,16 +182,21 @@ export class FundOperationsPage implements OnInit {
     cancelText: '',
     doneText: '',
   };
+  storage_since = '';
+  storage_until = '';
 
   constructor(
     private apiFunds: ApiFundsService,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
+    private storage: Storage,
+    private loadingService: LoadingService
   ) {}
 
   ionViewWillEnter() {
     this.fundName = this.route.snapshot.params.fundName;
+    this.getStorageDates();
     this.setInitialDatePicker();
   }
   ionViewDidEnter() {
@@ -178,8 +204,19 @@ export class FundOperationsPage implements OnInit {
   }
 
   setInitialDatePicker() {
-    this.queryOptions.since = moment().subtract(7, 'd').startOf('day').format();
-    this.queryOptions.until = moment().endOf('day').format();
+    if (this.storage_since != '') {
+      this.queryOptions.since = this.storage_since;
+    } else {
+      this.queryOptions.since = moment()
+        .subtract(7, 'd')
+        .startOf('day')
+        .format();
+    }
+    if (this.storage_until != '') {
+      this.queryOptions.until = this.storage_until;
+    } else {
+      this.queryOptions.until = moment().endOf('day').format();
+    }
 
     this.datepicker.cancelText = this.translate.instant(
       'funds.fund_operations.cancel_datepicker_text'
@@ -218,7 +255,7 @@ export class FundOperationsPage implements OnInit {
     };
   }
 
-  changeDate(event, type) {
+  async changeDate(event, type) {
     if (type === 'since') {
       this.queryOptions.since = event.detail.value;
     }
@@ -233,5 +270,42 @@ export class FundOperationsPage implements OnInit {
     this.router.navigate(['funds/fund-operations-detail', order.id]);
   }
 
+  async getStorageDates() {
+    this.loadingService.show();
+    this.storage_since = await this.storage.get(
+      CONFIG.operationHistoryDates.since
+    );
+    this.storage_until = await this.storage.get(
+      CONFIG.operationHistoryDates.until
+    );
+    this.loadingService.dismiss();
+  }
+
+  async setDatesInStorage(since = undefined, until = undefined) {
+    if (since) {
+      this.loadingService.show();
+      this.storage_since = this.queryOptions.since;
+      await this.storage
+        .set(CONFIG.operationHistoryDates.since, this.queryOptions.since)
+        .then(() => {
+          this.loadingService.dismiss();
+        });
+    }
+
+    if (until) {
+      this.loadingService.show();
+      this.storage_until = this.queryOptions.until;
+      await this.storage
+        .set(CONFIG.operationHistoryDates.until, this.queryOptions.until)
+        .then(() => {
+          this.loadingService.dismiss();
+        });
+    }
+  }
+
   ngOnInit() {}
+
+  ionViewWillLeave() {
+    this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
+  }
 }

@@ -7,6 +7,9 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
+import { Storage } from '@ionic/storage';
+import { CONFIG } from 'src/app/config/app-constants.config';
+
 
 @Component({
   selector: 'app-fund-detail',
@@ -67,7 +70,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
             *ngFor="let delta of deltas"
           >
             <ion-button
-              [ngClass] = "{ 'active': this.selectedDelta.value == delta.value }"
+              [ngClass] = "{ 'active': this.selectedDelta == delta.value }"
               class="fd__fund-performance-chart-card__periods__period__button ux-font-lato ux-fweight-semibold ux-fsize-14"
               fill="clear"
               size="small"
@@ -84,7 +87,7 @@ import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-moda
         <app-performance-chart-card
           *ngIf="this.fundPercentageEvolution"
           [fundPercentageEvolution]="this.fundPercentageEvolution"
-          [interval]="this.selectedDelta.value"
+          [interval]="this.selectedDelta"
         ></app-performance-chart-card>
       </div>
 
@@ -185,38 +188,51 @@ export class FundDetailPage implements OnInit {
       )
     },
     {
+      value: '90d',
+      name: this.translate.instant(
+        'funds.fund_detail.performance_chart_card.delta.ninety_days'
+      )
+    },
+    {
       value: '',
       name: this.translate.instant(
         'funds.fund_detail.performance_chart_card.delta.all'
       )
     }
   ];
-  selectedDelta = this.deltas[1];
+  selectedDelta;
 
   constructor(
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,
     private translate: TranslateService,
     private modalController: ModalController,
-    private router: Router
+    private router: Router,
+    private storage: Storage
   ) { }
 
   ngOnInit() { }
 
   ionViewWillEnter() {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
-    this.getFundPerformanceCardInfo();
+    this.getStorageRange()
     this.getFundMetricsCardInfo();
+
 
     // Comentado hasta que se implemente el componente del detalle de cada movimiento
 
     // this.getFundOperationsHistoryInfo(); 
   }
 
+  async getStorageRange() {
+    this.selectedDelta = await this.storage.get(CONFIG.chartRangeValues.selected);
+    this.selectedDelta = this.selectedDelta == null || this.selectedDelta == undefined ? "7d" : this.selectedDelta;
+    this.getFundPerformanceCardInfo();
+  }
 
-  getFrequencyByDelta(delta) {
+  getFrequencyByDelta() {
     let frequency: string;
-    if (delta.value === '1d') {
+    if (this.selectedDelta === '1d') {
       frequency = '1m';
     } else {
       frequency = '1d';
@@ -224,15 +240,16 @@ export class FundDetailPage implements OnInit {
     return frequency;
   }
 
-  getFundPerformanceCardInfo(delta: any = this.selectedDelta) {
-    const frequency = this.getFrequencyByDelta(delta);
+  getFundPerformanceCardInfo() {
+    const frequency = this.getFrequencyByDelta();
     this.apiFunds
-      .getPercentageEvolution(this.fundName, '', delta.value, frequency, false)
+      .getPercentageEvolution(this.fundName, '', this.selectedDelta, frequency, false)
       .subscribe(data => {
-        data.percentage_evolution.take_profit = data.fund.ganancia;
-        data.percentage_evolution.stop_loss = data.fund.perdida;
+        if (data.percentage_evolution) {
+          data.percentage_evolution.take_profit = data.fund.ganancia;
+          data.percentage_evolution.stop_loss = data.fund.perdida;
+        }
         this.fundPercentageEvolution = data.percentage_evolution;
-        this.selectedDelta = delta;
         this.currency = data.fund.currency;
         this.isOwner = data.fund.is_owner;
         this.getFundPortfolioCardInfo();
@@ -281,8 +298,9 @@ export class FundDetailPage implements OnInit {
   }
 
   setDelta(selected: string) {
-    const deltaItem = this.deltas.find(item => item.value === selected);
+    this.storage.set(CONFIG.chartRangeValues.selected, selected);
+    this.selectedDelta = selected;
     this.fundPercentageEvolution = undefined;
-    this.getFundPerformanceCardInfo(deltaItem);
+    this.getFundPerformanceCardInfo();
   }
 }

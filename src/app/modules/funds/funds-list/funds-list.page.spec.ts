@@ -66,7 +66,8 @@ describe('FundsListPage', () => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
     notificationsServiceMock = {
-      getNotifications: () => of({})
+      getNotifications: () => of({}),
+      getCountNotifications: () => of({})
     };
 
     TestBed.configureTestingModule({

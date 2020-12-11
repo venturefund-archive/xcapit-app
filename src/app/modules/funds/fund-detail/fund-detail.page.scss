@@ -33,12 +33,12 @@
         }
       }
       &__periods {
-        height: 40px;
         &__period {
           float: left;
           cursor: pointer;
-          margin: 0 10px 0 2px;
+          margin: 0 8px 0 -13px;
           &__button {
+            font-size: 12px;
             color: #0000008A;
           }
           .active{

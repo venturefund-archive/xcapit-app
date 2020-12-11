@@ -229,9 +229,10 @@
         "loss": "Loss",
         "delta": {
           "title": "Interval",
-          "one_day": "Last day",
+          "one_day": "24 hours",
           "one_week": "7 days",
           "thirty_days": "30 days",
+          "ninety_days": "90 days",
           "all": "All"
         }
       },
@@ -901,6 +902,11 @@
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 300 USD.",
         "invalidData": "Invalid data."
       }
+    },
+    "fund_slider_news": {
+      "get": {
+        "errorGetNews": "There was a problem displaying the news. Don't worry, we'll fix it soon."
+      }
     }
   },
   "terms_and_conditions": {
@@ -988,10 +994,10 @@
       "title": "Create an API Key",
       "text_before": "The API Key is a code that allows us to manage your account.",
       "text_before_2": "Login to your Binance account and follow these steps to create a new API Key.",
-      "step1": "Enter the \"My Account\" section.",
+      "step1": "Enter the \"My Account\" section ",
       "step2": "Find the module \"API\".",
-      "step3": "Enter a password.",
-      "step4": "Follow the steps to create the Key.",
+      "step3": "Enter an identification tag.",
+      "step4": "Copy the api key and secret key, you need them in the next step.",
       "text_after": "Remember, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
       "text_help": "Do you have doubts?",
       "text_help_link": "Learn more.",
