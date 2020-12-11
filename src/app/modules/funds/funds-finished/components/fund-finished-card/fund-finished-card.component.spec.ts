@@ -46,7 +46,7 @@ describe('FundFinishedCardComponent', () => {
 
     fixture = TestBed.createComponent(FundFinishedCardComponent);
     component = fixture.componentInstance;
-    component.fundName = 'Test';
+    component.fund = {nivel_de_riesgo: "Test"};
     fundDataStorageService = TestBed.inject(FundDataStorageService);
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);

@@ -109,7 +109,7 @@ import { catchError, switchMap } from 'rxjs/operators';
       <!-- Fund lists -->
       <div class="fl" *ngIf="this.status?.status_name == 'COMPLETE'">
         <div
-          *ngIf="this.ownerFundBalances?.length || this.finalizedFundBalances?.length"
+          *ngIf="this.ownerFundBalances?.length"
           class="fl__funds ion-padding"
         >
           <div
@@ -189,7 +189,6 @@ import { catchError, switchMap } from 'rxjs/operators';
 export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
-  finalizedFundBalances: Array<any>;
   news: Array<any>;
   hasNotifications = false;
 
