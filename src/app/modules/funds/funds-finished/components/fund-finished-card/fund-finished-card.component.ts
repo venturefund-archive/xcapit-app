@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-fund-finished-card',
   template: `
-    <div class="ffc">
+    <div class="ffc" (click)="this.renewFund()">
       <div class="ffc__content">
         <div class="ffc__content__right ion-padding-top ion-padding-start ion-padding-bottom">
           <div class="item">
@@ -24,7 +24,7 @@ import { NavController } from '@ionic/angular';
           <div class="item second">
             <ion-text
               class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-              color="uxsemidark"
+              color="uxmedium"
               >{{ 'funds.funds_finished.fund_finished_card.take_profit' | translate }}</ion-text
             >
             <ion-text
@@ -38,7 +38,7 @@ import { NavController } from '@ionic/angular';
           <div class="item">
             <ion-text
               class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-              color="uxsemidark"
+              color="uxmedium"
               >{{ 'funds.funds_finished.fund_finished_card.risk' | translate }}</ion-text
             >
             <ion-text
@@ -51,7 +51,7 @@ import { NavController } from '@ionic/angular';
           <div class="item second">
             <ion-text
               class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-              color="uxsemidark"
+              color="uxmedium"
               >{{ 'funds.funds_finished.fund_finished_card.stop_loss' | translate }}</ion-text
             >
             <ion-text
@@ -74,7 +74,6 @@ import { NavController } from '@ionic/angular';
               fill="clear"
               size="small"
               class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-              (click)="this.renewFund()"
             >
               {{ 'funds.funds_finished.fund_finished_card.renovate' | translate }}
             </ion-button>
@@ -97,7 +96,6 @@ export class FundFinishedCardComponent implements OnInit {
   ngOnInit() { this.getRiskLevel() }
 
   async renewFund(){
-    console.log("hola");
     this.fundDataStorage.setData('fundName', {fund_name: this.fund.nombre_bot});
     this.fundDataStorage.setData('fundRenew', true);
     this.navController.navigateForward(['funds/fund-risk']);

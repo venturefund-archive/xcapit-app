@@ -313,7 +313,6 @@ export class FundsListPage implements OnInit {
 
   private getOwnerFundBalances() {
     this.apiFundsService.getFundBalances(true, false).subscribe((res) => {
-      console.log("hola");
       this.ownerFundBalances = res;
       this.getNotOwnerFundBalances();
     });
