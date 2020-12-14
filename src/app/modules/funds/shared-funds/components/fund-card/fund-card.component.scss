@@ -6,20 +6,52 @@
     cursor: pointer;
     &__main {
       border-bottom: 1px solid #0000000A;
+      &__title {
+        color: black;
+      }
+      &__title-finalized {
+        color: #00000061;
+      }
       &__content {
         display: flex;
         justify-content: space-between;
         padding-top: 2px;
-        &__right__amount {
-          &__up {
-            color: var(--ion-color-uxsuccess);
-            height: 10px;
-            padding-bottom: 3px;
+        &__left {
+          &__balance {
+            color: black;
           }
-          &__down {
-            color: var(--ion-color-uxdanger);
-            height: 10px;
-            padding-bottom: 3px;
+          &__balance-finalized {
+            color: #00000061;
+          }
+        }
+        &__right {
+          &__performance {
+            color: black;
+          }
+          &__performance-finalized {
+            color: #00000061;
+          }
+          &__amount {
+            &__up {
+              color: var(--ion-color-uxsuccess);
+              height: 10px;
+              padding-bottom: 3px;
+            }
+            &__down {
+              color: var(--ion-color-uxdanger);
+              height: 10px;
+              padding-bottom: 3px;
+            }
+            &__up-finalized {
+              color: #00000061;
+              height: 10px;
+              padding-bottom: 3px;
+            }
+            &__down-finalized {
+              color: #00000061;
+              height: 10px;
+              padding-bottom: 3px;
+            }
           }
         }
         &__right__flex {
@@ -32,10 +64,33 @@
       height: 44px;
       display: flex;
       justify-content: flex-end;
+      justify-content: space-between;
+      &__left {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+      }
+      &__right {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+      }
       &__view_fund {
         ion-icon {
           height: 10px;
         }
+      }
+      &__renovate_fund {
+        ion-icon {
+          height: 10px;
+        }
+      }
+      &__finalized-label {
+        color: var(--ion-color-uxdanger);
+        margin: auto;
+        margin-left: 15px;
       }
     }
   }

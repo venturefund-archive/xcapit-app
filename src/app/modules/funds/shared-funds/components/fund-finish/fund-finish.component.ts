@@ -3,6 +3,7 @@ import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-fund-finish',
@@ -12,7 +13,7 @@ import { NavController } from '@ionic/angular';
               <ion-button
                       appTrackClick
                       name="Finish Fund"
-                      (click)="this.finishFund()"
+                      (click)="this.showFinishFundAlert()"
                       class="ux-button ffp__content__finish-button"
                       color="uxsecondary"
               >
@@ -35,10 +36,30 @@ export class FundFinishComponent implements OnInit {
     private navController: NavController,
     private toastService: ToastService,
     private translate: TranslateService,
+    private alertController: AlertController,
   ) {
   }
 
   ngOnInit() {
+  }
+
+  async showFinishFundAlert() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('funds.fund_finish_pause_fund_card.alert_header'),
+      message: this.translate.instant('funds.fund_finish_pause_fund_card.alert_message'),
+      buttons: [
+        {
+          text: this.translate.instant('funds.fund_finish_pause_fund_card.alert_exit_button'),
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: this.translate.instant('funds.fund_finish_pause_fund_card.alert_finish_button'),
+          handler: _ => this.finishFund()
+        }
+      ]
+    });
+    await alert.present();
   }
 
   finishFund() {

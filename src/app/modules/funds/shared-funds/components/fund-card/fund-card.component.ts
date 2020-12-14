@@ -5,19 +5,23 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-fund-card',
   template: `
-    <div class="fc" (click)="this.viewFund()">
+    <div class="fc" (click)="this.actionFund()">
       <div class="fc__main ion-padding">
         <div
+          [ngClass] = "{ 'fc__main__title': fund.state == 'active', 'fc__main__title-finalized': fund.state == 'finalizado' }"
           class="fc__main__title ux-font-lato ux-fweight-semibold ux-fsize-12"
         >
-          <ion-text color="uxdark">
+          <ion-text>
             {{ this.fund?.fund_name }}
           </ion-text>
         </div>
         <div class="fc__main__content" *ngIf="this.fund?.end_balance">
           <div class="fc__main__content__left">
-            <div class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold">
-              <ion-text color="uxdark">
+            <div
+              [ngClass] = "{ 'fc__main__content__left__balance': fund.state == 'active', 'fc__main__content__left__balance-finalized': fund.state == 'finalizado' }"
+              class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold"
+            >
+              <ion-text>
                 {{
                   this.fund?.end_balance
                     | currencyFormat
@@ -38,16 +42,17 @@ import * as moment from 'moment';
           <div class="fc__main__content__right">
             <div class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold">
               <ion-icon
-                class="fc__main__content__right__amount__up"
+                [ngClass] = "{ 'fc__main__content__right__amount__up': fund.state == 'active', 'fc__main__content__right__amount__up-finalized': fund.state == 'finalizado' }"
                 name="ux-triangle-up"
                 *ngIf="this.fund?.total_profit > 0"
               ></ion-icon>
               <ion-icon
-                class="fc__main__content__right__amount__down"
+                [ngClass] = "{ 'fc__main__content__right__amount__down': fund.state == 'active', 'fc__main__content__right__amount__down-finalized': fund.state == 'finalizado' }"
                 name="ux-triangle-down"
                 *ngIf="this.fund?.total_profit < 0"
               ></ion-icon>
-              <ion-text color="uxdark"
+              <ion-text
+                [ngClass] = "{ 'fc__main__content__right__performance': fund.state == 'active', 'fc__main__content__right__performance-finalized': fund.state == 'finalizado' }"
                 >{{
                   this.fund?.total_profit * 100 | absoluteValue | number: '1.2-2'
                 }}%
@@ -75,19 +80,42 @@ import * as moment from 'moment';
           </ion-text>
         </div>
       </div>
-      <div class="fc__footer">
-        <ion-button
-          appTrackClick
-          name="View Fund"
-          (click)="this.viewFund()"
-          fill="clear"
-          size="small"
-          class="fc__footer__view_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
-          [disabled]="!this.fund.end_balance"
-        >
-          {{ 'funds.fund_card.view_fund' | translate }}
-          <ion-icon slot="end" name="ux-forward"></ion-icon>
-        </ion-button>
+      <div class="fc__footer" *ngIf="this.fund.state == 'active'">
+        <div class="fc__footer__left">
+        </div>
+        <div class="fc__footer__right" *ngIf="this.fund.state == 'active'">
+          <ion-button
+            appTrackClick
+            name="View Fund"
+            fill="clear"
+            size="small"
+            class="fc__footer__view_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
+            [disabled]="!this.fund.end_balance"
+          >
+            {{ 'funds.fund_card.view_fund' | translate }}
+            <ion-icon slot="end" name="ux-forward"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+      <div class="fc__footer" *ngIf="this.fund.state == 'finalizado'">
+        <div class="fc__footer__left">
+          <ion-text class="fc__footer__finalized-label ux-font-lato ux-fweight-semibold ux-fsize-14">
+            {{ 'funds.fund_card.finalized' | translate }}
+          </ion-text>
+        </div>
+        <div class="fc__footer__right">
+          <ion-button
+            appTrackClick
+            name="Renovate Fund"
+            fill="clear"
+            size="small"
+            class="fc__footer__renovate_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
+            [disabled]="!this.fund.end_balance"
+          >
+            {{ 'funds.fund_card.renovate' | translate }}
+            <ion-icon slot="end" name="ux-forward"></ion-icon>
+          </ion-button>
+        </div>
       </div>
     </div>
   `,
@@ -104,8 +132,12 @@ export class FundCardComponent implements OnInit {
     this.createdTime = this.getCreatedTime(this.fund);
   }
 
-  viewFund() {
-    this.navController.navigateRoot(['funds/detail', this.fund.fund_name]);
+  actionFund() {
+    if (this.fund.state == "active") {
+      this.navController.navigateRoot(['funds/detail', this.fund.fund_name]);
+    } else if (this.fund.state == "finalizado") {
+      this.navController.navigateRoot(['funds/funds-finished']);
+    }
   }
 
   getCreatedTime(fund) {

@@ -424,7 +424,9 @@
       "days": "{{value}} día{{s}}",
       "hours": "{{value}} hora{{s}}",
       "minutes": "{{value}} minuto{{s}}",
-      "seconds": "{{value}} segundo{{s}}"
+      "seconds": "{{value}} segundo{{s}}",
+      "finalized": "Finalizado",
+      "renovate": "Renovar"
     },
     "change_currency_modal": {
       "submit_button": "Aceptar",
@@ -446,10 +448,20 @@
       "resume_fund": "Activar",
       "fund_paused": "Se ha pausado el fondo",
       "fund_resumed": "Se ha activado el fondo",
-      "fund_finished": "Se ha finalizado el fondo"
+      "fund_finished": "Se ha finalizado el fondo",
+      "alert_header": "Estás a punto de finalizar tu fondo",
+      "alert_message": "Al finalizar tu fondo todas las monedas se pasarán a tu moneda base",
+      "alert_exit_button": "Cancelar",
+      "alert_finish_button": "Finalizar"
     },
     "funds_finished": {
-      "header": "Mis fondos finalizados"
+      "header": "Mis fondos finalizados",
+      "fund_finished_card": {
+        "risk": "Riesgo",
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss",
+        "renovate": "Renovar"
+      }
     },
     "fund_operations": {
       "title": "Historial de operaciones",

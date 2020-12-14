@@ -124,8 +124,13 @@ import { catchError, switchMap } from 'rxjs/operators';
           ></app-ux-loading-block>
 
           <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
-            <app-fund-card [fund]="fb" *ngIf="fb"></app-fund-card>
+            <app-fund-card [fund]="fb" *ngIf="fb.state == 'active'"></app-fund-card>
           </div>
+
+          <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
+            <app-fund-card [fund]="fb" *ngIf="fb.state == 'finalizado'"></app-fund-card>
+          </div>
+
         </div>
       </div>
       <div class="fl" *ngIf="this.notOwnerFundBalances?.length">
