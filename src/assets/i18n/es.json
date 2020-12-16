@@ -349,7 +349,8 @@
       "risk_level_options": {
         "low": "Bajo, voy a ser conservador",
         "mid": "Medio, solo tomaré algunos riesgos",
-        "high": "Alto, asumo riesgos buscando posibilidades"
+        "high": "Alto, asumo riesgos buscando posibilidades",
+        "experimental": "Experimental, asumo riesgos en pro de la innovación"
       },
       "next_button": "Siguiente",
       "back_button": "Anterior"

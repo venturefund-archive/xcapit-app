@@ -346,7 +346,8 @@
       "risk_level_options": {
         "low": "Low, I will be conservative",
         "mid": "Medium, I will only take some risks",
-        "high": "High, I take risks looking for possibilities"
+        "high": "High, I take risks looking for possibilities",
+        "experimental": "Experimental, I take risks for the sake of innovation"
       },
       "next_button": "Next",
       "back_button": "Back"
