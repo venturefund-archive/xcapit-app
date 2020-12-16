@@ -1,0 +1,29 @@
+:host {
+  width: 100%;
+  .eak {
+    &__title {
+      margin-top: 8px;
+    }
+
+    &__text_before {
+      margin-top: 16px;
+    }
+
+    &__ak_input {
+      margin-top: 8px;
+    }
+
+    &__submit_button {
+      display: flex;
+      justify-content: normal;
+      margin-top: 16px;
+      flex-direction: column;
+    }
+
+    &__need_help {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+  }
+}

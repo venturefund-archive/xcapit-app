@@ -22,6 +22,8 @@ import { FundBalanceDetailComponent } from './components/fund-balance-detail/fun
 import { FundBalanceDetailItemComponent } from './components/fund-balance-detail-item/fund-balance-detail-item.component';
 import { FundFinishComponent } from './components/fund-finish/fund-finish.component';
 import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe';
+import { FundStopLossComponent } from './components/fund-stop-loss/fund-stop-loss.component';
+import { FundTakeProfitComponent } from './components/fund-take-profit/fund-take-profit.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe
     FundBalanceChartComponent,
     FundBalanceDetailComponent,
     FundBalanceDetailItemComponent,
+    FundStopLossComponent,
+    FundTakeProfitComponent,
     FundFinishComponent,
     CurrencyFormatPipe,
   ],
@@ -71,6 +75,8 @@ import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe
     FundBalanceDetailComponent,
     FundBalanceDetailItemComponent,
     FundFinishComponent,
+    FundStopLossComponent,
+    FundTakeProfitComponent,
     CurrencyFormatPipe,
   ],
   entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent],

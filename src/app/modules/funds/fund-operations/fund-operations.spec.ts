@@ -52,6 +52,8 @@ describe('FundOperationsPage', () => {
     ],
   };
   beforeEach(async(() => {
+    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
+
     ionInfiniteScrollMock = {
       complete: () => true,
       disabled: true,
@@ -70,7 +72,7 @@ describe('FundOperationsPage', () => {
       providers: [
         TranslateService,
         { provide: ApiFundsService, useValue: apiFundsServiceSpy },
-        { provide: Storage, useValue: storageSpy }
+        { provide: Storage, useValue: storageSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

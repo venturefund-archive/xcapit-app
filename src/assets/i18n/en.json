@@ -384,7 +384,9 @@
       "custom_tp_button": "Choose another option",
       "next_button": "Next",
       "back_button": "Back",
-      "edit_custom": "Edit"
+      "edit_custom": "Edit",
+      "submit_button_edit": "Save",
+      "edit_title": "Change Take Profit"
     },
     "fund_stop_loss": {
       "header": "Create a fund",
@@ -396,7 +398,9 @@
       "custom_tp_button": "Choose another option",
       "submit_button": "Create fund",
       "submit_button_renew": "Renew fund",
-      "edit_custom": "Edit"
+      "submit_button_edit": "Save",
+      "edit_custom": "Edit",
+      "edit_title": "Change Stop Loss"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
@@ -433,21 +437,21 @@
       "fund_info_title": "INFORMATION",
       "currency": "Currency",
       "fund_modify_title": "EDIT",
-      "apikey": "Api key",
+      "apikey": "API Key",
       "secretkey": "Secret key",
       "take_profit": "Take profit",
       "stop_loss": "Stop loss"
     },
     "fund_finish_pause_fund_card": {
-      "finish_fund": "Finish",
+      "finish_fund": "Finish fund",
       "pause_fund": "Pause",
       "resume_fund": "Resume",
       "fund_paused": "The fund was paused",
       "fund_resumed": "The fund was resumed",
       "fund_finished": "The fund was finished",
-      "alert_header": "You are going to finalize your fund",
-      "alert_message": "At the end of your fund all the currencies will be transferred to your base currency",
-      "alert_exit_button": "Cancel",
+      "alert_header": "You are about to finish your fund",
+      "alert_message": "When you finish your fund all the coins will be passed to your base currency",
+      "alert_cancel_button": "Cancel",
       "alert_finish_button": "Finish"
     },
     "funds_finished": {
@@ -913,7 +917,13 @@
         "invalidExchangeKeys": "The keys not exists in binance.",
         "keysExists": "Keys already used.",
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 300 USD.",
-        "invalidData": "Invalid data."
+        "invalidData": "An error has occurred. Please try again later."
+      },
+      "update": {
+        "invalidExchangeKeys": "The keys are not valid. Try again.",
+        "balanceNotEnough": "The minimum amount to trade is 300 USD equivalent in crypto.",
+        "keysExists": "The keys are already registered.",
+        "invalidData": "An error has occurred. Please try again later."
       }
     },
     "fund_slider_news": {
@@ -1039,6 +1049,19 @@
       "textSecondary": "We are able to create a fund to start managing your investment.",
       "namePrimaryAction": "Create my first investment fund",
       "nameSecondaryAction": "Skip for now"
+    },
+    "success_apikeys_edition": {
+      "textPrimary": "We have modified your API Key!",
+      "textSecondary": "View your funds now",
+      "namePrimaryAction": "Go to Home"
+    },
+    "edit_apikey": {
+      "header": "Change API Key",
+      "public_key": "Binance API Key",
+      "secret_key": "Binance Secret Key",
+      "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
+      "submit_button": "Save",
+      "need_help": "Need help?"
     }
   },
   "tabs": {

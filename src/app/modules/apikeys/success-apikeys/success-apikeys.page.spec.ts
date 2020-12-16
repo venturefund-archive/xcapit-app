@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { SuccessApikeysPage } from './success-apikeys.page';
 
 describe('SuccessApikeysPage', () => {
@@ -8,11 +8,20 @@ describe('SuccessApikeysPage', () => {
   let fixture: ComponentFixture<SuccessApikeysPage>;
 
   beforeEach(async(() => {
+    let activatedRouteSpy: any;
+
+    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        isRenew: 'true',
+      }),
+    };
+
     TestBed.configureTestingModule({
-      declarations: [ SuccessApikeysPage ],
+      declarations: [SuccessApikeysPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-    .compileComponents();
+      providers: [{ provide: ActivatedRoute, useValue: activatedRouteSpy }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
