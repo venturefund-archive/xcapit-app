@@ -114,6 +114,20 @@ export const routes: Routes = [
           import('./fund-operations-detail/fund-operations-detail.module').then(
             m => m.FundOperationsDetailPageModule
           )
+      },
+      {
+        path: 'edit-stop-loss/:fundName',
+        loadChildren: () =>
+          import('./fund-edit-stop-loss/fund-edit-stop-loss.module').then(
+            m => m.FundEditStopLossPageModule
+          )
+      },
+      {
+        path: 'edit-take-profit/:fundName',
+        loadChildren: () =>
+          import('./fund-edit-take-profit/fund-edit-take-profit.module').then(
+            m => m.FundEditTakeProfitPageModule
+          )
       }
     ]
   }

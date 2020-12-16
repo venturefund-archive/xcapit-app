@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FundStopLossPage } from './fund-stop-loss.page';
+import { FundEditStopLossPage } from './fund-edit-stop-loss.page';
 import { of } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
-import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
@@ -22,36 +21,34 @@ const formData = {
     stop_loss: '',
   },
 };
+const fund = {
+  nombre_bot: 'test',
+  currency: 'USDT',
+  ganancia: 10,
+  perdida: 10,
+};
 
-describe('FundStopLossPage', () => {
-  let component: FundStopLossPage;
-  let fixture: ComponentFixture<FundStopLossPage>;
-  let fundDataStorageServiceMock: any;
-  let fundDataStorageService: any;
+describe('FundEditStopLossPage', () => {
+  let component: FundEditStopLossPage;
+  let fixture: ComponentFixture<FundEditStopLossPage>;
   let apiFundsMock: any;
   let apiFundsService: any;
   let modalControllerSpy: any;
   let navControllerSpy: any;
-  let fundDataStorageServiceSpy: any;
+  let apiFundsServiceSpy: any;
 
   beforeEach(async(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
-    fundDataStorageServiceMock = {
-      getData: () => Promise.resolve({}),
-      setData: () => Promise.resolve({}),
-      getFund: () => Promise.resolve({}),
-      clearAll: () => Promise.resolve({}),
-    };
     apiFundsMock = {
       crud: {
-        create: () => of(),
+        update: () => of(),
       },
-      renewFund: () => of(),
+      getLastFundRun: () => of(fund),
     };
 
     TestBed.configureTestingModule({
-      declarations: [FundStopLossPage, TrackClickDirective, DummyComponent],
+      declarations: [FundEditStopLossPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         ReactiveFormsModule,
@@ -67,10 +64,6 @@ describe('FundStopLossPage', () => {
       ],
       providers: [
         {
-          provide: FundDataStorageService,
-          useValue: fundDataStorageServiceMock,
-        },
-        {
           provide: ApiFundsService,
           useValue: apiFundsMock,
         },
@@ -81,56 +74,34 @@ describe('FundStopLossPage', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FundStopLossPage);
+    fixture = TestBed.createComponent(FundEditStopLossPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.inject(FundDataStorageService);
     apiFundsService = TestBed.inject(ApiFundsService);
-    fundDataStorageServiceSpy = spyOn(fundDataStorageService, 'getData');
+    apiFundsServiceSpy = spyOn(apiFundsService, 'getLastFundRun');
+    apiFundsServiceSpy.and.returnValue(of(fund));
+    component.ionViewWillEnter();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on ionViewWillEnter', async (done) => {
-    fundDataStorageServiceSpy
-      .withArgs('fundStopLoss')
-      .and.returnValue(Promise.resolve(null))
-      .withArgs('fundRenew')
-      .and.returnValue(Promise.resolve(false));
-    component.ionViewWillEnter();
+  it('should call apiFundsService.getLastFundRun on ionViewWillEnter', async (done) => {
     fixture.detectChanges();
     fixture
       .whenStable()
-      .then(() => expect(fundDataStorageServiceSpy).toHaveBeenCalledTimes(2));
+      .then(() => expect(apiFundsServiceSpy).toHaveBeenCalledTimes(1));
     done();
   });
 
-  it('should call apiFunds.renewFund on handleSubmit', async (done) => {
-    fundDataStorageServiceSpy
-      .withArgs('fundStopLoss')
-      .and.returnValue(Promise.resolve(formData.valid))
-      .withArgs('fundRenew')
-      .and.returnValue(Promise.resolve(true));
-    component.ionViewWillEnter();
-    const spy = spyOn(apiFundsService, 'renewFund');
+  it('should call apiFunds.update on handleSubmit', async (done) => {
+    fixture.detectChanges();
+    const spy = spyOn(apiFundsService.crud, 'update');
     spy.and.returnValue(of({}));
+    fixture.detectChanges();
     component.handleSubmit(formData.valid);
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
-  });
-
-  it('should call apiFunds.crud.create on handleSubmit', async (done) => {
-    fundDataStorageServiceSpy
-      .withArgs('fundStopLoss')
-      .and.returnValue(Promise.resolve(null))
-      .withArgs('fundRenew')
-      .and.returnValue(Promise.resolve(false));
-    component.ionViewWillEnter();
-    const spy = spyOn(apiFundsService.crud, 'create');
-    spy.and.returnValue(of({}));
-    component.handleSubmit(formData.valid);
+    fixture.detectChanges();
     fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
     done();
   });
