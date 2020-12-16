@@ -1,11 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FundDataStorageService } from '../../../shared-funds/services/fund-data-storage/fund-data-storage.service';
+import { ApiFundsService } from '../../../shared-funds/services/api-funds/api-funds.service';
+import { ToastService } from '../../../../../shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-fund-finished-card',
   template: `
-    <div class="ffc" (click)="this.renewFund()">
+    <div class="ffc">
       <div class="ffc__content">
         <div class="ffc__content__right ion-padding-top ion-padding-start ion-padding-bottom">
           <div class="item">
@@ -64,6 +67,18 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="ffc__footer">
         <div class="ffc__footer__left">
+          <ion-button
+              appTrackClick
+              name="Share"
+              type="submit"
+              fill="clear"
+              size="small"
+              (click)="this.deleteFund()"
+              class="ffc__footer__left__trash ux-font-lato ux-fweight-semibold ux-fsize-14"
+            >
+              <ion-icon class="ffc__footer__left__trash__icon" name="trash-outline"></ion-icon>
+            </ion-button>
+
         </div>
         <div class="ffc__footer__right">
           <div class="share-button">
@@ -73,6 +88,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               fill="clear"
               size="small"
+              (click)="this.renewFund()"
               class="ux-font-lato ux-fweight-semibold ux-fsize-14"
             >
               {{ 'funds.funds_finished.fund_finished_card.renovate' | translate }}
@@ -86,10 +102,14 @@ import { NavController } from '@ionic/angular';
 })
 export class FundFinishedCardComponent implements OnInit {
   @Input() fund: any;
+  @Output() deleteFundClick = new EventEmitter<any>();
   risk: string;
 
   constructor(
     private fundDataStorage: FundDataStorageService,
+    private apiFunds: ApiFundsService,
+    private toastService: ToastService,
+    private translate: TranslateService,
     private navController: NavController
   ) { }
 
@@ -111,4 +131,18 @@ export class FundFinishedCardComponent implements OnInit {
     }
   }
 
+  deleteFund() {
+    this.apiFunds.deleteFundRuns(this.fund.nombre_bot).subscribe((data)  => {
+      this.deleteFundClick.emit(this.fund)
+      this.showToast();
+    });
+  }
+
+  async showToast() {
+    await this.toastService.showToast({
+      message: this.translate.instant(
+        'funds.funds_finished.fund_finished_card.fund_deleted'
+      )
+    });
+  }
 }

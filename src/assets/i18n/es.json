@@ -460,7 +460,8 @@
         "risk": "Riesgo",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
-        "renovate": "Renovar"
+        "renovate": "Renovar",
+        "fund_deleted": "El fondo se ha eliminado"
       }
     },
     "fund_operations": {
@@ -842,6 +843,10 @@
       "finalizeFund": {
         "notOwner": "No es dueño del fondo.",
         "finalizeFund": "Error al finalizar el fondo."
+      },
+      "deleteFund": {
+        "notOwner": "No es dueño del fondo.",
+        "deleteFund": "Error al eliminar el fondo."
       },
       "fundBalance": {
         "lastRun": "Error al ver el balance.",

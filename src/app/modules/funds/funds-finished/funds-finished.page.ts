@@ -17,7 +17,7 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
     <ion-content class="ion-padding">
       <div class="ff__list">
         <div class="container" *ngFor="let fund of this.funds; let last = last">
-          <app-fund-finished-card [fund]="fund"></app-fund-finished-card>
+          <app-fund-finished-card [fund]="fund" (deleteFundClick)="removeElement($event)"></app-fund-finished-card>
           <div class="list-divider" *ngIf="!last"></div>
         </div>
       </div>
@@ -51,4 +51,10 @@ export class FundsFinishedPage implements OnInit {
     this.fundDataStorage.clearAll();
   }
 
+  removeElement(fund) {
+    const index = this.funds.findIndex(item => item.nombre_bot === fund.nombre_bot);
+    if (index >= 0) {
+      this.funds.splice(index, 1);
+    }
+  }
 }

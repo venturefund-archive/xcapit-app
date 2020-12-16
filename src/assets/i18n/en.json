@@ -455,7 +455,8 @@
         "risk": "Risk",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
-        "renovate": "Renovate"
+        "renovate": "Renovate",
+        "fund_deleted": "The fund has been deleted"
       }
     },
     "fund_operations": {
@@ -828,6 +829,10 @@
       "finalizeFund": {
         "notOwner": "Not fund owner.",
         "finalizeFund": "Error finalizing fund."
+      },
+      "deleteFund": {
+        "notOwner": "Not fund owner.",
+        "deleteFund": "Error deleting fondo."
       },
       "fundBalance": {
         "lastRun": "Error getting last fund's run.",

@@ -24,7 +24,8 @@ describe('ApiFundsService', () => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       post: of({}),
       get: of({}),
-      put: of({})
+      put: of({}),
+      delete: of({})
     });
 
     TestBed.configureTestingModule({
@@ -99,6 +100,12 @@ describe('ApiFundsService', () => {
   it('should be call put on http when finalizeFundRuns', () => {
     service.finalizeFundRuns('test').subscribe(() => {
       expect(customHttpServiceSpy.put).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call delete on http when deleteFundRuns', () => {
+    service.deleteFundRuns('test').subscribe(() => {
+      expect(customHttpServiceSpy.delete).toHaveBeenCalledTimes(1);
     });
   });
 
