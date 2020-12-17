@@ -108,6 +108,12 @@ export class ApiFundsService {
     );
   }
 
+  deleteFundRuns(fundName: string): Observable<any> {
+    return this.http.delete(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/delete`
+    );
+  }
+
   renewFund(fundData: any): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}/${this.entity}/renew`,
