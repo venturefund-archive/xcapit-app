@@ -51,6 +51,14 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                         slot="start"
                         [value]="rl.value"
                       ></ion-radio>
+                      <ion-badge
+                        *ngIf="rl.value == 'volume_profile_strategies'"
+                        class="ux_badge_primary"
+                        slot="end"
+                        >{{
+                          'funds.fund_risk.new_badge' | translate
+                        }}</ion-badge
+                      >
                     </ion-item>
                     <div class="list-divider" *ngIf="!last"></div>
                   </div>
@@ -108,7 +116,7 @@ export class FundRiskPage implements OnInit {
   riskLevels = [
     { name: 'funds.fund_risk.risk_level_options.mid', value: 'classic' },
     { name: 'funds.fund_risk.risk_level_options.high', value: 'pro' },
-    { name: 'funds.fund_risk.risk_level_options.experimental', value: 'volume_profile_strategies' }
+    { name: 'funds.fund_risk.risk_level_options.multi_strategies', value: 'volume_profile_strategies' }
   ];
 
   fundRenew: any;
