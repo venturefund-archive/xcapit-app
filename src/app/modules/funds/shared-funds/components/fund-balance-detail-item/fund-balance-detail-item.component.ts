@@ -17,7 +17,7 @@ import { Component, OnInit, Input } from '@angular/core';
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-14"
             color="uxdark"
-            >{{ item.amount | number: '1.6-6' }}</ion-text
+            >{{ item.amount | number: '1.6-8' }}</ion-text
           >
         </div>
       </div>

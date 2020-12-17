@@ -344,10 +344,12 @@
       "text_before": "This will condition the way of operating and the consequent risk you will assume when investing.",
       "risk_level": "Risk level to assume",
       "risk_level_options": {
-        "low": "Low, I will be conservative",
-        "mid": "Medium, I will only take some risks",
-        "high": "High, I take risks looking for possibilities"
+        "low": "Low",
+        "mid": "Medium",
+        "high": "High",
+        "multi_strategies": "Multistrategy"
       },
+      "new_badge": "New",
       "next_button": "Next",
       "back_button": "Back"
     },
@@ -825,7 +827,7 @@
         "notOwner": "Not fund owner.",
         "invalidData": "Invalid data.",
         "renewFund": "Error renewing fund.",
-        "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 300 USD.",
+        "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
         "invalidExchangeKeys": "The keys not exists in binance."
       },
       "depositAddress": {
@@ -899,7 +901,7 @@
       "create": {
         "invalidExchangeKeys": "The keys not exists in binance.",
         "keysExists": "Keys already used.",
-        "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 300 USD.",
+        "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
         "invalidData": "Invalid data."
       }
     },
