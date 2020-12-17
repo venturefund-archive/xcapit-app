@@ -347,11 +347,12 @@
       "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo a asumir a la hora de invertir.",
       "risk_level": "Nivel de riesgo a asumir",
       "risk_level_options": {
-        "low": "Bajo, voy a ser conservador",
-        "mid": "Medio, solo tomaré algunos riesgos",
-        "high": "Alto, asumo riesgos buscando posibilidades",
-        "experimental": "Experimental, asumo riesgos en pro de la innovación"
+        "low": "Bajo",
+        "mid": "Medio",
+        "high": "Alto",
+        "multi_strategies": "Multiestrategia"
       },
+      "new_badge": "Nuevo",
       "next_button": "Siguiente",
       "back_button": "Anterior"
     },
@@ -861,7 +862,7 @@
         "notOwner": "No es dueño del fondo.",
         "invalidData": "Los datos ingresados no son válidos.",
         "renewFund": "Error al renovar el fondo.",
-        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 300 USD.",
+        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD.",
         "invalidExchangeKeys": "Las keys ingresadas no existen en binance."
       },
       "depositAddress": {
@@ -936,7 +937,7 @@
         "invalidExchangeKeys": "Las keys ingresadas no existen en binance.",
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Los datos ingresados no son válidos.",
-        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 300 USD."
+        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD."
       },
       "update":{
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
