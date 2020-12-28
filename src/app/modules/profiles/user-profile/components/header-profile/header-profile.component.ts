@@ -10,11 +10,8 @@ import { Component, OnInit, Input } from '@angular/core';
           [ngClass]="{ editing: this.editing }"
         ></div>
         <div class="hp__avatar" [ngClass]="{ editing: this.editing }">
-          <ion-avatar (click)="this.changeImage()"
-            ><img src="assets/img/user-profile/avatar-default.png" />
-            <div class="change-image">
-              <img src="assets/img/user-profile/camera.svg" alt="Camera" />
-            </div>
+          <ion-avatar>
+            <img src="assets/img/user-profile/avatar-default.png" alt="avatar"/>
           </ion-avatar>
         </div>
         <div class="hp__info">
@@ -32,18 +29,6 @@ import { Component, OnInit, Input } from '@angular/core';
               {{ this.data?.direccion }}
             </ion-text>
           </div>
-
-          <div class="hp__info__editing" *ngIf="this.editing && false">
-            <ion-button
-              appTrackClick
-              name="Edit Profile Photo"
-              fill="clear"
-              class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-              size="small"
-              (click)="this.changeImage()"
-              >{{ 'profiles.user_profile.edit_photo' | translate }}</ion-button
-            >
-          </div>
         </div>
       </div>
     </ion-header>
@@ -55,11 +40,4 @@ export class HeaderProfileComponent implements OnInit {
   @Input() editing = false;
   @Input() data: any;
   ngOnInit() {}
-
-  changeImage() {
-    // TODO: Implementar changeImage
-    if (this.editing) {
-      console.error('Change image not implemented.');
-    }
-  }
 }
