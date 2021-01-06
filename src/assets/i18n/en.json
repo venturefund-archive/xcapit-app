@@ -927,7 +927,7 @@
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
-        "balanceNotEnough": "The minimum amount to trade is 300 USD equivalent in crypto.",
+        "balanceNotEnough": "The minimum amount to trade is 150 USD equivalent in crypto.",
         "keysExists": "The keys are already registered.",
         "invalidData": "An error has occurred. Please try again later."
       }
