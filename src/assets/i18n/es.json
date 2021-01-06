@@ -941,7 +941,7 @@
       },
       "update":{
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
-        "balanceNotEnough": "El monto mínimo para operar son 300 USD equivalente en cripto.",
+        "balanceNotEnough": "El monto mínimo para operar son 150 USD equivalente en cripto.",
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Hemos tenidos un error. Intenta nuevamente más tarde."
       }
