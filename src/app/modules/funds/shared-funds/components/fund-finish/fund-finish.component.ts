@@ -16,7 +16,6 @@ import { AlertController, NavController } from '@ionic/angular';
           class="ux-button ffp__content__finish-button"
           color="uxsecondary"
         >
-          <ion-icon name="stop-circle-outline"></ion-icon>
           {{ 'funds.fund_finish_pause_fund_card.finish_fund' | translate }}
         </ion-button>
       </div>
