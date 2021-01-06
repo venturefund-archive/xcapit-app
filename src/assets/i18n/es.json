@@ -213,7 +213,7 @@
     },
     "fund_detail": {
       "header": "Detalle del fondo",
-      "edit_button": "Editar",
+      "edit_button": "Ajustes",
       "fund_summary_card": {
         "actual_amount": "Capital actual",
         "initial_amount": "Capital inicial",
