@@ -211,6 +211,11 @@
       "trailing_profit": "Trailing Profit",
       "trailing_stop": "Trailing Stop"
     },
+    "fund_share_chart": {
+      "share_title": "Únete a Xcapit e invierte en Criptomonedas",
+      "toast_text_copied": "El gráfico se copió correctamente al portapapeles",
+      "toast_image_downloaded": "Se guardo correctamente"
+    },
     "fund_detail": {
       "header": "Detalle del fondo",
       "edit_button": "Editar",
@@ -939,7 +944,7 @@
         "invalidData": "Los datos ingresados no son válidos.",
         "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD."
       },
-      "update":{
+      "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
         "balanceNotEnough": "El monto mínimo para operar son 300 USD equivalente en cripto.",
         "keysExists": "Las keys ya se encuentran registradas.",
@@ -1079,7 +1084,7 @@
       "header": "Modificar API Key",
       "public_key": "Binance API Key",
       "secret_key": "Binance Secret Key",
-      "key_placeholder":"Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
+      "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
       "submit_button": "Guardar",
       "need_help": "¿Necesitas ayuda?"
     }

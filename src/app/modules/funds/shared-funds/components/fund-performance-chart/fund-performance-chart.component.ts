@@ -1,30 +1,28 @@
-import { LanguageService } from './../../../../../shared/services/language/language.service';
+import { ModalController } from '@ionic/angular';
 import {
   Component,
   Input,
   OnChanges,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  Chart,
-  GridLineOptions,
-  ChartScales,
-  ChartTooltipOptions,
-  ChartLayoutOptions,
-} from 'chart.js';
-import { DatePipe } from '@angular/common';
 import { createChart } from 'lightweight-charts';
-import { HostListener } from "@angular/core";
+import { HostListener } from '@angular/core';
+import { FundShareChartComponent } from '../fund-share-chart/fund-share-chart.component';
 
 @Component({
   selector: 'app-fund-performance-chart',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-      <div class="fund_performance_chart">
-        <div id="chart" class="fund_performance_chart__chart">
-          <div id="tooltip" class="fund_performance_chart__chart__tooltip"></div>
-        </div>
+    <div class="fund_performance_chart">
+      <div id="chart" class="fund_performance_chart__chart">
+        <div id="tooltip" class="fund_performance_chart__chart__tooltip"></div>
       </div>
+    </div>
+    <div class="share_fund_chart">
+      <ion-button (click)="this.openShareDrawer()" expand="block" fill="clear">
+        <ion-icon slot="end" name="ux-share"></ion-icon>
+      </ion-button>
+    </div>
   `,
   styleUrls: ['./fund-performance-chart.component.scss'],
 })
@@ -34,15 +32,16 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   chart: any;
   limit: string;
+  screenshot: any;
 
-  constructor(
-    private datePipe: DatePipe,
-    private languageService: LanguageService
-  ) {}
+  constructor(private modalController: ModalController) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.chart.resize(event.target.innerWidth * 0.8, event.target.innerHeight * 0.3);
+    this.chart.resize(
+      event.target.innerWidth * 0.8,
+      event.target.innerHeight * 0.3
+    );
   }
 
   ngOnChanges() {
@@ -56,7 +55,7 @@ export class FundPerformanceChartComponent implements OnChanges {
       const div = document.getElementById('chart');
       const dataSet = this.createDataSet();
 
-      if (height > 300){
+      if (height > 300) {
         height = 300;
       } else if (height < 200) {
         height = 200;
@@ -67,7 +66,7 @@ export class FundPerformanceChartComponent implements OnChanges {
         height: height,
         localization: {
           dateFormat: 'dd/MM/yyyy',
-          priceFormatter: price => price.toFixed(2) + '%',
+          priceFormatter: (price) => price.toFixed(2) + '%',
         },
         layout: {
           backgroundColor: '#FFFFFF',
@@ -76,11 +75,11 @@ export class FundPerformanceChartComponent implements OnChanges {
         grid: {
           vertLines: {
             color: 'rgba(0, 0, 0, 0.5)',
-            visible: false
+            visible: false,
           },
           horzLines: {
             color: 'rgba(0, 0, 0, 0.5)',
-            visible: false
+            visible: false,
           },
         },
         crosshair: {
@@ -89,7 +88,7 @@ export class FundPerformanceChartComponent implements OnChanges {
           },
           horzLine: {
             color: 'rgba(0, 0, 0, 0.5)',
-          }
+          },
         },
         rightPriceScale: {
           visible: false,
@@ -104,20 +103,25 @@ export class FundPerformanceChartComponent implements OnChanges {
           secondsVisible: false,
           tickMarkFormatter: (time, tickMarkType, locale) => {
             const date = new Date(time * 1000);
-            if (this.interval == "1d") {
-              const minutes = date.getMinutes() <= 9 ? "0" + date.getMinutes() : date.getMinutes()
-              const hours = date.getHours() <= 9 ? "0" + date.getHours() : date.getHours()
+            if (this.interval == '1d') {
+              const minutes =
+                date.getMinutes() <= 9
+                  ? '0' + date.getMinutes()
+                  : date.getMinutes();
+              const hours =
+                date.getHours() <= 9 ? '0' + date.getHours() : date.getHours();
               return hours + ':' + minutes;
             } else {
               if (tickMarkType == 0) {
                 return date.getFullYear();
               } else if (tickMarkType == 1) {
-                const month = date.toLocaleString('default', { month: 'short' });
+                const month = date.toLocaleString('default', {
+                  month: 'short',
+                });
                 return month;
               } else {
                 return date.getDate() + '/' + (date.getMonth() + 1);
               }
-
             }
           },
         },
@@ -125,7 +129,7 @@ export class FundPerformanceChartComponent implements OnChanges {
       const areaSeries = this.chart.addAreaSeries({
         lineColor: '#FF9100',
         topColor: '#FF9100',
-        bottomColor: '#FFFFFF'
+        bottomColor: '#FFFFFF',
       });
       areaSeries.setData(dataSet);
 
@@ -140,12 +144,27 @@ export class FundPerformanceChartComponent implements OnChanges {
     let time;
     let value;
     let date;
-    for (i = 0; i < this.fundPercentageEvolution.percentage_evolution.length ; i++) {
+    for (
+      i = 0;
+      i < this.fundPercentageEvolution.percentage_evolution.length;
+      i++
+    ) {
       if (i != this.fundPercentageEvolution.percentage_evolution.length - 2) {
-        date = new Date(this.fundPercentageEvolution.timestamp[i])
-        time = (new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0))).getTime() / 1000,
-        value = this.fundPercentageEvolution.percentage_evolution[i];
-        dataSet.push({time: time, value: value})
+        date = new Date(this.fundPercentageEvolution.timestamp[i]);
+        (time =
+          new Date(
+            Date.UTC(
+              date.getFullYear(),
+              date.getMonth(),
+              date.getDate(),
+              date.getHours(),
+              date.getMinutes(),
+              date.getSeconds(),
+              0
+            )
+          ).getTime() / 1000),
+          (value = this.fundPercentageEvolution.percentage_evolution[i]);
+        dataSet.push({ time: time, value: value });
       }
     }
     return dataSet;
@@ -153,10 +172,36 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   setXAxisRange() {
     let dateFrom = new Date(this.fundPercentageEvolution.timestamp[0]);
-    let dateTo = new Date(this.fundPercentageEvolution.timestamp[this.fundPercentageEvolution.timestamp.length - 1]);
+    let dateTo = new Date(
+      this.fundPercentageEvolution.timestamp[
+        this.fundPercentageEvolution.timestamp.length - 1
+      ]
+    );
     this.chart.timeScale().setVisibleRange({
-      from: (new Date(Date.UTC(dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
-      to: (new Date(Date.UTC(dateTo.getFullYear(), dateTo.getMonth(), dateTo.getDate(), dateFrom.getHours(), dateFrom.getMinutes(), dateFrom.getSeconds(), 0))).getTime() / 1000,
+      from:
+        new Date(
+          Date.UTC(
+            dateFrom.getFullYear(),
+            dateFrom.getMonth(),
+            dateFrom.getDate(),
+            dateFrom.getHours(),
+            dateFrom.getMinutes(),
+            dateFrom.getSeconds(),
+            0
+          )
+        ).getTime() / 1000,
+      to:
+        new Date(
+          Date.UTC(
+            dateTo.getFullYear(),
+            dateTo.getMonth(),
+            dateTo.getDate(),
+            dateFrom.getHours(),
+            dateFrom.getMinutes(),
+            dateFrom.getSeconds(),
+            0
+          )
+        ).getTime() / 1000,
     });
   }
 
@@ -165,19 +210,29 @@ export class FundPerformanceChartComponent implements OnChanges {
     let toolTip = document.getElementById('tooltip');
     div.appendChild(toolTip);
 
-    this.chart.subscribeCrosshairMove(function(param) {
-        if (point_is_undefined(param) || (time_is_not_exists(param)) || x_point_is_less_than_zero(param) || x_point_is_grather_than_clientWidth(param, div) || y_point_is_less_than_zero(param) || y_point_is_grather_than_clientHeight(param, div)) {
-          toolTip.style.display = 'none';
-        } else {
-          toolTip.style.display = 'block';
-          let price = param.seriesPrices.get(areaSeries);
-          toolTip.innerHTML = '<div>' + Math.round(100 * price) / 100 + '%</div>';
+    this.chart.subscribeCrosshairMove(function (param) {
+      if (
+        point_is_undefined(param) ||
+        time_is_not_exists(param) ||
+        x_point_is_less_than_zero(param) ||
+        x_point_is_grather_than_clientWidth(param, div) ||
+        y_point_is_less_than_zero(param) ||
+        y_point_is_grather_than_clientHeight(param, div)
+      ) {
+        toolTip.style.display = 'none';
+      } else {
+        toolTip.style.display = 'block';
+        let price = param.seriesPrices.get(areaSeries);
+        toolTip.innerHTML = '<div>' + Math.round(100 * price) / 100 + '%</div>';
 
-          let coordinateX = param.point.x + (window.innerWidth * 0.05);
-          let coordinateY = param.point.y + (window.innerHeight * 0.24) + (50000 / window.innerHeight) ;
-          toolTip.style.left = coordinateX + 'px';
-          toolTip.style.top = coordinateY + 'px';
-        }
+        let coordinateX = param.point.x + window.innerWidth * 0.05;
+        let coordinateY =
+          param.point.y +
+          window.innerHeight * 0.24 +
+          50000 / window.innerHeight;
+        toolTip.style.left = coordinateX + 'px';
+        toolTip.style.top = coordinateY + 'px';
+      }
     });
 
     function point_is_undefined(param) {
@@ -206,16 +261,31 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   createLimitDataSet(): any[] {
-    const lastPerformanceValue = this.fundPercentageEvolution.percentage_evolution[this.fundPercentageEvolution.percentage_evolution.length - 1];
+    const lastPerformanceValue = this.fundPercentageEvolution
+      .percentage_evolution[
+      this.fundPercentageEvolution.percentage_evolution.length - 1
+    ];
     let limitDataSet;
-    if (Math.abs(this.fundPercentageEvolution.take_profit - lastPerformanceValue) <= 5) {
-      limitDataSet = this.getLimitDataSet(this.fundPercentageEvolution.take_profit);
-      this.limit = "take_profit";
+    if (
+      Math.abs(
+        this.fundPercentageEvolution.take_profit - lastPerformanceValue
+      ) <= 5
+    ) {
+      limitDataSet = this.getLimitDataSet(
+        this.fundPercentageEvolution.take_profit
+      );
+      this.limit = 'take_profit';
     }
 
-    if (Math.abs(- this.fundPercentageEvolution.stop_loss - lastPerformanceValue) <= 5) {
-      limitDataSet = this.getLimitDataSet(-this.fundPercentageEvolution.stop_loss);
-      this.limit = "stop_loss";
+    if (
+      Math.abs(
+        -this.fundPercentageEvolution.stop_loss - lastPerformanceValue
+      ) <= 5
+    ) {
+      limitDataSet = this.getLimitDataSet(
+        -this.fundPercentageEvolution.stop_loss
+      );
+      this.limit = 'stop_loss';
     }
     return limitDataSet;
   }
@@ -226,14 +296,39 @@ export class FundPerformanceChartComponent implements OnChanges {
     let time;
     let value;
     let date;
-    for (i = 0; i < this.fundPercentageEvolution.timestamp.length ; i++) {
+    for (i = 0; i < this.fundPercentageEvolution.timestamp.length; i++) {
       if (i != this.fundPercentageEvolution.timestamp.length - 2) {
-        date = new Date(this.fundPercentageEvolution.timestamp[i])
-        time = (new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0))).getTime() / 1000,
-        value = limit;
-        dataSet.push({time: time, value: value})
+        date = new Date(this.fundPercentageEvolution.timestamp[i]);
+        (time =
+          new Date(
+            Date.UTC(
+              date.getFullYear(),
+              date.getMonth(),
+              date.getDate(),
+              date.getHours(),
+              date.getMinutes(),
+              date.getSeconds(),
+              0
+            )
+          ).getTime() / 1000),
+          (value = limit);
+        dataSet.push({ time: time, value: value });
       }
     }
     return dataSet;
+  }
+
+  async openShareDrawer() {
+    this.screenshot = this.chart.takeScreenshot();
+    const modal = await this.modalController.create({
+      component: FundShareChartComponent,
+      componentProps: {
+        screenshot: this.screenshot,
+      },
+      swipeToClose: false,
+      cssClass: 'ux-routeroutlet-modal share-chart-modal',
+    });
+
+    await modal.present();
   }
 }

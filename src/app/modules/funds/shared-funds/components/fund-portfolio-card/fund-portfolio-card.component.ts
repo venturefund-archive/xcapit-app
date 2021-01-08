@@ -154,7 +154,7 @@ export class FundPortfolioCardComponent implements OnInit {
         isOwner: this.isOwner
       },
       swipeToClose: false,
-      cssClass: 'ux-routeroutlet-modal',
+      cssClass: 'ux-routeroutlet-modal portfolio-modal',
     });
 
     await modal.present();

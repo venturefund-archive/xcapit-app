@@ -31,7 +31,7 @@ import { Router } from '@angular/router';
         <ion-icon name="close"></ion-icon>
       </ion-button>
     </div>
-    <ion-content>
+    <ion-content class="fbd__main_content">
       <div class="fbd__content">
         <div class="fbd__content__items">
           <app-fund-balance-detail-item
