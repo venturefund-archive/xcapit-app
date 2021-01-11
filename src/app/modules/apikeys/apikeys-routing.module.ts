@@ -40,13 +40,6 @@ const routes: Routes = [
           import('./success-apikeys/success-apikeys.module').then(
             m => m.SuccessApikeysPageModule
           )
-      },
-      {
-        path: 'edit-apikey/:fundName',
-        loadChildren: () =>
-        import('./edit-apikeys/edit-apikeys.module').then(
-          m => m.EditApiKeyPageModule
-        )
       }
     ]
   }

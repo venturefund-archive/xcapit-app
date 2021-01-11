@@ -68,22 +68,6 @@ import { NavController } from '@ionic/angular';
         <div class="fs__fund-modify__list">
           <app-ux-list-inverted>
             <ion-list>
-              <ion-item (click)="this.editApiKeys()">
-                <ion-label>
-                  <h2>
-                    {{ 'funds.fund_settings.apikey' | translate }}
-                  </h2>
-                  <h3>
-                    {{ this.apiKeys?.ak }}
-                  </h3>
-                </ion-label>
-                <ion-icon
-                  slot="end"
-                  name="ux-forward"
-                  class="fs__fund-modify__list__icon"
-                ></ion-icon>
-              </ion-item>
-              <div class="list-divider"></div>
               <ion-item (click)="this.editTakeProfit()">
                 <ion-label>
                   <h2>
@@ -162,10 +146,6 @@ export class FundSettingsPage implements OnInit {
 
   editTakeProfit(){
     this.navController.navigateForward(['funds/edit-take-profit/', this.fundName]);
-  }
-
-  editApiKeys(){
-    this.navController.navigateForward(['apikeys/edit-apikey/', this.fundName]);
   }
 
   ngOnInit() {}
