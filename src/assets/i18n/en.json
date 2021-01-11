@@ -458,7 +458,7 @@
     "funds_finished": {
       "header": "My finished funds",
       "fund_finished_card": {
-        "risk": "Risk",
+        "risk": "Profile",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
         "renovate": "Renovate",

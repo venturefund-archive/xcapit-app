@@ -463,7 +463,7 @@
     "funds_finished": {
       "header": "Mis fondos finalizados",
       "fund_finished_card": {
-        "risk": "Riesgo",
+        "risk": "Perfil",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
         "renovate": "Renovar",
