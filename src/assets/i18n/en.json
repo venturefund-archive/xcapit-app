@@ -208,6 +208,11 @@
       "trailing_profit": "Trailing Profit",
       "trailing_stop": "Trailing Stop"
     },
+    "fund_share_chart": {
+      "share_title": "Join Xcapit and invest in Cryptocurrencies",
+      "toast_text_copied": "The chart was copied successfully to the clipboard",
+      "toast_image_downloaded": "Image was saved successfully"
+    },
     "fund_detail": {
       "header": "Fund detail",
       "edit_button": "Edit",

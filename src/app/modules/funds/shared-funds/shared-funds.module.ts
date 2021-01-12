@@ -24,6 +24,7 @@ import { FundFinishComponent } from './components/fund-finish/fund-finish.compon
 import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe';
 import { FundStopLossComponent } from './components/fund-stop-loss/fund-stop-loss.component';
 import { FundTakeProfitComponent } from './components/fund-take-profit/fund-take-profit.component';
+import { FundShareChartComponent } from './components/fund-share-chart/fund-share-chart.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { FundTakeProfitComponent } from './components/fund-take-profit/fund-take
     FundStopLossComponent,
     FundTakeProfitComponent,
     FundFinishComponent,
+    FundShareChartComponent,
     CurrencyFormatPipe,
   ],
   providers: [DatePipe, DecimalPipe],
@@ -77,6 +79,7 @@ import { FundTakeProfitComponent } from './components/fund-take-profit/fund-take
     FundFinishComponent,
     FundStopLossComponent,
     FundTakeProfitComponent,
+    FundShareChartComponent,
     CurrencyFormatPipe,
   ],
   entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent],

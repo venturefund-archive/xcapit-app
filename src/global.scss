@@ -154,6 +154,27 @@ ion-picker {
       }
     }
   }
+  // Portfolio Modal
+  .portfolio-modal {
+    --height: 54%;
+
+    align-items: flex-end;
+    --overflow: hidden;
+  }
+  .portfolio-modal .modal-wrapper .ion-page {
+    padding-bottom: 0px;
+  }
+
+  // Share Chart Modal
+  .share-chart-modal {
+    --height: 65%;
+
+    align-items: flex-end;
+    --overflow: hidden;
+  }
+  .share-chart-modal .modal-wrapper .ion-page {
+    padding-bottom: 0px;
+  }
 
   // Loading
   .ux-loading {
