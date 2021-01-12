@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import * as moment from 'moment';
 import { ShareService } from 'src/app/shared/services/share/share.service';
@@ -32,7 +32,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <ion-item class="fbd__image__content">
           <ion-img
             class="fbd__image__content__img"
-            [src]="this.screenshot.toDataURL()"
+            [src]="this.screenshot"
           ></ion-img>
         </ion-item>
       </div>
@@ -40,7 +40,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <div class="fbd__main_content__item">
           <a
             (click)="this.showDownloadToast()"
-            [href]="this.screenshot.toDataURL()"
+            [href]="this.screenshot"
             [download]="this.getDownloadFileName()"
             class="fbd__main_content__item__link"
           >
@@ -77,10 +77,6 @@ export class FundShareChartComponent implements OnInit {
     await this.modalController.dismiss();
   }
 
-  viewOperations() {
-    this.close();
-  }
-
   getDownloadFileName() {
     return 'chart_screenshot_' + moment().format('YYYY_MM_DD_HH_mm_ss');
   }
@@ -92,7 +88,7 @@ export class FundShareChartComponent implements OnInit {
         dialogTitle: this.translate.instant(
           'funds.fund_share_chart.share_title'
         ),
-        url: this.screenshot.toDataURL(),
+        url: this.screenshot,
         text: '',
       },
       this.translate.instant('funds.fund_share_chart.toast_text_copied')

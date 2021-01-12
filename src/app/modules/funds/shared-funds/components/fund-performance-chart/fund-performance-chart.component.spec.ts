@@ -8,6 +8,7 @@ import { ModalController } from '@ionic/angular';
 import { FundPercentageEvolutionChartInterface } from '../performance-chart-card/fund-performance-chart.interface';
 import * as Chart from 'chart.js';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 const fundPerformanceMock: FundPercentageEvolutionChartInterface = {
   timestamp: ['01/10/2019'],
@@ -19,7 +20,9 @@ const fundPerformanceMock: FundPercentageEvolutionChartInterface = {
 class ChartMock {
   constructor() {}
   getDatasetMeta: () => null;
+  takeScreenShot: () => null;
 }
+
 describe('FundPerformanceChartComponent', () => {
   let component: FundPerformanceChartComponent;
   let fixture: ComponentFixture<FundPerformanceChartComponent>;
@@ -29,6 +32,10 @@ describe('FundPerformanceChartComponent', () => {
 
   beforeEach(async(() => {
     translateServiceSpy = jasmine.createSpyObj('TranslateService', ['instant']);
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [FundPerformanceChartComponent],
@@ -47,9 +54,7 @@ describe('FundPerformanceChartComponent', () => {
           provide: LanguageService,
           useValue: languageServiceMock,
         },
-        { provide: ModalController,
-          useValue: modalControllerSpy
-        }
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
     }).compileComponents();
   }));
@@ -82,5 +87,11 @@ describe('FundPerformanceChartComponent', () => {
     const spy = spyOn(component, 'setXAxisRange');
     component.createChart();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call ModalController create on openShareDrawer', () => {
+    component.createChart();
+    component.openShareDrawer();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

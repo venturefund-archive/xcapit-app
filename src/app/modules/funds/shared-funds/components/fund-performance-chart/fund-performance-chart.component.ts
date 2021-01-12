@@ -323,7 +323,7 @@ export class FundPerformanceChartComponent implements OnChanges {
     const modal = await this.modalController.create({
       component: FundShareChartComponent,
       componentProps: {
-        screenshot: this.screenshot,
+        screenshot: this.screenshot.toDataURL(),
       },
       swipeToClose: false,
       cssClass: 'ux-routeroutlet-modal share-chart-modal',
