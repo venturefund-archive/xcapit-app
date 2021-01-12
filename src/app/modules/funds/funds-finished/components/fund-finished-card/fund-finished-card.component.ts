@@ -69,7 +69,7 @@ import { NavController } from '@ionic/angular';
         <div class="ffc__footer__left">
           <ion-button
               appTrackClick
-              name="Share"
+              name="Delete Fund"
               type="submit"
               fill="clear"
               size="small"
@@ -84,7 +84,7 @@ import { NavController } from '@ionic/angular';
           <div class="share-button">
             <ion-button
               appTrackClick
-              name="Share"
+              name="Renovate Fund"
               type="submit"
               fill="clear"
               size="small"
