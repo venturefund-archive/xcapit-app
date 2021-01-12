@@ -337,7 +337,7 @@
       "title": "Nombra tu fondo",
       "text_before": "Puede ser lo que quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
       "fund_name": "Nombre de mi fondo (solo puede contener mayúsculas, minúsculas y números).",
-      "fund_name_placeholder": "Ej: Mi Primer Fondo",
+      "fund_name_placeholder": "Ej: MiPrimerFondo",
       "next_button": "Siguiente"
     },
     "fund_risk": {
