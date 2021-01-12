@@ -334,7 +334,7 @@
       "title": "Name your fund",
       "text_before": "It can be what you want, it is simply so that you can identify it within our application.",
       "fund_name": "My fund name",
-      "fund_name_placeholder": "Ej: My first fund",
+      "fund_name_placeholder": "Ej: MyFirstFund",
       "next_button": "Next"
     },
     "fund_risk": {
