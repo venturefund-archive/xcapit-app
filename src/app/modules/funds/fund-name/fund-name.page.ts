@@ -71,7 +71,7 @@ export class FundNamePage implements OnInit {
   form: FormGroup = this.formBuilder.group({
     fund_name: [
       '',
-      [Validators.required, Validators.minLength(2), Validators.maxLength(150), Validators.pattern('^[a-zA-Z0-9]*')]
+      [Validators.required, Validators.minLength(2), Validators.maxLength(100), Validators.pattern('^[a-zA-Z0-9]*')]
     ]
   });
 
