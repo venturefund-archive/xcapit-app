@@ -50,12 +50,13 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
             >
           </a>
         </div>
-        <div class="fbd__main_content__item" (click)="this.shareChart()">
+        <!-- Comentado hasta posterior implementación -->
+        <!-- <div class="fbd__main_content__item" (click)="this.shareChart()">
           <ion-icon name="ux-share"></ion-icon>
           <ion-label class="ux-font-lato ux-fweight-regular ux-fsize-14"
             ><ion-text color="uxsemidark">Compartir</ion-text></ion-label
           >
-        </div>
+        </div> -->
       </div>
     </ion-content>
   `,
