@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
   template: `
     <div class="ffc">
       <div class="ffc__content">
-        <div class="ffc__content__right ion-padding-top ion-padding-start ion-padding-bottom">
+        <div class="ffc__content__right">
           <div class="item">
             <ion-text
               class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -37,7 +37,7 @@ import { NavController } from '@ionic/angular';
             >
           </div>
         </div>
-        <div class="ffc__content__right ion-padding-top ion-padding-end ion-padding-bottom">
+        <div class="ffc__content__right">
           <div class="item">
             <ion-text
               class="ux-font-lato ux-fweight-semibold ux-fsize-12"
