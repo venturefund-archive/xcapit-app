@@ -211,9 +211,14 @@
       "trailing_profit": "Trailing Profit",
       "trailing_stop": "Trailing Stop"
     },
+    "fund_share_chart": {
+      "share_title": "Únete a Xcapit e invierte en Criptomonedas",
+      "toast_text_copied": "El gráfico se copió correctamente al portapapeles",
+      "toast_image_downloaded": "Se guardo correctamente"
+    },
     "fund_detail": {
       "header": "Detalle del fondo",
-      "edit_button": "Editar",
+      "edit_button": "Ajustes",
       "fund_summary_card": {
         "actual_amount": "Capital actual",
         "initial_amount": "Capital inicial",
@@ -337,7 +342,7 @@
       "title": "Nombra tu fondo",
       "text_before": "Puede ser lo que quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
       "fund_name": "Nombre de mi fondo (solo puede contener mayúsculas, minúsculas y números).",
-      "fund_name_placeholder": "Ej: Mi Primer Fondo",
+      "fund_name_placeholder": "Ej: MiPrimerFondo",
       "next_button": "Siguiente"
     },
     "fund_risk": {
@@ -388,7 +393,9 @@
       "custom_tp_button": "Elegir otra opción",
       "next_button": "Siguiente",
       "back_button": "Anterior",
-      "edit_custom": "Editar"
+      "edit_custom": "Editar",
+      "submit_button_edit": "Guardar",
+      "edit_title": "Modificar Take Profit"
     },
     "fund_stop_loss": {
       "header": "Crea un fondo",
@@ -402,7 +409,9 @@
       "usdt_text": "Dólar USDT",
       "submit_button": "Crear fondo",
       "submit_button_renew": "Renovar fondo",
-      "edit_custom": "Editar"
+      "submit_button_edit": "Guardar",
+      "edit_custom": "Editar",
+      "edit_title": "Modificar Stop Loss"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",
@@ -426,7 +435,9 @@
       "days": "{{value}} día{{s}}",
       "hours": "{{value}} hora{{s}}",
       "minutes": "{{value}} minuto{{s}}",
-      "seconds": "{{value}} segundo{{s}}"
+      "seconds": "{{value}} segundo{{s}}",
+      "finalized": "Finalizado",
+      "renovate": "Renovar"
     },
     "change_currency_modal": {
       "submit_button": "Aceptar",
@@ -437,21 +448,32 @@
       "fund_info_title": "INFORMACIÓN",
       "currency": "Moneda",
       "fund_modify_title": "MODIFICAR",
-      "apikey": "Api key",
+      "apikey": "API Key",
       "secretkey": "Secret key",
       "take_profit": "Take profit",
       "stop_loss": "Stop loss"
     },
     "fund_finish_pause_fund_card": {
-      "finish_fund": "Finalizar",
+      "finish_fund": "Finalizar fondo",
       "pause_fund": "Pausar",
       "resume_fund": "Activar",
       "fund_paused": "Se ha pausado el fondo",
       "fund_resumed": "Se ha activado el fondo",
-      "fund_finished": "Se ha finalizado el fondo"
+      "fund_finished": "Se ha finalizado el fondo",
+      "alert_header": "Estas a punto de finalizar tu fondo",
+      "alert_message": "Al finalizar tu fondo todas las monedas se pasarán a tu moneda base",
+      "alert_cancel_button": "Cancelar",
+      "alert_finish_button": "Finalizar"
     },
     "funds_finished": {
-      "header": "Mis fondos finalizados"
+      "header": "Mis fondos finalizados",
+      "fund_finished_card": {
+        "risk": "Perfil",
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss",
+        "renovate": "Renovar",
+        "fund_deleted": "El fondo se ha eliminado"
+      }
     },
     "fund_operations": {
       "title": "Historial de operaciones",
@@ -833,6 +855,10 @@
         "notOwner": "No es dueño del fondo.",
         "finalizeFund": "Error al finalizar el fondo."
       },
+      "deleteFund": {
+        "notOwner": "No es dueño del fondo.",
+        "deleteFund": "Error al eliminar el fondo."
+      },
       "fundBalance": {
         "lastRun": "Error al ver el balance.",
         "notSubscribed": "No esta subscripto al fondo."
@@ -847,7 +873,7 @@
       "depositAddress": {
         "depositAddress": "Error al consultar la dirección de depósito."
       },
-      "fund_operations":{
+      "fund_operations": {
         "error_on_get_orders": "No se pudieron obtener las ordenes.",
         "notOwner": "No puedes obtener las ordenes si no eres dueño del fondo."
       }
@@ -917,6 +943,12 @@
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Los datos ingresados no son válidos.",
         "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD."
+      },
+      "update": {
+        "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
+        "balanceNotEnough": "El monto mínimo para operar son 150 USD equivalente en cripto.",
+        "keysExists": "Las keys ya se encuentran registradas.",
+        "invalidData": "Hemos tenidos un error. Intenta nuevamente más tarde."
       }
     },
     "fund_slider_news": {
@@ -950,7 +982,7 @@
       "referral_id_card": {
         "share_title": "Este es mi link de referido",
         "share_dialogTitle": "Compartí tu link de referencia",
-        "toast_text_copied": "El link de referencia fué copiado al portapapeles",
+        "toast_text_copied": "Tu código de referencia fue copiado al portapapeles",
         "title": "Tu código de referido",
         "subtitle": "Invita a tus amigos a invertir",
         "share_text": "Crea tu cuenta en Xcapit y comienza como yo a invertir en criptomonedas "
@@ -1042,6 +1074,19 @@
       "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
       "namePrimaryAction": "Crear mi primer fondo de inversión",
       "nameSecondaryAction": "Omitir por ahora"
+    },
+    "success_apikeys_edition": {
+      "textPrimary": "¡Hemos modificado tu API Key!",
+      "textSecondary": "Observa tus fondos ahora",
+      "namePrimaryAction": "Ir a Inicio"
+    },
+    "edit_apikey": {
+      "header": "Modificar API Key",
+      "public_key": "Binance API Key",
+      "secret_key": "Binance Secret Key",
+      "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
+      "submit_button": "Guardar",
+      "need_help": "¿Necesitas ayuda?"
     }
   },
   "tabs": {

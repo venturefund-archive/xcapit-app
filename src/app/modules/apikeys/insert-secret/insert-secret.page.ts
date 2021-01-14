@@ -107,7 +107,7 @@ export class InsertSecretPage implements OnInit {
   }
 
   success() {
-    this.navController.navigateForward(['/apikeys/success']).then(() => {
+    this.navController.navigateForward(['/apikeys/success', 'new']).then(() => {
       this.form.reset();
       this.storageApikeysService.clear();
     });

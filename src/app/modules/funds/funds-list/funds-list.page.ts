@@ -124,7 +124,17 @@ import { catchError, switchMap } from 'rxjs/operators';
           ></app-ux-loading-block>
 
           <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
-            <app-fund-card [fund]="fb" *ngIf="fb"></app-fund-card>
+            <app-fund-card
+              [fund]="fb"
+              *ngIf="fb.state == 'active'"
+            ></app-fund-card>
+          </div>
+
+          <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
+            <app-fund-card
+              [fund]="fb"
+              *ngIf="fb.state == 'finalizado'"
+            ></app-fund-card>
           </div>
         </div>
       </div>
@@ -307,7 +317,7 @@ export class FundsListPage implements OnInit {
 
   private getOwnerFundBalances() {
     this.apiFundsService.getFundBalances(true, false).subscribe((res) => {
-      this.ownerFundBalances = res;
+      this.ownerFundBalances = this.filter_paused_funds(res);
       this.getNotOwnerFundBalances();
     });
   }
@@ -316,6 +326,10 @@ export class FundsListPage implements OnInit {
     this.apiFundsService.getFundBalances(false, false).subscribe((res) => {
       this.notOwnerFundBalances = res;
     });
+  }
+
+  private filter_paused_funds(array: any) {
+    return (array = array.filter((obj) => obj.state !== 'pausado'));
   }
 
   showNotifications() {

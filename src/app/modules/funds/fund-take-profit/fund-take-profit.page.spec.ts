@@ -95,10 +95,10 @@ describe('FundTakeProfitPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on init', async done => {
+  it('should call fundDataStorageService.getData on ionViewWillEnter', async done => {
     const spy = spyOn(fundDataStorageService, 'getData');
     spy.and.returnValue(Promise.resolve({}));
-    component.ngOnInit();
+    component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(2));
     done();
@@ -107,74 +107,9 @@ describe('FundTakeProfitPage', () => {
   it('should call fundDataStorageService.setData on handleSubmit and form valid', async done => {
     const spy = spyOn(fundDataStorageService, 'setData');
     spy.and.returnValue(Promise.resolve());
-    component.form.patchValue(formData.valid);
-    component.handleSubmit();
+    component.handleSubmit(formData.valid);
     fixture.detectChanges();
     fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
     done();
-  });
-
-  it('should not call fundDataStorageService.setData on handleSubmit and form invalid', async done => {
-    const spy = spyOn(fundDataStorageService, 'setData');
-    spy.and.returnValue(Promise.resolve());
-    component.form.patchValue(formData.invalid);
-    component.handleSubmit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(0));
-    done();
-  });
-
-  it('should call apiFunds.getMostChosenTP on getMostChosenTP', () => {
-    const spy = spyOn(apiFundsService, 'getMostChosenTP');
-    spy.and.returnValue(of(15));
-    component.getMostChosenTP();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call modal.present on openCustomTP',  () => {
-    component.openCustomTP();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent on trackService when Back button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Back'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent on trackService when Save Fund Take Profit button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Save Fund Take Profit'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent on trackService when Edit Custom Take Profit button clicked', () => {
-    component.takeProfitsOptions = [{
-      name: '+35%',
-      value: 35,
-      custom: true
-    }];
-    fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Edit Custom Take Profit'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

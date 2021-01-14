@@ -4,9 +4,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundPerformanceChartComponent } from './fund-performance-chart.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
+import { ModalController } from '@ionic/angular';
 import { FundPercentageEvolutionChartInterface } from '../performance-chart-card/fund-performance-chart.interface';
 import * as Chart from 'chart.js';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 const fundPerformanceMock: FundPercentageEvolutionChartInterface = {
   timestamp: ['01/10/2019'],
@@ -18,17 +20,22 @@ const fundPerformanceMock: FundPercentageEvolutionChartInterface = {
 class ChartMock {
   constructor() {}
   getDatasetMeta: () => null;
+  takeScreenShot: () => null;
 }
+
 describe('FundPerformanceChartComponent', () => {
   let component: FundPerformanceChartComponent;
   let fixture: ComponentFixture<FundPerformanceChartComponent>;
-  const languageServiceMock = {selected: 'en'};
+  const languageServiceMock = { selected: 'en' };
   let translateServiceSpy: any;
+  let modalControllerSpy: any;
 
   beforeEach(async(() => {
-    translateServiceSpy = jasmine.createSpyObj('TranslateService', [
-      'instant',
-    ]);
+    translateServiceSpy = jasmine.createSpyObj('TranslateService', ['instant']);
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [FundPerformanceChartComponent],
@@ -47,6 +54,7 @@ describe('FundPerformanceChartComponent', () => {
           provide: LanguageService,
           useValue: languageServiceMock,
         },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
     }).compileComponents();
   }));
@@ -70,7 +78,7 @@ describe('FundPerformanceChartComponent', () => {
 
   it('should call createDataSet on createChart', () => {
     const spy = spyOn(component, 'createDataSet');
-    spy.and.returnValue([{time: 1605883607, value: 3.14}])
+    spy.and.returnValue([{ time: 1605883607, value: 3.14 }]);
     component.createChart();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -79,5 +87,11 @@ describe('FundPerformanceChartComponent', () => {
     const spy = spyOn(component, 'setXAxisRange');
     component.createChart();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call ModalController create on openShareDrawer', () => {
+    component.createChart();
+    component.openShareDrawer();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

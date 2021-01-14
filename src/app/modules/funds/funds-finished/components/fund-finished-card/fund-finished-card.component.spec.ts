@@ -46,7 +46,7 @@ describe('FundFinishedCardComponent', () => {
 
     fixture = TestBed.createComponent(FundFinishedCardComponent);
     component = fixture.componentInstance;
-    component.fundName = 'Test';
+    component.fund = {nivel_de_riesgo: "Test"};
     fundDataStorageService = TestBed.inject(FundDataStorageService);
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
@@ -65,10 +65,22 @@ describe('FundFinishedCardComponent', () => {
     done();
   });
 
-  it('should call trackEvent on trackService when View Fund button clicked', () => {
+  it('should call trackEvent on trackService when Renovate Fund button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Renovate Fund'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Delete Fund button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Delete Fund'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

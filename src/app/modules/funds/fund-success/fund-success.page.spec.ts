@@ -14,7 +14,7 @@ describe('FundSuccessPage', () => {
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
-        isRenew: 'true'
+        type: 'new'
       })
     };
     TestBed.configureTestingModule({

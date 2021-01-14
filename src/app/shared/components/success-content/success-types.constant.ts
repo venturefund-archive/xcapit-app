@@ -15,12 +15,19 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/apikeys/new',
     namePrimaryAction: 'profiles.email_validation.namePrimaryAction'
   },
-  apikeys: {
+  apikeys_new: {
     urlClose: '/tabs/funds',
     textPrimary: 'apikeys.success_apikeys.textPrimary',
     textSecondary: 'apikeys.success_apikeys.textSecondary',
     urlPrimaryAction: '/funds/fund-name',
     namePrimaryAction: 'apikeys.success_apikeys.namePrimaryAction'
+  },
+  apikeys_edit: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'apikeys.success_apikeys_edition.textPrimary',
+    textSecondary: 'apikeys.success_apikeys_edition.textSecondary',
+    urlPrimaryAction: '/tabs/funds',
+    namePrimaryAction: 'apikeys.success_apikeys_edition.namePrimaryAction'
   },
   fund: {
     urlClose: '/tabs/funds',

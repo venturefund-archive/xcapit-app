@@ -34,7 +34,7 @@ const routes: Routes = [
           )
       },
       {
-        path: 'success',
+        path: 'success/:type',
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
           import('./success-apikeys/success-apikeys.module').then(

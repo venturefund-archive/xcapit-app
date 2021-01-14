@@ -118,14 +118,6 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  // TODO: detectChanges bug on angular v10
-  // xit('should call ngOnInit', async () => {
-  //   const app = fixture.debugElement.componentInstance;
-  //   const spy = spyOn(app, 'ngOnInit');
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-
   it('should call routeChangeSubscribe from ngOnInit', async () => {
     const app = fixture.debugElement.componentInstance;
     const spy = spyOn(app, 'routeChangeSubscribe');
@@ -141,7 +133,6 @@ describe('AppComponent', () => {
 
   it('updateAppSubscription should not be null after ngAfterViewInit call', async () => {
     const app = fixture.componentInstance;
-    await component.ngAfterViewInit();
     fixture.detectChanges();
     expect(app.updateAppSubscription).not.toBeNull();
     expect(updatePWAServiceSpy.update).toHaveBeenCalledTimes(1);
@@ -182,12 +173,10 @@ describe('AppComponent', () => {
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
   });
 
-  it('should init notification service on ngAfterViewInit', async (done) => {
+  it('should init notification service on ngOnInit', async (done) => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-      expect(pwaNotificationServiceSpy.requestPermission).toHaveBeenCalledTimes(1);
-      expect(pwaNotificationServiceSpy.pushNotificationReceived).toHaveBeenCalledTimes(1);
     });
     done();
   });

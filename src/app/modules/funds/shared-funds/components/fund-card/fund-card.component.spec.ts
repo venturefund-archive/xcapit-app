@@ -52,15 +52,4 @@ describe('FundCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when View Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'View Fund'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
 });
