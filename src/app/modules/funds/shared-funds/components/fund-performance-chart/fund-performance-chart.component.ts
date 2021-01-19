@@ -29,6 +29,7 @@ import { FundShareChartComponent } from '../fund-share-chart/fund-share-chart.co
 export class FundPerformanceChartComponent implements OnChanges {
   @Input() fundPercentageEvolution: any;
   @Input() interval: string;
+  @Input() isChart: boolean;
 
   chart: any;
   limit: string;
