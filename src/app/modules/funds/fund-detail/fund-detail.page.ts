@@ -55,7 +55,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
       </div>
 
       <!-- Fund Performance Chart Card -->
-      <div class="fd__fund-performance-chart-card" *ngIf="fundPercentageEvolution?.percentage_evolution">
+      <div class="fd__fund-performance-chart-card" *ngIf="this.isChart">
         <div class="fd__fund-performance-chart-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -70,24 +70,20 @@ import { CONFIG } from 'src/app/config/app-constants.config';
             *ngFor="let delta of deltas"
           >
             <ion-button
-              [ngClass] = "{ 'active': this.selectedDelta == delta.value }"
+              [ngClass]="{ active: this.selectedDelta == delta.value }"
               class="fd__fund-performance-chart-card__periods__period__button ux-font-lato ux-fweight-semibold ux-fsize-14"
               fill="clear"
               size="small"
               (click)="this.setDelta(delta.value)"
             >
-              {{delta.name}}
+              {{ delta.name }}
             </ion-button>
           </div>
         </div>
-        <app-ux-loading-block
-          *ngIf="!this.fundPercentageEvolution"
-          minSize="40px"
-        ></app-ux-loading-block>
         <app-performance-chart-card
-          *ngIf="this.fundPercentageEvolution"
           [fundPercentageEvolution]="this.fundPercentageEvolution"
           [interval]="this.selectedDelta"
+          [isChart]="this.isChart"
         ></app-performance-chart-card>
       </div>
 
@@ -135,7 +131,10 @@ import { CONFIG } from 'src/app/config/app-constants.config';
       </div>
 
       <!-- Fund Operations History Card -->
-      <div class="fd__fund-operations-history-card" *ngIf="this.fundOperationsHistory?.length > 0">
+      <div
+        class="fd__fund-operations-history-card"
+        *ngIf="this.fundOperationsHistory?.length > 0"
+      >
         <div class="fd__fund-operations-history-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -155,7 +154,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
       </div>
     </ion-content>
   `,
-  styleUrls: ['./fund-detail.page.scss']
+  styleUrls: ['./fund-detail.page.scss'],
 })
 export class FundDetailPage implements OnInit {
   fundName: string;
@@ -168,37 +167,39 @@ export class FundDetailPage implements OnInit {
   fundOperationsHistory: Array<any>;
   currency: string;
   isOwner: any;
+  isChart: boolean;
+
   deltas = [
     {
       value: '1d',
       name: this.translate.instant(
         'funds.fund_detail.performance_chart_card.delta.one_day'
-      )
+      ),
     },
     {
       value: '7d',
       name: this.translate.instant(
         'funds.fund_detail.performance_chart_card.delta.one_week'
-      )
+      ),
     },
     {
       value: '30d',
       name: this.translate.instant(
         'funds.fund_detail.performance_chart_card.delta.thirty_days'
-      )
+      ),
     },
     {
       value: '90d',
       name: this.translate.instant(
         'funds.fund_detail.performance_chart_card.delta.ninety_days'
-      )
+      ),
     },
     {
       value: '',
       name: this.translate.instant(
         'funds.fund_detail.performance_chart_card.delta.all'
-      )
-    }
+      ),
+    },
   ];
   selectedDelta;
 
@@ -209,24 +210,28 @@ export class FundDetailPage implements OnInit {
     private modalController: ModalController,
     private router: Router,
     private storage: Storage
-  ) { }
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
-    this.getStorageRange()
+    this.getStorageRange();
     this.getFundMetricsCardInfo();
-
 
     // Comentado hasta que se implemente el componente del detalle de cada movimiento
 
-    // this.getFundOperationsHistoryInfo(); 
+    // this.getFundOperationsHistoryInfo();
   }
 
   async getStorageRange() {
-    this.selectedDelta = await this.storage.get(CONFIG.chartRangeValues.selected);
-    this.selectedDelta = this.selectedDelta == null || this.selectedDelta == undefined ? "7d" : this.selectedDelta;
+    this.selectedDelta = await this.storage.get(
+      CONFIG.chartRangeValues.selected
+    );
+    this.selectedDelta =
+      this.selectedDelta == null || this.selectedDelta == undefined
+        ? '7d'
+        : this.selectedDelta;
     this.getFundPerformanceCardInfo();
   }
 
@@ -243,11 +248,18 @@ export class FundDetailPage implements OnInit {
   getFundPerformanceCardInfo() {
     const frequency = this.getFrequencyByDelta();
     this.apiFunds
-      .getPercentageEvolution(this.fundName, '', this.selectedDelta, frequency, false)
-      .subscribe(data => {
+      .getPercentageEvolution(
+        this.fundName,
+        '',
+        this.selectedDelta,
+        frequency,
+        false
+      )
+      .subscribe((data) => {
         if (data.percentage_evolution) {
           data.percentage_evolution.take_profit = data.fund.ganancia;
           data.percentage_evolution.stop_loss = data.fund.perdida;
+          this.isChart = true;
         }
         this.fundPercentageEvolution = data.percentage_evolution;
         this.currency = data.fund.currency;
@@ -257,7 +269,7 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundMetricsCardInfo() {
-    this.apiFunds.getFundBalances("all", false).subscribe((data) => {
+    this.apiFunds.getFundBalances('all', false).subscribe((data) => {
       let fund;
       for (fund of data) {
         if (fund.fund_name == this.fundName) {
@@ -267,30 +279,32 @@ export class FundDetailPage implements OnInit {
       }
     });
     this.apiFunds.getLastFundRun(this.fundName, false).subscribe((data) => {
-      this.fundSettings = data
+      this.fundSettings = data;
     });
   }
 
   getFundPortfolioCardInfo() {
-    if (this.currency == "BTC") {
+    if (this.currency == 'BTC') {
       this.apiFunds
-        .getBalance(this.fundName, "USDT", false)
-        .subscribe(data => {
+        .getBalance(this.fundName, 'USDT', false)
+        .subscribe((data) => {
           this.fundBalance = data;
-      });
+        });
     } else {
       this.apiFunds
-        .getBalance(this.fundName, "BTC", false)
-        .subscribe(data => {
+        .getBalance(this.fundName, 'BTC', false)
+        .subscribe((data) => {
           this.fundBalance = data;
-      });
+        });
     }
   }
 
   getFundOperationsHistoryInfo() {
-    this.apiFunds.getFundRuns('finalizado', this.fundName, false).subscribe(data => {
-      this.fundOperationsHistory = data;
-    });
+    this.apiFunds
+      .getFundRuns('finalizado', this.fundName, false)
+      .subscribe((data) => {
+        this.fundOperationsHistory = data;
+      });
   }
 
   editFund() {
