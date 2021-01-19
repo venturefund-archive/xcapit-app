@@ -13,12 +13,14 @@ import { NavController } from '@ionic/angular';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-detail"></ion-back-button>
         </ion-buttons>
-        <ion-title class="fst__main-title ion-text-center">{{
-          'funds.fund_settings.header' | translate
-        }}</ion-title>
-        <ion-title class="fst__fund-name ion-text-center">{{
-          this.fundName
-        }}</ion-title>
+        <div>
+          <ion-title class="fst__main-title ion-text-center">{{
+            'funds.fund_settings.header' | translate
+          }}</ion-title>
+          <ion-title class="fst__fund-name ion-text-center">{{
+            this.fundName
+          }}</ion-title>
+        </div>
       </ion-toolbar>
     </ion-header>
     <ion-content class="fs ion-padding">
@@ -140,12 +142,18 @@ export class FundSettingsPage implements OnInit {
       .subscribe((res) => (this.apiKeys = res));
   }
 
-  editStopLoss(){
-    this.navController.navigateForward(['funds/edit-stop-loss/', this.fundName]);
+  editStopLoss() {
+    this.navController.navigateForward([
+      'funds/edit-stop-loss/',
+      this.fundName,
+    ]);
   }
 
-  editTakeProfit(){
-    this.navController.navigateForward(['funds/edit-take-profit/', this.fundName]);
+  editTakeProfit() {
+    this.navController.navigateForward([
+      'funds/edit-take-profit/',
+      this.fundName,
+    ]);
   }
 
   ngOnInit() {}
