@@ -36,6 +36,7 @@ import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
 import { MenusModule } from './modules/menus/menus.module';
 import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addresses.module';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -43,7 +44,7 @@ registerLocaleData(localeEn, 'en');
 export function jwtOptionsFactory(storage: Storage) {
   return {
     tokenGetter: () => storage.get(AUTH.storageKey),
-    allowedDomains: environment.whitelistedDomains
+    allowedDomains: environment.whitelistedDomains,
   };
 }
 
@@ -60,11 +61,11 @@ export function httpLoaderFactory(http: HttpClient) {
     IonicModule.forRoot({
       mode: 'ios',
       backButtonText: '',
-      backButtonIcon: 'ux-back'
+      backButtonIcon: 'ux-back',
     }),
     IonicStorageModule.forRoot({
       name: '__xcapitdb',
-      driverOrder: ['sqlite', 'indexeddb', 'websql']
+      driverOrder: ['sqlite', 'indexeddb', 'websql'],
     }),
     AppRoutingModule,
     UsuariosModule,
@@ -84,28 +85,29 @@ export function httpLoaderFactory(http: HttpClient) {
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
         useFactory: jwtOptionsFactory,
-        deps: [Storage]
-      }
+        deps: [Storage],
+      },
     }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: httpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     TrackClickModule,
     TrackClickUnauthModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production
+      enabled: environment.production,
     }),
-    WildcardRoutingModule // always to last!
+    WildcardRoutingModule, // always to last!
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FileOpener,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
