@@ -8,6 +8,7 @@ import {
 import { createChart } from 'lightweight-charts';
 import { HostListener } from '@angular/core';
 import { FundShareChartComponent } from '../fund-share-chart/fund-share-chart.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-fund-performance-chart',
@@ -103,25 +104,20 @@ export class FundPerformanceChartComponent implements OnChanges {
           timeVisible: this.interval == '1d' ? true : false,
           secondsVisible: false,
           tickMarkFormatter: (time, tickMarkType, locale) => {
-            const date = new Date(time * 1000);
+            const date = moment(time * 1000).utc();
             if (this.interval == '1d') {
               const minutes =
-                date.getMinutes() <= 9
-                  ? '0' + date.getMinutes()
-                  : date.getMinutes();
-              const hours =
-                date.getHours() <= 9 ? '0' + date.getHours() : date.getHours();
+                date.minute() <= 9 ? '0' + date.minute() : date.minute();
+              const hours = date.hour() <= 9 ? '0' + date.hour() : date.hour();
               return hours + ':' + minutes;
             } else {
               if (tickMarkType == 0) {
-                return date.getFullYear();
+                return date.year();
               } else if (tickMarkType == 1) {
-                const month = date.toLocaleString('default', {
-                  month: 'short',
-                });
+                const month = date.format('MMM').toLocaleString();
                 return month;
               } else {
-                return date.getDate() + '/' + (date.getMonth() + 1);
+                return date.date() + '/' + (date.month() + 1);
               }
             }
           },
@@ -151,19 +147,18 @@ export class FundPerformanceChartComponent implements OnChanges {
       i++
     ) {
       if (i != this.fundPercentageEvolution.percentage_evolution.length - 2) {
-        date = new Date(this.fundPercentageEvolution.timestamp[i]);
-        (time =
-          new Date(
-            Date.UTC(
-              date.getFullYear(),
-              date.getMonth(),
-              date.getDate(),
-              date.getHours(),
-              date.getMinutes(),
-              date.getSeconds(),
-              0
-            )
-          ).getTime() / 1000),
+        date = moment(this.fundPercentageEvolution.timestamp[i]);
+        (time = moment(
+          Date.UTC(
+            date.year(),
+            date.month(),
+            date.date(),
+            date.hour(),
+            date.minute(),
+            date.second(),
+            0
+          )
+        ).unix()),
           (value = this.fundPercentageEvolution.percentage_evolution[i]);
         dataSet.push({ time: time, value: value });
       }
@@ -179,30 +174,8 @@ export class FundPerformanceChartComponent implements OnChanges {
       ]
     );
     this.chart.timeScale().setVisibleRange({
-      from:
-        new Date(
-          Date.UTC(
-            dateFrom.getFullYear(),
-            dateFrom.getMonth(),
-            dateFrom.getDate(),
-            dateFrom.getHours(),
-            dateFrom.getMinutes(),
-            dateFrom.getSeconds(),
-            0
-          )
-        ).getTime() / 1000,
-      to:
-        new Date(
-          Date.UTC(
-            dateTo.getFullYear(),
-            dateTo.getMonth(),
-            dateTo.getDate(),
-            dateFrom.getHours(),
-            dateFrom.getMinutes(),
-            dateFrom.getSeconds(),
-            0
-          )
-        ).getTime() / 1000,
+      from: moment(dateFrom).unix(),
+      to: moment(dateTo).unix(),
     });
   }
 
@@ -296,22 +269,9 @@ export class FundPerformanceChartComponent implements OnChanges {
     let i;
     let time;
     let value;
-    let date;
     for (i = 0; i < this.fundPercentageEvolution.timestamp.length; i++) {
       if (i != this.fundPercentageEvolution.timestamp.length - 2) {
-        date = new Date(this.fundPercentageEvolution.timestamp[i]);
-        (time =
-          new Date(
-            Date.UTC(
-              date.getFullYear(),
-              date.getMonth(),
-              date.getDate(),
-              date.getHours(),
-              date.getMinutes(),
-              date.getSeconds(),
-              0
-            )
-          ).getTime() / 1000),
+        (time = moment(this.fundPercentageEvolution.timestamp[i]).unix()),
           (value = limit);
         dataSet.push({ time: time, value: value });
       }
