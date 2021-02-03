@@ -1,0 +1,124 @@
+:host {
+  width: 100%;
+  height: 56%;
+
+  .ftl {
+    margin-top: 8px;
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+
+    position: relative;
+    &__content {
+      &__item {
+        min-height: 70px;
+        display: flex;
+        &__side {
+          display: flex;
+          flex-direction: column;
+          flex-basis: 10%;
+
+          &__dot-container {
+            flex-basis: 10%;
+            display: flex;
+            justify-content: center;
+
+            &__dot {
+              border-radius: 100px;
+            }
+          }
+          &__line-container {
+            flex-basis: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &__line {
+              -webkit-transform: none;
+              transform: none;
+              width: 0.5px;
+              display: flex;
+              height: 80%;
+            }
+          }
+        }
+
+        &__content {
+          height: fit-content;
+          flex-basis: 90%;
+          display: flex;
+
+          &__info {
+            padding-right: 5px;
+          }
+
+          &__label {
+            padding-left: 5px;
+            display: flex;
+            align-items: center;
+            border-left: 0.5px solid #c4c4c4;
+          }
+        }
+      }
+
+      &__item.active {
+        & .ftl__content__item__side {
+          &__dot-container {
+            &__dot {
+              width: 7.5px;
+              height: 7.5px;
+              background: #21dd62;
+            }
+          }
+          &__line-container {
+            &__line {
+              background-color: #21dd62;
+            }
+          }
+        }
+      }
+      &__item.finalizado {
+        & .ftl__content__item__side {
+          &__dot-container {
+            &__dot {
+              width: 14px;
+              height: 14px;
+              background: #c4c4c4;
+            }
+          }
+          &__line-container {
+            &__line {
+              background-color: #c4c4c4;
+            }
+          }
+        }
+        & .ftl__content__item__content {
+          display: flex;
+
+          &__info {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+      }
+
+      &__item.initial {
+        min-height: unset;
+        & .ftl__content__item__side {
+          justify-content: center;
+          &__dot-container {
+            &__dot {
+              width: 7.5px;
+              height: 7.5px;
+              background: #c4c4c4;
+            }
+          }
+          &__line-container {
+            &__line {
+              background-color: #c4c4c4;
+            }
+          }
+        }
+      }
+    }
+  }
+}

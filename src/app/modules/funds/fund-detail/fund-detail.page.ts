@@ -130,11 +130,8 @@ import { CONFIG } from 'src/app/config/app-constants.config';
         ></app-fund-portfolio-card>
       </div>
 
-      <!-- Fund Operations History Card -->
-      <div
-        class="fd__fund-operations-history-card"
-        *ngIf="this.fundOperationsHistory?.length > 0"
-      >
+      <!-- Fund Timeline History Card -->
+      <div class="fd__fund-operations-history-card">
         <div class="fd__fund-operations-history-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -143,14 +140,10 @@ import { CONFIG } from 'src/app/config/app-constants.config';
             {{ 'funds.fund_detail.operations_history_card.title' | translate }}
           </ion-text>
         </div>
-        <app-ux-loading-block
-          *ngIf="!this.fundOperationsHistory"
-          minSize="40px"
-        ></app-ux-loading-block>
-        <app-fund-operations-history
-          *ngIf="this.fundOperationsHistory"
-          [operations]="this.fundOperationsHistory"
-        ></app-fund-operations-history>
+        <app-fund-timeline
+          [runs]="this.fundOperationsHistory"
+          [fundName]="this.fundName"
+        ></app-fund-timeline>
       </div>
     </ion-content>
   `,
@@ -221,7 +214,7 @@ export class FundDetailPage implements OnInit {
 
     // Comentado hasta que se implemente el componente del detalle de cada movimiento
 
-    // this.getFundOperationsHistoryInfo();
+    this.getFundOperationsHistoryInfo();
   }
 
   async getStorageRange() {
@@ -299,12 +292,10 @@ export class FundDetailPage implements OnInit {
     }
   }
 
-  getFundOperationsHistoryInfo() {
-    this.apiFunds
-      .getFundRuns('finalizado', this.fundName, false)
-      .subscribe((data) => {
-        this.fundOperationsHistory = data;
-      });
+  async getFundOperationsHistoryInfo() {
+    this.apiFunds.getFundRuns('all', this.fundName, false).subscribe((data) => {
+      this.fundOperationsHistory = data;
+    });
   }
 
   editFund() {
