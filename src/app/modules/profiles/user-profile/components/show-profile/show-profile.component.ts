@@ -31,7 +31,7 @@ import { Component, OnInit, Input } from '@angular/core';
                               <h2>
                                   {{ 'profiles.user_profile.cellphone' | translate }}
                               </h2>
-                              <h3>{{ this.data?.cellphone }}</h3>
+                              <h3>{{ this.data?.cellphone || '-' }}</h3>
                           </ion-label>
                       </ion-item>
                   </ion-list>
