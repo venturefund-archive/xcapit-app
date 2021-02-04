@@ -529,7 +529,7 @@
       "show_personal_data": "DATOS PERSONALES",
       "first_name": "Nombre",
       "last_name": "Apellido",
-      "nro_dni": "Documento de Identidad",
+      "email": "Email",
       "cellphone": "Celular",
       "show_bill_data": "DATOS DE FACTURACIÓN",
       "bill_data": "Datos de facturación",
