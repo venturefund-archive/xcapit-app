@@ -42,29 +42,6 @@ import { NavController } from '@ionic/angular';
             "
                   ></app-ux-input>
 
-                  <!-- Apellido -->
-                  <app-ux-input
-                          controlName="last_name"
-                          type="text"
-                          [label]="'profiles.personal_data.last_name' | translate"
-                          inputmode="text"
-                          [placeholder]="
-              'profiles.personal_data.last_name_placeholder' | translate
-            "
-                  ></app-ux-input>
-
-                  <!-- DNI -->
-                  <app-ux-input
-                          controlName="nro_dni"
-                          type="text"
-                          inputmode="numeric"
-                          [label]="'profiles.personal_data.nro_dni' | translate"
-                          [placeholder]="
-              'profiles.personal_data.nro_dni_placeholder' | translate
-            "
-                          [errors]="this.onlyIntegersErrors"
-                  ></app-ux-input>
-
                   <!-- Telefono -->
                   <app-ux-input
                           controlName="cellphone"
@@ -108,20 +85,9 @@ export class PersonalDataPage implements OnInit {
 
   controls = {
     first_name: ['', [Validators.required, Validators.maxLength(150)]],
-    last_name: ['', [Validators.required, Validators.maxLength(150)]],
-    nro_dni: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(7),
-        Validators.maxLength(12),
-        Validators.pattern('[0-9][^.a-zA-Z]*$')
-      ]
-    ],
     cellphone: [
       '',
       [
-        Validators.required,
         Validators.minLength(7),
         Validators.maxLength(24),
         Validators.pattern('[0-9()-+][^.a-zA-Z]*$')

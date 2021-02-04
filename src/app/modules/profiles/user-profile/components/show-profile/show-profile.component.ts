@@ -18,10 +18,10 @@ import { Component, OnInit, Input } from '@angular/core';
                       <ion-item>
                           <ion-label>
                               <h2>
-                                  {{ 'profiles.user_profile.nro_dni' | translate }}
+                                  {{ 'profiles.user_profile.email' | translate }}
                               </h2>
                               <h3>
-                                  {{ this.data?.nro_dni }}
+                                  {{ this.data?.email }}
                               </h3>
                           </ion-label>
                       </ion-item>
