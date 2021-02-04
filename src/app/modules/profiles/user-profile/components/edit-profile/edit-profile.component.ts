@@ -31,23 +31,6 @@ import { BillType } from '../../enums/bill_types.enum';
                           inputmode="text"
                   ></app-ux-input>
 
-                  <!-- Last name -->
-                  <app-ux-input
-                          controlName="last_name"
-                          type="text"
-                          [label]="'profiles.user_profile.last_name' | translate"
-                          inputmode="text"
-                  ></app-ux-input>
-
-                  <!-- DNI -->
-                  <app-ux-input
-                          controlName="nro_dni"
-                          type="text"
-                          [label]="'profiles.user_profile.nro_dni' | translate"
-                          inputmode="numeric"
-                          [errors]="this.onlyIntegersErrors"
-                  ></app-ux-input>
-
                   <!-- Cellphone -->
                   <app-ux-input
                           controlName="cellphone"
@@ -145,27 +128,9 @@ export class EditProfileComponent implements OnInit {
         Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
       ]
     ],
-    last_name: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(150),
-        Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
-      ]
-    ],
-    nro_dni: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(7),
-        Validators.maxLength(12),
-        Validators.pattern('[a-zA-Z0-9]*$')
-      ]
-    ],
     cellphone: [
       '',
       [
-        Validators.required,
         Validators.minLength(7),
         Validators.maxLength(24),
         Validators.pattern('[0-9]*$')
