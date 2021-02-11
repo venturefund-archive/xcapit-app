@@ -56,6 +56,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
                   cancelText="{{ this.datepicker.cancelText }}"
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'since')"
+                  [max]="this.queryOptions.until"
                   (click)="$event.stopPropagation(); $event.preventDefault()"
                 ></ion-datetime>
               </div>
@@ -83,6 +84,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'until')"
                   [min]="this.queryOptions.since"
+                  [max]="this.get_max_date_for_selection()"
                   (click)="$event.stopPropagation(); $event.preventDefault()"
                 ></ion-datetime>
               </div>
@@ -210,12 +212,13 @@ export class FundOperationsPage implements OnInit {
       this.queryOptions.since = moment()
         .subtract(7, 'd')
         .startOf('day')
+        .utc()
         .format();
     }
     if (this.storage_until != '') {
       this.queryOptions.until = this.storage_until;
     } else {
-      this.queryOptions.until = moment().endOf('day').format();
+      this.queryOptions.until = moment().endOf('day').utc().format();
     }
 
     this.datepicker.cancelText = this.translate.instant(
@@ -256,13 +259,22 @@ export class FundOperationsPage implements OnInit {
   }
 
   async changeDate(event, type) {
+    let date_value = this.date_to_utc(event.detail.value)
     if (type === 'since') {
-      this.queryOptions.since = event.detail.value;
+      this.queryOptions.since = date_value;
     }
     if (type === 'until') {
-      this.queryOptions.until = event.detail.value;
+      this.queryOptions.until = date_value;
     }
     this.getOperationsHistory(this.getQueryParams());
+  }
+
+  date_to_utc(date) {
+    return moment(date).utc().format()
+  }
+
+  get_max_date_for_selection() {
+    return moment().utc().format()
   }
 
   viewOrderDetail(id) {
