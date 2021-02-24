@@ -4,6 +4,11 @@ import * as moment from 'moment';
 import { ShareService } from 'src/app/shared/services/share/share.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Plugins, FilesystemDirectory } from '@capacitor/core';
+import { Capacitor } from '@capacitor/core';
+
+const { Filesystem } = Plugins;
 
 @Component({
   selector: 'app-fund-share-chart',
@@ -37,18 +42,18 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         </ion-item>
       </div>
       <div class="fbd__main_content">
-        <div class="fbd__main_content__item">
+        <div class="fbd__main_content__item" (click)="this.downloadChart()">
           <a
-            (click)="this.showDownloadToast()"
+            id="pwa_download"
             [href]="this.screenshot"
             [download]="this.getDownloadFileName()"
             class="fbd__main_content__item__link"
           >
-            <ion-icon name="ux-download"></ion-icon>
-            <ion-label class="ux-font-lato ux-fweight-regular ux-fsize-14"
-              ><ion-text color="uxsemidark">Descargar</ion-text></ion-label
-            >
           </a>
+          <ion-icon name="ux-download"></ion-icon>
+          <ion-label class="ux-font-lato ux-fweight-regular ux-fsize-14"
+            ><ion-text color="uxsemidark">Descargar</ion-text></ion-label
+          >
         </div>
         <!-- Comentado hasta posterior implementación -->
         <!-- <div class="fbd__main_content__item" (click)="this.shareChart()">
@@ -69,17 +74,14 @@ export class FundShareChartComponent implements OnInit {
     private modalController: ModalController,
     private shareService: ShareService,
     private translate: TranslateService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private fileOpener: FileOpener
   ) {}
 
   ngOnInit() {}
 
   async close() {
     await this.modalController.dismiss();
-  }
-
-  getDownloadFileName() {
-    return 'chart_screenshot_' + moment().format('YYYY_MM_DD_HH_mm_ss');
   }
 
   async shareChart() {
@@ -96,11 +98,47 @@ export class FundShareChartComponent implements OnInit {
     );
   }
 
-  showDownloadToast() {
-    this.toastService.showToast({
-      message: this.translate.instant(
-        'funds.fund_share_chart.toast_image_downloaded'
-      ),
+  downloadChart() {
+    if (Capacitor.isNative) {
+      this.nativeDownload();
+    } else {
+      this.pwaDownload();
+    }
+  }
+
+  nativeDownload() {
+    const fileName = `${this.getDownloadFileName()}.png`;
+    Filesystem.writeFile({
+      path: fileName,
+      data: this.screenshot, // your data to write (ex. base64)
+      directory: FilesystemDirectory.Documents,
+    }).then((saved_file) => {
+      console.log("writeFile success")
+      this.showToast('funds.fund_share_chart.toast_image_downloaded');
+      let path = saved_file.uri;
+      let mimeType = 'image/png';
+      this.openImage(path, mimeType);
     });
+  }
+
+  pwaDownload() {
+    let element: HTMLElement = document.getElementById(
+      'pwa_download'
+    ) as HTMLElement;
+    element.click();
+  }
+
+  getDownloadFileName() {
+    return 'chart_screenshot_' + moment().format('YYYY_MM_DD_HH_mm_ss');
+  }
+
+  showToast(translate_code) {
+    this.toastService.showToast({
+      message: this.translate.instant(translate_code),
+    });
+  }
+
+  openImage(path, mimeType) {
+    this.fileOpener.showOpenWithDialog(path, mimeType);
   }
 }

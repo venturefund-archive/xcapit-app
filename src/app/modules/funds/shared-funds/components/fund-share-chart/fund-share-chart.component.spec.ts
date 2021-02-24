@@ -8,17 +8,45 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ModalController } from '@ionic/angular';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Capacitor } from '@capacitor/core';
+import {
+  Plugins,
+  FileWriteResult,
+} from '@capacitor/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('FundShareChartComponent', () => {
   let component: FundShareChartComponent;
   let fixture: ComponentFixture<FundShareChartComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundShareChartComponent>;
   let modalControllerSpy: any;
-  beforeEach(async(() => {
+  let capacitorSpy: any;
+  let fileOpenerMock: any;
+  let fileOpener: any;
+  let fileSystemMock: any;
+  let toastServiceMock: any;
+  let toastService: any;
+
+  const result_file_write = {
+    uri: 'download/test.png',
+  } as FileWriteResult;
+
+  beforeEach(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock
     );
+    capacitorSpy = jasmine.createSpyObj('Capacitor', ['isNative']);
+    fileOpenerMock = {
+      showOpenWithDialog: () => Promise.resolve({}),
+    };
+    fileSystemMock = {
+      writeFile: () => Promise.resolve({}),
+    };
+    toastServiceMock = {
+      showToast: () => Promise.resolve(),
+    };
 
     TestBed.configureTestingModule({
       declarations: [FundShareChartComponent, TrackClickDirective],
@@ -28,11 +56,17 @@ describe('FundShareChartComponent', () => {
         RouterTestingModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: ModalController, useValue: modalControllerSpy }],
+      providers: [
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: Capacitor, useValue: capacitorSpy },
+        { provide: FileOpener, useValue: fileOpenerMock },
+        { provide: Plugins.Share, useValue: fileSystemMock },
+        { provide: ToastService, useValue: toastServiceMock },
+      ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
+    toastService = TestBed.inject(ToastService);
+    fileOpener = TestBed.inject(FileOpener);
     fixture = TestBed.createComponent(FundShareChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -58,5 +92,46 @@ describe('FundShareChartComponent', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call nativeDownload on downloadChart if isNative true', () => {
+    Capacitor.isNative = true;
+    const spy = spyOn(component, 'nativeDownload');
+    component.downloadChart();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call pwaDownload on downloadChart if isNative false', () => {
+    Capacitor.isNative = false;
+    const spy = spyOn(component, 'pwaDownload');
+    component.downloadChart();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call fileSystemWrite,  and showToast and openFile if write is successfully on nativeDownload', async (done) => {
+    const spy = spyOn(Plugins.Filesystem, 'writeFile').and.returnValue(
+      Promise.resolve(result_file_write)
+    );
+    const spyToast = spyOn(component, 'showToast');
+    const spyOpenFile = spyOn(component, 'openImage');
+    component.nativeDownload();
+    expect(spy).toHaveBeenCalledTimes(1);
+    fixture.whenStable().then(() => expect(spyToast).toHaveBeenCalledTimes(1));
+    fixture
+      .whenStable()
+      .then(() => expect(spyOpenFile).toHaveBeenCalledTimes(1));
+    done();
+  });
+
+  it('should call toastService on showToast', () => {
+    const spy = spyOn(toastService, 'showToast');
+    component.showToast('some_error_code');
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call FileOpener. on openImage', () => {
+    const spy = spyOn(fileOpener, 'showOpenWithDialog');
+    component.openImage('download/test.png', 'image/png');
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
