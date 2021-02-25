@@ -1,1 +1,1 @@
-{"appId":"com.xcapit.iosapp","appName":"Xcapit","bundledWebRuntime":false,"npmClient":"yarn","webDir":"www","backgroundColor":"#ffffffff","linuxAndroidStudioPath":"/snap/bin/android-studio","plugins":{"PushNotifications":{"presentationOptions":["badge","sound","alert"]}}}
+{"appId":"com.xcapit.app","appName":"Xcapit","bundledWebRuntime":false,"npmClient":"yarn","webDir":"www","backgroundColor":"#ffffffff","linuxAndroidStudioPath":"/snap/bin/android-studio","plugins":{"PushNotifications":{"presentationOptions":["badge","sound","alert"]}}}
