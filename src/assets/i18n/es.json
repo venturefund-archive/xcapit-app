@@ -214,7 +214,8 @@
     "fund_share_chart": {
       "share_title": "Únete a Xcapit e invierte en Criptomonedas",
       "toast_text_copied": "El gráfico se copió correctamente al portapapeles",
-      "toast_image_downloaded": "Se guardo correctamente"
+      "toast_image_downloaded": "Se guardo correctamente",
+      "toast_image_failed": "No se pudo guardar correctamente"
     },
     "fund_detail": {
       "header": "Detalle del fondo",
@@ -528,7 +529,7 @@
       "show_personal_data": "DATOS PERSONALES",
       "first_name": "Nombre",
       "last_name": "Apellido",
-      "nro_dni": "Documento de Identidad",
+      "email": "Email",
       "cellphone": "Celular",
       "show_bill_data": "DATOS DE FACTURACIÓN",
       "bill_data": "Datos de facturación",

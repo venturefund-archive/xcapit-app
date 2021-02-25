@@ -148,32 +148,29 @@ ion-picker {
     .modal-wrapper {
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
-      margin-top: 120px;
+    }
+  }
+
+  // Portfolio Modal swippeable
+  .generic-modal {
+    .modal-wrapper {
+      margin-top: 46vh;
+
       .ion-page {
-        padding-bottom: 60px;
+        padding-bottom: calc(46vh / 2);
       }
     }
   }
-  // Portfolio Modal
-  .portfolio-modal {
-    --height: 54%;
 
-    align-items: flex-end;
-    --overflow: hidden;
-  }
-  .portfolio-modal .modal-wrapper .ion-page {
-    padding-bottom: 0px;
-  }
-
-  // Share Chart Modal
+  // Share Chart Modal swippeable
   .share-chart-modal {
-    --height: 65%;
+    .modal-wrapper {
+      margin-top: 35vh;
 
-    align-items: flex-end;
-    --overflow: hidden;
-  }
-  .share-chart-modal .modal-wrapper .ion-page {
-    padding-bottom: 0px;
+      .ion-page {
+        padding-bottom: calc(35vh / 2);
+      }
+    }
   }
 
   // Loading
