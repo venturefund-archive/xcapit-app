@@ -63,5 +63,14 @@ export const SUCCESS_TYPES = {
     textSecondary: 'funds.fund_success_renew.textSecondary',
     urlPrimaryAction: '/tabs/funds',
     namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction'
+  },
+  apikeysregister_success:{ 
+    urlCLose:'/tabs/funds',
+    textPrimary: 'apikeys.register_success.textPrimary',
+    textSecondary: 'apikeys.register_success.textSecondary',
+    urlPrimaryAction: '*',
+    namePrimaryAction: 'apikeys.register_success.namePrimaryAction'
+
+
   }
 };

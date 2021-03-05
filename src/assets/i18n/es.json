@@ -10,9 +10,13 @@
       "help": "Ayuda",
       "password_change": "Cambio de Password",
       "referrals": "Referidos",
-      "notifications": "Notificaciones"
+      "notifications": "Notificaciones",
+      "api_keys_managment":"Gestión de API Keys"
+
     }
   },
+  
+
   "config": {
     "form_errors": {
       "required": "El campo es requerido",
@@ -951,6 +955,7 @@
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Hemos tenidos un error. Intenta nuevamente más tarde."
       }
+      
     },
     "fund_slider_news": {
       "get": {
@@ -958,6 +963,7 @@
       }
     }
   },
+
   "terms_and_conditions": {
     "accept": {
       "header": "Términos y Condiciones",
@@ -1031,12 +1037,21 @@
       "slide4_option_next": "Siguiente",
       "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
     },
+
+
     "linked_apikeys": {
       "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
       "subtitle_header_text": "Ya comenzaste tu viaje crypto",
       "create_fund_button_text": "Crear un fondo de inversión",
       "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
+    },
+
+    "register_success":{
+      "textPrimary": "¡Hemos agregado la API Key!",
+      "textSecondary": "Ahora puedes gestionar todas tus keys",
+      "namePrimaryAction": "Ver keys"
+
     },
     "tutorial_apikeys": {
       "header": "Vincular con Binance",
@@ -1088,6 +1103,23 @@
       "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
       "submit_button": "Guardar",
       "need_help": "¿Necesitas ayuda?"
+    },
+    "register":{
+      "header":"Agregar API key",
+      "label_alias": "Alias",
+      "placeholder_alias":"MisKeysEnBinance",
+      "label_apikey": "Binance API Key",
+      "placeholder_apikey":"Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
+      "label_secretkey": "Binance Secret Key",
+      "placeholder_secretkey":"Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
+      "button_submmit":"Agregar",
+      "link_help": "¿Necesitas Ayuda?",
+      "alert":{
+        "title":"Agregar nueva key",
+        "text":"Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
+        "button":"Entendido"
+      }
+
     }
   },
   "tabs": {

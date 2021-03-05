@@ -121,6 +121,13 @@ export class MainMenuPage implements OnInit {
       url: '/notifications/list',
       icon: 'notifications-outline',
       routeDirection: 'root'
+    },
+    {
+      id: 9,
+      title: 'app.main_menu.api_keys_managment',
+      url: '/apikeys/register',
+      icon: 'cog',
+      routeDirection: 'root'
     }
   ];
 

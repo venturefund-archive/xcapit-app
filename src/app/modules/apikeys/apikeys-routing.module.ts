@@ -40,9 +40,19 @@ const routes: Routes = [
           import('./success-apikeys/success-apikeys.module').then(
             m => m.SuccessApikeysPageModule
           )
+      },
+      {
+        path: 'register',
+        loadChildren: () => import('../apikeys/register/register.module').then( m => m.RegisterPageModule)
+      },
+      {
+        path: 'success-register',
+        loadChildren: () => import('./success-register/success-register.module').then( m => m.SuccessRegisterPageModule)
       }
     ]
-  }
+  },
+  
+
 ];
 
 @NgModule({

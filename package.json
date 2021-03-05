@@ -49,6 +49,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "chart.js": "^2.8.0",
+    "cordova": "^10.0.0",
     "cordova-plugin-file-opener2": "^3.0.5",
     "core-js": "^3.6.5",
     "firebase": "^7.21.0",

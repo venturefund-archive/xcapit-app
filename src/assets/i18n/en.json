@@ -10,7 +10,8 @@
       "help": "Help",
       "password_change": "Password Change",
       "referrals": "Referrals",
-      "notifications": "Notifications"
+      "notifications": "Notifications",
+      "api_keys_managment":"Manage API Keys"
     }
   },
   "config": {
@@ -1016,6 +1017,28 @@
       "slide4_input_label": "SECRET Key",
       "slide4_option_next": "Next",
       "success_text_new": "The link with the Exchange was successful!"
+    },
+    "register":{
+      "header":"Agregar API key",
+      "label_alias": "Alias",
+      "placeholder_alias":"MisKeysEnBinance",
+      "label_apikey": "Binance API Key",
+      "placeholder_apikey":"Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
+      "label_secretkey": "Binance Secret Key",
+      "placeholder_secretkey":"Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
+      "button_submmit":"Agregar",
+      "link_help": "¿Necesitas Ayuda?",
+      "alert":{
+        "title":"Add new key",
+        "text":"I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
+        "button":"I understand"
+      }
+    },
+    "register_success":{
+      "textPrimary": "A new API Key is added!",
+      "textSecondary": "Now you can manage all your keys",
+      "namePrimaryAction": "Show keys"
+
     },
     "linked_apikeys": {
       "title_header_text": "You linked your binance account!",
