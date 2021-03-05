@@ -4,6 +4,8 @@ import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 
 @Component({
@@ -71,7 +73,6 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
     <div class="ux_footer">
       <div class="ik__next_button">
         <ion-button
-         (click)="this.showAlert()"
           class="ux_button"
           appTrackClick
           name="Next"
@@ -92,7 +93,10 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
 })
 export class RegisterPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    alias: ['', [Validators.required, Validators.maxLength(23)]],
+    alias: ['', [
+      Validators.required,
+      Validators.maxLength(23),
+      CustomValidators.patternValidator(/^[a-zA-Z0-9]+$/, CustomValidatorErrors.hasSpecialCharacter)]],
     apikey: ['', [Validators.required]],
     secretkey: ['', [Validators.required]]
   });
@@ -119,7 +123,7 @@ export class RegisterPage implements OnInit {
       buttons: [
         {
           text: this.translate.instant('apikeys.register.alert.button'),
-          handler: _ => this.handleSubmit()
+          handler: _ => this.submitData()
         }
       ]
     });
@@ -128,13 +132,17 @@ export class RegisterPage implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
-      const data = this.form.value;
-      //data.exchange = 'Binance';
-      //this.storageApikeysService.updateData(data);
-      this.navController.navigateForward(['/apikeys/success-register']);
+      this.showAlert();
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  submitData() {
+    const data = this.form.value;
+    //data.exchange = 'Binance';
+    //this.storageApikeysService.updateData(data);
+    this.navController.navigateForward(['/apikeys/success-register']);
   }
 
 }

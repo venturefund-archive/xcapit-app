@@ -5,7 +5,7 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
   selector: 'app-success-register',
   template: `
   <ion-content class="ion-padding">
-    <app-success-content [data]="this.data" [unauth]="true"></app-success-content>
+    <app-success-content [data]="this.data"></app-success-content>
   </ion-content>
 `,
   styleUrls: ['./success-register.page.scss'],
@@ -16,7 +16,7 @@ export class SuccessRegisterPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.data = SUCCESS_TYPES.apikeysregister_success;
+    this.data = SUCCESS_TYPES.apikeys_register_success;
   }
 
 }

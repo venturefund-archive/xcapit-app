@@ -21,7 +21,8 @@
       "pattern": "El campo no cumple con el patrón requerido",
       "minlength": "Se requieren más caracteres",
       "maxlength": "Se requieren menos caracteres",
-      "not_matching": "Los campos no coinciden"
+      "not_matching": "Los campos no coinciden",
+      "has_special_character": "Special characters and spaces are not allowed"
     },
     "field_errors": {
       "cellphone": {
