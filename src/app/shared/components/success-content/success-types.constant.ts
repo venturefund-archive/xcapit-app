@@ -68,7 +68,7 @@ export const SUCCESS_TYPES = {
     urlClose:'/tabs/funds',
     textPrimary: 'apikeys.register_success.textPrimary',
     textSecondary: 'apikeys.register_success.textSecondary',
-    urlPrimaryAction: '*',
+    urlPrimaryAction: '/apikeys/list',
     namePrimaryAction: 'apikeys.register_success.namePrimaryAction'
   }
 };
