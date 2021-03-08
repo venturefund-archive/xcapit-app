@@ -6,7 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
-import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
+import { ApikeysService } from '../shared-apikeys/services/apikeys/apikeys.service';
+
 
 @Component({
   selector: 'app-register',
@@ -102,9 +103,10 @@ export class RegisterPage implements OnInit {
   });
 
   constructor(
+    
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
-    private storageApikeysService: StorageApikeysService,
+    private apiKeysService: ApikeysService,
     private alertController: AlertController,
     private translate: TranslateService,
     
@@ -133,6 +135,7 @@ export class RegisterPage implements OnInit {
   handleSubmit() {
     if (this.form.valid) {
       this.showAlert();
+
     } else {
       this.form.markAllAsTouched();
     }
@@ -140,9 +143,8 @@ export class RegisterPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    //data.exchange = 'Binance';
-    //this.storageApikeysService.updateData(data);
+    this.apiKeysService.updateData(data);
     this.navController.navigateForward(['/apikeys/success-register']);
   }
-
+  
 }
