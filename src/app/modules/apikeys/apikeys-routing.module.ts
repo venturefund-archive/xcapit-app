@@ -44,17 +44,17 @@ const routes: Routes = [
       {
         path: 'register',
         canActivate: [UserProfileDataGuard],
-        loadChildren: () => import('../apikeys/register/register.module').then( m => m.RegisterPageModule)
+        loadChildren: () => import('./register-apikeys/register-apikeys.module').then( m => m.RegisterPageModule)
       },
       {
         path: 'success-register',
         canActivate: [UserProfileDataGuard],
-        loadChildren: () => import('./success-register/success-register.module').then( m => m.SuccessRegisterPageModule)
+        loadChildren: () => import('./success-register-apikeys/success-register-apikeys.module').then( m => m.SuccessRegisterPageModule)
       },
       {
         path: 'list',
         canActivate: [UserProfileDataGuard],
-        loadChildren: () => import('./list/list.module').then( m => m.ListPageModule)
+        loadChildren: () => import('./manage-apikeys/manage-apikeys.module').then( m => m.ListPageModule)
       },
     ]
   },

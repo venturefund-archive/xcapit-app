@@ -4,7 +4,12 @@ import { CRUD } from 'src/app/shared/services/crud/crud';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
 import { CustomHttpService } from '../../../../../shared/services/custom-http/custom-http.service';
-
+interface ApiKeysInterface{
+  id:number;
+  ak:string;
+  secret:string;
+  alias:string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -22,5 +27,9 @@ export class ApiApikeysService {
 
   getByFundName(fundName: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/fund_name/${fundName}`);
+  }
+
+  updateData(data: ApiKeysInterface) {
+    return; 
   }
 }

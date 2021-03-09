@@ -7,10 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { ApikeysService } from '../shared-apikeys/services/apikeys/apikeys.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RegisterPage } from './register.page';
+import { RegisterApikeysPage } from './register-apikeys.page';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 const formData = {
   valid: {
@@ -25,16 +25,16 @@ const formData = {
   }
 };
 
-describe('RegisterPage', () => {
-  let component: RegisterPage;
-  let fixture: ComponentFixture<RegisterPage>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RegisterPage>;
-  let apiKeysServiceSpy;
+describe('RegisterApikeysPage', () => {
+  let component: RegisterApikeysPage;
+  let fixture: ComponentFixture<RegisterApikeysPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RegisterApikeysPage>;
+  let apiApikeysServiceSpy;
   let navControllerSpy: any;
 
   beforeEach(async(() => {
 
-    apiKeysServiceSpy = jasmine.createSpyObj('ApikeysService', [
+    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
       'updateData'
     ]);
 
@@ -42,7 +42,7 @@ describe('RegisterPage', () => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
     TestBed.configureTestingModule({
-      declarations: [ RegisterPage, TrackClickDirective ],
+      declarations: [ RegisterApikeysPage, TrackClickDirective ],
       imports: [
         RouterTestingModule.withRoutes([
           { path: 'apikeys/register', component: DummyComponent },
@@ -55,7 +55,7 @@ describe('RegisterPage', () => {
         ReactiveFormsModule],
       providers: [
         TrackClickDirective,
-        { provide: ApikeysService, useValue: apiKeysServiceSpy },
+        { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
         { provide: NavController, useValue: navControllerSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -64,11 +64,11 @@ describe('RegisterPage', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegisterPage);
+    fixture = TestBed.createComponent(RegisterApikeysPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    apiKeysServiceSpy = TestBed.inject(ApikeysService);
+    apiApikeysServiceSpy = TestBed.inject(ApiApikeysService);
   });
 
 
@@ -76,19 +76,18 @@ describe('RegisterPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call updateData on handleSubmit and valid form', () => {
+  it('should call showAlert on handleSubmit and valid form', () => {
     fixture.detectChanges();
-    apiKeysServiceSpy.updateData.and.returnValue({});
+    apiApikeysServiceSpy.updateData.and.returnValue({});
     component.form.patchValue(formData.valid);
     const spy = spyOn(component, 'showAlert');
-  
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call updateData on handleSubmit and invalid form', () => {
+  it('should not call showAlert on handleSubmit and invalid form', () => {
     fixture.detectChanges();
-    apiKeysServiceSpy.updateData.and.returnValue({});
+    apiApikeysServiceSpy.updateData.and.returnValue({});
     component.form.patchValue(formData.invalid);
     const spy = spyOn(component, 'showAlert');
     component.handleSubmit();

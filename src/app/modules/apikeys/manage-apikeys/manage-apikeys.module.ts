@@ -1,23 +1,21 @@
 import { NgModule } from '@angular/core';
-
-import { RegisterPage } from './register.page';
-import { SharedApikeysModule } from '../shared-apikeys/shared-apikeys.module';
+import { ManageApikeysPage } from './manage-apikeys.page';
 import { RouterModule, Routes } from '@angular/router';
+import { SharedApikeysModule } from '../shared-apikeys/shared-apikeys.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: RegisterPage
+    component: ManageApikeysPage
   }
 ];
 
 @NgModule({
   imports: [
-
     RouterModule.forChild(routes), 
     SharedApikeysModule
     
   ],
-  declarations: [RegisterPage]
+  declarations: [ManageApikeysPage]
 })
-export class RegisterPageModule {}
+export class ListPageModule {}

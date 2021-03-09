@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-manage-apikeys',
   template: `
   <ion-text>Aqui va la lista de apikeys</ion-text>
   `,
-  styleUrls: ['./list.page.scss'],
+  styleUrls: ['./manage-apikeys.page.scss'],
 })
-export class ListPage implements OnInit {
+export class ManageApikeysPage implements OnInit {
 
   constructor() { }
 

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ListPage } from './list.page';
+import { ManageApikeysPage } from './manage-apikeys.page';
 
-describe('ListPage', () => {
-  let component: ListPage;
-  let fixture: ComponentFixture<ListPage>;
+describe('ManageApikeysPage', () => {
+  let component: ManageApikeysPage;
+  let fixture: ComponentFixture<ManageApikeysPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListPage ],
+      declarations: [ ManageApikeysPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ListPage);
+    fixture = TestBed.createComponent(ManageApikeysPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
