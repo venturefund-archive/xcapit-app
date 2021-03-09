@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
-import { SuccessRegisterPage } from './success-register.page';
+import { SuccessRegisterApikeysPage } from './success-register-apikeys.page';
 import { SharedApikeysModule } from '../shared-apikeys/shared-apikeys.module';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: SuccessRegisterPage,
-  },
+    component: SuccessRegisterApikeysPage
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), SharedApikeysModule],
-  declarations: [SuccessRegisterPage],
+  imports: [
+    RouterModule.forChild(routes), 
+    SharedApikeysModule
+    
+  ],
+  declarations: [SuccessRegisterApikeysPage]
 })
 export class SuccessRegisterPageModule {}

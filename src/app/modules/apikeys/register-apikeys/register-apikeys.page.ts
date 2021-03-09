@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
-import { ApikeysService } from '../shared-apikeys/services/apikeys/apikeys.service';
+import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-register-apikeys',
   template: ` <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
@@ -82,9 +81,9 @@ import { ApikeysService } from '../shared-apikeys/services/apikeys/apikeys.servi
         </div>
       </form>
     </ion-content>`,
-  styleUrls: ['./register.page.scss'],
+  styleUrls: ['./register-apikeys.page.scss'],
 })
-export class RegisterPage implements OnInit {
+export class RegisterApikeysPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
     alias: [
       '',
@@ -104,7 +103,7 @@ export class RegisterPage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
-    private apiKeysService: ApikeysService,
+    private apiApikeysService: ApiApikeysService,
     private alertController: AlertController,
     private translate: TranslateService,
     private navController: NavController
@@ -136,7 +135,7 @@ export class RegisterPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    this.apiKeysService.updateData(data);
+    this.apiApikeysService.updateData(data);
     this.navController.navigateForward(['/apikeys/success-register']);
   }
 }

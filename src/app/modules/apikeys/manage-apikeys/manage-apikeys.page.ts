@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-manage-apikeys',
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
@@ -22,9 +22,9 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
     <ion-content class="ion-padding">
     </ion-content>
   `,
-  styleUrls: ['./list.page.scss'],
+  styleUrls: ['./manage-apikeys.page.scss'],
 })
-export class ListPage implements OnInit {
+export class ManageApikeysPage implements OnInit {
 
   apikeys: any;
 

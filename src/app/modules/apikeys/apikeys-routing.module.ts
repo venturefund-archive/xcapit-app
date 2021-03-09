@@ -45,7 +45,7 @@ const routes: Routes = [
         path: 'register',
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
-          import('../apikeys/register/register.module').then(
+          import('../apikeys/register-apikeys/register-apikeys.module').then(
             (m) => m.RegisterPageModule
           ),
       },
@@ -53,7 +53,7 @@ const routes: Routes = [
         path: 'success-register',
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
-          import('./success-register/success-register.module').then(
+          import('./success-register-apikeys/success-register-apikeys.module').then(
             (m) => m.SuccessRegisterPageModule
           ),
       },
@@ -61,7 +61,7 @@ const routes: Routes = [
         path: 'list',
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
-          import('./list/list.module').then((m) => m.ListPageModule),
+          import('./manage-apikeys/manage-apikeys.module').then((m) => m.ListPageModule),
       },
     ],
   },

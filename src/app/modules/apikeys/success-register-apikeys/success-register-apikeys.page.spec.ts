@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SuccessRegisterPage } from './success-register.page';
+import { SuccessRegisterApikeysPage } from './success-register-apikeys.page';
 
-describe('SuccessRegisterPage', () => {
-  let component: SuccessRegisterPage;
-  let fixture: ComponentFixture<SuccessRegisterPage>;
+describe('SuccessRegisterApikeysPage', () => {
+  let component: SuccessRegisterApikeysPage;
+  let fixture: ComponentFixture<SuccessRegisterApikeysPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SuccessRegisterPage ],
+      declarations: [ SuccessRegisterApikeysPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SuccessRegisterPage);
+    fixture = TestBed.createComponent(SuccessRegisterApikeysPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
