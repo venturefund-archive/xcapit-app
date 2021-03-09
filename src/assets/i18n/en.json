@@ -1020,8 +1020,9 @@
       "success_text_new": "The link with the Exchange was successful!"
     },
 
-    "apikeys_list": {
-      "header": "API Keys management"
+    "manage_apikeys": {
+      "header": "API Keys management",
+      "subtitle": "You still do not have registered keys. Add new keys to manage them."
     },
 
     "register":{

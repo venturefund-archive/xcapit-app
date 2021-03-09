@@ -1039,8 +1039,9 @@
       "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
     },
 
-    "apikeys_list": {
-      "header": "Gestión de API Keys"
+    "manage_apikeys": {
+      "header": "Gestión de API Keys",
+      "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas."
     },
 
 
