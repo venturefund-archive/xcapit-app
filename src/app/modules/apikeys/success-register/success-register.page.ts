@@ -4,19 +4,18 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 @Component({
   selector: 'app-success-register',
   template: `
-  <ion-content class="ion-padding">
-    <app-success-content [data]="this.data"></app-success-content>
-  </ion-content>
-`,
+    <ion-content class="ion-padding">
+      <app-success-content [data]="this.data"></app-success-content>
+    </ion-content>
+  `,
   styleUrls: ['./success-register.page.scss'],
 })
 export class SuccessRegisterPage implements OnInit {
   data: any;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.data = SUCCESS_TYPES.apikeys_register_success;
   }
-
 }

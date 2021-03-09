@@ -1039,6 +1039,10 @@
       "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
     },
 
+    "apikeys_list": {
+      "header": "Gestión de API Keys"
+    },
+
 
     "linked_apikeys": {
       "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",

@@ -1019,16 +1019,21 @@
       "slide4_option_next": "Next",
       "success_text_new": "The link with the Exchange was successful!"
     },
+
+    "apikeys_list": {
+      "header": "API Keys management"
+    },
+
     "register":{
-      "header":"Agregar API key",
+      "header":"Add API key",
       "label_alias": "Alias",
-      "placeholder_alias":"MisKeysEnBinance",
+      "placeholder_alias":"MyKeysOnBinance",
       "label_apikey": "Binance API Key",
       "placeholder_apikey":"Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey":"Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submmit":"Agregar",
-      "link_help": "¿Necesitas Ayuda?",
+      "button_submmit":"Submmit",
+      "link_help": "¿Need Help?",
       "alert":{
         "title":"Add new key",
         "text":"I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",

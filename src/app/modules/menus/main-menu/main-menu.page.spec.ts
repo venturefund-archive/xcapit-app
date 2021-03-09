@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MainMenuPage } from './main-menu.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +11,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 
-describe('MainMenuPage', () => {
+fdescribe('MainMenuPage', () => {
   let component: MainMenuPage;
   let fixture: ComponentFixture<MainMenuPage>;
   let authServiceMock: any;
@@ -24,7 +23,7 @@ describe('MainMenuPage', () => {
     trackServiceSpy.trackView.and.returnValue(null);
     authServiceMock = {
       isLoggedIn: new ReplaySubject<boolean>(1),
-      logout: () => null
+      logout: () => null,
     };
 
     TestBed.configureTestingModule({
@@ -32,7 +31,7 @@ describe('MainMenuPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: TrackService, useValue: trackServiceSpy },
-        { provide: AuthService, useValue: authServiceMock }
+        { provide: AuthService, useValue: authServiceMock },
       ],
       imports: [
         HttpClientTestingModule,
@@ -45,10 +44,11 @@ describe('MainMenuPage', () => {
           { path: 'deposits/currency', component: DummyComponent },
           { path: 'users/password-change', component: DummyComponent },
           { path: 'referrals/list', component: DummyComponent },
-          { path: 'notifications/list', component: DummyComponent }
-        ])]
-    })
-    .compileComponents();
+          { path: 'notifications/list', component: DummyComponent },
+          { path: 'apikeys/list', component: DummyComponent },
+        ]),
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -73,6 +73,6 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(9);
+    expect(elms.length).toBe(10);
   });
 });
