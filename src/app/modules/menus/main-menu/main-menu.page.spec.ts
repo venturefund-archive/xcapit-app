@@ -11,7 +11,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 
-fdescribe('MainMenuPage', () => {
+describe('MainMenuPage', () => {
   let component: MainMenuPage;
   let fixture: ComponentFixture<MainMenuPage>;
   let authServiceMock: any;

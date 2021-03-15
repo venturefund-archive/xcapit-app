@@ -46,7 +46,7 @@ const routes: Routes = [
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
           import('../apikeys/register-apikeys/register-apikeys.module').then(
-            (m) => m.RegisterPageModule
+            (m) => m.RegisterApikeysPageModule
           ),
       },
       {
@@ -54,17 +54,19 @@ const routes: Routes = [
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
           import('./success-register-apikeys/success-register-apikeys.module').then(
-            (m) => m.SuccessRegisterPageModule
+            (m) => m.SuccessRegisterApikeysPageModule
           ),
       },
       {
         path: 'list',
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
-          import('./manage-apikeys/manage-apikeys.module').then((m) => m.ListPageModule),
+          import('./manage-apikeys/manage-apikeys.module').then(
+            (m) => m.ManageApikeysPageModule
+          ),
       },
     ],
-  },
+  }
 ];
 
 @NgModule({

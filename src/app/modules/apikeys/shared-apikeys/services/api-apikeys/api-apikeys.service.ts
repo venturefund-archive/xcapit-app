@@ -29,7 +29,7 @@ export class ApiApikeysService {
     return this.http.get(`${environment.apiUrl}/${this.entity}/fund_name/${fundName}`);
   }
 
-  updateData(data: ApiKeysInterface) {
+  updateData(data: any) {
     return; 
   }
 }

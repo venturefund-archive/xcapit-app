@@ -173,6 +173,14 @@ ion-picker {
     }
   }
 
+  // Apikeys Modal swippeable
+  .apikeys-modal {
+    .modal-wrapper {
+      margin-top: calc(100vh - 240px);
+      height: 256px;
+    }
+}
+
   // Loading
   .ux-loading {
     --background: transparent;

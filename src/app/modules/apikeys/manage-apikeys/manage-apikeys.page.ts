@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { AbstractControl } from '@angular/forms';
+import { ModalController, NavController } from '@ionic/angular';
+import { ApikeysEditModalComponent } from '../shared-apikeys/components/apikeys-edit-modal/apikeys-edit-modal.component';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
@@ -30,6 +31,7 @@ export class ManageApikeysPage implements OnInit {
 
   constructor(
     private navController: NavController,
+    private modalController: ModalController,
     private apiApikeysService: ApiApikeysService
   ) {}
 
@@ -39,5 +41,18 @@ export class ManageApikeysPage implements OnInit {
 
   removeApikey(notificationId: any) {
     this.apiApikeysService.crud.delete;
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: ApikeysEditModalComponent,
+      componentProps: {
+        data: this.apikeys[0]
+      },
+      cssClass: 'ux-routeroutlet-modal apikeys-modal',
+      swipeToClose: false
+    });
+
+    modal.present();
   }
 }

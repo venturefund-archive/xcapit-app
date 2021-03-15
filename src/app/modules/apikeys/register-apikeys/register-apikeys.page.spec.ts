@@ -78,7 +78,6 @@ describe('RegisterApikeysPage', () => {
 
   it('should call showAlert on handleSubmit and valid form', () => {
     fixture.detectChanges();
-    apiApikeysServiceSpy.updateData.and.returnValue({});
     component.form.patchValue(formData.valid);
     const spy = spyOn(component, 'showAlert');
     component.handleSubmit();
@@ -87,7 +86,6 @@ describe('RegisterApikeysPage', () => {
 
   it('should not call showAlert on handleSubmit and invalid form', () => {
     fixture.detectChanges();
-    apiApikeysServiceSpy.updateData.and.returnValue({});
     component.form.patchValue(formData.invalid);
     const spy = spyOn(component, 'showAlert');
     component.handleSubmit();

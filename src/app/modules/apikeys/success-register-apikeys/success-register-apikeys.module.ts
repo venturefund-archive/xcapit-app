@@ -18,4 +18,4 @@ const routes: Routes = [
   ],
   declarations: [SuccessRegisterApikeysPage]
 })
-export class SuccessRegisterPageModule {}
+export class SuccessRegisterApikeysPageModule {}
