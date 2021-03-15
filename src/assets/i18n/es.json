@@ -1131,6 +1131,11 @@
         "button":"Entendido"
       }
 
+    },
+    "edit_modal": {
+      "title": "Cambiar Alias",
+      "description": "El alias es un nombre para que identifiques a qué API key de Binance pertenecen los fondos.",
+      "button_submit": "Modificar"
     }
   },
   "tabs": {

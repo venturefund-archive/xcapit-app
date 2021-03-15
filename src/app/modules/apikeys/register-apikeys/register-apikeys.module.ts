@@ -20,4 +20,4 @@ const routes: Routes = [
   ],
   declarations: [RegisterApikeysPage]
 })
-export class RegisterPageModule {}
+export class RegisterApikeysPageModule {}

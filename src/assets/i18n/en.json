@@ -1104,6 +1104,11 @@
       "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
       "submit_button": "Save",
       "need_help": "Need help?"
+    },
+    "edit_modal": {
+      "title": "Change Alias",
+      "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
+      "button_submit": "Update"
     }
   },
   "tabs": {

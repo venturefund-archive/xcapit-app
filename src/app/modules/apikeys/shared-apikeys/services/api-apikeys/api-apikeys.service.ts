@@ -32,7 +32,7 @@ export class ApiApikeysService {
     );
   }
 
-  updateData(data: ApiKeysInterface) {
-    return;
+  updateData(data: any) {
+    return; 
   }
 }
