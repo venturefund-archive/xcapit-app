@@ -27,26 +27,29 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
       <ion-list>
         <app-apikey-item
           *ngFor="let apikeys of apikeys"
+          [id]="this.apikeys.id"
           [nombre_bot]="this.apikeys.nombre_bot"
           [alias]="this.apikeys.alias"
         >
         </app-apikey-item>
       </ion-list>
-      <!-- <div class="nr__image-container">
-            <img
-              class="nr__image-container__image"
-              src="assets/img/apikeys/no-apikey.svg"
-              alt="no-apikey"
-            />
-          </div>
-          <div class="nr__subtitle ion-padding-start ion-padding-end">
-            <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-15"
-              color="uxsemidark"
-            >
-              {{ 'apikeys.manage_apikeys.subtitle' | translate }}
-            </ion-text>
-          </div> -->
+      <div *ngIf="!apikeys.length">
+        <div class="nr__image-container">
+          <img
+            class="nr__image-container__image"
+            src="assets/img/apikeys/no-apikey.svg"
+            alt="no-apikey"
+          />
+        </div>
+        <div class="nr__subtitle ion-padding-start ion-padding-end">
+          <ion-text
+            class="ux-font-lato ux-fweight-regular ux-fsize-15"
+            color="uxsemidark"
+          >
+            {{ 'apikeys.manage_apikeys.subtitle' | translate }}
+          </ion-text>
+        </div>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./manage-apikeys.page.scss'],
@@ -54,39 +57,24 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
 export class ManageApikeysPage implements OnInit {
   apikeys: any = [
     {
-      nombre_bot: ' MultiUSDT',
-      alias: 'binanceDLaura',
+      id: 1,
+      alias: 'BinanceDeAnna',
+      nombre_bot: 'BTC',
     },
     {
-      nombre_bot: 'btc',
-      alias: 'binanceDFede',
+      id: 1,
+      alias: 'BinanceDeAnna',
+      nombre_bot: '',
     },
   ];
 
-  constructor(
-    private navController: NavController,
-    private modalController: ModalController,
-    private apiApikeysService: ApiApikeysService
-  ) {}
+  constructor(private apiApikeysService: ApiApikeysService) {}
 
   ngOnInit() {}
 
-  ionViewWillLeave() {}
-
-  removeApikey(notificationId: any) {
-    this.apiApikeysService.crud.delete;
-  }
-
-  async openModal() {
-    const modal = await this.modalController.create({
-      component: ApikeysEditModalComponent,
-      componentProps: {
-        data: this.apikeys[0]
-      },
-      cssClass: 'ux-routeroutlet-modal apikeys-modal',
-      swipeToClose: false
+  ionViewWillLeave() {
+    this.apiApikeysService.crud.getAll().subscribe((data) => {
+      this.apikeys = data;
     });
-
-    modal.present();
   }
 }

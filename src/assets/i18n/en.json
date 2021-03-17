@@ -77,6 +77,24 @@
       "title": "What is Binance?",
       "content": "Everything you need to know before linking your account.",
       "action": "More information"
+    },
+    "card_apikeys": {
+      "title": "A",
+      "content": "Fund:",
+      "action": "Manage",
+      "used_apikey":"Used key",
+      "no_fund_text":"No funds",
+      "confirmation_alert":{
+        "header":"You are one step away from removing keys",
+        "message":"I understand that by deleting the keys I will no longer be able to see them in the list or associate them with a mutual fund",
+        "confirm_button":"Delete",
+        "cancel_button":"Cancel"
+      },
+      "remove_toast":{
+        "success_toast":"You have successfully removed a key.",
+        "error_toast":"An error has occurred, please try again."
+      }
+
     }
   },
   "usuarios": {
@@ -1039,13 +1057,16 @@
         "title":"Add new key",
         "text":"I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
         "button":"I understand"
+      },
+      "toast_errors":{
+        "default":"An error has ocurred"
       }
     },
     "register_success":{
-      "textPrimary": "A new API Key is added!",
-      "textSecondary": "Now you can manage all your keys",
-      "namePrimaryAction": "Show keys"
-
+      "textPrimary": "You have already linked your account with Binance!",
+      "textSecondary": "We are in a position to manage your Binance capital.",
+      "namePrimaryAction": "Manage",
+      "nameSecondaryAction": "Skip for now"
     },
     "linked_apikeys": {
       "title_header_text": "You linked your binance account!",
@@ -1108,7 +1129,11 @@
     "edit_modal": {
       "title": "Change Alias",
       "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
-      "button_submit": "Update"
+      "button_submit": "Update",
+      "edit_error":{
+        "default":"An error has ocurred"
+      }
+
     }
   },
   "tabs": {

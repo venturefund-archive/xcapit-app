@@ -16,9 +16,11 @@
       &__editButton {
         margin-bottom: 20px;
         color: black;
+        
         // --ionicon-stroke-width : 32px ;
       }
       &__icon {
+        
         font-size: 12px;
         left: 44.68%;
         right: 53.06%;
@@ -32,6 +34,10 @@
       justify-content: space-between;
       border-bottom: 1px solid #0000000a;
 
+      &__fund_text{
+        color:rgba(186, 186, 186, 1);
+        font-weight: 400;
+      }
       &__content {
         &__title {
           height: 40px;
@@ -49,6 +55,12 @@
           height: 10px;
         }
       }
+      &__used_key{
+        padding-top:16px ;
+        padding-right:16px ;
+        color:rgba(33, 221, 98, 1);
+      }
+
       &__buttons {
         &__removeButton {
           margin-right: auto;

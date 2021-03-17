@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
@@ -35,14 +36,14 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
               [placeholder]="'apikeys.register.placeholder_alias' | translate"
             ></app-ux-input>
             <app-ux-input
-              controlName="apikey"
+              controlName="api_key"
               type="text"
               inputmode="text"
               [label]="'apikeys.register.label_apikey' | translate"
               [placeholder]="'apikeys.register.placeholder_apikey' | translate"
             ></app-ux-input>
             <app-ux-input
-              controlName="secretkey"
+              controlName="secret_key"
               type="text"
               inputmode="text"
               [label]="'apikeys.register.label_secretkey' | translate"
@@ -96,8 +97,8 @@ export class RegisterApikeysPage implements OnInit {
         ),
       ],
     ],
-    apikey: ['', [Validators.required]],
-    secretkey: ['', [Validators.required]],
+    api_key: ['', [Validators.required]],
+    secret_key: ['', [Validators.required]],
   });
 
   constructor(
@@ -106,7 +107,8 @@ export class RegisterApikeysPage implements OnInit {
     private apiApikeysService: ApiApikeysService,
     private alertController: AlertController,
     private translate: TranslateService,
-    private navController: NavController
+    private navController: NavController,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {}
@@ -135,7 +137,28 @@ export class RegisterApikeysPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    this.apiApikeysService.updateData(data);
-    this.navController.navigateForward(['/apikeys/success-register']);
+    this.apiApikeysService.crud
+        .create(this.form.value)
+        .subscribe(
+          () => this.success(),
+          () => this.error()
+        );
+  }
+  
+  private showToast(text: string) {
+    this.toastService.showToast({
+      message: this.translate.instant(text)
+    });
+  }
+
+  success() {
+    this.navController.navigateForward(['/apikeys/success-register']).then(() => {
+      this.form.reset();
+    });
+  }
+
+  error() {
+    this.showToast('apikeys.register.toast_errors.default');
   }
 }
+

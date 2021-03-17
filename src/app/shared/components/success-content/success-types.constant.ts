@@ -69,6 +69,8 @@ export const SUCCESS_TYPES = {
     textPrimary: 'apikeys.register_success.textPrimary',
     textSecondary: 'apikeys.register_success.textSecondary',
     urlPrimaryAction: '/apikeys/list',
-    namePrimaryAction: 'apikeys.register_success.namePrimaryAction'
+    namePrimaryAction: 'apikeys.register_success.namePrimaryAction',
+    urlSecondaryAction: '/tabs/funds',
+    nameSecondaryAction: 'apikeys.register_success.nameSecondaryAction'
   }
 };

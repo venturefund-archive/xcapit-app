@@ -8,7 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
@@ -68,7 +70,8 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
   styleUrls: ['./apikeys-edit-modal.component.scss'],
 })
 export class ApikeysEditModalComponent implements OnInit {
-  @Input() data: any;
+  @Input() id: any;
+  @Input() alias: any;
   control: AbstractControl;
   form: FormGroup = this.formBuilder.group({
     alias: [
@@ -88,25 +91,47 @@ export class ApikeysEditModalComponent implements OnInit {
     public submitButtonService: SubmitButtonService,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastService: ToastService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
-    this.form.patchValue(this.data);
+    this.form.patchValue(this.alias);
   }
 
   handleSubmit() {
     if (this.form.valid) {
       const data = this.form.value;
-      this.apiApikeysService.updateData(data);
-      //this.navController.navigateForward(['/apikeys/success-register']);
-      this.close();
+      this.apiApikeysService.crud
+        .update(this.form.value)
+        .subscribe(
+          () => this.success(),
+          () => this.error()
+        );
     } else {
       this.form.markAllAsTouched();
     }
   }
 
+  private showToast(text: string) {
+    this.toastService.showToast({
+      message: this.translate.instant(text)
+    });
+  }
+
   close() {
     this.modalController.dismiss();
   }
+
+  success() {
+    this.close();
+  }
+
+  error() {
+    this.close();
+    this.showToast('apikeys.edit_modal.edit_error.default');
+  }
+
+
 }

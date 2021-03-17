@@ -84,8 +84,22 @@
     "card_apikeys": {
       "title": "A",
       "content": "Fondo:",
-      "action": "Gestionar"
+      "action": "Gestionar",
+      "used_apikey":"Keys en uso",
+      "no_fund_text":"Sin fondos",
+      "confirmation_alert":{
+        "header":"Estas a un paso de eliminar keys",
+        "message":"Entiendo que al eliminar las keys ya no podré verlas en el listado ni asociarlas a un fondo de inversion.",
+        "confirm_button":"Eliminar",
+        "cancel_button":"Cancelar"
+      },
+      "remove_toast":{
+        "success_toast":"Eliminaste exitosamente una key.",
+        "error_toast":"Ha ocurrido un error, intente nuevamente."
+      }
+
     }
+
   },
   "usuarios": {
     "email_validation": {
@@ -1059,11 +1073,12 @@
     },
 
     "register_success":{
-      "textPrimary": "¡Hemos agregado la API Key!",
-      "textSecondary": "Ahora puedes gestionar todas tus keys",
-      "namePrimaryAction": "Ver keys"
-
+      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
+      "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
+      "namePrimaryAction": "Gestionar",
+      "nameSecondaryAction": "Omitir por ahora"
     },
+
     "tutorial_apikeys": {
       "header": "Vincular con Binance",
       "title": "Crea una API Key",
@@ -1129,13 +1144,20 @@
         "title":"Agregar nueva key",
         "text":"Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
         "button":"Entendido"
+      },
+      "toast_errors":{
+        "default":"Ha ocurrido un error"
       }
+      
 
     },
     "edit_modal": {
       "title": "Cambiar Alias",
       "description": "El alias es un nombre para que identifiques a qué API key de Binance pertenecen los fondos.",
-      "button_submit": "Modificar"
+      "button_submit": "Modificar",
+      "edit_error":{
+        "default":"Ha ocurrido un error."
+      }
     }
   },
   "tabs": {
