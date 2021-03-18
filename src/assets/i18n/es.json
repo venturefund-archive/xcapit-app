@@ -362,6 +362,36 @@
       "next_button": "Siguiente",
       "back_button": "Anterior"
     },
+    "fund_investment": {
+      "header": "Crea un fondo",
+      "header_renew": "Renueva un fondo",
+      "card": {
+        "risk_label": "Riesgo",
+        "currency": "USD",
+        "min_capital_label": "Mínimo para operar",
+        "more_info": "Más info",
+        "invest_button": "Invertir",
+        "last_year_revenue": "Últimos 365 días",
+        "profiles":{
+          "volume_profile_strategies_USDT": {
+            "title": "Brainy USDT",
+            "description": "Permite que Brainy tradee por ti y obten rendimientos en dólares."
+          },
+          "volume_profile_strategies_BTC": {
+            "title": "Brainy BTC",
+            "description": "Genera más Bitcoins con los Bitcoins que ya tienes."
+          },
+          "DeFi_index": {
+            "title": "Indice Defi",
+            "description": "Participa del creciente mercado de las finanzas descentralizadas."
+          },
+          "Mary_index": {
+            "title": "Indice Mary",
+            "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
+          }
+        }
+      }
+    },
     "fund_duration": {
       "header": "Crea un fondo",
       "title": "¿Cuál va a ser la duración de tu fondo de inversión?",

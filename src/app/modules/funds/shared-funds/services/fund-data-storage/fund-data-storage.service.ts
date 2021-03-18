@@ -8,15 +8,14 @@ export class FundDataStorageService {
   // Por cada page (url) indica la key del storage en la cual fijarse si existe para poder acceder a la url.
   // EJ: Para acceder a fund-duration debe existir la key fundName en el storage.
   pageKeys = {
-    '/funds/fund-risk': 'fundName',
-    '/funds/fund-currency': 'fundRisk',
-    '/funds/fund-take-profit': 'fundCurrency',
+    '/funds/fund-investment': 'fundName',
+    '/funds/fund-take-profit': 'fundRiskLevel',
     '/funds/fund-stop-loss': 'fundTakeProfit'
   };
 
   allKeys = [
     'fundName',
-    'fundRisk',
+    'fundRiskLevel',
     'fundCurrency',
     'fundTakeProfit',
     'fundRenew'
