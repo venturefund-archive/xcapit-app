@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
@@ -21,10 +22,12 @@ describe('ManageApikeysPage', () => {
   let component: ManageApikeysPage;
   let fixture: ComponentFixture<ManageApikeysPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ManageApikeysPage>;
+  let apiApikeysServiceSpy: any;
   let navControllerSpy: any;
 
   beforeEach(async(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['getAll']);
     
     TestBed.configureTestingModule({
       declarations: [ManageApikeysPage, TrackClickDirective, DummyComponent],
@@ -54,6 +57,11 @@ describe('ManageApikeysPage', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call getAll on ionViewWillEnter', () => {
+    component.ionViewWillEnter();
+    apiApikeysServiceSpy.getAll.and.returnValue(of({}));
+    expect(apiApikeysServiceSpy.getAll).toHaveBeenCalledTimes(1);
+  });
   
   it('should call trackEvent on trackService when RegisterNewKey Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(

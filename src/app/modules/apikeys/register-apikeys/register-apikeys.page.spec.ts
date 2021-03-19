@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RegisterApikeysPage } from './register-apikeys.page';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { of } from 'rxjs';
 
 const formData = {
   valid: {
@@ -74,7 +75,6 @@ describe('RegisterApikeysPage', () => {
   });
 
   it('should call showAlert on handleSubmit and valid form', () => {
-    fixture.detectChanges();
     component.form.patchValue(formData.valid);
     const spy = spyOn(component, 'showAlert');
     component.handleSubmit();
@@ -82,17 +82,22 @@ describe('RegisterApikeysPage', () => {
   });
 
   it('should not call showAlert on handleSubmit and invalid form', () => {
-    fixture.detectChanges();
     component.form.patchValue(formData.invalid);
     const spy = spyOn(component, 'showAlert');
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it('should call trackEvent on trackService when Next Button clicked', () => {
+  it('should call create on submitData', () => {
+    apiApikeysServiceSpy.create.and.returnValue(of({}));
+    component.submitData();
+    expect(apiApikeysServiceSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Submit Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
-      'Next'
+      'Submit'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

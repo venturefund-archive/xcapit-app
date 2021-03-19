@@ -70,7 +70,7 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
             <ion-button
               class="ux_button"
               appTrackClick
-              name="Next"
+              name="Submit"
               type="submit"
               color="uxsecondary"
               size="large"
@@ -137,7 +137,7 @@ export class RegisterApikeysPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    this.apiApikeysService.create(this.form.value).subscribe(
+    this.apiApikeysService.create(data).subscribe(
       () => this.success(),
       () => this.error()
     );
