@@ -12,7 +12,12 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-          <ion-button class="add-button" [routerLink]="['/apikeys/register']">
+        <ion-button
+          appTrackClick
+          name="RegisterNewKey"
+          class="add-button"
+          [routerLink]="['/apikeys/register']"
+        >
             <ion-icon style="zoom:1.5;" name="add"></ion-icon>
           </ion-button>
         </ion-buttons>
