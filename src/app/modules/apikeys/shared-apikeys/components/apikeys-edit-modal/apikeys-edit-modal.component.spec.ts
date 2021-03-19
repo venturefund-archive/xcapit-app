@@ -55,7 +55,6 @@ describe('ApikeysEditModalComponent', () => {
     component = fixture.componentInstance;
     component.id = initData.id;
     component.alias = initData.alias;
-    // component.data = formData.valid;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
