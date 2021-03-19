@@ -11,7 +11,8 @@
       "password_change": "Cambio de Password",
       "referrals": "Referidos",
       "notifications": "Notificaciones",
-      "api_keys_managment": "Gestión de API Keys"
+      "api_keys_managment": "Gestión de API Keys",
+      "change_language":  "Idioma"
     }
   },
 

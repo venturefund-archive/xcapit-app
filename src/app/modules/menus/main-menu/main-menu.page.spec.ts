@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MainMenuPage } from './main-menu.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,21 +10,36 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { LanguageService } from '../../../shared/services/language/language.service';
+import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
+import { ModalController } from '@ionic/angular';
 
 describe('MainMenuPage', () => {
   let component: MainMenuPage;
   let fixture: ComponentFixture<MainMenuPage>;
   let authServiceMock: any;
   let trackServiceSpy: any;
+  let languageServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MainMenuPage>;
+  let modalControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
     trackServiceSpy.trackView.and.returnValue(null);
+    languageServiceSpy = jasmine.createSpyObj('LanguageService', [
+      'setInitialAppLanguage',
+      'getLanguages'
+    ]);
+    languageServiceSpy.setInitialAppLanguage.and.returnValue(null);
+    languageServiceSpy.setInitialAppLanguage.and.returnValue('es');
     authServiceMock = {
       isLoggedIn: new ReplaySubject<boolean>(1),
       logout: () => null,
     };
+    modalControllerSpy = jasmine.createSpyObj(
+      'ModalController',
+      modalControllerMock
+    );
 
     TestBed.configureTestingModule({
       declarations: [MainMenuPage, TrackClickDirective],
@@ -32,6 +47,8 @@ describe('MainMenuPage', () => {
       providers: [
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: AuthService, useValue: authServiceMock },
+        { provide: LanguageService, useValue: languageServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy }
       ],
       imports: [
         HttpClientTestingModule,
