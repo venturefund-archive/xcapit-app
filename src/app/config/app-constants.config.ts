@@ -43,6 +43,11 @@ export const CONFIG = {
       name: 'notMatching',
       text: 'config.form_errors.not_matching',
       rules: []
+    },
+    {
+      name: 'hasSpecialCharacter',
+      text: 'config.form_errors.has_special_character',
+      rules: []
     }
   ],
   fieldErrors: {

@@ -76,6 +76,10 @@ ion-picker {
     font-size: 14px;
   }
 
+  .ux-fsize-15 {
+    font-size: 15px;
+  }
+
   .ux-fsize-16 {
     font-size: 16px;
   }
@@ -172,6 +176,14 @@ ion-picker {
       }
     }
   }
+
+  // Apikeys Modal swippeable
+  .apikeys-modal {
+    .modal-wrapper {
+      margin-top: calc(100vh - 240px);
+      height: 256px;
+    }
+}
 
   // Loading
   .ux-loading {
