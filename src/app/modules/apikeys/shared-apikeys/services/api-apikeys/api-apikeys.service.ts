@@ -4,6 +4,7 @@ import { environment } from '../../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CRUD } from 'src/app/shared/services/crud/crud';
+import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -11,7 +12,11 @@ export class ApiApikeysService {
   entity = 'apikeys';
   crud: CRUD;
 
-  constructor(private crudService: CrudService, private http: HttpClient) {
+  constructor(
+    private crudService: CrudService,
+    private customHttp: CustomHttpService,
+    private http: HttpClient
+  ) {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
 
@@ -20,7 +25,7 @@ export class ApiApikeysService {
   }
 
   getByFundName(fundName: string): Observable<any> {
-    return this.http.get(
+    return this.customHttp.get(
       `${environment.apiUrl}/${this.entity}/fund_name/${fundName}`
     );
   }
