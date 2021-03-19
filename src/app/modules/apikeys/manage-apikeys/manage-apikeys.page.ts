@@ -53,27 +53,14 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
   styleUrls: ['./manage-apikeys.page.scss'],
 })
 export class ManageApikeysPage implements OnInit {
-  apikeys: any = [
-    {
-      id: 1,
-      alias: 'BinanceDeAnna',
-      nombre_bot: 'BTC',
-    },
-    {
-      id: 1,
-      alias: 'BinanceDeAnna',
-      nombre_bot: '',
-    },
-  ];
+  apikeys: any = [];
 
   constructor(private apiApikeysService: ApiApikeysService) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.apiApikeysService.getAll().subscribe((data) => {
-      this.apikeys = data;
-    });
+    this.listarKeys();
   }
 
   listarKeys(){

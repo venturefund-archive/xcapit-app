@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   ControlContainer,
@@ -71,7 +71,6 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
   styleUrls: ['./apikeys-edit-modal.component.scss'],
 })
 export class ApikeysEditModalComponent implements OnInit {
-  
   @Input() id: number;
   @Input() alias: string;
   control: AbstractControl;

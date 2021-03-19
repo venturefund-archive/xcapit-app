@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormGroupDirective,
@@ -101,7 +101,6 @@ import {ManageApikeysPage} from '../../../manage-apikeys/manage-apikeys.page'
 })
 export class ApikeyItemComponent implements OnInit {
   
-  
   @Input() id: number;
   @Input() nombre_bot: string;
   @Input() alias: string;
@@ -128,10 +127,13 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
-    
+    modal.onDidDismiss().then(() => {this.listarApiKeys()})
+      
     modal.present();
   }
 
+
+  
   async showAlert(id) {
     const alert = await this.alertController.create({
       header: this.translate.instant(
@@ -174,7 +176,7 @@ export class ApikeyItemComponent implements OnInit {
   }
   
   listarApiKeys(){
-    this.manageApikeysPage.ionViewWillEnter();
+    this.manageApikeysPage.listarKeys();
   }
 
   success() {
