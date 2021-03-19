@@ -11,31 +11,24 @@ describe('ApiApikeysService', () => {
   let apiApikeysService: ApiApikeysService;
   let crudSpy: any;
   let customHttpServiceSpy: any;
-  let httpClientSpy: any;
 
   beforeEach(() => {
     crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       post: of({}),
       get: of({}),
+      original: { patch: of({}) },
       put: of({}),
-    });
-    httpClientSpy = jasmine.createSpyObj('HttpClient', {
-      get: of({}),
-      post: of({}),
-      patch: of({}),
-      delete: of({}),
+      delete: of({})
     });
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: CrudService, useValue: crudSpy },
-        { provide: HttpClient, useValue: httpClientSpy },
       ],
     });
     apiApikeysService = TestBed.inject(ApiApikeysService);
     customHttpServiceSpy = TestBed.inject(CustomHttpService);
-    httpClientSpy = TestBed.inject(HttpClient);
   });
 
   it('should be created', () => {
@@ -50,25 +43,25 @@ describe('ApiApikeysService', () => {
 
   it('it should call get on http when getAll', () => {
     apiApikeysService.getAll().subscribe(() => {
-      expect(httpClientSpy.get).toHaveBeenCalledTimes(1);
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
 
   it('it should call post on http when create', () => {
     apiApikeysService.create({}).subscribe(() => {
-      expect(httpClientSpy.post).toHaveBeenCalledTimes(1);
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
   it('it should call patch on http when update', () => {
     apiApikeysService.update({}, 1).subscribe(() => {
-      expect(httpClientSpy.patch).toHaveBeenCalledTimes(1);
+      expect(customHttpServiceSpy.patch).toHaveBeenCalledTimes(1);
     });
   });
 
   it('it should call delete on http when delete', () => {
     apiApikeysService.delete(1).subscribe(() => {
-      expect(httpClientSpy.delete).toHaveBeenCalledTimes(1);
+      expect(customHttpServiceSpy.delete).toHaveBeenCalledTimes(1);
     });
   });
 });

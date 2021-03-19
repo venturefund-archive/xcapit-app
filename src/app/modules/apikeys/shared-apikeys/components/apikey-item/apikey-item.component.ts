@@ -127,7 +127,7 @@ export class ApikeyItemComponent implements OnInit {
       swipeToClose: false,
     });
     modal.onDidDismiss().then(() => {
-      this.listarApiKeys();
+      this.getAllApiKeys();
     });
 
     modal.present();
@@ -173,12 +173,12 @@ export class ApikeyItemComponent implements OnInit {
     });
   }
 
-  listarApiKeys() {
-    this.manageApikeysPage.listarKeys();
+  getAllApiKeys() {
+    this.manageApikeysPage.getAllApiKeys();
   }
 
   success() {
-    this.listarApiKeys();
+    this.getAllApiKeys();
     this.showToast('apikeys.card_apikeys.success_toast');
   }
 

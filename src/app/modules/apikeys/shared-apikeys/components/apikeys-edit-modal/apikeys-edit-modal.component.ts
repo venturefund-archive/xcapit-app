@@ -103,7 +103,6 @@ export class ApikeysEditModalComponent implements OnInit {
   handleSubmit() {
     if (this.form.valid) {
       const data = { ...this.form.value };
-      console.log(data);
       this.apiApikeysService.update(data, this.id).subscribe(
         () => this.success(),
         () => this.error()

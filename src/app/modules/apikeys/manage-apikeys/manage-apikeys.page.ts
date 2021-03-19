@@ -63,10 +63,10 @@ export class ManageApikeysPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.listarKeys();
+    this.getAllApiKeys();
   }
 
-  listarKeys() {
+  getAllApiKeys() {
     this.apiApikeysService.getAll().subscribe((data) => {
       this.apikeys = data;
     });

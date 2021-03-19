@@ -14,8 +14,7 @@ export class ApiApikeysService {
 
   constructor(
     private crudService: CrudService,
-    private customHttp: CustomHttpService,
-    private http: HttpClient
+    private http: CustomHttpService
   ) {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
@@ -25,7 +24,7 @@ export class ApiApikeysService {
   }
 
   getByFundName(fundName: string): Observable<any> {
-    return this.customHttp.get(
+    return this.http.get(
       `${environment.apiUrl}/${this.entity}/fund_name/${fundName}`
     );
   }
@@ -38,7 +37,7 @@ export class ApiApikeysService {
   }
 
   update(apikey: any, id: number) {
-    return this.http.patch(
+    return this.http.original.patch(
       `${environment.apiUrl}/${this.entity}/update/${id}/`,
       apikey
     );
