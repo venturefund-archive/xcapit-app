@@ -9,6 +9,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 import { ManageApikeysPage } from './manage-apikeys.page';
 
@@ -28,20 +29,20 @@ describe('ManageApikeysPage', () => {
   beforeEach(async(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['getAll']);
-    
+
     TestBed.configureTestingModule({
       declarations: [ManageApikeysPage, TrackClickDirective, DummyComponent],
       imports: [
         RouterTestingModule.withRoutes([
           { path: 'menus/main-menu', component: DummyComponent },
           { path: 'apikeys/list', component: DummyComponent },
-          { path: 'apikeys/register', component: DummyComponent }
+          { path: 'apikeys/register', component: DummyComponent },
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule,
-        IonicModule
+        IonicModule,
       ],
-      providers: [TrackClickDirective],
+      providers: [{ provide: ApiApikeysService, useValue: apiApikeysServiceSpy }, TrackClickDirective],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
@@ -58,11 +59,11 @@ describe('ManageApikeysPage', () => {
   });
 
   it('should call getAll on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
     apiApikeysServiceSpy.getAll.and.returnValue(of({}));
+    component.ionViewWillEnter();
     expect(apiApikeysServiceSpy.getAll).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should call trackEvent on trackService when RegisterNewKey Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',

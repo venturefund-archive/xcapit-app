@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
-
 import { HttpClient } from '@angular/common/http';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CRUD } from 'src/app/shared/services/crud/crud';
@@ -10,17 +9,11 @@ import { CRUD } from 'src/app/shared/services/crud/crud';
 })
 export class ApiApikeysService {
   entity = 'apikeys';
-  crud:CRUD;
+  crud: CRUD;
 
-  constructor(
-    
-    private crudService: CrudService,
-    private http: HttpClient
-  ) { 
+  constructor(private crudService: CrudService, private http: HttpClient) {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
-
-
 
   getAll() {
     return this.http.get(`${environment.apiUrl}/${this.entity}/list`);
@@ -33,14 +26,22 @@ export class ApiApikeysService {
   }
 
   create(apikey: any) {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/register`, apikey);
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/register`,
+      apikey
+    );
   }
 
   update(apikey: any, id: number) {
-    return this.http.patch(`${environment.apiUrl}/${this.entity}/update/${id}/`, apikey);
+    return this.http.patch(
+      `${environment.apiUrl}/${this.entity}/update/${id}/`,
+      apikey
+    );
   }
 
   delete(id: number) {
-    return this.http.delete(`${environment.apiUrl}/${this.entity}/delete/${id}/`);
+    return this.http.delete(
+      `${environment.apiUrl}/${this.entity}/delete/${id}/`
+    );
   }
 }

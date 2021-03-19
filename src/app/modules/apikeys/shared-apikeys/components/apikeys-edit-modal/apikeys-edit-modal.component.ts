@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import {
   AbstractControl,
   ControlContainer,
@@ -13,7 +13,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
-import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 
 @Component({
@@ -94,9 +93,7 @@ export class ApikeysEditModalComponent implements OnInit {
     private apiApikeysService: ApiApikeysService,
     private formBuilder: FormBuilder,
     private toastService: ToastService,
-    private translate: TranslateService,
-    
-    
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -125,7 +122,6 @@ export class ApikeysEditModalComponent implements OnInit {
   close() {
     this.modalController.dismiss();
   }
-
 
   success() {
     this.close();

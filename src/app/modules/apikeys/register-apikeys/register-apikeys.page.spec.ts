@@ -35,7 +35,7 @@ describe('RegisterApikeysPage', () => {
 
   beforeEach(async(() => {
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
-      'updateData',
+      'create',
     ]);
 
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
@@ -98,6 +98,18 @@ describe('RegisterApikeysPage', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Submit'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Need Help Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'NeedHelp'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

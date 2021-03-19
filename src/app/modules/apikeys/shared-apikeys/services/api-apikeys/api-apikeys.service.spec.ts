@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { ApiApikeysService } from './api-apikeys.service';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { of } from 'rxjs';
@@ -17,16 +16,11 @@ describe('ApiApikeysService', () => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       post: of({}),
       get: of({}),
-      put: of({})
+      put: of({}),
     });
     TestBed.configureTestingModule({
-      imports:[
-        HttpClientTestingModule,
-        TranslateModule.forRoot()
-      ],
-      providers: [
-        { provide: CrudService, useValue: crudSpy }
-        ]
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      providers: [{ provide: CrudService, useValue: crudSpy }],
     });
     apiApikeysService = TestBed.inject(ApiApikeysService);
     customHttpServiceSpy = TestBed.inject(CustomHttpService);
@@ -41,5 +35,4 @@ describe('ApiApikeysService', () => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
-
 });

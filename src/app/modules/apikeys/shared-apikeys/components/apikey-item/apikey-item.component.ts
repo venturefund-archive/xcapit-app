@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import {
   ControlContainer,
   FormGroupDirective,
@@ -13,8 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-modal.component';
-import {ManageApikeysPage} from '../../../manage-apikeys/manage-apikeys.page'
-
+import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
 
 @Component({
   selector: 'app-apikey-item',
@@ -25,7 +24,8 @@ import {ManageApikeysPage} from '../../../manage-apikeys/manage-apikeys.page'
           <div
             class="cib__main__content__title ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
           >
-            <ion-text color="uxdark">{{ this.alias }}</ion-text>s
+            <ion-text color="uxdark">{{ this.alias }}</ion-text
+            >s
             <ion-button
               appTrackClick
               name="EditButton"
@@ -100,7 +100,6 @@ import {ManageApikeysPage} from '../../../manage-apikeys/manage-apikeys.page'
   ],
 })
 export class ApikeyItemComponent implements OnInit {
-  
   @Input() id: number;
   @Input() nombre_bot: string;
   @Input() alias: string;
@@ -127,13 +126,13 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
-    modal.onDidDismiss().then(() => {this.listarApiKeys()})
-      
+    modal.onDidDismiss().then(() => {
+      this.listarApiKeys();
+    });
+
     modal.present();
   }
 
-
-  
   async showAlert(id) {
     const alert = await this.alertController.create({
       header: this.translate.instant(
@@ -166,7 +165,6 @@ export class ApikeyItemComponent implements OnInit {
       () => this.success(),
       () => this.error()
     );
-
   }
 
   private showToast(text: string) {
@@ -174,8 +172,8 @@ export class ApikeyItemComponent implements OnInit {
       message: this.translate.instant(text),
     });
   }
-  
-  listarApiKeys(){
+
+  listarApiKeys() {
     this.manageApikeysPage.listarKeys();
   }
 

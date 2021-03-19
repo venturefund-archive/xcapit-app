@@ -1,16 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import {
+  AlertController,
+  IonicModule,
+  ModalController,
+} from '@ionic/angular';
+import { TranslateModule} from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 import { ApikeyItemComponent } from './apikey-item.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { of } from 'rxjs';
-
-
 
 const data = { alias: 'miAPIKey', id: 1, nombre_bot: 'BTC' };
 const apikeys = {
@@ -32,23 +32,25 @@ describe('ApikeyItemComponent', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     TestBed.configureTestingModule({
       declarations: [ApikeyItemComponent],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot(),HttpClientTestingModule],
+      imports: [
+        IonicModule.forRoot(),
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+      ],
       providers: [
-        { provide: ApiApikeysService, useValue: apiApikeysServiceSpy},
-          {provide: ModalController, useValue: modalControllerSpy},
-          {provide: AlertController, useValue: alertControllerSpy} 
+        { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: AlertController, useValue: alertControllerSpy },
       ],
     }).compileComponents();
 
-    apiApikeysServiceSpy= jasmine.createSpyObj('ApiApikeysService', ['delete']);
-    
-    modalControllerSpy = jasmine.createSpyObj('ModalController', [
-      'create'
+    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
+      'delete',
     ]);
 
-    alertControllerSpy = jasmine.createSpyObj('AlertController', [
-      'create'
-    ]);
+    modalControllerSpy = jasmine.createSpyObj('ModalController', ['create']);
+
+    alertControllerSpy = jasmine.createSpyObj('AlertController', ['create']);
 
     fixture = TestBed.createComponent(ApikeyItemComponent);
     component = fixture.componentInstance;
@@ -65,7 +67,7 @@ describe('ApikeyItemComponent', () => {
     const elms = trackClickDirectiveHelper.getAllElementsWithTheDirective();
     component.id = apikeys.apikeyWithFunds.id;
     component.nombre_bot = apikeys.apikeyWithFunds.nombre_bot;
-    component.alias=apikeys.apikeyWithFunds.alias;
+    component.alias = apikeys.apikeyWithFunds.alias;
     for (const el of elms) {
       const directive = trackClickDirectiveHelper.getDirective(el);
       const spy = spyOn(directive, 'clickEvent');
@@ -81,7 +83,7 @@ describe('ApikeyItemComponent', () => {
     fixture.detectChanges();
     const elms = trackClickDirectiveHelper.getAllElementsWithTheDirective();
     component.id = apikeys.apikeyWithoutFunds.id;
-    component.alias=apikeys.apikeyWithoutFunds.alias;
+    component.alias = apikeys.apikeyWithoutFunds.alias;
     component.nombre_bot = apikeys.apikeyWithoutFunds.nombre_bot;
     for (const el of elms) {
       const directive = trackClickDirectiveHelper.getDirective(el);
@@ -113,8 +115,6 @@ describe('ApikeyItemComponent', () => {
     component.remove(component.id);
     expect(apiApikeysServiceSpy.delete).toHaveBeenCalledTimes(1);
   });
-
-
 
   it('should create', () => {
     expect(component).toBeTruthy();

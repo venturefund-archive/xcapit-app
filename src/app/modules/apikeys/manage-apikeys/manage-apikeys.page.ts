@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
-import { ApikeysEditModalComponent } from '../shared-apikeys/components/apikeys-edit-modal/apikeys-edit-modal.component';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
@@ -12,12 +10,12 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-        <ion-button
-          appTrackClick
-          name="RegisterNewKey"
-          class="add-button"
-          [routerLink]="['/apikeys/register']"
-        >
+          <ion-button
+            appTrackClick
+            name="RegisterNewKey"
+            class="add-button"
+            [routerLink]="['/apikeys/register']"
+          >
             <ion-icon style="zoom:1.5;" name="add"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -68,7 +66,7 @@ export class ManageApikeysPage implements OnInit {
     this.listarKeys();
   }
 
-  listarKeys(){
+  listarKeys() {
     this.apiApikeysService.getAll().subscribe((data) => {
       this.apikeys = data;
     });

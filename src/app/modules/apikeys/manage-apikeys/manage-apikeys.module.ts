@@ -13,14 +13,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes), 
-    SharedApikeysModule,
-    
-  ],
+  imports: [RouterModule.forChild(routes), SharedApikeysModule],
   declarations: [
     ManageApikeysPage,
     ApikeyItemComponent,
-    ApikeysEditModalComponent ]
+    ApikeysEditModalComponent,
+  ],
 })
 export class ManageApikeysPageModule {}

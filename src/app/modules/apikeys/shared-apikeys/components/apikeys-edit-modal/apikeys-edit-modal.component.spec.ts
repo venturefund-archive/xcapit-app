@@ -2,15 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { RegisterApikeysPage } from '../../../register-apikeys/register-apikeys.page';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 
 import { ApikeysEditModalComponent } from './apikeys-edit-modal.component';
@@ -36,8 +32,8 @@ describe('ApikeysEditModalComponent', () => {
   let apiApikeysServiceSpy;
 
   beforeEach(async(() => {
-    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['update'])
-  
+    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['update']);
+
     TestBed.configureTestingModule({
       declarations: [ApikeysEditModalComponent, TrackClickDirective],
       imports: [
@@ -83,8 +79,6 @@ describe('ApikeysEditModalComponent', () => {
     component.handleSubmit();
     expect(apiApikeysServiceSpy.update).toHaveBeenCalledTimes(0);
   });
-
-  
 
   it('should call trackEvent on trackService when Submit Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(

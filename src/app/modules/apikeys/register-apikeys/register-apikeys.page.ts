@@ -53,8 +53,8 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
             ></app-ux-input>
             <ion-button
               class="main__help__button ux_button"
-              appTrackClickUnauth
-              name="Need Help"
+              appTrackClick
+              name="NeedHelp"
               fill="clear"
               size="small"
               type="button"

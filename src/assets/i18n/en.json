@@ -932,7 +932,6 @@
         "keysExists": "Keys already used.",
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
         "invalidData": "Invalid data."
-        
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
