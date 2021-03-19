@@ -4,6 +4,8 @@ import { ApiApikeysService } from './api-apikeys.service';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from '../../../../../shared/services/custom-http/custom-http.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ApiApikeysService', () => {
   let apiApikeysService: ApiApikeysService;
@@ -18,9 +20,12 @@ describe('ApiApikeysService', () => {
       put: of({})
     });
     TestBed.configureTestingModule({
+      imports:[
+        HttpClientTestingModule,
+        TranslateModule.forRoot()
+      ],
       providers: [
-        { provide: CrudService, useValue: crudSpy },
-        { provide: CustomHttpService, useValue: customHttpServiceSpy },
+        { provide: CrudService, useValue: crudSpy }
         ]
     });
     apiApikeysService = TestBed.inject(ApiApikeysService);

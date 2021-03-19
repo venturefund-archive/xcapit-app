@@ -13,6 +13,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 
 @Component({
@@ -70,8 +71,9 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
   styleUrls: ['./apikeys-edit-modal.component.scss'],
 })
 export class ApikeysEditModalComponent implements OnInit {
-  @Input() id: any;
-  @Input() alias: any;
+  
+  @Input() id: number;
+  @Input() alias: string;
   control: AbstractControl;
   form: FormGroup = this.formBuilder.group({
     alias: [
@@ -94,21 +96,22 @@ export class ApikeysEditModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastService: ToastService,
     private translate: TranslateService,
+    
+    
   ) {}
 
   ngOnInit() {
-    this.form.patchValue(this.alias);
+    this.form.patchValue({ alias: this.alias });
   }
 
   handleSubmit() {
     if (this.form.valid) {
-      const data = this.form.value;
-      this.apiApikeysService.crud
-        .update(this.form.value)
-        .subscribe(
-          () => this.success(),
-          () => this.error()
-        );
+      const data = { ...this.form.value };
+      console.log(data);
+      this.apiApikeysService.update(data, this.id).subscribe(
+        () => this.success(),
+        () => this.error()
+      );
     } else {
       this.form.markAllAsTouched();
     }
@@ -116,7 +119,7 @@ export class ApikeysEditModalComponent implements OnInit {
 
   private showToast(text: string) {
     this.toastService.showToast({
-      message: this.translate.instant(text)
+      message: this.translate.instant(text),
     });
   }
 
@@ -124,14 +127,13 @@ export class ApikeysEditModalComponent implements OnInit {
     this.modalController.dismiss();
   }
 
+
   success() {
     this.close();
   }
 
   error() {
     this.close();
-    this.showToast('apikeys.edit_modal.edit_error.default');
+    this.showToast('errorCodes.apikeys.update.default');
   }
-
-
 }

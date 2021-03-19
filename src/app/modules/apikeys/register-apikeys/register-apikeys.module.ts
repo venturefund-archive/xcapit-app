@@ -7,17 +7,12 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    component: RegisterApikeysPage
-  }
+    component: RegisterApikeysPage,
+  },
 ];
 
 @NgModule({
-  imports: [
-
-    RouterModule.forChild(routes), 
-    SharedApikeysModule
-    
-  ],
-  declarations: [RegisterApikeysPage]
+  imports: [RouterModule.forChild(routes), SharedApikeysModule],
+  declarations: [RegisterApikeysPage],
 })
 export class RegisterApikeysPageModule {}

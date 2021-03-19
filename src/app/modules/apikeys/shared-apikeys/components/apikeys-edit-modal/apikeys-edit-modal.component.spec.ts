@@ -5,7 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { RegisterApikeysPage } from '../../../register-apikeys/register-apikeys.page';
@@ -15,11 +17,16 @@ import { ApikeysEditModalComponent } from './apikeys-edit-modal.component';
 
 const formData = {
   valid: {
-    alias:'MiApiKey'
+    alias: 'MiApiKey',
   },
   invalid: {
-    alias:'mi api key'
-  }
+    alias: 'mi api key',
+  },
+};
+
+const initData = {
+  id: 1,
+  alias: 'MiApiKey',
 };
 
 describe('ApikeysEditModalComponent', () => {
@@ -29,55 +36,55 @@ describe('ApikeysEditModalComponent', () => {
   let apiApikeysServiceSpy;
 
   beforeEach(async(() => {
-
-    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
-      'updateData'
-    ]);
-
+    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['update'])
+  
     TestBed.configureTestingModule({
-      declarations: [ ApikeysEditModalComponent, TrackClickDirective ],
+      declarations: [ApikeysEditModalComponent, TrackClickDirective],
       imports: [
         TranslateModule.forRoot(),
         HttpClientTestingModule,
         IonicModule,
-        ReactiveFormsModule],
+        ReactiveFormsModule,
+      ],
       providers: [
         TrackClickDirective,
-        { provide: ApiApikeysService, useValue: apiApikeysServiceSpy }
+        { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ApikeysEditModalComponent);
     component = fixture.componentInstance;
-    component.data = formData.valid;
+    component.id = initData.id;
+    component.alias = initData.alias;
+    // component.data = formData.valid;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    apiApikeysServiceSpy = TestBed.inject(ApiApikeysService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call updateData on handleSubmit and valid form', () => {
+  it('should call update on handleSubmit and valid form', () => {
     fixture.detectChanges();
-    apiApikeysServiceSpy.updateData.and.returnValue({});
+    apiApikeysServiceSpy.update.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
     component.handleSubmit();
-    expect(apiApikeysServiceSpy.updateData).toHaveBeenCalledTimes(1);
+    expect(apiApikeysServiceSpy.update).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call updateData on handleSubmit and invalid form', () => {
+  it('should not call update on handleSubmit and invalid form', () => {
     fixture.detectChanges();
-    apiApikeysServiceSpy.updateData.and.returnValue({});
+    apiApikeysServiceSpy.update.and.returnValue(of({}));
     component.form.patchValue(formData.invalid);
     component.handleSubmit();
-    expect(apiApikeysServiceSpy.updateData).toHaveBeenCalledTimes(0);
+    expect(apiApikeysServiceSpy.update).toHaveBeenCalledTimes(0);
   });
+
+  
 
   it('should call trackEvent on trackService when Submit Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(

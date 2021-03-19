@@ -1,45 +1,45 @@
 :host {
-    .change_alias {
-        padding-top: 16px;
-        padding-left: 16px;
-        padding-right: 16px;
+  .change_alias {
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
 
-        height: 40vh;
-        background-color: white;
-        --ion-item-background: white;
+    height: 40vh;
+    background-color: white;
+    --ion-item-background: white;
 
-        &__header {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        &__input {
-            margin-top: 8px;
-        }
-
-        &__description {
-            margin-top: 0px;
-            color: #828282;
-        }
-
-        &__submit {
-            margin-top: 8px;
-
-            .ux_button {
-                width: 100%;
-            }
-        }
-
-        font-weight: 400;
-        color: #000000de;
-        font-size: 14px;
-        font-family: var(--ux-font-lato);
-
-        .modal_footer {
-            position: absolute;
-                bottom: 16px;
-                left: 16px;
-                right: 16px;
-        }
+    &__header {
+      display: flex;
+      justify-content: space-between;
     }
+
+    &__input {
+      margin-top: 8px;
+    }
+
+    &__description {
+      margin-top: 0px;
+      color: #828282;
+    }
+
+    &__submit {
+      margin-top: 8px;
+
+      .ux_button {
+        width: 100%;
+      }
+    }
+
+    font-weight: 400;
+    color: #000000de;
+    font-size: 14px;
+    font-family: var(--ux-font-lato);
+
+    .modal_footer {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+    }
+  }
 }

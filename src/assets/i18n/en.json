@@ -11,7 +11,7 @@
       "password_change": "Password Change",
       "referrals": "Referrals",
       "notifications": "Notifications",
-      "api_keys_managment":"Manage API Keys"
+      "api_keys_managment": "Manage API Keys"
     }
   },
   "config": {
@@ -77,24 +77,6 @@
       "title": "What is Binance?",
       "content": "Everything you need to know before linking your account.",
       "action": "More information"
-    },
-    "card_apikeys": {
-      "title": "A",
-      "content": "Fund:",
-      "action": "Manage",
-      "used_apikey":"Used key",
-      "no_fund_text":"No funds",
-      "confirmation_alert":{
-        "header":"You are one step away from removing keys",
-        "message":"I understand that by deleting the keys I will no longer be able to see them in the list or associate them with a mutual fund",
-        "confirm_button":"Delete",
-        "cancel_button":"Cancel"
-      },
-      "remove_toast":{
-        "success_toast":"You have successfully removed a key.",
-        "error_toast":"An error has occurred, please try again."
-      }
-
     }
   },
   "usuarios": {
@@ -950,12 +932,17 @@
         "keysExists": "Keys already used.",
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
         "invalidData": "Invalid data."
+        
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
         "balanceNotEnough": "The minimum amount to trade is 150 USD equivalent in crypto.",
         "keysExists": "The keys are already registered.",
+        "default": "An error has ocurred",
         "invalidData": "An error has occurred. Please try again later."
+      },
+      "remove": {
+        "error": "An error has occurred, please try again."
       }
     },
     "fund_slider_news": {
@@ -1038,31 +1025,42 @@
       "success_text_new": "The link with the Exchange was successful!"
     },
 
+    "card_apikeys": {
+      "content": "Fund:",
+      "action": "Manage",
+      "used_apikey": "Used key",
+      "no_fund_text": "No funds",
+      "success_toast": "You have successfully removed a key.",
+      "confirmation_alert": {
+        "header": "You are one step away from removing keys",
+        "message": "I understand that by deleting the keys I will no longer be able to see them in the list or associate them with a mutual fund",
+        "confirm_button": "Delete",
+        "cancel_button": "Cancel"
+      }
+    },
+
     "manage_apikeys": {
       "header": "API Keys management",
       "subtitle": "You still do not have registered keys. Add new keys to manage them."
     },
 
-    "register":{
-      "header":"Add API key",
+    "register": {
+      "header": "Add API key",
       "label_alias": "Alias",
-      "placeholder_alias":"MyKeysOnBinance",
+      "placeholder_alias": "MyKeysOnBinance",
       "label_apikey": "Binance API Key",
-      "placeholder_apikey":"Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
+      "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Binance Secret Key",
-      "placeholder_secretkey":"Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submmit":"Submmit",
+      "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
+      "button_submmit": "Submmit",
       "link_help": "¿Need Help?",
-      "alert":{
-        "title":"Add new key",
-        "text":"I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
-        "button":"I understand"
-      },
-      "toast_errors":{
-        "default":"An error has ocurred"
+      "alert": {
+        "title": "Add new key",
+        "text": "I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
+        "button": "I understand"
       }
     },
-    "register_success":{
+    "register_success": {
       "textPrimary": "You have already linked your account with Binance!",
       "textSecondary": "We are in a position to manage your Binance capital.",
       "namePrimaryAction": "Manage",
@@ -1130,10 +1128,9 @@
       "title": "Change Alias",
       "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
       "button_submit": "Update",
-      "edit_error":{
-        "default":"An error has ocurred"
+      "edit_error": {
+        "default": "An error has ocurred"
       }
-
     }
   },
   "tabs": {

@@ -11,11 +11,9 @@
       "password_change": "Cambio de Password",
       "referrals": "Referidos",
       "notifications": "Notificaciones",
-      "api_keys_managment":"Gestión de API Keys"
-
+      "api_keys_managment": "Gestión de API Keys"
     }
   },
-  
 
   "config": {
     "form_errors": {
@@ -80,26 +78,7 @@
       "title": "¿Qué es Binance?",
       "content": "Todo lo que necesitas saber antes de vincular tu cuenta.",
       "action": "Más información"
-    },
-    "card_apikeys": {
-      "title": "A",
-      "content": "Fondo:",
-      "action": "Gestionar",
-      "used_apikey":"Keys en uso",
-      "no_fund_text":"Sin fondos",
-      "confirmation_alert":{
-        "header":"Estas a un paso de eliminar keys",
-        "message":"Entiendo que al eliminar las keys ya no podré verlas en el listado ni asociarlas a un fondo de inversion.",
-        "confirm_button":"Eliminar",
-        "cancel_button":"Cancelar"
-      },
-      "remove_toast":{
-        "success_toast":"Eliminaste exitosamente una key.",
-        "error_toast":"Ha ocurrido un error, intente nuevamente."
-      }
-
     }
-
   },
   "usuarios": {
     "email_validation": {
@@ -968,14 +947,18 @@
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Los datos ingresados no son válidos.",
         "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD."
+        
       },
       "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
         "balanceNotEnough": "El monto mínimo para operar son 150 USD equivalente en cripto.",
         "keysExists": "Las keys ya se encuentran registradas.",
-        "invalidData": "Hemos tenidos un error. Intenta nuevamente más tarde."
+        "invalidData": "Hemos tenidos un error. Intenta nuevamente más tarde.",
+        "default": "Ha ocurrido un error"
+      },
+      "remove": {
+        "error": "Ha ocurrido un error, intente nuevamente."
       }
-      
     },
     "fund_slider_news": {
       "get": {
@@ -1058,11 +1041,24 @@
       "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
     },
 
+    "card_apikeys": {
+      "content": "Fondo:",
+      "action": "Gestionar",
+      "used_apikey": "Keys en uso",
+      "no_fund_text": "Sin fondos",
+      "success_toast": "Eliminaste exitosamente una key.",
+      "confirmation_alert": {
+        "header": "Estas a un paso de eliminar keys",
+        "message": "Entiendo que al eliminar las keys ya no podré verlas en el listado ni asociarlas a un fondo de inversion.",
+        "confirm_button": "Eliminar",
+        "cancel_button": "Cancelar"
+      }
+    },
+
     "manage_apikeys": {
       "header": "Gestión de API Keys",
       "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas."
     },
-
 
     "linked_apikeys": {
       "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
@@ -1072,7 +1068,7 @@
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
     },
 
-    "register_success":{
+    "register_success": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
       "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
       "namePrimaryAction": "Gestionar",
@@ -1130,33 +1126,28 @@
       "submit_button": "Guardar",
       "need_help": "¿Necesitas ayuda?"
     },
-    "register":{
-      "header":"Agregar API key",
+    "register": {
+      "header": "Agregar API key",
       "label_alias": "Alias",
-      "placeholder_alias":"MisKeysEnBinance",
+      "placeholder_alias": "MisKeysEnBinance",
       "label_apikey": "Binance API Key",
-      "placeholder_apikey":"Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
+      "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Binance Secret Key",
-      "placeholder_secretkey":"Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submmit":"Agregar",
+      "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
+      "button_submmit": "Agregar",
       "link_help": "¿Necesitas Ayuda?",
-      "alert":{
-        "title":"Agregar nueva key",
-        "text":"Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
-        "button":"Entendido"
-      },
-      "toast_errors":{
-        "default":"Ha ocurrido un error"
+      "alert": {
+        "title": "Agregar nueva key",
+        "text": "Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
+        "button": "Entendido"
       }
-      
-
     },
     "edit_modal": {
       "title": "Cambiar Alias",
       "description": "El alias es un nombre para que identifiques a qué API key de Binance pertenecen los fondos.",
       "button_submit": "Modificar",
-      "edit_error":{
-        "default":"Ha ocurrido un error."
+      "edit_error": {
+        "default": "Ha ocurrido un error."
       }
     }
   },

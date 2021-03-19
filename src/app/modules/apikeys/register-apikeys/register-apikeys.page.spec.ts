@@ -14,15 +14,15 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
 
 const formData = {
   valid: {
-    apikey: 'kLnBhJuI98745Df32CsX09kN',
-    secretkey:'EvHElKo98JyDeHVfJdSwC45J657Ml4',
-    alias:'myapikey'
+    api_key: 'kLnBhJuI98745Df32CsX09kN',
+    secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
+    alias: 'myapikey',
   },
   invalid: {
-    apikey: '',
-    secretkey:'',
-    alias:''
-  }
+    api_key: '',
+    secret_key: '',
+    alias: '',
+  },
 };
 
 describe('RegisterApikeysPage', () => {
@@ -33,34 +33,32 @@ describe('RegisterApikeysPage', () => {
   let navControllerSpy: any;
 
   beforeEach(async(() => {
-
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
-      'updateData'
+      'updateData',
     ]);
-
 
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
     TestBed.configureTestingModule({
-      declarations: [ RegisterApikeysPage, TrackClickDirective ],
+      declarations: [RegisterApikeysPage, TrackClickDirective],
       imports: [
         RouterTestingModule.withRoutes([
           { path: 'apikeys/register', component: DummyComponent },
           { path: 'apikeys/success-register', component: DummyComponent },
-          { path: 'apikeys/list', component: DummyComponent }
+          { path: 'apikeys/list', component: DummyComponent },
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule,
         IonicModule,
-        ReactiveFormsModule],
+        ReactiveFormsModule,
+      ],
       providers: [
         TrackClickDirective,
         { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
+        { provide: NavController, useValue: navControllerSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-
   }));
 
   beforeEach(() => {
@@ -70,7 +68,6 @@ describe('RegisterApikeysPage', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     apiApikeysServiceSpy = TestBed.inject(ApiApikeysService);
   });
-
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -103,6 +100,4 @@ describe('RegisterApikeysPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
-
 });

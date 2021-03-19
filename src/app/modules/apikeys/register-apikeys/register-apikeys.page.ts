@@ -137,28 +137,27 @@ export class RegisterApikeysPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    this.apiApikeysService.crud
-        .create(this.form.value)
-        .subscribe(
-          () => this.success(),
-          () => this.error()
-        );
+    this.apiApikeysService.create(this.form.value).subscribe(
+      () => this.success(),
+      () => this.error()
+    );
   }
-  
+
   private showToast(text: string) {
     this.toastService.showToast({
-      message: this.translate.instant(text)
+      message: this.translate.instant(text),
     });
   }
 
   success() {
-    this.navController.navigateForward(['/apikeys/success-register']).then(() => {
-      this.form.reset();
-    });
+    this.navController
+      .navigateForward(['/apikeys/success-register'])
+      .then(() => {
+        this.form.reset();
+      });
   }
 
   error() {
     this.showToast('apikeys.register.toast_errors.default');
   }
 }
-

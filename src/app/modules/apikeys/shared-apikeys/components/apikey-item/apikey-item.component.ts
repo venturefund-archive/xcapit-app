@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-modal.component';
+import {ManageApikeysPage} from '../../../manage-apikeys/manage-apikeys.page'
+
 
 @Component({
   selector: 'app-apikey-item',
@@ -23,7 +25,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           <div
             class="cib__main__content__title ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
           >
-            <ion-text color="uxdark">{{ this.alias }}</ion-text>
+            <ion-text color="uxdark">{{ this.alias }}</ion-text>s
             <ion-button
               appTrackClick
               name="EditButton"
@@ -42,15 +44,16 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           <div
             class="cib__main__content__text ux-font-lato ux-fweight-regular ux-fsize-14"
           >
-            <ion-text
-              *ngIf="this.nombre_bot"
-            >
-              <strong class="cib__main__fund_text">{{('shared.card_apikeys.content' | translate) }}</strong> {{ this.nombre_bot }}
+            <ion-text *ngIf="this.nombre_bot">
+              <strong class="cib__main__fund_text">{{
+                'apikeys.card_apikeys.content' | translate
+              }}</strong>
+              {{ this.nombre_bot }}
             </ion-text>
-            <ion-text
-              *ngIf="!this.nombre_bot"
-            >
-              <strong class="cib__main__fund_text">{{('shared.card_apikeys.no_fund_text' | translate) }}</strong> 
+            <ion-text *ngIf="!this.nombre_bot">
+              <strong class="cib__main__fund_text">{{
+                'apikeys.card_apikeys.no_fund_text' | translate
+              }}</strong>
             </ion-text>
           </div>
         </div>
@@ -76,14 +79,14 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           size="small"
           class="cib__footer__more_info ux-font-lato ux-fweight-semibold ux-fsize-14"
         >
-          {{ 'shared.card_apikeys.action' | translate }}
+          {{ 'apikeys.card_apikeys.action' | translate }}
           <ion-icon slot="end" name="ux-forward"></ion-icon>
         </ion-button>
         <ion-text
           *ngIf="this.nombre_bot"
           class="ux-font-lato ux-fweight-regular ux-fsize-14 cib__footer__used_key"
         >
-          {{ 'shared.card_apikeys.used_apikey' | translate }}
+          {{ 'apikeys.card_apikeys.used_apikey' | translate }}
         </ion-text>
       </div>
     </div>
@@ -97,17 +100,20 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
   ],
 })
 export class ApikeyItemComponent implements OnInit {
-  @Input() id;
-  @Input() nombre_bot;
-  @Input() alias;
+  
+  
+  @Input() id: number;
+  @Input() nombre_bot: string;
+  @Input() alias: string;
   control: AbstractControl;
   constructor(
-    private navController: NavController,
+    private manageApikeysPage: ManageApikeysPage,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
     private translate: TranslateService,
     private alertController: AlertController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
@@ -122,29 +128,29 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
-
+    
     modal.present();
   }
 
   async showAlert(id) {
     const alert = await this.alertController.create({
       header: this.translate.instant(
-        'shared.card_apikeys.confirmation_alert.header'
+        'apikeys.card_apikeys.confirmation_alert.header'
       ),
       message: this.translate.instant(
-        'shared.card_apikeys.confirmation_alert.message'
+        'apikeys.card_apikeys.confirmation_alert.message'
       ),
       buttons: [
         {
           text: this.translate.instant(
-            'shared.card_apikeys.confirmation_alert.cancel_button'
+            'apikeys.card_apikeys.confirmation_alert.cancel_button'
           ),
           role: 'cancel',
           cssClass: 'secondary',
         },
         {
           text: this.translate.instant(
-            'shared.card_apikeys.confirmation_alert.confirm_button'
+            'apikeys.card_apikeys.confirmation_alert.confirm_button'
           ),
           handler: (_) => this.remove(id),
         },
@@ -154,10 +160,11 @@ export class ApikeyItemComponent implements OnInit {
   }
 
   remove(id) {
-    this.apiApikeysService.crud.delete(id).subscribe(
+    this.apiApikeysService.delete(id).subscribe(
       () => this.success(),
       () => this.error()
     );
+
   }
 
   private showToast(text: string) {
@@ -165,12 +172,17 @@ export class ApikeyItemComponent implements OnInit {
       message: this.translate.instant(text),
     });
   }
+  
+  listarApiKeys(){
+    this.manageApikeysPage.ionViewWillEnter();
+  }
 
   success() {
-    this.showToast('shared.card_apikeys.remove_toast.success_toast');
+    this.listarApiKeys();
+    this.showToast('apikeys.card_apikeys.success_toast');
   }
 
   error() {
-    this.showToast('shared.card_apikeys.remove_toast.error_toast');
+    this.showToast('errorCodes.remove.error');
   }
 }

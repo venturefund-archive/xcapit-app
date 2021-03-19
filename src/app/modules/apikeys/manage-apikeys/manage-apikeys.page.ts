@@ -11,12 +11,10 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-buttons
-          [routerLink]="['/apikeys/register']"
-          slot="end"
-          class="add-button "
-        >
-          <ion-icon style="zoom:2.25;" name="add"></ion-icon>
+        <ion-buttons slot="end">
+          <ion-button class="add-button" [routerLink]="['/apikeys/register']">
+            <ion-icon style="zoom:1.5;" name="add"></ion-icon>
+          </ion-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'apikeys.manage_apikeys.header' | translate
@@ -72,8 +70,14 @@ export class ManageApikeysPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillLeave() {
-    this.apiApikeysService.crud.getAll().subscribe((data) => {
+  ionViewWillEnter() {
+    this.apiApikeysService.getAll().subscribe((data) => {
+      this.apikeys = data;
+    });
+  }
+
+  listarKeys(){
+    this.apiApikeysService.getAll().subscribe((data) => {
       this.apikeys = data;
     });
   }
