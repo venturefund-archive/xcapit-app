@@ -343,22 +343,6 @@
       "fund_name_placeholder": "Ej: MyFirstFund",
       "next_button": "Next"
     },
-    "fund_risk": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
-      "title": "How aggressive do you want the investment to be?",
-      "text_before": "This will condition the way of operating and the consequent risk you will assume when investing.",
-      "risk_level": "Risk level to assume",
-      "risk_level_options": {
-        "low": "Low",
-        "mid": "Medium",
-        "high": "High",
-        "multi_strategies": "Multistrategy"
-      },
-      "new_badge": "New",
-      "next_button": "Next",
-      "back_button": "Back"
-    },
     "fund_investment": {
       "header": "Create a fund",
       "header_renew": "Renew a fund",
@@ -398,18 +382,6 @@
       "next_button": "Next",
       "back_button": "Back",
       "text_help": "In short terms, the robot is more likely to have performance problems."
-    },
-    "fund_currency": {
-      "header": "Create a fund",
-      "header_renew": "Renueva un fondo",
-      "title": "In what currency will you want us to optimize your capital?",
-      "text_before": "This is the currency on which we will seek to have returns. In this same currency you will see the evolution of your investment over time.",
-      "currency": "Currency",
-      "btc_text": "Bitcoin BTC",
-      "usdt_text": "Dolar USDT",
-      "next_button": "Next",
-      "back_button": "Back",
-      "text_help": "The currency choice is independent of the behavior of other currencies that make up the portfolio."
     },
     "fund_take_profit": {
       "header": "Create a fund",

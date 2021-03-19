@@ -346,22 +346,6 @@
       "fund_name_placeholder": "Ej: MiPrimerFondo",
       "next_button": "Siguiente"
     },
-    "fund_risk": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "¿Qué tan agresiva quieres que sea la inversión?",
-      "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo a asumir a la hora de invertir.",
-      "risk_level": "Nivel de riesgo a asumir",
-      "risk_level_options": {
-        "low": "Bajo",
-        "mid": "Medio",
-        "high": "Alto",
-        "multi_strategies": "Multiestrategia"
-      },
-      "new_badge": "Nuevo",
-      "next_button": "Siguiente",
-      "back_button": "Anterior"
-    },
     "fund_investment": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
@@ -401,18 +385,6 @@
       "next_button": "Siguiente",
       "back_button": "Anterior",
       "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
-    },
-    "fund_currency": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "¿En qué moneda quieres que optimicemos tu capital?",
-      "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda vas a ver la evolución de tu inversión a través del tiempo.",
-      "currency": "Moneda",
-      "btc_text": "Bitcoin BTC",
-      "usdt_text": "Dólar USDT",
-      "next_button": "Siguiente",
-      "back_button": "Anterior",
-      "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio"
     },
     "fund_take_profit": {
       "header": "Crea un fondo",

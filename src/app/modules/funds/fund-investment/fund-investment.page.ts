@@ -13,8 +13,8 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           (this.fundRenew
-            ? 'funds.fund_risk.header_renew'
-            : 'funds.fund_risk.header'
+            ? 'funds.fund_investment.header_renew'
+            : 'funds.fund_investment.header'
           ) | translate
         }}</ion-title>
       </ion-toolbar>

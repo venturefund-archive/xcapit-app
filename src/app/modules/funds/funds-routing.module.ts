@@ -31,13 +31,8 @@ export const routes: Routes = [
           import('./fund-name/fund-name.module').then(m => m.FundNamePageModule)
       },
       {
-        path: 'fund-risk',
-        canActivate: [BeforeStepDataGuard],
-        loadChildren: () =>
-          import('./fund-risk/fund-risk.module').then(m => m.FundRiskPageModule)
-      },
-      {
         path: 'fund-investment',
+        canActivate: [BeforeStepDataGuard],
         loadChildren: () =>
           import('./fund-investment/fund-investment.module').then(m => m.FundInvestmentPageModule)
       },
@@ -47,14 +42,6 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./fund-duration/fund-duration.module').then(
             m => m.FundDurationPageModule
-          )
-      },
-      {
-        path: 'fund-currency',
-        canActivate: [BeforeStepDataGuard],
-        loadChildren: () =>
-          import('./fund-currency/fund-currency.module').then(
-            m => m.FundCurrencyPageModule
           )
       },
       {
