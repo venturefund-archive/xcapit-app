@@ -10,7 +10,8 @@
       "help": "Ayuda",
       "password_change": "Cambio de Password",
       "referrals": "Referidos",
-      "notifications": "Notificaciones"
+      "notifications": "Notificaciones",
+      "change_language":  "Idioma"
     }
   },
   "config": {
