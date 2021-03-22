@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 
-import { FundRiskPage } from './fund-risk.page';
+import { FundInvestmentPage } from './fund-investment.page';
 import { SharedFundsModule } from '../shared-funds/shared-funds.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: FundRiskPage
+    component: FundInvestmentPage
   }
 ];
 
@@ -17,6 +17,6 @@ const routes: Routes = [
     SharedFundsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [FundRiskPage]
+  declarations: [FundInvestmentPage]
 })
-export class FundRiskPageModule {}
+export class FundInvestmentPageModule {}

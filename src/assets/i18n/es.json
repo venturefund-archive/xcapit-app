@@ -350,21 +350,35 @@
       "fund_name_placeholder": "Ej: MiPrimerFondo",
       "next_button": "Siguiente"
     },
-    "fund_risk": {
+    "fund_investment": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
-      "title": "¿Qué tan agresiva quieres que sea la inversión?",
-      "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo a asumir a la hora de invertir.",
-      "risk_level": "Nivel de riesgo a asumir",
-      "risk_level_options": {
-        "low": "Bajo",
-        "mid": "Medio",
-        "high": "Alto",
-        "multi_strategies": "Multiestrategia"
-      },
-      "new_badge": "Nuevo",
-      "next_button": "Siguiente",
-      "back_button": "Anterior"
+      "card": {
+        "risk_label": "Riesgo",
+        "currency": "USD",
+        "min_capital_label": "Mínimo para operar",
+        "more_info": "Más info",
+        "invest_button": "Invertir",
+        "last_year_revenue": "Últimos 365 días",
+        "profiles":{
+          "volume_profile_strategies_USDT": {
+            "title": "Brainy USDT",
+            "description": "Permite que Brainy tradee por ti y obten rendimientos en dólares."
+          },
+          "volume_profile_strategies_BTC": {
+            "title": "Brainy BTC",
+            "description": "Genera más Bitcoins con los Bitcoins que ya tienes."
+          },
+          "DeFi_index": {
+            "title": "Indice Defi",
+            "description": "Participa del creciente mercado de las finanzas descentralizadas."
+          },
+          "Mary_index": {
+            "title": "Indice Mary",
+            "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
+          }
+        }
+      }
     },
     "fund_duration": {
       "header": "Crea un fondo",
@@ -375,18 +389,6 @@
       "next_button": "Siguiente",
       "back_button": "Anterior",
       "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
-    },
-    "fund_currency": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "¿En qué moneda quieres que optimicemos tu capital?",
-      "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda vas a ver la evolución de tu inversión a través del tiempo.",
-      "currency": "Moneda",
-      "btc_text": "Bitcoin BTC",
-      "usdt_text": "Dólar USDT",
-      "next_button": "Siguiente",
-      "back_button": "Anterior",
-      "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio"
     },
     "fund_take_profit": {
       "header": "Crea un fondo",
