@@ -48,6 +48,7 @@ describe('RegisterApikeysPage', () => {
           { path: 'apikeys/register', component: DummyComponent },
           { path: 'apikeys/success-register', component: DummyComponent },
           { path: 'apikeys/list', component: DummyComponent },
+          { path: 'tabs/funds', component: DummyComponent },
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule,
@@ -78,7 +79,7 @@ describe('RegisterApikeysPage', () => {
 
   it('should call showAlert on handleSubmit and valid form', () => {
     component.form.patchValue(formData.valid);
-    const spy = spyOn(component, 'showAlert');
+    const spy = spyOn(component, 'showAlert').and.returnValue(Promise.resolve());
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
