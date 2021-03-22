@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { FundsFinishedPage } from './funds-finished.page';
@@ -26,7 +26,7 @@ describe('FundsFinishedPage', () => {
     }
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fundDataStorageServiceMock = {
       clearAll: () => Promise.resolve()
     };

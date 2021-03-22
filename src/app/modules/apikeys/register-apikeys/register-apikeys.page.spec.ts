@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -34,7 +34,7 @@ describe('RegisterApikeysPage', () => {
   let navControllerSpy: any;
   let navController: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
       'create',
     ]);

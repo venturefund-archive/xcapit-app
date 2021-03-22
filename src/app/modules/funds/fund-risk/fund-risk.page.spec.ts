@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, forwardRef } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundRiskPage } from './fund-risk.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +26,7 @@ describe('FundRiskPage', () => {
   let fundDataStorageService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundRiskPage>;
   let navControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve(formData.valid),
       setData: () => Promise.resolve()

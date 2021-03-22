@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthFormComponent } from './auth-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ describe('AuthFormComponent', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AuthFormComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],

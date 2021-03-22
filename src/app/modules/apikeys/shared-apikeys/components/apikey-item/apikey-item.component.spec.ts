@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AlertController,
   IonicModule,
@@ -38,7 +38,7 @@ describe('ApikeyItemComponent', () => {
   let navControllerSpy: any;
   let alertController: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
       delete: of({}),
       getAll: of({})

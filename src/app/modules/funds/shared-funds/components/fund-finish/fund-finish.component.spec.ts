@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule, NavController } from '@ionic/angular';
 import { FundFinishComponent } from './fund-finish.component';
 import { ApiFundsService } from '../../services/api-funds/api-funds.service';
@@ -25,7 +25,7 @@ describe('FundFinishPauseCardComponent', () => {
   let toastServiceSpy: any;
   let alertControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast',
     ]);

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { PerformanceChartCardComponent } from './performance-chart-card.component';
@@ -9,7 +9,7 @@ describe('PerformanceChartCardComponent', () => {
   let component: PerformanceChartCardComponent;
   let fixture: ComponentFixture<PerformanceChartCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PerformanceChartCardComponent ],
       imports: [IonicModule],

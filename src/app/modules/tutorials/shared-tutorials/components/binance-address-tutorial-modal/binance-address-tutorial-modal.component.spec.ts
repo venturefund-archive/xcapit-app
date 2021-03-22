@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BinanceAddressTutorialModalComponent } from './binance-address-tutorial-modal.component';
 import { ModalController } from '@ionic/angular';
@@ -11,7 +11,7 @@ describe('BinanceAddressTutorialModalComponent', () => {
   let fixture: ComponentFixture<BinanceAddressTutorialModalComponent>;
   let modalControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock

@@ -11,7 +11,7 @@ describe('LogoXcapitComponent', () => {
   let component: XcapitLogoComponent;
   let fixture: ComponentFixture<XcapitLogoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [XcapitLogoComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

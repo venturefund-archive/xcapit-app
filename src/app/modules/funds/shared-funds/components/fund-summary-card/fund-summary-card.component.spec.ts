@@ -1,5 +1,5 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule } from '@ionic/angular';
 
 import { FundSummaryCardComponent } from './fund-summary-card.component';
@@ -30,7 +30,7 @@ describe('FundSummaryCardComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundSummaryCardComponent>;
   let alertControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiSubscriptionsSpy = jasmine.createSpyObj('ApiSubscriptionsService', [
       'getSubscriptionLink'
     ]);

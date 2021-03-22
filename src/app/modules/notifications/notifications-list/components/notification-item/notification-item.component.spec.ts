@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationItemComponent } from './notification-item.component';
 import { NotificationPipe } from '../../../shared-notifications/pipes/notification/notification.pipe';
@@ -16,7 +16,7 @@ describe('NotificationItemComponent', () => {
   let component: NotificationItemComponent;
   let fixture: ComponentFixture<NotificationItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NotificationItemComponent, NotificationPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

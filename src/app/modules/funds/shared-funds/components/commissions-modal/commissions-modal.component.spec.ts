@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommissionsModalComponent } from './commissions-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
@@ -9,7 +9,7 @@ describe('CommissionsModalComponent', () => {
   let component: CommissionsModalComponent;
   let fixture: ComponentFixture<CommissionsModalComponent>;
   let modalControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock

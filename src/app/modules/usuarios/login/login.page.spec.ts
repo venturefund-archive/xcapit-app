@@ -34,7 +34,7 @@ describe('LoginPage', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['login', 'status']);
     apiUsuariosSpy.login.and.returnValue(of({}));
     apiUsuariosSpy.status.and.returnValue(of({ status_name: 'COMPLETE' }));
