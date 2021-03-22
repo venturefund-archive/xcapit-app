@@ -66,7 +66,7 @@ describe('FundInvestmentPage', () => {
   it('should call fundDataStorageService.getData on init', async done => {
     const spy = spyOn(fundDataStorageService, 'getData');
     spy.and.returnValue(Promise.resolve('test'));
-    component.ngOnInit();
+    component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
     done();

@@ -62,11 +62,15 @@ export class FundInvestmentPage implements OnInit {
     private navController: NavController
   ) {}
 
+  ngOnInit(){}
+
   ionViewWillEnter() {
     this.fundDataStorage.getData('fundRenew').then((data) => {
       this.fundRenew = data;
     });
   }
+
+  
 
   handleSubmit(data: any) {
     this.fundDataStorage.setData('fundRiskLevel', {
