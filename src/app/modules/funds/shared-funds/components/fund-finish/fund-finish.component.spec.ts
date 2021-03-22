@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { AlertController, IonicModule, NavController } from '@ionic/angular';
 import { FundFinishComponent } from './fund-finish.component';
 import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
@@ -12,6 +12,7 @@ import { TrackClickDirective } from '../../../../../shared/directives/track-clic
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
+import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';
 
 describe('FundFinishPauseCardComponent', () => {
   let component: FundFinishComponent;
@@ -22,11 +23,14 @@ describe('FundFinishPauseCardComponent', () => {
   let toastService: ToastService;
   let navControllerSpy: any;
   let toastServiceSpy: any;
+  let alertControllerSpy: any;
 
   beforeEach(async(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast',
     ]);
+    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+
     apiFundsServiceMock = {
       finalizeFundRuns: () => of({})
     };
@@ -55,7 +59,8 @@ describe('FundFinishPauseCardComponent', () => {
           provide: ApiFundsService,
           useValue: apiFundsServiceMock
         },
-        { provide: ToastService, useValue: toastServiceSpy }
+        { provide: ToastService, useValue: toastServiceSpy },
+        { provide: AlertController, useValue: alertControllerSpy }
       ]
     }).compileComponents();
 

@@ -1,6 +1,6 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { AlertController, IonicModule } from '@ionic/angular';
 
 import { FundSummaryCardComponent } from './fund-summary-card.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,6 +13,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DecimalPipe } from '@angular/common';
+import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';
 const testData = { link: 'https://test.link' };
 const testSummary: FundSummaryInterface = {
   fund: { nombre_bot: 'Test', currency: 'BTC' },
@@ -27,11 +28,13 @@ describe('FundSummaryCardComponent', () => {
   let apiSubscriptionsSpy: any;
   let shareServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundSummaryCardComponent>;
+  let alertControllerSpy: any;
 
   beforeEach(async(() => {
     apiSubscriptionsSpy = jasmine.createSpyObj('ApiSubscriptionsService', [
       'getSubscriptionLink'
     ]);
+    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
     shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
     TestBed.configureTestingModule({
       declarations: [FundSummaryCardComponent, TrackClickDirective, CurrencyFormatPipe, DecimalPipe],
@@ -40,7 +43,8 @@ describe('FundSummaryCardComponent', () => {
         CurrencyFormatPipe,
         DecimalPipe,
         { provide: ApiSubscriptionsService, useValue: apiSubscriptionsSpy },
-        { provide: ShareService, useValue: shareServiceSpy }
+        { provide: ShareService, useValue: shareServiceSpy },
+        { provide: AlertController, useValue: alertControllerSpy }
       ]
     }).compileComponents();
 

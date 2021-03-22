@@ -34,7 +34,7 @@ describe('MainMenuPage', () => {
     languageServiceSpy.setInitialAppLanguage.and.returnValue('es');
     authServiceMock = {
       isLoggedIn: new ReplaySubject<boolean>(1),
-      logout: () => null,
+      logout: () => null
     };
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
@@ -62,9 +62,9 @@ describe('MainMenuPage', () => {
           { path: 'users/password-change', component: DummyComponent },
           { path: 'referrals/list', component: DummyComponent },
           { path: 'notifications/list', component: DummyComponent },
-          { path: 'apikeys/list', component: DummyComponent },
-        ]),
-      ],
+          { path: 'apikeys/list', component: DummyComponent }
+        ])
+      ]
     }).compileComponents();
   }));
 
@@ -90,6 +90,6 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(10);
+    expect(elms.length).toBe(11);
   });
 });
