@@ -34,7 +34,7 @@ describe('MainMenuPage', () => {
     languageServiceSpy.setInitialAppLanguage.and.returnValue('es');
     authServiceMock = {
       isLoggedIn: new ReplaySubject<boolean>(1),
-      logout: () => null
+      logout: () => null,
     };
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
@@ -48,7 +48,7 @@ describe('MainMenuPage', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: AuthService, useValue: authServiceMock },
         { provide: LanguageService, useValue: languageServiceSpy },
-    { provide: ModalController, useValue: modalControllerSpy }
+        { provide: ModalController, useValue: modalControllerSpy }
       ],
       imports: [
         HttpClientTestingModule,
@@ -61,10 +61,11 @@ describe('MainMenuPage', () => {
           { path: 'deposits/currency', component: DummyComponent },
           { path: 'users/password-change', component: DummyComponent },
           { path: 'referrals/list', component: DummyComponent },
-          { path: 'notifications/list', component: DummyComponent }
-        ])]
-    })
-    .compileComponents();
+          { path: 'notifications/list', component: DummyComponent },
+          { path: 'apikeys/list', component: DummyComponent },
+        ]),
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
