@@ -25,7 +25,7 @@ import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
             class="cib__main__content__title ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
           >
             <ion-text color="uxdark">{{ this.alias }}</ion-text
-            >s
+            >
             <ion-button
               appTrackClick
               name="EditButton"
@@ -110,8 +110,7 @@ export class ApikeyItemComponent implements OnInit {
     private apiApikeysService: ApiApikeysService,
     private translate: TranslateService,
     private alertController: AlertController,
-    private toastService: ToastService,
-    private navController: NavController
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {}
