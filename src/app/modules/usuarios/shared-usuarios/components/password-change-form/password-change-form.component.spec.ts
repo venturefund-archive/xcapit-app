@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PasswordChangeFormComponent } from './password-change-form.component';
 import { IonicModule } from '@ionic/angular';
@@ -23,7 +23,7 @@ describe('PasswordChangeFormComponent', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PasswordChangeFormComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],

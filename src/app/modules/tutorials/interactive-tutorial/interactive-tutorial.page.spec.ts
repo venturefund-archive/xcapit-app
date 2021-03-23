@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InteractiveTutorialPage } from './interactive-tutorial.page';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
@@ -22,7 +22,7 @@ describe('InteractiveTutorialPage', () => {
   let toastServiceSpy: any;
   let ionSlideMock: any;
   let navControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast'
     ]);

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LanguagePopoverComponent } from './language-popover.component';
 import { LanguageService } from '../../services/language/language.service';
 import { PopoverController } from '@ionic/angular';
@@ -18,7 +18,7 @@ describe('LanguagePopoverComponent', () => {
   let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<
     LanguagePopoverComponent
   >;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     logsServiceMock = {
       log: () => of({})
     };

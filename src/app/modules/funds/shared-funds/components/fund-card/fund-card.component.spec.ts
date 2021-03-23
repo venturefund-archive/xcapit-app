@@ -1,5 +1,5 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FundCardComponent } from './fund-card.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,7 +17,7 @@ describe('FundCardComponent', () => {
   let fixture: ComponentFixture<FundCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundCardComponent>;
   let navControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [

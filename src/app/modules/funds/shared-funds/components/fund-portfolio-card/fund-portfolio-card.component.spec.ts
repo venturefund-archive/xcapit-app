@@ -1,5 +1,5 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 import { FundPortfolioCardComponent } from './fund-portfolio-card.component';
@@ -34,7 +34,7 @@ describe('FundPortfolioCardComponent', () => {
   let apiFundsSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundPortfolioCardComponent>;
   let modalControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock

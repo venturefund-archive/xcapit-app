@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -31,7 +31,7 @@ describe('ApikeysEditModalComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ApikeysEditModalComponent>;
   let apiApikeysServiceSpy;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['update']);
 
     TestBed.configureTestingModule({

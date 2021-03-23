@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, TestBed, TestBedStatic, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, fakeAsync, TestBed, TestBedStatic, tick } from '@angular/core/testing';
 import { LoginPage } from './login.page';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -34,7 +34,7 @@ describe('LoginPage', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['login', 'status']);
     apiUsuariosSpy.login.and.returnValue(of({}));
     apiUsuariosSpy.status.and.returnValue(of({ status_name: 'COMPLETE' }));

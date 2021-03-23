@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { HeaderProfileComponent } from './header-profile.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -11,7 +11,7 @@ describe('HeaderProfileComponent', () => {
   let fixture: ComponentFixture<HeaderProfileComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HeaderProfileComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderProfileComponent, TrackClickDirective],
       imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()]

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundInvestmentPage } from './fund-investment.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ describe('FundInvestmentPage', () => {
   let fundDataStorageService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundInvestmentPage>;
   let navControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve(),
       setData: () => Promise.resolve()

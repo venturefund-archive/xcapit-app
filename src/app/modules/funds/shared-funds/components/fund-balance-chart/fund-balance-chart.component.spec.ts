@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundBalanceChartComponent } from './fund-balance-chart.component';
 
@@ -7,7 +7,7 @@ describe('FundBalanceChartComponent', () => {
   let component: FundBalanceChartComponent;
   let fixture: ComponentFixture<FundBalanceChartComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FundBalanceChartComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

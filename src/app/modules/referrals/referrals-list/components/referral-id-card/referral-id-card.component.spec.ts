@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ReferralIdCardComponent } from './referral-id-card.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -17,7 +17,7 @@ describe('ReferralIdCardComponent', () => {
   let clipboardServiceSpy: any;
   let toastServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralIdCardComponent>;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast'
       ,

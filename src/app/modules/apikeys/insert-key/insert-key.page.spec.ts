@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InsertKeyPage } from './insert-key.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -26,7 +26,7 @@ describe('InsertKeyPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InsertKeyPage>;
   let storageApikeysServiceSpy;
   let navControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     storageApikeysServiceSpy = jasmine.createSpyObj('StorageApikeysService', [
       'updateData',
     ]);

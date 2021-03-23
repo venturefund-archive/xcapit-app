@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { CustomHttpService } from '../../../../../shared/services/custom-http/custom-http.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+
 
 describe('ApiApikeysService', () => {
   let apiApikeysService: ApiApikeysService;
@@ -17,18 +17,21 @@ describe('ApiApikeysService', () => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       post: of({}),
       get: of({}),
-      original: { patch: of({}) },
       put: of({}),
       delete: of({})
+    }, {
+      original: jasmine.createSpyObj('original', {
+        patch: of({})
+      })
     });
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: CrudService, useValue: crudSpy },
-      ],
+        { provide: CustomHttpService, useValue: customHttpServiceSpy }
+      ]
     });
     apiApikeysService = TestBed.inject(ApiApikeysService);
-    customHttpServiceSpy = TestBed.inject(CustomHttpService);
   });
 
   it('should be created', () => {
@@ -55,7 +58,7 @@ describe('ApiApikeysService', () => {
 
   it('it should call patch on http when update', () => {
     apiApikeysService.update({}, 1).subscribe(() => {
-      expect(customHttpServiceSpy.patch).toHaveBeenCalledTimes(1);
+      expect(customHttpServiceSpy.original.patch).toHaveBeenCalledTimes(1);
     });
   });
 

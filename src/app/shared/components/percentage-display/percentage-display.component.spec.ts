@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PercentageDisplayComponent } from './percentage-display.component';
 
@@ -7,7 +7,7 @@ describe('PercentageDisplayComponent', () => {
   let component: PercentageDisplayComponent;
   let fixture: ComponentFixture<PercentageDisplayComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PercentageDisplayComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { EditProfileComponent } from './edit-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -36,7 +36,7 @@ describe('EditProfileComponent', () => {
   let fixture: ComponentFixture<EditProfileComponent>;
   let apiProfiles: any;
   let apiProfilesMock;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiProfilesMock = {
       crud: {
         update: () => of(),

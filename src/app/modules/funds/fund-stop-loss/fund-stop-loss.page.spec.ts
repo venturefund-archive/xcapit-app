@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundStopLossPage } from './fund-stop-loss.page';
 import { of } from 'rxjs';
@@ -34,7 +34,7 @@ describe('FundStopLossPage', () => {
   let navControllerSpy: any;
   let fundDataStorageServiceSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
     fundDataStorageServiceMock = {

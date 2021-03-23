@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, forwardRef } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DepositCurrencyPage } from './deposit-currency.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -28,7 +28,7 @@ describe('DepositCurrencyPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DepositCurrencyPage>;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [ DepositCurrencyPage, TrackClickDirective ],

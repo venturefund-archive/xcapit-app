@@ -1,6 +1,6 @@
 import { TabsComponent } from './../../tabs/tabs/tabs.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundsListPage } from './funds-list.page';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -35,7 +35,7 @@ describe('FundsListPage', () => {
   let notificationsService: NotificationsService;
   let notificationsServiceMock: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     logsServiceMock = {
       log: () => of({})
     };

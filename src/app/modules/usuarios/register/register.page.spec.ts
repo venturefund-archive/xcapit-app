@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterPage } from './register.page';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
@@ -26,7 +26,7 @@ describe('RegisterPage', () => {
   let activatedRouteMock: any;
   let navControllerSpy: any;
   let alertControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
     apiUsuariosMock = {
       crud: {

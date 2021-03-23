@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationsListPage } from './notifications-list.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,7 +18,7 @@ describe('NotificationsListPage', () => {
   let notificationsServiceMock: any;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     notificationsServiceMock = {
       getNotifications: () => of([]),
       markAsRead: () => of(null)
