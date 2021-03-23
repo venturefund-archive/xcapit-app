@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HelpPage } from './help.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
@@ -16,7 +16,7 @@ describe('HelpPage', () => {
   let dynamicComponentServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HelpPage>;
   let modalControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock

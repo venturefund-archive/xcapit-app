@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { SuccessContentComponent } from './success-content.component';
@@ -21,7 +21,7 @@ describe('SuccessContentComponent', () => {
     urlSecondaryAction: '/tabs/funds',
     nameSecondaryAction: 'test.test.nameSecondaryAction'
   };
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SuccessContentComponent,

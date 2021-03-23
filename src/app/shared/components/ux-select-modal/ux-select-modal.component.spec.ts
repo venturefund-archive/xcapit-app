@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 import { UxSelectModalComponent } from './ux-select-modal.component';
@@ -16,7 +16,7 @@ describe('UxSelectModalComponent', () => {
   let modalController: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxSelectModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock
