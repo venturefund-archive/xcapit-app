@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -23,7 +23,7 @@ describe('ResetPasswordFormComponent', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
       declarations: [ResetPasswordFormComponent],

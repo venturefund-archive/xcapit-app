@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResetPasswordPage } from './reset-password.page';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
@@ -18,7 +18,7 @@ describe('ResetPasswordPage', () => {
   let apiUsuariosServiceSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
       'resetPassword',
       'sendResetPasswordEmail'

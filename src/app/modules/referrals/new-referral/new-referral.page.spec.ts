@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewReferralPage } from './new-referral.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReferralFormComponent } from './components/referral-form/referral-form.component';
@@ -26,7 +26,7 @@ describe('NewReferralPage', () => {
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewReferralPage>;
   let toastServiceSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast'
     ]);

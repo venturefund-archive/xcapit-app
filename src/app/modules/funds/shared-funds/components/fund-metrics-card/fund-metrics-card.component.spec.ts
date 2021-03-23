@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { FundMetricsCardComponent } from './fund-metrics-card.component';
@@ -10,7 +10,7 @@ describe('FundMetricsCardComponent', () => {
   let component: FundMetricsCardComponent;
   let fixture: ComponentFixture<FundMetricsCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FundMetricsCardComponent, AbsoluteValuePipe],
       imports: [IonicModule, TranslateModule.forRoot()]

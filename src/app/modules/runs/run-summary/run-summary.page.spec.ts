@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RunSummaryPage } from './run-summary.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,7 +22,7 @@ describe('RunSummaryPage', () => {
       date_info: {}
     }
   };
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiRunsServiceMock = {
       getStatus: () => of(fundStatusMockData)
     };

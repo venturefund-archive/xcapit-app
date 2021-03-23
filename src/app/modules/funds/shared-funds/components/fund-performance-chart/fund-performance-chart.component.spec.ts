@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundPerformanceChartComponent } from './fund-performance-chart.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -30,7 +30,7 @@ describe('FundPerformanceChartComponent', () => {
   let translateServiceSpy: any;
   let modalControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     translateServiceSpy = jasmine.createSpyObj('TranslateService', ['instant']);
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',

@@ -59,7 +59,7 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
               size="small"
               type="button"
               color="uxsecondary"
-              [routerLink]="['*']"
+              [routerLink]="['/tabs/funds']"
             >
               {{ 'apikeys.register.link_help' | translate }}
             </ion-button>

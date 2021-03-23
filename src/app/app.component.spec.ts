@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -40,7 +40,7 @@ describe('AppComponent', () => {
   let notificationsHelperServiceSpy: any;
   let updatePWAServiceSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
     updatePWAServiceSpy = jasmine.createSpyObj('UpdatePWAService', ['update']);
     updatePWAServiceSpy.update.and.returnValue(of({}));

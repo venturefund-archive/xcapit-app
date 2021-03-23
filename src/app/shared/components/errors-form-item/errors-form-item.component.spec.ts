@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ErrorsFormItemComponent } from './errors-form-item.component';
 import { FormGroupDirective } from '@angular/forms';
@@ -11,7 +11,7 @@ describe('ErrorsFormItemComponent', () => {
   let fixture: ComponentFixture<ErrorsFormItemComponent>;
   let formGroupDirectiveMock: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     formGroupDirectiveMock = { control: { get: () => null} };
 
     TestBed.configureTestingModule({

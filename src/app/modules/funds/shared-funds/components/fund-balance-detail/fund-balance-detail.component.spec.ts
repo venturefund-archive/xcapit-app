@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundBalanceDetailComponent } from './fund-balance-detail.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -14,7 +14,7 @@ describe('FundBalanceDetailComponent', () => {
   let fixture: ComponentFixture<FundBalanceDetailComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundBalanceDetailComponent>;
   let modalControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock
