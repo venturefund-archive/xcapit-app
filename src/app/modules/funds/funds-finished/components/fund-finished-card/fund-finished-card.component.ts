@@ -118,7 +118,7 @@ export class FundFinishedCardComponent implements OnInit {
   async renewFund(){
     this.fundDataStorage.setData('fundName', {fund_name: this.fund.nombre_bot});
     this.fundDataStorage.setData('fundRenew', true);
-    this.navController.navigateForward(['funds/fund-risk']);
+    this.navController.navigateForward(['funds/fund-investment']);
   }
 
   getRiskLevel() {
