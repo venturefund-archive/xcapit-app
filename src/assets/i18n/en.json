@@ -12,7 +12,7 @@
       "referrals": "Referrals",
       "notifications": "Notifications",
       "api_keys_managment": "Manage API Keys",
-      "change_language":  "Language"
+      "change_language": "Language"
     }
   },
   "config": {
@@ -360,21 +360,21 @@
         "more_info": "More info",
         "invest_button": "Invest",
         "last_year_revenue": "Last 365 days",
-        "profiles":{
+        "profiles": {
           "volume_profile_strategies_USDT": {
-            "title": "Brainy USDT",
+            "title": "Denali",
             "description": "Let Brainy trade for you and earn returns in dollars."
           },
           "volume_profile_strategies_BTC": {
-            "title": "Brainy BTC",
+            "title": "Olympus Mons",
             "description": "Generate more Bitcoins with the Bitcoins you already have."
           },
           "DeFi_index": {
-            "title": "Defi Index",
+            "title": "Himalayas",
             "description": "Participate in the growing market for decentralized finance."
           },
           "Mary_index": {
-            "title": "Mary Index",
+            "title": "Andes",
             "description": "Don't miss out on opportunities in the growing cryptocurrency market."
           }
         }
