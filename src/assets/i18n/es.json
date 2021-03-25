@@ -12,7 +12,7 @@
       "referrals": "Referidos",
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
-      "change_language":  "Idioma"
+      "change_language": "Idioma"
     }
   },
 
@@ -353,6 +353,10 @@
     "fund_investment": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
+      "header_info": {
+        "title": "Selecciona la estrategia de inversión",
+        "description": "Esto condicionará el modo a operar y el consiguiente riesgo a asumir a la hora de invertir."
+      },
       "card": {
         "risk_label": "Riesgo",
         "currency": "USD",
@@ -360,7 +364,7 @@
         "more_info": "Más info",
         "invest_button": "Invertir",
         "last_year_revenue": "Últimos 365 días",
-        "profiles":{
+        "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Brainy USDT",
             "description": "Permite que Brainy tradee por ti y obten rendimientos en dólares."
