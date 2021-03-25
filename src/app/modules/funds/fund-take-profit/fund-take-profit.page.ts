@@ -20,7 +20,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         >
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content>
       <app-fund-select-take-profit
         [opType]="this.opType"
         [takeProfit]="this.takeProfit"
