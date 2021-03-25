@@ -72,17 +72,6 @@ Syntax checking push:
     - if: '$CI_PIPELINE_SOURCE == "push"'
     # - when: never
 
-.build-branch: &build-branch
-  stage: build
-  tags:
-    - coreinfra
-  # before_script:
-  #   - cd api
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build --tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker push $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME
-
 ##########################################################################
 # # Build
 
