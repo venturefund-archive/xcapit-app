@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { CustomRangeModalComponent } from 'src/app/modules/funds/shared-funds/components/custom-range-modal/custom-range-modal.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-fund-select-take-profit',
@@ -108,8 +109,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               color="uxsecondary"
               size="large"
               fill="clear"
-              routerLink="/funds/fund-currency"
-              routerDirection="backward"
+              (click)="this.goBack()"
             >
               {{ 'funds.fund_take_profit.back_button' | translate }}
             </ion-button>
@@ -179,7 +179,8 @@ export class FundTakeProfitComponent implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private apiFunds: ApiFundsService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
@@ -258,5 +259,9 @@ export class FundTakeProfitComponent implements OnInit {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  goBack() {
+    this.navController.navigateBack(['funds/fund-investment']);
   }
 }
