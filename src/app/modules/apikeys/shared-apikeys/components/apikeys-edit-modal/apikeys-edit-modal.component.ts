@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   ControlContainer,
@@ -20,9 +20,21 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
   template: `
     <div class="change_alias">
       <div class="change_alias__header">
-        <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14">
+        <ion-text
+          class="ux-font-lato ux-fweight-semibold ux-fsize-14 change_alias__header__text"
+        >
           {{ 'apikeys.edit_modal.title' | translate }}
         </ion-text>
+        <ion-button
+          appTrackClick
+          name="Close"
+          class="change_alias__header__close_button"
+          size="small"
+          fill="clear"
+          (click)="this.close()"
+        >
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
       </div>
       <form
         [formGroup]="this.form"
