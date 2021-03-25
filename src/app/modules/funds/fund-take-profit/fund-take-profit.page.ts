@@ -10,7 +10,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/fund-currency"></ion-back-button>
+          <ion-back-button defaultHref="/funds/fund-investment"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center" *ngIf="this.opType === 'renew'">
           {{ 'funds.fund_take_profit.header_renew' | translate }}</ion-title
