@@ -44,6 +44,7 @@ workflow:
 ### Build
 .build-branch: &build-branch
   stage: build
+  image: docker:20.10.5-dind
   tags:
     - coreinfra
   script:
