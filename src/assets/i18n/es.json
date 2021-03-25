@@ -1142,6 +1142,7 @@
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Agregar",
       "link_help": "¿Necesitas Ayuda?",
+      "button_use_qr": "Usar un código QR",
       "alert": {
         "title": "Agregar nueva key",
         "text": "Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",

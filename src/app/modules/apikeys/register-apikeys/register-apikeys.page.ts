@@ -7,7 +7,6 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
-
 @Component({
   selector: 'app-register-apikeys',
   template: ` <ion-header>
@@ -66,7 +65,20 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
           </div>
         </div>
         <div class="ux_footer">
-          <div class="ik__next_button">
+          <div class="ik__use_qr_button">
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="UseQR"
+              type="button"
+              fill="clear"
+              size="large"
+              (click)="this.readQRCode()"
+            >
+              {{ 'apikeys.register.button_use_qr' | translate }}
+            </ion-button>
+          </div>
+          <div class="ik__submit_button">
             <ion-button
               class="ux_button"
               appTrackClick
@@ -108,7 +120,7 @@ export class RegisterApikeysPage implements OnInit {
     private alertController: AlertController,
     private translate: TranslateService,
     private navController: NavController,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   ngOnInit() {}
@@ -159,5 +171,9 @@ export class RegisterApikeysPage implements OnInit {
 
   error() {
     this.showToast('apikeys.register.toast_errors.default');
+  }
+
+  readQRCode() {
+    
   }
 }

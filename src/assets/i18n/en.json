@@ -1060,6 +1060,7 @@
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Submmit",
       "link_help": "¿Need Help?",
+      "button_use_qr": "Use a QR code",
       "alert": {
         "title": "Add new key",
         "text": "I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
