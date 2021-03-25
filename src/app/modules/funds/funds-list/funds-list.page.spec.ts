@@ -1,7 +1,6 @@
 import { TabsComponent } from './../../tabs/tabs/tabs.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FundsListPage } from './funds-list.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -32,7 +31,6 @@ describe('FundsListPage', () => {
   let tabsComponent: TabsComponent;
   let navControllerSpy: any;
   let apiWebflowServiceMock: any;
-  let notificationsService: NotificationsService;
   let notificationsServiceMock: any;
 
   beforeEach(
@@ -213,8 +211,6 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  //qweqwewqeqweqweqweqwewqewqewqewqe
-
   it('should call getFundBalances, getStatus on doRefresh', () => {
     const spyFund = spyOn(apiFundsService, 'getFundBalances');
     const spyNews = spyOn(apiWebflowService, 'getNews');
@@ -225,7 +221,6 @@ describe('FundsListPage', () => {
     expect(apiWebflowService.getNews).toHaveBeenCalledTimes(1);
   });
 
-  //qweqweqweqwewqeqweqweqweqweqweqweqweqweqweqweqw
   it('should call trackEvent on trackService when Go To Profile button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
