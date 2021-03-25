@@ -46,6 +46,21 @@ import { catchError, switchMap } from 'rxjs/operators';
     </ion-header>
 
     <ion-content>
+      <ion-refresher
+        (ionRefresh)="doRefresh($event)"
+        slot="fixed"
+        pull-factor="0.8"
+        pull-min="50"
+        pull-max="60"
+      >
+        <ion-refresher-content
+          class="refresher"
+          close-duration="120ms"
+          refreshingSpinner="false"
+        >
+          <app-ux-loading-block minSize="34px"></app-ux-loading-block>
+        </ion-refresher-content>
+      </ion-refresher>
       <app-fund-list-sub-header
         *ngIf="
           this.ownerFundBalances?.length &&
@@ -344,6 +359,19 @@ export class FundsListPage implements OnInit {
 
   doActionButton() {
     this.navController.navigateRoot(this.newFundUrl);
+  }
+
+  doRefresh(event) {
+    this.getNotOwnerFundBalances();
+    console.log(this.notOwnerFundBalances);
+    this.getOwnerFundBalances();
+    console.log(this.ownerFundBalances);
+    this.getNews();
+
+    setTimeout(() => {
+      console.log('Actualizacion completada');
+      event.target.complete();
+    }, 2000);
   }
 
   setNewFundUrl() {
