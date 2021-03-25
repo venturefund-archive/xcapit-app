@@ -349,6 +349,10 @@
     "fund_investment": {
       "header": "Create a fund",
       "header_renew": "Renew a fund",
+      "header_info": {
+        "title": "Select investment strategy",
+        "description": "This will condition the way to operate and the consequent risk to assume when investing."
+      },
       "card": {
         "risk_label": "Risk",
         "currency": "USD",

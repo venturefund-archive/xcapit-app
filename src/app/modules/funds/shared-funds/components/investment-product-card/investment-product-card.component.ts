@@ -13,14 +13,14 @@ const { Browser } = Plugins;
         <div class="ipc__content__title_and_risk">
           <div>
             <ion-text
-              class="ux-font-roboto ux-fweight-bold ux-fsize-22"
+              class="ux-font-gilroy ux-fweight-bold ux-fsize-22"
               color="uxlight"
               >{{ this.product_data?.title }}</ion-text
             >
           </div>
           <div class="ipc__content__title_and_risk__risk_container">
             <ion-text
-              class="ux-font-roboto ux-fweight-semibold ux-fsize-12"
+              class="ux-font-gilroy ux-fweight-semibold ux-fsize-12"
               color="uxlight"
               >{{
                 'funds.fund_investment.card.risk_label' | translate
@@ -111,7 +111,7 @@ const { Browser } = Plugins;
           </div>
           <div>
             <ion-text
-              class="ux-font-roboto ux-fweight-bold ux-fsize-18"
+              class="ux-font-gilroy ux-fweight-bold ux-fsize-18"
               color="uxlight"
               >+{{ this.product_data?.annual_interest }}%</ion-text
             >

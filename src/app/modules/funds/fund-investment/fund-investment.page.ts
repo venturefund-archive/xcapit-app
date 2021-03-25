@@ -19,7 +19,27 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding fi">
+      <div class="fi__info">
+        <div>
+          <ion-text
+            class="ux-font-gilroy ux-fweight-bold ux-fsize-22"
+            color="uxdark"
+            >{{
+              'funds.fund_investment.header_info.title' | translate
+            }}</ion-text
+          >
+        </div>
+        <div class="fi__info__description">
+          <ion-text
+            class="ux-font-lato ux-fweight-regular ux-fsize-12"
+            color="uxsemidark"
+            >{{
+              'funds.fund_investment.header_info.description' | translate
+            }}</ion-text
+          >
+        </div>
+      </div>
       <div *ngFor="let product of this.investments_products">
         <app-investment-product-card
           [product]="this.product"
@@ -62,15 +82,13 @@ export class FundInvestmentPage implements OnInit {
     private navController: NavController
   ) {}
 
-  ngOnInit(){}
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.fundDataStorage.getData('fundRenew').then((data) => {
       this.fundRenew = data;
     });
   }
-
-  
 
   handleSubmit(data: any) {
     this.fundDataStorage.setData('fundRiskLevel', {
