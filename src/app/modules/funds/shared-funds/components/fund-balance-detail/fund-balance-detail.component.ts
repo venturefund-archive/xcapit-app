@@ -67,7 +67,7 @@ import { Router } from '@angular/router';
             size="small"
             class="fbd__content__history__button ux-font-lato ux-fweight-semibold ux-fsize-14"
           >
-            Ver historial de operaciones
+          {{'funds.fund_detail.fund_portfolio_card.view_operation_history'| translate}}
           </ion-button>
         </div>
       </div>

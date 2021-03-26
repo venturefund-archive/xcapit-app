@@ -262,7 +262,9 @@
         "change_currency": "Cambiar moneda",
         "fund_balance_detail_title": "Detalle Balance",
         "fund_balance_detail_period_begin": "Inicio del período",
-        "fund_balance_detail_last_update": "Última actualización"
+        "fund_balance_detail_last_update": "Última actualización",
+        "view_operation_history": "Ver historial de operaciones"
+        
       },
       "operations_history_card": {
         "title": "MIS ÚLTIMOS MOVIMIENTOS",
@@ -959,7 +961,7 @@
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
         "balanceNotEnough": "El monto mínimo para operar son 150 USD equivalente en cripto.",
         "keysExists": "Las keys ya se encuentran registradas.",
-        "invalidData": "Hemos tenidos un error. Intenta nuevamente más tarde.",
+        "invalidData": "Hemos tenido un error. Intenta nuevamente más tarde.",
         "default": "Ha ocurrido un error"
       },
       "remove": {
@@ -1010,7 +1012,8 @@
   },
   "notifications": {
     "notifications_list": {
-      "header": "Notificaciones"
+      "header": "Notificaciones",
+      "error_message": "No hay notificaciones para mostrar"
     },
     "notification": {
       "header": "Notificación"

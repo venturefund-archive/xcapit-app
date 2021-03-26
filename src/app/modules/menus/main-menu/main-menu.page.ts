@@ -83,7 +83,7 @@ export class MainMenuPage implements OnInit {
     },
     {
       id: 2,
-      title: 'Mis fondos finalizados',
+      title: 'funds.funds_finished.header',
       url: '/funds/funds-finished',
       icon: 'film',
       routeDirection: 'forward'
