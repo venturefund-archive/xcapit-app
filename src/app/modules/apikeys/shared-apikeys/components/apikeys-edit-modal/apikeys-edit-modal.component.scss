@@ -5,7 +5,6 @@
     padding-right: 16px;
 
     height: 40vh;
-    background-color: white;
     --ion-item-background: white;
 
     &__header {
@@ -18,7 +17,7 @@
 
       &__close_button {
         margin: 0;
-        color: rgba(186, 186, 186, 1);
+        color: rgb(186, 186, 186);
         font-size: 16px;
 
         --padding-end: 0;
@@ -26,11 +25,11 @@
     }
 
     &__input {
-      margin-top: 0;
+      margin-top: 0px;
     }
 
     &__description {
-      margin-top: 0px;
+      margin-top: 12px;
       color: #828282;
     }
 
@@ -48,10 +47,10 @@
     font-family: var(--ux-font-lato);
 
     .modal_footer {
-      position: absolute;
-      bottom: 16px;
-      left: 16px;
-      right: 16px;
+      //position: absolute;
+      //bottom: 16px;
+      //left: 16px;
+      //right: 16px;
     }
   }
 }
