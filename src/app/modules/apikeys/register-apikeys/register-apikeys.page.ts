@@ -7,6 +7,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { Plugins } from '@capacitor/core';
 @Component({
   selector: 'app-register-apikeys',
   template: ` <ion-header>
@@ -170,10 +171,51 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   error() {
-    this.showToast('apikeys.register.toast_errors.default');
+    this.showToast('errorCodes.apikeys.create.default');
   }
 
-  readQRCode() {
+  async readQRCode() {
+    const { BarcodeScanner } = Plugins;
+
+    const hasPermission = await this.checkPermission();
     
+    if (hasPermission) {
+      BarcodeScanner.hideBackground();
+    
+      const result = await BarcodeScanner.startScan({ targetedFormats: ['QR_CODE'] }); 
+      
+      if (result.hasContent) {
+        this.fillFormFromQR(result);
+      }
+    } else {
+      this.errorCameraAccessDenied();
+    }
+  };
+
+  errorCameraAccessDenied() {
+    this.showToast('errorCodes.apikeys.create.cameraAccessDenied');
+  }
+
+  fillFormFromQR(result: any) {
+    const formattedResult = {
+      alias: result.content.comment,
+      api_key: result.content.apiKey,
+      secret_key: result.content.secretKey,
+    };
+
+    this.form.patchValue(formattedResult);
+    this.form.markAllAsTouched();
+  }
+
+  async checkPermission() : Promise<boolean> {
+    const { BarcodeScanner } = Plugins;
+
+    const status = await BarcodeScanner.checkPermission({ force: true });
+
+    if (status.granted) {
+      return true;
+    }
+
+    return false;
   }
 }

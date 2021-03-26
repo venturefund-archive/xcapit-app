@@ -953,7 +953,9 @@
         "invalidExchangeKeys": "Las keys ingresadas no existen en binance.",
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Los datos ingresados no son válidos.",
-        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD."
+        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD.",
+        "default": "Ha ocurrido un error",
+        "cameraAccessDenied": "No se pudo acceder a la cámara. Acceso denegado."
       },
       "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",

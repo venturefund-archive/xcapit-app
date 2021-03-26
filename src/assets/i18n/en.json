@@ -938,7 +938,9 @@
         "invalidExchangeKeys": "The keys not exists in binance.",
         "keysExists": "Keys already used.",
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
-        "invalidData": "Invalid data."
+        "invalidData": "Invalid data.",
+        "default": "An error has ocurred",
+        "cameraAccessDenied": "Couldn't access the camera. Access denied."
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",

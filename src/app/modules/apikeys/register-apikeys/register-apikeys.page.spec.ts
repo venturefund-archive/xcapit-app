@@ -26,6 +26,23 @@ const formData = {
   },
 };
 
+const QRData = {
+  valid: {
+    content: {
+      apiKey: 'kLnBhJuI98745Df32CsX09kN',
+      secretKey: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
+      comment: 'myapikey',
+    }
+  },
+  invalid: {
+    content: {
+      apiKey: 'kLnBhJuI98745Df32CsX09kN',
+      secretKey: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
+      comment: 'My Binance API key',
+    }
+  },
+};
+
 describe('RegisterApikeysPage', () => {
   let component: RegisterApikeysPage;
   let fixture: ComponentFixture<RegisterApikeysPage>;
@@ -98,6 +115,20 @@ describe('RegisterApikeysPage', () => {
     expect(apiApikeysServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 
+  it('should call showAlert on handleSubmit and invalid form when data obtained from QR', () => {
+    component.fillFormFromQR(QRData.valid);
+    const spy = spyOn(component, 'showAlert');
+    component.handleSubmit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call showAlert on handleSubmit and invalid form when data obtained from QR', () => {
+    component.fillFormFromQR(QRData.invalid);
+    const spy = spyOn(component, 'showAlert');
+    component.handleSubmit();
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
   it('should call trackEvent on trackService when Submit Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
@@ -110,10 +141,22 @@ describe('RegisterApikeysPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Need Help Button clicked', () => {
+  it('should call trackEvent on trackService when NeedHelp Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'NeedHelp'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when UseQR Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'UseQR'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
