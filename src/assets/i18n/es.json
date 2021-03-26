@@ -366,19 +366,19 @@
         "last_year_revenue": "Últimos 365 días",
         "profiles": {
           "volume_profile_strategies_USDT": {
-            "title": "Brainy USDT",
+            "title": "Denali",
             "description": "Permite que Brainy tradee por ti y obten rendimientos en dólares."
           },
           "volume_profile_strategies_BTC": {
-            "title": "Brainy BTC",
+            "title": "Olympus Mons",
             "description": "Genera más Bitcoins con los Bitcoins que ya tienes."
           },
           "DeFi_index": {
-            "title": "Indice Defi",
+            "title": "Himalayas",
             "description": "Participa del creciente mercado de las finanzas descentralizadas."
           },
           "Mary_index": {
-            "title": "Indice Mary",
+            "title": "Andes",
             "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
           }
         }
