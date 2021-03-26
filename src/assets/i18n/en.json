@@ -17,27 +17,27 @@
   },
   "config": {
     "form_errors": {
-      "required": "El campo es requerido",
-      "email": "El email no es correcto",
-      "pattern": "El campo no cumple con el patrón requerido",
-      "minlength": "Se requieren más caracteres",
-      "maxlength": "Se requieren menos caracteres",
-      "not_matching": "Los campos no coinciden",
+      "required": "The field is required",
+      "email": "The email is not correct",
+      "pattern": "The field does not meet the required pattern",
+      "minlength": "More characters are required",
+      "maxlength": "Fewer characters required ",
+      "not_matching": "The fields do not match ",
       "has_special_character": "Special characters and spaces are not allowed"
     },
     "field_errors": {
       "cellphone": {
-        "pattern": "Contiene caracteres inválidos"
+        "pattern": "Contains invalid characters "
       },
       "only_integers": {
-        "pattern": "Solo se aceptan números enteros"
+        "pattern": "Only whole numbers are accepted "
       },
       "password": {
-        "minlength": "Se requieren mínimo 6 caracteres",
-        "maxlength": "Se requieren máximo 100 caracteres",
-        "has_number": "Se requiere mínimo un número",
-        "has_capital_case": "Se requiere mínimo una mayúscula",
-        "has_small_case": "Se requiere mínimo una minúscula"
+        "minlength": "Minimum 6 characters required ",
+        "maxlength": "Maximum 100 characters required ",
+        "has_number": "Minimum one number is required ",
+        "has_capital_case": "Minimum one capital letter is required ",
+        "has_small_case": "Minimum one lowercase required "
       },
       "repeat_password": {
         "no_password_match": "La password no coincide"
@@ -46,15 +46,15 @@
         "no_fields_match": "El email no coincide"
       },
       "username": {
-        "minlength": "Se requieren mínimo 5 caracteres",
-        "maxlength": "Se requieren máximo 100 caracteres"
+        "minlength": "Minimum 5 characters required ",
+        "maxlength": "Maximum 100 characters required "
       }
     },
     "loading_service": {
       "default_message": "Loading..."
     },
     "xhr_response_handler_service": {
-      "default_message": "Error en la comunicación con el servidor"
+      "default_message": "Error in communication with the server."
     }
   },
   "shared": {
@@ -94,7 +94,7 @@
       "register_link": "Create new account",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
-      "title": "Login"
+      "title":"Login"
     },
     "register": {
       "card_header": "User Registration",
@@ -133,7 +133,7 @@
       "success_send_email_text": "Follow the instructions to recover your password and start operating with us.",
       "success_reset_password_header": "Success!",
       "success_reset_password_message": "Password change completed successfully.",
-      "success_button": "Iniciar sesión"
+      "success_button": "Log in"
     },
     "reset_password_form": {
       "new_password": "New Password",
@@ -258,7 +258,8 @@
         "change_currency": "Change currency",
         "fund_balance_detail_title": "Balance details",
         "fund_balance_detail_period_begin": "Period begin",
-        "fund_balance_detail_last_update": "Last update"
+        "fund_balance_detail_last_update": "Last update",
+        "view_operation_history": "View operation history"
       },
       "operations_history_card": {
         "title": "MY LAST MOVEMENTS",
@@ -388,7 +389,7 @@
     },
     "fund_take_profit": {
       "header": "Create a fund",
-      "header_renew": "Renueva un fondo",
+      "header_renew": "Renew a fund",
       "title": "When do you want us to stop investing and take the profits?",
       "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
       "take_profit": "Take profit",
@@ -402,7 +403,7 @@
     },
     "fund_stop_loss": {
       "header": "Create a fund",
-      "header_renew": "Renueva un fondo",
+      "header_renew": "Renew a fund",
       "title": "In case of loss, until what percentage of your capital are you willing to risk?",
       "text_before": "Once this percentage is reached, we will stop the operation of the fund to safeguard your capital.",
       "stop_loss": "Stop loss",
@@ -432,7 +433,7 @@
       "current_capital": "Current capital",
       "last_24hs": "Last 24 hs",
       "view_fund": "View fund",
-      "not_balance_found": "No hay balance para mostrar",
+      "not_balance_found": "There is no balance to show",
       "days": "{{value}} day{{s}}",
       "hours": "{{value}} hour{{s}}",
       "minutes": "{{value}} minute{{s}}",
@@ -783,6 +784,18 @@
       }
     }
   },
+  "step2": {
+    "primary_text": "Link with Binance",
+    "secondary_text": "We operate with the capital of your wallet. We will guide you step by step to link your account.",
+    "next_button": "Next",
+    "back_button": "Back"
+  },
+  "step3": {
+    "primary_text": "Create your fund",
+    "secondary_text": "You can customize every detail. Once created, you can modify or close the background at any time.",
+    "back_button": "Back",
+    "config_button": "Start configuring"
+  },
   "subscriptions": {
     "subscriptions_service": {
       "share_title": "Subscribe",
@@ -990,7 +1003,8 @@
   },
   "notifications": {
     "notifications_list": {
-      "header": "Notifications"
+      "header": "Notifications",
+      "error_message": "There are'n notifications to show"
     },
     "notification": {
       "header": "Notification"
