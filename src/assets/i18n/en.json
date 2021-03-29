@@ -94,7 +94,7 @@
       "register_link": "Create new account",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
-      "title":"Login"
+      "title": "Login"
     },
     "register": {
       "card_header": "User Registration",
@@ -364,7 +364,7 @@
         "more_info": "More info",
         "invest_button": "Invest",
         "last_year_revenue": "90 days",
-        "profiles":{
+        "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
             "description": "Let Brainy trade for you and earn returns in dollars."
@@ -788,20 +788,20 @@
         "next_button": "Next",
         "back_button": "Back",
         "config_button": "Start setting up"
+      },
+      "step2": {
+        "primary_text": "Link with Binance",
+        "secondary_text": "We operate with the capital of your wallet. We will guide you step by step to link your account.",
+        "next_button": "Next",
+        "back_button": "Back"
+      },
+      "step3": {
+        "primary_text": "Create your fund",
+        "secondary_text": "You can customize every detail. Once created, you can modify or close the background at any time.",
+        "back_button": "Back",
+        "config_button": "Start configuring"
       }
     }
-  },
-  "step2": {
-    "primary_text": "Link with Binance",
-    "secondary_text": "We operate with the capital of your wallet. We will guide you step by step to link your account.",
-    "next_button": "Next",
-    "back_button": "Back"
-  },
-  "step3": {
-    "primary_text": "Create your fund",
-    "secondary_text": "You can customize every detail. Once created, you can modify or close the background at any time.",
-    "back_button": "Back",
-    "config_button": "Start configuring"
   },
   "subscriptions": {
     "subscriptions_service": {
@@ -1011,7 +1011,7 @@
   "notifications": {
     "notifications_list": {
       "header": "Notifications",
-      "error_message": "There are'n notifications to show"
+      "error_message": "There aren't notifications to show"
     },
     "notification": {
       "header": "Notification"
