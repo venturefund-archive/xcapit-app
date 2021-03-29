@@ -26,7 +26,7 @@ import { NavController } from '@ionic/angular';
           (clickNotification)="this.showNotification($event)"
         ></app-notification-item>
         <div *ngIf="!notifications.length">
-          <ion-text>{{notifications.notifications_list.error_message | translate}}</ion-text>
+          <ion-text>{{'notifications.notifications_list.error_message' | translate}}</ion-text>
         </div>
       </ion-list>
       <ng-template #loading>
