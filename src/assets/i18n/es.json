@@ -368,7 +368,7 @@
         "min_capital_label": "Mínimo para operar",
         "more_info": "Más info",
         "invest_button": "Invertir",
-        "last_year_revenue": "Últimos 365 días",
+        "last_year_revenue": "90 días",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
