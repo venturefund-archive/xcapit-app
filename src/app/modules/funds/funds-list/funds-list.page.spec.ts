@@ -1,7 +1,6 @@
 import { TabsComponent } from './../../tabs/tabs/tabs.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FundsListPage } from './funds-list.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,107 +24,111 @@ describe('FundsListPage', () => {
   let apiUsuariosServiceMock: any;
   let apiFundsService: ApiFundsService;
   let apiUsuariosService: ApiUsuariosService;
-  let apiWebflowService : ApiWebflowService;
+  let apiWebflowService: ApiWebflowService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
   let tabsComponentMock: any;
   let tabsComponent: TabsComponent;
   let navControllerSpy: any;
   let apiWebflowServiceMock: any;
-  let notificationsService: NotificationsService;
   let notificationsServiceMock: any;
 
-  beforeEach(waitForAsync(() => {
-    logsServiceMock = {
-      log: () => of({})
-    };
-    tabsComponentMock = {
-      newFundUrl: ''
-    };
+  beforeEach(
+    waitForAsync(() => {
+      logsServiceMock = {
+        log: () => of({}),
+      };
+      tabsComponentMock = {
+        newFundUrl: '',
+      };
 
-    apiFundsServiceMock = {
-      getFundBalances: () => of([]),
-      status: () => of({})
-    };
+      apiFundsServiceMock = {
+        getFundBalances: () => of([]),
+        status: () => of({}),
+      };
 
-    apiWebflowServiceMock = {
-      getNews: () => of([]),
-      status: () => of({})
-    };
+      apiWebflowServiceMock = {
+        getNews: () => of([]),
+        status: () => of({}),
+      };
 
-    apiUsuariosServiceMock = {
-      status: () =>
-        of({
-          profile_valid: true,
-          empty_linked_keys: false,
-          has_own_funds: true,
-          has_subscribed_funds: true,
-          status_name: 'COMPLETE'
-        })
-    };
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      apiUsuariosServiceMock = {
+        status: () =>
+          of({
+            profile_valid: true,
+            empty_linked_keys: false,
+            has_own_funds: true,
+            has_subscribed_funds: true,
+            status_name: 'COMPLETE',
+          }),
+      };
+      navControllerSpy = jasmine.createSpyObj(
+        'NavController',
+        navControllerMock
+      );
 
-    notificationsServiceMock = {
-      getNotifications: () => of({}),
-      getCountNotifications: () => of({})
-    };
+      notificationsServiceMock = {
+        getNotifications: () => of({}),
+        getCountNotifications: () => of({}),
+      };
 
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-        RouterTestingModule.withRoutes([
+      TestBed.configureTestingModule({
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'tutorials/interactive-tutorial',
+              component: DummyComponent,
+            },
+            {
+              path: 'profiles/personal-data',
+              component: DummyComponent,
+            },
+            {
+              path: 'profiles/user',
+              component: DummyComponent,
+            },
+            {
+              path: 'notifications/list',
+              component: DummyComponent,
+            },
+          ]),
+        ],
+        declarations: [FundsListPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          TrackClickDirective,
+          { provide: TabsComponent, useValue: tabsComponentMock },
           {
-            path: 'tutorials/interactive-tutorial',
-            component: DummyComponent
+            provide: LogsService,
+            useValue: logsServiceMock,
           },
           {
-            path: 'profiles/personal-data',
-            component: DummyComponent
+            provide: ApiFundsService,
+            useValue: apiFundsServiceMock,
           },
           {
-            path: 'profiles/user',
-            component: DummyComponent
+            provide: ApiUsuariosService,
+            useValue: apiUsuariosServiceMock,
           },
           {
-            path: 'notifications/list',
-            component: DummyComponent
-          }
-        ])
-      ],
-      declarations: [FundsListPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        TrackClickDirective,
-        { provide: TabsComponent, useValue: tabsComponentMock },
-        {
-          provide: LogsService,
-          useValue: logsServiceMock
-        },
-        {
-          provide: ApiFundsService,
-          useValue: apiFundsServiceMock
-        },
-        {
-          provide: ApiUsuariosService,
-          useValue: apiUsuariosServiceMock
-        },
-        {
-          provide: NavController,
-          useValue: navControllerSpy
-        },
-        {
-          provide: ApiWebflowService,
-          useValue: apiWebflowServiceMock
-        },
-        {
-          provide: NotificationsService,
-          useValue: notificationsServiceMock
-        }
-      ]
-    }).compileComponents();
-  }));
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
+          {
+            provide: ApiWebflowService,
+            useValue: apiWebflowServiceMock,
+          },
+          {
+            provide: NotificationsService,
+            useValue: notificationsServiceMock,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundsListPage);
@@ -162,7 +165,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: false,
       has_own_funds: true,
       has_subscribed_funds: true,
-      status_name: 'FROM_BOT'
+      status_name: 'FROM_BOT',
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -177,7 +180,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: false,
       has_own_funds: true,
       has_subscribed_funds: true,
-      status_name: 'EXOLORER'
+      status_name: 'EXOLORER',
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -186,14 +189,13 @@ describe('FundsListPage', () => {
     expect(tabsComponent.newFundUrl).toBe('apikeys/tutorial');
   });
 
-
   it('should return funds/fund-name when profile valid and empty linked keys', () => {
     component.status = {
       profile_valid: true,
       empty_linked_keys: true,
       has_own_funds: false,
       has_subscribed_funds: false,
-      status_name: 'BEGINNER'
+      status_name: 'BEGINNER',
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -207,6 +209,16 @@ describe('FundsListPage', () => {
     spy.and.returnValue(of([]));
     component.ionViewDidEnter();
     expect(spy).toHaveBeenCalledTimes(2);
+  });
+
+  it('should call getFundBalances, getStatus on doRefresh', () => {
+    const spyFund = spyOn(apiFundsService, 'getFundBalances');
+    const spyNews = spyOn(apiWebflowService, 'getNews');
+    spyFund.and.returnValue(of([]));
+    spyNews.and.returnValue(of([]));
+    component.doRefresh(event);
+    expect(apiFundsService.getFundBalances).toHaveBeenCalledTimes(3);
+    expect(apiWebflowService.getNews).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Go To Profile button clicked', () => {
@@ -240,7 +252,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: true,
       has_own_funds: false,
       has_subscribed_funds: false,
-      status_name: 'BEGINNER'
+      status_name: 'BEGINNER',
     };
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName(

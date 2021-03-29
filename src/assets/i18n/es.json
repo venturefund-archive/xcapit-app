@@ -171,6 +171,9 @@
         "total_detail": "En las ultimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
+      "error": {
+        "refresh_error": "Intente nuevamente en unos segundos"
+      },
       "fund_steps": {
         "title": "Configurá tu cuenta y empezá a invertir",
         "step1": "Configurar cuenta",
