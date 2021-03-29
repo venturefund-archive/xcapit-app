@@ -365,9 +365,7 @@ export class FundsListPage implements OnInit {
   doRefresh(event) {
     if (!this.lockActivated) {
       this.getNotOwnerFundBalances();
-      console.log(this.notOwnerFundBalances);
       this.getOwnerFundBalances();
-      console.log(this.ownerFundBalances);
       this.getNews();
 
       setTimeout(() => {
