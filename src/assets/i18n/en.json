@@ -363,8 +363,8 @@
         "min_capital_label": "Minimum to operate",
         "more_info": "More info",
         "invest_button": "Invest",
-        "last_year_revenue": "Last 365 days",
-        "profiles": {
+        "last_year_revenue": "90 days",
+        "profiles":{
           "volume_profile_strategies_USDT": {
             "title": "Denali",
             "description": "Let Brainy trade for you and earn returns in dollars."

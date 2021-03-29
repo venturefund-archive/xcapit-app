@@ -8,8 +8,8 @@ const { Browser } = Plugins;
 @Component({
   selector: 'app-investment-product-card',
   template: `
-    <div class="ipc">
-      <div class="ipc__content" [ngClass]="[this.product_data?.content_style]">
+    <div class="ipc" [ngClass]="[this.product_data?.style]">
+      <div class="ipc__content">
         <div class="ipc__content__title_and_risk">
           <div>
             <ion-text
@@ -86,15 +86,19 @@ const { Browser } = Plugins;
           </div>
         </div>
       </div>
-      <div class="ipc__footer" [ngClass]="this.product_data?.footer_style">
+      <div class="ipc__footer">
         <div class="ipc__footer__button">
           <ion-button
             appTrackClick
             name="Invest"
             type="button"
-            (click)="this.handleSubmit({risk_level: this.product_data.profile, currency: this.product_data.currency})"
+            (click)="
+              this.handleSubmit({
+                risk_level: this.product_data.profile,
+                currency: this.product_data.currency
+              })
+            "
             class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-            [ngClass]="this.product_data?.button_style"
           >
             {{ 'funds.fund_investment.card.invest_button' | translate }}
           </ion-button>
@@ -109,12 +113,22 @@ const { Browser } = Plugins;
               }}</ion-text
             >
           </div>
-          <div>
+          <div class="ipc__footer__last_year_revenue__value_and_icon">
             <ion-text
               class="ux-font-gilroy ux-fweight-bold ux-fsize-18"
               color="uxlight"
-              >+{{ this.product_data?.annual_interest }}%</ion-text
+              >+{{ this.product_data?.percentage }}%</ion-text
             >
+            <ion-icon
+              *ngIf="this.product_data.currency == 'USDT'"
+              class="ipc__footer__last_year_revenue__value_and_icon__icon"
+              name="ux-tether-logo"
+            ></ion-icon>
+            <ion-icon
+              *ngIf="this.product_data.currency == 'BTC'"
+              class="ipc__footer__last_year_revenue__value_and_icon__icon"
+              name="ux-btc-logo"
+            ></ion-icon>
           </div>
         </div>
       </div>
@@ -129,17 +143,17 @@ export class InvestmentProductCardComponent implements OnInit {
   product_data = {
     title: '',
     description: '',
-    card_color: '',
     content_style: '',
     footer_style: '',
     button_style: '',
+    style: '',
     link_info: '',
     risk: '',
     risk_class: '',
     profile: '',
     min_capital: '',
-    annual_interest: '',
-    currency: ''
+    percentage: '',
+    currency: '',
   };
 
   product_type = {
@@ -148,48 +162,24 @@ export class InvestmentProductCardComponent implements OnInit {
         'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.title',
       description:
         'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.description',
-      card_color: '',
-      content_style: 'green-gradient',
-      footer_style: 'green-footer',
-      button_style: 'green-button',
-      link_info: 'http://bit.ly/factsheet-strategy1',
-      risk: 3,
-      currency: 'USDT'
+      style: 'green-style',
     },
     volume_profile_strategies_BTC: {
       title:
         'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.title',
       description:
         'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.description',
-      card_color: '',
-      content_style: 'orange-gradient',
-      footer_style: 'orange-footer',
-      button_style: 'orange-button',
-      link_info: 'http://bit.ly/factsheet-strategy2',
-      risk: 3,
-      currency: 'BTC'
+      style: 'orange-style',
     },
     DeFi_index: {
       title: 'funds.fund_investment.card.profiles.DeFi_index.title',
       description: 'funds.fund_investment.card.profiles.DeFi_index.title',
-      card_color: '',
-      content_style: 'light-blue-gradient',
-      footer_style: 'light-blue-footer',
-      button_style: 'light-blue-button',
-      link_info: 'http://bit.ly/factsheet-strategy3',
-      risk: 5,
-      currency: 'USDT'
+      style: 'light-blue-style',
     },
     Mary_index: {
       title: 'funds.fund_investment.card.profiles.Mary_index.title',
       description: 'funds.fund_investment.card.profiles.Mary_index.title',
-      card_color: '',
-      content_style: 'purple-gradient',
-      footer_style: 'purple-footer',
-      button_style: 'purple-button',
-      link_info: 'http://bit.ly/factsheet-strategy4',
-      risk: 4,
-      currency: 'USDT'
+      style: 'purple-style',
     },
   };
 
