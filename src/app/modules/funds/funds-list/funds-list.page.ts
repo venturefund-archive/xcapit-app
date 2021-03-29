@@ -3,11 +3,12 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { TranslateService } from '@ngx-translate/core';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
-import { NavController, LoadingController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { TabsComponent } from '../../tabs/tabs/tabs.component';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-funds-list',
@@ -67,12 +68,10 @@ import { catchError, switchMap } from 'rxjs/operators';
           this.status?.status_name == 'COMPLETE'
         "
       ></app-fund-list-sub-header>
-
       <app-ux-loading-block
         *ngIf="this.status?.status_name == ''"
         minSize="50px"
       ></app-ux-loading-block>
-
       <!-- Steps -->
       <div
         class="fund_steps"
@@ -211,6 +210,7 @@ export class FundsListPage implements OnInit {
   notOwnerFundBalances: Array<any>;
   news: Array<any>;
   hasNotifications = false;
+  lockActivated = false;
 
   status = {
     profile_valid: false,
@@ -242,7 +242,8 @@ export class FundsListPage implements OnInit {
     private navController: NavController,
     private tabsComponent: TabsComponent,
     private apiWebflow: ApiWebflowService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -362,16 +363,37 @@ export class FundsListPage implements OnInit {
   }
 
   doRefresh(event) {
-    this.getNotOwnerFundBalances();
-    console.log(this.notOwnerFundBalances);
-    this.getOwnerFundBalances();
-    console.log(this.ownerFundBalances);
-    this.getNews();
+    if (!this.lockActivated) {
+      this.getNotOwnerFundBalances();
+      console.log(this.notOwnerFundBalances);
+      this.getOwnerFundBalances();
+      console.log(this.ownerFundBalances);
+      this.getNews();
+
+      setTimeout(() => {
+        event.target.complete();
+      }, 2000);
+      this.limitRefresh();
+    } else {
+      this.showToast('funds.funds_list.error.refresh_error');
+      event.target.complete();
+    }
+  }
+
+  private showToast(text: string) {
+    this.toastService.showToast({
+      message: this.translate.instant(text),
+      position: 'top',
+      cssClass: 'refresher_toast',
+    });
+  }
+
+  limitRefresh() {
+    this.lockActivated = true;
 
     setTimeout(() => {
-      console.log('Actualizacion completada');
-      event.target.complete();
-    }, 2000);
+      this.lockActivated = false;
+    }, 10000);
   }
 
   setNewFundUrl() {

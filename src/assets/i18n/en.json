@@ -12,7 +12,7 @@
       "referrals": "Referrals",
       "notifications": "Notifications",
       "api_keys_managment": "Manage API Keys",
-      "change_language":  "Language"
+      "change_language": "Language"
     }
   },
   "config": {
@@ -167,6 +167,9 @@
         "total_title": "Total operated capital",
         "total_detail": "In the last 24 hs",
         "change_currency": "Change currency"
+      },
+      "error": {
+        "refresh_error": "Try again in a few seconds"
       },
       "fund_steps": {
         "title": "Set up your account and start investing",
@@ -356,7 +359,7 @@
         "more_info": "More info",
         "invest_button": "Invest",
         "last_year_revenue": "Last 365 days",
-        "profiles":{
+        "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Brainy USDT",
             "description": "Let Brainy trade for you and earn returns in dollars."
