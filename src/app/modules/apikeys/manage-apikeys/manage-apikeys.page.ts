@@ -82,13 +82,7 @@ export class ManageApikeysPage implements OnInit {
   getAllApiKeys() {
     this.apiApikeysService.getAll().subscribe((data) => {
       this.apikeys = data;
-      if (this.apikeys.length === 0) {
-        this.showImage = true;
-      } else {
-        if (this.apikeys.length >= 1) {
-          this.showImage = false;
-        }
-      }
+      this.showImage = this.apikeys.length === 0;
     });
   }
 }
