@@ -1,7 +1,7 @@
 ---
 stages:
-  - test
-  - build
+  - docker-lint
+  - docker-build
 
 image: docker:19.03.1
 
@@ -31,8 +31,8 @@ workflow:
 
 ### Docker lint
 .docker-lint: &docker-lint
-  stage: test
-  image: hadolint/hadolint
+  stage: docker-lint
+  image: hadolint/hadolint:v2.0.0-alpine
   before_script:
     - hadolint --version
   tags:
@@ -42,7 +42,7 @@ workflow:
 
 ### Build
 .build-branch: &build-branch
-  stage: build
+  stage: docker-build
   tags:
     - coreinfra
   script:
@@ -84,7 +84,7 @@ Syntax checking push:
     - docker push $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME
 
 Build from Tag:
-  stage: build
+  stage: docker-build
   tags:
     - coreinfra
   script:

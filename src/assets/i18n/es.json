@@ -12,7 +12,7 @@
       "referrals": "Referidos",
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
-      "change_language":  "Idioma"
+      "change_language": "Idioma"
     }
   },
 
@@ -171,6 +171,9 @@
         "total_detail": "En las ultimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
+      "error": {
+        "refresh_error": "Intente nuevamente en unos segundos"
+      },
       "fund_steps": {
         "title": "Configurá tu cuenta y empezá a invertir",
         "step1": "Configurar cuenta",
@@ -262,7 +265,8 @@
         "change_currency": "Cambiar moneda",
         "fund_balance_detail_title": "Detalle Balance",
         "fund_balance_detail_period_begin": "Inicio del período",
-        "fund_balance_detail_last_update": "Última actualización"
+        "fund_balance_detail_last_update": "Última actualización",
+        "view_operation_history": "Ver historial de operaciones"
       },
       "operations_history_card": {
         "title": "MIS ÚLTIMOS MOVIMIENTOS",
@@ -353,28 +357,32 @@
     "fund_investment": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
+      "header_info": {
+        "title": "Selecciona la estrategia de inversión",
+        "description": "Esto condicionará el modo a operar y el consiguiente riesgo a asumir a la hora de invertir."
+      },
       "card": {
         "risk_label": "Riesgo",
         "currency": "USD",
         "min_capital_label": "Mínimo para operar",
         "more_info": "Más info",
         "invest_button": "Invertir",
-        "last_year_revenue": "Últimos 365 días",
-        "profiles":{
+        "last_year_revenue": "90 días",
+        "profiles": {
           "volume_profile_strategies_USDT": {
-            "title": "Brainy USDT",
+            "title": "Denali",
             "description": "Permite que Brainy tradee por ti y obten rendimientos en dólares."
           },
           "volume_profile_strategies_BTC": {
-            "title": "Brainy BTC",
+            "title": "Olympus Mons",
             "description": "Genera más Bitcoins con los Bitcoins que ya tienes."
           },
           "DeFi_index": {
-            "title": "Indice Defi",
+            "title": "Himalayas",
             "description": "Participa del creciente mercado de las finanzas descentralizadas."
           },
           "Mary_index": {
-            "title": "Indice Mary",
+            "title": "Andes",
             "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
           }
         }
@@ -955,7 +963,7 @@
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
         "balanceNotEnough": "El monto mínimo para operar son 150 USD equivalente en cripto.",
         "keysExists": "Las keys ya se encuentran registradas.",
-        "invalidData": "Hemos tenidos un error. Intenta nuevamente más tarde.",
+        "invalidData": "Hemos tenido un error. Intenta nuevamente más tarde.",
         "default": "Ha ocurrido un error"
       },
       "remove": {
@@ -1006,7 +1014,8 @@
   },
   "notifications": {
     "notifications_list": {
-      "header": "Notificaciones"
+      "header": "Notificaciones",
+      "error_message": "No hay notificaciones para mostrar"
     },
     "notification": {
       "header": "Notificación"

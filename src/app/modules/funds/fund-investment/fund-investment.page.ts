@@ -19,7 +19,27 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding fi">
+      <div class="fi__info">
+        <div>
+          <ion-text
+            class="ux-font-gilroy ux-fweight-bold ux-fsize-22"
+            color="uxdark"
+            >{{
+              'funds.fund_investment.header_info.title' | translate
+            }}</ion-text
+          >
+        </div>
+        <div class="fi__info__description">
+          <ion-text
+            class="ux-font-lato ux-fweight-regular ux-fsize-12"
+            color="uxsemidark"
+            >{{
+              'funds.fund_investment.header_info.description' | translate
+            }}</ion-text
+          >
+        </div>
+      </div>
       <div *ngFor="let product of this.investments_products">
         <app-investment-product-card
           [product]="this.product"
@@ -33,24 +53,36 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 export class FundInvestmentPage implements OnInit {
   investments_products = [
     {
-      profile: 'volume_profile_strategies_USDT',
-      min_capital: '150',
-      annual_interest: '90.96',
-    },
-    {
       profile: 'volume_profile_strategies_BTC',
       min_capital: '150',
-      annual_interest: '35.83',
+      percentage: '5.02',
+      link_info: 'https://bit.ly/factsheet-strategy2',
+      risk: 3,
+      currency: 'BTC'
+    },
+    {
+      profile: 'volume_profile_strategies_USDT',
+      min_capital: '150',
+      percentage: '22.5',
+      link_info: 'https://bit.ly/factsheet-strategy1',
+      risk: 3,
+      currency: 'USDT'
     },
     {
       profile: 'DeFi_index',
       min_capital: '500',
-      annual_interest: '200.73',
+      percentage: '434.02',
+      link_info: 'https://bit.ly/factsheet-strategy4',
+      risk: 5,
+      currency: 'USDT'
     },
     {
       profile: 'Mary_index',
       min_capital: '500',
-      annual_interest: '42.73',
+      percentage: '160.5',
+      link_info: 'https://bit.ly/factsheet-strategy3',
+      risk: 4,
+      currency: 'USDT'
     },
   ];
 
@@ -62,15 +94,13 @@ export class FundInvestmentPage implements OnInit {
     private navController: NavController
   ) {}
 
-  ngOnInit(){}
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.fundDataStorage.getData('fundRenew').then((data) => {
       this.fundRenew = data;
     });
   }
-
-  
 
   handleSubmit(data: any) {
     this.fundDataStorage.setData('fundRiskLevel', {
