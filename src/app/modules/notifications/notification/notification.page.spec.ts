@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationPage } from './notification.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,7 +13,7 @@ describe('NotificationPage', () => {
   let activatedRouteSpy: any;
   let notificationsStorageSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { FundOperationsHistoryComponent } from './fund-operations-history.component';
@@ -20,7 +20,7 @@ describe('FundOperationsHistoryComponent', () => {
   let fixture: ComponentFixture<FundOperationsHistoryComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundOperationsHistoryComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         FundOperationsHistoryComponent,

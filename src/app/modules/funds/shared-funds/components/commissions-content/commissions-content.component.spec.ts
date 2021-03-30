@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommissionsContentComponent } from './commissions-content.component';
 import { of } from 'rxjs';
@@ -11,7 +11,7 @@ describe('CommissionsContentComponent', () => {
   let component: CommissionsContentComponent;
   let fixture: ComponentFixture<CommissionsContentComponent>;
   let apiFundsSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiFundsSpy = jasmine.createSpyObj('ApiFundsService', ['getCommissions']);
     apiFundsSpy.getCommissions.and.returnValue(of([]));
     TestBed.configureTestingModule({

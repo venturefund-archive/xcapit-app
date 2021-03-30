@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { UxListComponent } from './ux-list.component';
@@ -7,7 +7,7 @@ describe('UxListComponent', () => {
   let component: UxListComponent;
   let fixture: ComponentFixture<UxListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UxListComponent ],
       imports: [IonicModule]

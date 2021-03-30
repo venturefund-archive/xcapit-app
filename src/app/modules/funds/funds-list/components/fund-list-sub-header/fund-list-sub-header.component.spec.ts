@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { FundListSubHeaderComponent } from './fund-list-sub-header.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,7 +13,7 @@ describe('FundListSubHeaderComponent', () => {
   let fixture: ComponentFixture<FundListSubHeaderComponent>;
   let apiFunds: ApiFundsService;
   let apiFundsMock: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiFundsMock = {
       getTotalBalance: () => of({})
     };

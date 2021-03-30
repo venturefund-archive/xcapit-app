@@ -1,13 +1,13 @@
 ---
 stages:
-  - test
-  - build
+  - docker-lint
+  - docker-build
 
 image: docker:19.03.1
 
 services:
   - docker:19.03.1-dind
-    
+
 variables:
   CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
   DOCKER_HOST: tcp://docker:2375
@@ -19,7 +19,7 @@ variables:
 # # * si el commit msg comienza con [skip smoke-test] salta el smoke-test
 workflow:
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^\[skip tests\]/ 
+    - if: $CI_COMMIT_MESSAGE =~ /^\[skip tests\]/
       when: never
     - if: $CI_COMMIT_MESSAGE =~ /^\[skip smoke-test\]/
       when: never
@@ -30,8 +30,8 @@ workflow:
 
 ### Docker lint
 .docker-lint: &docker-lint
-  stage: test
-  image: hadolint/hadolint
+  stage: docker-lint
+  image: hadolint/hadolint:v2.0.0-alpine
   before_script:
     - hadolint --version
   tags:
@@ -41,7 +41,7 @@ workflow:
 
 ### Build
 .build-branch: &build-branch
-  stage: build
+  stage: docker-build
   tags:
     - coreinfra
   script:
@@ -72,7 +72,7 @@ Syntax checking push:
 ##########################################################################
 # # Build
 Build from Tag:
-  stage: build
+  stage: docker-build
   tags:
     - coreinfra
   script:
@@ -81,7 +81,6 @@ Build from Tag:
     - docker push $CONTAINER_IMAGE:$CI_COMMIT_TAG
   only:
     - tags
-
 
 Build:
   <<: *build-branch

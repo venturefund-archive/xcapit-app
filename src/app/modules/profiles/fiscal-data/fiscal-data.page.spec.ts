@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiscalDataPage } from './fiscal-data.page';
 import { of } from 'rxjs';
@@ -37,7 +37,7 @@ describe('FiscalDataPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FiscalDataPage>;
   let apiProfilesService: ApiProfilesService;
   let navControllerSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     apiProfilesServiceMock = {
       crud: {

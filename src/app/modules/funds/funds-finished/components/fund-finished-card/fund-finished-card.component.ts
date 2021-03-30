@@ -118,7 +118,7 @@ export class FundFinishedCardComponent implements OnInit {
   async renewFund(){
     this.fundDataStorage.setData('fundName', {fund_name: this.fund.nombre_bot});
     this.fundDataStorage.setData('fundRenew', true);
-    this.navController.navigateForward(['funds/fund-risk']);
+    this.navController.navigateForward(['funds/fund-investment']);
   }
 
   getRiskLevel() {
@@ -126,10 +126,10 @@ export class FundFinishedCardComponent implements OnInit {
       this.risk = "Medio";
     } else if (this.fund.nivel_de_riesgo == "pro_BTC" || this.fund.nivel_de_riesgo == "pro_USDT") {
       this.risk = "Alto";
-    } else if (this.fund.nivel_de_riesgo == "volume_profile_strategies_BTC" || this.fund.nivel_de_riesgo == "volume_profile_strategies_USDT") {
-      this.risk = "Multiestrategia";
     } else {
-      this.risk = "No definido";
+      this.risk = this.translate.instant(
+        `funds.fund_investment.card.profiles.${this.fund.nivel_de_riesgo}.title`
+      );
     }
   }
 

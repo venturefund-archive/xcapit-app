@@ -1,5 +1,5 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { FundBalanceDetailItemComponent } from './fund-balance-detail-item.component';
@@ -16,7 +16,7 @@ describe('FundBalanceDetailItemComponent', () => {
   let component: FundBalanceDetailItemComponent;
   let fixture: ComponentFixture<FundBalanceDetailItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FundBalanceDetailItemComponent, CurrencyFormatPipe, DecimalPipe],
       imports: [IonicModule],
