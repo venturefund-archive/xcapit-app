@@ -47,6 +47,17 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
     </ion-header>
 
     <ion-content>
+      <app-ux-loading-block
+        *ngIf="this.status?.status_name == ''"
+        minSize="50px"
+      ></app-ux-loading-block>
+      <app-fund-list-sub-header
+        *ngIf="
+          this.ownerFundBalances?.length &&
+          this.status?.status_name == 'COMPLETE'
+        "
+      ></app-fund-list-sub-header>
+
       <ion-refresher
         (ionRefresh)="doRefresh($event)"
         slot="fixed"
@@ -62,16 +73,6 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
           <app-ux-loading-block minSize="34px"></app-ux-loading-block>
         </ion-refresher-content>
       </ion-refresher>
-      <app-fund-list-sub-header
-        *ngIf="
-          this.ownerFundBalances?.length &&
-          this.status?.status_name == 'COMPLETE'
-        "
-      ></app-fund-list-sub-header>
-      <app-ux-loading-block
-        *ngIf="this.status?.status_name == ''"
-        minSize="50px"
-      ></app-ux-loading-block>
       <!-- Steps -->
       <div
         class="fund_steps"
