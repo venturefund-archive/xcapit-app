@@ -52,19 +52,19 @@ workflow:
 
 ###########################################################################
 # # Test
-Syntax checking:
+Docker lint:
   <<: *docker-lint
   rules:
     - if: $CI_MERGE_REQUEST_IID
     - if: $CI_COMMIT_TAG
 
-Syntax checking manual:
+Docker lint manual:
   <<: *docker-lint
   rules:
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - when: never
 
-Syntax checking push:
+Docker lint push:
   <<: *docker-lint
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
