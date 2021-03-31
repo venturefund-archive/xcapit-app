@@ -33,6 +33,6 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 
-variables.env.ts
+#variables.env.ts
 variables.env
 docker-compose.yml
