@@ -84,6 +84,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <div class="fund_steps__card ion-padding">
           <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
             <ion-text>{{
+              
               'funds.funds_list.fund_steps.title' | translate
             }}</ion-text>
           </div>

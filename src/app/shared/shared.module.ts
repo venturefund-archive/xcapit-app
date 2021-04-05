@@ -33,6 +33,8 @@ import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loadin
 import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
 import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
+import { HideTextDirective } from './directives/hide-text/hide-text.directive';
+import { HideTextModule } from './directives/hide-text/hide-text.module';
 
 
 @NgModule({
@@ -66,7 +68,8 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     UxCheckboxComponent,
     UxDateRangeComponent,
     // Pipes
-    LocalizedDatePipe,
+    LocalizedDatePipe
+    
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [
@@ -75,6 +78,7 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     TranslateModule.forChild(),
     TrackClickModule,
     TrackClickUnauthModule,
+    HideTextModule,
     ReactiveFormsModule,
   ],
   exports: [
@@ -87,9 +91,11 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     LanguageButtonComponent,
     TrackClickModule,
     TrackClickUnauthModule,
+    HideTextModule,
     IsSubscribedComponent,
     PercentageDisplayComponent,
     XcapitLogoComponent,
+
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,

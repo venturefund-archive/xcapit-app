@@ -8,7 +8,7 @@ import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-fund-summary-card',
   template: `
-    <div class="fsc" (click)="this.showShareSubscriptionAlert()">
+    <div class="fsc">
       <div class="fsc__content">
         <div class="fsc__content__left">
           <div class="fund-name">
@@ -20,6 +20,7 @@ import { AlertController } from '@ionic/angular';
           </div>
           <div class="actual-amount">
             <ion-text
+              appHideText
               class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
               color="uxdark"
             >
