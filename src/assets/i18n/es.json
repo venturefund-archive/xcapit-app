@@ -15,7 +15,6 @@
       "change_language": "Idioma"
     }
   },
-
   "config": {
     "form_errors": {
       "required": "El campo es requerido",
@@ -936,7 +935,8 @@
         "invalid": "Error al validar el email."
       },
       "login": {
-        "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente."
+        "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente.",
+        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión."
       },
       "changePassword": {
         "invalid": "Error al Cambiar la Password."
@@ -976,7 +976,6 @@
       }
     }
   },
-
   "terms_and_conditions": {
     "accept": {
       "header": "Términos y Condiciones",
