@@ -13,6 +13,7 @@ import { AlertController } from '@ionic/angular';
         <div class="fsc__content__left">
           <div class="fund-name">
             <ion-text
+              appHideText
               class="ux-font-lato ux-fweight-semibold ux-fsize-12"
               color="uxdark"
               >{{ this.summary?.fund.nombre_bot }}</ion-text

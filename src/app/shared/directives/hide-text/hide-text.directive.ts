@@ -1,4 +1,5 @@
-import { Directive,ElementRef,HostListener } from '@angular/core';
+import { ChangeDetectorRef, Directive,ElementRef,HostListener } from '@angular/core';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { TrackService } from '../../services/track/track.service';
 
 
@@ -6,36 +7,32 @@ import { TrackService } from '../../services/track/track.service';
   selector: '[appHideText]'
 })
 export class HideTextDirective {
-  
-
-  
-  constructor(private el: ElementRef, private trackService: TrackService) { }
-
-  @HostListener('click', ["$event"])
-  onClick($event) {
-    var fundHidden 
-    if(localStorage.getItem('fundHidden') == "true" ){
-      fundHidden = true; 
-    }else{
-      fundHidden=false; 
-    }
-    localStorage.setItem("fundHidden",(!fundHidden).toString());
+  constructor(private el: ElementRef, private localStorageService: LocalStorageService) { 
+    this.localStorageService.hideFundsHasChanged.subscribe(
+      (hideFunds) => this.onLocalStorageHasChanged(hideFunds)
+    );
   }
 
-  @HostListener('document:storage')
-  onLoad() {
-    var fundHidden 
-    if(localStorage.getItem('fundHidden') == "true" ){
-      fundHidden = true; 
-    }else{
-      fundHidden=false; 
+  @HostListener('click')
+  onClick() {
+    this.localStorageService.toggleHideFunds();
+  }
+  
+  onLocalStorageHasChanged(hideFunds : boolean) {
+    console.log("Cambió a " + hideFunds);
+    if (hideFunds) {
+      this.hideFunds();
+    } else {
+      this.showFunds();
     }
-    if(fundHidden){
-      this.el.nativeElement.innerText = "*******"
-      
-    }
+  }
 
-    console.log("Estoy tocando el fondo");
+  hideFunds() {
+
+  }
+
+  showFunds() {
+
   }
 
 }
