@@ -35,6 +35,12 @@ ion-picker {
   touch-action: none;
 }
 
+.hidden {
+  --ion-background-color: transparent;
+  background-color: transparent;
+  visibility: hidden;
+}
+
 :root {
   // Font family, weight, size
   // Family

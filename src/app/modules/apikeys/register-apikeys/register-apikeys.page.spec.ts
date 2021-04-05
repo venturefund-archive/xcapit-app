@@ -27,20 +27,12 @@ const formData = {
 };
 
 const QRData = {
-  valid: {
-    content: {
-      apiKey: 'kLnBhJuI98745Df32CsX09kN',
-      secretKey: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
-      comment: 'myapikey',
-    }
-  },
-  invalid: {
-    content: {
-      apiKey: 'kLnBhJuI98745Df32CsX09kN',
-      secretKey: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
-      comment: 'My Binance API key',
-    }
-  },
+  valid:
+    '{"apiKey":"kLnBhJuI98745Df32CsX09kN","secretKey":"EvHElKo98JyDeHVfJdSwC45J657Ml4","comment":"myapikey"}',
+  invalid:
+    '{"apiKey":"kLnBhJuI98745Df32CsX09kN","secretKey":"EvHElKo98JyDeHVfJdSwC45J657Ml4","comment":"My Binance API key"}',
+  string: 'Some random string',
+  object: '{}',
 };
 
 describe('RegisterApikeysPage', () => {
@@ -51,35 +43,40 @@ describe('RegisterApikeysPage', () => {
   let navControllerSpy: any;
   let navController: any;
 
-  beforeEach(waitForAsync(() => {
-    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
-      'create',
-    ]);
+  beforeEach(
+    waitForAsync(() => {
+      apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
+        'create',
+      ]);
 
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy = jasmine.createSpyObj(
+        'NavController',
+        navControllerMock
+      );
 
-    TestBed.configureTestingModule({
-      declarations: [RegisterApikeysPage, TrackClickDirective],
-      imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'apikeys/register', component: DummyComponent },
-          { path: 'apikeys/success-register', component: DummyComponent },
-          { path: 'apikeys/list', component: DummyComponent },
-          { path: 'tabs/funds', component: DummyComponent },
-        ]),
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        IonicModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [RegisterApikeysPage, TrackClickDirective],
+        imports: [
+          RouterTestingModule.withRoutes([
+            { path: 'apikeys/register', component: DummyComponent },
+            { path: 'apikeys/success-register', component: DummyComponent },
+            { path: 'apikeys/list', component: DummyComponent },
+            { path: 'tabs/funds', component: DummyComponent },
+          ]),
+          TranslateModule.forRoot(),
+          HttpClientTestingModule,
+          IonicModule,
+          ReactiveFormsModule,
+        ],
+        providers: [
+          TrackClickDirective,
+          { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterApikeysPage);
@@ -96,7 +93,9 @@ describe('RegisterApikeysPage', () => {
 
   it('should call showAlert on handleSubmit and valid form', () => {
     component.form.patchValue(formData.valid);
-    const spy = spyOn(component, 'showAlert').and.returnValue(Promise.resolve());
+    const spy = spyOn(component, 'showAlert').and.returnValue(
+      Promise.resolve()
+    );
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -163,5 +162,20 @@ describe('RegisterApikeysPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should return true on isValidQR when valid data is scanned', () => {
+    const returnValue = component.isValidQR(QRData.valid);
+    expect(returnValue).toBeTruthy();
+  });
+
+  it('should return false on isValidQR when string is not a JSON object', () => {
+    const returnValue = component.isValidQR(QRData.string);
+    expect(returnValue).toBeFalsy();
+  });
+
+  it('should return false on isValidQR when scanned JSON does not contain the correct keys', () => {
+    const returnValue = component.isValidQR(QRData.object);
+    expect(returnValue).toBeFalsy();
   });
 });

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -8,9 +8,18 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { Plugins } from '@capacitor/core';
+import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-scanner.component';
+import { Subject } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 @Component({
   selector: 'app-register-apikeys',
-  template: ` <ion-header>
+  template: `
+    <app-qr-scanner
+      class="container"
+      *ngIf="this.scanning"
+      (scannedApikeysEvent)="this.apikeysScanned($event)"
+    ></app-qr-scanner>
+    <ion-header *ngIf="!this.scanning">
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
@@ -20,7 +29,7 @@ import { Plugins } from '@capacitor/core';
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding" *ngIf="!this.scanning">
       <form
         [formGroup]="this.form"
         (ngSubmit)="this.handleSubmit()"
@@ -94,10 +103,12 @@ import { Plugins } from '@capacitor/core';
           </div>
         </div>
       </form>
-    </ion-content>`,
-  styleUrls: ['./register-apikeys.page.scss'],
+    </ion-content>
+  `,
+  styleUrls: ['./register-apikeys.page.scss']
 })
 export class RegisterApikeysPage implements OnInit {
+  @ViewChildren(QrScannerComponent) qrScanner : QueryList<QrScannerComponent>;
   form: FormGroup = this.formBuilder.group({
     alias: [
       '',
@@ -114,6 +125,8 @@ export class RegisterApikeysPage implements OnInit {
     secret_key: ['', [Validators.required]],
   });
 
+  scanning: boolean;
+
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
@@ -121,10 +134,23 @@ export class RegisterApikeysPage implements OnInit {
     private alertController: AlertController,
     private translate: TranslateService,
     private navController: NavController,
-    private toastService: ToastService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.scanning = false;
+  }
+
+  ngAfterViewInit() {
+    this.qrScanner.changes.subscribe((r) => {
+      if (r.first) {
+        r.first.readQRCode();
+      }
+    });
+
+  }
 
   async showAlert() {
     const alert = await this.alertController.create({
@@ -175,47 +201,44 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   async readQRCode() {
-    const { BarcodeScanner } = Plugins;
-
-    const hasPermission = await this.checkPermission();
-    
-    if (hasPermission) {
-      BarcodeScanner.hideBackground();
-    
-      const result = await BarcodeScanner.startScan({ targetedFormats: ['QR_CODE'] }); 
-      
-      if (result.hasContent) {
-        this.fillFormFromQR(result);
-      }
-    } else {
-      this.errorCameraAccessDenied();
-    }
-  };
+    this.scanning = true;
+  }
 
   errorCameraAccessDenied() {
     this.showToast('errorCodes.apikeys.create.cameraAccessDenied');
   }
 
-  fillFormFromQR(result: any) {
-    const formattedResult = {
-      alias: result.content.comment,
-      api_key: result.content.apiKey,
-      secret_key: result.content.secretKey,
-    };
+  errorNoContentQR() {
+    this.showToast('errorCodes.apikeys.create.noContentQR');
+  }
 
-    this.form.patchValue(formattedResult);
+  errorInvalidQR() {
+    this.showToast('errorCodes.apikeys.create.invalidQR');
+  }
+
+  fillForm(result: any) {
+    this.form.patchValue(result);
     this.form.markAllAsTouched();
   }
 
-  async checkPermission() : Promise<boolean> {
-    const { BarcodeScanner } = Plugins;
-
-    const status = await BarcodeScanner.checkPermission({ force: true });
-
-    if (status.granted) {
-      return true;
+  apikeysScanned(result: any) {
+    this.scanning = false;
+    if (result.error) {
+      switch (result.errorType) {
+        case 'invalidQR':
+          this.errorInvalidQR();
+          break;
+        case 'noContent':
+          this.errorNoContentQR();
+          break;
+        case 'permissionDenied':
+          this.errorCameraAccessDenied();
+          break;
+      }
+    } else {
+      if (result.scannedApikeys) {
+        this.fillForm(result.scannedApikeys);
+      }
     }
-
-    return false;
   }
 }

@@ -940,7 +940,9 @@
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
         "invalidData": "Invalid data.",
         "default": "An error has ocurred",
-        "cameraAccessDenied": "Couldn't access the camera. Access denied."
+        "cameraAccessDenied": "Couldn't access the camera. Access denied.",
+        "noContentQR": "The QR Code didn't had any content.",
+        "invalidQR": "The QR Code is invalid."
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
@@ -1140,6 +1142,9 @@
       "edit_error": {
         "default": "An error has ocurred"
       }
+    },
+    "qr_scanner": {
+      "text": "Point your camera towards a QR code."
     }
   },
   "tabs": {
