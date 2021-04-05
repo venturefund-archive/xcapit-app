@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-qr-scanner',
@@ -50,9 +49,9 @@ export class QrScannerComponent implements OnInit {
     this.error = false;
     this.scanningQR = false;
 
-    this.platform.backButton.subscribeWithPriority(10, () => {
-      this.close();
-    });
+    this.platform.backButton.subscribe(
+      () => this.close()
+    );
   }
 
   apikeyScannedSuccessfullyEvent() {
@@ -161,11 +160,11 @@ export class QrScannerComponent implements OnInit {
   hideBackground() {
     const { BarcodeScanner } = Plugins;
     BarcodeScanner.hideBackground();
-    //document.getElementsByTagName('html').item(0).classList.add('hidden');
+    document.getElementsByTagName('html').item(0).classList.add('hidden');
   }
 
   showBackground() {
-    //document.getElementsByTagName('html').item(0).classList.remove('hidden');
+    document.getElementsByTagName('html').item(0).classList.remove('hidden');
   }
 
   stopQRScan() {

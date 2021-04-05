@@ -7,10 +7,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
-import { Plugins } from '@capacitor/core';
 import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-scanner.component';
-import { Subject } from 'rxjs';
-import { timeout } from 'rxjs/operators';
 @Component({
   selector: 'app-register-apikeys',
   template: `
