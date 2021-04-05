@@ -933,7 +933,8 @@
         "invalid": "Error validating email."
       },
       "login": {
-        "invalidCredentials": "No active account found with the given credentials"
+        "invalidCredentials": "No active account found with the given credentials",
+        "noActiveUser": "Verify your email to login."
       },
       "changePassword": {
         "invalid": "Error Changing Password."
