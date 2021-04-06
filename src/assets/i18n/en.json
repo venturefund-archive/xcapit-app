@@ -168,9 +168,6 @@
         "total_detail": "In the last 24 hs",
         "change_currency": "Change currency"
       },
-      "error": {
-        "refresh_error": "Try again in a few seconds"
-      },
       "fund_steps": {
         "title": "Set up your account and start investing",
         "step1": "Set up your account",
@@ -183,7 +180,8 @@
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
       "info_title": "KNOW MORE",
-      "news_title": "NEWS"
+      "news_title": "NEWS",
+      "refresh_time": "Next update available in "
     },
     "new_fund": {
       "header_new": "New Fund",

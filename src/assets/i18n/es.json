@@ -164,15 +164,15 @@
       "change_fund_ca_button": "Cambiar"
     },
     "funds_list": {
+
       "sub_header": {
         "total_title": "Capital total operado",
         "not_balance_found": "No hay balance para mostrar",
         "total_detail": "En las ultimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
-      "error": {
-        "refresh_error": "Intente nuevamente en unos segundos"
-      },
+      
+      
       "fund_steps": {
         "title": "Configurá tu cuenta y empezá a invertir",
         "step1": "Configurar cuenta",
@@ -186,7 +186,8 @@
       "shared_funds_title": "FONDOS COMPARTIDOS",
       "info_title": "CONOCÉ MÁS",
       "owner_text": "Dueño",
-      "news_title": "NOTICIAS"
+      "news_title": "NOTICIAS",
+      "refresh_time": "Próxima actualización disponible en "
     },
     "new_fund": {
       "header_new": "Nuevo Fondo",

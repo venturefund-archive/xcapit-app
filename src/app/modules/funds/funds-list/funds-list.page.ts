@@ -59,21 +59,8 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
         "
           ></app-fund-list-sub-header>
 
-          <ion-refresher
-                  (ionRefresh)="doRefresh($event)"
-                  slot="fixed"
-                  pull-factor="0.8"
-                  pull-min="50"
-                  pull-max="60"
-          >
-              <ion-refresher-content
-                      class="refresher"
-                      close-duration="120ms"
-                      refreshingSpinner="false"
-              >
-                  <app-ux-loading-block minSize="34px"></app-ux-loading-block>
-              </ion-refresher-content>
-          </ion-refresher>
+          
+
           <!-- Steps -->
           <div
                   class="fund_steps"
@@ -121,7 +108,28 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
                   </div>
               </div>
           </div>
+          
+          <ion-refresher
+                  (ionRefresh)="doRefresh($event)"
+                  slot="fixed"
+                  pull-factor="0.6"
+                  pull-min="50"
+                  pull-max="60"
+          >
+              <ion-refresher-content
+                      class="refresher"
+                      close-duration="120ms"
+                      refreshingSpinner="false"      
+              >
+                  <app-ux-loading-block *ngIf="this.refreshTimeoutService.isAvailable()" minSize="34px"></app-ux-loading-block>
+                  <ion-text *ngIf="!this.refreshTimeoutService.isAvailable()">
+                    {{'funds.funds_list.refresh_time' | translate}}{{this.refreshTimeoutService.remainingTime | async}} s
+                  </ion-text>
 
+              </ion-refresher-content>
+          </ion-refresher>
+          
+          
           <!-- Fund lists -->
           <div class="fl" *ngIf="this.status?.status_name == 'COMPLETE'">
               <div
@@ -246,7 +254,7 @@ export class FundsListPage implements OnInit, OnDestroy {
     private apiWebflow: ApiWebflowService,
     private notificationsService: NotificationsService,
     private toastService: ToastService,
-    private refreshTimeoutService: RefreshTimeoutService
+    public refreshTimeoutService: RefreshTimeoutService
   ) {
   }
 
@@ -364,32 +372,13 @@ export class FundsListPage implements OnInit, OnDestroy {
   }
 
   async doRefresh(event) {
-    if (!this.lockActivated) {
+    if (this.refreshTimeoutService.isAvailable()) {
       this.ownerFundBalances = await this.getOwnerFundBalances().toPromise();
       this.notOwnerFundBalances = await this.getNotOwnerFundBalances().toPromise();
       this.news = await this.getNews().toPromise();
       this.refreshTimeoutService.lock();
-      this.limitRefresh();
-    } else {
-      this.showToast('funds.funds_list.error.refresh_error');
     }
     event.target.complete();
-  }
-
-  private showToast(text: string) {
-    this.toastService.showToast({
-      message: this.translate.instant(text),
-      position: 'top',
-      cssClass: 'refresher_toast'
-    });
-  }
-
-  limitRefresh() {
-    this.lockActivated = true;
-
-    setTimeout(() => {
-      this.lockActivated = false;
-    }, 10000);
   }
 
   setNewFundUrl() {
