@@ -829,7 +829,7 @@
     "funds": {
       "create": {
         "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
-        "keysExists": "Las keys ya se encuentran registradas.",
+        
         "fundNameExists": "El nombre del fondo ya existe.",
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
@@ -957,8 +957,7 @@
         "invalidExchangeKeys": "Las keys ingresadas no existen en binance.",
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Los datos ingresados no son válidos.",
-        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD.",
-        "duplicatedApikey": "La key ya se encuentra registrada"
+        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD."
       },
       "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
