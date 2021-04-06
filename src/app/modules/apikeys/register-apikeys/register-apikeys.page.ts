@@ -158,6 +158,6 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   error() {
-    this.showToast('apikeys.register.toast_errors.default');
+    this.showToast('errorCodes.apikeys.create.duplicatedApikey');
   }
 }
