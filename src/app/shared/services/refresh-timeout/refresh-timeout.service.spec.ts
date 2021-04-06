@@ -1,14 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { RefreshTimeoutService } from './refresh-timeout.service';
 
 describe('RefreshTimeoutService', () => {
-  let http: any;
+  let service: RefreshTimeoutService;
   beforeEach(() => {
-    http = jasmine.createSpyObj('HttpClient', ['post']);
-    http.post.and.returnValue(of({}));
     TestBed.configureTestingModule({
-      providers: [{ provide: HttpClient, useValue: http }]
+      providers: []
     });
     service = TestBed.inject(RefreshTimeoutService);
   });
@@ -17,13 +14,4 @@ describe('RefreshTimeoutService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call http.post on trackView', () => {
-    service.trackView({});
-    expect(http.post).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call http.post on trackEvent', () => {
-    service.trackEvent({});
-    expect(http.post).toHaveBeenCalledTimes(1);
-  });
 });

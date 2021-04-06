@@ -1,54 +1,91 @@
-import { Injectable} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
-import { BehaviorSubject, interval, Subscription } from 'rxjs';
+import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class RefreshTimeoutService {
+export class RefreshTimeoutService implements OnDestroy {
   private startTime: number = null;
   private lockTime = 10000;
   private nextAvailable: number = null;
-  private subscription: Subscription;
-  public remainingTime : BehaviorSubject<number> = new BehaviorSubject(this.lockTime/1000);
-
-  
+  private countdownSubscription: Subscription;
+  private remainingTimeSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.toSeconds(this.lockTime));
+  private isAvailableSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor() {
   }
 
-
-  set setLockTime(time: number) {
-    this.lockTime = time;
+  set setLockTime(milliseconds: number) {
+    this.lockTime = milliseconds;
   }
 
-  createSubscription(){
-    this.subscription = interval(1000).subscribe((x) => {
-      const seconds = Math.floor((this.nextAvailable - moment().valueOf())/1000)
-      this.remainingTime.next(seconds);
-      if(seconds <= 0 ){
-        this.subscription.unsubscribe();
+  createSubscription() {
+    this.countdownSubscription = interval(1000).subscribe(_ => {
+      const seconds = this.toSeconds(this.nextAvailable - this.now());
+      this.remainingTime = seconds;
+      if (seconds <= 0) {
+        this.available = true;
+        this.countdownSubscription.unsubscribe();
       }
     });
   }
 
+  private toSeconds(milliseconds: number): number {
+    return Math.floor(milliseconds / 1000);
+  }
+
+  private now(): number {
+    return moment().valueOf();
+  }
+
+  private set available(available: boolean) {
+    this.isAvailableSubject.next(available);
+  }
+
+  get remainingTimeObservable(): Observable<number> {
+    return this.remainingTimeSubject.asObservable();
+  }
+
+  get isAvailableObservable(): Observable<boolean> {
+    return this.isAvailableSubject.asObservable();
+  }
+
+  set remainingTime(next: number) {
+    this.remainingTimeSubject.next(next);
+  }
+
   isAvailable(): boolean {
-    const now = moment().valueOf();
-    if(!this.startTime ){
-      return true;
-    }
-    return now >= this.nextAvailable;
+    return this.isAvailableSubject.getValue();
   }
 
   lock() {
-    this.startTime = moment().valueOf();
+    this.startTime = this.now();
     this.nextAvailable = this.startTime + this.lockTime;
-    this.remainingTime.next(this.lockTime/1000); 
+    this.remainingTimeSubject.next(this.toSeconds(this.lockTime));
     this.createSubscription();
+    this.available = false;
   }
 
   unlock() {
     this.startTime = null;
     this.nextAvailable = null;
+    this.remainingTimeSubject.complete();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
+  }
+
+  unsubscribe() {
+    if (this.countdownSubscription) {
+      this.countdownSubscription.unsubscribe();
+    }
+    if (this.remainingTimeSubject) {
+      this.remainingTimeSubject.unsubscribe();
+    }
+    if (this.isAvailableSubject) {
+      this.isAvailableSubject.unsubscribe();
+    }
   }
 }

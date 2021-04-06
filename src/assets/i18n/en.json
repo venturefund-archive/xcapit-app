@@ -181,7 +181,7 @@
       "shared_funds_title": "SHARED FUNDS",
       "info_title": "KNOW MORE",
       "news_title": "NEWS",
-      "refresh_time": "Next update available in "
+      "refresh_time": "Next update available in {{seconds}} s"
     },
     "new_fund": {
       "header_new": "New Fund",

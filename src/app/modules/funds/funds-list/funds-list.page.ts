@@ -59,7 +59,6 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
         "
           ></app-fund-list-sub-header>
 
-          
 
           <!-- Steps -->
           <div
@@ -108,7 +107,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
                   </div>
               </div>
           </div>
-          
+
           <ion-refresher
                   (ionRefresh)="doRefresh($event)"
                   slot="fixed"
@@ -119,17 +118,20 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
               <ion-refresher-content
                       class="refresher"
                       close-duration="120ms"
-                      refreshingSpinner="false"      
+                      refreshingSpinner="false"
               >
-                  <app-ux-loading-block *ngIf="this.refreshTimeoutService.isAvailable()" minSize="34px"></app-ux-loading-block>
-                  <ion-text *ngIf="!this.refreshTimeoutService.isAvailable()">
-                    {{'funds.funds_list.refresh_time' | translate}}{{this.refreshTimeoutService.remainingTime | async}} s
+                  <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
+                  <ion-text *ngIf="!(this.isRefreshAvailable$ | async)">
+                      {{ 'funds.funds_list.refresh_time' | translate: {
+                      seconds: (this.refreshRemainingTime$ | async)
+                  }
+                      }}
                   </ion-text>
 
               </ion-refresher-content>
           </ion-refresher>
-          
-          
+
+
           <!-- Fund lists -->
           <div class="fl" *ngIf="this.status?.status_name == 'COMPLETE'">
               <div
@@ -237,12 +239,12 @@ export class FundsListPage implements OnInit, OnDestroy {
   newFundUrl: string;
 
   steps: any;
+  isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
+  refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
 
   private notificationQtySubscription: Subscription;
   private notificationQtySubject = new Subject();
-
   private timerSubscription: Subscription;
-
   public unreadNotifications: number;
 
   constructor(
@@ -253,8 +255,7 @@ export class FundsListPage implements OnInit, OnDestroy {
     private tabsComponent: TabsComponent,
     private apiWebflow: ApiWebflowService,
     private notificationsService: NotificationsService,
-    private toastService: ToastService,
-    public refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService
   ) {
   }
 
@@ -377,8 +378,10 @@ export class FundsListPage implements OnInit, OnDestroy {
       this.notOwnerFundBalances = await this.getNotOwnerFundBalances().toPromise();
       this.news = await this.getNews().toPromise();
       this.refreshTimeoutService.lock();
+      event.target.complete();
+    } else {
+      setTimeout(() => event.target.complete(), 1000);
     }
-    event.target.complete();
   }
 
   setNewFundUrl() {
@@ -397,6 +400,7 @@ export class FundsListPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.timerSubscription.unsubscribe();
     this.notificationQtySubscription.unsubscribe();
+    this.refreshTimeoutService.unsubscribe();
   }
 
 
