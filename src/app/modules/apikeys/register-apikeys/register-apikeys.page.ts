@@ -137,16 +137,7 @@ export class RegisterApikeysPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    this.apiApikeysService.create(data).subscribe(
-      () => this.success(),
-      () => this.error()
-    );
-  }
-
-  private showToast(text: string) {
-    this.toastService.showToast({
-      message: this.translate.instant(text),
-    });
+    this.apiApikeysService.create(data).subscribe(() => this.success());
   }
 
   success() {
@@ -155,9 +146,5 @@ export class RegisterApikeysPage implements OnInit {
       .then(() => {
         this.form.reset();
       });
-  }
-
-  error() {
-    this.showToast('errorCodes.apikeys.create.keysExists');
   }
 }
