@@ -116,6 +116,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
                       class="refresher"
                       close-duration="120ms"
                       refreshingSpinner="false"
+                      pullingIcon="false"
               >
                   <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
                   <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-10" color="uxmedium" *ngIf="!(this.isRefreshAvailable$ | async)">
