@@ -9,6 +9,7 @@ import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webfl
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { LocalStorageService } from '../../../shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-funds-list',
@@ -45,6 +46,14 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         </div>
       </ion-toolbar>
     </ion-header>
+    <div>
+    <ion-button
+            name="Hide text"
+            (click)="this.hideText()"
+          >
+          <ion-icon  name="eye"></ion-icon>
+          </ion-button>
+    </div>
 
     <ion-content>
       <ion-refresher
@@ -244,7 +253,8 @@ export class FundsListPage implements OnInit {
     private tabsComponent: TabsComponent,
     private apiWebflow: ApiWebflowService,
     private notificationsService: NotificationsService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
@@ -254,6 +264,10 @@ export class FundsListPage implements OnInit {
     this.timerSubscription = timer(0, minutes * 60000).subscribe(() => {
       this.notificationQtySubject.next();
     });
+  }
+
+  hideText(){
+    this.localStorageService.toggleHideFunds();
   }
 
   ionViewWillEnter() {

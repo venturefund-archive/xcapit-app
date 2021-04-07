@@ -8,7 +8,7 @@ import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-fund-summary-card',
   template: `
-    <div class="fsc">
+    <div class="fsc" (click)="this.showShareSubscriptionAlert()">
       <div class="fsc__content">
         <div class="fsc__content__left">
           <div class="fund-name">

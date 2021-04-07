@@ -35,6 +35,8 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 import { HideTextDirective } from './directives/hide-text/hide-text.directive';
 import { HideTextModule } from './directives/hide-text/hide-text.module';
+import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
+
 
 
 @NgModule({
@@ -68,7 +70,8 @@ import { HideTextModule } from './directives/hide-text/hide-text.module';
     UxCheckboxComponent,
     UxDateRangeComponent,
     // Pipes
-    LocalizedDatePipe
+    LocalizedDatePipe,
+    
     
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],

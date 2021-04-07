@@ -26,6 +26,7 @@ import { FundStopLossComponent } from './components/fund-stop-loss/fund-stop-los
 import { FundTakeProfitComponent } from './components/fund-take-profit/fund-take-profit.component';
 import { FundShareChartComponent } from './components/fund-share-chart/fund-share-chart.component';
 import { InvestmentProductCardComponent} from './components/investment-product-card/investment-product-card.component'
+import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 
 @NgModule({
   declarations: [
@@ -54,8 +55,9 @@ import { InvestmentProductCardComponent} from './components/investment-product-c
     FundShareChartComponent,
     InvestmentProductCardComponent,
     CurrencyFormatPipe,
+    HideTextPipe
   ],
-  providers: [DatePipe, DecimalPipe],
+  providers: [DatePipe, DecimalPipe, HideTextPipe],
   imports: [SharedModule],
   exports: [
     SharedModule,
@@ -84,6 +86,7 @@ import { InvestmentProductCardComponent} from './components/investment-product-c
     FundShareChartComponent,
     InvestmentProductCardComponent,
     CurrencyFormatPipe,
+    
   ],
   entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent],
 })

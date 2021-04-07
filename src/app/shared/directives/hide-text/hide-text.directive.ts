@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Directive,ElementRef,HostListener } from '@angular/core';
+import { HideTextPipe } from '../../pipes/hide-text/hide-text.pipe';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { TrackService } from '../../services/track/track.service';
 
@@ -7,16 +8,13 @@ import { TrackService } from '../../services/track/track.service';
   selector: '[appHideText]'
 })
 export class HideTextDirective {
-  constructor(private el: ElementRef, private localStorageService: LocalStorageService) { 
+  constructor(private el: ElementRef, private localStorageService: LocalStorageService, private hideTextPipe:HideTextPipe ) { 
     this.localStorageService.hideFundsHasChanged.subscribe(
       (hideFunds) => this.onLocalStorageHasChanged(hideFunds)
     );
   }
 
-  @HostListener('click')
-  onClick() {
-    this.localStorageService.toggleHideFunds();
-  }
+
   
   onLocalStorageHasChanged(hideFunds : boolean) {
     console.log("Cambió a " + hideFunds);
@@ -28,10 +26,11 @@ export class HideTextDirective {
   }
 
   hideFunds() {
-
+    this.hideTextPipe.activate();
   }
 
   showFunds() {
+    this.hideTextPipe.desactivate();
 
   }
 
