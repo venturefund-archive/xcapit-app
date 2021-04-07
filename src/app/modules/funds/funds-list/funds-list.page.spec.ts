@@ -1,6 +1,6 @@
 import { TabsComponent } from './../../tabs/tabs/tabs.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FundsListPage } from './funds-list.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -36,20 +36,20 @@ describe('FundsListPage', () => {
   beforeEach(
     waitForAsync(() => {
       logsServiceMock = {
-        log: () => of({}),
+        log: () => of({})
       };
       tabsComponentMock = {
-        newFundUrl: '',
+        newFundUrl: ''
       };
 
       apiFundsServiceMock = {
         getFundBalances: () => of([]),
-        status: () => of({}),
+        status: () => of({})
       };
 
       apiWebflowServiceMock = {
         getNews: () => of([]),
-        status: () => of({}),
+        status: () => of({})
       };
 
       apiUsuariosServiceMock = {
@@ -59,8 +59,8 @@ describe('FundsListPage', () => {
             empty_linked_keys: false,
             has_own_funds: true,
             has_subscribed_funds: true,
-            status_name: 'COMPLETE',
-          }),
+            status_name: 'COMPLETE'
+          })
       };
       navControllerSpy = jasmine.createSpyObj(
         'NavController',
@@ -69,7 +69,7 @@ describe('FundsListPage', () => {
 
       notificationsServiceMock = {
         getNotifications: () => of({}),
-        getCountNotifications: () => of({}),
+        getCountNotifications: () => of({})
       };
 
       TestBed.configureTestingModule({
@@ -80,21 +80,21 @@ describe('FundsListPage', () => {
           RouterTestingModule.withRoutes([
             {
               path: 'tutorials/interactive-tutorial',
-              component: DummyComponent,
+              component: DummyComponent
             },
             {
               path: 'profiles/personal-data',
-              component: DummyComponent,
+              component: DummyComponent
             },
             {
               path: 'profiles/user',
-              component: DummyComponent,
+              component: DummyComponent
             },
             {
               path: 'notifications/list',
-              component: DummyComponent,
-            },
-          ]),
+              component: DummyComponent
+            }
+          ])
         ],
         declarations: [FundsListPage, TrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -103,29 +103,29 @@ describe('FundsListPage', () => {
           { provide: TabsComponent, useValue: tabsComponentMock },
           {
             provide: LogsService,
-            useValue: logsServiceMock,
+            useValue: logsServiceMock
           },
           {
             provide: ApiFundsService,
-            useValue: apiFundsServiceMock,
+            useValue: apiFundsServiceMock
           },
           {
             provide: ApiUsuariosService,
-            useValue: apiUsuariosServiceMock,
+            useValue: apiUsuariosServiceMock
           },
           {
             provide: NavController,
-            useValue: navControllerSpy,
+            useValue: navControllerSpy
           },
           {
             provide: ApiWebflowService,
-            useValue: apiWebflowServiceMock,
+            useValue: apiWebflowServiceMock
           },
           {
             provide: NotificationsService,
-            useValue: notificationsServiceMock,
-          },
-        ],
+            useValue: notificationsServiceMock
+          }
+        ]
       }).compileComponents();
     })
   );
@@ -165,7 +165,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: false,
       has_own_funds: true,
       has_subscribed_funds: true,
-      status_name: 'FROM_BOT',
+      status_name: 'FROM_BOT'
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -180,7 +180,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: false,
       has_own_funds: true,
       has_subscribed_funds: true,
-      status_name: 'EXOLORER',
+      status_name: 'EXOLORER'
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -195,7 +195,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: true,
       has_own_funds: false,
       has_subscribed_funds: false,
-      status_name: 'BEGINNER',
+      status_name: 'BEGINNER'
     };
     fixture.detectChanges();
     component.setNewFundUrl();
@@ -204,21 +204,22 @@ describe('FundsListPage', () => {
     expect(tabsComponent.newFundUrl).toBe('funds/fund-name');
   });
 
-  it('should call getFundBalances in apiFundsService', () => {
+  it('should call getFundBalances in apiFundsService twice when ionViewWillEnter', async () => {
+    spyOn(component, 'getStatus');
     const spy = spyOn(apiFundsService, 'getFundBalances');
     spy.and.returnValue(of([]));
-    component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  it('should call getFundBalances, getStatus on doRefresh', () => {
+  it('should call getFundBalances and getNews on doRefresh', async () => {
     const spyFund = spyOn(apiFundsService, 'getFundBalances');
     const spyNews = spyOn(apiWebflowService, 'getNews');
     spyFund.and.returnValue(of([]));
     spyNews.and.returnValue(of([]));
-    component.doRefresh(event);
-    expect(apiFundsService.getFundBalances).toHaveBeenCalledTimes(3);
-    expect(apiWebflowService.getNews).toHaveBeenCalledTimes(1);
+    await component.doRefresh({ target: { complete: () => null } });
+    expect(spyFund).toHaveBeenCalledTimes(2);
+    expect(spyNews).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Go To Profile button clicked', () => {
@@ -233,7 +234,6 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  // TODO: Activate this test when notifications button shows
   it('should call trackEvent on trackService when Show Notifications button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
@@ -252,7 +252,7 @@ describe('FundsListPage', () => {
       empty_linked_keys: true,
       has_own_funds: false,
       has_subscribed_funds: false,
-      status_name: 'BEGINNER',
+      status_name: 'BEGINNER'
     };
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName(
@@ -266,10 +266,11 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call getNews in apiWebflow', () => {
+  it('should call getNews when ionViewWillEnter is called', async () => {
+    spyOn(component, 'getStatus');
     const spy = spyOn(apiWebflowService, 'getNews');
     spy.and.returnValue(of([]));
-    component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });
