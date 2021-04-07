@@ -1,6 +1,6 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController, Platform } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -102,10 +102,10 @@ import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-s
       </form>
     </ion-content>
   `,
-  styleUrls: ['./register-apikeys.page.scss']
+  styleUrls: ['./register-apikeys.page.scss'],
 })
 export class RegisterApikeysPage implements OnInit {
-  @ViewChildren(QrScannerComponent) qrScanner : QueryList<QrScannerComponent>;
+  @ViewChildren(QrScannerComponent) qrScanner: QueryList<QrScannerComponent>;
   form: FormGroup = this.formBuilder.group({
     alias: [
       '',
@@ -146,7 +146,6 @@ export class RegisterApikeysPage implements OnInit {
         r.first.readQRCode();
       }
     });
-
   }
 
   async showAlert() {

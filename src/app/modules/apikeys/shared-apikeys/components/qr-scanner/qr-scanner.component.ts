@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 
+const { BarcodeScanner } = Plugins;
 @Component({
   selector: 'app-qr-scanner',
   template: `
@@ -19,6 +20,7 @@ import { Platform } from '@ionic/angular';
           <ion-col size="12" class="ion-text-center">
             <ion-button
               appTrackClick
+              name="Cancel"
               class="close-button"
               color="light"
               size="large"
@@ -40,6 +42,7 @@ export class QrScannerComponent implements OnInit {
   scannedApikeys: any;
   scanningQR: boolean;
   error: boolean;
+  barcodeScanner = BarcodeScanner;
 
   constructor(private platform: Platform) {}
 
@@ -49,9 +52,7 @@ export class QrScannerComponent implements OnInit {
     this.error = false;
     this.scanningQR = false;
 
-    this.platform.backButton.subscribe(
-      () => this.close()
-    );
+    this.platform.backButton.subscribe(() => this.close());
   }
 
   apikeyScannedSuccessfullyEvent() {
@@ -99,7 +100,7 @@ export class QrScannerComponent implements OnInit {
   }
 
   async readQRCode() {
-    const hasPermission = this.checkPermission();
+    const hasPermission = await this.checkPermission();
 
     if (hasPermission) {
       const result = await this.scanQR();
@@ -122,8 +123,7 @@ export class QrScannerComponent implements OnInit {
     this.scanningQR = true;
     this.hideBackground();
 
-    const { BarcodeScanner } = Plugins;
-    const result = await BarcodeScanner.startScan({
+    const result = await this.barcodeScanner.startScan({
       targetedFormats: ['QR_CODE'],
     });
 
@@ -133,10 +133,8 @@ export class QrScannerComponent implements OnInit {
     return result;
   }
 
-  async checkPermission(): Promise<boolean> {
-    const { BarcodeScanner } = Plugins;
-
-    const status = await BarcodeScanner.checkPermission({ force: true });
+  async checkPermission() {
+    const status = await this.barcodeScanner.checkPermission({ force: true });
 
     if (status.granted) {
       return true;
@@ -158,8 +156,7 @@ export class QrScannerComponent implements OnInit {
   }
 
   hideBackground() {
-    const { BarcodeScanner } = Plugins;
-    BarcodeScanner.hideBackground();
+    this.barcodeScanner.hideBackground();
     document.getElementsByTagName('html').item(0).classList.add('hidden');
   }
 
@@ -168,8 +165,7 @@ export class QrScannerComponent implements OnInit {
   }
 
   stopQRScan() {
-    const { BarcodeScanner } = Plugins;
-    BarcodeScanner.stopScan();
+    this.barcodeScanner.stopScan();
     this.showBackground();
     this.scanningQR = false;
     this.scanStoppedEvent();

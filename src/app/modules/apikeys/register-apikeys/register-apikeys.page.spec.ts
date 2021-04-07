@@ -26,14 +26,40 @@ const formData = {
   },
 };
 
-const QRData = {
-  valid:
-    '{"apiKey":"kLnBhJuI98745Df32CsX09kN","secretKey":"EvHElKo98JyDeHVfJdSwC45J657Ml4","comment":"myapikey"}',
-  invalid:
-    '{"apiKey":"kLnBhJuI98745Df32CsX09kN","secretKey":"EvHElKo98JyDeHVfJdSwC45J657Ml4","comment":"My Binance API key"}',
-  string: 'Some random string',
-  object: '{}',
-};
+const QRScanResult = {
+  valid: {
+    error: false,
+    scannedApikeys: {
+      alias: 'MyAlias',
+      api_key: 'kLnBhJuI98745Df32CsX09kN',
+      secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4'
+    }
+  },
+  noResult: {
+    error: false,
+    scannedApikeys: null
+  },
+  formInvalid: {
+    error: false,
+    scannedApikeys: {
+      alias: 'My Invalid Alias',
+      api_key: 'kLnBhJuI98745Df32CsX09kN',
+      secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4'
+    }
+  },
+  invalidQR: {
+    error: true,
+    errorType: 'invalidQR'
+  },
+  cameraAccessDenied: {
+    error: true,
+    errorType: 'permissionDenied'
+  },
+  noContent: {
+    error: true,
+    errorType: 'noContent'
+  },
+}
 
 describe('RegisterApikeysPage', () => {
   let component: RegisterApikeysPage;
@@ -114,16 +140,41 @@ describe('RegisterApikeysPage', () => {
     expect(apiApikeysServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call showAlert on handleSubmit and invalid form when data obtained from QR', () => {
-    component.fillFormFromQR(QRData.valid);
-    const spy = spyOn(component, 'showAlert');
-    component.handleSubmit();
+  it('should call fillForm on apikeysScanned with no errors', () => {
+    const spy = spyOn(component, 'fillForm');
+    component.apikeysScanned(QRScanResult.valid);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call showAlert on handleSubmit and invalid form when data obtained from QR', () => {
-    component.fillFormFromQR(QRData.invalid);
-    const spy = spyOn(component, 'showAlert');
+  it('should not call fillForm on apikeysScanned with no errors and no results', () => {
+    const spy = spyOn(component, 'fillForm');
+    component.apikeysScanned(QRScanResult.noResult);
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call errorInvalidQR on apikeysScanned and invalidQR error', () => {
+    const spy = spyOn(component, 'errorInvalidQR');
+    component.apikeysScanned(QRScanResult.invalidQR);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call errorNoContentQR on apikeysScanned and noContent error', () => {
+    const spy = spyOn(component, 'errorNoContentQR');
+    component.apikeysScanned(QRScanResult.noContent);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call errorCameraAccessDenied on apikeysScanned and permissionDenied error', () => {
+    const spy = spyOn(component, 'errorCameraAccessDenied');
+    component.apikeysScanned(QRScanResult.cameraAccessDenied);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call showAlert if the scanned QR data was not valid', () => {
+    const spy = spyOn(component, 'showAlert').and.returnValue(
+      Promise.resolve()
+    );
+    component.apikeysScanned(QRScanResult.formInvalid);
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(0);
   });
@@ -162,20 +213,5 @@ describe('RegisterApikeysPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should return true on isValidQR when valid data is scanned', () => {
-    const returnValue = component.isValidQR(QRData.valid);
-    expect(returnValue).toBeTruthy();
-  });
-
-  it('should return false on isValidQR when string is not a JSON object', () => {
-    const returnValue = component.isValidQR(QRData.string);
-    expect(returnValue).toBeFalsy();
-  });
-
-  it('should return false on isValidQR when scanned JSON does not contain the correct keys', () => {
-    const returnValue = component.isValidQR(QRData.object);
-    expect(returnValue).toBeFalsy();
   });
 });
