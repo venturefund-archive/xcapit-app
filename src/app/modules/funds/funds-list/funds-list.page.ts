@@ -8,7 +8,6 @@ import { TabsComponent } from '../../tabs/tabs/tabs.component';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 
 @Component({
@@ -58,8 +57,6 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           this.status?.status_name == 'COMPLETE'
         "
           ></app-fund-list-sub-header>
-
-
           <!-- Steps -->
           <div
                   class="fund_steps"
@@ -121,7 +118,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
                       refreshingSpinner="false"
               >
                   <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-                  <ion-text *ngIf="!(this.isRefreshAvailable$ | async)">
+                  <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-10" color="uxmedium" *ngIf="!(this.isRefreshAvailable$ | async)">
                       {{ 'funds.funds_list.refresh_time' | translate: {
                       seconds: (this.refreshRemainingTime$ | async)
                   }
@@ -268,15 +265,13 @@ export class FundsListPage implements OnInit, OnDestroy {
     });
   }
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.getStatus();
+    await this.getOwnerFundBalances();
+    await this.getNotOwnerFundBalances();
+    await this.getNews();
   }
 
-  async ionViewDidEnter() {
-    this.ownerFundBalances = await this.getOwnerFundBalances().toPromise();
-    this.notOwnerFundBalances = await this.getNotOwnerFundBalances().toPromise();
-    this.news = await this.getNews().toPromise();
-  }
 
   initQtyNotifications() {
     this.notificationQtySubscription = this.notificationQtySubject
@@ -345,18 +340,17 @@ export class FundsListPage implements OnInit, OnDestroy {
     }
   }
 
-  private getOwnerFundBalances() {
-    return this.apiFundsService.getFundBalances(true, false).pipe(
-      map(res => this.filterPausedFunds(res))
-    );
+  private async getOwnerFundBalances() {
+    this.ownerFundBalances = await this.apiFundsService
+      .getFundBalances(true, false)
+      .pipe(map(res => res.filter(fund => fund.state !== 'pausado')))
+      .toPromise();
   }
 
-  private getNotOwnerFundBalances() {
-    return this.apiFundsService.getFundBalances(false, false);
-  }
-
-  filterPausedFunds(array: any) {
-    return (array = array.filter((obj) => obj.state !== 'pausado'));
+  private async getNotOwnerFundBalances() {
+    this.notOwnerFundBalances = await this.apiFundsService
+      .getFundBalances(false, false)
+      .toPromise();
   }
 
   showNotifications() {
@@ -374,9 +368,9 @@ export class FundsListPage implements OnInit, OnDestroy {
 
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
-      this.ownerFundBalances = await this.getOwnerFundBalances().toPromise();
-      this.notOwnerFundBalances = await this.getNotOwnerFundBalances().toPromise();
-      this.news = await this.getNews().toPromise();
+      await this.getOwnerFundBalances();
+      await this.getNotOwnerFundBalances();
+      await this.getNews();
       this.refreshTimeoutService.lock();
       event.target.complete();
     } else {
@@ -393,8 +387,8 @@ export class FundsListPage implements OnInit, OnDestroy {
     this.tabsComponent.newFundUrl = this.newFundUrl;
   }
 
-  getNews() {
-    return this.apiWebflow.getNews();
+  async getNews() {
+    this.news = await this.apiWebflow.getNews().toPromise();
   }
 
   ngOnDestroy() {

@@ -10,8 +10,8 @@ export class RefreshTimeoutService implements OnDestroy {
   private lockTime = 10000;
   private nextAvailable: number = null;
   private countdownSubscription: Subscription;
-  private remainingTimeSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.toSeconds(this.lockTime));
-  private isAvailableSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private remainingTimeSubject = new BehaviorSubject<number>(this.toSeconds(this.lockTime));
+  private isAvailableSubject = new BehaviorSubject<boolean>(true);
 
   constructor() {
   }
@@ -20,13 +20,17 @@ export class RefreshTimeoutService implements OnDestroy {
     this.lockTime = milliseconds;
   }
 
-  createSubscription() {
+  get getLockTime() {
+    return this.lockTime;
+  }
+
+  private createSubscription() {
     this.countdownSubscription = interval(1000).subscribe(_ => {
       const seconds = this.toSeconds(this.nextAvailable - this.now());
       this.remainingTime = seconds;
       if (seconds <= 0) {
         this.available = true;
-        this.countdownSubscription.unsubscribe();
+        this.unsubscribe();
       }
     });
   }
@@ -70,6 +74,7 @@ export class RefreshTimeoutService implements OnDestroy {
   unlock() {
     this.startTime = null;
     this.nextAvailable = null;
+    this.available = true;
     this.remainingTimeSubject.complete();
   }
 
@@ -78,14 +83,8 @@ export class RefreshTimeoutService implements OnDestroy {
   }
 
   unsubscribe() {
-    if (this.countdownSubscription) {
+    if (this.countdownSubscription && !this.countdownSubscription.closed) {
       this.countdownSubscription.unsubscribe();
-    }
-    if (this.remainingTimeSubject) {
-      this.remainingTimeSubject.unsubscribe();
-    }
-    if (this.isAvailableSubject) {
-      this.isAvailableSubject.unsubscribe();
     }
   }
 }
