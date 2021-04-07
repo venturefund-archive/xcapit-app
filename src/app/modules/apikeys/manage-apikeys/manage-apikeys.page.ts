@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
             appTrackClick
             name="RegisterNewKey"
             class="add-button"
-            [routerLink]="['/apikeys/register']"
+            (click)="createApiKey()"
           >
             <ion-icon style="zoom:1.5;" name="add"></ion-icon>
           </ion-button>
@@ -25,16 +26,19 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding-top">
-      <ion-list>
-        <app-apikey-item
-          *ngFor="let apikeys of apikeys"
-          [id]="this.apikeys.id"
-          [nombre_bot]="this.apikeys.nombre_bot"
-          [alias]="this.apikeys.alias"
-        >
-        </app-apikey-item>
-      </ion-list>
-      <div *ngIf="!apikeys.length">
+      <div *ngIf="!showImage">
+        <ion-list>
+          <app-apikey-item
+            *ngFor="let apikeys of apikeys"
+            [id]="this.apikeys.id"
+            [nombre_bot]="this.apikeys.nombre_bot"
+            [alias]="this.apikeys.alias"
+          >
+          </app-apikey-item>
+        </ion-list>
+      </div>
+
+      <div *ngIf="showImage">
         <div class="nr__image-container">
           <img
             class="nr__image-container__image"
@@ -57,8 +61,13 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
 })
 export class ManageApikeysPage implements OnInit {
   apikeys: any = [];
+  showImage: boolean = false;
+  loading: boolean = true;
 
-  constructor(private apiApikeysService: ApiApikeysService) {}
+  constructor(
+    private apiApikeysService: ApiApikeysService,
+    private navController: NavController
+  ) {}
 
   ngOnInit() {}
 
@@ -66,9 +75,14 @@ export class ManageApikeysPage implements OnInit {
     this.getAllApiKeys();
   }
 
+  createApiKey() {
+    this.navController.navigateForward('/apikeys/register');
+  }
+
   getAllApiKeys() {
     this.apiApikeysService.getAll().subscribe((data) => {
       this.apikeys = data;
+      this.showImage = this.apikeys.length === 0;
     });
   }
 }

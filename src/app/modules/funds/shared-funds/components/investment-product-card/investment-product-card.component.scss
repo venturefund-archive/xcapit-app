@@ -76,89 +76,132 @@
       &__label {
         font-size: 11px;
       }
+      &__value_and_icon {
+        align-items: center;
+        display: flex;
+        &__icon {
+          margin-left: 3px;
+          min-height: 22px;
+          min-width: 19px;
+        }
+      }
     }
   }
 }
 
 /*----- Styles for Brainy USDT  --------*/
-.green-gradient {
-  background: linear-gradient(
-      75.47deg,
-      rgba(111, 207, 151, 0.75) 9.97%,
-      rgba(111, 207, 151, 0.75) 81.14%
-    ),
-    linear-gradient(0deg, rgba(111, 207, 151, 0.75), rgba(111, 207, 151, 0.75)),
-    url('/assets/img/investment-products/Brainy_USDT.jpg');
-}
-
-.green-footer {
-  background: #27ae60;
-}
-
-.green-button {
-  --background: #219653;
+.green-style {
+  & .ipc__content {
+    background: linear-gradient(
+        75.47deg,
+        rgba(111, 207, 151, 0.75) 9.97%,
+        rgba(111, 207, 151, 0.75) 81.14%
+      ),
+      linear-gradient(
+        0deg,
+        rgba(111, 207, 151, 0.75),
+        rgba(111, 207, 151, 0.75)
+      ),
+      url('/assets/img/investment-products/Brainy_USDT.jpg');
+  }
+  & .ipc__footer {
+    background: #27ae60;
+    &__button {
+      & ion-button {
+        --background: #219653;
+        --background-activated: #107A3E;
+      }
+    }
+    &__last_year_revenue__value_and_icon__icon {
+      fill: #27ae60;
+    }
+  }
 }
 /* ------------------------------------ */
 
 /*------ Styles for Brainy BTC  --------*/
-.orange-gradient {
-  background: linear-gradient(
-      0deg,
-      rgba(255, 194, 115, 0.75),
-      rgba(255, 194, 115, 0.75)
-    ),
-    linear-gradient(0deg, rgba(255, 194, 115, 0.75), rgba(255, 194, 115, 0.75)),
-    url('/assets/img/investment-products/Brainy_BTC.jpg');
-}
 
-.orange-footer {
-  background: #ffa733;
-}
-
-.orange-button {
-  --background: #ff9100;
+.orange-style {
+  & .ipc__content {
+    background: linear-gradient(
+        0deg,
+        rgba(255, 194, 115, 0.75),
+        rgba(255, 194, 115, 0.75)
+      ),
+      linear-gradient(
+        0deg,
+        rgba(255, 194, 115, 0.75),
+        rgba(255, 194, 115, 0.75)
+      ),
+      url('/assets/img/investment-products/Brainy_BTC.jpg');
+  }
+  & .ipc__footer {
+    background: #ffa733;
+    &__button {
+      & ion-button {
+        --background: #ff9100;
+        --background-activated: #C67100;
+      }
+    }
+    &__last_year_revenue__value_and_icon__icon {
+      fill: #ffa733;
+    }
+  }
 }
 /* ------------------------------------ */
 
 /*------ Styles for DeFi Index  --------*/
-.light-blue-gradient {
-  background: linear-gradient(
-      0deg,
-      rgba(86, 204, 242, 0.75),
-      rgba(86, 204, 242, 0.75)
-    ),
-    linear-gradient(0deg, rgba(86, 204, 242, 0.75), rgba(86, 204, 242, 0.75)),
-    url('/assets/img/investment-products/Indice_Defi.jpg');
-}
 
-.light-blue-footer {
-  background: #2d9cdb;
-}
-
-.light-blue-button {
-  --background: #2f80ed;
+.light-blue-style {
+  & .ipc__content {
+    background: linear-gradient(
+        0deg,
+        rgba(86, 204, 242, 0.75),
+        rgba(86, 204, 242, 0.75)
+      ),
+      linear-gradient(0deg, rgba(86, 204, 242, 0.75), rgba(86, 204, 242, 0.75)),
+      url('/assets/img/investment-products/Indice_Defi.jpg');
+  }
+  & .ipc__footer {
+    background: #2d9cdb;
+    &__button {
+      & ion-button {
+        --background: #2f80ed;
+        --background-activated: #106AE7;
+      }
+    }
+    &__last_year_revenue__value_and_icon__icon {
+      fill: #2d9cdb;
+    }
+  }
 }
 /* ------------------------------------ */
 
 /*------ Styles for Mary Index  --------*/
-.purple-gradient {
-  background: linear-gradient(
-      0deg,
-      rgba(187, 107, 217, 0.75),
-      rgba(187, 107, 217, 0.75)
-    ),
-    linear-gradient(0deg, rgba(86, 204, 242, 0.75), rgba(86, 204, 242, 0.75)),
-    url('/assets/img/investment-products/Indice_Mary.jpg');
-}
 
-.purple-footer {
-  background: #ba61db;
+.purple-style {
+  & .ipc__content {
+    background: linear-gradient(
+        0deg,
+        rgba(187, 107, 217, 0.75),
+        rgba(187, 107, 217, 0.75)
+      ),
+      linear-gradient(0deg, rgba(86, 204, 242, 0.75), rgba(86, 204, 242, 0.75)),
+      url('/assets/img/investment-products/Indice_Mary.jpg');
+  }
+  & .ipc__footer {
+    background: #ba61db;
+    &__button {
+      & ion-button {
+        --background: #9b51e0 75%;
+        --background-activated: #8530D3;
+      }
+    }
+    &__last_year_revenue__value_and_icon__icon {
+      fill: #ba61db;
+    }
+  }
 }
-
-.purple-button {
-  --background: #9b51e0 75%;
-}
-
 /* ------------------------------------ */
 
 /*------ Risk bar levels styles  -------*/
@@ -179,3 +222,7 @@
 }
 
 /* ------------------------------------ */
+
+.sym_color {
+  fill: blue !important ;
+}

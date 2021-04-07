@@ -79,10 +79,30 @@ describe('ApikeysEditModalComponent', () => {
     expect(apiApikeysServiceSpy.update).toHaveBeenCalledTimes(0);
   });
 
+  it('should not call update on close and valid form', () => {
+    fixture.detectChanges();
+    apiApikeysServiceSpy.update.and.returnValue(of({}));
+    component.form.patchValue(formData.valid);
+    component.close();
+    expect(apiApikeysServiceSpy.update).toHaveBeenCalledTimes(0);
+  });
+
   it('should call trackEvent on trackService when Submit Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Submit'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Close Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Close'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

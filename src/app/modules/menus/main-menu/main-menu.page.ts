@@ -83,7 +83,7 @@ export class MainMenuPage implements OnInit {
     },
     {
       id: 2,
-      title: 'Mis fondos finalizados',
+      title: 'funds.funds_finished.header',
       url: '/funds/funds-finished',
       icon: 'film',
       routeDirection: 'forward'
@@ -138,13 +138,13 @@ export class MainMenuPage implements OnInit {
       icon: 'notifications-outline',
       routeDirection: 'root'
     },
-    {
-      id: 9,
-      title: 'app.main_menu.api_keys_managment',
-      url: '/apikeys/list',
-      icon: 'cog',
-      routeDirection: 'root'
-    }
+    // {
+    //   id: 9,
+    //   title: 'app.main_menu.api_keys_managment',
+    //   url: '/apikeys/list',
+    //   icon: 'cog',
+    //   routeDirection: 'root'
+    // }
   ];
 
   constructor(

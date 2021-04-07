@@ -53,24 +53,36 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 export class FundInvestmentPage implements OnInit {
   investments_products = [
     {
-      profile: 'volume_profile_strategies_USDT',
-      min_capital: '150',
-      annual_interest: '90.96',
-    },
-    {
       profile: 'volume_profile_strategies_BTC',
       min_capital: '150',
-      annual_interest: '35.83',
+      percentage: '5.02',
+      link_info: 'https://bit.ly/factsheet-strategy2',
+      risk: 3,
+      currency: 'BTC'
+    },
+    {
+      profile: 'volume_profile_strategies_USDT',
+      min_capital: '150',
+      percentage: '22.5',
+      link_info: 'https://bit.ly/factsheet-strategy1',
+      risk: 3,
+      currency: 'USDT'
     },
     {
       profile: 'DeFi_index',
       min_capital: '500',
-      annual_interest: '200.73',
+      percentage: '434.02',
+      link_info: 'https://bit.ly/factsheet-strategy4',
+      risk: 5,
+      currency: 'USDT'
     },
     {
       profile: 'Mary_index',
       min_capital: '500',
-      annual_interest: '42.73',
+      percentage: '160.5',
+      link_info: 'https://bit.ly/factsheet-strategy3',
+      risk: 4,
+      currency: 'USDT'
     },
   ];
 
