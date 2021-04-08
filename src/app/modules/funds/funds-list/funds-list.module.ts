@@ -4,6 +4,7 @@ import { FundsListPage } from './funds-list.page';
 import { SharedFundsModule } from '../shared-funds/shared-funds.module';
 import { FundListSubHeaderComponent } from './components/fund-list-sub-header/fund-list-sub-header.component';
 import { FundSliderNewsCardComponent } from './components/fund-slider-news/fund-slider-news.component';
+import { UserStatusCardComponent } from './components/user-status-card/user-status-card.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
     FundsListPage,
     FundListSubHeaderComponent,
     FundSliderNewsCardComponent,
+    UserStatusCardComponent
   ],
 })
 export class FundsListPageModule {}

@@ -81,18 +81,6 @@ describe('FundsListPage', () => {
             {
               path: 'tutorials/interactive-tutorial',
               component: DummyComponent
-            },
-            {
-              path: 'profiles/personal-data',
-              component: DummyComponent
-            },
-            {
-              path: 'profiles/user',
-              component: DummyComponent
-            },
-            {
-              path: 'notifications/list',
-              component: DummyComponent
             }
           ])
         ],
@@ -146,62 +134,15 @@ describe('FundsListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call status and set it in apiUsuariosService on ionViewWillEnter', () => {
+  it('should call status and set it in apiUsuariosService on ionViewWillEnter', async () => {
     const spy = spyOn(apiUsuariosService, 'status');
     spy.and.returnValue(of({}));
-    const spySetSteps = spyOn(component, 'setSteps');
-    const spySetActionButton = spyOn(component, 'setActionButton');
-    const spySetNewFundUrl = spyOn(component, 'setNewFundUrl');
-    component.ionViewWillEnter();
+    const spyInitQtyNotifications = spyOn(component, 'initQtyNotifications');
+    const spyCreateNotificationTimer = spyOn(component, 'createNotificationTimer');
+    await component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spySetSteps).toHaveBeenCalledTimes(1);
-    expect(spySetActionButton).toHaveBeenCalledTimes(1);
-    expect(spySetNewFundUrl).toHaveBeenCalledTimes(1);
-  });
-
-  it('should return profiles/personal-data when profile not valid', () => {
-    component.status = {
-      profile_valid: false,
-      empty_linked_keys: false,
-      has_own_funds: true,
-      has_subscribed_funds: true,
-      status_name: 'FROM_BOT'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('profiles/personal-data');
-    expect(tabsComponent.newFundUrl).toBe('profiles/personal-data');
-  });
-
-  it('should return apikeys/tutorial when profile valid and not empty linked keys', () => {
-    component.status = {
-      profile_valid: true,
-      empty_linked_keys: false,
-      has_own_funds: true,
-      has_subscribed_funds: true,
-      status_name: 'EXOLORER'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('apikeys/tutorial');
-    expect(tabsComponent.newFundUrl).toBe('apikeys/tutorial');
-  });
-
-  it('should return funds/fund-name when profile valid and empty linked keys', () => {
-    component.status = {
-      profile_valid: true,
-      empty_linked_keys: true,
-      has_own_funds: false,
-      has_subscribed_funds: false,
-      status_name: 'BEGINNER'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('funds/fund-name');
-    expect(tabsComponent.newFundUrl).toBe('funds/fund-name');
+    expect(spyInitQtyNotifications).toHaveBeenCalledTimes(1);
+    expect(spyCreateNotificationTimer).toHaveBeenCalledTimes(1);
   });
 
   it('should call getFundBalances in apiFundsService twice when ionViewWillEnter', async () => {
@@ -246,25 +187,6 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Action Button button clicked', () => {
-    component.status = {
-      profile_valid: true,
-      empty_linked_keys: true,
-      has_own_funds: false,
-      has_subscribed_funds: false,
-      status_name: 'BEGINNER'
-    };
-    fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Action Button'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
 
   it('should call getNews when ionViewWillEnter is called', async () => {
     spyOn(component, 'getStatus');
