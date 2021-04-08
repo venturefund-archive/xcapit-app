@@ -10,7 +10,9 @@
       "help": "Ayuda",
       "password_change": "Cambio de Password",
       "referrals": "Referidos",
-      "notifications": "Notificaciones"
+      "notifications": "Notificaciones",
+      "api_keys_managment": "Gestión de API Keys",
+      "change_language": "Idioma"
     }
   },
   "config": {
@@ -20,7 +22,8 @@
       "pattern": "El campo no cumple con el patrón requerido",
       "minlength": "Se requieren más caracteres",
       "maxlength": "Se requieren menos caracteres",
-      "not_matching": "Los campos no coinciden"
+      "not_matching": "Los campos no coinciden",
+      "has_special_character": "No permite caracteres especiales ni espacios"
     },
     "field_errors": {
       "cellphone": {
@@ -167,6 +170,9 @@
         "total_detail": "En las ultimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
+      "error": {
+        "refresh_error": "Intente nuevamente en unos segundos"
+      },
       "fund_steps": {
         "title": "Configurá tu cuenta y empezá a invertir",
         "step1": "Configurar cuenta",
@@ -258,7 +264,8 @@
         "change_currency": "Cambiar moneda",
         "fund_balance_detail_title": "Detalle Balance",
         "fund_balance_detail_period_begin": "Inicio del período",
-        "fund_balance_detail_last_update": "Última actualización"
+        "fund_balance_detail_last_update": "Última actualización",
+        "view_operation_history": "Ver historial de operaciones"
       },
       "operations_history_card": {
         "title": "HISTÓRICO DEL FONDO",
@@ -346,21 +353,39 @@
       "fund_name_placeholder": "Ej: MiPrimerFondo",
       "next_button": "Siguiente"
     },
-    "fund_risk": {
+    "fund_investment": {
       "header": "Crea un fondo",
       "header_renew": "Renueva un fondo",
-      "title": "¿Qué tan agresiva quieres que sea la inversión?",
-      "text_before": "Esto condicionará el modo de operar y el consiguiente riesgo a asumir a la hora de invertir.",
-      "risk_level": "Nivel de riesgo a asumir",
-      "risk_level_options": {
-        "low": "Bajo",
-        "mid": "Medio",
-        "high": "Alto",
-        "multi_strategies": "Multiestrategia"
+      "header_info": {
+        "title": "Selecciona la estrategia de inversión",
+        "description": "Esto condicionará el modo a operar y el consiguiente riesgo a asumir a la hora de invertir."
       },
-      "new_badge": "Nuevo",
-      "next_button": "Siguiente",
-      "back_button": "Anterior"
+      "card": {
+        "risk_label": "Riesgo",
+        "currency": "USD",
+        "min_capital_label": "Mínimo para operar",
+        "more_info": "Más info",
+        "invest_button": "Invertir",
+        "last_year_revenue": "90 días",
+        "profiles": {
+          "volume_profile_strategies_USDT": {
+            "title": "Denali",
+            "description": "Permite que Brainy tradee por ti y obten rendimientos en dólares."
+          },
+          "volume_profile_strategies_BTC": {
+            "title": "Olympus Mons",
+            "description": "Genera más Bitcoins con los Bitcoins que ya tienes."
+          },
+          "DeFi_index": {
+            "title": "Himalayas",
+            "description": "Participa del creciente mercado de las finanzas descentralizadas."
+          },
+          "Mary_index": {
+            "title": "Andes",
+            "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
+          }
+        }
+      }
     },
     "fund_duration": {
       "header": "Crea un fondo",
@@ -371,18 +396,6 @@
       "next_button": "Siguiente",
       "back_button": "Anterior",
       "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
-    },
-    "fund_currency": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "¿En qué moneda quieres que optimicemos tu capital?",
-      "text_before": "Esta es la moneda sobre la cual buscaremos tener rendimientos. En esta misma moneda vas a ver la evolución de tu inversión a través del tiempo.",
-      "currency": "Moneda",
-      "btc_text": "Bitcoin BTC",
-      "usdt_text": "Dólar USDT",
-      "next_button": "Siguiente",
-      "back_button": "Anterior",
-      "text_help": "La elección de la moneda es independiente del comportamiento de otras monedas que componen el portfolio"
     },
     "fund_take_profit": {
       "header": "Crea un fondo",
@@ -541,7 +554,7 @@
       "show_personal_data": "DATOS PERSONALES",
       "first_name": "Nombre",
       "last_name": "Apellido",
-      "nro_dni": "Documento de Identidad",
+      "email": "Email",
       "cellphone": "Celular",
       "show_bill_data": "DATOS DE FACTURACIÓN",
       "bill_data": "Datos de facturación",
@@ -934,7 +947,8 @@
         "invalid": "Error al validar el email."
       },
       "login": {
-        "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente."
+        "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente.",
+        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión."
       },
       "changePassword": {
         "invalid": "Error al Cambiar la Password."
@@ -961,7 +975,11 @@
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
         "balanceNotEnough": "El monto mínimo para operar son 150 USD equivalente en cripto.",
         "keysExists": "Las keys ya se encuentran registradas.",
-        "invalidData": "Hemos tenidos un error. Intenta nuevamente más tarde."
+        "invalidData": "Hemos tenido un error. Intenta nuevamente más tarde.",
+        "default": "Ha ocurrido un error"
+      },
+      "remove": {
+        "error": "Ha ocurrido un error, intente nuevamente."
       }
     },
     "fund_slider_news": {
@@ -1007,7 +1025,8 @@
   },
   "notifications": {
     "notifications_list": {
-      "header": "Notificaciones"
+      "header": "Notificaciones",
+      "error_message": "No hay notificaciones para mostrar"
     },
     "notification": {
       "header": "Notificación"
@@ -1043,6 +1062,26 @@
       "slide4_option_next": "Siguiente",
       "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
     },
+
+    "card_apikeys": {
+      "content": "Fondo:",
+      "action": "Gestionar",
+      "used_apikey": "Keys en uso",
+      "no_fund_text": "Sin fondos",
+      "success_toast": "Eliminaste exitosamente una key.",
+      "confirmation_alert": {
+        "header": "Estas a un paso de eliminar keys",
+        "message": "Entiendo que al eliminar las keys ya no podré verlas en el listado ni asociarlas a un fondo de inversion.",
+        "confirm_button": "Eliminar",
+        "cancel_button": "Cancelar"
+      }
+    },
+
+    "manage_apikeys": {
+      "header": "Gestión de API Keys",
+      "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas."
+    },
+
     "linked_apikeys": {
       "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
       "subtitle_header_text": "Ya comenzaste tu viaje crypto",
@@ -1050,6 +1089,14 @@
       "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
     },
+
+    "register_success": {
+      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
+      "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
+      "namePrimaryAction": "Gestionar",
+      "nameSecondaryAction": "Omitir por ahora"
+    },
+
     "tutorial_apikeys": {
       "header": "Vincular con Binance",
       "title": "Crea una API Key",
@@ -1100,6 +1147,30 @@
       "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
       "submit_button": "Guardar",
       "need_help": "¿Necesitas ayuda?"
+    },
+    "register": {
+      "header": "Agregar API key",
+      "label_alias": "Alias",
+      "placeholder_alias": "MisKeysEnBinance",
+      "label_apikey": "Binance API Key",
+      "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
+      "label_secretkey": "Binance Secret Key",
+      "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
+      "button_submmit": "Agregar",
+      "link_help": "¿Necesitas Ayuda?",
+      "alert": {
+        "title": "Agregar nueva key",
+        "text": "Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
+        "button": "Entendido"
+      }
+    },
+    "edit_modal": {
+      "title": "Cambiar Alias",
+      "description": "El alias es un nombre para que identifiques a qué API key de Binance pertenecen los fondos.",
+      "button_submit": "Modificar",
+      "edit_error": {
+        "default": "Ha ocurrido un error."
+      }
     }
   },
   "tabs": {

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundOperationsDetailPage } from '../fund-operations-detail/fund-operations-detail.page';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -37,7 +37,7 @@ describe('FundOperationsDetailPage', () => {
     fee_cost: 0.00011169,
     fee_currency: 'ETH',
   };
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiFundsServiceSpy = {
       getOrderDetail: () => of(orderTestData),
     };

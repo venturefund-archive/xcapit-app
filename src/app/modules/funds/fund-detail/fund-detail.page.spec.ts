@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 
 import { FundDetailPage } from './fund-detail.page';
@@ -38,7 +38,7 @@ describe('FundDetailPage', () => {
   let modalControllerSpy: any;
   let navControllerSpy: any;
   let storageSpy: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock

@@ -35,6 +35,10 @@ ion-picker {
   touch-action: none;
 }
 
+ion-toast.refresher_toast {
+  top: 86%;
+}
+
 :root {
   // Font family, weight, size
   // Family
@@ -78,6 +82,10 @@ ion-picker {
 
   .ux-fsize-14 {
     font-size: 14px;
+  }
+
+  .ux-fsize-15 {
+    font-size: 15px;
   }
 
   .ux-fsize-16 {
@@ -155,6 +163,16 @@ ion-picker {
     }
   }
 
+  .full-screen-modal {
+    .modal-wrapper {
+      margin-top: 120px;
+
+      .ion-page {
+        padding-bottom: 60px;
+      }
+    }
+  }
+
   // Portfolio Modal swippeable
   .generic-modal {
     .modal-wrapper {
@@ -174,6 +192,14 @@ ion-picker {
       .ion-page {
         padding-bottom: calc(35vh / 2);
       }
+    }
+  }
+
+  // Apikeys Modal swippeable
+  .apikeys-modal {
+    .modal-wrapper {
+      margin-top: calc(100vh - 240px);
+      height: 256px;
     }
   }
 

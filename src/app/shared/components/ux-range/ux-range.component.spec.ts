@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UxRangeComponent } from './ux-range.component';
 import { FormGroupDirective } from '@angular/forms';
@@ -9,7 +9,7 @@ describe('UxRangeComponent', () => {
   let fixture: ComponentFixture<UxRangeComponent>;
   let formGroupDirectiveMock: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     formGroupDirectiveMock = { control: { get: () => null } };
 
     TestBed.configureTestingModule({

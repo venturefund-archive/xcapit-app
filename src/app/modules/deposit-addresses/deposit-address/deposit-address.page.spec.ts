@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DepositAddressPage } from './deposit-address.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ describe('DepositAddressPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DepositAddressPage>;
   let toastServiceSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast',
     ]);

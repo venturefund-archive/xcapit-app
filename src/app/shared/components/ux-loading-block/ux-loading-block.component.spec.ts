@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { UxLoadingBlockComponent } from './ux-loading-block.component';
@@ -7,7 +7,7 @@ describe('UxLoadingBlockComponent', () => {
   let component: UxLoadingBlockComponent;
   let fixture: ComponentFixture<UxLoadingBlockComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UxLoadingBlockComponent ],
       imports: [IonicModule]

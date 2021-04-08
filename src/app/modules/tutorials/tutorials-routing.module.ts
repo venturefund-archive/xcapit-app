@@ -7,20 +7,6 @@ const routes: Routes = [
     path: 'tutorials',
     children: [
       {
-        path: 'interactive-tutorial',
-        canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./interactive-tutorial/interactive-tutorial.module').then(
-            m => m.InteractiveTutorialPageModule
-          )
-      },
-      {
-        path: 'help',
-        canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./help/help.module').then(m => m.HelpPageModule)
-      },
-      {
         path: 'first-steps',
         canActivate: [AuthGuard],
         loadChildren: () =>

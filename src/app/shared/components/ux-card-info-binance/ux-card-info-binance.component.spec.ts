@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { UxCardInfoBinanceComponent } from './ux-card-info-binance.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -13,7 +13,7 @@ describe('UxCardInfoBinanceComponent', () => {
   let fixture: ComponentFixture<UxCardInfoBinanceComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxCardInfoBinanceComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         UxCardInfoBinanceComponent,
