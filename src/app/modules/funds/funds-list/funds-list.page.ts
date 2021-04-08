@@ -268,16 +268,20 @@ export class FundsListPage implements OnInit, OnDestroy {
     }
   }
 
-
   async getNews() {
     this.news = await this.apiWebFlow.getNews().toPromise();
   }
 
   ngOnDestroy() {
-    this.timerSubscription.unsubscribe();
-    this.notificationQtySubscription.unsubscribe();
+    if (this.timerSubscription && !this.timerSubscription.closed) {
+      this.timerSubscription.unsubscribe();
+    }
+
+    if (this.notificationQtySubscription && !this.notificationQtySubscription.closed) {
+      this.notificationQtySubscription.unsubscribe();
+    }
+
     this.refreshTimeoutService.unsubscribe();
   }
-
 
 }

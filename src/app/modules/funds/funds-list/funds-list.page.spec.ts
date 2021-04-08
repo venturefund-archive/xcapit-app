@@ -1,19 +1,18 @@
-import { TabsComponent } from './../../tabs/tabs/tabs.component';
+import { TabsComponent } from '../../tabs/tabs/tabs.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundsListPage } from './funds-list.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
@@ -29,7 +28,6 @@ describe('FundsListPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
   let tabsComponentMock: any;
   let tabsComponent: TabsComponent;
-  let navControllerSpy: any;
   let apiWebflowServiceMock: any;
   let notificationsServiceMock: any;
 
@@ -62,10 +60,6 @@ describe('FundsListPage', () => {
             status_name: 'COMPLETE'
           })
       };
-      navControllerSpy = jasmine.createSpyObj(
-        'NavController',
-        navControllerMock
-      );
 
       notificationsServiceMock = {
         getNotifications: () => of({}),
@@ -100,10 +94,6 @@ describe('FundsListPage', () => {
           {
             provide: ApiUsuariosService,
             useValue: apiUsuariosServiceMock
-          },
-          {
-            provide: NavController,
-            useValue: navControllerSpy
           },
           {
             provide: ApiWebflowService,
@@ -164,6 +154,7 @@ describe('FundsListPage', () => {
   });
 
   it('should call trackEvent on trackService when Go To Profile button clicked', () => {
+    spyOn(component, 'goToProfile');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Go To Profile'
@@ -176,6 +167,7 @@ describe('FundsListPage', () => {
   });
 
   it('should call trackEvent on trackService when Show Notifications button clicked', () => {
+    spyOn(component, 'showNotifications');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Show Notifications'
