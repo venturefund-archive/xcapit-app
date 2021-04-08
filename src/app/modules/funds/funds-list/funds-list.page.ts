@@ -51,58 +51,16 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
                   *ngIf="this.status?.status_name == ''"
                   minSize="50px"
           ></app-ux-loading-block>
+
           <app-fund-list-sub-header
                   *ngIf="
           this.ownerFundBalances?.length &&
           this.status?.status_name == 'COMPLETE'
         "
           ></app-fund-list-sub-header>
-          <!-- Steps -->
-          <div
-                  class="fund_steps"
-                  *ngIf="
-          this.status?.status_name != 'COMPLETE' &&
-          this.status?.status_name != ''
-        "
-          >
-              <div class="fund_steps__subheader_bg"></div>
-              <div class="fund_steps__card ion-padding">
-                  <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
-                      <ion-text>{{
-                          'funds.funds_list.fund_steps.title' | translate
-                          }}</ion-text>
-                  </div>
-                  <div class="fund_steps__card__steps">
-                      <div
-                              class="fund_steps__card__steps__step"
-                              *ngFor="let step of steps"
-                      >
-                          <div class="step_icon">
-                              <ion-icon [name]="step.icon" class="ux-fsize-22"></ion-icon>
-                          </div>
-                          <div class="step_text" color="uxdark">
-                              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">{{
-                                  step.text
-                                  }}</ion-text>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="fund_steps__card__buttons">
-                      <ion-button
-                              appTrackClick
-                              [dataToTrack]="{ description: this.actionButton?.name }"
-                              name="Action Button"
-                              class="ux_button"
-                              type="button"
-                              color="primary"
-                              expand="block"
-                              size="medium"
-                              (click)="doActionButton()"
-                      >
-                          {{ this.actionButton?.text | translate }}
-                      </ion-button>
-                  </div>
-              </div>
+          <div class="fl__user-status__subheader"></div>
+          <div class="fl__user-status" *ngIf="this.status?.status_name !== ''">
+              <app-user-status-card [userStatus]="this.status"></app-user-status-card>
           </div>
 
           <ion-refresher
@@ -119,7 +77,8 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
                       pullingIcon="false"
               >
                   <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-                  <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-10" color="uxmedium" *ngIf="!(this.isRefreshAvailable$ | async)">
+                  <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-10" color="uxmedium"
+                            *ngIf="!(this.isRefreshAvailable$ | async)">
                       {{ 'funds.funds_list.refresh_time' | translate: {
                       seconds: (this.refreshRemainingTime$ | async)
                   }
@@ -181,25 +140,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
                   </div>
               </div>
           </div>
-          <div
-                  class="academy ion-padding"
-                  *ngIf="
-          this.status.profile_valid &&
-          !this.status.empty_linked_keys &&
-          !this.status.has_own_funds
-        "
-          >
-              <div
-                      class="academy__info__title ux-font-lato ux-fweight-semibold ux-fsize-12"
-              >
-                  <ion-label color="uxsemidark">
-                      {{ 'funds.funds_list.info_title' | translate }}
-                  </ion-label>
-              </div>
-              <div class="academy__card_info_binance">
-                  <app-ux-card-info-binance></app-ux-card-info-binance>
-              </div>
-          </div>
+
           <!-- Slider News -->
           <div class="academy ion-padding" *ngIf="this.news">
               <div
@@ -221,8 +162,7 @@ export class FundsListPage implements OnInit, OnDestroy {
   news: Array<any>;
   hasNotifications = false;
   lockActivated = false;
-
-  status = {
+  status: any = {
     profile_valid: false,
     empty_linked_keys: false,
     has_own_funds: false,
@@ -230,13 +170,7 @@ export class FundsListPage implements OnInit, OnDestroy {
     status_name: ''
   };
 
-  actionButton: {
-    name: string;
-    text: string;
-  };
-  newFundUrl: string;
 
-  steps: any;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
 
@@ -248,25 +182,29 @@ export class FundsListPage implements OnInit, OnDestroy {
   constructor(
     private apiFundsService: ApiFundsService,
     private translate: TranslateService,
-    private apiUsuarios: ApiUsuariosService,
+    private apiUsers: ApiUsuariosService,
     private navController: NavController,
     private tabsComponent: TabsComponent,
-    private apiWebflow: ApiWebflowService,
+    private apiWebFlow: ApiWebflowService,
     private notificationsService: NotificationsService,
     private refreshTimeoutService: RefreshTimeoutService
   ) {
   }
 
   ngOnInit() {
-    this.initQtyNotifications();
-
-    const minutes = 0.5;
-    this.timerSubscription = timer(0, minutes * 60000).subscribe(() => {
-      this.notificationQtySubject.next();
-    });
   }
 
+  createNotificationTimer() {
+    this.timerSubscription = timer(0, 0.5 * 60000)
+      .subscribe(() => {
+        this.notificationQtySubject.next();
+      });
+  }
+
+
   async ionViewWillEnter() {
+    this.initQtyNotifications();
+    this.createNotificationTimer();
     this.getStatus();
     await this.getOwnerFundBalances();
     await this.getNotOwnerFundBalances();
@@ -279,67 +217,22 @@ export class FundsListPage implements OnInit, OnDestroy {
       .pipe(
         switchMap(() =>
           this.notificationsService.getCountNotifications().pipe(
-            catchError((err) => {
+            catchError(_ => {
               return EMPTY;
             })
           )
         )
       )
-      .subscribe((res: any) => (this.unreadNotifications = res['count']));
-
+      .subscribe((res: any) => (this.unreadNotifications = res.count));
     this.notificationQtySubject.next();
   }
 
   getStatus() {
-    this.apiUsuarios.status(false).subscribe((res) => {
+    this.apiUsers.status(false).subscribe((res) => {
       this.status = res;
-      this.setSteps();
-      this.setActionButton();
-      this.setNewFundUrl();
     });
   }
 
-  setSteps() {
-    this.steps = [
-      {
-        icon: this.status.profile_valid ? 'ux-checked-circle' : 'ux-step-1',
-        text: this.translate.instant('funds.funds_list.fund_steps.step1')
-      },
-      {
-        icon: this.status.empty_linked_keys ? 'ux-checked-circle' : 'ux-step-2',
-        text: this.translate.instant('funds.funds_list.fund_steps.step2')
-      },
-      {
-        icon: 'ux-step-3',
-        text: this.translate.instant('funds.funds_list.fund_steps.step3')
-      }
-    ];
-  }
-
-  setActionButton() {
-    if (!this.status.profile_valid) {
-      this.actionButton = {
-        name: 'Configure Account',
-        text: this.translate.instant(
-          'funds.funds_list.fund_steps.action_button1'
-        )
-      };
-    } else if (!this.status.empty_linked_keys) {
-      this.actionButton = {
-        name: 'Link with Binance',
-        text: this.translate.instant(
-          'funds.funds_list.fund_steps.action_button2'
-        )
-      };
-    } else {
-      this.actionButton = {
-        name: 'Create New Fund',
-        text: this.translate.instant(
-          'funds.funds_list.fund_steps.action_button3'
-        )
-      };
-    }
-  }
 
   private async getOwnerFundBalances() {
     this.ownerFundBalances = await this.apiFundsService
@@ -363,10 +256,6 @@ export class FundsListPage implements OnInit, OnDestroy {
     this.navController.navigateForward('profiles/user');
   }
 
-  doActionButton() {
-    this.navController.navigateRoot(this.newFundUrl);
-  }
-
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
       await this.getOwnerFundBalances();
@@ -379,17 +268,9 @@ export class FundsListPage implements OnInit, OnDestroy {
     }
   }
 
-  setNewFundUrl() {
-    this.newFundUrl = !this.status.profile_valid
-      ? 'profiles/personal-data'
-      : !this.status.empty_linked_keys
-        ? 'apikeys/tutorial'
-        : 'funds/fund-name';
-    this.tabsComponent.newFundUrl = this.newFundUrl;
-  }
 
   async getNews() {
-    this.news = await this.apiWebflow.getNews().toPromise();
+    this.news = await this.apiWebFlow.getNews().toPromise();
   }
 
   ngOnDestroy() {

@@ -73,11 +73,6 @@
       "title": "How does our robot work?",
       "content": "Know all the details of the way we operate.",
       "action": "More information"
-    },
-    "card_info_binance": {
-      "title": "What is Binance?",
-      "content": "Everything you need to know before linking your account.",
-      "action": "More information"
     }
   },
   "usuarios": {
@@ -168,14 +163,9 @@
         "total_detail": "In the last 24 hs",
         "change_currency": "Change currency"
       },
-      "fund_steps": {
-        "title": "Set up your account and start investing",
-        "step1": "Set up your account",
-        "step2": "Link with Binance",
-        "step3": "Create a new fund",
-        "action_button1": "Set up your account",
-        "action_button2": "Link with Binance",
-        "action_button3": "Create my first investment fund"
+      "user_status": {
+        "title": "Choose a profile to start using Xcapit",
+        "action_button": "Start"
       },
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
