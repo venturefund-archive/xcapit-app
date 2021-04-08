@@ -7,29 +7,11 @@ import { LocalStorageService } from '../../services/local-storage/local-storage.
   pure: false,
 })
 export class HideTextPipe implements PipeTransform {
-  public activated: boolean ;
+  constructor() { }
 
-  constructor(private localStorageService: LocalStorageService) {
-    this.activated = this.localStorageService.getHideFunds()
-
-  }
-
-  
-
-  activate() {
-    this.activated = true;
-    this.transform;
-  }
-
-  desactivate() {
-    this.activated = false;
-    this.transform;
-  }
-
-  transform(value: string, activated : boolean): string {
-    if ((this.activated === true)) {
-      console.log("me estoy activando")
-      return value ? value.replace(value, '****') : value ;
+  transform(value: string, activated: boolean): string {
+    if ((activated == true)) {
+      return value ? value.replace(value, '****') : value;
     } else {
       return value;
     }

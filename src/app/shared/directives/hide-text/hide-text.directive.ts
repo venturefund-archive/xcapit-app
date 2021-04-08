@@ -1,37 +1,23 @@
-import { ChangeDetectorRef, Directive,ElementRef,HostListener } from '@angular/core';
-import { HideTextPipe } from '../../pipes/hide-text/hide-text.pipe';
+import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
-import { TrackService } from '../../services/track/track.service';
-
 
 @Directive({
-  selector: '[appHideText]'
+  selector: '[appHideText]',
 })
 export class HideTextDirective {
-  constructor(private el: ElementRef, private localStorageService: LocalStorageService, private hideTextPipe:HideTextPipe ) { 
-    this.localStorageService.hideFundsHasChanged.subscribe(
-      (hideFunds) => this.onLocalStorageHasChanged(hideFunds)
+  @Output() hideTextHasChanged: EventEmitter<boolean>;
+
+  constructor(private localStorageService: LocalStorageService) {
+    this.hideTextHasChanged = new EventEmitter<boolean>();
+
+    this.hideTextHasChanged.emit(this.localStorageService.getHideFunds());
+
+    this.localStorageService.hideFundsHasChanged.subscribe((hideFunds) =>
+      this.onLocalStorageHasChanged(hideFunds)
     );
   }
 
-
-  
-  onLocalStorageHasChanged(hideFunds : boolean) {
-    console.log("Cambió a " + hideFunds);
-    if (hideFunds) {
-      this.hideFunds();
-    } else {
-      this.showFunds();
-    }
+  onLocalStorageHasChanged(hideFunds: boolean) {
+    this.hideTextHasChanged.emit(hideFunds);
   }
-
-  hideFunds() {
-    this.hideTextPipe.activate();
-  }
-
-  showFunds() {
-    this.hideTextPipe.desactivate();
-
-  }
-
 }

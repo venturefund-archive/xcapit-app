@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import * as moment from 'moment';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-fund-card',
@@ -28,7 +29,7 @@ import * as moment from 'moment';
               }"
               class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold"
             >
-              <ion-text appHideText>
+              <ion-text appHideText (hideTextHasChanged)="this.onHideTextHasChanged($event)">
                 {{
                   this.fund?.end_balance
                     | currencyFormat
@@ -37,7 +38,7 @@ import * as moment from 'moment';
                           formatUSDT: '1.2-2',
                           formatBTC: '1.2-4'
                         } 
-                        |hideText
+                        | hideText : this.hideFundText
                 }} 
               </ion-text>
             </div>
@@ -150,8 +151,9 @@ export class FundCardComponent implements OnInit {
   @Input() fund: any;
 
   createdTime: any;
+  hideFundText: boolean;
 
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController) { }
 
   ngOnInit() {
     this.createdTime = this.getCreatedTime(this.fund);
@@ -178,5 +180,9 @@ export class FundCardComponent implements OnInit {
     } else {
       return ['seconds', b.diff(a, 'seconds')];
     }
+  }
+
+  onHideTextHasChanged(value : boolean) {
+    this.hideFundText = value;
   }
 }
