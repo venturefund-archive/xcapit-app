@@ -15,126 +15,139 @@ export const routes: Routes = [
         path: 'list',
         loadChildren: () =>
           import('./funds-list/funds-list.module').then(
-            m => m.FundsListPageModule
-          )
+            (m) => m.FundsListPageModule
+          ),
       },
       {
         path: 'detail/:fundName',
         loadChildren: () =>
           import('./fund-detail/fund-detail.module').then(
-            m => m.FundDetailPageModule
-          )
+            (m) => m.FundDetailPageModule
+          ),
       },
       {
         path: 'fund-name',
         loadChildren: () =>
-          import('./fund-name/fund-name.module').then(m => m.FundNamePageModule)
+          import('./fund-name/fund-name.module').then(
+            (m) => m.FundNamePageModule
+          ),
       },
       {
         path: 'fund-risk',
         canActivate: [BeforeStepDataGuard],
         loadChildren: () =>
-          import('./fund-risk/fund-risk.module').then(m => m.FundRiskPageModule)
+          import('./fund-risk/fund-risk.module').then(
+            (m) => m.FundRiskPageModule
+          ),
       },
       {
         path: 'fund-duration',
         canActivate: [BeforeStepDataGuard],
         loadChildren: () =>
           import('./fund-duration/fund-duration.module').then(
-            m => m.FundDurationPageModule
-          )
+            (m) => m.FundDurationPageModule
+          ),
       },
       {
         path: 'fund-currency',
         canActivate: [BeforeStepDataGuard],
         loadChildren: () =>
           import('./fund-currency/fund-currency.module').then(
-            m => m.FundCurrencyPageModule
-          )
+            (m) => m.FundCurrencyPageModule
+          ),
       },
       {
         path: 'fund-take-profit',
         canActivate: [BeforeStepDataGuard],
         loadChildren: () =>
           import('./fund-take-profit/fund-take-profit.module').then(
-            m => m.FundTakeProfitPageModule
-          )
+            (m) => m.FundTakeProfitPageModule
+          ),
       },
       {
         path: 'fund-stop-loss',
         loadChildren: () =>
           import('./fund-stop-loss/fund-stop-loss.module').then(
-            m => m.FundStopLossPageModule
-          )
+            (m) => m.FundStopLossPageModule
+          ),
       },
       {
         path: 'fund-success',
         loadChildren: () =>
           import('./fund-success/fund-success.module').then(
-            m => m.FundSuccessPageModule
-          )
+            (m) => m.FundSuccessPageModule
+          ),
       },
       {
         path: 'runs/:fundName',
         canActivate: [IsSubscribedGuard],
         loadChildren: () =>
-          import('./fund-runs/fund-runs.module').then(m => m.FundRunsPageModule)
+          import('./fund-runs/fund-runs.module').then(
+            (m) => m.FundRunsPageModule
+          ),
       },
       {
         path: 'commissions',
         loadChildren: () =>
           import('./commission/commission.module').then(
-            m => m.CommissionPageModule
-          )
+            (m) => m.CommissionPageModule
+          ),
       },
       {
         path: 'fund-settings/:name',
         loadChildren: () =>
           import('./fund-settings/fund-settings.module').then(
-            m => m.FundSettingsPageModule
-          )
+            (m) => m.FundSettingsPageModule
+          ),
       },
       {
         path: 'funds-finished',
         loadChildren: () =>
           import('./funds-finished/funds-finished.module').then(
-            m => m.FundsFinishedPageModule
-          )
+            (m) => m.FundsFinishedPageModule
+          ),
       },
       {
         path: 'fund-operations/:fundName',
         loadChildren: () =>
           import('./fund-operations/fund-operations.module').then(
-            m => m.FundOperationsPageModule
-          )
+            (m) => m.FundOperationsPageModule
+          ),
       },
       {
         path: 'fund-operations-detail/:orderID',
         loadChildren: () =>
           import('./fund-operations-detail/fund-operations-detail.module').then(
-            m => m.FundOperationsDetailPageModule
-          )
+            (m) => m.FundOperationsDetailPageModule
+          ),
       },
       {
         path: 'edit-stop-loss/:fundName',
         loadChildren: () =>
           import('./fund-edit-stop-loss/fund-edit-stop-loss.module').then(
-            m => m.FundEditStopLossPageModule
-          )
+            (m) => m.FundEditStopLossPageModule
+          ),
       },
       {
         path: 'edit-take-profit/:fundName',
         loadChildren: () =>
           import('./fund-edit-take-profit/fund-edit-take-profit.module').then(
-            m => m.FundEditTakeProfitPageModule
-          )
-      }
-    ]
-  }
+            (m) => m.FundEditTakeProfitPageModule
+          ),
+      },
+      {
+        path: 'fund-timeline-detail/:fundName/:runID',
+        loadChildren: () =>
+          import('./fund-timeline-detail/fund-timeline-detail.module').then(
+            (m) => m.FundTimelineDetailPageModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class FundsRoutingModule {}

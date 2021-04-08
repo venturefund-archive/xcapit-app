@@ -1,0 +1,15 @@
+.atd{
+    &__config-card{
+        
+        &__content{
+            background-color: var(--ion-color-uxlight);
+            --background: #fff;
+            display:flex;
+            flex-direction: column;
+            &__item {
+                display:flex;
+                flex-direction: column;
+            }
+        }
+    }
+}

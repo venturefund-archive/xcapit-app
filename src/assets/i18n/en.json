@@ -495,6 +495,11 @@
       "status": "Status",
       "date": "Date",
       "status_closed": "Closed"
+    },
+    "fund_timeline_detail": {
+      "config_card": {
+        "title": "CONFIGURATION"
+      }
     }
   },
   "runs": {

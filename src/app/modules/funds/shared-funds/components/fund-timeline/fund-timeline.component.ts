@@ -53,20 +53,20 @@ import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api
                   {{ this.run.fecha_inicio | date: 'dd/MM/yyyy' }}
                 </ion-label>
               </div>
-              <div>
+              <div class="ftl__content__item__content__info__percentage">
                 <ion-label>
                   <ion-text
                     class="ux-font-lato ux-fweight-regular ux-fsize-11"
                     style="color: #21dd62;"
                   >
-                    {{ this.run.percentage }}
+                    {{ this.run.percentage }}%
                   </ion-text>
-                  <ion-text
+                  <!-- <ion-text
                     class="ux-font-lato ux-fweight-regular ux-fsize-10"
                     color="uxsemidark"
                   >
                     / $7.5
-                  </ion-text>
+                  </ion-text> -->
                 </ion-label>
               </div>
             </div>

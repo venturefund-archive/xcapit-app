@@ -500,6 +500,18 @@
       "status": "Estado",
       "date": "Fecha",
       "status_closed": "Cerrado"
+    },
+    "fund_timeline_detail": {
+      "config_card": {
+        "title": "CONFIGURACIÓN",
+        "item": {
+          "state": "Estado",
+          "initial_date": "Fecha de Inicio",
+          "take_profit": "Take profit",
+          "stop_loss": "Stop loss",
+          "currency": "Moneda"
+        }
+      }
     }
   },
   "runs": {

@@ -65,7 +65,6 @@
           &__dot-container {
             &__dot {
               width: 7.5px;
-              height: 7.5px;
               background: #21dd62;
             }
           }
@@ -97,6 +96,9 @@
           &__info {
             display: flex;
             flex-direction: column;
+            &__percentage {
+              text-align: right;
+            }
           }
         }
       }
