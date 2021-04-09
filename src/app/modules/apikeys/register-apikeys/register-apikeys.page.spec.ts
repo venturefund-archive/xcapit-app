@@ -17,13 +17,13 @@ const formData = {
   valid: {
     api_key: 'kLnBhJuI98745Df32CsX09kN',
     secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
-    alias: 'myapikey',
+    alias: 'myapikey'
   },
   invalid: {
     api_key: '',
     secret_key: '',
-    alias: '',
-  },
+    alias: ''
+  }
 };
 
 describe('RegisterApikeysPage', () => {
@@ -36,7 +36,7 @@ describe('RegisterApikeysPage', () => {
 
   beforeEach(waitForAsync(() => {
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
-      'create',
+      'create'
     ]);
 
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
@@ -48,19 +48,19 @@ describe('RegisterApikeysPage', () => {
           { path: 'apikeys/register', component: DummyComponent },
           { path: 'apikeys/success-register', component: DummyComponent },
           { path: 'apikeys/list', component: DummyComponent },
-          { path: 'tabs/funds', component: DummyComponent },
+          { path: 'tabs/funds', component: DummyComponent }
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule,
         IonicModule,
-        ReactiveFormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         TrackClickDirective,
         { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
+        { provide: NavController, useValue: navControllerSpy }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

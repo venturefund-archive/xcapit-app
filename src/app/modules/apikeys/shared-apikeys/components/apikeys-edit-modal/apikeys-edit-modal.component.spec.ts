@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
@@ -10,19 +10,20 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 
 import { ApikeysEditModalComponent } from './apikeys-edit-modal.component';
+import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
 
 const formData = {
   valid: {
-    alias: 'MiApiKey',
+    alias: 'MiApiKey'
   },
   invalid: {
-    alias: 'mi api key',
-  },
+    alias: 'mi api key'
+  }
 };
 
 const initData = {
   id: 1,
-  alias: 'MiApiKey',
+  alias: 'MiApiKey'
 };
 
 describe('ApikeysEditModalComponent', () => {
@@ -30,9 +31,11 @@ describe('ApikeysEditModalComponent', () => {
   let fixture: ComponentFixture<ApikeysEditModalComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ApikeysEditModalComponent>;
   let apiApikeysServiceSpy;
+  let modalControllerSpy;
 
   beforeEach(waitForAsync(() => {
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['update']);
+    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
 
     TestBed.configureTestingModule({
       declarations: [ApikeysEditModalComponent, TrackClickDirective],
@@ -40,13 +43,14 @@ describe('ApikeysEditModalComponent', () => {
         TranslateModule.forRoot(),
         HttpClientTestingModule,
         IonicModule,
-        ReactiveFormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         TrackClickDirective,
         { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -64,7 +68,6 @@ describe('ApikeysEditModalComponent', () => {
   });
 
   it('should call update on handleSubmit and valid form', () => {
-    fixture.detectChanges();
     apiApikeysServiceSpy.update.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
     component.handleSubmit();
