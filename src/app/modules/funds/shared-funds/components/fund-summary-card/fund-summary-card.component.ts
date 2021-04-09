@@ -21,9 +21,10 @@ import { AlertController } from '@ionic/angular';
           </div>
           <div class="actual-amount">
             <ion-text
-              appHideText
               class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
               color="uxdark"
+              appHideText
+              (hideTextHasChanged)="this.hideFundText=$event"
             >
               {{
                 this.summary?.balance.end_balance
@@ -33,6 +34,7 @@ import { AlertController } from '@ionic/angular';
                         formatUSDT: '1.2-2',
                         formatBTC: '1.2-4'
                       }
+                      | hideText : this.hideFundText
               }}
             </ion-text>
           </div>
@@ -121,6 +123,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class FundSummaryCardComponent implements OnInit {
   @Input() summary: FundSummaryInterface;
+  hideFundText: boolean;
   constructor(
     private shareService: ShareService,
     private translate: TranslateService,

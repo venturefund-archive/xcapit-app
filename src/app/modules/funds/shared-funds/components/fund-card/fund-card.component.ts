@@ -29,7 +29,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
               }"
               class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold"
             >
-              <ion-text appHideText (hideTextHasChanged)="this.onHideTextHasChanged($event)">
+              <ion-text appHideText (hideTextHasChanged)="this.hideFundText=$event">
                 {{
                   this.fund?.end_balance
                     | currencyFormat
@@ -181,8 +181,9 @@ export class FundCardComponent implements OnInit {
       return ['seconds', b.diff(a, 'seconds')];
     }
   }
-
+/*
   onHideTextHasChanged(value : boolean) {
     this.hideFundText = value;
   }
+  */
 }
