@@ -10,14 +10,8 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
-
 import { ManageApikeysPage } from './manage-apikeys.page';
 
-const apikeys = {
-  apikeyWithFunds: { id: 1, nombre_bot: 'BTC', alias: 'MiKeyBinance' },
-
-  apikeyWithoutFunds: { id: 2, alias: 'MiKeyBinance' },
-};
 
 describe('ManageApikeysPage', () => {
   let component: ManageApikeysPage;
@@ -36,14 +30,14 @@ describe('ManageApikeysPage', () => {
         RouterTestingModule.withRoutes([
           { path: 'menus/main-menu', component: DummyComponent },
           { path: 'apikeys/list', component: DummyComponent },
-          { path: 'apikeys/register', component: DummyComponent },
+          { path: 'apikeys/register', component: DummyComponent }
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule,
-        IonicModule,
+        IonicModule
       ],
       providers: [{ provide: ApiApikeysService, useValue: apiApikeysServiceSpy }, TrackClickDirective],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -65,6 +59,7 @@ describe('ManageApikeysPage', () => {
   });
 
   it('should call trackEvent on trackService when RegisterNewKey Button clicked', () => {
+    spyOn(component, 'createApiKey');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'RegisterNewKey'
