@@ -7,7 +7,6 @@ import {
 import {
   AlertController,
   ModalController,
-  NavController,
 } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -125,11 +124,16 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
+
     modal.onDidDismiss().then(() => {
-      this.getAllApiKeys();
+      if (data.state == 'success') {
+        this.getAllApiKeys();
+      }
     });
 
     modal.present();
+
+    const { data } = await modal.onWillDismiss();
   }
 
   async showAlert(id) {
