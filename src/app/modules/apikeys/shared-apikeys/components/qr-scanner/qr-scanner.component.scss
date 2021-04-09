@@ -67,23 +67,3 @@ body,
     --padding-end: 13px;
 }
 
-@keyframes shake {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
-  }
-  20% {
-    transform: translate(5px, 5px) rotate(-1deg) scale(1.05);
-  }
-  40% {
-    transform: translate(5px, 5px) rotate(-2deg) scale(1.07);
-  }
-  60% {
-    transform: translate(2px, 2px) rotate(0deg) scale(1.04);
-  }
-  80% {
-    transform: translate(-1px, -1px) rotate(-2deg) scale(1.05);
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
-  }
-}
