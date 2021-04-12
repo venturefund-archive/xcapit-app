@@ -943,7 +943,11 @@
         "invalidExchangeKeys": "The keys not exists in binance.",
         "keysExists": "Keys already used.",
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
-        "invalidData": "Invalid data."
+        "invalidData": "Invalid data.",
+        "default": "An error has ocurred",
+        "cameraAccessDenied": "Couldn't access the camera. Access denied.",
+        "noContentQR": "The QR Code didn't had any content.",
+        "invalidQR": "The QR Code is invalid."
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
@@ -1066,6 +1070,7 @@
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Submmit",
       "link_help": "¿Need Help?",
+      "button_use_qr": "Use a QR code",
       "alert": {
         "title": "Add new key",
         "text": "I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
@@ -1143,6 +1148,9 @@
       "edit_error": {
         "default": "An error has ocurred"
       }
+    },
+    "qr_scanner": {
+      "text": "Point your camera towards a QR code."
     }
   },
   "tabs": {

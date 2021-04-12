@@ -944,7 +944,11 @@
         "invalidExchangeKeys": "Las keys ingresadas no existen en binance.",
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Los datos ingresados no son válidos.",
-        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD."
+        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD.",
+        "default": "Ha ocurrido un error",
+        "cameraAccessDenied": "No se pudo acceder a la cámara. Acceso denegado.",
+        "noContentQR": "El código QR no tenía ningún contenido.",
+        "invalidQR": "El código QR no es válido."
       },
       "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
@@ -1133,6 +1137,7 @@
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Agregar",
       "link_help": "¿Necesitas Ayuda?",
+      "button_use_qr": "Usar un código QR",
       "alert": {
         "title": "Agregar nueva key",
         "text": "Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
@@ -1146,6 +1151,9 @@
       "edit_error": {
         "default": "Ha ocurrido un error."
       }
+    },
+    "qr_scanner": {
+      "text": "Apunta la cámara a un código QR."
     }
   },
   "tabs": {

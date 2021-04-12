@@ -12,7 +12,13 @@
       margin-top: 8px;
     }
 
-    &__next_button {
+    &__submit_button {
+      display: flex;
+      flex-direction: column;
+      margin-top: 8px;
+    }
+
+    &__use_qr_button {
       display: flex;
       flex-direction: column;
       margin-top: 16px;
@@ -33,5 +39,9 @@
     &__go_to_register {
       margin-top: 8px;
     }
+  }
+  .container {
+    height: 100%;
+    width: 100%;
   }
 }
