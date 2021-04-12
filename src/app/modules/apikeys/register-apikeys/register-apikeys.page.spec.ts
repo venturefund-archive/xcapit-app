@@ -17,13 +17,13 @@ const formData = {
   valid: {
     api_key: 'kLnBhJuI98745Df32CsX09kN',
     secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
-    alias: 'myapikey',
+    alias: 'myapikey'
   },
   invalid: {
     api_key: '',
     secret_key: '',
-    alias: '',
-  },
+    alias: ''
+  }
 };
 
 const QRScanResult = {
