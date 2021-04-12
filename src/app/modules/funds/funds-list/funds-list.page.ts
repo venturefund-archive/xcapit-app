@@ -58,8 +58,9 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           this.status?.status_name == 'COMPLETE'
         "
           ></app-fund-list-sub-header>
-          <div class="fl__user-status__subheader"></div>
-          <div class="fl__user-status" *ngIf="this.status?.status_name !== ''">
+          <div class="fl__user-status__subheader" *ngIf="
+          this.status?.status_name !== '' && this.status?.status_name !== 'COMPLETE'"></div>
+          <div [ngClass]="{'fl__user-status': this.status?.status_name !== 'COMPLETE'}" *ngIf="this.status?.status_name !== ''">
               <app-user-status-card [userStatus]="this.status"></app-user-status-card>
           </div>
 
