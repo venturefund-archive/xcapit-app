@@ -954,8 +954,7 @@
         "invalidExchangeKeys": "The keys not exists in binance.",
         "keysExists": "Keys already used.",
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
-        "invalidData": "Invalid data.",
-        "duplicatedApikey": "The key is already registered"
+        "invalidData": "Invalid data."
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
