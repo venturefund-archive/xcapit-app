@@ -8,101 +8,102 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-scanner.component';
+
 @Component({
   selector: 'app-register-apikeys',
   template: `
-    <app-qr-scanner
-      class="container"
-      *ngIf="this.scanning"
-      (scannedApikeysEvent)="this.apikeysScanned($event)"
-    ></app-qr-scanner>
-    <ion-header *ngIf="!this.scanning">
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
-        </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'apikeys.register.header' | translate
-        }}</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding" *ngIf="!this.scanning">
-      <form
-        [formGroup]="this.form"
-        (ngSubmit)="this.handleSubmit()"
-        class="ux_main"
-      >
-        <div class="ux_content">
-          <div class="ik__ak_input">
-            <app-ux-input
-              controlName="alias"
-              type="text"
-              inputmode="text"
-              [label]="'apikeys.register.label_alias' | translate"
-              [placeholder]="'apikeys.register.placeholder_alias' | translate"
-            ></app-ux-input>
-            <app-ux-input
-              controlName="api_key"
-              type="text"
-              inputmode="text"
-              [label]="'apikeys.register.label_apikey' | translate"
-              [placeholder]="'apikeys.register.placeholder_apikey' | translate"
-            ></app-ux-input>
-            <app-ux-input
-              controlName="secret_key"
-              type="text"
-              inputmode="text"
-              [label]="'apikeys.register.label_secretkey' | translate"
-              [placeholder]="
+      <app-qr-scanner
+              class="container"
+              *ngIf="this.scanning"
+              (scannedApikeysEvent)="this.apikeysScanned($event)"
+      ></app-qr-scanner>
+      <ion-header *ngIf="!this.scanning">
+          <ion-toolbar color="uxprimary" class="ux_toolbar">
+              <ion-buttons slot="start">
+                  <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
+              </ion-buttons>
+              <ion-title class="ion-text-center">{{
+                  'apikeys.register.header' | translate
+                  }}</ion-title>
+          </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding" *ngIf="!this.scanning">
+          <form
+                  [formGroup]="this.form"
+                  (ngSubmit)="this.handleSubmit()"
+                  class="ux_main"
+          >
+              <div class="ux_content">
+                  <div class="ik__ak_input">
+                      <app-ux-input
+                              controlName="alias"
+                              type="text"
+                              inputmode="text"
+                              [label]="'apikeys.register.label_alias' | translate"
+                              [placeholder]="'apikeys.register.placeholder_alias' | translate"
+                      ></app-ux-input>
+                      <app-ux-input
+                              controlName="api_key"
+                              type="text"
+                              inputmode="text"
+                              [label]="'apikeys.register.label_apikey' | translate"
+                              [placeholder]="'apikeys.register.placeholder_apikey' | translate"
+                      ></app-ux-input>
+                      <app-ux-input
+                              controlName="secret_key"
+                              type="text"
+                              inputmode="text"
+                              [label]="'apikeys.register.label_secretkey' | translate"
+                              [placeholder]="
                 'apikeys.register.placeholder_secretkey' | translate
               "
-            ></app-ux-input>
-            <ion-button
-              class="main__help__button ux_button"
-              appTrackClick
-              name="NeedHelp"
-              fill="clear"
-              size="small"
-              type="button"
-              color="uxsecondary"
-              [routerLink]="['/tabs/funds']"
-            >
-              {{ 'apikeys.register.link_help' | translate }}
-            </ion-button>
-          </div>
-        </div>
-        <div class="ux_footer">
-          <div class="ik__use_qr_button">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="UseQR"
-              type="button"
-              fill="clear"
-              size="large"
-              (click)="this.readQRCode()"
-            >
-              {{ 'apikeys.register.button_use_qr' | translate }}
-            </ion-button>
-          </div>
-          <div class="ik__submit_button">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="Submit"
-              type="submit"
-              color="uxsecondary"
-              size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
-            >
-              {{ 'apikeys.register.button_submmit' | translate }}
-            </ion-button>
-          </div>
-        </div>
-      </form>
-    </ion-content>
+                      ></app-ux-input>
+                      <ion-button
+                              class="main__help__button ux_button"
+                              appTrackClick
+                              name="NeedHelp"
+                              fill="clear"
+                              size="small"
+                              type="button"
+                              color="uxsecondary"
+                              [routerLink]="['/tabs/funds']"
+                      >
+                          {{ 'apikeys.register.link_help' | translate }}
+                      </ion-button>
+                  </div>
+              </div>
+              <div class="ux_footer">
+                  <div class="ik__use_qr_button">
+                      <ion-button
+                              class="ux_button"
+                              appTrackClick
+                              name="UseQR"
+                              type="button"
+                              fill="clear"
+                              size="large"
+                              (click)="this.readQRCode()"
+                      >
+                          {{ 'apikeys.register.button_use_qr' | translate }}
+                      </ion-button>
+                  </div>
+                  <div class="ik__submit_button">
+                      <ion-button
+                              class="ux_button"
+                              appTrackClick
+                              name="Submit"
+                              type="submit"
+                              color="uxsecondary"
+                              size="large"
+                              [disabled]="this.submitButtonService.isDisabled | async"
+                      >
+                          {{ 'apikeys.register.button_submmit' | translate }}
+                      </ion-button>
+                  </div>
+              </div>
+          </form>
+      </ion-content>
   `,
-  styleUrls: ['./register-apikeys.page.scss'],
+  styleUrls: ['./register-apikeys.page.scss']
 })
 export class RegisterApikeysPage implements OnInit {
   @ViewChildren(QrScannerComponent) qrScanner: QueryList<QrScannerComponent>;
@@ -115,11 +116,11 @@ export class RegisterApikeysPage implements OnInit {
         CustomValidators.patternValidator(
           /^[a-zA-Z0-9]+$/,
           CustomValidatorErrors.hasSpecialCharacter
-        ),
-      ],
+        )
+      ]
     ],
     api_key: ['', [Validators.required]],
-    secret_key: ['', [Validators.required]],
+    secret_key: ['', [Validators.required]]
   });
 
   scanning: boolean;
@@ -132,9 +133,11 @@ export class RegisterApikeysPage implements OnInit {
     private translate: TranslateService,
     private navController: NavController,
     private toastService: ToastService
-  ) {}
+  ) {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   ionViewWillEnter() {
     this.scanning = false;
@@ -155,9 +158,9 @@ export class RegisterApikeysPage implements OnInit {
       buttons: [
         {
           text: this.translate.instant('apikeys.register.alert.button'),
-          handler: (_) => this.submitData(),
-        },
-      ],
+          handler: (_) => this.submitData()
+        }
+      ]
     });
     await alert.present();
   }
@@ -227,5 +230,11 @@ export class RegisterApikeysPage implements OnInit {
         this.fillForm(result.scannedApikeys);
       }
     }
+  }
+
+  private showToast(text: string) {
+    this.toastService.showToast({
+      message: this.translate.instant(text)
+    });
   }
 }
