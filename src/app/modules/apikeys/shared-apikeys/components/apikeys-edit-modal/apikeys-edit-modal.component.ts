@@ -130,16 +130,16 @@ export class ApikeysEditModalComponent implements OnInit {
     });
   }
 
-  close() {
-    this.modalController.dismiss();
+  close(state: string = 'canceled') {
+    this.modalController.dismiss({ state: state });
   }
 
   success() {
-    this.close();
+    this.close('success');
   }
 
   error() {
-    this.close();
+    this.close('error');
     this.showToast('errorCodes.apikeys.update.default');
   }
 }
