@@ -97,6 +97,7 @@
       "success_title": "You just need to validate your email address!",
       "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
       "accept_button": "Accept",
+      "resend_email_button": "I didn't receive the email",
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
       "referral_code_label": "Referral code",
@@ -110,6 +111,12 @@
         "alert_message": "To enter, join the waiting list and be one of the first to try it.",
         "alert_cancel_button": "Cancel",
         "alert_join_button": "Join"
+      },
+      "resend_verification_email": {
+        "title": "We send you another email!",
+        "text": "If you can't see it in your inbox, check the spam folder.",
+        "resend_mail_button": "Resend email",
+        "open_ticket_button": "I still can't activate my account"
       }
     },
     "auth_form": {
