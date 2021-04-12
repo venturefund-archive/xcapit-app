@@ -73,11 +73,6 @@
       "title": "How does our robot work?",
       "content": "Know all the details of the way we operate.",
       "action": "More information"
-    },
-    "card_info_binance": {
-      "title": "What is Binance?",
-      "content": "Everything you need to know before linking your account.",
-      "action": "More information"
     }
   },
   "usuarios": {
@@ -168,22 +163,15 @@
         "total_detail": "In the last 24 hs",
         "change_currency": "Change currency"
       },
-      "error": {
-        "refresh_error": "Try again in a few seconds"
-      },
-      "fund_steps": {
-        "title": "Set up your account and start investing",
-        "step1": "Set up your account",
-        "step2": "Link with Binance",
-        "step3": "Create a new fund",
-        "action_button1": "Set up your account",
-        "action_button2": "Link with Binance",
-        "action_button3": "Create my first investment fund"
+      "user_status": {
+        "title": "Choose a profile to start using Xcapit",
+        "action_button": "Start"
       },
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
       "info_title": "KNOW MORE",
-      "news_title": "NEWS"
+      "news_title": "NEWS",
+      "refresh_time": "Next update available in {{seconds}} s"
     },
     "new_fund": {
       "header_new": "New Fund",
@@ -933,7 +921,8 @@
         "invalid": "Error validating email."
       },
       "login": {
-        "invalidCredentials": "No active account found with the given credentials"
+        "invalidCredentials": "No active account found with the given credentials",
+        "noActiveUser": "Verify your email to login."
       },
       "changePassword": {
         "invalid": "Error Changing Password."
@@ -954,7 +943,11 @@
         "invalidExchangeKeys": "The keys not exists in binance.",
         "keysExists": "Keys already used.",
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
-        "invalidData": "Invalid data."
+        "invalidData": "Invalid data.",
+        "default": "An error has ocurred",
+        "cameraAccessDenied": "Couldn't access the camera. Access denied.",
+        "noContentQR": "The QR Code didn't had any content.",
+        "invalidQR": "The QR Code is invalid."
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
@@ -1077,6 +1070,7 @@
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Submmit",
       "link_help": "¿Need Help?",
+      "button_use_qr": "Use a QR code",
       "alert": {
         "title": "Add new key",
         "text": "I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
@@ -1154,6 +1148,9 @@
       "edit_error": {
         "default": "An error has ocurred"
       }
+    },
+    "qr_scanner": {
+      "text": "Point your camera towards a QR code."
     }
   },
   "tabs": {
