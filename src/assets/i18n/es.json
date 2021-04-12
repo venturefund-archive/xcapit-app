@@ -815,7 +815,7 @@
     "funds": {
       "create": {
         "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
-        "keysExists": "Las keys ya se encuentran registradas.",
+        "keysExists":"Las keys ya se encuentran registradas.",
         "fundNameExists": "El nombre del fondo ya existe.",
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
