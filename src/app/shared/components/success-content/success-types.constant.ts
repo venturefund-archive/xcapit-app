@@ -59,15 +59,6 @@ export const SUCCESS_TYPES = {
     urlSecondaryAction: '/users/resend-verification-email',
     nameSecondaryAction: 'usuarios.register.resend_email_button',
   },
-  resend_verification_email: {
-    urlClose: '/users/login',
-    textPrimary: 'usuarios.register.resend_verification_email.title',
-    textSecondary: 'usuarios.register.resend_verification_email.text',
-    urlPrimaryAction: '/users/resend-verification-email',
-    namePrimaryAction: 'usuarios.register.resend_verification_email.resend_mail_button',
-    urlSecondaryAction: '/users/resend-verification-email',
-    nameSecondaryAction: 'usuarios.register.resend_verification_email.open_ticket_button',
-  },
   fund_renew: {
     urlClose: '/tabs/funds',
     textPrimary: 'funds.fund_success_renew.textPrimary',
