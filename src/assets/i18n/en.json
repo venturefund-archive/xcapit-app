@@ -941,6 +941,48 @@
       "get": {
         "errorGetNews": "There was a problem displaying the news. Don't worry, we'll fix it soon."
       }
+    },
+    "on_off_ramps": {
+      "currencies": {
+        "errorProvider": "Failed to get currencies from provider."
+      },
+      "quotations": {
+        "errorProvider": "Failed to get quotations from provider."
+      },
+      "user": {
+        "doesNotExist": "non-existent user.",
+        "check": {
+          "errorProvider": "Failed to get user from provider."
+        },
+        "create": {
+          "errorProvider": "Error creating new user in provider."
+        },
+        "save_info": {
+          "errorProvider": "Error when trying to save user data in provider."
+        },
+        "save_bank": {
+          "errorProvider": "Error when trying to save the user's bank details in the provider."
+        },
+        "save_images": {
+          "errorProvider": "Error trying to save images to provider."
+        }
+      },
+      "operations": {
+        "list": {
+          "errorProvider": "Error getting operations from provider."
+        },
+        "single_operation": {
+          "doesNotExist": "The operation is non-existent.",
+          "errorProvider": "Error getting operations from provider."
+        },
+        "create": {
+          "errorProvider": "Error trying to create operation in provider."
+        },
+        "confirm": {
+          "errorProvider": "Error when trying to save the voucher in the provider."
+        }
+        
+      }
     }
   },
   "terms_and_conditions": {
@@ -1100,6 +1142,81 @@
       "copy_address_ok_text": "The address was copied to the clipboard",
       "copy_address_error_text": "The address could not be copied to the clipboard",
       "back_link": "Back to home"
+    }
+  },
+  "fiat_ramps": {
+    "operations_list": {
+      "header": "Buy/Sell cryptos",
+      "title": "My operations",
+      "operation": "Operation",
+      "amount": "Amount",
+      "status": "Status",
+      "date": "Date",
+      "new": "New"
+    },
+    "operation_detail": {
+      "header": "Operation: #",
+      "type": "Operation type:",
+      "amount": "Amount:",
+      "quotation": "Quotation:",
+      "status": "Status:",
+      "date": "Date:",
+      "voucher": "Voucher",
+      "send": "Send voucher"
+    },
+    "ramp_initial": {
+      "header": "Buy/Sell cryptos",
+      "title": "New operation",
+      "operation": "¿What operation do you want to do?",
+      "pair_buy": "¿What currency do you want to buy?",
+      "pair_sell": "¿What currency do you want to sell?",
+      "amount": "Amount",
+      "amount_ars": "Amount in",
+      "amount_min": "Minimun amount:",
+      "amount_max": "Maximun amount:",
+      "buy": "Buy",
+      "sell": "Sell",
+      "next_button": "Next"
+    },
+    "register": {
+      "header": "Register Kripton market",
+      "header_bank": "Bank account information",
+      "description": "Completa el siguiente formulario para registrarte con nuestro proveedor Kripton Market",
+      "description_bank": "Completa tus datos bancarios con los cuales operarás con el proveedor",
+      "first_name": "Name",
+      "last_name": "Lastname",
+      "nationality": "Nationality",
+      "dob": "DoB",
+      "gender": "Gender",
+      "marital_status": "Marital status",
+      "doc_type": "Document type",
+      "doc_number": "Document",
+      "cuil": "CUIL/CUIT",
+      "province": "Province",
+      "city": "City",
+      "postal_code": "Postal code",
+      "address_street": "Address (Street)",
+      "address_number": "Address (Number)",
+      "address_extra": "Address (Floor/Department)",
+      "cbu": "CBU/CVU",
+      "bank": "Bank",
+      "doc_front": "Front document image",
+      "doc_back": "Back document image",
+      "selfie": "Selfie with document",
+      "not_politically": "Not politically exposed",
+      "not_bound": "Subject not bound",
+      "tos": "Terms and conditions",
+      "register": "Next"
+    },
+    "confirm": {
+      "header": "Confirm operation",
+      "title": "Check that the data is correct",
+      "operation": "Operation:",
+      "amount": "Amount:",
+      "quotation": "Quotation",
+      "wallet_address": "Reception address",
+      "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
+      "confirm": "Confirm"
     }
   }
 }

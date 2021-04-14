@@ -36,6 +36,7 @@ import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
 import { MenusModule } from './modules/menus/menus.module';
 import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addresses.module';
+import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -80,6 +81,7 @@ export function httpLoaderFactory(http: HttpClient) {
     NotificationsModule,
     MenusModule,
     DepositAddressesModule,
+    FiatRampsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

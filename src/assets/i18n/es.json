@@ -955,6 +955,48 @@
       "get": {
         "errorGetNews": "Hubo un problema en mostrar las noticias. No te preocupes, pronto lo solucionaremos. "
       }
+    },
+    "on_off_ramps": {
+      "currencies": {
+        "errorProvider": "Error al obtener las monedas del proveedor."
+      },
+      "quotations": {
+        "errorProvider": "Error al obtener las cotizaciones del proveedor."
+      },
+      "user": {
+        "doesNotExist": "Usuario inexistente.",
+        "check": {
+          "errorProvider": "Error al obtener el usuario desde proveedor."
+        },
+        "create": {
+          "errorProvider": "Error al crear nuevo usuario en el proveedor."
+        },
+        "save_info": {
+          "errorProvider": "Error al intentar guardar los datos del usuario en el proveedor."
+        },
+        "save_bank": {
+          "errorProvider": "Error al intentar guardar los datos bancarios del usuario en el proveedor."
+        },
+        "save_images": {
+          "errorProvider": "Error al intentar guardar la imagen en el proveedor."
+        }
+      },
+      "operations": {
+        "list": {
+          "errorProvider": "Error al obtener las operaciones desde proveedor."
+        },
+        "single_operation": {
+          "doesNotExist": "La operación es inexistente.",
+          "errorProvider": "Error al obtener las operaciones desde proveedor."
+        },
+        "create": {
+          "errorProvider": "Error al intentar crear la operación en el proveedor."
+        },
+        "confirm": {
+          "errorProvider": "Error al intentar guardar el comprobante en el proveedor."
+        }
+        
+      }
     }
   },
   "terms_and_conditions": {
@@ -1114,6 +1156,95 @@
       "copy_address_ok_text": "Se copió la dirección al portapapeles",
       "copy_address_error_text": "No se pudo copiar la dirección al portapapeles",
       "back_link": "Ir al inicio"
+    }
+  },
+  "fiat_ramps": {
+    "operations_list": {
+      "header": "Comprar/Vender cryptos",
+      "title": "Mis operaciones",
+      "operation": "Operación",
+      "amount": "Monto",
+      "status": "Estado",
+      "date": "Fecha",
+      "new": "Nueva"
+    },
+    "operation_detail": {
+      "header": "Operación: #",
+      "type": "Tipo de operación:",
+      "amount": "Monto:",
+      "quotation": "Cotización:",
+      "status": "Estado:",
+      "date": "Fecha:",
+      "voucher": "Comprobante",
+      "send": "Enviar comprobante"
+    },
+    "ramp_initial": {
+      "header": "Comprar/Vender cryptos",
+      "title": "Nueva operación",
+      "operation": "¿Qué operación quieres hacer?",
+      "pair_buy": "¿Qué moneda quieres comprar?",
+      "pair_sell": "¿Qué moneda quieres vender?",
+      "amount": "Monto",
+      "amount_ars": "Monto en",
+      "amount_min": "Cantidad mínima:",
+      "amount_max": "Cantidad máxima:",
+      "buy": "Comprar",
+      "sell": "Vender",
+      "next_button": "Continuar"
+    },
+    "register": {
+      "header": "Registro Kripton market",
+      "header_bank": "Datos bancarios",
+      "header_images": "Carga de imágenes",
+      "description": "Completa el siguiente formulario para registrarte con nuestro proveedor Kripton Market",
+      "description_bank": "Completa tus datos bancarios con los cuales operarás con el proveedor",
+      "description_images": "Carga las siguientes imágenes para finalizar con el registro.",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "nationality": "Nacionalidad",
+      "dob": "Fecha de nacimiento",
+      "gender": "Género",
+      "marital_status": "Estado civil",
+      "doc_type": "Tipo documento",
+      "doc_number": "Documento de identidad",
+      "cuil": "CUIL/CUIT",
+      "province": "Provincia",
+      "city": "Ciudad",
+      "postal_code": "Código postal",
+      "address_street": "Dirección (calle)",
+      "address_number": "Dirección (Número)",
+      "address_extra": "Dirección (Piso/Dpto)",
+      "cbu": "CBU/CVU",
+      "bank": "Banco",
+      "doc_front": "Foto documento frente",
+      "doc_back": "Foto documento dorso",
+      "selfie": "Foto selfie con documento",
+      "not_politically": "No expuesto politicamente",
+      "not_bound": "Sujeto no obligado",
+      "tos": "Terminos y condiciones",
+      "register": "Finalizar",
+      "next": "Siguiente"
+    },
+    "confirm": {
+      "header": "Confirmar operación",
+      "title": "Revisa que los datos sean correctos",
+      "operation": "Operación:",
+      "amount": "Monto:",
+      "quotation": "Cotización:",
+      "wallet_address": "Dirección de reception:",
+      "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interaccion con el proveedor.",
+      "confirm": "Confirmar"
+    },
+    "fiat_success": {
+      "textPrimary": "¡La operación fue creada con éxito!",
+      "textSecondary": "Para continuar deberás transferir desde tu banco con los siguientes datos:",
+      "bank": "Banco:",
+      "cbu": "CBU:",
+      "concept": "Concepto:",
+      "amount": "Monto:",
+      "info_telegram": "Por dudas o consultas, contactanos por Télegram:",
+      "info_email": "El proveedor se comunicará por email conforme avance el proceso.",
+      "buttonText": "Terminar"
     }
   }
 }
