@@ -1,0 +1,66 @@
+:host {
+    ion-header {
+        position: absolute !important;
+        top: 0;
+        --background: none;
+    }
+
+    ion-content {
+        --offset-top: -145px !important;
+        background: var(--ion-background-color) !important;
+    }
+
+    .app_header {
+        height: 90px;
+        width: 100%;
+
+        &__content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &__app_xcapit_logo {
+            align-self: start;
+            margin-left: 16px;
+            margin-top: 48px;
+            width: 30%;
+            max-width: 400px;
+            min-width: 100px;
+
+            img {
+            width: 100%;
+            max-width: 200px;
+            }
+        }
+        }
+    }
+
+    .title {
+        margin-top: 24px;
+        margin-left: 16px;
+    }
+
+    .text {
+        margin-left: 16px;
+    }
+
+    .main {
+        padding-top: 8px;
+        margin-top: 24px;
+
+        .button {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            font-family: var(--ux-font-lato);
+            font-size: 16px;
+        }
+    }
+
+    .container {
+        height: 100%;
+        width: 100%;
+    }
+}

@@ -153,6 +153,19 @@
       "repeat_new_password": "Confirm New Password"
     }
   },
+  "tickets": {
+    "create": {
+      "title": "Open a ticket",
+      "text": "Fill the details of your ticket. A member of the team will contact you soon.",
+      "label_email": "Email",
+      "placeholder_email": "example@email.com",
+      "label_subject": "Subject",
+      "placeholder_subject": "Subject",
+      "label_message": "Description",
+      "placeholder_message": "Write the details of your ticket here.",
+      "submit_button": "Send"
+    }
+  },
   "funds": {
     "fund_balance": {
       "header": "Fund Balance",

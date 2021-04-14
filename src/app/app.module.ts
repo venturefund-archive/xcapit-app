@@ -37,6 +37,7 @@ import localeEn from '@angular/common/locales/en';
 import { MenusModule } from './modules/menus/menus.module';
 import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addresses.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { TicketsModule } from './modules/tickets/tickets.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -80,6 +81,7 @@ export function httpLoaderFactory(http: HttpClient) {
     ApikeysModule,
     NotificationsModule,
     MenusModule,
+    TicketsModule,
     DepositAddressesModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {

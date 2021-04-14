@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 
 @Component({
   selector: 'app-resend-verification-email',
@@ -64,11 +62,9 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
   styleUrls: ['./resend-verification-email.page.scss'],
 })
 export class ResendVerificationEmailPage implements OnInit {
-  urlClose: string = '/users/login';
-  urlOpenTicket: string = '/users/openTicket';
   disableResendEmail: boolean = true;
   hideSendTicket: boolean = true;
-  numberOfResends: number = 1;
+  numberOfResends: number = 0;
   minimumNumberOfTriesForTicket: number = 3;
   timerText: string = '';
   timerSeconds: number;
@@ -79,7 +75,7 @@ export class ResendVerificationEmailPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.startTimer();
+    this.resendEmail();
   }
 
   async startTimer() {
@@ -101,7 +97,7 @@ export class ResendVerificationEmailPage implements OnInit {
   }
 
   close() {
-    this.router.navigate([this.urlClose]);
+    this.router.navigate(['/users/login']);
   }
 
   resendEmail() {
@@ -115,6 +111,6 @@ export class ResendVerificationEmailPage implements OnInit {
   }
 
   openTicket() {
-    this.router.navigate([this.urlOpenTicket]);
+    this.router.navigate(['/tickets/create-ticket']);
   }
 }

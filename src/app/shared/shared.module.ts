@@ -32,6 +32,7 @@ import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loadin
 import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
 import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
+import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     SuccessContentComponent,
     UxCheckboxComponent,
     UxDateRangeComponent,
+    UxTextareaComponent,
     // Pipes
     LocalizedDatePipe,
   ],
@@ -108,6 +110,7 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     SuccessContentComponent,
     UxCheckboxComponent,
     UxDateRangeComponent,
+    UxTextareaComponent,
     // Pipes
     LocalizedDatePipe,
   ],

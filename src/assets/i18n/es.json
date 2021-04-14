@@ -153,6 +153,19 @@
       "repeat_new_password": "Confirmar nueva contraseña"
     }
   },
+  "tickets": {
+    "create": {
+      "title": "Enviar una solicitud",
+      "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad.",
+      "label_email": "Correo electrónico",
+      "placeholder_email": "ejemplo@email.com",
+      "label_subject": "Asunto",
+      "placeholder_subject": "Asunto",
+      "label_message": "¿Cuál es tu consulta?",
+      "placeholder_message": "Escriba su consulta aquí.",
+      "submit_button": "Enviar"
+    }
+  },
   "funds": {
     "fund_balance": {
       "header": "Balance del Fondo",
