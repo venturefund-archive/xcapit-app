@@ -1,0 +1,11 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      args:
+        - PORT=4200
+    container_name: app
+    restart: always
+    ports:
+      - "4200:80"

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UxCheckboxComponent } from './ux-checkbox.component';
 import { FormGroupDirective } from '@angular/forms';
@@ -8,7 +8,7 @@ describe('UxCheckboxComponent', () => {
   let component: UxCheckboxComponent;
   let fixture: ComponentFixture<UxCheckboxComponent>;
   let formGroupDirectiveMock: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     formGroupDirectiveMock = { control: { get: () => null} };
     TestBed.configureTestingModule({
       declarations: [ UxCheckboxComponent ],

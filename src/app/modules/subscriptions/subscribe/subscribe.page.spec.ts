@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubscribePage } from './subscribe.page';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,7 +16,7 @@ describe('SubscribePage', () => {
   let toastServiceSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', [
       'showToast'
     ]);

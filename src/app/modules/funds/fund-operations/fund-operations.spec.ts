@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundOperationsPage } from '../fund-operations/fund-operations.page';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -51,7 +51,7 @@ describe('FundOperationsPage', () => {
       },
     ],
   };
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
 
     ionInfiniteScrollMock = {

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { UxCardInfoRobotComponent } from './ux-card-info-robot.component';
@@ -13,7 +13,7 @@ describe('UxCardInfoRobotComponent', () => {
   let component: UxCardInfoRobotComponent;
   let fixture: ComponentFixture<UxCardInfoRobotComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxCardInfoRobotComponent>;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UxCardInfoRobotComponent, TrackClickDirective, DummyComponent],
       imports: [

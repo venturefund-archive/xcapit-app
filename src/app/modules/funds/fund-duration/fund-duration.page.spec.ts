@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundDurationPage } from './fund-duration.page';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -28,7 +28,7 @@ describe('FundDurationPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundDurationPage>;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve({}),
       setData: () => Promise.resolve()

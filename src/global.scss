@@ -35,6 +35,15 @@ ion-picker {
   touch-action: none;
 }
 
+.hidden {
+  --ion-background-color: transparent;
+  background-color: transparent;
+}
+
+ion-toast.refresher_toast {
+  top: 86%;
+}
+
 :root {
   // Font family, weight, size
   // Family
@@ -74,6 +83,10 @@ ion-picker {
 
   .ux-fsize-14 {
     font-size: 14px;
+  }
+
+  .ux-fsize-15 {
+    font-size: 15px;
   }
 
   .ux-fsize-16 {
@@ -148,32 +161,47 @@ ion-picker {
     .modal-wrapper {
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
+    }
+  }
+
+  .full-screen-modal {
+    .modal-wrapper {
       margin-top: 120px;
+
       .ion-page {
         padding-bottom: 60px;
       }
     }
   }
-  // Portfolio Modal
-  .portfolio-modal {
-    --height: 54%;
 
-    align-items: flex-end;
-    --overflow: hidden;
-  }
-  .portfolio-modal .modal-wrapper .ion-page {
-    padding-bottom: 0px;
+  // Portfolio Modal swippeable
+  .generic-modal {
+    .modal-wrapper {
+      margin-top: 46vh;
+
+      .ion-page {
+        padding-bottom: calc(46vh / 2);
+      }
+    }
   }
 
-  // Share Chart Modal
+  // Share Chart Modal swippeable
   .share-chart-modal {
-    --height: 65%;
+    .modal-wrapper {
+      margin-top: 35vh;
 
-    align-items: flex-end;
-    --overflow: hidden;
+      .ion-page {
+        padding-bottom: calc(35vh / 2);
+      }
+    }
   }
-  .share-chart-modal .modal-wrapper .ion-page {
-    padding-bottom: 0px;
+
+  // Apikeys Modal swippeable
+  .apikeys-modal {
+    .modal-wrapper {
+      margin-top: calc(100vh - 240px);
+      height: 256px;
+    }
   }
 
   // Loading

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CustomRangeModalComponent } from './custom-range-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ describe('CustomRangeModalComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CustomRangeModalComponent>;
   let modalControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     modalControllerSpy = jasmine.createSpyObj(
       'ModalController',
       modalControllerMock

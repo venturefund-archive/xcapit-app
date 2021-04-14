@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UxInputGooglePlacesComponent } from './ux-input-google-places.component';
 import { FormGroupDirective } from '@angular/forms';
@@ -8,7 +8,7 @@ describe('UxInputGooglePlacesComponent', () => {
   let component: UxInputGooglePlacesComponent;
   let fixture: ComponentFixture<UxInputGooglePlacesComponent>;
   let formGroupDirectiveMock: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     formGroupDirectiveMock = { control: { get: () => null } };
     TestBed.configureTestingModule({
       declarations: [UxInputGooglePlacesComponent],

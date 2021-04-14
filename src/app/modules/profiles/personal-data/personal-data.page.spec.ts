@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -19,15 +19,11 @@ import { navControllerMock } from '../../../../testing/spies/nav-controller-mock
 const formData = {
   valid: {
     first_name: 'Test',
-    last_name: 'Test',
-    nro_dni: '21341234',
     cellphone: '12344321',
     direccion: 'calle falsa 123'
   },
   invalid: {
     first_name: 'Test',
-    last_name: 'Test',
-    nro_dni: '213412x34',
     cellphone: '12x344321',
     direccion: 'calle falsa 123'
   }
@@ -40,7 +36,7 @@ describe('PersonalDataPage', () => {
   let apiProfilesService: ApiProfilesService;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiProfilesServiceMock = {
       updatePersonalData: () => of({}),
       crud: {
@@ -122,7 +118,7 @@ describe('PersonalDataPage', () => {
   it('should not call update on apiProfile.crud, invalid form', () => {
     fixture.detectChanges();
     component.form.patchValue(formData.valid);
-    component.form.get('nro_dni').setValue(formData.invalid.nro_dni);
+    component.form.get('cellphone').setValue(formData.invalid.cellphone);
     fixture.detectChanges();
     const spy = spyOn(apiProfilesService.crud, 'update');
     component.save();
@@ -132,7 +128,7 @@ describe('PersonalDataPage', () => {
   describe('Form values', () => {
     it('form should be invalid when some fields are notvalid', () => {
       fixture.detectChanges();
-      component.form.get('nro_dni').setValue(formData.invalid.nro_dni);
+      component.form.get('cellphone').setValue(formData.invalid.cellphone);
       expect(component.form.valid).toBeFalsy();
     });
   });

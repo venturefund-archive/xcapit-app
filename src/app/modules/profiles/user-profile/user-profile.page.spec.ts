@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserProfilePage } from './user-profile.page';
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +14,10 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 import { Storage } from '@ionic/storage';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
+const dataMock = {
+  viewBillData: {}
+};
+
 describe('UserProfilePage', () => {
   let component: UserProfilePage;
   let fixture: ComponentFixture<UserProfilePage>;
@@ -25,7 +29,7 @@ describe('UserProfilePage', () => {
   let storageSpy: any;
   let storageService: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiProfilesServiceMock = {
       crud: {
         update: () => of({}),
@@ -66,6 +70,7 @@ describe('UserProfilePage', () => {
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     component.userStatus = {status_name: 'COMPLETE'};
+    component.data = dataMock;
     fixture.detectChanges();
   });
 

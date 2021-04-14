@@ -10,31 +10,34 @@
       "help": "Help",
       "password_change": "Password Change",
       "referrals": "Referrals",
-      "notifications": "Notifications"
+      "notifications": "Notifications",
+      "api_keys_managment": "Manage API Keys",
+      "change_language": "Language"
     }
   },
   "config": {
     "form_errors": {
-      "required": "El campo es requerido",
-      "email": "El email no es correcto",
-      "pattern": "El campo no cumple con el patrón requerido",
-      "minlength": "Se requieren más caracteres",
-      "maxlength": "Se requieren menos caracteres",
-      "not_matching": "Los campos no coinciden"
+      "required": "The field is required",
+      "email": "The email is not correct",
+      "pattern": "The field does not meet the required pattern",
+      "minlength": "More characters are required",
+      "maxlength": "Fewer characters required ",
+      "not_matching": "The fields do not match ",
+      "has_special_character": "Special characters and spaces are not allowed"
     },
     "field_errors": {
       "cellphone": {
-        "pattern": "Contiene caracteres inválidos"
+        "pattern": "Contains invalid characters "
       },
       "only_integers": {
-        "pattern": "Solo se aceptan números enteros"
+        "pattern": "Only whole numbers are accepted "
       },
       "password": {
-        "minlength": "Se requieren mínimo 6 caracteres",
-        "maxlength": "Se requieren máximo 100 caracteres",
-        "has_number": "Se requiere mínimo un número",
-        "has_capital_case": "Se requiere mínimo una mayúscula",
-        "has_small_case": "Se requiere mínimo una minúscula"
+        "minlength": "Minimum 6 characters required ",
+        "maxlength": "Maximum 100 characters required ",
+        "has_number": "Minimum one number is required ",
+        "has_capital_case": "Minimum one capital letter is required ",
+        "has_small_case": "Minimum one lowercase required "
       },
       "repeat_password": {
         "no_password_match": "La password no coincide"
@@ -43,15 +46,15 @@
         "no_fields_match": "El email no coincide"
       },
       "username": {
-        "minlength": "Se requieren mínimo 5 caracteres",
-        "maxlength": "Se requieren máximo 100 caracteres"
+        "minlength": "Minimum 5 characters required ",
+        "maxlength": "Maximum 100 characters required "
       }
     },
     "loading_service": {
       "default_message": "Loading..."
     },
     "xhr_response_handler_service": {
-      "default_message": "Error en la comunicación con el servidor"
+      "default_message": "Error in communication with the server."
     }
   },
   "shared": {
@@ -69,11 +72,6 @@
     "card_info_robot": {
       "title": "How does our robot work?",
       "content": "Know all the details of the way we operate.",
-      "action": "More information"
-    },
-    "card_info_binance": {
-      "title": "What is Binance?",
-      "content": "Everything you need to know before linking your account.",
       "action": "More information"
     }
   },
@@ -130,7 +128,7 @@
       "success_send_email_text": "Follow the instructions to recover your password and start operating with us.",
       "success_reset_password_header": "Success!",
       "success_reset_password_message": "Password change completed successfully.",
-      "success_button": "Iniciar sesión"
+      "success_button": "Log in"
     },
     "reset_password_form": {
       "new_password": "New Password",
@@ -165,19 +163,15 @@
         "total_detail": "In the last 24 hs",
         "change_currency": "Change currency"
       },
-      "fund_steps": {
-        "title": "Set up your account and start investing",
-        "step1": "Set up your account",
-        "step2": "Link with Binance",
-        "step3": "Create a new fund",
-        "action_button1": "Set up your account",
-        "action_button2": "Link with Binance",
-        "action_button3": "Create my first investment fund"
+      "user_status": {
+        "title": "Choose a profile to start using Xcapit",
+        "action_button": "Start"
       },
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
       "info_title": "KNOW MORE",
-      "news_title": "NEWS"
+      "news_title": "NEWS",
+      "refresh_time": "Next update available in {{seconds}} s"
     },
     "new_fund": {
       "header_new": "New Fund",
@@ -211,7 +205,8 @@
     "fund_share_chart": {
       "share_title": "Join Xcapit and invest in Cryptocurrencies",
       "toast_text_copied": "The chart was copied successfully to the clipboard",
-      "toast_image_downloaded": "Image was saved successfully"
+      "toast_image_downloaded": "Image was saved successfully",
+      "toast_image_failed": "Image was not saved correctly"
     },
     "fund_detail": {
       "header": "Fund detail",
@@ -254,7 +249,8 @@
         "change_currency": "Change currency",
         "fund_balance_detail_title": "Balance details",
         "fund_balance_detail_period_begin": "Period begin",
-        "fund_balance_detail_last_update": "Last update"
+        "fund_balance_detail_last_update": "Last update",
+        "view_operation_history": "View operation history"
       },
       "operations_history_card": {
         "title": "MY LAST MOVEMENTS",
@@ -342,21 +338,39 @@
       "fund_name_placeholder": "Ej: MyFirstFund",
       "next_button": "Next"
     },
-    "fund_risk": {
+    "fund_investment": {
       "header": "Create a fund",
       "header_renew": "Renew a fund",
-      "title": "How aggressive do you want the investment to be?",
-      "text_before": "This will condition the way of operating and the consequent risk you will assume when investing.",
-      "risk_level": "Risk level to assume",
-      "risk_level_options": {
-        "low": "Low",
-        "mid": "Medium",
-        "high": "High",
-        "multi_strategies": "Multistrategy"
+      "header_info": {
+        "title": "Select investment strategy",
+        "description": "This will condition the way to operate and the consequent risk to assume when investing."
       },
-      "new_badge": "New",
-      "next_button": "Next",
-      "back_button": "Back"
+      "card": {
+        "risk_label": "Risk",
+        "currency": "USD",
+        "min_capital_label": "Minimum to operate",
+        "more_info": "More info",
+        "invest_button": "Invest",
+        "last_year_revenue": "90 days",
+        "profiles": {
+          "volume_profile_strategies_USDT": {
+            "title": "Denali",
+            "description": "Let Brainy trade for you and earn returns in dollars."
+          },
+          "volume_profile_strategies_BTC": {
+            "title": "Olympus Mons",
+            "description": "Generate more Bitcoins with the Bitcoins you already have."
+          },
+          "DeFi_index": {
+            "title": "Himalayas",
+            "description": "Participate in the growing market for decentralized finance."
+          },
+          "Mary_index": {
+            "title": "Andes",
+            "description": "Don't miss out on opportunities in the growing cryptocurrency market."
+          }
+        }
+      }
     },
     "fund_duration": {
       "header": "Create a fund",
@@ -368,21 +382,9 @@
       "back_button": "Back",
       "text_help": "In short terms, the robot is more likely to have performance problems."
     },
-    "fund_currency": {
-      "header": "Create a fund",
-      "header_renew": "Renueva un fondo",
-      "title": "In what currency will you want us to optimize your capital?",
-      "text_before": "This is the currency on which we will seek to have returns. In this same currency you will see the evolution of your investment over time.",
-      "currency": "Currency",
-      "btc_text": "Bitcoin BTC",
-      "usdt_text": "Dolar USDT",
-      "next_button": "Next",
-      "back_button": "Back",
-      "text_help": "The currency choice is independent of the behavior of other currencies that make up the portfolio."
-    },
     "fund_take_profit": {
       "header": "Create a fund",
-      "header_renew": "Renueva un fondo",
+      "header_renew": "Renew a fund",
       "title": "When do you want us to stop investing and take the profits?",
       "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
       "take_profit": "Take profit",
@@ -396,7 +398,7 @@
     },
     "fund_stop_loss": {
       "header": "Create a fund",
-      "header_renew": "Renueva un fondo",
+      "header_renew": "Renew a fund",
       "title": "In case of loss, until what percentage of your capital are you willing to risk?",
       "text_before": "Once this percentage is reached, we will stop the operation of the fund to safeguard your capital.",
       "stop_loss": "Stop loss",
@@ -426,7 +428,7 @@
       "current_capital": "Current capital",
       "last_24hs": "Last 24 hs",
       "view_fund": "View fund",
-      "not_balance_found": "No hay balance para mostrar",
+      "not_balance_found": "There is no balance to show",
       "days": "{{value}} day{{s}}",
       "hours": "{{value}} hour{{s}}",
       "minutes": "{{value}} minute{{s}}",
@@ -523,7 +525,7 @@
       "show_personal_data": "PERSONAL DATA",
       "first_name": "First name",
       "last_name": "Last name",
-      "nro_dni": "ID",
+      "email": "Email",
       "cellphone": "Cellphone",
       "show_bill_data": "BILL DATA",
       "bill_data": "Bill data",
@@ -774,6 +776,18 @@
         "next_button": "Next",
         "back_button": "Back",
         "config_button": "Start setting up"
+      },
+      "step2": {
+        "primary_text": "Link with Binance",
+        "secondary_text": "We operate with the capital of your wallet. We will guide you step by step to link your account.",
+        "next_button": "Next",
+        "back_button": "Back"
+      },
+      "step3": {
+        "primary_text": "Create your fund",
+        "secondary_text": "You can customize every detail. Once created, you can modify or close the background at any time.",
+        "back_button": "Back",
+        "config_button": "Start configuring"
       }
     }
   },
@@ -907,7 +921,8 @@
         "invalid": "Error validating email."
       },
       "login": {
-        "invalidCredentials": "No active account found with the given credentials"
+        "invalidCredentials": "No active account found with the given credentials",
+        "noActiveUser": "Verify your email to login."
       },
       "changePassword": {
         "invalid": "Error Changing Password."
@@ -928,13 +943,21 @@
         "invalidExchangeKeys": "The keys not exists in binance.",
         "keysExists": "Keys already used.",
         "balanceNotEnough": "You don't have enough funds to operate. The minimum to start is the equivalent of 150 USD.",
-        "invalidData": "Invalid data."
+        "invalidData": "Invalid data.",
+        "default": "An error has ocurred",
+        "cameraAccessDenied": "Couldn't access the camera. Access denied.",
+        "noContentQR": "The QR Code didn't had any content.",
+        "invalidQR": "The QR Code is invalid."
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
         "balanceNotEnough": "The minimum amount to trade is 150 USD equivalent in crypto.",
         "keysExists": "The keys are already registered.",
+        "default": "An error has ocurred",
         "invalidData": "An error has occurred. Please try again later."
+      },
+      "remove": {
+        "error": "An error has occurred, please try again."
       }
     },
     "fund_slider_news": {
@@ -1022,7 +1045,8 @@
   },
   "notifications": {
     "notifications_list": {
-      "header": "Notifications"
+      "header": "Notifications",
+      "error_message": "There aren't notifications to show"
     },
     "notification": {
       "header": "Notification"
@@ -1057,6 +1081,49 @@
       "slide4_input_label": "SECRET Key",
       "slide4_option_next": "Next",
       "success_text_new": "The link with the Exchange was successful!"
+    },
+
+    "card_apikeys": {
+      "content": "Fund:",
+      "action": "Manage",
+      "used_apikey": "Used key",
+      "no_fund_text": "No funds",
+      "success_toast": "You have successfully removed a key.",
+      "confirmation_alert": {
+        "header": "You are one step away from removing keys",
+        "message": "I understand that by deleting the keys I will no longer be able to see them in the list or associate them with a mutual fund",
+        "confirm_button": "Delete",
+        "cancel_button": "Cancel"
+      }
+    },
+
+    "manage_apikeys": {
+      "header": "API Keys management",
+      "subtitle": "You still do not have registered keys. Add new keys to manage them."
+    },
+
+    "register": {
+      "header": "Add API key",
+      "label_alias": "Alias",
+      "placeholder_alias": "MyKeysOnBinance",
+      "label_apikey": "Binance API Key",
+      "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
+      "label_secretkey": "Binance Secret Key",
+      "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
+      "button_submmit": "Submmit",
+      "link_help": "¿Need Help?",
+      "button_use_qr": "Use a QR code",
+      "alert": {
+        "title": "Add new key",
+        "text": "I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
+        "button": "I understand"
+      }
+    },
+    "register_success": {
+      "textPrimary": "You have already linked your account with Binance!",
+      "textSecondary": "We are in a position to manage your Binance capital.",
+      "namePrimaryAction": "Manage",
+      "nameSecondaryAction": "Skip for now"
     },
     "linked_apikeys": {
       "title_header_text": "You linked your binance account!",
@@ -1115,6 +1182,17 @@
       "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
       "submit_button": "Save",
       "need_help": "Need help?"
+    },
+    "edit_modal": {
+      "title": "Change Alias",
+      "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
+      "button_submit": "Update",
+      "edit_error": {
+        "default": "An error has ocurred"
+      }
+    },
+    "qr_scanner": {
+      "text": "Point your camera towards a QR code."
     }
   },
   "tabs": {

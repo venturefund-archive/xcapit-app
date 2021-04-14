@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { FundSettingsPage } from './fund-settings.page';
@@ -28,7 +28,7 @@ describe('FundSettingsPage', () => {
   let apiApiKeysServiceMock: any;
   let apiFundsService: ApiFundsService;
   let apiApiKeysService: ApiApikeysService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiFundsServiceMock = {
       getLastFundRun: () => of(fund)
     };

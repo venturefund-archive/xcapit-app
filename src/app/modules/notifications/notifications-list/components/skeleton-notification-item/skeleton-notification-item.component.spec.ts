@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkeletonNotificationItemComponent } from './skeleton-notification-item.component';
 
@@ -7,7 +7,7 @@ describe('SkeletonNotificationItemComponent', () => {
   let component: SkeletonNotificationItemComponent;
   let fixture: ComponentFixture<SkeletonNotificationItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SkeletonNotificationItemComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

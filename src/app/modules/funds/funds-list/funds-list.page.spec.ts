@@ -1,20 +1,18 @@
-import { TabsComponent } from './../../tabs/tabs/tabs.component';
+import { TabsComponent } from '../../tabs/tabs/tabs.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundsListPage } from './funds-list.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { of } from 'rxjs';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
@@ -25,107 +23,90 @@ describe('FundsListPage', () => {
   let apiUsuariosServiceMock: any;
   let apiFundsService: ApiFundsService;
   let apiUsuariosService: ApiUsuariosService;
-  let apiWebflowService : ApiWebflowService;
+  let apiWebflowService: ApiWebflowService;
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundsListPage>;
   let tabsComponentMock: any;
   let tabsComponent: TabsComponent;
-  let navControllerSpy: any;
   let apiWebflowServiceMock: any;
-  let notificationsService: NotificationsService;
   let notificationsServiceMock: any;
 
-  beforeEach(async(() => {
-    logsServiceMock = {
-      log: () => of({})
-    };
-    tabsComponentMock = {
-      newFundUrl: ''
-    };
+  beforeEach(
+    waitForAsync(() => {
+      logsServiceMock = {
+        log: () => of({})
+      };
+      tabsComponentMock = {
+        newFundUrl: ''
+      };
 
-    apiFundsServiceMock = {
-      getFundBalances: () => of([]),
-      status: () => of({})
-    };
+      apiFundsServiceMock = {
+        getFundBalances: () => of([]),
+        status: () => of({})
+      };
 
-    apiWebflowServiceMock = {
-      getNews: () => of([]),
-      status: () => of({})
-    };
+      apiWebflowServiceMock = {
+        getNews: () => of([]),
+        status: () => of({})
+      };
 
-    apiUsuariosServiceMock = {
-      status: () =>
-        of({
-          profile_valid: true,
-          empty_linked_keys: false,
-          has_own_funds: true,
-          has_subscribed_funds: true,
-          status_name: 'COMPLETE'
-        })
-    };
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      apiUsuariosServiceMock = {
+        status: () =>
+          of({
+            profile_valid: true,
+            empty_linked_keys: false,
+            has_own_funds: true,
+            has_subscribed_funds: true,
+            status_name: 'COMPLETE'
+          })
+      };
 
-    notificationsServiceMock = {
-      getNotifications: () => of({}),
-      getCountNotifications: () => of({})
-    };
+      notificationsServiceMock = {
+        getNotifications: () => of({}),
+        getCountNotifications: () => of({})
+      };
 
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-        RouterTestingModule.withRoutes([
+      TestBed.configureTestingModule({
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'tutorials/interactive-tutorial',
+              component: DummyComponent
+            }
+          ])
+        ],
+        declarations: [FundsListPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          TrackClickDirective,
+          { provide: TabsComponent, useValue: tabsComponentMock },
           {
-            path: 'tutorials/interactive-tutorial',
-            component: DummyComponent
+            provide: LogsService,
+            useValue: logsServiceMock
           },
           {
-            path: 'profiles/personal-data',
-            component: DummyComponent
+            provide: ApiFundsService,
+            useValue: apiFundsServiceMock
           },
           {
-            path: 'profiles/user',
-            component: DummyComponent
+            provide: ApiUsuariosService,
+            useValue: apiUsuariosServiceMock
           },
           {
-            path: 'notifications/list',
-            component: DummyComponent
+            provide: ApiWebflowService,
+            useValue: apiWebflowServiceMock
+          },
+          {
+            provide: NotificationsService,
+            useValue: notificationsServiceMock
           }
-        ])
-      ],
-      declarations: [FundsListPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        TrackClickDirective,
-        { provide: TabsComponent, useValue: tabsComponentMock },
-        {
-          provide: LogsService,
-          useValue: logsServiceMock
-        },
-        {
-          provide: ApiFundsService,
-          useValue: apiFundsServiceMock
-        },
-        {
-          provide: ApiUsuariosService,
-          useValue: apiUsuariosServiceMock
-        },
-        {
-          provide: NavController,
-          useValue: navControllerSpy
-        },
-        {
-          provide: ApiWebflowService,
-          useValue: apiWebflowServiceMock
-        },
-        {
-          provide: NotificationsService,
-          useValue: notificationsServiceMock
-        }
-      ]
-    }).compileComponents();
-  }));
+        ]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundsListPage);
@@ -143,73 +124,37 @@ describe('FundsListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call status and set it in apiUsuariosService on ionViewWillEnter', () => {
+  it('should call status and set it in apiUsuariosService on ionViewWillEnter', async () => {
     const spy = spyOn(apiUsuariosService, 'status');
     spy.and.returnValue(of({}));
-    const spySetSteps = spyOn(component, 'setSteps');
-    const spySetActionButton = spyOn(component, 'setActionButton');
-    const spySetNewFundUrl = spyOn(component, 'setNewFundUrl');
-    component.ionViewWillEnter();
+    const spyInitQtyNotifications = spyOn(component, 'initQtyNotifications');
+    const spyCreateNotificationTimer = spyOn(component, 'createNotificationTimer');
+    await component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spySetSteps).toHaveBeenCalledTimes(1);
-    expect(spySetActionButton).toHaveBeenCalledTimes(1);
-    expect(spySetNewFundUrl).toHaveBeenCalledTimes(1);
+    expect(spyInitQtyNotifications).toHaveBeenCalledTimes(1);
+    expect(spyCreateNotificationTimer).toHaveBeenCalledTimes(1);
   });
 
-  it('should return profiles/personal-data when profile not valid', () => {
-    component.status = {
-      profile_valid: false,
-      empty_linked_keys: false,
-      has_own_funds: true,
-      has_subscribed_funds: true,
-      status_name: 'FROM_BOT'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('profiles/personal-data');
-    expect(tabsComponent.newFundUrl).toBe('profiles/personal-data');
-  });
-
-  it('should return apikeys/tutorial when profile valid and not empty linked keys', () => {
-    component.status = {
-      profile_valid: true,
-      empty_linked_keys: false,
-      has_own_funds: true,
-      has_subscribed_funds: true,
-      status_name: 'EXOLORER'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('apikeys/tutorial');
-    expect(tabsComponent.newFundUrl).toBe('apikeys/tutorial');
-  });
-
-
-  it('should return funds/fund-name when profile valid and empty linked keys', () => {
-    component.status = {
-      profile_valid: true,
-      empty_linked_keys: true,
-      has_own_funds: false,
-      has_subscribed_funds: false,
-      status_name: 'BEGINNER'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('funds/fund-name');
-    expect(tabsComponent.newFundUrl).toBe('funds/fund-name');
-  });
-
-  it('should call getFundBalances in apiFundsService', () => {
+  it('should call getFundBalances in apiFundsService twice when ionViewWillEnter', async () => {
+    spyOn(component, 'getStatus');
     const spy = spyOn(apiFundsService, 'getFundBalances');
     spy.and.returnValue(of([]));
-    component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
+  it('should call getFundBalances and getNews on doRefresh', async () => {
+    const spyFund = spyOn(apiFundsService, 'getFundBalances');
+    const spyNews = spyOn(apiWebflowService, 'getNews');
+    spyFund.and.returnValue(of([]));
+    spyNews.and.returnValue(of([]));
+    await component.doRefresh({ target: { complete: () => null } });
+    expect(spyFund).toHaveBeenCalledTimes(2);
+    expect(spyNews).toHaveBeenCalledTimes(1);
+  });
+
   it('should call trackEvent on trackService when Go To Profile button clicked', () => {
+    spyOn(component, 'goToProfile');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Go To Profile'
@@ -221,8 +166,8 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  // TODO: Activate this test when notifications button shows
   it('should call trackEvent on trackService when Show Notifications button clicked', () => {
+    spyOn(component, 'showNotifications');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
       'Show Notifications'
@@ -234,30 +179,12 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Action Button button clicked', () => {
-    component.status = {
-      profile_valid: true,
-      empty_linked_keys: true,
-      has_own_funds: false,
-      has_subscribed_funds: false,
-      status_name: 'BEGINNER'
-    };
-    fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Action Button'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
 
-  it('should call getNews in apiWebflow', () => {
+  it('should call getNews when ionViewWillEnter is called', async () => {
+    spyOn(component, 'getStatus');
     const spy = spyOn(apiWebflowService, 'getNews');
     spy.and.returnValue(of([]));
-    component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });

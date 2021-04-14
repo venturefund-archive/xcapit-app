@@ -1,0 +1,47 @@
+:host {
+  .ik {
+    &__title {
+      margin-top: 8px;
+    }
+
+    &__text_before {
+      margin-top: 16px;
+    }
+
+    &__ak_input {
+      margin-top: 8px;
+    }
+
+    &__submit_button {
+      display: flex;
+      flex-direction: column;
+      margin-top: 8px;
+    }
+
+    &__use_qr_button {
+      display: flex;
+      flex-direction: column;
+      margin-top: 16px;
+    }
+  }
+  .main {
+    margin-top: 8px;
+    overflow: auto;
+    &__help__button {
+      float: right;
+      height: auto;
+      font-size: 12px;
+      .button-native {
+        padding-right: 0 !important;
+      }
+    }
+
+    &__go_to_register {
+      margin-top: 8px;
+    }
+  }
+  .container {
+    height: 100%;
+    width: 100%;
+  }
+}

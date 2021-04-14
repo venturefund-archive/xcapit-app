@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TutorialApikeysPage } from './tutorial-apikeys.page';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -15,7 +15,7 @@ describe('TutorialApikeysPage', () => {
   let fixture: ComponentFixture<TutorialApikeysPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TutorialApikeysPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TutorialApikeysPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
