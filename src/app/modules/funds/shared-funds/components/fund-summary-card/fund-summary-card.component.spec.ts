@@ -1,7 +1,6 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule } from '@ionic/angular';
-
 import { FundSummaryCardComponent } from './fund-summary-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -14,13 +13,15 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DecimalPipe } from '@angular/common';
 import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';
+import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 const testData = { link: 'https://test.link' };
 const testSummary: FundSummaryInterface = {
   fund: { nombre_bot: 'Test', currency: 'BTC' },
   balance: {
     start_balance: '',
-    end_balance: ''
-  }
+    end_balance: '',
+  },
 };
 describe('FundSummaryCardComponent', () => {
   let component: FundSummaryCardComponent;
@@ -29,34 +30,73 @@ describe('FundSummaryCardComponent', () => {
   let shareServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundSummaryCardComponent>;
   let alertControllerSpy: any;
+  let localStorageService: LocalStorageService;
+  let localStorageServiceMock: any;
+  let storageMock: any;
+  let storage: Storage;
 
-  beforeEach(waitForAsync(() => {
-    apiSubscriptionsSpy = jasmine.createSpyObj('ApiSubscriptionsService', [
-      'getSubscriptionLink'
-    ]);
-    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
-    shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
-    TestBed.configureTestingModule({
-      declarations: [FundSummaryCardComponent, TrackClickDirective, CurrencyFormatPipe, DecimalPipe],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-      providers: [
-        CurrencyFormatPipe,
-        DecimalPipe,
-        { provide: ApiSubscriptionsService, useValue: apiSubscriptionsSpy },
-        { provide: ShareService, useValue: shareServiceSpy },
-        { provide: AlertController, useValue: alertControllerSpy }
-      ]
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      localStorageServiceMock = {
+        toggleHideFunds: () => undefined,
+        getHideFunds: () => Promise.resolve(true),
+      };
+      storageMock = {
+        get: () => Promise.resolve(),
+        set: () => Promise.resolve(),
+        remove: () => Promise.resolve(),
+      };
+      apiSubscriptionsSpy = jasmine.createSpyObj('ApiSubscriptionsService', [
+        'getSubscriptionLink',
+      ]);
+      alertControllerSpy = jasmine.createSpyObj(
+        'AlertController',
+        alertControllerMock
+      );
+      shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
+      TestBed.configureTestingModule({
+        declarations: [
+          FundSummaryCardComponent,
+          TrackClickDirective,
+          CurrencyFormatPipe,
+          DecimalPipe,
+          HideTextPipe,
+        ],
+        imports: [
+          IonicModule,
+          TranslateModule.forRoot(),
+          HttpClientTestingModule,
+        ],
+        providers: [
+          CurrencyFormatPipe,
+          DecimalPipe,
+          HideTextPipe,
+          { provide: ApiSubscriptionsService, useValue: apiSubscriptionsSpy },
+          { provide: ShareService, useValue: shareServiceSpy },
+          { provide: AlertController, useValue: alertControllerSpy },
+          { provide: Storage, useValue: storageMock },
+          { provide: LocalStorageService, useValue: localStorageServiceMock },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(FundSummaryCardComponent);
-    component = fixture.componentInstance;
-    component.summary = testSummary;
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  }));
+      localStorageService = TestBed.inject(LocalStorageService);
+      storage = TestBed.inject(Storage);
+      fixture = TestBed.createComponent(FundSummaryCardComponent);
+      component = fixture.componentInstance;
+      component.summary = testSummary;
+      fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call SubscribeOnHideFunds on ionViewWillEnter', () => {
+    const spy = spyOn(component, 'subscribeOnHideFunds');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call shareService.share on shareSubscriptionLink', () => {

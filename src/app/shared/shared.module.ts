@@ -33,9 +33,8 @@ import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loadin
 import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
 import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
-import { HideTextDirective } from './directives/hide-text/hide-text.directive';
-import { HideTextModule } from './directives/hide-text/hide-text.module';
-import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
+
+
 
 
 
@@ -81,7 +80,6 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
     TranslateModule.forChild(),
     TrackClickModule,
     TrackClickUnauthModule,
-    HideTextModule,
     ReactiveFormsModule,
   ],
   exports: [
@@ -94,7 +92,6 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
     LanguageButtonComponent,
     TrackClickModule,
     TrackClickUnauthModule,
-    HideTextModule,
     IsSubscribedComponent,
     PercentageDisplayComponent,
     XcapitLogoComponent,

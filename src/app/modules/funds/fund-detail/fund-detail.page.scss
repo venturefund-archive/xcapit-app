@@ -1,5 +1,13 @@
 :host {
   .fd {
+    &__type-toggle {
+      text-align: right;
+      display: block;
+    }
+
+    &__eye-button {
+      color: gray;
+    }
     &__header-title {
       margin-top: -10px;
     }
@@ -39,10 +47,10 @@
           margin: 0 8px 0 -13px;
           &__button {
             font-size: 12px;
-            color: #0000008A;
+            color: #0000008a;
           }
-          .active{
-	          color: #FF9100
+          .active {
+            color: #ff9100;
           }
         }
       }

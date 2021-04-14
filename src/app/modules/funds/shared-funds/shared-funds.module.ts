@@ -86,7 +86,7 @@ import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
     FundShareChartComponent,
     InvestmentProductCardComponent,
     CurrencyFormatPipe,
-    
+    HideTextPipe
   ],
   entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent],
 })

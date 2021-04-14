@@ -29,7 +29,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
               }"
               class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold"
             >
-              <ion-text appHideText (hideTextHasChanged)="this.hideFundText=$event">
+              <ion-text>
                 {{
                   this.fund?.end_balance
                     | currencyFormat
@@ -37,9 +37,9 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
                           currency: this.fund?.currency,
                           formatUSDT: '1.2-2',
                           formatBTC: '1.2-4'
-                        } 
-                        | hideText : this.hideFundText
-                }} 
+                        }
+                    | hideText: this.hideFundText
+                }}
               </ion-text>
             </div>
             <div class="ux-font-lato ux-fweight-regular ux-fsize-12">
@@ -149,14 +149,23 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
 })
 export class FundCardComponent implements OnInit {
   @Input() fund: any;
-
+  @Input() hideFundText: boolean;
   createdTime: any;
-  hideFundText: boolean;
-
-  constructor(private navController: NavController) { }
+  constructor(
+    private navController: NavController,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
+    this.subscribeOnHideFunds();
     this.createdTime = this.getCreatedTime(this.fund);
+  }
+
+
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe(
+      (res) => (this.hideFundText = res)
+    );
   }
 
   actionFund() {
@@ -181,9 +190,4 @@ export class FundCardComponent implements OnInit {
       return ['seconds', b.diff(a, 'seconds')];
     }
   }
-/*
-  onHideTextHasChanged(value : boolean) {
-    this.hideFundText = value;
-  }
-  */
 }

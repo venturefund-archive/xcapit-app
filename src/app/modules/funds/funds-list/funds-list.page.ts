@@ -46,15 +46,6 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
         </div>
       </ion-toolbar>
     </ion-header>
-    <div>
-    <ion-button
-            name="Hide text"
-            (click)="this.hideText()"
-          >
-          <ion-icon  name="eye"></ion-icon>
-          </ion-button>
-    </div>
-
     <ion-content>
       <ion-refresher
         (ionRefresh)="doRefresh($event)"
@@ -91,9 +82,22 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
       >
         <div class="fund_steps__subheader_bg"></div>
         <div class="fund_steps__card ion-padding">
+          <div *ngIf="this.notOwnerFundBalances" class="type-toggle">
+            <a (click)="this.hideText()">
+              <ion-icon
+                class="eye-button"
+                [hidden]="!this.hideFundText"
+                name="eye-off-outline"
+              ></ion-icon>
+              <ion-icon
+                class="eye-button"
+                [hidden]="this.hideFundText"
+                name="eye-outline"
+              ></ion-icon>
+            </a>
+          </div>
           <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
             <ion-text>{{
-              
               'funds.funds_list.fund_steps.title' | translate
             }}</ion-text>
           </div>
@@ -156,6 +160,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
 
           <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
             <app-fund-card
+              [hideFundText]="this.hideFundText"
               [fund]="fb"
               *ngIf="fb.state == 'finalizado'"
             ></app-fund-card>
@@ -221,6 +226,7 @@ export class FundsListPage implements OnInit {
   news: Array<any>;
   hasNotifications = false;
   lockActivated = false;
+  hideFundText: boolean;
 
   status = {
     profile_valid: false,
@@ -259,18 +265,24 @@ export class FundsListPage implements OnInit {
 
   ngOnInit() {
     this.initQtyNotifications();
-
     const minutes = 0.5;
     this.timerSubscription = timer(0, minutes * 60000).subscribe(() => {
       this.notificationQtySubject.next();
     });
   }
 
-  hideText(){
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe(
+      (res) => (this.hideFundText = res)
+    );
+  }
+
+  async hideText() {
     this.localStorageService.toggleHideFunds();
   }
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    this.subscribeOnHideFunds();
     this.getStatus();
   }
 
@@ -382,7 +394,6 @@ export class FundsListPage implements OnInit {
       this.getNotOwnerFundBalances();
       this.getOwnerFundBalances();
       this.getNews();
-
       setTimeout(() => {
         event.target.complete();
       }, 2000);

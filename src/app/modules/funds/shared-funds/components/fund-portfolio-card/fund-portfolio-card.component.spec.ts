@@ -12,6 +12,8 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { DecimalPipe } from '@angular/common';
+import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 const testBalance = {
   balance: {
@@ -20,7 +22,7 @@ const testBalance = {
     to_ca: [
       {
         end_balance: 1,
-      }
+      },
     ],
   },
   fund: {
@@ -34,45 +36,76 @@ describe('FundPortfolioCardComponent', () => {
   let apiFundsSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundPortfolioCardComponent>;
   let modalControllerSpy: any;
-  beforeEach(waitForAsync(() => {
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
-    apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
-      getBalance: of(testBalance),
-    });
+  let localStorageService: LocalStorageService;
+  let localStorageServiceMock: any;
+  let storageMock: any;
+  let storage: Storage;
 
-    TestBed.configureTestingModule({
-      declarations: [
-        FundPortfolioCardComponent,
-        TrackClickDirective,
-        CurrencyFormatPipe,
-        DecimalPipe,
-      ],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        CurrencyFormatPipe,
-        DecimalPipe,
-        { provide: ApiFundsService, useValue: apiFundsSpy },
-        { provide: ModalController, useValue: modalControllerSpy },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      localStorageServiceMock = {
+        toggleHideFunds: () => undefined,
+        getHideFunds: () => Promise.resolve(true),
+      };
+      storageMock = {
+        get: () => Promise.resolve(),
+        set: () => Promise.resolve(),
+        remove: () => Promise.resolve(),
+      };
 
-    fixture = TestBed.createComponent(FundPortfolioCardComponent);
-    component = fixture.componentInstance;
-    component.fundBalance = testBalance;
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  }));
+      modalControllerSpy = jasmine.createSpyObj(
+        'ModalController',
+        modalControllerMock
+      );
+      apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
+        getBalance: of(testBalance),
+      });
+
+      TestBed.configureTestingModule({
+        declarations: [
+          FundPortfolioCardComponent,
+          TrackClickDirective,
+          CurrencyFormatPipe,
+          DecimalPipe,
+          HideTextPipe,
+        ],
+        imports: [
+          IonicModule,
+          TranslateModule.forRoot(),
+          HttpClientTestingModule,
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          CurrencyFormatPipe,
+          DecimalPipe,
+          HideTextPipe,
+          { provide: ApiFundsService, useValue: apiFundsSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+          { provide: Storage, useValue: storageMock },
+          { provide: LocalStorageService, useValue: localStorageServiceMock },
+        ],
+      }).compileComponents();
+      storage = TestBed.inject(Storage);
+      fixture = TestBed.createComponent(FundPortfolioCardComponent);
+      component = fixture.componentInstance;
+      component.fundBalance = testBalance;
+      fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    })
+  );
+
+  beforeEach(() => {
+    localStorageService = TestBed.inject(LocalStorageService);
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call SubscribeOnHideFunds on ionViewWillEnter', () => {
+    const spy = spyOn(component, 'subscribeOnHideFunds');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call setTotals on init', () => {

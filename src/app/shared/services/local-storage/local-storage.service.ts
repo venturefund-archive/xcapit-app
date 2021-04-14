@@ -1,27 +1,31 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-
+import {Storage} from '@ionic/storage';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
-  @Output() hideFundsHasChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
-  hideFunds : boolean;
-
-  constructor() { 
-    this.hideFunds = this.getHideFunds();
+  hideFunds : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  
+  constructor(private storage: Storage) { 
   }
 
+  async ngOnInit(){
+    this.hideFunds.next(await this.getHideFunds());
+  }
+  
   toggleHideFunds() {
-    this.hideFunds = !this.hideFunds;
-    this.setHideFunds(this.hideFunds);
+    this.setHideFunds(!this.hideFunds.value);
   }
 
-  getHideFunds() : boolean {
-    return localStorage.getItem("hideFunds") == "true";
+  private getHideFunds(): Promise<boolean> {
+    return this.storage.get("hideFunds").then(data => data == "true");
   }
 
-  setHideFunds(hideFunds : boolean) {
-    localStorage.setItem("hideFunds", hideFunds.toString());
-    this.hideFundsHasChanged.emit(this.hideFunds);
+  public async setHideFunds( hideFunds : boolean) {
+    const isSet = await this.storage.set("hideFunds", hideFunds.toString());
+    this.hideFunds.next(hideFunds);
+    return isSet;
   }
+
 }

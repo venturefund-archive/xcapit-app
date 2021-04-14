@@ -16,6 +16,7 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 describe('FundsListPage', () => {
   let component: FundsListPage;
@@ -32,6 +33,8 @@ describe('FundsListPage', () => {
   let navControllerSpy: any;
   let apiWebflowServiceMock: any;
   let notificationsServiceMock: any;
+  let localStorageService: LocalStorageService;
+  let localStorageServiceMock: any;
 
   beforeEach(
     waitForAsync(() => {
@@ -50,6 +53,11 @@ describe('FundsListPage', () => {
       apiWebflowServiceMock = {
         getNews: () => of([]),
         status: () => of({}),
+      };
+
+      localStorageServiceMock = {
+        toggleHideFunds: () => undefined,
+        getHideFunds: () => Promise.resolve(true),
       };
 
       apiUsuariosServiceMock = {
@@ -125,6 +133,10 @@ describe('FundsListPage', () => {
             provide: NotificationsService,
             useValue: notificationsServiceMock,
           },
+          {
+            provide: LocalStorageService,
+            useValue: localStorageServiceMock,
+          },
         ],
       }).compileComponents();
     })
@@ -136,6 +148,7 @@ describe('FundsListPage', () => {
     fixture.detectChanges();
     apiFundsService = TestBed.inject(ApiFundsService);
     apiWebflowService = TestBed.inject(ApiWebflowService);
+    localStorageService = TestBed.inject(LocalStorageService);
     tabsComponent = TestBed.inject(TabsComponent);
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     logsServiceMock = TestBed.inject(LogsService);
@@ -146,17 +159,19 @@ describe('FundsListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call status and set it in apiUsuariosService on ionViewWillEnter', () => {
+  it('should call SubscribeOnHideFunds, Status and set it in apiUsuariosService on ionViewWillEnter', () => {
     const spy = spyOn(apiUsuariosService, 'status');
     spy.and.returnValue(of({}));
     const spySetSteps = spyOn(component, 'setSteps');
     const spySetActionButton = spyOn(component, 'setActionButton');
     const spySetNewFundUrl = spyOn(component, 'setNewFundUrl');
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spySetSteps).toHaveBeenCalledTimes(1);
     expect(spySetActionButton).toHaveBeenCalledTimes(1);
     expect(spySetNewFundUrl).toHaveBeenCalledTimes(1);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
   it('should return profiles/personal-data when profile not valid', () => {
@@ -231,6 +246,13 @@ describe('FundsListPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call toggleHideFunds in HideText', () => {
+    const spyToggle = spyOn(localStorageService, 'toggleHideFunds');
+    spyToggle.and.returnValue(undefined);
+    component.hideText();
+    expect(localStorageService.toggleHideFunds).toHaveBeenCalledTimes(1);
   });
 
   // TODO: Activate this test when notifications button shows
