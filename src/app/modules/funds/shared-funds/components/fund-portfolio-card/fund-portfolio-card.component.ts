@@ -120,10 +120,10 @@ export class FundPortfolioCardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.subscribeOnHideFunds();
     this.orderChartData();
     this.setTotals();
     this.setCurrency();
+    this.subscribeOnHideFunds();
   }
 
   subscribeOnHideFunds() {

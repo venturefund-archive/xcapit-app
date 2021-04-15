@@ -1,5 +1,5 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { AlertController, IonicModule } from '@ionic/angular';
 import { FundSummaryCardComponent } from './fund-summary-card.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -84,7 +84,6 @@ describe('FundSummaryCardComponent', () => {
       fixture = TestBed.createComponent(FundSummaryCardComponent);
       component = fixture.componentInstance;
       component.summary = testSummary;
-      fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -93,11 +92,15 @@ describe('FundSummaryCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call SubscribeOnHideFunds on ionViewWillEnter', () => {
+  it('should call SubscribeOnHideFunds on init', fakeAsync(() => {
     const spy = spyOn(component, 'subscribeOnHideFunds');
+    const spyNgOnInit = spyOn(component, 'ngOnInit').and.callThrough();
     component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+    tick();
+    fixture.detectChanges();
+    expect(spyNgOnInit).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(2);
+  }));
 
   it('should call shareService.share on shareSubscriptionLink', () => {
     apiSubscriptionsSpy.getSubscriptionLink.and.returnValue(of(testData));
@@ -117,7 +120,6 @@ describe('FundSummaryCardComponent', () => {
     shareServiceSpy.share.and.returnValue(Promise.resolve());
     component.shareSubscriptionLink();
     el.nativeElement.click();
-    fixture.detectChanges();
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 });

@@ -48,35 +48,30 @@ describe('FundListSubHeaderComponent', () => {
           { provide: LocalStorageService, useValue: localStorageServiceMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+      })
 
       fixture = TestBed.createComponent(FundListSubHeaderComponent);
       component = fixture.componentInstance;
-      fixture.detectChanges();
       apiFunds = TestBed.inject(ApiFundsService);
+      storage = TestBed.inject(Storage);
+      localStorageService = TestBed.inject(LocalStorageService);
     })
   );
-
-  beforeEach(() => {
-    localStorageService = TestBed.inject(LocalStorageService);
-  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call get on apiFunds.getTotalBalance when ngOnInit', () => {
+  it('should call get on apiFunds.getTotalBalance and SubscribeOnHideFunds when ngOnInit', () => {
     const spy = spyOn(apiFunds, 'getTotalBalance');
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     spy.and.returnValue(of({}));
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(2);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
-  it('should call SubscribeOnHideFunds on ionViewWillEnter', () => {
-    const spy = spyOn(component, 'subscribeOnHideFunds');
-    component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+
 
   it('should call toggleHideFunds in HideText', () => {
     const spyToggle = spyOn(localStorageService, 'toggleHideFunds');

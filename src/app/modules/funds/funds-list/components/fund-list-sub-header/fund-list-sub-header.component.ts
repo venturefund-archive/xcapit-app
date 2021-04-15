@@ -117,9 +117,6 @@ export class FundListSubHeaderComponent implements OnInit {
     this.getTotalBalance('USDT');
   }
 
-  ionViewWillEnter() {
-    
-  }
 
   subscribeOnHideFunds() {
     this.localStorageService.hideFunds.subscribe(

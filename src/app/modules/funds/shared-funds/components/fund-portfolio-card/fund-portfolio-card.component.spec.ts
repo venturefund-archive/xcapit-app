@@ -1,5 +1,5 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 import { FundPortfolioCardComponent } from './fund-portfolio-card.component';
@@ -89,7 +89,6 @@ describe('FundPortfolioCardComponent', () => {
       fixture = TestBed.createComponent(FundPortfolioCardComponent);
       component = fixture.componentInstance;
       component.fundBalance = testBalance;
-      fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -102,28 +101,38 @@ describe('FundPortfolioCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call SubscribeOnHideFunds on ionViewWillEnter', () => {
+  it('should call SubscribeOnHideFunds on init', fakeAsync(() => {
     const spy = spyOn(component, 'subscribeOnHideFunds');
+    const spyNgOnInit = spyOn(component, 'ngOnInit').and.callThrough();
     component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+    tick();
+    fixture.detectChanges();
+    expect(spyNgOnInit).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(2);
+  }));
 
   it('should call setTotals on init', () => {
     const spy = spyOn(component, 'setTotals');
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
   it('should call setCurrency on init', () => {
     const spy = spyOn(component, 'setCurrency');
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
   it('should call orderChartData on init', () => {
     const spy = spyOn(component, 'orderChartData');
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
   it('should call ModalController create on viewDetails', () => {
@@ -139,7 +148,6 @@ describe('FundPortfolioCardComponent', () => {
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
-    fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(spyClickEvent).toHaveBeenCalledTimes(1);
     });

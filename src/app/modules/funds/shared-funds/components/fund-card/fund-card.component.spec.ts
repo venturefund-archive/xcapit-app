@@ -1,5 +1,10 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+} from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FundCardComponent } from './fund-card.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,6 +33,7 @@ describe('FundCardComponent', () => {
         toggleHideFunds: () => undefined,
         getHideFunds: () => Promise.resolve(true),
       };
+
       storageMock = {
         get: () => Promise.resolve(),
         set: () => Promise.resolve(),
@@ -68,7 +74,6 @@ describe('FundCardComponent', () => {
       fixture = TestBed.createComponent(FundCardComponent);
       component = fixture.componentInstance;
       component.fund = { fund_name: 'Test' };
-      fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -79,7 +84,8 @@ describe('FundCardComponent', () => {
 
   it('should call SubscribeOnHideFunds on ngOnInit', () => {
     const spy = spyOn(component, 'subscribeOnHideFunds');
+    fixture.detectChanges();
     component.ngOnInit();
-    expect(localStorageService.hideFunds.subscribe()).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 });
