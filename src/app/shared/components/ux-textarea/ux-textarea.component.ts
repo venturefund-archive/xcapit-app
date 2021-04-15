@@ -13,7 +13,7 @@ import {
       <ion-item class="ux_textarea_container__item">
         <ion-textarea
           #inputRegister
-          [rows]="10"
+          [rows]="this.rows"
           [formControlName]="this.controlName"
           [inputmode]="this.inputmode"
           [placeholder]="this.placeholder"
@@ -30,7 +30,6 @@ import {
         ></ion-icon>
       </ion-item>
       <app-errors-form-item
-        class="ux_textarea_container__item__errors"
         [controlName]="this.controlName"
         [errors]="this.errors"
       ></app-errors-form-item>
@@ -47,31 +46,15 @@ import {
 export class UxTextareaComponent implements OnInit {
   @Input() label: string;
   @Input() inputmode: string;
+  @Input() rows = 10;
   @Input() errors: any[] = [];
   @Input() controlName: string;
   @Input() placeholder: string;
-  passwordType: boolean;
-  @ViewChild('inputRegister', { read: ElementRef, static: true })
-  input: ElementRef;
-
   control: AbstractControl;
 
   constructor(private form: FormGroupDirective) {}
 
   ngOnInit() {
     this.control = this.form.control.get(this.controlName);
-  }
-
-  togglePasswordMode() {
-    // obtener el input
-    const nativeEl = this.input.nativeElement.querySelector('input');
-    // obtener el indice de la posición del texto actual en el input
-    const inputSelection = nativeEl.selectionStart;
-    // ejecuto el focus al input
-    nativeEl.focus();
-    // espero un milisegundo y actualizo la posición del indice del texto
-    setTimeout(() => {
-      nativeEl.setSelectionRange(inputSelection, inputSelection);
-    }, 1);
   }
 }

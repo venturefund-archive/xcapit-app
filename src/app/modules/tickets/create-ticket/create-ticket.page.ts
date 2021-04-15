@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
 
 @Component({
   selector: 'app-create-ticket',
@@ -80,10 +84,29 @@ export class CreateTicketPage implements OnInit {
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private apiTicketsService: ApiTicketsService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
 
-  handleSubmit() {}
+  handleSubmit() {
+    if (this.form.valid) {
+      this.createTicket();
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+
+  createTicket() {
+    const data = this.form.value;
+    this.apiTicketsService.crud.create(data).subscribe(
+      () => this.success()
+    );
+  }
+
+  success() {
+    this.router.navigate(['/tickets/create-ticket-success']);
+  }
 }

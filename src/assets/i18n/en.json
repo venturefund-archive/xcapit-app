@@ -164,6 +164,11 @@
       "label_message": "Description",
       "placeholder_message": "Write the details of your ticket here.",
       "submit_button": "Send"
+    },
+    "createSuccess": {
+      "textPrimary": "Thank you for your patience!",
+      "textSecondary": "A member of the team will contact you soon.",
+      "namePrimaryAction": "Ok"
     }
   },
   "funds": {

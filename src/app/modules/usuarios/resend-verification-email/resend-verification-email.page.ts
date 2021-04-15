@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 @Component({
   selector: 'app-resend-verification-email',
@@ -64,13 +65,15 @@ import { Router } from '@angular/router';
 export class ResendVerificationEmailPage implements OnInit {
   disableResendEmail: boolean = true;
   hideSendTicket: boolean = true;
-  numberOfResends: number = 0;
-  minimumNumberOfTriesForTicket: number = 3;
+
+  private numberOfResends: number = 0;
+  private minimumNumberOfTriesForTicket: number = 3;
+
   timerText: string = '';
-  timerSeconds: number;
-  timer: any;
+  private timerSeconds: number;
+  private timer: any;
   
-  constructor(private router: Router) {}
+  constructor(private router: Router, private apiUsuariosService: ApiUsuariosService) {}
 
   ngOnInit() {}
 
@@ -108,6 +111,9 @@ export class ResendVerificationEmailPage implements OnInit {
     if (this.numberOfResends == this.minimumNumberOfTriesForTicket) {
       this.hideSendTicket = false;
     }
+
+    // WIP
+    // this.apiUsuariosService.sendEmailValidation('').subscribe();
   }
 
   openTicket() {

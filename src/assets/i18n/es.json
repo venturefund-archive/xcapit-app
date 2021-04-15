@@ -164,6 +164,11 @@
       "label_message": "¿Cuál es tu consulta?",
       "placeholder_message": "Escriba su consulta aquí.",
       "submit_button": "Enviar"
+    },
+    "createSuccess": {
+      "textPrimary": "¡Gracias por comunicarte con nosotros!",
+      "textSecondary": "En unos momentos, un miembro del equipo se pondrá en contacto contigo.",
+      "namePrimaryAction": "Aceptar"
     }
   },
   "funds": {

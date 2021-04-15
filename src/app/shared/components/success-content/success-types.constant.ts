@@ -75,4 +75,11 @@ export const SUCCESS_TYPES = {
     urlSecondaryAction: '/tabs/funds',
     nameSecondaryAction: 'apikeys.register_success.nameSecondaryAction',
   },
+  ticket_create: {
+    urlClose: '/users/login',
+    textPrimary: 'tickets.createSuccess.textPrimary',
+    textSecondary: 'tickets.createSuccess.textSecondary',
+    urlPrimaryAction: '/users/login',
+    namePrimaryAction: 'tickets.createSuccess.namePrimaryAction',
+  }
 };
