@@ -6,7 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LocalStorageService {
   hideFunds : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  
   constructor(private storage: Storage) { 
   }
 

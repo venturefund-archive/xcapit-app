@@ -2,8 +2,7 @@ import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-forma
 import {
   waitForAsync,
   ComponentFixture,
-  TestBed,
-  fakeAsync,
+  TestBed
 } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FundCardComponent } from './fund-card.component';
