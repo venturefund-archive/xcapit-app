@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Storage } from '@ionic/storage';
 import { LocalStorageService } from './local-storage.service';
 
-describe('LocalStorageService', () => {
+fdescribe('LocalStorageService', () => {
   let service: LocalStorageService;
   let storageMock: any;
   let storage: Storage;
@@ -24,17 +24,17 @@ describe('LocalStorageService', () => {
     expect(service).toBeTruthy();
   });
 
-  // it('should return a true when getHideFunds is called', async () => {
-  //   const spy = spyOn(storage, 'get');
-  //   spy.and.returnValue(Promise.resolve('true'));
-  //   const result = await service.getHideFunds();
-  //   expect(result).toBe(await Promise.resolve(true));
-  // });
-
-  // it('should return a false when getHideFunds is called', async () => {
-  //   const spy = spyOn(storage, 'get');
-  //   spy.and.returnValue(Promise.resolve('false'));
-  //   const result = await service.getHideFunds();
-  //   expect(result).toBe(await Promise.resolve(false));
-  // });
+  it('should return a true when getHideFunds is called', async () => {
+    const spy = spyOn(storage, 'get');
+    spy.and.returnValue(Promise.resolve('true'));
+    const result = await service.getHideFunds();
+    expect(result).toBe(await Promise.resolve(true));
+  });
+  
+  it('should return a false when getHideFunds is called', async () => {
+    const spy = spyOn(storage, 'get');
+    spy.and.returnValue(Promise.resolve('false'));
+    const result = await service.getHideFunds();
+    expect(result).toBe(await Promise.resolve(false));
+  });
 });

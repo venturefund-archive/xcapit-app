@@ -18,7 +18,7 @@ export class LocalStorageService {
     this.setHideFunds(!this.hideFunds.value);
   }
 
-  private getHideFunds(): Promise<boolean> {
+  public getHideFunds(): Promise<boolean> {
     return this.storage.get("hideFunds").then(data => data == "true");
   }
 
