@@ -4,6 +4,7 @@ import { ShareService } from 'src/app/shared/services/share/share.service';
 import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
+import { Currency } from '../../enums/currency.enum';
 
 @Component({
   selector: 'app-fund-summary-card',
@@ -27,9 +28,28 @@ import { AlertController } from '@ionic/angular';
                 this.summary?.balance.end_balance
                   | currencyFormat
                     : {
-                        currency: this.summary?.fund.currency,
+                        currency: this.currencyBase,
                         formatUSDT: '1.2-2',
-                        formatBTC: '1.2-4'
+                        formatBTC: '1.2-6'
+                      }
+              }}
+            </ion-text>
+            <ion-text
+              class="ux-font-lato ux-fweight-regular ux-fsize-16"
+              color="uxmedium"
+            >
+              ≈
+            </ion-text>
+            <ion-text
+              class="ux-font-gilroy ux-fweight-regular ux-fsize-16"
+              color="uxdark"
+            >
+              {{
+                this.summary?.balance.end_balance
+                  | currencyFormat
+                    : {
+                        currency: this.currencySecond,
+                        formatBTC: '1.2-6'
                       }
               }}
             </ion-text>
@@ -44,7 +64,7 @@ import { AlertController } from '@ionic/angular';
             >
           </div>
         </div>
-        <div class="fsc__content__right">
+        <!-- <div class="fsc__content__right">
           <div class="initial-amount">
             <ion-text
               class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
@@ -71,7 +91,7 @@ import { AlertController } from '@ionic/angular';
               }}
             </ion-text>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="fsc__footer">
         <div class="fsc__footer__left">
@@ -119,6 +139,13 @@ import { AlertController } from '@ionic/angular';
 })
 export class FundSummaryCardComponent implements OnInit {
   @Input() summary: FundSummaryInterface;
+  @Input() fundBalance: any;
+
+  currencyBase: string;
+  currencySecond: string;
+
+  currencies = [Currency.BTC, Currency.USDT];
+
   constructor(
     private shareService: ShareService,
     private translate: TranslateService,
@@ -126,23 +153,42 @@ export class FundSummaryCardComponent implements OnInit {
     private alertController: AlertController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.setCurrency();
+  }
+
+  setCurrency() {
+    this.currencyBase = this.summary?.fund.currency;
+    if (this.currencyBase === 'BTC') {
+      this.currencySecond = 'USDT';
+    } else {
+      this.currencySecond = 'BTC';
+    }
+  }
 
   async showShareSubscriptionAlert() {
     const alert = await this.alertController.create({
-      header: this.translate.instant('funds.fund_detail.fund_summary_card.alert_header'),
-      message: this.translate.instant('funds.fund_detail.fund_summary_card.alert_message'),
+      header: this.translate.instant(
+        'funds.fund_detail.fund_summary_card.alert_header'
+      ),
+      message: this.translate.instant(
+        'funds.fund_detail.fund_summary_card.alert_message'
+      ),
       buttons: [
         {
-          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_exit_button'),
+          text: this.translate.instant(
+            'funds.fund_detail.fund_summary_card.alert_exit_button'
+          ),
           role: 'cancel',
-          cssClass: 'secondary'
+          cssClass: 'secondary',
         },
         {
-          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_share_button'),
-          handler: _ => this.shareSubscriptionLink()
-        }
-      ]
+          text: this.translate.instant(
+            'funds.fund_detail.fund_summary_card.alert_share_button'
+          ),
+          handler: (_) => this.shareSubscriptionLink(),
+        },
+      ],
     });
     await alert.present();
   }
