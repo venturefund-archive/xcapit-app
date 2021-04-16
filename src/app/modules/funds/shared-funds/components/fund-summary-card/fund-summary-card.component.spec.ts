@@ -22,7 +22,7 @@ const testSummary: FundSummaryInterface = {
     end_balance: ''
   }
 };
-fdescribe('FundSummaryCardComponent', () => {
+describe('FundSummaryCardComponent', () => {
   let component: FundSummaryCardComponent;
   let fixture: ComponentFixture<FundSummaryCardComponent>;
   let apiSubscriptionsSpy: any;

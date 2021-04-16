@@ -66,34 +66,6 @@ import { ApiFundsService } from '../../services/api-funds/api-funds.service';
             >
           </div>
         </div>
-        <!-- <div class="fsc__content__right">
-          <div class="initial-amount">
-            <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
-              color="uxdark"
-            >
-              {{
-                this.summary?.balance.start_balance
-                  | currencyFormat
-                    : {
-                        currency: this.summary?.fund.currency,
-                        formatUSDT: '1.2-2',
-                        formatBTC: '1.2-4'
-                      }
-              }}
-            </ion-text>
-          </div>
-          <div class="initial-text">
-            <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-12"
-              color="uxmedium"
-            >
-              {{
-                'funds.fund_detail.fund_summary_card.initial_amount' | translate
-              }}
-            </ion-text>
-          </div>
-        </div> -->
       </div>
       <div class="fsc__footer">
         <div class="fsc__footer__left">
