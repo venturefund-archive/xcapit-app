@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 interface AKDataInterface {
+  alias: string;
+  apiKey: string;
+  apiSecret: string;
   exchange: string;
-  api_key: string;
 }
 
 @Injectable({
@@ -11,23 +12,19 @@ interface AKDataInterface {
 })
 export class StorageApikeysService {
   constructor() {}
-
-  initial = {
-    api_key: '',
-    exchange: ''
+  data: AKDataInterface;
+  private default: AKDataInterface = {
+    alias: '',
+    apiKey: '',
+    apiSecret: '',
+    exchange: 'binance'
   };
 
-  private dataSource = new BehaviorSubject<AKDataInterface>(this.initial);
-  data = this.dataSource.asObservable();
-  valid = false;
-
   public updateData(data: AKDataInterface) {
-    this.dataSource.next(data);
-    this.valid = true;
+    this.data = data;
   }
 
   public clear() {
-    this.dataSource.next(this.initial);
-    this.valid = false;
+    this.data = this.default;
   }
 }

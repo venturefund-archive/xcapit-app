@@ -8,6 +8,8 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-scanner.component';
+import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
+import { LINKS } from '../../../config/static-links';
 
 @Component({
   selector: 'app-register-apikeys',
@@ -58,21 +60,15 @@ import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-s
                 'apikeys.register.placeholder_secretkey' | translate
               "
                       ></app-ux-input>
-                      <ion-button
-                              class="main__help__button ux_button"
-                              appTrackClick
-                              name="NeedHelp"
-                              fill="clear"
-                              size="small"
-                              type="button"
-                              color="uxsecondary"
-                              [routerLink]="['/tabs/funds']"
-                      >
-                          {{ 'apikeys.register.link_help' | translate }}
-                      </ion-button>
                   </div>
               </div>
               <div class="ux_footer">
+                  <div class="ik__need-help">
+                      <app-need-help
+                        [whatsAppLink]="this.supportLinks.apiKeyWhatsappSupport"
+                        [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
+                      ></app-need-help>
+                  </div>
                   <div class="ik__use_qr_button">
                       <ion-button
                               class="ux_button"
@@ -106,7 +102,6 @@ import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-s
   styleUrls: ['./register-apikeys.page.scss']
 })
 export class RegisterApikeysPage implements OnInit {
-  @ViewChildren(QrScannerComponent) qrScanner: QueryList<QrScannerComponent>;
   form: FormGroup = this.formBuilder.group({
     alias: [
       '',
@@ -124,6 +119,7 @@ export class RegisterApikeysPage implements OnInit {
   });
 
   scanning: boolean;
+  supportLinks = LINKS;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -132,7 +128,8 @@ export class RegisterApikeysPage implements OnInit {
     private alertController: AlertController,
     private translate: TranslateService,
     private navController: NavController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private storageApiKeysService: StorageApikeysService
   ) {
   }
 
@@ -141,14 +138,11 @@ export class RegisterApikeysPage implements OnInit {
 
   ionViewWillEnter() {
     this.scanning = false;
+    this.patchFormValue();
   }
 
-  ngAfterViewInit() {
-    this.qrScanner.changes.subscribe((r) => {
-      if (r.first) {
-        r.first.readQRCode();
-      }
-    });
+  patchFormValue() {
+    this.form.patchValue(this.storageApiKeysService.data);
   }
 
   async showAlert() {

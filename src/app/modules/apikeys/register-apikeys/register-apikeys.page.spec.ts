@@ -191,18 +191,6 @@ describe('RegisterApikeysPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when NeedHelp Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'NeedHelp'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('should call trackEvent on trackService when UseQR Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',

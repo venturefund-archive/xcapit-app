@@ -19,7 +19,7 @@ const QRData = {
   invalidJson: '{}',
 };
 
-describe('QrScannerComponent', () => {
+fdescribe('QrScannerComponent', () => {
   let component: QrScannerComponent;
   let fixture: ComponentFixture<QrScannerComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<QrScannerComponent>;

@@ -7,9 +7,12 @@ import { ApikeysEditModalComponent } from '../shared-apikeys/components/apikeys-
 
 const routes: Routes = [
   {
+    path: ':mode',
+    component: ManageApikeysPage
+  }, {
     path: '',
-    component: ManageApikeysPage,
-  },
+    component: ManageApikeysPage
+  }
 ];
 
 @NgModule({
@@ -17,7 +20,8 @@ const routes: Routes = [
   declarations: [
     ManageApikeysPage,
     ApikeyItemComponent,
-    ApikeysEditModalComponent,
-  ],
+    ApikeysEditModalComponent
+  ]
 })
-export class ManageApikeysPageModule {}
+export class ManageApikeysPageModule {
+}

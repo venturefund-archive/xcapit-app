@@ -3,6 +3,7 @@ import { Plugins } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 
 const { BarcodeScanner } = Plugins;
+
 @Component({
   selector: 'app-qr-scanner',
   template: `
@@ -46,7 +47,9 @@ export class QrScannerComponent implements OnInit {
 
   constructor(private platform: Platform) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.readQRCode();
+  }
 
   ionViewWillEnter() {
     this.error = false;

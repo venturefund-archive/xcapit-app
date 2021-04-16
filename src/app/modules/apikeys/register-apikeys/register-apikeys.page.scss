@@ -23,6 +23,12 @@
       flex-direction: column;
       margin-top: 16px;
     }
+
+    &__need-help {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
   }
   .main {
     margin-top: 8px;
