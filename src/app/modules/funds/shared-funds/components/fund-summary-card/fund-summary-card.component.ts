@@ -5,6 +5,7 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { Currency } from '../../enums/currency.enum';
+import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 
 @Component({
   selector: 'app-fund-summary-card',
@@ -25,7 +26,7 @@ import { Currency } from '../../enums/currency.enum';
               color="uxdark"
             >
               {{
-                this.summary?.balance.end_balance
+                this.totalBase
                   | currencyFormat
                     : {
                         currency: this.currencyBase,
@@ -35,21 +36,22 @@ import { Currency } from '../../enums/currency.enum';
               }}
             </ion-text>
             <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-16"
+              class="ux-font-lato ux-fweight-regular ux-fsize-18"
               color="uxmedium"
             >
               ≈
             </ion-text>
             <ion-text
-              class="ux-font-gilroy ux-fweight-regular ux-fsize-16"
-              color="uxdark"
+              class="ux-font-gilroy ux-fweight-regular ux-fsize-18"
+              color="uxmedium"
             >
               {{
-                this.summary?.balance.end_balance
+                this.totalSecond
                   | currencyFormat
                     : {
                         currency: this.currencySecond,
-                        formatBTC: '1.2-6'
+                        formatBTC: '1.2-7',
+                        formatUSDT: '1.2-2'
                       }
               }}
             </ion-text>
@@ -140,9 +142,10 @@ import { Currency } from '../../enums/currency.enum';
 export class FundSummaryCardComponent implements OnInit {
   @Input() summary: FundSummaryInterface;
   @Input() fundBalance: any;
-
   currencyBase: string;
   currencySecond: string;
+  totalBase: string;
+  totalSecond: string;
 
   currencies = [Currency.BTC, Currency.USDT];
 
@@ -154,15 +157,21 @@ export class FundSummaryCardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.setTotals();
     this.setCurrency();
+  }
+
+  setTotals() {
+    this.totalBase = this.summary?.balance.end_balance;
+    this.totalSecond = this.fundBalance?.balance.to_ca.end_balance;
   }
 
   setCurrency() {
     this.currencyBase = this.summary?.fund.currency;
-    if (this.currencyBase === 'BTC') {
-      this.currencySecond = 'USDT';
+    if (this.currencyBase === Currency.BTC) {
+      this.currencySecond = Currency.USDT;
     } else {
-      this.currencySecond = 'BTC';
+      this.currencySecond = Currency.BTC;
     }
   }
 

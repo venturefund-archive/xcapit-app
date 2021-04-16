@@ -9,6 +9,7 @@ import { ModalController } from '@ionic/angular';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { Storage } from '@ionic/storage';
 import { CONFIG } from 'src/app/config/app-constants.config';
+import { Currency } from '../shared-funds/enums/currency.enum';
 
 
 @Component({
@@ -50,6 +51,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
         ></app-ux-loading-block>
         <app-fund-summary-card
           *ngIf="this.fundBalance"
+          [fundBalance]="this.fundBalance"
           [summary]="this.fundBalance"
         ></app-fund-summary-card>
       </div>
@@ -168,6 +170,7 @@ export class FundDetailPage implements OnInit {
   currency: string;
   isOwner: any;
   isChart: boolean;
+  currencies = [Currency.BTC, Currency.USDT];
 
   deltas = [
     {
@@ -284,19 +287,12 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundPortfolioCardInfo() {
-    if (this.currency == 'BTC') {
-      this.apiFunds
-        .getBalance(this.fundName, 'USDT', false)
+    const currency = (this.currency == Currency.BTC) ? Currency.USDT : Currency.BTC; 
+    this.apiFunds
+        .getBalance(this.fundName, currency, false)
         .subscribe((data) => {
           this.fundBalance = data;
         });
-    } else {
-      this.apiFunds
-        .getBalance(this.fundName, 'BTC', false)
-        .subscribe((data) => {
-          this.fundBalance = data;
-        });
-    }
   }
 
   getFundOperationsHistoryInfo() {

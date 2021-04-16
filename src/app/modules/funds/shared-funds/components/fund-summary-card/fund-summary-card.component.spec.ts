@@ -22,7 +22,7 @@ const testSummary: FundSummaryInterface = {
     end_balance: ''
   }
 };
-describe('FundSummaryCardComponent', () => {
+fdescribe('FundSummaryCardComponent', () => {
   let component: FundSummaryCardComponent;
   let fixture: ComponentFixture<FundSummaryCardComponent>;
   let apiSubscriptionsSpy: any;
@@ -65,6 +65,20 @@ describe('FundSummaryCardComponent', () => {
     component.shareSubscriptionLink();
     expect(shareServiceSpy.share).toHaveBeenCalledTimes(1);
   });
+
+
+  it('should call SetTotals on init', () => {
+    const spy = spyOn(component, 'setTotals')
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call SetCurrency on init', () => {
+    const spy = spyOn(component, 'setCurrency')
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
 
   it('should call trackEvent on trackService when Share is clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
