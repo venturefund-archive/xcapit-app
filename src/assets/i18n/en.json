@@ -1150,7 +1150,8 @@
       }
     },
     "qr_scanner": {
-      "text": "Point your camera towards a QR code."
+      "title": "Point your camera towards the QR code",
+      "cancel_label": "Cancel and insert manually"
     }
   },
   "tabs": {
