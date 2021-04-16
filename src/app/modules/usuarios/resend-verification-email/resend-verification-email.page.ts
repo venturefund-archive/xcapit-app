@@ -6,58 +6,67 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
   selector: 'app-resend-verification-email',
   template: `
     <ion-content class="ion-padding">
-    <div class="main">
-      <div class="main__close_button">
-        <ion-button
-          fill="clear"
-          appTrackClickUnauth
-          name="Close Resend Email"
-          (click)="this.close()"
-        >
-          <ion-icon
-            class="main__close_button__icon"
-            name="ux-close"
-            color="uxmedium"
-          ></ion-icon>
-        </ion-button>
-      </div>
-      <div class="main__ux_success_image">
-        <app-ux-success-img></app-ux-success-img>
-      </div>
-      <div class="main__primary_text">
-        <app-ux-title>{{ "usuarios.register.resend_verification_email.title" | translate }}</app-ux-title>
-      </div>
-      <div class="main__secondary_text">
-        <app-ux-text>{{ "usuarios.register.resend_verification_email.text" | translate }}</app-ux-text>
-      </div>
-      <div class="main__actions">
-        <div class="main__actions__primary">
+      <div class="main">
+        <div class="main__close_button">
           <ion-button
-            class="ux_button"
-            appTrackClickUnauth
-            name="Resend Verification Email"
-            [disabled]="this.disableResendEmail"
-            (click)="this.resendEmail()"
-          >
-            {{ ("usuarios.register.resend_verification_email.resend_mail_button" | translate) + " " + this.timerText }}
-          </ion-button>
-        </div>
-        <div
-          class="main__actions__secondary"
-          *ngIf="!this.hideSendTicket"
-        >
-          <ion-button
-            class="ux_button"
-            appTrackClickUnauth
             fill="clear"
-            name="Open Ticket"
-            (click)="this.openTicket()"
+            appTrackClickUnauth
+            name="Close Resend Email"
+            (click)="this.close()"
           >
-            {{ "usuarios.register.resend_verification_email.open_ticket_button" | translate }}
+            <ion-icon
+              class="main__close_button__icon"
+              name="ux-close"
+              color="uxmedium"
+            ></ion-icon>
           </ion-button>
         </div>
+        <div class="main__ux_success_image">
+          <app-ux-success-img></app-ux-success-img>
+        </div>
+        <div class="main__primary_text">
+          <app-ux-title>{{
+            'usuarios.register.resend_verification_email.title' | translate
+          }}</app-ux-title>
+        </div>
+        <div class="main__secondary_text">
+          <app-ux-text>{{
+            'usuarios.register.resend_verification_email.text' | translate
+          }}</app-ux-text>
+        </div>
+        <div class="main__actions">
+          <div class="main__actions__primary">
+            <ion-button
+              class="ux_button"
+              appTrackClickUnauth
+              name="Resend Verification Email"
+              [disabled]="this.disableResendEmail"
+              (click)="this.resendEmail()"
+            >
+              {{
+                ('usuarios.register.resend_verification_email.resend_mail_button'
+                  | translate) +
+                  ' ' +
+                  this.timerText
+              }}
+            </ion-button>
+          </div>
+          <div class="main__actions__secondary" *ngIf="!this.hideSendTicket">
+            <ion-button
+              class="ux_button"
+              appTrackClickUnauth
+              fill="clear"
+              name="Open Ticket"
+              (click)="this.openTicket()"
+            >
+              {{
+                'usuarios.register.resend_verification_email.open_ticket_button'
+                  | translate
+              }}
+            </ion-button>
+          </div>
+        </div>
       </div>
-    </div>
     </ion-content>
   `,
   styleUrls: ['./resend-verification-email.page.scss'],
@@ -72,8 +81,11 @@ export class ResendVerificationEmailPage implements OnInit {
   timerText: string = '';
   private timerSeconds: number;
   private timer: any;
-  
-  constructor(private router: Router, private apiUsuariosService: ApiUsuariosService) {}
+
+  constructor(
+    private router: Router,
+    private apiUsuariosService: ApiUsuariosService
+  ) {}
 
   ngOnInit() {}
 
@@ -89,7 +101,7 @@ export class ResendVerificationEmailPage implements OnInit {
   }
 
   decreaseTimer() {
-    this.timerSeconds --;
+    this.timerSeconds--;
     this.timerText = `(${this.timerSeconds}s)`;
 
     if (this.timerSeconds == 0) {
@@ -106,7 +118,7 @@ export class ResendVerificationEmailPage implements OnInit {
   resendEmail() {
     this.startTimer();
 
-    this.numberOfResends ++;
+    this.numberOfResends++;
 
     if (this.numberOfResends == this.minimumNumberOfTriesForTicket) {
       this.hideSendTicket = false;
