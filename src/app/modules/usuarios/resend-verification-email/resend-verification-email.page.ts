@@ -76,10 +76,10 @@ export class ResendVerificationEmailPage implements OnInit {
   hideSendTicket: boolean = true;
 
   private numberOfResends: number = 0;
-  private minimumNumberOfTriesForTicket: number = 3;
+  minimumNumberOfTriesForTicket: number = 3;
 
   timerText: string = '';
-  private timerSeconds: number;
+  timerSeconds: number;
   private timer: any;
 
   constructor(
