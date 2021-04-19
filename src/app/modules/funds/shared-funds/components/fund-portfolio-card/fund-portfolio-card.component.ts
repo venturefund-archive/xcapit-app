@@ -139,10 +139,10 @@ export class FundPortfolioCardComponent implements OnInit {
 
   setCurrency() {
     this.currencyBase = this.fundBalance.fund.currency;
-    if (this.currencyBase == 'BTC') {
-      this.currencySecond = 'USDT';
+    if (this.currencyBase == Currency.BTC) {
+      this.currencySecond = Currency.USDT
     } else {
-      this.currencySecond = 'BTC';
+      this.currencySecond = Currency.BTC
     }
   }
 

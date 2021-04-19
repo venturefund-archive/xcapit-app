@@ -109,6 +109,22 @@ describe('FundSummaryCardComponent', () => {
     expect(shareServiceSpy.share).toHaveBeenCalledTimes(1);
   });
 
+
+  it('should call SetTotals on init', () => {
+    spyOn(component, 'subscribeOnHideFunds');
+    const spy = spyOn(component, 'setTotals')
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call SetCurrency on init', () => {
+    spyOn(component, 'subscribeOnHideFunds');
+    const spy = spyOn(component, 'setCurrency')
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+
   it('should call trackEvent on trackService when Share is clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',

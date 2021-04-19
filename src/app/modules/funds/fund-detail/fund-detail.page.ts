@@ -7,6 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { LocalStorageService } from '../../../shared/services/local-storage/local-storage.service';
+import { Currency } from '../shared-funds/enums/currency.enum';
+
+
 
 @Component({
   selector: 'app-fund-detail',
@@ -62,6 +65,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
         ></app-ux-loading-block>
         <app-fund-summary-card
           *ngIf="this.fundBalance"
+          [fundBalance]="this.fundBalance"
           [summary]="this.fundBalance"
         ></app-fund-summary-card>
       </div>
@@ -181,6 +185,8 @@ export class FundDetailPage implements OnInit {
   isOwner: any;
   isChart: boolean;
   hideFundText: boolean;
+
+  currencies = [Currency.BTC, Currency.USDT];
 
   deltas = [
     {
@@ -303,19 +309,12 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundPortfolioCardInfo() {
-    if (this.currency == 'BTC') {
-      this.apiFunds
-        .getBalance(this.fundName, 'USDT', false)
+    const currency = (this.currency == Currency.BTC) ? Currency.USDT : Currency.BTC; 
+    this.apiFunds
+        .getBalance(this.fundName, currency, false)
         .subscribe((data) => {
           this.fundBalance = data;
         });
-    } else {
-      this.apiFunds
-        .getBalance(this.fundName, 'BTC', false)
-        .subscribe((data) => {
-          this.fundBalance = data;
-        });
-    }
   }
 
   getFundOperationsHistoryInfo() {

@@ -5,6 +5,9 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { Currency } from '../../enums/currency.enum';
+import { ApiFundsService } from '../../services/api-funds/api-funds.service';
+
 
 @Component({
   selector: 'app-fund-summary-card',
@@ -25,12 +28,33 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
               color="uxdark"
             >
               {{
-                this.summary?.balance.end_balance
+                this.totalBase
                   | currencyFormat
                     : {
-                        currency: this.summary?.fund.currency,
+                        currency: this.currencyBase,
                         formatUSDT: '1.2-2',
-                        formatBTC: '1.2-4'
+                        formatBTC: '1.2-6'
+                      }
+                  | hideText: this.hideFundText
+              }}
+            </ion-text>
+            <ion-text
+              class="ux-font-lato ux-fweight-regular ux-fsize-18"
+              color="uxmedium"
+            >
+              ≈
+            </ion-text>
+            <ion-text
+              class="ux-font-gilroy ux-fweight-regular ux-fsize-18"
+              color="uxmedium"
+            >
+              {{
+                this.totalSecond
+                  | currencyFormat
+                    : {
+                        currency: this.currencySecond,
+                        formatBTC: '1.2-7',
+                        formatUSDT: '1.2-2'
                       }
                   | hideText: this.hideFundText
               }}
@@ -44,35 +68,6 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
                 'funds.fund_detail.fund_summary_card.actual_amount' | translate
               }}</ion-text
             >
-          </div>
-        </div>
-        <div class="fsc__content__right">
-          <div class="initial-amount">
-            <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
-              color="uxdark"
-            >
-              {{
-                this.summary?.balance.start_balance
-                  | currencyFormat
-                    : {
-                        currency: this.summary?.fund.currency,
-                        formatUSDT: '1.2-2',
-                        formatBTC: '1.2-4'
-                      }
-                  | hideText: this.hideFundText
-              }}
-            </ion-text>
-          </div>
-          <div class="initial-text">
-            <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-12"
-              color="uxmedium"
-            >
-              {{
-                'funds.fund_detail.fund_summary_card.initial_amount' | translate
-              }}
-            </ion-text>
           </div>
         </div>
       </div>
@@ -123,6 +118,14 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
 export class FundSummaryCardComponent implements OnInit {
   @Input() summary: FundSummaryInterface;
   hideFundText: boolean;
+  @Input() fundBalance: any;
+  currencyBase: string;
+  currencySecond: string;
+  totalBase: string;
+  totalSecond: string;
+
+  currencies = [Currency.BTC, Currency.USDT];
+
   constructor(
     private shareService: ShareService,
     private translate: TranslateService,
@@ -133,6 +136,22 @@ export class FundSummaryCardComponent implements OnInit {
 
   ngOnInit() {
     this.subscribeOnHideFunds();
+    this.setTotals();
+    this.setCurrency();
+  }
+
+  setTotals() {
+    this.totalBase = this.summary?.balance.end_balance;
+    this.totalSecond = this.fundBalance?.balance.to_ca.end_balance;
+  }
+
+  setCurrency() {
+    this.currencyBase = this.summary?.fund.currency;
+    if (this.currencyBase === Currency.BTC) {
+      this.currencySecond = Currency.USDT;
+    } else {
+      this.currencySecond = Currency.BTC;
+    }
   }
 
   async showShareSubscriptionAlert() {
