@@ -20,7 +20,7 @@ describe('ResendVerificationEmailPage', () => {
   beforeEach(
     waitForAsync(() => {
       apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
-        'sendEmailValidation'
+        'sendEmailValidation',
       ]);
 
       TestBed.configureTestingModule({

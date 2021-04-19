@@ -17,7 +17,10 @@ const routes: Routes = [
       {
         path: 'create-ticket-success',
         canActivate: [NoAuthGuard],
-        loadChildren: () => import('./create-ticket-success/create-ticket-success.module').then( m => m.CreateTicketSuccessPageModule)
+        loadChildren: () =>
+          import('./create-ticket-success/create-ticket-success.module').then(
+            (m) => m.CreateTicketSuccessPageModule
+          ),
       },
     ],
   },

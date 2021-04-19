@@ -12,9 +12,7 @@ describe('ApiTicketsService', () => {
 
     TestBed.configureTestingModule({
       imports: [],
-      providers: [
-        { provide: CrudService, useValue: crudSpy }
-      ]
+      providers: [{ provide: CrudService, useValue: crudSpy }],
     });
     service = TestBed.inject(ApiTicketsService);
   });

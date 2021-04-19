@@ -9,7 +9,9 @@ import {
   selector: 'app-ux-textarea',
   template: `
     <div class="ux_textarea_container">
-      <ion-label class="ux_textarea_container__label">{{ this.label }}</ion-label>
+      <ion-label class="ux_textarea_container__label">{{
+        this.label
+      }}</ion-label>
       <ion-item class="ux_textarea_container__item">
         <ion-textarea
           #inputRegister

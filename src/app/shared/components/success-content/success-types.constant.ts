@@ -81,5 +81,5 @@ export const SUCCESS_TYPES = {
     textSecondary: 'tickets.createSuccess.textSecondary',
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'tickets.createSuccess.namePrimaryAction',
-  }
+  },
 };

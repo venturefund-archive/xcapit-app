@@ -34,7 +34,6 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 
-
 @NgModule({
   declarations: [
     ErrorsFormItemComponent,

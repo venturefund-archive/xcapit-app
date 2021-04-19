@@ -12,10 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    SharedTicketsModule,
-    RouterModule.forChild(routes)
-  ],
+  imports: [SharedTicketsModule, RouterModule.forChild(routes)],
   declarations: [CreateTicketPage],
 })
 export class CreateTicketPageModule {}

@@ -6,15 +6,12 @@ import { SharedUsuariosModule } from '../shared-usuarios/shared-usuarios.module'
 const routes: Routes = [
   {
     path: '',
-    component: ResendVerificationEmailPage
-  }
+    component: ResendVerificationEmailPage,
+  },
 ];
 
 @NgModule({
-  imports: [
-    SharedUsuariosModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [ResendVerificationEmailPage]
+  imports: [SharedUsuariosModule, RouterModule.forChild(routes)],
+  declarations: [ResendVerificationEmailPage],
 })
 export class ResendVerificationEmailPageModule {}
