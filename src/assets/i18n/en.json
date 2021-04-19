@@ -163,7 +163,8 @@
       "placeholder_subject": "Subject",
       "label_message": "Description",
       "placeholder_message": "Write the details of your ticket here.",
-      "submit_button": "Send"
+      "submit_button": "Send",
+      "cancel_button": "Go back to login"
     },
     "createSuccess": {
       "textPrimary": "Thank you for your patience!",

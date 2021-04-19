@@ -163,7 +163,8 @@
       "placeholder_subject": "Asunto",
       "label_message": "¿Cuál es tu consulta?",
       "placeholder_message": "Escriba su consulta aquí.",
-      "submit_button": "Enviar"
+      "submit_button": "Enviar",
+      "cancel_button": "Volver a inicio de sesión"
     },
     "createSuccess": {
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
