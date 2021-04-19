@@ -8,6 +8,7 @@ import { TabsComponent } from '../../../../tabs/tabs/tabs.component';
 import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 describe('UserStatusCardComponent', () => {
   let component: UserStatusCardComponent;
@@ -15,6 +16,9 @@ describe('UserStatusCardComponent', () => {
   let tabsComponentMock: any;
   let tabsComponent: TabsComponent;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserStatusCardComponent>;
+  let localStorageService: LocalStorageService;
+  let localStorageServiceMock: any;
+
 
   const userStatusMock: any = {
     profile_valid: false,
@@ -25,6 +29,10 @@ describe('UserStatusCardComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    localStorageServiceMock = {
+      toggleHideFunds: () => undefined,
+      getHideFunds: () => Promise.resolve(true),
+    };
     tabsComponentMock = {
       newFundUrl: ''
     };
@@ -59,7 +67,8 @@ describe('UserStatusCardComponent', () => {
       ],
       providers: [
         TrackClickDirective,
-        { provide: TabsComponent, useValue: tabsComponentMock }
+        { provide: TabsComponent, useValue: tabsComponentMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     }).compileComponents();
 
@@ -68,6 +77,7 @@ describe('UserStatusCardComponent', () => {
     component.userStatus = userStatusMock;
     fixture.detectChanges();
     tabsComponent = TestBed.inject(TabsComponent);
+    localStorageService = TestBed.inject(LocalStorageService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 

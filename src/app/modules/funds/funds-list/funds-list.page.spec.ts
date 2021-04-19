@@ -15,6 +15,7 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 describe('FundsListPage', () => {
   let component: FundsListPage;
@@ -30,6 +31,8 @@ describe('FundsListPage', () => {
   let tabsComponent: TabsComponent;
   let apiWebflowServiceMock: any;
   let notificationsServiceMock: any;
+  let localStorageService: LocalStorageService;
+  let localStorageServiceMock: any;
 
   beforeEach(
     waitForAsync(() => {
@@ -48,6 +51,11 @@ describe('FundsListPage', () => {
       apiWebflowServiceMock = {
         getNews: () => of([]),
         status: () => of({})
+      };
+
+      localStorageServiceMock = {
+        toggleHideFunds: () => undefined,
+        getHideFunds: () => Promise.resolve(true),
       };
 
       apiUsuariosServiceMock = {
@@ -101,9 +109,13 @@ describe('FundsListPage', () => {
           },
           {
             provide: NotificationsService,
-            useValue: notificationsServiceMock
-          }
-        ]
+            useValue: notificationsServiceMock,
+          },
+          {
+            provide: LocalStorageService,
+            useValue: localStorageServiceMock,
+          },
+        ],
       }).compileComponents();
     })
   );
@@ -114,6 +126,7 @@ describe('FundsListPage', () => {
     fixture.detectChanges();
     apiFundsService = TestBed.inject(ApiFundsService);
     apiWebflowService = TestBed.inject(ApiWebflowService);
+    localStorageService = TestBed.inject(LocalStorageService);
     tabsComponent = TestBed.inject(TabsComponent);
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     logsServiceMock = TestBed.inject(LogsService);
@@ -124,23 +137,21 @@ describe('FundsListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call status and set it in apiUsuariosService on ionViewWillEnter', async () => {
-    const spy = spyOn(apiUsuariosService, 'status');
-    spy.and.returnValue(of({}));
-    const spyInitQtyNotifications = spyOn(component, 'initQtyNotifications');
-    const spyCreateNotificationTimer = spyOn(component, 'createNotificationTimer');
-    await component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spyInitQtyNotifications).toHaveBeenCalledTimes(1);
-    expect(spyCreateNotificationTimer).toHaveBeenCalledTimes(1);
-  });
 
-  it('should call getFundBalances in apiFundsService twice when ionViewWillEnter', async () => {
-    spyOn(component, 'getStatus');
-    const spy = spyOn(apiFundsService, 'getFundBalances');
-    spy.and.returnValue(of([]));
+  it('should call SubscribeOnHideFunds on ionViewWillEnter', async () => {
+    const spyStatus = spyOn(apiUsuariosService, 'status');
+    const spyNews = spyOn(apiWebflowService, 'getNews');
+    spyNews.and.returnValue(of([]))
+    const spyCreateNotificationTimer = spyOn(component, 'createNotificationTimer');
+    const spyInitQtyNotification = spyOn(component, 'initQtyNotifications');
+    spyStatus.and.returnValue(of({}));
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     await component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(2);
+    expect(spyStatus).toHaveBeenCalledTimes(1);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
+    expect(spyCreateNotificationTimer).toHaveBeenCalledTimes(1);
+    expect(spyInitQtyNotification).toHaveBeenCalledTimes(1);
+    expect(spyNews).toHaveBeenCalledTimes(1);
   });
 
   it('should call getFundBalances and getNews on doRefresh', async () => {
@@ -166,6 +177,13 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should call toggleHideFunds in HideText', () => {
+    const spyToggle = spyOn(localStorageService, 'toggleHideFunds');
+    spyToggle.and.returnValue(undefined);
+    component.hideText();
+    expect(localStorageService.toggleHideFunds).toHaveBeenCalledTimes(1);
+  });
+
   it('should call trackEvent on trackService when Show Notifications button clicked', () => {
     spyOn(component, 'showNotifications');
     const el = trackClickDirectiveHelper.getByElementByName(
@@ -176,15 +194,6 @@ describe('FundsListPage', () => {
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-
-  it('should call getNews when ionViewWillEnter is called', async () => {
-    spyOn(component, 'getStatus');
-    const spy = spyOn(apiWebflowService, 'getNews');
-    spy.and.returnValue(of([]));
-    await component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,6 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
-
 import { FundDetailPage } from './fund-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -15,11 +14,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from '../../../../testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { Storage } from '@ionic/storage';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 const testFund = [
   {
     fundName: 'Test',
-  }
+  },
 ];
 
 const testPerformance = {
@@ -38,60 +38,87 @@ describe('FundDetailPage', () => {
   let modalControllerSpy: any;
   let navControllerSpy: any;
   let storageSpy: any;
-  beforeEach(waitForAsync(() => {
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+  let localStorageService: LocalStorageService;
+  let localStorageServiceMock: any;
 
-    apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
-      getPercentageEvolution: of(testPerformance),
-      getFundBalances: of(testFund),
-      getLastFundRun: of({}),
-      getBalance: of({}),
-      getFundRuns: of({}),
-    });
-    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
-    TestBed.configureTestingModule({
-      declarations: [FundDetailPage, TrackClickDirective, DummyComponent],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([
-          {path: 'funds/fund-settings/:name', component: DummyComponent}
-        ]),
-        HttpClientTestingModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: ApiFundsService, useValue: apiFundsSpy },
-        { provide: ModalController, useValue: modalControllerSpy },
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: Storage, useValue: storageSpy }
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      localStorageServiceMock = {
+        toggleHideFunds: () => undefined,
+        getHideFunds: () => Promise.resolve(true),
+      };
+      modalControllerSpy = jasmine.createSpyObj(
+        'ModalController',
+        modalControllerMock
+      );
+      navControllerSpy = jasmine.createSpyObj(
+        'NavController',
+        navControllerMock
+      );
 
-    fixture = TestBed.createComponent(FundDetailPage);
-    component = fixture.componentInstance;
-    component.isOwner = true;
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  }));
+      apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
+        getPercentageEvolution: of(testPerformance),
+        getFundBalances: of(testFund),
+        getLastFundRun: of({}),
+        getBalance: of({}),
+        getFundRuns: of({}),
+      });
+      storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
+      TestBed.configureTestingModule({
+        declarations: [FundDetailPage, TrackClickDirective, DummyComponent],
+        imports: [
+          IonicModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([
+            { path: 'funds/fund-settings/:name', component: DummyComponent },
+          ]),
+          HttpClientTestingModule,
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: ApiFundsService, useValue: apiFundsSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: Storage, useValue: storageSpy },
+          { provide: LocalStorageService, useValue: localStorageServiceMock },
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(FundDetailPage);
+      component = fixture.componentInstance;
+      component.isOwner = true;
+      fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    })
+  );
+
+  beforeEach(() => {
+    localStorageService = TestBed.inject(LocalStorageService);
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call apiFunds.getFundBalances on ionViewWillEnter', () => {
+  it('should call SubscribeOnHideFunds on ionViewWillEnter', () => {
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ionViewWillEnter();
-    component.fundName = "test";
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call apiFunds.getFundBalances on ionViewWillEnter', () => {
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
+    component.ionViewWillEnter();
+    component.fundName = 'test';
     expect(apiFundsSpy.getFundBalances).toHaveBeenCalledTimes(1);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
   it('should call apiFunds.getLastFundRun on ionViewWillEnter', () => {
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ionViewWillEnter();
     expect(apiFundsSpy.getLastFundRun).toHaveBeenCalledTimes(1);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
   // Comentado hasta que se implemente el componente del detalle de cada movimiento
@@ -100,6 +127,13 @@ describe('FundDetailPage', () => {
   //   component.ionViewWillEnter();
   //   expect(apiFundsSpy.getFundRuns).toHaveBeenCalledTimes(1);
   // });
+
+  it('should call toggleHideFunds in HideText', () => {
+    const spyToggle = spyOn(localStorageService, 'toggleHideFunds');
+    spyToggle.and.returnValue(undefined);
+    component.hideText();
+    expect(localStorageService.toggleHideFunds).toHaveBeenCalledTimes(1);
+  });
 
   it('should call apiFunds.getPercentageEvolution on setDelta', () => {
     component.setDelta('1d');

@@ -4,6 +4,7 @@ import { ShareService } from 'src/app/shared/services/share/share.service';
 import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-fund-summary-card',
@@ -31,6 +32,7 @@ import { AlertController } from '@ionic/angular';
                         formatUSDT: '1.2-2',
                         formatBTC: '1.2-4'
                       }
+                  | hideText: this.hideFundText
               }}
             </ion-text>
           </div>
@@ -58,6 +60,7 @@ import { AlertController } from '@ionic/angular';
                         formatUSDT: '1.2-2',
                         formatBTC: '1.2-4'
                       }
+                  | hideText: this.hideFundText
               }}
             </ion-text>
           </div>
@@ -119,32 +122,50 @@ import { AlertController } from '@ionic/angular';
 })
 export class FundSummaryCardComponent implements OnInit {
   @Input() summary: FundSummaryInterface;
+  hideFundText: boolean;
   constructor(
     private shareService: ShareService,
     private translate: TranslateService,
     private apiSubscriptions: ApiSubscriptionsService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private localStorageService: LocalStorageService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscribeOnHideFunds();
+  }
 
   async showShareSubscriptionAlert() {
     const alert = await this.alertController.create({
-      header: this.translate.instant('funds.fund_detail.fund_summary_card.alert_header'),
-      message: this.translate.instant('funds.fund_detail.fund_summary_card.alert_message'),
+      header: this.translate.instant(
+        'funds.fund_detail.fund_summary_card.alert_header'
+      ),
+      message: this.translate.instant(
+        'funds.fund_detail.fund_summary_card.alert_message'
+      ),
       buttons: [
         {
-          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_exit_button'),
+          text: this.translate.instant(
+            'funds.fund_detail.fund_summary_card.alert_exit_button'
+          ),
           role: 'cancel',
-          cssClass: 'secondary'
+          cssClass: 'secondary',
         },
         {
-          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_share_button'),
-          handler: _ => this.shareSubscriptionLink()
-        }
-      ]
+          text: this.translate.instant(
+            'funds.fund_detail.fund_summary_card.alert_share_button'
+          ),
+          handler: (_) => this.shareSubscriptionLink(),
+        },
+      ],
     });
     await alert.present();
+  }
+
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe(
+      (res) => (this.hideFundText = res)
+    );
   }
 
   shareSubscriptionLink() {

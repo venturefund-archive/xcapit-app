@@ -2,14 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { Observable } from 'rxjs';
-import { FundMetricsInterface } from '../shared-funds/components/fund-metrics-card/fund-metrics.interface';
 import { FundPercentageEvolutionChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalController } from '@ionic/angular';
-import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { Storage } from '@ionic/storage';
 import { CONFIG } from 'src/app/config/app-constants.config';
-
+import { LocalStorageService } from '../../../shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-fund-detail',
@@ -42,6 +39,21 @@ import { CONFIG } from 'src/app/config/app-constants.config';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
+      <div class="fd__type-toggle">
+        <a (click)="this.hideText()">
+          <ion-icon
+            class="fd__eye-button"
+            [hidden]="this.hideFundText != true"
+            name="eye-off-outline"
+          ></ion-icon>
+          <ion-icon
+            class="fd__eye-button"
+            [hidden]="this.hideFundText === true"
+            name="eye-outline"
+          ></ion-icon>
+        </a>
+      </div>
+
       <!-- Fund Summary Card -->
       <div class="fd__fund-summary-card">
         <app-ux-loading-block
@@ -168,6 +180,7 @@ export class FundDetailPage implements OnInit {
   currency: string;
   isOwner: any;
   isChart: boolean;
+  hideFundText: boolean;
 
   deltas = [
     {
@@ -207,9 +220,9 @@ export class FundDetailPage implements OnInit {
     private route: ActivatedRoute,
     private apiFunds: ApiFundsService,
     private translate: TranslateService,
-    private modalController: ModalController,
     private router: Router,
-    private storage: Storage
+    private storage: Storage,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {}
@@ -218,7 +231,7 @@ export class FundDetailPage implements OnInit {
     this.fundName = this.route.snapshot.paramMap.get('fundName');
     this.getStorageRange();
     this.getFundMetricsCardInfo();
-
+    this.subscribeOnHideFunds();
     // Comentado hasta que se implemente el componente del detalle de cada movimiento
 
     // this.getFundOperationsHistoryInfo();
@@ -233,6 +246,12 @@ export class FundDetailPage implements OnInit {
         ? '7d'
         : this.selectedDelta;
     this.getFundPerformanceCardInfo();
+  }
+
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe(
+      (res) => (this.hideFundText = res)
+    );
   }
 
   getFrequencyByDelta() {
@@ -316,5 +335,9 @@ export class FundDetailPage implements OnInit {
     this.selectedDelta = selected;
     this.fundPercentageEvolution = undefined;
     this.getFundPerformanceCardInfo();
+  }
+
+  hideText() {
+    this.localStorageService.toggleHideFunds();
   }
 }

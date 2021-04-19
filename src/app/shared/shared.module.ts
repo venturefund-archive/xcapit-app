@@ -34,6 +34,9 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 
 
+
+
+
 @NgModule({
   declarations: [
     ErrorsFormItemComponent,
@@ -65,6 +68,8 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     UxDateRangeComponent,
     // Pipes
     LocalizedDatePipe,
+    
+    
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [
@@ -88,6 +93,7 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     IsSubscribedComponent,
     PercentageDisplayComponent,
     XcapitLogoComponent,
+
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,

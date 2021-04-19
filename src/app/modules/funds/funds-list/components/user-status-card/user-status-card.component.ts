@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
 import { TabsComponent } from '../../../../tabs/tabs/tabs.component';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-user-status-card',
@@ -14,11 +15,26 @@ import { TabsComponent } from '../../../../tabs/tabs/tabs.component';
         "
       >
           <div class="user-status ion-padding">
+          <div *ngIf="this.notOwnerFundBalances" class="type-toggle">
+            <a (click)="this.hideText()">
+              <ion-icon
+                class="eye-button"
+                [hidden]="!this.hideFundText"
+                name="eye-off-outline"
+              ></ion-icon>
+              <ion-icon
+                class="eye-button"
+                [hidden]="this.hideFundText"
+                name="eye-outline"
+              ></ion-icon>
+            </a>
+          </div>
               <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22 user-status__title">
                   <ion-text>{{
                       'funds.funds_list.user_status.title' | translate
                       }}</ion-text>
               </div>
+
               <div class="user-status__img">
                   <img src="assets/img/fund-list/start-invest.svg" alt="Start invest">
               </div>
@@ -45,19 +61,27 @@ import { TabsComponent } from '../../../../tabs/tabs/tabs.component';
 })
 export class UserStatusCardComponent implements OnInit {
   @Input() userStatus: any;
+  @Input() notOwnerFundBalances: any;
+
   actionButtonName: string;
   newFundUrl: string;
+  hideFundText: boolean;
 
   constructor(
     private translate: TranslateService,
     private navController: NavController,
     private tabsComponent: TabsComponent,
+    private localStorageService: LocalStorageService
   ) {
   }
 
   ngOnInit() {
     this.setActionButtonName();
     this.setNewFundUrl();
+  }
+
+  async hideText() {
+    this.localStorageService.toggleHideFunds();
   }
 
   setActionButtonName() {
