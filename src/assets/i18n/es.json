@@ -1153,7 +1153,8 @@
       }
     },
     "qr_scanner": {
-      "text": "Apunta la cámara a un código QR."
+      "title": "Apunta la cámara al código QR",
+      "cancel_label": "Cancelar e ingresar manual"
     }
   },
   "tabs": {

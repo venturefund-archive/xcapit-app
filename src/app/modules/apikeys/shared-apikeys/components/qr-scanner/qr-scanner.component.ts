@@ -8,14 +8,20 @@ const { BarcodeScanner } = Plugins;
   template: `
     <div class="container">
       <div class="barcode-scanner--area--container">
-        <div class="relative">
-          <p>{{ 'apikeys.qr_scanner.text' | translate }}</p>
-        </div>
-        <div class="square surround-cover">
+        <ion-row class="relative ion-aling-items-center">
+          <ion-col size="12" class="ion-text-center">
+            <ion-text
+              color="light"
+              class="ux-fsize-18 ux-fweight-regular ux-font-lato"
+              >{{ 'apikeys.qr_scanner.title' | translate }}</ion-text
+            >
+          </ion-col>
+        </ion-row>
+        <ion-row class="square surround-cover">
           <div class="barcode-scanner--area--outer surround-cover">
             <div class="barcode-scanner--area--inner"></div>
           </div>
-        </div>
+        </ion-row>
         <ion-row class="ion-align-items-center">
           <ion-col size="12" class="ion-text-center">
             <ion-button
@@ -30,6 +36,15 @@ const { BarcodeScanner } = Plugins;
             >
               <ion-icon name="close-outline"></ion-icon>
             </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="5" class="ion-text-center center">
+            <ion-text
+              color="light"
+              class="ux-fsize-16 ux-fweight-regular ux-font-lato"
+              >{{ 'apikeys.qr_scanner.cancel_label' | translate }}</ion-text
+            >
           </ion-col>
         </ion-row>
       </div>
