@@ -1,0 +1,26 @@
+:host {
+  .user-status {
+    background-color: white;
+    margin: 0 16px 16px 16px;
+    border-radius: 8px;
+
+
+    &__title {
+      text-align: center;
+    }
+
+    &__img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 24px;
+    }
+
+
+    &__buttons {
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

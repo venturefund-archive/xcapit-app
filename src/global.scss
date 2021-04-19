@@ -35,6 +35,11 @@ ion-picker {
   touch-action: none;
 }
 
+.hidden {
+  --ion-background-color: transparent;
+  background-color: transparent;
+}
+
 ion-toast.refresher_toast {
   top: 86%;
 }

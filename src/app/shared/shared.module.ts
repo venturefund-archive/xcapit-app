@@ -23,7 +23,6 @@ import { UxRadioGroupComponent } from './components/ux-radio-group/ux-radio-grou
 import { UxAlertMessageComponent } from './components/ux-alert-message/ux-alert-message.component';
 import { UxRangeComponent } from './components/ux-range/ux-range.component';
 import { UxCardInfoRobotComponent } from './components/ux-card-info-robot/ux-card-info-robot.component';
-import { UxCardInfoBinanceComponent } from './components/ux-card-info-binance/ux-card-info-binance.component';
 import { UxListComponent } from './components/ux-list/ux-list.component';
 import { UxSelectModalComponent } from './components/ux-select-modal/ux-select-modal.component';
 import { UxInputSelectComponent } from './components/ux-input-select/ux-input-select.component';
@@ -54,7 +53,6 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     UxAlertMessageComponent,
     UxRangeComponent,
     UxCardInfoRobotComponent,
-    UxCardInfoBinanceComponent,
     UxListComponent,
     UxListInvertedComponent,
     UxSelectModalComponent,
@@ -100,7 +98,6 @@ import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.c
     UxAlertMessageComponent,
     UxRangeComponent,
     UxCardInfoRobotComponent,
-    UxCardInfoBinanceComponent,
     UxListComponent,
     UxListInvertedComponent,
     UxSelectModalComponent,
