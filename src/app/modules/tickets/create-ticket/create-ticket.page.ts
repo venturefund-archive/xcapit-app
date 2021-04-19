@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
 
 @Component({
@@ -59,17 +57,29 @@ import { ApiTicketsService } from '../shared-tickets/services/api-tickets.servic
             [placeholder]="'tickets.create.placeholder_message' | translate"
           ></app-ux-textarea>
           <ion-button
-              appTrackClickUnauth
-              class="button"
-              name="Submit"
-              size="medium"
-              type="submit"
-              color="uxsecondary"
-              [disabled]="this.submitButtonService.isDisabled | async"
-            >
-              {{ 'tickets.create.submit_button' | translate }}
-            </ion-button>
+            appTrackClickUnauth
+            class="button"
+            name="Submit"
+            size="medium"
+            type="submit"
+            color="uxsecondary"
+            [disabled]="this.submitButtonService.isDisabled | async"
+          >
+            {{ 'tickets.create.submit_button' | translate }}
+          </ion-button>
         </form>
+        <ion-button
+          appTrackClickUnauth
+          class="button"
+          name="Cancel"
+          size="medium"
+          type="button"
+          color="uxsecondary"
+          fill="clear"
+          (click)="this.close()"
+        >
+          {{ 'tickets.create.cancel_button' | translate }}
+        </ion-button>
       </div>
     </ion-content>
   `,
@@ -101,12 +111,14 @@ export class CreateTicketPage implements OnInit {
 
   createTicket() {
     const data = this.form.value;
-    this.apiTicketsService.crud.create(data).subscribe(
-      () => this.success()
-    );
+    this.apiTicketsService.crud.create(data).subscribe(() => this.success());
   }
 
   success() {
     this.router.navigate(['/tickets/create-ticket-success']);
+  }
+
+  close() {
+    this.router.navigate(['/users/login']);
   }
 }
