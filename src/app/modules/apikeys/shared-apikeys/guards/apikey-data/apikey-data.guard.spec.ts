@@ -16,7 +16,7 @@ describe('ApiKeyDataGuard', () => {
   beforeEach(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     storageApikeysServiceMock = {
-      valid: false
+      data: undefined
     };
     TestBed.configureTestingModule({
       declarations: [DummyComponent],
@@ -43,14 +43,14 @@ describe('ApiKeyDataGuard', () => {
   });
 
   it('should be able to hit route when storageApikeysServiceSpy is false', () => {
-    storageApikeysService.valid = false;
+    storageApikeysService.data = undefined;
     apiKeyDataGuard
     .canActivate()
     .subscribe(result => expect(result).toBe(false));
   });
 
   it('should not be able to hit route when storageApikeysServiceSpy is true', () => {
-    storageApikeysService.valid = true;
+    storageApikeysService.data = { api_key: 'test_ak', secret_key: 'test_secret' };
     apiKeyDataGuard
       .canActivate()
       .subscribe(result => expect(result).toBe(true));

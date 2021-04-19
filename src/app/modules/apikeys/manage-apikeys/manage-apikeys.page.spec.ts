@@ -58,11 +58,34 @@ describe('ManageApikeysPage', () => {
     expect(apiApikeysServiceSpy.getAll).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when RegisterNewKey Button clicked', () => {
-    spyOn(component, 'createApiKey');
+  it('should call filterNotUsedKeys on select mode', () => {
+    component.selectMode = true;
+    spyOn(component, 'getMode');
+    const spy = spyOn(component, 'filterNotUsedKeys');
+    spy.and.returnValue([]);
+    apiApikeysServiceSpy.getAll.and.returnValue(of({}));
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Register New Key Button clicked', () => {
+    spyOn(component, 'addApiKey');
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
-      'RegisterNewKey'
+      'Register New Key'
+    );
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Register New Key More Button clicked', () => {
+    spyOn(component, 'addApiKey');
+    const el = trackClickDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Register New Key More'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

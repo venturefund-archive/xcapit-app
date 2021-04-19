@@ -77,6 +77,7 @@ import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
           fill="clear"
           size="small"
           class="cib__footer__more_info ux-font-lato ux-fweight-semibold ux-fsize-14"
+          (click)="this.useApiKey(this.id)"
         >
           {{ 'apikeys.card_apikeys.action' | translate }}
           <ion-icon slot="end" name="ux-forward"></ion-icon>
@@ -104,7 +105,6 @@ export class ApikeyItemComponent implements OnInit {
   @Input() alias: string;
   control: AbstractControl;
   constructor(
-    private manageApikeysPage: ManageApikeysPage,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
     private translate: TranslateService,
@@ -124,16 +124,7 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
-
-    modal.onDidDismiss().then(() => {
-      if (data.state == 'success') {
-        this.getAllApiKeys();
-      }
-    });
-
-    modal.present();
-
-    const { data } = await modal.onWillDismiss();
+    await modal.present();
   }
 
   async showAlert(id) {
@@ -176,16 +167,13 @@ export class ApikeyItemComponent implements OnInit {
     });
   }
 
-  getAllApiKeys() {
-    this.manageApikeysPage.getAllApiKeys();
-  }
-
   success() {
-    this.getAllApiKeys();
     this.showToast('apikeys.card_apikeys.success_toast');
   }
 
   error() {
     this.showToast('errorCodes.remove.error');
   }
+
+  useApiKey(id: number) {}
 }

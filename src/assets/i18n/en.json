@@ -164,8 +164,8 @@
         "change_currency": "Change currency"
       },
       "user_status": {
-        "title": "Choose a profile to start using Xcapit",
-        "action_button": "Start"
+        "title": "Start investing in the crypto world",
+        "action_button": "Start now"
       },
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
@@ -1040,7 +1040,6 @@
       "slide4_option_next": "Next",
       "success_text_new": "The link with the Exchange was successful!"
     },
-
     "card_apikeys": {
       "content": "Fund:",
       "action": "Manage",
@@ -1054,12 +1053,12 @@
         "cancel_button": "Cancel"
       }
     },
-
     "manage_apikeys": {
       "header": "API Keys management",
-      "subtitle": "You still do not have registered keys. Add new keys to manage them."
+      "subtitle": "You still do not have registered keys. Add new keys to manage them.",
+      "add_api_key": "Add an API key",
+      "security_info_alert": "For your security we only have permissions to operate over the total capital in the Spot wallet. We can not make withdrawals."
     },
-
     "register": {
       "header": "Add API key",
       "label_alias": "Alias",
@@ -1078,9 +1077,9 @@
       }
     },
     "register_success": {
-      "textPrimary": "You have already linked your account with Binance!",
-      "textSecondary": "We are in a position to manage your Binance capital.",
-      "namePrimaryAction": "Manage",
+      "textPrimary": "¡Great! You are one step away from your first investment.",
+      "textSecondary": "Choose the strategy that best suits you..",
+      "namePrimaryAction": "Create my first invest",
       "nameSecondaryAction": "Skip for now"
     },
     "linked_apikeys": {
@@ -1092,93 +1091,101 @@
     },
     "tutorial_apikeys": {
       "header": "Link with Binance",
-      "title": "Create an API Key",
-      "text_before": "The API Key is a code that allows us to manage your account.",
-      "text_before_2": "Login to your Binance account and follow these steps to create a new API Key.",
-      "step1": "Enter the \"My Account\" section ",
-      "step2": "Find the module \"API\".",
-      "step3": "Enter an identification tag.",
-      "step4": "Copy the api key and secret key, you need them in the next step.",
-      "text_after": "Remember, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
-      "text_help": "Do you have doubts?",
-      "text_help_link": "Learn more.",
-      "next_button": "Next"
+      "title": "Associate an external management key (API key)",
+      "text_before": "The API Key is a code that will allow us to manage your Binance account.",
+      "text_before_2": "Login from a computer to your www.binance.com account and follow these steps to create a new API Key.",
+      "step1_before_icon": "Enter the section ",
+      "step1_after_icon": "\"My Account\" > \"API Management\"",
+      "step2": "Write an \"Identification label for the API key\" and click \"Create API\",.",
+      "step3": "Scan the data with QR or enter it manually.",
+      "link_with_binance": "Link with Binance"
     },
-    "insert_key": {
-      "header": "Link with Binance",
-      "title": "Enter your API Key",
-      "text_before": "Copy the 18 digits of the API Key you created. Remember that we will not have permission to withdraw money, we can only operate.",
-      "insert_key": "API Key",
-      "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
-      "text_help_link": "Learn more.",
-      "next_button": "Next"
-    },
-    "insert_secret": {
-      "header": "Link with Binance",
-      "title": "Enter your Secret Key",
-      "text_before": "Together with the creation of your API Key, Binance generated a \"Secret Key\" for security reasons. You can find it just below the API Key.",
-      "insert_secret": "Secret Key",
-      "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
-      "text_help": "Remember that, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
-      "submit_button": "Finish Configuration"
-    },
-    "success_apikeys": {
-      "textPrimary": "¡You have already linked your account with Binance!",
-      "textSecondary": "We are able to create a fund to start managing your investment.",
-      "namePrimaryAction": "Create my first investment fund",
-      "nameSecondaryAction": "Skip for now"
-    },
-    "success_apikeys_edition": {
-      "textPrimary": "We have modified your API Key!",
-      "textSecondary": "View your funds now",
-      "namePrimaryAction": "Go to Home"
-    },
-    "edit_apikey": {
-      "header": "Change API Key",
-      "public_key": "Binance API Key",
-      "secret_key": "Binance Secret Key",
-      "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
-      "submit_button": "Save",
-      "need_help": "Need help?"
-    },
-    "edit_modal": {
-      "title": "Change Alias",
-      "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
-      "button_submit": "Update",
-      "edit_error": {
-        "default": "An error has ocurred"
+    "scan_qr": {
+      "header": "Scan your keys",
+      "register_manually": "Enter manually",
+      "errors": {
+        "invalidQR": "Invalid QR code.",
+        "noContent": "The QR code has no content.",
+        "permissionDenied": "We can't access to the camera. Permission denied."
+      },
+      "insert_key": {
+        "header": "Link with Binance",
+        "title": "Enter your API Key",
+        "text_before": "Copy the 18 digits of the API Key you created. Remember that we will not have permission to withdraw money, we can only operate.",
+        "insert_key": "API Key",
+        "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
+        "text_help_link": "Learn more.",
+        "next_button": "Next"
+      },
+      "insert_secret": {
+        "header": "Link with Binance",
+        "title": "Enter your Secret Key",
+        "text_before": "Together with the creation of your API Key, Binance generated a \"Secret Key\" for security reasons. You can find it just below the API Key.",
+        "insert_secret": "Secret Key",
+        "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
+        "text_help": "Remember that, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
+        "submit_button": "Finish Configuration"
+      },
+      "success_apikeys": {
+        "textPrimary": "¡You have already linked your account with Binance!",
+        "textSecondary": "We are able to create a fund to start managing your investment.",
+        "namePrimaryAction": "Create my first investment fund",
+        "nameSecondaryAction": "Skip for now"
+      },
+      "success_apikeys_edition": {
+        "textPrimary": "We have modified your API Key!",
+        "textSecondary": "View your funds now",
+        "namePrimaryAction": "Go to Home"
+      },
+      "edit_apikey": {
+        "header": "Change API Key",
+        "public_key": "Binance API Key",
+        "secret_key": "Binance Secret Key",
+        "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
+        "submit_button": "Save",
+        "need_help": "Need help?"
+      },
+      "edit_modal": {
+        "title": "Change Alias",
+        "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
+        "button_submit": "Update",
+        "edit_error": {
+          "default": "An error has ocurred"
+        }
+      },
+      "qr_scanner": {
+        "text": "Point your camera towards a QR code."
+      },
+      "need_help": {
+        "text_help_link": "Need help?"
       }
     },
-    "qr_scanner": {
-      "title": "Point your camera towards the QR code",
-      "cancel_label": "Cancel and insert manually"
-    }
-  },
-  "tabs": {
-    "home": "Home",
-    "refer": "Refer",
-    "new_fund": "New",
-    "menu": "More"
-  },
-  "deposit_addresses": {
-    "deposit_currency": {
-      "header": "Deposit Address",
-      "currency_title": "Currency",
-      "title": "In what currency will you pay the commission?",
-      "text_before": "Choose the currency with which you want to make the deposit",
-      "next_button": "Next"
+    "tabs": {
+      "home": "Home",
+      "refer": "Refer",
+      "new_fund": "New",
+      "menu": "More"
     },
-    "deposit_address": {
-      "header": "Deposit Address",
-      "title": "Address info",
-      "text_before": "Use any of the following information to make the deposit",
-      "address_title": "Address",
-      "address_tag_title": "Address tag",
-      "link_title": "Link",
-      "qr_title": "QR",
-      "copy_address_ok_text": "The address was copied to the clipboard",
-      "copy_address_error_text": "The address could not be copied to the clipboard",
-      "back_link": "Back to home"
+    "deposit_addresses": {
+      "deposit_currency": {
+        "header": "Deposit Address",
+        "currency_title": "Currency",
+        "title": "In what currency will you pay the commission?",
+        "text_before": "Choose the currency with which you want to make the deposit",
+        "next_button": "Next"
+      },
+      "deposit_address": {
+        "header": "Deposit Address",
+        "title": "Address info",
+        "text_before": "Use any of the following information to make the deposit",
+        "address_title": "Address",
+        "address_tag_title": "Address tag",
+        "link_title": "Link",
+        "qr_title": "QR",
+        "copy_address_ok_text": "The address was copied to the clipboard",
+        "copy_address_error_text": "The address could not be copied to the clipboard",
+        "back_link": "Back to home"
+      }
     }
   }
 }

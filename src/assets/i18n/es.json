@@ -166,8 +166,8 @@
         "change_currency": "Cambiar moneda"
       },
       "user_status": {
-        "title": "Elige un perfil para comenzar a usar Xcapit",
-        "action_button": "Empezar"
+        "title": "Comienza a invertir en el mundo cripto",
+        "action_button": "Comenzar ahora"
       },
       "funds_title": "MIS FONDOS",
       "shared_funds_title": "FONDOS COMPARTIDOS",
@@ -1041,7 +1041,6 @@
       "slide4_option_next": "Siguiente",
       "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
     },
-
     "card_apikeys": {
       "content": "Fondo:",
       "action": "Gestionar",
@@ -1055,12 +1054,12 @@
         "cancel_button": "Cancelar"
       }
     },
-
     "manage_apikeys": {
       "header": "Gestión de API Keys",
-      "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas."
+      "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas.",
+      "add_api_key": "Agrega una API key",
+      "security_info_alert": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la billetera Spot. No podremos realizar retiros."
     },
-
     "linked_apikeys": {
       "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
       "subtitle_header_text": "Ya comenzaste tu viaje crypto",
@@ -1068,27 +1067,31 @@
       "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
     },
-
     "register_success": {
-      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
-      "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
-      "namePrimaryAction": "Gestionar",
+      "textPrimary": "¡Genial! Estás a un paso de tu primera inversión.",
+      "textSecondary": "Elige la estrategia que mejor se adapta a ti.",
+      "namePrimaryAction": "Crear mi primera inversión",
       "nameSecondaryAction": "Omitir por ahora"
     },
-
     "tutorial_apikeys": {
       "header": "Vincular con Binance",
-      "title": "Crea una API Key",
-      "text_before": "LA API Key es un código que nos permitirá gestionar sobre tu cuenta.",
-      "text_before_2": "Ingresa a tu cuenta de Binance y sigue estos pasos para crear una nueva API Key.",
-      "step1": "Ingresa a la sección \"Mi Cuenta\". ",
-      "step2": "Encuentra el modulo \"API\".",
-      "step3": "Ingrese una etiqueta de identificación.",
-      "step4": "Copia la api key y secret key, las necesitas en el próximo paso.",
-      "text_after": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
-      "text_help": "¿Tenés dudas?",
-      "text_help_link": "Aprende más.",
-      "next_button": "Siguiente"
+      "title": "Asocia una llave de gestión externas (API key)",
+      "text_before": "La API Key es un código que nos permitirá gestionar sobre tu cuenta de Binance.",
+      "text_before_2": "Ingresa desde una computadora a tu cuenta de www.binance.com y sigue estos pasos para crear una nueva API Key.",
+      "step1_before_icon": "Ingresa a la sección ",
+      "step1_after_icon": " \"Mi Cuenta\" > \"Gestión de API\" ",
+      "step2": "Escribe una \"Etiqueta de identificación para la clave API\" y haz clic en \"Crear API\".",
+      "step3": "Escanea los datos con QR o ingrésalos manualmente.",
+      "link_with_binance": "Vincular con Binance"
+    },
+    "scan_qr": {
+      "header": "Escanea tus keys",
+      "register_manually": "Ingresar manualmente",
+      "errors": {
+        "invalidQR": "El código QR no es válido.",
+        "noContent": "El código QR no tenía ningún contenido.",
+        "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
+      }
     },
     "insert_key": {
       "header": "Vincular con Binance",
@@ -1143,7 +1146,6 @@
         "text": "Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
         "button": "Entendido"
       }
-      
     },
     "edit_modal": {
       "title": "Cambiar Alias",
@@ -1155,7 +1157,8 @@
     },
     "qr_scanner": {
       "title": "Apunta la cámara al código QR",
-      "cancel_label": "Cancelar e ingresar manual"
+      "cancel_label": "Cancelar e ingresar manual",
+      "text": "Apunta la cámara a un código QR."
     }
   },
   "tabs": {

@@ -1,0 +1,23 @@
+import { TestBed } from '@angular/core/testing';
+import { PlatformService } from './platform.service';
+
+describe('PlatformService', () => {
+  let service: PlatformService;
+
+  beforeEach(() => {
+
+    TestBed.configureTestingModule({
+      providers: []
+    });
+    service = TestBed.inject(PlatformService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should isWeb return true on web platform', () => {
+    expect(service.isWeb()).toBeTrue();
+  });
+
+});

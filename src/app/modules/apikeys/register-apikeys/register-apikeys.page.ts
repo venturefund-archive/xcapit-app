@@ -1,13 +1,14 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController, Platform } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
-import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-scanner.component';
+import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
+import { LINKS } from '../../../config/static-links';
 import { Capacitor } from '@capacitor/core';
 
 @Component({
@@ -59,46 +60,42 @@ import { Capacitor } from '@capacitor/core';
                 'apikeys.register.placeholder_secretkey' | translate
               "
                       ></app-ux-input>
-                      <ion-button
-                              class="main__help__button ux_button"
-                              appTrackClick
-                              name="NeedHelp"
-                              fill="clear"
-                              size="small"
-                              type="button"
-                              color="uxsecondary"
-                              [routerLink]="['/tabs/funds']"
-                      >
-                          {{ 'apikeys.register.link_help' | translate }}
-                      </ion-button>
                   </div>
               </div>
               <div class="ux_footer">
-                  <div class="ik__use_qr_button" *ngIf="!this.inPWA">
-                      <ion-button
-                              class="ux_button"
-                              appTrackClick
-                              name="UseQR"
-                              type="button"
-                              fill="clear"
-                              size="large"
-                              (click)="this.readQRCode()"
-                      >
-                          {{ 'apikeys.register.button_use_qr' | translate }}
-                      </ion-button>
+                  <div class="ik__need-help">
+                      <app-need-help
+                              [whatsAppLink]="this.supportLinks.apiKeyWhatsappSupport"
+                              [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
+                      ></app-need-help>
                   </div>
-                  <div class="ik__submit_button">
-                      <ion-button
-                              class="ux_button"
-                              appTrackClick
-                              name="Submit"
-                              type="submit"
-                              color="uxsecondary"
-                              size="large"
-                              [disabled]="this.submitButtonService.isDisabled | async"
-                      >
-                          {{ 'apikeys.register.button_submmit' | translate }}
-                      </ion-button>
+                  <div class="ik__use_qr_button">
+                      <div class="ik__use_qr_button" *ngIf="!this.inPWA">
+                          <ion-button
+                                  class="ux_button"
+                                  appTrackClick
+                                  name="UseQR"
+                                  type="button"
+                                  fill="clear"
+                                  size="large"
+                                  (click)="this.readQRCode()"
+                          >
+                              {{ 'apikeys.register.button_use_qr' | translate }}
+                          </ion-button>
+                      </div>
+                      <div class="ik__submit_button">
+                          <ion-button
+                                  class="ux_button"
+                                  appTrackClick
+                                  name="Submit"
+                                  type="submit"
+                                  color="uxsecondary"
+                                  size="large"
+                                  [disabled]="this.submitButtonService.isDisabled | async"
+                          >
+                              {{ 'apikeys.register.button_submmit' | translate }}
+                          </ion-button>
+                      </div>
                   </div>
               </div>
           </form>
@@ -107,7 +104,6 @@ import { Capacitor } from '@capacitor/core';
   styleUrls: ['./register-apikeys.page.scss']
 })
 export class RegisterApikeysPage implements OnInit {
-  @ViewChildren(QrScannerComponent) qrScanner: QueryList<QrScannerComponent>;
   form: FormGroup = this.formBuilder.group({
     alias: [
       '',
@@ -125,7 +121,8 @@ export class RegisterApikeysPage implements OnInit {
   });
 
   scanning: boolean;
-  inPWA: boolean = true;
+  supportLinks = LINKS;
+  inPWA = true;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -135,6 +132,7 @@ export class RegisterApikeysPage implements OnInit {
     private translate: TranslateService,
     private navController: NavController,
     private toastService: ToastService,
+    private storageApiKeysService: StorageApikeysService
   ) {
   }
 
@@ -143,15 +141,12 @@ export class RegisterApikeysPage implements OnInit {
 
   ionViewWillEnter() {
     this.scanning = false;
+    this.patchFormValue();
     this.inPWA = Capacitor.platform === 'web';
   }
 
-  ngAfterViewInit() {
-    this.qrScanner.changes.subscribe((r) => {
-      if (r.first) {
-        r.first.readQRCode();
-      }
-    });
+  patchFormValue() {
+    this.form.patchValue(this.storageApiKeysService.data);
   }
 
   async showAlert() {

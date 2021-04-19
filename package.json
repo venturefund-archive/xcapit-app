@@ -4,6 +4,7 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
+    "build:prod:xcapit:android": "npm run build:prod:xcapit && npx jetify && npx cap sync android && npx cap open android",
     "set-brand:xcapit": "node set-brand.js xcapit",
     "set-brand:wcs": "node set-brand.js wcs",
     "build:prod:xcapit": "node set-brand.js xcapit && ng build --prod",
