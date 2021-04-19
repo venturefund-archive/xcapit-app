@@ -175,7 +175,5 @@ export class ApikeyItemComponent implements OnInit {
     this.showToast('errorCodes.remove.error');
   }
 
-  useApiKey(id: number) {
-    console.log('USING ', id);
-  }
+  useApiKey(id: number) {}
 }
