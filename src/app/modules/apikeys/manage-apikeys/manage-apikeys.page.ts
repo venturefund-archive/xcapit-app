@@ -4,7 +4,7 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { LINKS } from '../../../config/static-links';
-import { Capacitor } from '@capacitor/core';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-manage-apikeys',
@@ -91,7 +91,8 @@ export class ManageApikeysPage implements OnInit {
   constructor(
     private apiApikeysService: ApiApikeysService,
     private navController: NavController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private platformService: PlatformService
   ) {
   }
 
@@ -108,7 +109,7 @@ export class ManageApikeysPage implements OnInit {
   }
 
   isWebPlatform() {
-    return Capacitor.platform === 'web';
+    return this.platformService.isWeb();
   }
 
   addApiKey() {
