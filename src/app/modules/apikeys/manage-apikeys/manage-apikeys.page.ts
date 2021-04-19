@@ -113,9 +113,8 @@ export class ManageApikeysPage implements OnInit {
   }
 
   addApiKey() {
-    this.isWebPlatform() ?
-      this.navController.navigateForward(['/apikeys/register']).then() :
-      this.navController.navigateForward(['/apikeys/scan']).then();
+    const path = this.isWebPlatform() ? '/apikeys/register' : '/apikeys/scan';
+    this.navController.navigateForward([path]).then();
   }
 
   filterNotUsedKeys(apiKeys: any[]) {
