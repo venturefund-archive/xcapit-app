@@ -7,6 +7,7 @@ import { AlertController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { Currency } from '../../enums/currency.enum';
 import { ApiFundsService } from '../../services/api-funds/api-funds.service';
+import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
 
 
 @Component({
@@ -73,27 +74,6 @@ import { ApiFundsService } from '../../services/api-funds/api-funds.service';
       </div>
       <div class="fsc__footer">
         <div class="fsc__footer__left">
-          <!--          <div class="remaining-time-text">-->
-          <!--            <ion-text-->
-          <!--              class="ux-font-lato ux-fweight-regular ux-fsize-12"-->
-          <!--              color="uxmedium"-->
-          <!--            >-->
-          <!--              {{-->
-          <!--                'funds.fund_detail.fund_summary_card.remaining_time' | translate-->
-          <!--              }}-->
-          <!--            </ion-text>-->
-          <!--          </div>-->
-          <!--          <div class="remaining-time">-->
-          <!--            <ion-text-->
-          <!--              class="ux-font-lato ux-fweight-semibold ux-fsize-12"-->
-          <!--              color="uxdark"-->
-          <!--            >-->
-          <!--              {{-->
-          <!--                this.summary?.balance.date_info.cantidad_dias_inicio_restantes-->
-          <!--              }}-->
-          <!--              {{ 'funds.fund_detail.fund_summary_card.days_label' | translate }}-->
-          <!--            </ion-text>-->
-          <!--          </div>-->
         </div>
         <div class="fsc__footer__right">
           <div class="share-button">
@@ -121,8 +101,8 @@ export class FundSummaryCardComponent implements OnInit {
   @Input() fundBalance: any;
   currencyBase: string;
   currencySecond: string;
-  totalBase: string;
-  totalSecond: string;
+  totalBase: number;
+  totalSecond: number;
 
   currencies = [Currency.BTC, Currency.USDT];
 
@@ -141,8 +121,8 @@ export class FundSummaryCardComponent implements OnInit {
   }
 
   setTotals() {
-    this.totalBase = this.summary?.balance.end_balance;
-    this.totalSecond = this.fundBalance?.balance.to_ca.end_balance;
+    this.totalBase = parseFloat(this.summary?.balance.end_balance);
+    this.totalSecond = parseFloat(this.fundBalance?.balance.to_ca.end_balance);
   }
 
   setCurrency() {
