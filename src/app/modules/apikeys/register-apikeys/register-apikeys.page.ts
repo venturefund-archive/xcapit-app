@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -8,6 +8,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-scanner.component';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-register-apikeys',
@@ -73,7 +74,7 @@ import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-s
                   </div>
               </div>
               <div class="ux_footer">
-                  <div class="ik__use_qr_button">
+                  <div class="ik__use_qr_button" *ngIf="!this.inPWA">
                       <ion-button
                               class="ux_button"
                               appTrackClick
@@ -124,6 +125,7 @@ export class RegisterApikeysPage implements OnInit {
   });
 
   scanning: boolean;
+  inPWA: boolean = true;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -132,7 +134,7 @@ export class RegisterApikeysPage implements OnInit {
     private alertController: AlertController,
     private translate: TranslateService,
     private navController: NavController,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
   }
 
@@ -141,6 +143,7 @@ export class RegisterApikeysPage implements OnInit {
 
   ionViewWillEnter() {
     this.scanning = false;
+    this.inPWA = Capacitor.platform === 'web';
   }
 
   ngAfterViewInit() {
