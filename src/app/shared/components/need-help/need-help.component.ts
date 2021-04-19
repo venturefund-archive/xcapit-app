@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Plugins } from '@capacitor/core';
+import { LINKS } from '../../../config/static-links';
 
 const { Browser } = Plugins;
 
@@ -34,6 +35,7 @@ const { Browser } = Plugins;
 export class NeedHelpComponent implements OnInit {
   @Input() whatsAppLink: string;
   @Input() telegramLink: string;
+  links = LINKS;
 
   constructor() {
   }
@@ -44,14 +46,14 @@ export class NeedHelpComponent implements OnInit {
 
   prefetchInfoPage() {
     Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/']
+      urls: [this.links.generalHelp]
     }).then();
   }
 
   async moreInfo() {
     await Browser.open({
       toolbarColor: '#ff9100',
-      url: 'https://www.info.xcapit.com/'
+      url: this.links.generalHelp
     });
   }
 
