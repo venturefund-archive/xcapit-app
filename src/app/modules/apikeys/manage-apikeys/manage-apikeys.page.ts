@@ -41,6 +41,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
                                   [fundName]="this.apikeys.nombre_bot"
                                   [alias]="this.apikeys.alias"
                                   (useButtonClicked)="this.useKey($event)"
+                                  (deletedKey)="this.deleteKey($event)"
                           >
                           </app-apikey-item>
                       </ion-list>
@@ -124,18 +125,28 @@ export class ManageApikeysPage implements OnInit {
     return apiKeys.filter(key => key.nombre_bot === '');
   }
 
+  checkEmptyApiKeys() {
+    this.showImage = this.apikeys.length === 0;
+  }
+
   getAllApiKeys() {
     this.apiApikeysService
       .getAll()
       .pipe(map((apiKeys) => this.selectMode ? this.filterNotUsedKeys(apiKeys) : apiKeys))
       .subscribe((data) => {
         this.apikeys = data;
-        this.showImage = this.apikeys.length === 0;
+        this.checkEmptyApiKeys();
       });
   }
 
-  useKey(id: any) {
+  useKey(id: number) {
     this.storageApiKeysService.updateData(this.apikeys.find(key => key.id = id));
     this.navController.navigateForward(['/funds/fund-name']).then();
+  }
+
+  deleteKey(id: number) {
+    const toDeleteIndex = this.apikeys.findIndex(key => key.id === id);
+    this.apikeys.splice(toDeleteIndex, 1);
+    this.checkEmptyApiKeys();
   }
 }

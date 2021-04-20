@@ -124,6 +124,15 @@ describe('ApikeyItemComponent', () => {
     expect(spy).toHaveBeenCalledWith(10);
   });
 
+  it('should emit event on remove keys success', () => {
+    apiApikeysServiceSpy.delete.and.returnValue(of({}));
+    const spy = spyOn(component.deletedKey, 'emit');
+    component.remove(10);
+    expect(apiApikeysServiceSpy.delete).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith(10);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

@@ -103,6 +103,7 @@ export class ApikeyItemComponent implements OnInit {
   @Input() fundName: string;
   @Input() alias: string;
   @Output() useButtonClicked: EventEmitter<number> = new EventEmitter<number>();
+  @Output() deletedKey: EventEmitter<number> = new EventEmitter<number>();
   control: AbstractControl;
   constructor(
     private modalController: ModalController,
@@ -156,7 +157,7 @@ export class ApikeyItemComponent implements OnInit {
 
   remove(id) {
     this.apiApikeysService.delete(id).subscribe(
-      () => this.success(),
+      () => this.success(id),
       () => this.error()
     );
   }
@@ -167,7 +168,8 @@ export class ApikeyItemComponent implements OnInit {
     });
   }
 
-  success() {
+  success(id: number) {
+    this.deletedKey.emit(id);
     this.showToast('apikeys.card_apikeys.success_toast');
   }
 
