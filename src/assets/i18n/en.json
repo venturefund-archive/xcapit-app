@@ -73,6 +73,9 @@
       "title": "How does our robot work?",
       "content": "Know all the details of the way we operate.",
       "action": "More information"
+    },
+    "need_help": {
+      "text_help_link": "Need help?"
     }
   },
   "usuarios": {
@@ -1069,7 +1072,6 @@
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Submmit",
       "link_help": "¿Need Help?",
-      "button_use_qr": "Use a QR code",
       "alert": {
         "title": "Add new key",
         "text": "I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
@@ -1142,8 +1144,7 @@
         "public_key": "Binance API Key",
         "secret_key": "Binance Secret Key",
         "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
-        "submit_button": "Save",
-        "need_help": "Need help?"
+        "submit_button": "Save"
       },
       "edit_modal": {
         "title": "Change Alias",
@@ -1155,9 +1156,6 @@
       },
       "qr_scanner": {
         "text": "Point your camera towards a QR code."
-      },
-      "need_help": {
-        "text_help_link": "Need help?"
       }
     },
     "tabs": {
