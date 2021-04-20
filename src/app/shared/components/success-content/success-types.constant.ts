@@ -56,7 +56,6 @@ export const SUCCESS_TYPES = {
     textSecondary: 'usuarios.register.success_text',
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'usuarios.register.accept_button',
-    urlSecondaryAction: '/users/resend-verification-email',
     nameSecondaryAction: 'usuarios.register.resend_email_button',
   },
   fund_renew: {
