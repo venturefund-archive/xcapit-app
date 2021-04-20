@@ -49,6 +49,16 @@
 
           &__info {
             padding-right: 5px;
+            &__percentage {
+              ion-label {
+                ion-text.positive {
+                  color: #21dd62;
+                }
+                ion-text.negative {
+                  color: var(--ion-color-danger);
+                }
+              }
+            }
           }
 
           &__label {

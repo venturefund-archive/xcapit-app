@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-fund-timeline',
@@ -10,6 +11,7 @@ import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api
           class="ftl__content__item active"
           *ngFor="let run of this.runs"
           [ngClass]="this.run.estado"
+          (click)="this.goToDetail(run.id_corrida)"
         >
           <div class="ftl__content__item__side">
             <div class="ftl__content__item__side__dot-container">
@@ -56,10 +58,16 @@ import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api
               <div class="ftl__content__item__content__info__percentage">
                 <ion-label>
                   <ion-text
-                    class="ux-font-lato ux-fweight-regular ux-fsize-11"
-                    style="color: #21dd62;"
+                    class="ux-font-lato ux-fweight-semibold ux-fsize-11 positive"
+                    *ngIf="this.run.percentage >= 0"
                   >
-                    {{ this.run.percentage }}%
+                    {{ this.run.percentage | number: '1.0-2' }}%
+                  </ion-text>
+                  <ion-text
+                    class="ux-font-lato ux-fweight-semibold ux-fsize-11 negative"
+                    *ngIf="this.run.percentage < 0"
+                  >
+                    {{ this.run.percentage | number: '1.0-2' }}%
                   </ion-text>
                   <!-- <ion-text
                     class="ux-font-lato ux-fweight-regular ux-fsize-10"
@@ -102,7 +110,11 @@ import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api
 export class FundTimelineComponent implements OnInit {
   @Input() runs: any;
   @Input() fundName: string;
-  constructor(private apiFunds: ApiFundsService) {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
+
+  goToDetail(runID) {
+    this.navController.navigateForward([`/funds/fund-timeline-detail/${this.fundName}/${runID}`]);
+  }
 }

@@ -502,6 +502,9 @@
       "status_closed": "Cerrado"
     },
     "fund_timeline_detail": {
+      "performance_card": {
+        "performance_label": "Rendimiento"
+      },
       "config_card": {
         "title": "CONFIGURACIÓN",
         "item": {
@@ -509,7 +512,9 @@
           "initial_date": "Fecha de Inicio",
           "take_profit": "Take profit",
           "stop_loss": "Stop loss",
-          "currency": "Moneda"
+          "currency": "Moneda",
+          "status_finished": "Finalizado",
+          "status_active": "Activo"
         }
       }
     }

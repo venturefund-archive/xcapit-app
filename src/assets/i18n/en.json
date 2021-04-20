@@ -253,7 +253,7 @@
         "view_operation_history": "View operation history"
       },
       "operations_history_card": {
-        "title": "MY LAST MOVEMENTS",
+        "title": "FUND HISTORY",
         "run": "Run {{id_corrida}}"
       }
     },
@@ -499,7 +499,16 @@
     },
     "fund_timeline_detail": {
       "config_card": {
-        "title": "CONFIGURATION"
+        "title": "CONFIGURATION",
+        "item": {
+          "state": "Status",
+          "initial_date": "Initial Date",
+          "take_profit": "Take profit",
+          "stop_loss": "Stop loss",
+          "currency": "Currency",
+          "status_finished": "Finished",
+          "status_active": "Active"
+        }
       }
     }
   },

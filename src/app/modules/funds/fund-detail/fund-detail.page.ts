@@ -141,7 +141,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
           </ion-text>
         </div>
         <app-fund-timeline
-          [runs]="this.fundOperationsHistory"
+          [runs]="this.fundTimeline"
           [fundName]="this.fundName"
         ></app-fund-timeline>
       </div>
@@ -157,7 +157,7 @@ export class FundDetailPage implements OnInit {
   fundResume: any;
   fundSettings: any;
   fundPortfolio: Array<any>;
-  fundOperationsHistory: Array<any>;
+  fundTimeline: Array<any>;
   currency: string;
   isOwner: any;
   isChart: boolean;
@@ -293,8 +293,8 @@ export class FundDetailPage implements OnInit {
   }
 
   async getFundOperationsHistoryInfo() {
-    this.apiFunds.getFundRuns('all', this.fundName, false).subscribe((data) => {
-      this.fundOperationsHistory = data;
+    this.apiFunds.getLastPercentage(this.fundName).subscribe((data) => {
+      this.fundTimeline = data;
     });
   }
 
