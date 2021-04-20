@@ -115,7 +115,7 @@
       "resend_verification_email": {
         "title": "¡Te enviamos un nuevo email!",
         "text": "Si no lo ves en tu bandeja de entrada, revisá la carpeta de spam.",
-        "resend_mail_button": "Volver a enviar",
+        "resend_mail_button": "Volver a enviar {{timer}}",
         "open_ticket_button": "Todavía no pude activar mi cuenta"
       }
     },

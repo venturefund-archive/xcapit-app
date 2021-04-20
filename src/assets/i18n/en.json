@@ -115,7 +115,7 @@
       "resend_verification_email": {
         "title": "We send you another email!",
         "text": "If you can't see it in your inbox, check the spam folder.",
-        "resend_mail_button": "Resend email",
+        "resend_mail_button": "Resend email {{timer}}",
         "open_ticket_button": "I still can't activate my account"
       }
     },
