@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 @Component({
@@ -44,10 +44,8 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
               (click)="this.resendEmail()"
             >
               {{
-                ('usuarios.register.resend_verification_email.resend_mail_button'
-                  | translate) +
-                  ' ' +
-                  this.timerText
+                'usuarios.register.resend_verification_email.resend_mail_button'
+                  | translate: { timer: this.timerText }
               }}
             </ion-button>
           </div>
@@ -85,12 +83,12 @@ export class ResendVerificationEmailPage implements OnInit {
   constructor(
     private router: Router,
     private apiUsuariosService: ApiUsuariosService
-  ) {}
+  ) { }
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.resendEmail();
+    this.startTimer();
   }
 
   async startTimer() {
@@ -124,11 +122,13 @@ export class ResendVerificationEmailPage implements OnInit {
       this.hideSendTicket = false;
     }
 
+    console.log('Envié un email.');
+
     // WIP
     // this.apiUsuariosService.sendEmailValidation('').subscribe();
   }
 
   openTicket() {
-    this.router.navigate(['/tickets/create-ticket']);
+    this.router.navigate(['/tickets/create']);
   }
 }

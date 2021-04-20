@@ -7,7 +7,7 @@ const routes: Routes = [
     path: 'tickets',
     children: [
       {
-        path: 'create-ticket',
+        path: 'create',
         canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./create-ticket/create-ticket.module').then(
@@ -15,7 +15,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'create-ticket-success',
+        path: 'create/success',
         canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./create-ticket-success/create-ticket-success.module').then(

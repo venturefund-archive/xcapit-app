@@ -71,7 +71,7 @@ describe('ResendVerificationEmailPage', () => {
 
   it('should enable resend button when timerSeconds reaches 0', () => {
     component.resendEmail();
-    component.timerSeconds = 1; // timerSeconds is decreased when decreaseTimer is called
+    component.timerSeconds = 1;
     component.decreaseTimer();
     expect(component.disableResendEmail).toBeFalse();
   });
@@ -94,7 +94,7 @@ describe('ResendVerificationEmailPage', () => {
     const spy = spyOn(window, 'clearInterval');
     component.startTimer();
     component.timerSeconds = 1;
-    component.decreaseTimer(); // timerSeconds is decreased when decreaseTimer is called
+    component.decreaseTimer();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
