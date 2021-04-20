@@ -4,7 +4,8 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
-    "build:prod:xcapit:android": "npm run build:prod:xcapit && npx jetify && npx cap sync android && npx cap open android",
+    "build:prod:xcapit:android": "node set-capacitor-config.js android && npm run build:prod:xcapit && npx jetify && npx cap sync android && npx cap open android",
+    "build:prod:xcapit:ios": "node set-capacitor-config.js ios && npm run build:prod:xcapit && npx cap sync ios && npx cap open ios",
     "set-brand:xcapit": "node set-brand.js xcapit",
     "set-brand:wcs": "node set-brand.js wcs",
     "build:prod:xcapit": "node set-brand.js xcapit && ng build --prod",
