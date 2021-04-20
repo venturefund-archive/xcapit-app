@@ -13,18 +13,12 @@ interface AKDataInterface {
 export class StorageApikeysService {
   constructor() {}
   data: AKDataInterface;
-  private default: AKDataInterface = {
-    alias: '',
-    apiKey: '',
-    apiSecret: '',
-    exchange: 'binance'
-  };
 
   public updateData(data: AKDataInterface) {
     this.data = data;
   }
 
   public clear() {
-    this.data = this.default;
+    this.data = undefined;
   }
 }

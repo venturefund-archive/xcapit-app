@@ -146,7 +146,9 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   patchFormValue() {
-    this.form.patchValue(this.storageApiKeysService.data);
+    if (this.storageApiKeysService.data) {
+      this.form.patchValue(this.storageApiKeysService.data);
+    }
   }
 
   async showAlert() {

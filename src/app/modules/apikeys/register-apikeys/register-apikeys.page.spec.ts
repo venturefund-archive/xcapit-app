@@ -12,6 +12,7 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { of } from 'rxjs';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 
 const formData = {
   valid: {
@@ -58,8 +59,8 @@ const QRScanResult = {
   noContent: {
     error: true,
     errorType: 'noContent'
-  },
-}
+  }
+};
 
 describe('RegisterApikeysPage', () => {
   let component: RegisterApikeysPage;
@@ -68,17 +69,23 @@ describe('RegisterApikeysPage', () => {
   let apiApikeysServiceSpy;
   let navControllerSpy: any;
   let navController: any;
+  let storageApiKeysServiceMock: any;
+  let storageApiKeysService: StorageApikeysService;
 
   beforeEach(
     waitForAsync(() => {
       apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
-        'create',
+        'create'
       ]);
 
       navControllerSpy = jasmine.createSpyObj(
         'NavController',
         navControllerMock
       );
+
+      storageApiKeysServiceMock = {
+        data: undefined
+      };
 
       TestBed.configureTestingModule({
         declarations: [RegisterApikeysPage, TrackClickDirective],
@@ -87,19 +94,20 @@ describe('RegisterApikeysPage', () => {
             { path: 'apikeys/register', component: DummyComponent },
             { path: 'apikeys/success-register', component: DummyComponent },
             { path: 'apikeys/list', component: DummyComponent },
-            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'tabs/funds', component: DummyComponent }
           ]),
           TranslateModule.forRoot(),
           HttpClientTestingModule,
           IonicModule,
-          ReactiveFormsModule,
+          ReactiveFormsModule
         ],
         providers: [
           TrackClickDirective,
           { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: StorageApikeysService, useValue: storageApiKeysServiceMock }
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
     })
   );
@@ -111,6 +119,7 @@ describe('RegisterApikeysPage', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     apiApikeysServiceSpy = TestBed.inject(ApiApikeysService);
     navController = TestBed.inject(NavController);
+    storageApiKeysService = TestBed.inject(StorageApikeysService);
   });
 
   it('should create', () => {
@@ -177,6 +186,25 @@ describe('RegisterApikeysPage', () => {
     component.apikeysScanned(QRScanResult.formInvalid);
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should patchFormValue on ionViewWillEnter and storage data is undefined', () => {
+    storageApiKeysServiceMock.data = undefined;
+    const spyForm = spyOn(component.form, 'patchValue').and.callThrough();
+    component.ionViewWillEnter();
+    expect(spyForm).toHaveBeenCalledTimes(0);
+  });
+
+  it('should patchFormValue on ionViewWillEnter and storage data exists', () => {
+    storageApiKeysServiceMock.data = {
+      alias: 'test',
+      apiKey: 'keytest',
+      apiSecret: 'secretest',
+      exchange: 'binance'
+    };
+    const spyForm = spyOn(component.form, 'patchValue').and.callThrough();
+    component.ionViewWillEnter();
+    expect(spyForm).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Submit Button clicked', () => {
