@@ -64,17 +64,4 @@ describe('ScanQrPage', () => {
     component.apiKeysScanned({ scannedApikeys: {} });
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
-  it('should call trackEvent on trackService when Register Key Manually Button clicked', () => {
-    spyOn(component, 'stopQRScan');
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Register Key Manually'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
 });

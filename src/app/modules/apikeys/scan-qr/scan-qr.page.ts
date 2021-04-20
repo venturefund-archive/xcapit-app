@@ -17,22 +17,8 @@ import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-s
       </ion-header>
 
       <ion-content>
-          <app-qr-scanner (scannedApikeysEvent)="this.apiKeysScanned($event)"></app-qr-scanner>
+          <app-qr-scanner (stoppedScan)="this.stoppedScan()" (scannedApikeysEvent)="this.apiKeysScanned($event)"></app-qr-scanner>
       </ion-content>
-
-      <ion-footer>
-          <ion-button
-                  appTrackClick
-                  name="Register Key Manually"
-                  expand="block"
-                  fill="clear"
-                  color="uxsecondary"
-                  class="ux_button"
-                  (click)="this.registerManually()"
-          >
-              {{ 'apikeys.scan_qr.register_manually' | translate }}
-          </ion-button>
-      </ion-footer>
   `,
   styleUrls: ['./scan-qr.page.scss']
 })
@@ -77,4 +63,7 @@ export class ScanQrPage implements OnInit {
     }).then();
   }
 
+  stoppedScan() {
+    this.navController.navigateForward(['/apikeys/register']).then();
+  }
 }

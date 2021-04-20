@@ -187,4 +187,10 @@ describe('QrScannerComponent', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should emit event on stop scan', () => {
+    const spy = spyOn(component.stoppedScan, 'emit');
+    component.stopQRScan();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });
