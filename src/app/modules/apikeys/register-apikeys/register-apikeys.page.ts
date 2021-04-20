@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -9,17 +9,12 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { LINKS } from '../../../config/static-links';
-import { Capacitor } from '@capacitor/core';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-register-apikeys',
   template: `
-      <app-qr-scanner
-              class="container"
-              *ngIf="this.scanning"
-              (scannedApikeysEvent)="this.apikeysScanned($event)"
-      ></app-qr-scanner>
-      <ion-header *ngIf="!this.scanning">
+      <ion-header>
           <ion-toolbar color="uxprimary" class="ux_toolbar">
               <ion-buttons slot="start">
                   <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
@@ -29,7 +24,7 @@ import { Capacitor } from '@capacitor/core';
                   }}</ion-title>
           </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding" *ngIf="!this.scanning">
+      <ion-content class="ion-padding">
           <form
                   [formGroup]="this.form"
                   (ngSubmit)="this.handleSubmit()"
@@ -37,6 +32,7 @@ import { Capacitor } from '@capacitor/core';
           >
               <div class="ux_content">
                   <div class="ik__ak_input">
+
                       <app-ux-input
                               controlName="alias"
                               type="text"
@@ -44,13 +40,29 @@ import { Capacitor } from '@capacitor/core';
                               [label]="'apikeys.register.label_alias' | translate"
                               [placeholder]="'apikeys.register.placeholder_alias' | translate"
                       ></app-ux-input>
-                      <app-ux-input
-                              controlName="api_key"
-                              type="text"
-                              inputmode="text"
-                              [label]="'apikeys.register.label_apikey' | translate"
-                              [placeholder]="'apikeys.register.placeholder_apikey' | translate"
-                      ></app-ux-input>
+                      <div class="ik__use-qr">
+                          <div class="ik__use-qr__input">
+                              <app-ux-input
+                                      controlName="api_key"
+                                      type="text"
+                                      inputmode="text"
+                                      [label]="'apikeys.register.label_apikey' | translate"
+                                      [placeholder]="'apikeys.register.placeholder_apikey' | translate"
+                              ></app-ux-input>
+                          </div>
+                          <div class="ik__use-qr__button" *ngIf="!this.inPWA">
+                              <ion-button
+                                      color="uxsemidark"
+                                      appTrackClick
+                                      name="Use QR"
+                                      type="button"
+                                      fill="clear"
+                                      (click)="this.readQRCode()"
+                              >
+                                  <ion-icon name="qr-code-outline"></ion-icon>
+                              </ion-button>
+                          </div>
+                      </div>
                       <app-ux-input
                               controlName="secret_key"
                               type="text"
@@ -69,33 +81,18 @@ import { Capacitor } from '@capacitor/core';
                               [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
                       ></app-need-help>
                   </div>
-                  <div class="ik__use_qr_button">
-                      <div class="ik__use_qr_button" *ngIf="!this.inPWA">
-                          <ion-button
-                                  class="ux_button"
-                                  appTrackClick
-                                  name="UseQR"
-                                  type="button"
-                                  fill="clear"
-                                  size="large"
-                                  (click)="this.readQRCode()"
-                          >
-                              {{ 'apikeys.register.button_use_qr' | translate }}
-                          </ion-button>
-                      </div>
-                      <div class="ik__submit_button">
-                          <ion-button
-                                  class="ux_button"
-                                  appTrackClick
-                                  name="Submit"
-                                  type="submit"
-                                  color="uxsecondary"
-                                  size="large"
-                                  [disabled]="this.submitButtonService.isDisabled | async"
-                          >
-                              {{ 'apikeys.register.button_submmit' | translate }}
-                          </ion-button>
-                      </div>
+                  <div class="ik__submit_button">
+                      <ion-button
+                              class="ux_button"
+                              appTrackClick
+                              name="Submit"
+                              type="submit"
+                              color="uxsecondary"
+                              size="large"
+                              [disabled]="this.submitButtonService.isDisabled | async"
+                      >
+                          {{ 'apikeys.register.button_submmit' | translate }}
+                      </ion-button>
                   </div>
               </div>
           </form>
@@ -120,7 +117,6 @@ export class RegisterApikeysPage implements OnInit {
     secret_key: ['', [Validators.required]]
   });
 
-  scanning: boolean;
   supportLinks = LINKS;
   inPWA = true;
 
@@ -132,7 +128,8 @@ export class RegisterApikeysPage implements OnInit {
     private translate: TranslateService,
     private navController: NavController,
     private toastService: ToastService,
-    private storageApiKeysService: StorageApikeysService
+    private storageApiKeysService: StorageApikeysService,
+    private platformService: PlatformService
   ) {
   }
 
@@ -140,13 +137,18 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.scanning = false;
     this.patchFormValue();
-    this.inPWA = Capacitor.platform === 'web';
+    this.checkIsWebPlatform();
+  }
+
+  checkIsWebPlatform() {
+    this.inPWA = this.platformService.isWeb();
   }
 
   patchFormValue() {
-    this.form.patchValue(this.storageApiKeysService.data);
+    if (this.storageApiKeysService.data) {
+      this.form.patchValue(this.storageApiKeysService.data);
+    }
   }
 
   async showAlert() {
@@ -188,8 +190,8 @@ export class RegisterApikeysPage implements OnInit {
     this.showToast('errorCodes.apikeys.create.default');
   }
 
-  async readQRCode() {
-    this.scanning = true;
+  readQRCode() {
+    this.navController.navigateForward(['/apikeys/scan']).then();
   }
 
   errorCameraAccessDenied() {
@@ -210,7 +212,6 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   apikeysScanned(result: any) {
-    this.scanning = false;
     if (result.error) {
       switch (result.errorType) {
         case 'invalidQR':

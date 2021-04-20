@@ -73,6 +73,9 @@
       "title": "¿Cómo funciona nuestro robot?",
       "content": "Conoce todos los detalles de la forma en la que operamos.",
       "action": "Más información"
+    },
+    "need_help": {
+      "text_help_link": "¿Necesitas ayuda?"
     }
   },
   "usuarios": {
@@ -1127,8 +1130,7 @@
       "public_key": "Binance API Key",
       "secret_key": "Binance Secret Key",
       "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
-      "submit_button": "Guardar",
-      "need_help": "¿Necesitas ayuda?"
+      "submit_button": "Guardar"
     },
     "register": {
       "header": "Agregar API key",
@@ -1140,7 +1142,6 @@
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Agregar",
       "link_help": "¿Necesitas Ayuda?",
-      "button_use_qr": "Usar un código QR",
       "alert": {
         "title": "Agregar nueva key",
         "text": "Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",

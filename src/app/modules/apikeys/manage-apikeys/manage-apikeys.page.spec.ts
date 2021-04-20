@@ -58,6 +58,15 @@ describe('ManageApikeysPage', () => {
     expect(apiApikeysServiceSpy.getAll).toHaveBeenCalledTimes(1);
   });
 
+  it('should deleteKey and set showImage true', () => {
+    component.apikeys = [{ id: 10 }];
+    component.showImage = false;
+    fixture.detectChanges();
+    component.deleteKey(10);
+    expect(component.showImage).toBeTrue();
+    expect(component.apikeys.length).toBe(0);
+  });
+
   it('should call filterNotUsedKeys on select mode', () => {
     component.selectMode = true;
     spyOn(component, 'getMode');

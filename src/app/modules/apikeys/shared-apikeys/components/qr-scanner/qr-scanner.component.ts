@@ -53,6 +53,7 @@ import { Platform } from '@ionic/angular';
 })
 export class QrScannerComponent implements OnInit {
   @Output() scannedApikeysEvent = new EventEmitter<any>();
+  @Output() stoppedScan = new EventEmitter<any>();
   scannedApikeys: any;
   scanningQR: boolean;
   error: boolean;
@@ -108,11 +109,7 @@ export class QrScannerComponent implements OnInit {
   }
 
   scanStoppedEvent() {
-    const result = {
-      error: false,
-    };
-
-    this.scannedApikeysEvent.emit(result);
+    this.stoppedScan.emit();
   }
 
   async readQRCode() {

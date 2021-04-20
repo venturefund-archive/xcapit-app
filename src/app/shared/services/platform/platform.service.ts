@@ -4,10 +4,12 @@ import { Capacitor } from '@capacitor/core';
 @Injectable({
   providedIn: 'root'
 })
-export class PlatformService{
+export class PlatformService {
+  capacitor = Capacitor;
+
   constructor() {}
 
   isWeb() {
-    return Capacitor.platform === 'web';
+    return this.capacitor.platform === 'web';
   }
 }
