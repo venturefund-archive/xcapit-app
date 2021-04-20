@@ -197,10 +197,9 @@ describe('RegisterApikeysPage', () => {
 
   it('should patchFormValue on ionViewWillEnter and storage data exists', () => {
     storageApiKeysServiceMock.data = {
+      id: 1,
       alias: 'test',
-      apiKey: 'keytest',
-      apiSecret: 'secretest',
-      exchange: 'binance'
+      nombre_bot: '',
     };
     const spyForm = spyOn(component.form, 'patchValue').and.callThrough();
     component.ionViewWillEnter();

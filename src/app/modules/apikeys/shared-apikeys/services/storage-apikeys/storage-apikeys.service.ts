@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 interface AKDataInterface {
+  id: string;
   alias: string;
-  apiKey: string;
-  apiSecret: string;
-  exchange: string;
+  nombre_bot: string;
 }
 
 @Injectable({
