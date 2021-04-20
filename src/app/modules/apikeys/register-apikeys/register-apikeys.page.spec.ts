@@ -191,13 +191,13 @@ describe('RegisterApikeysPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when UseQR Button clicked', () => {
+  it('should call trackEvent on trackService when Use QR Button clicked', () => {
     spyOn(component, 'readQRCode');
     component.inPWA = false;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
-      'UseQR'
+      'Use QR'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PlatformService } from './platform.service';
 
-fdescribe('PlatformService', () => {
+describe('PlatformService', () => {
   let service: PlatformService;
   let capacitorMock: any;
 

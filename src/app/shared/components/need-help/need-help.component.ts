@@ -24,7 +24,7 @@ const { Browser } = Plugins;
                       fill="clear"
                       size="small"
               >{{
-                  'apikeys.need_help.text_help_link' | translate
+                  'shared.need_help.text_help_link' | translate
                   }}</ion-button
               >
           </div>
