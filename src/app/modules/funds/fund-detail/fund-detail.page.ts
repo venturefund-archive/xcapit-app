@@ -232,8 +232,6 @@ export class FundDetailPage implements OnInit {
     this.getStorageRange();
     this.getFundMetricsCardInfo();
     this.subscribeOnHideFunds();
-    // Comentado hasta que se implemente el componente del detalle de cada movimiento
-
     this.getFundOperationsHistoryInfo();
   }
 

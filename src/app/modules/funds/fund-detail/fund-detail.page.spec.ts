@@ -30,7 +30,7 @@ const testPerformance = {
   percentage_evolution: {} as FundPercentageEvolutionChartInterface,
 };
 
-describe('FundDetailPage', () => {
+fdescribe('FundDetailPage', () => {
   let component: FundDetailPage;
   let fixture: ComponentFixture<FundDetailPage>;
   let apiFundsSpy: any;
@@ -115,16 +115,18 @@ describe('FundDetailPage', () => {
     expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
+  it('should call apiFunds.getLastPercentage on ionViewWillEnter', () => {
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
+    component.ionViewWillEnter();
+    expect(apiFundsSpy.getLastPercentage).toHaveBeenCalledTimes(1);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
+  });
+
   it('should call apiFunds.getLastFundRun on ionViewWillEnter', () => {
     const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ionViewWillEnter();
     expect(apiFundsSpy.getLastFundRun).toHaveBeenCalledTimes(1);
     expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call apiFunds.getLastPercentage on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-    expect(apiFundsSpy.getLastPercentage).toHaveBeenCalledTimes(1);
   });
 
   it('should call toggleHideFunds in HideText', () => {
