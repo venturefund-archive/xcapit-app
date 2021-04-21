@@ -45,6 +45,15 @@ export class ApiUsuariosService {
     );
   }
 
+  resendEmailValidation(email: string): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/resend_email_validation`,
+      {
+        email
+      }
+    );
+  }
+
   login(data: any): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}/${this.entity}/login`, data)

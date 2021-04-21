@@ -12,11 +12,11 @@ const { Browser } = Plugins;
   selector: 'app-register',
   template: `
     <ion-header>
-      <div >
+      <div>
         <div class="app_header_register">
           <div class="app_header_register__content">
             <div class="app_header_register__content__app_xcapit_logo">
-            <app-xcapit-logo [whiteLogo]=false></app-xcapit-logo>
+              <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@ const { Browser } = Plugins;
         <app-auth-form (send)="this.registerUser($event)">
           <div class="tos-text">
             <div class="tos-text__label">
-              {{'usuarios.register.accept_tos' | translate}}
+              {{ 'usuarios.register.accept_tos' | translate }}
 
               <ion-button
                 fill="clear"
@@ -45,7 +45,7 @@ const { Browser } = Plugins;
                 routerDirection="back"
                 (click)="openTOS()"
               >
-                  {{ 'usuarios.register.link_tos' | translate }}
+                {{ 'usuarios.register.link_tos' | translate }}
               </ion-button>
             </div>
           </div>
@@ -68,7 +68,7 @@ const { Browser } = Plugins;
             </ion-button>
           </div>
           <div class="auth-link ion-text-right ion-padding-top">
-          {{ 'usuarios.register.have_an_account' | translate }}
+            {{ 'usuarios.register.have_an_account' | translate }}
             <ion-button
               fill="clear"
               size="small"
@@ -92,7 +92,7 @@ const { Browser } = Plugins;
       </div>
     </ion-content>
   `,
-  styleUrls: ['./register.page.scss']
+  styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true })
@@ -110,7 +110,7 @@ export class RegisterPage implements OnInit {
     private navController: NavController
   ) {
     Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/terms']
+      urls: ['https://www.info.xcapit.com/terms'],
     });
   }
 
@@ -126,7 +126,7 @@ export class RegisterPage implements OnInit {
     if (code) {
       this.registerForm.form.patchValue({
         manual_referral: true,
-        referral_code: code
+        referral_code: code,
       });
     }
   }
@@ -134,7 +134,7 @@ export class RegisterPage implements OnInit {
   setEmail() {
     const email = this.getEmailFromUrl();
     if (email) {
-      ['email'].forEach(fieldName => {
+      ['email'].forEach((fieldName) => {
         const formField = this.registerForm.form.get(fieldName);
         formField.setValue(email);
         formField.markAsTouched();
@@ -159,44 +159,59 @@ export class RegisterPage implements OnInit {
     if (data && !data.manual_referral) {
       delete data.referral_code;
     }
-    this.apiUsuarios.crud.create(data).subscribe((response) => this.success(response));
+    this.apiUsuarios.crud
+      .create(data)
+      .subscribe((response) => this.success(response));
   }
 
   async success(response) {
-    if(!Object.keys(response).length!){
+    if (!Object.keys(response).length!) {
       this.showWhiteListAlert();
-    }
-    else{
-    this.registerForm.form.reset();
-    this.navController.navigateForward(['/users/success-register'], { replaceUrl: true });
+    } else {
+      this.registerForm.form.reset();
+      const params = { replaceUrl: true, state: { email: response.email } };
+      this.navController.navigateForward(['/users/success-register'], params);
     }
   }
 
   async showWhiteListAlert() {
     const alert = await this.alertController.create({
-      header: this.translate.instant('usuarios.register.waiting_list_alert.alert_header'),
-      message: this.translate.instant('usuarios.register.waiting_list_alert.alert_message'),
+      header: this.translate.instant(
+        'usuarios.register.waiting_list_alert.alert_header'
+      ),
+      message: this.translate.instant(
+        'usuarios.register.waiting_list_alert.alert_message'
+      ),
       buttons: [
         {
-          text: this.translate.instant('usuarios.register.waiting_list_alert.alert_cancel_button'),
+          text: this.translate.instant(
+            'usuarios.register.waiting_list_alert.alert_cancel_button'
+          ),
           role: 'cancel',
-          cssClass: 'secondary'
+          cssClass: 'secondary',
         },
         {
-          text: this.translate.instant('usuarios.register.waiting_list_alert.alert_join_button'),
-          handler: _ =>
-            this.openWaitingList()
-        }
-      ]
+          text: this.translate.instant(
+            'usuarios.register.waiting_list_alert.alert_join_button'
+          ),
+          handler: (_) => this.openWaitingList(),
+        },
+      ],
     });
     await alert.present();
   }
 
   async openTOS() {
-    await Browser.open({ toolbarColor:"red", url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html' });
+    await Browser.open({
+      toolbarColor: 'red',
+      url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
+    });
   }
 
   async openWaitingList() {
-    await Browser.open({ toolbarColor:"red", url: 'https://www.xcapit.com/waiting-list' });
+    await Browser.open({
+      toolbarColor: 'red',
+      url: 'https://www.xcapit.com/waiting-list',
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
@@ -97,9 +97,17 @@ export class CreateTicketPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private apiTicketsService: ApiTicketsService,
-    private router: Router,
-    private navController: NavController
-  ) {}
+    private navController: NavController,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.queryParams.subscribe((params) => {
+      const extras = this.router.getCurrentNavigation().extras;
+      if (extras.state && extras.state.email) {
+        this.form.patchValue(extras.state);
+      }
+    });
+  }
 
   ngOnInit() {}
 
@@ -121,6 +129,6 @@ export class CreateTicketPage implements OnInit {
   }
 
   close() {
-    this.router.navigate(['/users/login']);
+    this.navController.navigateForward(['/users/login']);
   }
 }
