@@ -69,6 +69,10 @@ const routes: Routes = [
         path: 'scan',
         loadChildren: () => import('./scan-qr/scan-qr.module').then( m => m.ScanQrPageModule),
         data: {}
+      },
+      {
+        path: 'new-api-keys',
+        loadChildren: () => import('./new-api-keys/new-api-keys.module').then( m => m.NewApiKeysPageModule)
       }
     ]
   },

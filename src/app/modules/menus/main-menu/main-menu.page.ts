@@ -149,6 +149,13 @@ export class MainMenuPage implements OnInit {
     //   icon: 'cog',
     //   routeDirection: 'root',
     // },
+    {
+      id: 10,
+      title: 'Prueba',
+      url: '/apikeys/new-api-keys',
+      icon: 'notifications-outline',
+      routeDirection: 'root',
+    },
   ];
 
   constructor(

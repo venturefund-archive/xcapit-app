@@ -1159,6 +1159,15 @@
       "title": "Apunta la cámara al código QR",
       "cancel_label": "Cancelar e ingresar manual",
       "text": "Apunta la cámara a un código QR."
+    },
+    "create_apikey":{
+      "header":"API Keys",
+      "title": "Cargar mis nuevas API Keys",
+      "label_apikey":"Api key",
+      "label_secretkey":"Secret key",
+      "placeholder_apikey":"Inserte la api key",
+      "placeholder_secretkey":"Inserte la secret key",
+      "save_button": "Guardar" 
     }
   },
   "tabs": {
