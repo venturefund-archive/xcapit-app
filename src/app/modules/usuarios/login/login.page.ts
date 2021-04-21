@@ -123,7 +123,7 @@ export class LoginPage implements OnInit {
         url = ['tutorials/first-steps'];
         break;
       }
-      case UserStatus.BEGINNER: {
+      case UserStatus.COMPLETE: {
         url = ['tutorials/first-steps'];
         break;
       }
