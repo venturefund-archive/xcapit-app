@@ -30,7 +30,7 @@ const testPerformance = {
   percentage_evolution: {} as FundPercentageEvolutionChartInterface,
 };
 
-fdescribe('FundDetailPage', () => {
+describe('FundDetailPage', () => {
   let component: FundDetailPage;
   let fixture: ComponentFixture<FundDetailPage>;
   let apiFundsSpy: any;
