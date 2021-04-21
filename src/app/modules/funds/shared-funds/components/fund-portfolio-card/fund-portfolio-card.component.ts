@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Currency } from '../../enums/currency.enum';
 import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-detail.component';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-fund-portfolio-card',
@@ -53,6 +53,7 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
                         formatBTC: '1.2-6',
                         formatUSDT: '1.2-2'
                       }
+                  | hideText: this.hideFundText
               }}
             </ion-text>
           </div>
@@ -69,6 +70,7 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
                         formatBTC: '1.2-6',
                         formatUSDT: '1.2-2'
                       }
+                  | hideText: this.hideFundText
               }}
             </ion-text>
           </div>
@@ -94,6 +96,7 @@ export class FundPortfolioCardComponent implements OnInit {
   @Input() fundBalance: any;
   @Input() fundName: string;
   @Input() isOwner: any;
+  hideFundText: boolean;
 
   orderedPortfolio: Array<{
     ca: string;
@@ -111,6 +114,7 @@ export class FundPortfolioCardComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private apiFunds: ApiFundsService
   ) {}
@@ -119,6 +123,13 @@ export class FundPortfolioCardComponent implements OnInit {
     this.orderChartData();
     this.setTotals();
     this.setCurrency();
+    this.subscribeOnHideFunds();
+  }
+
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe(
+      (res) => (this.hideFundText = res)
+    );
   }
 
   setTotals() {
@@ -128,10 +139,10 @@ export class FundPortfolioCardComponent implements OnInit {
 
   setCurrency() {
     this.currencyBase = this.fundBalance.fund.currency;
-    if (this.currencyBase == "BTC") {
-      this.currencySecond = "USDT"
+    if (this.currencyBase == Currency.BTC) {
+      this.currencySecond = Currency.USDT
     } else {
-      this.currencySecond = "BTC"
+      this.currencySecond = Currency.BTC
     }
   }
 
@@ -151,7 +162,7 @@ export class FundPortfolioCardComponent implements OnInit {
         endDate: this.fundBalance.balance.end_time,
         currency: this.fundBalance.fund.currency,
         fundName: this.fundName,
-        isOwner: this.isOwner
+        isOwner: this.isOwner,
       },
       swipeToClose: false,
       cssClass: 'ux-routeroutlet-modal full-screen-modal',

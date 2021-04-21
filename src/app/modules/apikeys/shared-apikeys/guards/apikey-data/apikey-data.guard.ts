@@ -18,7 +18,7 @@ export class ApiKeyDataGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    if (this.storageApikeysService.valid) {
+    if (this.storageApikeysService.data) {
       return of(true);
     } else {
       this.router.navigate(['apikeys/tutorial']);

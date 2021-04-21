@@ -15,7 +15,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./tutorial-apikeys/tutorial-apikeys.module').then(
             (m) => m.TutorialApikeysPageModule
-          ),
+          )
       },
       {
         path: 'insert-key',
@@ -23,7 +23,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./insert-key/insert-key.module').then(
             (m) => m.InsertKeyPageModule
-          ),
+          )
       },
       {
         path: 'insert-secret',
@@ -31,7 +31,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./insert-secret/insert-secret.module').then(
             (m) => m.InsertSecretPageModule
-          ),
+          )
       },
       {
         path: 'success/:type',
@@ -39,7 +39,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./success-apikeys/success-apikeys.module').then(
             (m) => m.SuccessApikeysPageModule
-          ),
+          )
       },
       {
         path: 'register',
@@ -47,7 +47,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('../apikeys/register-apikeys/register-apikeys.module').then(
             (m) => m.RegisterApikeysPageModule
-          ),
+          )
       },
       {
         path: 'success-register',
@@ -55,7 +55,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./success-register-apikeys/success-register-apikeys.module').then(
             (m) => m.SuccessRegisterApikeysPageModule
-          ),
+          )
       },
       {
         path: 'list',
@@ -63,14 +63,21 @@ const routes: Routes = [
         loadChildren: () =>
           import('./manage-apikeys/manage-apikeys.module').then(
             (m) => m.ManageApikeysPageModule
-          ),
+          )
       },
-    ],
-  }
+      {
+        path: 'scan',
+        loadChildren: () => import('./scan-qr/scan-qr.module').then( m => m.ScanQrPageModule),
+        data: {}
+      }
+    ]
+  },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class ApikeysRoutingModule {}
+export class ApikeysRoutingModule {
+}

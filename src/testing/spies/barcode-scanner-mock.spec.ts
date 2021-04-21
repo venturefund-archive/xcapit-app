@@ -7,6 +7,6 @@ export const barcodeScannerMock = {
   hideBackground: () => Promise.resolve(),
   showBackground: () => Promise.resolve(),
   stopScan: () => Promise.resolve(),
-  checkPermission: (_options) => Promise.resolve(barcodeScannerMock.permission),
-  startScan: (_options) => Promise.resolve(barcodeScannerMock.result),
+  checkPermission: (options) => Promise.resolve(barcodeScannerMock.permission),
+  startScan: (options) => Promise.resolve(barcodeScannerMock.result)
 };

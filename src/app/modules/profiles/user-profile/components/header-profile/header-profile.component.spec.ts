@@ -27,19 +27,4 @@ describe('HeaderProfileComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  // TODO: Skipped until enable edit photo button, now is hidden.
-  // xit('should call trackEvent on trackService when Edit Profile Photo button clicked', () => {
-  //   component.editing = true;
-  //   fixture.detectChanges();
-  //   const el = trackClickDirectiveHelper.getByElementByName(
-  //     'ion-button',
-  //     'Edit Profile Photo'
-  //   );
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
 });

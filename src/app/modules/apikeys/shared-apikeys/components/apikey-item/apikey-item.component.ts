@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   ControlContainer,
   FormGroupDirective,
@@ -12,7 +12,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-modal.component';
-import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
 
 @Component({
   selector: 'app-apikey-item',
@@ -43,13 +42,13 @@ import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
           <div
             class="cib__main__content__text ux-font-lato ux-fweight-regular ux-fsize-14"
           >
-            <ion-text *ngIf="this.nombre_bot">
+            <ion-text *ngIf="this.fundName">
               <strong class="cib__main__fund_text">{{
                 'apikeys.card_apikeys.content' | translate
               }}</strong>
-              {{ this.nombre_bot }}
+              {{ this.fundName }}
             </ion-text>
-            <ion-text *ngIf="!this.nombre_bot">
+            <ion-text *ngIf="!this.fundName">
               <strong class="cib__main__fund_text">{{
                 'apikeys.card_apikeys.no_fund_text' | translate
               }}</strong>
@@ -60,7 +59,7 @@ import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
 
       <div class="cib__footer">
         <ion-button
-          *ngIf="!this.nombre_bot"
+          *ngIf="!this.fundName"
           appTrackClick
           name="removeButton"
           fill="clear"
@@ -71,18 +70,19 @@ import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
           <ion-icon name="trash-sharp"></ion-icon>
         </ion-button>
         <ion-button
-          *ngIf="!this.nombre_bot"
+          *ngIf="!this.fundName"
           appTrackClick
           name="Manage"
           fill="clear"
           size="small"
           class="cib__footer__more_info ux-font-lato ux-fweight-semibold ux-fsize-14"
+          (click)="this.useApiKey(this.id)"
         >
           {{ 'apikeys.card_apikeys.action' | translate }}
           <ion-icon slot="end" name="ux-forward"></ion-icon>
         </ion-button>
         <ion-text
-          *ngIf="this.nombre_bot"
+          *ngIf="this.fundName"
           class="ux-font-lato ux-fweight-regular ux-fsize-14 cib__footer__used_key"
         >
           {{ 'apikeys.card_apikeys.used_apikey' | translate }}
@@ -100,11 +100,12 @@ import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
 })
 export class ApikeyItemComponent implements OnInit {
   @Input() id: number;
-  @Input() nombre_bot: string;
+  @Input() fundName: string;
   @Input() alias: string;
+  @Output() useButtonClicked: EventEmitter<number> = new EventEmitter<number>();
+  @Output() deletedKey: EventEmitter<number> = new EventEmitter<number>();
   control: AbstractControl;
   constructor(
-    private manageApikeysPage: ManageApikeysPage,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
     private translate: TranslateService,
@@ -124,16 +125,7 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
-
-    modal.onDidDismiss().then(() => {
-      if (data.state == 'success') {
-        this.getAllApiKeys();
-      }
-    });
-
-    modal.present();
-
-    const { data } = await modal.onWillDismiss();
+    await modal.present();
   }
 
   async showAlert(id) {
@@ -165,7 +157,7 @@ export class ApikeyItemComponent implements OnInit {
 
   remove(id) {
     this.apiApikeysService.delete(id).subscribe(
-      () => this.success(),
+      () => this.success(id),
       () => this.error()
     );
   }
@@ -176,16 +168,16 @@ export class ApikeyItemComponent implements OnInit {
     });
   }
 
-  getAllApiKeys() {
-    this.manageApikeysPage.getAllApiKeys();
-  }
-
-  success() {
-    this.getAllApiKeys();
+  success(id: number) {
+    this.deletedKey.emit(id);
     this.showToast('apikeys.card_apikeys.success_toast');
   }
 
   error() {
     this.showToast('errorCodes.remove.error');
+  }
+
+  useApiKey(id: number) {
+    this.useButtonClicked.emit(id);
   }
 }

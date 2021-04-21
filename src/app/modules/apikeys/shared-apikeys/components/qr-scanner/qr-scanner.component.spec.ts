@@ -16,29 +16,28 @@ const QRData = {
   formInvalid:
     '{"apiKey":"kLnBhJuI98745Df32CsX09kN","secretKey":"EvHElKo98JyDeHVfJdSwC45J657Ml4","comment":"My Binance API key"}',
   unparseableString: 'Some random string',
-  invalidJson: '{}',
+  invalidJson: '{}'
 };
 
 describe('QrScannerComponent', () => {
   let component: QrScannerComponent;
   let fixture: ComponentFixture<QrScannerComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<QrScannerComponent>;
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [QrScannerComponent, TrackClickDirective],
         imports: [
           RouterTestingModule.withRoutes([
-            { path: 'apikeys/register', component: DummyComponent },
+            { path: 'apikeys/register', component: DummyComponent }
           ]),
           TranslateModule.forRoot(),
           HttpClientTestingModule,
-          IonicModule,
+          IonicModule
         ],
         providers: [TrackClickDirective],
 
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
     })
   );
@@ -46,11 +45,14 @@ describe('QrScannerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QrScannerComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     component.barcodeScanner = barcodeScannerMock;
     barcodeScannerMock.result.hasContent = true;
     barcodeScannerMock.permission.granted = true;
+    const readQRCodeSpy = spyOn(component, 'readQRCode');
+    readQRCodeSpy.and.returnValue(Promise.resolve());
+    fixture.detectChanges();
+    readQRCodeSpy.and.callThrough();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -183,6 +185,12 @@ describe('QrScannerComponent', () => {
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should emit event on stop scan', () => {
+    const spy = spyOn(component.stoppedScan, 'emit');
+    component.stopQRScan();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });

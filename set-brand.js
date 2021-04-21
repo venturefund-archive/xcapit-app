@@ -113,7 +113,7 @@ const main = () => {
   replaceOnIndex();
   replaceOnManifest();
   setCapacitorAppId();
-  console.log(`\x1b[1m\x1b[32m🔥 ✨${argBrand}✨ is set 🦄 🔥\x1b[39m\x1b[22m`);
+  console.log(`\x1b[1m\x1b[32m🔥 ✨${argBrand} brand✨ is set 🦄 🔥\x1b[39m\x1b[22m`);
   process.exit();
 };
 

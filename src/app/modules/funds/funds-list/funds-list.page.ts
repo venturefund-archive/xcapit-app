@@ -9,6 +9,9 @@ import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webfl
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { LocalStorageService } from '../../../shared/services/local-storage/local-storage.service';
+
 
 @Component({
   selector: 'app-funds-list',
@@ -63,7 +66,6 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           <div [ngClass]="{'fl__user-status': this.status?.status_name !== 'COMPLETE'}" *ngIf="this.status?.status_name !== ''">
               <app-user-status-card [userStatus]="this.status"></app-user-status-card>
           </div>
-
           <ion-refresher
                   (ionRefresh)="doRefresh($event)"
                   slot="fixed"
@@ -89,7 +91,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
               </ion-refresher-content>
           </ion-refresher>
 
-
+                      
           <!-- Fund lists -->
           <div class="fl" *ngIf="this.status?.status_name == 'COMPLETE'">
               <div
@@ -113,9 +115,9 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
                               *ngIf="fb.state == 'active'"
                       ></app-fund-card>
                   </div>
-
                   <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
                       <app-fund-card
+                              [hideFundText]="this.hideFundText"
                               [fund]="fb"
                               *ngIf="fb.state == 'finalizado'"
                       ></app-fund-card>
@@ -163,7 +165,9 @@ export class FundsListPage implements OnInit, OnDestroy {
   news: Array<any>;
   hasNotifications = false;
   lockActivated = false;
-  status: any = {
+  hideFundText: boolean;
+
+  status = {
     profile_valid: false,
     empty_linked_keys: false,
     has_own_funds: false,
@@ -188,7 +192,9 @@ export class FundsListPage implements OnInit, OnDestroy {
     private tabsComponent: TabsComponent,
     private apiWebFlow: ApiWebflowService,
     private notificationsService: NotificationsService,
-    private refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService,
+    private toastService: ToastService,
+    private localStorageService: LocalStorageService
   ) {
   }
 
@@ -202,16 +208,25 @@ export class FundsListPage implements OnInit, OnDestroy {
       });
   }
 
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe(
+      (res) => (this.hideFundText = res)
+    );
+  }
+
+  async hideText() {
+    this.localStorageService.toggleHideFunds();
+  }
 
   async ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
+    this.subscribeOnHideFunds();
     this.getStatus();
     await this.getOwnerFundBalances();
     await this.getNotOwnerFundBalances();
     await this.getNews();
   }
-
 
   initQtyNotifications() {
     this.notificationQtySubscription = this.notificationQtySubject
@@ -256,6 +271,7 @@ export class FundsListPage implements OnInit, OnDestroy {
   goToProfile() {
     this.navController.navigateForward('profiles/user');
   }
+
 
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {

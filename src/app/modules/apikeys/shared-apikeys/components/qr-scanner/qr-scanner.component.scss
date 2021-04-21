@@ -1,12 +1,14 @@
 * {
   box-sizing: border-box;
 }
+
 p {
   color: #fff;
   font-family: sans-serif;
   text-align: center;
   font-weight: 600;
 }
+
 html,
 body,
 .container {
@@ -14,25 +16,31 @@ body,
   height: 100%;
   overflow: hidden;
 }
+
 .container {
   display: flex;
 }
+
 .relative {
   position: relative;
   z-index: 1;
+  padding-bottom: 16px;
 }
+
 .square {
   width: 100%;
   position: relative;
   overflow: hidden;
   transition: 0.3s;
 }
+
 .square:after {
   content: '';
   top: 0;
   display: block;
   padding-bottom: 100%;
 }
+
 .square > div {
   position: absolute;
   top: 0;
@@ -43,15 +51,18 @@ body,
 .surround-cover {
   box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.5);
 }
+
 .barcode-scanner--area--container {
   width: 80%;
   max-width: min(500px, 80vh);
   margin: auto;
 }
+
 .barcode-scanner--area--outer {
   display: flex;
   border-radius: 1em;
 }
+
 .barcode-scanner--area--inner {
   width: 100%;
   margin: 1rem;
@@ -62,8 +73,11 @@ body,
 }
 
 .close-button {
-    margin-top: 80px;
-    --padding-start: 13px;
-    --padding-end: 13px;
+  margin-top: 50px;
+  --padding-start: 13px;
+  --padding-end: 13px;
 }
 
+.center {
+  margin: auto;
+}
