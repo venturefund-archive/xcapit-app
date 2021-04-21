@@ -9,6 +9,7 @@ import { FundPercentageEvolutionChartInterface } from './fund-performance-chart.
         *ngIf="this.fundPercentageEvolution"
         [fundPercentageEvolution]="this.fundPercentageEvolution"
         [interval]="interval"
+        [shareChart]="shareChart"
         [isChart]="isChart"
       ></app-fund-performance-chart>
       <app-ux-loading-block
@@ -23,6 +24,7 @@ export class PerformanceChartCardComponent implements OnInit {
   @Input() fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   @Input() interval: string;
   @Input() isChart: boolean;
+  @Input() shareChart: boolean = false;
 
   constructor() {}
 

@@ -49,6 +49,7 @@ describe('FundDetailPage', () => {
       getPercentageEvolution: of(testPerformance),
       getFundBalances: of(testFund),
       getLastFundRun: of({}),
+      getLastPercentage: of({}),
       getBalance: of({}),
       getFundRuns: of({}),
     });
@@ -94,12 +95,10 @@ describe('FundDetailPage', () => {
     expect(apiFundsSpy.getLastFundRun).toHaveBeenCalledTimes(1);
   });
 
-  // Comentado hasta que se implemente el componente del detalle de cada movimiento
-
-  // it('should call apiFunds.getFundRuns on ionViewWillEnter', () => {
-  //   component.ionViewWillEnter();
-  //   expect(apiFundsSpy.getFundRuns).toHaveBeenCalledTimes(1);
-  // });
+  it('should call apiFunds.getLastPercentage on ionViewWillEnter', () => {
+    component.ionViewWillEnter();
+    expect(apiFundsSpy.getLastPercentage).toHaveBeenCalledTimes(1);
+  });
 
   it('should call apiFunds.getPercentageEvolution on setDelta', () => {
     component.setDelta('1d');

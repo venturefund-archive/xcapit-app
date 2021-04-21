@@ -497,7 +497,15 @@
       "date": "Date",
       "status_closed": "Closed"
     },
+    "fund_timeline": {
+      "active_fund": "Current fund",
+      "finished_fund": "Finished fund",
+      "start_of": "Beginning of "
+    },
     "fund_timeline_detail": {
+      "performance_card": {
+        "performance_label": "Performance"
+      },
       "config_card": {
         "title": "CONFIGURATION",
         "item": {

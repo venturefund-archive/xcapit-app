@@ -501,6 +501,11 @@
       "date": "Fecha",
       "status_closed": "Cerrado"
     },
+    "fund_timeline": {
+      "active_fund": "Fondo actual",
+      "finished_fund": "Fondo finalizado",
+      "start_of": "Inicio de "
+    },
     "fund_timeline_detail": {
       "performance_card": {
         "performance_label": "Rendimiento"

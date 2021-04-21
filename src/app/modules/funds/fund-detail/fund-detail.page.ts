@@ -84,6 +84,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
           [fundPercentageEvolution]="this.fundPercentageEvolution"
           [interval]="this.selectedDelta"
           [isChart]="this.isChart"
+          [shareChart]="true"
         ></app-performance-chart-card>
       </div>
 

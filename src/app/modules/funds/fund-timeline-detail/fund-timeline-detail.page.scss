@@ -7,7 +7,11 @@
     margin-top: 10px;
     font-weight: 500 !important;
   }
+  &__chart-card {
+    margin-bottom: 25px;
+  }
   &__performance-card {
+    margin-bottom: 15px;
     &__content {
       &__item {
         ion-label:last-child {

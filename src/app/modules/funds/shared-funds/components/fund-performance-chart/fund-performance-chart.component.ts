@@ -19,7 +19,7 @@ import * as moment from 'moment';
         <div id="tooltip" class="fund_performance_chart__chart__tooltip"></div>
       </div>
     </div>
-    <div class="share_fund_chart">
+    <div class="share_fund_chart" *ngIf="this.shareChart">
       <ion-button (click)="this.openShareDrawer()" expand="block" fill="clear">
         <ion-icon slot="end" name="ux-share"></ion-icon>
       </ion-button>
@@ -31,6 +31,7 @@ export class FundPerformanceChartComponent implements OnChanges {
   @Input() fundPercentageEvolution: any;
   @Input() interval: string;
   @Input() isChart: boolean;
+  @Input() shareChart: boolean = false;
 
   chart: any;
   limit: string;

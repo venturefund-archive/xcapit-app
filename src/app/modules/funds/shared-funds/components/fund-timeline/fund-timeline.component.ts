@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -38,7 +37,7 @@ import { NavController } from '@ionic/angular';
                 color="uxsemidark"
                 class="ux-font-lato ux-fweight-regular ux-fsize-11"
               >
-                Fondo actual
+                {{ 'funds.fund_timeline.active_fund' | translate }}
               </ion-text>
             </div>
           </div>
@@ -56,7 +55,7 @@ import { NavController } from '@ionic/angular';
                 </ion-label>
               </div>
               <div class="ftl__content__item__content__info__percentage">
-                <ion-label>
+                <ion-label *ngIf="this.run.percentage">
                   <ion-text
                     class="ux-font-lato ux-fweight-semibold ux-fsize-11 positive"
                     *ngIf="this.run.percentage >= 0"
@@ -69,12 +68,6 @@ import { NavController } from '@ionic/angular';
                   >
                     {{ this.run.percentage | number: '1.0-2' }}%
                   </ion-text>
-                  <!-- <ion-text
-                    class="ux-font-lato ux-fweight-regular ux-fsize-10"
-                    color="uxsemidark"
-                  >
-                    / $7.5
-                  </ion-text> -->
                 </ion-label>
               </div>
             </div>
@@ -83,7 +76,7 @@ import { NavController } from '@ionic/angular';
                 color="uxsemidark"
                 class="ux-font-lato ux-fweight-regular ux-fsize-11"
               >
-                Fondo finalizado
+                {{ 'funds.fund_timeline.finished_fund' | translate }}
               </ion-text>
             </div>
           </div>
@@ -98,7 +91,9 @@ import { NavController } from '@ionic/angular';
             <ion-label
               color="uxmedium"
               class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-              >Inicio de {{ this.fundName }}</ion-label
+            >
+              {{ 'funds.fund_timeline.start_of' | translate }}
+              {{ this.fundName }}</ion-label
             >
           </div>
         </div>
@@ -115,6 +110,8 @@ export class FundTimelineComponent implements OnInit {
   ngOnInit() {}
 
   goToDetail(runID) {
-    this.navController.navigateForward([`/funds/fund-timeline-detail/${this.fundName}/${runID}`]);
+    this.navController.navigateForward([
+      `/funds/fund-timeline-detail/${this.fundName}/${runID}`,
+    ]);
   }
 }
