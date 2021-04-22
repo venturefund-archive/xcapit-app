@@ -951,7 +951,8 @@
         "default": "Ha ocurrido un error",
         "cameraAccessDenied": "No se pudo acceder a la cámara. Acceso denegado.",
         "noContentQR": "El código QR no tenía ningún contenido.",
-        "invalidQR": "El código QR no es válido."
+        "invalidQR": "El código QR no es válido.",
+        "creatingFund":"Este Alias ya esta siendo usado"
       },
       "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",

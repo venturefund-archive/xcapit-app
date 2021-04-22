@@ -948,7 +948,8 @@
         "default": "An error has ocurred",
         "cameraAccessDenied": "Couldn't access the camera. Access denied.",
         "noContentQR": "The QR Code didn't had any content.",
-        "invalidQR": "The QR Code is invalid."
+        "invalidQR": "The QR Code is invalid.",
+        "creatingFund":"This Alias ​​is already being used"
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
