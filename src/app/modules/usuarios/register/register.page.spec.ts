@@ -88,6 +88,13 @@ describe('RegisterPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should pass the user email on resendVerificationEmail', () => {
+    const response = { email: 'test@test.com' };
+    const options = jasmine.objectContaining({ state: { email: response.email }});
+    component.success(response);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(jasmine.any(Array), options);
+  });
+
   it('should reset form on success', () => {
     const spy = spyOn(component.registerForm.form, 'reset').and.returnValue(
       null

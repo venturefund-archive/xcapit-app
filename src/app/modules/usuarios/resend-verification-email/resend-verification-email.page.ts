@@ -92,8 +92,8 @@ export class ResendVerificationEmailPage implements OnInit {
     private storage: Storage
   ) {
     this.route.queryParams.subscribe((params) => {
-      const extras = this.router.getCurrentNavigation().extras;
-      if (extras.state && extras.state.email) {
+      const extras = this.router.getCurrentNavigation()?.extras;
+      if (extras?.state && extras?.state.email) {
         this.email = extras.state.email;
         this.updateStorage();
         this.resendEmail();
