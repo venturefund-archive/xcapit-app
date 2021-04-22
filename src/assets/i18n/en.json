@@ -1145,6 +1145,15 @@
         "submit_button": "Save",
         "need_help": "Need help?"
       },
+      "create_apikey":{
+        "header":"API Keys",
+        "title": "Upload my new API keys",
+        "label_apikey":"Api key",
+        "label_secretkey":"Secret key",
+        "placeholder_apikey":"Insert the api key",
+        "placeholder_secretkey":"Insert the secret key",
+        "save_button": "Save" 
+      },
       "edit_modal": {
         "title": "Change Alias",
         "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
