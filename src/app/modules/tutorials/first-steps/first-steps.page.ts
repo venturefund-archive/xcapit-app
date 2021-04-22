@@ -19,14 +19,8 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
           <div class="fs__content_slide">
             <div class="fs__content_slide__image">
               <img
-                src="../../../../assets/img/tutorials/first-steps/welcome/step1.svg"
-                alt="Account Config Image"
-              />
-            </div>
-            <div class="fs__content_slide__bloob">
-            <img
-                src="../../../../assets/img/tutorials/first-steps/welcome/Blobs1.svg"
-                alt="Blob"
+                src="../../../../assets/img/tutorials/first-steps/step1/image1.png"
+                alt="Welcome to Xcapit"
               />
             </div>
             <div class="fs__content_slide__primary_text">
@@ -35,7 +29,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
               </app-ux-title>
             </div>
             <div class="fs__content_slide__secondary_text">
-              <app-ux-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+              <app-ux-text>
                 {{ 'tutorials.first_steps.step1.secondary_text' | translate }}
               </app-ux-text>
             </div>
@@ -74,8 +68,8 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
           <div class="fs__content_slide">
             <div class="fs__content_slide__image">
               <img
-                src="../../../../assets/img/tutorials/first-steps/binance-link/drawable-hdpi/Imagen 5.png"
-                alt="Binance Link Image"
+                src="../../../../assets/img/tutorials/first-steps/step2/image2.png"
+                alt="Mobile Banking"
               />
             </div>
             <div class="fs__content_slide__primary_text">
@@ -127,8 +121,8 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
           <div class="fs__content_slide">
             <div class="fs__content_slide__image">
               <img
-                src="../../../../assets/img/tutorials/first-steps/create-fund/drawable-hdpi/Imagen 7.png"
-                alt="Create Fund Image"
+                src="../../../../assets/img/tutorials/first-steps/step3/image3.png"
+                alt="Security"
               />
             </div>
             <div class="fs__content_slide__primary_text">
@@ -147,16 +141,28 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
                 [total]="this.sliderLength"
               ></app-ux-slide-step-show>
             </div>
-
-            <div class="fs__content_slide__button_config">
+            <div class="fs__content_slide__button_back">
               <ion-button
                 class="ux_button"
                 appTrackClick
-                name="Ion Slide Config Button S3"
+                name="Ion Slide Back Button S3"
+                fill="clear"
                 type="button"
+                color="uxsecondary"
+                (click)="this.slideBack()"
+              >
+                {{ 'tutorials.first_steps.step3.back_button' | translate }}
+              </ion-button>
+            </div>
+            <div class="fs__content_slide__button_next">
+              <ion-button
+                class="ux_button"
+                appTrackClick
+                name="Ion Slide Next Button S3"
+                size="large"
                 expand="block"
                 color="uxsecondary"
-                routerLink="/profiles/personal-data"
+                (click)="this.goToMenu()"
               >
                 {{ 'tutorials.first_steps.step3.config_button' | translate }}
               </ion-button>
@@ -218,5 +224,9 @@ export class FirstStepsPage implements OnInit {
 
   goToEditProfile() {
     this.router.navigate(['profiles/user']);
+  }
+
+  goToMenu(){
+    this.router.navigate(['tabs/funds']);
   }
 }

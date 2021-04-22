@@ -69,7 +69,7 @@ describe('FirstStepsPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call slide back when slideNext is called', () => {
+  it('should call slide next when slideNext is called', () => {
     const spy = spyOn(component.slide, 'slideNext');
     component.slideNext();
     expect(spy).toHaveBeenCalledTimes(1);
