@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
@@ -188,7 +188,7 @@ export class FirstStepsPage implements OnInit {
   userStatusEnum = UserStatus;
 
   constructor(
-    private router: Router,
+    private navController: NavController,
     private apiUsuarios: ApiUsuariosService,
     private loadingService: LoadingService
   ) {}
@@ -223,10 +223,10 @@ export class FirstStepsPage implements OnInit {
   }
 
   goToEditProfile() {
-    this.router.navigate(['profiles/user']);
+    this.navController.navigateForward(['profiles/user']);
   }
 
   goToMenu(){
-    this.router.navigate(['tabs/funds']);
+    this.navController.navigateForward(['tabs/funds']);
   }
 }
