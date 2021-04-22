@@ -147,8 +147,8 @@ import { Currency } from '../shared-funds/enums/currency.enum';
         ></app-fund-portfolio-card>
       </div>
 
-      <!-- Fund Timeline History Card -->
-      <div class="fd__fund-operations-history-card">
+      <!-- Fund Timeline Card -->
+      <div class="fd__fund-operations-history-card" *ngIf="this.fundTimeline">
         <div class="fd__fund-operations-history-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
