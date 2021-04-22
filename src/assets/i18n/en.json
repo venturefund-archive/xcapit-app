@@ -774,23 +774,21 @@
     },
     "first_steps": {
       "step1": {
-        "primary_text": "Set up your profile",
-        "secondary_text": "We will ask you for some information to validate identity and have the necessary information to start operating.",
-        "next_button": "Next",
-        "back_button": "Back",
-        "config_button": "Start setting up"
+        "primary_text": "Welcome to Xcapit",
+        "secondary_text": "Your digital account for all your cryptocurrency needs",
+        "next_button": "Next"
       },
       "step2": {
-        "primary_text": "Link with Binance",
-        "secondary_text": "We operate with the capital of your wallet. We will guide you step by step to link your account.",
+        "primary_text": "You are already part of the future",
+        "secondary_text": "Choose from multiple options to invest in simple steps.",
         "next_button": "Next",
         "back_button": "Back"
       },
       "step3": {
-        "primary_text": "Create your fund",
-        "secondary_text": "You can customize every detail. Once created, you can modify or close the background at any time.",
+        "primary_text": "Your money, your custody",
+        "secondary_text": "We work with Binance, the most secure cryptocurrency exchange in the world. Our algorithms operate on your account, and only you have access to capital withdrawals.",
         "back_button": "Back",
-        "config_button": "Start configuring"
+        "config_button": "Start"
       }
     }
   },

@@ -1,62 +1,67 @@
 :host {
-    .inner-scroll {
-        padding-top: 0px;
-     }
+  .inner-scroll {
+    padding-top: 0px;
+  }
   .fs__parallax_bg {
     margin-top: -65%;
     position: absolute;
     margin-left: 50%;
     width: 2000px;
     height: 2000px;
-    background-image: url(../../../../assets/img/tutorials/first-steps/parallax-bg.svg);
   }
+
   .fs {
     &__content_slide {
-        width: 100vw;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        &__image {
-            width: 70%;   
-        }
-        &__primary_text {
-            margin-left: 16px;
-            margin-right: 16px;
-            margin-top: 24px;
-        }
-        &__secondary_text {
-            margin-left: 16px;
-            margin-right: 16px;
-            margin-top: 16px;
-        }
-        &__button_next{
-            position: absolute;
-            bottom:16px;
-            right: 16px;
-            min-width: 116px;
-        }
-        &__button_back{
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            min-width: 116px;
-        }
-        &__button_config {
-            position: absolute;
-            width: 100%;
-            bottom: 16px;
-            padding-left: 16px;
-            padding-right: 16px;
-        }
+      width: 100vw;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
 
-        &__slide_step_show {
-            margin-top: 24px;
-        }
+      &__image { 
+        min-width: auto;
+        height: auto;
+      }
+
+      &__primary_text {
+        bottom: 50% !important;
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: 20px ;
+      }
+      &__secondary_text {
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: 20px;
+      }
+
+      &__button_next {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        min-width: 116px;
+      }
+      &__button_back {
+        position: absolute;
+        bottom: 16px;
+        left: 16px;
+        min-width: 116px;
+      }
+      &__button_config {
+        position: absolute;
+        width: 100%;
+        bottom: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      &__slide_step_show {
+        margin-top: 24px;
+      }
     }
   }
   .swiper-container {
-      height: 100%;
+    height: 100%;
   }
 }

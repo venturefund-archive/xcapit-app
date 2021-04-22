@@ -777,21 +777,21 @@
     },
     "first_steps": {
       "step1": {
-        "primary_text": "Configura tu perfil",
-        "secondary_text": "Te pediremos algunos datos para validar tu identidad y tener información necesaria para poder comenzar a operar.",
+        "primary_text": "Bienvenido a Xcapit",
+        "secondary_text": "Tu cuenta digital para todas tus necesidades en criptomonedas",
         "next_button": "Siguiente"
       },
       "step2": {
-        "primary_text": "Vincula con Binance",
-        "secondary_text": "Operamos sobre el capital de tu billetera. Te guiaremos paso a paso para vincular tu cuenta.",
+        "primary_text": "Ya eres parte del futuro",
+        "secondary_text": "Elige entre múltiples opciones para invertir en simples pasos",
         "next_button": "Siguiente",
         "back_button": "Anterior"
       },
       "step3": {
-        "primary_text": "Crea tu fondo",
-        "secondary_text": "Puedes personalizar cada detalle. Una vez creado podrás modificar o cerrar el fondo en cualquier momento.",
+        "primary_text": "Tu dinero, tu custodia",
+        "secondary_text": "Trabajamos con Binance, el exchange de criptomonedas más seguro del mundo. Nuestros algoritmos operan sobre tu cuenta, y sólo tu tienes acceso de retiros de capital.",
         "back_button": "Anterior",
-        "config_button": "Comenzar a configurar"
+        "config_button": "Comenzar"
       }
     }
   },
