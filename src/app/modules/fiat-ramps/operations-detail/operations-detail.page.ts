@@ -73,9 +73,6 @@ import { NavController } from '@ionic/angular';
         </div>
 
         <div *ngIf="!this.hasVoucher">
-
-          <!-- agregar comprobante -->
-
           <ion-button
             class="ux_button"
             appTrackClick
@@ -94,10 +91,6 @@ import { NavController } from '@ionic/angular';
               <img [src]="this.comprobante.dataUrl" alt="" />
             </div> 
           </ion-button>
-
-          <!-- agregar tx hash / Se eliminó por no utilizar la venta por el momento -->
-
-
 
           <div class="ux_footer" *ngIf="this.comprobante">
             <app-ux-loading-block
@@ -184,9 +177,6 @@ export class OperationsDetailPage implements OnInit {
   async calcCotizacion() {
     let first_amount = 0;
     let second_amount = 0;
-
-    // Esto no se puede calcular correctamente 
-    // hasta q no se solucione el tema de los floats
 
     first_amount = Number(this.operation.amount_in);
     second_amount = Number(this.operation.amount_out);
