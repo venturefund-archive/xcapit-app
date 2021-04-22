@@ -23,3 +23,4 @@ export const environment = {
   },
   appUrl: 'https://dummy.xcapit.com/'
 };
+
