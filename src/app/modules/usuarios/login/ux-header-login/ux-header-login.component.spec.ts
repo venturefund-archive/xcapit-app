@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UxHeaderLoginComponent } from './ux-header-login.component';
 
@@ -7,7 +7,7 @@ describe('UxHeaderLoginComponent', () => {
   let component: UxHeaderLoginComponent;
   let fixture: ComponentFixture<UxHeaderLoginComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UxHeaderLoginComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

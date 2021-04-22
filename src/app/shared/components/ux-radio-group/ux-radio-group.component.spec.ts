@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UxRadioGroupComponent } from './ux-radio-group.component';
 
@@ -7,7 +7,7 @@ describe('UxRadioGroupComponent', () => {
   let component: UxRadioGroupComponent;
   let fixture: ComponentFixture<UxRadioGroupComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UxRadioGroupComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

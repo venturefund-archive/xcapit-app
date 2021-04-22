@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundStopLossComponent } from './fund-stop-loss.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -29,7 +29,7 @@ describe('FundStopLossComponent', () => {
   let apiFundsService: any;
   let modalControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiFundsMock = {
       getMostChosenSL: () => of(10),
     };

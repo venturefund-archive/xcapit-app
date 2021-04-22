@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterEvent } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { AuthService } from '../../usuarios/shared-usuarios/services/auth/auth.service';
 import { Plugins } from '@capacitor/core';
+import { LanguageService } from '../../../shared/services/language/language.service';
+import { UxSelectModalComponent } from '../../../shared/components/ux-select-modal/ux-select-modal.component';
+import { TranslateService } from '@ngx-translate/core';
 
 const { Browser } = Plugins;
+
 @Component({
   selector: 'app-main-menu',
   template: `
@@ -13,31 +16,49 @@ const { Browser } = Plugins;
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'app.main_menu.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{
+          'app.main_menu.header' | translate
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content>
       <ion-list>
-        <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p.elementClick)" >
-          <ion-item class="item-style"
+        <div
+          *ngFor="let p of appPages; trackBy: this.trackBy"
+          (click)="this.clickAction(p.elementClick)"
+        >
+          <ion-item
+            class="item-style"
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
             [routerDirection]="p.routeDirection"
             [routerLink]="[p.url]"
-            replaceUrl=true
+            replaceUrl="true"
           >
-            <ion-icon
-              *ngIf="p.icon"
-              slot="start"
-              [name]="p.icon"
-            ></ion-icon>
+            <ion-icon *ngIf="p.icon" slot="start" [name]="p.icon"></ion-icon>
             <ion-label>
               {{ p.title | translate }}
             </ion-label>
           </ion-item>
         </div>
-        <ion-item class="item-style"
+        <ion-item
+          detail
+          class="item-style"
+          appTrackClick
+          [dataToTrack]="{
+            eventLabel: 'Change Language',
+            description: 'sideMenu'
+          }"
+          (click)="this.changeLanguage()"
+        >
+          <ion-icon slot="start" name="globe-outline"></ion-icon>
+          <ion-label>
+            {{ 'app.main_menu.change_language' | translate }}
+          </ion-label>
+        </ion-item>
+        <ion-item
+          class="item-style"
           appTrackClick
           [dataToTrack]="{
             eventLabel: 'Logout',
@@ -45,7 +66,7 @@ const { Browser } = Plugins;
           }"
           (click)="this.logout()"
         >
-          <ion-icon slot="start" name="log-out" ></ion-icon>
+          <ion-icon slot="start" name="log-out"></ion-icon>
           <ion-label>
             {{ 'app.main_menu.logout' | translate }}
           </ion-label>
@@ -56,35 +77,34 @@ const { Browser } = Plugins;
   styleUrls: ['./main-menu.page.scss'],
 })
 export class MainMenuPage implements OnInit {
-
   public appPages = [
     {
       id: 1,
       title: 'app.main_menu.funds',
       url: '/tabs/funds',
       icon: 'trending-up',
-      routeDirection: 'root'
+      routeDirection: 'root',
     },
     {
       id: 2,
-      title: 'Mis fondos finalizados',
+      title: 'funds.funds_finished.header',
       url: '/funds/funds-finished',
       icon: 'film',
-      routeDirection: 'forward'
+      routeDirection: 'forward',
     },
     {
       id: 3,
       title: 'app.main_menu.user_profile',
       url: '/profiles/user',
       icon: 'person',
-      routeDirection: 'forward'
+      routeDirection: 'forward',
     },
     {
       id: 4,
       title: 'app.main_menu.deposit_address',
       url: '/deposits/currency',
       icon: 'journal',
-      routeDirection: 'forward'
+      routeDirection: 'forward',
     },
     /*{
       id: 4,
@@ -99,7 +119,7 @@ export class MainMenuPage implements OnInit {
       url: '/tabs/funds',
       icon: 'help-circle-outline',
       routeDirection: 'forward',
-      elementClick: 'openTutorials'
+      elementClick: 'openTutorials',
     },
     {
       id: 6,
@@ -113,31 +133,40 @@ export class MainMenuPage implements OnInit {
       title: 'app.main_menu.password_change',
       url: '/users/password-change',
       icon: 'key',
-      routeDirection: 'forward'
+      routeDirection: 'forward',
     },
     {
       id: 8,
       title: 'app.main_menu.referrals',
       url: '/referrals/list',
       icon: 'people',
-      routeDirection: 'root'
+      routeDirection: 'root',
     },
     {
       id: 9,
       title: 'app.main_menu.notifications',
       url: '/notifications/list',
       icon: 'notifications-outline',
-      routeDirection: 'root'
-    }
+      routeDirection: 'root',
+    },
+    // {
+    //   id: 9,
+    //   title: 'app.main_menu.api_keys_managment',
+    //   url: '/apikeys/list',
+    //   icon: 'cog',
+    //   routeDirection: 'root',
+    // },
   ];
 
   constructor(
     private authService: AuthService,
-    private router: Router,
+    private language: LanguageService,
+    private translate: TranslateService,
+    private modalController: ModalController,
     public navController: NavController
-  ) { 
+  ) {
     Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/']
+      urls: ['https://www.info.xcapit.com/'],
     });
   }
 
@@ -151,13 +180,35 @@ export class MainMenuPage implements OnInit {
 
   async logout() {
     await this.authService.logout();
-    this.navController.navigateRoot('users/login');
+    await this.navController.navigateRoot('users/login');
   }
 
-  async clickAction(element) {
-    if(element === 'openTutorials') {
-      await Browser.open({ toolbarColor:"#ff9100", url: 'https://www.info.xcapit.com/' });
+  async changeLanguage() {
+    const modal = await this.modalController.create({
+      component: UxSelectModalComponent,
+      componentProps: {
+        title: this.translate.instant('app.main_menu.change_language'),
+        data: this.language.getLanguages(),
+        keyName: 'text',
+        valueName: 'value',
+        selected: this.language.selected,
+      },
+      cssClass: 'ux_modal_crm',
+    });
+
+    await modal.present();
+    const data = await modal.onDidDismiss();
+    if (data.role === 'selected') {
+      this.language.setLanguage(data.data);
     }
   }
 
+  async clickAction(element) {
+    if (element === 'openTutorials') {
+      await Browser.open({
+        toolbarColor: '#ff9100',
+        url: 'https://www.info.xcapit.com/',
+      });
+    }
+  }
 }

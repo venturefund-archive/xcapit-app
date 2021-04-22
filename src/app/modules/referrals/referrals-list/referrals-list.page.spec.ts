@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReferralsListPage } from './referrals-list.page';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -29,7 +29,7 @@ describe('ReferralsListPage', () => {
     referral_id: 'test',
     profile: {}
   };
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     ionInfiniteScrollMock = {
       complete: () => true,
       disabled: true

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
-import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 
@@ -57,9 +56,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
               color="uxsecondary"
               size="large"
               routerLink="/apikeys/insert-key"
-              [disabled]="
-                (this.submitButtonService.isDisabled | async)
-              "
+              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'apikeys.insert_key.next_button' | translate }}
             </ion-button>
@@ -68,11 +65,11 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
       </form>
     </ion-content>
   `,
-  styleUrls: ['./insert-key.page.scss']
+  styleUrls: ['./insert-key.page.scss'],
 })
 export class InsertKeyPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    api_key: ['', [Validators.required]]
+    api_key: ['', [Validators.required]],
   });
 
   constructor(

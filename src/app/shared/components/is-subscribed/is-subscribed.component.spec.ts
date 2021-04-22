@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IsSubscribedComponent } from './is-subscribed.component';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
@@ -15,7 +15,7 @@ describe('IsSubscribedComponent', () => {
   let apiFundsServiceSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', [
       'isSubscribed'
     ]);

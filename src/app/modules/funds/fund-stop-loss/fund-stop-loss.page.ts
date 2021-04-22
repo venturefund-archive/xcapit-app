@@ -64,7 +64,7 @@ export class FundStopLossPage implements OnInit {
       ...(await this.fundDataStorage.getFund()),
       ...data,
     };
-    fund.risk_level = `${fund.risk_level}_${fund.currency}`;
+    fund.risk_level = `${fund.risk_level}`;
     if (this.opType === 'renew') {
       this.apiFunds.renewFund(fund).subscribe(() => this.success());
     } else {
