@@ -4,6 +4,7 @@ import { UserProfileDataGuard } from '../profiles/shared-profiles/guards/user-pr
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 import { TacAcceptedGuard } from '../terms-and-conditions/shared-terms-and-conditions/guards/tac-accepted/tac-accepted.guard';
 import { IsSubscribedGuard } from '../subscriptions/shared-subscriptions/guards/is-subscribed/is-subscribed.guard';
+import { IsOwnerGuard } from '../funds/shared-funds/guards/is-owner-guard/is-owner.guard';
 import { BeforeStepDataGuard } from './shared-funds/guards/before-steps-data-guard/before-step-data.guard';
 
 export const routes: Routes = [
@@ -127,6 +128,7 @@ export const routes: Routes = [
       },
       {
         path: 'fund-timeline-detail/:fundName/:runID',
+        canActivate: [IsOwnerGuard],
         loadChildren: () =>
           import('./fund-timeline-detail/fund-timeline-detail.module').then(
             (m) => m.FundTimelineDetailPageModule
