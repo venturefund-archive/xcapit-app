@@ -105,13 +105,17 @@ import { NavController } from '@ionic/angular';
 export class FundTimelineComponent implements OnInit {
   @Input() runs: any;
   @Input() fundName: string;
+  @Input() isOwner: boolean;
+
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
   goToDetail(runID) {
-    this.navController.navigateForward([
-      `/funds/fund-timeline-detail/${this.fundName}/${runID}`,
-    ]);
+    if (this.isOwner == true) {
+      this.navController.navigateForward([
+        `/funds/fund-timeline-detail/${this.fundName}/${runID}`,
+      ]);
+    }
   }
 }

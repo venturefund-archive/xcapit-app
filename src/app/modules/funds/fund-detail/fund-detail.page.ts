@@ -160,6 +160,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
         <app-fund-timeline
           [runs]="this.fundTimeline"
           [fundName]="this.fundName"
+          [isOwner]="this.isOwner"
         ></app-fund-timeline>
       </div>
     </ion-content>
