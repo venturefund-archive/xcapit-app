@@ -2,13 +2,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click-unauth/track-click-unauth.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
+import { AuthFormComponent } from '../../usuarios/shared-usuarios/components/auth-form/auth-form.component';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
 
 import { CreateTicketPage } from './create-ticket.page';
@@ -26,11 +29,21 @@ const formData = {
   },
 };
 
+const extras = {
+  extras: {
+    state: {
+      email: 'test@test.com',
+    },
+  },
+};
+
 describe('CreateTicketPage', () => {
   let component: CreateTicketPage;
   let fixture: ComponentFixture<CreateTicketPage>;
   let apiTicketsMock: any;
   let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<CreateTicketPage>;
+  let activatedRouteMock: any;
+  let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
@@ -39,10 +52,18 @@ describe('CreateTicketPage', () => {
       };
       apiTicketsMock.crud.create.and.returnValue(of({}));
 
+      activatedRouteMock = {
+        queryParams: new Subject(),
+      };
+      navControllerSpy = jasmine.createSpyObj(
+        'NavController',
+        navControllerMock
+      );
       TestBed.configureTestingModule({
         declarations: [
           DummyComponent,
           CreateTicketPage,
+          AuthFormComponent,
           TrackClickUnauthDirective,
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -61,9 +82,18 @@ describe('CreateTicketPage', () => {
         ],
         providers: [
           TrackClickUnauthDirective,
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: ApiTicketsService, useValue: apiTicketsMock },
         ],
       }).compileComponents();
+
+      var router = TestBed.inject(Router);
+      var currentNavigation = router.getCurrentNavigation();
+      spyOn(
+        router,
+        'getCurrentNavigation'
+      ).and.returnValue({ ...currentNavigation, ...extras });
 
       fixture = TestBed.createComponent(CreateTicketPage);
       component = fixture.componentInstance;
@@ -76,6 +106,11 @@ describe('CreateTicketPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should fill form with user email if redirected from resend verification email', () => {
+    activatedRouteMock.queryParams.next();
+    expect(component.form.value.email).toEqual(extras.extras.state.email);
   });
 
   it('should call createTicket on handleSubmit if formData valid', () => {

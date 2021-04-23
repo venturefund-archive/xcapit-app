@@ -4,8 +4,8 @@ import { SuccessRegisterPage } from './success-register.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, provideRoutes, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 
 const extras = {

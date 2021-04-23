@@ -22,7 +22,7 @@ const extras = {
   },
 };
 
-fdescribe('ResendVerificationEmailPage', () => {
+describe('ResendVerificationEmailPage', () => {
   let component: ResendVerificationEmailPage;
   let fixture: ComponentFixture<ResendVerificationEmailPage>;
   let apiUsuariosServiceSpy: any;
@@ -131,36 +131,107 @@ fdescribe('ResendVerificationEmailPage', () => {
     fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
   });
 
-  it('should call startTimer if page was reloaded and there is user data in storage', () => {
-    const spy = spyOn(component, 'startTimer');
+  it('should call startTimer if page was reloaded and there is user data in storage', async () => {
+    const spy = spyOn(component, 'startTimer').and.returnValue(
+      Promise.resolve()
+    );
     getCurrentNavigationSpy.and.returnValue(currentNavigation);
     storageSpy.get
       .withArgs('email')
-      .and.returnValue(Promise.resolve('test@test.com'))
+      .and.returnValue(Promise.resolve(extras.extras.state.email))
       .withArgs('numberOfResends')
       .and.returnValue(Promise.resolve(1));
     activatedRouteMock.queryParams.next();
-
+    await fixture.whenStable();
     fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
   });
 
-  it('should get data from storage if page was reloaded and there is user data in storage', () => {});
+  it('should get data from storage if page was reloaded and there is user data in storage', async () => {
+    getCurrentNavigationSpy.and.returnValue(currentNavigation);
+    storageSpy.get
+      .withArgs('email')
+      .and.returnValue(Promise.resolve(extras.extras.state.email))
+      .withArgs('numberOfResends')
+      .and.returnValue(Promise.resolve(1));
+    activatedRouteMock.queryParams.next();
+    await fixture.whenStable();
+    fixture
+      .whenStable()
+      .then(() => expect(component.email).toBe(extras.extras.state.email));
+  });
 
-  it('should show Create Ticket Button if page was reloaded and user made 3 or more resends', () => {});
+  it('should show Create Ticket Button if page was reloaded and user made 3 or more resends', async () => {
+    getCurrentNavigationSpy.and.returnValue(currentNavigation);
+    storageSpy.get
+      .withArgs('email')
+      .and.returnValue(Promise.resolve(extras.extras.state.email))
+      .withArgs('numberOfResends')
+      .and.returnValue(Promise.resolve(3));
+    activatedRouteMock.queryParams.next();
+    await fixture.whenStable();
+    fixture
+      .whenStable()
+      .then(() => expect(component.hideSendTicket).toBeFalse());
+  });
 
-  it('should disable resend button if page was reloaded and there is user data in storage', () => {});
+  it('should disable Resend Verification Email Button if page was reloaded and there is user data in storage', async () => {
+    getCurrentNavigationSpy.and.returnValue(currentNavigation);
+    storageSpy.get
+      .withArgs('email')
+      .and.returnValue(Promise.resolve(extras.extras.state.email))
+      .withArgs('numberOfResends')
+      .and.returnValue(Promise.resolve(1));
+    activatedRouteMock.queryParams.next();
+    await fixture.whenStable();
+    fixture
+      .whenStable()
+      .then(() => expect(component.disableResendEmail).toBeTrue());
+  });
 
-  it('should not call resendEmailValidation if page was reloaded and there is user data in storage', () => {});
+  it('should not call resendEmailValidation if page was reloaded and there is user data in storage', async () => {
+    getCurrentNavigationSpy.and.returnValue(currentNavigation);
+    storageSpy.get
+      .withArgs('email')
+      .and.returnValue(Promise.resolve(extras.extras.state.email))
+      .withArgs('numberOfResends')
+      .and.returnValue(Promise.resolve(1));
+    activatedRouteMock.queryParams.next();
+    await fixture.whenStable();
+    fixture
+      .whenStable()
+      .then(() =>
+        expect(
+          apiUsuariosServiceSpy.resendEmailValidation
+        ).toHaveBeenCalledTimes(0)
+      );
+  });
 
-  it('should not call resendEmailValidation if page was reloaded and there is user data in storage', () => {});
+  it('should call clearStorage when close is called', () => {
+    const spy = spyOn(component, 'clearStorage');
+    component.close();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
-  it('should clear storage when close is called', () => {});
+  it('should call clearStorage when openTicket is called', () => {
+    const spy = spyOn(component, 'clearStorage');
+    component.openTicket();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
-  it('should clear storage when openTicket is called', () => {});
+  it('should remove all keys on clearStorage', () => {
+    component.clearStorage();
+    expect(storageSpy.remove).toHaveBeenCalledWith('email');
+    expect(storageSpy.remove).toHaveBeenCalledWith('numberOfResends');
+  });
 
-  it('should remove all keys on clearStorage', () => {});
-
-  it('should pass user email on openTicket', () => {});
+  it('should pass user email on openTicket', () => {
+    component.email = extras.extras.state.email;
+    component.openTicket();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+      jasmine.any(Array),
+      jasmine.objectContaining(extras.extras)
+    );
+  });
 
   it('should enable resend button when timerSeconds reaches 0', () => {
     component.resendEmail();
