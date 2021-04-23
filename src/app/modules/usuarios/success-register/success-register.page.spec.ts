@@ -11,10 +11,10 @@ import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 const extras = {
   extras: {
     state: {
-      email: 'test@test.com'
-    }
-  }
-}
+      email: 'test@test.com',
+    },
+  },
+};
 
 describe('SuccessRegisterPage', () => {
   let component: SuccessRegisterPage;
@@ -25,9 +25,12 @@ describe('SuccessRegisterPage', () => {
   beforeEach(
     waitForAsync(() => {
       activatedRouteMock = {
-        queryParams: new Subject()
+        queryParams: new Subject(),
       };
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy = jasmine.createSpyObj(
+        'NavController',
+        navControllerMock
+      );
 
       TestBed.configureTestingModule({
         declarations: [SuccessRegisterPage, DummyComponent],
@@ -46,7 +49,10 @@ describe('SuccessRegisterPage', () => {
 
       var router = TestBed.inject(Router);
       var currentNavigation = router.getCurrentNavigation();
-      spyOn(router, 'getCurrentNavigation').and.returnValue({...currentNavigation, ...extras});
+      spyOn(router, 'getCurrentNavigation').and.returnValue({
+        ...currentNavigation,
+        ...extras,
+      });
 
       fixture = TestBed.createComponent(SuccessRegisterPage);
       component = fixture.componentInstance;
@@ -66,10 +72,13 @@ describe('SuccessRegisterPage', () => {
   it('should pass the user email on resendVerificationEmail', () => {
     activatedRouteMock.queryParams.next();
     component.resendVerificationEmail();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(jasmine.any(Array), jasmine.objectContaining(extras.extras));
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+      jasmine.any(Array),
+      jasmine.objectContaining(extras.extras)
+    );
   });
 
-  it ('should get the user email when created', () => {
+  it('should get the user email when created', () => {
     activatedRouteMock.queryParams.next();
     expect(component.email).toEqual(extras.extras.state.email);
   });

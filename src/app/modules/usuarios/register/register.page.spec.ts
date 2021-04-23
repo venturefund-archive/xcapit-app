@@ -20,48 +20,54 @@ describe('RegisterPage', () => {
   let component: RegisterPage;
   let fixture: ComponentFixture<RegisterPage>;
   let apiUsuariosMock: any;
-  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<
-    RegisterPage
-  >;
+  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<RegisterPage>;
   let activatedRouteMock: any;
   let navControllerSpy: any;
   let alertControllerSpy: any;
-  beforeEach(waitForAsync(() => {
-    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
-    apiUsuariosMock = {
-      crud: {
-        create: (data: any) => of(data)
-      }
-    };
-    activatedRouteMock = {};
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [
-        DummyComponent,
-        RegisterPage,
-        AuthFormComponent,
-        TrackClickUnauthDirective
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([
-          { path: 'users/login', component: DummyComponent },
-          { path: 'users/success-register', component: DummyComponent }
-        ]),
-        ReactiveFormsModule,
-        IonicModule
-      ],
-      providers: [
-        TrackClickUnauthDirective,
-        { provide: ApiUsuariosService, useValue: apiUsuariosMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: AlertController, useValue: alertControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      alertControllerSpy = jasmine.createSpyObj(
+        'AlertController',
+        alertControllerMock
+      );
+      apiUsuariosMock = {
+        crud: {
+          create: (data: any) => of(data),
+        },
+      };
+      activatedRouteMock = {};
+      navControllerSpy = jasmine.createSpyObj(
+        'NavController',
+        navControllerMock
+      );
+      TestBed.configureTestingModule({
+        declarations: [
+          DummyComponent,
+          RegisterPage,
+          AuthFormComponent,
+          TrackClickUnauthDirective,
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([
+            { path: 'users/login', component: DummyComponent },
+            { path: 'users/success-register', component: DummyComponent },
+          ]),
+          ReactiveFormsModule,
+          IonicModule,
+        ],
+        providers: [
+          TrackClickUnauthDirective,
+          { provide: ApiUsuariosService, useValue: apiUsuariosMock },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: AlertController, useValue: alertControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterPage);
@@ -90,16 +96,21 @@ describe('RegisterPage', () => {
 
   it('should pass the user email on resendVerificationEmail', () => {
     const response = { email: 'test@test.com' };
-    const options = jasmine.objectContaining({ state: { email: response.email }});
+    const options = jasmine.objectContaining({
+      state: { email: response.email },
+    });
     component.success(response);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(jasmine.any(Array), options);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+      jasmine.any(Array),
+      options
+    );
   });
 
   it('should reset form on success', () => {
     const spy = spyOn(component.registerForm.form, 'reset').and.returnValue(
       null
     );
-    component.success("test");
+    component.success('test');
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -148,7 +159,6 @@ describe('RegisterPage', () => {
     expect(setEmailSpy).toHaveBeenCalledTimes(1);
   });
 
-
   it('should call alert controller create when showWhiteListAlert is called', () => {
     component.showWhiteListAlert();
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -169,12 +179,16 @@ describe('RegisterPage', () => {
       activatedRouteMock.snapshot = {
         paramMap: convertToParamMap({
           code: 'asfd12',
-          email: 'dGVzdEB0ZXN0LmNvbQ==' // test@test.com
-        })
+          email: 'dGVzdEB0ZXN0LmNvbQ==', // test@test.com
+        }),
       };
       component.ionViewWillEnter();
-      expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
-      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
+      expect(component.registerForm.form.get('referral_code').value).toEqual(
+        'asfd12'
+      );
+      expect(
+        component.registerForm.form.get('manual_referral').value
+      ).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual(
         'test@test.com'
       );
@@ -184,12 +198,16 @@ describe('RegisterPage', () => {
       activatedRouteMock.snapshot = {
         paramMap: convertToParamMap({
           code: 'asfd12',
-          email: 'dGVzdEB0ZXN0LmNvb'
-        })
+          email: 'dGVzdEB0ZXN0LmNvb',
+        }),
       };
       component.ionViewWillEnter();
-      expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
-      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
+      expect(component.registerForm.form.get('referral_code').value).toEqual(
+        'asfd12'
+      );
+      expect(
+        component.registerForm.form.get('manual_referral').value
+      ).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual('');
     });
   });

@@ -90,10 +90,10 @@ describe('CreateTicketPage', () => {
 
       var router = TestBed.inject(Router);
       var currentNavigation = router.getCurrentNavigation();
-      spyOn(
-        router,
-        'getCurrentNavigation'
-      ).and.returnValue({ ...currentNavigation, ...extras });
+      spyOn(router, 'getCurrentNavigation').and.returnValue({
+        ...currentNavigation,
+        ...extras,
+      });
 
       fixture = TestBed.createComponent(CreateTicketPage);
       component = fixture.componentInstance;
