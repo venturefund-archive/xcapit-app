@@ -3,6 +3,7 @@ import { FormGroupDirective } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { NavController } from '@ionic/angular';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
+import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 
 @Component({
   selector: 'app-fund-stop-loss',
@@ -42,7 +43,8 @@ export class FundStopLossPage implements OnInit {
   constructor(
     protected fundDataStorage: FundDataStorageService,
     protected navController: NavController,
-    protected apiFunds: ApiFundsService
+    protected apiFunds: ApiFundsService,
+    private storageApiKeysService: StorageApikeysService
   ) {}
 
   ngOnInit(){}
@@ -63,6 +65,7 @@ export class FundStopLossPage implements OnInit {
     const fund = {
       ...(await this.fundDataStorage.getFund()),
       ...data,
+      api_key_id: this.storageApiKeysService.data.id
     };
     fund.risk_level = `${fund.risk_level}`;
     if (this.opType === 'renew') {
@@ -82,12 +85,12 @@ export class FundStopLossPage implements OnInit {
       {
         replaceUrl: true,
       }
-    );
+    ).then();
   }
 
   async error(e) {
-    if (e.error.error_code == 'funds.create.fundNameExists') {
-      this.navController.navigateBack(['funds/fund-name']);
+    if (e.error.error_code === 'funds.create.fundNameExists') {
+      this.navController.navigateBack(['funds/fund-name']).then();
     }
   }
 }
