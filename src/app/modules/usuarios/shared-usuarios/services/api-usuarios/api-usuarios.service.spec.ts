@@ -68,8 +68,8 @@ describe('ApiUsuariosService', () => {
     });
   });
 
-  it('should be call post on http when resendEmailValidation', () => {
-    service.resendEmailValidation('').subscribe(() => {
+  it('should be call post on http when sendEmailValidationByEmail', () => {
+    service.sendEmailValidationByEmail('').subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });

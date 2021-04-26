@@ -45,9 +45,9 @@ export class ApiUsuariosService {
     );
   }
 
-  resendEmailValidation(email: string): Observable<any> {
+  sendEmailValidationByEmail(email: string): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}/${this.entity}/resend_email_validation`,
+      `${environment.apiUrl}/${this.entity}/send_email_validation_by_email`,
       {
         email
       }

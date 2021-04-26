@@ -154,15 +154,18 @@ export class ResendVerificationEmailPage implements OnInit {
     this.navController.navigateBack(['/users/login']);
   }
 
-  resendEmail() {
-    this.startTimer();
-
+  async resendEmail() {
+    this.disableResendEmail = true;
     this.numberOfResends++;
     this.updateNumberOfResendsStorage();
-
     this.canShowCreateTicket();
 
-    this.apiUsuariosService.resendEmailValidation(this.email).subscribe();
+    this.apiUsuariosService.sendEmailValidationByEmail(this.email).subscribe(
+      () => {
+        this.startTimer();
+      },
+      () => (this.disableResendEmail = false)
+    );
   }
 
   openTicket() {

@@ -36,9 +36,9 @@ describe('ResendVerificationEmailPage', () => {
   beforeEach(
     waitForAsync(() => {
       apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
-        'resendEmailValidation',
+        'sendEmailValidationByEmail',
       ]);
-      apiUsuariosServiceSpy.resendEmailValidation.and.returnValue(
+      apiUsuariosServiceSpy.sendEmailValidationByEmail.and.returnValue(
         new Observable()
       );
       activatedRouteMock = {
@@ -109,17 +109,17 @@ describe('ResendVerificationEmailPage', () => {
     );
   });
 
-  it('should call resendEmailValidation if redirected from success-register', () => {
+  it('should call sendEmailValidationByEmail if redirected from success-register', () => {
     activatedRouteMock.queryParams.next();
-    expect(apiUsuariosServiceSpy.resendEmailValidation).toHaveBeenCalledTimes(
+    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(
       1
     );
   });
 
-  it('should not call resendEmailValidation if page was reloaded', () => {
+  it('should not call sendEmailValidationByEmail if page was reloaded', () => {
     getCurrentNavigationSpy.and.returnValue(currentNavigation);
     activatedRouteMock.queryParams.next();
-    expect(apiUsuariosServiceSpy.resendEmailValidation).toHaveBeenCalledTimes(
+    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(
       0
     );
   });
@@ -160,13 +160,13 @@ describe('ResendVerificationEmailPage', () => {
       .then(() => expect(component.email).toBe(extras.extras.state.email));
   });
 
-  it('should show Create Ticket Button if page was reloaded and user made 3 or more resends', async () => {
+  it('should show Create Ticket Button if page was reloaded and user made minimumNumberOfTriesForTicket or more resends', async () => {
     getCurrentNavigationSpy.and.returnValue(currentNavigation);
     storageSpy.get
       .withArgs('email')
       .and.returnValue(Promise.resolve(extras.extras.state.email))
       .withArgs('numberOfResends')
-      .and.returnValue(Promise.resolve(3));
+      .and.returnValue(Promise.resolve(component.minimumNumberOfTriesForTicket));
     activatedRouteMock.queryParams.next();
     await fixture.whenStable();
     fixture
@@ -188,7 +188,7 @@ describe('ResendVerificationEmailPage', () => {
       .then(() => expect(component.disableResendEmail).toBeTrue());
   });
 
-  it('should not call resendEmailValidation if page was reloaded and there is user data in storage', async () => {
+  it('should not call sendEmailValidationByEmail if page was reloaded and there is user data in storage', async () => {
     getCurrentNavigationSpy.and.returnValue(currentNavigation);
     storageSpy.get
       .withArgs('email')
@@ -201,7 +201,7 @@ describe('ResendVerificationEmailPage', () => {
       .whenStable()
       .then(() =>
         expect(
-          apiUsuariosServiceSpy.resendEmailValidation
+          apiUsuariosServiceSpy.sendEmailValidationByEmail
         ).toHaveBeenCalledTimes(0)
       );
   });
@@ -233,14 +233,14 @@ describe('ResendVerificationEmailPage', () => {
     );
   });
 
-  it('should enable resend button when timerSeconds reaches 0', () => {
+  it('should enable Resend Verification Email Button when timerSeconds reaches 0', () => {
     component.resendEmail();
     component.timerSeconds = 1;
     component.decreaseTimer();
     expect(component.disableResendEmail).toBeFalse();
   });
 
-  it('should show create ticket button after minimumNumberOfTriesForTicket resends', () => {
+  it('should show Create Ticket Button after minimumNumberOfTriesForTicket resends', async () => {
     const numberOfResends: number = component.minimumNumberOfTriesForTicket;
     for (let i = 0; i < numberOfResends; i++) {
       component.resendEmail();
@@ -262,9 +262,9 @@ describe('ResendVerificationEmailPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call resendEmailValidation on resendEmail', () => {
+  it('should call sendEmailValidationByEmail on resendEmail', () => {
     component.resendEmail();
-    expect(apiUsuariosServiceSpy.resendEmailValidation).toHaveBeenCalledTimes(
+    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(
       1
     );
   });
