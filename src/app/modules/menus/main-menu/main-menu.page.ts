@@ -123,20 +123,27 @@ export class MainMenuPage implements OnInit {
     },
     {
       id: 6,
+      title: 'Comprar/Vender cryptos',
+      url: '/fiat-ramps/operations',
+      icon: 'cash-outline',
+      routeDirection: 'forward'
+    },
+    {
+      id: 7,
       title: 'app.main_menu.password_change',
       url: '/users/password-change',
       icon: 'key',
       routeDirection: 'forward',
     },
     {
-      id: 7,
+      id: 8,
       title: 'app.main_menu.referrals',
       url: '/referrals/list',
       icon: 'people',
       routeDirection: 'root',
     },
     {
-      id: 8,
+      id: 9,
       title: 'app.main_menu.notifications',
       url: '/notifications/list',
       icon: 'notifications-outline',

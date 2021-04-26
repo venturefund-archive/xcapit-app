@@ -33,6 +33,7 @@ import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
 import { MenusModule } from './modules/menus/menus.module';
 import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addresses.module';
+import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
 
@@ -80,6 +81,7 @@ export function httpLoaderFactory(http: HttpClient) {
     MenusModule,
     TicketsModule,
     DepositAddressesModule,
+    FiatRampsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
