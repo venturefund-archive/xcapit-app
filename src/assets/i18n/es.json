@@ -100,6 +100,7 @@
       "success_title": "¡Solo falta que valides tu dirección de correo electrónico!",
       "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
       "accept_button": "Aceptar",
+      "resend_email_button": "No recibí el mail",
       "referral_code_text": "Código de Referido",
       "manual_referral": "Ingresar código de referido",
       "referral_code_label": "Código de referido",
@@ -113,6 +114,12 @@
         "alert_message": "Para ingresar, únete a la waiting list y se uno de los primeros en probarla.",
         "alert_cancel_button": "Cancelar",
         "alert_join_button": "Unirme"
+      },
+      "resend_verification_email": {
+        "title": "¡Te enviamos un nuevo email!",
+        "text": "Si no lo ves en tu bandeja de entrada, revisá la carpeta de spam.",
+        "resend_mail_button": "Volver a enviar {{timer}}",
+        "open_ticket_button": "Todavía no pude activar mi cuenta"
       }
     },
     "auth_form": {
@@ -147,6 +154,25 @@
       "actual_password": "Contraseña actual",
       "new_password": "Nueva contraseña",
       "repeat_new_password": "Confirmar nueva contraseña"
+    }
+  },
+  "tickets": {
+    "create": {
+      "title": "Enviar una solicitud",
+      "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad.",
+      "label_email": "Correo electrónico",
+      "placeholder_email": "ejemplo@email.com",
+      "label_subject": "Asunto",
+      "placeholder_subject": "Asunto",
+      "label_message": "¿Cuál es tu consulta?",
+      "placeholder_message": "Escriba su consulta aquí.",
+      "submit_button": "Enviar",
+      "cancel_button": "Volver a inicio de sesión"
+    },
+    "createSuccess": {
+      "textPrimary": "¡Gracias por comunicarte con nosotros!",
+      "textSecondary": "En unos momentos, un miembro del equipo se pondrá en contacto contigo.",
+      "namePrimaryAction": "Aceptar"
     }
   },
   "funds": {

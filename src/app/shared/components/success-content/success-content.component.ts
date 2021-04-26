@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -64,6 +64,8 @@ import { Router } from '@angular/router';
 export class SuccessContentComponent implements OnInit {
   @Input() data: any;
   @Input() unauth: any = false;
+  @Output() primaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() secondaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private router: Router) {}
 
@@ -74,10 +76,16 @@ export class SuccessContentComponent implements OnInit {
   }
 
   primaryAction() {
-    this.router.navigate([this.data.urlPrimaryAction]);
+    if (this.data.urlPrimaryAction) {
+      this.router.navigate([this.data.urlPrimaryAction]);
+    }
+    this.primaryActionEvent.emit();
   }
 
   secondaryAction() {
-    this.router.navigate([this.data.urlSecondaryAction]);
+    if (this.data.urlSecondaryAction) {
+      this.router.navigate([this.data.urlSecondaryAction]);
+    }
+    this.secondaryActionEvent.emit();
   }
 }

@@ -31,6 +31,7 @@ import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
 import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loading-block.component';
 import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
 import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
+import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 import { NeedHelpComponent } from './components/need-help/need-help.component';
 
@@ -64,6 +65,7 @@ import { NeedHelpComponent } from './components/need-help/need-help.component';
     SuccessContentComponent,
     UxCheckboxComponent,
     UxDateRangeComponent,
+    UxTextareaComponent,
     // Pipes
     LocalizedDatePipe,
   ],
@@ -110,6 +112,7 @@ import { NeedHelpComponent } from './components/need-help/need-help.component';
     SuccessContentComponent,
     UxCheckboxComponent,
     UxDateRangeComponent,
+    UxTextareaComponent,
     // Pipes
     LocalizedDatePipe,
   ],
