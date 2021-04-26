@@ -100,6 +100,7 @@
       "success_title": "You just need to validate your email address!",
       "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
       "accept_button": "Accept",
+      "resend_email_button": "I didn't receive the email",
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
       "referral_code_label": "Referral code",
@@ -113,6 +114,12 @@
         "alert_message": "To enter, join the waiting list and be one of the first to try it.",
         "alert_cancel_button": "Cancel",
         "alert_join_button": "Join"
+      },
+      "resend_verification_email": {
+        "title": "We send you another email!",
+        "text": "If you can't see it in your inbox, check the spam folder.",
+        "resend_mail_button": "Resend email {{timer}}",
+        "open_ticket_button": "I still can't activate my account"
       }
     },
     "auth_form": {
@@ -147,6 +154,25 @@
       "actual_password": "Actual Password",
       "new_password": "New Password",
       "repeat_new_password": "Confirm New Password"
+    }
+  },
+  "tickets": {
+    "create": {
+      "title": "Open a ticket",
+      "text": "Fill the details of your ticket. A member of the team will contact you soon.",
+      "label_email": "Email",
+      "placeholder_email": "example@email.com",
+      "label_subject": "Subject",
+      "placeholder_subject": "Subject",
+      "label_message": "Description",
+      "placeholder_message": "Write the details of your ticket here.",
+      "submit_button": "Send",
+      "cancel_button": "Go back to login"
+    },
+    "createSuccess": {
+      "textPrimary": "Thank you for your patience!",
+      "textSecondary": "A member of the team will contact you soon.",
+      "namePrimaryAction": "Ok"
     }
   },
   "funds": {
