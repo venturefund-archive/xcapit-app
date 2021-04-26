@@ -199,7 +199,6 @@ export class ApiFundsService {
     fundName: string,
     options: any = {}
   ): Observable<any> {
-    // this.loadingService.disabled();
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/orders/get_by_fund_name/${fundName}`,
       {
@@ -211,7 +210,6 @@ export class ApiFundsService {
   }
 
   getOrderDetail(order_id: string, options: any = {}, loading = false): Observable<any> {
-    // this.loadingService.disabled();
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/orders/get_by_id/${order_id}`,
       {
