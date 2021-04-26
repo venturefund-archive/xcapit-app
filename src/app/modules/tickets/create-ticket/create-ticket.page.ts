@@ -18,14 +18,14 @@ import { ApiTicketsService } from '../shared-tickets/services/api-tickets.servic
           </div>
         </div>
         <div class="title">
-          <app-ux-title>
+          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
             {{ 'tickets.create.title' | translate }}
-          </app-ux-title>
+          </ion-text>
         </div>
         <div class="text">
-          <app-ux-text>
+          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
             {{ 'tickets.create.text' | translate }}
-          </app-ux-text>
+          </ion-text>
         </div>
       </div>
     </ion-header>
@@ -129,6 +129,6 @@ export class CreateTicketPage implements OnInit {
   }
 
   close() {
-    this.navController.navigateForward(['/users/login']);
+    this.navController.navigateBack(['/users/login']);
   }
 }

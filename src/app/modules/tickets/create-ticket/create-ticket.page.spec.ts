@@ -63,7 +63,6 @@ describe('CreateTicketPage', () => {
         declarations: [
           DummyComponent,
           CreateTicketPage,
-          AuthFormComponent,
           TrackClickUnauthDirective,
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],

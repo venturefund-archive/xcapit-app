@@ -27,14 +27,14 @@ import { Storage } from '@ionic/storage';
           <app-ux-success-img></app-ux-success-img>
         </div>
         <div class="main__primary_text">
-          <app-ux-title>{{
+          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
             'usuarios.register.resend_verification_email.title' | translate
-          }}</app-ux-title>
+          }}</ion-text>
         </div>
         <div class="main__secondary_text">
-          <app-ux-text>{{
+          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">{{
             'usuarios.register.resend_verification_email.text' | translate
-          }}</app-ux-text>
+          }}</ion-text>
         </div>
         <div class="main__actions">
           <div class="main__actions__primary">
@@ -151,7 +151,7 @@ export class ResendVerificationEmailPage implements OnInit {
 
   close() {
     this.clearStorage();
-    this.navController.navigateForward(['/users/login']);
+    this.navController.navigateBack(['/users/login']);
   }
 
   resendEmail() {
