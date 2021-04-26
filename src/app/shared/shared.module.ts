@@ -33,6 +33,7 @@ import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-i
 import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
 import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
+import { NeedHelpComponent } from './components/need-help/need-help.component';
 
 @NgModule({
   declarations: [
