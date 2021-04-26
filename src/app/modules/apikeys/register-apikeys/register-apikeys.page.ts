@@ -175,13 +175,14 @@ export class RegisterApikeysPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    this.apiApikeysService.create(data).subscribe(() => this.success());
+    this.apiApikeysService.create(data).subscribe(res => this.success(res));
   }
 
-  success() {
+  success(apiKeys: any) {
     this.navController
       .navigateForward(['/apikeys/success-register'])
       .then(() => {
+        this.storageApiKeysService.updateData(apiKeys);
         this.form.reset();
       });
   }
