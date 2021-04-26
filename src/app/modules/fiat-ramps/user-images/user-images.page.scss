@@ -1,0 +1,43 @@
+:host {
+    .ri {
+        &__pic-button {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+            --ion-color-base: transparent;
+            border: 1px solid #0000008a;
+            border-radius: 10px;
+            --ion-color-contrast: gray;
+
+            &__button-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+        
+                ion-icon {
+                    font-size: 80px;
+                }
+
+                &__icon_files {
+                    margin: 5px;
+            
+                    img {
+                        height: 120px;
+                    }
+                }
+            }
+
+            &__picture img {
+                max-height: 180px;
+            }
+        }
+    }
+    
+    .button-next {
+        display: flex;
+        flex-direction: column;
+        margin-top: 25px;
+        margin-bottom: 16px;
+    }
+}

@@ -25,6 +25,7 @@ import {
           [type]="this.typeSetted"
           [inputmode]="this.inputmode"
           [placeholder]="this.placeholder"
+          [maxlength]="this.maxlength"
           ></ion-input>
 
         <ion-icon
@@ -70,6 +71,7 @@ export class UxInputComponent implements OnInit {
   @Input() errors: any[] = [];
   @Input() controlName: string;
   @Input() placeholder: string;
+  @Input() maxlength: any;
   typeSetted: string;
   passwordType: boolean;
   @ViewChild('inputRegister', { read: ElementRef, static: true })
