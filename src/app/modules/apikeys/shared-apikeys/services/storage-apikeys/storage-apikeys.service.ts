@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 interface AKDataInterface {
-  id: string;
+  id: number;
   alias: string;
   nombre_bot: string;
 }
