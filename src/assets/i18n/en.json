@@ -399,6 +399,12 @@
             "description": "Don't miss out on opportunities in the growing cryptocurrency market."
           }
         }
+      },
+      "balance_not_enough": {
+        "title": "You need USD${{minBalance}} in your Binance account to start investing.",
+        "message": "Load balance in your Binance account",
+        "cancel_text": "Cancel",
+        "ok_text": "Go to Binance"
       }
     },
     "fund_duration": {
