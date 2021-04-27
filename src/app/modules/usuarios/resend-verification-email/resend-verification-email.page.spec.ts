@@ -111,17 +111,17 @@ describe('ResendVerificationEmailPage', () => {
 
   it('should call sendEmailValidationByEmail if redirected from success-register', () => {
     activatedRouteMock.queryParams.next();
-    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(
-      1
-    );
+    expect(
+      apiUsuariosServiceSpy.sendEmailValidationByEmail
+    ).toHaveBeenCalledTimes(1);
   });
 
   it('should not call sendEmailValidationByEmail if page was reloaded', () => {
     getCurrentNavigationSpy.and.returnValue(currentNavigation);
     activatedRouteMock.queryParams.next();
-    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(
-      0
-    );
+    expect(
+      apiUsuariosServiceSpy.sendEmailValidationByEmail
+    ).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to login if page was reloaded and no user data in storage', async () => {
@@ -166,7 +166,9 @@ describe('ResendVerificationEmailPage', () => {
       .withArgs('email')
       .and.returnValue(Promise.resolve(extras.extras.state.email))
       .withArgs('numberOfResends')
-      .and.returnValue(Promise.resolve(component.minimumNumberOfTriesForTicket));
+      .and.returnValue(
+        Promise.resolve(component.minimumNumberOfTriesForTicket)
+      );
     activatedRouteMock.queryParams.next();
     await fixture.whenStable();
     fixture
@@ -264,9 +266,9 @@ describe('ResendVerificationEmailPage', () => {
 
   it('should call sendEmailValidationByEmail on resendEmail', () => {
     component.resendEmail();
-    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(
-      1
-    );
+    expect(
+      apiUsuariosServiceSpy.sendEmailValidationByEmail
+    ).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Resend Verification Email button clicked', () => {
