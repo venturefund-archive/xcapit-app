@@ -58,6 +58,14 @@ const routes: Routes = [
           )
       },
       {
+        path: 'success-register-creator',
+        canActivate: [UserProfileDataGuard],
+        loadChildren: () =>
+          import(
+            './success-register-apikeys-beginner/success-register-apikeys-beginner.module'
+          ).then((m) => m.SuccessRegisterApikeysBeginnerPageModule),
+      },
+      {
         path: 'list',
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>

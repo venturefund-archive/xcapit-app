@@ -234,8 +234,6 @@ export class UserInformationPage implements OnInit {
   }
 
   handleSubmit() {
-    console.log(this.form.valid)
-    console.log(this.form)
     if (this.form.valid) {
       this.fiatRampsService.registerUserInfo(this.form.value)
       .subscribe((res) => {

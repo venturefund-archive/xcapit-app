@@ -1167,10 +1167,15 @@
       "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
     },
-    "register_success": {
+    "register_success_beginner": {
       "textPrimary": "¡Genial! Estás a un paso de tu primera inversión.",
       "textSecondary": "Elige la estrategia que mejor se adapta a ti.",
-      "namePrimaryAction": "Crear mi primera inversión",
+      "namePrimaryAction": "Crear mi primera inversión"
+    },
+    "register_success": {
+      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
+      "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
+      "namePrimaryAction": "Usar",
       "nameSecondaryAction": "Omitir por ahora"
     },
     "tutorial_apikeys": {
