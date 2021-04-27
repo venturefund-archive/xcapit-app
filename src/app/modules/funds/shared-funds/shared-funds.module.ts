@@ -25,6 +25,7 @@ import { CurrencyFormatPipe } from './pipes/currency-format/currency-format.pipe
 import { FundStopLossComponent } from './components/fund-stop-loss/fund-stop-loss.component';
 import { FundTakeProfitComponent } from './components/fund-take-profit/fund-take-profit.component';
 import { FundShareChartComponent } from './components/fund-share-chart/fund-share-chart.component';
+import { FundTimelineComponent } from './components/fund-timeline/fund-timeline.component';
 import { InvestmentProductCardComponent} from './components/investment-product-card/investment-product-card.component'
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 
@@ -53,6 +54,7 @@ import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
     FundTakeProfitComponent,
     FundFinishComponent,
     FundShareChartComponent,
+    FundTimelineComponent,
     InvestmentProductCardComponent,
     CurrencyFormatPipe,
     HideTextPipe
@@ -84,6 +86,7 @@ import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
     FundStopLossComponent,
     FundTakeProfitComponent,
     FundShareChartComponent,
+    FundTimelineComponent,
     InvestmentProductCardComponent,
     CurrencyFormatPipe,
     HideTextPipe

@@ -113,7 +113,6 @@ export class FundShareChartComponent implements OnInit {
       data: this.screenshot, // your data to write (ex. base64)
       directory: FilesystemDirectory.Documents,
     }).then((saved_file) => {
-      console.log("writeFile success")
       this.showToast('funds.fund_share_chart.toast_image_downloaded');
       let path = saved_file.uri;
       let mimeType = 'image/png';

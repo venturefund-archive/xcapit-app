@@ -60,6 +60,7 @@ describe('FundDetailPage', () => {
         getPercentageEvolution: of(testPerformance),
         getFundBalances: of(testFund),
         getLastFundRun: of({}),
+        getLastPercentage: of({}),
         getBalance: of({}),
         getFundRuns: of({}),
       });
@@ -114,19 +115,19 @@ describe('FundDetailPage', () => {
     expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
+  it('should call apiFunds.getLastPercentage on ionViewWillEnter', () => {
+    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
+    component.ionViewWillEnter();
+    expect(apiFundsSpy.getLastPercentage).toHaveBeenCalledTimes(1);
+    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
+  });
+
   it('should call apiFunds.getLastFundRun on ionViewWillEnter', () => {
     const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ionViewWillEnter();
     expect(apiFundsSpy.getLastFundRun).toHaveBeenCalledTimes(1);
     expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
-
-  // Comentado hasta que se implemente el componente del detalle de cada movimiento
-
-  // it('should call apiFunds.getFundRuns on ionViewWillEnter', () => {
-  //   component.ionViewWillEnter();
-  //   expect(apiFundsSpy.getFundRuns).toHaveBeenCalledTimes(1);
-  // });
 
   it('should call toggleHideFunds in HideText', () => {
     const spyToggle = spyOn(localStorageService, 'toggleHideFunds');
