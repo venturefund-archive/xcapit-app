@@ -100,7 +100,7 @@ export class UserStatusCardComponent implements OnInit {
     } else if (!this.userStatus.empty_linked_keys) {
       this.newFundUrl = 'apikeys/tutorial';
     } else {
-      this.newFundUrl = 'funds/fund-name';
+      this.newFundUrl = 'apikeys/list';
     }
     this.tabsComponent.newFundUrl = this.newFundUrl;
   }

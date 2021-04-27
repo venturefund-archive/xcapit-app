@@ -66,4 +66,8 @@ export class ScanQrPage implements OnInit {
   stoppedScan() {
     this.navController.navigateForward(['/apikeys/register']).then();
   }
+
+  ionViewDidLeave(){
+    this.stopQRScan();
+  }
 }
