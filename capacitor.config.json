@@ -1,1 +1,17 @@
-{"appId":"com.xcapit.app","appName":"xcapit","bundledWebRuntime":false,"npmClient":"yarn","webDir":"www","backgroundColor":"#ffffffff","linuxAndroidStudioPath":"/usr/local/android-studio/bin/studio.sh","plugins":{"PushNotifications":{"presentationOptions":["badge","sound","alert"]}}}
+{
+  "appId": "com.xcapit.app",
+  "appName": "xcapit",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "backgroundColor": "#ffffffff",
+  "linuxAndroidStudioPath": "/usr/local/android-studio/bin/studio.sh",
+  "plugins": {
+    "PushNotifications": { "presentationOptions": ["badge", "sound", "alert"] },
+    "GoogleAuth": {
+      "scopes": ["profile", "email"]
+    },
+    "serverClientId": "840751586681-35nflvl2e8e8tn0mb6uin9bgrptjgkf6.apps.googleusercontent.com",
+    "forceCodeForRefreshToken": true
+  }
+}
