@@ -10,6 +10,7 @@ import {
 } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-modal.component';
 
@@ -106,6 +107,7 @@ export class ApikeyItemComponent implements OnInit {
   @Output() deletedKey: EventEmitter<number> = new EventEmitter<number>();
   control: AbstractControl;
   constructor(
+    private manageApikeysPage: ManageApikeysPage,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
     private translate: TranslateService,
@@ -125,7 +127,14 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
-    await modal.present();
+      
+    
+     await modal.present();
+
+    const { role } = await modal.onWillDismiss();
+    if (role === 'success'){
+      this.getAllApiKeys();
+    }
   }
 
   async showAlert(id) {
@@ -168,7 +177,12 @@ export class ApikeyItemComponent implements OnInit {
     });
   }
 
+  getAllApiKeys() {
+    this.manageApikeysPage.getAllApiKeys();
+  }
+
   success(id: number) {
+    this.getAllApiKeys();
     this.deletedKey.emit(id);
     this.showToast('apikeys.card_apikeys.success_toast');
   }
