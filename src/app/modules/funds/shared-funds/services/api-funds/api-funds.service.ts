@@ -221,4 +221,13 @@ export class ApiFundsService {
       loading
     );
   }
+
+  getLastPercentage(fundName: string, runID: string = '', loading = false): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/last_percentage?id_corrida=${runID}`,
+      undefined,
+      undefined,
+      loading
+    );
+  }
 }

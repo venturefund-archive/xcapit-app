@@ -256,7 +256,7 @@
         "view_operation_history": "View operation history"
       },
       "operations_history_card": {
-        "title": "MY LAST MOVEMENTS",
+        "title": "FUND HISTORY",
         "run": "Run {{id_corrida}}"
       }
     },
@@ -499,6 +499,28 @@
       "status": "Status",
       "date": "Date",
       "status_closed": "Closed"
+    },
+    "fund_timeline": {
+      "active_fund": "Current fund",
+      "finished_fund": "Finished fund",
+      "start_of": "Beginning of "
+    },
+    "fund_timeline_detail": {
+      "performance_card": {
+        "performance_label": "Performance"
+      },
+      "config_card": {
+        "title": "CONFIGURATION",
+        "item": {
+          "state": "Status",
+          "initial_date": "Initial Date",
+          "take_profit": "Take profit",
+          "stop_loss": "Stop loss",
+          "currency": "Currency",
+          "status_finished": "Finished",
+          "status_active": "Active"
+        }
+      }
     }
   },
   "runs": {
