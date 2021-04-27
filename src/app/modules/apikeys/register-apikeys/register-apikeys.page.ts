@@ -10,6 +10,7 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { LINKS } from '../../../config/static-links';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 @Component({
   selector: 'app-register-apikeys',
@@ -119,6 +120,7 @@ export class RegisterApikeysPage implements OnInit {
 
   supportLinks = LINKS;
   inPWA = true;
+  userStatus: any;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -129,7 +131,8 @@ export class RegisterApikeysPage implements OnInit {
     private navController: NavController,
     private toastService: ToastService,
     private storageApiKeysService: StorageApikeysService,
-    private platformService: PlatformService
+    private platformService: PlatformService,
+    private apiUsuariosService: ApiUsuariosService
   ) {
   }
 
@@ -139,6 +142,11 @@ export class RegisterApikeysPage implements OnInit {
   ionViewWillEnter() {
     this.patchFormValue();
     this.checkIsWebPlatform();
+    this.getUserStatus();
+  }
+
+  async getUserStatus() {
+    this.apiUsuariosService.status(false).subscribe((res) => this.userStatus = res);
   }
 
   checkIsWebPlatform() {
@@ -175,12 +183,30 @@ export class RegisterApikeysPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    this.apiApikeysService.create(data).subscribe(res => this.success(res));
+    this.apiApikeysService.create(data).subscribe((res) => {
+      this.success(res, this.getSuccessRoute())
+    });
   }
 
-  success(apiKeys: any) {
+  getSuccessRoute(): string {
+    let route = '/apikeys/success-register';
+    
+    if (this.isBeginnerUser()) {
+      route += '-beginner';
+    }
+
+    return route;
+  }
+
+  isBeginnerUser(): boolean {
+    if(!this.userStatus) return;
+
+    return this.userStatus.status_name == 'CREATOR';
+  }
+
+  success(apiKeys: any, route: string) {
     this.navController
-      .navigateForward(['/apikeys/success-register'])
+      .navigateForward([route])
       .then(() => {
         this.storageApiKeysService.updateData(apiKeys);
         this.form.reset();

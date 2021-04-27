@@ -65,11 +65,18 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/funds',
     namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction',
   },
+  apikeys_register_success_begginer: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'apikeys.register_success_beginner.textPrimary',
+    textSecondary: 'apikeys.register_success_beginner.textSecondary',
+    urlPrimaryAction: '/funds/fund-name',
+    namePrimaryAction: 'apikeys.register_success_beginner.namePrimaryAction'
+  },
   apikeys_register_success: {
     urlClose: '/tabs/funds',
     textPrimary: 'apikeys.register_success.textPrimary',
     textSecondary: 'apikeys.register_success.textSecondary',
-    urlPrimaryAction: '/funds/fund-name',
+    urlPrimaryAction: '/apikeys/list',
     namePrimaryAction: 'apikeys.register_success.namePrimaryAction',
     urlSecondaryAction: '/tabs/funds',
     nameSecondaryAction: 'apikeys.register_success.nameSecondaryAction',

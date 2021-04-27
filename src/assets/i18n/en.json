@@ -1173,10 +1173,15 @@
         "button": "I understand"
       }
     },
+    "register_success_begginer": {
+      "textPrimary": "Great! You are one step away from your first investment.",
+      "textSecondary": "Choose the strategy that best suits you.",
+      "namePrimaryAction": "Create my first invest"
+    },
     "register_success": {
-      "textPrimary": "¡Great! You are one step away from your first investment.",
-      "textSecondary": "Choose the strategy that best suits you..",
-      "namePrimaryAction": "Create my first invest",
+      "textPrimary": "Your account is now linked to Binace!",
+      "textSecondary": "We can start mananging your capital in Binance.",
+      "namePrimaryAction": "Use",
       "nameSecondaryAction": "Skip for now"
     },
     "linked_apikeys": {
