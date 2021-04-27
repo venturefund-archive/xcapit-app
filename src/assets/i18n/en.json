@@ -95,7 +95,7 @@
       "title": "Login"
     },
     "register": {
-      "card_header": "User Registration",
+      "card_header": "Create your account",
       "submit_button": "Sign Up",
       "success_title": "You just need to validate your email address!",
       "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
