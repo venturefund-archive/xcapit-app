@@ -48,4 +48,10 @@ export class ApiApikeysService {
       `${environment.apiUrl}/${this.entity}/delete/${id}/`
     );
   }
+
+  checkMinBalance(apiKeyId: number, profile: string) {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/check_min_balance/${apiKeyId}/${profile}`
+    );
+  }
 }

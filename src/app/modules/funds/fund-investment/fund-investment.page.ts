@@ -1,57 +1,62 @@
 import { Component, OnInit } from '@angular/core';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LINKS } from '../../../config/static-links';
+import { Browser } from '@capacitor/core';
 
 @Component({
   selector: 'app-fund-investment',
   template: `
-    <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
-        </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          (this.fundRenew
-            ? 'funds.fund_investment.header_renew'
-            : 'funds.fund_investment.header'
-          ) | translate
-        }}</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding fi">
-      <div class="fi__info">
-        <div>
-          <ion-text
-            class="ux-font-gilroy ux-fweight-bold ux-fsize-22"
-            color="uxdark"
-            >{{
-              'funds.fund_investment.header_info.title' | translate
-            }}</ion-text
-          >
-        </div>
-        <div class="fi__info__description">
-          <ion-text
-            class="ux-font-lato ux-fweight-regular ux-fsize-12"
-            color="uxsemidark"
-            >{{
-              'funds.fund_investment.header_info.description' | translate
-            }}</ion-text
-          >
-        </div>
-      </div>
-      <div *ngFor="let product of this.investments_products">
-        <app-investment-product-card
-          [product]="this.product"
-          (save)="this.handleSubmit($event)"
-        ></app-investment-product-card>
-      </div>
-    </ion-content>
+      <ion-header>
+          <ion-toolbar color="uxprimary" class="ux_toolbar">
+              <ion-buttons slot="start">
+                  <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
+              </ion-buttons>
+              <ion-title class="ion-text-center">{{
+                  (this.fundRenew
+                                  ? 'funds.fund_investment.header_renew'
+                                  : 'funds.fund_investment.header'
+                  ) | translate
+                  }}</ion-title>
+          </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding fi">
+          <div class="fi__info">
+              <div>
+                  <ion-text
+                          class="ux-font-gilroy ux-fweight-bold ux-fsize-22"
+                          color="uxdark"
+                  >{{
+                      'funds.fund_investment.header_info.title' | translate
+                      }}</ion-text
+                  >
+              </div>
+              <div class="fi__info__description">
+                  <ion-text
+                          class="ux-font-lato ux-fweight-regular ux-fsize-12"
+                          color="uxsemidark"
+                  >{{
+                      'funds.fund_investment.header_info.description' | translate
+                      }}</ion-text
+                  >
+              </div>
+          </div>
+          <div *ngFor="let product of this.investmentsProducts">
+              <app-investment-product-card
+                      [product]="this.product"
+                      (save)="this.handleSubmit($event)"
+              ></app-investment-product-card>
+          </div>
+      </ion-content>
   `,
-  styleUrls: ['./fund-investment.page.scss'],
+  styleUrls: ['./fund-investment.page.scss']
 })
 export class FundInvestmentPage implements OnInit {
-  investments_products = [
+  investmentsProducts = [
     {
       profile: 'volume_profile_strategies_BTC',
       min_capital: '150',
@@ -83,7 +88,7 @@ export class FundInvestmentPage implements OnInit {
       link_info: 'https://bit.ly/factsheet-strategy3',
       risk: 4,
       currency: 'USDT'
-    },
+    }
   ];
 
   fundRenew: any;
@@ -91,8 +96,13 @@ export class FundInvestmentPage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
-    private navController: NavController
-  ) {}
+    private navController: NavController,
+    private apiApiKeysService: ApiApikeysService,
+    private storageApiKeysService: StorageApikeysService,
+    private alertController: AlertController,
+    private translate: TranslateService
+  ) {
+  }
 
   ngOnInit() {}
 
@@ -102,11 +112,42 @@ export class FundInvestmentPage implements OnInit {
     });
   }
 
-  handleSubmit(data: any) {
-    this.fundDataStorage.setData('fundRiskLevel', {
-      risk_level: data.risk_level,
+  async checkMinBalance(riskLevel: string) {
+    return await this.apiApiKeysService.checkMinBalance(
+      this.storageApiKeysService.data.id,
+      riskLevel
+    ).toPromise();
+  }
+
+  async showNotEnoughBalanceAlert(minBalance: number) {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('funds.fund_investment.balance_not_enough.title', { minBalance }),
+      message: this.translate.instant('funds.fund_investment.balance_not_enough.message'),
+      buttons: [
+        {
+          text: this.translate.instant('funds.fund_investment.balance_not_enough.cancel_text')
+        },
+        {
+          text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
+          handler: () => Browser.open({ url: LINKS.binance })
+        }
+      ]
     });
-    this.fundDataStorage.setData('fundCurrency', { currency: data.currency });
-    this.navController.navigateForward(['funds/fund-take-profit']);
+    await alert.present();
+  }
+
+  saveProfileAndCurrency(data: any) {
+    this.fundDataStorage.setData('fundRiskLevel', { risk_level: data.risk_level }).then();
+    this.fundDataStorage.setData('fundCurrency', { currency: data.currency }).then();
+  }
+
+  async handleSubmit(data: any) {
+    const response = await this.checkMinBalance(data.risk_level);
+    if (response.balance_is_enough) {
+      this.saveProfileAndCurrency(data);
+      this.navController.navigateForward(['funds/fund-take-profit']).then();
+    } else {
+      await this.showNotEnoughBalanceAlert(response.min_balance);
+    }
   }
 }

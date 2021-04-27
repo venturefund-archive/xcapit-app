@@ -375,6 +375,12 @@
             "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
           }
         }
+      },
+      "balance_not_enough": {
+        "title": "Necesitás USD${{minBalance}} en tu cuenta de Binance para comenzar a invertir.",
+        "message": "Carga saldo en tu cuenta de Binance",
+        "cancel_text": "Cancelar",
+        "ok_text": "Ir a Binance"
       }
     },
     "fund_duration": {
