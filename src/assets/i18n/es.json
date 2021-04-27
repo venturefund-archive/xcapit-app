@@ -95,7 +95,7 @@
       "title": "Iniciar sesión"
     },
     "register": {
-      "card_header": "Registro de Usuario",
+      "card_header": "Crea tu cuenta",
       "submit_button": "Crear Cuenta",
       "success_title": "¡Solo falta que valides tu dirección de correo electrónico!",
       "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
