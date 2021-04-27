@@ -131,7 +131,7 @@ export class ApikeysEditModalComponent implements OnInit {
   }
 
   close(state: string = 'canceled') {
-    this.modalController.dismiss({ state: state });
+    this.modalController.dismiss(null , state);
   }
 
   success() {

@@ -127,7 +127,7 @@ describe('UserStatusCardComponent', () => {
     expect(tabsComponent.newFundUrl).toBe('apikeys/tutorial');
   });
 
-  it('should return funds/fund-name when profile valid and empty linked keys', () => {
+  it('should return apikeys/list when profile valid and empty linked keys', () => {
     component.userStatus = {
       profile_valid: true,
       empty_linked_keys: true,
@@ -138,8 +138,8 @@ describe('UserStatusCardComponent', () => {
     fixture.detectChanges();
     component.setNewFundUrl();
     fixture.detectChanges();
-    expect(component.newFundUrl).toBe('funds/fund-name');
-    expect(tabsComponent.newFundUrl).toBe('funds/fund-name');
+    expect(component.newFundUrl).toBe('apikeys/list');
+    expect(tabsComponent.newFundUrl).toBe('apikeys/list');
   });
 
   it('should call trackEvent on trackService when Action Button button clicked', () => {
