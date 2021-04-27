@@ -58,7 +58,7 @@ const routes: Routes = [
           )
       },
       {
-        path: 'success-register-beginner',
+        path: 'success-register-creator',
         canActivate: [UserProfileDataGuard],
         loadChildren: () =>
           import(

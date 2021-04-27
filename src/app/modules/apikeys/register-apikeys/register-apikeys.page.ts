@@ -142,7 +142,6 @@ export class RegisterApikeysPage implements OnInit {
   ionViewWillEnter() {
     this.patchFormValue();
     this.checkIsWebPlatform();
-    this.getUserStatus();
   }
 
   async getUserStatus() {
@@ -183,7 +182,8 @@ export class RegisterApikeysPage implements OnInit {
 
   submitData() {
     const data = this.form.value;
-    this.apiApikeysService.create(data).subscribe((res) => {
+    this.apiApikeysService.create(data).subscribe(async (res) => {
+      await this.getUserStatus();
       this.success(res, this.getSuccessRoute())
     });
   }
@@ -191,14 +191,14 @@ export class RegisterApikeysPage implements OnInit {
   getSuccessRoute(): string {
     let route = '/apikeys/success-register';
     
-    if (this.isBeginnerUser()) {
-      route += '-beginner';
+    if (this.isCreatorUser()) {
+      route += '-creator';
     }
 
     return route;
   }
 
-  isBeginnerUser(): boolean {
+  isCreatorUser(): boolean {
     if(!this.userStatus) return;
 
     return this.userStatus.status_name == 'CREATOR';
