@@ -100,6 +100,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
           [fundPercentageEvolution]="this.fundPercentageEvolution"
           [interval]="this.selectedDelta"
           [isChart]="this.isChart"
+          [shareChart]="true"
         ></app-performance-chart-card>
       </div>
 
@@ -146,11 +147,8 @@ import { Currency } from '../shared-funds/enums/currency.enum';
         ></app-fund-portfolio-card>
       </div>
 
-      <!-- Fund Operations History Card -->
-      <div
-        class="fd__fund-operations-history-card"
-        *ngIf="this.fundOperationsHistory?.length > 0"
-      >
+      <!-- Fund Timeline Card -->
+      <div class="fd__fund-operations-history-card" *ngIf="this.fundTimeline">
         <div class="fd__fund-operations-history-card__title">
           <ion-text
             class="ux-font-lato ux-fweight-semibold ux-fsize-12"
@@ -159,14 +157,11 @@ import { Currency } from '../shared-funds/enums/currency.enum';
             {{ 'funds.fund_detail.operations_history_card.title' | translate }}
           </ion-text>
         </div>
-        <app-ux-loading-block
-          *ngIf="!this.fundOperationsHistory"
-          minSize="40px"
-        ></app-ux-loading-block>
-        <app-fund-operations-history
-          *ngIf="this.fundOperationsHistory"
-          [operations]="this.fundOperationsHistory"
-        ></app-fund-operations-history>
+        <app-fund-timeline
+          [runs]="this.fundTimeline"
+          [fundName]="this.fundName"
+          [isOwner]="this.isOwner"
+        ></app-fund-timeline>
       </div>
     </ion-content>
   `,
@@ -180,7 +175,7 @@ export class FundDetailPage implements OnInit {
   fundResume: any;
   fundSettings: any;
   fundPortfolio: Array<any>;
-  fundOperationsHistory: Array<any>;
+  fundTimeline: Array<any>;
   currency: string;
   isOwner: any;
   isChart: boolean;
@@ -238,9 +233,7 @@ export class FundDetailPage implements OnInit {
     this.getStorageRange();
     this.getFundMetricsCardInfo();
     this.subscribeOnHideFunds();
-    // Comentado hasta que se implemente el componente del detalle de cada movimiento
-
-    // this.getFundOperationsHistoryInfo();
+    this.getFundOperationsHistoryInfo();
   }
 
   async getStorageRange() {
@@ -317,12 +310,10 @@ export class FundDetailPage implements OnInit {
         });
   }
 
-  getFundOperationsHistoryInfo() {
-    this.apiFunds
-      .getFundRuns('finalizado', this.fundName, false)
-      .subscribe((data) => {
-        this.fundOperationsHistory = data;
-      });
+  async getFundOperationsHistoryInfo() {
+    this.apiFunds.getLastPercentage(this.fundName).subscribe((data) => {
+      this.fundTimeline = data;
+    });
   }
 
   editFund() {
