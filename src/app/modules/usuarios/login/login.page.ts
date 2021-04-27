@@ -6,6 +6,9 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
 import { Router } from '@angular/router';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
+import "@codetrix-studio/capacitor-google-auth";
+import { Plugins } from "@capacitor/core";
+
 
 @Component({
   selector: 'app-login',
@@ -88,6 +91,11 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  async googleSingUp() {
+    const googleUser = await Plugins.GoogleAuth.signIn();
+    console.log(googleUser);
   }
 
   loginUser(data: any) {
