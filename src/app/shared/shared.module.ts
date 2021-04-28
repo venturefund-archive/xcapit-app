@@ -34,6 +34,7 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
 import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 import { NeedHelpComponent } from './components/need-help/need-help.component';
+import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { NeedHelpComponent } from './components/need-help/need-help.component';
     UxTextareaComponent,
     // Pipes
     LocalizedDatePipe,
+    HideReferralPipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [
@@ -115,6 +117,7 @@ import { NeedHelpComponent } from './components/need-help/need-help.component';
     UxTextareaComponent,
     // Pipes
     LocalizedDatePipe,
+    HideReferralPipe,
   ],
 })
 export class SharedModule {}

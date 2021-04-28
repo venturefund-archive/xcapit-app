@@ -22,9 +22,14 @@ const routes: Routes = [
           import('./referrals-list/referrals-list.module').then(
             m => m.ReferralsListPageModule
           )
+      },
+      {
+        path: 'new-page',
+        loadChildren: () => import('./new-page/new-page.module').then( m => m.NewPagePageModule)
       }
     ]
-  }
+  },
+
 ];
 
 @NgModule({
