@@ -18,20 +18,20 @@ describe('UserStatusCardComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserStatusCardComponent>;
   let localStorageService: LocalStorageService;
   let localStorageServiceMock: any;
-
-
-  const userStatusMock: any = {
-    profile_valid: false,
-    empty_linked_keys: false,
-    has_own_funds: false,
-    has_subscribed_funds: false,
-    status_name: ''
-  };
+  let userStatusMock: any;
 
   beforeEach(waitForAsync(() => {
+    userStatusMock = {
+      profile_valid: false,
+      empty_linked_keys: false,
+      has_own_funds: false,
+      has_subscribed_funds: false,
+      status_name: ''
+    };
+
     localStorageServiceMock = {
       toggleHideFunds: () => undefined,
-      getHideFunds: () => Promise.resolve(true),
+      getHideFunds: () => Promise.resolve(true)
     };
     tabsComponentMock = {
       newFundUrl: ''
@@ -47,22 +47,10 @@ describe('UserStatusCardComponent', () => {
         HttpClientTestingModule,
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([
-          {
-            path: 'tutorials/interactive-tutorial',
-            component: DummyComponent
-          },
-          {
-            path: 'profiles/personal-data',
-            component: DummyComponent
-          },
-          {
-            path: 'profiles/user',
-            component: DummyComponent
-          },
-          {
-            path: 'notifications/list',
-            component: DummyComponent
-          }
+          { path: 'tutorials/interactive-tutorial', component: DummyComponent },
+          { path: 'profiles/personal-data', component: DummyComponent },
+          { path: 'profiles/user', component: DummyComponent },
+          { path: 'notifications/list', component: DummyComponent }
         ])
       ],
       providers: [
@@ -91,55 +79,22 @@ describe('UserStatusCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call setNewFundUrl on ngOnInit', () => {
-    const spy = spyOn(component, 'setNewFundUrl');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should return profiles/personal-data when profile not valid', () => {
-    component.userStatus = {
-      profile_valid: false,
-      empty_linked_keys: false,
-      has_own_funds: true,
-      has_subscribed_funds: true,
-      status_name: 'FROM_BOT'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('profiles/personal-data');
-    expect(tabsComponent.newFundUrl).toBe('profiles/personal-data');
-  });
-
-  it('should return apikeys/tutorial when profile valid and not empty linked keys', () => {
-    component.userStatus = {
-      profile_valid: true,
-      empty_linked_keys: false,
-      has_own_funds: true,
-      has_subscribed_funds: true,
-      status_name: 'EXOLORER'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('apikeys/tutorial');
-    expect(tabsComponent.newFundUrl).toBe('apikeys/tutorial');
-  });
-
-  it('should return apikeys/list when profile valid and empty linked keys', () => {
-    component.userStatus = {
-      profile_valid: true,
-      empty_linked_keys: true,
-      has_own_funds: false,
-      has_subscribed_funds: false,
-      status_name: 'BEGINNER'
-    };
-    fixture.detectChanges();
-    component.setNewFundUrl();
-    fixture.detectChanges();
-    expect(component.newFundUrl).toBe('apikeys/list');
-    expect(tabsComponent.newFundUrl).toBe('apikeys/list');
+  [
+    ['FROM_BOT', 'apikeys/tutorial'],
+    ['BEGINNER', 'apikeys/tutorial'],
+    ['EXPLORER', 'apikeys/tutorial'],
+    ['COMPLETE', 'apikeys/list'],
+    ['CREATOR', 'apikeys/list'],
+  ]
+    .forEach(([statusName, expectedUrl]) => {
+    it(`should set url to ${expectedUrl} when status is ${statusName}`, () => {
+      component.userStatus.status_name = statusName;
+      fixture.detectChanges();
+      component.setNewFundUrl();
+      fixture.detectChanges();
+      expect(component.newFundUrl).toBe(expectedUrl);
+      expect(tabsComponent.newFundUrl).toBe(expectedUrl);
+    });
   });
 
   it('should call trackEvent on trackService when Action Button button clicked', () => {

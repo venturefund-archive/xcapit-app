@@ -91,7 +91,6 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
               </ion-refresher-content>
           </ion-refresher>
 
-                      
           <!-- Fund lists -->
           <div class="fl" *ngIf="this.status?.status_name == 'COMPLETE'">
               <div
