@@ -9,9 +9,9 @@
   "plugins": {
     "PushNotifications": { "presentationOptions": ["badge", "sound", "alert"] },
     "GoogleAuth": {
-      "scopes": ["profile", "email"]
-    },
-    "serverClientId": "840751586681-35nflvl2e8e8tn0mb6uin9bgrptjgkf6.apps.googleusercontent.com",
-    "forceCodeForRefreshToken": true
+      "scopes": ["profile", "email"],
+      "serverClientId": "840751586681-35nflvl2e8e8tn0mb6uin9bgrptjgkf6.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    }
   }
 }

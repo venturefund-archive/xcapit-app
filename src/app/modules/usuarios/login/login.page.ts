@@ -74,6 +74,21 @@ import { Plugins } from "@capacitor/core";
                   </ion-button>
               </div>
           </app-auth-form>
+          <div class="auth-button">
+                  <ion-button
+                          appTrackClickUnauth
+                          name="Google Auth"
+                          expand="block"
+                          size="large"
+                          type="button"
+                          class="ux_button"
+                          color="uxsecondary"
+                          [disabled]="(this.submitButtonService.isDisabled | async)"
+                          (click)="this.googleSingUp()"
+                  >
+                      {{ 'usuarios.login.google_auth' | translate }}
+                  </ion-button>
+              </div>
       </div>
   `,
   styleUrls: ['./login.page.scss']
