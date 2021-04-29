@@ -8,30 +8,30 @@ import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/sto
 @Component({
   selector: 'app-fund-stop-loss',
   template: `
-    <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="/funds/fund-take-profit"
-          ></ion-back-button>
-        </ion-buttons>
-        <ion-title class="ion-text-center" *ngIf="this.opType === 'renew'">
-          {{ 'funds.fund_stop_loss.header_renew' | translate }}
-        </ion-title>
-        <ion-title class="ion-text-center" *ngIf="this.opType === 'new'">
-          {{ 'funds.fund_stop_loss.header' | translate }}
-        </ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <app-fund-select-stop-loss
-        [opType]="this.opType"
-        [stopLoss]="this.stopLoss"
-        (save)="this.handleSubmit($event)"
-      ></app-fund-select-stop-loss>
-    </ion-content>
+      <ion-header>
+          <ion-toolbar color="uxprimary" class="ux_toolbar">
+              <ion-buttons slot="start">
+                  <ion-back-button
+                          defaultHref="/funds/fund-take-profit"
+                  ></ion-back-button>
+              </ion-buttons>
+              <ion-title class="ion-text-center" *ngIf="this.opType === 'renew'">
+                  {{ 'funds.fund_stop_loss.header_renew' | translate }}
+              </ion-title>
+              <ion-title class="ion-text-center" *ngIf="this.opType === 'new'">
+                  {{ 'funds.fund_stop_loss.header' | translate }}
+              </ion-title>
+          </ion-toolbar>
+      </ion-header>
+      <ion-content>
+          <app-fund-select-stop-loss
+                  [opType]="this.opType"
+                  [stopLoss]="this.stopLoss"
+                  (save)="this.handleSubmit($event)"
+          ></app-fund-select-stop-loss>
+      </ion-content>
   `,
-  styleUrls: ['./fund-stop-loss.page.scss'],
+  styleUrls: ['./fund-stop-loss.page.scss']
 })
 export class FundStopLossPage implements OnInit {
   @ViewChild('editStopLossForm') editStopLossForm: FormGroupDirective;
@@ -45,9 +45,11 @@ export class FundStopLossPage implements OnInit {
     protected navController: NavController,
     protected apiFunds: ApiFundsService,
     private storageApiKeysService: StorageApikeysService
-  ) {}
+  ) {
+  }
 
-  ngOnInit(){}
+  ngOnInit() {
+  }
 
   ionViewWillEnter() {
     this.fundDataStorage.getData('fundStopLoss').then((data) => {
@@ -61,16 +63,23 @@ export class FundStopLossPage implements OnInit {
     });
   }
 
+  addApiKeyToFund(fund: any) {
+    fund.api_key_id = this.storageApiKeysService.data.id;
+    return fund;
+  }
+
   async handleSubmit(data: any) {
-    const fund = {
+    let fund = {
       ...(await this.fundDataStorage.getFund()),
-      ...data,
-      api_key_id: this.storageApiKeysService.data.id
+      ...data
     };
     fund.risk_level = `${fund.risk_level}`;
     if (this.opType === 'renew') {
-      this.apiFunds.renewFund(fund).subscribe(() => this.success());
+      this.apiFunds
+        .renewFund(fund)
+        .subscribe(() => this.success());
     } else {
+      fund = this.addApiKeyToFund(fund);
       this.apiFunds.crud.create(fund).subscribe(
         () => this.success(),
         (e) => this.error(e)
@@ -83,7 +92,7 @@ export class FundStopLossPage implements OnInit {
     this.navController.navigateForward(
       ['funds/fund-success', this.opType === 'renew'],
       {
-        replaceUrl: true,
+        replaceUrl: true
       }
     ).then();
   }
