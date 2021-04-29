@@ -76,6 +76,9 @@
     },
     "need_help": {
       "text_help_link": "Need help?"
+    },
+    "referrals_help": {
+      "text_referrals_help_link":"¿How the referral system works?"
     }
   },
   "usuarios": {
@@ -1081,6 +1084,20 @@
       "toast_message": "The referral was added.",
       "email_label": "Email",
       "email_placeholder": "myemail@example.com"
+    },
+    "new_referral_page":{
+      "header":"Your Referrals",
+      "list_title":"MY REFERRALS",
+      "points_title": "MY POINTS",
+      "shared_referral_card":{
+        "title":"Invite your friends to invest by sharing the following link.",
+        "button":"Share"
+      },
+      "points_card":{
+        "points_text": "points",
+        "coming_badge": "Coming soon"
+      }
+      
     },
     "referrals_list": {
       "header": "Referrals",

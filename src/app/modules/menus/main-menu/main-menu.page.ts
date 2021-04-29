@@ -150,7 +150,7 @@ export class MainMenuPage implements OnInit {
       routeDirection: 'root',
     },
     {
-      id: 9,
+      id: 10,
       title: 'app.main_menu.api_keys_managment',
       url: '/apikeys/list',
       icon: 'cog',

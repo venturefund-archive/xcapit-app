@@ -25,6 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'new-page',
+        canActivate: [UserProfileDataGuard],
         loadChildren: () => import('./new-page/new-page.module').then( m => m.NewPagePageModule)
       }
     ]
