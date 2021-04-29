@@ -1154,7 +1154,7 @@
         "cancel_button": "Cancelar"
       }
     },
-    "manage_apikeys": {
+    "list_apikeys": {
       "header": "Gestión de API Keys",
       "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas.",
       "add_api_key": "Agrega una API key",
