@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FundStopLossPage } from './fund-stop-loss.page';
 import { of } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
@@ -13,14 +12,16 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
+import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 
 const formData = {
   valid: {
-    stop_loss: 15,
+    stop_loss: 15
   },
   invalid: {
-    stop_loss: '',
-  },
+    stop_loss: ''
+  }
 };
 
 describe('FundStopLossPage', () => {
@@ -33,21 +34,27 @@ describe('FundStopLossPage', () => {
   let modalControllerSpy: any;
   let navControllerSpy: any;
   let fundDataStorageServiceSpy: any;
+  let storageApikeysService: StorageApikeysService;
+  let storageApikeysServiceMock: any;
 
   beforeEach(waitForAsync(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-
+    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+    navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
+    storageApikeysServiceMock = {
+      data: {}
+    };
     fundDataStorageServiceMock = {
       getData: () => Promise.resolve({}),
       setData: () => Promise.resolve({}),
       getFund: () => Promise.resolve({}),
-      clearAll: () => Promise.resolve({}),
+      clearAll: () => Promise.resolve({})
     };
     apiFundsMock = {
       crud: {
-        create: () => of(),
+        create: () => of()
       },
-      renewFund: () => of(),
+      renewFund: () => of()
     };
 
     TestBed.configureTestingModule({
@@ -58,25 +65,20 @@ describe('FundStopLossPage', () => {
         RouterTestingModule.withRoutes([
           {
             path: 'funds/fund-success',
-            component: DummyComponent,
-          },
+            component: DummyComponent
+          }
         ]),
         HttpClientTestingModule,
         TranslateModule.forRoot(),
-        IonicModule,
+        IonicModule
       ],
       providers: [
-        {
-          provide: FundDataStorageService,
-          useValue: fundDataStorageServiceMock,
-        },
-        {
-          provide: ApiFundsService,
-          useValue: apiFundsMock,
-        },
+        { provide: FundDataStorageService, useValue: fundDataStorageServiceMock },
+        { provide: ApiFundsService, useValue: apiFundsMock },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
-      ],
+        { provide: StorageApikeysService, useValue: storageApikeysServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -87,6 +89,7 @@ describe('FundStopLossPage', () => {
     fundDataStorageService = TestBed.inject(FundDataStorageService);
     apiFundsService = TestBed.inject(ApiFundsService);
     fundDataStorageServiceSpy = spyOn(fundDataStorageService, 'getData');
+    storageApikeysService = TestBed.inject(StorageApikeysService);
   });
 
   it('should create', () => {
@@ -116,12 +119,13 @@ describe('FundStopLossPage', () => {
     component.ionViewWillEnter();
     const spy = spyOn(apiFundsService, 'renewFund');
     spy.and.returnValue(of({}));
-    component.handleSubmit(formData.valid);
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
+    await component.handleSubmit(formData.valid);
+    expect(spy).toHaveBeenCalledTimes(1);
     done();
   });
 
   it('should call apiFunds.crud.create on handleSubmit', async (done) => {
+    storageApikeysService.data = { id: 1, alias: '', nombre_bot: '' };
     fundDataStorageServiceSpy
       .withArgs('fundStopLoss')
       .and.returnValue(Promise.resolve(null))
@@ -130,8 +134,8 @@ describe('FundStopLossPage', () => {
     component.ionViewWillEnter();
     const spy = spyOn(apiFundsService.crud, 'create');
     spy.and.returnValue(of({}));
-    component.handleSubmit(formData.valid);
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
+    await component.handleSubmit(formData.valid);
+    expect(spy).toHaveBeenCalledTimes(1);
     done();
   });
 });
