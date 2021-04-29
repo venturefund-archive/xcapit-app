@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
-import { Storage } from '@ionic/storage';
+import { AppStorageService} from 'src/app/shared/services/app-storage/app-storage.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
@@ -27,7 +27,7 @@ describe('AuthService', () => {
       providers: [
         { provide: CrudService, useValue: crudSpy },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
-        { provide: Storage, useValue: storageSpy },
+        { provide: AppStorageService, useValue: storageSpy },
         { provide: JwtHelperService, useValue: jwtHelperServiceSpy }
       ]
     });
