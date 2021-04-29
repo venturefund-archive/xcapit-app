@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "840751586681-emb09ht0s479macj4lmjop5g8932fbks.apps.googleusercontent.com",
+              "client_id": "840751586681-726sic8vcan7qa9anckr9ju3fgu9edb2.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.xcapit.app"
+                "bundle_id": "com.xcapit.iosapp"
               }
             }
           ]
