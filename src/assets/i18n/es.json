@@ -12,7 +12,8 @@
       "referrals": "Referidos",
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
-      "change_language": "Idioma"
+      "change_language": "Idioma",
+      "payment":"Pagar"
     }
   },
   "config": {
@@ -1379,5 +1380,10 @@
       "info_email": "El proveedor se comunicará por email conforme avance el proceso.",
       "buttonText": "Terminar"
     }
+  },
+  "payment":{
+    "header": "Pagar",
+    "title":"Pagar con PayPal",
+    "paypal_button": "Pagar"
   }
 }

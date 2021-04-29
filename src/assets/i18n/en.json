@@ -12,7 +12,8 @@
       "referrals": "Referrals",
       "notifications": "Notifications",
       "api_keys_managment": "Manage API Keys",
-      "change_language": "Language"
+      "change_language": "Language",
+      "payment": "Pay"
     }
   },
   "config": {
@@ -1360,5 +1361,10 @@
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
       "confirm": "Confirm"
     }
+  },
+  "payment":{
+    "header": "Pay",
+    "title":"Pay with PayPal",
+    "paypal_button": "Pay"
   }
 }
