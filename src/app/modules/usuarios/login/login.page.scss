@@ -54,4 +54,26 @@
     margin-top: 24px;
     margin-left: 16px;
   }
+
+  .or-text {
+    color: #0000008a
+  }
+
+  .google-auth {
+    padding-bottom: 16px;
+    margin-top: 16px;
+
+    &__button {
+      --background: white;
+      --color: black;
+      --background-hover: lightgray;
+      --background-focused: lightgray;
+      --background-activated: lightgray;
+      --border-radius: 0;
+
+      &__icon {
+        margin-right: 8px;
+      }
+    }
+  }
 }

@@ -92,7 +92,9 @@
       "register_link": "Crear nueva cuenta",
       "reset_password_link": "Olvidé mi contraseña",
       "login_button_text": "Iniciar sesión",
-      "title": "Iniciar sesión"
+      "title": "Iniciar sesión",
+      "google_auth": "Ingresa con Google",
+      "or_text": "o"
     },
     "register": {
       "card_header": "Registro de Usuario",

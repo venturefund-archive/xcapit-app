@@ -60,6 +60,17 @@ export class ApiUsuariosService {
       .pipe(tap(response => this.authService.handleLoginResponse(response)));
   }
 
+  loginWithGoogle(id_token: string): Observable<any> {
+    /*
+    return this.http
+      .post(`${environment.apiUrl}/${this.entity}/login_with_google`, {
+        id_token,
+      })
+      .pipe(tap((response) => this.authService.handleLoginResponse(response)));
+      */
+    return new Observable();
+  }
+
   resetPassword(data: any): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}/${this.entity}/reset_password`,

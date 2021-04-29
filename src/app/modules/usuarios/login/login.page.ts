@@ -73,21 +73,60 @@ import { Plugins } from '@capacitor/core';
           </ion-button>
         </div>
       </app-auth-form>
-    </div>
-    <div class="ux_footer">
-      <div class="auth-button">
+      <div class="ion-text-center">
+        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14 or-text"
+          >- {{ 'usuarios.login.or_text' | translate }} -</ion-text
+        >
+      </div>
+      <div class="google-auth">
         <ion-button
           appTrackClickUnauth
           name="Google Auth"
           expand="block"
-          fill="clear"
+          fill="solid"
           size="large"
           type="button"
-          class="ux_button"
-          color="uxsecondary"
+          class="ux_button google-auth__button"
           [disabled]="this.submitButtonService.isDisabled | async"
           (click)="this.googleSingUp()"
         >
+          <svg
+            class="google-auth__button__icon"
+            width="24"
+            height="25"
+            viewBox="0 0 24 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0)">
+              <path
+                d="M5.26599 10.4193C5.73387 9.00374 6.63685 7.77211 7.84611 6.90009C9.05536 6.02808 10.5091 5.56023 12 5.5633C13.69 5.5633 15.218 6.1633 16.418 7.1453L19.91 3.6543C17.782 1.7993 15.055 0.654297 12 0.654297C7.26999 0.654297 3.19799 3.3523 1.23999 7.3043L5.26599 10.4193Z"
+                fill="#EA4335"
+              />
+              <path
+                d="M16.0401 18.6672C14.9501 19.3702 13.5661 19.7452 12.0001 19.7452C10.5151 19.7483 9.06686 19.2842 7.8603 18.4186C6.65373 17.553 5.75 16.3298 5.27706 14.9222L1.23706 17.9892C2.22831 19.9955 3.76233 21.6836 5.66488 22.8618C7.56744 24.04 9.76227 24.6609 12.0001 24.6542C14.9331 24.6542 17.7351 23.6112 19.8341 21.6542L16.0411 18.6672H16.0401Z"
+                fill="#34A853"
+              />
+              <path
+                d="M19.834 21.6543C22.029 19.6063 23.454 16.5583 23.454 12.6543C23.454 11.9443 23.345 11.1813 23.182 10.4723H12V15.1093H18.436C18.119 16.6683 17.266 17.8753 16.041 18.6673L19.834 21.6543Z"
+                fill="#4A90E2"
+              />
+              <path
+                d="M5.27699 14.9223C5.03235 14.1912 4.90806 13.4253 4.90899 12.6543C4.90899 11.8723 5.03399 11.1213 5.26599 10.4193L1.23999 7.30432C0.416372 8.96701 -0.00820201 10.7988 -5.61577e-06 12.6543C-5.61577e-06 14.5743 0.444994 16.3843 1.23699 17.9893L5.27699 14.9223Z"
+                fill="#FBBC05"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(0 0.654297)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
           {{ 'usuarios.login.google_auth' | translate }}
         </ion-button>
       </div>
@@ -109,8 +148,14 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   async googleSingUp() {
-    const googleUser = await Plugins.GoogleAuth.signIn();
-    console.log(googleUser.authentication.idToken);
+    try {
+      //TODO: this is not catching the exception
+      Plugins.GoogleAuth.signIn().then((googleUser) => {
+        this.apiUsuarios
+          .loginWithGoogle(googleUser.authentication.idToken)
+          .subscribe(() => this.success());
+      });
+    } catch (e) {}
   }
 
   loginUser(data: any) {
