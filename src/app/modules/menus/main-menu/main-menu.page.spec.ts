@@ -90,6 +90,6 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(11);
+    expect(elms.length).toBe(12);
   });
 });
