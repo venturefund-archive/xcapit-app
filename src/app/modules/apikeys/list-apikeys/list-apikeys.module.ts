@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ManageApikeysPage } from './manage-apikeys.page';
+import { ListApikeysPage } from './list-apikeys.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedApikeysModule } from '../shared-apikeys/shared-apikeys.module';
 import { ApikeyItemComponent } from '../shared-apikeys/components/apikey-item/apikey-item.component';
@@ -8,20 +8,20 @@ import { ApikeysEditModalComponent } from '../shared-apikeys/components/apikeys-
 const routes: Routes = [
   {
     path: ':mode',
-    component: ManageApikeysPage
+    component: ListApikeysPage
   }, {
     path: '',
-    component: ManageApikeysPage
+    component: ListApikeysPage
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedApikeysModule],
   declarations: [
-    ManageApikeysPage,
+    ListApikeysPage,
     ApikeyItemComponent,
     ApikeysEditModalComponent
   ]
 })
-export class ManageApikeysPageModule {
+export class ListApikeysPageModule {
 }

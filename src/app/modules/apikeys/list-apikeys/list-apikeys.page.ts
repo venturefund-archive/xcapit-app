@@ -8,7 +8,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 
 @Component({
-  selector: 'app-manage-apikeys',
+  selector: 'app-list-apikeys',
   template: `
       <ion-header>
           <ion-toolbar color="uxprimary" class="ux_toolbar">
@@ -26,7 +26,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
                   </ion-button>
               </ion-buttons>
               <ion-title class="ion-text-center">{{
-                  'apikeys.manage_apikeys.header' | translate
+                  'apikeys.list_apikeys.header' | translate
                   }}</ion-title>
           </ion-toolbar>
       </ion-header>
@@ -60,12 +60,12 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
                                   class="ux-font-lato ux-fweight-regular ux-fsize-15"
                                   color="uxsemidark"
                           >
-                              {{ 'apikeys.manage_apikeys.subtitle' | translate }}
+                              {{ 'apikeys.list_apikeys.subtitle' | translate }}
                           </ion-text>
                       </div>
                   </div>
                   <div class="nr__security-info-alert">
-                      <app-ux-alert-message type="info">{{'apikeys.manage_apikeys.security_info_alert' | translate}}</app-ux-alert-message>
+                      <app-ux-alert-message type="info">{{'apikeys.list_apikeys.security_info_alert' | translate}}</app-ux-alert-message>
                   </div>
               </div>
               <div class="ux_footer ion-padding">
@@ -76,15 +76,15 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
                       ></app-need-help>
                   </div>
                   <ion-button expand="block" type="button" appTrackClick name="Register New Key" (click)="this.addApiKey()">
-                      {{'apikeys.manage_apikeys.add_api_key' | translate}}
+                      {{'apikeys.list_apikeys.add_api_key' | translate}}
                   </ion-button>
               </div>
           </div>
       </ion-content>
   `,
-  styleUrls: ['./manage-apikeys.page.scss']
+  styleUrls: ['./list-apikeys.page.scss']
 })
-export class ManageApikeysPage implements OnInit {
+export class ListApikeysPage implements OnInit {
   apikeys: any = [];
   showImage = false;
   loading = true;
