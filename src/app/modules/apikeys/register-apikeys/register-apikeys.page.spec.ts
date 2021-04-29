@@ -13,18 +13,28 @@ import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-ap
 import { of } from 'rxjs';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 const formData = {
   valid: {
     api_key: 'kLnBhJuI98745Df32CsX09kN',
     secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
-    alias: 'myapikey'
+    alias: 'myapikey',
   },
   invalid: {
     api_key: '',
     secret_key: '',
-    alias: ''
-  }
+    alias: '',
+  },
+};
+
+const userStatus = {
+  creator: {
+    status_name: 'CREATOR',
+  },
+  complete: {
+    status_name: 'COMPLETE',
+  },
 };
 
 const QRScanResult = {
@@ -33,50 +43,59 @@ const QRScanResult = {
     scannedApikeys: {
       alias: 'MyAlias',
       api_key: 'kLnBhJuI98745Df32CsX09kN',
-      secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4'
-    }
+      secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
+    },
   },
   noResult: {
     error: false,
-    scannedApikeys: null
+    scannedApikeys: null,
   },
   formInvalid: {
     error: false,
     scannedApikeys: {
       alias: 'My Invalid Alias',
       api_key: 'kLnBhJuI98745Df32CsX09kN',
-      secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4'
-    }
+      secret_key: 'EvHElKo98JyDeHVfJdSwC45J657Ml4',
+    },
   },
   invalidQR: {
     error: true,
-    errorType: 'invalidQR'
+    errorType: 'invalidQR',
   },
   cameraAccessDenied: {
     error: true,
-    errorType: 'permissionDenied'
+    errorType: 'permissionDenied',
   },
   noContent: {
     error: true,
-    errorType: 'noContent'
-  }
+    errorType: 'noContent',
+  },
 };
 
 describe('RegisterApikeysPage', () => {
   let component: RegisterApikeysPage;
   let fixture: ComponentFixture<RegisterApikeysPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RegisterApikeysPage>;
-  let apiApikeysServiceSpy;
+  let apiApikeysServiceSpy: any;
   let navControllerSpy: any;
   let navController: any;
   let storageApiKeysServiceMock: any;
   let storageApiKeysService: StorageApikeysService;
+  let apiUsuariosServiceSpy: any;
 
   beforeEach(
     waitForAsync(() => {
       apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
-        'create'
+        'create',
       ]);
+
+      apiApikeysServiceSpy.create.and.returnValue(of({}));
+
+      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
+        'status',
+      ]);
+
+      apiUsuariosServiceSpy.status.and.returnValue(of({}));
 
       navControllerSpy = jasmine.createSpyObj(
         'NavController',
@@ -84,7 +103,8 @@ describe('RegisterApikeysPage', () => {
       );
 
       storageApiKeysServiceMock = {
-        data: undefined
+        data: undefined,
+        updateData: () => Promise.resolve(),
       };
 
       TestBed.configureTestingModule({
@@ -94,20 +114,24 @@ describe('RegisterApikeysPage', () => {
             { path: 'apikeys/register', component: DummyComponent },
             { path: 'apikeys/success-register', component: DummyComponent },
             { path: 'apikeys/list', component: DummyComponent },
-            { path: 'tabs/funds', component: DummyComponent }
+            { path: 'tabs/funds', component: DummyComponent },
           ]),
           TranslateModule.forRoot(),
           HttpClientTestingModule,
           IonicModule,
-          ReactiveFormsModule
+          ReactiveFormsModule,
         ],
         providers: [
           TrackClickDirective,
           { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
-          { provide: StorageApikeysService, useValue: storageApiKeysServiceMock }
+          {
+            provide: StorageApikeysService,
+            useValue: storageApiKeysServiceMock,
+          },
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
   );
@@ -204,6 +228,65 @@ describe('RegisterApikeysPage', () => {
     const spyForm = spyOn(component.form, 'patchValue').and.callThrough();
     component.ionViewWillEnter();
     expect(spyForm).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call status on getUserStatus', () => {
+    component.getUserStatus();
+    expect(apiUsuariosServiceSpy.status).toHaveBeenCalledTimes(1);
+  });
+
+  it('should return true on isCreatorUser if userStatus is CREATOR', () => {
+    component.userStatus = userStatus.creator;
+    const isCreatorUser = component.isCreatorUser();
+    expect(isCreatorUser).toBeTrue();
+  });
+
+  it('should return false on isCreatorUser if userStatus is not CREATOR', () => {
+    component.userStatus = userStatus.complete;
+    const isCreatorUser = component.isCreatorUser();
+    expect(isCreatorUser).toBeFalse();
+  });
+
+  it('should return normal route on getSuccessRoute for not CREATOR user', () => {
+    spyOn(component, 'isCreatorUser').and.returnValue(false);
+    const expectedRoute = '/apikeys/success-register';
+    const route = component.getSuccessRoute();
+    expect(route).toEqual(expectedRoute);
+  });
+
+  it('should return creator route on getSuccessRoute for CREATOR user', () => {
+    spyOn(component, 'isCreatorUser').and.returnValue(true);
+    const expectedRoute = '/apikeys/success-register-creator';
+    const route = component.getSuccessRoute();
+    expect(route).toEqual(expectedRoute);
+  });
+
+  it('should redirect CREATOR user to beginner success page', async() => {
+    apiUsuariosServiceSpy.status.and.returnValue(of(userStatus.creator));
+    navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
+    const expectedRoute = '/apikeys/success-register-creator';
+    component.submitData();
+    fixture
+      .whenStable()
+      .then(() =>
+        expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([
+          expectedRoute,
+        ])
+      );
+  });
+
+  it('should redirect not CREATOR user to success page', async() => {
+    apiUsuariosServiceSpy.status.and.returnValue(of(userStatus.complete));
+    navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
+    const expectedRoute = '/apikeys/success-register';
+    component.submitData();
+    fixture
+      .whenStable()
+      .then(() =>
+        expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([
+          expectedRoute,
+        ])
+      );
   });
 
   it('should call trackEvent on trackService when Submit Button clicked', () => {
