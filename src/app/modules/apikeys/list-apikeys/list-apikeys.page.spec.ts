@@ -10,13 +10,13 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
-import { ManageApikeysPage } from './manage-apikeys.page';
+import { ListApikeysPage } from './list-apikeys.page';
 
 
-describe('ManageApikeysPage', () => {
-  let component: ManageApikeysPage;
-  let fixture: ComponentFixture<ManageApikeysPage>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ManageApikeysPage>;
+describe('ListApikeysPage', () => {
+  let component: ListApikeysPage;
+  let fixture: ComponentFixture<ListApikeysPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ListApikeysPage>;
   let apiApikeysServiceSpy: any;
   let navControllerSpy: any;
 
@@ -25,7 +25,7 @@ describe('ManageApikeysPage', () => {
     apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['getAll']);
 
     TestBed.configureTestingModule({
-      declarations: [ManageApikeysPage, TrackClickDirective, DummyComponent],
+      declarations: [ListApikeysPage, TrackClickDirective, DummyComponent],
       imports: [
         RouterTestingModule.withRoutes([
           { path: 'menus/main-menu', component: DummyComponent },
@@ -42,7 +42,7 @@ describe('ManageApikeysPage', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManageApikeysPage);
+    fixture = TestBed.createComponent(ListApikeysPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);

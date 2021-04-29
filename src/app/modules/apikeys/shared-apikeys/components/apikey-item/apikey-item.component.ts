@@ -10,7 +10,7 @@ import {
 } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { ManageApikeysPage } from '../../../manage-apikeys/manage-apikeys.page';
+import { ListApikeysPage } from '../../../list-apikeys/list-apikeys.page';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-modal.component';
 
@@ -107,7 +107,7 @@ export class ApikeyItemComponent implements OnInit {
   @Output() deletedKey: EventEmitter<number> = new EventEmitter<number>();
   control: AbstractControl;
   constructor(
-    private manageApikeysPage: ManageApikeysPage,
+    private listApikeysPage: ListApikeysPage,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
     private translate: TranslateService,
@@ -178,7 +178,7 @@ export class ApikeyItemComponent implements OnInit {
   }
 
   getAllApiKeys() {
-    this.manageApikeysPage.getAllApiKeys();
+    this.listApikeysPage.getAllApiKeys();
   }
 
   success(id: number) {
