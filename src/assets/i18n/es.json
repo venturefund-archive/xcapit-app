@@ -108,7 +108,6 @@
       "back_login": "Inicia sesión",
       "accept_tos": "Acepto los",
       "link_tos": "Términos y condiciones",
-      "register_alert": "Si ya tienes fondos en Brainy bot, migra tu usuario a la app con el comando /app desde Telegram",
       "waiting_list_alert": {
         "alert_header": "¿Quieres probar la App?",
         "alert_message": "Para ingresar, únete a la waiting list y se uno de los primeros en probarla.",
