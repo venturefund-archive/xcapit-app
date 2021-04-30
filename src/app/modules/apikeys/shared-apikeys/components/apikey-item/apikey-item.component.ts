@@ -101,9 +101,8 @@ export class ApikeyItemComponent implements OnInit {
   @Input() alias: string;
   @Output() useButtonClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() deletedKey: EventEmitter<number> = new EventEmitter<number>();
-  @Output() editedAlias: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() editedAlias: EventEmitter<void> = new EventEmitter<void>();
   control: AbstractControl;
-  isAliasModified: boolean = true;
 
   constructor(
     private modalController: ModalController,
@@ -132,7 +131,7 @@ export class ApikeyItemComponent implements OnInit {
 
     const { role } = await modal.onWillDismiss();
     if (role === 'success') {
-      this.editedAlias.emit(this.isAliasModified);
+      this.editedAlias.emit();
     }
   }
 
