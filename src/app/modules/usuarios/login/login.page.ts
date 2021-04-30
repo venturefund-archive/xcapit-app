@@ -136,6 +136,7 @@ import { Plugins } from '@capacitor/core';
 })
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
+  googleAuthPlugin: any = Plugins.GoogleAuth;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -148,14 +149,17 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   async googleSingUp() {
+    let googleUser;
+
     try {
-      //TODO: this is not catching the exception
-      Plugins.GoogleAuth.signIn().then((googleUser) => {
-        this.apiUsuarios
-          .loginWithGoogle(googleUser.authentication.idToken)
-          .subscribe(() => this.success());
-      });
-    } catch (e) {}
+      googleUser = await this.googleAuthPlugin.signIn();
+    } catch (e) {
+      return;
+    }
+
+    this.apiUsuarios
+      .loginWithGoogle(googleUser.authentication.idToken)
+      .subscribe(() => this.success());
   }
 
   loginUser(data: any) {
@@ -163,6 +167,7 @@ export class LoginPage implements OnInit {
   }
 
   async success() {
+    console.log('Success');
     this.loadingService.enabled();
     this.loginForm.form.reset();
     const storedLink = await this.subscriptionsService.checkStoredLink();

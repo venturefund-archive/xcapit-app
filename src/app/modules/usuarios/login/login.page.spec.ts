@@ -24,6 +24,8 @@ describe('LoginPage', () => {
   let subscriptionsServiceSpy: any;
   let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<LoginPage>;
   let navControllerSpy: any;
+  let googleAuthPluginMock: any;
+  let googleAuthPluginSpy: any;
 
   const formData = {
     valid: {
@@ -35,14 +37,18 @@ describe('LoginPage', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['login', 'status']);
+    apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['login', 'loginWithGoogle', 'status']);
     apiUsuariosSpy.login.and.returnValue(of({}));
+    apiUsuariosSpy.loginWithGoogle.and.returnValue(of({}));
     apiUsuariosSpy.status.and.returnValue(of({ status_name: 'COMPLETE' }));
     subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', [
       'checkStoredLink'
     ]);
     subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(true));
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+    googleAuthPluginMock = { signIn: () => Promise.resolve() };
+    googleAuthPluginSpy = jasmine.createSpyObj('GoogleAuth', googleAuthPluginMock);
+    googleAuthPluginSpy.signIn.and.returnValue(Promise.resolve({authentication: {idToken: ''}}));
     TestBed.configureTestingModule({
       declarations: [
         LoginPage,
@@ -77,6 +83,7 @@ describe('LoginPage', () => {
     subscriptionsService = TestBed.inject(SubscriptionsService);
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     component = fixture.componentInstance;
+    component.googleAuthPlugin = googleAuthPluginSpy;
     trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(
       fixture
     );
@@ -113,7 +120,6 @@ describe('LoginPage', () => {
     done();
   });
 
-
   it('should redirect to fund list when status is COMPLETE', () => {
     const url = component.getUrlByStatus('COMPLETE');
     expect(url).toEqual(['tabs/funds']);
@@ -139,6 +145,51 @@ describe('LoginPage', () => {
     expect(url).toEqual(['tutorials/first-steps']);
   });
 
+  it('should call signIn on googleSingUp', async() => {
+    await component.googleSingUp();
+    expect(googleAuthPluginSpy.signIn).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call loginWithGoogle on googleSingUp', async() => {
+    await component.googleSingUp();
+    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call success after successful login with Google', async() => {
+    const spy = spyOn(component, 'success');
+    await component.googleSingUp();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call success if user closed login with Google window', async() => {
+    const spy = spyOn(component, 'success');
+    googleAuthPluginSpy.signIn.and.throwError("User closed window");
+    await component.googleSingUp();
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not call loginWithGoogle if user closed login with Google window', async() => {
+    googleAuthPluginSpy.signIn.and.throwError("User closed window");
+    await component.googleSingUp();
+    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
+  });
+
+
+  it('should call trackEvent on trackService when Google Auth button clicked', () => {
+    fixture.detectChanges();
+    component.loginForm.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    expect(component.loginForm.form.valid).toBeTruthy();
+    const el = trackClickUnauthDirectiveHelper.getByElementByName(
+      'ion-button',
+      'Google Auth'
+    );
+    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
   it('should call trackEvent on trackService when Login button clicked', () => {
     fixture.detectChanges();
