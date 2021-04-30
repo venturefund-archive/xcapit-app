@@ -13,9 +13,8 @@ export class NoAuthGuard implements CanActivate {
   async canActivate(): Promise<boolean> {
     const isValid = await this.authService.checkToken();
     if (isValid) {
-      this.navController.navigateRoot(['/tabs/funds']);
+      await this.navController.navigateRoot(['/tabs/funds']);
     }
     return !isValid;
   }
-
 }
