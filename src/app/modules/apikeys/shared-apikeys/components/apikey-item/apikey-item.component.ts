@@ -4,10 +4,7 @@ import {
   FormGroupDirective,
   AbstractControl,
 } from '@angular/forms';
-import {
-  AlertController,
-  ModalController,
-} from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ListApikeysPage } from '../../../list-apikeys/list-apikeys.page';
@@ -23,8 +20,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           <div
             class="cib__main__content__title ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
           >
-            <ion-text color="uxdark">{{ this.alias }}</ion-text
-            >
+            <ion-text color="uxdark">{{ this.alias }}</ion-text>
             <ion-button
               appTrackClick
               name="EditButton"
@@ -105,15 +101,19 @@ export class ApikeyItemComponent implements OnInit {
   @Input() alias: string;
   @Output() useButtonClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() deletedKey: EventEmitter<number> = new EventEmitter<number>();
+  @Output() editedAlias: EventEmitter<boolean> = new EventEmitter<boolean>();
   control: AbstractControl;
+  isAliasModified: boolean = true;
+
   constructor(
-    private listApikeysPage: ListApikeysPage,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
     private translate: TranslateService,
     private alertController: AlertController,
     private toastService: ToastService
   ) {}
+
+  
 
   ngOnInit() {}
 
@@ -127,13 +127,12 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
-      
-    
-     await modal.present();
+
+    await modal.present();
 
     const { role } = await modal.onWillDismiss();
-    if (role === 'success'){
-      this.getAllApiKeys();
+    if (role === 'success') {
+      this.editedAlias.emit(this.isAliasModified);
     }
   }
 
@@ -177,12 +176,7 @@ export class ApikeyItemComponent implements OnInit {
     });
   }
 
-  getAllApiKeys() {
-    this.listApikeysPage.getAllApiKeys();
-  }
-
   success(id: number) {
-    this.getAllApiKeys();
     this.deletedKey.emit(id);
     this.showToast('apikeys.card_apikeys.success_toast');
   }

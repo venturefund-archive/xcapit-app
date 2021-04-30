@@ -42,6 +42,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
                                   [alias]="this.apikeys.alias"
                                   (useButtonClicked)="this.useKey($event)"
                                   (deletedKey)="this.deleteKey($event)"
+                                  (editedAlias)="this.getKeysAfterEditAlias($event)"
                           >
                           </app-apikey-item>
                       </ion-list>
@@ -90,6 +91,7 @@ export class ListApikeysPage implements OnInit {
   loading = true;
   selectMode = false;
   supportLinks = LINKS;
+  isAliasModified:boolean;
 
   constructor(
     private apiApikeysService: ApiApikeysService,
@@ -148,5 +150,12 @@ export class ListApikeysPage implements OnInit {
     const toDeleteIndex = this.apikeys.findIndex(key => key.id === id);
     this.apikeys.splice(toDeleteIndex, 1);
     this.checkEmptyApiKeys();
+  }
+
+  getKeysAfterEditAlias($event){
+    this.isAliasModified = $event;
+      if(this.isAliasModified){
+        this.getAllApiKeys();
+      }
   }
 }
