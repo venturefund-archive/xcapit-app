@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  Input
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
@@ -53,10 +46,10 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           inputmode="text"
           [label]="'usuarios.register.referral_code_label' | translate"
         ></app-ux-input>
-        
+
         <ion-item class="tos_item" *ngIf="!this.isLogin">
           <ng-content select=".tos-text"></ng-content>
-          
+
           <app-ux-checkbox
             *ngIf="!this.isLogin"
             class="small"
@@ -72,7 +65,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
       </form>
     </div>
   `,
-  styleUrls: ['./auth-form.component.scss']
+  styleUrls: ['./auth-form.component.scss'],
 })
 export class AuthFormComponent implements OnInit {
   @Input()
@@ -87,48 +80,23 @@ export class AuthFormComponent implements OnInit {
 
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
-  form: FormGroup = this.formBuilder.group(
-    {
-      email: [
-        '',
-        [
-          Validators.email,
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(100)
-        ]
+  form: FormGroup = this.formBuilder.group({
+    email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(100),
+        CustomValidators.patternValidator(/\d/, CustomValidatorErrors.hasNumber),
+        CustomValidators.patternValidator(/[A-Z]/, CustomValidatorErrors.hasCapitalCase),
+        CustomValidators.patternValidator(/[a-z]/, CustomValidatorErrors.hasSmallCase),
       ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(100),
-          CustomValidators.patternValidator(
-            /\d/,
-            CustomValidatorErrors.hasNumber
-          ),
-          CustomValidators.patternValidator(
-            /[A-Z]/,
-            CustomValidatorErrors.hasCapitalCase
-          ),
-          CustomValidators.patternValidator(
-            /[a-z]/,
-            CustomValidatorErrors.hasSmallCase
-          )
-        ]
-      ],
-      referral_code: ['', Validators.required],
-      manual_referral: [false],
-      tos: [
-        false, 
-        [
-          Validators.required,
-          CustomValidators.mustBeTrue
-        ]
-      ]
-    }
-  );
+    ],
+    referral_code: ['', Validators.required],
+    manual_referral: [false],
+    tos: [false, [Validators.required, CustomValidators.mustBeTrue]],
+  });
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -139,7 +107,7 @@ export class AuthFormComponent implements OnInit {
 
   toggleReferralCode() {
     this.form.get('referral_code').disable();
-    this.form.get('manual_referral').valueChanges.subscribe(val => {
+    this.form.get('manual_referral').valueChanges.subscribe((val) => {
       this.showReferralCode = val;
       if (this.showReferralCode) {
         this.form.get('referral_code').enable();

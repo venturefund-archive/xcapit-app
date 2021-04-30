@@ -6,16 +6,12 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    component: SuccessRegisterApikeysPage
-  }
+    component: SuccessRegisterApikeysPage,
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes), 
-    SharedApikeysModule
-    
-  ],
-  declarations: [SuccessRegisterApikeysPage]
+  imports: [RouterModule.forChild(routes), SharedApikeysModule],
+  declarations: [SuccessRegisterApikeysPage],
 })
 export class SuccessRegisterApikeysPageModule {}

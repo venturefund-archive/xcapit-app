@@ -13,15 +13,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 
 const photo = {
-  dataUrl: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD==",
-  type: "jpeg"
-}
+  dataUrl: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD==',
+  type: 'jpeg',
+};
 
 const operation = {
   status: 'pending_by_privder',
   amount_in: 100,
-  amount_out: 20
-}
+  amount_out: 20,
+};
 
 describe('OperationsDetailPage', () => {
   let component: OperationsDetailPage;
@@ -33,9 +33,9 @@ describe('OperationsDetailPage', () => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       getUserSingleOperation: of({}),
-      confirmOperation: of({})
+      confirmOperation: of({}),
     });
-    
+
     let activatedRouteSpy: any;
 
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
@@ -46,12 +46,10 @@ describe('OperationsDetailPage', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [ OperationsDetailPage ],
+      declarations: [OperationsDetailPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'fiat-ramps/operations', component: DummyComponent }
-        ]),
+        RouterTestingModule.withRoutes([{ path: 'fiat-ramps/operations', component: DummyComponent }]),
         HttpClientTestingModule,
         IonicModule,
         TranslateModule.forRoot(),
@@ -59,8 +57,8 @@ describe('OperationsDetailPage', () => {
       providers: [
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
-      ]
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+      ],
     }).compileComponents();
   }));
 

@@ -5,16 +5,13 @@ import { SuccessRegisterApikeysBeginnerPage } from './success-register-apikeys-b
 
 const routes: Routes = [
   {
-    path: '', 
-    component: SuccessRegisterApikeysBeginnerPage
-  }
+    path: '',
+    component: SuccessRegisterApikeysBeginnerPage,
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes), 
-    SharedApikeysModule
-  ],
-  declarations: [SuccessRegisterApikeysBeginnerPage]
+  imports: [RouterModule.forChild(routes), SharedApikeysModule],
+  declarations: [SuccessRegisterApikeysBeginnerPage],
 })
 export class SuccessRegisterApikeysBeginnerPageModule {}

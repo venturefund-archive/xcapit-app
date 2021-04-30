@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   user = new ReplaySubject<any>(1);
@@ -25,10 +25,10 @@ export class AuthService {
     private jwtHelper: JwtHelperService,
     private router: Router,
     private crudService: CrudService,
-    private http: CustomHttpService,
+    private http: CustomHttpService
   ) {
     this.checkLogin();
-    this.crud = this.crudService.getEndpoints("users");
+    this.crud = this.crudService.getEndpoints('users');
   }
 
   async checkLogin() {
@@ -37,7 +37,7 @@ export class AuthService {
       this.user.next(await this.getUserLogged());
       this.isLoggedIn.next(true);
     } else {
-      this.checkRefreshToken().then(isRefreshed => {
+      this.checkRefreshToken().then((isRefreshed) => {
         if (isRefreshed) {
           this.user.next(this.getUserLogged());
           this.isLoggedIn.next(true);
@@ -79,9 +79,9 @@ export class AuthService {
   }
 
   async checkRefreshToken(): Promise<boolean> {
-    var jwtRefresh = await this.storage.get(AUTH.refreshKey);
+    let jwtRefresh = await this.storage.get(AUTH.refreshKey);
     if (jwtRefresh && !this.jwtHelper.isTokenExpired(jwtRefresh)) {
-      var jwtRefreshJSON = JSON.parse(`{"refresh" : "${jwtRefresh}"}`);
+      let jwtRefreshJSON = JSON.parse(`{"refresh" : "${jwtRefresh}"}`);
       await this.refreshToken(jwtRefreshJSON).subscribe();
       return true;
     } else {
@@ -92,7 +92,7 @@ export class AuthService {
   refreshToken(data: any): Observable<any> {
     return this.http
       .post(`${environment.apiUrl}/${this.entity}/refresh_token`, data)
-      .pipe(tap(response => this.handleRefreshResponse(response)));
+      .pipe(tap((response) => this.handleRefreshResponse(response)));
   }
 
   private async getUserLogged() {
@@ -101,7 +101,6 @@ export class AuthService {
   }
 
   async sesionExpired() {
-
     await this.logout();
     this.router.navigate(['/users/login']);
   }

@@ -55,16 +55,9 @@ describe('CreateTicketPage', () => {
       activatedRouteMock = {
         queryParams: new Subject(),
       };
-      navControllerSpy = jasmine.createSpyObj(
-        'NavController',
-        navControllerMock
-      );
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [
-          DummyComponent,
-          CreateTicketPage,
-          TrackClickUnauthDirective,
-        ],
+        declarations: [DummyComponent, CreateTicketPage, TrackClickUnauthDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           HttpClientTestingModule,
@@ -87,8 +80,8 @@ describe('CreateTicketPage', () => {
         ],
       }).compileComponents();
 
-      var router = TestBed.inject(Router);
-      var currentNavigation = router.getCurrentNavigation();
+      let router = TestBed.inject(Router);
+      let currentNavigation = router.getCurrentNavigation();
       spyOn(router, 'getCurrentNavigation').and.returnValue({
         ...currentNavigation,
         ...extras,
@@ -96,9 +89,7 @@ describe('CreateTicketPage', () => {
 
       fixture = TestBed.createComponent(CreateTicketPage);
       component = fixture.componentInstance;
-      trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(
-        fixture
-      );
+      trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
       fixture.detectChanges();
     })
   );
@@ -132,10 +123,7 @@ describe('CreateTicketPage', () => {
   });
 
   it('should call trackEvent on trackService when Submit button clicked', () => {
-    const el = trackClickUnauthDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Submit'
-    );
+    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Submit');
     const directive = trackClickUnauthDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();
@@ -144,10 +132,7 @@ describe('CreateTicketPage', () => {
   });
 
   it('should call trackEvent on trackService when Cancel button clicked', () => {
-    const el = trackClickUnauthDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Cancel'
-    );
+    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Cancel');
     const directive = trackClickUnauthDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();

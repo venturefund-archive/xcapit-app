@@ -6,11 +6,9 @@ import * as moment from 'moment';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="ni">
-      <ion-item class="ni__body" [ngClass]="{ni__new: !this.notification.read}">
-        <div class="ni__body__icon">
-          
-        </div>
-          
+      <ion-item class="ni__body" [ngClass]="{ ni__new: !this.notification.read }">
+        <div class="ni__body__icon"></div>
+
         <div style="width: 100%;">
           <ion-label>
             <div class="ni__body__title">{{ this.notification.title }}</div>
@@ -18,7 +16,7 @@ import * as moment from 'moment';
           </ion-label>
         </div>
         <div class="ni__body__date">
-            {{ this.createdTime }}
+          {{ this.createdTime }}
         </div>
       </ion-item>
       <!--ion-item-options side="end">
@@ -28,7 +26,7 @@ import * as moment from 'moment';
       </ion-item-options-->
     </div>
   `,
-  styleUrls: ['./notification-item.component.scss']
+  styleUrls: ['./notification-item.component.scss'],
 })
 export class NotificationItemComponent {
   @Input()
@@ -57,12 +55,12 @@ export class NotificationItemComponent {
   getCreatedTime(date) {
     const initial_date = moment(date);
     const actual_date = moment(new Date());
-    
+
     if (actual_date.diff(initial_date, 'days') > 0) {
       return actual_date.diff(initial_date, 'days') + 'd';
     } else if (actual_date.diff(initial_date, 'hours') > 0) {
       return actual_date.diff(initial_date, 'hours') + 'h';
-    } else if (actual_date.diff(initial_date, 'minutes') > 0){
+    } else if (actual_date.diff(initial_date, 'minutes') > 0) {
       return actual_date.diff(initial_date, 'minutes') + 'm';
     } else {
       return actual_date.diff(initial_date, 'seconds') + 's';

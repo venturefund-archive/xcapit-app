@@ -33,45 +33,35 @@ import { NavController } from '@ionic/angular';
         ></app-ux-input>
 
         <!-- CBU/CVU -->
-          <app-ux-input
-            controlName="cbu_cvu"
-            type="text"
-            inputmode="text"
-            [label]="'fiat_ramps.register.cbu' | translate"
-            [placeholder]="'fiat_ramps.register.cbu' | translate"
-            (keyup) = "this.cbu_count_func()"
-            [maxlength] = "22"
-          ></app-ux-input>
-          <div class="cbu-count">
-            {{this.cbu_count}} / 22
-          </div>
+        <app-ux-input
+          controlName="cbu_cvu"
+          type="text"
+          inputmode="text"
+          [label]="'fiat_ramps.register.cbu' | translate"
+          [placeholder]="'fiat_ramps.register.cbu' | translate"
+          (keyup)="this.cbu_count_func()"
+          [maxlength]="22"
+        ></app-ux-input>
+        <div class="cbu-count">{{ this.cbu_count }} / 22</div>
 
-          <!-- Banco -->
-          <app-ux-input
-            controlName="banco"
-            type="text"
-            inputmode="text"
-            [label]="'fiat_ramps.register.bank' | translate"
-            [placeholder]="'fiat_ramps.register.bank' | translate"
-          ></app-ux-input>
+        <!-- Banco -->
+        <app-ux-input
+          controlName="banco"
+          type="text"
+          inputmode="text"
+          [label]="'fiat_ramps.register.bank' | translate"
+          [placeholder]="'fiat_ramps.register.bank' | translate"
+        ></app-ux-input>
 
-          <div class="ux_footer">
-            <div class="button-next">
-              <ion-button
-                class="ux_button"
-                appTrackClick
-                name="Next"
-                type="submit"
-                color="uxsecondary"
-                size="large"
-              >
-                {{ 'fiat_ramps.register.next' | translate }}
-              </ion-button>
-            </div>
+        <div class="ux_footer">
+          <div class="button-next">
+            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
+              {{ 'fiat_ramps.register.next' | translate }}
+            </ion-button>
           </div>
-        </form>
+        </div>
+      </form>
     </ion-content>
-
   `,
   styleUrls: ['./user-bank.page.scss'],
 })
@@ -79,23 +69,13 @@ export class UserBankPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
     cuit: [
       '',
-      [
-        Validators.required,
-        Validators.minLength(7),
-        Validators.maxLength(15),
-        Validators.pattern('[0-9][^.a-zA-Z]*$')
-      ]
+      [Validators.required, Validators.minLength(7), Validators.maxLength(15), Validators.pattern('[0-9][^.a-zA-Z]*$')],
     ],
     cbu_cvu: [
-      '', 
-      [
-        Validators.required,
-        Validators.minLength(22),
-        Validators.maxLength(22),
-        Validators.pattern('[0-9]*$')
-      ]
+      '',
+      [Validators.required, Validators.minLength(22), Validators.maxLength(22), Validators.pattern('[0-9]*$')],
     ],
-    banco: ['', [Validators.required]]
+    banco: ['', [Validators.required]],
   });
 
   cbu_count = 0;
@@ -105,22 +85,19 @@ export class UserBankPage implements OnInit {
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController
-  ) { }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   cbu_count_func() {
-    this.cbu_count = this.form.value['cbu_cvu'].length;
+    this.cbu_count = this.form.value.cbu_cvu.length;
   }
 
   async handleSubmit() {
-    this.fiatRampsService.registerUserBank(this.form.value)
-    .subscribe({
+    this.fiatRampsService.registerUserBank(this.form.value).subscribe({
       next: (res) => {
         this.navController.navigateForward(['fiat-ramps/user-images']);
-      }
-    })
+      },
+    });
   }
-
 }

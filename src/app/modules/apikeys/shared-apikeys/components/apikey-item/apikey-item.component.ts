@@ -1,13 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  ControlContainer,
-  FormGroupDirective,
-  AbstractControl,
-} from '@angular/forms';
-import {
-  AlertController,
-  ModalController,
-} from '@ionic/angular';
+import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
+import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ListApikeysPage } from '../../../list-apikeys/list-apikeys.page';
@@ -20,11 +13,8 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
     <div class="cib ">
       <div class="cib__main">
         <div class="cib__main__content ion-padding">
-          <div
-            class="cib__main__content__title ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
-          >
-            <ion-text color="uxdark">{{ this.alias }}</ion-text
-            >
+          <div class="cib__main__content__title ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+            <ion-text color="uxdark">{{ this.alias }}</ion-text>
             <ion-button
               appTrackClick
               name="EditButton"
@@ -33,26 +23,16 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
               class="cib__buttons__editButton"
               (click)="openModal()"
             >
-              <ion-icon
-                class="cib__buttons__icon"
-                style="zoom:1.1;"
-                name="pencil-sharp"
-              ></ion-icon>
+              <ion-icon class="cib__buttons__icon" style="zoom:1.1;" name="pencil-sharp"></ion-icon>
             </ion-button>
           </div>
-          <div
-            class="cib__main__content__text ux-font-lato ux-fweight-regular ux-fsize-14"
-          >
+          <div class="cib__main__content__text ux-font-lato ux-fweight-regular ux-fsize-14">
             <ion-text *ngIf="this.fundName">
-              <strong class="cib__main__fund_text">{{
-                'apikeys.card_apikeys.content' | translate
-              }}</strong>
+              <strong class="cib__main__fund_text">{{ 'apikeys.card_apikeys.content' | translate }}</strong>
               {{ this.fundName }}
             </ion-text>
             <ion-text *ngIf="!this.fundName">
-              <strong class="cib__main__fund_text">{{
-                'apikeys.card_apikeys.no_fund_text' | translate
-              }}</strong>
+              <strong class="cib__main__fund_text">{{ 'apikeys.card_apikeys.no_fund_text' | translate }}</strong>
             </ion-text>
           </div>
         </div>
@@ -82,10 +62,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           {{ 'apikeys.card_apikeys.action' | translate }}
           <ion-icon slot="end" name="ux-forward"></ion-icon>
         </ion-button>
-        <ion-text
-          *ngIf="this.fundName"
-          class="ux-font-lato ux-fweight-regular ux-fsize-14 cib__footer__used_key"
-        >
+        <ion-text *ngIf="this.fundName" class="ux-font-lato ux-fweight-regular ux-fsize-14 cib__footer__used_key">
           {{ 'apikeys.card_apikeys.used_apikey' | translate }}
         </ion-text>
       </div>
@@ -127,36 +104,27 @@ export class ApikeyItemComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal apikeys-modal',
       swipeToClose: false,
     });
-      
-    
-     await modal.present();
+
+    await modal.present();
 
     const { role } = await modal.onWillDismiss();
-    if (role === 'success'){
+    if (role === 'success') {
       this.getAllApiKeys();
     }
   }
 
   async showAlert(id) {
     const alert = await this.alertController.create({
-      header: this.translate.instant(
-        'apikeys.card_apikeys.confirmation_alert.header'
-      ),
-      message: this.translate.instant(
-        'apikeys.card_apikeys.confirmation_alert.message'
-      ),
+      header: this.translate.instant('apikeys.card_apikeys.confirmation_alert.header'),
+      message: this.translate.instant('apikeys.card_apikeys.confirmation_alert.message'),
       buttons: [
         {
-          text: this.translate.instant(
-            'apikeys.card_apikeys.confirmation_alert.cancel_button'
-          ),
+          text: this.translate.instant('apikeys.card_apikeys.confirmation_alert.cancel_button'),
           role: 'cancel',
           cssClass: 'secondary',
         },
         {
-          text: this.translate.instant(
-            'apikeys.card_apikeys.confirmation_alert.confirm_button'
-          ),
+          text: this.translate.instant('apikeys.card_apikeys.confirmation_alert.confirm_button'),
           handler: (_) => this.remove(id),
         },
       ],

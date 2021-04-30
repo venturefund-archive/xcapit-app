@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
@@ -30,7 +25,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
           inputmode="password"
           [errors]="this.passwordErrors"
         ></app-ux-input>
-        
+
         <app-ux-input
           controlName="repeat_password"
           type="password"
@@ -43,7 +38,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
       <ng-content select=".submit-button"></ng-content>
     </form>
   `,
-  styleUrls: ['./password-change-form.component.scss']
+  styleUrls: ['./password-change-form.component.scss'],
 })
 export class PasswordChangeFormComponent {
   @Output()
@@ -58,21 +53,12 @@ export class PasswordChangeFormComponent {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(100),
-          CustomValidators.patternValidator(
-            /\d/,
-            CustomValidatorErrors.hasNumber
-          ),
-          CustomValidators.patternValidator(
-            /[A-Z]/,
-            CustomValidatorErrors.hasCapitalCase
-          ),
-          CustomValidators.patternValidator(
-            /[a-z]/,
-            CustomValidatorErrors.hasSmallCase
-          )
-        ]
+          CustomValidators.patternValidator(/\d/, CustomValidatorErrors.hasNumber),
+          CustomValidators.patternValidator(/[A-Z]/, CustomValidatorErrors.hasCapitalCase),
+          CustomValidators.patternValidator(/[a-z]/, CustomValidatorErrors.hasSmallCase),
+        ],
       ],
-      repeat_password: ['', [Validators.required]]
+      repeat_password: ['', [Validators.required]],
     },
     {
       validators: [CustomValidators.passwordMatchValidator],
@@ -81,10 +67,7 @@ export class PasswordChangeFormComponent {
 
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
-  repeatPasswordErrors: ItemFormError[] = [
-    ...CONFIG.fieldErrors.repeatPassword,
-    ...CONFIG.fieldErrors.password
-  ];
+  repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
   constructor(private formBuilder: FormBuilder) {}
 

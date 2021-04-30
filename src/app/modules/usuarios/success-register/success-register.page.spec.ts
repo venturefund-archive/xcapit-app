@@ -27,18 +27,13 @@ describe('SuccessRegisterPage', () => {
       activatedRouteMock = {
         queryParams: new Subject(),
       };
-      navControllerSpy = jasmine.createSpyObj(
-        'NavController',
-        navControllerMock
-      );
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
       TestBed.configureTestingModule({
         declarations: [SuccessRegisterPage, DummyComponent],
         imports: [
           IonicModule,
-          RouterTestingModule.withRoutes([
-            { path: 'users/resend-verify-email', component: DummyComponent },
-          ]),
+          RouterTestingModule.withRoutes([{ path: 'users/resend-verify-email', component: DummyComponent }]),
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
@@ -47,8 +42,8 @@ describe('SuccessRegisterPage', () => {
         ],
       }).compileComponents();
 
-      var router = TestBed.inject(Router);
-      var currentNavigation = router.getCurrentNavigation();
+      let router = TestBed.inject(Router);
+      let currentNavigation = router.getCurrentNavigation();
       spyOn(router, 'getCurrentNavigation').and.returnValue({
         ...currentNavigation,
         ...extras,

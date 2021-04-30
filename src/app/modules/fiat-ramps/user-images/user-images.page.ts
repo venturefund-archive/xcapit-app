@@ -24,7 +24,6 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
       </app-ux-text>
 
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
-
         <!-- agregar foto dni frente -->
 
         <ion-button
@@ -39,7 +38,7 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['front_document'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
-              <img src="../../assets/img/dni_frente.svg" alt="DNI Frente">
+              <img src="../../assets/img/dni_frente.svg" alt="DNI Frente" />
             </div>
             <!--ion-icon class="image-outline" slot="end" name="image-outline"></ion-icon-->
             <span>{{ 'fiat_ramps.register.doc_front' | translate }}</span>
@@ -63,7 +62,7 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['back_document'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
-              <img src="../../assets/img/dni_dorso.svg" alt="DNI Frente">
+              <img src="../../assets/img/dni_dorso.svg" alt="DNI Frente" />
             </div>
             <!--ion-icon class="image-outline" slot="end" name="image-outline"></ion-icon-->
             <span>{{ 'fiat_ramps.register.doc_back' | translate }}</span>
@@ -87,7 +86,7 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['billing'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
-              <img src="../../assets/img/dni_selfie.svg" alt="DNI Frente">
+              <img src="../../assets/img/dni_selfie.svg" alt="DNI Frente" />
             </div>
             <!--ion-icon class="image-outline" slot="end" name="image-outline"></ion-icon-->
             <span>{{ 'fiat_ramps.register.selfie' | translate }}</span>
@@ -95,24 +94,15 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
           <div class="ri__pic-button__picture" *ngIf="this.form.controls['billing'].value.image">
             <img [src]="this.form.controls['billing'].value.image" alt="" />
           </div>
-          
         </ion-button>
 
         <div class="ux_footer">
           <div class="button-next">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="Next"
-              type="submit"
-              color="uxsecondary"
-              size="large"
-            >
+            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
               {{ 'fiat_ramps.register.register' | translate }}
             </ion-button>
           </div>
         </div>
-
       </form>
     </ion-content>
   `,
@@ -122,7 +112,7 @@ export class UserImagesPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
     front_document: ['', [Validators.required]],
     back_document: ['', [Validators.required]],
-    billing: ['', [Validators.required]]
+    billing: ['', [Validators.required]],
   });
 
   constructor(
@@ -130,16 +120,14 @@ export class UserImagesPage implements OnInit {
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController
-  ) { }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async handleSubmit() {
-    this.fiatRampsService.registerUserImages(this.form.value)
-    .subscribe((res) => {
+    this.fiatRampsService.registerUserImages(this.form.value).subscribe((res) => {
       this.navController.navigateForward(['fiat-ramps/confirm-page']);
-    })
+    });
   }
 
   async addPhoto(pic) {
@@ -151,16 +139,14 @@ export class UserImagesPage implements OnInit {
     const photo = await Camera.getPhoto({
       source: CameraSource.Prompt,
       saveToGallery: false,
-      resultType: CameraResultType.DataUrl
+      resultType: CameraResultType.DataUrl,
     });
 
     const res = {
-      'type': pic,
-      'image': photo.dataUrl
-    }
+      type: pic,
+      image: photo.dataUrl,
+    };
 
     this.form.controls[pic].setValue(res);
   }
-
-
 }
