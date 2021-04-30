@@ -11,11 +11,13 @@ describe('PointsCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PointsCardComponent ],
-      imports: [IonicModule.forRoot(),HttpClientTestingModule, TranslateModule.forRoot()],
-      providers:[
-        TranslateService,
-      ]
+      declarations: [PointsCardComponent],
+      imports: [
+        IonicModule.forRoot(),
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
+      providers: [TranslateService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PointsCardComponent);

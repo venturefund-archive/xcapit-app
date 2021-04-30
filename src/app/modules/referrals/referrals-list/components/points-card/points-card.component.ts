@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
           <ion-text
             class="ux-font-lato ux-fweight-bold ux-fsize-14"
             color="uxsemidark"
-            >10
+            >0
             {{
               'referrals.new_referral_page.points_card.points_text' | translate
             }}</ion-text
@@ -17,11 +17,9 @@ import { Component, OnInit } from '@angular/core';
         </div>
       </div>
       <div class="ric__content__right">
-        <ion-badge
-          class="ux_badge_coming"
-          slot="end"
-          >{{ 'referrals.new_referral_page.points_card.coming_badge' | translate }}</ion-badge
-        >
+        <ion-badge class="ux_badge_coming" slot="end">{{
+          'referrals.new_referral_page.points_card.coming_badge' | translate
+        }}</ion-badge>
       </div>
     </div>
   </div>`,

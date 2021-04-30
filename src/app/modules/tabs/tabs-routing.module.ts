@@ -14,33 +14,25 @@ const routes: Routes = [
         path: 'funds',
         loadChildren: () =>
           import('../funds/funds-list/funds-list.module').then(
-            m => m.FundsListPageModule
-          )
+            (m) => m.FundsListPageModule
+          ),
       },
       {
         path: '',
         redirectTo: '/tabs/funds',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
-      {
-        path: 'refer',
-        canActivate: [UserProfileDataGuard],
-        loadChildren: () =>
-          import('../referrals/new-referral/new-referral.module').then(
-            m => m.NewReferralPageModule
-          )
-      }
-    ]
+    ],
   },
   {
     path: '',
     redirectTo: '/tabs/funds',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class TabsRoutingModule {}

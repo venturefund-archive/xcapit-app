@@ -1096,6 +1096,11 @@
       "points_card":{
         "points_text": "points",
         "coming_badge": "Coming soon"
+      },
+      "help_alert":{
+        "alert_title":"Referral System",
+        "alert_message":"Add 10 points for each referral who accepts your invitation. We are adding benefits to exchange for your earned points.",
+        "alert_button":"I understand"
       }
       
     },

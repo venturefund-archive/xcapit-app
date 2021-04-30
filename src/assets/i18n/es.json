@@ -1099,8 +1099,12 @@
       "points_card":{
         "points_text": "puntos",
         "coming_badge": "Próximamente"
+      },
+      "help_alert":{
+        "alert_title":"Sistema de Referidos",
+        "alert_message":"Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
+        "alert_button":"Entendido"
       }
-      
     },
     "referrals_list": {
       "header": "Referidos",
