@@ -7,12 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
       <div
         class="container__step"
         *ngFor="let stepItem of this.totalArray"
-        [ngClass]="{ 'active': stepItem == this.step }"
-      >
-      </div>
+        [ngClass]="{ active: stepItem === this.step }"
+      ></div>
     </div>
   `,
-  styleUrls: ['./ux-slide-step-show.component.scss']
+  styleUrls: ['./ux-slide-step-show.component.scss'],
 })
 export class UxSlideStepShowComponent implements OnInit {
   totalArray = [];

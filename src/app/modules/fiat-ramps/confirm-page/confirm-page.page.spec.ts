@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { ConfirmPagePage } from './confirm-page.page';
@@ -26,9 +26,9 @@ const storageData = {
       moneda_salida: 'USDT',
       precio_entrada: '1',
       precio_salida: '100',
-      wallet: '0x000000000000000000000dead'
+      wallet: '0x000000000000000000000dead',
     },
-    valid: true
+    valid: true,
   },
   invalid: {
     data: {
@@ -41,10 +41,10 @@ const storageData = {
       moneda_salida: '',
       precio_entrada: '',
       precio_salida: '',
-      wallet: ''
+      wallet: '',
     },
-    valid: false
-  }
+    valid: false,
+  },
 };
 
 describe('ConfirmPagePage', () => {
@@ -56,37 +56,39 @@ describe('ConfirmPagePage', () => {
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ConfirmPagePage>;
 
-  beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    storageOperationServiceMock = {
-      data: of(storageData.valid.data),
-      valid: storageData.valid.valid,
-      clear: () => of({})
-    }
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      createOperation: of({})
-    });
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      storageOperationServiceMock = {
+        data: of(storageData.valid.data),
+        valid: storageData.valid.valid,
+        clear: () => of({}),
+      };
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+        createOperation: of({}),
+      });
 
-    TestBed.configureTestingModule({
-      declarations: [ ConfirmPagePage, TrackClickDirective ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'fiat-ramps/operations-new"', component: DummyComponent },
-          { path: 'fiat-ramps/success-page', component: DummyComponent }
-        ]),
-        HttpClientTestingModule,
-        IonicModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: StorageOperationService, useValue: storageOperationServiceMock },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [ConfirmPagePage, TrackClickDirective],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          RouterTestingModule.withRoutes([
+            { path: 'fiat-ramps/operations-new"', component: DummyComponent },
+            { path: 'fiat-ramps/success-page', component: DummyComponent },
+          ]),
+          HttpClientTestingModule,
+          IonicModule,
+          TranslateModule.forRoot(),
+        ],
+        providers: [
+          TrackClickDirective,
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+          { provide: StorageOperationService, useValue: storageOperationServiceMock },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmPagePage);
@@ -101,10 +103,7 @@ describe('ConfirmPagePage', () => {
   });
 
   it('should call createOperation on click confirm button', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Next'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

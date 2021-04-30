@@ -45,11 +45,11 @@ import { NavController } from '@ionic/angular';
         <app-ux-text>
           <div>
             <span class="cp__content__title">{{ 'fiat_ramps.confirm.quotation' | translate }}</span>
-            <span *ngIf="this.operationData.type == 'cash-in'">
+            <span *ngIf="this.operationData.type === 'cash-in'">
               1 {{ this.operationData.currency_out }} = {{ this.operationData.price_out }}
               {{ this.operationData.currency_in }}
             </span>
-            <span *ngIf="this.operationData.type == 'cash-out'">
+            <span *ngIf="this.operationData.type === 'cash-out'">
               1 {{ this.operationData.currency_in }} = {{ this.operationData.price_in }}
               {{ this.operationData.currency_out }}
             </span>

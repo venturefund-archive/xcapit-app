@@ -19,22 +19,20 @@ describe('AuthService', () => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', ['post']);
     customHttpServiceSpy.post.and.returnValue(of({}));
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
-    jwtHelperServiceSpy = jasmine.createSpyObj('JwtHelperService', [
-      'isTokenExpired'
-    ]);
+    jwtHelperServiceSpy = jasmine.createSpyObj('JwtHelperService', ['isTokenExpired']);
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
         { provide: CrudService, useValue: crudSpy },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
         { provide: Storage, useValue: storageSpy },
-        { provide: JwtHelperService, useValue: jwtHelperServiceSpy }
-      ]
+        { provide: JwtHelperService, useValue: jwtHelperServiceSpy },
+      ],
     });
   });
 
   beforeEach(() => {
-    service = TestBed.get(AuthService);
+    service = TestBed.inject(AuthService);
   });
 
   it('should be created', () => {

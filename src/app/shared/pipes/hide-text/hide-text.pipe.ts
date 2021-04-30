@@ -7,10 +7,10 @@ import { LocalStorageService } from '../../services/local-storage/local-storage.
   pure: false,
 })
 export class HideTextPipe implements PipeTransform {
-  constructor() { }
+  constructor() {}
 
   transform(value: string, activated: boolean): string {
-    if ((activated == true)) {
+    if (activated === true) {
       return value ? value.replace(value, '****') : value;
     } else {
       return value;

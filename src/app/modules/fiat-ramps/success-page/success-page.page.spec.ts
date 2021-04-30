@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { SuccessPagePage } from './success-page.page';
@@ -23,9 +23,9 @@ const storageData = {
       moneda_salida: 'USDT',
       precio_entrada: '1',
       precio_salida: '100',
-      wallet: '0x000000000000000000000dead'
+      wallet: '0x000000000000000000000dead',
     },
-    valid: true
+    valid: true,
   },
   invalid: {
     data: {
@@ -38,10 +38,10 @@ const storageData = {
       moneda_salida: '',
       precio_entrada: '',
       precio_salida: '',
-      wallet: ''
+      wallet: '',
     },
-    valid: false
-  }
+    valid: false,
+  },
 };
 
 describe('SuccessPagePage', () => {
@@ -51,32 +51,32 @@ describe('SuccessPagePage', () => {
   let storageOperationService: any;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    storageOperationServiceMock = {
-      data: of(storageData.valid.data),
-      valid: storageData.valid.valid,
-      clear: () => of({})
-    }
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      storageOperationServiceMock = {
+        data: of(storageData.valid.data),
+        valid: storageData.valid.valid,
+        clear: () => of({}),
+      };
 
-    TestBed.configureTestingModule({
-      declarations: [ SuccessPagePage ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      TestBed.configureTestingModule({
+        declarations: [SuccessPagePage],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
-      imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'fiat-ramps/operations', component: DummyComponent },
-        ]),
-        HttpClientTestingModule,
-        IonicModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        { provide: StorageOperationService, useValue: storageOperationServiceMock },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+        imports: [
+          RouterTestingModule.withRoutes([{ path: 'fiat-ramps/operations', component: DummyComponent }]),
+          HttpClientTestingModule,
+          IonicModule,
+          TranslateModule.forRoot(),
+        ],
+        providers: [
+          { provide: StorageOperationService, useValue: storageOperationServiceMock },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuccessPagePage);
@@ -94,5 +94,4 @@ describe('SuccessPagePage', () => {
     component.launchChat();
     expect(window.open).toHaveBeenCalledTimes(1);
   });
-
 });

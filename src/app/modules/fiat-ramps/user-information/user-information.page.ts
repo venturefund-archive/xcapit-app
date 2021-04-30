@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Countries } from '../enums/countries.enum';
@@ -26,7 +25,7 @@ import { NavController } from '@ionic/angular';
 
     <ion-content class="ion-padding rp">
       <div class="rp__logo">
-        <img src="../../assets/img/logo_kripton.png" alt="Logo kripton">
+        <img src="../../assets/img/logo_kripton.png" alt="Logo kripton" />
       </div>
 
       <app-ux-text class="ion-padding-top ion-margin-top">
@@ -47,12 +46,12 @@ import { NavController } from '@ionic/angular';
           ></app-ux-input>
 
           <!-- Apellido -->
-            <app-ux-input
-              controlName="apellido"
-              type="text"
-              [label]="'fiat_ramps.register.last_name' | translate"
-              inputmode="text"
-              [placeholder]="'fiat_ramps.register.last_name' | translate"
+          <app-ux-input
+            controlName="apellido"
+            type="text"
+            [label]="'fiat_ramps.register.last_name' | translate"
+            inputmode="text"
+            [placeholder]="'fiat_ramps.register.last_name' | translate"
           ></app-ux-input>
 
           <!-- Nacionalidad -->
@@ -88,7 +87,7 @@ import { NavController } from '@ionic/angular';
             [modalTitle]="'fiat_ramps.register.marital_status' | translate"
             [placeholder]="'fiat_ramps.register.marital_status' | translate"
             controlName="estado_civil"
-            [data]="this.marital_status"
+            [data]="this.maritalStatus"
           ></app-ux-input-select>
 
           <!-- Tipo documento -->
@@ -97,7 +96,7 @@ import { NavController } from '@ionic/angular';
             [modalTitle]="'fiat_ramps.register.doc_type' | translate"
             [placeholder]="'fiat_ramps.register.doc_type' | translate"
             controlName="tipo_doc"
-            [data]="this.doc_types"
+            [data]="this.docTypes"
           ></app-ux-input-select>
 
           <!-- Nro doc -->
@@ -161,14 +160,7 @@ import { NavController } from '@ionic/angular';
 
         <div class="ux_footer">
           <div class="button-next">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="Next"
-              type="submit"
-              color="uxsecondary"
-              size="large"
-            >
+            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
               {{ 'fiat_ramps.register.next' | translate }}
             </ion-button>
           </div>
@@ -180,22 +172,8 @@ import { NavController } from '@ionic/angular';
 })
 export class UserInformationPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    nombre: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(150),
-        Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
-      ]
-    ],
-    apellido: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(150),
-        Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
-      ]
-    ],
+    nombre: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
+    apellido: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
     nacionalidad: ['', [Validators.required]],
     nacimiento: ['', [Validators.required]],
     genero: ['', [Validators.required]],
@@ -203,12 +181,7 @@ export class UserInformationPage implements OnInit {
     tipo_doc: ['', [Validators.required]],
     nro_doc: [
       '',
-      [
-        Validators.required,
-        Validators.minLength(7),
-        Validators.maxLength(12),
-        Validators.pattern('[a-zA-Z0-9]*$')
-      ]
+      [Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern('[a-zA-Z0-9]*$')],
     ],
     ciudad: ['', [Validators.required]],
     codigo_postal: ['', [Validators.required]],
@@ -218,30 +191,27 @@ export class UserInformationPage implements OnInit {
   });
 
   countries = Object.values(Countries);
-  marital_status = Object.values(MaritalStatus);
+  maritalStatus = Object.values(MaritalStatus);
   provinces = Object.values(Province);
   gender = Object.values(Gender);
-  doc_types = Object.values(DocTypes);
+  docTypes = Object.values(DocTypes);
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController
-  ) { }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   handleSubmit() {
     if (this.form.valid) {
-      this.fiatRampsService.registerUserInfo(this.form.value)
-      .subscribe((res) => {
-          this.navController.navigateForward(['fiat-ramps/user-bank']);
-      })
+      this.fiatRampsService.registerUserInfo(this.form.value).subscribe((res) => {
+        this.navController.navigateForward(['fiat-ramps/user-bank']);
+      });
     } else {
       this.form.markAllAsTouched();
     }
   }
-
 }

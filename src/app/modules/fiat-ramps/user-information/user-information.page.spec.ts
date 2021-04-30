@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { UserInformationPage } from './user-information.page';
@@ -54,32 +54,34 @@ describe('RegisterPagePage', () => {
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserInformationPage>;
 
-  beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      registerUserInfo: of({}),
-    });
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+        registerUserInfo: of({}),
+      });
 
-    TestBed.configureTestingModule({
-      declarations: [UserInformationPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'fiat-ramps/user-bank', component: DummyComponent },
-          { path: 'fiat-ramps/operations-new', component: DummyComponent },
-        ]),
-        HttpClientTestingModule,
-        IonicModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [UserInformationPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          RouterTestingModule.withRoutes([
+            { path: 'fiat-ramps/user-bank', component: DummyComponent },
+            { path: 'fiat-ramps/operations-new', component: DummyComponent },
+          ]),
+          HttpClientTestingModule,
+          IonicModule,
+          TranslateModule.forRoot(),
+          ReactiveFormsModule,
+        ],
+        providers: [
+          TrackClickDirective,
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserInformationPage);
