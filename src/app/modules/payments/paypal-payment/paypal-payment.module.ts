@@ -15,6 +15,7 @@ const routes: Routes = [
   }
 ];
 @NgModule({
+  declarations: [PaypalPaymentPage],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
@@ -22,6 +23,6 @@ const routes: Routes = [
     IonicModule,
     SharedModule,
   ],
-  declarations: [PaypalPaymentPage]
+  providers:[SharedModule]
 })
 export class PaypalPaymentPageModule {}

@@ -12,29 +12,30 @@ const { Browser } = Plugins;
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'payment.header' | translate
-        }}</ion-title>
+        <ion-title>{{ 'payment.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      <app-ux-title class="ion-padding-top ion-margin-top">
-        <div class="ux-title">
-          <div class="ion-margin-top">
-            {{ 'payment.title' | translate }}
-          </div>
-        </div>
-      </app-ux-title>
-      <div class="ik__submit_button">
-        <ion-button
-          class="ux_button"
-          appTrackClick
-          color="uxsecondary"
-          size="large"
-          (click)="openBrowser()"
+    <ion-content>
+      <div class="nr__title">
+        <ion-text
+          class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
         >
-          {{ 'payment.paypal_button' | translate }}
-        </ion-button>
+          {{ 'payment.title' | translate }}
+        </ion-text>
+      </div>
+      <div class="submit-button">
+        <div
+          class="nr__submit-button ion-padding-start ion-padding-end ion-padding-top"
+        >
+          <ion-button
+            class="ux_button"
+            size="large"
+            color="uxsecondary"
+            (click)="openBrowser()"
+          >
+            {{ 'payment.paypal_button' | translate }}
+          </ion-button>
+        </div>
       </div>
     </ion-content>
   `,

@@ -1,16 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { PaypalPaymentPage } from './paypal-payment.page';
 
 describe('PaypalPaymentPage', () => {
   let component: PaypalPaymentPage;
   let fixture: ComponentFixture<PaypalPaymentPage>;
+  let navControllerSpy: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaypalPaymentPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [PaypalPaymentPage],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PaypalPaymentPage);
@@ -20,5 +25,11 @@ describe('PaypalPaymentPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call window.open when openBrowser is called', () => {
+    spyOn(window, 'open');
+    component.openBrowser();
+    expect(window.open).toHaveBeenCalledTimes(1);
   });
 });
