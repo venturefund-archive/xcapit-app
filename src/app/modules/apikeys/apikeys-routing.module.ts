@@ -57,7 +57,7 @@ const routes: Routes = [
           )
       },
       {
-        path: 'success-register-creator',
+        path: 'success-register-beginner',
         canActivate: [],
         loadChildren: () =>
           import(

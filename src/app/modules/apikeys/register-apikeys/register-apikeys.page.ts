@@ -11,6 +11,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
 import { LINKS } from '../../../config/static-links';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
 
 @Component({
   selector: 'app-register-apikeys',
@@ -128,6 +129,7 @@ export class RegisterApikeysPage implements OnInit {
   ionViewWillEnter() {
     this.patchFormValue();
     this.checkIsWebPlatform();
+    this.getUserStatus();
   }
 
   async getUserStatus() {
@@ -169,7 +171,6 @@ export class RegisterApikeysPage implements OnInit {
   submitData() {
     const data = this.form.value;
     this.apiApikeysService.create(data).subscribe(async (res) => {
-      await this.getUserStatus();
       this.success(res, this.getSuccessRoute());
     });
   }
@@ -177,17 +178,17 @@ export class RegisterApikeysPage implements OnInit {
   getSuccessRoute(): string {
     let route = '/apikeys/success-register';
 
-    if (this.isCreatorUser()) {
-      route += '-creator';
+    if (this.isBeginnerUser()) {
+      route += '-beginner';
     }
 
     return route;
   }
 
-  isCreatorUser(): boolean {
+  isBeginnerUser(): boolean {
     if (!this.userStatus) return;
 
-    return this.userStatus.status_name == 'CREATOR';
+    return this.userStatus.status_name == UserStatus.BEGINNER;
   }
 
   success(apiKeys: any, route: string) {
