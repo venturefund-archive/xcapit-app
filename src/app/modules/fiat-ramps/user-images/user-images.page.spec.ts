@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { UserImagesPage } from './user-images.page';
@@ -52,29 +52,31 @@ describe('UserImagesPage', () => {
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserImagesPage>;
 
-  beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      registerUserImages: of({}),
-    });
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+        registerUserImages: of({}),
+      });
 
-    TestBed.configureTestingModule({
-      declarations: [UserImagesPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        RouterTestingModule.withRoutes([{ path: 'fiat-ramps/user-images', component: DummyComponent }]),
-        HttpClientTestingModule,
-        IonicModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [UserImagesPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          RouterTestingModule.withRoutes([{ path: 'fiat-ramps/user-images', component: DummyComponent }]),
+          HttpClientTestingModule,
+          IonicModule,
+          TranslateModule.forRoot(),
+          ReactiveFormsModule,
+        ],
+        providers: [
+          TrackClickDirective,
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserImagesPage);

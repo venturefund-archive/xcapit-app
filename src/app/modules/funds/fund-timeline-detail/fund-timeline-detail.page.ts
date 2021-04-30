@@ -9,17 +9,13 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="/funds/detail/{{ this.fundName }}"
-          ></ion-back-button>
+          <ion-back-button defaultHref="/funds/detail/{{ this.fundName }}"></ion-back-button>
         </ion-buttons>
         <div>
           <ion-title class="atd__header-date ion-text-center">
             {{ this.fund?.fecha_inicio | date: 'dd/MM/yy' }}</ion-title
           >
-          <ion-title class="atd__header-fund ion-text-center">{{
-            this.fundName
-          }}</ion-title>
+          <ion-title class="atd__header-fund ion-text-center">{{ this.fundName }}</ion-title>
         </div>
       </ion-toolbar>
     </ion-header>
@@ -36,14 +32,8 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
           <ion-list class="atd__performance-card__content">
             <ion-item class="atd__performance-card__content__item">
               <ion-label>
-                <ion-text
-                  class="ux-font-lato ux-fweight-regular ux-fsize-12"
-                  color="uxsemidark"
-                >
-                  {{
-                    'funds.fund_timeline_detail.performance_card.performance_label'
-                      | translate
-                  }}
+                <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">
+                  {{ 'funds.fund_timeline_detail.performance_card.performance_label' | translate }}
                 </ion-text>
               </ion-label>
               <ion-label>
@@ -56,45 +46,27 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
         </div>
         <div class="atd__config">
           <div class="atd__config__title">
-            <ion-text
-              class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-              color="uxsemidark"
-            >
+            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">
               {{ 'funds.fund_timeline_detail.config_card.title' | translate }}
             </ion-text>
           </div>
           <ion-list class="atd__config__content">
             <ion-item class="atd__config__content__item">
               <ion-label>
-                <ion-text>{{
-                  'funds.fund_timeline_detail.config_card.item.state'
-                    | translate
-                }}</ion-text>
+                <ion-text>{{ 'funds.fund_timeline_detail.config_card.item.state' | translate }}</ion-text>
                 <ion-text
                   class="atd__config__content__item__value_finalizado"
-                  *ngIf="this.fund?.estado == 'finalizado'"
-                  >{{
-                    'funds.fund_timeline_detail.config_card.item.status_finished'
-                      | translate
-                  }}</ion-text
+                  *ngIf="this.fund?.estado === 'finalizado'"
+                  >{{ 'funds.fund_timeline_detail.config_card.item.status_finished' | translate }}</ion-text
                 >
-                <ion-text
-                  class="atd__config__content__item__value_active"
-                  *ngIf="this.fund?.estado == 'active'"
-                >
-                  {{
-                    'funds.fund_timeline_detail.config_card.item.status_active'
-                      | translate
-                  }}</ion-text
+                <ion-text class="atd__config__content__item__value_active" *ngIf="this.fund?.estado === 'active'">
+                  {{ 'funds.fund_timeline_detail.config_card.item.status_active' | translate }}</ion-text
                 >
               </ion-label>
             </ion-item>
             <ion-item class="atd__config__content__item">
               <ion-label>
-                <ion-text>{{
-                  'funds.fund_timeline_detail.config_card.item.initial_date'
-                    | translate
-                }}</ion-text>
+                <ion-text>{{ 'funds.fund_timeline_detail.config_card.item.initial_date' | translate }}</ion-text>
                 <ion-text class="atd__config__content__item__value">
                   {{ this.fund?.fecha_inicio | localizedDate: 'longDate' }}
                 </ion-text>
@@ -102,35 +74,20 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
             </ion-item>
             <ion-item class="atd__config__content__item">
               <ion-label>
-                <ion-text>{{
-                  'funds.fund_timeline_detail.config_card.item.take_profit'
-                    | translate
-                }}</ion-text>
-                <ion-text class="atd__config__content__item__value"
-                  >{{ this.fund?.ganancia }}%</ion-text
-                >
+                <ion-text>{{ 'funds.fund_timeline_detail.config_card.item.take_profit' | translate }}</ion-text>
+                <ion-text class="atd__config__content__item__value">{{ this.fund?.ganancia }}%</ion-text>
               </ion-label>
             </ion-item>
             <ion-item class="atd__config__content__item">
               <ion-label>
-                <ion-text>{{
-                  'funds.fund_timeline_detail.config_card.item.stop_loss'
-                    | translate
-                }}</ion-text>
-                <ion-text class="atd__config__content__item__value"
-                  >-{{ this.fund?.perdida }}%</ion-text
-                >
+                <ion-text>{{ 'funds.fund_timeline_detail.config_card.item.stop_loss' | translate }}</ion-text>
+                <ion-text class="atd__config__content__item__value">-{{ this.fund?.perdida }}%</ion-text>
               </ion-label>
             </ion-item>
             <ion-item class="atd__config__content__item">
               <ion-label>
-                <ion-text>{{
-                  'funds.fund_timeline_detail.config_card.item.currency'
-                    | translate
-                }}</ion-text>
-                <ion-text class="atd__config__content__item__value">{{
-                  this.fund?.currency
-                }}</ion-text>
+                <ion-text>{{ 'funds.fund_timeline_detail.config_card.item.currency' | translate }}</ion-text>
+                <ion-text class="atd__config__content__item__value">{{ this.fund?.currency }}</ion-text>
               </ion-label>
             </ion-item>
           </ion-list>
@@ -147,10 +104,7 @@ export class FundTimelineDetailPage implements OnInit {
   fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   isChart: boolean;
 
-  constructor(
-    private route: ActivatedRoute,
-    private apiFunds: ApiFundsService
-  ) {}
+  constructor(private route: ActivatedRoute, private apiFunds: ApiFundsService) {}
 
   ngOnInit() {}
 
@@ -162,27 +116,19 @@ export class FundTimelineDetailPage implements OnInit {
 
   getTimelineDetailInfo() {
     this.apiFunds.getLastPercentage(this.fundName, this.runID).subscribe((data) => {
-      this.fund = data[0]
+      this.fund = data[0];
     });
     this.getFundPerformanceCardInfo();
   }
 
   getFundPerformanceCardInfo() {
-    this.apiFunds
-      .getPercentageEvolution(
-        this.fundName,
-        this.runID,
-        '',
-        '1d',
-        false
-      )
-      .subscribe((data) => {
-        if (data.percentage_evolution) {
-          data.percentage_evolution.take_profit = data.fund.ganancia;
-          data.percentage_evolution.stop_loss = data.fund.perdida;
-          this.isChart = true;
-        }
-        this.fundPercentageEvolution = data.percentage_evolution;
-      });
+    this.apiFunds.getPercentageEvolution(this.fundName, this.runID, '', '1d', false).subscribe((data) => {
+      if (data.percentage_evolution) {
+        data.percentage_evolution.take_profit = data.fund.ganancia;
+        data.percentage_evolution.stop_loss = data.fund.perdida;
+        this.isChart = true;
+      }
+      this.fundPercentageEvolution = data.percentage_evolution;
+    });
   }
 }

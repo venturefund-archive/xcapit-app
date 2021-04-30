@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class XhrResponseHandlerService {
   private allow5xxErrors: boolean;
@@ -28,7 +28,7 @@ export class XhrResponseHandlerService {
   //   response: HttpErrorResponse
   // ): string {
   //   if (
-  //     response.status !== 0 &&
+  //     response.status !=== 0 &&
   //     this.shouldShowDefaultMessage(response.status)
   //   ) {
   //     return (

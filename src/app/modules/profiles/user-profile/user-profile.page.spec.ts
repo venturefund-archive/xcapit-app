@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserProfilePage } from './user-profile.page';
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +15,7 @@ import { Storage } from '@ionic/storage';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 const dataMock = {
-  viewBillData: {}
+  viewBillData: {},
 };
 
 describe('UserProfilePage', () => {
@@ -29,38 +29,40 @@ describe('UserProfilePage', () => {
   let storageSpy: any;
   let storageService: any;
 
-  beforeEach(waitForAsync(() => {
-    apiProfilesServiceMock = {
-      crud: {
-        update: () => of({}),
-        get: () => of({})
-      }
-    };
-    apiUsuariosServiceMock = {
-      status: () => of({status_name: 'COMPLETE'})
-    };
-    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
-    storageSpy.get.and.returnValue(new Promise(resolve => {}));
-    storageSpy.set.and.returnValue(new Promise(resolve => {}));
-    storageSpy.remove.and.returnValue(new Promise(resolve => {}));
+  beforeEach(
+    waitForAsync(() => {
+      apiProfilesServiceMock = {
+        crud: {
+          update: () => of({}),
+          get: () => of({}),
+        },
+      };
+      apiUsuariosServiceMock = {
+        status: () => of({ status_name: 'COMPLETE' }),
+      };
+      storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
+      storageSpy.get.and.returnValue(new Promise((resolve) => {}));
+      storageSpy.set.and.returnValue(new Promise((resolve) => {}));
+      storageSpy.remove.and.returnValue(new Promise((resolve) => {}));
 
-    TestBed.configureTestingModule({
-      declarations: [UserProfilePage, TrackClickDirective],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([])
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
-        { provide: Storage, useValue: storageSpy },
-        { provide: ApiUsuariosService, useValue: apiUsuariosServiceMock }
-      ]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [UserProfilePage, TrackClickDirective],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+          ReactiveFormsModule,
+          RouterTestingModule.withRoutes([]),
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+          { provide: Storage, useValue: storageSpy },
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceMock },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfilePage);
@@ -69,7 +71,7 @@ describe('UserProfilePage', () => {
     storageService = TestBed.inject(Storage);
     apiUsuariosService = TestBed.inject(ApiUsuariosService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    component.userStatus = {status_name: 'COMPLETE'};
+    component.userStatus = { status_name: 'COMPLETE' };
     component.data = dataMock;
     fixture.detectChanges();
   });
@@ -87,7 +89,7 @@ describe('UserProfilePage', () => {
 
   it('should call status on apiUsuarios when ionViewWillEnter', () => {
     const spy = spyOn(apiUsuariosService, 'status');
-    spy.and.returnValue(of({status_name: 'COMPLETE'}));
+    spy.and.returnValue(of({ status_name: 'COMPLETE' }));
     component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -104,10 +106,7 @@ describe('UserProfilePage', () => {
   });
 
   it('should call trackEvent on trackService when Edit Save Profile button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Edit Save Profile'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Save Profile');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

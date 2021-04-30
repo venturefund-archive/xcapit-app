@@ -12,151 +12,112 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { LocalStorageService } from '../../../shared/services/local-storage/local-storage.service';
 
-
 @Component({
   selector: 'app-funds-list',
   template: `
-      <ion-header>
-          <ion-toolbar color="uxprimary" class="ux_toolbar">
-              <ion-buttons slot="start">
-                  <ion-button
-                          appTrackClick
-                          name="Go To Profile"
-                          (click)="this.goToProfile()"
-                  >
-                      <ion-avatar class="avatar">
-                          <img src="assets/img/user-profile/avatar-default.png"/>
-                      </ion-avatar>
-                  </ion-button>
-              </ion-buttons>
-              <ion-buttons slot="end" *ngIf="true">
-                  <ion-button
-                          appTrackClick
-                          name="Show Notifications"
-                          (click)="this.showNotifications()"
-                  >
-                      <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
-                      <div class="notificationQty" *ngIf="this.unreadNotifications > 0">
-                          {{ this.unreadNotifications }}
-                      </div>
-                  </ion-button>
-              </ion-buttons>
-              <div class="header">
-                  <div class="header__logo ion-text-center">
-                      <app-xcapit-logo></app-xcapit-logo>
-                  </div>
-              </div>
-          </ion-toolbar>
-      </ion-header>
-
-      <ion-content>
-          <app-ux-loading-block
-                  *ngIf="this.status?.status_name == ''"
-                  minSize="50px"
-          ></app-ux-loading-block>
-
-          <app-fund-list-sub-header
-                  *ngIf="
-          this.ownerFundBalances?.length &&
-          this.status?.status_name == 'COMPLETE'
-        "
-          ></app-fund-list-sub-header>
-          <div class="fl__user-status__subheader" *ngIf="
-          this.status?.status_name !== '' && this.status?.status_name !== 'COMPLETE'"></div>
-          <div [ngClass]="{'fl__user-status': this.status?.status_name !== 'COMPLETE'}" *ngIf="this.status?.status_name !== ''">
-              <app-user-status-card [userStatus]="this.status"></app-user-status-card>
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-button appTrackClick name="Go To Profile" (click)="this.goToProfile()">
+            <ion-avatar class="avatar">
+              <img src="assets/img/user-profile/avatar-default.png" />
+            </ion-avatar>
+          </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end" *ngIf="true">
+          <ion-button appTrackClick name="Show Notifications" (click)="this.showNotifications()">
+            <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
+            <div class="notificationQty" *ngIf="this.unreadNotifications > 0">
+              {{ this.unreadNotifications }}
+            </div>
+          </ion-button>
+        </ion-buttons>
+        <div class="header">
+          <div class="header__logo ion-text-center">
+            <app-xcapit-logo></app-xcapit-logo>
           </div>
-          <ion-refresher
-                  (ionRefresh)="doRefresh($event)"
-                  slot="fixed"
-                  pull-factor="0.6"
-                  pull-min="50"
-                  pull-max="60"
+        </div>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <app-ux-loading-block *ngIf="this.status?.status_name === ''" minSize="50px"></app-ux-loading-block>
+
+      <app-fund-list-sub-header
+        *ngIf="this.ownerFundBalances?.length && this.status?.status_name === 'COMPLETE'"
+      ></app-fund-list-sub-header>
+      <div
+        class="fl__user-status__subheader"
+        *ngIf="this.status?.status_name !== '' && this.status?.status_name !== 'COMPLETE'"
+      ></div>
+      <div
+        [ngClass]="{ 'fl__user-status': this.status?.status_name !== 'COMPLETE' }"
+        *ngIf="this.status?.status_name !== ''"
+      >
+        <app-user-status-card [userStatus]="this.status"></app-user-status-card>
+      </div>
+      <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
+        <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="false" pullingIcon="false">
+          <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
+          <ion-text
+            class="ux-font-lato ux-fweight-regular ux-fsize-10"
+            color="uxmedium"
+            *ngIf="!(this.isRefreshAvailable$ | async)"
           >
-              <ion-refresher-content
-                      class="refresher"
-                      close-duration="120ms"
-                      refreshingSpinner="false"
-                      pullingIcon="false"
-              >
-                  <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-                  <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-10" color="uxmedium"
-                            *ngIf="!(this.isRefreshAvailable$ | async)">
-                      {{ 'funds.funds_list.refresh_time' | translate: {
+            {{
+              'funds.funds_list.refresh_time'
+                | translate
+                  : {
                       seconds: (this.refreshRemainingTime$ | async)
-                  }
-                      }}
-                  </ion-text>
+                    }
+            }}
+          </ion-text>
+        </ion-refresher-content>
+      </ion-refresher>
 
-              </ion-refresher-content>
-          </ion-refresher>
-
-          <!-- Fund lists -->
-          <div class="fl" *ngIf="this.status?.status_name == 'COMPLETE'">
-              <div
-                      *ngIf="this.ownerFundBalances?.length"
-                      class="fl__funds ion-padding"
-              >
-                  <div
-                          class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12"
-                  >
-                      {{ 'funds.funds_list.funds_title' | translate }}
-                  </div>
-
-                  <app-ux-loading-block
-                          minSize="50px"
-                          *ngIf="!this.ownerFundBalances"
-                  ></app-ux-loading-block>
-
-                  <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
-                      <app-fund-card
-                              [fund]="fb"
-                              *ngIf="fb.state == 'active'"
-                      ></app-fund-card>
-                  </div>
-                  <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
-                      <app-fund-card
-                              [hideFundText]="this.hideFundText"
-                              [fund]="fb"
-                              *ngIf="fb.state == 'finalizado'"
-                      ></app-fund-card>
-                  </div>
-              </div>
-          </div>
-          <div class="fl" *ngIf="this.notOwnerFundBalances?.length">
-              <div class="fl__funds ion-padding">
-                  <div
-                          class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12"
-                  >
-                      {{ 'funds.funds_list.shared_funds_title' | translate }}
-                  </div>
-                  <app-ux-loading-block
-                          minSize="50px"
-                          *ngIf="!this.notOwnerFundBalances"
-                  ></app-ux-loading-block>
-                  <div
-                          class="fl__funds__card"
-                          *ngFor="let nofb of notOwnerFundBalances"
-                  >
-                      <app-fund-card [fund]="nofb"></app-fund-card>
-                  </div>
-              </div>
+      <!-- Fund lists -->
+      <div class="fl" *ngIf="this.status?.status_name === 'COMPLETE'">
+        <div *ngIf="this.ownerFundBalances?.length" class="fl__funds ion-padding">
+          <div class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+            {{ 'funds.funds_list.funds_title' | translate }}
           </div>
 
-          <!-- Slider News -->
-          <div class="academy ion-padding" *ngIf="this.news">
-              <div
-                      class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12"
-              >
-                  <ion-label color="uxsemidark">{{
-                      'funds.funds_list.news_title' | translate
-                      }}</ion-label>
-              </div>
-              <app-fund-slider-news [news]="this.news"></app-fund-slider-news>
+          <app-ux-loading-block minSize="50px" *ngIf="!this.ownerFundBalances"></app-ux-loading-block>
+
+          <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
+            <app-fund-card [fund]="fb" *ngIf="fb.state === 'active'"></app-fund-card>
           </div>
-      </ion-content>
+          <div class="fl__funds__card" *ngFor="let fb of ownerFundBalances">
+            <app-fund-card
+              [hideFundText]="this.hideFundText"
+              [fund]="fb"
+              *ngIf="fb.state === 'finalizado'"
+            ></app-fund-card>
+          </div>
+        </div>
+      </div>
+      <div class="fl" *ngIf="this.notOwnerFundBalances?.length">
+        <div class="fl__funds ion-padding">
+          <div class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+            {{ 'funds.funds_list.shared_funds_title' | translate }}
+          </div>
+          <app-ux-loading-block minSize="50px" *ngIf="!this.notOwnerFundBalances"></app-ux-loading-block>
+          <div class="fl__funds__card" *ngFor="let nofb of notOwnerFundBalances">
+            <app-fund-card [fund]="nofb"></app-fund-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slider News -->
+      <div class="academy ion-padding" *ngIf="this.news">
+        <div class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+          <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
+        </div>
+        <app-fund-slider-news [news]="this.news"></app-fund-slider-news>
+      </div>
+    </ion-content>
   `,
-  styleUrls: ['./funds-list.page.scss']
+  styleUrls: ['./funds-list.page.scss'],
 })
 export class FundsListPage implements OnInit, OnDestroy {
   ownerFundBalances: Array<any>;
@@ -171,9 +132,8 @@ export class FundsListPage implements OnInit, OnDestroy {
     empty_linked_keys: false,
     has_own_funds: false,
     has_subscribed_funds: false,
-    status_name: ''
+    status_name: '',
   };
-
 
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
@@ -194,23 +154,18 @@ export class FundsListPage implements OnInit, OnDestroy {
     private refreshTimeoutService: RefreshTimeoutService,
     private toastService: ToastService,
     private localStorageService: LocalStorageService
-  ) {
-  }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   createNotificationTimer() {
-    this.timerSubscription = timer(0, 0.5 * 60000)
-      .subscribe(() => {
-        this.notificationQtySubject.next();
-      });
+    this.timerSubscription = timer(0, 0.5 * 60000).subscribe(() => {
+      this.notificationQtySubject.next();
+    });
   }
 
   subscribeOnHideFunds() {
-    this.localStorageService.hideFunds.subscribe(
-      (res) => (this.hideFundText = res)
-    );
+    this.localStorageService.hideFunds.subscribe((res) => (this.hideFundText = res));
   }
 
   async hideText() {
@@ -232,7 +187,7 @@ export class FundsListPage implements OnInit, OnDestroy {
       .pipe(
         switchMap(() =>
           this.notificationsService.getCountNotifications().pipe(
-            catchError(_ => {
+            catchError((_) => {
               return EMPTY;
             })
           )
@@ -248,18 +203,15 @@ export class FundsListPage implements OnInit, OnDestroy {
     });
   }
 
-
   private async getOwnerFundBalances() {
     this.ownerFundBalances = await this.apiFundsService
       .getFundBalances(true, false)
-      .pipe(map(res => res.filter(fund => fund.state !== 'pausado')))
+      .pipe(map((res) => res.filter((fund) => fund.state !== 'pausado')))
       .toPromise();
   }
 
   private async getNotOwnerFundBalances() {
-    this.notOwnerFundBalances = await this.apiFundsService
-      .getFundBalances(false, false)
-      .toPromise();
+    this.notOwnerFundBalances = await this.apiFundsService.getFundBalances(false, false).toPromise();
   }
 
   showNotifications() {
@@ -270,7 +222,6 @@ export class FundsListPage implements OnInit, OnDestroy {
   goToProfile() {
     this.navController.navigateForward('profiles/user');
   }
-
 
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
@@ -299,5 +250,4 @@ export class FundsListPage implements OnInit, OnDestroy {
 
     this.refreshTimeoutService.unsubscribe();
   }
-
 }

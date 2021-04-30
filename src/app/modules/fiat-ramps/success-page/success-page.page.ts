@@ -72,12 +72,12 @@ const { Browser } = Plugins;
   styleUrls: ['./success-page.page.scss'],
 })
 export class SuccessPagePage implements OnInit {
-  telegram_app = 'https://t.me/kriptonmarket';
+  telegramApp = 'https://t.me/kriptonmarket';
   operationData: any;
 
   constructor(private storageOperationService: StorageOperationService, private navController: NavController) {
     Browser.prefetch({
-      urls: [this.telegram_app],
+      urls: [this.telegramApp],
     });
   }
 
@@ -88,7 +88,7 @@ export class SuccessPagePage implements OnInit {
   async launchChat() {
     await Browser.open({
       toolbarColor: '#ff9100',
-      url: this.telegram_app,
+      url: this.telegramApp,
     });
   }
 

@@ -70,7 +70,7 @@ export class FundEditTakeProfitPage implements OnInit {
     this.goToFundSettings();
   }
   async error(e) {
-    if (e.error.error_code == 'funds.create.fundNameExists') {
+    if (e.error.error_code === 'funds.create.fundNameExists') {
       this.navController.navigateBack(['funds/fund-name']);
     }
   }

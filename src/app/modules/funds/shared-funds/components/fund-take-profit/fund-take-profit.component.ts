@@ -31,7 +31,7 @@ import { NavController } from '@ionic/angular';
                   <ion-item>
                     <ion-label>{{ tp.name }}</ion-label>
                     <ion-radio mode="md" slot="start" [value]="tp.value"></ion-radio>
-                    <ion-badge *ngIf="tp.value == this.mostChosenTP" class="ux_badge_primary" slot="end">{{
+                    <ion-badge *ngIf="tp.value === this.mostChosenTP" class="ux_badge_primary" slot="end">{{
                       'funds.fund_take_profit.most_chosen' | translate
                     }}</ion-badge>
                   </ion-item>

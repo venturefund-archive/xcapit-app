@@ -64,7 +64,7 @@ describe('ResendVerificationEmailPage', () => {
         ],
       }).compileComponents();
 
-      let router = TestBed.inject(Router);
+      const router = TestBed.inject(Router);
       currentNavigation = router.getCurrentNavigation();
       getCurrentNavigationSpy = spyOn(router, 'getCurrentNavigation').and.returnValue({
         ...currentNavigation,

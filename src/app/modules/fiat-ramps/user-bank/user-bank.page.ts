@@ -39,10 +39,10 @@ import { NavController } from '@ionic/angular';
           inputmode="text"
           [label]="'fiat_ramps.register.cbu' | translate"
           [placeholder]="'fiat_ramps.register.cbu' | translate"
-          (keyup)="this.cbu_count_func()"
+          (keyup)="this.cbuCountFunc()"
           [maxlength]="22"
         ></app-ux-input>
-        <div class="cbu-count">{{ this.cbu_count }} / 22</div>
+        <div class="cbu-count">{{ this.cbuCount }} / 22</div>
 
         <!-- Banco -->
         <app-ux-input
@@ -78,7 +78,7 @@ export class UserBankPage implements OnInit {
     banco: ['', [Validators.required]],
   });
 
-  cbu_count = 0;
+  cbuCount = 0;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -89,8 +89,8 @@ export class UserBankPage implements OnInit {
 
   ngOnInit() {}
 
-  cbu_count_func() {
-    this.cbu_count = this.form.value.cbu_cvu.length;
+  cbuCountFunc() {
+    this.cbuCount = this.form.value.cbu_cvu.length;
   }
 
   async handleSubmit() {

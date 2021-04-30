@@ -12,6 +12,7 @@ import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -37,41 +38,43 @@ describe('FundEditStopLossPage', () => {
   let navControllerSpy: any;
   let apiFundsServiceSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-
-    apiFundsMock = {
-      crud: {
-        update: () => of(),
-      },
-      getLastFundRun: () => of(fund),
-    };
-
-    TestBed.configureTestingModule({
-      declarations: [FundEditStopLossPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([
-          {
-            path: 'funds/fund-success',
-            component: DummyComponent,
-          },
-        ]),
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-      ],
-      providers: [
-        {
-          provide: ApiFundsService,
-          useValue: apiFundsMock,
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      apiFundsMock = {
+        crud: {
+          update: () => of(),
         },
-        { provide: ModalController, useValue: modalControllerSpy },
-        { provide: NavController, useValue: navControllerSpy },
-      ],
-    }).compileComponents();
-  }));
+        getLastFundRun: () => of(fund),
+      };
+
+      TestBed.configureTestingModule({
+        declarations: [FundEditStopLossPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'funds/fund-success',
+              component: DummyComponent,
+            },
+          ]),
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+        ],
+        providers: [
+          {
+            provide: ApiFundsService,
+            useValue: apiFundsMock,
+          },
+          { provide: ModalController, useValue: modalControllerSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundEditStopLossPage);
@@ -89,9 +92,7 @@ describe('FundEditStopLossPage', () => {
 
   it('should call apiFundsService.getLastFundRun on ionViewWillEnter', async (done) => {
     fixture.detectChanges();
-    fixture
-      .whenStable()
-      .then(() => expect(apiFundsServiceSpy).toHaveBeenCalledTimes(1));
+    fixture.whenStable().then(() => expect(apiFundsServiceSpy).toHaveBeenCalledTimes(1));
     done();
   });
 

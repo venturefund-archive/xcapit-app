@@ -83,7 +83,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             <app-ux-radio-group [label]="">
               <ion-list>
                 <ion-radio-group formControlName="par">
-                  <div *ngFor="let par of this.buy_pair; let last = last" class="container">
+                  <div *ngFor="let par of this.buyPair; let last = last" class="container">
                     <ion-item>
                       <ion-label>{{ par.name }}</ion-label>
                       <ion-radio mode="md" slot="start" [value]="par.id" (click)="getQuotations()"></ion-radio>
@@ -106,7 +106,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             <app-ux-radio-group [label]="">
               <ion-list>
                 <ion-radio-group formControlName="par">
-                  <div *ngFor="let par of this.sell_pair; let last = last" class="container">
+                  <div *ngFor="let par of this.sellPair; let last = last" class="container">
                     <ion-item>
                       <ion-label>{{ par.name }}</ion-label>
                       <ion-radio mode="md" slot="start" [value]="par.id" (click)="getQuotations()"></ion-radio>
@@ -202,12 +202,12 @@ export class OperationsNewPage implements OnInit {
   });
 
   countries = Object.values(Countries);
-  buy_pair = Object.keys(Buy).map((key) => ({ name: Buy[key], id: key }));
-  sell_pair = Object.keys(Sell).map((key) => ({ name: Sell[key], id: key }));
+  buyPair = Object.keys(Buy).map((key) => ({ name: Buy[key], id: key }));
+  sellPair = Object.keys(Sell).map((key) => ({ name: Sell[key], id: key }));
   quotations: any = null;
   changePrice = null;
   pairSplit = [];
-  amount_out = null;
+  amountOut = null;
   walletAddress = [];
 
   constructor(
@@ -298,8 +298,8 @@ export class OperationsNewPage implements OnInit {
   }
 
   setOutAmount() {
-    this.amount_out = this.form.value.amount_in / this.changePrice;
-    this.form.controls.amount_out.setValue(this.amount_out);
+    this.amountOut = this.form.value.amount_in / this.changePrice;
+    this.form.controls.amount_out.setValue(this.amountOut);
   }
 
   async getUserWallets() {

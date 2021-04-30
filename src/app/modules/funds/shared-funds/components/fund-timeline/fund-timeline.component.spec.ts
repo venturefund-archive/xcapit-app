@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FundTimelineComponent } from './fund-timeline.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,20 +13,22 @@ describe('FundTimelineComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundTimelineComponent>;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [FundTimelineComponent, TrackClickDirective],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-      providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [FundTimelineComponent, TrackClickDirective],
+        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(FundTimelineComponent);
-    component = fixture.componentInstance;
-    component.fundName = 'testFundName';
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  }));
+      fixture = TestBed.createComponent(FundTimelineComponent);
+      component = fixture.componentInstance;
+      component.fundName = 'testFundName';
+      fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();

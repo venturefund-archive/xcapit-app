@@ -19,32 +19,22 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
         </div>
         <div class="fpc__content__right">
           <div class="by-currency" *ngIf="this.orderedPortfolio">
-            <div
-              class="by-currency__item"
-              *ngFor="let p of this.orderedPortfolio | slice: 0:3"
-            >
+            <div class="by-currency__item" *ngFor="let p of this.orderedPortfolio | slice: 0:3">
               <div class="by-currency__item__left">
                 <div class="color" [style.background-color]="p.color"></div>
-                <ion-text
-                  class="text ux-font-lato ux-fweight-semibold ux-fsize-14"
-                  color="uxdark"
+                <ion-text class="text ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark"
                   >{{ p.ca }}
                 </ion-text>
               </div>
               <div>
-                <ion-text
-                  class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-                  color="uxdark"
+                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark"
                   >{{ p.percentage | number: '1.0-2' }} %</ion-text
                 >
               </div>
             </div>
           </div>
           <div class="base">
-            <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
-              color="uxdark"
-            >
+            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22" color="uxdark">
               {{
                 this.totalBase
                   | currencyFormat
@@ -58,10 +48,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             </ion-text>
           </div>
           <div class="base" style="margin-top:0px">
-            <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-18"
-              color="uxdark"
-            >
+            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-18" color="uxdark">
               {{
                 this.totalSecond
                   | currencyFormat
@@ -127,9 +114,7 @@ export class FundPortfolioCardComponent implements OnInit {
   }
 
   subscribeOnHideFunds() {
-    this.localStorageService.hideFunds.subscribe(
-      (res) => (this.hideFundText = res)
-    );
+    this.localStorageService.hideFunds.subscribe((res) => (this.hideFundText = res));
   }
 
   setTotals() {
@@ -139,17 +124,16 @@ export class FundPortfolioCardComponent implements OnInit {
 
   setCurrency() {
     this.currencyBase = this.fundBalance.fund.currency;
-    if (this.currencyBase == Currency.BTC) {
-      this.currencySecond = Currency.USDT
+    if (this.currencyBase === Currency.BTC) {
+      this.currencySecond = Currency.USDT;
     } else {
-      this.currencySecond = Currency.BTC
+      this.currencySecond = Currency.BTC;
     }
   }
 
   orderChartData() {
-    this.orderedPortfolio = this.fundBalance.balance.summary.sort(
-      (a: any, b: any) =>
-        a.percentage < b.percentage ? 1 : a.percentage > b.percentage ? -1 : 0
+    this.orderedPortfolio = this.fundBalance.balance.summary.sort((a: any, b: any) =>
+      a.percentage < b.percentage ? 1 : a.percentage > b.percentage ? -1 : 0
     );
   }
 

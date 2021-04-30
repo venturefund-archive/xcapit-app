@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { OperationsPagePage } from './operations-page.page';
@@ -17,31 +17,33 @@ describe('OperationsPagePage', () => {
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getUserOperations: of({})
-    });
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+        getUserOperations: of({}),
+      });
 
-    TestBed.configureTestingModule({
-      declarations: [ OperationsPagePage ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'fiat-ramps/operations-detail', component: DummyComponent },
-          { path: 'tabs/funds', component: DummyComponent },
-          { path: 'fiat-ramps/new-operation', component: DummyComponent }
-        ]),
-        HttpClientTestingModule,
-        IonicModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [OperationsPagePage],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          RouterTestingModule.withRoutes([
+            { path: 'fiat-ramps/operations-detail', component: DummyComponent },
+            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'fiat-ramps/new-operation', component: DummyComponent },
+          ]),
+          HttpClientTestingModule,
+          IonicModule,
+          TranslateModule.forRoot(),
+        ],
+        providers: [
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OperationsPagePage);

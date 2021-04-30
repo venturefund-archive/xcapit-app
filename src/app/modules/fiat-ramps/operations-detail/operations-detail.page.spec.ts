@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { OperationsDetailPage } from './operations-detail.page';
@@ -29,38 +29,40 @@ describe('OperationsDetailPage', () => {
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getUserSingleOperation: of({}),
-      confirmOperation: of({}),
-    });
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+        getUserSingleOperation: of({}),
+        confirmOperation: of({}),
+      });
 
-    let activatedRouteSpy: any;
+      let activatedRouteSpy: any;
 
-    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        id: '10',
-      }),
-    };
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+      activatedRouteSpy.snapshot = {
+        paramMap: convertToParamMap({
+          id: '10',
+        }),
+      };
 
-    TestBed.configureTestingModule({
-      declarations: [OperationsDetailPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        RouterTestingModule.withRoutes([{ path: 'fiat-ramps/operations', component: DummyComponent }]),
-        HttpClientTestingModule,
-        IonicModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [OperationsDetailPage],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          RouterTestingModule.withRoutes([{ path: 'fiat-ramps/operations', component: DummyComponent }]),
+          HttpClientTestingModule,
+          IonicModule,
+          TranslateModule.forRoot(),
+        ],
+        providers: [
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OperationsDetailPage);
