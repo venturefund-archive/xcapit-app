@@ -17,12 +17,7 @@ export class CustomValidators {
     pass: string = 'password',
     rPass: string = 'repeat_password'
   ) {
-    CustomValidators.fieldsdMatchValidator(
-      control,
-      pass,
-      rPass,
-      CustomValidatorErrors.noPasswordMatch
-    );
+    CustomValidators.fieldsdMatchValidator(control, pass, rPass, CustomValidatorErrors.noPasswordMatch);
   }
 
   static fieldsdMatchValidator(
@@ -38,12 +33,10 @@ export class CustomValidators {
     }
   }
 
-  static mustBeTrue(
-    control: AbstractControl
-  ): { [key: string]: boolean } {
-    let check: { [key: string]: boolean } = {};
+  static mustBeTrue(control: AbstractControl): { [key: string]: boolean } {
+    const check: { [key: string]: boolean } = {};
     if (!control.value) {
-      check['notChecked'] = true;
+      check.notChecked = true;
     }
     return check;
   }

@@ -17,15 +17,8 @@ describe('FundTimelineComponent', () => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [FundTimelineComponent, TrackClickDirective],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: NavController, useValue: navControllerSpy },
-      ],
+      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FundTimelineComponent);
@@ -40,11 +33,11 @@ describe('FundTimelineComponent', () => {
   });
 
   it('should navigate to Timeline Detail when goToDetail is executed', () => {
-    let spy = spyOn(component, 'goToDetail');
+    const spy = spyOn(component, 'goToDetail');
     component.fundName = 'testFundName';
-    component.runs = [{id: 1, id_corrida: 1}]
+    component.runs = [{ id: 1, id_corrida: 1 }];
     fixture.detectChanges();
-    component.goToDetail('1')
+    component.goToDetail('1');
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });

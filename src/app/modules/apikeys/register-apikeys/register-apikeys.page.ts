@@ -15,91 +15,82 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
 @Component({
   selector: 'app-register-apikeys',
   template: `
-      <ion-header>
-          <ion-toolbar color="uxprimary" class="ux_toolbar">
-              <ion-buttons slot="start">
-                  <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
-              </ion-buttons>
-              <ion-title class="ion-text-center">{{
-                  'apikeys.register.header' | translate
-                  }}</ion-title>
-          </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-          <form
-                  [formGroup]="this.form"
-                  (ngSubmit)="this.handleSubmit()"
-                  class="ux_main"
-          >
-              <div class="ux_content">
-                  <div class="ik__ak_input">
-
-                      <app-ux-input
-                              controlName="alias"
-                              type="text"
-                              inputmode="text"
-                              [label]="'apikeys.register.label_alias' | translate"
-                              [placeholder]="'apikeys.register.placeholder_alias' | translate"
-                      ></app-ux-input>
-                      <div class="ik__use-qr">
-                          <div class="ik__use-qr__input">
-                              <app-ux-input
-                                      controlName="api_key"
-                                      type="text"
-                                      inputmode="text"
-                                      [label]="'apikeys.register.label_apikey' | translate"
-                                      [placeholder]="'apikeys.register.placeholder_apikey' | translate"
-                              ></app-ux-input>
-                          </div>
-                          <div class="ik__use-qr__button" *ngIf="!this.inPWA">
-                              <ion-button
-                                      color="uxsemidark"
-                                      appTrackClick
-                                      name="Use QR"
-                                      type="button"
-                                      fill="clear"
-                                      (click)="this.readQRCode()"
-                              >
-                                  <ion-icon name="qr-code-outline"></ion-icon>
-                              </ion-button>
-                          </div>
-                      </div>
-                      <app-ux-input
-                              controlName="secret_key"
-                              type="text"
-                              inputmode="text"
-                              [label]="'apikeys.register.label_secretkey' | translate"
-                              [placeholder]="
-                'apikeys.register.placeholder_secretkey' | translate
-              "
-                      ></app-ux-input>
-                  </div>
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">{{ 'apikeys.register.header' | translate }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
+        <div class="ux_content">
+          <div class="ik__ak_input">
+            <app-ux-input
+              controlName="alias"
+              type="text"
+              inputmode="text"
+              [label]="'apikeys.register.label_alias' | translate"
+              [placeholder]="'apikeys.register.placeholder_alias' | translate"
+            ></app-ux-input>
+            <div class="ik__use-qr">
+              <div class="ik__use-qr__input">
+                <app-ux-input
+                  controlName="api_key"
+                  type="text"
+                  inputmode="text"
+                  [label]="'apikeys.register.label_apikey' | translate"
+                  [placeholder]="'apikeys.register.placeholder_apikey' | translate"
+                ></app-ux-input>
               </div>
-              <div class="ux_footer">
-                  <div class="ik__need-help">
-                      <app-need-help
-                              [whatsAppLink]="this.supportLinks.apiKeyWhatsappSupport"
-                              [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
-                      ></app-need-help>
-                  </div>
-                  <div class="ik__submit_button">
-                      <ion-button
-                              class="ux_button"
-                              appTrackClick
-                              name="Submit"
-                              type="submit"
-                              color="uxsecondary"
-                              size="large"
-                              [disabled]="this.submitButtonService.isDisabled | async"
-                      >
-                          {{ 'apikeys.register.button_submmit' | translate }}
-                      </ion-button>
-                  </div>
+              <div class="ik__use-qr__button" *ngIf="!this.inPWA">
+                <ion-button
+                  color="uxsemidark"
+                  appTrackClick
+                  name="Use QR"
+                  type="button"
+                  fill="clear"
+                  (click)="this.readQRCode()"
+                >
+                  <ion-icon name="qr-code-outline"></ion-icon>
+                </ion-button>
               </div>
-          </form>
-      </ion-content>
+            </div>
+            <app-ux-input
+              controlName="secret_key"
+              type="text"
+              inputmode="text"
+              [label]="'apikeys.register.label_secretkey' | translate"
+              [placeholder]="'apikeys.register.placeholder_secretkey' | translate"
+            ></app-ux-input>
+          </div>
+        </div>
+        <div class="ux_footer">
+          <div class="ik__need-help">
+            <app-need-help
+              [whatsAppLink]="this.supportLinks.apiKeyWhatsappSupport"
+              [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
+            ></app-need-help>
+          </div>
+          <div class="ik__submit_button">
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="Submit"
+              type="submit"
+              color="uxsecondary"
+              size="large"
+              [disabled]="this.submitButtonService.isDisabled | async"
+            >
+              {{ 'apikeys.register.button_submmit' | translate }}
+            </ion-button>
+          </div>
+        </div>
+      </form>
+    </ion-content>
   `,
-  styleUrls: ['./register-apikeys.page.scss']
+  styleUrls: ['./register-apikeys.page.scss'],
 })
 export class RegisterApikeysPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
@@ -108,14 +99,11 @@ export class RegisterApikeysPage implements OnInit {
       [
         Validators.required,
         Validators.maxLength(23),
-        CustomValidators.patternValidator(
-          /^[a-zA-Z0-9]+$/,
-          CustomValidatorErrors.hasSpecialCharacter
-        )
-      ]
+        CustomValidators.patternValidator(/^[a-zA-Z0-9]+$/, CustomValidatorErrors.hasSpecialCharacter),
+      ],
     ],
     api_key: ['', [Validators.required]],
-    secret_key: ['', [Validators.required]]
+    secret_key: ['', [Validators.required]],
   });
 
   supportLinks = LINKS;
@@ -133,11 +121,9 @@ export class RegisterApikeysPage implements OnInit {
     private storageApiKeysService: StorageApikeysService,
     private platformService: PlatformService,
     private apiUsuariosService: ApiUsuariosService
-  ) {
-  }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.patchFormValue();
@@ -145,7 +131,7 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   async getUserStatus() {
-    this.apiUsuariosService.status(false).subscribe((res) => this.userStatus = res);
+    this.apiUsuariosService.status(false).subscribe((res) => (this.userStatus = res));
   }
 
   checkIsWebPlatform() {
@@ -165,9 +151,9 @@ export class RegisterApikeysPage implements OnInit {
       buttons: [
         {
           text: this.translate.instant('apikeys.register.alert.button'),
-          handler: (_) => this.submitData()
-        }
-      ]
+          handler: (_) => this.submitData(),
+        },
+      ],
     });
     await alert.present();
   }
@@ -184,13 +170,13 @@ export class RegisterApikeysPage implements OnInit {
     const data = this.form.value;
     this.apiApikeysService.create(data).subscribe(async (res) => {
       await this.getUserStatus();
-      this.success(res, this.getSuccessRoute())
+      this.success(res, this.getSuccessRoute());
     });
   }
 
   getSuccessRoute(): string {
     let route = '/apikeys/success-register';
-    
+
     if (this.isCreatorUser()) {
       route += '-creator';
     }
@@ -199,18 +185,16 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   isCreatorUser(): boolean {
-    if(!this.userStatus) return;
+    if (!this.userStatus) return;
 
     return this.userStatus.status_name == 'CREATOR';
   }
 
   success(apiKeys: any, route: string) {
-    this.navController
-      .navigateForward([route])
-      .then(() => {
-        this.storageApiKeysService.updateData(apiKeys);
-        this.form.reset();
-      });
+    this.navController.navigateForward([route]).then(() => {
+      this.storageApiKeysService.updateData(apiKeys);
+      this.form.reset();
+    });
   }
 
   error() {
@@ -260,7 +244,7 @@ export class RegisterApikeysPage implements OnInit {
 
   private showToast(text: string) {
     this.toastService.showToast({
-      message: this.translate.instant(text)
+      message: this.translate.instant(text),
     });
   }
 }

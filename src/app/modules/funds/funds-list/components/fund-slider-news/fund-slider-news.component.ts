@@ -12,18 +12,14 @@ const { Browser } = Plugins;
           <img src="{{ article.image.url }}" alt="" />
           <div class="fsn__main__info">
             <div>
-              <ion-label
-                color="uxdark"
-                class="ux-font-gilroy ux-fweight-bold ux-fsize-16"
-                >{{ article.name }}</ion-label
-              >
+              <ion-label color="uxdark" class="ux-font-gilroy ux-fweight-bold ux-fsize-16">{{
+                article.name
+              }}</ion-label>
             </div>
             <div>
-              <ion-label
-                color="uxregular"
-                class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-                >{{ article.summary }}</ion-label
-              >
+              <ion-label color="uxregular" class="ux-font-lato ux-fweight-semibold ux-fsize-12">{{
+                article.summary
+              }}</ion-label>
             </div>
           </div>
         </div>
@@ -37,14 +33,13 @@ export class FundSliderNewsCardComponent implements OnInit {
   slideOpts = {
     initialSlide: 0,
     slidesPerView: 1.25,
-    spaceBetween: 10
+    spaceBetween: 10,
   };
   constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  async goToWeb(slug){
-    await Browser.open({ toolbarColor:"red", url: `https://www.xcapit.com/xcapit-academy/${slug}` });
+  async goToWeb(slug) {
+    await Browser.open({ toolbarColor: 'red', url: `https://www.xcapit.com/xcapit-academy/${slug}` });
   }
 }

@@ -85,22 +85,15 @@ describe('RegisterApikeysPage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', [
-        'create',
-      ]);
+      apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', ['create']);
 
       apiApikeysServiceSpy.create.and.returnValue(of({}));
 
-      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
-        'status',
-      ]);
+      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', ['status']);
 
       apiUsuariosServiceSpy.status.and.returnValue(of({}));
 
-      navControllerSpy = jasmine.createSpyObj(
-        'NavController',
-        navControllerMock
-      );
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
       storageApiKeysServiceMock = {
         data: undefined,
@@ -152,9 +145,7 @@ describe('RegisterApikeysPage', () => {
 
   it('should call showAlert on handleSubmit and valid form', () => {
     component.form.patchValue(formData.valid);
-    const spy = spyOn(component, 'showAlert').and.returnValue(
-      Promise.resolve()
-    );
+    const spy = spyOn(component, 'showAlert').and.returnValue(Promise.resolve());
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -204,9 +195,7 @@ describe('RegisterApikeysPage', () => {
   });
 
   it('should not call showAlert if the scanned QR data was not valid', () => {
-    const spy = spyOn(component, 'showAlert').and.returnValue(
-      Promise.resolve()
-    );
+    const spy = spyOn(component, 'showAlert').and.returnValue(Promise.resolve());
     component.apikeysScanned(QRScanResult.formInvalid);
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(0);
@@ -261,39 +250,24 @@ describe('RegisterApikeysPage', () => {
     expect(route).toEqual(expectedRoute);
   });
 
-  it('should redirect CREATOR user to beginner success page', async() => {
+  it('should redirect CREATOR user to beginner success page', async () => {
     apiUsuariosServiceSpy.status.and.returnValue(of(userStatus.creator));
     navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
     const expectedRoute = '/apikeys/success-register-creator';
     component.submitData();
-    fixture
-      .whenStable()
-      .then(() =>
-        expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([
-          expectedRoute,
-        ])
-      );
+    fixture.whenStable().then(() => expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([expectedRoute]));
   });
 
-  it('should redirect not CREATOR user to success page', async() => {
+  it('should redirect not CREATOR user to success page', async () => {
     apiUsuariosServiceSpy.status.and.returnValue(of(userStatus.complete));
     navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
     const expectedRoute = '/apikeys/success-register';
     component.submitData();
-    fixture
-      .whenStable()
-      .then(() =>
-        expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([
-          expectedRoute,
-        ])
-      );
+    fixture.whenStable().then(() => expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([expectedRoute]));
   });
 
   it('should call trackEvent on trackService when Submit Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Submit'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -305,10 +279,7 @@ describe('RegisterApikeysPage', () => {
     spyOn(component, 'readQRCode');
     component.inPWA = false;
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Use QR'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Use QR');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

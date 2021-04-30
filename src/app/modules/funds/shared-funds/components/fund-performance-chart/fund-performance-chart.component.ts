@@ -1,10 +1,5 @@
 import { ModalController } from '@ionic/angular';
-import {
-  Component,
-  Input,
-  OnChanges,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { createChart } from 'lightweight-charts';
 import { HostListener } from '@angular/core';
 import { FundShareChartComponent } from '../fund-share-chart/fund-share-chart.component';
@@ -31,7 +26,7 @@ export class FundPerformanceChartComponent implements OnChanges {
   @Input() fundPercentageEvolution: any;
   @Input() interval: string;
   @Input() isChart: boolean;
-  @Input() shareChart: boolean = false;
+  @Input() shareChart = false;
 
   chart: any;
   limit: string;
@@ -41,10 +36,7 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.chart.resize(
-      event.target.innerWidth * 0.8,
-      event.target.innerHeight * 0.3
-    );
+    this.chart.resize(event.target.innerWidth * 0.8, event.target.innerHeight * 0.3);
   }
 
   ngOnChanges() {
@@ -65,8 +57,8 @@ export class FundPerformanceChartComponent implements OnChanges {
       }
 
       this.chart = createChart(div, {
-        width: width,
-        height: height,
+        width,
+        height,
         localization: {
           dateFormat: 'dd/MM/yyyy',
           priceFormatter: (price) => price.toFixed(2) + '%',
@@ -107,8 +99,7 @@ export class FundPerformanceChartComponent implements OnChanges {
           tickMarkFormatter: (time, tickMarkType, locale) => {
             const date = moment(time * 1000).utc();
             if (this.interval == '1d') {
-              const minutes =
-                date.minute() <= 9 ? '0' + date.minute() : date.minute();
+              const minutes = date.minute() <= 9 ? '0' + date.minute() : date.minute();
               const hours = date.hour() <= 9 ? '0' + date.hour() : date.hour();
               return hours + ':' + minutes;
             } else {
@@ -137,43 +128,27 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   createDataSet() {
-    let dataSet = [];
+    const dataSet = [];
     let i;
     let time;
     let value;
     let date;
-    for (
-      i = 0;
-      i < this.fundPercentageEvolution.percentage_evolution.length;
-      i++
-    ) {
+    for (i = 0; i < this.fundPercentageEvolution.percentage_evolution.length; i++) {
       if (i != this.fundPercentageEvolution.percentage_evolution.length - 2) {
         date = moment(this.fundPercentageEvolution.timestamp[i]);
         (time = moment(
-          Date.UTC(
-            date.year(),
-            date.month(),
-            date.date(),
-            date.hour(),
-            date.minute(),
-            date.second(),
-            0
-          )
+          Date.UTC(date.year(), date.month(), date.date(), date.hour(), date.minute(), date.second(), 0)
         ).unix()),
           (value = this.fundPercentageEvolution.percentage_evolution[i]);
-        dataSet.push({ time: time, value: value });
+        dataSet.push({ time, value });
       }
     }
     return dataSet;
   }
 
   setXAxisRange() {
-    let dateFrom = new Date(this.fundPercentageEvolution.timestamp[0]);
-    let dateTo = new Date(
-      this.fundPercentageEvolution.timestamp[
-        this.fundPercentageEvolution.timestamp.length - 1
-      ]
-    );
+    const dateFrom = new Date(this.fundPercentageEvolution.timestamp[0]);
+    const dateTo = new Date(this.fundPercentageEvolution.timestamp[this.fundPercentageEvolution.timestamp.length - 1]);
     this.chart.timeScale().setVisibleRange({
       from: moment(dateFrom).unix(),
       to: moment(dateTo).unix(),
@@ -182,7 +157,7 @@ export class FundPerformanceChartComponent implements OnChanges {
 
   setTooltip(areaSeries) {
     const div = document.getElementById('chart');
-    let toolTip = document.getElementById('tooltip');
+    const toolTip = document.getElementById('tooltip');
     div.appendChild(toolTip);
 
     this.chart.subscribeCrosshairMove(function (param) {
@@ -197,14 +172,11 @@ export class FundPerformanceChartComponent implements OnChanges {
         toolTip.style.display = 'none';
       } else {
         toolTip.style.display = 'block';
-        let price = param.seriesPrices.get(areaSeries);
+        const price = param.seriesPrices.get(areaSeries);
         toolTip.innerHTML = '<div>' + Math.round(100 * price) / 100 + '%</div>';
 
-        let coordinateX = param.point.x + window.innerWidth * 0.05;
-        let coordinateY =
-          param.point.y +
-          window.innerHeight * 0.24 +
-          50000 / window.innerHeight;
+        const coordinateX = param.point.x + window.innerWidth * 0.05;
+        const coordinateY = param.point.y + window.innerHeight * 0.24 + 50000 / window.innerHeight;
         toolTip.style.left = coordinateX + 'px';
         toolTip.style.top = coordinateY + 'px';
       }
@@ -236,45 +208,31 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   createLimitDataSet(): any[] {
-    const lastPerformanceValue = this.fundPercentageEvolution
-      .percentage_evolution[
+    const lastPerformanceValue = this.fundPercentageEvolution.percentage_evolution[
       this.fundPercentageEvolution.percentage_evolution.length - 1
     ];
     let limitDataSet;
-    if (
-      Math.abs(
-        this.fundPercentageEvolution.take_profit - lastPerformanceValue
-      ) <= 5
-    ) {
-      limitDataSet = this.getLimitDataSet(
-        this.fundPercentageEvolution.take_profit
-      );
+    if (Math.abs(this.fundPercentageEvolution.take_profit - lastPerformanceValue) <= 5) {
+      limitDataSet = this.getLimitDataSet(this.fundPercentageEvolution.take_profit);
       this.limit = 'take_profit';
     }
 
-    if (
-      Math.abs(
-        -this.fundPercentageEvolution.stop_loss - lastPerformanceValue
-      ) <= 5
-    ) {
-      limitDataSet = this.getLimitDataSet(
-        -this.fundPercentageEvolution.stop_loss
-      );
+    if (Math.abs(-this.fundPercentageEvolution.stop_loss - lastPerformanceValue) <= 5) {
+      limitDataSet = this.getLimitDataSet(-this.fundPercentageEvolution.stop_loss);
       this.limit = 'stop_loss';
     }
     return limitDataSet;
   }
 
   getLimitDataSet(limit): any[] {
-    let dataSet = [];
+    const dataSet = [];
     let i;
     let time;
     let value;
     for (i = 0; i < this.fundPercentageEvolution.timestamp.length; i++) {
       if (i != this.fundPercentageEvolution.timestamp.length - 2) {
-        (time = moment(this.fundPercentageEvolution.timestamp[i]).unix()),
-          (value = limit);
-        dataSet.push({ time: time, value: value });
+        (time = moment(this.fundPercentageEvolution.timestamp[i]).unix()), (value = limit);
+        dataSet.push({ time, value });
       }
     }
     return dataSet;

@@ -11,14 +11,11 @@ import { ActivatedRoute } from '@angular/router';
   `,
   styleUrls: ['./success-reset-password.page.scss'],
 })
-
 export class SuccessResetPasswordPage implements OnInit {
   data: any;
   isReset: string;
 
-  constructor(
-    private route: ActivatedRoute
-  ) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.isReset = this.route.snapshot.paramMap.get('isReset');
@@ -27,7 +24,5 @@ export class SuccessResetPasswordPage implements OnInit {
     } else if (this.isReset === 'true') {
       this.data = SUCCESS_TYPES.reset_password;
     }
-    
   }
-
 }

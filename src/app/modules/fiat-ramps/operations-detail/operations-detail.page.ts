@@ -22,20 +22,16 @@ import { NavController } from '@ionic/angular';
 
     <ion-content class="ion-padding dp">
       <div class="dp__logo">
-        <img src="../../assets/img/logo_kripton.png" alt="Logo kripton">
+        <img src="../../assets/img/logo_kripton.png" alt="Logo kripton" />
       </div>
 
-      <app-ux-loading-block
-          *ngIf="!this.operation"
-          minSize="30px"
-        ></app-ux-loading-block>
+      <app-ux-loading-block *ngIf="!this.operation" minSize="30px"></app-ux-loading-block>
 
       <div *ngIf="this.operation">
-
         <div class="dp__content">
           <app-ux-text>
-              <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.type' | translate }} </span>
-              <span *ngIf="this.operation"> {{ this.operation.currency_in }} -> {{ this.operation.currency_out}} </span>
+            <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.type' | translate }} </span>
+            <span *ngIf="this.operation"> {{ this.operation.currency_in }} -> {{ this.operation.currency_out }} </span>
           </app-ux-text>
 
           <app-ux-text>
@@ -49,10 +45,10 @@ import { NavController } from '@ionic/angular';
             <div *ngIf="this.operation">
               <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.quotation' | translate }} </span>
               <span *ngIf="this.operation.currency_in == 'ARS' || this.operation.currency_in == 'USD'">
-                1 {{ this.operation.currency_out }} = {{ this.cotizacion }} {{this.operation.currency_in}}
+                1 {{ this.operation.currency_out }} = {{ this.cotizacion }} {{ this.operation.currency_in }}
               </span>
               <span *ngIf="this.operation.currency_in != 'ARS' && this.operation.currency_in != 'USD'">
-                1 {{ this.operation.currency_in }} = {{ this.cotizacion }} {{this.operation.currency_out}}
+                1 {{ this.operation.currency_in }} = {{ this.cotizacion }} {{ this.operation.currency_out }}
               </span>
             </div>
           </app-ux-text>
@@ -89,14 +85,11 @@ import { NavController } from '@ionic/angular';
             </div>
             <div class="dp__pic-button__picture" *ngIf="this.comprobante">
               <img [src]="this.comprobante.dataUrl" alt="" />
-            </div> 
+            </div>
           </ion-button>
 
           <div class="ux_footer" *ngIf="this.comprobante">
-            <app-ux-loading-block
-              *ngIf="this.loading"
-              minSize="60px"
-            ></app-ux-loading-block>
+            <app-ux-loading-block *ngIf="this.loading" minSize="60px"></app-ux-loading-block>
 
             <div class="button-next" *ngIf="!this.loading">
               <ion-button
@@ -113,7 +106,7 @@ import { NavController } from '@ionic/angular';
             </div>
           </div>
         </div>
-        
+
         <div *ngIf="this.hasVoucher" class="dp__voucher">
           <app-ux-success-img></app-ux-success-img>
           <span>El comprobante ha sido cargado</span>
@@ -124,16 +117,15 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./operations-detail.page.scss'],
 })
 export class OperationsDetailPage implements OnInit {
-
   comprobante = null;
   operation: any = null;
   cotizacion: any = 0;
   operation_id: string;
   hasVoucher: any = false;
-  loading: boolean = false;
+  loading = false;
 
   ionViewWillEnter() {
-    this.operation_id = this.route.snapshot.paramMap.get('id')
+    this.operation_id = this.route.snapshot.paramMap.get('id');
     this.getUserOperation();
   }
 
@@ -141,9 +133,9 @@ export class OperationsDetailPage implements OnInit {
     private route: ActivatedRoute,
     private apiRamps: FiatRampsService,
     private navController: NavController
-  ) { }
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async addPhoto() {
     const { Filesystem, Camera } = Plugins;
@@ -154,7 +146,7 @@ export class OperationsDetailPage implements OnInit {
     const photo = await Camera.getPhoto({
       source: CameraSource.Prompt,
       saveToGallery: false,
-      resultType: CameraResultType.DataUrl
+      resultType: CameraResultType.DataUrl,
     });
 
     this.comprobante = photo;
@@ -168,9 +160,9 @@ export class OperationsDetailPage implements OnInit {
         this.calcCotizacion();
         this.verifyVoucher();
       },
-      error: e => {
+      error: (e) => {
         this.navController.navigateBack(['/fiat-ramps/operations']);
-      }
+      },
     });
   }
 
@@ -181,7 +173,7 @@ export class OperationsDetailPage implements OnInit {
     first_amount = Number(this.operation.amount_in);
     second_amount = Number(this.operation.amount_out);
 
-    this.cotizacion = first_amount/second_amount;
+    this.cotizacion = first_amount / second_amount;
   }
 
   async sendPicture() {
@@ -193,14 +185,13 @@ export class OperationsDetailPage implements OnInit {
         this.loading = false;
         this.hasVoucher = true;
       },
-      error: e => {
+      error: (e) => {
         this.loading = false;
-      }
+      },
     });
   }
 
   verifyVoucher() {
     this.hasVoucher = this.operation.url_voucher_image || this.operation.tx_hash;
   }
-
 }

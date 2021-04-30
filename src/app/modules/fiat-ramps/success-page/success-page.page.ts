@@ -10,7 +10,6 @@ const { Browser } = Plugins;
   template: `
     <ion-content class="ion-padding">
       <div class="main">
-
         <div class="main__ux_success_image">
           <app-ux-success-img></app-ux-success-img>
         </div>
@@ -69,35 +68,31 @@ const { Browser } = Plugins;
         </div>
       </div>
     </ion-content>
-    `,
+  `,
   styleUrls: ['./success-page.page.scss'],
 })
 export class SuccessPagePage implements OnInit {
-  telegram_app: string = 'https://t.me/kriptonmarket';
+  telegram_app = 'https://t.me/kriptonmarket';
   operationData: any;
 
-  constructor(
-    private storageOperationService: StorageOperationService,
-    private navController: NavController
-  ) { 
+  constructor(private storageOperationService: StorageOperationService, private navController: NavController) {
     Browser.prefetch({
-      urls: [ this.telegram_app ],
+      urls: [this.telegram_app],
     });
   }
 
   ngOnInit() {
-    this.storageOperationService.data.subscribe(data => (this.operationData = data));
+    this.storageOperationService.data.subscribe((data) => (this.operationData = data));
   }
 
-  async launchChat(){
+  async launchChat() {
     await Browser.open({
       toolbarColor: '#ff9100',
-      url: this.telegram_app
-    })
+      url: this.telegram_app,
+    });
   }
 
   backToOperations() {
     this.navController.navigateRoot(['fiat-ramps/operations']);
   }
-
 }

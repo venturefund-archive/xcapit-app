@@ -23,7 +23,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               {{ 'deposit_addresses.deposit_currency.title' | translate }}
             </div>
           </app-ux-title>
-          
+
           <app-ux-text class="ion-padding-top ion-margin-top">
             <div class="ion-margin-top">
               {{ 'deposit_addresses.deposit_currency.text_before' | translate }}
@@ -36,27 +36,17 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 <div class="container">
                   <ion-item>
                     <ion-label>{{ this.currencyEnum.BTC }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="this.currencyEnum.BTC"
-                    ></ion-radio>
+                    <ion-radio mode="md" slot="start" [value]="this.currencyEnum.BTC"></ion-radio>
                   </ion-item>
                   <div class="list-divider"></div>
                   <ion-item>
                     <ion-label>{{ this.currencyEnum.USDT }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="this.currencyEnum.USDT"
-                    ></ion-radio>
+                    <ion-radio mode="md" slot="start" [value]="this.currencyEnum.USDT"></ion-radio>
                   </ion-item>
                 </div>
               </ion-radio-group>
             </ion-list>
-            <app-errors-form-item
-                controlName="currency"
-              ></app-errors-form-item>
+            <app-errors-form-item controlName="currency"></app-errors-form-item>
           </app-ux-radio-group>
         </div>
 
@@ -69,7 +59,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="(this.submitButtonService.isDisabled | async)"
+              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'deposit_addresses.deposit_currency.next_button' | translate }}
             </ion-button>
@@ -77,21 +67,20 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         </div>
       </form>
     </ion-content>
-    
   `,
   styleUrls: ['./deposit-currency.page.scss'],
 })
 export class DepositCurrencyPage implements OnInit {
   currencyEnum = Currency;
   form: FormGroup = this.formBuilder.group({
-    currency: ['BTC', [Validators.required]]
+    currency: ['BTC', [Validators.required]],
   });
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {}
 

@@ -19,7 +19,7 @@ import { NavController } from '@ionic/angular';
 
     <ion-content class="ion-padding cp">
       <div class="cp__logo">
-        <img src="../../assets/img/logo_kripton.png" alt="Logo kripton">
+        <img src="../../assets/img/logo_kripton.png" alt="Logo kripton" />
       </div>
       <app-ux-title class="ion-padding-top ion-margin-top">
         <div class="ion-margin-top">
@@ -27,7 +27,7 @@ import { NavController } from '@ionic/angular';
         </div>
       </app-ux-title>
 
-      <div class="cp__content"> 
+      <div class="cp__content">
         <app-ux-text>
           <div>
             <span class="cp__content__title">{{ 'fiat_ramps.confirm.operation' | translate }}</span>
@@ -46,10 +46,12 @@ import { NavController } from '@ionic/angular';
           <div>
             <span class="cp__content__title">{{ 'fiat_ramps.confirm.quotation' | translate }}</span>
             <span *ngIf="this.operationData.type == 'cash-in'">
-              1 {{ this.operationData.currency_out }} = {{ this.operationData.price_out }} {{ this.operationData.currency_in }}
+              1 {{ this.operationData.currency_out }} = {{ this.operationData.price_out }}
+              {{ this.operationData.currency_in }}
             </span>
             <span *ngIf="this.operationData.type == 'cash-out'">
-              1 {{ this.operationData.currency_in }} = {{ this.operationData.price_in }} {{ this.operationData.currency_out }}
+              1 {{ this.operationData.currency_in }} = {{ this.operationData.price_in }}
+              {{ this.operationData.currency_out }}
             </span>
           </div>
         </app-ux-text>
@@ -69,7 +71,6 @@ import { NavController } from '@ionic/angular';
           </div>
         </app-ux-text>
       </div>
-      
     </ion-content>
 
     <div class="ux_footer">
@@ -97,19 +98,17 @@ export class ConfirmPagePage implements OnInit {
     private storageOperationService: StorageOperationService,
     private fiatRampsService: FiatRampsService,
     private navController: NavController
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.storageOperationService.data.subscribe(data => (this.operationData = data));
+    this.storageOperationService.data.subscribe((data) => (this.operationData = data));
   }
 
   async createOperation() {
-    this.fiatRampsService.createOperation(this.operationData)
-    .subscribe({
+    this.fiatRampsService.createOperation(this.operationData).subscribe({
       next: (res) => {
         this.navController.navigateForward(['fiat-ramps/success-page']);
-      }
-    })
+      },
+    });
   }
-
 }

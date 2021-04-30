@@ -28,8 +28,8 @@ const formData = {
     codigo_postal: '666',
     direccion_calle: 'San Martín',
     direccion_nro: '777',
-    expuesto_politicamente: false
-  }, 
+    expuesto_politicamente: false,
+  },
   invalid: {
     nombre: '',
     apellido: '',
@@ -43,10 +43,9 @@ const formData = {
     codigo_postal: '',
     direccion_calle: '',
     direccion_nro: '',
-    expuesto_politicamente: false
-  }
-}
-
+    expuesto_politicamente: false,
+  },
+};
 
 describe('RegisterPagePage', () => {
   let component: UserInformationPage;
@@ -58,27 +57,27 @@ describe('RegisterPagePage', () => {
   beforeEach(async(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      registerUserInfo: of({})
+      registerUserInfo: of({}),
     });
 
     TestBed.configureTestingModule({
-      declarations: [ UserInformationPage, TrackClickDirective, DummyComponent ],
+      declarations: [UserInformationPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterTestingModule.withRoutes([
           { path: 'fiat-ramps/user-bank', component: DummyComponent },
-          { path: 'fiat-ramps/operations-new', component: DummyComponent }
+          { path: 'fiat-ramps/operations-new', component: DummyComponent },
         ]),
         HttpClientTestingModule,
         IonicModule,
         TranslateModule.forRoot(),
-        ReactiveFormsModule
+        ReactiveFormsModule,
       ],
       providers: [
         TrackClickDirective,
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
+        { provide: NavController, useValue: navControllerSpy },
+      ],
     }).compileComponents();
   }));
 
@@ -93,7 +92,7 @@ describe('RegisterPagePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call registerUserInfo on handleSubmit and valid form', async(done) => {
+  it('should call registerUserInfo on handleSubmit and valid form', async (done) => {
     fiatRampsServiceSpy.registerUserInfo.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
     component.handleSubmit();
@@ -104,5 +103,3 @@ describe('RegisterPagePage', () => {
     done();
   });
 });
-
-
