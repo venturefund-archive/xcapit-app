@@ -1,22 +1,20 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
 import { AuthService } from '../../services/auth/auth.service';
-import { of } from 'rxjs';
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let authServiceMock: any;
   let authService: any;
-  let authServiceSpy: any;
   beforeEach(() => {
     authServiceMock = {
       checkToken: () => Promise.resolve(true),
       checkRefreshToken: () => Promise.resolve(true),
-      sesionExpired: () => null
+      sesionExpired: () => null,
     };
     TestBed.configureTestingModule({
-      providers: [AuthGuard, { provide: AuthService, useValue: authServiceMock }]
+      providers: [AuthGuard, { provide: AuthService, useValue: authServiceMock }],
     });
   });
 
@@ -32,7 +30,7 @@ describe('AuthGuard', () => {
   it('should be able to hit route when checkToken is true', async (done) => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     checkTokenSpy.and.returnValue(Promise.resolve(true));
-    authGuard.canActivate().then(res => expect(res).toBe(true));
+    authGuard.canActivate().then((res) => expect(res).toBe(true));
     done();
   });
 
@@ -41,7 +39,7 @@ describe('AuthGuard', () => {
     const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
     checkTokenSpy.and.returnValue(Promise.resolve(false));
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    authGuard.canActivate().then(res => expect(res).toBe(false));
+    authGuard.canActivate().then((res) => expect(res).toBe(false));
     done();
   });
 
@@ -51,11 +49,7 @@ describe('AuthGuard', () => {
     const sesionExpiredSpy = spyOn(authService, 'sesionExpired');
     checkTokenSpy.and.returnValue(Promise.resolve(false));
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    authGuard
-      .canActivate()
-      .then(res =>
-        expect(sesionExpiredSpy).toHaveBeenCalledTimes(1)
-      );
+    authGuard.canActivate().then((res) => expect(sesionExpiredSpy).toHaveBeenCalledTimes(1));
     done();
   });
 });

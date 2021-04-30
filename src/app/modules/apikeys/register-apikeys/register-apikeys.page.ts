@@ -187,7 +187,7 @@ export class RegisterApikeysPage implements OnInit {
   isCreatorUser(): boolean {
     if (!this.userStatus) return;
 
-    return this.userStatus.status_name == 'CREATOR';
+    return this.userStatus.status_name === 'CREATOR';
   }
 
   success(apiKeys: any, route: string) {

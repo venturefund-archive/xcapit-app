@@ -105,9 +105,9 @@ export class FundShareChartComponent implements OnInit {
       path: fileName,
       data: this.screenshot, // your data to write (ex. base64)
       directory: FilesystemDirectory.Documents,
-    }).then((saved_file) => {
+    }).then((savedFile) => {
       this.showToast('funds.fund_share_chart.toast_image_downloaded');
-      const path = saved_file.uri;
+      const path = savedFile.uri;
       const mimeType = 'image/png';
       this.openImage(path, mimeType);
     });
@@ -122,9 +122,9 @@ export class FundShareChartComponent implements OnInit {
     return 'chart_screenshot_' + moment().format('YYYY_MM_DD_HH_mm_ss');
   }
 
-  showToast(translate_code) {
+  showToast(translateCode) {
     this.toastService.showToast({
-      message: this.translate.instant(translate_code),
+      message: this.translate.instant(translateCode),
     });
   }
 

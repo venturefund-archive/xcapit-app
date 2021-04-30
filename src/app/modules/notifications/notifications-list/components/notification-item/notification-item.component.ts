@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import * as moment from 'moment';
 
 @Component({
@@ -28,7 +28,7 @@ import * as moment from 'moment';
   `,
   styleUrls: ['./notification-item.component.scss'],
 })
-export class NotificationItemComponent {
+export class NotificationItemComponent implements OnInit {
   @Input()
   notification: any;
 
@@ -53,17 +53,17 @@ export class NotificationItemComponent {
   }
 
   getCreatedTime(date) {
-    const initial_date = moment(date);
-    const actual_date = moment(new Date());
+    const initialDate = moment(date);
+    const actualDate = moment(new Date());
 
-    if (actual_date.diff(initial_date, 'days') > 0) {
-      return actual_date.diff(initial_date, 'days') + 'd';
-    } else if (actual_date.diff(initial_date, 'hours') > 0) {
-      return actual_date.diff(initial_date, 'hours') + 'h';
-    } else if (actual_date.diff(initial_date, 'minutes') > 0) {
-      return actual_date.diff(initial_date, 'minutes') + 'm';
+    if (actualDate.diff(initialDate, 'days') > 0) {
+      return actualDate.diff(initialDate, 'days') + 'd';
+    } else if (actualDate.diff(initialDate, 'hours') > 0) {
+      return actualDate.diff(initialDate, 'hours') + 'h';
+    } else if (actualDate.diff(initialDate, 'minutes') > 0) {
+      return actualDate.diff(initialDate, 'minutes') + 'm';
     } else {
-      return actual_date.diff(initial_date, 'seconds') + 's';
+      return actualDate.diff(initialDate, 'seconds') + 's';
     }
   }
 }

@@ -129,7 +129,7 @@ export class ResendVerificationEmailPage implements OnInit {
     this.timerSeconds--;
     this.timerText = `(${this.timerSeconds}s)`;
 
-    if (this.timerSeconds == 0) {
+    if (this.timerSeconds === 0) {
       this.timerText = '';
       clearInterval(this.timer);
       this.disableResendEmail = false;

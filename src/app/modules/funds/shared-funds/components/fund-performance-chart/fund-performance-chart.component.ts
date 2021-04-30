@@ -94,18 +94,18 @@ export class FundPerformanceChartComponent implements OnChanges {
         },
         timeScale: {
           borderColor: 'rgba(0, 0, 0, 0.8)',
-          timeVisible: this.interval == '1d' ? true : false,
+          timeVisible: this.interval === '1d' ? true : false,
           secondsVisible: false,
           tickMarkFormatter: (time, tickMarkType, locale) => {
             const date = moment(time * 1000).utc();
-            if (this.interval == '1d') {
+            if (this.interval === '1d') {
               const minutes = date.minute() <= 9 ? '0' + date.minute() : date.minute();
               const hours = date.hour() <= 9 ? '0' + date.hour() : date.hour();
               return hours + ':' + minutes;
             } else {
-              if (tickMarkType == 0) {
+              if (tickMarkType === 0) {
                 return date.year();
-              } else if (tickMarkType == 1) {
+              } else if (tickMarkType === 1) {
                 const month = date.format('MMM').toLocaleString();
                 return month;
               } else {
@@ -134,7 +134,7 @@ export class FundPerformanceChartComponent implements OnChanges {
     let value;
     let date;
     for (i = 0; i < this.fundPercentageEvolution.percentage_evolution.length; i++) {
-      if (i != this.fundPercentageEvolution.percentage_evolution.length - 2) {
+      if (i !== this.fundPercentageEvolution.percentage_evolution.length - 2) {
         date = moment(this.fundPercentageEvolution.timestamp[i]);
         (time = moment(
           Date.UTC(date.year(), date.month(), date.date(), date.hour(), date.minute(), date.second(), 0)
@@ -156,18 +156,18 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   setTooltip(areaSeries) {
-    const div = document.getElementById('chart');
+    const divEl = document.getElementById('chart');
     const toolTip = document.getElementById('tooltip');
-    div.appendChild(toolTip);
+    divEl.appendChild(toolTip);
 
-    this.chart.subscribeCrosshairMove(function (param) {
+    this.chart.subscribeCrosshairMove((param) => {
       if (
         point_is_undefined(param) ||
         time_is_not_exists(param) ||
         x_point_is_less_than_zero(param) ||
-        x_point_is_grather_than_clientWidth(param, div) ||
+        x_point_is_grather_than_clientWidth(param, divEl) ||
         y_point_is_less_than_zero(param) ||
-        y_point_is_grather_than_clientHeight(param, div)
+        y_point_is_grather_than_clientHeight(param, divEl)
       ) {
         toolTip.style.display = 'none';
       } else {
@@ -230,7 +230,7 @@ export class FundPerformanceChartComponent implements OnChanges {
     let time;
     let value;
     for (i = 0; i < this.fundPercentageEvolution.timestamp.length; i++) {
-      if (i != this.fundPercentageEvolution.timestamp.length - 2) {
+      if (i !== this.fundPercentageEvolution.timestamp.length - 2) {
         (time = moment(this.fundPercentageEvolution.timestamp[i]).unix()), (value = limit);
         dataSet.push({ time, value });
       }
