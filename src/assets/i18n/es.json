@@ -832,12 +832,12 @@
     "first_steps": {
       "step1": {
         "primary_text": "Bienvenido a Xcapit",
-        "secondary_text": "Tu cuenta digital para todas tus necesidades en criptomonedas",
+        "secondary_text": "Tu cuenta digital para todas tus necesidades en criptomonedas.",
         "next_button": "Siguiente"
       },
       "step2": {
         "primary_text": "Ya eres parte del futuro",
-        "secondary_text": "Elige entre múltiples opciones para invertir en simples pasos",
+        "secondary_text": "Elige entre múltiples opciones para invertir en simples pasos.",
         "next_button": "Siguiente",
         "back_button": "Anterior"
       },
