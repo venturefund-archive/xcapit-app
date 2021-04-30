@@ -9,7 +9,8 @@ import {CustomHttpService} from 'src/app/shared/services/custom-http/custom-http
 import {environment} from 'src/environments/environment';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {AppStorageService} from 'src/app/shared/services/app-storage/app-storage.service';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+
 
 @Injectable({
     providedIn: 'root'
@@ -29,6 +30,10 @@ export class AuthService {
     ) {
         this.checkLogin();
         this.crud = this.crudService.getEndpoints('users');
+    }
+
+    async storedToken(): Promise<string> {
+        return await this.storage.get(AUTH.storageKey);
     }
 
     async checkLogin() {
@@ -73,7 +78,7 @@ export class AuthService {
     private async saveAuth(response: any) {
         await this.storage.set(AUTH.storageKey, response.access);
         await this.storage.set(AUTH.refreshKey, response.refresh);
-        await this.storage.set(AUTH.userKey, JSON.stringify(response.usuario));
+        await this.storage.set(AUTH.userKey, response.usuario);
     }
 
     async checkToken(): Promise<boolean> {
@@ -81,11 +86,16 @@ export class AuthService {
         return jwt && !this.jwtHelper.isTokenExpired(jwt);
     }
 
+    async isTokenExpired(): Promise<boolean> {
+        const jwt = await this.storage.get(AUTH.storageKey);
+        return this.jwtHelper.isTokenExpired(jwt);
+    }
+
     async checkRefreshToken(): Promise<boolean> {
         const jwtRefresh = await this.storage.get(AUTH.refreshKey);
         if (jwtRefresh && !this.jwtHelper.isTokenExpired(jwtRefresh)) {
             const jwtRefreshJSON = JSON.parse(`{"refresh" : "${jwtRefresh}"}`);
-            await this.refreshToken(jwtRefreshJSON).subscribe();
+            await this.refreshToken(jwtRefreshJSON).toPromise();
             return true;
         } else {
             return false;
@@ -99,8 +109,7 @@ export class AuthService {
     }
 
     private async getUserLogged() {
-        const user = await this.storage.get(AUTH.userKey);
-        return JSON.parse(user);
+        return await this.storage.get(AUTH.userKey);
     }
 
     async sesionExpired() {
