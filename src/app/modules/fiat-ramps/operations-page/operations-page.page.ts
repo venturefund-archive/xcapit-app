@@ -21,7 +21,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
             routerDirection="forward"
             [routerLink]="['/fiat-ramps/new-operation']"
           >
-            {{'fiat_ramps.operations_list.new' | translate}}
+            {{ 'fiat_ramps.operations_list.new' | translate }}
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -35,7 +35,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
       </app-ux-title>
 
       <app-ux-list-inverted>
-        <ion-list> 
+        <ion-list>
           <ion-item class="table-header ux-font-lato ux-fweight-regular ux-fsize-11">
             <ion-label class="table-header__first-item">
               {{ '#' }}
@@ -54,7 +54,10 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
             </ion-label>
           </ion-item>
           <div class="container" *ngFor="let op of this.operationsList; let last = last">
-            <ion-item class="table-header ux-font-lato ux-fweight-regular ux-fsize-12" (click)="viewOperationDetail(op.id)">
+            <ion-item
+              class="table-header ux-font-lato ux-fweight-regular ux-fsize-12"
+              (click)="viewOperationDetail(op.id)"
+            >
               <ion-text class="table-header__first-item ux-fweight-semibold">
                 {{ op.id }}
               </ion-text>
@@ -82,21 +85,20 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 export class OperationsPagePage implements OnInit {
   operationsList: [] = [];
 
-  constructor(
-    private navController: NavController,
-    private fiatRampsService: FiatRampsService,
-  ) { }
+  constructor(private navController: NavController, private fiatRampsService: FiatRampsService) {}
 
   ionViewWillEnter() {
     this.getOperationsList();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async getOperationsList() {
-    this.fiatRampsService.getUserOperations().subscribe(data => {
-      this.operationsList = data.constructor === Object && Object.keys(data).length === 0 ? [] : data.sort((a,b) => (a.id < b.id) ? 1 : ((b.id < a.id) ? -1 : 0));
+    this.fiatRampsService.getUserOperations().subscribe((data) => {
+      this.operationsList =
+        data.constructor === Object && Object.keys(data).length === 0
+          ? []
+          : data.sort((a, b) => (a.id < b.id ? 1 : b.id < a.id ? -1 : 0));
     });
   }
 

@@ -12,97 +12,84 @@ import { BillType } from '../../enums/bill_types.enum';
 @Component({
   selector: 'app-edit-profile',
   template: `
-      <div class="ep ion-padding-start ion-padding-end ion-padding-bottom">
-          <form
-                  #formElement
-                  [formGroup]="this.form"
-                  (ngSubmit)="this.save()"
-                  *ngIf="this.isFormSet"
-          >
-              <div class="ep__personal">
-                  <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-                      'profiles.user_profile.personal_data' | translate
-                      }}</ion-text>
-                  <!-- First name -->
-                  <app-ux-input
-                          controlName="first_name"
-                          type="text"
-                          [label]="'profiles.user_profile.first_name' | translate"
-                          inputmode="text"
-                  ></app-ux-input>
+    <div class="ep ion-padding-start ion-padding-end ion-padding-bottom">
+      <form #formElement [formGroup]="this.form" (ngSubmit)="this.save()" *ngIf="this.isFormSet">
+        <div class="ep__personal">
+          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
+            'profiles.user_profile.personal_data' | translate
+          }}</ion-text>
+          <!-- First name -->
+          <app-ux-input
+            controlName="first_name"
+            type="text"
+            [label]="'profiles.user_profile.first_name' | translate"
+            inputmode="text"
+          ></app-ux-input>
 
-                  <!-- Cellphone -->
-                  <app-ux-input
-                          controlName="cellphone"
-                          type="text"
-                          [label]="'profiles.user_profile.cellphone' | translate"
-                          inputmode="numeric"
-                          [errors]="this.cellphoneErrors"
-                  ></app-ux-input>
-                  <div *ngIf="this.data?.viewBillData">
-                    <div class="ep__bill">
-                        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-                            'profiles.user_profile.bill_data' | translate
-                            }}</ion-text>
+          <!-- Cellphone -->
+          <app-ux-input
+            controlName="cellphone"
+            type="text"
+            [label]="'profiles.user_profile.cellphone' | translate"
+            inputmode="numeric"
+            [errors]="this.cellphoneErrors"
+          ></app-ux-input>
+          <div *ngIf="this.data?.viewBillData">
+            <div class="ep__bill">
+              <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
+                'profiles.user_profile.bill_data' | translate
+              }}</ion-text>
 
-                        <!-- Pais -->
-                        <app-ux-input-select
-                                [label]="'profiles.user_profile.country' | translate"
-                                [modalTitle]="
-                'profiles.user_profile.country_placeholder' | translate
-              "
-                                [placeholder]="
-                'profiles.user_profile.country_placeholder' | translate
-              "
-                                controlName="pais"
-                                [data]="this.countries"
-                        ></app-ux-input-select>
-                    </div>
+              <!-- Pais -->
+              <app-ux-input-select
+                [label]="'profiles.user_profile.country' | translate"
+                [modalTitle]="'profiles.user_profile.country_placeholder' | translate"
+                [placeholder]="'profiles.user_profile.country_placeholder' | translate"
+                controlName="pais"
+                [data]="this.countries"
+              ></app-ux-input-select>
+            </div>
 
-                    <!-- Condicion IVA -->
-                    <app-ux-input-select
-                            [label]="'profiles.user_profile.condicion_iva' | translate"
-                            [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
-                            [placeholder]="
-                'profiles.user_profile.condicion_iva_placeholder' | translate
-              "
-                            controlName="condicion_iva"
-                            [data]="this.condicionesIVA"
-                    ></app-ux-input-select>
+            <!-- Condicion IVA -->
+            <app-ux-input-select
+              [label]="'profiles.user_profile.condicion_iva' | translate"
+              [modalTitle]="'profiles.user_profile.condicion_iva' | translate"
+              [placeholder]="'profiles.user_profile.condicion_iva_placeholder' | translate"
+              controlName="condicion_iva"
+              [data]="this.condicionesIVA"
+            ></app-ux-input-select>
 
-                    <!-- Tipo factura -->
-                    <app-ux-input-select
-                            [label]="'profiles.user_profile.tipo_factura' | translate"
-                            [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
-                            [placeholder]="
-                'profiles.user_profile.tipo_factura_placeholder' | translate
-              "
-                            controlName="tipo_factura"
-                            [data]="this.tiposFactura"
-                    ></app-ux-input-select>
+            <!-- Tipo factura -->
+            <app-ux-input-select
+              [label]="'profiles.user_profile.tipo_factura' | translate"
+              [modalTitle]="'profiles.user_profile.tipo_factura' | translate"
+              [placeholder]="'profiles.user_profile.tipo_factura_placeholder' | translate"
+              controlName="tipo_factura"
+              [data]="this.tiposFactura"
+            ></app-ux-input-select>
 
-                    <!-- CUIT -->
-                    <app-ux-input
-                            controlName="cuit"
-                            type="text"
-                            [label]="'profiles.user_profile.cuit' | translate"
-                            inputmode="numeric"
-                            [errors]="this.onlyIntegersErrors"
-                    ></app-ux-input>
+            <!-- CUIT -->
+            <app-ux-input
+              controlName="cuit"
+              type="text"
+              [label]="'profiles.user_profile.cuit' | translate"
+              inputmode="numeric"
+              [errors]="this.onlyIntegersErrors"
+            ></app-ux-input>
 
-                  <!-- Direccion -->
-                  <app-ux-input
-                          controlName="direccion"
-                          type="text"
-                          [label]="'profiles.user_profile.direccion' | translate"
-                          inputmode="text"
-                  ></app-ux-input>
-                  </div>
-              </div>
-          </form>
-      </div>
+            <!-- Direccion -->
+            <app-ux-input
+              controlName="direccion"
+              type="text"
+              [label]="'profiles.user_profile.direccion' | translate"
+              inputmode="text"
+            ></app-ux-input>
+          </div>
+        </div>
+      </form>
+    </div>
   `,
-  styleUrls: ['./edit-profile.component.scss']
+  styleUrls: ['./edit-profile.component.scss'],
 })
 export class EditProfileComponent implements OnInit {
   condicionesIVA = Object.values(IvaConditions);
@@ -120,40 +107,13 @@ export class EditProfileComponent implements OnInit {
   countries = Object.values(Countries);
 
   controls = {
-    first_name: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(150),
-        Validators.pattern('[A-Za-zÀ-ÿ \'-]*$')
-      ]
-    ],
-    cellphone: [
-      '',
-      [
-        Validators.minLength(7),
-        Validators.maxLength(24),
-        Validators.pattern('[0-9]*$')
-      ]
-    ],
+    first_name: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
+    cellphone: ['', [Validators.minLength(7), Validators.maxLength(24), Validators.pattern('[0-9]*$')]],
     pais: ['', [Validators.maxLength(150)]],
     condicion_iva: ['', []],
     tipo_factura: ['', []],
-    cuit: [
-      '',
-      [
-        Validators.minLength(7),
-        Validators.maxLength(15),
-        Validators.pattern('[0-9][^.a-zA-Z]*$')
-      ]
-    ],
-    direccion: [
-      '', 
-      [
-        Validators.maxLength(150),
-        Validators.pattern('[A-Za-zÀ-ÿ0-9 \'-,]*$')
-      ]
-    ]
+    cuit: ['', [Validators.minLength(7), Validators.maxLength(15), Validators.pattern('[0-9][^.a-zA-Z]*$')]],
+    direccion: ['', [Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ0-9 '-,]*$")]],
   };
 
   form: FormGroup;
@@ -161,11 +121,7 @@ export class EditProfileComponent implements OnInit {
   @Input()
   data: any;
 
-  constructor(
-    private apiProfiles: ApiProfilesService,
-    private formBuilder: FormBuilder
-  ) {
-  }
+  constructor(private apiProfiles: ApiProfilesService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.setForm();
@@ -189,7 +145,7 @@ export class EditProfileComponent implements OnInit {
   setForm() {
     this.form = this.formBuilder.group({ ...this.controls });
     this.isFormSet = true;
-    this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
+    this.apiProfiles.crud.get().subscribe((res) => this.form.patchValue(res));
   }
 
   addRequiredValidator() {

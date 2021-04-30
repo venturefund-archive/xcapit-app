@@ -35,27 +35,16 @@ describe('ResendVerificationEmailPage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
-        'sendEmailValidationByEmail',
-      ]);
-      apiUsuariosServiceSpy.sendEmailValidationByEmail.and.returnValue(
-        new Observable()
-      );
+      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', ['sendEmailValidationByEmail']);
+      apiUsuariosServiceSpy.sendEmailValidationByEmail.and.returnValue(new Observable());
       activatedRouteMock = {
         queryParams: new Subject(),
       };
-      navControllerSpy = jasmine.createSpyObj(
-        'NavController',
-        navControllerMock
-      );
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
       storageSpy.get.and.returnValue(Promise.resolve());
       TestBed.configureTestingModule({
-        declarations: [
-          DummyComponent,
-          ResendVerificationEmailPage,
-          TrackClickUnauthDirective,
-        ],
+        declarations: [DummyComponent, ResendVerificationEmailPage, TrackClickUnauthDirective],
         imports: [
           HttpClientTestingModule,
           IonicModule,
@@ -75,18 +64,16 @@ describe('ResendVerificationEmailPage', () => {
         ],
       }).compileComponents();
 
-      var router = TestBed.inject(Router);
+      let router = TestBed.inject(Router);
       currentNavigation = router.getCurrentNavigation();
-      getCurrentNavigationSpy = spyOn(
-        router,
-        'getCurrentNavigation'
-      ).and.returnValue({ ...currentNavigation, ...extras });
+      getCurrentNavigationSpy = spyOn(router, 'getCurrentNavigation').and.returnValue({
+        ...currentNavigation,
+        ...extras,
+      });
 
       fixture = TestBed.createComponent(ResendVerificationEmailPage);
       component = fixture.componentInstance;
-      trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(
-        fixture
-      );
+      trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
       fixture.detectChanges();
     })
   );
@@ -103,25 +90,18 @@ describe('ResendVerificationEmailPage', () => {
   it('should save data in storage if redirected from success-register', () => {
     activatedRouteMock.queryParams.next();
     expect(storageSpy.set).toHaveBeenCalledWith('email', jasmine.any(String));
-    expect(storageSpy.set).toHaveBeenCalledWith(
-      'numberOfResends',
-      jasmine.any(Number)
-    );
+    expect(storageSpy.set).toHaveBeenCalledWith('numberOfResends', jasmine.any(Number));
   });
 
   it('should call sendEmailValidationByEmail if redirected from success-register', () => {
     activatedRouteMock.queryParams.next();
-    expect(
-      apiUsuariosServiceSpy.sendEmailValidationByEmail
-    ).toHaveBeenCalledTimes(1);
+    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(1);
   });
 
   it('should not call sendEmailValidationByEmail if page was reloaded', () => {
     getCurrentNavigationSpy.and.returnValue(currentNavigation);
     activatedRouteMock.queryParams.next();
-    expect(
-      apiUsuariosServiceSpy.sendEmailValidationByEmail
-    ).toHaveBeenCalledTimes(0);
+    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to login if page was reloaded and no user data in storage', async () => {
@@ -132,9 +112,7 @@ describe('ResendVerificationEmailPage', () => {
   });
 
   it('should call startTimer if page was reloaded and there is user data in storage', async () => {
-    const spy = spyOn(component, 'startTimer').and.returnValue(
-      Promise.resolve()
-    );
+    const spy = spyOn(component, 'startTimer').and.returnValue(Promise.resolve());
     getCurrentNavigationSpy.and.returnValue(currentNavigation);
     storageSpy.get
       .withArgs('email')
@@ -155,9 +133,7 @@ describe('ResendVerificationEmailPage', () => {
       .and.returnValue(Promise.resolve(1));
     activatedRouteMock.queryParams.next();
     await fixture.whenStable();
-    fixture
-      .whenStable()
-      .then(() => expect(component.email).toBe(extras.extras.state.email));
+    fixture.whenStable().then(() => expect(component.email).toBe(extras.extras.state.email));
   });
 
   it('should show Create Ticket Button if page was reloaded and user made minimumNumberOfTriesForTicket or more resends', async () => {
@@ -166,14 +142,10 @@ describe('ResendVerificationEmailPage', () => {
       .withArgs('email')
       .and.returnValue(Promise.resolve(extras.extras.state.email))
       .withArgs('numberOfResends')
-      .and.returnValue(
-        Promise.resolve(component.minimumNumberOfTriesForTicket)
-      );
+      .and.returnValue(Promise.resolve(component.minimumNumberOfTriesForTicket));
     activatedRouteMock.queryParams.next();
     await fixture.whenStable();
-    fixture
-      .whenStable()
-      .then(() => expect(component.hideSendTicket).toBeFalse());
+    fixture.whenStable().then(() => expect(component.hideSendTicket).toBeFalse());
   });
 
   it('should disable Resend Verification Email Button if page was reloaded and there is user data in storage', async () => {
@@ -185,9 +157,7 @@ describe('ResendVerificationEmailPage', () => {
       .and.returnValue(Promise.resolve(1));
     activatedRouteMock.queryParams.next();
     await fixture.whenStable();
-    fixture
-      .whenStable()
-      .then(() => expect(component.disableResendEmail).toBeTrue());
+    fixture.whenStable().then(() => expect(component.disableResendEmail).toBeTrue());
   });
 
   it('should not call sendEmailValidationByEmail if page was reloaded and there is user data in storage', async () => {
@@ -199,13 +169,7 @@ describe('ResendVerificationEmailPage', () => {
       .and.returnValue(Promise.resolve(1));
     activatedRouteMock.queryParams.next();
     await fixture.whenStable();
-    fixture
-      .whenStable()
-      .then(() =>
-        expect(
-          apiUsuariosServiceSpy.sendEmailValidationByEmail
-        ).toHaveBeenCalledTimes(0)
-      );
+    fixture.whenStable().then(() => expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(0));
   });
 
   it('should call clearStorage when close is called', () => {
@@ -266,18 +230,13 @@ describe('ResendVerificationEmailPage', () => {
 
   it('should call sendEmailValidationByEmail on resendEmail', () => {
     component.resendEmail();
-    expect(
-      apiUsuariosServiceSpy.sendEmailValidationByEmail
-    ).toHaveBeenCalledTimes(1);
+    expect(apiUsuariosServiceSpy.sendEmailValidationByEmail).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Resend Verification Email button clicked', () => {
     activatedRouteMock.queryParams.next();
     fixture.detectChanges();
-    const el = trackClickUnauthDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Resend Verification Email'
-    );
+    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Resend Verification Email');
     const directive = trackClickUnauthDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();
@@ -289,10 +248,7 @@ describe('ResendVerificationEmailPage', () => {
     activatedRouteMock.queryParams.next();
     component.hideSendTicket = false;
     fixture.detectChanges();
-    const el = trackClickUnauthDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Open Ticket'
-    );
+    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Open Ticket');
     const directive = trackClickUnauthDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();

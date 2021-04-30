@@ -10,17 +10,8 @@ import { Storage } from '@ionic/storage';
     <ion-content class="ion-padding" *ngIf="this.email">
       <div class="main">
         <div class="main__close_button">
-          <ion-button
-            fill="clear"
-            appTrackClickUnauth
-            name="Close Resend Email"
-            (click)="this.close()"
-          >
-            <ion-icon
-              class="main__close_button__icon"
-              name="ux-close"
-              color="uxmedium"
-            ></ion-icon>
+          <ion-button fill="clear" appTrackClickUnauth name="Close Resend Email" (click)="this.close()">
+            <ion-icon class="main__close_button__icon" name="ux-close" color="uxmedium"></ion-icon>
           </ion-button>
         </div>
         <div class="main__ux_success_image">
@@ -46,8 +37,7 @@ import { Storage } from '@ionic/storage';
               (click)="this.resendEmail()"
             >
               {{
-                'usuarios.register.resend_verification_email.resend_mail_button'
-                  | translate: { timer: this.timerText }
+                'usuarios.register.resend_verification_email.resend_mail_button' | translate: { timer: this.timerText }
               }}
             </ion-button>
           </div>
@@ -59,10 +49,7 @@ import { Storage } from '@ionic/storage';
               name="Open Ticket"
               (click)="this.openTicket()"
             >
-              {{
-                'usuarios.register.resend_verification_email.open_ticket_button'
-                  | translate
-              }}
+              {{ 'usuarios.register.resend_verification_email.open_ticket_button' | translate }}
             </ion-button>
           </div>
         </div>
@@ -72,13 +59,13 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./resend-verification-email.page.scss'],
 })
 export class ResendVerificationEmailPage implements OnInit {
-  disableResendEmail: boolean = true;
-  hideSendTicket: boolean = true;
+  disableResendEmail = true;
+  hideSendTicket = true;
 
-  private numberOfResends: number = 0;
-  minimumNumberOfTriesForTicket: number = 3;
+  private numberOfResends = 0;
+  minimumNumberOfTriesForTicket = 3;
 
-  timerText: string = '';
+  timerText = '';
   timerSeconds: number;
   private timer: any;
 

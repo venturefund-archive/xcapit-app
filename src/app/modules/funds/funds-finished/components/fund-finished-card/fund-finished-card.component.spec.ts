@@ -18,45 +18,41 @@ describe('FundFinishedCardComponent', () => {
   let fundDataStorageService: any;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    fundDataStorageServiceMock = {
-      setData: () => Promise.resolve()
-    };
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+  beforeEach(
+    waitForAsync(() => {
+      fundDataStorageServiceMock = {
+        setData: () => Promise.resolve(),
+      };
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
-    TestBed.configureTestingModule({
-      declarations: [ 
-        FundFinishedCardComponent,
-        TrackClickDirective,
-        DummyComponent
-      ],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
-          { path: 'funds/fund-risk', component: DummyComponent }
-        ])
-      ],
-      providers: [
-        { provide: FundDataStorageService, useValue: fundDataStorageServiceMock },
-        { provide: NavController, useValue: navControllerSpy },
-      ]
-    }).compileComponents();
+      TestBed.configureTestingModule({
+        declarations: [FundFinishedCardComponent, TrackClickDirective, DummyComponent],
+        imports: [
+          IonicModule,
+          TranslateModule.forRoot(),
+          HttpClientTestingModule,
+          RouterTestingModule.withRoutes([{ path: 'funds/fund-risk', component: DummyComponent }]),
+        ],
+        providers: [
+          { provide: FundDataStorageService, useValue: fundDataStorageServiceMock },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(FundFinishedCardComponent);
-    component = fixture.componentInstance;
-    component.fund = {nivel_de_riesgo: "Test"};
-    fundDataStorageService = TestBed.inject(FundDataStorageService);
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  }));
+      fixture = TestBed.createComponent(FundFinishedCardComponent);
+      component = fixture.componentInstance;
+      component.fund = { nivel_de_riesgo: 'Test' };
+      fundDataStorageService = TestBed.inject(FundDataStorageService);
+      fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call dataStorageService.setData on click', async done => {
+  it('should call dataStorageService.setData on click', async (done) => {
     const spy = spyOn(fundDataStorageService, 'setData');
     spy.and.returnValue(Promise.resolve());
     component.renewFund();
@@ -66,10 +62,7 @@ describe('FundFinishedCardComponent', () => {
   });
 
   it('should call trackEvent on trackService when Renovate Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Renovate Fund'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Renovate Fund');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -78,10 +71,7 @@ describe('FundFinishedCardComponent', () => {
   });
 
   it('should call trackEvent on trackService when Delete Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Delete Fund'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Delete Fund');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

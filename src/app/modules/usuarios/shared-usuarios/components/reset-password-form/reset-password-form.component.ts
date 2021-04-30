@@ -9,7 +9,6 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
   selector: 'app-reset-password-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-
     <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
       <div *ngIf="!this.isReset">
         <app-ux-title class="ion-padding-top ion-margin-top">
@@ -23,7 +22,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
             {{ 'usuarios.reset_password.text_before' | translate }}
           </div>
         </app-ux-text>
-        
+
         <app-ux-input
           controlName="email"
           type="email"
@@ -57,7 +56,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
       <ng-content select=".other-links"></ng-content>
     </form>
   `,
-  styleUrls: ['./reset-password-form.component.scss']
+  styleUrls: ['./reset-password-form.component.scss'],
 })
 export class ResetPasswordFormComponent implements OnInit {
   @Input()
@@ -70,48 +69,26 @@ export class ResetPasswordFormComponent implements OnInit {
 
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
-  repeatPasswordErrors: ItemFormError[] = [
-    ...CONFIG.fieldErrors.repeatPassword,
-    ...CONFIG.fieldErrors.password
-  ];
+  repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
   form: FormGroup = this.formBuilder.group(
     {
-      email: [
-        '',
-        [
-          Validators.email,
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(100)
-        ]
-      ],
+      email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       password: [
         '',
         [
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(100),
-          CustomValidators.patternValidator(
-            /\d/,
-            CustomValidatorErrors.hasNumber
-          ),
-          CustomValidators.patternValidator(
-            /[A-Z]/,
-            CustomValidatorErrors.hasCapitalCase
-          ),
-          CustomValidators.patternValidator(
-            /[a-z]/,
-            CustomValidatorErrors.hasSmallCase
-          )
-        ]
+          CustomValidators.patternValidator(/\d/, CustomValidatorErrors.hasNumber),
+          CustomValidators.patternValidator(/[A-Z]/, CustomValidatorErrors.hasCapitalCase),
+          CustomValidators.patternValidator(/[a-z]/, CustomValidatorErrors.hasSmallCase),
+        ],
       ],
-      repeat_password: ['']
+      repeat_password: [''],
     },
     {
-      validators: [
-        CustomValidators.passwordMatchValidator
-      ]
+      validators: [CustomValidators.passwordMatchValidator],
     }
   );
 

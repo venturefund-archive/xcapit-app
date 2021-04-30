@@ -18,32 +18,32 @@ const formData = {
   valid: {
     front_document: {
       type: 'front_document',
-      image: 'imageb64'
+      image: 'imageb64',
     },
     back_document: {
       type: 'back_document',
-      image: 'imageb64'
+      image: 'imageb64',
     },
     billing: {
       type: 'billing',
-      image: 'imageb64'
-    }
-  }, 
+      image: 'imageb64',
+    },
+  },
   invalid: {
     front_document: {
       type: 'front_document',
-      image: ''
+      image: '',
     },
     back_document: {
       type: 'back_document',
-      image: ''
+      image: '',
     },
     billing: {
       type: 'billing',
-      image: ''
-    }
-  }
-}
+      image: '',
+    },
+  },
+};
 
 describe('UserImagesPage', () => {
   let component: UserImagesPage;
@@ -55,26 +55,24 @@ describe('UserImagesPage', () => {
   beforeEach(async(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      registerUserImages: of({})
+      registerUserImages: of({}),
     });
 
     TestBed.configureTestingModule({
-      declarations: [ UserImagesPage, TrackClickDirective, DummyComponent ],
+      declarations: [UserImagesPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'fiat-ramps/user-images', component: DummyComponent }
-        ]),
+        RouterTestingModule.withRoutes([{ path: 'fiat-ramps/user-images', component: DummyComponent }]),
         HttpClientTestingModule,
         IonicModule,
         TranslateModule.forRoot(),
-        ReactiveFormsModule
+        ReactiveFormsModule,
       ],
       providers: [
         TrackClickDirective,
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
+        { provide: NavController, useValue: navControllerSpy },
+      ],
     }).compileComponents();
   }));
 
@@ -89,7 +87,7 @@ describe('UserImagesPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call registerUserImages on handleSubmit and valid form', async(done) => {
+  it('should call registerUserImages on handleSubmit and valid form', async (done) => {
     fiatRampsServiceSpy.registerUserImages.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
     component.handleSubmit();

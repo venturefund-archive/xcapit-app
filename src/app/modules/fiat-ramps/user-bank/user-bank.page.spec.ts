@@ -18,14 +18,14 @@ const formData = {
   valid: {
     cuit: '20333333339',
     cbu_cvu: '1234567890123456789012',
-    banco: 'Banco Nación'
-  }, 
+    banco: 'Banco Nación',
+  },
   invalid: {
     cuit: '',
     cbu_cvu: '',
-    banco: ''
-  }
-}
+    banco: '',
+  },
+};
 
 describe('UserBankPage', () => {
   let component: UserBankPage;
@@ -37,26 +37,24 @@ describe('UserBankPage', () => {
   beforeEach(async(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      registerUserBank: of({})
+      registerUserBank: of({}),
     });
 
     TestBed.configureTestingModule({
-      declarations: [ UserBankPage, TrackClickDirective, DummyComponent ],
+      declarations: [UserBankPage, TrackClickDirective, DummyComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'fiat-ramps/user-images', component: DummyComponent }
-        ]),
+        RouterTestingModule.withRoutes([{ path: 'fiat-ramps/user-images', component: DummyComponent }]),
         HttpClientTestingModule,
         IonicModule,
         TranslateModule.forRoot(),
-        ReactiveFormsModule
+        ReactiveFormsModule,
       ],
       providers: [
         TrackClickDirective,
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
+        { provide: NavController, useValue: navControllerSpy },
+      ],
     }).compileComponents();
   }));
 
@@ -71,7 +69,7 @@ describe('UserBankPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call registerUserBank on handleSubmit and valid form', async(done) => {
+  it('should call registerUserBank on handleSubmit and valid form', async (done) => {
     fiatRampsServiceSpy.registerUserBank.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
     component.handleSubmit();
