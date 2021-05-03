@@ -78,7 +78,7 @@
       "text_help_link": "Need help?"
     },
     "referrals_help": {
-      "text_referrals_help_link":"¿How the referral system works?"
+      "text_referrals_help_link":"How the referral system works?"
     }
   },
   "usuarios": {
@@ -1188,7 +1188,7 @@
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Submmit",
-      "link_help": "¿Need Help?",
+      "link_help": "Need Help?",
       "alert": {
         "title": "Add new key",
         "text": "I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
@@ -1326,9 +1326,9 @@
     "ramp_initial": {
       "header": "Buy/Sell cryptos",
       "title": "New operation",
-      "operation": "¿What operation do you want to do?",
-      "pair_buy": "¿What currency do you want to buy?",
-      "pair_sell": "¿What currency do you want to sell?",
+      "operation": "What operation do you want to do?",
+      "pair_buy": "What currency do you want to buy?",
+      "pair_sell": "What currency do you want to sell?",
       "amount": "Amount",
       "amount_ars": "Amount in",
       "amount_min": "Minimun amount:",

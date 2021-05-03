@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -9,11 +9,11 @@ describe('PointsCardComponent', () => {
   let component: PointsCardComponent;
   let fixture: ComponentFixture<PointsCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PointsCardComponent],
       imports: [
-        IonicModule.forRoot(),
+        IonicModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],

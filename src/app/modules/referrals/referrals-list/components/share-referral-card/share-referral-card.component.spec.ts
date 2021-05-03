@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
-  async,
   ComponentFixture,
   TestBed,
   waitForAsync,
@@ -29,7 +28,7 @@ describe('ShareReferralCardComponent', () => {
         declarations: [ShareReferralCardComponent, TrackClickDirective],
         imports: [
           HttpClientTestingModule,
-          IonicModule.forRoot(),
+          IonicModule,
           TranslateModule.forRoot(),
         ],
         providers: [

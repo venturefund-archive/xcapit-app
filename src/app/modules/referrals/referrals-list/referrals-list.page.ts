@@ -20,88 +20,92 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
     </ion-header>
 
     <ion-content class="ion-padding">
-      <div class="src__share-referral-card">
-        <app-share-referral-card
-          [referralId]="this.referralId"
-          *ngIf="this.referralId"
-        ></app-share-referral-card>
-      </div>
-      <div class="src__referrals-list__label">
-        <ion-label
-          class="ux-font-lato ux-fweight-bold ux-fsize-12"
-          color="uxsemidark"
-        >
-          {{ 'referrals.new_referral_page.points_title' | translate }}
-        </ion-label>
-      </div>
-      <div class="src__points-card">
-        <app-points-card></app-points-card>
-      </div>
-      <div class="src__referrals-list__label">
-        <ion-label
-          class="ux-font-lato ux-fweight-bold ux-fsize-12"
-          color="uxsemidark"
-        >
-          {{ 'referrals.new_referral_page.list_title' | translate }}
-        </ion-label>
-      </div>
-      <div class="src__referrals-list">
-        <app-ux-list-inverted>
-          <ion-list>
-            <div
-              class="container"
-              *ngFor="let referral of this.referrals; let last = last"
+      <div class="ux_main">
+        <div class="ux_content">
+          <div class="src__share-referral-card">
+            <app-share-referral-card
+              [referralId]="this.referralId"
+              *ngIf="this.referralId"
+            ></app-share-referral-card>
+          </div>
+          <div class="src__referrals-list__label">
+            <ion-label
+              class="ux-font-lato ux-fweight-bold ux-fsize-12"
+              color="uxsemidark"
             >
-              <ion-item>
-                <ion-label>
-                  <h2>
-                    {{ referral.email | hideReferral }}
-                  </h2>
-                  <h3>
-                    {{ referral.created_at | localizedDate }}
-                  </h3>
-                </ion-label>
-                <div class="src__referrals-list__accepted">
-                  <ion-icon
-                    [name]="
-                      referral.accepted
-                        ? 'ux-checked-circle'
-                        : 'hourglass-outline'
-                    "
-                    color="uxmedium"
-                  ></ion-icon>
+              {{ 'referrals.new_referral_page.points_title' | translate }}
+            </ion-label>
+          </div>
+          <div class="src__points-card">
+            <app-points-card></app-points-card>
+          </div>
+          <div class="src__referrals-list__label">
+            <ion-label
+              class="ux-font-lato ux-fweight-bold ux-fsize-12"
+              color="uxsemidark"
+            >
+              {{ 'referrals.new_referral_page.list_title' | translate }}
+            </ion-label>
+          </div>
+          <div class="src__referrals-list">
+            <app-ux-list-inverted>
+              <ion-list>
+                <div
+                  class="container"
+                  *ngFor="let referral of this.referrals; let last = last"
+                >
+                  <ion-item>
+                    <ion-label>
+                      <h2>
+                        {{ referral.email | hideReferral }}
+                      </h2>
+                      <h3>
+                        {{ referral.created_at | localizedDate }}
+                      </h3>
+                    </ion-label>
+                    <div class="src__referrals-list__accepted">
+                      <ion-icon
+                        [name]="
+                          referral.accepted
+                            ? 'ux-checked-circle'
+                            : 'hourglass-outline'
+                        "
+                        color="uxmedium"
+                      ></ion-icon>
+                    </div>
+                  </ion-item>
+                  <div class="list-divider" *ngIf="!last"></div>
                 </div>
-              </ion-item>
-              <div class="list-divider" *ngIf="!last"></div>
-            </div>
-          </ion-list>
-        </app-ux-list-inverted>
-      </div>
-
-      <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadMore()">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Loading more data..."
-        >
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-    </ion-content>
-    <ion-footer>
-      <div class="ux_footer ion-padding">
-        <div class="src__help_referral_link">
-          <ion-button
-            name="Go To Help"
-            (click)="this.showAlert()"
-            appTrackClick
-            fill="clear"
-            size="small"
-            >{{
-              'shared.referrals_help.text_referrals_help_link' | translate
-            }}</ion-button
+              </ion-list>
+            </app-ux-list-inverted>
+          </div>
+          <ion-infinite-scroll
+            threshold="200px"
+            (ionInfinite)="this.loadMore()"
           >
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Loading more data..."
+            >
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </div>
+        <div class="ux_footer ">
+          <div class="src__help_referral_link">
+            <ion-button
+              name="Go To Help"
+              (click)="this.showAlert()"
+              appTrackClick
+              fill="clear"
+              size="small"
+              >{{
+                'shared.referrals_help.text_referrals_help_link' | translate
+              }}</ion-button
+            >
+          </div>
         </div>
       </div>
-    </ion-footer>
+    </ion-content>
   `,
   styleUrls: ['./referrals-list.page.scss'],
 })

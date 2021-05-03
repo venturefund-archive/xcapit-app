@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -29,7 +29,7 @@ describe('ReferralsListPage', () => {
     profile: {},
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     ionInfiniteScrollMock = {
       complete: () => true,
@@ -44,7 +44,7 @@ describe('ReferralsListPage', () => {
     TestBed.configureTestingModule({
       declarations: [ReferralsListPage, TrackClickDirective],
       imports: [
-        IonicModule.forRoot(),
+        IonicModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
       ],
