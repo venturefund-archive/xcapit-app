@@ -178,17 +178,31 @@ export class RegisterApikeysPage implements OnInit {
   getSuccessRoute(): string {
     let route = '/apikeys/success-register';
 
-    if (this.isBeginnerUser()) {
+    if (this.isFirstFund()) {
       route += '-beginner';
     }
 
     return route;
   }
 
-  isBeginnerUser(): boolean {
-    if (!this.userStatus) return;
+  isFirstFund(): boolean {
+    return this.isBeginnerUser() || this.isExplorerUser() || this.isCreatorUser() || this.isFromBotUser();
+  }
 
+  isBeginnerUser(): boolean {
     return this.userStatus.status_name == UserStatus.BEGINNER;
+  }
+
+  isExplorerUser(): boolean {
+    return this.userStatus.status_name == UserStatus.EXPLORER;
+  }
+
+  isCreatorUser(): boolean {
+    return this.userStatus.status_name == UserStatus.CREATOR;
+  }
+
+  isFromBotUser(): boolean {
+    return this.userStatus.status_name == UserStatus.FROM_BOT;
   }
 
   success(apiKeys: any, route: string) {
