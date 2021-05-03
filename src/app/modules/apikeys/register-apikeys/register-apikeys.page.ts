@@ -190,19 +190,19 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   isBeginnerUser(): boolean {
-    return this.userStatus.status_name == UserStatus.BEGINNER;
+    return this.userStatus.status_name === UserStatus.BEGINNER;
   }
 
   isExplorerUser(): boolean {
-    return this.userStatus.status_name == UserStatus.EXPLORER;
+    return this.userStatus.status_name === UserStatus.EXPLORER;
   }
 
   isCreatorUser(): boolean {
-    return this.userStatus.status_name == UserStatus.CREATOR;
+    return this.userStatus.status_name === UserStatus.CREATOR;
   }
 
   isFromBotUser(): boolean {
-    return this.userStatus.status_name == UserStatus.FROM_BOT;
+    return this.userStatus.status_name === UserStatus.FROM_BOT;
   }
 
   success(apiKeys: any, route: string) {
