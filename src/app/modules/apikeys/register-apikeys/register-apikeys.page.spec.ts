@@ -14,6 +14,7 @@ import { of } from 'rxjs';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
 
 const formData = {
   valid: {
@@ -25,15 +26,6 @@ const formData = {
     api_key: '',
     secret_key: '',
     alias: '',
-  },
-};
-
-const userStatus = {
-  creator: {
-    status_name: 'CREATOR',
-  },
-  complete: {
-    status_name: 'COMPLETE',
   },
 };
 
@@ -106,6 +98,7 @@ describe('RegisterApikeysPage', () => {
           RouterTestingModule.withRoutes([
             { path: 'apikeys/register', component: DummyComponent },
             { path: 'apikeys/success-register', component: DummyComponent },
+            { path: 'apikeys/success-register-beginner', component: DummyComponent },
             { path: 'apikeys/list', component: DummyComponent },
             { path: 'tabs/funds', component: DummyComponent },
           ]),
@@ -158,6 +151,7 @@ describe('RegisterApikeysPage', () => {
   });
 
   it('should call create on submitData', () => {
+    spyOn(component, 'getSuccessRoute').and.returnValue('');
     apiApikeysServiceSpy.create.and.returnValue(of({}));
     navController.navigateForward.and.returnValue(Promise.resolve());
     component.submitData();
@@ -219,51 +213,62 @@ describe('RegisterApikeysPage', () => {
     expect(spyForm).toHaveBeenCalledTimes(1);
   });
 
-  it('should call status on getUserStatus', () => {
-    component.getUserStatus();
-    expect(apiUsuariosServiceSpy.status).toHaveBeenCalledTimes(1);
+  it('should call status on getUserStatus', async() => {
+    component.getUserStatus().then(() => {
+      expect(apiUsuariosServiceSpy.status).toHaveBeenCalledTimes(1);
+    });
   });
 
-  it('should return true on isCreatorUser if userStatus is CREATOR', () => {
-    component.userStatus = userStatus.creator;
-    const isCreatorUser = component.isCreatorUser();
-    expect(isCreatorUser).toBeTrue();
+  it('should set userStatus on getUserStatus', async() => {
+    apiUsuariosServiceSpy.status.and.returnValue(of({status_name: UserStatus.BEGINNER}));
+    component.getUserStatus().then(() => {
+      expect(component.userStatus).toEqual({status_name: UserStatus.BEGINNER});
+    });
   });
 
-  it('should return false on isCreatorUser if userStatus is not CREATOR', () => {
-    component.userStatus = userStatus.complete;
-    const isCreatorUser = component.isCreatorUser();
-    expect(isCreatorUser).toBeFalse();
-  });
+  [
+    {userStatus: {status_name: UserStatus.BEGINNER}, expectedRoute: '/apikeys/success-register-beginner', isBeginner: true, isExplorer: false, isCreator: false, isFromBot: false, isFirstFund: true},
+    {userStatus: {status_name: UserStatus.EXPLORER}, expectedRoute: '/apikeys/success-register-beginner', isBeginner: false, isExplorer: true, isCreator: false, isFromBot: false, isFirstFund: true},
+    {userStatus: {status_name: UserStatus.CREATOR}, expectedRoute: '/apikeys/success-register-beginner', isBeginner: false, isExplorer: false, isCreator: true, isFromBot: false, isFirstFund: true},
+    {userStatus: {status_name: UserStatus.FROM_BOT}, expectedRoute: '/apikeys/success-register-beginner', isBeginner: false, isExplorer: false, isCreator: false, isFromBot: true, isFirstFund: true},
+    {userStatus: {status_name: UserStatus.COMPLETE}, expectedRoute: '/apikeys/success-register', isBeginner: false, isExplorer: false, isCreator: false, isFromBot: false, isFirstFund: false},
+  ].forEach((p) => {
+    describe(`when userStatus is ${p.userStatus.status_name}`, () => {
+      beforeEach(() => {
+        component.userStatus = p.userStatus;
+      });
+  
+      it(`should return ${p.isBeginner} on isBeginnerUser`, () => {
+        const isBeginnerUser = component.isBeginnerUser();
+        expect(isBeginnerUser).toEqual(p.isBeginner);
+      });
+  
+      it(`should return ${p.isExplorer} on isExplorerUser`, () => {
+        const isExplorerUser = component.isExplorerUser();
+        expect(isExplorerUser).toEqual(p.isExplorer);
+      });
+  
+      it(`should return ${p.isCreator} on isCreatorUser`, () => {
+        const isCreatorUser = component.isCreatorUser();
+        expect(isCreatorUser).toEqual(p.isCreator);
+      });
+  
+      it(`should return ${p.isFromBot} on isFromBot`, () => {
+        const isCreatorUser = component.isCreatorUser();
+        expect(isCreatorUser).toEqual(p.isCreator);
+      });
 
-  it('should return normal route on getSuccessRoute for not CREATOR user', () => {
-    spyOn(component, 'isCreatorUser').and.returnValue(false);
-    const expectedRoute = '/apikeys/success-register';
-    const route = component.getSuccessRoute();
-    expect(route).toEqual(expectedRoute);
-  });
+      it(`should return ${p.isFirstFund} on isFirstFund`, () => {
+        const isFirstFund = component.isFirstFund();
+        expect(isFirstFund).toEqual(p.isFirstFund);
+      });
 
-  it('should return creator route on getSuccessRoute for CREATOR user', () => {
-    spyOn(component, 'isCreatorUser').and.returnValue(true);
-    const expectedRoute = '/apikeys/success-register-creator';
-    const route = component.getSuccessRoute();
-    expect(route).toEqual(expectedRoute);
-  });
-
-  it('should redirect CREATOR user to beginner success page', async () => {
-    apiUsuariosServiceSpy.status.and.returnValue(of(userStatus.creator));
-    navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
-    const expectedRoute = '/apikeys/success-register-creator';
-    component.submitData();
-    fixture.whenStable().then(() => expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([expectedRoute]));
-  });
-
-  it('should redirect not CREATOR user to success page', async () => {
-    apiUsuariosServiceSpy.status.and.returnValue(of(userStatus.complete));
-    navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
-    const expectedRoute = '/apikeys/success-register';
-    component.submitData();
-    fixture.whenStable().then(() => expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([expectedRoute]));
+      it(`should redirect user to ${p.expectedRoute} on submitData`, async () => {
+        navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
+        component.submitData();
+        fixture.whenStable().then(() => expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([p.expectedRoute]));
+      });
+    });
   });
 
   it('should call trackEvent on trackService when Submit Button clicked', () => {

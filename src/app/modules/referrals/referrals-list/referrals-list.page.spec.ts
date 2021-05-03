@@ -1,55 +1,60 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ReferralsListPage } from './referrals-list.page';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule, NavController } from '@ionic/angular';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { ApiReferralsService } from '../shared-referrals/services/api-referrals/api-referrals.service';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { ApiReferralsService } from '../shared-referrals/services/api-referrals/api-referrals.service';
+import { ReferralsListPage } from './referrals-list.page';
 
 describe('ReferralsListPage', () => {
   let component: ReferralsListPage;
   let fixture: ComponentFixture<ReferralsListPage>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<
-    ReferralsListPage
-  >;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralsListPage>;
   let ionInfiniteScrollMock: any;
   let apiReferralsServiceSpy: any;
   let apiUsuariosServiceSpy: any;
+  let navControllerSpy: any;
   const referralsTestData = {
     cursors: { previous: '', next: '' },
     links: { previous: '', next: '' },
-    results: []
+    results: [],
   };
   const user = {
     id: '',
     referral_id: 'test',
-    profile: {}
+    profile: {},
   };
+
   beforeEach(waitForAsync(() => {
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     ionInfiniteScrollMock = {
       complete: () => true,
-      disabled: true
+      disabled: true,
     };
     apiReferralsServiceSpy = {
-      getUserReferrals: () => of(referralsTestData)
+      getUserReferrals: () => of(referralsTestData),
     };
     apiUsuariosServiceSpy = {
-      getUser: () => of(user)
+      getUser: () => of(user),
     };
     TestBed.configureTestingModule({
       declarations: [ReferralsListPage, TrackClickDirective],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [
+        IonicModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
       providers: [
         TrackClickDirective,
         TranslateService,
         { provide: ApiReferralsService, useValue: apiReferralsServiceSpy },
         { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -67,16 +72,16 @@ describe('ReferralsListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when New Referral is clicked', () => {
+  it('should call showAlert when Go To Help Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
-      'New Referral'
+      'Go To Help'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
-    const spyClickEvent = spyOn(directive, 'clickEvent');
+    const spy = spyOn(component, 'showAlert');
     el.nativeElement.click();
     fixture.detectChanges();
-    expect(spyClickEvent).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call getUserReferrals on ionViewDidEnter', () => {
@@ -102,5 +107,4 @@ describe('ReferralsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.referralId).toBe('test');
   });
-
 });

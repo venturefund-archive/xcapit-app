@@ -4,22 +4,20 @@ import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'referrals',
+    path:'payment',
     canActivate: [AuthGuard],
-    children: [
+    children:[
       {
-        path: 'list',
-        loadChildren: () =>
-          import('./referrals-list/referrals-list.module').then(
-            (m) => m.ReferralsListPageModule
-          ),
-      },
-    ],
+        path: 'paypal-payment',
+        loadChildren: () => import('./paypal-payment/paypal-payment.module').then( m => m.PaypalPaymentPageModule)
+      }
+    ]
   },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class ReferralsRoutingModule {}
+export class PaymentsRoutingModule { }
