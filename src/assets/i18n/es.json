@@ -1339,7 +1339,7 @@
       "pair_buy": "¿Qué moneda quieres comprar?",
       "pair_sell": "¿Qué moneda quieres vender?",
       "amount": "Monto",
-      "amount_ars": "Monto en",
+      "amount_ars": "Monto en ARS",
       "amount_min": "Cantidad mínima:",
       "amount_max": "Cantidad máxima:",
       "buy": "Comprar",
