@@ -161,9 +161,13 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             </div>
 
             <!-- wallet -->
+            <app-ux-text class="ion-padding-top ion-margin-top">
+              <div class="ion-margin-top">
+                {{ 'fiat_ramps.ramp_initial.wallet' | translate }}
+              </div>
+            </app-ux-text>
             <app-ux-loading-block *ngIf="!(this.walletAddress.length > 0)" minSize="30px"></app-ux-loading-block>
             <app-ux-input-select
-              [label]="'Wallet'"
               [modalTitle]="'Wallet'"
               [placeholder]="'Wallet'"
               controlName="wallet"

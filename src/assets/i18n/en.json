@@ -1316,6 +1316,7 @@
       "amount_ars": "Amount in",
       "amount_min": "Minimun amount:",
       "amount_max": "Maximun amount:",
+      "wallet": "Wallet",
       "buy": "Buy",
       "sell": "Sell",
       "next_button": "Next"
