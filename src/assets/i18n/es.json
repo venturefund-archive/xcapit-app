@@ -77,6 +77,9 @@
     },
     "need_help": {
       "text_help_link": "¿Necesitas ayuda?"
+    },
+    "referrals_help": {
+      "text_referrals_help_link":"¿Cómo funciona el sistema de referidos?"
     }
   },
   "usuarios": {
@@ -1084,6 +1087,24 @@
       "toast_message": "El referido fue creado.",
       "email_label": "Email",
       "email_placeholder": "myemail@example.com"
+    },
+    "new_referral_page":{
+      "header":"Tus Referidos",
+      "list_title":"MIS REFERIDOS",
+      "points_title": "MIS PUNTOS",
+      "shared_referral_card":{
+        "title":"Invita a tus amigos a invertir compartiendo el siguiente link.",
+        "button":"Compartir"
+      },
+      "points_card":{
+        "points_text": "puntos",
+        "coming_badge": "Próximamente"
+      },
+      "help_alert":{
+        "alert_title":"Sistema de Referidos",
+        "alert_message":"Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
+        "alert_button":"Entendido"
+      }
     },
     "referrals_list": {
       "header": "Referidos",
