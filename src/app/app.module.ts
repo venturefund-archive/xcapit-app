@@ -36,6 +36,7 @@ import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addr
 import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -73,6 +74,7 @@ export function httpLoaderFactory(http: HttpClient) {
     FundsModule,
     RunsModule,
     SubscriptionsModule,
+    PaymentsModule,
     TermsAndConditionsModule,
     ReferralsModule,
     TabsModule,
