@@ -20,6 +20,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
                           appTrackClick
                           name="Register New Key More"
                           class="add-button"
+                          color="uxsecondary"
                           (click)="this.addApiKey()"
                   >
                       <ion-icon style="zoom:1.5;" name="add"></ion-icon>
