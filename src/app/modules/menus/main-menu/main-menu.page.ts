@@ -150,12 +150,19 @@ export class MainMenuPage implements OnInit {
       routeDirection: 'root',
     },
     {
-      id: 9,
+      id: 10,
       title: 'app.main_menu.api_keys_managment',
       url: '/apikeys/list',
       icon: 'cog',
       routeDirection: 'root',
-    }
+    },
+    {
+      id: 11,
+      title: 'app.main_menu.payment',
+      url: '/payment/paypal-payment',
+      icon: 'cash-outline',
+      routeDirection: 'forward',
+    },
   ];
 
   constructor(
