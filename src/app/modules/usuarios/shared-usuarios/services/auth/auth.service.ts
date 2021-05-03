@@ -79,9 +79,9 @@ export class AuthService {
   }
 
   async checkRefreshToken(): Promise<boolean> {
-    let jwtRefresh = await this.storage.get(AUTH.refreshKey);
+    const jwtRefresh = await this.storage.get(AUTH.refreshKey);
     if (jwtRefresh && !this.jwtHelper.isTokenExpired(jwtRefresh)) {
-      let jwtRefreshJSON = JSON.parse(`{"refresh" : "${jwtRefresh}"}`);
+      const jwtRefreshJSON = JSON.parse(`{"refresh" : "${jwtRefresh}"}`);
       await this.refreshToken(jwtRefreshJSON).subscribe();
       return true;
     } else {

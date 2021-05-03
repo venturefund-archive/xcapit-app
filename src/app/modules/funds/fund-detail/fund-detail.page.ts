@@ -38,7 +38,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
     <ion-content class="ion-padding">
       <div class="fd__type-toggle">
         <a (click)="this.hideText()">
-          <ion-icon class="fd__eye-button" [hidden]="this.hideFundText != true" name="eye-off-outline"></ion-icon>
+          <ion-icon class="fd__eye-button" [hidden]="this.hideFundText !== true" name="eye-off-outline"></ion-icon>
           <ion-icon class="fd__eye-button" [hidden]="this.hideFundText === true" name="eye-outline"></ion-icon>
         </a>
       </div>
@@ -63,7 +63,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
         <div class="fd__fund-performance-chart-card__periods">
           <div class="fd__fund-performance-chart-card__periods__period" *ngFor="let delta of deltas">
             <ion-button
-              [ngClass]="{ active: this.selectedDelta == delta.value }"
+              [ngClass]="{ active: this.selectedDelta === delta.value }"
               class="fd__fund-performance-chart-card__periods__period__button ux-font-lato ux-fweight-semibold ux-fsize-14"
               fill="clear"
               size="small"
@@ -190,7 +190,7 @@ export class FundDetailPage implements OnInit {
 
   async getStorageRange() {
     this.selectedDelta = await this.storage.get(CONFIG.chartRangeValues.selected);
-    this.selectedDelta = this.selectedDelta == null || this.selectedDelta == undefined ? '7d' : this.selectedDelta;
+    this.selectedDelta = this.selectedDelta === null || this.selectedDelta === undefined ? '7d' : this.selectedDelta;
     this.getFundPerformanceCardInfo();
   }
 
@@ -227,7 +227,7 @@ export class FundDetailPage implements OnInit {
     this.apiFunds.getFundBalances('all', false).subscribe((data) => {
       let fund;
       for (fund of data) {
-        if (fund.fund_name == this.fundName) {
+        if (fund.fund_name === this.fundName) {
           this.fundResume = fund;
           break;
         }
@@ -239,7 +239,7 @@ export class FundDetailPage implements OnInit {
   }
 
   getFundPortfolioCardInfo() {
-    const currency = this.currency == Currency.BTC ? Currency.USDT : Currency.BTC;
+    const currency = this.currency === Currency.BTC ? Currency.USDT : Currency.BTC;
     this.apiFunds.getBalance(this.fundName, currency, false).subscribe((data) => {
       this.fundBalance = data;
     });

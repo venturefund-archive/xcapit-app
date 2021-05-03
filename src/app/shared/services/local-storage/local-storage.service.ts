@@ -1,10 +1,10 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class LocalStorageService {
+export class LocalStorageService implements OnInit {
   hideFunds: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   constructor(private storage: Storage) {}
 
@@ -17,7 +17,7 @@ export class LocalStorageService {
   }
 
   public getHideFunds(): Promise<boolean> {
-    return this.storage.get('hideFunds').then((data) => data == 'true');
+    return this.storage.get('hideFunds').then((data) => data === 'true');
   }
 
   public async setHideFunds(hideFunds: boolean) {

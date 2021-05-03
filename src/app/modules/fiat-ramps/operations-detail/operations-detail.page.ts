@@ -44,10 +44,10 @@ import { NavController } from '@ionic/angular';
           <app-ux-text>
             <div *ngIf="this.operation">
               <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.quotation' | translate }} </span>
-              <span *ngIf="this.operation.currency_in == 'ARS' || this.operation.currency_in == 'USD'">
+              <span *ngIf="this.operation.currency_in === 'ARS' || this.operation.currency_in === 'USD'">
                 1 {{ this.operation.currency_out }} = {{ this.cotizacion }} {{ this.operation.currency_in }}
               </span>
-              <span *ngIf="this.operation.currency_in != 'ARS' && this.operation.currency_in != 'USD'">
+              <span *ngIf="this.operation.currency_in !== 'ARS' && this.operation.currency_in !== 'USD'">
                 1 {{ this.operation.currency_in }} = {{ this.cotizacion }} {{ this.operation.currency_out }}
               </span>
             </div>
@@ -120,12 +120,12 @@ export class OperationsDetailPage implements OnInit {
   comprobante = null;
   operation: any = null;
   cotizacion: any = 0;
-  operation_id: string;
+  operationId: string;
   hasVoucher: any = false;
   loading = false;
 
   ionViewWillEnter() {
-    this.operation_id = this.route.snapshot.paramMap.get('id');
+    this.operationId = this.route.snapshot.paramMap.get('id');
     this.getUserOperation();
   }
 
@@ -153,7 +153,7 @@ export class OperationsDetailPage implements OnInit {
   }
 
   async getUserOperation() {
-    this.apiRamps.getUserSingleOperation(this.operation_id).subscribe({
+    this.apiRamps.getUserSingleOperation(this.operationId).subscribe({
       next: (data) => {
         this.operation = data;
         this.operation.status = this.operation.status.replaceAll('_', ' ');
@@ -167,20 +167,20 @@ export class OperationsDetailPage implements OnInit {
   }
 
   async calcCotizacion() {
-    let first_amount = 0;
-    let second_amount = 0;
+    let firstAmount = 0;
+    let secondAmount = 0;
 
-    first_amount = Number(this.operation.amount_in);
-    second_amount = Number(this.operation.amount_out);
+    firstAmount = Number(this.operation.amount_in);
+    secondAmount = Number(this.operation.amount_out);
 
-    this.cotizacion = first_amount / second_amount;
+    this.cotizacion = firstAmount / secondAmount;
   }
 
   async sendPicture() {
     this.loading = true;
     const formData = new FormData();
     formData.append('file', this.comprobante.dataUrl);
-    this.apiRamps.confirmOperation(this.operation_id, formData).subscribe({
+    this.apiRamps.confirmOperation(this.operationId, formData).subscribe({
       next: (data) => {
         this.loading = false;
         this.hasVoucher = true;

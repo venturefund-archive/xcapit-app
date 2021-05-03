@@ -1,0 +1,19 @@
+:host {
+  width: 100%;
+  .src {
+    background-color: white;
+    border-radius: 8px;
+
+    &__title {
+      text-align: center;
+      vertical-align: middle;
+      margin-bottom: 25px;
+    }
+
+    &__buttons {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1px;
+    }
+  }
+}

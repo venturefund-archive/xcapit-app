@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { OperationsNewPage } from './operations-new.page';
@@ -27,9 +27,9 @@ const storageData = {
       moneda_salida: 'USDT',
       precio_entrada: '1',
       precio_salida: '100',
-      wallet: '0x000000000000000000000dead'
+      wallet: '0x000000000000000000000dead',
     },
-    valid: true
+    valid: true,
   },
   invalid: {
     data: {
@@ -42,10 +42,10 @@ const storageData = {
       moneda_salida: '',
       precio_entrada: '',
       precio_salida: '',
-      wallet: ''
+      wallet: '',
     },
-    valid: false
-  }
+    valid: false,
+  },
 };
 
 const formData = {
@@ -60,57 +60,56 @@ const formData = {
       amount_out: '1',
       wallet: '0x0000000000000000000dead',
       price_in: '145',
-      price_out: '1'
+      price_out: '1',
     },
-    valid: true
-  }
-}
+    valid: true,
+  },
+};
 
-const user_new = {
-  id: false
-}
+const userNew = {
+  id: false,
+};
 
 describe('RampsMenuPage', () => {
   let component: OperationsNewPage;
   let fixture: ComponentFixture<OperationsNewPage>;
   let storageOperationServiceSpy: any;
-  let storageOperationService: any;
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsNewPage>;
 
-  beforeEach(async(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', [
-      'updateData'
-    ]);
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getQuotations: of({}),
-      checkUser: of({}),
-      createUser: of({})
-    });
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', ['updateData']);
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+        getQuotations: of({}),
+        checkUser: of({}),
+        createUser: of({}),
+      });
 
-    TestBed.configureTestingModule({
-      declarations: [ OperationsNewPage, TrackClickDirective, DummyComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'fiat-ramps/operations', component: DummyComponent },
-          { path: 'fiat-ramps/confirm-page', component: DummyComponent }
-        ]),
-        HttpClientTestingModule,
-        IonicModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [OperationsNewPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          RouterTestingModule.withRoutes([
+            { path: 'fiat-ramps/operations', component: DummyComponent },
+            { path: 'fiat-ramps/confirm-page', component: DummyComponent },
+          ]),
+          HttpClientTestingModule,
+          IonicModule,
+          TranslateModule.forRoot(),
+          ReactiveFormsModule,
+        ],
+        providers: [
+          TrackClickDirective,
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+          { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OperationsNewPage);
@@ -135,7 +134,7 @@ describe('RampsMenuPage', () => {
 
   it('should call checkUser on handleSubmit and valid form', () => {
     fixture.detectChanges();
-    fiatRampsServiceSpy.checkUser.and.returnValue(of(user_new));
+    fiatRampsServiceSpy.checkUser.and.returnValue(of(userNew));
     component.form.patchValue(formData.valid);
     component.handleSubmit();
     component.checkUser();
@@ -144,7 +143,7 @@ describe('RampsMenuPage', () => {
 
   it('should call createUser on handleSubmit and valid form', () => {
     fixture.detectChanges();
-    fiatRampsServiceSpy.checkUser.and.returnValue(of(user_new));
+    fiatRampsServiceSpy.checkUser.and.returnValue(of(userNew));
     component.form.patchValue(formData.valid);
     component.handleSubmit();
     component.checkUser();
@@ -159,10 +158,7 @@ describe('RampsMenuPage', () => {
   });
 
   it('should call trackEvent on trackService when Next Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Next'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

@@ -6,11 +6,11 @@ describe('GooglePlacesDirective', () => {
   let directive: GooglePlacesDirective;
   let elementRefSpy: any;
   beforeEach(() => {
-    elementRefSpy = jasmine.createSpyObj('ElementRef', { nativeElement: () => {}});
+    elementRefSpy = jasmine.createSpyObj('ElementRef', { nativeElement: () => {} });
     const bed = TestBed.configureTestingModule({
-      providers: [GooglePlacesDirective, { provide: ElementRef, useValue: elementRefSpy }]
+      providers: [GooglePlacesDirective, { provide: ElementRef, useValue: elementRefSpy }],
     });
-    directive = bed.get(GooglePlacesDirective);
+    directive = bed.inject(GooglePlacesDirective);
   });
 
   it('should create an instance', () => {

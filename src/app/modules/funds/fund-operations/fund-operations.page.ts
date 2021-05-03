@@ -93,10 +93,10 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
                 <ion-label class="fol__list__pair">
                   <app-symbol-format [symbol]="this.order.symbol" *ngIf="this.order.symbol"></app-symbol-format>
 
-                  <ion-text *ngIf="order.side == 'buy'" class="fol__list__pair__type__buy ux-fweight-semibold">{{
+                  <ion-text *ngIf="order.side === 'buy'" class="fol__list__pair__type__buy ux-fweight-semibold">{{
                     'funds.fund_operations.order_side_buy' | translate
                   }}</ion-text>
-                  <ion-text *ngIf="order.side == 'sell'" class="fol__list__pair__type__sell ux-fweight-semibold">{{
+                  <ion-text *ngIf="order.side === 'sell'" class="fol__list__pair__type__sell ux-fweight-semibold">{{
                     'funds.fund_operations.order_side_sell' | translate
                   }}</ion-text>
                   <h3>
@@ -105,7 +105,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
                 </ion-label>
                 <ion-label class="fol__list__price">
                   {{ order.price | number: '1.2-6' }}
-                  <h3 *ngIf="order.order_type == 'market'">
+                  <h3 *ngIf="order.order_type === 'market'">
                     {{ 'funds.fund_operations.order_type_market' | translate }}
                   </h3>
                 </ion-label>
@@ -145,8 +145,8 @@ export class FundOperationsPage implements OnInit {
     cancelText: '',
     doneText: '',
   };
-  storage_since = '';
-  storage_until = '';
+  storageSince = '';
+  storageUntil = '';
 
   constructor(
     private apiFunds: ApiFundsService,
@@ -167,13 +167,13 @@ export class FundOperationsPage implements OnInit {
   }
 
   setInitialDatePicker() {
-    if (this.storage_since != '') {
-      this.queryOptions.since = this.storage_since;
+    if (this.storageSince !== '') {
+      this.queryOptions.since = this.storageSince;
     } else {
       this.queryOptions.since = moment().subtract(7, 'd').startOf('day').utc().format();
     }
-    if (this.storage_until != '') {
-      this.queryOptions.until = this.storage_until;
+    if (this.storageUntil !== '') {
+      this.queryOptions.until = this.storageUntil;
     } else {
       this.queryOptions.until = moment().endOf('day').utc().format();
     }
@@ -209,12 +209,12 @@ export class FundOperationsPage implements OnInit {
   }
 
   async changeDate(event, type) {
-    const date_value = this.date_to_utc(event.detail.value);
+    const dateValue = this.date_to_utc(event.detail.value);
     if (type === 'since') {
-      this.queryOptions.since = date_value;
+      this.queryOptions.since = dateValue;
     }
     if (type === 'until') {
-      this.queryOptions.until = date_value;
+      this.queryOptions.until = dateValue;
     }
     this.getOperationsHistory(this.getQueryParams());
   }
@@ -234,15 +234,15 @@ export class FundOperationsPage implements OnInit {
 
   async getStorageDates() {
     this.loadingService.show();
-    this.storage_since = await this.storage.get(CONFIG.operationHistoryDates.since);
-    this.storage_until = await this.storage.get(CONFIG.operationHistoryDates.until);
+    this.storageSince = await this.storage.get(CONFIG.operationHistoryDates.since);
+    this.storageUntil = await this.storage.get(CONFIG.operationHistoryDates.until);
     this.loadingService.dismiss();
   }
 
-  async setDatesInStorage(since = undefined, until = undefined) {
+  async setDatesInStorage(since?, until?) {
     if (since) {
       this.loadingService.show();
-      this.storage_since = this.queryOptions.since;
+      this.storageSince = this.queryOptions.since;
       await this.storage.set(CONFIG.operationHistoryDates.since, this.queryOptions.since).then(() => {
         this.loadingService.dismiss();
       });
@@ -250,7 +250,7 @@ export class FundOperationsPage implements OnInit {
 
     if (until) {
       this.loadingService.show();
-      this.storage_until = this.queryOptions.until;
+      this.storageUntil = this.queryOptions.until;
       await this.storage.set(CONFIG.operationHistoryDates.until, this.queryOptions.until).then(() => {
         this.loadingService.dismiss();
       });

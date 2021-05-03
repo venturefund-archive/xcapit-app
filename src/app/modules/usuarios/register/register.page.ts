@@ -59,10 +59,7 @@ const { Browser } = Plugins;
               name="Register"
               class="ux_button"
               color="uxsecondary"
-              [disabled]="
-                !this.registerForm.form.valid ||
-                (this.submitButtonService.isDisabled | async)
-              "
+              [disabled]="!this.registerForm.form.valid || (this.submitButtonService.isDisabled | async)"
             >
               {{ 'usuarios.register.submit_button' | translate }}
             </ion-button>
@@ -153,12 +150,11 @@ export class RegisterPage implements OnInit {
     if (data && !data.manual_referral) {
       delete data.referral_code;
     }
-    this.apiUsuarios.crud
-      .create(data)
-      .subscribe((response) => this.success(response));
+    this.apiUsuarios.crud.create(data).subscribe((response) => this.success(response));
   }
 
   async success(response) {
+    // tslint:disable-next-line:no-non-null-assertion
     if (!Object.keys(response).length!) {
       this.showWhiteListAlert();
     } else {
@@ -170,24 +166,16 @@ export class RegisterPage implements OnInit {
 
   async showWhiteListAlert() {
     const alert = await this.alertController.create({
-      header: this.translate.instant(
-        'usuarios.register.waiting_list_alert.alert_header'
-      ),
-      message: this.translate.instant(
-        'usuarios.register.waiting_list_alert.alert_message'
-      ),
+      header: this.translate.instant('usuarios.register.waiting_list_alert.alert_header'),
+      message: this.translate.instant('usuarios.register.waiting_list_alert.alert_message'),
       buttons: [
         {
-          text: this.translate.instant(
-            'usuarios.register.waiting_list_alert.alert_cancel_button'
-          ),
+          text: this.translate.instant('usuarios.register.waiting_list_alert.alert_cancel_button'),
           role: 'cancel',
           cssClass: 'secondary',
         },
         {
-          text: this.translate.instant(
-            'usuarios.register.waiting_list_alert.alert_join_button'
-          ),
+          text: this.translate.instant('usuarios.register.waiting_list_alert.alert_join_button'),
           handler: (_) => this.openWaitingList(),
         },
       ],

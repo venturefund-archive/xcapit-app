@@ -42,8 +42,8 @@ describe('SuccessRegisterPage', () => {
         ],
       }).compileComponents();
 
-      let router = TestBed.inject(Router);
-      let currentNavigation = router.getCurrentNavigation();
+      const router = TestBed.inject(Router);
+      const currentNavigation = router.getCurrentNavigation();
       spyOn(router, 'getCurrentNavigation').and.returnValue({
         ...currentNavigation,
         ...extras,
