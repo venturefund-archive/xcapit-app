@@ -213,46 +213,86 @@ describe('RegisterApikeysPage', () => {
     expect(spyForm).toHaveBeenCalledTimes(1);
   });
 
-  it('should call status on getUserStatus', async() => {
+  it('should call status on getUserStatus', async () => {
     component.getUserStatus().then(() => {
       expect(apiUsuariosServiceSpy.status).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should set userStatus on getUserStatus', async() => {
-    apiUsuariosServiceSpy.status.and.returnValue(of({status_name: UserStatus.BEGINNER}));
+  it('should set userStatus on getUserStatus', async () => {
+    apiUsuariosServiceSpy.status.and.returnValue(of({ status_name: UserStatus.BEGINNER }));
     component.getUserStatus().then(() => {
-      expect(component.userStatus).toEqual({status_name: UserStatus.BEGINNER});
+      expect(component.userStatus).toEqual({ status_name: UserStatus.BEGINNER });
     });
   });
 
   [
-    {userStatus: {status_name: UserStatus.BEGINNER}, expectedRoute: '/apikeys/success-register-beginner', isBeginner: true, isExplorer: false, isCreator: false, isFromBot: false, isFirstFund: true},
-    {userStatus: {status_name: UserStatus.EXPLORER}, expectedRoute: '/apikeys/success-register-beginner', isBeginner: false, isExplorer: true, isCreator: false, isFromBot: false, isFirstFund: true},
-    {userStatus: {status_name: UserStatus.CREATOR}, expectedRoute: '/apikeys/success-register-beginner', isBeginner: false, isExplorer: false, isCreator: true, isFromBot: false, isFirstFund: true},
-    {userStatus: {status_name: UserStatus.FROM_BOT}, expectedRoute: '/apikeys/success-register-beginner', isBeginner: false, isExplorer: false, isCreator: false, isFromBot: true, isFirstFund: true},
-    {userStatus: {status_name: UserStatus.COMPLETE}, expectedRoute: '/apikeys/success-register', isBeginner: false, isExplorer: false, isCreator: false, isFromBot: false, isFirstFund: false},
+    {
+      userStatus: { status_name: UserStatus.BEGINNER },
+      expectedRoute: '/apikeys/success-register-beginner',
+      isBeginner: true,
+      isExplorer: false,
+      isCreator: false,
+      isFromBot: false,
+      isFirstFund: true,
+    },
+    {
+      userStatus: { status_name: UserStatus.EXPLORER },
+      expectedRoute: '/apikeys/success-register-beginner',
+      isBeginner: false,
+      isExplorer: true,
+      isCreator: false,
+      isFromBot: false,
+      isFirstFund: true,
+    },
+    {
+      userStatus: { status_name: UserStatus.CREATOR },
+      expectedRoute: '/apikeys/success-register-beginner',
+      isBeginner: false,
+      isExplorer: false,
+      isCreator: true,
+      isFromBot: false,
+      isFirstFund: true,
+    },
+    {
+      userStatus: { status_name: UserStatus.FROM_BOT },
+      expectedRoute: '/apikeys/success-register-beginner',
+      isBeginner: false,
+      isExplorer: false,
+      isCreator: false,
+      isFromBot: true,
+      isFirstFund: true,
+    },
+    {
+      userStatus: { status_name: UserStatus.COMPLETE },
+      expectedRoute: '/apikeys/success-register',
+      isBeginner: false,
+      isExplorer: false,
+      isCreator: false,
+      isFromBot: false,
+      isFirstFund: false,
+    },
   ].forEach((p) => {
     describe(`when userStatus is ${p.userStatus.status_name}`, () => {
       beforeEach(() => {
         component.userStatus = p.userStatus;
       });
-  
+
       it(`should return ${p.isBeginner} on isBeginnerUser`, () => {
         const isBeginnerUser = component.isBeginnerUser();
         expect(isBeginnerUser).toEqual(p.isBeginner);
       });
-  
+
       it(`should return ${p.isExplorer} on isExplorerUser`, () => {
         const isExplorerUser = component.isExplorerUser();
         expect(isExplorerUser).toEqual(p.isExplorer);
       });
-  
+
       it(`should return ${p.isCreator} on isCreatorUser`, () => {
         const isCreatorUser = component.isCreatorUser();
         expect(isCreatorUser).toEqual(p.isCreator);
       });
-  
+
       it(`should return ${p.isFromBot} on isFromBot`, () => {
         const isCreatorUser = component.isCreatorUser();
         expect(isCreatorUser).toEqual(p.isCreator);
@@ -266,7 +306,9 @@ describe('RegisterApikeysPage', () => {
       it(`should redirect user to ${p.expectedRoute} on submitData`, async () => {
         navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
         component.submitData();
-        fixture.whenStable().then(() => expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([p.expectedRoute]));
+        fixture
+          .whenStable()
+          .then(() => expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([p.expectedRoute]));
       });
     });
   });
