@@ -82,15 +82,18 @@ export class ApikeyItemComponent implements OnInit {
   @Input() alias: string;
   @Output() useButtonClicked: EventEmitter<number> = new EventEmitter<number>();
   @Output() deletedKey: EventEmitter<number> = new EventEmitter<number>();
+  @Output() editedAlias: EventEmitter<void> = new EventEmitter<void>();
   control: AbstractControl;
+
   constructor(
-    private listApikeysPage: ListApikeysPage,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
     private translate: TranslateService,
     private alertController: AlertController,
     private toastService: ToastService
   ) {}
+
+  
 
   ngOnInit() {}
 
@@ -109,7 +112,7 @@ export class ApikeyItemComponent implements OnInit {
 
     const { role } = await modal.onWillDismiss();
     if (role === 'success') {
-      this.getAllApiKeys();
+      this.editedAlias.emit();
     }
   }
 
@@ -145,12 +148,7 @@ export class ApikeyItemComponent implements OnInit {
     });
   }
 
-  getAllApiKeys() {
-    this.listApikeysPage.getAllApiKeys();
-  }
-
   success(id: number) {
-    this.getAllApiKeys();
     this.deletedKey.emit(id);
     this.showToast('apikeys.card_apikeys.success_toast');
   }
