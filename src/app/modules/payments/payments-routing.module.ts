@@ -4,20 +4,19 @@ import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
-    path:'payment',
+    path: 'payment',
     canActivate: [AuthGuard],
-    children:[
+    children: [
       {
         path: 'paypal-payment',
-        loadChildren: () => import('./paypal-payment/paypal-payment.module').then( m => m.PaypalPaymentPageModule)
-      }
-    ]
+        loadChildren: () => import('./paypal-payment/paypal-payment.module').then((m) => m.PaypalPaymentPageModule),
+      },
+    ],
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PaymentsRoutingModule { }
+export class PaymentsRoutingModule {}

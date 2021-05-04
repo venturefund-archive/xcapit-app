@@ -11,49 +11,38 @@ import { Browser } from '@capacitor/core';
 @Component({
   selector: 'app-fund-investment',
   template: `
-      <ion-header>
-          <ion-toolbar color="uxprimary" class="ux_toolbar">
-              <ion-buttons slot="start">
-                  <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
-              </ion-buttons>
-              <ion-title class="ion-text-center">{{
-                  (this.fundRenew
-                                  ? 'funds.fund_investment.header_renew'
-                                  : 'funds.fund_investment.header'
-                  ) | translate
-                  }}</ion-title>
-          </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding fi">
-          <div class="fi__info">
-              <div>
-                  <ion-text
-                          class="ux-font-gilroy ux-fweight-bold ux-fsize-22"
-                          color="uxdark"
-                  >{{
-                      'funds.fund_investment.header_info.title' | translate
-                      }}</ion-text
-                  >
-              </div>
-              <div class="fi__info__description">
-                  <ion-text
-                          class="ux-font-lato ux-fweight-regular ux-fsize-12"
-                          color="uxsemidark"
-                  >{{
-                      'funds.fund_investment.header_info.description' | translate
-                      }}</ion-text
-                  >
-              </div>
-          </div>
-          <div *ngFor="let product of this.investmentsProducts">
-              <app-investment-product-card
-                      [product]="this.product"
-                      (save)="this.handleSubmit($event)"
-              ></app-investment-product-card>
-          </div>
-      </ion-content>
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">{{
+          (this.fundRenew ? 'funds.fund_investment.header_renew' : 'funds.fund_investment.header') | translate
+        }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding fi">
+      <div class="fi__info">
+        <div>
+          <ion-text class="ux-font-gilroy ux-fweight-bold ux-fsize-22" color="uxdark">{{
+            'funds.fund_investment.header_info.title' | translate
+          }}</ion-text>
+        </div>
+        <div class="fi__info__description">
+          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">{{
+            'funds.fund_investment.header_info.description' | translate
+          }}</ion-text>
+        </div>
+      </div>
+      <div *ngFor="let product of this.investmentsProducts">
+        <app-investment-product-card
+          [product]="this.product"
+          (save)="this.handleSubmit($event)"
+        ></app-investment-product-card>
+      </div>
+    </ion-content>
   `,
-  styleUrls: ['./fund-investment.page.scss']
+  styleUrls: ['./fund-investment.page.scss'],
 })
 export class FundInvestmentPage implements OnInit {
   investmentsProducts = [
@@ -63,7 +52,7 @@ export class FundInvestmentPage implements OnInit {
       percentage: '5.02',
       link_info: 'https://bit.ly/factsheet-strategy2',
       risk: 3,
-      currency: 'BTC'
+      currency: 'BTC',
     },
     {
       profile: 'volume_profile_strategies_USDT',
@@ -71,7 +60,7 @@ export class FundInvestmentPage implements OnInit {
       percentage: '22.5',
       link_info: 'https://bit.ly/factsheet-strategy1',
       risk: 3,
-      currency: 'USDT'
+      currency: 'USDT',
     },
     {
       profile: 'DeFi_index',
@@ -79,7 +68,7 @@ export class FundInvestmentPage implements OnInit {
       percentage: '434.02',
       link_info: 'https://bit.ly/factsheet-strategy4',
       risk: 5,
-      currency: 'USDT'
+      currency: 'USDT',
     },
     {
       profile: 'Mary_index',
@@ -87,8 +76,8 @@ export class FundInvestmentPage implements OnInit {
       percentage: '160.5',
       link_info: 'https://bit.ly/factsheet-strategy3',
       risk: 4,
-      currency: 'USDT'
-    }
+      currency: 'USDT',
+    },
   ];
 
   fundRenew: any;
@@ -101,22 +90,35 @@ export class FundInvestmentPage implements OnInit {
     private storageApiKeysService: StorageApikeysService,
     private alertController: AlertController,
     private translate: TranslateService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.fundDataStorage.getData('fundRenew').then((data) => {
-      this.fundRenew = data;
-    });
+  async ionViewWillEnter() {
+    await this.getFundRenewData();
+  }
+
+  async getFundRenewData() {
+    this.fundRenew = await this.fundDataStorage.getData('fundRenew');
+  }
+
+  getDataToCheckBalance(): any {
+    let result: any;
+    if (this.fundRenew) {
+      result = { fund_name: this.fundRenew.fund_name };
+    } else if (this.storageApiKeysService.data) {
+      result = { id: this.storageApiKeysService.data.id };
+    }
+    return result;
   }
 
   async checkMinBalance(riskLevel: string) {
-    return await this.apiApiKeysService.checkMinBalance(
-      this.storageApiKeysService.data.id,
-      riskLevel
-    ).toPromise();
+    return await this.apiApiKeysService
+      .checkMinBalance({
+        profile: riskLevel,
+        ...this.getDataToCheckBalance(),
+      })
+      .toPromise();
   }
 
   async showNotEnoughBalanceAlert(minBalance: number) {
@@ -125,13 +127,13 @@ export class FundInvestmentPage implements OnInit {
       message: this.translate.instant('funds.fund_investment.balance_not_enough.message'),
       buttons: [
         {
-          text: this.translate.instant('funds.fund_investment.balance_not_enough.cancel_text')
+          text: this.translate.instant('funds.fund_investment.balance_not_enough.cancel_text'),
         },
         {
           text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
-          handler: () => Browser.open({ url: LINKS.binance })
-        }
-      ]
+          handler: () => Browser.open({ url: LINKS.binance }),
+        },
+      ],
     });
     await alert.present();
   }

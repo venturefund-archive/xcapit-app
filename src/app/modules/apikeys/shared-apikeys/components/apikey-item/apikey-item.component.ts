@@ -93,8 +93,6 @@ export class ApikeyItemComponent implements OnInit {
     private toastService: ToastService
   ) {}
 
-  
-
   ngOnInit() {}
 
   async openModal() {

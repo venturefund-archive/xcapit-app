@@ -1,7 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuController, NavController } from '@ionic/angular';
-import { MainMenuPageModule } from '../../menus/main-menu/main-menu.module';
-
 
 @Component({
   selector: 'app-tabs',
@@ -12,12 +10,8 @@ import { MainMenuPageModule } from '../../menus/main-menu/main-menu.module';
           <ion-icon name="ux-bag-outline"></ion-icon>
           <ion-label>{{ 'tabs.home' | translate }}</ion-label>
         </ion-tab-button>
-        
-        <ion-tab-button
-          (click)="this.goToReferralsList()"
-          appTrackClick
-          name="Tab Refer"
-        >
+
+        <ion-tab-button (click)="this.goToReferralsList()" appTrackClick name="Tab Refer">
           <ion-icon name="ux-bookmark"></ion-icon>
           <ion-label>{{ 'tabs.refer' | translate }}</ion-label>
         </ion-tab-button>
@@ -39,10 +33,8 @@ import { MainMenuPageModule } from '../../menus/main-menu/main-menu.module';
 export class TabsComponent {
   private openMenu = false;
   newFundUrl: string;
-  constructor(
-    private menu: MenuController,
-    private navController: NavController
-  ) {}
+
+  constructor(private menu: MenuController, private navController: NavController) {}
 
   showMenu() {
     // this.menu.toggle();
