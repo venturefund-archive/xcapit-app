@@ -23,50 +23,47 @@ describe('MainMenuPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MainMenuPage>;
   let modalControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
-    trackServiceSpy.trackView.and.returnValue(null);
-    languageServiceSpy = jasmine.createSpyObj('LanguageService', [
-      'setInitialAppLanguage',
-      'getLanguages'
-    ]);
-    languageServiceSpy.setInitialAppLanguage.and.returnValue(null);
-    languageServiceSpy.setInitialAppLanguage.and.returnValue('es');
-    authServiceMock = {
-      isLoggedIn: new ReplaySubject<boolean>(1),
-      logout: () => null
-    };
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
+  beforeEach(
+    waitForAsync(() => {
+      trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
+      trackServiceSpy.trackView.and.returnValue(null);
+      languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage', 'getLanguages']);
+      languageServiceSpy.setInitialAppLanguage.and.returnValue(null);
+      languageServiceSpy.setInitialAppLanguage.and.returnValue('es');
+      authServiceMock = {
+        isLoggedIn: new ReplaySubject<boolean>(1),
+        logout: () => null,
+      };
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
 
-    TestBed.configureTestingModule({
-      declarations: [MainMenuPage, TrackClickDirective],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: TrackService, useValue: trackServiceSpy },
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: LanguageService, useValue: languageServiceSpy },
-        { provide: ModalController, useValue: modalControllerSpy }
-      ],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([
-          { path: 'users/login', component: DummyComponent },
-          { path: 'tutorials/help', component: DummyComponent },
-          { path: 'tabs/funds', component: DummyComponent },
-          { path: 'profiles/user', component: DummyComponent },
-          { path: 'deposits/currency', component: DummyComponent },
-          { path: 'users/password-change', component: DummyComponent },
-          { path: 'referrals/list', component: DummyComponent },
-          { path: 'notifications/list', component: DummyComponent },
-          { path: 'apikeys/list', component: DummyComponent }
-        ])
-      ]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [MainMenuPage, TrackClickDirective],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: TrackService, useValue: trackServiceSpy },
+          { provide: AuthService, useValue: authServiceMock },
+          { provide: LanguageService, useValue: languageServiceSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([
+            { path: 'users/login', component: DummyComponent },
+            { path: 'tutorials/help', component: DummyComponent },
+            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'profiles/user', component: DummyComponent },
+            { path: 'deposits/currency', component: DummyComponent },
+            { path: 'users/password-change', component: DummyComponent },
+            { path: 'referrals/list', component: DummyComponent },
+            { path: 'notifications/list', component: DummyComponent },
+            { path: 'apikeys/list', component: DummyComponent },
+            { path: 'payment/paypal-payment', component: DummyComponent },
+          ]),
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MainMenuPage);
@@ -90,6 +87,6 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(12);
+    expect(elms.length).toBe(13);
   });
 });
