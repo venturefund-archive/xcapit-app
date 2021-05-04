@@ -1342,6 +1342,7 @@
       "amount_ars": "Monto en",
       "amount_min": "Cantidad mínima:",
       "amount_max": "Cantidad máxima:",
+      "wallet": "Wallet",
       "buy": "Comprar",
       "sell": "Vender",
       "next_button": "Continuar"
