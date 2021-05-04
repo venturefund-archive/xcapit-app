@@ -1402,8 +1402,8 @@
     }
   },
   "payment":{
-    "header": "Pagar",
-    "title":"Pagar con PayPal",
+    "header": "Método de pago",
+    "title":"Método de pago para comenzar con el proceso",
     "paypal_button": "Pagar"
   }
 }

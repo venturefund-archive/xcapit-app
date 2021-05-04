@@ -8,12 +8,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children:[
       {
-        path: 'paypal-payment',
-        loadChildren: () => import('./paypal-payment/paypal-payment.module').then( m => m.PaypalPaymentPageModule)
-      }
+        path: 'payment-methods',
+        loadChildren: () => import('./payment-methods/payment-methods.module').then( m => m.PaymentMethodsPageModule)
+      },
     ]
   },
-
+  
 ];
 
 @NgModule({
