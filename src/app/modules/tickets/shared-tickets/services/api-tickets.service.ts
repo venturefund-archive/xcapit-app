@@ -8,7 +8,7 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 export class ApiTicketsService {
   crud: CRUD;
 
-  entity: 'tickets';
+  entity = 'tickets';
 
   constructor(private crudService: CrudService) {
     this.crud = this.crudService.getEndpoints(this.entity);
