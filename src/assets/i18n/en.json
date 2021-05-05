@@ -1335,7 +1335,7 @@
       "pair_buy": "What currency do you want to buy?",
       "pair_sell": "What currency do you want to sell?",
       "amount": "Amount",
-      "amount_ars": "Amount in",
+      "amount_ars": "Amount in ARS",
       "amount_min": "Minimun amount:",
       "amount_max": "Maximun amount:",
       "wallet": "Wallet",
