@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { IonicStorageModule, Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -36,12 +36,14 @@ import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addr
 import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
+import { AppStorageService } from './shared/services/app-storage/app-storage.service';
+import { RefreshTokenInterceptorService } from "./modules/usuarios/shared-usuarios/services/refresh-token-interceptor/refresh-token-interceptor.service";
 import { PaymentsModule } from './modules/payments/payments.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
 
-export function jwtOptionsFactory(storage: Storage) {
+export function jwtOptionsFactory(storage: AppStorageService) {
   return {
     tokenGetter: () => storage.get(AUTH.storageKey),
     allowedDomains: environment.whitelistedDomains,
@@ -88,7 +90,7 @@ export function httpLoaderFactory(http: HttpClient) {
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
         useFactory: jwtOptionsFactory,
-        deps: [Storage],
+        deps: [AppStorageService],
       },
     }),
     TranslateModule.forRoot({
@@ -109,6 +111,11 @@ export function httpLoaderFactory(http: HttpClient) {
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RefreshTokenInterceptorService,
+      multi: true
+    },
     FileOpener,
   ],
   bootstrap: [AppComponent],
