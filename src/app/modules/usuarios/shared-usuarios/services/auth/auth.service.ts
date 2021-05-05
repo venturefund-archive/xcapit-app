@@ -9,7 +9,7 @@ import {CustomHttpService} from 'src/app/shared/services/custom-http/custom-http
 import {environment} from 'src/environments/environment';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import {AppStorageService} from 'src/app/shared/services/app-storage/app-storage.service';
 
 
 @Injectable({
@@ -39,18 +39,17 @@ export class AuthService {
     async checkLogin() {
         const isValidToken = await this.checkToken();
         if (isValidToken) {
-            this.user.next(await this.getUserLogged());
-            this.isLoggedIn.next(true);
+            await this.dispatchLogin();
         } else {
-            this.checkRefreshToken().then(isRefreshed => {
-                if (isRefreshed) {
-                    this.user.next(this.getUserLogged());
-                    this.isLoggedIn.next(true);
-                } else {
-                    this.logout();
-                }
+            this.checkRefreshToken().then(async isRefreshed => {
+                isRefreshed ? await this.dispatchLogin() : await this.logout();
             });
         }
+    }
+
+    private async dispatchLogin() {
+        this.user.next(await this.getUserLogged());
+        this.isLoggedIn.next(true);
     }
 
     async logout(): Promise<void> {
