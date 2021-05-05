@@ -3,8 +3,6 @@ import { PaymentsRoutingModule } from './payments-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [
-    PaymentsRoutingModule
-  ]
+  imports: [PaymentsRoutingModule]
 })
 export class PaymentsModule { }
