@@ -951,7 +951,10 @@
       },
       "login": {
         "invalidCredentials": "No active account found with the given credentials",
-        "noActiveUser": "Verify your email to login."
+        "noActiveUser": "Verify your email to login.",
+        "notClientAccess": "You can't access from other apps. Use our app to login.",
+        "notVerifiedGoogleAccount": "Your Google account is not verified.",
+        "notGoogleLoginUser": "Couldn't log in. Your email is already signed as a Xcapit user."
       },
       "changePassword": {
         "invalid": "Error Changing Password."
