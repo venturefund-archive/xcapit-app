@@ -13,7 +13,7 @@
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
       "change_language": "Idioma",
-      "payment":"Pagar"
+      "payment": "Pagar"
     }
   },
   "config": {
@@ -79,7 +79,7 @@
       "text_help_link": "¿Necesitas ayuda?"
     },
     "referrals_help": {
-      "text_referrals_help_link":"¿Cómo funciona el sistema de referidos?"
+      "text_referrals_help_link": "¿Cómo funciona el sistema de referidos?"
     }
   },
   "usuarios": {
@@ -875,7 +875,7 @@
     "funds": {
       "create": {
         "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
-        "keysExists":"Las keys ya se encuentran registradas.",
+        "keysExists": "Las keys ya se encuentran registradas.",
         "fundNameExists": "El nombre del fondo ya existe.",
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
@@ -1009,7 +1009,7 @@
         "cameraAccessDenied": "No se pudo acceder a la cámara. Acceso denegado.",
         "noContentQR": "El código QR no tenía ningún contenido.",
         "invalidQR": "El código QR no es válido.",
-        "creatingFund":"Este Alias ya esta siendo usado"
+        "creatingFund": "Este Alias ya esta siendo usado"
       },
       "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
@@ -1066,7 +1066,11 @@
         "confirm": {
           "errorProvider": "Error al intentar guardar el comprobante en el proveedor."
         }
-        
+      },
+      "paxful": {
+        "get_link": {
+          "notOwner": "Estas API keys no te pertenecen."
+        }
       }
     }
   },
@@ -1088,22 +1092,22 @@
       "email_label": "Email",
       "email_placeholder": "myemail@example.com"
     },
-    "new_referral_page":{
-      "header":"Tus Referidos",
-      "list_title":"MIS REFERIDOS",
+    "new_referral_page": {
+      "header": "Tus Referidos",
+      "list_title": "MIS REFERIDOS",
       "points_title": "MIS PUNTOS",
-      "shared_referral_card":{
-        "title":"Invita a tus amigos a invertir compartiendo el siguiente link.",
-        "button":"Compartir"
+      "shared_referral_card": {
+        "title": "Invita a tus amigos a invertir compartiendo el siguiente link.",
+        "button": "Compartir"
       },
-      "points_card":{
+      "points_card": {
         "points_text": "puntos",
         "coming_badge": "Próximamente"
       },
-      "help_alert":{
-        "alert_title":"Sistema de Referidos",
-        "alert_message":"Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
-        "alert_button":"Entendido"
+      "help_alert": {
+        "alert_title": "Sistema de Referidos",
+        "alert_message": "Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
+        "alert_button": "Entendido"
       }
     },
     "referrals_list": {
@@ -1401,9 +1405,9 @@
       "buttonText": "Terminar"
     }
   },
-  "payment":{
+  "payment": {
     "header": "Pagar",
-    "title":"Pagar con PayPal",
+    "title": "Pagar con PayPal",
     "paypal_button": "Pagar"
   }
 }

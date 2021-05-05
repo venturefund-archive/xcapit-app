@@ -41,6 +41,11 @@ const routes: Routes = [
         path: 'success-page',
         loadChildren: () => import('./success-page/success-page.module').then((m) => m.SuccessPagePageModule),
       },
+      {
+        path: 'new-operation-paxful',
+        loadChildren: () =>
+          import('./operations-new-paxful/operations-new-paxful.module').then((m) => m.OperationsNewPaxfulPageModule),
+      },
     ],
   },
 ];

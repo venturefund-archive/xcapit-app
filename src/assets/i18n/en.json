@@ -79,7 +79,7 @@
       "text_help_link": "Need help?"
     },
     "referrals_help": {
-      "text_referrals_help_link":"How the referral system works?"
+      "text_referrals_help_link": "How the referral system works?"
     }
   },
   "usuarios": {
@@ -1006,7 +1006,7 @@
         "cameraAccessDenied": "Couldn't access the camera. Access denied.",
         "noContentQR": "The QR Code didn't had any content.",
         "invalidQR": "The QR Code is invalid.",
-        "creatingFund":"This Alias ​​is already being used"
+        "creatingFund": "This Alias ​​is already being used"
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
@@ -1063,7 +1063,11 @@
         "confirm": {
           "errorProvider": "Error when trying to save the voucher in the provider."
         }
-        
+      },
+      "paxful": {
+        "get_link": {
+          "notOwner": "You do not own this API keys."
+        }
       }
     }
   },
@@ -1085,24 +1089,23 @@
       "email_label": "Email",
       "email_placeholder": "myemail@example.com"
     },
-    "new_referral_page":{
-      "header":"Your Referrals",
-      "list_title":"MY REFERRALS",
+    "new_referral_page": {
+      "header": "Your Referrals",
+      "list_title": "MY REFERRALS",
       "points_title": "MY POINTS",
-      "shared_referral_card":{
-        "title":"Invite your friends to invest by sharing the following link.",
-        "button":"Share"
+      "shared_referral_card": {
+        "title": "Invite your friends to invest by sharing the following link.",
+        "button": "Share"
       },
-      "points_card":{
+      "points_card": {
         "points_text": "points",
         "coming_badge": "Coming soon"
       },
-      "help_alert":{
-        "alert_title":"Referral System",
-        "alert_message":"Add 10 points for each referral who accepts your invitation. We are adding benefits to exchange for your earned points.",
-        "alert_button":"I understand"
+      "help_alert": {
+        "alert_title": "Referral System",
+        "alert_message": "Add 10 points for each referral who accepts your invitation. We are adding benefits to exchange for your earned points.",
+        "alert_button": "I understand"
       }
-      
     },
     "referrals_list": {
       "header": "Referrals",
@@ -1383,9 +1386,9 @@
       "confirm": "Confirm"
     }
   },
-  "payment":{
+  "payment": {
     "header": "Pay",
-    "title":"Pay with PayPal",
+    "title": "Pay with PayPal",
     "paypal_button": "Pay"
   }
 }
