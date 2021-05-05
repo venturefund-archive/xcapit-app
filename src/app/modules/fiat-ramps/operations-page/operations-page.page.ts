@@ -19,7 +19,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
             appTrackClick
             name="New Operation"
             routerDirection="forward"
-            [routerLink]="['/fiat-ramps/new-operation']"
+            [routerLink]="['/fiat-ramps/select-provider']"
           >
             {{ 'fiat_ramps.operations_list.new' | translate }}
           </ion-button>

@@ -1322,6 +1322,14 @@
       "date": "Fecha",
       "new": "Nueva"
     },
+    "select_provider":{
+      "title":"Selecciona el proveedor:",
+      "provider_card":{
+        "coin_BTC": "BTC",
+        "coin_USD": "Dólar"
+      }
+    },
+
     "operation_detail": {
       "header": "Operación: #",
       "type": "Tipo de operación:",
@@ -1401,6 +1409,7 @@
       "buttonText": "Terminar"
     }
   },
+  
   "payment":{
     "header": "Pagar",
     "title":"Pagar con PayPal",

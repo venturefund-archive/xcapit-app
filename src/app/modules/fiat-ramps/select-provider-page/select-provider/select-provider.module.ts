@@ -27,6 +27,6 @@ const routes: Routes = [
     SharedModule
   ],
   declarations: [SelectProviderPage, 
-  ProviderCardComponent, SharedModule]
+  ProviderCardComponent]
 })
 export class SelectProviderPageModule {}
