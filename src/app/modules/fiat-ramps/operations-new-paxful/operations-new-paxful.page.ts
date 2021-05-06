@@ -143,6 +143,6 @@ export class OperationsNewPaxfulPage implements OnInit {
   }
 
   success() {
-    this.navController.navigateForward(['/fiat-ramps/operations']);
+    this.navController.navigateForward(['/fiat-ramps/new-operation/success-paxful']);
   }
 }
