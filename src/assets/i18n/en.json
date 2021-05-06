@@ -1318,7 +1318,13 @@
       "date": "Date",
       "new": "New"
     },
-    "operation_detail": {
+    
+    "select_provider":{
+      "header":"Buy Crypto",
+      "title":"Select the provider:"
+    },
+    
+      "operation_detail": {
       "header": "Operation: #",
       "type": "Operation type:",
       "amount": "Amount:",
@@ -1384,9 +1390,11 @@
       "confirm": "Confirm"
     }
   },
+
   "payment":{
     "header": "Pay",
     "title":"Pay with PayPal",
     "paypal_button": "Pay"
   }
+
 }

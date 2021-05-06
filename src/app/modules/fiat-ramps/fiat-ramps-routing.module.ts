@@ -41,8 +41,13 @@ const routes: Routes = [
         path: 'success-page',
         loadChildren: () => import('./success-page/success-page.module').then((m) => m.SuccessPagePageModule),
       },
+      {
+        path: 'select-provider',
+        loadChildren: () => import('./select-provider-page/select-provider/select-provider.module').then( m => m.SelectProviderPageModule)
+      },
     ],
   },
+
 ];
 
 @NgModule({
