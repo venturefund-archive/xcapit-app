@@ -38,7 +38,7 @@ describe('ProviderCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Manage clicked', () => {
+  it('should call trackEvent on trackService when Select clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Select');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

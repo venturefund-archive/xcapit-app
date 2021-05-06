@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -39,14 +39,12 @@ import { NavController } from '@ionic/angular';
   `,
   styleUrls: ['./provider-card.component.scss'],
 })
-export class ProviderCardComponent implements OnInit {
+export class ProviderCardComponent {
   @Input() provider: any;
   
   constructor(
     private navController: NavController,
   ) { }
-
-  ngOnInit() {}
 
   useProvider() {
     this.navController.navigateForward(this.provider?.route).then();

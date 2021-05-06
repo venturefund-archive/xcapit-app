@@ -25,8 +25,8 @@ import { Component } from '@angular/core';
                 <div>
                         <ion-list>
                             <app-provider-card
-                                    *ngFor="let providers of providers"
-                                    [provider]="providers"      
+                                    *ngFor="let provider of providers"
+                                    [provider]="provider"      
                             >
                             </app-provider-card>
                         </ion-list>
@@ -55,6 +55,5 @@ export class SelectProviderPage {
   ];
 
   constructor() { }
-
-
+  
 }
