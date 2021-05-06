@@ -1322,6 +1322,11 @@
       "date": "Fecha",
       "new": "Nueva"
     },
+    "select_provider":{
+      "header":"Comprar Cripto",
+      "title":"Selecciona el proveedor:"
+    },
+
     "operation_detail": {
       "header": "Operación: #",
       "type": "Tipo de operación:",
@@ -1402,6 +1407,7 @@
       "buttonText": "Terminar"
     }
   },
+  
   "payment":{
     "header": "Pagar",
     "title":"Pagar con PayPal",
