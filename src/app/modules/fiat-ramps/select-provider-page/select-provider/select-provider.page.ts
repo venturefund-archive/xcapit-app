@@ -1,6 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, NavController } from '@ionic/angular';
-
+import { Component } from '@angular/core';
 @Component({
   selector: 'app-select-provider',
   template: `
@@ -10,7 +8,7 @@ import { IonInfiniteScroll, NavController } from '@ionic/angular';
           <ion-back-button defaultHref="tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">
-          {{ 'Comprar Cripto' | translate }}</ion-title
+          {{ 'fiat_ramps.select_provider.header' | translate }}</ion-title
         >
       </ion-toolbar>
   </ion-header>
@@ -28,10 +26,7 @@ import { IonInfiniteScroll, NavController } from '@ionic/angular';
                         <ion-list>
                             <app-provider-card
                                     *ngFor="let providers of providers"
-                                    [id]="this.providers.id"
-                                    [name]="this.providers.name"
-                                    [img]="this.providers.img"
-                                    (useButtonClicked)="this.useProvider($event)"     
+                                    [provider]="providers"      
                             >
                             </app-provider-card>
                         </ion-list>
@@ -42,39 +37,24 @@ import { IonInfiniteScroll, NavController } from '@ionic/angular';
   `,
   styleUrls: ['./select-provider.page.scss'],
 })
-export class SelectProviderPage implements OnInit {
-  @ViewChild(IonInfiniteScroll, { static: true })
-  infiniteScroll: IonInfiniteScroll;
+export class SelectProviderPage {
   providers = [
     {
       id: 1,
       name: "KriptonMarket",
-      img: "../../assets/img/providers/id1.svg"
+      img: "../../assets/img/providers/id1.svg",
+      route: "/fiat-ramps/new-operation"
     },
 
     {
       id: 2,
       name: "Paxful",
-      img: "../../assets/img/providers/id2.svg"
+      img: "../../assets/img/providers/id2.svg",
+      route:"/tabs/funds"
     }
   ];
-  queryOptions = { ordering: '-created_at' };
-  paginationOptions = { cursor: '' };
-  loading = true;
 
-  constructor(
-    private navController: NavController,
-  ) { }
+  constructor() { }
 
-  ngOnInit() {
-  }
-
-  useProvider(id: number) {
-    if (id == 1) {
-      this.navController.navigateForward(['/fiat-ramps/new-operation']).then();
-    } else if (id == 2) {
-      this.navController.navigateForward(['/funds/fund-name']).then();
-    }
-  }
 
 }

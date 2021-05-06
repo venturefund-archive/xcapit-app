@@ -1320,6 +1320,7 @@
     },
     
     "select_provider":{
+      "header":"Buy Crypto",
       "title":"Select the provider:"
     },
     

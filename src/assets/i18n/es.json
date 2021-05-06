@@ -1323,11 +1323,8 @@
       "new": "Nueva"
     },
     "select_provider":{
-      "title":"Selecciona el proveedor:",
-      "provider_card":{
-        "coin_BTC": "BTC",
-        "coin_USD": "Dólar"
-      }
+      "header":"Comprar Cripto",
+      "title":"Selecciona el proveedor:"
     },
 
     "operation_detail": {
