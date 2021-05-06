@@ -8,35 +8,21 @@ import { ApiTicketsService } from '../shared-tickets/services/api-tickets.servic
 @Component({
   selector: 'app-create-ticket',
   template: `
-    <ion-header>
-      <div>
-        <div class="app_header">
-          <div class="app_header__content">
-            <div class="app_header__content__app_xcapit_logo">
-              <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
-            </div>
-          </div>
-        </div>
-        <div class="title">
+    <ion-content class="ion-padding-horizontal ion-padding-bottom">
+      <div class="header">
+        <div class="header__title">
           <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
             {{ 'tickets.create.title' | translate }}
           </ion-text>
         </div>
-        <div class="text">
+        <div class="header__text">
           <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
             {{ 'tickets.create.text' | translate }}
           </ion-text>
         </div>
       </div>
-    </ion-header>
-
-    <ion-content class="ion-padding-horizontal ion-padding-bottom">
       <div class="main">
-        <form
-          [formGroup]="this.form"
-          (ngSubmit)="this.handleSubmit()"
-          class="ux_main"
-        >
+        <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
           <app-ux-input
             controlName="email"
             type="text"
