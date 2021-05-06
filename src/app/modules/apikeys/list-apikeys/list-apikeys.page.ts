@@ -10,81 +10,74 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
 @Component({
   selector: 'app-list-apikeys',
   template: `
-      <ion-header>
-          <ion-toolbar color="uxprimary" class="ux_toolbar">
-              <ion-buttons slot="start">
-                  <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
-              </ion-buttons>
-              <ion-buttons slot="end">
-                  <ion-button
-                          appTrackClick
-                          name="Register New Key More"
-                          class="add-button"
-                          color="uxsecondary"
-                          (click)="this.addApiKey()"
-                  >
-                      <ion-icon style="zoom:1.5;" name="add"></ion-icon>
-                  </ion-button>
-              </ion-buttons>
-              <ion-title class="ion-text-center">{{
-                  'apikeys.list_apikeys.header' | translate
-                  }}</ion-title>
-          </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding-top">
-          <div class="ux_main">
-              <div class="ux_content">
-                  <div *ngIf="!showImage">
-                      <ion-list>
-                          <app-apikey-item
-                                  *ngFor="let apikeys of apikeys"
-                                  [id]="this.apikeys.id"
-                                  [fundName]="this.apikeys.nombre_bot"
-                                  [alias]="this.apikeys.alias"
-                                  (useButtonClicked)="this.useKey($event)"
-                                  (deletedKey)="this.deleteKey($event)"
-                                  (editedAlias)="this.getAllApiKeys()"
-                          >
-                          </app-apikey-item>
-                      </ion-list>
-                  </div>
-
-                  <div *ngIf="showImage">
-                      <div class="nr__image-container">
-                          <img
-                                  class="nr__image-container__image"
-                                  src="assets/img/apikeys/no-apikey.svg"
-                                  alt="no-apikey"
-                          />
-                      </div>
-                      <div class="nr__subtitle ion-padding-start ion-padding-end">
-                          <ion-text
-                                  class="ux-font-lato ux-fweight-regular ux-fsize-15"
-                                  color="uxsemidark"
-                          >
-                              {{ 'apikeys.list_apikeys.subtitle' | translate }}
-                          </ion-text>
-                      </div>
-                  </div>
-                  <div class="nr__security-info-alert">
-                      <app-ux-alert-message type="info">{{'apikeys.list_apikeys.security_info_alert' | translate}}</app-ux-alert-message>
-                  </div>
-              </div>
-              <div class="ux_footer ion-padding">
-                  <div class="nr__need-help">
-                      <app-need-help
-                              [whatsAppLink]="this.supportLinks.apiKeyWhatsappSupport"
-                              [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
-                      ></app-need-help>
-                  </div>
-                  <ion-button expand="block" type="button" appTrackClick name="Register New Key" (click)="this.addApiKey()">
-                      {{'apikeys.list_apikeys.add_api_key' | translate}}
-                  </ion-button>
-              </div>
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button
+            appTrackClick
+            name="Register New Key More"
+            class="add-button"
+            color="uxsecondary"
+            (click)="this.addApiKey()"
+          >
+            <ion-icon style="zoom:1.5;" name="add"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">{{ 'apikeys.list_apikeys.header' | translate }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding-top">
+      <div class="ux_main">
+        <div class="ux_content">
+          <div *ngIf="!showImage">
+            <ion-list>
+              <app-apikey-item
+                *ngFor="let apikey of this.apikeys"
+                [id]="apikey.id"
+                [fundName]="apikey.nombre_bot"
+                [alias]="apikey.alias"
+                (useButtonClicked)="this.useKey($event)"
+                (deletedKey)="this.deleteKey($event)"
+                (editedAlias)="this.getAllApiKeys()"
+              >
+              </app-apikey-item>
+            </ion-list>
           </div>
-      </ion-content>
+
+          <div *ngIf="showImage">
+            <div class="nr__image-container">
+              <img class="nr__image-container__image" src="assets/img/apikeys/no-apikey.svg" alt="no-apikey" />
+            </div>
+            <div class="nr__subtitle ion-padding-start ion-padding-end">
+              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-15" color="uxsemidark">
+                {{ 'apikeys.list_apikeys.subtitle' | translate }}
+              </ion-text>
+            </div>
+          </div>
+          <div class="nr__security-info-alert">
+            <app-ux-alert-message type="info">{{
+              'apikeys.list_apikeys.security_info_alert' | translate
+            }}</app-ux-alert-message>
+          </div>
+        </div>
+        <div class="ux_footer ion-padding">
+          <div class="nr__need-help">
+            <app-need-help
+              [whatsAppLink]="this.supportLinks.apiKeyWhatsappSupport"
+              [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
+            ></app-need-help>
+          </div>
+          <ion-button expand="block" type="button" appTrackClick name="Register New Key" (click)="this.addApiKey()">
+            {{ 'apikeys.list_apikeys.add_api_key' | translate }}
+          </ion-button>
+        </div>
+      </div>
+    </ion-content>
   `,
-  styleUrls: ['./list-apikeys.page.scss']
+  styleUrls: ['./list-apikeys.page.scss'],
 })
 export class ListApikeysPage implements OnInit {
   apikeys: any = [];
@@ -99,11 +92,9 @@ export class ListApikeysPage implements OnInit {
     private route: ActivatedRoute,
     private platformService: PlatformService,
     private storageApiKeysService: StorageApikeysService
-  ) {
-  }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.getMode();
@@ -124,7 +115,7 @@ export class ListApikeysPage implements OnInit {
   }
 
   filterNotUsedKeys(apiKeys: any[]) {
-    return apiKeys.filter(key => key.nombre_bot === '');
+    return apiKeys.filter((key) => key.nombre_bot === '');
   }
 
   checkEmptyApiKeys() {
@@ -134,7 +125,7 @@ export class ListApikeysPage implements OnInit {
   getAllApiKeys() {
     this.apiApikeysService
       .getAll()
-      .pipe(map((apiKeys) => this.selectMode ? this.filterNotUsedKeys(apiKeys) : apiKeys))
+      .pipe(map((apiKeys) => (this.selectMode ? this.filterNotUsedKeys(apiKeys) : apiKeys)))
       .subscribe((data) => {
         this.apikeys = data;
         this.checkEmptyApiKeys();
@@ -142,14 +133,13 @@ export class ListApikeysPage implements OnInit {
   }
 
   useKey(id: number) {
-    this.storageApiKeysService.updateData(this.apikeys.find(key => key.id = id));
+    this.storageApiKeysService.updateData(this.apikeys.find((key) => key.id === id));
     this.navController.navigateForward(['/funds/fund-name']).then();
   }
 
   deleteKey(id: number) {
-    const toDeleteIndex = this.apikeys.findIndex(key => key.id === id);
+    const toDeleteIndex = this.apikeys.findIndex((key) => key.id === id);
     this.apikeys.splice(toDeleteIndex, 1);
     this.checkEmptyApiKeys();
   }
-
 }
