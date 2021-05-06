@@ -107,6 +107,6 @@ export class FiatRampsService {
   }
 
   getLink(apikeyId: number): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/${this.provider}/get_link`, { apikey_id: apikeyId });
+    return this.http.post(`${environment.apiUrl}/${this.entity}/${this.provider}/get_link`, { id_apikey: apikeyId });
   }
 }
