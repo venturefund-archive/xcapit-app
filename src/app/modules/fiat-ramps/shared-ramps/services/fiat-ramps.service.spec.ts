@@ -12,13 +12,11 @@ describe('FiatRampsService', () => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       post: of({}),
       get: of({}),
-      put: of({})
+      put: of({}),
     });
 
     TestBed.configureTestingModule({
-      providers: [
-        { provide: CustomHttpService, useValue: customHttpServiceSpy },
-        ]
+      providers: [{ provide: CustomHttpService, useValue: customHttpServiceSpy }],
     });
     fiatRampsService = TestBed.inject(FiatRampsService);
     customHttpServiceSpy = TestBed.inject(CustomHttpService);
@@ -31,6 +29,12 @@ describe('FiatRampsService', () => {
   it('should be call get on http when getQuotations', () => {
     fiatRampsService.getQuotations().subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call post on http when getLink', () => {
+    fiatRampsService.getLink(0).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 });

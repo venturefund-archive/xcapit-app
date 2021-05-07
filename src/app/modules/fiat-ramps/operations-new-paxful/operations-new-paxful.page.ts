@@ -75,6 +75,7 @@ export class OperationsNewPaxfulPage implements OnInit {
   });
   walletAddressSelect: any[];
   isPWA = false;
+  browser = Browser;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -89,7 +90,7 @@ export class OperationsNewPaxfulPage implements OnInit {
   ionViewWillEnter() {
     this.checkIsWebPlatform();
 
-    this.fiatRampsService.provider = 'paxful';
+    this.fiatRampsService.setProvider('paxful');
 
     let wallets = [];
 
@@ -113,7 +114,7 @@ export class OperationsNewPaxfulPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.fiatRampsService.provider = '1';
+    this.fiatRampsService.setProvider('1');
   }
 
   goToCreateApikey() {
@@ -139,15 +140,15 @@ export class OperationsNewPaxfulPage implements OnInit {
   async openPaxfulLink(apikeyId: number) {
     this.fiatRampsService.getLink(apikeyId).subscribe(async (response) => {
       if (this.isPWA) {
-        await Browser.open(response);
+        await this.browser.open(response);
         this.success();
       } else {
-        const browserClosed = Browser.addListener('browserFinished', () => {
+        const browserClosed = this.browser.addListener('browserFinished', () => {
           this.success();
           browserClosed.remove();
         });
 
-        Browser.open(response);
+        this.browser.open(response);
       }
     });
   }
