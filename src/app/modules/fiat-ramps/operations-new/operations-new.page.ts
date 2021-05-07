@@ -300,7 +300,6 @@ export class OperationsNewPage implements OnInit {
 
   setOperationStorage() {
     const data = this.form.value;
-    console.log(data);
     this.storageOperationService.updateData(data);
   }
 

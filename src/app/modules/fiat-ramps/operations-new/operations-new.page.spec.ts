@@ -150,22 +150,22 @@ describe('RampsMenuPage', () => {
     expect(fiatRampsServiceSpy.createUser).toHaveBeenCalledTimes(1);
   });
 
-  fit('should redirect to user information form when status is USER_INFORMATION', () => {
+  it('should redirect to user information form when status is USER_INFORMATION', () => {
     const url = component.getUrlByStatus('USER_INFORMATION');
     expect(url).toEqual(['fiat-ramps/user-information']);
   });
 
-  fit('should redirect to user bank information form when status is USER_BANK', () => {
+  it('should redirect to user bank information form when status is USER_BANK', () => {
     const url = component.getUrlByStatus('USER_BANK');
     expect(url).toEqual(['fiat-ramps/user-bank']);
   });
 
-  fit('should redirect to user images upload form when status is USER_IMAGES', () => {
+  it('should redirect to user images upload form when status is USER_IMAGES', () => {
     const url = component.getUrlByStatus('USER_IMAGES');
     expect(url).toEqual(['fiat-ramps/user-images']);
   });
 
-  fit('should redirect to new order confirm when status is COMPLETE', () => {
+  it('should redirect to new order confirm when status is COMPLETE', () => {
     const url = component.getUrlByStatus('COMPLETE');
     expect(url).toEqual(['fiat-ramps/confirm-page']);
   });
