@@ -1,0 +1,6 @@
+export enum RegistrationStatus {
+    USER_INFORMATION = 'USER_INFORMATION',
+    USER_BANK = 'USER_BANK',
+    USER_IMAGES = 'USER_IMAGES',
+    COMPLETE = 'COMPLETE'
+}

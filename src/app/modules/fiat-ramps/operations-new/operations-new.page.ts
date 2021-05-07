@@ -8,6 +8,7 @@ import { Buy } from '../enums/buy.enum';
 import { Sell } from '../enums/sell.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import { RegistrationStatus } from '../enums/registration-status.enum';
 
 @Component({
   selector: 'app-operations-new',
@@ -260,7 +261,7 @@ export class OperationsNewPage implements OnInit {
       if (!res.id) {
         this.createUser();
       } else {
-        this.navController.navigateForward(['fiat-ramps/confirm-page']);
+        this.redirectByStatus(res)
       }
     });
   }
@@ -292,13 +293,14 @@ export class OperationsNewPage implements OnInit {
   async createUser() {
     this.fiatRampsService.createUser().subscribe({
       next: (res) => {
-        this.navController.navigateForward(['fiat-ramps/user-information']);
+        this.redirectByStatus(res)
       },
     });
   }
 
   setOperationStorage() {
     const data = this.form.value;
+    console.log(data);
     this.storageOperationService.updateData(data);
   }
 
@@ -319,5 +321,33 @@ export class OperationsNewPage implements OnInit {
 
       this.walletAddress = Object.values(wallets);
     });
+  }
+
+  getUrlByStatus(statusName) {
+    let url: string[];
+    switch (statusName) {
+      case RegistrationStatus.USER_INFORMATION: {
+        url = ['fiat-ramps/user-information'];
+        break;
+      }
+      case RegistrationStatus.USER_BANK: {
+        url = ['fiat-ramps/user-bank'];
+        break;
+      }
+      case RegistrationStatus.USER_IMAGES: {
+        url = ['fiat-ramps/user-images'];
+        break;
+      }
+      case RegistrationStatus.COMPLETE: {
+        url = ['fiat-ramps/confirm-page'];
+        break;
+      }
+    }
+    return url;
+  }
+
+  redirectByStatus(userStatus) {
+    const url = this.getUrlByStatus(userStatus.registration_status);
+    this.navController.navigateForward(url);
   }
 }
