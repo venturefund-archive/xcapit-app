@@ -14,7 +14,7 @@ const { Browser } = Plugins;
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/operations-page"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/operations"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">
           {{ 'fiat_ramps.paxful.header' | translate }}
@@ -23,38 +23,48 @@ const { Browser } = Plugins;
     </ion-header>
 
     <ion-content class="ion-padding">
-      <div>
-        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
-          {{ 'fiat_ramps.paxful.title' | translate }}
-        </ion-text>
+      <div class="ux_main">
+        <div class="ux_content">
+          <div>
+            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+              {{ 'fiat_ramps.paxful.title' | translate }}
+            </ion-text>
+          </div>
+          <div>
+            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+              {{ 'fiat_ramps.paxful.text' | translate }}
+            </ion-text>
+          </div>
+          <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
+            <div class="loader" *ngIf="!this.walletAddressSelect">
+              <app-ux-loading-block minSize="30px"></app-ux-loading-block>
+            </div>
+            <app-ux-input-select
+              [label]="'fiat_ramps.paxful.label-wallet' | translate"
+              [modalTitle]="'Wallet'"
+              [placeholder]="'Wallet'"
+              controlName="wallet"
+              [data]="this.walletAddressSelect"
+              [keyName]="'name'"
+              [valueName]="'address'"
+              *ngIf="this.walletAddressSelect"
+            ></app-ux-input-select>
+            <div class="button-next">
+              <ion-button
+                appTrackClick
+                name="Next"
+                class="ux_button"
+                type="submit"
+                color="uxsecondary"
+                size="large"
+                [disabled]="this.submitButtonService.isDisabled | async"
+              >
+                {{ 'fiat_ramps.paxful.button-text' | translate }}
+              </ion-button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div>
-        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
-          {{ 'fiat_ramps.paxful.text' | translate }}
-        </ion-text>
-      </div>
-      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
-        <app-ux-input-select
-          [label]="'Wallet'"
-          [modalTitle]="'Wallet'"
-          [placeholder]="'Wallet'"
-          controlName="wallet"
-          [data]="this.walletAddressSelect"
-          [keyName]="'name'"
-          [valueName]="'address'"
-          *ngIf="this.walletAddressSelect"
-        ></app-ux-input-select>
-        <ion-button
-          appTrackClick
-          name="Next"
-          type="submit"
-          color="uxsecondary"
-          size="large"
-          [disabled]="this.submitButtonService.isDisabled | async"
-        >
-          {{ 'fiat_ramps.paxful.button-text' | translate }}
-        </ion-button>
-      </form>
     </ion-content>
   `,
   styleUrls: ['./operations-new-paxful.page.scss'],
@@ -107,7 +117,7 @@ export class OperationsNewPaxfulPage implements OnInit {
   }
 
   goToCreateApikey() {
-    this.navController.navigateBack(['/apikeys/register']);
+    this.navController.navigateBack(['/apikeys/list']);
   }
 
   checkIsWebPlatform() {

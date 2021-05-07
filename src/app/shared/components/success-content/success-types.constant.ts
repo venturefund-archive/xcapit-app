@@ -90,11 +90,11 @@ export const SUCCESS_TYPES = {
   },
   paxful_on_ramp_success: {
     urlClose: '/tabs/funds',
-    textPrimary: 'fiat-ramps.paxful_success.textPrimary',
-    textSecondary: 'fiat-ramps.paxful_success.textSecondary',
+    textPrimary: 'fiat_ramps.paxful_success.textPrimary',
+    textSecondary: 'fiat_ramps.paxful_success.textSecondary',
     urlPrimaryAction: '/fiat-ramps/operations',
-    namePrimaryAction: 'fiat-ramps.paxful_success.namePrimaryAction',
+    namePrimaryAction: 'fiat_ramps.paxful_success.namePrimaryAction',
     urlSecondaryAction: '/fiat-ramps/operations',
-    nameSecondaryAction: 'fiat-ramps.paxful_success.nameSecondaryAction',
+    nameSecondaryAction: 'fiat_ramps.paxful_success.nameSecondaryAction',
   },
 };

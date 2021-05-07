@@ -1384,6 +1384,19 @@
       "wallet_address": "Reception address",
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
       "confirm": "Confirm"
+    },
+    "paxful": {
+      "header": "Buy BTC with Paxful",
+      "title": "Buy BTC with Paxful",
+      "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
+      "label-wallet": "Select your wallet",
+      "button-text": "Continue to Paxful"
+    },
+    "paxful_success": {
+      "textPrimary": "We've redirect you to Paxful",
+      "textSecondary": "Fill in the details to complete the transaction",
+      "namePrimaryAction": "Go to my operations",
+      "nameSecondaryAction": "Buy more cripto"
     }
   },
   "payment": {

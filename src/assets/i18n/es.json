@@ -1403,6 +1403,19 @@
       "info_telegram": "Por dudas o consultas, contactanos por Télegram:",
       "info_email": "El proveedor se comunicará por email conforme avance el proceso.",
       "buttonText": "Terminar"
+    },
+    "paxful": {
+      "header": "Comprar BTC con Paxful",
+      "title": "Comprar BTC con Paxful",
+      "text": "Paxful sólo te permitirá comprar BTC. Te redigiremos a su página para finalizar la compra.",
+      "label-wallet": "Seleccioná tu wallet",
+      "button-text": "Continuar a Paxful"
+    },
+    "paxful_success": {
+      "textPrimary": "Te redirigimos a la página de Paxful",
+      "textSecondary": "Completa los detalles que te soliciten para terminar la transacción",
+      "namePrimaryAction": "Ver mis operaciones",
+      "nameSecondaryAction": "Comprar más criptos"
     }
   },
   "payment": {
