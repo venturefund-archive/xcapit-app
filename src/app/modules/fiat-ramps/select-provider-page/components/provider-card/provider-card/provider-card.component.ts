@@ -29,7 +29,7 @@ import { NavController } from '@ionic/angular';
                 size="small"
                 slot="end"
                 class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-                (click)="this.useProvider(this.provider?.id)"
+                (click)="this.useProvider()"
               >
               <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-button>
@@ -41,7 +41,7 @@ import { NavController } from '@ionic/angular';
 })
 export class ProviderCardComponent {
   @Input() provider: any;
-  
+
   constructor(
     private navController: NavController,
   ) { }
