@@ -57,7 +57,7 @@ export class PaymentMethodsPage implements OnInit{
       description:'(BTC/BUSD/RIPPLE)'
     }
   ]
-  constructor(private translate: TranslateService) { }
+  constructor() { }
 
   ngOnInit() { }
 

@@ -45,9 +45,11 @@ export class MethodComponent implements OnInit {
   ngOnInit() { }
 
   openLink() {
-    Browser.open({
-      toolbarColor: 'red',
-      url: this.paymentMethods?.link,
-    });
+    if(this.paymentMethods.link){
+      Browser.open({
+        toolbarColor: 'red',
+        url: this.paymentMethods.link,
+      });
+    }
   }
 }

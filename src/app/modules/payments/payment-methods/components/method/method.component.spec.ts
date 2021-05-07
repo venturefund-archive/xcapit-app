@@ -13,13 +13,14 @@ describe('MethodComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MethodComponent, TrackClickDirective ],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule],
       providers: [TrackClickDirective, HttpClient, HttpHandler],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MethodComponent);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component.paymentMethods = {link:'testlink'};
     fixture.detectChanges();
   }));
 
