@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-payment-methods',
   template: `
@@ -11,57 +11,54 @@ import { Component, OnInit } from '@angular/core';
         <ion-title>{{ 'payment.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-
     <ion-content>
-  <div class="ux_main">
-    <div class="ux_content">
-      <div class="pm__title ux-font-gilory ux-fweight-extrabold ux-fsize-24">
-            <ion-text>{{
-                'payment.title' | translate
-              }}</ion-text>
-            </div>
-      <div>
-        <ion-list>
-          <app-method
-          *ngFor="let method of paymentMethods"
-          [name]="this.method.name"
-          [img]="this.method.img"
-          >
-          </app-method>
-        </ion-list>
-      </div>
-    </div>
-  </div> 
-<ion-content>
+          <div class="ux_main"> 
+              <div class="pm__title ux-font-gilory ux-fweight-extrabold ux-fsize-24">
+                <ion-text>{{'payment.title' | translate }}</ion-text>
+              </div>
+              <div class="ux_content">
+                <div>
+                  <ion-list>
+                      <app-method
+                          *ngFor="let method of paymentMethods"
+                          [paymentMethods]="method"
+                      >
+                      </app-method>
+                  </ion-list>
+                </div> 
+              </div>
+          </div>
+    </ion-content>
   `,
   styleUrls: ['./payment-methods.page.scss'],
 })
-export class PaymentMethodsPage implements OnInit {
+export class PaymentMethodsPage implements OnInit{
   public paymentMethods = [
     {
       name: 'PayPal',
-      link: '',
+      link: 'https://py.pl/IZg5M4XLCm',
       img: "../../../../assets/img/payment-methods/paypal.png"
     },
     {
       name: 'MercadoPago',
-      link: '',
+      link: 'https://www.mercadopago.com/mla/debits/new?preapproval_plan_id=2c93808478f916c70179003e21d40717',
       img: '../../../../assets/img/payment-methods/mercadopago.png'
     },
     {
       name: 'BitPay',
-      link: '',
-      img: '../../../../assets/img/payment-methods/bitpay.png'
+      link: 'https://bitpay.com',
+      img: '../../../../assets/img/payment-methods/bitpay.png',
+      description:'(BTC/BUSD/RIPPLE)'
     },
     {
       name: 'Binance',
       link: '',
-      img: '../../../../assets/img/payment-methods/binance.png'
+      img: '../../../../assets/img/payment-methods/binance.png',
+      description:'(BTC/BUSD/RIPPLE)'
     }
   ]
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }
