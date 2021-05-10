@@ -1418,9 +1418,9 @@
       "nameSecondaryAction": "Comprar más criptos"
     }
   },
-  "payment": {
+  "payment":{
     "header": "Pagar",
-    "title": "Pagar con PayPal",
+    "title":"Pagar con PayPal",
     "paypal_button": "Pagar"
   }
 }

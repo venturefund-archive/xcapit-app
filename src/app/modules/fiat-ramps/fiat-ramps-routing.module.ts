@@ -38,10 +38,6 @@ const routes: Routes = [
           import('./operations-detail/operations-detail.module').then((m) => m.OperationsDetailPageModule),
       },
       {
-        path: 'success-page',
-        loadChildren: () => import('./success-page/success-page.module').then((m) => m.SuccessPagePageModule),
-      },
-      {
         path: 'new-operation-paxful',
         loadChildren: () =>
           import('./operations-new-paxful/operations-new-paxful.module').then((m) => m.OperationsNewPaxfulPageModule),
@@ -49,6 +45,10 @@ const routes: Routes = [
       {
         path: 'new-operation/success-paxful',
         loadChildren: () => import('./success-paxful/success-paxful.module').then((m) => m.SuccessPaxfulPageModule),
+      },
+      {
+        path: 'success-page',
+        loadChildren: () => import('./success-page/success-page.module').then((m) => m.SuccessPagePageModule),
       },
     ],
   },
