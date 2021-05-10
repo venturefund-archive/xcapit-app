@@ -70,7 +70,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'apikeys.register_success_beginner.textPrimary',
     textSecondary: 'apikeys.register_success_beginner.textSecondary',
     urlPrimaryAction: '/funds/fund-name',
-    namePrimaryAction: 'apikeys.register_success_beginner.namePrimaryAction'
+    namePrimaryAction: 'apikeys.register_success_beginner.namePrimaryAction',
   },
   apikeys_register_success: {
     urlClose: '/tabs/funds',
@@ -87,5 +87,14 @@ export const SUCCESS_TYPES = {
     textSecondary: 'tickets.createSuccess.textSecondary',
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'tickets.createSuccess.namePrimaryAction',
+  },
+  paxful_on_ramp_success: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'fiat_ramps.paxful_success.textPrimary',
+    textSecondary: 'fiat_ramps.paxful_success.textSecondary',
+    urlPrimaryAction: '/fiat-ramps/operations',
+    namePrimaryAction: 'fiat_ramps.paxful_success.namePrimaryAction',
+    urlSecondaryAction: '/fiat-ramps/operations',
+    nameSecondaryAction: 'fiat_ramps.paxful_success.nameSecondaryAction',
   },
 };

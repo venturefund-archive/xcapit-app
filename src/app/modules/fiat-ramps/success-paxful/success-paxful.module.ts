@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { OperationsNewPage } from './operations-new.page';
+import { SuccessPaxfulPage } from './success-paxful.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: OperationsNewPage,
+    component: SuccessPaxfulPage,
   },
 ];
 
 @NgModule({
   imports: [SharedModule, RouterModule.forChild(routes)],
-  declarations: [OperationsNewPage],
+  declarations: [SuccessPaxfulPage],
 })
-export class OperationsNewPageModule {}
+export class SuccessPaxfulPageModule {}
