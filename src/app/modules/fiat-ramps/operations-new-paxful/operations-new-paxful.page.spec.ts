@@ -40,7 +40,7 @@ const walletAddress = [
   },
 ];
 
-fdescribe('OperationsNewPaxfulPage', () => {
+describe('OperationsNewPaxfulPage', () => {
   let component: OperationsNewPaxfulPage;
   let fixture: ComponentFixture<OperationsNewPaxfulPage>;
   let platformServiceSpy: any;
@@ -56,6 +56,7 @@ fdescribe('OperationsNewPaxfulPage', () => {
       fiatRampsServiceSpy.getUserWallets.and.returnValue(of({}));
       fiatRampsServiceSpy.getLink.and.returnValue(of({}));
       browserSpy = jasmine.createSpyObj('Browser', ['open', 'addListener']);
+      browserSpy.open.and.returnValue(Promise.resolve());
 
       TestBed.configureTestingModule({
         declarations: [OperationsNewPaxfulPage],
@@ -164,20 +165,37 @@ fdescribe('OperationsNewPaxfulPage', () => {
     expect(browserSpy.open).toHaveBeenCalledTimes(0);
   });
 
-  it('should call getLink on openPaxfulLink', () => {
-    component.openPaxfulLink(0);
+  it('should call getLink on openPaxfulLink', async () => {
+    await component.openPaxfulLink(0);
     expect(fiatRampsServiceSpy.getLink).toHaveBeenCalledTimes(1);
   });
 
-  it('should open in app browser on openPaxfulLink with Paxful link', () => {
+  it('should open in app browser on openPaxfulLink with Paxful link', async () => {
     fiatRampsServiceSpy.getLink.and.returnValue(of({ url: 'url' }));
-    component.openPaxfulLink(0);
+    await component.openPaxfulLink(0);
     expect(browserSpy.open).toHaveBeenCalledWith({ url: 'url' });
   });
 
-  it('should call success on openPaxfulLink', () => {});
-  it('should create listener in native app on openPaxfulLink', () => {});
-  it('should remove listener in native app on openPaxfulLink', () => {});
-  it('should go to success page on success', () => {});
-  it('should set 1 as provider on ionViewWillLeave', () => {});
+  it('should call success on openPaxfulLink', async () => {
+    component.isPWA = true;
+    const spy = spyOn(component, 'success');
+    await component.openPaxfulLink(0);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should create listener in native app on openPaxfulLink', async () => {
+    component.isPWA = false;
+    await component.openPaxfulLink(0);
+    expect(browserSpy.addListener).toHaveBeenCalledTimes(1);
+  });
+
+  it('should go to success page on success', () => {
+    component.success();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/new-operation/success-paxful']);
+  });
+
+  it('should set 1 as provider on ionViewWillLeave', () => {
+    component.ionViewWillLeave();
+    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledWith('1');
+  });
 });
