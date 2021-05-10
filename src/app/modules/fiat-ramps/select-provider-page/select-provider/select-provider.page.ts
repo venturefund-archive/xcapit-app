@@ -42,7 +42,7 @@ export class SelectProviderPage {
       id: 2,
       name: 'Paxful',
       img: '../../assets/img/providers/id2.svg',
-      route: '/tabs/funds',
+      route: '/fiat-ramps/new-operation-paxful',
     },
   ];
 
