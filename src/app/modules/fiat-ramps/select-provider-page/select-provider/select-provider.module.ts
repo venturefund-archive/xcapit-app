@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-
-
 import { SelectProviderPage } from './select-provider.page';
 import { RouterModule, Routes } from '@angular/router';
 import { ProviderCardComponent } from '../components/provider-card/provider-card/provider-card.component';
@@ -19,11 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    SharedModule
-  ],
-  declarations: [SelectProviderPage, 
-  ProviderCardComponent]
+  imports: [RouterModule.forChild(routes), SharedModule],
+  declarations: [SelectProviderPage, ProviderCardComponent],
 })
 export class SelectProviderPageModule {}
