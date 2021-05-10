@@ -1391,8 +1391,8 @@
       "operation": "Operación:",
       "amount": "Monto:",
       "quotation": "Cotización:",
-      "wallet_address": "Dirección de reception:",
-      "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interaccion con el proveedor.",
+      "wallet_address": "Dirección de recepción:",
+      "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
       "confirm": "Confirmar"
     },
     "fiat_success": {
