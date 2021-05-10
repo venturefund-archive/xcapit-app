@@ -94,7 +94,7 @@ export const SUCCESS_TYPES = {
     textSecondary: 'fiat_ramps.paxful_success.textSecondary',
     urlPrimaryAction: '/fiat-ramps/operations',
     namePrimaryAction: 'fiat_ramps.paxful_success.namePrimaryAction',
-    urlSecondaryAction: '/fiat-ramps/operations',
+    urlSecondaryAction: '/fiat-ramps/select-provider',
     nameSecondaryAction: 'fiat_ramps.paxful_success.nameSecondaryAction',
   },
 };

@@ -14,7 +14,7 @@ const { Browser } = Plugins;
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/operations"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">
           {{ 'fiat_ramps.paxful.header' | translate }}
