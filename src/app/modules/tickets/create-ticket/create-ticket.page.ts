@@ -29,6 +29,7 @@ import { ApiTicketsService } from '../shared-tickets/services/api-tickets.servic
             inputmode="text"
             [label]="'tickets.create.label_email' | translate"
             [placeholder]="'tickets.create.placeholder_email' | translate"
+            [readonly]="!this.canModifyEmail"
           ></app-ux-input>
           <app-ux-input
             controlName="subject"
@@ -78,6 +79,7 @@ export class CreateTicketPage implements OnInit {
     subject: ['', [Validators.required]],
     message: ['', [Validators.required]],
   });
+  canModifyEmail = true;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -91,6 +93,7 @@ export class CreateTicketPage implements OnInit {
       const extras = this.router.getCurrentNavigation().extras;
       if (extras.state && extras.state.email) {
         this.form.patchValue(extras.state);
+        this.canModifyEmail = false;
       }
     });
   }
