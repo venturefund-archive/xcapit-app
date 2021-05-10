@@ -1392,8 +1392,8 @@
   },
 
   "payment":{
-    "header": "Pay",
-    "title":"Pay with PayPal",
+    "header": "Payment methods",
+    "title":"Payment method to start the process",
     "paypal_button": "Pay"
   }
 

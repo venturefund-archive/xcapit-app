@@ -159,7 +159,7 @@ export class MainMenuPage implements OnInit {
     {
       id: 11,
       title: 'app.main_menu.payment',
-      url: '/payment/paypal-payment',
+      url: '/payment/payment-methods',
       icon: 'cash-outline',
       routeDirection: 'forward',
     },
