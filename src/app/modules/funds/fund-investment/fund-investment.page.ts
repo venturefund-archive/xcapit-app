@@ -81,6 +81,7 @@ export class FundInvestmentPage implements OnInit {
   ];
 
   fundRenew: any;
+  fundName: any;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -100,12 +101,13 @@ export class FundInvestmentPage implements OnInit {
 
   async getFundRenewData() {
     this.fundRenew = await this.fundDataStorage.getData('fundRenew');
+    this.fundName = await this.fundDataStorage.getData('fundName');
   }
 
   getDataToCheckBalance(): any {
     let result: any;
     if (this.fundRenew) {
-      result = { fund_name: this.fundRenew.fund_name };
+      result = this.fundName;
     } else if (this.storageApiKeysService.data) {
       result = { id: this.storageApiKeysService.data.id };
     }
