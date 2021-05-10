@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -29,34 +30,33 @@ describe('ReferralsListPage', () => {
     profile: {},
   };
 
-  beforeEach(waitForAsync(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    ionInfiniteScrollMock = {
-      complete: () => true,
-      disabled: true,
-    };
-    apiReferralsServiceSpy = {
-      getUserReferrals: () => of(referralsTestData),
-    };
-    apiUsuariosServiceSpy = {
-      getUser: () => of(user),
-    };
-    TestBed.configureTestingModule({
-      declarations: [ReferralsListPage, TrackClickDirective],
-      imports: [
-        IonicModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        TrackClickDirective,
-        TranslateService,
-        { provide: ApiReferralsService, useValue: apiReferralsServiceSpy },
-        { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      ionInfiniteScrollMock = {
+        complete: () => true,
+        disabled: true,
+      };
+      apiReferralsServiceSpy = {
+        getUserReferrals: () => of(referralsTestData),
+      };
+      apiUsuariosServiceSpy = {
+        getUser: () => of(user),
+      };
+      TestBed.configureTestingModule({
+        declarations: [ReferralsListPage, TrackClickDirective],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
+        providers: [
+          TrackClickDirective,
+          TranslateService,
+          { provide: ApiReferralsService, useValue: apiReferralsServiceSpy },
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReferralsListPage);
@@ -73,10 +73,7 @@ describe('ReferralsListPage', () => {
   });
 
   it('should call showAlert when Go To Help Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Go To Help'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Help');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(component, 'showAlert');
     el.nativeElement.click();
