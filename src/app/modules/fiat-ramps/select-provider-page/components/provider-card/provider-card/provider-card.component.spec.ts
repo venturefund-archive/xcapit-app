@@ -16,6 +16,7 @@ describe('ProviderCardComponent', () => {
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
       TestBed.configureTestingModule({
         declarations: [ProviderCardComponent, TrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],

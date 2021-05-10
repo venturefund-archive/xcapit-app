@@ -58,7 +58,7 @@ describe('MainMenuPage', () => {
             { path: 'referrals/list', component: DummyComponent },
             { path: 'notifications/list', component: DummyComponent },
             { path: 'apikeys/list', component: DummyComponent },
-            { path: 'payment/paypal-payment', component: DummyComponent },
+            { path: 'payment/payment-methods', component: DummyComponent },
           ]),
         ],
       }).compileComponents();
