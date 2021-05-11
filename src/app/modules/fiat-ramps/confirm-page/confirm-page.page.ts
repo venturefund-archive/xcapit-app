@@ -82,6 +82,7 @@ import { NavController } from '@ionic/angular';
           type="button"
           color="uxsecondary"
           size="large"
+          [disabled]="disabledButton"
           (click)="this.createOperation()"
         >
           {{ 'fiat_ramps.confirm.confirm' | translate }}
@@ -93,6 +94,7 @@ import { NavController } from '@ionic/angular';
 })
 export class ConfirmPagePage implements OnInit {
   operationData: any;
+  disabledButton = false;
 
   constructor(
     private storageOperationService: StorageOperationService,
@@ -105,9 +107,13 @@ export class ConfirmPagePage implements OnInit {
   }
 
   async createOperation() {
+    this.disabledButton = true;
     this.fiatRampsService.createOperation(this.operationData).subscribe({
       next: (res) => {
         this.navController.navigateForward(['fiat-ramps/success-page']);
+      },
+      complete: () => {
+        this.disabledButton = false;
       },
     });
   }

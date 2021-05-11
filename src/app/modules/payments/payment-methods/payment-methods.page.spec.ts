@@ -1,24 +1,27 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { PaypalPaymentPage } from './paypal-payment.page';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 
-describe('PaypalPaymentPage', () => {
-  let component: PaypalPaymentPage;
-  let fixture: ComponentFixture<PaypalPaymentPage>;
+import { PaymentMethodsPage } from './payment-methods.page';
+
+describe('PaymentMethodsPage', () => {
+  let component: PaymentMethodsPage;
+  let fixture: ComponentFixture<PaymentMethodsPage>;
   let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [PaypalPaymentPage],
-        imports: [IonicModule, TranslateModule.forRoot()],
+        declarations: [PaymentMethodsPage],
+        imports: [TranslateModule.forRoot(), IonicModule],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(PaypalPaymentPage);
+      fixture = TestBed.createComponent(PaymentMethodsPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })
@@ -26,11 +29,5 @@ describe('PaypalPaymentPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call window.open when openBrowser is called', () => {
-    spyOn(window, 'open');
-    component.openBrowser();
-    expect(window.open).toHaveBeenCalledTimes(1);
   });
 });

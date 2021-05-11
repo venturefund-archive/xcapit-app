@@ -13,12 +13,13 @@
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
       "change_language": "Idioma",
-      "payment":"Pagar"
+      "payment": "Pagar"
     }
   },
   "config": {
     "form_errors": {
       "required": "El campo es requerido",
+      "isNotInRange": "El monto es incorrecto",
       "email": "El email no es correcto",
       "pattern": "El campo no cumple con el patrón requerido",
       "minlength": "Se requieren más caracteres",
@@ -79,7 +80,7 @@
       "text_help_link": "¿Necesitas ayuda?"
     },
     "referrals_help": {
-      "text_referrals_help_link":"¿Cómo funciona el sistema de referidos?"
+      "text_referrals_help_link": "¿Cómo funciona el sistema de referidos?"
     }
   },
   "usuarios": {
@@ -875,7 +876,7 @@
     "funds": {
       "create": {
         "invalidExchangeKeys": "Las keys ingresadas no son válidas.",
-        "keysExists":"Las keys ya se encuentran registradas.",
+        "keysExists": "Las keys ya se encuentran registradas.",
         "fundNameExists": "El nombre del fondo ya existe.",
         "creatingFund": "Error al crear el fondo.",
         "creatingRun": "Error al crear la corrida.",
@@ -1009,7 +1010,7 @@
         "cameraAccessDenied": "No se pudo acceder a la cámara. Acceso denegado.",
         "noContentQR": "El código QR no tenía ningún contenido.",
         "invalidQR": "El código QR no es válido.",
-        "creatingFund":"Este Alias ya esta siendo usado"
+        "creatingFund": "Este Alias ya esta siendo usado"
       },
       "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
@@ -1066,7 +1067,11 @@
         "confirm": {
           "errorProvider": "Error al intentar guardar el comprobante en el proveedor."
         }
-        
+      },
+      "paxful": {
+        "get_link": {
+          "notOwner": "Estas API keys no te pertenecen."
+        }
       }
     }
   },
@@ -1088,22 +1093,22 @@
       "email_label": "Email",
       "email_placeholder": "myemail@example.com"
     },
-    "new_referral_page":{
-      "header":"Tus Referidos",
-      "list_title":"MIS REFERIDOS",
+    "new_referral_page": {
+      "header": "Tus Referidos",
+      "list_title": "MIS REFERIDOS",
       "points_title": "MIS PUNTOS",
-      "shared_referral_card":{
-        "title":"Invita a tus amigos a invertir compartiendo el siguiente link.",
-        "button":"Compartir"
+      "shared_referral_card": {
+        "title": "Invita a tus amigos a invertir compartiendo el siguiente link.",
+        "button": "Compartir"
       },
-      "points_card":{
+      "points_card": {
         "points_text": "puntos",
         "coming_badge": "Próximamente"
       },
-      "help_alert":{
-        "alert_title":"Sistema de Referidos",
-        "alert_message":"Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
-        "alert_button":"Entendido"
+      "help_alert": {
+        "alert_title": "Sistema de Referidos",
+        "alert_message": "Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
+        "alert_button": "Entendido"
       }
     },
     "referrals_list": {
@@ -1322,9 +1327,9 @@
       "date": "Fecha",
       "new": "Nueva"
     },
-    "select_provider":{
-      "header":"Comprar Cripto",
-      "title":"Selecciona el proveedor:"
+    "select_provider": {
+      "header": "Comprar Cripto",
+      "title": "Selecciona el proveedor:"
     },
 
     "operation_detail": {
@@ -1391,8 +1396,8 @@
       "operation": "Operación:",
       "amount": "Monto:",
       "quotation": "Cotización:",
-      "wallet_address": "Dirección de reception:",
-      "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interaccion con el proveedor.",
+      "wallet_address": "Dirección de recepción:",
+      "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
       "confirm": "Confirmar"
     },
     "fiat_success": {
@@ -1405,12 +1410,25 @@
       "info_telegram": "Por dudas o consultas, contactanos por Télegram:",
       "info_email": "El proveedor se comunicará por email conforme avance el proceso.",
       "buttonText": "Terminar"
+    },
+    "paxful": {
+      "header": "Comprar BTC con Paxful",
+      "title": "Comprar BTC con Paxful",
+      "text": "Paxful sólo te permitirá comprar BTC. Te redigiremos a su página para finalizar la compra.",
+      "label-wallet": "Seleccioná tu wallet",
+      "button-text": "Continuar a Paxful"
+    },
+    "paxful_success": {
+      "textPrimary": "Te redirigimos a la página de Paxful",
+      "textSecondary": "Completa los detalles que te soliciten para terminar la transacción",
+      "namePrimaryAction": "Ver mis operaciones",
+      "nameSecondaryAction": "Comprar más criptos"
     }
   },
-  
-  "payment":{
-    "header": "Pagar",
-    "title":"Pagar con PayPal",
+
+  "payment": {
+    "header": "Método de pago",
+    "title": "Método de pago para comenzar con el proceso",
     "paypal_button": "Pagar"
   }
 }

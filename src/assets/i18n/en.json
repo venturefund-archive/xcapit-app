@@ -19,6 +19,7 @@
   "config": {
     "form_errors": {
       "required": "The field is required",
+      "isNotInRange": "The amount is incorrect",
       "email": "The email is not correct",
       "pattern": "The field does not meet the required pattern",
       "minlength": "More characters are required",
@@ -79,7 +80,7 @@
       "text_help_link": "Need help?"
     },
     "referrals_help": {
-      "text_referrals_help_link":"How the referral system works?"
+      "text_referrals_help_link": "How the referral system works?"
     }
   },
   "usuarios": {
@@ -1006,7 +1007,7 @@
         "cameraAccessDenied": "Couldn't access the camera. Access denied.",
         "noContentQR": "The QR Code didn't had any content.",
         "invalidQR": "The QR Code is invalid.",
-        "creatingFund":"This Alias ​​is already being used"
+        "creatingFund": "This Alias ​​is already being used"
       },
       "update": {
         "invalidExchangeKeys": "The keys are not valid. Try again.",
@@ -1063,7 +1064,11 @@
         "confirm": {
           "errorProvider": "Error when trying to save the voucher in the provider."
         }
-        
+      },
+      "paxful": {
+        "get_link": {
+          "notOwner": "You do not own this API keys."
+        }
       }
     }
   },
@@ -1085,24 +1090,23 @@
       "email_label": "Email",
       "email_placeholder": "myemail@example.com"
     },
-    "new_referral_page":{
-      "header":"Your Referrals",
-      "list_title":"MY REFERRALS",
+    "new_referral_page": {
+      "header": "Your Referrals",
+      "list_title": "MY REFERRALS",
       "points_title": "MY POINTS",
-      "shared_referral_card":{
-        "title":"Invite your friends to invest by sharing the following link.",
-        "button":"Share"
+      "shared_referral_card": {
+        "title": "Invite your friends to invest by sharing the following link.",
+        "button": "Share"
       },
-      "points_card":{
+      "points_card": {
         "points_text": "points",
         "coming_badge": "Coming soon"
       },
-      "help_alert":{
-        "alert_title":"Referral System",
-        "alert_message":"Add 10 points for each referral who accepts your invitation. We are adding benefits to exchange for your earned points.",
-        "alert_button":"I understand"
+      "help_alert": {
+        "alert_title": "Referral System",
+        "alert_message": "Add 10 points for each referral who accepts your invitation. We are adding benefits to exchange for your earned points.",
+        "alert_button": "I understand"
       }
-      
     },
     "referrals_list": {
       "header": "Referrals",
@@ -1318,13 +1322,13 @@
       "date": "Date",
       "new": "New"
     },
-    
-    "select_provider":{
-      "header":"Buy Crypto",
-      "title":"Select the provider:"
+
+    "select_provider": {
+      "header": "Buy Crypto",
+      "title": "Select the provider:"
     },
-    
-      "operation_detail": {
+
+    "operation_detail": {
       "header": "Operation: #",
       "type": "Operation type:",
       "amount": "Amount:",
@@ -1388,13 +1392,25 @@
       "wallet_address": "Reception address",
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
       "confirm": "Confirm"
+    },
+    "paxful": {
+      "header": "Buy BTC with Paxful",
+      "title": "Buy BTC with Paxful",
+      "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
+      "label-wallet": "Select your wallet",
+      "button-text": "Continue to Paxful"
+    },
+    "paxful_success": {
+      "textPrimary": "We've redirect you to Paxful",
+      "textSecondary": "Fill in the details to complete the transaction",
+      "namePrimaryAction": "Go to my operations",
+      "nameSecondaryAction": "Buy more cripto"
     }
   },
 
-  "payment":{
-    "header": "Pay",
-    "title":"Pay with PayPal",
+  "payment": {
+    "header": "Payment methods",
+    "title": "Payment method to start the process",
     "paypal_button": "Pay"
   }
-
 }

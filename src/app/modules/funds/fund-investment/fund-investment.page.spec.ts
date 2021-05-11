@@ -93,7 +93,7 @@ describe('FundInvestmentPage', () => {
     spy.and.returnValue(Promise.resolve('test'));
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(2);
     done();
   });
 

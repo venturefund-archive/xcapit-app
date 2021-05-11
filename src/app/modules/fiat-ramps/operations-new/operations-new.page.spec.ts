@@ -84,6 +84,7 @@ describe('RampsMenuPage', () => {
       storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', ['updateData']);
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         getQuotations: of({}),
+        getUserWallets: of({}),
         checkUser: of({}),
         createUser: of({}),
       });
@@ -172,7 +173,7 @@ describe('RampsMenuPage', () => {
 
   it('should call getQuotations on click and valid form', () => {
     fixture.detectChanges();
-    fiatRampsServiceSpy.getQuotations.and.returnValue(of({}));
+    fiatRampsServiceSpy.getQuotations.and.returnValue(of({ data: [] }));
     component.getQuotations();
     expect(fiatRampsServiceSpy.getQuotations).toHaveBeenCalledTimes(1);
   });

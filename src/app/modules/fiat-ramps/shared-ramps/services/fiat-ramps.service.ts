@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
-  provider = '1';
+  private provider = '1';
 
   constructor(private http: CustomHttpService) {}
 
@@ -104,5 +104,13 @@ export class FiatRampsService {
       undefined,
       false
     );
+  }
+
+  getLink(apikeyId: number): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/${this.provider}/get_link`, { id_apikey: apikeyId });
+  }
+
+  setProvider(provider: string) {
+    this.provider = provider;
   }
 }
