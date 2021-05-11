@@ -19,6 +19,7 @@
   "config": {
     "form_errors": {
       "required": "El campo es requerido",
+      "isNotInRange": "El monto es incorrecto",
       "email": "El email no es correcto",
       "pattern": "El campo no cumple con el patrón requerido",
       "minlength": "Se requieren más caracteres",
@@ -1326,9 +1327,9 @@
       "date": "Fecha",
       "new": "Nueva"
     },
-    "select_provider":{
-      "header":"Comprar Cripto",
-      "title":"Selecciona el proveedor:"
+    "select_provider": {
+      "header": "Comprar Cripto",
+      "title": "Selecciona el proveedor:"
     },
 
     "operation_detail": {
@@ -1424,10 +1425,10 @@
       "nameSecondaryAction": "Comprar más criptos"
     }
   },
-  
-  "payment":{
+
+  "payment": {
     "header": "Método de pago",
-    "title":"Método de pago para comenzar con el proceso",
+    "title": "Método de pago para comenzar con el proceso",
     "paypal_button": "Pagar"
   }
 }

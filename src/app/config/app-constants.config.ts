@@ -1,129 +1,134 @@
 export const AUTH = {
   storageKey: 'jwt',
   refreshKey: 'jwt_refresh',
-  userKey: 'userLogged'
+  userKey: 'userLogged',
 };
 export const CONFIG = {
   app: {
-    defaultLanguage: 'es'
+    defaultLanguage: 'es',
   },
   loadingService: {
-    defaultMessage: 'config.loading_service.default_message'
+    defaultMessage: 'config.loading_service.default_message',
   },
   xhrResponseHandlerService: {
-    defaultMessage: 'config.xhr_response_handler_service.default_message'
+    defaultMessage: 'config.xhr_response_handler_service.default_message',
   },
   formErrors: [
     {
       name: 'required',
       text: 'config.form_errors.required',
-      rules: []
+      rules: [],
+    },
+    {
+      name: 'isNotInRange',
+      text: 'config.form_errors.isNotInRange',
+      rules: [],
     },
     {
       name: 'email',
       text: 'config.form_errors.email',
-      rules: []
+      rules: [],
     },
     {
       name: 'pattern',
       text: 'config.form_errors.pattern',
-      rules: []
+      rules: [],
     },
     {
       name: 'minlength',
       text: 'config.form_errors.minlength',
-      rules: []
+      rules: [],
     },
     {
       name: 'maxlength',
       text: 'config.form_errors.maxlength',
-      rules: []
+      rules: [],
     },
     {
       name: 'notMatching',
       text: 'config.form_errors.not_matching',
-      rules: []
+      rules: [],
     },
     {
       name: 'hasSpecialCharacter',
       text: 'config.form_errors.has_special_character',
-      rules: []
-    }
+      rules: [],
+    },
   ],
   fieldErrors: {
     cellphone: [
       {
         name: 'pattern',
         text: 'config.field_errors.cellphone.pattern',
-        rules: []
-      }
+        rules: [],
+      },
     ],
     onlyIntegers: [
       {
         name: 'pattern',
         text: 'config.field_errors.only_integers.pattern',
-        rules: []
-      }
+        rules: [],
+      },
     ],
     password: [
       {
         name: 'minlength',
         text: 'config.field_errors.password.minlength',
-        rules: []
+        rules: [],
       },
       {
         name: 'maxlength',
         text: 'config.field_errors.password.maxlength',
-        rules: []
+        rules: [],
       },
       {
         name: 'hasNumber',
         text: 'config.field_errors.password.has_number',
-        rules: []
+        rules: [],
       },
       {
         name: 'hasCapitalCase',
         text: 'config.field_errors.password.has_capital_case',
-        rules: []
+        rules: [],
       },
       {
         name: 'hasSmallCase',
         text: 'config.field_errors.password.has_small_case',
-        rules: []
-      }
+        rules: [],
+      },
     ],
     repeatPassword: [
       {
         name: 'noPasswordMatch',
         text: 'config.field_errors.repeat_password.no_password_match',
-        rules: []
-      }
+        rules: [],
+      },
     ],
     repeatUsername: [
       {
         name: 'noFieldsMatch',
         text: 'config.field_errors.repeat_username.no_fields_match',
-        rules: []
-      }
+        rules: [],
+      },
     ],
     username: [
       {
         name: 'minlength',
         text: 'config.field_errors.username.minlength',
-        rules: []
+        rules: [],
       },
       {
         name: 'maxlength',
         text: 'config.field_errors.username.maxlength',
-        rules: []
-      }
-    ]
+        rules: [],
+      },
+    ],
   },
   operationHistoryDates: {
     since: 'since',
-    until: 'until'
+    until: 'until',
   },
   chartRangeValues: {
-    selected: 'selected'
-  }
+    selected: 'selected',
+  },
 };
