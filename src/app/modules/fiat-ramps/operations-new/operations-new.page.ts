@@ -8,6 +8,8 @@ import { Buy } from '../enums/buy.enum';
 import { Sell } from '../enums/sell.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 
 @Component({
   selector: 'app-operations-new',
@@ -126,20 +128,24 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
                 {{ 'fiat_ramps.ramp_initial.amount' | translate }}
               </div>
             </app-ux-text>
-
-            <div class="ux-card">
-              <div class="ux-card__amount">
-                <!-- monto -->
-                <ion-input
-                  class="ux-card__amount__amount"
-                  formControlName="amount_in"
-                  type="text"
-                  placeholder="{{ 'fiat_ramps.ramp_initial.amount_ars' | translate }} {{
-                    this.form.value['moneda_entrada']
-                  }}"
-                  (keyup)="this.setOutAmount()"
-                >
-                </ion-input>
+            <div class="ux-card__amount__mount-and-validator">
+              <div class="ux-card">
+                <div class="ux-card__amount">
+                  <!-- monto -->
+                  <ion-input
+                    class="ux-card__amount__amount"
+                    formControlName="amount_in"
+                    type="text"
+                    placeholder="{{ 'fiat_ramps.ramp_initial.amount_ars' | translate }} {{
+                      this.form.value['moneda_entrada']
+                    }}"
+                    (keyup)="this.setOutAmount()"
+                  >
+                  </ion-input>
+                  <div class="ux-card__amount__validator">
+                    <app-errors-form-item [controlName]="'amount_in'"> </app-errors-form-item>
+                  </div>
+                </div>
 
                 <div class="ux-card__amount__info">
                   <div>
@@ -161,11 +167,8 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             </div>
 
             <!-- wallet -->
-            <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-14"
-              color="uxsemidark"
-              >
-                {{'fiat_ramps.ramp_initial.wallet' | translate}}
+            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">
+              {{ 'fiat_ramps.ramp_initial.wallet' | translate }}
             </ion-text>
             <app-ux-loading-block *ngIf="!(this.walletAddress.length > 0)" minSize="30px"></app-ux-loading-block>
             <app-ux-input-select
@@ -199,7 +202,16 @@ export class OperationsNewPage implements OnInit {
     par: ['', [Validators.required]],
     currency_in: [null, [Validators.required]],
     currency_out: ['', [Validators.required]],
-    amount_in: ['', [Validators.required]],
+    amount_in: [
+      '',
+      [
+        Validators.required,
+        CustomValidators.patternValidator(
+          /^([2-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-1][0-9][0-9][0-9][0-9][0-9]|200000)$/,
+          CustomValidatorErrors.isNotInRange
+        ),
+      ],
+    ],
     amount_out: [null, [Validators.required]],
     wallet: ['', [Validators.required]],
     price_in: [null, [Validators.required]],
