@@ -128,11 +128,12 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
                 {{ 'fiat_ramps.ramp_initial.amount' | translate }}
               </div>
             </app-ux-text>
-            <div class="ux-card__amount__mount-and-validator">
-              <div class="ux-card">
-                <div class="ux-card__amount">
-                  <!-- monto -->
+            <div class="ux-card">
+              <div class="ux-card__amount">
+                <!-- monto -->
+                <div class="ux-card__amount__mount-and-validator">
                   <ion-input
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                     class="ux-card__amount__amount"
                     formControlName="amount_in"
                     type="text"
@@ -146,7 +147,6 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
                     <app-errors-form-item [controlName]="'amount_in'"> </app-errors-form-item>
                   </div>
                 </div>
-
                 <div class="ux-card__amount__info">
                   <div>
                     {{ 'fiat_ramps.ramp_initial.amount_min' | translate }}
@@ -158,7 +158,6 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
                   </div>
                 </div>
               </div>
-
               <!-- precio seleccionado -->
               <app-ux-loading-block *ngIf="!this.changePrice" minSize="30px"></app-ux-loading-block>
               <div class="ux-card__price" *ngIf="this.changePrice">
@@ -207,7 +206,7 @@ export class OperationsNewPage implements OnInit {
       [
         Validators.required,
         CustomValidators.patternValidator(
-          /^([2-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-1][0-9][0-9][0-9][0-9][0-9]|200000)$/,
+          /^([2-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-1][0-9][0-9][0-9][0-9][0-9]|2[0-4][0-9][0-9][0-9][0-9]|250000)$/,
           CustomValidatorErrors.isNotInRange
         ),
       ],
