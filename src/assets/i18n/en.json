@@ -1315,25 +1315,27 @@
     "operations_list": {
       "header": "Buy/Sell cryptos",
       "title": "My operations",
+      "id": "ID",
       "operation": "Operation",
       "amount": "Amount",
       "status": "Status",
       "date": "Date",
       "new": "New"
     },
-    
-    "select_provider":{
-      "header":"Buy Crypto",
-      "title":"Select the provider:"
+
+    "select_provider": {
+      "header": "Buy Crypto",
+      "title": "Select the provider:"
     },
-    
-      "operation_detail": {
-      "header": "Operation: #",
+
+    "operation_detail": {
+      "header": "Operation detail",
       "type": "Operation type:",
       "amount": "Amount:",
       "quotation": "Quotation:",
       "status": "Status:",
       "date": "Date:",
+      "id": "Operation id:",
       "voucher": "Voucher",
       "send": "Send voucher"
     },
@@ -1407,10 +1409,9 @@
     }
   },
 
-  "payment":{
+  "payment": {
     "header": "Payment methods",
-    "title":"Payment method to start the process",
+    "title": "Payment method to start the process",
     "paypal_button": "Pay"
   }
-
 }

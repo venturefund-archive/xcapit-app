@@ -38,7 +38,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
         <ion-list>
           <ion-item class="table-header ux-font-lato ux-fweight-regular ux-fsize-11">
             <ion-label class="table-header__first-item">
-              {{ '#' }}
+              {{ 'fiat_ramps.operations_list.id' | translate }}
             </ion-label>
             <ion-label class="table-header__second-item">
               {{ 'fiat_ramps.operations_list.operation' | translate }}
