@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class LocalStorageService implements OnInit {
-  hideFunds: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  hideFunds: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   constructor(private storage: Storage) {}
 
   async ngOnInit() {
