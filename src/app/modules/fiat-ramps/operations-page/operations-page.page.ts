@@ -47,6 +47,9 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
               {{ 'fiat_ramps.operations_list.amount' | translate }}
             </ion-label>
             <ion-label class="">
+              {{ 'fiat_ramps.operations_list.provider' | translate }}
+            </ion-label>
+            <ion-label class="">
               {{ 'fiat_ramps.operations_list.status' | translate }}
             </ion-label>
             <ion-label class="">
@@ -56,16 +59,19 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
           <div class="container" *ngFor="let op of this.operationsList; let last = last">
             <ion-item
               class="table-header ux-font-lato ux-fweight-regular ux-fsize-12"
-              (click)="viewOperationDetail(op.id)"
+              (click)="viewOperationDetail(op)"
             >
               <ion-text class="table-header__first-item ux-fweight-semibold">
                 {{ op.id }}
               </ion-text>
               <ion-text class="table-header__second-item ux-fweight-semibold">
-                {{ op.currency_in }} -> {{ op.currency_out }}
+                {{ op.currency_in }} → {{ op.currency_out }}
               </ion-text>
               <ion-text class="ux-fweight-semibold">
                 {{ op.amount_in }}
+              </ion-text>
+              <ion-text class="ux-fweight-semibold">
+                <img [src]="op.provider.logoRoute" alt="{{ op.provider.name }}" />
               </ion-text>
               <ion-text class="ux-fweight-semibold">
                 {{ op.status.replaceAll('_', ' ') }}
@@ -83,26 +89,69 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
   styleUrls: ['./operations-page.page.scss'],
 })
 export class OperationsPagePage implements OnInit {
-  operationsList: [] = [];
+  operationsList: any[];
+  providers = [
+    {
+      alias: '1',
+      name: 'KriptonMarket',
+      logoRoute: '../../assets/img/providers/id1.svg',
+    },
+    {
+      alias: 'paxful',
+      name: 'Paxful',
+      logoRoute: '../../assets/img/providers/id2.svg',
+    },
+  ];
 
   constructor(private navController: NavController, private fiatRampsService: FiatRampsService) {}
 
-  ionViewWillEnter() {
-    this.getOperationsList();
+  async ionViewWillEnter() {
+    await this.getOperationsList();
+    this.sortList();
   }
 
   ngOnInit() {}
 
   async getOperationsList() {
+    this.operationsList = [];
+    await this.providers.forEach(async (provider) => this.getOperationsFor(provider));
+    this.fiatRampsService.setProvider('1');
+  }
+
+  async getOperationsFor(provider) {
+    this.fiatRampsService.setProvider(provider.alias);
+    let operations;
+
     this.fiatRampsService.getUserOperations().subscribe((data) => {
-      this.operationsList =
-        data.constructor === Object && Object.keys(data).length === 0
-          ? []
-          : data.sort((a, b) => (a.id < b.id ? 1 : b.id < a.id ? -1 : 0));
+      operations = data.constructor === Object && Object.keys(data).length === 0 ? [] : data;
+
+      operations.forEach((op) => (op.provider = provider));
+
+      this.operationsList = [...this.operationsList, ...operations];
     });
   }
 
-  viewOperationDetail(id) {
-    this.navController.navigateForward(['fiat-ramps/operations-detail', id]);
+  sortList() {
+    if (this.operationsList.length > 0) {
+      this.operationsList.sort((a, b) => (a.id < b.id ? 1 : b.id < a.id ? -1 : 0));
+    }
+  }
+
+  viewOperationDetail(operation) {
+    let route: string;
+
+    switch (operation.provider.alias) {
+      case '1':
+        route = 'fiat-ramps/operations-detail';
+        break;
+      case 'paxful':
+        route = 'fiat-ramps/operations-detail-paxful';
+        break;
+      default:
+        route = 'fiat-ramps/operations';
+        break;
+    }
+
+    this.navController.navigateForward([route, operation.id]);
   }
 }
