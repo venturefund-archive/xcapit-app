@@ -1,6 +1,9 @@
 import UIKit
 import Capacitor
-import Firebase
+import FirebaseCore
+import FirebaseMessaging
+import FirebaseInstanceID
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -77,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     NotificationCenter.default.post(name: Notification.Name(CAPNotifications.DidFailToRegisterForRemoteNotificationsWithError.name()), object: error)
   }
 
-#endif
+  #endif
 
 }
 
