@@ -1321,6 +1321,7 @@
     "operations_list": {
       "header": "Comprar/Vender cryptos",
       "title": "Mis operaciones",
+      "id": "ID",
       "operation": "Operación",
       "amount": "Monto",
       "status": "Estado",
@@ -1333,12 +1334,13 @@
     },
 
     "operation_detail": {
-      "header": "Operación: #",
+      "header": "Detalle de la operación",
       "type": "Tipo de operación:",
       "amount": "Monto:",
       "quotation": "Cotización:",
       "status": "Estado:",
       "date": "Fecha:",
+      "id": "Id de la operación:",
       "voucher": "Comprobante",
       "send": "Enviar comprobante"
     },

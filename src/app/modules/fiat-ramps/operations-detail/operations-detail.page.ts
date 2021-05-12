@@ -15,7 +15,6 @@ import { NavController } from '@ionic/angular';
         </ion-buttons>
         <ion-title class="ion-text-center">
           {{ 'fiat_ramps.operation_detail.header' | translate }}
-          <span *ngIf="this.operation">{{ this.operation.id }}</span>
         </ion-title>
       </ion-toolbar>
     </ion-header>
@@ -29,21 +28,21 @@ import { NavController } from '@ionic/angular';
 
       <div *ngIf="this.operation">
         <div class="dp__content">
-          <app-ux-text>
-            <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.type' | translate }} </span>
-            <span *ngIf="this.operation"> {{ this.operation.currency_in }} -> {{ this.operation.currency_out }} </span>
-          </app-ux-text>
+          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+            <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.type' | translate }} </span>
+            <span *ngIf="this.operation"> {{ this.operation.currency_in }} → {{ this.operation.currency_out }} </span>
+          </ion-text>
 
-          <app-ux-text>
+          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
             <div>
-              <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.amount' | translate }} </span>
+              <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.amount' | translate }} </span>
               <span *ngIf="this.operation">{{ this.operation.amount_in }}</span>
             </div>
-          </app-ux-text>
+          </ion-text>
 
-          <app-ux-text>
+          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
             <div *ngIf="this.operation">
-              <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.quotation' | translate }} </span>
+              <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.quotation' | translate }} </span>
               <span *ngIf="this.operation.currency_in === 'ARS' || this.operation.currency_in === 'USD'">
                 1 {{ this.operation.currency_out }} = {{ this.cotizacion }} {{ this.operation.currency_in }}
               </span>
@@ -51,21 +50,28 @@ import { NavController } from '@ionic/angular';
                 1 {{ this.operation.currency_in }} = {{ this.cotizacion }} {{ this.operation.currency_out }}
               </span>
             </div>
-          </app-ux-text>
+          </ion-text>
 
-          <app-ux-text>
+          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
             <div>
-              <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.status' | translate }} </span>
+              <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.status' | translate }} </span>
               <span *ngIf="this.operation">{{ this.operation.status }}</span>
             </div>
-          </app-ux-text>
+          </ion-text>
 
-          <app-ux-text>
+          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
             <div>
-              <span class="dp__content__title"> {{ 'fiat_ramps.operation_detail.date' | translate }} </span>
+              <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.date' | translate }} </span>
               <span *ngIf="this.operation">{{ this.operation.created_at | date }}</span>
             </div>
-          </app-ux-text>
+          </ion-text>
+
+          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+            <div>
+              <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.id' | translate }} </span>
+              <span *ngIf="this.operation">{{ this.operation.id }}</span>
+            </div>
+          </ion-text>
         </div>
 
         <div *ngIf="!this.hasVoucher">
