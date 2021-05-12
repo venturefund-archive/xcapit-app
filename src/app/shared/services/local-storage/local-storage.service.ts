@@ -8,10 +8,10 @@ export class LocalStorageService {
   hideFunds: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private storage: Storage) {
-    this.setInitilValue();
+    this.setInitialValue();
   }
 
-  async setInitilValue() {
+  async setInitialValue() {
     this.hideFunds.next(await this.getHideFunds());
   }
 
