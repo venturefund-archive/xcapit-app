@@ -1317,17 +1317,18 @@
       "title": "My operations",
       "operation": "Operation",
       "amount": "Amount",
+      "provider": "Provider",
       "status": "Status",
       "date": "Date",
       "new": "New"
     },
-    
-    "select_provider":{
-      "header":"Buy Crypto",
-      "title":"Select the provider:"
+
+    "select_provider": {
+      "header": "Buy Crypto",
+      "title": "Select the provider:"
     },
-    
-      "operation_detail": {
+
+    "operation_detail": {
       "header": "Operation: #",
       "type": "Operation type:",
       "amount": "Amount:",
@@ -1407,10 +1408,9 @@
     }
   },
 
-  "payment":{
+  "payment": {
     "header": "Payment methods",
-    "title":"Payment method to start the process",
+    "title": "Payment method to start the process",
     "paypal_button": "Pay"
   }
-
 }

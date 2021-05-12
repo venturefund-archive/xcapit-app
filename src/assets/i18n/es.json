@@ -1322,13 +1322,14 @@
       "title": "Mis operaciones",
       "operation": "Operación",
       "amount": "Monto",
+      "provider": "Proveedor",
       "status": "Estado",
       "date": "Fecha",
       "new": "Nueva"
     },
-    "select_provider":{
-      "header":"Comprar Cripto",
-      "title":"Selecciona el proveedor:"
+    "select_provider": {
+      "header": "Comprar Cripto",
+      "title": "Selecciona el proveedor:"
     },
 
     "operation_detail": {
@@ -1424,10 +1425,10 @@
       "nameSecondaryAction": "Comprar más criptos"
     }
   },
-  
-  "payment":{
+
+  "payment": {
     "header": "Método de pago",
-    "title":"Método de pago para comenzar con el proceso",
+    "title": "Método de pago para comenzar con el proceso",
     "paypal_button": "Pagar"
   }
 }

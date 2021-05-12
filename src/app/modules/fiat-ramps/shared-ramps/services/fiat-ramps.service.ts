@@ -72,7 +72,7 @@ export class FiatRampsService {
 
   getUserOperations(): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/${this.provider}/get_all_operations`,
+      `${environment.apiUrl}/${this.entity}/provider/get_all_operations`,
       undefined,
       undefined,
       true
@@ -81,7 +81,7 @@ export class FiatRampsService {
 
   getUserSingleOperation(operationId): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
+      `${environment.apiUrl}/${this.entity}/provider/get_user_operation/${operationId}`,
       undefined,
       undefined,
       true

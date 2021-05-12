@@ -28,23 +28,23 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
     </ion-header>
 
     <ion-content class="ion-padding">
-      <app-ux-title class="ion-padding-top ion-margin-top">
+      <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22 ios hydrated ion-padding-top ion-margin-top">
         <div class="ion-margin-top">
           {{ 'fiat_ramps.operations_list.title' | translate }}
         </div>
-      </app-ux-title>
+      </ion-text>
 
       <app-ux-list-inverted>
         <ion-list>
           <ion-item class="table-header ux-font-lato ux-fweight-regular ux-fsize-11">
-            <ion-label class="table-header__first-item">
-              {{ '#' }}
-            </ion-label>
             <ion-label class="table-header__second-item">
               {{ 'fiat_ramps.operations_list.operation' | translate }}
             </ion-label>
             <ion-label class="">
               {{ 'fiat_ramps.operations_list.amount' | translate }}
+            </ion-label>
+            <ion-label class="">
+              {{ 'fiat_ramps.operations_list.provider' | translate }}
             </ion-label>
             <ion-label class="">
               {{ 'fiat_ramps.operations_list.status' | translate }}
@@ -56,16 +56,16 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
           <div class="container" *ngFor="let op of this.operationsList; let last = last">
             <ion-item
               class="table-header ux-font-lato ux-fweight-regular ux-fsize-12"
-              (click)="viewOperationDetail(op.id)"
+              (click)="viewOperationDetail(op)"
             >
-              <ion-text class="table-header__first-item ux-fweight-semibold">
-                {{ op.id }}
-              </ion-text>
               <ion-text class="table-header__second-item ux-fweight-semibold">
-                {{ op.currency_in }} -> {{ op.currency_out }}
+                {{ op.currency_in }} → {{ op.currency_out }}
               </ion-text>
               <ion-text class="ux-fweight-semibold">
                 {{ op.amount_in }}
+              </ion-text>
+              <ion-text class="ux-fweight-semibold">
+                <img [src]="op.provider.logoRoute" alt="{{ op.provider.name }}" />
               </ion-text>
               <ion-text class="ux-fweight-semibold">
                 {{ op.status.replaceAll('_', ' ') }}
@@ -83,7 +83,19 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
   styleUrls: ['./operations-page.page.scss'],
 })
 export class OperationsPagePage implements OnInit {
-  operationsList: [] = [];
+  operationsList: any[];
+  providers = [
+    {
+      alias: '1',
+      name: 'KriptonMarket',
+      logoRoute: '../../assets/img/providers/id1.svg',
+    },
+    {
+      alias: 'paxful',
+      name: 'Paxful',
+      logoRoute: '../../assets/img/providers/id2.svg',
+    },
+  ];
 
   constructor(private navController: NavController, private fiatRampsService: FiatRampsService) {}
 
@@ -98,11 +110,28 @@ export class OperationsPagePage implements OnInit {
       this.operationsList =
         data.constructor === Object && Object.keys(data).length === 0
           ? []
-          : data.sort((a, b) => (a.id < b.id ? 1 : b.id < a.id ? -1 : 0));
+          : data
+              .sort((a, b) => (a.created_at < b.created_at ? 1 : b.created_at < a.created_at ? -1 : 0))
+              .map((operation) => {
+                operation.provider =
+                  this.providers.find((provider) => provider.alias === operation.provider) || this.providers[0];
+                return operation;
+              });
     });
   }
 
-  viewOperationDetail(id) {
-    this.navController.navigateForward(['fiat-ramps/operations-detail', id]);
+  viewOperationDetail(operation) {
+    let route: string;
+
+    switch (operation.provider.alias) {
+      case this.providers[0].alias:
+        route = 'fiat-ramps/operations-detail';
+        this.navController.navigateForward([route, operation.id]);
+        break;
+      case this.providers[1].alias:
+        route = 'fiat-ramps/operations-detail-paxful';
+        this.navController.navigateForward([route, operation.id]);
+        break;
+    }
   }
 }
