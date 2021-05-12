@@ -1,14 +1,17 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class LocalStorageService implements OnInit {
+export class LocalStorageService {
   hideFunds: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  constructor(private storage: Storage) {}
 
-  async ngOnInit() {
+  constructor(private storage: Storage) {
+    this.setInitilValue();
+  }
+
+  async setInitilValue() {
     this.hideFunds.next(await this.getHideFunds());
   }
 
