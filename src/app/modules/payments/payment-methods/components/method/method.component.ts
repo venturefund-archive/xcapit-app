@@ -5,7 +5,7 @@ const { Browser } = Plugins;
 @Component({
   selector: 'app-method',
   template: `
-    <div class="mc">
+    <div class="mc" (click)="openLink()">
       <div class="mc__content">
         <div class="mc__content__both">
           <div class="mc__content__img">
