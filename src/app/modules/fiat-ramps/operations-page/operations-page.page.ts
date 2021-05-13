@@ -45,13 +45,13 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
               {{ 'fiat_ramps.operations_list.amount' | translate }}
             </ion-label>
             <ion-label class="">
-              {{ 'fiat_ramps.operations_list.provider' | translate }}
-            </ion-label>
-            <ion-label class="">
               {{ 'fiat_ramps.operations_list.status' | translate }}
             </ion-label>
             <ion-label class="">
               {{ 'fiat_ramps.operations_list.date' | translate }}
+            </ion-label>
+            <ion-label class="">
+              {{ 'fiat_ramps.operations_list.provider' | translate }}
             </ion-label>
           </ion-item>
           <div class="container" *ngFor="let op of this.operationsList; let last = last">
@@ -59,20 +59,23 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
               class="table-header ux-font-lato ux-fweight-regular ux-fsize-12"
               (click)="viewOperationDetail(op)"
             >
-              <ion-text class="table-header__second-item ux-fweight-semibold">
+              <ion-text class="table-header__second-item ux-fweight-semibold ux-fsize-10">
                 {{ op.currency_in }} → {{ op.currency_out }}
               </ion-text>
+              <ion-text class="ux-fweight-semibold" *ngIf="op.operation_type === 'cash-in'">
+                {{ op.amount_in | currency }}
+              </ion-text>
+              <ion-text class="ux-fweight-semibold" *ngIf="op.operation_type === 'cash-out'">
+                {{ op.amount_out | currency }}
+              </ion-text>
               <ion-text class="ux-fweight-semibold">
-                {{ op.amount_in }}
+                <img [src]="op.status.logoRoute" alt="{{ op.status.name }}" />
+              </ion-text>
+              <ion-text class="ux-fweight-semibold">
+                {{ op.created_at | date: 'dd/MM/yy' }}
               </ion-text>
               <ion-text class="ux-fweight-semibold">
                 <img [src]="op.provider.logoRoute" alt="{{ op.provider.name }}" />
-              </ion-text>
-              <ion-text class="ux-fweight-semibold">
-                {{ op.status.replaceAll('_', ' ') }}
-              </ion-text>
-              <ion-text class="ux-fweight-semibold">
-                {{ op.created_at | date }}
               </ion-text>
             </ion-item>
             <div class="list-divider" *ngIf="!last"></div>
@@ -103,13 +106,65 @@ export class OperationsPagePage implements OnInit {
           : data
               .sort((a, b) => (a.created_at < b.created_at ? 1 : b.created_at < a.created_at ? -1 : 0))
               .map((operation) => {
-                operation.provider = this.providers.find((provider) => provider.alias === operation.provider);
+                operation.provider = this.getProvider(operation.provider);
+                operation.status = this.getStatus(operation.status, operation.provider.id);
                 return operation;
               });
     });
   }
 
+  getProvider(providerId: string) {
+    return this.providers.find((provider) => provider.id.toString() === providerId);
+  }
+
+  getStatus(statusName: string, providerId: number) {
+    let status = {
+      name: statusName,
+      logoRoute: '../../../assets/img/fiat-ramps/operation-status/',
+    };
+
+    switch (providerId) {
+      case 1:
+        // KriptonMarket
+        switch (statusName) {
+          case 'complete':
+            status.logoRoute += 'ok.svg';
+            break;
+
+          case 'cancel':
+            status.logoRoute += 'error.svg';
+            break;
+
+          case 'pending_by_validate':
+          case 'request':
+          case 'received':
+          case 'wait':
+          default:
+            status.logoRoute += 'processing.svg';
+        }
+        break;
+      case 2:
+        // Paxful
+        switch (statusName) {
+          case 'SUCCESSFULL':
+            status.logoRoute += 'ok.svg';
+            break;
+
+          case 'EXPIRED':
+          case 'CANCELED':
+            status.logoRoute += 'error.svg';
+            break;
+
+          default:
+            status.logoRoute += 'processing.svg';
+        }
+        break;
+    }
+
+    return status;
+  }
+
   viewOperationDetail(operation) {
-    this.navController.navigateForward(['fiat-ramps/operations-detail', operation.id]);
+    this.navController.navigateForward(['fiat-ramps/operations-detail', operation.operation_id]);
   }
 }

@@ -10,43 +10,118 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { PROVIDERS } from '../shared-ramps/constants/providers';
 
 const operations = [
   {
-    id: 34,
+    operation_id: 1,
+    operation_type: 'cash-in',
+    status: 'pending_by_validate',
     currency_in: 'ARS',
-    currency_out: 'USDT',
-    provider: '1',
     amount_in: 550.0,
-    status: 'pending_by_validate',
-    created_at: '05/04/20',
-  },
-  {
-    id: 23,
-    currency_in: 'ARS',
-    currency_out: 'BTC',
-    provider: 'paxful',
-    amount_in: 1000.0,
-    status: 'pending_by_validate',
-    created_at: '04/05/20',
-  },
-  {
-    id: 5,
-    currency_in: 'ARS',
-    currency_out: 'BTC',
+    currency_out: 'USDT',
+    amount_out: 155.99,
+    created_at: '2021-03-31T01:09:16.719Z',
     provider: '1',
-    amount_in: 1000.0,
-    status: 'pending_by_validate',
-    created_at: '01/22/20',
   },
   {
-    id: 55,
+    operation_id: 34,
+    operation_type: 'cash-in',
+    status: 'request',
     currency_in: 'ARS',
+    amount_in: 550.0,
+    currency_out: 'ETH',
+    amount_out: 155.99,
+    created_at: '2021-03-09T14:51:47.719Z',
+    provider: '1',
+  },
+  {
+    operation_id: 4,
+    operation_type: 'cash-in',
+    status: 'SUCCESSFULL',
+    currency_in: 'ARS',
+    amount_in: 550.0,
     currency_out: 'BTC',
-    provider: 'paxful',
-    amount_in: 1000.0,
-    status: 'pending_by_validate',
-    created_at: '05/02/20',
+    amount_out: 155.99,
+    created_at: '2021-04-09T01:15:49.719Z',
+    provider: '2',
+  },
+  {
+    operation_id: 713,
+    operation_type: 'cash-out',
+    status: 'received',
+    currency_in: 'USDT',
+    amount_in: 155.99,
+    currency_out: 'ARS',
+    amount_out: 550.0,
+    created_at: '2021-04-20T01:24:28.719Z',
+    provider: '1',
+  },
+  {
+    operation_id: 23,
+    operation_type: 'cash-out',
+    status: 'wait',
+    currency_in: 'ETH',
+    amount_in: 155.99,
+    currency_out: 'ARS',
+    amount_out: 550.0,
+    created_at: '2021-04-08T04:07:19.719Z',
+    provider: '1',
+  },
+  {
+    operation_id: 65,
+    operation_type: 'cash-out',
+    status: 'EXPIRED',
+    currency_in: 'BTC',
+    amount_in: 125.3,
+    currency_out: 'ARS',
+    amount_out: 1550.0,
+    created_at: '2021-03-20T17:53:18.719Z',
+    provider: '2',
+  },
+  {
+    operation_id: 3,
+    operation_type: 'cash-in',
+    status: 'CANCELED',
+    currency_in: 'ARS',
+    amount_in: 550.0,
+    currency_out: 'BTC',
+    amount_out: 155.99,
+    created_at: '2021-03-03T17:46:13.719Z',
+    provider: '2',
+  },
+  {
+    operation_id: 3,
+    operation_type: 'cash-in',
+    status: 'SUCCESSFULL',
+    currency_in: 'ARS',
+    amount_in: 500.0,
+    currency_out: 'BTC',
+    amount_out: 15.99,
+    created_at: '2021-03-03T17:59:13.719Z',
+    provider: '2',
+  },
+  {
+    operation_id: 2,
+    operation_type: 'cash-in',
+    status: 'complete',
+    currency_in: 'ARS',
+    amount_in: 150.0,
+    currency_out: 'USDT',
+    amount_out: 155.99,
+    created_at: '2021-02-13T14:46:24.719Z',
+    provider: '1',
+  },
+  {
+    operation_id: 678,
+    operation_type: 'cash-in',
+    status: 'cancel',
+    currency_in: 'ARS',
+    amount_in: 500.0,
+    currency_out: 'USDT',
+    amount_out: 155.99,
+    created_at: '2021-02-27T10:02:49.719Z',
+    provider: '1',
   },
 ];
 
@@ -60,7 +135,7 @@ fdescribe('OperationsPagePage', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-        getUserOperations: of({}),
+        getUserOperations: of([]),
       });
 
       TestBed.configureTestingModule({
@@ -81,69 +156,63 @@ fdescribe('OperationsPagePage', () => {
           { provide: NavController, useValue: navControllerSpy },
         ],
       }).compileComponents();
+
+      fixture = TestBed.createComponent(OperationsPagePage);
+      component = fixture.componentInstance;
+      component.operationsList = [];
+      fixture.detectChanges();
     })
   );
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(OperationsPagePage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => {});
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getUserOperations on ionViewWillEnter', async (done) => {
-    fiatRampsServiceSpy.getUserOperations.and.returnValue(of({}));
+  it('should call getUserOperations on ionViewWillEnter', async () => {
+    fiatRampsServiceSpy.getUserOperations.and.returnValue(of([]));
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(1);
     });
-    done();
   });
 
-  it('should sort operations by date on ionViewWillEnter', async (done) => {
-    const expectedOrder = ['05/04/20', '05/02/20', '04/05/20', '01/22/20'];
-    fiatRampsServiceSpy.getUserOperations.and.returnValue(of(operations));
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      const actualOrder = component.operationsList.map((operation) => operation.created_at);
-      expect(actualOrder).toEqual(expectedOrder);
-    });
-    done();
-  });
-
-  it('should add alias, name and logoRoute to providers on ionViewWillEnter', async (done) => {
-    const expectedProperties = ['alias', 'name', 'logoRoute'].sort();
+  it('should sort operations by date on getOperationsList', async () => {
+    const spy = spyOn(Array.prototype, 'sort');
     fiatRampsServiceSpy.getUserOperations.and.returnValue(of([operations[0]]));
-    component.ionViewWillEnter();
+    component.getOperationsList();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      const actualProperties = Object.keys(component.operationsList[0].provider).sort();
-      expect(actualProperties).toEqual(expectedProperties);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
-    done();
   });
 
   [
     {
-      provider: '1',
-      route: 'fiat-ramps/operations-detail',
+      provider: PROVIDERS[0],
+      testOperation: operations[0],
     },
     {
-      provider: 'paxful',
-      route: 'fiat-ramps/operations-detail-paxful',
+      provider: PROVIDERS[1],
+      testOperation: operations[2],
     },
   ].forEach((p) => {
-    describe(`when provider is ${p.provider}`, () => {
-      it(`should redirect to ${p.route}`, () => {
-        const operation = { id: 1, provider: { alias: p.provider } };
-        component.viewOperationDetail(operation);
-        expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([p.route, operation.id]);
+    describe(`when provider is ${p.provider.name}`, () => {
+      it(`should change operation.provider on getOperationsList`, async () => {
+        fiatRampsServiceSpy.getUserOperations.and.returnValue(of([p.testOperation]));
+        component.getOperationsList();
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(component.operationsList[0].provider).toEqual(p.provider);
+        });
       });
+      // it(`should redirect to ${p.route}`, () => {
+      //   const operation = { id: 1, provider: { alias: p.provider } };
+      //   component.viewOperationDetail(operation);
+      //   expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([p.route, operation.id]);
+      // });
     });
   });
 });
