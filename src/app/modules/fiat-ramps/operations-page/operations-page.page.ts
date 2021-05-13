@@ -118,7 +118,7 @@ export class OperationsPagePage implements OnInit {
   }
 
   getStatus(statusName: string, providerId: number) {
-    let status = {
+    const status = {
       name: statusName,
       logoRoute: '../../../assets/img/fiat-ramps/operation-status/',
     };
