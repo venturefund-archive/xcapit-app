@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
 @Component({
@@ -84,18 +85,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 })
 export class OperationsPagePage implements OnInit {
   operationsList: any[];
-  providers = [
-    {
-      alias: '1',
-      name: 'KriptonMarket',
-      logoRoute: '../../assets/img/providers/id1.svg',
-    },
-    {
-      alias: 'paxful',
-      name: 'Paxful',
-      logoRoute: '../../assets/img/providers/id2.svg',
-    },
-  ];
+  providers = PROVIDERS;
 
   constructor(private navController: NavController, private fiatRampsService: FiatRampsService) {}
 
@@ -113,25 +103,13 @@ export class OperationsPagePage implements OnInit {
           : data
               .sort((a, b) => (a.created_at < b.created_at ? 1 : b.created_at < a.created_at ? -1 : 0))
               .map((operation) => {
-                operation.provider =
-                  this.providers.find((provider) => provider.alias === operation.provider) || this.providers[0];
+                operation.provider = this.providers.find((provider) => provider.alias === operation.provider);
                 return operation;
               });
     });
   }
 
   viewOperationDetail(operation) {
-    let route: string;
-
-    switch (operation.provider.alias) {
-      case this.providers[0].alias:
-        route = 'fiat-ramps/operations-detail';
-        this.navController.navigateForward([route, operation.id]);
-        break;
-      case this.providers[1].alias:
-        route = 'fiat-ramps/operations-detail-paxful';
-        this.navController.navigateForward([route, operation.id]);
-        break;
-    }
+    this.navController.navigateForward(['fiat-ramps/operations-detail', operation.id]);
   }
 }
