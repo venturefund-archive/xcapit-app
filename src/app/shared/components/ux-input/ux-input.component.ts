@@ -32,7 +32,7 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
           class="ux_input_container__item__eye_icon"
           (click)="this.togglePasswordMode()"
         >
-          <ion-icon [name]="this.typeSetted === 'text' ? 'eye-off' : 'eye'"></ion-icon>
+          <ion-icon [name]="this.typeSetted === 'text' ? 'eye' : 'eye-off'"></ion-icon>
         </button>
       </ion-item>
       <app-errors-form-item
