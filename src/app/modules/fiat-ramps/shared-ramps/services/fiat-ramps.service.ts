@@ -71,12 +71,7 @@ export class FiatRampsService {
   }
 
   getUserOperations(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/provider/get_all_operations`,
-      undefined,
-      undefined,
-      true
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
 
   getUserSingleOperation(operationId): Observable<any> {

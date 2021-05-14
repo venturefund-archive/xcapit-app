@@ -4,6 +4,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { PROVIDERS } from '../shared-ramps/constants/providers';
 
 @Component({
   selector: 'app-operations-detail',
@@ -123,21 +124,29 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./operations-detail.page.scss'],
 })
 export class OperationsDetailPage implements OnInit {
+  providers = PROVIDERS;
   comprobante = null;
   operation: any = null;
   cotizacion: any = 0;
   operationId: string;
+  provider: any;
   hasVoucher: any = false;
   loading = false;
 
   ionViewWillEnter() {
-    this.operationId = this.route.snapshot.paramMap.get('id');
+    this.operationId = this.route.snapshot.paramMap.get('operation_id');
+    const providerId = this.route.snapshot.paramMap.get('provider_id');
+    this.provider = this.getProvider(providerId);
     this.getUserOperation();
+  }
+
+  getProvider(providerId: string) {
+    return this.providers.find((provider) => provider.id.toString() === providerId);
   }
 
   constructor(
     private route: ActivatedRoute,
-    private apiRamps: FiatRampsService,
+    private fiatRampsService: FiatRampsService,
     private navController: NavController
   ) {}
 
@@ -159,7 +168,8 @@ export class OperationsDetailPage implements OnInit {
   }
 
   async getUserOperation() {
-    this.apiRamps.getUserSingleOperation(this.operationId).subscribe({
+    this.fiatRampsService.setProvider(this.provider.alias);
+    this.fiatRampsService.getUserSingleOperation(this.operationId).subscribe({
       next: (data) => {
         this.operation = data;
         this.operation.status = this.operation.status.replaceAll('_', ' ');
@@ -186,7 +196,7 @@ export class OperationsDetailPage implements OnInit {
     this.loading = true;
     const formData = new FormData();
     formData.append('file', this.comprobante.dataUrl);
-    this.apiRamps.confirmOperation(this.operationId, formData).subscribe({
+    this.fiatRampsService.confirmOperation(this.operationId, formData).subscribe({
       next: (data) => {
         this.loading = false;
         this.hasVoucher = true;
