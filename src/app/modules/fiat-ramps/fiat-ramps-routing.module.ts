@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
+import { UserHasOperationsGuard } from './shared-ramps/guards/user-has-operations/user-has-operations.guard';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       },
       {
         path: 'operations',
+        canActivate: [UserHasOperationsGuard],
         loadChildren: () => import('./operations-page/operations-page.module').then((m) => m.OperationsPagePageModule),
       },
       {
