@@ -136,16 +136,16 @@ describe('RegisterApikeysPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call showAlert on handleSubmit and valid form', () => {
+  it('should call submitData on handleSubmit and valid form', () => {
     component.form.patchValue(formData.valid);
-    const spy = spyOn(component, 'showAlert').and.returnValue(Promise.resolve());
+    const spy = spyOn(component, 'submitData');
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call showAlert on handleSubmit and invalid form', () => {
+  it('should not call submitData on handleSubmit and invalid form', () => {
     component.form.patchValue(formData.invalid);
-    const spy = spyOn(component, 'showAlert');
+    const spy = spyOn(component, 'submitData');
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(0);
   });
@@ -186,13 +186,6 @@ describe('RegisterApikeysPage', () => {
     const spy = spyOn(component, 'errorCameraAccessDenied');
     component.apikeysScanned(QRScanResult.cameraAccessDenied);
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not call showAlert if the scanned QR data was not valid', () => {
-    const spy = spyOn(component, 'showAlert').and.returnValue(Promise.resolve());
-    component.apikeysScanned(QRScanResult.formInvalid);
-    component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(0);
   });
 
   it('should patchFormValue on ionViewWillEnter and storage data is undefined', () => {
