@@ -38,7 +38,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
       <app-ux-list-inverted>
         <ion-list>
           <ion-item class="table-header ux-font-lato ux-fweight-regular ux-fsize-11">
-            <ion-label class="table-header__second-item">
+            <ion-label class="">
               {{ 'fiat_ramps.operations_list.operation' | translate }}
             </ion-label>
             <ion-label class="">
@@ -59,7 +59,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
               class="table-header ux-font-lato ux-fweight-regular ux-fsize-12"
               (click)="viewOperationDetail(op)"
             >
-              <ion-text class="table-header__second-item ux-fweight-semibold ux-fsize-10">
+              <ion-text class="ux-fweight-semibold ux-fsize-10">
                 {{ op.currency_in }} → {{ op.currency_out }}
               </ion-text>
               <ion-text class="ux-fweight-semibold" *ngIf="op.operation_type === 'cash-in'">
