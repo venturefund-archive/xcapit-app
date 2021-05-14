@@ -109,8 +109,8 @@ export class OperationsPagePage implements OnInit {
       return [];
     }
 
-    const sortedData = data.sort(this.sortByDateCondition);
-    const mappedData = sortedData.map(this.mapOperations);
+    const sortedData = data.sort(this.sortByDateCondition.bind(this));
+    const mappedData = sortedData.map(this.mapOperations.bind(this));
 
     return mappedData;
   }
@@ -177,6 +177,11 @@ export class OperationsPagePage implements OnInit {
   }
 
   viewOperationDetail(operation) {
-    this.navController.navigateForward(['fiat-ramps/operations-detail', operation.operation_id]);
+    this.navController.navigateForward([
+      'fiat-ramps/operations-detail/provider',
+      operation.provider.id,
+      'operation',
+      operation.operation_id,
+    ]);
   }
 }

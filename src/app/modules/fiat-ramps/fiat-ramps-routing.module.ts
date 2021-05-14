@@ -33,7 +33,7 @@ const routes: Routes = [
         loadChildren: () => import('./operations-page/operations-page.module').then((m) => m.OperationsPagePageModule),
       },
       {
-        path: 'operations-detail/:id',
+        path: 'operations-detail/provider/:provider_id/operation/:operation_id',
         loadChildren: () =>
           import('./operations-detail/operations-detail.module').then((m) => m.OperationsDetailPageModule),
       },
@@ -52,11 +52,13 @@ const routes: Routes = [
       },
       {
         path: 'select-provider',
-        loadChildren: () => import('./select-provider-page/select-provider/select-provider.module').then( m => m.SelectProviderPageModule)
+        loadChildren: () =>
+          import('./select-provider-page/select-provider/select-provider.module').then(
+            (m) => m.SelectProviderPageModule
+          ),
       },
     ],
   },
-
 ];
 
 @NgModule({
