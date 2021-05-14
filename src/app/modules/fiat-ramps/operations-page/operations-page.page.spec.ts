@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 
 const operations = [
@@ -125,7 +125,7 @@ const operations = [
   },
 ];
 
-fdescribe('OperationsPagePage', () => {
+describe('OperationsPagePage', () => {
   let component: OperationsPagePage;
   let fixture: ComponentFixture<OperationsPagePage>;
   let fiatRampsServiceSpy: any;
@@ -179,9 +179,9 @@ fdescribe('OperationsPagePage', () => {
     });
   });
 
-  it('should sort operations by date on getOperationsList', async () => {
-    const spy = spyOn(Array.prototype, 'sort');
-    fiatRampsServiceSpy.getUserOperations.and.returnValue(of([operations[0]]));
+  it('should call formatData on ionViewWillEnter', async () => {
+    const spy = spyOn(component, 'formatData').and.returnValue([]);
+    fiatRampsServiceSpy.getUserOperations.and.returnValue(of([]));
     component.getOperationsList();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -189,30 +189,135 @@ fdescribe('OperationsPagePage', () => {
     });
   });
 
+  it('should return empty array on formatData if no operations', () => {
+    const result = component.formatData([]);
+    expect(result.length).toEqual(0);
+  });
+
+  it('should return empty array on formatData if received object', () => {
+    const result = component.formatData({});
+    expect(result.length).toEqual(0);
+  });
+
+  it('should not call sort on formatData if no operations', () => {
+    const spy = spyOn(Array.prototype, 'sort').and.returnValue([]);
+    component.formatData([]);
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not call sort on formatData if received object', () => {
+    const spy = spyOn(Array.prototype, 'sort').and.returnValue([]);
+    component.formatData({});
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should sort operations using sortByDateCondition on formatData', async () => {
+    const spy = spyOn(Array.prototype, 'sort').and.returnValue([]);
+    component.formatData(operations);
+    expect(spy).toHaveBeenCalledWith(component.sortByDateCondition);
+  });
+
+  it('should map operations using mapOperations on formatData', () => {
+    spyOn(Array.prototype, 'sort').and.returnValue([]);
+    const spy = spyOn(Array.prototype, 'map').and.returnValue([]);
+    component.formatData(operations);
+    expect(spy).toHaveBeenCalledWith(component.mapOperations);
+  });
+
+  it('should return 1 on sortByDateCondition if a was created before b', () => {
+    const a = operations[1];
+    const b = operations[0];
+    const result = component.sortByDateCondition(a, b);
+    expect(result).toEqual(1);
+  });
+
+  it('should return 0 on sortByDateCondition if a and b were created at the same time', () => {
+    const a = operations[1];
+    const b = operations[1];
+    const result = component.sortByDateCondition(a, b);
+    expect(result).toEqual(0);
+  });
+
+  it('should return -1 on sortByDateCondition if a was after before b', () => {
+    const a = operations[0];
+    const b = operations[1];
+    const result = component.sortByDateCondition(a, b);
+    expect(result).toEqual(-1);
+  });
+
   [
     {
       provider: PROVIDERS[0],
       testOperation: operations[0],
+      status: [
+        {
+          name: 'complete',
+          icon: 'ok.svg',
+        },
+        {
+          name: 'cancel',
+          icon: 'error.svg',
+        },
+        {
+          name: 'pending_by_validate',
+          icon: 'processing.svg',
+        },
+        {
+          name: 'request',
+          icon: 'processing.svg',
+        },
+        {
+          name: 'received',
+          icon: 'processing.svg',
+        },
+        {
+          name: 'wait',
+          icon: 'processing.svg',
+        },
+        {
+          name: 'default',
+          icon: 'processing.svg',
+        },
+      ],
     },
     {
       provider: PROVIDERS[1],
       testOperation: operations[2],
+      status: [
+        {
+          name: 'SUCCESSFULL',
+          icon: 'ok.svg',
+        },
+        {
+          name: 'EXPIRED',
+          icon: 'error.svg',
+        },
+        {
+          name: 'CANCELED',
+          icon: 'error.svg',
+        },
+        {
+          name: 'default',
+          icon: 'processing.svg',
+        },
+      ],
     },
   ].forEach((p) => {
     describe(`when provider is ${p.provider.name}`, () => {
-      it(`should change operation.provider on getOperationsList`, async () => {
-        fiatRampsServiceSpy.getUserOperations.and.returnValue(of([p.testOperation]));
-        component.getOperationsList();
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(component.operationsList[0].provider).toEqual(p.provider);
+      it(`should return ${p.provider.name} on getProvider`, () => {
+        const provider = component.getProvider(p.testOperation.provider);
+        expect(provider).toEqual(p.provider);
+      });
+
+      p.status.forEach((s) => {
+        describe(`when status is ${s.name}`, () => {
+          it(`should return ${s.icon} on getStatus`, () => {
+            const status = component.getStatus(s.name, p.provider.id);
+            const statusIcon = status.logoRoute.substr(status.logoRoute.length - s.icon.length, s.icon.length);
+            expect(statusIcon).toEqual(s.icon);
+          });
         });
       });
-      // it(`should redirect to ${p.route}`, () => {
-      //   const operation = { id: 1, provider: { alias: p.provider } };
-      //   component.viewOperationDetail(operation);
-      //   expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([p.route, operation.id]);
-      // });
     });
   });
 });

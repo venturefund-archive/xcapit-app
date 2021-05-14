@@ -100,17 +100,29 @@ export class OperationsPagePage implements OnInit {
 
   async getOperationsList() {
     this.fiatRampsService.getUserOperations().subscribe((data) => {
-      this.operationsList =
-        data.constructor === Object && Object.keys(data).length === 0
-          ? []
-          : data
-              .sort((a, b) => (a.created_at < b.created_at ? 1 : b.created_at < a.created_at ? -1 : 0))
-              .map((operation) => {
-                operation.provider = this.getProvider(operation.provider);
-                operation.status = this.getStatus(operation.status, operation.provider.id);
-                return operation;
-              });
+      this.operationsList = this.formatData(data);
     });
+  }
+
+  formatData(data): any[] {
+    if ((data.constructor === Object && Object.keys(data).length === 0) || data.length === 0) {
+      return [];
+    }
+
+    const sortedData = data.sort(this.sortByDateCondition);
+    const mappedData = sortedData.map(this.mapOperations);
+
+    return mappedData;
+  }
+
+  sortByDateCondition(a, b): number {
+    return a.created_at < b.created_at ? 1 : b.created_at < a.created_at ? -1 : 0;
+  }
+
+  mapOperations(operation) {
+    operation.provider = this.getProvider(operation.provider);
+    operation.status = this.getStatus(operation.status, operation.provider.id);
+    return operation;
   }
 
   getProvider(providerId: string) {
