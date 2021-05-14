@@ -211,17 +211,17 @@ describe('OperationsPagePage', () => {
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it('should sort operations using sortByDateCondition on formatData', async () => {
-    const spy = spyOn(Array.prototype, 'sort').and.returnValue([]);
+  it('should call sortByDateCondition on formatData', async () => {
+    const spy = spyOn(component, 'sortByDateCondition').and.returnValue(0);
     component.formatData(operations);
-    expect(spy).toHaveBeenCalledWith(component.sortByDateCondition);
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('should map operations using mapOperations on formatData', () => {
-    spyOn(Array.prototype, 'sort').and.returnValue([]);
-    const spy = spyOn(Array.prototype, 'map').and.returnValue([]);
+  it('should call mapOperations on formatData', () => {
+    spyOn(Array.prototype, 'sort').and.returnValue([operations[0]]);
+    const spy = spyOn(component, 'mapOperations').and.returnValue([]);
     component.formatData(operations);
-    expect(spy).toHaveBeenCalledWith(component.mapOperations);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should return 1 on sortByDateCondition if a was created before b', () => {
@@ -305,8 +305,9 @@ describe('OperationsPagePage', () => {
   ].forEach((p) => {
     describe(`when provider is ${p.provider.name}`, () => {
       it(`should return ${p.provider.name} on getProvider`, () => {
-        const provider = component.getProvider(p.testOperation.provider);
-        expect(provider).toEqual(p.provider);
+        const result = component.getProvider(p.testOperation.provider);
+        fixture.detectChanges();
+        expect(result).toEqual(p.provider);
       });
 
       p.status.forEach((s) => {
@@ -314,6 +315,7 @@ describe('OperationsPagePage', () => {
           it(`should return ${s.icon} on getStatus`, () => {
             const status = component.getStatus(s.name, p.provider.id);
             const statusIcon = status.logoRoute.substr(status.logoRoute.length - s.icon.length, s.icon.length);
+            fixture.detectChanges();
             expect(statusIcon).toEqual(s.icon);
           });
         });
