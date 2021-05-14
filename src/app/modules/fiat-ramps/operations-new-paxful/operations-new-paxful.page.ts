@@ -106,11 +106,11 @@ export class OperationsNewPaxfulPage implements OnInit {
         wallets = [...wallets, ...newWallets];
       });
       this.walletAddressSelect = Object.values(wallets);
-    });
 
-    if (this.walletAddressSelect.length === 0) {
-      this.goToCreateApikey();
-    }
+      if (this.walletAddressSelect.length === 0) {
+        this.goToCreateApikey();
+      }
+    });
   }
 
   ionViewWillLeave() {

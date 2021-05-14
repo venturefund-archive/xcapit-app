@@ -1319,6 +1319,7 @@
       "id": "ID",
       "operation": "Operation",
       "amount": "Amount",
+      "provider": "Provider",
       "status": "Status",
       "date": "Date",
       "new": "New"

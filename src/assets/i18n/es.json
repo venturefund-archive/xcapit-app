@@ -1324,6 +1324,7 @@
       "id": "ID",
       "operation": "Operación",
       "amount": "Monto",
+      "provider": "Proveedor",
       "status": "Estado",
       "date": "Fecha",
       "new": "Nueva"

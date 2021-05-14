@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PROVIDERS } from '../../shared-ramps/constants/providers';
 @Component({
   selector: 'app-select-provider',
   template: `
@@ -30,21 +31,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./select-provider.page.scss'],
 })
 export class SelectProviderPage {
-  providers = [
-    {
-      id: 1,
-      name: 'KriptonMarket',
-      img: '../../assets/img/providers/id1.svg',
-      route: '/fiat-ramps/new-operation',
-    },
-
-    {
-      id: 2,
-      name: 'Paxful',
-      img: '../../assets/img/providers/id2.svg',
-      route: '/fiat-ramps/new-operation-paxful',
-    },
-  ];
+  providers = PROVIDERS;
 
   constructor() {}
 }

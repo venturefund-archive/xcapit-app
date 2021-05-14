@@ -12,7 +12,7 @@ import { NavController } from '@ionic/angular';
           </div>
         </div>
         <div class="pcc__content__image">
-          <img [src]="this.provider?.img" alt=" Provider Logo" />
+          <img [src]="this.provider?.logoRoute" alt="Provider Logo" />
         </div>
         <div class="pcc__content__name">
           <div class="ux-font-lato ux-fweight-regular ux-fsize-12">
@@ -46,6 +46,6 @@ export class ProviderCardComponent {
   constructor(private navController: NavController) {}
 
   useProvider() {
-    this.navController.navigateForward(this.provider?.route).then();
+    this.navController.navigateForward(this.provider?.newOperationRoute).then();
   }
 }
