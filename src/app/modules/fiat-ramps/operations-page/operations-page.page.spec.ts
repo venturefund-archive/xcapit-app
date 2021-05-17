@@ -23,6 +23,7 @@ const operations = [
     amount_out: 155.99,
     created_at: '2021-03-31T01:09:16.719Z',
     provider: '1',
+    voucher: true,
   },
   {
     operation_id: 34,
@@ -34,11 +35,12 @@ const operations = [
     amount_out: 155.99,
     created_at: '2021-03-09T14:51:47.719Z',
     provider: '1',
+    voucher: false,
   },
   {
     operation_id: 4,
     operation_type: 'cash-in',
-    status: 'SUCCESSFULL',
+    status: 'SUCCESSFUL',
     currency_in: 'ARS',
     amount_in: 550.0,
     currency_out: 'BTC',
@@ -56,6 +58,7 @@ const operations = [
     amount_out: 550.0,
     created_at: '2021-04-20T01:24:28.719Z',
     provider: '1',
+    voucher: true,
   },
   {
     operation_id: 23,
@@ -67,6 +70,7 @@ const operations = [
     amount_out: 550.0,
     created_at: '2021-04-08T04:07:19.719Z',
     provider: '1',
+    voucher: false,
   },
   {
     operation_id: 65,
@@ -93,7 +97,7 @@ const operations = [
   {
     operation_id: 3,
     operation_type: 'cash-in',
-    status: 'SUCCESSFULL',
+    status: 'SUCCESSFUL',
     currency_in: 'ARS',
     amount_in: 500.0,
     currency_out: 'BTC',
@@ -111,6 +115,7 @@ const operations = [
     amount_out: 155.99,
     created_at: '2021-02-13T14:46:24.719Z',
     provider: '1',
+    voucher: true,
   },
   {
     operation_id: 678,
@@ -122,6 +127,7 @@ const operations = [
     amount_out: 155.99,
     created_at: '2021-02-27T10:02:49.719Z',
     provider: '1',
+    voucher: true,
   },
 ];
 
@@ -285,7 +291,7 @@ describe('OperationsPagePage', () => {
       testOperation: operations[2],
       status: [
         {
-          name: 'SUCCESSFULL',
+          name: 'SUCCESSFUL',
           icon: 'ok.svg',
         },
         {

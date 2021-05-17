@@ -1335,16 +1335,46 @@
     },
 
     "operation_detail": {
-      "header": "Detalle de la operación",
-      "type": "Tipo de operación:",
-      "amount": "Monto:",
-      "quotation": "Cotización:",
-      "status": "Estado:",
-      "date": "Fecha:",
-      "id": "Id de la operación:",
+      "header": "Operación:",
+      "card": {
+        "provider": "Proveedor: ",
+        "type": "Tipo de operación: ",
+        "buy": {
+          "operationType": "Compra",
+          "title": "Comprar: ",
+          "with": " con "
+        },
+        "sell": {
+          "operationType": "Venta",
+          "title": "Vender: ",
+          "with": " por "
+        },
+        "amount": "Monto: ",
+        "quotation": "Cotización: ",
+        "status": "Estado: ",
+        "date": "Fecha: ",
+        "id": "ID: "
+      },
       "voucher": "Comprobante",
       "send": "Enviar comprobante"
     },
+
+    "operationStatus": {
+      "kripton": {
+        "pending_by_validate": "Pendiente",
+        "request": "Pedida",
+        "received": "Recibida",
+        "wait": "En espera",
+        "complete": "Completada",
+        "cancel": "Cancelada"
+      },
+      "paxful": {
+        "SUCCESSFUL": "Completada",
+        "EXPIRED": "Expirada",
+        "CANCELED": "Cancelada"
+      }
+    },
+
     "ramp_initial": {
       "header": "Comprar/Vender cryptos",
       "title": "Nueva operación",

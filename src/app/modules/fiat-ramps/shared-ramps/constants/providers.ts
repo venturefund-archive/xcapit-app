@@ -1,7 +1,7 @@
 export const PROVIDERS = [
   {
     id: 1,
-    alias: '1',
+    alias: 'kripton',
     name: 'KriptonMarket',
     logoRoute: '../../assets/img/provider-logos/KriptonMarket.svg',
     newOperationRoute: '/fiat-ramps/new-operation',
