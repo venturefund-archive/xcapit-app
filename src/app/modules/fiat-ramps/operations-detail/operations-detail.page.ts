@@ -150,29 +150,45 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
                 <img [src]="this.comprobante.dataUrl" alt="" />
               </div>
             </ion-button>
-
-            <div class="ux_footer" *ngIf="this.comprobante">
-              <app-ux-loading-block *ngIf="this.loading" minSize="60px"></app-ux-loading-block>
-
-              <div class="button-next" *ngIf="!this.loading">
-                <ion-button
-                  class="ux_button"
-                  appTrackClick
-                  name="Next"
-                  type="button"
-                  color="uxsecondary"
-                  size="large"
-                  (click)="this.sendPicture()"
-                >
-                  {{ 'fiat_ramps.operation_detail.send' | translate }}
-                </ion-button>
-              </div>
-            </div>
           </div>
 
           <div *ngIf="this.hasVoucher" class="dp__voucher">
             <app-ux-success-img></app-ux-success-img>
             <span>El comprobante ha sido cargado</span>
+          </div>
+
+          <div class="updload_voucher" *ngIf="this.comprobante">
+            <app-ux-loading-block *ngIf="this.loading" minSize="60px"></app-ux-loading-block>
+
+            <div class="button-next" *ngIf="!this.loading">
+              <ion-button
+                class="ux_button"
+                appTrackClick
+                name="Next"
+                type="button"
+                color="uxsecondary"
+                size="large"
+                (click)="this.sendPicture()"
+              >
+                {{ 'fiat_ramps.operation_detail.send' | translate }}
+              </ion-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ux_footer">
+          <div class="button-next">
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="My Operations"
+              type="button"
+              color="uxsecondary"
+              size="large"
+              (click)="this.navigateBackToOperations()"
+            >
+              {{ 'fiat_ramps.operation_detail.my_operations' | translate }}
+            </ion-button>
           </div>
         </div>
       </div>
@@ -232,7 +248,7 @@ export class OperationsDetailPage implements OnInit {
         this.verifyVoucher();
       },
       error: (e) => {
-        this.navController.navigateBack(['/fiat-ramps/operations']);
+        this.navigateBackToOperations();
       },
     });
   }
@@ -266,5 +282,9 @@ export class OperationsDetailPage implements OnInit {
     if (this.provider.alias !== 'paxful') {
       this.hasVoucher = this.operation.voucher;
     }
+  }
+
+  navigateBackToOperations() {
+    this.navController.navigateBack(['/fiat-ramps/operations']);
   }
 }
