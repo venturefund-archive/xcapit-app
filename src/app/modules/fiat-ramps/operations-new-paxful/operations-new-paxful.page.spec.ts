@@ -193,9 +193,4 @@ describe('OperationsNewPaxfulPage', () => {
     component.success();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/new-operation/success-paxful']);
   });
-
-  it('should set 1 as provider on ionViewWillLeave', () => {
-    component.ionViewWillLeave();
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledWith('1');
-  });
 });

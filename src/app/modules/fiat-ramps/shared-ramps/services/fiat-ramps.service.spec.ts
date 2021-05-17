@@ -19,6 +19,7 @@ describe('FiatRampsService', () => {
       providers: [{ provide: CustomHttpService, useValue: customHttpServiceSpy }],
     });
     fiatRampsService = TestBed.inject(FiatRampsService);
+    fiatRampsService.setProvider('1');
     customHttpServiceSpy = TestBed.inject(CustomHttpService);
   });
 
@@ -26,14 +27,26 @@ describe('FiatRampsService', () => {
     expect(fiatRampsService).toBeTruthy();
   });
 
-  it('should be call get on http when getQuotations', () => {
+  it('should call get on http when getQuotations', () => {
     fiatRampsService.getQuotations().subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call post on http when getLink', () => {
+  it('should call post on http when getLink', () => {
     fiatRampsService.getLink(0).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call get on http when getUserOperations', () => {
+    fiatRampsService.getUserOperations().subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call get on http when getUserSingleOperation', () => {
+    fiatRampsService.getUserSingleOperation(0).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });

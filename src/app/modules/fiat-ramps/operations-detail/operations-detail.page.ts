@@ -94,11 +94,11 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
                 {{ 'fiat_ramps.operation_detail.card.quotation' | translate }}
               </span>
               <span *ngIf="this.operation.currency_in === 'ARS' || this.operation.currency_in === 'USD'">
-                1 {{ this.operation.currency_out | uppercase }} = {{ this.cotizacion }}
+                1 {{ this.operation.currency_out | uppercase }} = {{ this.cotizacion | number: '1.2-2' }}
                 {{ this.operation.currency_in | uppercase }}
               </span>
               <span *ngIf="this.operation.currency_in !== 'ARS' && this.operation.currency_in !== 'USD'">
-                1 {{ this.operation.currency_in | uppercase }} = {{ this.cotizacion }}
+                1 {{ this.operation.currency_in | uppercase }} = {{ this.cotizacion | number: '1.2-2' }}
                 {{ this.operation.currency_out | uppercase }}
               </span>
             </div>
@@ -135,7 +135,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             <ion-button
               class="ux_button"
               appTrackClick
-              name="Next"
+              name="Upload Voucher"
               type="button"
               color="uxsecondary"
               size="large"
@@ -164,7 +164,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
               <ion-button
                 class="ux_button"
                 appTrackClick
-                name="Next"
+                name="Submit Voucher"
                 type="button"
                 color="uxsecondary"
                 size="large"
@@ -257,8 +257,13 @@ export class OperationsDetailPage implements OnInit {
     let firstAmount = 0;
     let secondAmount = 0;
 
-    firstAmount = Number(this.operation.amount_in);
-    secondAmount = Number(this.operation.amount_out);
+    if (this.operation.operation_type === 'cash-in') {
+      firstAmount = Number(this.operation.amount_in);
+      secondAmount = Number(this.operation.amount_out);
+    } else {
+      firstAmount = Number(this.operation.amount_out);
+      secondAmount = Number(this.operation.amount_in);
+    }
 
     this.cotizacion = firstAmount / secondAmount;
   }
