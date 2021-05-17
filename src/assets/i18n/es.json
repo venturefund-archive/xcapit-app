@@ -1356,7 +1356,8 @@
         "id": "ID: "
       },
       "voucher": "Comprobante",
-      "send": "Enviar comprobante"
+      "send": "Enviar comprobante",
+      "my_operations": "Ver mis operaciones"
     },
 
     "operationStatus": {
