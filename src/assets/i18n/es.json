@@ -1420,6 +1420,12 @@
       "textSecondary": "Completa los detalles que te soliciten para terminar la transacción",
       "namePrimaryAction": "Ver mis operaciones",
       "nameSecondaryAction": "Comprar más criptos"
+    },
+    "wallet_comprobation": {
+      "title": "Para comprar criptomonedas necesitas asociar una Api Key",
+      "message": "Agrega una Key para que tus compras se reflejen en tu cuenta de Binance.",
+      "btn_back": "Volver",
+      "btn_add_apikey": "Agregar Api Key"
     }
   },
 
