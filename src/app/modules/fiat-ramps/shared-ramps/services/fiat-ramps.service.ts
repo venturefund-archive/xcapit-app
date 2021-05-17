@@ -113,4 +113,13 @@ export class FiatRampsService {
   setProvider(provider: string) {
     this.provider = provider;
   }
+
+  userHasOperations(): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/on_off_ramps/user_has_operations`,
+      undefined,
+      undefined,
+      true
+    );
+  }
 }
