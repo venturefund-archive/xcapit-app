@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { FundPercentageEvolutionChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-timeline-detail',
@@ -25,7 +26,7 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
           <app-performance-chart-card
             [fundPercentageEvolution]="this.fundPercentageEvolution"
             interval="7d"
-            [isChart]="this.isChart"
+            page="app-timeline-detail"
           ></app-performance-chart-card>
         </div>
         <div class="atd__performance-card">
@@ -74,6 +75,12 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
             </ion-item>
             <ion-item class="atd__config__content__item">
               <ion-label>
+                <ion-text>{{ 'funds.fund_timeline_detail.config_card.item.profile' | translate }}</ion-text>
+                <ion-text class="atd__config__content__item__value">{{ this.profile }}</ion-text>
+              </ion-label>
+            </ion-item>
+            <ion-item class="atd__config__content__item">
+              <ion-label>
                 <ion-text>{{ 'funds.fund_timeline_detail.config_card.item.take_profit' | translate }}</ion-text>
                 <ion-text class="atd__config__content__item__value">{{ this.fund?.ganancia }}%</ion-text>
               </ion-label>
@@ -103,8 +110,9 @@ export class FundTimelineDetailPage implements OnInit {
   fund: any;
   fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   isChart: boolean;
+  profile: string;
 
-  constructor(private route: ActivatedRoute, private apiFunds: ApiFundsService) {}
+  constructor(private translate: TranslateService, private route: ActivatedRoute, private apiFunds: ApiFundsService) {}
 
   ngOnInit() {}
 
@@ -117,6 +125,7 @@ export class FundTimelineDetailPage implements OnInit {
   getTimelineDetailInfo() {
     this.apiFunds.getLastPercentage(this.fundName, this.runID).subscribe((data) => {
       this.fund = data[0];
+      this.profile = this.getProfileName(this.fund.nivel_de_riesgo);
     });
     this.getFundPerformanceCardInfo();
   }
@@ -130,5 +139,14 @@ export class FundTimelineDetailPage implements OnInit {
       }
       this.fundPercentageEvolution = data.percentage_evolution;
     });
+  }
+
+  getProfileName(profile) {
+    let response = profile;
+    if (profile === 'volume_profile_strategies_USDT' || profile === 'volume_profile_strategies_BTC' || profile === 'DeFi_index' || profile === 'Mary_index') {
+      let translate_code = `funds.fund_investment.card.profiles.${profile}.title`
+      response = this.translate.instant(translate_code);
+    }
+    return response
   }
 }
