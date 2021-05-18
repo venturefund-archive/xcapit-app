@@ -226,7 +226,6 @@ describe('RegisterApikeysPage', () => {
       isBeginner: true,
       isExplorer: false,
       isCreator: false,
-      isFromBot: false,
       isFirstFund: true,
     },
     {
@@ -235,7 +234,6 @@ describe('RegisterApikeysPage', () => {
       isBeginner: false,
       isExplorer: true,
       isCreator: false,
-      isFromBot: false,
       isFirstFund: true,
     },
     {
@@ -244,16 +242,6 @@ describe('RegisterApikeysPage', () => {
       isBeginner: false,
       isExplorer: false,
       isCreator: true,
-      isFromBot: false,
-      isFirstFund: true,
-    },
-    {
-      userStatus: { status_name: UserStatus.FROM_BOT },
-      expectedRoute: '/apikeys/success-register-beginner',
-      isBeginner: false,
-      isExplorer: false,
-      isCreator: false,
-      isFromBot: true,
       isFirstFund: true,
     },
     {
@@ -262,7 +250,6 @@ describe('RegisterApikeysPage', () => {
       isBeginner: false,
       isExplorer: false,
       isCreator: false,
-      isFromBot: false,
       isFirstFund: false,
     },
   ].forEach((p) => {
@@ -282,11 +269,6 @@ describe('RegisterApikeysPage', () => {
       });
 
       it(`should return ${p.isCreator} on isCreatorUser`, () => {
-        const isCreatorUser = component.isCreatorUser();
-        expect(isCreatorUser).toEqual(p.isCreator);
-      });
-
-      it(`should return ${p.isFromBot} on isFromBot`, () => {
         const isCreatorUser = component.isCreatorUser();
         expect(isCreatorUser).toEqual(p.isCreator);
       });

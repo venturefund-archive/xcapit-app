@@ -119,10 +119,6 @@ export class LoginPage implements OnInit {
         url = ['tabs/funds'];
         break;
       }
-      case UserStatus.FROM_BOT: {
-        url = ['tutorials/first-steps'];
-        break;
-      }
       case UserStatus.BEGINNER: {
         url = ['tutorials/first-steps'];
         break;

@@ -35,9 +35,6 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
             </div>
             <div
               class="fs__content_slide__slide_step_show"
-              *ngIf="
-                this.userStatus?.status_name !== this.userStatusEnum.FROM_BOT
-              "
             >
               <app-ux-slide-step-show
                 [step]="this.actualStep"
@@ -53,11 +50,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
                 size="large"
                 expand="block"
                 color="uxsecondary"
-                (click)="
-                  this.userStatus?.status_name !== this.userStatusEnum.FROM_BOT
-                    ? this.slideNext()
-                    : this.goToEditProfile()
-                "
+                (click)="this.slideNext()"
               >
                 {{ 'tutorials.first_steps.step1.next_button' | translate }}
               </ion-button>
