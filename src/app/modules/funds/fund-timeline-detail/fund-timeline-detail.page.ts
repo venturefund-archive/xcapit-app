@@ -38,7 +38,10 @@ import { TranslateService } from '@ngx-translate/core';
                 </ion-text>
               </ion-label>
               <ion-label>
-                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-10">
+                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-10 positive"  *ngIf="this.fund?.percentage >= 0">
+                  {{ this.fund?.percentage | number: '1.0-2' }}%
+                </ion-text>
+                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-10 negative"  *ngIf="this.fund?.percentage < 0">
                   {{ this.fund?.percentage | number: '1.0-2' }}%
                 </ion-text>
               </ion-label>

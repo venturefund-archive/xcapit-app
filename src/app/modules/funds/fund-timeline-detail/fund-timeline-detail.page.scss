@@ -14,6 +14,14 @@
     margin-bottom: 15px;
     &__content {
       &__item {
+        ion-label {
+          ion-text.positive {
+            color: #21dd62;
+          }
+          ion-text.negative {
+            color: var(--ion-color-danger);
+          }
+        }
         ion-label:last-child {
           display: flex;
           justify-content: flex-end;
