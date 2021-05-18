@@ -1203,7 +1203,7 @@
     "register_success": {
       "textPrimary": "Your account is now linked to Binace!",
       "textSecondary": "We can start mananging your capital in Binance.",
-      "namePrimaryAction": "Use",
+      "namePrimaryAction": "Manage",
       "nameSecondaryAction": "Skip for now"
     },
     "linked_apikeys": {
