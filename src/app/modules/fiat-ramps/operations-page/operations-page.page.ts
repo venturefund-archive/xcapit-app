@@ -69,7 +69,10 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
                 {{ op.amount_out | currency }}
               </ion-text>
               <ion-text class="ux-fweight-semibold">
-                <img [src]="op.status.logoRoute" alt="{{ op.status.name }}" />
+                <img
+                  [src]="op.status.logoRoute"
+                  alt="{{ 'fiat_ramps.operationStatus.' + op.provider.alias + '.' + op.status.name | translate }}"
+                />
               </ion-text>
               <ion-text class="ux-fweight-semibold">
                 {{ op.created_at | date: 'dd/MM/yy' }}
@@ -158,7 +161,7 @@ export class OperationsPagePage implements OnInit {
       case 2:
         // Paxful
         switch (statusName) {
-          case 'SUCCESSFULL':
+          case 'SUCCESSFUL':
             status.logoRoute += 'ok.svg';
             break;
 
@@ -178,7 +181,7 @@ export class OperationsPagePage implements OnInit {
 
   viewOperationDetail(operation) {
     this.navController.navigateForward([
-      'fiat-ramps/operations-detail/provider',
+      'fiat-ramps/operation-detail/provider',
       operation.provider.id,
       'operation',
       operation.operation_id,

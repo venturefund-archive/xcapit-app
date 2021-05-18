@@ -90,8 +90,6 @@ export class OperationsNewPaxfulPage implements OnInit {
   ionViewWillEnter() {
     this.checkIsWebPlatform();
 
-    this.fiatRampsService.setProvider('paxful');
-
     let wallets = [];
 
     this.fiatRampsService.getUserWallets('BTC').subscribe((apikeys) => {
@@ -111,10 +109,6 @@ export class OperationsNewPaxfulPage implements OnInit {
         this.goToCreateApikey();
       }
     });
-  }
-
-  ionViewWillLeave() {
-    this.fiatRampsService.setProvider('1');
   }
 
   goToCreateApikey() {
