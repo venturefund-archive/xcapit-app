@@ -25,7 +25,7 @@ import { FundPercentageEvolutionChartInterface } from '../shared-funds/component
           <app-performance-chart-card
             [fundPercentageEvolution]="this.fundPercentageEvolution"
             interval="7d"
-            [isChart]="this.isChart"
+            page="app-timeline-detail"
           ></app-performance-chart-card>
         </div>
         <div class="atd__performance-card">
