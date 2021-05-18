@@ -1202,7 +1202,7 @@
     "register_success": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
       "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
-      "namePrimaryAction": "Usar",
+      "namePrimaryAction": "Gestionar",
       "nameSecondaryAction": "Omitir por ahora"
     },
     "tutorial_apikeys": {
