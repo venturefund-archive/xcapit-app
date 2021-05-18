@@ -35,7 +35,7 @@ const routes: Routes = [
         loadChildren: () => import('./operations-page/operations-page.module').then((m) => m.OperationsPagePageModule),
       },
       {
-        path: 'operations-detail/provider/:provider_id/operation/:operation_id',
+        path: 'operation-detail/provider/:provider_id/operation/:operation_id',
         loadChildren: () =>
           import('./operations-detail/operations-detail.module').then((m) => m.OperationsDetailPageModule),
       },

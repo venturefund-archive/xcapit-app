@@ -92,11 +92,6 @@ describe('OperationsNewPaxfulPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set paxful as provider on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledWith('paxful');
-  });
-
   it('should call getUserWallets on ionViewWillEnter', () => {
     component.ionViewWillEnter();
     expect(fiatRampsServiceSpy.getUserWallets).toHaveBeenCalledTimes(1);
@@ -192,10 +187,5 @@ describe('OperationsNewPaxfulPage', () => {
   it('should go to success page on success', () => {
     component.success();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/new-operation/success-paxful']);
-  });
-
-  it('should set 1 as provider on ionViewWillLeave', () => {
-    component.ionViewWillLeave();
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledWith('1');
   });
 });

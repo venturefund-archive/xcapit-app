@@ -71,12 +71,7 @@ export class FiatRampsService {
   }
 
   getUserOperations(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/provider/get_all_operations`,
-      undefined,
-      undefined,
-      true
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
 
   getUserSingleOperation(operationId): Observable<any> {
@@ -107,7 +102,7 @@ export class FiatRampsService {
   }
 
   getLink(apikeyId: number): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/${this.provider}/get_link`, { id_apikey: apikeyId });
+    return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }
 
   setProvider(provider: string) {

@@ -1033,7 +1033,7 @@
         "errorProvider": "Failed to get quotations from provider."
       },
       "user": {
-        "doesNotExist": "non-existent user.",
+        "doesNotExist": "Non-existent user.",
         "check": {
           "errorProvider": "Failed to get user from provider."
         },
@@ -1326,16 +1326,47 @@
     },
 
     "operation_detail": {
-      "header": "Operation detail",
-      "type": "Operation type:",
-      "amount": "Amount:",
-      "quotation": "Quotation:",
-      "status": "Status:",
-      "date": "Date:",
-      "id": "Operation id:",
-      "voucher": "Voucher",
-      "send": "Send voucher"
+      "header": "Operation:",
+      "card": {
+        "provider": "Provider: ",
+        "type": "Operation type: ",
+        "buy": {
+          "operationType": "Buy",
+          "title": "Buy: ",
+          "with": " with "
+        },
+        "sell": {
+          "operationType": "Sell",
+          "title": "Sell: ",
+          "with": " for "
+        },
+        "amount": "Amount: ",
+        "quotation": "Quotation: ",
+        "status": "Status: ",
+        "date": "Date: ",
+        "id": "ID: "
+      },
+      "voucher": "Comprobante",
+      "send": "Enviar comprobante",
+      "my_operations": "See my operations"
     },
+
+    "operationStatus": {
+      "kripton": {
+        "pending_by_validate": "Pending",
+        "request": "Request",
+        "received": "Received",
+        "wait": "Waiting",
+        "complete": "Complete",
+        "cancel": "Cancelled"
+      },
+      "paxful": {
+        "SUCCESSFUL": "Complete",
+        "EXPIRED": "Expired",
+        "CANCELED": "Cancelled"
+      }
+    },
+
     "ramp_initial": {
       "header": "Buy/Sell cryptos",
       "title": "New operation",
