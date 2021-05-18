@@ -76,8 +76,8 @@ import { Currency } from '../shared-funds/enums/currency.enum';
         <app-performance-chart-card
           [fundPercentageEvolution]="this.fundPercentageEvolution"
           [interval]="this.selectedDelta"
-          [isChart]="this.isChart"
           [shareChart]="true"
+          page="app-fund-detail"
         ></app-performance-chart-card>
       </div>
 

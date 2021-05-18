@@ -550,6 +550,7 @@
         "item": {
           "state": "Status",
           "initial_date": "Initial Date",
+          "profile": "Profile",
           "take_profit": "Take profit",
           "stop_loss": "Stop loss",
           "currency": "Currency",
