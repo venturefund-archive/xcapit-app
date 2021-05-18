@@ -80,7 +80,6 @@ describe('UserStatusCardComponent', () => {
   });
 
   [
-    ['FROM_BOT', 'apikeys/tutorial'],
     ['BEGINNER', 'apikeys/tutorial'],
     ['EXPLORER', 'apikeys/tutorial'],
     ['COMPLETE', 'apikeys/list'],

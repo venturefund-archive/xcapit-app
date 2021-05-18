@@ -172,7 +172,7 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   isFirstFund(): boolean {
-    return this.isBeginnerUser() || this.isExplorerUser() || this.isCreatorUser() || this.isFromBotUser();
+    return this.isBeginnerUser() || this.isExplorerUser() || this.isCreatorUser();
   }
 
   isBeginnerUser(): boolean {
@@ -185,10 +185,6 @@ export class RegisterApikeysPage implements OnInit {
 
   isCreatorUser(): boolean {
     return this.userStatus.status_name === UserStatus.CREATOR;
-  }
-
-  isFromBotUser(): boolean {
-    return this.userStatus.status_name === UserStatus.FROM_BOT;
   }
 
   success(apiKeys: any, route: string) {
