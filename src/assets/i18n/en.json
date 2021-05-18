@@ -1319,7 +1319,17 @@
       "date": "Date",
       "new": "New"
     },
-
+    "fiat_success": {
+      "textPrimary": "Operation created!",
+      "textSecondary": "To continue you need to transfer from your bank to the following data:",
+      "bank": "Bank:",
+      "cbu": "CBU:",
+      "concept": "Concept:",
+      "amount": "Amount:",
+      "info_telegram": "If you have any questions, you can contact Kripton through Telegram:",
+      "info_email": "*The provider will email you when the process advances.",
+      "buttonText": "Attach voucher"
+    },
     "select_provider": {
       "header": "Buy Crypto",
       "title": "Select the provider:"

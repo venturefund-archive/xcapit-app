@@ -1430,15 +1430,15 @@
       "confirm": "Confirmar"
     },
     "fiat_success": {
-      "textPrimary": "¡La operación fue creada con éxito!",
-      "textSecondary": "Para continuar deberás transferir desde tu banco con los siguientes datos:",
+      "textPrimary": "¡La operación fue creada!",
+      "textSecondary": "Para continuar deberás transferir desde tu banco a los siguientes datos:",
+      "amount": "Monto:",
       "bank": "Banco:",
       "cbu": "CBU:",
       "concept": "Concepto:",
-      "amount": "Monto:",
-      "info_telegram": "Por dudas o consultas, contactanos por Télegram:",
-      "info_email": "El proveedor se comunicará por email conforme avance el proceso.",
-      "buttonText": "Terminar"
+      "info_telegram": "Por dudas o consultas, contactate con Kripton en Télegram",
+      "info_email": "*El proveedor se comunicará por email conforme avance el proceso.",
+      "buttonText": "Añadir comprobante"
     },
     "paxful": {
       "header": "Comprar BTC con Paxful",
