@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
-import { Router } from '@angular/router';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
@@ -12,7 +11,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
       <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button
-            *ngIf="!(this.userStatus?.status_name === this.userStatusEnum.FROM_BOT) || !this.editing"
+            *ngIf="!this.editing"
             defaultHref="/tabs/funds"
           >
           </ion-back-button>
@@ -63,33 +62,22 @@ export class UserProfilePage implements OnInit {
   constructor(
     private apiProfiles: ApiProfilesService,
     private apiUsuarios: ApiUsuariosService,
-    private router: Router,
     private loadingService: LoadingService
   ) {}
 
   ngOnInit() {}
 
   getData() {
-    let aux;
     this.apiProfiles.crud.get().subscribe((res) => {
-      if (this.data) {
-        aux = this.data.viewBillData;
-      }
       this.data = res;
-      this.data.viewBillData = aux;
     });
   }
 
   toggleEditProfile() {
     if (this.editing) {
       this.editProfile.save().subscribe((res) => {
-        const fromBot = this.userStatus.status_name === this.userStatusEnum.FROM_BOT;
-        if (res && fromBot) {
-          this.router.navigate(['tabs/funds']);
-        } else if (res && !fromBot) {
           this.getData();
           this.editing = !this.editing;
-        }
       });
     } else {
       this.editing = true;
@@ -100,9 +88,8 @@ export class UserProfilePage implements OnInit {
     this.loadingService.enabled();
     this.apiUsuarios.status(false).subscribe((res: any) => {
       this.userStatus = res;
-      this.editing = this.userStatus.status_name === this.userStatusEnum.FROM_BOT;
       this.loadingService.disabled();
-      this.data.viewBillData = !(this.userStatus.status_name === this.userStatusEnum.FROM_BOT);
+      this.data.viewBillData = true;
     });
     this.getData();
   }

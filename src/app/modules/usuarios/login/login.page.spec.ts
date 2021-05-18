@@ -129,11 +129,6 @@ describe('LoginPage', () => {
     expect(url).toEqual(['tabs/funds']);
   });
 
-  it('should redirect to fund list when status is FROM_BOT', () => {
-    const url = component.getUrlByStatus('FROM_BOT');
-    expect(url).toEqual(['tutorials/first-steps']);
-  });
-
   it('should redirect to first steps when status is BEGINNER', () => {
     const url = component.getUrlByStatus('BEGINNER');
     expect(url).toEqual(['tutorials/first-steps']);
