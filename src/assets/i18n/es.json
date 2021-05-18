@@ -554,6 +554,7 @@
         "item": {
           "state": "Estado",
           "initial_date": "Fecha de Inicio",
+          "profile": "Perfil",
           "take_profit": "Take profit",
           "stop_loss": "Stop loss",
           "currency": "Moneda",
