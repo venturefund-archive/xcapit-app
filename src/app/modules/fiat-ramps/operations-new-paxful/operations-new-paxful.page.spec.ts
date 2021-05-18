@@ -92,11 +92,6 @@ describe('OperationsNewPaxfulPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set paxful as provider on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledWith('paxful');
-  });
-
   it('should call getUserWallets on ionViewWillEnter', () => {
     component.ionViewWillEnter();
     expect(fiatRampsServiceSpy.getUserWallets).toHaveBeenCalledTimes(1);

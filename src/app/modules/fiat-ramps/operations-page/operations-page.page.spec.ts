@@ -11,6 +11,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 
 const operations = [
   {
@@ -136,6 +138,7 @@ describe('OperationsPagePage', () => {
   let fixture: ComponentFixture<OperationsPagePage>;
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsPagePage>;
 
   beforeEach(
     waitForAsync(() => {
@@ -145,19 +148,23 @@ describe('OperationsPagePage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [OperationsPagePage],
+        declarations: [OperationsPagePage, TrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           RouterTestingModule.withRoutes([
-            { path: 'fiat-ramps/operations-detail', component: DummyComponent },
+            {
+              path: 'fiat-ramps/operation-detail/provider/:provider_id/operation/:operation_id',
+              component: DummyComponent,
+            },
             { path: 'tabs/funds', component: DummyComponent },
-            { path: 'fiat-ramps/new-operation', component: DummyComponent },
+            { path: 'fiat-ramps/select-provider', component: DummyComponent },
           ]),
           HttpClientTestingModule,
           IonicModule,
           TranslateModule.forRoot(),
         ],
         providers: [
+          TrackClickDirective,
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
         ],
@@ -167,6 +174,7 @@ describe('OperationsPagePage', () => {
       component = fixture.componentInstance;
       component.operationsList = [];
       fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
@@ -254,7 +262,6 @@ describe('OperationsPagePage', () => {
   [
     {
       provider: PROVIDERS[0],
-      testOperation: operations[0],
       status: [
         {
           name: 'complete',
@@ -288,7 +295,6 @@ describe('OperationsPagePage', () => {
     },
     {
       provider: PROVIDERS[1],
-      testOperation: operations[2],
       status: [
         {
           name: 'SUCCESSFUL',
@@ -311,7 +317,7 @@ describe('OperationsPagePage', () => {
   ].forEach((p) => {
     describe(`when provider is ${p.provider.name}`, () => {
       it(`should return ${p.provider.name} on getProvider`, () => {
-        const result = component.getProvider(p.testOperation.provider);
+        const result = component.getProvider(p.provider.id.toString());
         fixture.detectChanges();
         expect(result).toEqual(p.provider);
       });
@@ -327,5 +333,16 @@ describe('OperationsPagePage', () => {
         });
       });
     });
+  });
+
+  it('should call trackEvent on trackService when New Operation Button clicked', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'New Operation');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
