@@ -28,10 +28,19 @@
       text-align: center;
     }
 
+    &__small_text {
+      font-family: var(--ux-font-lato);
+      font-size: 11px;
+      font-weight: 400;
+      margin-top: 8px;
+      color: #0000008a;
+      text-align: center;
+    }
+
     &__bank_info {
       --ion-item-background: white;
       width: 100%;
-      padding-top: 16px;
+      margin-top: 40px;
       padding-left: 16px;
       padding-right: 16px;
       display: flex;
@@ -44,22 +53,50 @@
         font-size: 14px;
         color: #0000008a;
 
-        &__left {
+        &__right {
           text-align: right;
+        }
+
+        &__left {
+          padding-left: 10px;
         }
       }
     }
 
-    &__telegram_logo {
-      width: 55px;
-      margin-top: 15px;
+    &__telegram {
+      --border-radius: 8px;
+      margin-top: 40px;
+
+      &__secondary_text {
+        font-family: var(--ux-font-lato);
+        font-size: 14px;
+        font-weight: 400;
+        color: #0000008a;
+        text-align: left;
+        padding-left: 16px;
+        padding-right: 5px;
+      }
+
+      &__telegram_logo {
+        padding-left: 5px;
+        padding-right: 24px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        &__img {
+          min-width: 90px;
+          min-height: 85px;
+          width: 90px;
+          height: 85px;
+        }
+      }
     }
 
     &__actions {
       padding-left: 13px;
       padding-right: 13px;
       width: 100%;
-      margin-top: 24px;
+      margin-top: 36px;
       text-align: center;
       ion-button {
         width: 100%;
@@ -71,6 +108,15 @@
   }
 }
 
-.full-width {
-  width: 100%;
+.success-text {
+  --background: #ecfdf5;
+  background: #ecfdf5;
+  color: #34d399;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.copy-button {
+  --padding-start: 6px;
+  --padding-end: 0px;
 }
