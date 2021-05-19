@@ -5,6 +5,8 @@ import { Plugins } from '@capacitor/core';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { UxSelectModalComponent } from '../../../shared/components/ux-select-modal/ux-select-modal.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
 
 const { Browser } = Plugins;
 
@@ -16,18 +18,13 @@ const { Browser } = Plugins;
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'app.main_menu.header' | translate
-        }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'app.main_menu.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content>
       <ion-list>
-        <div
-          *ngFor="let p of appPages; trackBy: this.trackBy"
-          (click)="this.clickAction(p.elementClick)"
-        >
+        <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p.elementClick)">
           <ion-item
             class="item-style"
             appTrackClick
@@ -77,6 +74,8 @@ const { Browser } = Plugins;
   styleUrls: ['./main-menu.page.scss'],
 })
 export class MainMenuPage implements OnInit {
+  apikeys: any = [];
+
   public appPages = [
     {
       id: 1,
@@ -124,9 +123,9 @@ export class MainMenuPage implements OnInit {
     {
       id: 6,
       title: 'Comprar/Vender cryptos',
-      url: '/fiat-ramps/operations',
+      url: '/menus/main-menu',
       icon: 'cash-outline',
-      routeDirection: 'forward'
+      elementClick: 'buyCrypto',
     },
     {
       id: 7,
@@ -166,6 +165,7 @@ export class MainMenuPage implements OnInit {
   ];
 
   constructor(
+    private apiApikeysService: ApiApikeysService,
     private authService: AuthService,
     private language: LanguageService,
     private translate: TranslateService,
@@ -175,6 +175,7 @@ export class MainMenuPage implements OnInit {
     Browser.prefetch({
       urls: ['https://www.info.xcapit.com/'],
     });
+    this.getAllApiKeys();
   }
 
   ngOnInit() {
@@ -210,12 +211,38 @@ export class MainMenuPage implements OnInit {
     }
   }
 
+  checkEmptyApiKeys() {
+    if (this.apikeys.length === 0) {
+      this.openModal();
+    } else {
+      this.navController.navigateForward('/fiat-ramps/operations');
+    }
+  }
+
+  getAllApiKeys() {
+    this.apiApikeysService.getAll().subscribe((data) => {
+      this.apikeys = data;
+    });
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: InformativeModalComponent,
+      cssClass: 'ux-modal-informative',
+      swipeToClose: false,
+    });
+    await modal.present();
+  }
+
   async clickAction(element) {
     if (element === 'openTutorials') {
       await Browser.open({
         toolbarColor: '#ff9100',
         url: 'https://www.info.xcapit.com/',
       });
+    }
+    if (element === 'buyCrypto') {
+      this.checkEmptyApiKeys();
     }
   }
 }
