@@ -69,7 +69,7 @@ const { Browser } = Plugins;
           </ion-item>
         </ion-list>
 
-        <ion-item class="main__telegram" lines="none">
+        <ion-item class="main__telegram" lines="none" (click)="this.launchChat()">
           <div class="main__telegram__secondary_text">
             <ion-text>{{ 'fiat_ramps.fiat_success.info_telegram' | translate }}</ion-text>
           </div>
@@ -79,7 +79,6 @@ const { Browser } = Plugins;
               class="main__telegram__telegram_logo__img"
               src="../../assets/img/fiat-ramps/success-kripton/contact-us-telegram.svg"
               alt="Contact us Telegram image"
-              (click)="this.launchChat()"
             />
           </div>
         </ion-item>
