@@ -87,7 +87,7 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(13);
+    expect(elms.length).toBe(11);
   });
 
   it('should call checkEmptyApiKeys in clickAction', () => {
