@@ -123,9 +123,8 @@ export class MainMenuPage implements OnInit {
     {
       id: 6,
       title: 'Comprar/Vender cryptos',
-      url: '/fiat-ramps/operations',
+      url: '/menus/main-menu',
       icon: 'cash-outline',
-      routeDirection: 'forward',
       elementClick: 'buyCrypto',
     },
     {
@@ -176,6 +175,7 @@ export class MainMenuPage implements OnInit {
     Browser.prefetch({
       urls: ['https://www.info.xcapit.com/'],
     });
+    this.getAllApiKeys();
   }
 
   ngOnInit() {
@@ -211,6 +211,14 @@ export class MainMenuPage implements OnInit {
     }
   }
 
+  checkEmptyApiKeys() {
+    if (this.apikeys.length === 0) {
+      this.openModal();
+    } else {
+      this.navController.navigateForward('/fiat-ramps/operations');
+    }
+  }
+
   getAllApiKeys() {
     this.apiApikeysService.getAll().subscribe((data) => {
       this.apikeys = data;
@@ -234,13 +242,7 @@ export class MainMenuPage implements OnInit {
       });
     }
     if (element === 'buyCrypto') {
-      this.getAllApiKeys();
-      if (this.apikeys.length === 0) {
-        this.navController.navigateRoot('/menus/main-menu');
-        this.openModal();
-      } else {
-        this.navController.navigateRoot('/fiat-ramps/select-provider');
-      }
+      this.checkEmptyApiKeys();
     }
   }
 }

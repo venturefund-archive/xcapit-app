@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-informative-modal',
@@ -19,26 +20,28 @@ import { Component, OnInit } from '@angular/core';
     <div class="im__content__buttons">
       <div class="im__content__button__back">
         <ion-button
+          class="ux-font-lato ux-fweight-regular ux-fsize-14"
           appTrackClick
-          name="method"
+          name="close"
           fill="clear"
           color="uxsecondary"
           size="small"
           slot="end"
-          class="ux-font-lato ux-fweight-regular ux-fsize-14"
+          (click)="this.close()"
         >
           {{ 'fiat_ramps.wallet_comprobation.btn_back' | translate }}
         </ion-button>
       </div>
       <div class="im__content__button__add">
         <ion-button
+          class="ux-font-lato ux-fweight-bold ux-fsize-14"
           appTrackClick
-          name="method"
+          name="addApiKey"
           fill="clear"
           color="uxsecondary"
           size="small"
           slot="end"
-          class="ux-font-lato ux-fweight-bold ux-fsize-14"
+          (click)="this.addApiKey()"
         >
           {{ 'fiat_ramps.wallet_comprobation.btn_add_apikey' | translate }}
         </ion-button>
@@ -48,7 +51,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./informative-modal.component.scss'],
 })
 export class InformativeModalComponent implements OnInit {
-  constructor() {}
+  constructor(private modalController: ModalController, private navController: NavController) {}
 
   ngOnInit() {}
+
+  close(state: string = 'canceled') {
+    this.modalController.dismiss(null, state);
+  }
+
+  addApiKey() {
+    this.close();
+    this.navController.navigateForward(['/apikeys/register']);
+  }
 }
