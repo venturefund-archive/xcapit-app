@@ -38,10 +38,16 @@ import { TranslateService } from '@ngx-translate/core';
                 </ion-text>
               </ion-label>
               <ion-label>
-                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-10 positive"  *ngIf="this.fund?.percentage >= 0">
+                <ion-text
+                  class="ux-font-lato ux-fweight-semibold ux-fsize-10 positive"
+                  *ngIf="this.fund?.percentage >= 0"
+                >
                   {{ this.fund?.percentage | number: '1.0-2' }}%
                 </ion-text>
-                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-10 negative"  *ngIf="this.fund?.percentage < 0">
+                <ion-text
+                  class="ux-font-lato ux-fweight-semibold ux-fsize-10 negative"
+                  *ngIf="this.fund?.percentage < 0"
+                >
                   {{ this.fund?.percentage | number: '1.0-2' }}%
                 </ion-text>
               </ion-label>
@@ -146,10 +152,15 @@ export class FundTimelineDetailPage implements OnInit {
 
   getProfileName(profile) {
     let response = profile;
-    if (profile === 'volume_profile_strategies_USDT' || profile === 'volume_profile_strategies_BTC' || profile === 'DeFi_index' || profile === 'Mary_index') {
-      let translate_code = `funds.fund_investment.card.profiles.${profile}.title`
-      response = this.translate.instant(translate_code);
+    if (
+      profile === 'volume_profile_strategies_USDT' ||
+      profile === 'volume_profile_strategies_BTC' ||
+      profile === 'DeFi_index' ||
+      profile === 'Mary_index'
+    ) {
+      const translateCode = `funds.fund_investment.card.profiles.${profile}.title`;
+      response = this.translate.instant(translateCode);
     }
-    return response
+    return response;
   }
 }

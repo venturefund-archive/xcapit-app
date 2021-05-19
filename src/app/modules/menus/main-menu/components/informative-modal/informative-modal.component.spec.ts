@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UrlSerializer } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,23 +8,25 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 
 import { InformativeModalComponent } from './informative-modal.component';
 
-fdescribe('InformativeModalComponent', () => {
+describe('InformativeModalComponent', () => {
   let component: InformativeModalComponent;
   let fixture: ComponentFixture<InformativeModalComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InformativeModalComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [InformativeModalComponent, TrackClickDirective],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-      providers: [UrlSerializer, TrackClickDirective],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [InformativeModalComponent, TrackClickDirective],
+        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+        providers: [UrlSerializer, TrackClickDirective],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(InformativeModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  }));
+      fixture = TestBed.createComponent(InformativeModalComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
