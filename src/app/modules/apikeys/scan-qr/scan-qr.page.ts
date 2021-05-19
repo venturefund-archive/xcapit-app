@@ -8,19 +8,20 @@ import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-s
 @Component({
   selector: 'app-scan-qr',
   template: `
-      <ion-header>
-          <ion-toolbar color="uxprimary" class="ux_toolbar">
-              <ion-title class="ion-text-center">{{
-                  'apikeys.scan_qr.header' | translate
-                  }}</ion-title>
-          </ion-toolbar>
-      </ion-header>
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-title class="ion-text-center">{{ 'apikeys.scan_qr.header' | translate }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-      <ion-content>
-          <app-qr-scanner (stoppedScan)="this.stoppedScan()" (scannedApikeysEvent)="this.apiKeysScanned($event)"></app-qr-scanner>
-      </ion-content>
+    <ion-content>
+      <app-qr-scanner
+        (stoppedScan)="this.stoppedScan()"
+        (scannedApikeysEvent)="this.apiKeysScanned($event)"
+      ></app-qr-scanner>
+    </ion-content>
   `,
-  styleUrls: ['./scan-qr.page.scss']
+  styleUrls: ['./scan-qr.page.scss'],
 })
 export class ScanQrPage implements OnInit {
   @ViewChild(QrScannerComponent) qrScanner: QrScannerComponent;
@@ -30,10 +31,12 @@ export class ScanQrPage implements OnInit {
     private toastService: ToastService,
     private translate: TranslateService,
     private navController: NavController
-  ) {
-  }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.readQRCode();
   }
 
   apiKeysScanned(result: any) {
@@ -42,9 +45,13 @@ export class ScanQrPage implements OnInit {
     } else {
       if (result.scannedApikeys) {
         this.storageApiKeysService.updateData({ ...result.scannedApikeys, exchange: 'binance' });
-        this.navController.navigateForward(['/apikeys/register']).then();
+        this.navController.navigateBack(['/apikeys/register']).then();
       }
     }
+  }
+
+  readQRCode() {
+    this.qrScanner.readQRCode();
   }
 
   stopQRScan() {
@@ -53,21 +60,23 @@ export class ScanQrPage implements OnInit {
 
   registerManually() {
     this.stopQRScan();
-    this.navController.navigateForward(['/apikeys/register']).then();
+    this.navController.navigateBack(['/apikeys/register']).then();
   }
 
   private showErrorToast(errorCode: string) {
     const errorPrefix = 'apikeys.scan_qr.errors.';
-    this.toastService.showToast({
-      message: this.translate.instant(`${errorPrefix}${errorCode}`)
-    }).then();
+    this.toastService
+      .showToast({
+        message: this.translate.instant(`${errorPrefix}${errorCode}`),
+      })
+      .then();
   }
 
   stoppedScan() {
-    this.navController.navigateForward(['/apikeys/register']).then();
+    this.navController.navigateBack(['/apikeys/register']).then();
   }
 
-  ionViewDidLeave(){
+  ionViewDidLeave() {
     this.stopQRScan();
   }
 }
