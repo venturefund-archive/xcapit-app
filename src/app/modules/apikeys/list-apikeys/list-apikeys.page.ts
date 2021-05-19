@@ -16,14 +16,8 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-          <ion-button
-            appTrackClick
-            name="Register New Key More"
-            class="add-button"
-            color="uxsecondary"
-            (click)="this.addApiKey()"
-          >
-            <ion-icon style="zoom:1.5;" name="add"></ion-icon>
+          <ion-button appTrackClick name="Register New Key More" class="add-button" (click)="this.addApiKey()">
+            <ion-icon style="zoom:1.5; color:white;" name="add"></ion-icon>
           </ion-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'apikeys.list_apikeys.header' | translate }}</ion-title>
