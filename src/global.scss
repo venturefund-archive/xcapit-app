@@ -152,7 +152,7 @@ ion-toast.refresher_toast {
   }
 
   //Badge Proximamente - Violeta
-  .ux_badge_coming{
+  .ux_badge_coming {
     border-radius: 3px;
     height: 21px;
     --background: rgba(187, 107, 217, 0.4);
@@ -164,9 +164,6 @@ ion-toast.refresher_toast {
     font-size: 12px;
     line-height: 9.6px;
   }
-
-
-
 
   // Clase para que el modal no sea en pantalla completa, sino un alert
   .ux_modal_crm {
@@ -203,6 +200,79 @@ ion-toast.refresher_toast {
       .ion-page {
         padding-bottom: calc(46vh / 2);
       }
+    }
+  }
+  //modal alertas
+  .ux-alert {
+    &.bottom {
+      align-items: flex-end;
+    }
+
+    .modal-wrapper {
+      border-radius: 6px;
+      position: absolute;
+      bottom: 79px;
+      box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.18);
+    }
+    --height: auto;
+    --max-width: 344px;
+
+    .ion-page {
+      position: relative;
+      display: block;
+      contain: content;
+
+      .inner-content {
+        max-height: 80vh;
+        overflow: auto;
+        // padding: 10px;
+      }
+    }
+  }
+  //modal alertas success
+  .ux-alert-success {
+    --max-height: 52px;
+    --max-width: 344px;
+    --background: white;
+    .modal-wrapper {
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      position: absolute;
+      bottom: 8.5%;
+    }
+  }
+  //modal alerta atention
+  .ux-alert-atention {
+    --max-height: 120px;
+    --max-width: 344px;
+    --background: white;
+    .modal-wrapper {
+      border-radius: 6px;
+      position: absolute;
+      bottom: 8.5%;
+    }
+  }
+  //modal alerta information
+  .ux-alert-information {
+    --max-height: 85px;
+    --max-width: 344px;
+    --background: white;
+    .modal-wrapper {
+      border-radius: 6px;
+      position: absolute;
+      bottom: 8.5%;
+    }
+  }
+  //modal alerta items
+  .ux-alert-items-error {
+    --max-height: 144px;
+    --max-width: 340px;
+    --background: white;
+    .modal-wrapper {
+      border-radius: 6px;
+      position: absolute;
+      bottom: 8.5%;
     }
   }
 
