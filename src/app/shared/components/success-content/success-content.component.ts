@@ -33,6 +33,7 @@ import { Router } from '@angular/router';
         <div class="main__actions__primary">
           <ion-button
             class="ux_button"
+            color="uxsecondary"
             appTrackClick="!this.unauth"
             appTrackClickUnauth="this.unauth"
             name="Success Action Primary"
