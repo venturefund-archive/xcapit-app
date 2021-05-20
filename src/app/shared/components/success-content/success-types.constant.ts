@@ -88,13 +88,4 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'tickets.createSuccess.namePrimaryAction',
   },
-  paxful_on_ramp_success: {
-    urlClose: '/tabs/funds',
-    textPrimary: 'fiat_ramps.paxful_success.textPrimary',
-    textSecondary: 'fiat_ramps.paxful_success.textSecondary',
-    urlPrimaryAction: '/fiat-ramps/operations',
-    namePrimaryAction: 'fiat_ramps.paxful_success.namePrimaryAction',
-    urlSecondaryAction: '/fiat-ramps/select-provider',
-    nameSecondaryAction: 'fiat_ramps.paxful_success.nameSecondaryAction',
-  },
 };
