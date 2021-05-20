@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 
-fdescribe('SuccessContentComponent', () => {
+describe('SuccessContentComponent', () => {
   let component: SuccessContentComponent;
   let fixture: ComponentFixture<SuccessContentComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SuccessContentComponent>;

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { EVENT_MANAGER_PLUGINS } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 @Component({
