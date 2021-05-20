@@ -4,6 +4,11 @@ import { ShareService } from 'src/app/shared/services/share/share.service';
 import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { Currency } from '../../enums/currency.enum';
+import { ApiFundsService } from '../../services/api-funds/api-funds.service';
+import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
+
 
 @Component({
   selector: 'app-fund-summary-card',
@@ -24,13 +29,35 @@ import { AlertController } from '@ionic/angular';
               color="uxdark"
             >
               {{
-                this.summary?.balance.end_balance
+                this.totalBase
                   | currencyFormat
                     : {
-                        currency: this.summary?.fund.currency,
+                        currency: this.currencyBase,
                         formatUSDT: '1.2-2',
-                        formatBTC: '1.2-4'
+                        formatBTC: '1.2-6'
                       }
+                  | hideText: this.hideFundText
+              }}
+            </ion-text>
+            <ion-text
+              class="ux-font-lato ux-fweight-regular ux-fsize-18"
+              color="uxmedium"
+            >
+              ≈
+            </ion-text>
+            <ion-text
+              class="ux-font-gilroy ux-fweight-regular ux-fsize-18"
+              color="uxmedium"
+            >
+              {{
+                this.totalSecond
+                  | currencyFormat
+                    : {
+                        currency: this.currencySecond,
+                        formatBTC: '1.2-7',
+                        formatUSDT: '1.2-2'
+                      }
+                  | hideText: this.hideFundText
               }}
             </ion-text>
           </div>
@@ -44,58 +71,9 @@ import { AlertController } from '@ionic/angular';
             >
           </div>
         </div>
-        <div class="fsc__content__right">
-          <div class="initial-amount">
-            <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
-              color="uxdark"
-            >
-              {{
-                this.summary?.balance.start_balance
-                  | currencyFormat
-                    : {
-                        currency: this.summary?.fund.currency,
-                        formatUSDT: '1.2-2',
-                        formatBTC: '1.2-4'
-                      }
-              }}
-            </ion-text>
-          </div>
-          <div class="initial-text">
-            <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-12"
-              color="uxmedium"
-            >
-              {{
-                'funds.fund_detail.fund_summary_card.initial_amount' | translate
-              }}
-            </ion-text>
-          </div>
-        </div>
       </div>
       <div class="fsc__footer">
         <div class="fsc__footer__left">
-          <!--          <div class="remaining-time-text">-->
-          <!--            <ion-text-->
-          <!--              class="ux-font-lato ux-fweight-regular ux-fsize-12"-->
-          <!--              color="uxmedium"-->
-          <!--            >-->
-          <!--              {{-->
-          <!--                'funds.fund_detail.fund_summary_card.remaining_time' | translate-->
-          <!--              }}-->
-          <!--            </ion-text>-->
-          <!--          </div>-->
-          <!--          <div class="remaining-time">-->
-          <!--            <ion-text-->
-          <!--              class="ux-font-lato ux-fweight-semibold ux-fsize-12"-->
-          <!--              color="uxdark"-->
-          <!--            >-->
-          <!--              {{-->
-          <!--                this.summary?.balance.date_info.cantidad_dias_inicio_restantes-->
-          <!--              }}-->
-          <!--              {{ 'funds.fund_detail.fund_summary_card.days_label' | translate }}-->
-          <!--            </ion-text>-->
-          <!--          </div>-->
         </div>
         <div class="fsc__footer__right">
           <div class="share-button">
@@ -119,32 +97,74 @@ import { AlertController } from '@ionic/angular';
 })
 export class FundSummaryCardComponent implements OnInit {
   @Input() summary: FundSummaryInterface;
+  hideFundText: boolean;
+  @Input() fundBalance: any;
+  currencyBase: string;
+  currencySecond: string;
+  totalBase: number;
+  totalSecond: number;
+
+  currencies = [Currency.BTC, Currency.USDT];
+
   constructor(
     private shareService: ShareService,
     private translate: TranslateService,
     private apiSubscriptions: ApiSubscriptionsService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private localStorageService: LocalStorageService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscribeOnHideFunds();
+    this.setTotals();
+    this.setCurrency();
+  }
+
+  setTotals() {
+    this.totalBase = parseFloat(this.summary?.balance.end_balance);
+    this.totalSecond = parseFloat(this.fundBalance?.balance.to_ca.end_balance);
+  }
+
+  setCurrency() {
+    this.currencyBase = this.summary?.fund.currency;
+    if (this.currencyBase === Currency.BTC) {
+      this.currencySecond = Currency.USDT;
+    } else {
+      this.currencySecond = Currency.BTC;
+    }
+  }
 
   async showShareSubscriptionAlert() {
     const alert = await this.alertController.create({
-      header: this.translate.instant('funds.fund_detail.fund_summary_card.alert_header'),
-      message: this.translate.instant('funds.fund_detail.fund_summary_card.alert_message'),
+      header: this.translate.instant(
+        'funds.fund_detail.fund_summary_card.alert_header'
+      ),
+      message: this.translate.instant(
+        'funds.fund_detail.fund_summary_card.alert_message'
+      ),
       buttons: [
         {
-          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_exit_button'),
+          text: this.translate.instant(
+            'funds.fund_detail.fund_summary_card.alert_exit_button'
+          ),
           role: 'cancel',
-          cssClass: 'secondary'
+          cssClass: 'secondary',
         },
         {
-          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_share_button'),
-          handler: _ => this.shareSubscriptionLink()
-        }
-      ]
+          text: this.translate.instant(
+            'funds.fund_detail.fund_summary_card.alert_share_button'
+          ),
+          handler: (_) => this.shareSubscriptionLink(),
+        },
+      ],
     });
     await alert.present();
+  }
+
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe(
+      (res) => (this.hideFundText = res)
+    );
   }
 
   shareSubscriptionLink() {

@@ -21,8 +21,7 @@ describe('TutorialApikeysPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterTestingModule.withRoutes([
-          { path: 'apikeys/insert-key', component: DummyComponent },
-          { path: 'tutorials/help', component: DummyComponent }
+          { path: 'apikeys/list/:select', component: DummyComponent }
         ]),
         TranslateModule.forRoot(),
         HttpClientTestingModule
@@ -42,11 +41,10 @@ describe('TutorialApikeysPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Next Button clicked', () => {
-    spyOn(window, 'open');
+  it('should call trackEvent on trackService when Link With Binance clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName(
       'ion-button',
-      'Next'
+      'Link With Binance'
     );
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -55,22 +53,4 @@ describe('TutorialApikeysPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call window.open when moreInfo is called', () => {
-    spyOn(window, 'open');
-    component.moreInfo();
-    expect(window.open).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent on trackService when Go To Help link clicked', () => {
-    spyOn(window, 'open');
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Go To Help'
-    );
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
 });

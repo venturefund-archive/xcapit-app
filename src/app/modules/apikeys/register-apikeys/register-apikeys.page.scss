@@ -12,19 +12,49 @@
       margin-top: 8px;
     }
 
-    &__next_button {
+    &__submit_button {
       display: flex;
       flex-direction: column;
-      margin-top: 16px;
+      margin-top: 8px;
+    }
+
+    &__use-qr {
+      display: flex;
+
+      &__input {
+        flex-grow: 1;
+      }
+
+      &__button {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        ion-button {
+          margin: 0;
+          --padding-start: 8px;
+          --padding-end: 5px;
+        }
+
+      }
+    }
+
+    &__need-help {
+      width: 100%;
+      display: flex;
+      justify-content: center;
     }
   }
+
   .main {
     margin-top: 8px;
     overflow: auto;
+
     &__help__button {
       float: right;
       height: auto;
       font-size: 12px;
+
       .button-native {
         padding-right: 0 !important;
       }
@@ -33,5 +63,10 @@
     &__go_to_register {
       margin-top: 8px;
     }
+  }
+
+  .container {
+    height: 100%;
+    width: 100%;
   }
 }

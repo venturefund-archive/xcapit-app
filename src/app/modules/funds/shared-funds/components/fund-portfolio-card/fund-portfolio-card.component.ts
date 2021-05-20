@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Currency } from '../../enums/currency.enum';
 import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-detail.component';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-fund-portfolio-card',
@@ -19,32 +19,22 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
         </div>
         <div class="fpc__content__right">
           <div class="by-currency" *ngIf="this.orderedPortfolio">
-            <div
-              class="by-currency__item"
-              *ngFor="let p of this.orderedPortfolio | slice: 0:3"
-            >
+            <div class="by-currency__item" *ngFor="let p of this.orderedPortfolio | slice: 0:3">
               <div class="by-currency__item__left">
                 <div class="color" [style.background-color]="p.color"></div>
-                <ion-text
-                  class="text ux-font-lato ux-fweight-semibold ux-fsize-14"
-                  color="uxdark"
+                <ion-text class="text ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark"
                   >{{ p.ca }}
                 </ion-text>
               </div>
               <div>
-                <ion-text
-                  class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-                  color="uxdark"
+                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark"
                   >{{ p.percentage | number: '1.0-2' }} %</ion-text
                 >
               </div>
             </div>
           </div>
           <div class="base">
-            <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
-              color="uxdark"
-            >
+            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22" color="uxdark">
               {{
                 this.totalBase
                   | currencyFormat
@@ -53,14 +43,12 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
                         formatBTC: '1.2-6',
                         formatUSDT: '1.2-2'
                       }
+                  | hideText: this.hideFundText
               }}
             </ion-text>
           </div>
           <div class="base" style="margin-top:0px">
-            <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-18"
-              color="uxdark"
-            >
+            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-18" color="uxdark">
               {{
                 this.totalSecond
                   | currencyFormat
@@ -69,6 +57,7 @@ import { FundBalanceDetailComponent } from '../fund-balance-detail/fund-balance-
                         formatBTC: '1.2-6',
                         formatUSDT: '1.2-2'
                       }
+                  | hideText: this.hideFundText
               }}
             </ion-text>
           </div>
@@ -94,6 +83,7 @@ export class FundPortfolioCardComponent implements OnInit {
   @Input() fundBalance: any;
   @Input() fundName: string;
   @Input() isOwner: any;
+  hideFundText: boolean;
 
   orderedPortfolio: Array<{
     ca: string;
@@ -111,6 +101,7 @@ export class FundPortfolioCardComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private apiFunds: ApiFundsService
   ) {}
@@ -119,6 +110,11 @@ export class FundPortfolioCardComponent implements OnInit {
     this.orderChartData();
     this.setTotals();
     this.setCurrency();
+    this.subscribeOnHideFunds();
+  }
+
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe((res) => (this.hideFundText = res));
   }
 
   setTotals() {
@@ -128,17 +124,16 @@ export class FundPortfolioCardComponent implements OnInit {
 
   setCurrency() {
     this.currencyBase = this.fundBalance.fund.currency;
-    if (this.currencyBase == "BTC") {
-      this.currencySecond = "USDT"
+    if (this.currencyBase === Currency.BTC) {
+      this.currencySecond = Currency.USDT;
     } else {
-      this.currencySecond = "BTC"
+      this.currencySecond = Currency.BTC;
     }
   }
 
   orderChartData() {
-    this.orderedPortfolio = this.fundBalance.balance.summary.sort(
-      (a: any, b: any) =>
-        a.percentage < b.percentage ? 1 : a.percentage > b.percentage ? -1 : 0
+    this.orderedPortfolio = this.fundBalance.balance.summary.sort((a: any, b: any) =>
+      a.percentage < b.percentage ? 1 : a.percentage > b.percentage ? -1 : 0
     );
   }
 
@@ -151,7 +146,7 @@ export class FundPortfolioCardComponent implements OnInit {
         endDate: this.fundBalance.balance.end_time,
         currency: this.fundBalance.fund.currency,
         fundName: this.fundName,
-        isOwner: this.isOwner
+        isOwner: this.isOwner,
       },
       swipeToClose: false,
       cssClass: 'ux-routeroutlet-modal full-screen-modal',

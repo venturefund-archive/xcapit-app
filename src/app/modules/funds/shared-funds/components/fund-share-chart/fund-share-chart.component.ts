@@ -14,9 +14,7 @@ const { Filesystem } = Plugins;
   selector: 'app-fund-share-chart',
   template: `
     <div class="fbd__header">
-      <ion-text
-        class="fbd__header__text ux-font-lato ux-fweight-semibold ux-fsize-16"
-      >
+      <ion-text class="fbd__header__text ux-font-lato ux-fweight-semibold ux-fsize-16">
         Muestra tus rendimientos
       </ion-text>
       <ion-button
@@ -35,10 +33,7 @@ const { Filesystem } = Plugins;
     <ion-content class="fbd">
       <div class="fbd__image">
         <ion-item class="fbd__image__content">
-          <ion-img
-            class="fbd__image__content__img"
-            [src]="this.screenshot"
-          ></ion-img>
+          <ion-img class="fbd__image__content__img" [src]="this.screenshot"></ion-img>
         </ion-item>
       </div>
       <div class="fbd__main_content">
@@ -88,9 +83,7 @@ export class FundShareChartComponent implements OnInit {
     await this.shareService.share(
       {
         title: this.translate.instant('funds.fund_share_chart.share_title'),
-        dialogTitle: this.translate.instant(
-          'funds.fund_share_chart.share_title'
-        ),
+        dialogTitle: this.translate.instant('funds.fund_share_chart.share_title'),
         url: this.screenshot,
         text: '',
       },
@@ -112,19 +105,16 @@ export class FundShareChartComponent implements OnInit {
       path: fileName,
       data: this.screenshot, // your data to write (ex. base64)
       directory: FilesystemDirectory.Documents,
-    }).then((saved_file) => {
-      console.log("writeFile success")
+    }).then((savedFile) => {
       this.showToast('funds.fund_share_chart.toast_image_downloaded');
-      let path = saved_file.uri;
-      let mimeType = 'image/png';
+      const path = savedFile.uri;
+      const mimeType = 'image/png';
       this.openImage(path, mimeType);
     });
   }
 
   pwaDownload() {
-    let element: HTMLElement = document.getElementById(
-      'pwa_download'
-    ) as HTMLElement;
+    const element: HTMLElement = document.getElementById('pwa_download') as HTMLElement;
     element.click();
   }
 
@@ -132,9 +122,9 @@ export class FundShareChartComponent implements OnInit {
     return 'chart_screenshot_' + moment().format('YYYY_MM_DD_HH_mm_ss');
   }
 
-  showToast(translate_code) {
+  showToast(translateCode) {
     this.toastService.showToast({
-      message: this.translate.instant(translate_code),
+      message: this.translate.instant(translateCode),
     });
   }
 

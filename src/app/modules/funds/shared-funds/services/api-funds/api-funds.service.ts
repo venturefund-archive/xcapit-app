@@ -13,17 +13,12 @@ export class ApiFundsService {
 
   crud: CRUD;
 
-  constructor(
-    private crudService: CrudService,
-    private http: CustomHttpService
-  ) {
+  constructor(private crudService: CrudService, private http: CustomHttpService) {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
 
   getSubscribedFunds(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/subscribed_funds`
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/subscribed_funds`);
   }
 
   getPercentageEvolution(
@@ -41,11 +36,7 @@ export class ApiFundsService {
     );
   }
 
-  getBalance(
-    fundName: string,
-    toCa: string = '',
-    loading = true
-  ): Observable<any> {
+  getBalance(fundName: string, toCa: string = '', loading = true): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/name/${fundName}/balance`,
       {
@@ -67,11 +58,7 @@ export class ApiFundsService {
     );
   }
 
-  getFundRuns(
-    status: string,
-    fundName: string,
-    loading = true
-  ): Observable<any> {
+  getFundRuns(status: string, fundName: string, loading = true): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/fund_runs/${status}/${fundName}`,
       undefined,
@@ -81,50 +68,31 @@ export class ApiFundsService {
   }
 
   changeFundCA(fundName: string, ca: string): Observable<any> {
-    return this.http.put(
-      `${environment.apiUrl}/${this.entity}/change_fund_ca/${fundName}/ca/${ca}`,
-      {}
-    );
+    return this.http.put(`${environment.apiUrl}/${this.entity}/change_fund_ca/${fundName}/ca/${ca}`, {});
   }
 
   pauseFundRuns(fundName: string): Observable<any> {
-    return this.http.put(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/pause`,
-      {}
-    );
+    return this.http.put(`${environment.apiUrl}/${this.entity}/name/${fundName}/pause`, {});
   }
 
   resumeFundRuns(fundName: string): Observable<any> {
-    return this.http.put(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/resume`,
-      {}
-    );
+    return this.http.put(`${environment.apiUrl}/${this.entity}/name/${fundName}/resume`, {});
   }
 
   finalizeFundRuns(fundName: string): Observable<any> {
-    return this.http.put(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/finalize`,
-      {}
-    );
+    return this.http.put(`${environment.apiUrl}/${this.entity}/name/${fundName}/finalize`, {});
   }
 
   deleteFundRuns(fundName: string): Observable<any> {
-    return this.http.delete(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/delete`
-    );
+    return this.http.delete(`${environment.apiUrl}/${this.entity}/name/${fundName}/delete`);
   }
 
   renewFund(fundData: any): Observable<any> {
-    return this.http.post(
-      `${environment.apiUrl}/${this.entity}/renew`,
-      fundData
-    );
+    return this.http.post(`${environment.apiUrl}/${this.entity}/renew`, fundData);
   }
 
   isSubscribed(fundName: string): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/is_subscribed`
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/name/${fundName}/is_subscribed`);
   }
 
   getCommissions(): Observable<any> {
@@ -132,21 +100,11 @@ export class ApiFundsService {
   }
 
   isOwner(fundName: string): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/name/${fundName}/is_owner`);
   }
 
-  getFundBalances(
-    owner: string | boolean = 'all',
-    loading = true
-  ): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/balances/owner/${owner}`,
-      undefined,
-      undefined,
-      loading
-    );
+  getFundBalances(owner: string | boolean = 'all', loading = true): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/balances/owner/${owner}`, undefined, undefined, loading);
   }
 
   getMostChosenTP() {
@@ -160,21 +118,11 @@ export class ApiFundsService {
   }
 
   getTotalBalance(ca: string, loading = true) {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/total_balance/ca/${ca}`,
-      undefined,
-      undefined,
-      loading
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/total_balance/ca/${ca}`, undefined, undefined, loading);
   }
 
   count(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/count`,
-      undefined,
-      undefined,
-      false
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/count`, undefined, undefined, false);
   }
 
   getLastFundRun(fundName: string, loading = true): Observable<any> {
@@ -187,19 +135,10 @@ export class ApiFundsService {
   }
 
   getFundsToRenew(loading = true): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/funds_to_renew`,
-      undefined,
-      undefined,
-      loading
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/funds_to_renew`, undefined, undefined, loading);
   }
 
-  getOperationsHistory(
-    fundName: string,
-    options: any = {}
-  ): Observable<any> {
-    // this.loadingService.disabled();
+  getOperationsHistory(fundName: string, options: any = {}): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/orders/get_by_fund_name/${fundName}`,
       {
@@ -210,13 +149,21 @@ export class ApiFundsService {
     );
   }
 
-  getOrderDetail(order_id: string, options: any = {}, loading = false): Observable<any> {
-    // this.loadingService.disabled();
+  getOrderDetail(orderId: string, options: any = {}, loading = false): Observable<any> {
     return this.http.get(
-      `${environment.apiUrl}/${this.entity}/orders/get_by_id/${order_id}`,
+      `${environment.apiUrl}/${this.entity}/orders/get_by_id/${orderId}`,
       {
         params: options,
       },
+      undefined,
+      loading
+    );
+  }
+
+  getLastPercentage(fundName: string, runID: string = '', loading = false): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/name/${fundName}/last_percentage?id_corrida=${runID}`,
+      undefined,
       undefined,
       loading
     );

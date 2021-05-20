@@ -20,39 +20,41 @@ describe('FundsFinishedPage', () => {
   let apiFundsService: any;
   const dataFunds = [
     {
-      'estado': 'finalizado',
-      'id_corrida': 1,
-      'nombre_bot': 'Test'
-    }
+      estado: 'finalizado',
+      id_corrida: 1,
+      nombre_bot: 'Test',
+    },
   ];
 
-  beforeEach(waitForAsync(() => {
-    fundDataStorageServiceMock = {
-      clearAll: () => Promise.resolve()
-    };
-    apiFundsMock = {
-      getFundsToRenew: () => of(dataFunds)
-    };
-    TestBed.configureTestingModule({
-      declarations: [ FundsFinishedPage ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
-          {
-            path: 'tabs/funds',
-            component: DummyComponent
-          }
-        ]),
-      ],
-      providers: [
-        { provide: FundDataStorageService, useValue: fundDataStorageServiceMock },
-        { provide: ApiFundsService, useValue: apiFundsMock }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      fundDataStorageServiceMock = {
+        clearAll: () => Promise.resolve(),
+      };
+      apiFundsMock = {
+        getFundsToRenew: () => of(dataFunds),
+      };
+      TestBed.configureTestingModule({
+        declarations: [FundsFinishedPage],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          IonicModule,
+          TranslateModule.forRoot(),
+          HttpClientTestingModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'tabs/funds',
+              component: DummyComponent,
+            },
+          ]),
+        ],
+        providers: [
+          { provide: FundDataStorageService, useValue: fundDataStorageServiceMock },
+          { provide: ApiFundsService, useValue: apiFundsMock },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundsFinishedPage);
@@ -66,7 +68,7 @@ describe('FundsFinishedPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.clearAll on init', async done => {
+  it('should call fundDataStorageService.clearAll on init', async (done) => {
     const spy = spyOn(fundDataStorageService, 'clearAll');
     spy.and.returnValue(Promise.resolve({}));
     component.ngOnInit();

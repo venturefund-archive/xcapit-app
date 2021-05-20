@@ -9,16 +9,10 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-fund-select-take-profit',
   template: `<ion-content class="ion-padding">
-    <form
-      [formGroup]="this.form"
-      (ngSubmit)="this.handleSubmit()"
-      class="ux_main"
-    >
+    <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
       <div class="ux_content">
         <div class="ftp__title" *ngIf="this.opType !== 'edit'">
-          <app-ux-title>{{
-            'funds.fund_take_profit.title' | translate
-          }}</app-ux-title>
+          <app-ux-title>{{ 'funds.fund_take_profit.title' | translate }}</app-ux-title>
         </div>
         <div class="ftp__text_before" *ngIf="this.opType !== 'edit'">
           <app-ux-text>
@@ -26,9 +20,7 @@ import { NavController } from '@ionic/angular';
           </app-ux-text>
         </div>
         <div class="ftp__input">
-          <app-ux-radio-group
-            [label]="'funds.fund_take_profit.take_profit' | translate"
-          >
+          <app-ux-radio-group [label]="'funds.fund_take_profit.take_profit' | translate">
             <ion-list>
               <ion-radio-group formControlName="take_profit">
                 <div
@@ -38,19 +30,10 @@ import { NavController } from '@ionic/angular';
                 >
                   <ion-item>
                     <ion-label>{{ tp.name }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="tp.value"
-                    ></ion-radio>
-                    <ion-badge
-                      *ngIf="tp.value == this.mostChosenTP"
-                      class="ux_badge_primary"
-                      slot="end"
-                      >{{
-                        'funds.fund_take_profit.most_chosen' | translate
-                      }}</ion-badge
-                    >
+                    <ion-radio mode="md" slot="start" [value]="tp.value"></ion-radio>
+                    <ion-badge *ngIf="tp.value === this.mostChosenTP" class="ux_badge_primary" slot="end">{{
+                      'funds.fund_take_profit.most_chosen' | translate
+                    }}</ion-badge>
                   </ion-item>
                   <ion-button
                     *ngIf="tp.custom"
@@ -60,14 +43,9 @@ import { NavController } from '@ionic/angular';
                     fill="clear"
                     color="uxsecondary"
                     (click)="this.openCustomTP()"
-                    >{{
-                      'funds.fund_take_profit.edit_custom' | translate
-                    }}</ion-button
+                    >{{ 'funds.fund_take_profit.edit_custom' | translate }}</ion-button
                   >
-                  <div
-                    class="list-divider"
-                    *ngIf="!last || !this.customTP"
-                  ></div>
+                  <div class="list-divider" *ngIf="!last || !this.customTP"></div>
                 </div>
                 <div>
                   <ion-item [hidden]="this.customTP">
@@ -82,18 +60,14 @@ import { NavController } from '@ionic/angular';
                         expand="block"
                         (click)="this.openCustomTP()"
                       >
-                        {{
-                          'funds.fund_take_profit.custom_tp_button' | translate
-                        }}
+                        {{ 'funds.fund_take_profit.custom_tp_button' | translate }}
                       </ion-button>
                     </div>
                   </ion-item>
                 </div>
               </ion-radio-group>
             </ion-list>
-            <app-errors-form-item
-              controlName="take_profit"
-            ></app-errors-form-item>
+            <app-errors-form-item controlName="take_profit"></app-errors-form-item>
           </app-ux-radio-group>
         </div>
       </div>
@@ -129,7 +103,7 @@ import { NavController } from '@ionic/angular';
           </div>
         </div>
         <div class="ftp__buttons_edit" *ngIf="this.opType === 'edit'">
-        <ion-button
+          <ion-button
             class="ux_button"
             appTrackClick
             name="Edit Fund"
@@ -137,7 +111,6 @@ import { NavController } from '@ionic/angular';
             color="uxsecondary"
             size="large"
             [disabled]="this.submitButtonService.isDisabled | async"
-            
           >
             {{ 'funds.fund_take_profit.submit_button_edit' | translate }}
           </ion-button>
@@ -153,14 +126,7 @@ export class FundTakeProfitComponent implements OnInit {
   @Output() save = new EventEmitter<any>();
 
   form: FormGroup = this.formBuilder.group({
-    take_profit: [
-      '',
-      [
-        Validators.required,
-        Validators.min(1),
-        Validators.pattern('[0-9][^.a-zA-Z]*$'),
-      ],
-    ],
+    take_profit: ['', [Validators.required, Validators.min(1), Validators.pattern('[0-9][^.a-zA-Z]*$')]],
   });
 
   mostChosenTP: number;
@@ -194,9 +160,7 @@ export class FundTakeProfitComponent implements OnInit {
   }
 
   getMostChosenTP() {
-    this.apiFunds
-      .getMostChosenTP()
-      .subscribe((data) => (this.mostChosenTP = data));
+    this.apiFunds.getMostChosenTP().subscribe((data) => (this.mostChosenTP = data));
   }
 
   async openCustomTP() {
@@ -221,15 +185,11 @@ export class FundTakeProfitComponent implements OnInit {
   }
 
   existsInRadio(takeProfit: number) {
-    return this.takeProfitsOptions.some(
-      (item) => item.value === takeProfit && !item.custom
-    );
+    return this.takeProfitsOptions.some((item) => item.value === takeProfit && !item.custom);
   }
 
   removeCustom() {
-    const customIndex = this.takeProfitsOptions.findIndex(
-      (item) => item.custom
-    );
+    const customIndex = this.takeProfitsOptions.findIndex((item) => item.custom);
     if (customIndex !== -1) {
       this.takeProfitsOptions.splice(customIndex, 1);
       this.customTP = false;
@@ -242,9 +202,7 @@ export class FundTakeProfitComponent implements OnInit {
       value,
       custom: true,
     };
-    const customIndex = this.takeProfitsOptions.findIndex(
-      (item) => item.custom
-    );
+    const customIndex = this.takeProfitsOptions.findIndex((item) => item.custom);
     if (customIndex !== -1) {
       this.takeProfitsOptions[customIndex] = custom;
     } else {

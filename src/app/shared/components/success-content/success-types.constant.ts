@@ -6,71 +6,95 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/apikeys/tutorial',
     namePrimaryAction: 'profiles.success_profile.namePrimaryAction',
     urlSecondaryAction: '/tabs/funds',
-    nameSecondaryAction: 'profiles.success_profile.nameSecondaryAction'
+    nameSecondaryAction: 'profiles.success_profile.nameSecondaryAction',
   },
   email_validation: {
     urlClose: '/tabs/funds',
     textPrimary: 'profiles.email_validation.textPrimary',
     textSecondary: 'profiles.email_validation.textSecondary',
     urlPrimaryAction: '/apikeys/new',
-    namePrimaryAction: 'profiles.email_validation.namePrimaryAction'
+    namePrimaryAction: 'profiles.email_validation.namePrimaryAction',
   },
   apikeys_new: {
     urlClose: '/tabs/funds',
     textPrimary: 'apikeys.success_apikeys.textPrimary',
     textSecondary: 'apikeys.success_apikeys.textSecondary',
     urlPrimaryAction: '/funds/fund-name',
-    namePrimaryAction: 'apikeys.success_apikeys.namePrimaryAction'
+    namePrimaryAction: 'apikeys.success_apikeys.namePrimaryAction',
   },
   apikeys_edit: {
     urlClose: '/tabs/funds',
     textPrimary: 'apikeys.success_apikeys_edition.textPrimary',
     textSecondary: 'apikeys.success_apikeys_edition.textSecondary',
     urlPrimaryAction: '/tabs/funds',
-    namePrimaryAction: 'apikeys.success_apikeys_edition.namePrimaryAction'
+    namePrimaryAction: 'apikeys.success_apikeys_edition.namePrimaryAction',
   },
   fund: {
     urlClose: '/tabs/funds',
     textPrimary: 'funds.fund_success.textPrimary',
     textSecondary: 'funds.fund_success.textSecondary',
     urlPrimaryAction: '/tabs/funds',
-    namePrimaryAction: 'funds.fund_success.namePrimaryAction'
+    namePrimaryAction: 'funds.fund_success.namePrimaryAction',
   },
   email_reset_password: {
     urlClose: '/users/login',
     textPrimary: 'usuarios.reset_password.success_send_email_title',
     textSecondary: 'usuarios.reset_password.success_send_email_text',
     urlPrimaryAction: '/users/login',
-    namePrimaryAction: 'usuarios.reset_password.success_button'
+    namePrimaryAction: 'usuarios.reset_password.success_button',
   },
   reset_password: {
     urlClose: '/users/login',
     textPrimary: 'usuarios.reset_password.success_reset_password_header',
     textSecondary: 'usuarios.reset_password.success_reset_password_message',
     urlPrimaryAction: '/users/login',
-    namePrimaryAction: 'usuarios.reset_password.success_button'
+    namePrimaryAction: 'usuarios.reset_password.success_button',
   },
   register: {
     urlClose: '/users/login',
     textPrimary: 'usuarios.register.success_title',
     textSecondary: 'usuarios.register.success_text',
     urlPrimaryAction: '/users/login',
-    namePrimaryAction: 'usuarios.register.accept_button'
+    namePrimaryAction: 'usuarios.register.accept_button',
+    nameSecondaryAction: 'usuarios.register.resend_email_button',
   },
   fund_renew: {
     urlClose: '/tabs/funds',
     textPrimary: 'funds.fund_success_renew.textPrimary',
     textSecondary: 'funds.fund_success_renew.textSecondary',
     urlPrimaryAction: '/tabs/funds',
-    namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction'
+    namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction',
   },
-  apikeys_register_success:{ 
-    urlClose:'/tabs/funds',
+  apikeys_register_success_begginer: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'apikeys.register_success_beginner.textPrimary',
+    textSecondary: 'apikeys.register_success_beginner.textSecondary',
+    urlPrimaryAction: '/funds/fund-name',
+    namePrimaryAction: 'apikeys.register_success_beginner.namePrimaryAction',
+  },
+  apikeys_register_success: {
+    urlClose: '/tabs/funds',
     textPrimary: 'apikeys.register_success.textPrimary',
     textSecondary: 'apikeys.register_success.textSecondary',
     urlPrimaryAction: '/apikeys/list',
     namePrimaryAction: 'apikeys.register_success.namePrimaryAction',
     urlSecondaryAction: '/tabs/funds',
-    nameSecondaryAction: 'apikeys.register_success.nameSecondaryAction'
-  }
+    nameSecondaryAction: 'apikeys.register_success.nameSecondaryAction',
+  },
+  ticket_create: {
+    urlClose: '/users/login',
+    textPrimary: 'tickets.createSuccess.textPrimary',
+    textSecondary: 'tickets.createSuccess.textSecondary',
+    urlPrimaryAction: '/users/login',
+    namePrimaryAction: 'tickets.createSuccess.namePrimaryAction',
+  },
+  paxful_on_ramp_success: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'fiat_ramps.paxful_success.textPrimary',
+    textSecondary: 'fiat_ramps.paxful_success.textSecondary',
+    urlPrimaryAction: '/fiat-ramps/operations',
+    namePrimaryAction: 'fiat_ramps.paxful_success.namePrimaryAction',
+    urlSecondaryAction: '/fiat-ramps/select-provider',
+    nameSecondaryAction: 'fiat_ramps.paxful_success.nameSecondaryAction',
+  },
 };

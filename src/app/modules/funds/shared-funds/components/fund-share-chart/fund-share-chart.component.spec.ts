@@ -10,10 +10,7 @@ import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spe
 import { RouterTestingModule } from '@angular/router/testing';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { Capacitor } from '@capacitor/core';
-import {
-  Plugins,
-  FileWriteResult,
-} from '@capacitor/core';
+import { Plugins, FileWriteResult } from '@capacitor/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('FundShareChartComponent', () => {
@@ -28,15 +25,12 @@ describe('FundShareChartComponent', () => {
   let toastServiceMock: any;
   let toastService: any;
 
-  const result_file_write = {
+  const resultFileWrite = {
     uri: 'download/test.png',
   } as FileWriteResult;
 
   beforeEach(() => {
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
+    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
     capacitorSpy = jasmine.createSpyObj('Capacitor', ['isNative']);
     fileOpenerMock = {
       showOpenWithDialog: () => Promise.resolve({}),
@@ -50,11 +44,7 @@ describe('FundShareChartComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [FundShareChartComponent, TrackClickDirective],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        RouterTestingModule,
-      ],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
@@ -83,10 +73,7 @@ describe('FundShareChartComponent', () => {
   });
 
   it('should call trackEvent on trackService when Close is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Close'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -109,17 +96,13 @@ describe('FundShareChartComponent', () => {
   });
 
   it('should call fileSystemWrite,  and showToast and openFile if write is successfully on nativeDownload', async (done) => {
-    const spy = spyOn(Plugins.Filesystem, 'writeFile').and.returnValue(
-      Promise.resolve(result_file_write)
-    );
+    const spy = spyOn(Plugins.Filesystem, 'writeFile').and.returnValue(Promise.resolve(resultFileWrite));
     const spyToast = spyOn(component, 'showToast');
     const spyOpenFile = spyOn(component, 'openImage');
     component.nativeDownload();
     expect(spy).toHaveBeenCalledTimes(1);
     fixture.whenStable().then(() => expect(spyToast).toHaveBeenCalledTimes(1));
-    fixture
-      .whenStable()
-      .then(() => expect(spyOpenFile).toHaveBeenCalledTimes(1));
+    fixture.whenStable().then(() => expect(spyOpenFile).toHaveBeenCalledTimes(1));
     done();
   });
 

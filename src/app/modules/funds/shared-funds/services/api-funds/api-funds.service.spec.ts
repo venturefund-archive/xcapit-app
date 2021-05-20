@@ -174,4 +174,35 @@ describe('ApiFundsService', () => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should be call get on http when getFundsToRenew', () => {
+    service.getFundsToRenew().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call get on http when getOperationsHistory', () => {
+    service.getOperationsHistory('test').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call get on http when getOrderDetail', () => {
+    service.getOrderDetail('123').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+
+  it('should be call get on http when getOrderDetail', () => {
+    service.getOrderDetail('123').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call get on http when getLastPercentage', () => {
+    service.getLastPercentage('test', '1').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

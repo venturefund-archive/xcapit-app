@@ -49,7 +49,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
         >
         </app-ux-input>
 
-        <div class="modal_footer">
+        <div>
           <div class="change_alias__description">
             <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
               {{ 'apikeys.edit_modal.description' | translate }}
@@ -130,16 +130,16 @@ export class ApikeysEditModalComponent implements OnInit {
     });
   }
 
-  close() {
-    this.modalController.dismiss();
+  close(state: string = 'canceled') {
+    this.modalController.dismiss(null , state);
   }
 
   success() {
-    this.close();
+    this.close('success');
   }
 
   error() {
-    this.close();
+    this.close('error');
     this.showToast('errorCodes.apikeys.update.default');
   }
 }

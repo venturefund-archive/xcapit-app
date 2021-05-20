@@ -13,9 +13,9 @@ export class AuthGuard implements CanActivate {
   canActivate(): Promise<boolean> {
     return this.authService.checkToken().then(isValid => {
       if (!isValid) {
-        this.authService.checkRefreshToken().then(isRefreshed => {
+        this.authService.checkRefreshToken().then(async isRefreshed => {
           if (!isRefreshed) {
-            this.authService.sesionExpired();
+            await this.authService.sesionExpired();
           }
         });
       }

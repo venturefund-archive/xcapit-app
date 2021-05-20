@@ -9,9 +9,7 @@ import { NavController } from '@ionic/angular';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="this.goToFundSettings()"
-          ></ion-back-button>
+          <ion-back-button defaultHref="this.goToFundSettings()"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">
           {{ 'funds.fund_stop_loss.edit_title' | translate }}
@@ -34,11 +32,7 @@ export class FundEditStopLossPage implements OnInit {
   fund: any;
   stopLoss: number;
 
-  constructor(
-    private route: ActivatedRoute,
-    private apiFunds: ApiFundsService,
-    private navController: NavController
-  ) {}
+  constructor(private route: ActivatedRoute, private apiFunds: ApiFundsService, private navController: NavController) {}
 
   ngOnInit() {}
 
@@ -53,7 +47,7 @@ export class FundEditStopLossPage implements OnInit {
   }
 
   serializeFund(fund) {
-    let newFundObject = {
+    const newFundObject = {
       fund_name: fund.nombre_bot,
       id_corrida: fund.id_corrida,
       currency: fund.currency,
@@ -78,7 +72,7 @@ export class FundEditStopLossPage implements OnInit {
     this.goToFundSettings();
   }
   async error(e) {
-    if (e.error.error_code == 'funds.create.fundNameExists') {
+    if (e.error.error_code === 'funds.create.fundNameExists') {
       this.navController.navigateBack(['funds/fund-name']);
     }
   }

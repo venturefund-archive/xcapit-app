@@ -88,11 +88,10 @@ export class InsertSecretPage implements OnInit {
     private formBuilder: FormBuilder,
     private navController: NavController,
     private apiApikeys: ApiApikeysService
-    
   ) {}
 
   ngOnInit() {
-    this.storageApikeysService.data.subscribe(data => (this.apiKeyData = data));
+    this.apiKeyData = this.storageApikeysService.data;
   }
 
   handleSubmit() {

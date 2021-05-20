@@ -1,0 +1,13 @@
+:host {
+  width: 100%;
+  .loader {
+    margin-top: 16px;
+  }
+
+  .button-next {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    margin-bottom: 16px;
+  }
+}
