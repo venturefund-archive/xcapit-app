@@ -155,9 +155,6 @@ export class ConfirmPagePage implements OnInit {
       this.operationData = data;
       this.provider = this.getProvider(this.operationData.provider);
       this.calculateQuotation();
-      console.log(this.operationData);
-      console.log(this.provider);
-      console.log(this.quotation);
     });
   }
 

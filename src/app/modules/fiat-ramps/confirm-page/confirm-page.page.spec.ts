@@ -17,31 +17,33 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 const storageData = {
   valid: {
     data: {
-      pais: 'country',
-      operacion: 'cash-in',
-      par: 'one_pair',
-      monto_entrada: '100',
-      monto_salida: '100',
-      moneda_entrada: 'ARS',
-      moneda_salida: 'USDT',
-      precio_entrada: '1',
-      precio_salida: '100',
-      wallet: '0x000000000000000000000dead',
+      country: 'country',
+      operation_type: 'cash-in',
+      pair: 'ARS_USDT',
+      amount_in: '100',
+      amount_out: '100',
+      currency_in: 'ARS',
+      currency_out: 'USDT',
+      price_in: '1',
+      price_out: '100',
+      wallet_address: '0x000000000000000000000dead',
+      provider: '1',
     },
     valid: true,
   },
   invalid: {
     data: {
-      pais: '',
-      operacion: '',
-      par: '',
-      monto_entrada: '',
-      monto_salida: '',
-      moneda_entrada: '',
-      moneda_salida: '',
-      precio_entrada: '',
-      precio_salida: '',
-      wallet: '',
+      country: '',
+      operation_type: '',
+      pair: '',
+      amount_in: '',
+      amount_out: '',
+      currency_in: '',
+      currency_out: '',
+      price_in: '',
+      price_out: '',
+      wallet_address: '',
+      provider: '',
     },
     valid: false,
   },
@@ -104,11 +106,17 @@ describe('ConfirmPagePage', () => {
 
   it('should call createOperation on click confirm button', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Next Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledTimes(1);
   });
 });
