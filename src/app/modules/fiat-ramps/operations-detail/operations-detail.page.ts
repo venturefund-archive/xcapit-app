@@ -75,58 +75,48 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
           </ion-text>
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
-            <div>
-              <span class="dp__content__text__title">
-                {{ 'fiat_ramps.operation_detail.card.amount' | translate }}
-              </span>
-              <span *ngIf="this.operation.operation_type === 'cash-in'">{{
-                this.operation.amount_in | currency: 'ARS '
-              }}</span>
-              <span *ngIf="this.operation.operation_type === 'cash-out'">{{
-                this.operation.amount_out | currency: 'ARS '
-              }}</span>
-            </div>
+            <span class="dp__content__text__title">
+              {{ 'fiat_ramps.operation_detail.card.amount' | translate }}
+            </span>
+            <span *ngIf="this.operation.operation_type === 'cash-in'">{{
+              this.operation.amount_in | currency: 'ARS '
+            }}</span>
+            <span *ngIf="this.operation.operation_type === 'cash-out'">{{
+              this.operation.amount_out | currency: 'ARS '
+            }}</span>
           </ion-text>
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
-            <div>
-              <span class="dp__content__text__title">
-                {{ 'fiat_ramps.operation_detail.card.quotation' | translate }}
-              </span>
-              <span *ngIf="this.operation.currency_in === 'ARS' || this.operation.currency_in === 'USD'">
-                1 {{ this.operation.currency_out | uppercase }} = {{ this.cotizacion | number: '1.2-2' }}
-                {{ this.operation.currency_in | uppercase }}
-              </span>
-              <span *ngIf="this.operation.currency_in !== 'ARS' && this.operation.currency_in !== 'USD'">
-                1 {{ this.operation.currency_in | uppercase }} = {{ this.cotizacion | number: '1.2-2' }}
-                {{ this.operation.currency_out | uppercase }}
-              </span>
-            </div>
+            <span class="dp__content__text__title">
+              {{ 'fiat_ramps.operation_detail.card.quotation' | translate }}
+            </span>
+            <span *ngIf="this.operation.currency_in === 'ARS' || this.operation.currency_in === 'USD'">
+              1 {{ this.operation.currency_out | uppercase }} = {{ this.cotizacion | number: '1.2-2' }}
+              {{ this.operation.currency_in | uppercase }}
+            </span>
+            <span *ngIf="this.operation.currency_in !== 'ARS' && this.operation.currency_in !== 'USD'">
+              1 {{ this.operation.currency_in | uppercase }} = {{ this.cotizacion | number: '1.2-2' }}
+              {{ this.operation.currency_out | uppercase }}
+            </span>
           </ion-text>
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
-            <div>
-              <span class="dp__content__text__title">
-                {{ 'fiat_ramps.operation_detail.card.status' | translate }}
-              </span>
-              <span>{{
-                'fiat_ramps.operationStatus.' + this.provider.alias + '.' + this.operation.status | translate
-              }}</span>
-            </div>
+            <span class="dp__content__text__title">
+              {{ 'fiat_ramps.operation_detail.card.status' | translate }}
+            </span>
+            <span>{{
+              'fiat_ramps.operationStatus.' + this.provider.alias + '.' + this.operation.status | translate
+            }}</span>
           </ion-text>
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
-            <div>
-              <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.date' | translate }} </span>
-              <span>{{ this.operation.created_at | date: 'dd/MM/yy' }}</span>
-            </div>
+            <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.date' | translate }} </span>
+            <span>{{ this.operation.created_at | date: 'dd/MM/yy' }}</span>
           </ion-text>
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
-            <div>
-              <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.id' | translate }} </span>
-              <span>{{ this.operation.operation_id }}</span>
-            </div>
+            <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.id' | translate }} </span>
+            <span>{{ this.operation.operation_id }}</span>
           </ion-text>
         </div>
 

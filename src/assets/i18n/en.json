@@ -1339,23 +1339,23 @@
     "operation_detail": {
       "header": "Operation:",
       "card": {
-        "provider": "Provider: ",
-        "type": "Operation type: ",
+        "provider": "Provider:",
+        "type": "Operation type:",
         "buy": {
           "operationType": "Buy",
-          "title": "Buy: ",
+          "title": "Buy:",
           "with": " with "
         },
         "sell": {
           "operationType": "Sell",
-          "title": "Sell: ",
+          "title": "Sell:",
           "with": " for "
         },
-        "amount": "Amount: ",
-        "quotation": "Quotation: ",
-        "status": "Status: ",
-        "date": "Date: ",
-        "id": "ID: "
+        "amount": "Amount:",
+        "quotation": "Quotation:",
+        "status": "Status:",
+        "date": "Date:",
+        "id": "ID:"
       },
       "voucher": "Comprobante",
       "send": "Enviar comprobante",
@@ -1426,13 +1426,24 @@
     },
     "confirm": {
       "header": "Confirm operation",
-      "title": "Check that the data is correct",
-      "operation": "Operation:",
+      "title": "Check that the data is correct:",
+      "provider": "Provider:",
+      "type": "Operation type:",
       "amount": "Amount:",
-      "quotation": "Quotation",
+      "quotation": "Quotation:",
       "wallet_address": "Reception address",
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "buy": {
+        "operationType": "Buy",
+        "title": "Buy:",
+        "with": " with "
+      },
+      "sell": {
+        "operationType": "Sell",
+        "title": "Sell:",
+        "with": " for "
+      }
     },
     "paxful": {
       "header": "Buy BTC with Paxful",
