@@ -1353,7 +1353,8 @@
       },
       "voucher": "Comprobante",
       "send": "Enviar comprobante",
-      "my_operations": "Ver mis operaciones"
+      "my_operations": "Ver mis operaciones",
+      "has_voucher": "El comprobante ha sido cargado"
     },
 
     "operationStatus": {

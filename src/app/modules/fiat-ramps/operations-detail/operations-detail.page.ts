@@ -154,7 +154,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <div *ngIf="this.hasVoucher" class="dp__voucher">
             <app-ux-success-img></app-ux-success-img>
-            <span>El comprobante ha sido cargado</span>
+            <span>{{ 'fiat_ramps.operation_detail.has_voucher' | translate }}</span>
           </div>
 
           <div class="updload_voucher" *ngIf="this.comprobante">
