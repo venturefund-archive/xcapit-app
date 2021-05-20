@@ -13,12 +13,13 @@ import { LocalizedDatePipe } from 'src/app/shared/pipes/localized-date/localized
 import { DatePipe } from '@angular/common';
 import { FundPercentageEvolutionChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
 const fund = {
-  nombre_bot: 'test'
+  nombre_bot: 'test',
+  nivel_de_riesgo: 'volume_profile_strategies_USDT'
 };
 const testPerformance = {
   fund: {
     fundName: 'Test',
-    currency: 'BTC',
+    currency: 'BTC'
   },
   percentage_evolution: {} as FundPercentageEvolutionChartInterface,
 };
@@ -30,7 +31,7 @@ describe('FundTimelineDetailPage', () => {
   beforeEach(
     waitForAsync(() => {
       apiFundsServiceMock = {
-        getLastPercentage: () => of(fund),
+        getLastPercentage: () => of([fund]),
         getPercentageEvolution: () => of(testPerformance)
       };
       TestBed.configureTestingModule({
@@ -72,12 +73,14 @@ describe('FundTimelineDetailPage', () => {
 
   it('should call getLastPercentage in apiFundsService on ionViewWillEnter', () => {
     const spy = spyOn(apiFundsService, 'getLastPercentage');
-    spy.and.returnValue(of(fund));
+    spy.and.returnValue(of([fund]));
     component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call getPercentageEvolution in apiFundsService on getTimelineDetailInfo', () => {
+    const spyLastPercentage = spyOn(apiFundsService, 'getLastPercentage');
+    spyLastPercentage.and.returnValue(of([fund]));
     const spy = spyOn(apiFundsService, 'getPercentageEvolution');
     spy.and.returnValue(of(testPerformance));
     component.getTimelineDetailInfo();
