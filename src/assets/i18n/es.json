@@ -12,13 +12,14 @@
       "referrals": "Referidos",
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
-      "change_language": "Idioma"
+      "change_language": "Idioma",
+      "payment": "Pagar"
     }
   },
-
   "config": {
     "form_errors": {
       "required": "El campo es requerido",
+      "isNotInRange": "El monto es incorrecto",
       "email": "El email no es correcto",
       "pattern": "El campo no cumple con el patrón requerido",
       "minlength": "Se requieren más caracteres",
@@ -75,10 +76,11 @@
       "content": "Conoce todos los detalles de la forma en la que operamos.",
       "action": "Más información"
     },
-    "card_info_binance": {
-      "title": "¿Qué es Binance?",
-      "content": "Todo lo que necesitas saber antes de vincular tu cuenta.",
-      "action": "Más información"
+    "need_help": {
+      "text_help_link": "¿Necesitas ayuda?"
+    },
+    "referrals_help": {
+      "text_referrals_help_link": "¿Cómo funciona el sistema de referidos?"
     }
   },
   "usuarios": {
@@ -98,11 +100,12 @@
       "title": "Iniciar sesión"
     },
     "register": {
-      "card_header": "Registro de Usuario",
+      "card_header": "Crea tu cuenta",
       "submit_button": "Crear Cuenta",
       "success_title": "¡Solo falta que valides tu dirección de correo electrónico!",
       "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
       "accept_button": "Aceptar",
+      "resend_email_button": "No recibí el mail",
       "referral_code_text": "Código de Referido",
       "manual_referral": "Ingresar código de referido",
       "referral_code_label": "Código de referido",
@@ -110,12 +113,17 @@
       "back_login": "Inicia sesión",
       "accept_tos": "Acepto los",
       "link_tos": "Términos y condiciones",
-      "register_alert": "Si ya tienes fondos en Brainy bot, migra tu usuario a la app con el comando /app desde Telegram",
       "waiting_list_alert": {
         "alert_header": "¿Quieres probar la App?",
         "alert_message": "Para ingresar, únete a la waiting list y se uno de los primeros en probarla.",
         "alert_cancel_button": "Cancelar",
         "alert_join_button": "Unirme"
+      },
+      "resend_verification_email": {
+        "title": "¡Te enviamos un nuevo email!",
+        "text": "Si no lo ves en tu bandeja de entrada, revisá la carpeta de spam.",
+        "resend_mail_button": "Volver a enviar {{timer}}",
+        "open_ticket_button": "Todavía no pude activar mi cuenta"
       }
     },
     "auth_form": {
@@ -152,6 +160,25 @@
       "repeat_new_password": "Confirmar nueva contraseña"
     }
   },
+  "tickets": {
+    "create": {
+      "title": "Enviar una solicitud",
+      "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad.",
+      "label_email": "Correo electrónico",
+      "placeholder_email": "ejemplo@email.com",
+      "label_subject": "Asunto",
+      "placeholder_subject": "Asunto",
+      "label_message": "¿Cuál es tu consulta?",
+      "placeholder_message": "Escriba su consulta aquí.",
+      "submit_button": "Enviar",
+      "cancel_button": "Volver a inicio de sesión"
+    },
+    "createSuccess": {
+      "textPrimary": "¡Gracias por comunicarte con nosotros!",
+      "textSecondary": "En unos momentos, un miembro del equipo se pondrá en contacto contigo.",
+      "namePrimaryAction": "Aceptar"
+    }
+  },
   "funds": {
     "fund_balance": {
       "header": "Balance del Fondo",
@@ -171,23 +198,15 @@
         "total_detail": "En las ultimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
-      "error": {
-        "refresh_error": "Intente nuevamente en unos segundos"
-      },
-      "fund_steps": {
-        "title": "Configurá tu cuenta y empezá a invertir",
-        "step1": "Configurar cuenta",
-        "step2": "Vincular con Binance",
-        "step3": "Crea un nuevo fondo",
-        "action_button1": "Configurar cuenta",
-        "action_button2": "Vincular con Binance",
-        "action_button3": "Crear mi primer fondo de inversión"
+      "user_status": {
+        "title": "Comienza a invertir en el mundo cripto",
+        "action_button": "Comenzar ahora"
       },
       "funds_title": "MIS FONDOS",
       "shared_funds_title": "FONDOS COMPARTIDOS",
-      "info_title": "CONOCÉ MÁS",
       "owner_text": "Dueño",
-      "news_title": "NOTICIAS"
+      "news_title": "NOTICIAS",
+      "refresh_time": "Próxima actualización disponible en {{seconds}} s"
     },
     "new_fund": {
       "header_new": "Nuevo Fondo",
@@ -269,7 +288,7 @@
         "view_operation_history": "Ver historial de operaciones"
       },
       "operations_history_card": {
-        "title": "MIS ÚLTIMOS MOVIMIENTOS",
+        "title": "HISTÓRICO DEL FONDO",
         "run": "Corrida {{id_corrida}}"
       }
     },
@@ -386,6 +405,12 @@
             "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
           }
         }
+      },
+      "balance_not_enough": {
+        "title": "Necesitás USD${{minBalance}} en tu cuenta de Binance para comenzar a invertir.",
+        "message": "Carga saldo en tu cuenta de Binance",
+        "cancel_text": "Cancelar",
+        "ok_text": "Ir a Binance"
       }
     },
     "fund_duration": {
@@ -514,6 +539,29 @@
       "status": "Estado",
       "date": "Fecha",
       "status_closed": "Cerrado"
+    },
+    "fund_timeline": {
+      "active_fund": "Fondo actual",
+      "finished_fund": "Fondo finalizado",
+      "start_of": "Inicio de "
+    },
+    "fund_timeline_detail": {
+      "performance_card": {
+        "performance_label": "Rendimiento"
+      },
+      "config_card": {
+        "title": "CONFIGURACIÓN",
+        "item": {
+          "state": "Estado",
+          "initial_date": "Fecha de Inicio",
+          "profile": "Perfil",
+          "take_profit": "Take profit",
+          "stop_loss": "Stop loss",
+          "currency": "Moneda",
+          "status_finished": "Finalizado",
+          "status_active": "Activo"
+        }
+      }
     }
   },
   "runs": {
@@ -788,21 +836,21 @@
     },
     "first_steps": {
       "step1": {
-        "primary_text": "Configura tu perfil",
-        "secondary_text": "Te pediremos algunos datos para validar tu identidad y tener información necesaria para poder comenzar a operar.",
+        "primary_text": "Bienvenido a Xcapit",
+        "secondary_text": "Tu cuenta digital para todas tus necesidades en criptomonedas.",
         "next_button": "Siguiente"
       },
       "step2": {
-        "primary_text": "Vincula con Binance",
-        "secondary_text": "Operamos sobre el capital de tu billetera. Te guiaremos paso a paso para vincular tu cuenta.",
+        "primary_text": "Ya eres parte del futuro",
+        "secondary_text": "Elige entre múltiples opciones para invertir en simples pasos.",
         "next_button": "Siguiente",
         "back_button": "Anterior"
       },
       "step3": {
-        "primary_text": "Crea tu fondo",
-        "secondary_text": "Puedes personalizar cada detalle. Una vez creado podrás modificar o cerrar el fondo en cualquier momento.",
+        "primary_text": "Tu dinero, tu custodia",
+        "secondary_text": "Trabajamos con Binance, el exchange de criptomonedas más seguro del mundo. Nuestros algoritmos operan sobre tu cuenta, y sólo tu tienes acceso de retiros de capital.",
         "back_button": "Anterior",
-        "config_button": "Comenzar a configurar"
+        "config_button": "Comenzar"
       }
     }
   },
@@ -936,7 +984,8 @@
         "invalid": "Error al validar el email."
       },
       "login": {
-        "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente."
+        "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente.",
+        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión."
       },
       "changePassword": {
         "invalid": "Error al Cambiar la Password."
@@ -957,7 +1006,12 @@
         "invalidExchangeKeys": "Las keys ingresadas no existen en binance.",
         "keysExists": "Las keys ya se encuentran registradas.",
         "invalidData": "Los datos ingresados no son válidos.",
-        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD."
+        "balanceNotEnough": "No tienes fondos suficientes para operar. El mínimo para empezar es el equivalente a 150 USD.",
+        "default": "Ha ocurrido un error",
+        "cameraAccessDenied": "No se pudo acceder a la cámara. Acceso denegado.",
+        "noContentQR": "El código QR no tenía ningún contenido.",
+        "invalidQR": "El código QR no es válido.",
+        "creatingFund": "Este Alias ya esta siendo usado"
       },
       "update": {
         "invalidExchangeKeys": "Las keys no son válidas. Intenta nuevamente.",
@@ -974,9 +1028,54 @@
       "get": {
         "errorGetNews": "Hubo un problema en mostrar las noticias. No te preocupes, pronto lo solucionaremos. "
       }
+    },
+    "on_off_ramps": {
+      "currencies": {
+        "errorProvider": "Error al obtener las monedas del proveedor."
+      },
+      "quotations": {
+        "errorProvider": "Error al obtener las cotizaciones del proveedor."
+      },
+      "user": {
+        "doesNotExist": "Usuario inexistente.",
+        "check": {
+          "errorProvider": "Error al obtener el usuario desde proveedor."
+        },
+        "create": {
+          "errorProvider": "Error al crear nuevo usuario en el proveedor."
+        },
+        "save_info": {
+          "errorProvider": "Error al intentar guardar los datos del usuario en el proveedor."
+        },
+        "save_bank": {
+          "errorProvider": "Error al intentar guardar los datos bancarios del usuario en el proveedor."
+        },
+        "save_images": {
+          "errorProvider": "Error al intentar guardar la imagen en el proveedor."
+        }
+      },
+      "operations": {
+        "list": {
+          "errorProvider": "Error al obtener las operaciones desde proveedor."
+        },
+        "single_operation": {
+          "doesNotExist": "La operación es inexistente.",
+          "errorProvider": "Error al obtener las operaciones desde proveedor."
+        },
+        "create": {
+          "errorProvider": "Error al intentar crear la operación en el proveedor."
+        },
+        "confirm": {
+          "errorProvider": "Error al intentar guardar el comprobante en el proveedor."
+        }
+      },
+      "paxful": {
+        "get_link": {
+          "notOwner": "Estas API keys no te pertenecen."
+        }
+      }
     }
   },
-
   "terms_and_conditions": {
     "accept": {
       "header": "Términos y Condiciones",
@@ -994,6 +1093,24 @@
       "toast_message": "El referido fue creado.",
       "email_label": "Email",
       "email_placeholder": "myemail@example.com"
+    },
+    "new_referral_page": {
+      "header": "Tus Referidos",
+      "list_title": "MIS REFERIDOS",
+      "points_title": "MIS PUNTOS",
+      "shared_referral_card": {
+        "title": "Invita a tus amigos a invertir compartiendo el siguiente link.",
+        "button": "Compartir"
+      },
+      "points_card": {
+        "points_text": "puntos",
+        "coming_badge": "Próximamente"
+      },
+      "help_alert": {
+        "alert_title": "Sistema de Referidos",
+        "alert_message": "Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
+        "alert_button": "Entendido"
+      }
     },
     "referrals_list": {
       "header": "Referidos",
@@ -1051,7 +1168,6 @@
       "slide4_option_next": "Siguiente",
       "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
     },
-
     "card_apikeys": {
       "content": "Fondo:",
       "action": "Gestionar",
@@ -1065,12 +1181,12 @@
         "cancel_button": "Cancelar"
       }
     },
-
-    "manage_apikeys": {
+    "list_apikeys": {
       "header": "Gestión de API Keys",
-      "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas."
+      "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas.",
+      "add_api_key": "Agrega una API key",
+      "security_info_alert": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la billetera Spot. No podremos realizar retiros."
     },
-
     "linked_apikeys": {
       "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
       "subtitle_header_text": "Ya comenzaste tu viaje crypto",
@@ -1078,27 +1194,36 @@
       "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
     },
-
+    "register_success_beginner": {
+      "textPrimary": "¡Genial! Estás a un paso de tu primera inversión.",
+      "textSecondary": "Elige la estrategia que mejor se adapta a ti.",
+      "namePrimaryAction": "Crear mi primera inversión"
+    },
     "register_success": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
       "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
       "namePrimaryAction": "Gestionar",
       "nameSecondaryAction": "Omitir por ahora"
     },
-
     "tutorial_apikeys": {
       "header": "Vincular con Binance",
-      "title": "Crea una API Key",
-      "text_before": "LA API Key es un código que nos permitirá gestionar sobre tu cuenta.",
-      "text_before_2": "Ingresa a tu cuenta de Binance y sigue estos pasos para crear una nueva API Key.",
-      "step1": "Ingresa a la sección \"Mi Cuenta\". ",
-      "step2": "Encuentra el modulo \"API\".",
-      "step3": "Ingrese una etiqueta de identificación.",
-      "step4": "Copia la api key y secret key, las necesitas en el próximo paso.",
-      "text_after": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
-      "text_help": "¿Tenés dudas?",
-      "text_help_link": "Aprende más.",
-      "next_button": "Siguiente"
+      "title": "Asocia una llave de gestión externas (API key)",
+      "text_before": "La API Key es un código que nos permitirá gestionar sobre tu cuenta de Binance.",
+      "text_before_2": "Ingresa desde una computadora a tu cuenta de www.binance.com y sigue estos pasos para crear una nueva API Key.",
+      "step1_before_icon": "Ingresa a la sección ",
+      "step1_after_icon": " \"Mi Cuenta\" > \"Gestión de API\" ",
+      "step2": "Escribe una \"Etiqueta de identificación para la clave API\" y haz clic en \"Crear API\".",
+      "step3": "Escanea los datos con QR o ingrésalos manualmente.",
+      "link_with_binance": "Vincular con Binance"
+    },
+    "scan_qr": {
+      "header": "Escanea tus keys",
+      "register_manually": "Ingresar manualmente",
+      "errors": {
+        "invalidQR": "El código QR no es válido.",
+        "noContent": "El código QR no tenía ningún contenido.",
+        "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
+      }
     },
     "insert_key": {
       "header": "Vincular con Binance",
@@ -1134,8 +1259,7 @@
       "public_key": "Binance API Key",
       "secret_key": "Binance Secret Key",
       "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
-      "submit_button": "Guardar",
-      "need_help": "¿Necesitas ayuda?"
+      "submit_button": "Guardar"
     },
     "register": {
       "header": "Agregar API key",
@@ -1146,12 +1270,7 @@
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Agregar",
-      "link_help": "¿Necesitas Ayuda?",
-      "alert": {
-        "title": "Agregar nueva key",
-        "text": "Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
-        "button": "Entendido"
-      }
+      "link_help": "¿Necesitas Ayuda?"
     },
     "edit_modal": {
       "title": "Cambiar Alias",
@@ -1160,6 +1279,11 @@
       "edit_error": {
         "default": "Ha ocurrido un error."
       }
+    },
+    "qr_scanner": {
+      "title": "Apunta la cámara al código QR",
+      "cancel_label": "Cancelar e ingresar manual",
+      "text": "Apunta la cámara a un código QR."
     }
   },
   "tabs": {
@@ -1188,5 +1312,159 @@
       "copy_address_error_text": "No se pudo copiar la dirección al portapapeles",
       "back_link": "Ir al inicio"
     }
+  },
+  "fiat_ramps": {
+    "operations_list": {
+      "header": "Comprar/Vender cryptos",
+      "title": "Mis operaciones",
+      "id": "ID",
+      "operation": "Operación",
+      "amount": "Monto",
+      "provider": "Proveedor",
+      "status": "Estado",
+      "date": "Fecha",
+      "new": "Nueva"
+    },
+    "select_provider": {
+      "header": "Comprar Cripto",
+      "title": "Selecciona el proveedor:"
+    },
+
+    "operation_detail": {
+      "header": "Operación:",
+      "card": {
+        "provider": "Proveedor: ",
+        "type": "Tipo de operación: ",
+        "buy": {
+          "operationType": "Compra",
+          "title": "Comprar: ",
+          "with": " con "
+        },
+        "sell": {
+          "operationType": "Venta",
+          "title": "Vender: ",
+          "with": " por "
+        },
+        "amount": "Monto: ",
+        "quotation": "Cotización: ",
+        "status": "Estado: ",
+        "date": "Fecha: ",
+        "id": "ID: "
+      },
+      "voucher": "Comprobante",
+      "send": "Enviar comprobante",
+      "my_operations": "Ver mis operaciones"
+    },
+
+    "operationStatus": {
+      "kripton": {
+        "pending_by_validate": "Pendiente",
+        "request": "Pedida",
+        "received": "Recibida",
+        "wait": "En espera",
+        "complete": "Completada",
+        "cancel": "Cancelada"
+      },
+      "paxful": {
+        "SUCCESSFUL": "Completada",
+        "EXPIRED": "Expirada",
+        "CANCELED": "Cancelada"
+      }
+    },
+
+    "ramp_initial": {
+      "header": "Comprar/Vender cryptos",
+      "title": "Nueva operación",
+      "operation": "¿Qué operación quieres hacer?",
+      "pair_buy": "¿Qué moneda quieres comprar?",
+      "pair_sell": "¿Qué moneda quieres vender?",
+      "amount": "Monto",
+      "amount_ars": "Monto en ARS",
+      "amount_min": "Cantidad mínima:",
+      "amount_max": "Cantidad máxima:",
+      "wallet": "Wallet",
+      "buy": "Comprar",
+      "sell": "Vender",
+      "next_button": "Continuar"
+    },
+    "register": {
+      "header": "Registro Kripton market",
+      "header_bank": "Datos bancarios",
+      "header_images": "Carga de imágenes",
+      "description": "Completa el siguiente formulario para registrarte con nuestro proveedor Kripton Market",
+      "description_bank": "Completa tus datos bancarios con los cuales operarás con el proveedor",
+      "description_images": "Carga las siguientes imágenes para finalizar con el registro.",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "nationality": "Nacionalidad",
+      "dob": "Fecha de nacimiento",
+      "gender": "Género",
+      "marital_status": "Estado civil",
+      "doc_type": "Tipo documento",
+      "doc_number": "Documento de identidad",
+      "cuil": "CUIL/CUIT",
+      "province": "Provincia",
+      "city": "Ciudad",
+      "postal_code": "Código postal",
+      "address_street": "Dirección (calle)",
+      "address_number": "Dirección (Número)",
+      "address_extra": "Dirección (Piso/Dpto)",
+      "cbu": "CBU/CVU",
+      "bank": "Banco",
+      "doc_front": "Foto documento frente",
+      "doc_back": "Foto documento dorso",
+      "selfie": "Foto selfie con documento",
+      "not_politically": "No expuesto politicamente",
+      "not_bound": "Sujeto no obligado",
+      "tos": "Terminos y condiciones",
+      "register": "Finalizar",
+      "next": "Siguiente"
+    },
+    "confirm": {
+      "header": "Confirmar operación",
+      "title": "Revisa que los datos sean correctos",
+      "operation": "Operación:",
+      "amount": "Monto:",
+      "quotation": "Cotización:",
+      "wallet_address": "Dirección de recepción:",
+      "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
+      "confirm": "Confirmar"
+    },
+    "fiat_success": {
+      "textPrimary": "¡La operación fue creada con éxito!",
+      "textSecondary": "Para continuar deberás transferir desde tu banco con los siguientes datos:",
+      "bank": "Banco:",
+      "cbu": "CBU:",
+      "concept": "Concepto:",
+      "amount": "Monto:",
+      "info_telegram": "Por dudas o consultas, contactanos por Télegram:",
+      "info_email": "El proveedor se comunicará por email conforme avance el proceso.",
+      "buttonText": "Terminar"
+    },
+    "paxful": {
+      "header": "Comprar BTC con Paxful",
+      "title": "Comprar BTC con Paxful",
+      "text": "Paxful sólo te permitirá comprar BTC. Te redigiremos a su página para finalizar la compra.",
+      "label-wallet": "Seleccioná tu wallet",
+      "button-text": "Continuar a Paxful"
+    },
+    "paxful_success": {
+      "textPrimary": "Te redirigimos a la página de Paxful",
+      "textSecondary": "Completa los detalles que te soliciten para terminar la transacción",
+      "namePrimaryAction": "Ver mis operaciones",
+      "nameSecondaryAction": "Comprar más criptos"
+    },
+    "wallet_comprobation": {
+      "title": "Para comprar criptomonedas necesitas asociar una Api Key",
+      "message": "Agrega una Key para que tus compras se reflejen en tu cuenta de Binance.",
+      "btn_back": "Volver",
+      "btn_add_apikey": "Agregar Api Key"
+    }
+  },
+
+  "payment": {
+    "header": "Método de pago",
+    "title": "Método de pago para comenzar con el proceso",
+    "paypal_button": "Pagar"
   }
 }

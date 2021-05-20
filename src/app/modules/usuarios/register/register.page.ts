@@ -12,11 +12,11 @@ const { Browser } = Plugins;
   selector: 'app-register',
   template: `
     <ion-header>
-      <div >
+      <div>
         <div class="app_header_register">
           <div class="app_header_register__content">
             <div class="app_header_register__content__app_xcapit_logo">
-            <app-xcapit-logo [whiteLogo]=false></app-xcapit-logo>
+              <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@ const { Browser } = Plugins;
         <app-auth-form (send)="this.registerUser($event)">
           <div class="tos-text">
             <div class="tos-text__label">
-              {{'usuarios.register.accept_tos' | translate}}
+              {{ 'usuarios.register.accept_tos' | translate }}
 
               <ion-button
                 fill="clear"
@@ -45,7 +45,7 @@ const { Browser } = Plugins;
                 routerDirection="back"
                 (click)="openTOS()"
               >
-                  {{ 'usuarios.register.link_tos' | translate }}
+                {{ 'usuarios.register.link_tos' | translate }}
               </ion-button>
             </div>
           </div>
@@ -59,16 +59,13 @@ const { Browser } = Plugins;
               name="Register"
               class="ux_button"
               color="uxsecondary"
-              [disabled]="
-                !this.registerForm.form.valid ||
-                (this.submitButtonService.isDisabled | async)
-              "
+              [disabled]="!this.registerForm.form.valid || (this.submitButtonService.isDisabled | async)"
             >
               {{ 'usuarios.register.submit_button' | translate }}
             </ion-button>
           </div>
           <div class="auth-link ion-text-right ion-padding-top">
-          {{ 'usuarios.register.have_an_account' | translate }}
+            {{ 'usuarios.register.have_an_account' | translate }}
             <ion-button
               fill="clear"
               size="small"
@@ -84,15 +81,9 @@ const { Browser } = Plugins;
           </div>
         </app-auth-form>
       </div>
-
-      <div class="register_alert">
-        <app-ux-alert-message type="info">
-          {{ 'usuarios.register.register_alert' | translate }}
-        </app-ux-alert-message>
-      </div>
     </ion-content>
   `,
-  styleUrls: ['./register.page.scss']
+  styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true })
@@ -110,7 +101,7 @@ export class RegisterPage implements OnInit {
     private navController: NavController
   ) {
     Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/terms']
+      urls: ['https://www.info.xcapit.com/terms'],
     });
   }
 
@@ -126,7 +117,7 @@ export class RegisterPage implements OnInit {
     if (code) {
       this.registerForm.form.patchValue({
         manual_referral: true,
-        referral_code: code
+        referral_code: code,
       });
     }
   }
@@ -134,7 +125,7 @@ export class RegisterPage implements OnInit {
   setEmail() {
     const email = this.getEmailFromUrl();
     if (email) {
-      ['email'].forEach(fieldName => {
+      ['email'].forEach((fieldName) => {
         const formField = this.registerForm.form.get(fieldName);
         formField.setValue(email);
         formField.markAsTouched();
@@ -163,12 +154,13 @@ export class RegisterPage implements OnInit {
   }
 
   async success(response) {
-    if(!Object.keys(response).length!){
+    // tslint:disable-next-line:no-non-null-assertion
+    if (!Object.keys(response).length!) {
       this.showWhiteListAlert();
-    }
-    else{
-    this.registerForm.form.reset();
-    this.navController.navigateForward(['/users/success-register'], { replaceUrl: true });
+    } else {
+      this.registerForm.form.reset();
+      const params = { replaceUrl: true, state: { email: response.email } };
+      this.navController.navigateForward(['/users/success-register'], params);
     }
   }
 
@@ -180,23 +172,28 @@ export class RegisterPage implements OnInit {
         {
           text: this.translate.instant('usuarios.register.waiting_list_alert.alert_cancel_button'),
           role: 'cancel',
-          cssClass: 'secondary'
+          cssClass: 'secondary',
         },
         {
           text: this.translate.instant('usuarios.register.waiting_list_alert.alert_join_button'),
-          handler: _ =>
-            this.openWaitingList()
-        }
-      ]
+          handler: (_) => this.openWaitingList(),
+        },
+      ],
     });
     await alert.present();
   }
 
   async openTOS() {
-    await Browser.open({ toolbarColor:"red", url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html' });
+    await Browser.open({
+      toolbarColor: 'red',
+      url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
+    });
   }
 
   async openWaitingList() {
-    await Browser.open({ toolbarColor:"red", url: 'https://www.xcapit.com/waiting-list' });
+    await Browser.open({
+      toolbarColor: 'red',
+      url: 'https://www.xcapit.com/waiting-list',
+    });
   }
 }

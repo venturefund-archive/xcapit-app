@@ -8,16 +8,10 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 @Component({
   selector: 'app-fund-select-stop-loss',
   template: ` <ion-content class="ion-padding">
-    <form
-      [formGroup]="this.form"
-      (ngSubmit)="this.handleSubmit()"
-      class="ux_main"
-    >
+    <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
       <div class="ux_content">
         <div class="fsl__title" *ngIf="this.opType !== 'edit'">
-          <app-ux-title>{{
-            'funds.fund_stop_loss.title' | translate
-          }}</app-ux-title>
+          <app-ux-title>{{ 'funds.fund_stop_loss.title' | translate }}</app-ux-title>
         </div>
         <div class="fsl__text_before" *ngIf="this.opType !== 'edit'">
           <app-ux-text>
@@ -25,9 +19,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
           </app-ux-text>
         </div>
         <div class="fsl__input">
-          <app-ux-radio-group
-            [label]="'funds.fund_stop_loss.stop_loss' | translate"
-          >
+          <app-ux-radio-group [label]="'funds.fund_stop_loss.stop_loss' | translate">
             <ion-list>
               <ion-radio-group formControlName="stop_loss">
                 <div
@@ -37,19 +29,10 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 >
                   <ion-item>
                     <ion-label>{{ sl.name }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="sl.value"
-                    ></ion-radio>
-                    <ion-badge
-                      *ngIf="sl.value == this.mostChosenSL"
-                      class="ux_badge_primary"
-                      slot="end"
-                      >{{
-                        'funds.fund_stop_loss.most_chosen' | translate
-                      }}</ion-badge
-                    >
+                    <ion-radio mode="md" slot="start" [value]="sl.value"></ion-radio>
+                    <ion-badge *ngIf="sl.value === this.mostChosenSL" class="ux_badge_primary" slot="end">{{
+                      'funds.fund_stop_loss.most_chosen' | translate
+                    }}</ion-badge>
                   </ion-item>
                   <ion-button
                     *ngIf="sl.custom"
@@ -59,14 +42,9 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                     fill="clear"
                     color="uxsecondary"
                     (click)="this.openCustomSL()"
-                    >{{
-                      'funds.fund_stop_loss.edit_custom' | translate
-                    }}</ion-button
+                    >{{ 'funds.fund_stop_loss.edit_custom' | translate }}</ion-button
                   >
-                  <div
-                    class="list-divider"
-                    *ngIf="!last || !this.customSL"
-                  ></div>
+                  <div class="list-divider" *ngIf="!last || !this.customSL"></div>
                 </div>
                 <div>
                   <ion-item [hidden]="this.customSL">
@@ -81,18 +59,14 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                         expand="block"
                         (click)="this.openCustomSL()"
                       >
-                        {{
-                          'funds.fund_stop_loss.custom_tp_button' | translate
-                        }}
+                        {{ 'funds.fund_stop_loss.custom_tp_button' | translate }}
                       </ion-button>
                     </div>
                   </ion-item>
                 </div>
               </ion-radio-group>
             </ion-list>
-            <app-errors-form-item
-              controlName="stop_loss"
-            ></app-errors-form-item>
+            <app-errors-form-item controlName="stop_loss"></app-errors-form-item>
           </app-ux-radio-group>
         </div>
       </div>
@@ -121,14 +95,7 @@ export class FundStopLossComponent implements OnInit {
   @Output() save = new EventEmitter<any>();
 
   form: FormGroup = this.formBuilder.group({
-    stop_loss: [
-      '',
-      [
-        Validators.required,
-        Validators.min(1),
-        Validators.pattern('[0-9][^.a-zA-Z]*$'),
-      ],
-    ],
+    stop_loss: ['', [Validators.required, Validators.min(1), Validators.pattern('[0-9][^.a-zA-Z]*$')]],
   });
 
   mostChosenSL: number;
@@ -167,9 +134,7 @@ export class FundStopLossComponent implements OnInit {
   }
 
   getMostChosenSL() {
-    this.apiFunds
-      .getMostChosenSL()
-      .subscribe((data) => (this.mostChosenSL = data));
+    this.apiFunds.getMostChosenSL().subscribe((data) => (this.mostChosenSL = data));
   }
 
   async openCustomSL() {
@@ -194,9 +159,7 @@ export class FundStopLossComponent implements OnInit {
   }
 
   existsInRadio(stopLoss) {
-    return this.stopLossOptions.some(
-      (item) => item.value === stopLoss && !item.custom
-    );
+    return this.stopLossOptions.some((item) => item.value === stopLoss && !item.custom);
   }
 
   removeCustom() {

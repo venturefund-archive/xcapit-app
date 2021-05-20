@@ -1,14 +1,18 @@
 export class CustomValidatorErrors {
   static hasNumber = {
-    hasNumber: true
+    hasNumber: true,
   };
 
   static hasCapitalCase = {
-    hasCapitalCase: true
+    hasCapitalCase: true,
   };
 
   static hasSmallCase = {
-    hasSmallCase: true
+    hasSmallCase: true,
+  };
+
+  static isNotInRange = {
+    isNotInRange: true,
   };
 
   static noPasswordMatch = { noPasswordMatch: true };
@@ -16,6 +20,6 @@ export class CustomValidatorErrors {
   static noFieldsMatch = { noFieldsMatch: true };
 
   static hasSpecialCharacter = {
-    hasSpecialCharacter: true
+    hasSpecialCharacter: true,
   };
 }

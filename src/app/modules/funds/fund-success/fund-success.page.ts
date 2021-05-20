@@ -9,23 +9,20 @@ import { ActivatedRoute } from '@angular/router';
       <app-success-content [data]="this.data"></app-success-content>
     </ion-content>
   `,
-  styleUrls: ['./fund-success.page.scss']
+  styleUrls: ['./fund-success.page.scss'],
 })
 export class FundSuccessPage implements OnInit {
   data: any;
   isRenew: string;
 
-  constructor(
-    private route: ActivatedRoute
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.isRenew = this.route.snapshot.paramMap.get('isRenew');
-    if(this.isRenew !== 'true') {
+    if (this.isRenew !== 'true') {
       this.data = SUCCESS_TYPES.fund;
     } else {
       this.data = SUCCESS_TYPES.fund_renew;
     }
-    
   }
 }

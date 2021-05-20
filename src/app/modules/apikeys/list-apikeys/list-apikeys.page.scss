@@ -1,0 +1,39 @@
+:host {
+  .add-button {
+    margin-right: 9px;
+  }
+
+  .nr {
+    &__image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 70px;
+      padding-left: 70px;
+      margin-top: 40px;
+
+      &__image {
+        width: 100%;
+      }
+    }
+
+    &__subtitle {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    &__security-info-alert {
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-top: 24px;
+    }
+    &__need-help {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+}

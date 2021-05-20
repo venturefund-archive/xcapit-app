@@ -37,10 +37,7 @@ const { Clipboard } = Plugins;
           </app-ux-text>
 
           <div class="da ion-padding-top ion-margin-top ion-padding-bottom">
-            <app-ux-loading-block
-              *ngIf="!depositAddresInfo"
-              minSize="40px"
-            ></app-ux-loading-block>
+            <app-ux-loading-block *ngIf="!depositAddresInfo" minSize="40px"></app-ux-loading-block>
 
             <div class="da__main ion-padding-start ion-padding-end" *ngIf="depositAddresInfo">
               <app-ux-text>
@@ -58,11 +55,7 @@ const { Clipboard } = Plugins;
                 </div>
                 <div class="da__main__content_right">
                   <ion-buttons>
-                    <ion-button
-                      appTrackClick
-                      name="Copy Deposit Address"
-                      (click)="this.copyToClipboard()"
-                    >
+                    <ion-button appTrackClick name="Copy Deposit Address" (click)="this.copyToClipboard()">
                       <ion-icon slot="icon-only" name="copy"></ion-icon>
                     </ion-button>
                   </ion-buttons>
@@ -104,14 +97,10 @@ const { Clipboard } = Plugins;
                       </div>
                     </app-ux-text>
                   </div>
-                  
+
                   <div class="da__main__content_right">
                     <ion-buttons>
-                      <ion-button
-                        appTrackClick
-                        name="Open URL Deposit Address"
-                        (click)="this.openAddressUrlInNewTab()"
-                      >
+                      <ion-button appTrackClick name="Open URL Deposit Address" (click)="this.openAddressUrlInNewTab()">
                         <ion-icon slot="icon-only" name="open"></ion-icon>
                       </ion-button>
                     </ion-buttons>
@@ -121,20 +110,15 @@ const { Clipboard } = Plugins;
                 <div class="list-divider"></div>
               </div>
 
-
               <div *ngIf="this.qrCode">
                 <app-ux-text>
                   <div class="da__main__title">
                     {{ 'deposit_addresses.deposit_address.qr_title' | translate }}
                   </div>
                 </app-ux-text>
-                  <div class="qr-code-container">
-                    <img
-                      [src]="this.qrCode"
-                      width="70%"
-                      alt="Address link QR Code"
-                    />
-                  </div>
+                <div class="qr-code-container">
+                  <img [src]="this.qrCode" width="70%" alt="Address link QR Code" />
+                </div>
               </div>
             </div>
           </div>
@@ -165,30 +149,32 @@ export class DepositAddressPage implements OnInit {
   qrCode: string;
   currency: string;
 
-
   constructor(
     private apiDa: ApiDaService,
     private clipboardService: ClipboardService,
     private toastService: ToastService,
     private translate: TranslateService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   getDepositAdress(currency: string) {
-    this.apiDa.getDepositAddress(currency).pipe(take(1)).subscribe(res => {
-      this.depositAddresInfo = res;
-      if (this.depositAddresInfo.address) {
-        this.generateQR(this.depositAddresInfo.address);
-      }
-    });
+    this.apiDa
+      .getDepositAddress(currency)
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.depositAddresInfo = res;
+        if (this.depositAddresInfo.address) {
+          this.generateQR(this.depositAddresInfo.address);
+        }
+      });
   }
 
   generateQR(depositAddressAddress: string) {
     QRCode.toDataURL(depositAddressAddress)
-      .then(address => {
+      .then((address) => {
         this.qrCode = address;
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }
@@ -226,8 +212,7 @@ export class DepositAddressPage implements OnInit {
 
   private showToast(text: string) {
     this.toastService.showToast({
-      message: this.translate.instant(text)
+      message: this.translate.instant(text),
     });
   }
-
 }

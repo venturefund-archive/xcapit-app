@@ -12,10 +12,7 @@ export class ApiApikeysService {
   entity = 'apikeys';
   crud: CRUD;
 
-  constructor(
-    private crudService: CrudService,
-    private http: CustomHttpService
-  ) {
+  constructor(private crudService: CrudService, private http: CustomHttpService) {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
 
@@ -24,28 +21,22 @@ export class ApiApikeysService {
   }
 
   getByFundName(fundName: string): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/fund_name/${fundName}`
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/fund_name/${fundName}`);
   }
 
   create(apikey: any) {
-    return this.http.post(
-      `${environment.apiUrl}/${this.entity}/register`,
-      apikey
-    );
+    return this.http.post(`${environment.apiUrl}/${this.entity}/register`, apikey);
   }
 
   update(apikey: any, id: number) {
-    return this.http.original.patch(
-      `${environment.apiUrl}/${this.entity}/update/${id}/`,
-      apikey
-    );
+    return this.http.original.patch(`${environment.apiUrl}/${this.entity}/update/${id}/`, apikey);
   }
 
   delete(id: number) {
-    return this.http.delete(
-      `${environment.apiUrl}/${this.entity}/delete/${id}/`
-    );
+    return this.http.delete(`${environment.apiUrl}/${this.entity}/delete/${id}/`);
+  }
+
+  checkMinBalance(data: any) {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/check_min_balance/`, data);
   }
 }

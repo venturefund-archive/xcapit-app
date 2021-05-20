@@ -12,9 +12,7 @@ import { NavController } from '@ionic/angular';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'notifications.notifications_list.header' | translate
-        }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'notifications.notifications_list.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="">
@@ -26,7 +24,7 @@ import { NavController } from '@ionic/angular';
           (clickNotification)="this.showNotification($event)"
         ></app-notification-item>
         <div *ngIf="!notifications.length">
-          <ion-text>{{'notifications.notifications_list.error_message' | translate}}</ion-text>
+          <ion-text>{{ 'notifications.notifications_list.error_message' | translate }}</ion-text>
         </div>
       </ion-list>
       <ng-template #loading>
@@ -38,7 +36,7 @@ import { NavController } from '@ionic/angular';
       </ng-template>
     </ion-content>
   `,
-  styleUrls: ['./notifications-list.page.scss']
+  styleUrls: ['./notifications-list.page.scss'],
 })
 export class NotificationsListPage implements OnInit {
   notifications$: Observable<any>;
@@ -55,7 +53,7 @@ export class NotificationsListPage implements OnInit {
     this.getNotifications();
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.markAsRead();
   }
 
@@ -64,22 +62,16 @@ export class NotificationsListPage implements OnInit {
   }
 
   showNotification(notificationId: any) {
-    this.navController.navigateForward([
-      `/notifications/view/${notificationId}`
-    ]);
+    this.navController.navigateForward([`/notifications/view/${notificationId}`]);
   }
 
   async getNotifications() {
-    this.notificationsService.getNotifications()
-    .subscribe((res) => {
+    this.notificationsService.getNotifications().subscribe((res) => {
       this.notifications = res;
     });
   }
 
   async markAsRead() {
-    this.notificationsService.markAsRead()
-    .subscribe((res) => {
-      null
-    })
+    this.notificationsService.markAsRead().subscribe((res) => {});
   }
 }

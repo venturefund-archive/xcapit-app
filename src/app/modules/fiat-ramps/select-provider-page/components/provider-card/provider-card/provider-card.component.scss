@@ -1,0 +1,52 @@
+:host {
+    width: 100%;
+
+    .pcc {
+        background-color: var(--ion-color-uxlight);
+        border-radius: 8px;
+        margin-left: 16px;
+        margin-right: 16px;
+        width: auto;
+        height: auto;
+        margin-bottom: 15px;
+
+        &__button {
+          margin-left: auto;
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          flex-direction: row;
+        }
+
+        &__content {
+        height: 88px;
+        display: flex;
+        margin-bottom: 20px;
+      
+        &__id {
+          margin-right: 5px;
+          margin-left: 15px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+        }
+
+        &__name{
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+        }
+
+        &__image{
+          margin-right: 5px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+        }
+      }
+      }
+    }
+  

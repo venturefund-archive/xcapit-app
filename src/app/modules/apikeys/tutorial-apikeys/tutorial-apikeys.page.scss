@@ -15,6 +15,7 @@
     &__steps_container {
       width: 100%;
       margin-top: 24px;
+
       &__steps {
         margin-left: auto;
         margin-right: auto;
@@ -27,29 +28,9 @@
     }
 
     &__text_help {
-      margin-top: 24px;
-      &__text {
-        font-size: 12px;
-      }
-      &__link {
-        display: flex;
-        ion-button {
-          font-size: 12px;
-          font-weight: 600;
-          color: var(--ion-color-uxsecondary);
-          text-decoration: none;
-        }
-      }
-    }
-    &__next_button {
+      width: 100%;
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      margin-top: 16px;
+      justify-content: center;
     }
-  }
-  .person_icon{
-    margin-left:2px;
-    margin-bottom: -1px;
   }
 }

@@ -1,28 +1,29 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InvestmentProductCardComponent } from './investment-product-card.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 
 const testProduct = {
   profile: 'volume_profile_strategies_USDT',
   min_capital: '150',
   annual_interest: '90.96',
+  percentage: '',
+  link_info: '',
+  risk: 2,
+  currency: 'USDT'
 };
 describe('InvestmentProductCardComponent', () => {
   let component: InvestmentProductCardComponent;
   let fixture: ComponentFixture<InvestmentProductCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InvestmentProductCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         InvestmentProductCardComponent,

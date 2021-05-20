@@ -35,6 +35,11 @@ ion-picker {
   touch-action: none;
 }
 
+.hidden {
+  --ion-background-color: transparent;
+  background-color: transparent;
+}
+
 ion-toast.refresher_toast {
   top: 86%;
 }
@@ -70,6 +75,10 @@ ion-toast.refresher_toast {
   // Size
   .ux-fsize-10 {
     font-size: 10px;
+  }
+
+  .ux-fsize-11 {
+    font-size: 11px;
   }
 
   .ux-fsize-12 {
@@ -142,12 +151,34 @@ ion-toast.refresher_toast {
     font-size: 10px;
   }
 
+  //Badge Proximamente - Violeta
+  .ux_badge_coming {
+    border-radius: 3px;
+    height: 21px;
+    --background: rgba(187, 107, 217, 0.4);
+    --color: rgb(114, 62, 163);
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    font-family: var(--ux-font-lato);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 9.6px;
+  }
+
   // Clase para que el modal no sea en pantalla completa, sino un alert
   .ux_modal_crm {
     --max-height: 195px;
     --max-width: 85%;
     .modal-wrapper {
       border-radius: 4px;
+    }
+  }
+
+  .ux-modal-informative {
+    --max-height: 310px;
+    --max-width: 85%;
+    .modal-wrapper {
+      border-radius: 16px;
     }
   }
 

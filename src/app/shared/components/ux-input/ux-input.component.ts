@@ -1,16 +1,5 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectionStrategy,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
-import {
-  ControlContainer,
-  FormGroupDirective,
-  AbstractControl
-} from '@angular/forms';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
+import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ux-input',
@@ -25,14 +14,14 @@ import {
           [type]="this.typeSetted"
           [inputmode]="this.inputmode"
           [placeholder]="this.placeholder"
-          ></ion-input>
+          [maxlength]="this.maxlength"
+          [readonly]="this.readonly"
+        ></ion-input>
 
         <ion-icon
           class="ux_input_container__item__error_icon"
           item-end
-          [hidden]="
-            !(this.control && this.control.invalid && this.control.touched)
-          "
+          [hidden]="!(this.control && this.control.invalid && this.control.touched)"
           name="ux-error"
           color="uxsecondary"
         ></ion-icon>
@@ -43,9 +32,7 @@ import {
           class="ux_input_container__item__eye_icon"
           (click)="this.togglePasswordMode()"
         >
-          <ion-icon
-            [name]="this.typeSetted === 'text' ? 'eye-off' : 'eye'"
-          ></ion-icon>
+          <ion-icon [name]="this.typeSetted === 'text' ? 'eye' : 'eye-off'"></ion-icon>
         </button>
       </ion-item>
       <app-errors-form-item
@@ -59,9 +46,9 @@ import {
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
-  ]
+      useExisting: FormGroupDirective,
+    },
+  ],
 })
 export class UxInputComponent implements OnInit {
   @Input() label: string;
@@ -70,6 +57,8 @@ export class UxInputComponent implements OnInit {
   @Input() errors: any[] = [];
   @Input() controlName: string;
   @Input() placeholder: string;
+  @Input() maxlength: any;
+  @Input() readonly = false;
   typeSetted: string;
   passwordType: boolean;
   @ViewChild('inputRegister', { read: ElementRef, static: true })
