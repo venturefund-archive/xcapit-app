@@ -78,12 +78,14 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             <span class="dp__content__text__title">
               {{ 'fiat_ramps.operation_detail.card.amount' | translate }}
             </span>
-            <span *ngIf="this.operation.operation_type === 'cash-in'">{{
-              this.operation.amount_in | currency: 'ARS '
-            }}</span>
-            <span *ngIf="this.operation.operation_type === 'cash-out'">{{
-              this.operation.amount_out | currency: 'ARS '
-            }}</span>
+            <span *ngIf="this.operation.operation_type === 'cash-in'"
+              >{{ this.operation.amount_in | currency }}
+              <small>{{ this.operation.currency_in }}</small>
+            </span>
+            <span *ngIf="this.operation.operation_type === 'cash-out'"
+              >{{ this.operation.amount_out | currency }}
+              <small>{{ this.operation.currency_out }}</small>
+            </span>
           </ion-text>
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
@@ -187,7 +189,6 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
   styleUrls: ['./operations-detail.page.scss'],
 })
 export class OperationsDetailPage implements OnInit {
-  providers = PROVIDERS;
   comprobante = null;
   operation: any = null;
   cotizacion: any = 0;
@@ -203,7 +204,7 @@ export class OperationsDetailPage implements OnInit {
   }
 
   getProvider(providerId: string) {
-    return this.providers.find((provider) => provider.id.toString() === providerId);
+    return PROVIDERS.find((provider) => provider.id.toString() === providerId);
   }
 
   constructor(

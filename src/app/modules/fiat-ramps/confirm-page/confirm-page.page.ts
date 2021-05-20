@@ -77,12 +77,14 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.amount' | translate }}
             </span>
-            <span *ngIf="this.operationData.operation_type === 'cash-in'">{{
-              this.operationData.amount_in | currency: 'ARS '
-            }}</span>
-            <span *ngIf="this.operationData.operation_type === 'cash-out'">{{
-              this.operationData.amount_out | currency: 'ARS '
-            }}</span>
+            <span *ngIf="this.operationData.operation_type === 'cash-in'"
+              >{{ this.operationData.amount_in | currency }}
+              <small>{{ this.operationData.currency_in }}</small>
+            </span>
+            <span *ngIf="this.operationData.operation_type === 'cash-out'"
+              >{{ this.operationData.amount_out | currency }}
+              <small>{{ this.operationData.currency_out }}</small> }}</span
+            >
           </ion-text>
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
@@ -153,6 +155,9 @@ export class ConfirmPagePage implements OnInit {
       this.operationData = data;
       this.provider = this.getProvider(this.operationData.provider);
       this.calculateQuotation();
+      console.log(this.operationData);
+      console.log(this.provider);
+      console.log(this.quotation);
     });
   }
 
@@ -162,9 +167,9 @@ export class ConfirmPagePage implements OnInit {
 
   async calculateQuotation() {
     if (this.operationData.operation_type === 'cash-in') {
-      this.quotation = this.operationData.price_out;
+      this.quotation = this.operationData.price_in;
     }
-    this.quotation = this.operationData.price_in;
+    this.quotation = this.operationData.price_out;
   }
 
   async createOperation() {
