@@ -1196,9 +1196,12 @@
       "link_help": "Need Help?"
     },
     "register_success_begginer": {
-      "textPrimary": "Great! You are one step away from your first investment.",
-      "textSecondary": "Choose the strategy that best suits you.",
-      "namePrimaryAction": "Create my first invest"
+      "textPrimary": "You have already linked your account with Binance!",
+      "textSecondary": "CWe are able to create a fund to start managing your investment.",
+      "textThird": "or you can also",
+      "namePrimaryAction": "Create an investment fund",
+      "nameSecondaryAction": "Skip for now",
+      "nameThirdAction": "Buy cryptocurrencies"
     },
     "register_success": {
       "textPrimary": "Your account is now linked to Binace!",

@@ -67,10 +67,15 @@ export const SUCCESS_TYPES = {
   },
   apikeys_register_success_begginer: {
     urlClose: '/tabs/funds',
+    urlPrimaryAction: '/funds/fund-name',
+    urlSecondaryAction: '/tabs/funds',
+    urlThirdAction: '/fiat-ramps/operations',
     textPrimary: 'apikeys.register_success_beginner.textPrimary',
     textSecondary: 'apikeys.register_success_beginner.textSecondary',
-    urlPrimaryAction: '/funds/fund-name',
+    textThird: 'apikeys.register_success_beginner.textThird',
     namePrimaryAction: 'apikeys.register_success_beginner.namePrimaryAction',
+    nameSecondaryAction: 'apikeys.register_success_beginner.nameSecondaryAction',
+    nameThirdAction: 'apikeys.register_success_beginner.nameThirdAction',
   },
   apikeys_register_success: {
     urlClose: '/tabs/funds',
