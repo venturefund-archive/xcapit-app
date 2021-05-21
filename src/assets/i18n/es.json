@@ -1336,27 +1336,28 @@
     "operation_detail": {
       "header": "Operación:",
       "card": {
-        "provider": "Proveedor: ",
-        "type": "Tipo de operación: ",
+        "provider": "Proveedor:",
+        "type": "Tipo de operación:",
         "buy": {
           "operationType": "Compra",
-          "title": "Comprar: ",
+          "title": "Comprar:",
           "with": " con "
         },
         "sell": {
           "operationType": "Venta",
-          "title": "Vender: ",
+          "title": "Vender:",
           "with": " por "
         },
-        "amount": "Monto: ",
-        "quotation": "Cotización: ",
-        "status": "Estado: ",
-        "date": "Fecha: ",
-        "id": "ID: "
+        "amount": "Monto:",
+        "quotation": "Cotización:",
+        "status": "Estado:",
+        "date": "Fecha:",
+        "id": "ID:"
       },
       "voucher": "Comprobante",
       "send": "Enviar comprobante",
-      "my_operations": "Ver mis operaciones"
+      "my_operations": "Ver mis operaciones",
+      "has_voucher": "El comprobante ha sido cargado"
     },
 
     "operationStatus": {
@@ -1425,13 +1426,24 @@
     },
     "confirm": {
       "header": "Confirmar operación",
-      "title": "Revisa que los datos sean correctos",
-      "operation": "Operación:",
+      "title": "Revisa que los datos sean correctos:",
+      "provider": "Proveedor:",
+      "type": "Tipo de operación:",
       "amount": "Monto:",
       "quotation": "Cotización:",
       "wallet_address": "Dirección de recepción:",
       "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
-      "confirm": "Confirmar"
+      "confirm": "Confirmar",
+      "buy": {
+        "operationType": "Compra",
+        "title": "Comprar:",
+        "with": " con "
+      },
+      "sell": {
+        "operationType": "Venta",
+        "title": "Vender:",
+        "with": " por "
+      }
     },
     "fiat_success": {
       "textPrimary": "¡La operación fue creada!",
