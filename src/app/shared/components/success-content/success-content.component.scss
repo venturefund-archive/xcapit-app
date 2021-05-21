@@ -34,6 +34,11 @@
       margin-top: 16px;
       text-align: center;
     }
+    &__third_text {
+      margin-top: 16px;
+      text-align: center;
+      color: #828282;
+    }
 
     &__actions {
       padding-left: 13px;
@@ -46,6 +51,14 @@
       }
       &__secondary {
         margin-top: 8px;
+        .ux_button {
+          font-size: 12px !important;
+          margin-top: 0px;
+          text-align: center;
+        }
+      }
+      &__third {
+        margin-top: 16px;
       }
     }
   }
