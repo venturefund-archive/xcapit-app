@@ -35,6 +35,7 @@ import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.compon
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 import { NeedHelpComponent } from './components/need-help/need-help.component';
 import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
+import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
     PercentageDisplayComponent,
     XcapitLogoComponent,
     NeedHelpComponent,
+    ToastAlertComponent,
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
@@ -94,6 +96,7 @@ import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
     PercentageDisplayComponent,
     XcapitLogoComponent,
     NeedHelpComponent,
+    ToastAlertComponent,
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
