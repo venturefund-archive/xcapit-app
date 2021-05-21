@@ -154,6 +154,7 @@ export class ConfirmPagePage implements OnInit {
     this.storageOperationService.data.subscribe((data) => {
       this.operationData = data;
       this.provider = this.getProvider(this.operationData.provider);
+      delete this.operationData.provider;
       this.calculateQuotation();
     });
   }
