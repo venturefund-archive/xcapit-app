@@ -20,7 +20,7 @@ import { FundPercentageEvolutionChartInterface } from './fund-performance-chart.
 export class PerformanceChartCardComponent implements OnInit {
   @Input() fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   @Input() interval: string;
-  @Input() shareChart: boolean = false;
+  @Input() shareChart = false;
   @Input() page: string;
 
   constructor() {}

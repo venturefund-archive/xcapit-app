@@ -26,7 +26,7 @@ export class FundPerformanceChartComponent implements OnChanges {
   @Input() fundPercentageEvolution: any;
   @Input() interval: string;
   @Input() page: string;
-  @Input() shareChart: boolean = false;
+  @Input() shareChart = false;
 
   chart: any;
   limit: string;

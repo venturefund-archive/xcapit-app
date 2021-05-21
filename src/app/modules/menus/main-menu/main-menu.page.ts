@@ -33,7 +33,8 @@ const { Browser } = Plugins;
             [routerLink]="[p.url]"
             replaceUrl="true"
           >
-            <ion-icon *ngIf="p.icon" slot="start" [name]="p.icon"></ion-icon>
+            <!-- <ion-icon *ngIf="p.icon" slot="start" [name]="p.icon"></ion-icon> -->
+            <img [src]="p.icon" slot="start" class="icons" alt="Menu Icon" />
             <ion-label>
               {{ p.title | translate }}
             </ion-label>
@@ -49,7 +50,7 @@ const { Browser } = Plugins;
           }"
           (click)="this.changeLanguage()"
         >
-          <ion-icon slot="start" name="globe-outline"></ion-icon>
+          <img src="../assets/ux-icons/ux-lenguage-icon.svg" class="icons" slot="start" alt="Menu Icon" />
           <ion-label>
             {{ 'app.main_menu.change_language' | translate }}
           </ion-label>
@@ -63,7 +64,7 @@ const { Browser } = Plugins;
           }"
           (click)="this.logout()"
         >
-          <ion-icon slot="start" name="log-out"></ion-icon>
+          <img src="../assets/ux-icons/ux-logout-icon.svg" class="icons" slot="start" alt="Menu Icon" />
           <ion-label>
             {{ 'app.main_menu.logout' | translate }}
           </ion-label>
@@ -81,28 +82,28 @@ export class MainMenuPage implements OnInit {
       id: 1,
       title: 'app.main_menu.funds',
       url: '/tabs/funds',
-      icon: 'trending-up',
+      icon: '../assets/ux-icons/ux-myFund-icon.svg',
       routeDirection: 'root',
     },
     {
       id: 2,
       title: 'funds.funds_finished.header',
       url: '/funds/funds-finished',
-      icon: 'film',
+      icon: '../assets/ux-icons/ux-finalizedFunds-icon.svg',
       routeDirection: 'forward',
     },
     {
       id: 3,
       title: 'app.main_menu.user_profile',
       url: '/profiles/user',
-      icon: 'person',
+      icon: '../assets/ux-icons/ux-user-icon.svg',
       routeDirection: 'forward',
     },
     {
       id: 4,
       title: 'app.main_menu.deposit_address',
       url: '/deposits/currency',
-      icon: 'journal',
+      icon: '../assets/ux-icons/ux-depositDirection-icon.svg',
       routeDirection: 'forward',
     },
     /*{
@@ -116,7 +117,7 @@ export class MainMenuPage implements OnInit {
       id: 5,
       title: 'app.main_menu.help',
       url: '/tabs/funds',
-      icon: 'help-circle-outline',
+      icon: '../assets/ux-icons/ux-settings-icon.svg',
       routeDirection: 'forward',
       elementClick: 'openTutorials',
     },
@@ -124,42 +125,42 @@ export class MainMenuPage implements OnInit {
       id: 6,
       title: 'Comprar/Vender cryptos',
       url: '/menus/main-menu',
-      icon: 'cash-outline',
+      icon: '../assets/ux-icons/ux-buySellCrypto-icon.svg',
       elementClick: 'buyCrypto',
     },
     {
       id: 7,
       title: 'app.main_menu.password_change',
       url: '/users/password-change',
-      icon: 'key',
+      icon: '../assets/ux-icons/ux-key-icon.svg',
       routeDirection: 'forward',
     },
     {
       id: 8,
       title: 'app.main_menu.referrals',
       url: '/referrals/list',
-      icon: 'people',
+      icon: '../assets/ux-icons/ux-referrals-icon.svg',
       routeDirection: 'root',
     },
     {
       id: 9,
       title: 'app.main_menu.notifications',
       url: '/notifications/list',
-      icon: 'notifications-outline',
+      icon: '../assets/ux-icons/ux-notifications-icon.svg',
       routeDirection: 'root',
     },
     {
       id: 10,
       title: 'app.main_menu.api_keys_managment',
       url: '/apikeys/list',
-      icon: 'cog',
+      icon: '../assets/ux-icons/ux-cog-icon.svg',
       routeDirection: 'root',
     },
     {
       id: 11,
       title: 'app.main_menu.payment',
       url: '/payment/payment-methods',
-      icon: 'cash-outline',
+      icon: '../assets/ux-icons/ux-cash-icon.svg',
       routeDirection: 'forward',
     },
   ];
