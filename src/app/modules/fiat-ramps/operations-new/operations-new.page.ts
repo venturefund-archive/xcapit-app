@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { Countries } from '../enums/countries.enum';
@@ -235,7 +234,6 @@ export class OperationsNewPage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
-    private router: Router,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private storageOperationService: StorageOperationService
