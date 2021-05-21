@@ -120,13 +120,13 @@ export class MainMenuPage implements OnInit {
       routeDirection: 'forward',
       elementClick: 'openTutorials',
     },
-    // {
-    //   id: 6,
-    //   title: 'Comprar/Vender cryptos',
-    //   url: '/menus/main-menu',
-    //   icon: 'cash-outline',
-    //   elementClick: 'buyCrypto',
-    // },
+    {
+      id: 6,
+      title: 'Comprar/Vender cryptos',
+      url: '/menus/main-menu',
+      icon: 'cash-outline',
+      elementClick: 'buyCrypto',
+    },
     {
       id: 7,
       title: 'app.main_menu.password_change',
@@ -155,13 +155,13 @@ export class MainMenuPage implements OnInit {
       icon: 'cog',
       routeDirection: 'root',
     },
-    // {
-    //   id: 11,
-    //   title: 'app.main_menu.payment',
-    //   url: '/payment/payment-methods',
-    //   icon: 'cash-outline',
-    //   routeDirection: 'forward',
-    // },
+    {
+      id: 11,
+      title: 'app.main_menu.payment',
+      url: '/payment/payment-methods',
+      icon: 'cash-outline',
+      routeDirection: 'forward',
+    },
   ];
 
   constructor(
