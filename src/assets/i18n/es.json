@@ -1197,7 +1197,7 @@
     "register_success_beginner": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
       "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
-      "thirdText": "o también puedes",
+      "textThird": "o también puedes",
       "namePrimaryAction": "Crear un fondo de inversión",
       "nameSecondaryAction": "Omitir por ahora",
       "nameThirdAction": "Comprar criptomonedas"

@@ -72,7 +72,7 @@ export const SUCCESS_TYPES = {
     urlThirdAction: '/fiat-ramps/operations',
     textPrimary: 'apikeys.register_success_beginner.textPrimary',
     textSecondary: 'apikeys.register_success_beginner.textSecondary',
-    thirdText: 'apikeys.register_success_beginner.thirdText',
+    textThird: 'apikeys.register_success_beginner.textThird',
     namePrimaryAction: 'apikeys.register_success_beginner.namePrimaryAction',
     nameSecondaryAction: 'apikeys.register_success_beginner.nameSecondaryAction',
     nameThirdAction: 'apikeys.register_success_beginner.nameThirdAction',

@@ -1198,7 +1198,7 @@
     "register_success_begginer": {
       "textPrimary": "You have already linked your account with Binance!",
       "textSecondary": "CWe are able to create a fund to start managing your investment.",
-      "thirdText": "or you can also",
+      "textThird": "or you can also",
       "namePrimaryAction": "Create an investment fund",
       "nameSecondaryAction": "Skip for now",
       "nameThirdAction": "Buy cryptocurrencies"

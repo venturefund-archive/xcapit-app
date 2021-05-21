@@ -38,7 +38,7 @@ import { Router } from '@angular/router';
           </ion-button>
         </div>
         <div class="main__third_text ux-font-lato ux-fweight-semibold ux-fsize-12">
-          <ion-text>{{ this.data?.thirdText | translate }}</ion-text>
+          <ion-text>{{ this.data?.textThird | translate }}</ion-text>
         </div>
         <div class="main__actions__third">
           <ion-button
