@@ -4,16 +4,18 @@ import { AuthService } from '../../services/auth/auth.service';
 import { NavController } from '@ionic/angular';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NoAuthGuard implements CanActivate {
-
   constructor(private authService: AuthService, private navController: NavController) {}
 
   async canActivate(): Promise<boolean> {
     const isValid = await this.authService.checkToken();
     if (isValid) {
-      await this.navController.navigateRoot(['/tabs/funds']);
+      const isRefreshed = await this.authService.checkRefreshToken();
+      if (isRefreshed) {
+        await this.navController.navigateRoot(['/tabs/funds']);
+      }
     }
     return !isValid;
   }
