@@ -29,7 +29,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             name="Action Button"
             class="ux_button"
             type="button"
-            color="primary"
+            color="uxsecondary"
             expand="block"
             size="medium"
             (click)="this.doActionButton()"

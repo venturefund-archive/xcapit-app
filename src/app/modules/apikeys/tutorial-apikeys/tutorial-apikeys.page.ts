@@ -90,7 +90,7 @@ const { Browser } = Plugins;
                               [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
                       ></app-need-help>
                   </div>
-                  <ion-button expand="block" type="button" appTrackClick name="Link With Binance" (click)="this.linkWithBinance()">
+                  <ion-button expand="block" type="button" color="uxsecondary" appTrackClick name="Link With Binance" (click)="this.linkWithBinance()">
                       {{'apikeys.tutorial_apikeys.link_with_binance' | translate}}
                   </ion-button>
               </div>
