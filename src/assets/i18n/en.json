@@ -68,7 +68,10 @@
         "alert_header": "Update available",
         "alert_message": "A new version of the app is available!",
         "alert_cancel_button": "Cancel",
-        "alert_update_button": "Update"
+        "alert_update_button": "Update",
+        "alert_required_header": "Update Required",
+        "alert_required_text": "An update of the application is necessary to continue using it.",
+        "alert_required_button": "Update"
       }
     },
     "card_info_robot": {

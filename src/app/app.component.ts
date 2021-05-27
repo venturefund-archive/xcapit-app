@@ -16,13 +16,7 @@ import { PublicLogsService } from './shared/services/public-logs/public-logs.ser
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 // tslint:disable-next-line: max-line-length
 import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
-import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
-import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
-import { UpdateAppService } from './shared/services/update-app-old/update-app.service';
 import { UpdateService } from './shared/services/update/update.service';
-import { UpdateFactory } from './shared/factories/update/update.factory';
-
-const { PushNotifications } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -35,15 +29,15 @@ const { PushNotifications } = Plugins;
     </ion-app>
   `,
 })
-export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(IonRouterOutlet, { static: true })
   ionRouterOutlet: IonRouterOutlet;
 
   isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
 
   routerNavEndSubscription: Subscription;
-  updateAppSubscription: Subscription;
-  app = Plugins.App;
+  // TODO: Remove if unused
+  // app = Plugins.App;
 
   constructor(
     private authService: AuthService,
@@ -59,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private publicLogsService: PublicLogsService,
     private notificationsService: NotificationsService,
     private notificationsHelper: NotificationsHelperService,
-    private updateFactory: UpdateFactory
+    private updateService: UpdateService
   ) {
     this.initializeApp();
   }
@@ -69,35 +63,22 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.submitButtonService.enabled();
     this.loadingService.enabled();
     this.trackLoad();
+    this.checkForUpdate();
   }
 
-  async ngAfterViewInit() {
-    /*await this.updateApp();*/
-    this.updateOnLoadApp();
-  }
-
-  updateOnLoadApp() {
-    this.updateFactory.getInstance().checkForUpdate();
-    /*    this.app.addListener('appStateChange', state => {
-      if (state.isActive) {
-        this.updateAppService.update();
-      }
-    });*/
+  checkForUpdate() {
+    this.updateService.checkForUpdate().then();
+    // TODO: Remove comments
+    // this.app.addListener('appStateChange', state => {
+    // if (state.isActive) {
+    //   this.updateService.checkForUpdate().then();
+    // }
+    // });
   }
 
   initNotifications() {
     const notifications = this.notificationsService.getInstance();
     notifications.init(() => console.error('Error inicializando notificaciones'));
-  }
-
-  /*  private async updateApp() {
-    this.updateAppSubscription = this.updatePWAService.update().subscribe();
-  }*/
-
-  private unsubscribeUpdateAppSubscription() {
-    if (!!this.updateAppSubscription) {
-      this.updateAppSubscription.unsubscribe();
-    }
   }
 
   private unsubscribeRouterNavEndSubscription() {
@@ -121,7 +102,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.unsubscribeUpdateAppSubscription();
     this.unsubscribeRouterNavEndSubscription();
   }
 

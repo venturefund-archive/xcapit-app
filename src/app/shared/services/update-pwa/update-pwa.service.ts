@@ -4,18 +4,23 @@ import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { LoadingService } from '../loading/loading.service';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+// import version from 'pwa/version.json';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UpdatePWAService extends UpdateService {
   constructor(
-    protected alertController: AlertController,
-    protected translate: TranslateService,
+    alertController: AlertController,
+    translate: TranslateService,
+    http: HttpClient,
     private swUpdate: SwUpdate,
     private loadingService: LoadingService
   ) {
-    super(alertController, translate);
+    super(alertController, translate, http);
+    console.log('alert ', alertController);
   }
 
   update() {
@@ -29,6 +34,8 @@ export class UpdatePWAService extends UpdateService {
 
   protected async getActualVersion() {
     console.log('EXECUTING PWA getActualVersion');
-    this.actualVersion = Promise.resolve('1.2.1');
+    // TODO: import json
+    // this.actualVersion = Promise.resolve(version.version);
+    this.actualVersion = await of('1.9.0').toPromise();
   }
 }

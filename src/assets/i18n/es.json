@@ -61,11 +61,14 @@
   },
   "shared": {
     "services": {
-      "update_pwa_service": {
+      "update_service": {
         "alert_header": "Actualización Disponible",
         "alert_message": "¡Una nueva versión de la app esta disponible!",
         "alert_cancel_button": "Cancelar",
-        "alert_update_button": "Actualizar"
+        "alert_update_button": "Actualizar",
+        "alert_required_header": "Actualización Requerida",
+        "alert_required_text": "Es necesario actualizar la app para continuar usandola.",
+        "alert_required_button": "Actualizar"
       },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"

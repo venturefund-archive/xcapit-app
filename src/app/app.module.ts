@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { AlertController, IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,7 +23,7 @@ import { WildcardRoutingModule } from './wildcard-routing.module';
 import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
 import { TrackClickUnauthModule } from './shared/directives/track-click-unauth/track-click-unauth.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { TabsModule } from './modules/tabs/tabs.module';
@@ -39,7 +39,19 @@ import { TicketsModule } from './modules/tickets/tickets.module';
 import { AppStorageService } from './shared/services/app-storage/app-storage.service';
 import { RefreshTokenInterceptorService } from './modules/usuarios/shared-usuarios/services/refresh-token-interceptor/refresh-token-interceptor.service';
 import { PaymentsModule } from './modules/payments/payments.module';
+import { UpdateService } from './shared/services/update/update.service';
+import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
+import { LoadingService } from './shared/services/loading/loading.service';
+import { PlatformService } from './shared/services/platform/platform.service';
+import { UpdateAppService } from './shared/services/update-app/update-app.service';
 
+const updateServiceFactory = (platformService, alertController, translate, http, swUpdate, loadingService) => {
+  if (platformService.isNative()) {
+    return new UpdateAppService(alertController, translate, http);
+  } else {
+    return new UpdatePWAService(alertController, translate, http, swUpdate, loadingService);
+  }
+};
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
 
@@ -117,6 +129,11 @@ export function httpLoaderFactory(http: HttpClient) {
       multi: true,
     },
     FileOpener,
+    {
+      provide: UpdateService,
+      useFactory: updateServiceFactory,
+      deps: [PlatformService, AlertController, TranslateService, HttpClient, SwUpdate, LoadingService],
+    },
   ],
   bootstrap: [AppComponent],
 })
