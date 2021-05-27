@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -44,6 +44,7 @@ import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.servic
 import { LoadingService } from './shared/services/loading/loading.service';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { UpdateAppService } from './shared/services/update-app/update-app.service';
+import { AppInitializerFactory } from './shared/factories/app-initializer/app-initializer.factory';
 
 const updateServiceFactory = (platformService, alertController, translate, http, swUpdate, loadingService) => {
   if (platformService.isNative()) {
@@ -133,6 +134,12 @@ export function httpLoaderFactory(http: HttpClient) {
       provide: UpdateService,
       useFactory: updateServiceFactory,
       deps: [PlatformService, AlertController, TranslateService, HttpClient, SwUpdate, LoadingService],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: AppInitializerFactory,
+      deps: [TranslateService],
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],

@@ -17,8 +17,8 @@ describe('UpdatePWAService', () => {
       imports: [TranslateModule.forRoot()],
       providers: [
         { provide: AlertController, useValue: alertControllerSpy },
-        { provide: SwUpdate, useValue: swUpdateSpy }
-      ]
+        { provide: SwUpdate, useValue: swUpdateSpy },
+      ],
     });
     service = TestBed.inject(UpdatePWAService);
   });
@@ -28,7 +28,7 @@ describe('UpdatePWAService', () => {
   });
 
   it('should call alert controller create when showUpdateAppAlert is called', () => {
-    service.showUpdateAppAlert();
+    // service.showUpdateAppAlert();
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

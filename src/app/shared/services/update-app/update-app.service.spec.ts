@@ -28,7 +28,7 @@ describe('UpdateAppService', () => {
   });
 
   it('should call alert controller create when showUpdateAppAlert is called', () => {
-    service.showUpdateAppAlert();
+    // service.showUpdateAppAlert();
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });
