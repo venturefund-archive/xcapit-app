@@ -2,17 +2,15 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AlertController, IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
-import { AUTH } from './config/app-constants.config';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { FundsModule } from './modules/funds/funds.module';
@@ -39,33 +37,13 @@ import { TicketsModule } from './modules/tickets/tickets.module';
 import { AppStorageService } from './shared/services/app-storage/app-storage.service';
 import { RefreshTokenInterceptorService } from './modules/usuarios/shared-usuarios/services/refresh-token-interceptor/refresh-token-interceptor.service';
 import { PaymentsModule } from './modules/payments/payments.module';
-import { UpdateService } from './shared/services/update/update.service';
-import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
-import { LoadingService } from './shared/services/loading/loading.service';
-import { PlatformService } from './shared/services/platform/platform.service';
-import { UpdateAppService } from './shared/services/update-app/update-app.service';
 import { AppInitializerFactory } from './shared/factories/app-initializer/app-initializer.factory';
+import { updateServiceProvider } from './shared/providers/update/update.provider';
+import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
+import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
 
-const updateServiceFactory = (platformService, alertController, translate, http, swUpdate, loadingService) => {
-  if (platformService.isNative()) {
-    return new UpdateAppService(alertController, translate, http);
-  } else {
-    return new UpdatePWAService(alertController, translate, http, swUpdate, loadingService);
-  }
-};
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
-
-export function jwtOptionsFactory(storage: AppStorageService) {
-  return {
-    tokenGetter: () => storage.get(AUTH.storageKey),
-    allowedDomains: environment.whitelistedDomains,
-  };
-}
-
-export function httpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
 
 @NgModule({
   declarations: [AppComponent],
@@ -130,11 +108,7 @@ export function httpLoaderFactory(http: HttpClient) {
       multi: true,
     },
     FileOpener,
-    {
-      provide: UpdateService,
-      useFactory: updateServiceFactory,
-      deps: [PlatformService, AlertController, TranslateService, HttpClient, SwUpdate, LoadingService],
-    },
+    updateServiceProvider,
     {
       provide: APP_INITIALIZER,
       useFactory: AppInitializerFactory,
