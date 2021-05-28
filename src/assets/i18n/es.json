@@ -276,7 +276,9 @@
         "period": "Período",
         "performance": "Rendimiento",
         "take_profit": "Take profit",
-        "stop_loss": "Stop loss"
+        "stop_loss": "Stop loss",
+        "strategy": "Estrategia",
+        "currency": "Moneda"
       },
       "fund_portfolio_card": {
         "title": "COMPOSICIÓN DE CARTERA",

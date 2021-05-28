@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FundMetricsInterface } from './fund-metrics.interface';
 import * as moment from 'moment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fund-metrics-card',
@@ -32,6 +33,16 @@ import * as moment from 'moment';
             </ion-text>
             <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
               {{ this.settings?.ganancia }}%
+            </ion-text>
+          </div>
+
+          <!-- Estrategia -->
+          <div class="item second">
+            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxmedium">
+              {{ 'funds.fund_detail.fund_metrics_card.strategy' | translate }}
+            </ion-text>
+            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+              {{ this.getProfileName(this.settings?.nivel_de_riesgo) }}
             </ion-text>
           </div>
         </div>
@@ -67,6 +78,16 @@ import * as moment from 'moment';
               {{ this.settings?.perdida }}%
             </ion-text>
           </div>
+
+          <!-- Moneda -->
+          <div class="item second">
+            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxmedium">
+              {{ 'funds.fund_detail.fund_metrics_card.currency' | translate }}
+            </ion-text>
+            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+              {{ this.settings?.currency }}
+            </ion-text>
+          </div>
         </div>
       </div>
     </div>
@@ -78,7 +99,7 @@ export class FundMetricsCardComponent implements OnInit {
   @Input() settings: any;
   createdTime: any;
 
-  constructor() {}
+  constructor(private translate: TranslateService) {}
 
   ngOnInit() {
     this.createdTime = this.getCreatedTime(this.resume);
@@ -97,5 +118,26 @@ export class FundMetricsCardComponent implements OnInit {
     } else {
       return ['seconds', endTime.diff(startTime, 'seconds')];
     }
+  }
+
+  getProfileName(profile) {
+    let response = profile;
+    if (
+      profile === 'volume_profile_strategies_USDT' ||
+      profile === 'volume_profile_strategies_BTC' ||
+      profile === 'DeFi_index' ||
+      profile === 'Mary_index'
+    ) {
+      const translateCode = `funds.fund_investment.card.profiles.${profile}.title`;
+      response = this.translate.instant(translateCode);
+    } else if (
+      profile === 'Classic_BTC' ||
+      profile === 'Classic_USDT' ||
+      profile === 'Pro_BTC' ||
+      profile === 'Pro_USDT'
+    ) {
+      response = profile;
+    }
+    return response;
   }
 }
