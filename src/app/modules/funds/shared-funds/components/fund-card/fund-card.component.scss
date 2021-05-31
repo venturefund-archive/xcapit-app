@@ -5,9 +5,12 @@
     border-radius: 8px;
     cursor: pointer;
     &__main {
-      border-bottom: 1px solid #0000000A;
+      border-bottom: 1px solid #0000000a;
       &__title {
         color: black;
+        &__strategy {
+          float: right;
+        }
       }
       &__title-finalized {
         color: #00000061;
