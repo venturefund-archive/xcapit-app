@@ -97,7 +97,9 @@
       "register_link": "Crear nueva cuenta",
       "reset_password_link": "Olvidé mi contraseña",
       "login_button_text": "Iniciar sesión",
-      "title": "Iniciar sesión"
+      "title": "Iniciar sesión",
+      "google_auth": "Ingresa con Google",
+      "or_text": "o"
     },
     "register": {
       "card_header": "Crea tu cuenta",
@@ -985,7 +987,10 @@
       },
       "login": {
         "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente.",
-        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión."
+        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión.",
+        "notClientAccess": "No se permite acceder desde otra aplicación. Usa nuestra app para iniciar sesión.",
+        "notVerifiedGoogleAccount": "Tu cuenta de Google no está verificada.",
+        "notGoogleLoginUser": "No se pudo iniciar sesión. Tu usuario ya está registrado como cuenta de Xcapit."
       },
       "changePassword": {
         "invalid": "Error al Cambiar la Password."

@@ -8,7 +8,7 @@ import com.getcapacitor.Plugin;
 import java.util.ArrayList;
 
 import com.dutchconcepts.capacitor.barcodescanner.BarcodeScanner;
-
+import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
 
 public class MainActivity extends BridgeActivity {
   @Override
@@ -20,6 +20,7 @@ public class MainActivity extends BridgeActivity {
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
       add(BarcodeScanner.class);
+      add(GoogleAuth.class);
     }});
   }
 }
