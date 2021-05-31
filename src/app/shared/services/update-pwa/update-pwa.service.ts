@@ -5,8 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { LoadingService } from '../loading/loading.service';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
-// import version from 'pwa/version.json';
+import version from 'pwa/version.json';
 
 @Injectable({
   providedIn: 'root',
@@ -20,22 +19,20 @@ export class UpdatePWAService extends UpdateService {
     private loadingService: LoadingService
   ) {
     super(alertController, translate, http);
-    console.log('alert ', alertController);
   }
 
   update() {
-    console.log('EXECUTING PWA update');
     this.loadingService.show().then();
-    this.swUpdate.activateUpdate().then(() => {
-      this.loadingService.dismiss().then();
-      document.location.reload();
-    });
+    this.swUpdate.activateUpdate().then(
+      (_) => {
+        this.loadingService.dismiss().then();
+        document.location.reload();
+      },
+      (_) => this.loadingService.dismiss()
+    );
   }
 
-  protected async getActualVersion() {
-    console.log('EXECUTING PWA getActualVersion');
-    // TODO: import json
-    // this.actualVersion = Promise.resolve(version.version);
-    this.actualVersion = await of('1.9.0').toPromise();
+  async getActualVersion(): Promise<any> {
+    return Promise.resolve(version.version);
   }
 }

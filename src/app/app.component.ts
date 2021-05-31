@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -36,8 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
 
   routerNavEndSubscription: Subscription;
-  // TODO: Remove if unused
-  // app = Plugins.App;
 
   constructor(
     private authService: AuthService,
@@ -68,12 +65,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   checkForUpdate() {
     this.updateService.checkForUpdate().then();
-    // TODO: Remove comments
-    // this.app.addListener('appStateChange', state => {
-    // if (state.isActive) {
-    //   this.updateService.checkForUpdate().then();
-    // }
-    // });
   }
 
   initNotifications() {

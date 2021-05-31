@@ -21,6 +21,7 @@ import { NotificationsService } from './modules/notifications/shared-notificatio
 // tslint:disable-next-line: max-line-length
 import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
 import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
+import { UpdateService } from './shared/services/update/update.service';
 
 describe('AppComponent', () => {
   let statusBarSpy: any, splashScreenSpy: any, platformReadySpy: any, platformSpy: any;
@@ -35,13 +36,13 @@ describe('AppComponent', () => {
   let notificationsServiceSpy: any;
   let pwaNotificationServiceSpy: any;
   let notificationsHelperServiceSpy: any;
-  let updatePWAServiceSpy: any;
+  let updateService: any;
 
   beforeEach(
     waitForAsync(() => {
       trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
-      updatePWAServiceSpy = jasmine.createSpyObj('UpdatePWAService', ['update']);
-      updatePWAServiceSpy.update.and.returnValue(of({}));
+      updateService = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
+      updateService.checkForUpdate.and.returnValue(Promise.resolve());
       trackServiceSpy.trackView.and.returnValue(null);
       publicLogSpy = {
         trackEvent: () => of(null),
@@ -88,7 +89,7 @@ describe('AppComponent', () => {
           { provide: PublicLogsService, useValue: publicLogSpy },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
           { provide: NotificationsHelperService, useValue: notificationsHelperServiceSpy },
-          { provide: UpdatePWAService, useValue: updatePWAServiceSpy },
+          { provide: UpdateService, useValue: updateService },
         ],
         imports: [
           HttpClientTestingModule,
@@ -123,13 +124,19 @@ describe('AppComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should call update service checkForUpdate when ngOnInit', async (done) => {
+    component.ngOnInit();
+    expect(updateService.checkForUpdate).toHaveBeenCalledTimes(1);
+    done();
+  });
+
   it('routerEventSubscription should not be null after ngOnInit call', async () => {
     const app = fixture.componentInstance;
     fixture.detectChanges();
     expect(app.routerNavEndSubscription).not.toBeNull();
   });
 
-  it('should call trackEvent  after ngOnInit call', async () => {
+  it('should call trackEvent after ngOnInit call', async () => {
     // el TrackService mediante el injector se debería poder obtener de otra
     // manera, pero parece que hay un problema con la abstract class, por ahora
     // queda.
