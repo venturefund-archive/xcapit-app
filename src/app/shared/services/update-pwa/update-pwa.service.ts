@@ -1,47 +1,38 @@
 import { Injectable } from '@angular/core';
+import { UpdateService } from '../update/update.service';
 import { AlertController } from '@ionic/angular';
-import { SwUpdate, UpdateAvailableEvent } from '@angular/service-worker';
-import { tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
+import { LoadingService } from '../loading/loading.service';
+import { HttpClient } from '@angular/common/http';
+import version from 'pwa/version.json';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class UpdatePWAService {
-
+export class UpdatePWAService extends UpdateService {
   constructor(
-    private alertController: AlertController,
+    alertController: AlertController,
+    translate: TranslateService,
+    http: HttpClient,
     private swUpdate: SwUpdate,
-    private translate: TranslateService
+    private loadingService: LoadingService
   ) {
+    super(alertController, translate, http);
   }
 
-  async showUpdateAppAlert() {
-    const alert = await this.alertController.create({
-      header: this.translate.instant('shared.services.update_pwa_service.alert_header'),
-      message: this.translate.instant('shared.services.update_pwa_service.alert_message'),
-      buttons: [
-        {
-          text: this.translate.instant('shared.services.update_pwa_service.alert_cancel_button'),
-          role: 'cancel',
-          cssClass: 'secondary'
-        },
-        {
-          text: this.translate.instant('shared.services.update_pwa_service.alert_update_button'),
-          handler: _ =>
-            this.swUpdate
-              .activateUpdate()
-              .then(() => document.location.reload())
-        }
-      ]
-    });
-    await alert.present();
+  update() {
+    this.loadingService.show().then();
+    this.swUpdate.activateUpdate().then(
+      (_) => {
+        this.loadingService.dismiss().then();
+        document.location.reload();
+      },
+      (_) => this.loadingService.dismiss()
+    );
   }
 
-  update(): Observable<UpdateAvailableEvent> {
-    return this.swUpdate.available.pipe(tap(async _ => {
-      await this.showUpdateAppAlert();
-    }));
+  async getActualVersion(): Promise<any> {
+    return Promise.resolve(version.version);
   }
 }

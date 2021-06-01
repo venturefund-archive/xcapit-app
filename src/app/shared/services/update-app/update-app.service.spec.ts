@@ -1,27 +1,22 @@
 import { TestBed } from '@angular/core/testing';
-import { UpdatePWAService } from './update-pwa.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
+import { UpdateAppService } from './update-app.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('UpdatePWAService', () => {
-  let service: UpdatePWAService;
+describe('UpdateAppService', () => {
+  let service: UpdateAppService;
   let alertControllerSpy: any;
-  let swUpdateSpy: any;
 
   beforeEach(() => {
     alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
-    swUpdateSpy = jasmine.createSpyObj('SwUpdate', ['update']);
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), HttpClientTestingModule],
-      providers: [
-        { provide: AlertController, useValue: alertControllerSpy },
-        { provide: SwUpdate, useValue: swUpdateSpy },
-      ],
+      providers: [{ provide: AlertController, useValue: alertControllerSpy }],
     });
-    service = TestBed.inject(UpdatePWAService);
+    service = TestBed.inject(UpdateAppService);
   });
 
   it('should be created', () => {
