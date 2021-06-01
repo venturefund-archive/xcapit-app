@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FundMetricsInterface } from './fund-metrics.interface';
 import * as moment from 'moment';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fund-metrics-card',
@@ -99,7 +98,7 @@ export class FundMetricsCardComponent implements OnInit {
   @Input() settings: any;
   createdTime: any;
 
-  constructor(private translate: TranslateService) {}
+  constructor() {}
 
   ngOnInit() {
     this.createdTime = this.getCreatedTime(this.resume);

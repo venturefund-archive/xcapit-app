@@ -92,6 +92,7 @@ import { StrategyNamePipe } from './pipes/strategy-name/strategy-name.pipe';
     InvestmentProductCardComponent,
     CurrencyFormatPipe,
     HideTextPipe,
+    StrategyNamePipe,
   ],
   entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent],
 })
