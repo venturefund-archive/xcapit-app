@@ -42,7 +42,7 @@ import { TranslateService } from '@ngx-translate/core';
               {{ 'funds.fund_detail.fund_metrics_card.strategy' | translate }}
             </ion-text>
             <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
-              {{ this.getProfileName(this.settings?.nivel_de_riesgo) }}
+              {{ this.settings?.nivel_de_riesgo | strategyName }}
             </ion-text>
           </div>
         </div>
@@ -118,26 +118,5 @@ export class FundMetricsCardComponent implements OnInit {
     } else {
       return ['seconds', endTime.diff(startTime, 'seconds')];
     }
-  }
-
-  getProfileName(profile) {
-    let response = profile;
-    if (
-      profile === 'volume_profile_strategies_USDT' ||
-      profile === 'volume_profile_strategies_BTC' ||
-      profile === 'DeFi_index' ||
-      profile === 'Mary_index'
-    ) {
-      const translateCode = `funds.fund_investment.card.profiles.${profile}.title`;
-      response = this.translate.instant(translateCode);
-    } else if (
-      profile === 'Classic_BTC' ||
-      profile === 'Classic_USDT' ||
-      profile === 'Pro_BTC' ||
-      profile === 'Pro_USDT'
-    ) {
-      response = profile;
-    }
-    return response;
   }
 }

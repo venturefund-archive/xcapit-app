@@ -405,6 +405,18 @@
           "Mary_index": {
             "title": "Andes",
             "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
+          },
+          "classic_BTC": {
+            "title": "Classic"
+          },
+          "classic_USDT": {
+            "title": "Classic"
+          },
+          "pro_BTC": {
+            "title": "Pro"
+          },
+          "pro_USDT": {
+            "title": "Pro"
           }
         }
       },

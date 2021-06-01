@@ -20,7 +20,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             {{ this.fund?.fund_name }}
           </ion-text>
           <ion-text class="fc__main__title__strategy" color="uxmedium">
-            {{ this.getProfileName(this.fund?.profile) }}
+            {{ this.fund?.profile | strategyName }}
           </ion-text>
         </div>
         <div class="fc__main__content" *ngIf="this.fund?.end_balance">
@@ -175,26 +175,5 @@ export class FundCardComponent implements OnInit {
     } else {
       return ['seconds', b.diff(a, 'seconds')];
     }
-  }
-
-  getProfileName(profile) {
-    let response = profile;
-    if (
-      profile === 'volume_profile_strategies_USDT' ||
-      profile === 'volume_profile_strategies_BTC' ||
-      profile === 'DeFi_index' ||
-      profile === 'Mary_index'
-    ) {
-      const translateCode = `funds.fund_investment.card.profiles.${profile}.title`;
-      response = this.translate.instant(translateCode);
-    } else if (
-      profile === 'Classic_BTC' ||
-      profile === 'Classic_USDT' ||
-      profile === 'Pro_BTC' ||
-      profile === 'Pro_USDT'
-    ) {
-      response = profile;
-    }
-    return response;
   }
 }
