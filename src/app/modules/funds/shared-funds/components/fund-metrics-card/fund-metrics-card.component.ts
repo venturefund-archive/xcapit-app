@@ -34,6 +34,16 @@ import * as moment from 'moment';
               {{ this.settings?.ganancia }}%
             </ion-text>
           </div>
+
+          <!-- Estrategia -->
+          <div class="item second">
+            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxmedium">
+              {{ 'funds.fund_detail.fund_metrics_card.strategy' | translate }}
+            </ion-text>
+            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+              {{ this.settings?.nivel_de_riesgo | strategyName }}
+            </ion-text>
+          </div>
         </div>
         <div class="fmc__content__right ion-padding-top ion-padding-end ion-padding-bottom">
           <!-- Rendimiento -->
@@ -65,6 +75,16 @@ import * as moment from 'moment';
             </ion-text>
             <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
               {{ this.settings?.perdida }}%
+            </ion-text>
+          </div>
+
+          <!-- Moneda -->
+          <div class="item second">
+            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxmedium">
+              {{ 'funds.fund_detail.fund_metrics_card.currency' | translate }}
+            </ion-text>
+            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+              {{ this.settings?.currency }}
             </ion-text>
           </div>
         </div>

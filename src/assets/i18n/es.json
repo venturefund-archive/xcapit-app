@@ -281,7 +281,9 @@
         "period": "Período",
         "performance": "Rendimiento",
         "take_profit": "Take profit",
-        "stop_loss": "Stop loss"
+        "stop_loss": "Stop loss",
+        "strategy": "Estrategia",
+        "currency": "Moneda"
       },
       "fund_portfolio_card": {
         "title": "COMPOSICIÓN DE CARTERA",
@@ -408,6 +410,18 @@
           "Mary_index": {
             "title": "Andes",
             "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
+          },
+          "classic_BTC": {
+            "title": "Classic"
+          },
+          "classic_USDT": {
+            "title": "Classic"
+          },
+          "pro_BTC": {
+            "title": "Pro"
+          },
+          "pro_USDT": {
+            "title": "Pro"
           }
         }
       },
