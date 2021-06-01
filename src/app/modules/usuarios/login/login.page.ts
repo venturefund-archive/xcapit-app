@@ -6,77 +6,101 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
 import { Router } from '@angular/router';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
+import '@codetrix-studio/capacitor-google-auth';
+import { Plugins } from '@capacitor/core';
 
 @Component({
   selector: 'app-login',
   template: `
-      <div class="app_header_trama">
-          <app-ux-header-login>
-              <div class="app_header_trama__content">
-                  <div class="app_header_trama__content__app_xcapit_logo">
-                      <app-xcapit-logo></app-xcapit-logo>
-                  </div>
-              </div>
-          </app-ux-header-login>
-      </div>
-      <div class="login_title">
-          <app-ux-title>
-              {{ 'usuarios.login.title' | translate }}
-          </app-ux-title>
-      </div>
+    <div class="app_header_trama">
+      <app-ux-header-login>
+        <div class="app_header_trama__content">
+          <div class="app_header_trama__content__app_xcapit_logo">
+            <app-xcapit-logo></app-xcapit-logo>
+          </div>
+        </div>
+      </app-ux-header-login>
+    </div>
+    <div class="login_title">
+      <app-ux-title>
+        {{ 'usuarios.login.title' | translate }}
+      </app-ux-title>
+    </div>
 
-      <div class="main ion-padding-horizontal ion-padding-bottom">
-          <app-auth-form [isLogin]="true" (send)="this.loginUser($event)">
-              <div class="auth-link-reset-password main__reset_password">
-                  <ion-button
-                          class="main__reset_password__button ux_button"
-                          appTrackClickUnauth
-                          name="Reset Password"
-                          fill="clear"
-                          size="small"
-                          type="button"
-                          color="uxsecondary"
-                          [routerLink]="['/users/reset-password']"
-                  >
-                      {{ 'usuarios.login.reset_password_link' | translate }}
-                  </ion-button>
-              </div>
-              <div class="auth-button">
-                  <ion-button
-                          appTrackClickUnauth
-                          name="Login"
-                          expand="block"
-                          size="large"
-                          type="submit"
-                          class="main__login_button ux_button"
-                          color="uxsecondary"
-                          [disabled]="(this.submitButtonService.isDisabled | async)"
-                  >
-                      {{ 'usuarios.login.login_button_text' | translate }}
-                  </ion-button>
-              </div>
-              <div class="auth-link main__go_to_register ion-text-center">
-                  <ion-button
-                          appTrackClickUnauth
-                          name="Go To Register"
-                          fill="clear"
-                          size="large"
-                          expand="block"
-                          type="button"
-                          color="uxsecondary"
-                          [routerLink]="['/users/register']"
-                          class="ux_button"
-                  >
-                      {{ 'usuarios.login.register_link' | translate }}
-                  </ion-button>
-              </div>
-          </app-auth-form>
+    <div class="main ion-padding-horizontal ion-padding-bottom">
+      <app-auth-form [isLogin]="true" (send)="this.loginUser($event)">
+        <div class="auth-link-reset-password main__reset_password">
+          <ion-button
+            class="main__reset_password__button ux_button"
+            appTrackClickUnauth
+            name="Reset Password"
+            fill="clear"
+            size="small"
+            type="button"
+            color="uxsecondary"
+            [routerLink]="['/users/reset-password']"
+          >
+            {{ 'usuarios.login.reset_password_link' | translate }}
+          </ion-button>
+        </div>
+        <div class="auth-button">
+          <ion-button
+            appTrackClickUnauth
+            name="Login"
+            expand="block"
+            size="large"
+            type="submit"
+            class="main__login_button ux_button"
+            color="uxsecondary"
+            [disabled]="this.submitButtonService.isDisabled | async"
+          >
+            {{ 'usuarios.login.login_button_text' | translate }}
+          </ion-button>
+        </div>
+        <div class="auth-link main__go_to_register ion-text-center">
+          <ion-button
+            appTrackClickUnauth
+            name="Go To Register"
+            fill="clear"
+            size="large"
+            expand="block"
+            type="button"
+            color="uxsecondary"
+            [routerLink]="['/users/register']"
+            class="ux_button"
+          >
+            {{ 'usuarios.login.register_link' | translate }}
+          </ion-button>
+        </div>
+      </app-auth-form>
+      <div class="ion-text-center">
+        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14 or-text"
+          >- {{ 'usuarios.login.or_text' | translate }} -</ion-text
+        >
       </div>
+      <div class="google-auth">
+        <ion-button
+          appTrackClickUnauth
+          name="Google Auth"
+          expand="block"
+          fill="solid"
+          size="large"
+          type="button"
+          class="ux_button google-auth__button"
+          [disabled]="this.submitButtonService.isDisabled | async"
+          (click)="this.googleSingUp()"
+        >
+          <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google Logo" />
+          <span class="google-auth__button__text ux-font-lato ux-fweight-regular ux-fsize-16">{{ 'usuarios.login.google_auth' | translate }}</span>
+        </ion-button>
+      </div>
+    </div>
   `,
-  styleUrls: ['./login.page.scss']
+  styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
+  googleAuthPlugin: any = Plugins.GoogleAuth;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -84,10 +108,22 @@ export class LoginPage implements OnInit {
     private subscriptionsService: SubscriptionsService,
     private router: Router,
     private loadingService: LoadingService
-  ) {
-  }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async googleSingUp() {
+    let googleUser;
+
+    try {
+      googleUser = await this.googleAuthPlugin.signIn();
+    } catch (e) {
+      return;
+    }
+
+    this.apiUsuarios
+      .loginWithGoogle(googleUser.authentication.idToken)
+      .subscribe(() => this.success());
   }
 
   loginUser(data: any) {
@@ -95,12 +131,14 @@ export class LoginPage implements OnInit {
   }
 
   async success() {
+    console.log('Success');
     this.loadingService.enabled();
     this.loginForm.form.reset();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      this.apiUsuarios.status(false).subscribe(
-        res => this.redirectByStatus(res));
+      this.apiUsuarios
+        .status(false)
+        .subscribe((res) => this.redirectByStatus(res));
     }
   }
 
@@ -117,10 +155,6 @@ export class LoginPage implements OnInit {
       }
       case UserStatus.CREATOR: {
         url = ['tabs/funds'];
-        break;
-      }
-      case UserStatus.FROM_BOT: {
-        url = ['tutorials/first-steps'];
         break;
       }
       case UserStatus.BEGINNER: {

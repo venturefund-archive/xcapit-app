@@ -16,14 +16,8 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-          <ion-button
-            appTrackClick
-            name="Register New Key More"
-            class="add-button"
-            color="uxsecondary"
-            (click)="this.addApiKey()"
-          >
-            <ion-icon style="zoom:1.5;" name="add"></ion-icon>
+          <ion-button appTrackClick name="Register New Key More" class="add-button" (click)="this.addApiKey()">
+            <ion-icon style="zoom:1.5; color:white;" name="add"></ion-icon>
           </ion-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'apikeys.list_apikeys.header' | translate }}</ion-title>
@@ -70,7 +64,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
               [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
             ></app-need-help>
           </div>
-          <ion-button expand="block" type="button" appTrackClick name="Register New Key" (click)="this.addApiKey()">
+          <ion-button expand="block" type="button" color=uxsecondary appTrackClick name="Register New Key" (click)="this.addApiKey()">
             {{ 'apikeys.list_apikeys.add_api_key' | translate }}
           </ion-button>
         </div>

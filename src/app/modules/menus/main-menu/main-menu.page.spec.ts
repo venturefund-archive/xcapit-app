@@ -89,4 +89,18 @@ describe('MainMenuPage', () => {
     }
     expect(elms.length).toBe(13);
   });
+
+  it('should call checkEmptyApiKeys in clickAction', () => {
+    const spyCheckEmptyApiKeys = spyOn(component, 'checkEmptyApiKeys');
+    spyCheckEmptyApiKeys.and.returnValue(undefined);
+    component.clickAction('buyCrypto');
+    expect(component.checkEmptyApiKeys).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call openModal in checkEmptyApiKeys', () => {
+    const spyOpenModal = spyOn(component, 'openModal');
+    spyOpenModal.and.returnValue(undefined);
+    component.checkEmptyApiKeys();
+    expect(component.openModal).toHaveBeenCalledTimes(1);
+  });
 });

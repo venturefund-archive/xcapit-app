@@ -25,7 +25,7 @@ import * as moment from 'moment';
 export class FundPerformanceChartComponent implements OnChanges {
   @Input() fundPercentageEvolution: any;
   @Input() interval: string;
-  @Input() isChart: boolean;
+  @Input() page: string;
   @Input() shareChart = false;
 
   chart: any;
@@ -47,7 +47,7 @@ export class FundPerformanceChartComponent implements OnChanges {
     if (!this.chart) {
       const width = window.innerWidth * 0.8;
       let height = window.innerHeight * 0.4;
-      const div = document.getElementById('chart');
+      const div = document.querySelector(`${this.page} #chart`) as HTMLElement;
       const dataSet = this.createDataSet();
 
       if (height > 300) {
@@ -156,7 +156,7 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   setTooltip(areaSeries) {
-    const divEl = document.getElementById('chart');
+    const divEl = document.querySelector(`${this.page} #chart`);
     const toolTip = document.getElementById('tooltip');
     divEl.appendChild(toolTip);
 

@@ -136,16 +136,16 @@ describe('RegisterApikeysPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call showAlert on handleSubmit and valid form', () => {
+  it('should call submitData on handleSubmit and valid form', () => {
     component.form.patchValue(formData.valid);
-    const spy = spyOn(component, 'showAlert').and.returnValue(Promise.resolve());
+    const spy = spyOn(component, 'submitData');
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call showAlert on handleSubmit and invalid form', () => {
+  it('should not call submitData on handleSubmit and invalid form', () => {
     component.form.patchValue(formData.invalid);
-    const spy = spyOn(component, 'showAlert');
+    const spy = spyOn(component, 'submitData');
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(0);
   });
@@ -188,13 +188,6 @@ describe('RegisterApikeysPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call showAlert if the scanned QR data was not valid', () => {
-    const spy = spyOn(component, 'showAlert').and.returnValue(Promise.resolve());
-    component.apikeysScanned(QRScanResult.formInvalid);
-    component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(0);
-  });
-
   it('should patchFormValue on ionViewWillEnter and storage data is undefined', () => {
     storageApiKeysServiceMock.data = undefined;
     const spyForm = spyOn(component.form, 'patchValue').and.callThrough();
@@ -233,7 +226,6 @@ describe('RegisterApikeysPage', () => {
       isBeginner: true,
       isExplorer: false,
       isCreator: false,
-      isFromBot: false,
       isFirstFund: true,
     },
     {
@@ -242,7 +234,6 @@ describe('RegisterApikeysPage', () => {
       isBeginner: false,
       isExplorer: true,
       isCreator: false,
-      isFromBot: false,
       isFirstFund: true,
     },
     {
@@ -251,16 +242,6 @@ describe('RegisterApikeysPage', () => {
       isBeginner: false,
       isExplorer: false,
       isCreator: true,
-      isFromBot: false,
-      isFirstFund: true,
-    },
-    {
-      userStatus: { status_name: UserStatus.FROM_BOT },
-      expectedRoute: '/apikeys/success-register-beginner',
-      isBeginner: false,
-      isExplorer: false,
-      isCreator: false,
-      isFromBot: true,
       isFirstFund: true,
     },
     {
@@ -269,7 +250,6 @@ describe('RegisterApikeysPage', () => {
       isBeginner: false,
       isExplorer: false,
       isCreator: false,
-      isFromBot: false,
       isFirstFund: false,
     },
   ].forEach((p) => {
@@ -289,11 +269,6 @@ describe('RegisterApikeysPage', () => {
       });
 
       it(`should return ${p.isCreator} on isCreatorUser`, () => {
-        const isCreatorUser = component.isCreatorUser();
-        expect(isCreatorUser).toEqual(p.isCreator);
-      });
-
-      it(`should return ${p.isFromBot} on isFromBot`, () => {
         const isCreatorUser = component.isCreatorUser();
         expect(isCreatorUser).toEqual(p.isCreator);
       });

@@ -51,11 +51,12 @@ describe('OperationsNewPaxfulPage', () => {
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
       platformServiceSpy = jasmine.createSpyObj('PlatformServiceSpy', ['isWeb']);
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', ['getUserWallets', 'getLink', 'setProvider']);
       fiatRampsServiceSpy.getUserWallets.and.returnValue(of({}));
       fiatRampsServiceSpy.getLink.and.returnValue(of({}));
-      browserSpy = jasmine.createSpyObj('Browser', ['open', 'addListener']);
+      browserSpy = jasmine.createSpyObj('Browser', ['open']);
       browserSpy.open.and.returnValue(Promise.resolve());
 
       TestBed.configureTestingModule({
@@ -92,11 +93,6 @@ describe('OperationsNewPaxfulPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set paxful as provider on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledWith('paxful');
-  });
-
   it('should call getUserWallets on ionViewWillEnter', () => {
     component.ionViewWillEnter();
     expect(fiatRampsServiceSpy.getUserWallets).toHaveBeenCalledTimes(1);
@@ -106,18 +102,6 @@ describe('OperationsNewPaxfulPage', () => {
     fiatRampsServiceSpy.getUserWallets.and.returnValue(of(userWallets));
     component.ionViewWillEnter();
     expect(component.walletAddressSelect).toEqual(walletAddress);
-  });
-
-  it('should call checkIsWebPlatform on ionViewWillEnter', () => {
-    const spy = spyOn(component, 'checkIsWebPlatform');
-    component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set isPWA on checkIsWebPlatform', () => {
-    platformServiceSpy.isWeb.and.returnValue(false);
-    component.checkIsWebPlatform();
-    expect(component.isPWA).toBeFalse();
   });
 
   it('should call goToCreateApikey if no wallets are found', () => {
@@ -147,13 +131,6 @@ describe('OperationsNewPaxfulPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should open in app browser on handleSubmit and form valid', () => {
-    component.walletAddressSelect = walletAddress;
-    component.form.patchValue({ wallet: walletAddress[0].address });
-    component.handleSubmit();
-    expect(browserSpy.open).toHaveBeenCalledTimes(1);
-  });
-
   it('should not call openPaxfulLink on handleSubmit and form invalid', () => {
     const spy = spyOn(component, 'openPaxfulLink');
     component.handleSubmit();
@@ -170,6 +147,17 @@ describe('OperationsNewPaxfulPage', () => {
     expect(fiatRampsServiceSpy.getLink).toHaveBeenCalledTimes(1);
   });
 
+  it('should open in app browser on handleSubmit and form valid', async () => {
+    fiatRampsServiceSpy.getLink.and.returnValue(of({ url: 'url' }));
+    component.walletAddressSelect = walletAddress;
+    component.form.patchValue({ wallet: walletAddress[0].address });
+    fixture.detectChanges();
+    component.handleSubmit();
+    fixture.whenStable().then(() => {
+      expect(browserSpy.open).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it('should open in app browser on openPaxfulLink with Paxful link', async () => {
     fiatRampsServiceSpy.getLink.and.returnValue(of({ url: 'url' }));
     await component.openPaxfulLink(0);
@@ -177,25 +165,13 @@ describe('OperationsNewPaxfulPage', () => {
   });
 
   it('should call success on openPaxfulLink', async () => {
-    component.isPWA = true;
-    const spy = spyOn(component, 'success');
+    const spy = spyOn(component, 'success').and.returnValue(Promise.resolve(true));
     await component.openPaxfulLink(0);
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should create listener in native app on openPaxfulLink', async () => {
-    component.isPWA = false;
-    await component.openPaxfulLink(0);
-    expect(browserSpy.addListener).toHaveBeenCalledTimes(1);
   });
 
   it('should go to success page on success', () => {
     component.success();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/new-operation/success-paxful']);
-  });
-
-  it('should set 1 as provider on ionViewWillLeave', () => {
-    component.ionViewWillLeave();
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledWith('1');
   });
 });

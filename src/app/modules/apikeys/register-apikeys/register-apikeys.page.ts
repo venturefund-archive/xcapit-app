@@ -146,23 +146,9 @@ export class RegisterApikeysPage implements OnInit {
     }
   }
 
-  async showAlert() {
-    const alert = await this.alertController.create({
-      header: this.translate.instant('apikeys.register.alert.title'),
-      message: this.translate.instant('apikeys.register.alert.text'),
-      buttons: [
-        {
-          text: this.translate.instant('apikeys.register.alert.button'),
-          handler: (_) => this.submitData(),
-        },
-      ],
-    });
-    await alert.present();
-  }
-
   handleSubmit() {
     if (this.form.valid) {
-      this.showAlert();
+      this.submitData();
     } else {
       this.form.markAllAsTouched();
     }
@@ -186,7 +172,7 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   isFirstFund(): boolean {
-    return this.isBeginnerUser() || this.isExplorerUser() || this.isCreatorUser() || this.isFromBotUser();
+    return this.isBeginnerUser() || this.isExplorerUser() || this.isCreatorUser();
   }
 
   isBeginnerUser(): boolean {
@@ -199,10 +185,6 @@ export class RegisterApikeysPage implements OnInit {
 
   isCreatorUser(): boolean {
     return this.userStatus.status_name === UserStatus.CREATOR;
-  }
-
-  isFromBotUser(): boolean {
-    return this.userStatus.status_name === UserStatus.FROM_BOT;
   }
 
   success(apiKeys: any, route: string) {

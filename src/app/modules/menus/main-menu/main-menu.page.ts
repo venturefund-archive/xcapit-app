@@ -5,6 +5,8 @@ import { Plugins } from '@capacitor/core';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { UxSelectModalComponent } from '../../../shared/components/ux-select-modal/ux-select-modal.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
 
 const { Browser } = Plugins;
 
@@ -16,18 +18,13 @@ const { Browser } = Plugins;
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'app.main_menu.header' | translate
-        }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'app.main_menu.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content>
       <ion-list>
-        <div
-          *ngFor="let p of appPages; trackBy: this.trackBy"
-          (click)="this.clickAction(p.elementClick)"
-        >
+        <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p.elementClick)">
           <ion-item
             class="item-style"
             appTrackClick
@@ -36,7 +33,7 @@ const { Browser } = Plugins;
             [routerLink]="[p.url]"
             replaceUrl="true"
           >
-            <ion-icon *ngIf="p.icon" slot="start" [name]="p.icon"></ion-icon>
+            <ion-icon *ngIf="p.icon" class="icons" slot="start" [name]="p.icon"></ion-icon>
             <ion-label>
               {{ p.title | translate }}
             </ion-label>
@@ -52,7 +49,7 @@ const { Browser } = Plugins;
           }"
           (click)="this.changeLanguage()"
         >
-          <ion-icon slot="start" name="globe-outline"></ion-icon>
+          <ion-icon slot="start" class="icons" name="ux-lenguage-icon"></ion-icon>
           <ion-label>
             {{ 'app.main_menu.change_language' | translate }}
           </ion-label>
@@ -66,7 +63,7 @@ const { Browser } = Plugins;
           }"
           (click)="this.logout()"
         >
-          <ion-icon slot="start" name="log-out"></ion-icon>
+          <ion-icon slot="start" class="icons" name="ux-logout-icon"></ion-icon>
           <ion-label>
             {{ 'app.main_menu.logout' | translate }}
           </ion-label>
@@ -77,33 +74,35 @@ const { Browser } = Plugins;
   styleUrls: ['./main-menu.page.scss'],
 })
 export class MainMenuPage implements OnInit {
+  apikeys: any = [];
+
   public appPages = [
     {
       id: 1,
       title: 'app.main_menu.funds',
       url: '/tabs/funds',
-      icon: 'trending-up',
+      icon: 'ux-myfund-icon',
       routeDirection: 'root',
     },
     {
       id: 2,
       title: 'funds.funds_finished.header',
       url: '/funds/funds-finished',
-      icon: 'film',
+      icon: 'ux-finalizedfunds-icon',
       routeDirection: 'forward',
     },
     {
       id: 3,
       title: 'app.main_menu.user_profile',
       url: '/profiles/user',
-      icon: 'person',
+      icon: 'ux-user-icon',
       routeDirection: 'forward',
     },
     {
       id: 4,
       title: 'app.main_menu.deposit_address',
       url: '/deposits/currency',
-      icon: 'journal',
+      icon: 'ux-book-icon',
       routeDirection: 'forward',
     },
     /*{
@@ -117,55 +116,56 @@ export class MainMenuPage implements OnInit {
       id: 5,
       title: 'app.main_menu.help',
       url: '/tabs/funds',
-      icon: 'help-circle-outline',
+      icon: 'ux-settings-icon',
       routeDirection: 'forward',
       elementClick: 'openTutorials',
     },
     {
       id: 6,
       title: 'Comprar/Vender cryptos',
-      url: '/fiat-ramps/operations',
-      icon: 'cash-outline',
-      routeDirection: 'forward'
+      url: '/menus/main-menu',
+      icon: 'ux-buysell-icon',
+      elementClick: 'buyCrypto',
     },
     {
       id: 7,
       title: 'app.main_menu.password_change',
       url: '/users/password-change',
-      icon: 'key',
+      icon: 'ux-key-icon',
       routeDirection: 'forward',
     },
     {
       id: 8,
       title: 'app.main_menu.referrals',
       url: '/referrals/list',
-      icon: 'people',
+      icon: 'ux-referrals-icon',
       routeDirection: 'root',
     },
     {
       id: 9,
       title: 'app.main_menu.notifications',
       url: '/notifications/list',
-      icon: 'notifications-outline',
+      icon: 'ux-notifications-icon',
       routeDirection: 'root',
     },
     {
       id: 10,
       title: 'app.main_menu.api_keys_managment',
       url: '/apikeys/list',
-      icon: 'cog',
+      icon: 'ux-cog-icon',
       routeDirection: 'root',
     },
     {
       id: 11,
       title: 'app.main_menu.payment',
       url: '/payment/payment-methods',
-      icon: 'cash-outline',
+      icon: 'ux-cash-icon',
       routeDirection: 'forward',
     },
   ];
 
   constructor(
+    private apiApikeysService: ApiApikeysService,
     private authService: AuthService,
     private language: LanguageService,
     private translate: TranslateService,
@@ -175,6 +175,7 @@ export class MainMenuPage implements OnInit {
     Browser.prefetch({
       urls: ['https://www.info.xcapit.com/'],
     });
+    this.getAllApiKeys();
   }
 
   ngOnInit() {
@@ -210,12 +211,38 @@ export class MainMenuPage implements OnInit {
     }
   }
 
+  checkEmptyApiKeys() {
+    if (this.apikeys.length === 0) {
+      this.openModal();
+    } else {
+      this.navController.navigateForward('/fiat-ramps/operations');
+    }
+  }
+
+  getAllApiKeys() {
+    this.apiApikeysService.getAll().subscribe((data) => {
+      this.apikeys = data;
+    });
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: InformativeModalComponent,
+      cssClass: 'ux-modal-informative',
+      swipeToClose: false,
+    });
+    await modal.present();
+  }
+
   async clickAction(element) {
     if (element === 'openTutorials') {
       await Browser.open({
         toolbarColor: '#ff9100',
         url: 'https://www.info.xcapit.com/',
       });
+    }
+    if (element === 'buyCrypto') {
+      this.checkEmptyApiKeys();
     }
   }
 }

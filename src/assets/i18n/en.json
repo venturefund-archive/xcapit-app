@@ -100,7 +100,9 @@
       "register_link": "Create new account",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
-      "title": "Login"
+      "title": "Login",
+      "google_auth": "Sign in with Google",
+      "or_text": "or"
     },
     "register": {
       "card_header": "Create your account",
@@ -553,6 +555,7 @@
         "item": {
           "state": "Status",
           "initial_date": "Initial Date",
+          "profile": "Profile",
           "take_profit": "Take profit",
           "stop_loss": "Stop loss",
           "currency": "Currency",
@@ -984,7 +987,10 @@
       },
       "login": {
         "invalidCredentials": "No active account found with the given credentials",
-        "noActiveUser": "Verify your email to login."
+        "noActiveUser": "Verify your email to login.",
+        "notClientAccess": "You can't access from other apps. Use our app to login.",
+        "notVerifiedGoogleAccount": "Your Google account is not verified.",
+        "notGoogleLoginUser": "Couldn't log in. Your email is already signed as a Xcapit user."
       },
       "changePassword": {
         "invalid": "Error Changing Password."
@@ -1036,7 +1042,7 @@
         "errorProvider": "Failed to get quotations from provider."
       },
       "user": {
-        "doesNotExist": "non-existent user.",
+        "doesNotExist": "Non-existent user.",
         "check": {
           "errorProvider": "Failed to get user from provider."
         },
@@ -1195,22 +1201,20 @@
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Submmit",
-      "link_help": "Need Help?",
-      "alert": {
-        "title": "Add new key",
-        "text": "I understand that adding a key does not mean that I am investing in Xcapit funds. For this to happen it is necessary to associate the keys to a fund.",
-        "button": "I understand"
-      }
+      "link_help": "Need Help?"
     },
     "register_success_begginer": {
-      "textPrimary": "Great! You are one step away from your first investment.",
-      "textSecondary": "Choose the strategy that best suits you.",
-      "namePrimaryAction": "Create my first invest"
+      "textPrimary": "You have already linked your account with Binance!",
+      "textSecondary": "CWe are able to create a fund to start managing your investment.",
+      "textThird": "or you can also",
+      "namePrimaryAction": "Create an investment fund",
+      "nameSecondaryAction": "Skip for now",
+      "nameThirdAction": "Buy cryptocurrencies"
     },
     "register_success": {
       "textPrimary": "Your account is now linked to Binace!",
       "textSecondary": "We can start mananging your capital in Binance.",
-      "namePrimaryAction": "Use",
+      "namePrimaryAction": "Manage",
       "nameSecondaryAction": "Skip for now"
     },
     "linked_apikeys": {
@@ -1322,27 +1326,70 @@
       "id": "ID",
       "operation": "Operation",
       "amount": "Amount",
+      "provider": "Provider",
       "status": "Status",
       "date": "Date",
       "new": "New"
     },
-
+    "fiat_success": {
+      "textPrimary": "Operation created!",
+      "textSecondary": "To continue you need to transfer from your bank to the following data:",
+      "bank": "Bank:",
+      "cbu": "CBU:",
+      "concept": "Concept:",
+      "amount": "Amount:",
+      "info_telegram": "If you have any questions, you can contact Kripton through Telegram:",
+      "info_email": "*The provider will email you when the process advances.",
+      "buttonText": "Attach voucher"
+    },
     "select_provider": {
       "header": "Buy Crypto",
       "title": "Select the provider:"
     },
 
     "operation_detail": {
-      "header": "Operation detail",
-      "type": "Operation type:",
-      "amount": "Amount:",
-      "quotation": "Quotation:",
-      "status": "Status:",
-      "date": "Date:",
-      "id": "Operation id:",
-      "voucher": "Voucher",
-      "send": "Send voucher"
+      "header": "Operation:",
+      "card": {
+        "provider": "Provider:",
+        "type": "Operation type:",
+        "buy": {
+          "operationType": "Buy",
+          "title": "Buy:",
+          "with": " with "
+        },
+        "sell": {
+          "operationType": "Sell",
+          "title": "Sell:",
+          "with": " for "
+        },
+        "amount": "Amount:",
+        "quotation": "Quotation:",
+        "status": "Status:",
+        "date": "Date:",
+        "id": "ID:"
+      },
+      "voucher": "Comprobante",
+      "send": "Enviar comprobante",
+      "my_operations": "See my operations",
+      "has_voucher": "Voucher has been uploaded"
     },
+
+    "operationStatus": {
+      "kripton": {
+        "pending_by_validate": "Pending",
+        "request": "Request",
+        "received": "Received",
+        "wait": "Waiting",
+        "complete": "Complete",
+        "cancel": "Cancelled"
+      },
+      "paxful": {
+        "SUCCESSFUL": "Complete",
+        "EXPIRED": "Expired",
+        "CANCELED": "Cancelled"
+      }
+    },
+
     "ramp_initial": {
       "header": "Buy/Sell cryptos",
       "title": "New operation",
@@ -1390,13 +1437,24 @@
     },
     "confirm": {
       "header": "Confirm operation",
-      "title": "Check that the data is correct",
-      "operation": "Operation:",
+      "title": "Check that the data is correct:",
+      "provider": "Provider:",
+      "type": "Operation type:",
       "amount": "Amount:",
-      "quotation": "Quotation",
+      "quotation": "Quotation:",
       "wallet_address": "Reception address",
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "buy": {
+        "operationType": "Buy",
+        "title": "Buy:",
+        "with": " with "
+      },
+      "sell": {
+        "operationType": "Sell",
+        "title": "Sell:",
+        "with": " for "
+      }
     },
     "paxful": {
       "header": "Buy BTC with Paxful",
@@ -1410,6 +1468,12 @@
       "textSecondary": "Fill in the details to complete the transaction",
       "namePrimaryAction": "Go to my operations",
       "nameSecondaryAction": "Buy more cripto"
+    },
+    "wallet_comprobation:": {
+      "title": "To buy cryptocurrencies you need to associate an Api Key",
+      "message": "Add a Key so that your purchases are reflected in your Binance account.",
+      "btn_back": "Back",
+      "btn_add_apikey": "Add Api Key"
     }
   },
 

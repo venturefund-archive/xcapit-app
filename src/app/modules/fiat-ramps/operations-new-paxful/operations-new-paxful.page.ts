@@ -74,24 +74,18 @@ export class OperationsNewPaxfulPage implements OnInit {
     wallet: ['', [Validators.required]],
   });
   walletAddressSelect: any[];
-  isPWA = false;
   browser = Browser;
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController,
-    private platformService: PlatformService
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.checkIsWebPlatform();
-
-    this.fiatRampsService.setProvider('paxful');
-
     let wallets = [];
 
     this.fiatRampsService.getUserWallets('BTC').subscribe((apikeys) => {
@@ -106,23 +100,15 @@ export class OperationsNewPaxfulPage implements OnInit {
         wallets = [...wallets, ...newWallets];
       });
       this.walletAddressSelect = Object.values(wallets);
+
+      if (this.walletAddressSelect.length === 0) {
+        this.goToCreateApikey();
+      }
     });
-
-    if (this.walletAddressSelect.length === 0) {
-      this.goToCreateApikey();
-    }
-  }
-
-  ionViewWillLeave() {
-    this.fiatRampsService.setProvider('1');
   }
 
   goToCreateApikey() {
     this.navController.navigateBack(['/apikeys/list']);
-  }
-
-  checkIsWebPlatform() {
-    this.isPWA = this.platformService.isWeb();
   }
 
   async handleSubmit() {
@@ -139,21 +125,13 @@ export class OperationsNewPaxfulPage implements OnInit {
 
   async openPaxfulLink(apikeyId: number) {
     this.fiatRampsService.getLink(apikeyId).subscribe(async (response) => {
-      if (this.isPWA) {
-        await this.browser.open(response);
-        this.success();
-      } else {
-        const browserClosed = this.browser.addListener('browserFinished', () => {
-          this.success();
-          browserClosed.remove();
-        });
-
+      this.success().then(() => {
         this.browser.open(response);
-      }
+      });
     });
   }
 
-  success() {
-    this.navController.navigateForward(['/fiat-ramps/new-operation/success-paxful']);
+  success(): Promise<boolean> {
+    return this.navController.navigateForward(['/fiat-ramps/new-operation/success-paxful']);
   }
 }

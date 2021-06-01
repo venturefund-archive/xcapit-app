@@ -13,11 +13,7 @@ import { Router } from '@angular/router';
           name="Close Success"
           (click)="this.close()"
         >
-          <ion-icon
-            class="main__close_button__icon"
-            name="ux-close"
-            color="uxmedium"
-          ></ion-icon>
+          <ion-icon class="main__close_button__icon" name="ux-close" color="uxmedium"></ion-icon>
         </ion-button>
       </div>
       <div class="main__ux_success_image">
@@ -33,6 +29,7 @@ import { Router } from '@angular/router';
         <div class="main__actions__primary">
           <ion-button
             class="ux_button"
+            color="uxsecondary"
             appTrackClick="!this.unauth"
             appTrackClickUnauth="this.unauth"
             name="Success Action Primary"
@@ -41,10 +38,22 @@ import { Router } from '@angular/router';
             {{ this.data?.namePrimaryAction | translate }}
           </ion-button>
         </div>
-        <div
-          class="main__actions__secondary"
-          *ngIf="this.data.nameSecondaryAction"
-        >
+        <div class="main__third_text ux-font-lato ux-fweight-semibold ux-fsize-12">
+          <ion-text>{{ this.data?.textThird | translate }}</ion-text>
+        </div>
+        <div class="main__actions__third">
+          <ion-button
+            class="ux_button"
+            appTrackClick="!this.unauth"
+            appTrackClickUnauth="this.unauth"
+            name="Success Action Third"
+            fill="outline"
+            (click)="this.thirdAction()"
+          >
+            {{ this.data?.nameThirdAction | translate }}
+          </ion-button>
+        </div>
+        <div class="main__actions__secondary" *ngIf="this.data.nameSecondaryAction">
           <ion-button
             class="ux_button"
             appTrackClick="!this.unauth"
@@ -59,13 +68,14 @@ import { Router } from '@angular/router';
       </div>
     </div>
   `,
-  styleUrls: ['./success-content.component.scss']
+  styleUrls: ['./success-content.component.scss'],
 })
 export class SuccessContentComponent implements OnInit {
   @Input() data: any;
   @Input() unauth: any = false;
   @Output() primaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() secondaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() thirdActionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private router: Router) {}
 
@@ -85,6 +95,13 @@ export class SuccessContentComponent implements OnInit {
   secondaryAction() {
     if (this.data.urlSecondaryAction) {
       this.router.navigate([this.data.urlSecondaryAction]);
+    }
+    this.secondaryActionEvent.emit();
+  }
+
+  thirdAction() {
+    if (this.data.urlThirdAction) {
+      this.router.navigate([this.data.urlThirdAction]);
     }
     this.secondaryActionEvent.emit();
   }

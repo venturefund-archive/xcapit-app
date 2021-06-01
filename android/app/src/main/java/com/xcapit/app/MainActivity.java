@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.dutchconcepts.capacitor.barcodescanner.BarcodeScanner;
 import com.getcapacitor.community.nativemarket.NativeMarket;
+import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
 
 
 public class MainActivity extends BridgeActivity {
@@ -22,6 +23,7 @@ public class MainActivity extends BridgeActivity {
       // Ex: add(TotallyAwesomePlugin.class);
       add(BarcodeScanner.class);
       add(NativeMarket.class);
+      add(GoogleAuth.class);
     }});
   }
 }

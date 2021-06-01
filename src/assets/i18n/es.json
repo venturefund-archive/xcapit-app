@@ -100,7 +100,9 @@
       "register_link": "Crear nueva cuenta",
       "reset_password_link": "Olvidé mi contraseña",
       "login_button_text": "Iniciar sesión",
-      "title": "Iniciar sesión"
+      "title": "Iniciar sesión",
+      "google_auth": "Ingresa con Google",
+      "or_text": "o"
     },
     "register": {
       "card_header": "Crea tu cuenta",
@@ -557,6 +559,7 @@
         "item": {
           "state": "Estado",
           "initial_date": "Fecha de Inicio",
+          "profile": "Perfil",
           "take_profit": "Take profit",
           "stop_loss": "Stop loss",
           "currency": "Moneda",
@@ -987,7 +990,10 @@
       },
       "login": {
         "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente.",
-        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión."
+        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión.",
+        "notClientAccess": "No se permite acceder desde otra aplicación. Usa nuestra app para iniciar sesión.",
+        "notVerifiedGoogleAccount": "Tu cuenta de Google no está verificada.",
+        "notGoogleLoginUser": "No se pudo iniciar sesión. Tu usuario ya está registrado como cuenta de Xcapit."
       },
       "changePassword": {
         "invalid": "Error al Cambiar la Password."
@@ -1197,14 +1203,17 @@
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
     },
     "register_success_beginner": {
-      "textPrimary": "¡Genial! Estás a un paso de tu primera inversión.",
-      "textSecondary": "Elige la estrategia que mejor se adapta a ti.",
-      "namePrimaryAction": "Crear mi primera inversión"
+      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
+      "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
+      "textThird": "o también puedes",
+      "namePrimaryAction": "Crear un fondo de inversión",
+      "nameSecondaryAction": "Omitir por ahora",
+      "nameThirdAction": "Comprar criptomonedas"
     },
     "register_success": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
       "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
-      "namePrimaryAction": "Usar",
+      "namePrimaryAction": "Gestionar",
       "nameSecondaryAction": "Omitir por ahora"
     },
     "tutorial_apikeys": {
@@ -1272,12 +1281,7 @@
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submmit": "Agregar",
-      "link_help": "¿Necesitas Ayuda?",
-      "alert": {
-        "title": "Agregar nueva key",
-        "text": "Entiendo que al añadir una key, no significa que este invirtiendo en fondos Xcapit. Para que ello suceda es necesario asociar las keys a un fondo.",
-        "button": "Entendido"
-      }
+      "link_help": "¿Necesitas Ayuda?"
     },
     "edit_modal": {
       "title": "Cambiar Alias",
@@ -1327,6 +1331,7 @@
       "id": "ID",
       "operation": "Operación",
       "amount": "Monto",
+      "provider": "Proveedor",
       "status": "Estado",
       "date": "Fecha",
       "new": "Nueva"
@@ -1337,16 +1342,48 @@
     },
 
     "operation_detail": {
-      "header": "Detalle de la operación",
-      "type": "Tipo de operación:",
-      "amount": "Monto:",
-      "quotation": "Cotización:",
-      "status": "Estado:",
-      "date": "Fecha:",
-      "id": "Id de la operación:",
+      "header": "Operación:",
+      "card": {
+        "provider": "Proveedor:",
+        "type": "Tipo de operación:",
+        "buy": {
+          "operationType": "Compra",
+          "title": "Comprar:",
+          "with": " con "
+        },
+        "sell": {
+          "operationType": "Venta",
+          "title": "Vender:",
+          "with": " por "
+        },
+        "amount": "Monto:",
+        "quotation": "Cotización:",
+        "status": "Estado:",
+        "date": "Fecha:",
+        "id": "ID:"
+      },
       "voucher": "Comprobante",
-      "send": "Enviar comprobante"
+      "send": "Enviar comprobante",
+      "my_operations": "Ver mis operaciones",
+      "has_voucher": "El comprobante ha sido cargado"
     },
+
+    "operationStatus": {
+      "kripton": {
+        "pending_by_validate": "Pendiente",
+        "request": "Pedida",
+        "received": "Recibida",
+        "wait": "En espera",
+        "complete": "Completada",
+        "cancel": "Cancelada"
+      },
+      "paxful": {
+        "SUCCESSFUL": "Completada",
+        "EXPIRED": "Expirada",
+        "CANCELED": "Cancelada"
+      }
+    },
+
     "ramp_initial": {
       "header": "Comprar/Vender cryptos",
       "title": "Nueva operación",
@@ -1397,24 +1434,35 @@
     },
     "confirm": {
       "header": "Confirmar operación",
-      "title": "Revisa que los datos sean correctos",
-      "operation": "Operación:",
+      "title": "Revisa que los datos sean correctos:",
+      "provider": "Proveedor:",
+      "type": "Tipo de operación:",
       "amount": "Monto:",
       "quotation": "Cotización:",
       "wallet_address": "Dirección de recepción:",
       "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
-      "confirm": "Confirmar"
+      "confirm": "Confirmar",
+      "buy": {
+        "operationType": "Compra",
+        "title": "Comprar:",
+        "with": " con "
+      },
+      "sell": {
+        "operationType": "Venta",
+        "title": "Vender:",
+        "with": " por "
+      }
     },
     "fiat_success": {
-      "textPrimary": "¡La operación fue creada con éxito!",
-      "textSecondary": "Para continuar deberás transferir desde tu banco con los siguientes datos:",
+      "textPrimary": "¡La operación fue creada!",
+      "textSecondary": "Para continuar deberás transferir desde tu banco a los siguientes datos:",
+      "amount": "Monto:",
       "bank": "Banco:",
       "cbu": "CBU:",
       "concept": "Concepto:",
-      "amount": "Monto:",
-      "info_telegram": "Por dudas o consultas, contactanos por Télegram:",
-      "info_email": "El proveedor se comunicará por email conforme avance el proceso.",
-      "buttonText": "Terminar"
+      "info_telegram": "Por dudas o consultas, contactate con Kripton en Télegram",
+      "info_email": "*El proveedor se comunicará por email conforme avance el proceso.",
+      "buttonText": "Añadir comprobante"
     },
     "paxful": {
       "header": "Comprar BTC con Paxful",
@@ -1428,6 +1476,12 @@
       "textSecondary": "Completa los detalles que te soliciten para terminar la transacción",
       "namePrimaryAction": "Ver mis operaciones",
       "nameSecondaryAction": "Comprar más criptos"
+    },
+    "wallet_comprobation": {
+      "title": "Para comprar criptomonedas necesitas asociar una Api Key",
+      "message": "Agrega una Key para que tus compras se reflejen en tu cuenta de Binance.",
+      "btn_back": "Volver",
+      "btn_add_apikey": "Agregar Api Key"
     }
   },
 
