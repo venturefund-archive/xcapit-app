@@ -127,7 +127,6 @@ export class ToastAlertComponent implements OnInit {
   }
 
   getTypeAlert(type: string) {
-    console.log(type);
     switch (type) {
       case 'error': {
         return (this.typeAlert = this.types.error);
