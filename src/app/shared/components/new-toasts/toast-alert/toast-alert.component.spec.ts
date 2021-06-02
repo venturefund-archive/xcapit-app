@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ToastAlertComponent } from './toast-alert.component';
 
-describe('ToasAlertComponent', () => {
+describe('ToastAlertComponent', () => {
   let component: ToastAlertComponent;
   let fixture: ComponentFixture<ToastAlertComponent>;
 
@@ -16,6 +16,7 @@ describe('ToasAlertComponent', () => {
 
       fixture = TestBed.createComponent(ToastAlertComponent);
       component = fixture.componentInstance;
+      component.type = 'error';
       fixture.detectChanges();
     })
   );
