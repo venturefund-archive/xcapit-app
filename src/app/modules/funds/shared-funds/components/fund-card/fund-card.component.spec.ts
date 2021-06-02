@@ -1,9 +1,5 @@
 import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import {
-  waitForAsync,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FundCardComponent } from './fund-card.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,6 +12,7 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { DecimalPipe } from '@angular/common';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { StrategyNamePipe } from '../../pipes/strategy-name/strategy-name.pipe';
 
 describe('FundCardComponent', () => {
   let component: FundCardComponent;
@@ -38,10 +35,7 @@ describe('FundCardComponent', () => {
         set: () => Promise.resolve(),
         remove: () => Promise.resolve(),
       };
-      navControllerSpy = jasmine.createSpyObj(
-        'NavController',
-        navControllerMock
-      );
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [
           FundCardComponent,
@@ -50,14 +44,13 @@ describe('FundCardComponent', () => {
           DummyComponent,
           CurrencyFormatPipe,
           DecimalPipe,
+          StrategyNamePipe,
         ],
         imports: [
           IonicModule,
           TranslateModule.forRoot(),
           HttpClientTestingModule,
-          RouterTestingModule.withRoutes([
-            { path: 'funds/detail/:fundName', component: DummyComponent },
-          ]),
+          RouterTestingModule.withRoutes([{ path: 'funds/detail/:fundName', component: DummyComponent }]),
         ],
         providers: [
           CurrencyFormatPipe,
