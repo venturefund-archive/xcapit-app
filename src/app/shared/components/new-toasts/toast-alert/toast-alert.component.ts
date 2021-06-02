@@ -111,7 +111,7 @@ export class ToastAlertComponent implements OnInit {
     },
   };
 
-  constructor(private modalController: ModalController, private navController: NavController) {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {
     this.getTypeAlert(this.type);
