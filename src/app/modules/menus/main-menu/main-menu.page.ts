@@ -122,7 +122,7 @@ export class MainMenuPage implements OnInit {
     },
     {
       id: 6,
-      title: 'Comprar/Vender cryptos',
+      title: 'fiat_ramps.operations_list.header',
       url: '/menus/main-menu',
       icon: 'ux-buysell-icon',
       elementClick: 'buyCrypto',
