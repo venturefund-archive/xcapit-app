@@ -2,7 +2,8 @@ FROM node:14-alpine as builder
 WORKDIR /usr/src/app
 COPY . .
 ## Install build toolchain, install node deps and compile native add-ons
-RUN npm install
+RUN npm install yarn
+RUN yarn install
 RUN npm run build:prod:pwa:xcapit
 
 FROM nginx as app

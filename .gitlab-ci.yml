@@ -7,7 +7,7 @@ image: docker:19.03.1
 
 services:
   - docker:19.03.1-dind
-    
+
 variables:
   CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
   DOCKER_HOST: tcp://docker:2375
@@ -19,7 +19,7 @@ variables:
 # # * si el commit msg comienza con [skip smoke-test] salta el smoke-test
 workflow:
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^\[skip tests\]/ 
+    - if: $CI_COMMIT_MESSAGE =~ /^\[skip tests\]/
       when: never
     - if: $CI_COMMIT_MESSAGE =~ /^\[skip smoke-test\]/
       when: never
@@ -37,7 +37,7 @@ workflow:
   tags:
     - coreinfra
   script:
-    - hadolint --ignore DL3018 --ignore DL3006 --ignore DL3003 --ignore DL3013 --ignore DL3007 --ignore DL3002 --ignore DL3008 Dockerfile
+    - hadolint --ignore DL3016 --ignore DL3018 --ignore DL3006 --ignore DL3003 --ignore DL3013 --ignore DL3007 --ignore DL3002 --ignore DL3008 Dockerfile
 
 ### Build
 .build-branch: &build-branch
