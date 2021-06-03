@@ -15,6 +15,7 @@ import { AlertController, NavController } from '@ionic/angular';
           (click)="this.showFinishFundAlert()"
           class="ux-button ffp__content__finish-button"
           color="uxsecondary"
+          [disabled]="disabledButton"
         >
           {{ 'funds.fund_finish_pause_fund_card.finish_fund' | translate }}
         </ion-button>
@@ -26,6 +27,7 @@ import { AlertController, NavController } from '@ionic/angular';
 export class FundFinishComponent implements OnInit {
   @Input() fundName: string;
   @Input() runId: string;
+  disabledButton = false;
 
   constructor(
     private apiFunds: ApiFundsService,
@@ -38,49 +40,46 @@ export class FundFinishComponent implements OnInit {
   ngOnInit() {}
 
   finishFund() {
-    this.apiFunds
-      .finalizeFundRuns(this.fundName)
-      .subscribe(() => this.successFinish());
+    this.apiFunds.finalizeFundRuns(this.fundName).subscribe({
+      next: () => this.successFinish(),
+      complete: () => {
+        this.enabledButton();
+      },
+    });
   }
 
   async showFinishFundAlert() {
     const alert = await this.alertController.create({
-      header: this.translate.instant(
-        'funds.fund_finish_pause_fund_card.alert_header'
-      ),
-      message: this.translate.instant(
-        'funds.fund_finish_pause_fund_card.alert_message'
-      ),
+      header: this.translate.instant('funds.fund_finish_pause_fund_card.alert_header'),
+      message: this.translate.instant('funds.fund_finish_pause_fund_card.alert_message'),
       buttons: [
         {
-          text: this.translate.instant(
-            'funds.fund_finish_pause_fund_card.alert_cancel_button'
-          ),
+          text: this.translate.instant('funds.fund_finish_pause_fund_card.alert_cancel_button'),
           role: 'cancel',
           cssClass: 'secondary',
+          handler: (_) => this.enabledButton(),
         },
         {
-          text: this.translate.instant(
-            'funds.fund_finish_pause_fund_card.alert_finish_button'
-          ),
+          text: this.translate.instant('funds.fund_finish_pause_fund_card.alert_finish_button'),
           handler: (_) => this.finishFund(),
         },
       ],
     });
+    this.disabledButton = true;
     await alert.present();
   }
 
   successFinish() {
-    this.navController
-      .navigateBack(['/tabs/funds'])
-      .then(() => this.showToast());
+    this.navController.navigateBack(['/tabs/funds']).then(() => this.showToast());
   }
 
   async showToast() {
     await this.toastService.showToast({
-      message: this.translate.instant(
-        'funds.fund_finish_pause_fund_card.fund_finished'
-      ),
+      message: this.translate.instant('funds.fund_finish_pause_fund_card.fund_finished'),
     });
+  }
+
+  private enabledButton() {
+    this.disabledButton = false;
   }
 }
