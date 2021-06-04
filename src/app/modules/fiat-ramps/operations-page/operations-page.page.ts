@@ -161,12 +161,12 @@ export class OperationsPagePage implements OnInit {
       case 2:
         // Paxful
         switch (statusName) {
-          case 'SUCCESSFUL':
+          case 'SUCCESS':
             status.logoRoute += 'ok.svg';
             break;
 
           case 'EXPIRED':
-          case 'CANCELED':
+          case 'CANCELLED':
             status.logoRoute += 'error.svg';
             break;
 
