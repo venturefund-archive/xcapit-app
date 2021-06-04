@@ -133,7 +133,7 @@ const operations = [
   },
 ];
 
-fdescribe('OperationsPagePage', () => {
+describe('OperationsPagePage', () => {
   let component: OperationsPagePage;
   let fixture: ComponentFixture<OperationsPagePage>;
   let fiatRampsServiceSpy: any;
