@@ -1,19 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, IonRadioGroup } from '@ionic/angular';
-import {
-  FormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-ux-select-modal',
   template: `
     <div class="sm__header">
-      <ion-text
-        class="sm__header__text ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
-      >
+      <ion-text class="sm__header__text ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
         {{ this.title }}
       </ion-text>
       <ion-button
@@ -33,23 +26,11 @@ import {
       <form [formGroup]="this.form">
         <app-ux-radio-group>
           <ion-list>
-            <ion-radio-group
-              (ionChange)="this.select($event)"
-              formControlName="radio"
-            >
-              <div
-                class="container"
-                *ngFor="let item of this.data; let last = last"
-              >
+            <ion-radio-group (ionChange)="this.select($event)" formControlName="radio">
+              <div class="container" *ngFor="let item of this.data; let last = last">
                 <ion-item>
-                  <ion-label>{{
-                    this.rawData ? item : item[this.keyName]
-                  }}</ion-label>
-                  <ion-radio
-                    mode="md"
-                    slot="start"
-                    [value]="this.rawData ? item : item[this.valueName]"
-                  ></ion-radio>
+                  <ion-label>{{ this.rawData ? item : item[this.keyName] }}</ion-label>
+                  <ion-radio mode="md" slot="start" [value]="this.rawData ? item : item[this.valueName]"></ion-radio>
                 </ion-item>
                 <div class="list-divider" *ngIf="!last"></div>
               </div>
@@ -59,13 +40,10 @@ import {
       </form>
     </ion-content>
   `,
-  styleUrls: ['./ux-select-modal.component.scss']
+  styleUrls: ['./ux-select-modal.component.scss'],
 })
 export class UxSelectModalComponent implements OnInit {
-  constructor(
-    private modalController: ModalController,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private modalController: ModalController, private formBuilder: FormBuilder) {}
 
   title = '';
   data = [];
@@ -74,17 +52,18 @@ export class UxSelectModalComponent implements OnInit {
   rawData = false;
   selected: any;
   form: FormGroup = this.formBuilder.group({
-    radio: ['', []]
+    radio: ['', []],
   });
 
   ngOnInit() {
     this.rawData = this.keyName === '' && this.valueName === '' ? true : false;
+    console.log({ rawData: this.rawData });
     this.setSelected();
   }
 
   setSelected() {
     this.form.patchValue({
-      radio: this.selected
+      radio: this.selected,
     });
   }
 
