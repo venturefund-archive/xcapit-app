@@ -57,7 +57,6 @@ export class UxSelectModalComponent implements OnInit {
 
   ngOnInit() {
     this.rawData = this.keyName === '' && this.valueName === '' ? true : false;
-    console.log({ rawData: this.rawData });
     this.setSelected();
   }
 
