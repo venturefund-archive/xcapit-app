@@ -26,6 +26,7 @@ const { Browser } = Plugins;
       <ion-list>
         <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p.elementClick)">
           <ion-item
+            *ngIf="p.stateNonprod === true || (p.stateNonprod === true && p.stateProd === true)"
             class="item-style"
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
@@ -83,6 +84,8 @@ export class MainMenuPage implements OnInit {
       url: '/tabs/funds',
       icon: 'ux-myfund-icon',
       routeDirection: 'root',
+      stateNonprod: true,
+      stateProd: true,
     },
     {
       id: 2,
@@ -90,6 +93,8 @@ export class MainMenuPage implements OnInit {
       url: '/funds/funds-finished',
       icon: 'ux-finalizedfunds-icon',
       routeDirection: 'forward',
+      stateNonprod: true,
+      stateProd: true,
     },
     {
       id: 3,
@@ -97,6 +102,8 @@ export class MainMenuPage implements OnInit {
       url: '/profiles/user',
       icon: 'ux-user-icon',
       routeDirection: 'forward',
+      stateNonprod: true,
+      stateProd: true,
     },
     {
       id: 4,
@@ -104,14 +111,18 @@ export class MainMenuPage implements OnInit {
       url: '/deposits/currency',
       icon: 'ux-book-icon',
       routeDirection: 'forward',
+      stateNonprod: true,
+      stateProd: true,
     },
-    /*{
+    {
       id: 4,
       title: 'app.main_menu.commissions',
       url: '/funds/commissions',
       icon: 'wallet',
-      routeDirection: 'forward'
-    },*/
+      routeDirection: 'forward',
+      stateNonprod: false,
+      stateProd: false,
+    },
     {
       id: 5,
       title: 'app.main_menu.help',
@@ -119,6 +130,8 @@ export class MainMenuPage implements OnInit {
       icon: 'ux-settings-icon',
       routeDirection: 'forward',
       elementClick: 'openTutorials',
+      stateNonprod: true,
+      stateProd: true,
     },
     {
       id: 6,
@@ -126,6 +139,8 @@ export class MainMenuPage implements OnInit {
       url: '/menus/main-menu',
       icon: 'ux-buysell-icon',
       elementClick: 'buyCrypto',
+      stateNonprod: true,
+      stateProd: false,
     },
     {
       id: 7,
@@ -133,6 +148,8 @@ export class MainMenuPage implements OnInit {
       url: '/users/password-change',
       icon: 'ux-key-icon',
       routeDirection: 'forward',
+      stateNonprod: true,
+      stateProd: true,
     },
     {
       id: 8,
@@ -140,6 +157,8 @@ export class MainMenuPage implements OnInit {
       url: '/referrals/list',
       icon: 'ux-referrals-icon',
       routeDirection: 'root',
+      stateNonprod: true,
+      stateProd: true,
     },
     {
       id: 9,
@@ -147,6 +166,8 @@ export class MainMenuPage implements OnInit {
       url: '/notifications/list',
       icon: 'ux-notifications-icon',
       routeDirection: 'root',
+      stateNonprod: true,
+      stateProd: true,
     },
     {
       id: 10,
@@ -154,6 +175,8 @@ export class MainMenuPage implements OnInit {
       url: '/apikeys/list',
       icon: 'ux-cog-icon',
       routeDirection: 'root',
+      stateNonprod: true,
+      stateProd: true,
     },
     {
       id: 11,
@@ -161,6 +184,8 @@ export class MainMenuPage implements OnInit {
       url: '/payment/payment-methods',
       icon: 'ux-cash-icon',
       routeDirection: 'forward',
+      stateNonprod: true,
+      stateProd: false,
     },
   ];
 
