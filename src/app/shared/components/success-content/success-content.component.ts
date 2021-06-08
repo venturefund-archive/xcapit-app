@@ -43,6 +43,7 @@ import { Router } from '@angular/router';
         </div>
         <div class="main__actions__third">
           <ion-button
+            *ngIf="this.data.nameThirdAction"
             class="ux_button"
             appTrackClick="!this.unauth"
             appTrackClickUnauth="this.unauth"
