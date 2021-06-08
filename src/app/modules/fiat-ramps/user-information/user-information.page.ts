@@ -8,6 +8,7 @@ import { Province } from '../enums/province.enums';
 import { Gender } from '../enums/gender.enums';
 import { DocTypes } from '../enums/doc_types.enum';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-information',
@@ -88,6 +89,8 @@ import { NavController } from '@ionic/angular';
             [placeholder]="'fiat_ramps.register.marital_status' | translate"
             controlName="estado_civil"
             [data]="this.maritalStatus"
+            keyName="name"
+            valueName="id"
           ></app-ux-input-select>
 
           <!-- Tipo documento -->
@@ -191,7 +194,7 @@ export class UserInformationPage implements OnInit {
   });
 
   countries = Object.values(Countries);
-  maritalStatus = Object.values(MaritalStatus);
+  maritalStatus = this.mapMaritalStatus(Object.keys(MaritalStatus));
   provinces = Object.values(Province);
   gender = Object.values(Gender);
   docTypes = Object.values(DocTypes);
@@ -200,7 +203,8 @@ export class UserInformationPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {}
@@ -213,5 +217,12 @@ export class UserInformationPage implements OnInit {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  mapMaritalStatus(keys) {
+    return keys.map((key) => ({
+      name: this.translate.instant(`fiat_ramps.register.marital_status_list.${MaritalStatus[key]}`),
+      id: key,
+    }));
   }
 }

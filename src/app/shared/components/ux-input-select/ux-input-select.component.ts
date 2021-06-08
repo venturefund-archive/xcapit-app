@@ -1,9 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-  ControlContainer,
-  FormGroupDirective,
-  AbstractControl
-} from '@angular/forms';
+import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.component';
 
@@ -13,7 +9,9 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
     <div class="uxselect">
       <ion-label class="uxselect__label">{{ this.label }}</ion-label>
       <ion-item class="uxselect__item">
+        <ion-label *ngIf="this.control.value !== '' && this.keyName !== ''">{{ this.selectedItem }}</ion-label>
         <ion-input
+          [ngClass]="{ uxselect__item__input_transparent: this.control.value !== '' && this.keyName !== '' }"
           mode="md"
           [formControlName]="this.controlName"
           [placeholder]="this.placeholder"
@@ -21,25 +19,18 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
           (click)="this.openModal($event)"
         >
         </ion-input>
-        <ion-icon
-          class="uxselect__item__arrow_icon"
-          item-end
-          name="ux-down"
-          color="uxdark"
-        ></ion-icon>
+        <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="uxdark"></ion-icon>
       </ion-item>
-      <app-errors-form-item
-        [controlName]="this.controlName"
-      ></app-errors-form-item>
+      <app-errors-form-item [controlName]="this.controlName"></app-errors-form-item>
     </div>
   `,
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
+      useExisting: FormGroupDirective,
+    },
   ],
-  styleUrls: ['./ux-input-select.component.scss']
+  styleUrls: ['./ux-input-select.component.scss'],
 })
 export class UxInputSelectComponent implements OnInit {
   @Input() label = '';
@@ -49,12 +40,10 @@ export class UxInputSelectComponent implements OnInit {
   @Input() data = [];
   @Input() keyName = '';
   @Input() valueName = '';
+  selectedItem = '';
   control: AbstractControl;
 
-  constructor(
-    private modalController: ModalController,
-    private form: FormGroupDirective
-  ) {}
+  constructor(private modalController: ModalController, private form: FormGroupDirective) {}
 
   ngOnInit() {
     this.control = this.form.control.get(this.controlName);
@@ -72,10 +61,10 @@ export class UxInputSelectComponent implements OnInit {
         data: this.data,
         keyName: this.keyName,
         valueName: this.valueName,
-        selected: this.control.value
+        selected: this.control.value,
       },
       cssClass: 'ux-routeroutlet-modal generic-modal',
-      swipeToClose: false
+      swipeToClose: false,
     });
     modal.present();
 
@@ -87,5 +76,12 @@ export class UxInputSelectComponent implements OnInit {
 
   setSelectedValue(value: any) {
     this.control.patchValue(value);
+    if (this.keyName !== '' && this.valueName !== '') {
+      this.selectedItem = this.getKeyForSelectedItem(this.control.value);
+    }
+  }
+
+  getKeyForSelectedItem(selectedItem) {
+    return this.data.find((item) => item[this.valueName] === selectedItem)[this.keyName];
   }
 }

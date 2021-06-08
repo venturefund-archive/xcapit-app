@@ -3,7 +3,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UxInputSelectComponent } from './ux-input-select.component';
 import { FormGroupDirective } from '@angular/forms';
-import {  ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 describe('UxInputSelectComponent', () => {
@@ -11,28 +11,27 @@ describe('UxInputSelectComponent', () => {
   let fixture: ComponentFixture<UxInputSelectComponent>;
   let formGroupDirectiveMock: any;
   let modalControllerSpy: any;
-  beforeEach(waitForAsync(() => {
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
-    formGroupDirectiveMock = {
-      control: {
-        get: () => {
-          return { value: 'test' };
-        }
-      }
-    };
+  beforeEach(
+    waitForAsync(() => {
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      formGroupDirectiveMock = {
+        control: {
+          get: () => {
+            return { value: 'test' };
+          },
+        },
+      };
 
-    TestBed.configureTestingModule({
-      declarations: [UxInputSelectComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
-        { provide: ModalController, useValue: modalControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [UxInputSelectComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UxInputSelectComponent);
@@ -49,5 +48,4 @@ describe('UxInputSelectComponent', () => {
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
-
 });
