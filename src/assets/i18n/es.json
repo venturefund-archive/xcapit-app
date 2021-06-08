@@ -1444,7 +1444,13 @@
       "not_bound": "Sujeto no obligado",
       "tos": "Terminos y condiciones",
       "register": "Finalizar",
-      "next": "Siguiente"
+      "next": "Siguiente",
+      "marital_status_list": {
+        "married": "Casado/a",
+        "single": "Soltero/a",
+        "widower": "Viudo/a",
+        "divorcee": "Divorciado/a"
+      }
     },
     "confirm": {
       "header": "Confirmar operación",
