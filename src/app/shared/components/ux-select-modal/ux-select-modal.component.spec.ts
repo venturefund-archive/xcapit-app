@@ -16,29 +16,29 @@ describe('UxSelectModalComponent', () => {
   let modalController: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxSelectModalComponent>;
 
-  beforeEach(waitForAsync(() => {
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
+  beforeEach(
+    waitForAsync(() => {
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
 
-    TestBed.configureTestingModule({
-      declarations: [UxSelectModalComponent, TrackClickDirective],
+      TestBed.configureTestingModule({
+        declarations: [UxSelectModalComponent, TrackClickDirective],
 
-      imports: [IonicModule, ReactiveFormsModule, HttpClientTestingModule],
-      providers: [
-        {
-          provide: ModalController,
-          useValue: modalControllerSpy,
-        },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+        imports: [IonicModule, ReactiveFormsModule, HttpClientTestingModule],
+        providers: [
+          {
+            provide: ModalController,
+            useValue: modalControllerSpy,
+          },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UxSelectModalComponent);
     component = fixture.componentInstance;
+    component.rawData = true;
     fixture.detectChanges();
     modalController = TestBed.inject(ModalController);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
@@ -69,10 +69,7 @@ describe('UxSelectModalComponent', () => {
   });
 
   it('should call trackEvent on trackService when Create Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Close'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

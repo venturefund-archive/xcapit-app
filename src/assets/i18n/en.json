@@ -1447,7 +1447,13 @@
       "not_politically": "Not politically exposed",
       "not_bound": "Subject not bound",
       "tos": "Terms and conditions",
-      "register": "Next"
+      "register": "Next",
+      "marital_status_list": {
+        "married": "Married",
+        "single": "Single",
+        "widower": "Widower",
+        "divorcee": "Divorcee"
+      }
     },
     "confirm": {
       "header": "Confirm operation",
