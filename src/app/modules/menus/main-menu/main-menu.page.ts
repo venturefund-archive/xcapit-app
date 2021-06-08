@@ -7,6 +7,7 @@ import { UxSelectModalComponent } from '../../../shared/components/ux-select-mod
 import { TranslateService } from '@ngx-translate/core';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
+import { environment } from 'src/environments/environment';
 
 const { Browser } = Plugins;
 
@@ -26,8 +27,8 @@ const { Browser } = Plugins;
       <ion-list>
         <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p.elementClick)">
           <ion-item
-            *ngIf="p.stateNonprod === true || (p.stateNonprod === true && p.stateProd === true)"
-            class="item-style"
+            *ngIf="this.env === 'PREPROD' || (this.env === 'PRODUCCION' && p.showInProd)"
+            class="menu-item"
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
             [routerDirection]="p.routeDirection"
@@ -42,7 +43,7 @@ const { Browser } = Plugins;
         </div>
         <ion-item
           detail
-          class="item-style"
+          class="menu-item"
           appTrackClick
           [dataToTrack]="{
             eventLabel: 'Change Language',
@@ -56,7 +57,7 @@ const { Browser } = Plugins;
           </ion-label>
         </ion-item>
         <ion-item
-          class="item-style"
+          class="menu-item"
           appTrackClick
           [dataToTrack]="{
             eventLabel: 'Logout',
@@ -76,6 +77,7 @@ const { Browser } = Plugins;
 })
 export class MainMenuPage implements OnInit {
   apikeys: any = [];
+  env = environment.environment;
 
   public appPages = [
     {
@@ -84,8 +86,7 @@ export class MainMenuPage implements OnInit {
       url: '/tabs/funds',
       icon: 'ux-myfund-icon',
       routeDirection: 'root',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
     {
       id: 2,
@@ -93,8 +94,7 @@ export class MainMenuPage implements OnInit {
       url: '/funds/funds-finished',
       icon: 'ux-finalizedfunds-icon',
       routeDirection: 'forward',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
     {
       id: 3,
@@ -102,8 +102,7 @@ export class MainMenuPage implements OnInit {
       url: '/profiles/user',
       icon: 'ux-user-icon',
       routeDirection: 'forward',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
     {
       id: 4,
@@ -111,18 +110,16 @@ export class MainMenuPage implements OnInit {
       url: '/deposits/currency',
       icon: 'ux-book-icon',
       routeDirection: 'forward',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
-    {
-      id: 4,
-      title: 'app.main_menu.commissions',
-      url: '/funds/commissions',
-      icon: 'wallet',
-      routeDirection: 'forward',
-      stateNonprod: false,
-      stateProd: false,
-    },
+    // {
+    //   id: 4,
+    //   title: 'app.main_menu.commissions',
+    //   url: '/funds/commissions',
+    //   icon: 'wallet',
+    //   routeDirection: 'forward',
+    //   showInProd: false
+    // },
     {
       id: 5,
       title: 'app.main_menu.help',
@@ -130,8 +127,7 @@ export class MainMenuPage implements OnInit {
       icon: 'ux-settings-icon',
       routeDirection: 'forward',
       elementClick: 'openTutorials',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
     {
       id: 6,
@@ -139,8 +135,7 @@ export class MainMenuPage implements OnInit {
       url: '/menus/main-menu',
       icon: 'ux-buysell-icon',
       elementClick: 'buyCrypto',
-      stateNonprod: true,
-      stateProd: false,
+      showInProd: false,
     },
     {
       id: 7,
@@ -148,8 +143,7 @@ export class MainMenuPage implements OnInit {
       url: '/users/password-change',
       icon: 'ux-key-icon',
       routeDirection: 'forward',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
     {
       id: 8,
@@ -157,8 +151,7 @@ export class MainMenuPage implements OnInit {
       url: '/referrals/list',
       icon: 'ux-referrals-icon',
       routeDirection: 'root',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
     {
       id: 9,
@@ -166,8 +159,7 @@ export class MainMenuPage implements OnInit {
       url: '/notifications/list',
       icon: 'ux-notifications-icon',
       routeDirection: 'root',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
     {
       id: 10,
@@ -175,8 +167,7 @@ export class MainMenuPage implements OnInit {
       url: '/apikeys/list',
       icon: 'ux-cog-icon',
       routeDirection: 'root',
-      stateNonprod: true,
-      stateProd: true,
+      showInProd: true,
     },
     {
       id: 11,
@@ -184,8 +175,7 @@ export class MainMenuPage implements OnInit {
       url: '/payment/payment-methods',
       icon: 'ux-cash-icon',
       routeDirection: 'forward',
-      stateNonprod: true,
-      stateProd: false,
+      showInProd: false,
     },
   ];
 

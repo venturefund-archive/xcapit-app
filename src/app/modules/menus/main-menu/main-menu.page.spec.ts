@@ -13,6 +13,42 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
 import { ModalController } from '@ionic/angular';
+import { By } from '@angular/platform-browser';
+
+const appPages = [
+  {
+    id: 1,
+    title: 'app.main_menu.funds',
+    url: '/tabs/funds',
+    icon: 'ux-myfund-icon',
+    routeDirection: 'root',
+    showInProd: true,
+  },
+  {
+    id: 2,
+    title: 'funds.funds_finished.header',
+    url: '/funds/funds-finished',
+    icon: 'ux-finalizedfunds-icon',
+    routeDirection: 'forward',
+    showInProd: true,
+  },
+  {
+    id: 3,
+    title: 'app.main_menu.user_profile',
+    url: '/profiles/user',
+    icon: 'ux-user-icon',
+    routeDirection: 'forward',
+    showInProd: false,
+  },
+  {
+    id: 4,
+    title: 'app.main_menu.deposit_address',
+    url: '/deposits/currency',
+    icon: 'ux-book-icon',
+    routeDirection: 'forward',
+    showInProd: false,
+  },
+];
 
 describe('MainMenuPage', () => {
   let component: MainMenuPage;
@@ -102,5 +138,23 @@ describe('MainMenuPage', () => {
     spyOpenModal.and.returnValue(undefined);
     component.checkEmptyApiKeys();
     expect(component.openModal).toHaveBeenCalledTimes(1);
+  });
+
+  it('show menu-item when "env" is PREPROD', () => {
+    component.appPages = appPages;
+    component.env = 'PREPROD';
+    fixture.detectChanges();
+    const items = fixture.debugElement.queryAll(By.css('.menu-item'));
+    console.log(items);
+    expect(items.length).toBe(6);
+  });
+
+  it('show menu-item when "showInProd" is true and "env" is "PRODUCCION"', () => {
+    component.appPages = appPages;
+    component.env = 'PRODUCCION';
+    fixture.detectChanges();
+    const items = fixture.debugElement.queryAll(By.css('.menu-item'));
+    console.log(items);
+    expect(items.length).toBe(4);
   });
 });
