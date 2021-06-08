@@ -82,6 +82,6 @@ export class UxInputSelectComponent implements OnInit {
   }
 
   getKeyForSelectedItem(selectedItem) {
-    return this.data.filter((item) => item[this.valueName] === selectedItem)[0][this.keyName];
+    return this.data.find((item) => item[this.valueName] === selectedItem)[this.keyName];
   }
 }
