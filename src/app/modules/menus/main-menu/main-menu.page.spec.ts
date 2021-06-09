@@ -140,7 +140,7 @@ describe('MainMenuPage', () => {
     expect(component.openModal).toHaveBeenCalledTimes(1);
   });
 
-  it('show menu-item when "env" is PREPROD', () => {
+  it('should show menu-item when "env" is PREPROD', () => {
     component.appPages = appPages;
     component.env = 'PREPROD';
     fixture.detectChanges();
@@ -149,7 +149,7 @@ describe('MainMenuPage', () => {
     expect(items.length).toBe(6);
   });
 
-  it('show menu-item when "showInProd" is true and "env" is "PRODUCCION"', () => {
+  it('should show menu-item when "showInProd" is true and "env" is "PRODUCCION"', () => {
     component.appPages = appPages;
     component.env = 'PRODUCCION';
     fixture.detectChanges();
