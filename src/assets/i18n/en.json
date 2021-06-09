@@ -420,6 +420,12 @@
           },
           "pro_USDT": {
             "title": "Pro"
+          },
+          "multiestrategias_xl_USDT": {
+            "title": "Multi XL USDT"
+          },
+          "multiestrategias_xl_BTC": {
+            "title": "Multi XL BTC"
           }
         }
       },
