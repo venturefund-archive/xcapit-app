@@ -42,8 +42,8 @@ import { Router } from '@angular/router';
           <ion-text>{{ this.data?.textThird | translate }}</ion-text>
         </div>
         <div class="main__actions__third">
+          *ngIf="this.data.nameThirdAction"
           <ion-button
-            *ngIf="this.data.nameThirdAction"
             class="ux_button"
             appTrackClick="!this.unauth"
             appTrackClickUnauth="this.unauth"
