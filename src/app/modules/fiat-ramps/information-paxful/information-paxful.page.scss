@@ -1,0 +1,42 @@
+.button-next {
+  display: flex;
+  flex-direction: column;
+}
+
+ion-item {
+  display: flex;
+  padding-left: -3%;
+  align-items: start;
+  --margin-bottom: 8px;
+  --padding-start: 0;
+  --padding-right: 0;
+}
+.item {
+  position: relative;
+  margin: left 0%;
+}
+.checkbox {
+  padding-right: 0px;
+  margin-right: 2px;
+  vertical-align: top;
+  color: #f04141;
+}
+
+.info_text {
+  color: #4f4f4f;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.text {
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.ip_text {
+  margin-bottom: 12px;
+}
+
+app-ux-checkbox {
+  padding-bottom: 20px;
+}

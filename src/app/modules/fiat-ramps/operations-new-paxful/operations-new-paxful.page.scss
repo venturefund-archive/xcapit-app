@@ -1,13 +1,27 @@
 :host {
   width: 100%;
+
   .loader {
     margin-top: 16px;
   }
 
+  .form {
+    height: 100%;
+  }
+
+  .recordatory {
+    margin-top: 22px;
+  }
+
+  .info_text {
+    color: #4f4f4f;
+    padding-top: 12px;
+    margin-bottom: 16px;
+  }
+  .bottom_button {
+  }
   .button-next {
     display: flex;
     flex-direction: column;
-    margin-top: 25px;
-    margin-bottom: 16px;
   }
 }

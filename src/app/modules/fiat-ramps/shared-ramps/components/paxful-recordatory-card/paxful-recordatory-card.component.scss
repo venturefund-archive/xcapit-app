@@ -1,0 +1,44 @@
+.style-atention {
+  background-color: rgba(255, 251, 235, 1);
+  .text {
+    color: rgba(180, 83, 9, 1);
+  }
+  .pcc_content {
+    background: rgba(255, 251, 235, 1);
+    width: auto;
+    height: auto;
+    &__important {
+      display: flex;
+      width: 100%;
+      height: 25px;
+      &__image {
+        margin-top: 14px;
+        height: 22px;
+        margin-left: 18px;
+        width: 15px;
+        justify-content: flex-start;
+        display: flex;
+      }
+      &__title {
+        width: 70%;
+        height: auto;
+        padding-top: 16px;
+        margin-left: 14px;
+        font-weight: 600;
+        font-size: 14px;
+        align-items: flex-start;
+        flex-direction: row;
+        display: flex;
+      }
+    }
+    &__message {
+      width: auto;
+      padding-top: 8px;
+      margin-top: 8px;
+      padding-bottom: 16px;
+      height: auto;
+      justify-content: center;
+      margin-left: 48px;
+    }
+  }
+}

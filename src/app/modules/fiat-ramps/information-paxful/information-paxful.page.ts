@@ -1,0 +1,134 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController, NavController } from '@ionic/angular';
+import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+
+@Component({
+  selector: 'app-information-paxful',
+  template: `
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">
+          {{ 'fiat_ramps.information_paxful.header' | translate }}
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <form class="ux_main" [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
+        <div class="ux_content">
+          <div>
+            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+              {{ 'fiat_ramps.information_paxful.title' | translate }}
+            </ion-text>
+          </div>
+          <div class="info_text">
+            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+              {{ 'fiat_ramps.information_paxful.subtitle' | translate }}
+            </ion-text>
+          </div>
+          <ion-item lines="none">
+            <div class="item">
+              <app-ux-checkbox
+                class="medium"
+                ngClass="checkbox"
+                controlName="entiendo_responsabilidad"
+                color="uxsuccess"
+                slot="start"
+              ></app-ux-checkbox>
+            </div>
+            <div class="text">
+              <app-ux-text class="ip_text">
+                {{ 'fiat_ramps.information_paxful.recordatory_1' | translate }}
+              </app-ux-text>
+            </div>
+          </ion-item>
+          <ion-item lines="none">
+            <div class="item">
+              <app-ux-checkbox
+                style="paxful"
+                class="medium"
+                ngClass="checkbox"
+                controlName="entiendo_vendedor"
+                color="uxsuccess"
+                slot="start"
+              ></app-ux-checkbox>
+            </div>
+            <div class="text">
+              <app-ux-text class="ip_text">
+                {{ 'fiat_ramps.information_paxful.recordatory_2' | translate }}
+              </app-ux-text>
+            </div>
+          </ion-item>
+          <ion-item lines="none">
+            <div class="item">
+              <app-ux-checkbox
+                class="medium"
+                ngClass="checkbox"
+                controlName="entiendo_tarifa"
+                color="uxsuccess"
+                slot="start"
+              ></app-ux-checkbox>
+            </div>
+            <div class="text">
+              <app-ux-text class="ip_text">
+                {{ 'fiat_ramps.information_paxful.recordatory_3' | translate }}
+              </app-ux-text>
+            </div>
+          </ion-item>
+        </div>
+        <div class="ux_footer">
+          <div class="button-next">
+            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
+              {{ 'fiat_ramps.information_paxful.button' | translate }}
+            </ion-button>
+          </div>
+        </div>
+      </form>
+    </ion-content>
+  `,
+  styleUrls: ['./information-paxful.page.scss'],
+})
+export class InformationPaxfulPage implements OnInit {
+  form: FormGroup = this.formBuilder.group({
+    entiendo_responsabilidad: [false, [Validators.requiredTrue]],
+    entiendo_vendedor: [false, [Validators.requiredTrue]],
+    entiendo_tarifa: [false, [Validators.requiredTrue]],
+  });
+  constructor(
+    public submitButtonService: SubmitButtonService,
+    private formBuilder: FormBuilder,
+    private navController: NavController,
+    private modalController: ModalController
+  ) {}
+
+  ngOnInit() {}
+
+  handleSubmit() {
+    if (this.form.valid) {
+      this.navController.navigateForward(['/fiat-ramps/new-operation-paxful']);
+    } else if (this.form.invalid) {
+      this.openModalAlert();
+    }
+  }
+
+  async openModalAlert() {
+    const modal = await this.modalController.create({
+      component: ToastAlertComponent,
+      cssClass: 'ux-alert',
+      showBackdrop: false,
+      componentProps: {
+        title: 'Porfavor tilda los puntos a considerar antes de realizar una compra',
+        type: 'error',
+      },
+    });
+    await modal.present();
+    // setTimeout(() => {
+    //   modal.dismiss();
+    // }, 2000);
+  }
+}

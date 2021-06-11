@@ -1367,6 +1367,16 @@
       "title": "Select the provider:"
     },
 
+    "information_paxful": {
+      "header": "Buy",
+      "title": "Buy BTC with Paxful:",
+      "subtitle": "Paxful will allow you to buy only BTC. We will redirect you to their page to make the P2P purchase. Make sure you understand the following points before making a transaction:",
+      "recordatory_1": "I understand that from this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
+      "recordatory_2": "I understand that the seller sets their own BTC price based on speed, privacy, and convenience. Rates may vary depending on the method of payment.",
+      "recordatory_3": "I understand that there will be a network fee to send the BTC to my Binance wallet. It is recommended to add to your purchase as max 0.0566USD to cover the network fee, otherwise the purchase will remain in your Paxful wallet.",
+      "button": "Select my receiving address"
+    },
+
     "operation_detail": {
       "header": "Operation:",
       "card": {

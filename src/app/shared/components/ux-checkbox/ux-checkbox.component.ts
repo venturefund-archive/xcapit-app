@@ -10,9 +10,11 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
           {{ this.label }}
         </ion-label>
         <ion-checkbox
+          [style]="this.style"
           [formControlName]="this.controlName"
           [color]="this.color"
-          [slot]="this.slot"></ion-checkbox>
+          [slot]="this.slot"
+        ></ion-checkbox>
       </ion-item>
     </div>
   `,
@@ -20,9 +22,9 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
-  ]
+      useExisting: FormGroupDirective,
+    },
+  ],
 })
 export class UxCheckboxComponent implements OnInit {
   @Input() label: string;
@@ -30,15 +32,15 @@ export class UxCheckboxComponent implements OnInit {
   @Input() color: string;
   @Input() controlName: string;
   @Input() class: string;
+  @Input() style: string;
   @ViewChild('inputRegister', { read: ElementRef, static: true })
   input: ElementRef;
 
   control: AbstractControl;
 
-  constructor(private form: FormGroupDirective) { }
+  constructor(private form: FormGroupDirective) {}
 
   ngOnInit() {
     this.control = this.form.control.get(this.controlName);
   }
-
 }

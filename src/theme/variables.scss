@@ -141,6 +141,14 @@
   --ion-color-uxlight-shade: #e0e0e0;
   --ion-color-uxlight-tint: #ffffff;
 
+  /** ux success 2 **/
+  --ion-color-uxsuccess2: #21dd62;
+  --ion-color-uxsuccess2-rgb: 33, 221, 98;
+  --ion-color-uxsuccess2-contrast: #ffffff;
+  --ion-color-uxsuccess2-contrast-rgb: 0, 0, 0;
+  --ion-color-uxsuccess2-shade: #1dc256;
+  --ion-color-uxsuccess2-tint: #37e072;
+
   --ux-font-gilroy: 'Gilroy';
   --ux-font-lato: 'Lato';
   --ux-font-symbola: 'Symbola';
@@ -183,7 +191,14 @@
   --ion-color-shade: var(--ion-color-uxsuccess-shade);
   --ion-color-tint: var(--ion-color-uxsuccess-tint);
 }
-
+.ion-color-uxsuccess2 {
+  --ion-color-base: var(--ion-color-uxsuccess2);
+  --ion-color-base-rgb: var(--ion-color-uxsuccess2-rgb);
+  --ion-color-contrast: var(--ion-color-uxsuccess2-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-uxsuccess2-contrast-rgb);
+  --ion-color-shade: var(--ion-color-uxsuccess2-shade);
+  --ion-color-tint: var(--ion-color-uxsuccess2-tint);
+}
 .ion-color-uxmedium {
   --ion-color-base: var(--ion-color-uxmedium);
   --ion-color-base-rgb: var(--ion-color-uxmedium-rgb);
