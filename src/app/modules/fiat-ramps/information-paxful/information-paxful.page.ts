@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
-import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
 @Component({
   selector: 'app-information-paxful',
@@ -127,8 +126,5 @@ export class InformationPaxfulPage implements OnInit {
       },
     });
     await modal.present();
-    // setTimeout(() => {
-    //   modal.dismiss();
-    // }, 2000);
   }
 }
