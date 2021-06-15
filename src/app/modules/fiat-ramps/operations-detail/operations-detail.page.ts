@@ -234,7 +234,7 @@ export class OperationsDetailPage implements OnInit {
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.fiatRampsService.getUserSingleOperation(operationId).subscribe({
       next: (data) => {
-        this.operation = data;
+        this.operation = data[0];
         this.calculateQuotation();
         this.verifyVoucher();
       },
