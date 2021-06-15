@@ -35,7 +35,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               <app-ux-checkbox
                 class="medium"
                 ngClass="checkbox"
-                controlName="entiendo_responsabilidad"
+                controlName="responsibilityAccepted"
                 color="uxsuccess"
                 slot="start"
               ></app-ux-checkbox>
@@ -49,10 +49,9 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
           <ion-item lines="none">
             <div class="item">
               <app-ux-checkbox
-                style="paxful"
                 class="medium"
                 ngClass="checkbox"
-                controlName="entiendo_vendedor"
+                controlName="providerAccepted"
                 color="uxsuccess"
                 slot="start"
               ></app-ux-checkbox>
@@ -68,7 +67,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               <app-ux-checkbox
                 class="medium"
                 ngClass="checkbox"
-                controlName="entiendo_tarifa"
+                controlName="rateAccepted"
                 color="uxsuccess"
                 slot="start"
               ></app-ux-checkbox>
@@ -79,8 +78,24 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               </app-ux-text>
             </div>
           </ion-item>
+          <ion-item lines="none">
+            <div class="item">
+              <app-ux-checkbox
+                class="medium"
+                ngClass="checkbox"
+                controlName="investmentAccepted"
+                color="uxsuccess"
+                slot="start"
+              ></app-ux-checkbox>
+            </div>
+            <div class="text">
+              <app-ux-text class="ip_text">
+                {{ 'fiat_ramps.information_paxful.recordatory_4' | translate }}
+              </app-ux-text>
+            </div>
+          </ion-item>
         </div>
-        <div class="ux_footer">
+        <div class="ux_footer ion-padding">
           <div class="button-next">
             <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
               {{ 'fiat_ramps.information_paxful.button' | translate }}
@@ -94,9 +109,10 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 })
 export class InformationPaxfulPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    entiendo_responsabilidad: [false, [Validators.requiredTrue]],
-    entiendo_vendedor: [false, [Validators.requiredTrue]],
-    entiendo_tarifa: [false, [Validators.requiredTrue]],
+    responsibilityAccepted: [false, [Validators.requiredTrue]],
+    providerAccepted: [false, [Validators.requiredTrue]],
+    rateAccepted: [false, [Validators.requiredTrue]],
+    investmentAccepted: [false, [Validators.requiredTrue]],
   });
   constructor(
     public submitButtonService: SubmitButtonService,
