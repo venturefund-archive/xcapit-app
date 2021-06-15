@@ -22,25 +22,25 @@ import { Component, Input, OnInit } from '@angular/core';
       </div>
       <div class="ilc__content__description">
         <div class="ux-font-lato ux-fweight-regular ux-fsize-14">
-          <ion-text class="info_text">{{ this.license.info }}</ion-text>
+          <ion-text class="info_text">{{ this.license.info | translate }}</ion-text>
         </div>
       </div>
       <div *ngIf="this.license.type == 'free' || this.license.type == 'paid'" class="ilc__content__price">
         <div>
           <ion-text class="license_text ux-font-gilroy ux-fweight-bold ux-fsize-15" color="uxdark">{{
-            this.license.price
+            this.license.price | translate
           }}</ion-text>
           <ion-text
             class="ux-font-lato ux-fweight-regular ux-fsize-12"
-            *ngIf="this.license.type == 'paid' && this.license.state == 'anual'"
-            class="name_text"
-            >/anual</ion-text
+            *ngIf="this.license.type == 'paid' && this.license.state == 'payment.licenses.annual'"
+            class="name_text ux-font-lato ux-fsize-14"
+            >/{{ 'payment.licenses.annual' | translate }}</ion-text
           >
           <ion-text
             class="ux-font-lato ux-fweight-regular ux-fsize-12"
-            *ngIf="this.license.type == 'paid' && this.license.state == 'mensual'"
-            class="name_text"
-            >/mensual</ion-text
+            *ngIf="this.license.type == 'paid' && this.license.state == 'payment.licenses.monthly'"
+            class="name_text ux-font-lato ux-fsize-14"
+            >/{{ 'payment.licenses.monthly' | translate }}</ion-text
           >
         </div>
       </div>
@@ -51,7 +51,7 @@ import { Component, Input, OnInit } from '@angular/core';
           appTrackClick
           fill="clear"
           size="small"
-          >Contáctanos</ion-button
+          >{{ 'payment.licenses.contact' | translate }}</ion-button
         >
       </div>
     </div>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-payment-methods',
   template: `
@@ -8,13 +7,13 @@ import { TranslateService } from '@ngx-translate/core';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'payment.header' | translate }}</ion-title>
+        <ion-title>{{ 'payment.methods.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <div class="ux_main">
         <div class="pm__title ux-font-gilory ux-fweight-extrabold ux-fsize-24">
-          <ion-text>{{ 'payment.title' | translate }}</ion-text>
+          <ion-text>{{ 'payment.methods.title' | translate }}</ion-text>
         </div>
         <div class="ux_content">
           <div>
@@ -34,23 +33,25 @@ export class PaymentMethodsPage implements OnInit {
       name: 'PayPal',
       link: 'https://py.pl/IZg5M4XLCm',
       img: '../../../../assets/img/payment-methods/paypal.png',
+      description: 'Todos los paises',
     },
     {
       name: 'MercadoPago',
       link: 'https://www.mercadopago.com/mla/debits/new?preapproval_plan_id=2c93808478f916c70179003e21d40717',
       img: '../../../../assets/img/payment-methods/mercadopago.png',
+      description: 'Argentina',
     },
     {
       name: 'BitPay',
-      link: 'https://bitpay.com',
+      link: '',
       img: '../../../../assets/img/payment-methods/bitpay.png',
-      description: '(BTC/BUSD/RIPPLE)',
+      description: 'Todos los paises',
     },
     {
       name: 'Binance',
       link: '',
       img: '../../../../assets/img/payment-methods/binance.png',
-      description: '(BTC/BUSD/RIPPLE)',
+      description: 'Todos los paises',
     },
   ];
   constructor() {}

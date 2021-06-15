@@ -1,39 +1,42 @@
 :host {
-    width: 100%;
-    .mc{
-        background-color: var(--ion-color-uxlight);
-        border-radius: 8px;
-        margin-left: 16px;
-        margin-right: 16px;
-        width: auto;
-        margin-bottom: 18px;
-        
-        &__content {
-            display: flex;
-            justify-content: space-between;
-            padding: 16px 16px 16px 16px;
-                        
-            &__img {
-              width: 60px;
-              margin-right: 13px;
-              display: flex;           
-            }
-            &__name{
-                text-align:center;
-                display: flex;
-                align-items: center;
-            }
-            &__button {
-                margin-top: 25px;
-                margin-bottom: 15px;
-                margin-right: 2px;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-            }
-            &__both{
-                display: flex;                 
-            }
-        }
+  width: 100%;
+  .mc {
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+    margin-left: 16px;
+    margin-right: 16px;
+    width: auto;
+    margin-bottom: 18px;
+
+    &__content {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 16px 16px 16px;
+
+      &__img {
+        width: 60px;
+        margin-right: 13px;
+        display: flex;
+      }
+      &__name {
+        text-align: center;
+        display: flex;
+        align-items: center;
+      }
+      &__button {
+        margin-top: 25px;
+        margin-bottom: 15px;
+        margin-right: 2px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+      &__both {
+        display: flex;
+      }
+      &__name_description {
+        margin-top: 13px;
+      }
     }
+  }
 }

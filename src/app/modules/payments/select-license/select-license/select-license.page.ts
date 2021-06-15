@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LICENSES } from '../constants/license';
-
 @Component({
   selector: 'app-select-license',
   template: `
@@ -9,40 +8,42 @@ import { LICENSES } from '../constants/license';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center"> {{ 'Pagos anual' }}</ion-title>
+        <ion-title class="ion-text-center "> {{ 'payment.licenses.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="title">
           <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
-            {{ 'Elige tu plan' }}
+            {{ 'payment.licenses.title' | translate }}
           </ion-text>
         </div>
-        <ion-text class="subtitle ux-font-gilroy ux-fweight-regular ux-fsize-14">
-          {{ '¡Prueba 30 días gratis todos los planes!' }}
+        <ion-text class="subtitle ux-font-roboto ux-fweight-regular ux-fsize-14">
+          {{ 'payment.licenses.textPrimary' | translate }}
         </ion-text>
-        <ion-text class="second-subtitle ux-font-gilroy ux-fsize-14">
-          {{ 'Puedes cancelar cuando quieras' }}
+        <ion-text class="second-subtitle ux-font-roboto ux-fsize-14">
+          {{ 'payment.licenses.textSecondary' | translate }}
         </ion-text>
         <div class="license_type">
           <ion-button
-            class="license_type__anual_button"
+            [ngClass]="{ active: activeButtonAnnual }"
+            class="license_type__anual_button ux-font-roboto ux-fweight-regular ux-fsize-14"
             name="anual"
             appTrackClick
             fill="clear"
             size="small"
-            (click)="this.changeToAnual()"
-            >Planes Anuales</ion-button
+            (click)="this.changeToAnnual()"
+            >{{ 'payment.licenses.btnAnnual' | translate }}</ion-button
           >
           <ion-button
-            class="license_type__mensual_button"
+            [ngClass]="{ active: activeButtonMonthly }"
+            class="license_type__mensual_button ux-font-roboto ux-fweight-regular ux-fsize-14"
             name="mensual"
             appTrackClick
             fill="clear"
             size="small"
-            (click)="this.changeToMensual()"
-            >Planes Mensuales</ion-button
+            (click)="this.changeToMonthly()"
+            >{{ 'payment.licenses.btnMonthly' | translate }}</ion-button
           >
         </div>
         <div class="ux_content">
@@ -59,24 +60,48 @@ import { LICENSES } from '../constants/license';
 })
 export class SelectLicensePage implements OnInit {
   licenses = LICENSES;
-  mensualLicenses;
-  anualLicenses;
+  stateAnnual: string;
+  activeButtonAnnual: boolean = true;
+  stateMonthly: string;
+  activeButtonMonthly: boolean = true;
+
   constructor() {}
 
   ionViewWillEnter() {
-    this.changeToAnual();
+    this.changeToAnnual();
   }
 
   ngOnInit() {}
 
-  changeToAnual() {
+  changeToAnnual() {
     this.licenses = LICENSES;
-    const anualLicenses = this.licenses.filter((licenses) => licenses.state === 'anual' || licenses.state === '');
+    const anualLicenses = this.licenses.filter(
+      (licenses) => licenses.state === 'payment.licenses.annual' || licenses.state === ''
+    );
     this.licenses = anualLicenses;
+    this.activatedBtnAnnual();
   }
-  changeToMensual() {
+
+  changeToMonthly() {
     this.licenses = LICENSES;
-    const mensualLicenses = this.licenses.filter((licenses) => licenses.state === 'mensual' || licenses.state === '');
+    const mensualLicenses = this.licenses.filter(
+      (licenses) => licenses.state === 'payment.licenses.monthly' || licenses.state === ''
+    );
     this.licenses = mensualLicenses;
+    this.activatedBtnMonthly();
+  }
+
+  activatedBtnAnnual() {
+    this.activeButtonAnnual = true;
+    this.stateAnnual = 'active';
+    this.activeButtonMonthly = false;
+    this.stateMonthly = '';
+  }
+
+  activatedBtnMonthly() {
+    this.activeButtonMonthly = true;
+    this.stateMonthly = 'active';
+    this.activeButtonAnnual = false;
+    this.stateAnnual = '';
   }
 }

@@ -1478,8 +1478,26 @@
   },
 
   "payment": {
-    "header": "Método de pago",
-    "title": "Método de pago para comenzar con el proceso",
-    "paypal_button": "Pagar"
+    "methods": {
+      "header": "Método de pago",
+      "title": "Elige tu método de pago para comenzar con el proceso",
+      "coming_badge": "Próximamente"
+    },
+    "licenses": {
+      "header": "Pagos anual",
+      "title": "Elige tu plan",
+      "textPrimary": "¡Prueba 30 días gratis todos los planes!",
+      "textSecondary": "Puedes cancelar cuando quieras.",
+      "btnAnnual": "Planes anuales",
+      "btnMonthly": "Planes mensuales",
+      "infoExplorer": "Puedes invertir hasta USD$300",
+      "infoAdvanced": "Invierte hasta USD$10.000",
+      "infoExpert": "Invierte hasta USD$50.000",
+      "infoPremium": "Para inversiones mayores a USD$50.000",
+      "contact": "Contactanos",
+      "monthly": "mensual",
+      "annual": "anual",
+      "free": "GRATIS"
+    }
   }
 }

@@ -11,20 +11,23 @@ const { Browser } = Plugins;
           <div class="mc__content__img">
             <ion-img [src]="this.paymentMethods?.img"></ion-img>
           </div>
-          <div class="mc__content__name">
-            <div class="ux-font-lato ux-fweight-regular ux-fsize-22">
-              <ion-text
-                >{{ this.paymentMethods?.name }}
-                <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxmedium">{{
-                  this.paymentMethods?.description
-                }}</ion-text></ion-text
-              >
+          <div class="mc__content__name_description">
+            <div class="mc__content__name">
+              <div class="ux-font-lato ux-fweight-regular ux-fsize-22">
+                <ion-text>{{ this.paymentMethods?.name }} </ion-text>
+              </div>
+            </div>
+            <div class="mc__content__description">
+              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxmedium">{{
+                this.paymentMethods?.description
+              }}</ion-text>
             </div>
           </div>
         </div>
         <div class="mc__content__button">
           <div class="button">
             <ion-button
+              *ngIf="this.paymentMethods?.name != 'Binance' && this.paymentMethods?.name != 'BitPay'"
               appTrackClick
               name="method"
               fill="clear"
@@ -36,6 +39,12 @@ const { Browser } = Plugins;
             >
               <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-button>
+            <ion-badge
+              *ngIf="this.paymentMethods?.name == 'Binance' || this.paymentMethods?.name == 'BitPay'"
+              class="ux_badge_coming"
+              slot="end"
+              >{{ 'payment.methods.coming_badge' | translate }}
+            </ion-badge>
           </div>
         </div>
       </div>

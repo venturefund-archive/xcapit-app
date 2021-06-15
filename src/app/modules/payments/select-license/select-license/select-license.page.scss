@@ -17,7 +17,12 @@
   margin-bottom: 12px;
   &__anual_button {
     margin-left: 6px;
+    color: rgba(155, 151, 151, 1);
   }
-  &__anual_button {
+  &__mensual_button {
+    color: rgba(155, 151, 151, 1);
   }
+}
+.active {
+  color: rgba(255, 145, 0, 1);
 }
