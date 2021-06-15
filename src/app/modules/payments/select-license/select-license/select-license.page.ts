@@ -61,9 +61,9 @@ import { LICENSES } from '../constants/license';
 export class SelectLicensePage implements OnInit {
   licenses = LICENSES;
   stateAnnual: string;
-  activeButtonAnnual: boolean = true;
+  activeButtonAnnual = true;
   stateMonthly: string;
-  activeButtonMonthly: boolean = true;
+  activeButtonMonthly = true;
 
   constructor() {}
 
