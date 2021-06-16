@@ -5,6 +5,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Plugins } from '@capacitor/core';
 import { NavController } from '@ionic/angular';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { LINKS } from 'src/app/config/static-links';
 
 const { Browser } = Plugins;
 
@@ -41,7 +42,7 @@ const { Browser } = Plugins;
           <app-ux-input-select
             [label]="'fiat_ramps.paxful.label-wallet' | translate"
             [modalTitle]="'Wallet'"
-            [placeholder]="'Dirección de recepción'"
+            [placeholder]="'fiat_ramps.paxful.placeholder-wallet' | translate"
             controlName="wallet"
             [data]="this.walletAddressSelect"
             [keyName]="'name'"
@@ -53,6 +54,11 @@ const { Browser } = Plugins;
           </div>
         </div>
         <div class="ux_footer">
+          <div class="need-help">
+            <ion-button name="Help-paxful" (click)="this.openInfo()" appTrackClick fill="clear" size="small">{{
+              'shared.need_help.text_help_link' | translate
+            }}</ion-button>
+          </div>
           <div class="button-next">
             <ion-button
               appTrackClick
@@ -78,6 +84,7 @@ export class OperationsNewPaxfulPage implements OnInit {
   });
   walletAddressSelect: any[];
   browser = Browser;
+  links = LINKS;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -112,6 +119,13 @@ export class OperationsNewPaxfulPage implements OnInit {
 
   goToCreateApikey() {
     this.navController.navigateBack(['/apikeys/list']);
+  }
+
+  async openInfo() {
+    await Browser.open({
+      toolbarColor: '#ff9100',
+      url: this.links.infoPaxful,
+    });
   }
 
   async handleSubmit() {

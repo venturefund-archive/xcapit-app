@@ -1375,7 +1375,8 @@
       "recordatory_2": "I understand that the seller sets their own BTC price based on speed, privacy, and convenience. Rates may vary depending on the method of payment.",
       "recordatory_3": "I understand that there will be a network fee to send the BTC to my Binance wallet. It is recommended to add to your purchase as max 0.0566USD to cover the network fee, otherwise the purchase will remain in your Paxful wallet.",
       "recordatory_4": "Recuerda que si tienes inversiones activas, tu compra será automáticamene parte de esa inversión. ",
-      "button": "Select my receiving address"
+      "button": "Select my receiving address",
+      "modal_content": "Please check the points to consider before making a purchase"
     },
 
     "operation_detail": {
@@ -1498,7 +1499,9 @@
       "title": "Buy BTC with Paxful",
       "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
       "label-wallet": "Select your wallet",
-      "button-text": "Continue to Paxful"
+      "placeholder-wallet": "Receiving address",
+      "button-text": "Go to Paxful",
+      "recordatory_info": "By clicking on Go to Paxful, you will exit Xcapit."
     },
     "paxful_success": {
       "textPrimary": "We've redirect you to Paxful",

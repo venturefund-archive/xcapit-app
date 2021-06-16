@@ -1,38 +1,39 @@
 :host {
-	.ux_checkbox_container {
-		width: fit-content;
-		margin-top: 10px;
+  .ux_checkbox_container {
+    width: fit-content;
+    margin-top: 10px;
 
-		&__item {
-			--padding-start: 2px;
-			--border-color: transparent;
-			--background-activated: transparent;
-			--min-height: 24px;
-			--min-width: 24px;
-			
-			&__label {
-				font-family: var(--ux-font-lato);
-				color: #0000008a;
-			}
+    &__item {
+      --padding-start: 2px;
+      --border-color: transparent;
+      --background-activated: transparent;
+      --min-height: 24px;
+      --min-width: 24px;
 
-			.normal {
-				font-size: 15px;
-			}
+      &__label {
+        font-family: var(--ux-font-lato);
+        color: #0000008a;
+      }
 
-			.small {
-				font-weight: 600;
-				font-size: 12px;;
-			}
-		}
-	}
+      .normal {
+        font-size: 15px;
+      }
 
-	ion-checkbox {
-		--border-radius: 15%;
-		--border-width: 1px;
-		--border-style: solid;
-		--border-color: #00000029;
-		--background: #fff;
-		--size: 18px;
-		margin-right: 12px;
-	}
+      .small {
+        font-weight: 600;
+        font-size: 12px;
+      }
+    }
+  }
+
+  ion-checkbox {
+    --border-radius: 15%;
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: #00000029;
+    --background: #fff;
+    --size: 18px;
+    --checkmark-width: 2px;
+    margin-right: 12px;
+  }
 }

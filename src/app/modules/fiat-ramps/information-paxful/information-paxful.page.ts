@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 
@@ -36,7 +37,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 class="medium"
                 ngClass="checkbox"
                 controlName="responsibilityAccepted"
-                color="uxsuccess"
+                color="uxcombination"
                 slot="start"
               ></app-ux-checkbox>
             </div>
@@ -52,7 +53,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 class="medium"
                 ngClass="checkbox"
                 controlName="providerAccepted"
-                color="uxsuccess"
+                color="uxcombination"
                 slot="start"
               ></app-ux-checkbox>
             </div>
@@ -68,7 +69,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 class="medium"
                 ngClass="checkbox"
                 controlName="rateAccepted"
-                color="uxsuccess"
+                color="uxcombination"
                 slot="start"
               ></app-ux-checkbox>
             </div>
@@ -84,7 +85,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 class="medium"
                 ngClass="checkbox"
                 controlName="investmentAccepted"
-                color="uxsuccess"
+                color="uxcombination"
                 slot="start"
               ></app-ux-checkbox>
             </div>
@@ -97,7 +98,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         </div>
         <div class="ux_footer ion-padding">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
+            <ion-button class="ux_button" appTrackClick name="Acept" type="submit" color="uxsecondary" size="large">
               {{ 'fiat_ramps.information_paxful.button' | translate }}
             </ion-button>
           </div>
@@ -118,7 +119,8 @@ export class InformationPaxfulPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private navController: NavController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {}
@@ -137,7 +139,7 @@ export class InformationPaxfulPage implements OnInit {
       cssClass: 'ux-alert',
       showBackdrop: false,
       componentProps: {
-        title: 'Porfavor tilda los puntos a considerar antes de realizar una compra',
+        title: this.translate.instant('fiat_ramps.information_paxful.modal_content'),
         type: 'error',
       },
     });

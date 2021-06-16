@@ -1369,7 +1369,8 @@
       "recordatory_2": "Entiendo que el vendedor establece su propio BTC precio basado en la velocidad, privacidad y conveniencia. Las tasas pueden variar dependiendo de la forma de pago.",
       "recordatory_3": "Entiendo que habrá una tarifa de red para realizar el envio de los BTC a mi billetera de Binance. Se recomienda añadir a tu compra como max 0.0566USD para cubir la tarifa de red de lo contrario la compra permanecerá en tu monedero de Paxful. ",
       "recordatory_4": "Recuerda que si tienes inversiones activas, tu compra será automáticamene parte de esa inversión. ",
-      "button": "Seleccionar mi dirección de recepción"
+      "button": "Seleccionar mi dirección de recepción",
+      "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
     },
 
     "operation_detail": {
@@ -1506,9 +1507,10 @@
       "title": "Comprar BTC con Paxful",
       "text": "La dirección de recepción es aquella API KEY que has cargado de tu billetera de Binance. Las compras que realice se verán reflejadas en la siguiente dirección de Binance.",
       "label-wallet": "Selecciona tu dirección de recepción:",
+      "placeholder-wallet": "Dirección de recepción",
       "recordatory_title": "Recuerda",
-      "recordatory_info": "Si tienes inversiones activas, tu compra  será automaticamente parte de esa inversión.",
-      "button-text": "Continuar a Paxful"
+      "recordatory_info": "Al hacer click en “Ir a Paxful”, vas a salir de Xcapit.",
+      "button-text": "Ir a Paxful"
     },
     "paxful_success": {
       "textPrimary": "Te redirigimos a la página de Paxful",
