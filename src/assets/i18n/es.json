@@ -1410,9 +1410,9 @@
         "cancel": "Cancelada"
       },
       "paxful": {
-        "SUCCESSFUL": "Completada",
+        "SUCCESS": "Completada",
         "EXPIRED": "Expirada",
-        "CANCELED": "Cancelada"
+        "CANCELLED": "Cancelada"
       }
     },
 
@@ -1477,7 +1477,7 @@
       "type": "Tipo de operación:",
       "amount": "Monto:",
       "quotation": "Cotización:",
-      "wallet_address": "Dirección de recepción:",
+      "wallet": "Dirección de recepción:",
       "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
       "confirm": "Confirmar",
       "buy": {
