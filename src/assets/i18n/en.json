@@ -1311,12 +1311,7 @@
         "text": "Point your camera towards a QR code."
       }
     },
-    "tabs": {
-      "home": "Home",
-      "refer": "Refer",
-      "new_fund": "New",
-      "menu": "More"
-    },
+
     "deposit_addresses": {
       "deposit_currency": {
         "header": "Deposit Address",
@@ -1338,6 +1333,12 @@
         "back_link": "Back to home"
       }
     }
+  },
+  "tabs": {
+    "home": "Home",
+    "refer": "Refer",
+    "new_fund": "New",
+    "menu": "More"
   },
   "fiat_ramps": {
     "operations_list": {
