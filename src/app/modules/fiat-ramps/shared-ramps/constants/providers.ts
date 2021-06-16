@@ -11,6 +11,6 @@ export const PROVIDERS = [
     alias: 'paxful',
     name: 'Paxful',
     logoRoute: '../../assets/img/provider-logos/Paxful.svg',
-    newOperationRoute: '/fiat-ramps/new-operation-paxful',
+    newOperationRoute: '/fiat-ramps/information-paxful',
   },
 ];

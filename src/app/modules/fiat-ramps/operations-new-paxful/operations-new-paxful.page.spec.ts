@@ -1,7 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Browser } from '@capacitor/core';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -9,6 +11,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { OperationsNewPaxfulPage } from './operations-new-paxful.page';
 
@@ -47,7 +50,7 @@ describe('OperationsNewPaxfulPage', () => {
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
   let browserSpy: any;
-
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsNewPaxfulPage>;
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
@@ -60,7 +63,7 @@ describe('OperationsNewPaxfulPage', () => {
       browserSpy.open.and.returnValue(Promise.resolve());
 
       TestBed.configureTestingModule({
-        declarations: [OperationsNewPaxfulPage],
+        declarations: [OperationsNewPaxfulPage, TrackClickDirective],
         imports: [
           RouterTestingModule.withRoutes([
             { path: 'apikeys/list', component: DummyComponent },
@@ -70,6 +73,7 @@ describe('OperationsNewPaxfulPage', () => {
           TranslateModule.forRoot(),
           IonicModule,
           ReactiveFormsModule,
+          HttpClientTestingModule,
         ],
         providers: [
           TrackClickDirective,
@@ -86,6 +90,8 @@ describe('OperationsNewPaxfulPage', () => {
       component.browser = browserSpy;
 
       fixture.detectChanges();
+
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
@@ -167,6 +173,16 @@ describe('OperationsNewPaxfulPage', () => {
   it('should call success on openPaxfulLink', async () => {
     const spy = spyOn(component, 'success').and.returnValue(Promise.resolve(true));
     await component.openPaxfulLink(0);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Help-paxful link clicked', () => {
+    spyOn(component, 'openInfo');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Help-paxful');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 

@@ -1361,6 +1361,18 @@
       "title": "Selecciona el proveedor:"
     },
 
+    "information_paxful": {
+      "header": "Comprar",
+      "title": "Compra BTC con Paxful:",
+      "subtitle": "Paxful te permitirá comprar unicamente BTC. Te redirigiremos a su página para que realices la compra P2P. Asegurate de comprender los siguientes puntos antes de hacer una transacción:",
+      "recordatory_1": "Entiendo que desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se responsabiliza por precios incorrectos en los valores o divisas definidas de aquí en más, ni de prejuicios que puedan surgir con la interacción con el proveedor. ",
+      "recordatory_2": "Entiendo que el vendedor establece su propio BTC precio basado en la velocidad, privacidad y conveniencia. Las tasas pueden variar dependiendo de la forma de pago.",
+      "recordatory_3": "Entiendo que habrá una tarifa de red para realizar el envio de los BTC a mi billetera de Binance. Se recomienda añadir a tu compra como max 0.0566USD para cubir la tarifa de red de lo contrario la compra permanecerá en tu monedero de Paxful. ",
+      "recordatory_4": "Recuerda que si tienes inversiones activas, tu compra será automáticamene parte de esa inversión. ",
+      "button": "Seleccionar mi dirección de recepción",
+      "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
+    },
+
     "operation_detail": {
       "header": "Operación:",
       "card": {
@@ -1491,11 +1503,14 @@
       "buttonText": "Añadir comprobante"
     },
     "paxful": {
-      "header": "Comprar BTC con Paxful",
+      "header": "Comprar",
       "title": "Comprar BTC con Paxful",
-      "text": "Paxful sólo te permitirá comprar BTC. Te redigiremos a su página para finalizar la compra.",
-      "label-wallet": "Seleccioná tu wallet",
-      "button-text": "Continuar a Paxful"
+      "text": "La dirección de recepción es aquella API KEY que has cargado de tu billetera de Binance. Las compras que realice se verán reflejadas en la siguiente dirección de Binance.",
+      "label-wallet": "Selecciona tu dirección de recepción:",
+      "placeholder-wallet": "Dirección de recepción",
+      "recordatory_title": "Recuerda",
+      "recordatory_info": "Al hacer click en “Ir a Paxful”, vas a salir de Xcapit.",
+      "button-text": "Ir a Paxful"
     },
     "paxful_success": {
       "textPrimary": "Te redirigimos a la página de Paxful",
