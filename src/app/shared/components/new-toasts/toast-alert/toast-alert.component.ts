@@ -100,7 +100,7 @@ export class ToastAlertComponent implements OnInit {
       item2: '',
       message: '',
       style: 'style-items-error',
-      img: ' ../assets/img/alerts/error.svg',
+      img: '../assets/img/alerts/error.svg',
     },
 
     error_v3: {
