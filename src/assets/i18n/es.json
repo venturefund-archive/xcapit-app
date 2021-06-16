@@ -1398,9 +1398,9 @@
         "cancel": "Cancelada"
       },
       "paxful": {
-        "COMPLETE": "Completada",
+        "SUCCESS": "Completada",
         "EXPIRED": "Expirada",
-        "CANCELED": "Cancelada"
+        "CANCELLED": "Cancelada"
       }
     },
 
