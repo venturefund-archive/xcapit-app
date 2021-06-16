@@ -1,0 +1,34 @@
+:host {
+  .cl {
+    &__title {
+      padding-top: 50px;
+    }
+
+    &__textPrimary {
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+    &__label_message {
+      margin-top: 25px;
+    }
+    &__label_input {
+      margin-bottom: 16px;
+    }
+
+    &__email_input {
+      display: flex;
+      align-items: flex-end;
+      padding-left: 10px;
+      background-color: rgba(235, 235, 235, 1);
+      .edit_button {
+        color: rgba(51, 51, 51, 1);
+      }
+    }
+
+    &__message_input {
+      .message {
+        background-color: rgba(235, 235, 235, 1);
+      }
+    }
+  }
+}
