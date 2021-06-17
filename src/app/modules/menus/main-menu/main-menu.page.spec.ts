@@ -126,17 +126,18 @@ describe('MainMenuPage', () => {
     expect(elms.length).toBe(13);
   });
 
-  it('should call checkEmptyApiKeys in clickAction', () => {
-    const spyCheckEmptyApiKeys = spyOn(component, 'checkEmptyApiKeys');
-    spyCheckEmptyApiKeys.and.returnValue(undefined);
+  it('should call checkEmptyApiKeysAndNoOperations in clickAction', () => {
+    const spyCheckEmptyApiKeysAndNoOperations = spyOn(component, 'checkEmptyApiKeysAndNoOperations');
+    spyCheckEmptyApiKeysAndNoOperations.and.returnValue(undefined);
     component.clickAction('buyCrypto');
-    expect(component.checkEmptyApiKeys).toHaveBeenCalledTimes(1);
+    expect(component.checkEmptyApiKeysAndNoOperations).toHaveBeenCalledTimes(1);
   });
 
-  it('should call openModal in checkEmptyApiKeys', () => {
+  it('should call openModal in checkEmptyApiKeysAndNoOperations', () => {
     const spyOpenModal = spyOn(component, 'openModal');
     spyOpenModal.and.returnValue(undefined);
-    component.checkEmptyApiKeys();
+    component.userHasOperations = false;
+    component.checkEmptyApiKeysAndNoOperations();
     expect(component.openModal).toHaveBeenCalledTimes(1);
   });
 
@@ -145,7 +146,6 @@ describe('MainMenuPage', () => {
     component.env = 'PREPROD';
     fixture.detectChanges();
     const items = fixture.debugElement.queryAll(By.css('.menu-item'));
-    console.log(items);
     expect(items.length).toBe(6);
   });
 
@@ -154,7 +154,6 @@ describe('MainMenuPage', () => {
     component.env = 'PRODUCCION';
     fixture.detectChanges();
     const items = fixture.debugElement.queryAll(By.css('.menu-item'));
-    console.log(items);
     expect(items.length).toBe(4);
   });
 });
