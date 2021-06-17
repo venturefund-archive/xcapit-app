@@ -1797,9 +1797,9 @@
   dependencies:
     moment "^2.10.2"
 
-"@types/cordova@^0.0.34":
+"@types/cordova@latest":
   version "0.0.34"
-  resolved "https://registry.npmjs.org/@types/cordova/-/cordova-0.0.34.tgz"
+  resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-0.0.34.tgz#ea7addf74ecec3d7629827a0c39e2c9addc73d04"
   integrity sha1-6nrd907Ow9dimCegw54smt3HPQQ=
 
 "@types/glob@^7.1.1":
