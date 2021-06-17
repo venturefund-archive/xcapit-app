@@ -32,7 +32,7 @@ import { LICENSES } from '../constants/license';
             appTrackClick
             fill="clear"
             size="small"
-            (click)="this.changeToAnnual()"
+            (click)="this.changeLicenses(this.annualState)"
             >{{ 'payment.licenses.btnAnnual' | translate }}</ion-button
           >
           <ion-button
@@ -42,7 +42,7 @@ import { LICENSES } from '../constants/license';
             appTrackClick
             fill="clear"
             size="small"
-            (click)="this.changeToMonthly()"
+            (click)="this.changeLicenses(this.monthlyState)"
             >{{ 'payment.licenses.btnMonthly' | translate }}</ion-button
           >
         </div>
@@ -64,44 +64,28 @@ export class SelectLicensePage implements OnInit {
   activeButtonAnnual = true;
   stateMonthly: string;
   activeButtonMonthly = true;
+  annualState = 'payment.licenses.annual';
+  monthlyState = 'payment.licenses.monthly';
 
   constructor() {}
 
   ionViewWillEnter() {
-    this.changeToAnnual();
+    this.changeLicenses(this.annualState);
   }
 
   ngOnInit() {}
 
-  changeToAnnual() {
+  changeLicenses(aState: string) {
     this.licenses = LICENSES;
-    const anualLicenses = this.licenses.filter(
-      (licenses) => licenses.state === 'payment.licenses.annual' || licenses.state === ''
-    );
-    this.licenses = anualLicenses;
-    this.activatedBtnAnnual();
+    const filteredLicenses = this.licenses.filter((licenses) => licenses.state === aState || licenses.state === '');
+    this.licenses = filteredLicenses;
+    this.activatedBtn(aState === this.annualState);
   }
 
-  changeToMonthly() {
-    this.licenses = LICENSES;
-    const mensualLicenses = this.licenses.filter(
-      (licenses) => licenses.state === 'payment.licenses.monthly' || licenses.state === ''
-    );
-    this.licenses = mensualLicenses;
-    this.activatedBtnMonthly();
-  }
-
-  activatedBtnAnnual() {
-    this.activeButtonAnnual = true;
-    this.stateAnnual = 'active';
-    this.activeButtonMonthly = false;
-    this.stateMonthly = '';
-  }
-
-  activatedBtnMonthly() {
-    this.activeButtonMonthly = true;
-    this.stateMonthly = 'active';
-    this.activeButtonAnnual = false;
-    this.stateAnnual = '';
+  activatedBtn(annual: boolean) {
+    this.activeButtonAnnual = annual;
+    this.stateAnnual = annual ? 'active' : '';
+    this.activeButtonMonthly = !annual;
+    this.stateMonthly = !annual ? 'active' : '';
   }
 }

@@ -1481,7 +1481,9 @@
     "methods": {
       "header": "Método de pago",
       "title": "Elige tu método de pago para comenzar con el proceso",
-      "coming_badge": "Próximamente"
+      "coming_badge": "Próximamente",
+      "all_countries": "Todos los países",
+      "arg": "Argentina"
     },
     "licenses": {
       "header": "Pagos anual",

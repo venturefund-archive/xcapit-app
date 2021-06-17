@@ -19,7 +19,7 @@ const { Browser } = Plugins;
             </div>
             <div class="mc__content__description">
               <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxmedium">{{
-                this.paymentMethods?.description
+                this.paymentMethods?.description | translate
               }}</ion-text>
             </div>
           </div>
@@ -27,7 +27,7 @@ const { Browser } = Plugins;
         <div class="mc__content__button">
           <div class="button">
             <ion-button
-              *ngIf="this.paymentMethods?.name != 'Binance' && this.paymentMethods?.name != 'BitPay'"
+              *ngIf="!this.comingSoon()"
               appTrackClick
               name="method"
               fill="clear"
@@ -39,10 +39,7 @@ const { Browser } = Plugins;
             >
               <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-button>
-            <ion-badge
-              *ngIf="this.paymentMethods?.name == 'Binance' || this.paymentMethods?.name == 'BitPay'"
-              class="ux_badge_coming"
-              slot="end"
+            <ion-badge *ngIf="this.comingSoon()" class="ux_badge_coming" slot="end"
               >{{ 'payment.methods.coming_badge' | translate }}
             </ion-badge>
           </div>
@@ -65,6 +62,12 @@ export class MethodComponent implements OnInit {
         toolbarColor: 'red',
         url: this.paymentMethods.link,
       });
+    }
+  }
+
+  comingSoon() {
+    if (this.paymentMethods?.name === 'Binance' || this.paymentMethods?.name === 'BitPay') {
+      return true;
     }
   }
 }

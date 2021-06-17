@@ -1473,7 +1473,9 @@
     "methods": {
       "header": "Payment methods",
       "title": "Payment method to start the process",
-      "paypal_button": "Pay"
+      "coming_badge": "Coming soon",
+      "all_countries": "All the countries",
+      "arg": "Argentina"
     },
     "licenses": {
       "header": "Annual payments",

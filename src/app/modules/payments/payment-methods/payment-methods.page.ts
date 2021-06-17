@@ -33,25 +33,25 @@ export class PaymentMethodsPage implements OnInit {
       name: 'PayPal',
       link: 'https://py.pl/IZg5M4XLCm',
       img: '../../../../assets/img/payment-methods/paypal.png',
-      description: 'Todos los paises',
+      description: 'payment.methods.all_countries',
     },
     {
       name: 'MercadoPago',
       link: 'https://www.mercadopago.com/mla/debits/new?preapproval_plan_id=2c93808478f916c70179003e21d40717',
       img: '../../../../assets/img/payment-methods/mercadopago.png',
-      description: 'Argentina',
+      description: 'payment.methods.arg',
     },
     {
       name: 'BitPay',
       link: '',
       img: '../../../../assets/img/payment-methods/bitpay.png',
-      description: 'Todos los paises',
+      description: 'payment.methods.all_countries',
     },
     {
       name: 'Binance',
       link: '',
       img: '../../../../assets/img/payment-methods/binance.png',
-      description: 'Todos los paises',
+      description: 'payment.methods.all_countries',
     },
   ];
   constructor() {}
