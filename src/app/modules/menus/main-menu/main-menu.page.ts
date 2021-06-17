@@ -7,6 +7,7 @@ import { UxSelectModalComponent } from '../../../shared/components/ux-select-mod
 import { TranslateService } from '@ngx-translate/core';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
+import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 import { environment } from 'src/environments/environment';
 
 const { Browser } = Plugins;
@@ -77,6 +78,7 @@ const { Browser } = Plugins;
 })
 export class MainMenuPage implements OnInit {
   apikeys: any = [];
+  userHasOperations: boolean;
   env = environment.environment;
 
   public appPages = [
@@ -185,12 +187,14 @@ export class MainMenuPage implements OnInit {
     private language: LanguageService,
     private translate: TranslateService,
     private modalController: ModalController,
+    private apiFiatRampsService: FiatRampsService,
     public navController: NavController
   ) {
     Browser.prefetch({
       urls: ['https://www.info.xcapit.com/'],
     });
     this.getAllApiKeys();
+    this.getUserHasOperations();
   }
 
   ngOnInit() {
@@ -226,8 +230,8 @@ export class MainMenuPage implements OnInit {
     }
   }
 
-  checkEmptyApiKeys() {
-    if (this.apikeys.length === 0) {
+  checkEmptyApiKeysAndNoOperations() {
+    if (this.apikeys.length === 0 && this.userHasOperations === false) {
       this.openModal();
     } else {
       this.navController.navigateForward('/fiat-ramps/operations');
@@ -237,6 +241,12 @@ export class MainMenuPage implements OnInit {
   getAllApiKeys() {
     this.apiApikeysService.getAll().subscribe((data) => {
       this.apikeys = data;
+    });
+  }
+
+  getUserHasOperations() {
+    this.apiFiatRampsService.userHasOperations().subscribe((data) => {
+      this.userHasOperations = data.user_has_operations;
     });
   }
 
@@ -257,7 +267,7 @@ export class MainMenuPage implements OnInit {
       });
     }
     if (element === 'buyCrypto') {
-      this.checkEmptyApiKeys();
+      this.checkEmptyApiKeysAndNoOperations();
     }
   }
 }
