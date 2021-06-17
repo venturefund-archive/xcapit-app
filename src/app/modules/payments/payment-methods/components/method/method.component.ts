@@ -66,8 +66,6 @@ export class MethodComponent implements OnInit {
   }
 
   comingSoon() {
-    if (this.paymentMethods?.name === 'Binance' || this.paymentMethods?.name === 'BitPay') {
-      return true;
-    }
+    return this.paymentMethods?.name === 'Binance' || this.paymentMethods?.name === 'BitPay';
   }
 }
