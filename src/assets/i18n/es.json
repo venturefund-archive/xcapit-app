@@ -1346,7 +1346,7 @@
   },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Comprar/Vender cryptos",
+      "header": "Comprar criptomonedas",
       "title": "Mis operaciones",
       "id": "ID",
       "operation": "Operación",
@@ -1417,7 +1417,7 @@
     },
 
     "ramp_initial": {
-      "header": "Comprar/Vender cryptos",
+      "header": "Comprar criptomonedas",
       "title": "Nueva operación",
       "operation": "¿Qué operación quieres hacer?",
       "pair_buy": "¿Qué moneda quieres comprar?",
