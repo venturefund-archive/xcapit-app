@@ -1,0 +1,28 @@
+.title {
+  margin-left: 16px;
+}
+.subtitle {
+  margin-top: 15px;
+  margin-left: 16px;
+}
+.second-subtitle {
+  margin-top: 11px;
+  margin-left: 16px;
+  margin-bottom: 14px;
+}
+
+.license_type {
+  display: flex;
+  justify-content: start;
+  margin-bottom: 12px;
+  &__anual_button {
+    margin-left: 6px;
+    color: rgba(155, 151, 151, 1);
+  }
+  &__mensual_button {
+    color: rgba(155, 151, 151, 1);
+  }
+}
+.active {
+  color: rgba(255, 145, 0, 1);
+}

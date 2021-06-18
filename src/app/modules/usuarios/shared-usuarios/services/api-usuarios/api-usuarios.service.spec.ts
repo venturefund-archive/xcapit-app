@@ -62,6 +62,12 @@ describe('ApiUsuariosService', () => {
     });
   });
 
+  it('should be call post on http when loginWithGoogle', () => {
+    service.loginWithGoogle('').subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it('should be call post on http when sendEmailValidation', () => {
     service.sendEmailValidation('').subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);

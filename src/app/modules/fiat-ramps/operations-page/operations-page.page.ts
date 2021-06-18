@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { InformativeModalComponent } from 'src/app/modules/menus/main-menu/components/informative-modal/informative-modal.component';
+import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
   selector: 'app-operations-page',
@@ -19,8 +21,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
             class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
             appTrackClick
             name="New Operation"
-            routerDirection="forward"
-            [routerLink]="['/fiat-ramps/select-provider']"
+            (click)="this.checkEmptyApiKeys()"
           >
             {{ 'fiat_ramps.operations_list.new' | translate }}
           </ion-button>
@@ -93,7 +94,12 @@ export class OperationsPagePage implements OnInit {
   operationsList: any[];
   providers = PROVIDERS;
 
-  constructor(private navController: NavController, private fiatRampsService: FiatRampsService) {}
+  constructor(
+    private navController: NavController,
+    private fiatRampsService: FiatRampsService,
+    private modalController: ModalController,
+    private apiApikeysService: ApiApikeysService
+  ) {}
 
   ionViewWillEnter() {
     this.getOperationsList();
@@ -161,12 +167,12 @@ export class OperationsPagePage implements OnInit {
       case 2:
         // Paxful
         switch (statusName) {
-          case 'SUCCESSFUL':
+          case 'SUCCESS':
             status.logoRoute += 'ok.svg';
             break;
 
           case 'EXPIRED':
-          case 'CANCELED':
+          case 'CANCELLED':
             status.logoRoute += 'error.svg';
             break;
 
@@ -186,5 +192,24 @@ export class OperationsPagePage implements OnInit {
       'operation',
       operation.operation_id,
     ]);
+  }
+
+  checkEmptyApiKeys() {
+    this.apiApikeysService.getAll().subscribe((data) => {
+      if (data.length === 0) {
+        this.openModal();
+      } else {
+        this.navController.navigateForward('/fiat-ramps/select-provider');
+      }
+    });
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: InformativeModalComponent,
+      cssClass: 'ux-modal-informative',
+      swipeToClose: false,
+    });
+    await modal.present();
   }
 }

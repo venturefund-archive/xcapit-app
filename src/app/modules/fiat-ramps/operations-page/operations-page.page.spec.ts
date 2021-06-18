@@ -42,7 +42,7 @@ const operations = [
   {
     operation_id: 4,
     operation_type: 'cash-in',
-    status: 'SUCCESSFUL',
+    status: 'SUCCESS',
     currency_in: 'ARS',
     amount_in: 550.0,
     currency_out: 'BTC',
@@ -88,7 +88,7 @@ const operations = [
   {
     operation_id: 3,
     operation_type: 'cash-in',
-    status: 'CANCELED',
+    status: 'CANCELLED',
     currency_in: 'ARS',
     amount_in: 550.0,
     currency_out: 'BTC',
@@ -99,7 +99,7 @@ const operations = [
   {
     operation_id: 3,
     operation_type: 'cash-in',
-    status: 'SUCCESSFUL',
+    status: 'SUCCESS',
     currency_in: 'ARS',
     amount_in: 500.0,
     currency_out: 'BTC',
@@ -297,7 +297,7 @@ describe('OperationsPagePage', () => {
       provider: PROVIDERS[1],
       status: [
         {
-          name: 'SUCCESSFUL',
+          name: 'SUCCESS',
           icon: 'ok.svg',
         },
         {
@@ -305,7 +305,7 @@ describe('OperationsPagePage', () => {
           icon: 'error.svg',
         },
         {
-          name: 'CANCELED',
+          name: 'CANCELLED',
           icon: 'error.svg',
         },
         {

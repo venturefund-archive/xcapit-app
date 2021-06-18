@@ -7,38 +7,44 @@ const { Browser } = Plugins;
 @Component({
   selector: 'app-need-help',
   template: `
-      <div class="need-help">
-          <div class="need-help__icon-buttons">
-              <ion-button (click)="openWhatsAppLink()" *ngIf="this.whatsAppLink" fill="clear" size="small" color="uxsecondary" appTrackClick name="WhatsApp Help">
-                  <ion-icon name="logo-whatsapp"></ion-icon>
-              </ion-button>
-              <ion-button (click)="openTelegramLink()" *ngIf="this.telegramLink" fill="clear" size="small" color="uxsecondary" appTrackClick name="Telegram Help">
-                  <ion-icon name="paper-plane-outline"></ion-icon>
-              </ion-button>
-          </div>
-          <div class="need-help__link">
-              <ion-button
-                      name="Go To Help"
-                      (click)="this.moreInfo()"
-                      appTrackClick
-                      fill="clear"
-                      size="small"
-              >{{
-                  'shared.need_help.text_help_link' | translate
-                  }}</ion-button
-              >
-          </div>
+    <div class="need-help">
+      <div class="need-help__icon-buttons">
+        <ion-button
+          (click)="openWhatsAppLink()"
+          *ngIf="this.whatsAppLink"
+          fill="clear"
+          color="uxsecondary"
+          appTrackClick
+          name="WhatsApp Help"
+        >
+          <ion-icon name="logo-whatsapp"></ion-icon>
+        </ion-button>
+        <ion-button
+          (click)="openTelegramLink()"
+          *ngIf="this.telegramLink"
+          fill="clear"
+          color="uxsecondary"
+          appTrackClick
+          name="Telegram Help"
+        >
+          <ion-icon name="paper-plane-outline"></ion-icon>
+        </ion-button>
       </div>
+      <div class="need-help__link">
+        <ion-button name="Go To Help" (click)="this.moreInfo()" appTrackClick fill="clear" size="small">{{
+          'shared.need_help.text_help_link' | translate
+        }}</ion-button>
+      </div>
+    </div>
   `,
-  styleUrls: ['./need-help.component.scss']
+  styleUrls: ['./need-help.component.scss'],
 })
 export class NeedHelpComponent implements OnInit {
   @Input() whatsAppLink: string;
   @Input() telegramLink: string;
   links = LINKS;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     this.prefetchInfoPage();
@@ -46,14 +52,14 @@ export class NeedHelpComponent implements OnInit {
 
   prefetchInfoPage() {
     Browser.prefetch({
-      urls: [this.links.generalHelp]
+      urls: [this.links.generalHelp],
     }).then();
   }
 
   async moreInfo() {
     await Browser.open({
       toolbarColor: '#ff9100',
-      url: this.links.generalHelp
+      url: this.links.generalHelp,
     });
   }
 
@@ -61,7 +67,7 @@ export class NeedHelpComponent implements OnInit {
     if (this.whatsAppLink) {
       await Browser.open({
         toolbarColor: '#ff9100',
-        url: this.whatsAppLink
+        url: this.whatsAppLink,
       });
     }
   }
@@ -70,7 +76,7 @@ export class NeedHelpComponent implements OnInit {
     if (this.telegramLink) {
       await Browser.open({
         toolbarColor: '#ff9100',
-        url: this.telegramLink
+        url: this.telegramLink,
       });
     }
   }

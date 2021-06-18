@@ -7,6 +7,8 @@ import { UxSelectModalComponent } from '../../../shared/components/ux-select-mod
 import { TranslateService } from '@ngx-translate/core';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
+import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
+import { environment } from 'src/environments/environment';
 
 const { Browser } = Plugins;
 
@@ -26,14 +28,15 @@ const { Browser } = Plugins;
       <ion-list>
         <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p.elementClick)">
           <ion-item
-            class="item-style"
+            *ngIf="this.env === 'PREPROD' || (this.env === 'PRODUCCION' && p.showInProd)"
+            class="menu-item"
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
             [routerDirection]="p.routeDirection"
             [routerLink]="[p.url]"
             replaceUrl="true"
           >
-            <ion-icon *ngIf="p.icon" slot="start" [name]="p.icon"></ion-icon>
+            <ion-icon *ngIf="p.icon" class="icons" slot="start" [name]="p.icon"></ion-icon>
             <ion-label>
               {{ p.title | translate }}
             </ion-label>
@@ -41,7 +44,7 @@ const { Browser } = Plugins;
         </div>
         <ion-item
           detail
-          class="item-style"
+          class="menu-item"
           appTrackClick
           [dataToTrack]="{
             eventLabel: 'Change Language',
@@ -49,13 +52,13 @@ const { Browser } = Plugins;
           }"
           (click)="this.changeLanguage()"
         >
-          <ion-icon slot="start" name="globe-outline"></ion-icon>
+          <ion-icon slot="start" class="icons" name="ux-lenguage-icon"></ion-icon>
           <ion-label>
             {{ 'app.main_menu.change_language' | translate }}
           </ion-label>
         </ion-item>
         <ion-item
-          class="item-style"
+          class="menu-item"
           appTrackClick
           [dataToTrack]="{
             eventLabel: 'Logout',
@@ -63,7 +66,7 @@ const { Browser } = Plugins;
           }"
           (click)="this.logout()"
         >
-          <ion-icon slot="start" name="log-out"></ion-icon>
+          <ion-icon slot="start" class="icons" name="ux-logout-icon"></ion-icon>
           <ion-label>
             {{ 'app.main_menu.logout' | translate }}
           </ion-label>
@@ -75,93 +78,107 @@ const { Browser } = Plugins;
 })
 export class MainMenuPage implements OnInit {
   apikeys: any = [];
+  userHasOperations: boolean;
+  env = environment.environment;
 
   public appPages = [
     {
       id: 1,
       title: 'app.main_menu.funds',
       url: '/tabs/funds',
-      icon: 'trending-up',
+      icon: 'ux-myfund-icon',
       routeDirection: 'root',
+      showInProd: true,
     },
     {
       id: 2,
       title: 'funds.funds_finished.header',
       url: '/funds/funds-finished',
-      icon: 'film',
+      icon: 'ux-finalizedfunds-icon',
       routeDirection: 'forward',
+      showInProd: true,
     },
     {
       id: 3,
       title: 'app.main_menu.user_profile',
       url: '/profiles/user',
-      icon: 'person',
+      icon: 'ux-user-icon',
       routeDirection: 'forward',
+      showInProd: true,
     },
     {
       id: 4,
       title: 'app.main_menu.deposit_address',
       url: '/deposits/currency',
-      icon: 'journal',
+      icon: 'ux-book-icon',
       routeDirection: 'forward',
+      showInProd: true,
     },
-    /*{
-      id: 4,
-      title: 'app.main_menu.commissions',
-      url: '/funds/commissions',
-      icon: 'wallet',
-      routeDirection: 'forward'
-    },*/
+    // {
+    //   id: 4,
+    //   title: 'app.main_menu.commissions',
+    //   url: '/funds/commissions',
+    //   icon: 'wallet',
+    //   routeDirection: 'forward',
+    //   showInProd: false
+    // },
     {
       id: 5,
       title: 'app.main_menu.help',
       url: '/tabs/funds',
-      icon: 'help-circle-outline',
+      icon: 'ux-settings-icon',
       routeDirection: 'forward',
       elementClick: 'openTutorials',
+      showInProd: true,
     },
-    // {
-    //   id: 6,
-    //   title: 'Comprar/Vender cryptos',
-    //   url: '/menus/main-menu',
-    //   icon: 'cash-outline',
-    //   elementClick: 'buyCrypto',
-    // },
+    {
+      id: 6,
+      title: 'fiat_ramps.operations_list.header',
+      url: '/menus/main-menu',
+      icon: 'ux-buysell-icon',
+      elementClick: 'buyCrypto',
+      showInProd: true,
+    },
     {
       id: 7,
       title: 'app.main_menu.password_change',
       url: '/users/password-change',
-      icon: 'key',
+      icon: 'ux-key-icon',
       routeDirection: 'forward',
+      showInProd: true,
     },
     {
       id: 8,
       title: 'app.main_menu.referrals',
       url: '/referrals/list',
-      icon: 'people',
+      icon: 'ux-referrals-icon',
       routeDirection: 'root',
+      showInProd: true,
     },
     {
       id: 9,
       title: 'app.main_menu.notifications',
       url: '/notifications/list',
-      icon: 'notifications-outline',
+      icon: 'ux-notifications-icon',
       routeDirection: 'root',
+      showInProd: true,
     },
     {
       id: 10,
       title: 'app.main_menu.api_keys_managment',
       url: '/apikeys/list',
-      icon: 'cog',
+      icon: 'ux-cog-icon',
       routeDirection: 'root',
+      showInProd: true,
     },
-    // {
-    //   id: 11,
-    //   title: 'app.main_menu.payment',
-    //   url: '/payment/payment-methods',
-    //   icon: 'cash-outline',
-    //   routeDirection: 'forward',
-    // },
+    {
+      id: 11,
+      title: 'app.main_menu.payment',
+      url: '/payment/payment-methods',
+      icon: 'ux-cash-icon',
+      routeDirection: 'forward',
+      showInProd: false,
+    },
   ];
 
   constructor(
@@ -170,12 +187,14 @@ export class MainMenuPage implements OnInit {
     private language: LanguageService,
     private translate: TranslateService,
     private modalController: ModalController,
+    private apiFiatRampsService: FiatRampsService,
     public navController: NavController
   ) {
     Browser.prefetch({
       urls: ['https://www.info.xcapit.com/'],
     });
     this.getAllApiKeys();
+    this.getUserHasOperations();
   }
 
   ngOnInit() {
@@ -211,8 +230,8 @@ export class MainMenuPage implements OnInit {
     }
   }
 
-  checkEmptyApiKeys() {
-    if (this.apikeys.length === 0) {
+  checkEmptyApiKeysAndNoOperations() {
+    if (this.apikeys.length === 0 && this.userHasOperations === false) {
       this.openModal();
     } else {
       this.navController.navigateForward('/fiat-ramps/operations');
@@ -222,6 +241,12 @@ export class MainMenuPage implements OnInit {
   getAllApiKeys() {
     this.apiApikeysService.getAll().subscribe((data) => {
       this.apikeys = data;
+    });
+  }
+
+  getUserHasOperations() {
+    this.apiFiatRampsService.userHasOperations().subscribe((data) => {
+      this.userHasOperations = data.user_has_operations;
     });
   }
 
@@ -242,7 +267,7 @@ export class MainMenuPage implements OnInit {
       });
     }
     if (element === 'buyCrypto') {
-      this.checkEmptyApiKeys();
+      this.checkEmptyApiKeysAndNoOperations();
     }
   }
 }

@@ -19,26 +19,24 @@ describe('SuccessContentComponent', () => {
     urlPrimaryAction: '/apikeys/new',
     namePrimaryAction: 'test.test.namePrimaryAction',
     urlSecondaryAction: '/tabs/funds',
-    nameSecondaryAction: 'test.test.nameSecondaryAction'
+    nameSecondaryAction: 'test.test.nameSecondaryAction',
   };
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        SuccessContentComponent,
-        TrackClickDirective,
-        DummyComponent
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([
-          { path: 'tabs/funds', component: DummyComponent },
-          { path: 'apikeys/new', component: DummyComponent }
-        ])
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SuccessContentComponent, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([
+            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'apikeys/new', component: DummyComponent },
+          ]),
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuccessContentComponent);
@@ -54,10 +52,7 @@ describe('SuccessContentComponent', () => {
   });
 
   it('should call trackEvent on trackService when Close Success is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Close Success'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close Success');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -66,10 +61,7 @@ describe('SuccessContentComponent', () => {
   });
 
   it('should call trackEvent on trackService when Success Action Primary is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Success Action Primary'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Success Action Primary');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -78,10 +70,16 @@ describe('SuccessContentComponent', () => {
   });
 
   it('should call trackEvent on trackService when Success Action Secondary is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Success Action Secondary'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Success Action Secondary');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spyClickEvent = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spyClickEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Success Action Third is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Success Action Third');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('UpdatePWAService', () => {
   let service: UpdatePWAService;
@@ -14,11 +15,11 @@ describe('UpdatePWAService', () => {
     alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
     swUpdateSpy = jasmine.createSpyObj('SwUpdate', ['update']);
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: AlertController, useValue: alertControllerSpy },
-        { provide: SwUpdate, useValue: swUpdateSpy }
-      ]
+        { provide: SwUpdate, useValue: swUpdateSpy },
+      ],
     });
     service = TestBed.inject(UpdatePWAService);
   });
@@ -27,8 +28,20 @@ describe('UpdatePWAService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call alert controller create when showUpdateAppAlert is called', () => {
-    service.showUpdateAppAlert();
-    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
+  for (const { actual, expected, calledTimes } of [
+    { actual: '1.0.0', expected: { version: '1.1.0', level: 'REQUIRED' }, calledTimes: 1 },
+    { actual: '1.0.0', expected: { version: '1.1.0', level: 'RECOMMENDED' }, calledTimes: 1 },
+    { actual: '1.0.0', expected: { version: '1.1.0', level: 'NOT_REQUIRED' }, calledTimes: 0 },
+    { actual: '1.0.0', expected: { version: '1.0.0', level: 'REQUIRED' }, calledTimes: 0 },
+    { actual: '1.0.0', expected: { version: '1.0.0', level: 'RECOMMENDED' }, calledTimes: 0 },
+    { actual: '1.0.0', expected: { version: '1.0.0', level: 'NOT_REQUIRED' }, calledTimes: 0 },
+  ]) {
+    it(`should call ${calledTimes} times alert, actual version ${actual} expected version ${expected.version} and level ${expected.level}`, async (done) => {
+      spyOn(service, 'getActualVersion').and.returnValue(Promise.resolve(actual));
+      spyOn(service, 'getExpectedVersion').and.returnValue(Promise.resolve(expected));
+      await service.checkForUpdate();
+      expect(alertControllerSpy.create).toHaveBeenCalledTimes(calledTimes);
+      done();
+    });
+  }
 });

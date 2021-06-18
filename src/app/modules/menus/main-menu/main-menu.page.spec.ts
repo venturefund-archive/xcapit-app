@@ -13,6 +13,42 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
 import { ModalController } from '@ionic/angular';
+import { By } from '@angular/platform-browser';
+
+const appPages = [
+  {
+    id: 1,
+    title: 'app.main_menu.funds',
+    url: '/tabs/funds',
+    icon: 'ux-myfund-icon',
+    routeDirection: 'root',
+    showInProd: true,
+  },
+  {
+    id: 2,
+    title: 'funds.funds_finished.header',
+    url: '/funds/funds-finished',
+    icon: 'ux-finalizedfunds-icon',
+    routeDirection: 'forward',
+    showInProd: true,
+  },
+  {
+    id: 3,
+    title: 'app.main_menu.user_profile',
+    url: '/profiles/user',
+    icon: 'ux-user-icon',
+    routeDirection: 'forward',
+    showInProd: false,
+  },
+  {
+    id: 4,
+    title: 'app.main_menu.deposit_address',
+    url: '/deposits/currency',
+    icon: 'ux-book-icon',
+    routeDirection: 'forward',
+    showInProd: false,
+  },
+];
 
 describe('MainMenuPage', () => {
   let component: MainMenuPage;
@@ -87,20 +123,37 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(11);
+    expect(elms.length).toBe(13);
   });
 
-  it('should call checkEmptyApiKeys in clickAction', () => {
-    const spyCheckEmptyApiKeys = spyOn(component, 'checkEmptyApiKeys');
-    spyCheckEmptyApiKeys.and.returnValue(undefined);
+  it('should call checkEmptyApiKeysAndNoOperations in clickAction', () => {
+    const spyCheckEmptyApiKeysAndNoOperations = spyOn(component, 'checkEmptyApiKeysAndNoOperations');
+    spyCheckEmptyApiKeysAndNoOperations.and.returnValue(undefined);
     component.clickAction('buyCrypto');
-    expect(component.checkEmptyApiKeys).toHaveBeenCalledTimes(1);
+    expect(component.checkEmptyApiKeysAndNoOperations).toHaveBeenCalledTimes(1);
   });
 
-  it('should call openModal in checkEmptyApiKeys', () => {
+  it('should call openModal in checkEmptyApiKeysAndNoOperations', () => {
     const spyOpenModal = spyOn(component, 'openModal');
     spyOpenModal.and.returnValue(undefined);
-    component.checkEmptyApiKeys();
+    component.userHasOperations = false;
+    component.checkEmptyApiKeysAndNoOperations();
     expect(component.openModal).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show menu-item when "env" is PREPROD', () => {
+    component.appPages = appPages;
+    component.env = 'PREPROD';
+    fixture.detectChanges();
+    const items = fixture.debugElement.queryAll(By.css('.menu-item'));
+    expect(items.length).toBe(6);
+  });
+
+  it('should show menu-item when "showInProd" is true and "env" is "PRODUCCION"', () => {
+    component.appPages = appPages;
+    component.env = 'PRODUCCION';
+    fixture.detectChanges();
+    const items = fixture.debugElement.queryAll(By.css('.menu-item'));
+    expect(items.length).toBe(4);
   });
 });
