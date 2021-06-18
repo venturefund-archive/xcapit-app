@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-provider-card',
@@ -43,9 +44,10 @@ import { NavController } from '@ionic/angular';
 export class ProviderCardComponent {
   @Input() provider: any;
 
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private storage: Storage) {}
 
   useProvider() {
+    this.storage.set('provider-crypto', this.provider.name);
     this.navController.navigateForward(this.provider?.newOperationRoute).then();
   }
 }
