@@ -64,7 +64,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
               [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
             ></app-need-help>
           </div>
-          <ion-button expand="block" type="button" appTrackClick name="Register New Key" (click)="this.addApiKey()">
+          <ion-button expand="block" type="button" color=uxsecondary appTrackClick name="Register New Key" (click)="this.addApiKey()">
             {{ 'apikeys.list_apikeys.add_api_key' | translate }}
           </ion-button>
         </div>

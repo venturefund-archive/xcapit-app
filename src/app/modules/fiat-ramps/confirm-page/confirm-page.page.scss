@@ -1,36 +1,38 @@
 :host {
-    .cp {
-        &__logo {
-            text-align: center;
+  .cp {
+    &__content {
+      padding: 20px;
+      font-family: var(--ux-font-lato);
+      font-size: 14px;
+      font-weight: 500;
+      color: #828282;
 
-            img {
-                width: 150px;
-            }
+      &__text {
+        display: block;
+        padding-top: 5px;
+
+        &__title {
+          font-weight: 600;
+          color: #000000;
         }
+      }
 
-        &__content {
-            padding: 20px;
-
-            &__title {
-                font-weight: bold;
-                color: #3E3E3E;
-            }
-
-            &__advise {
-                font-size: 13px;
-                padding: 20px;
-                text-align: center;
-                color: #A9A9A9;
-            }
-        }
+      &__advise {
+        font-family: var(--ux-font-lato);
+        font-weight: 400;
+        font-size: 12px;
+        padding: 20px;
+        text-align: center;
+        color: #828282;
+      }
     }
+  }
 
-    .button-next {
-        display: flex;
-        flex-direction: column;
-        margin-top: 25px;
-        margin-bottom: 16px;
-        padding: 0 20px;
-    }
-
+  .button-next {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    margin-bottom: 16px;
+    padding: 0 20px;
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
@@ -17,6 +18,9 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
         >
           <ion-text>
             {{ this.fund?.fund_name }}
+          </ion-text>
+          <ion-text class="fc__main__title__strategy" color="uxmedium">
+            {{ this.fund?.profile | strategyName }}
           </ion-text>
         </div>
         <div class="fc__main__content" *ngIf="this.fund?.end_balance">
@@ -135,7 +139,11 @@ export class FundCardComponent implements OnInit {
   @Input() fund: any;
   @Input() hideFundText: boolean;
   createdTime: any;
-  constructor(private navController: NavController, private localStorageService: LocalStorageService) {}
+  constructor(
+    private navController: NavController,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.subscribeOnHideFunds();

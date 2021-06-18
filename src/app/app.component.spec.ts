@@ -21,12 +21,10 @@ import { NotificationsService } from './modules/notifications/shared-notificatio
 // tslint:disable-next-line: max-line-length
 import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
 import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
+import { UpdateService } from './shared/services/update/update.service';
 
 describe('AppComponent', () => {
-  let statusBarSpy: any,
-    splashScreenSpy: any,
-    platformReadySpy: any,
-    platformSpy: any;
+  let statusBarSpy: any, splashScreenSpy: any, platformReadySpy: any, platformSpy: any;
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: any;
@@ -38,80 +36,81 @@ describe('AppComponent', () => {
   let notificationsServiceSpy: any;
   let pwaNotificationServiceSpy: any;
   let notificationsHelperServiceSpy: any;
-  let updatePWAServiceSpy: any;
+  let updateService: any;
 
-  beforeEach(waitForAsync(() => {
-    trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
-    updatePWAServiceSpy = jasmine.createSpyObj('UpdatePWAService', ['update']);
-    updatePWAServiceSpy.update.and.returnValue(of({}));
-    trackServiceSpy.trackView.and.returnValue(null);
-    publicLogSpy = {
-      trackEvent: () => of(null),
-      trackView: () => of(null)
-    };
-    statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
-    statusBarSpy.styleDefault.and.returnValue(null);
-    splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
-    splashScreenSpy.hide.and.returnValue(null);
-    loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
-    loadingServiceSpy.enabled.and.returnValue(null);
-    platformReadySpy = Promise.resolve();
-    platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
-    languageServiceSpy = jasmine.createSpyObj('LanguageService', [
-      'setInitialAppLanguage'
-    ]);
-    languageServiceSpy.setInitialAppLanguage.and.returnValue(null);
+  beforeEach(
+    waitForAsync(() => {
+      trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
+      updateService = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
+      updateService.checkForUpdate.and.returnValue(Promise.resolve());
+      trackServiceSpy.trackView.and.returnValue(null);
+      publicLogSpy = {
+        trackEvent: () => of(null),
+        trackView: () => of(null),
+      };
+      statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
+      statusBarSpy.styleDefault.and.returnValue(null);
+      splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
+      splashScreenSpy.hide.and.returnValue(null);
+      loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
+      loadingServiceSpy.enabled.and.returnValue(null);
+      platformReadySpy = Promise.resolve();
+      platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
+      languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
+      languageServiceSpy.setInitialAppLanguage.and.returnValue(null);
 
-    authServiceMock = {
-      isLoggedIn: new ReplaySubject<boolean>(1),
-      logout: () => null
-    };
-    activatedRouteMock = {};
-    pwaNotificationServiceSpy = jasmine.createSpyObj(
-      'PwaNotificationsService',
-      ['init', 'requestPermission', 'pushNotificationReceived']
-    );
-    pwaNotificationServiceSpy.requestPermission.and.returnValue(of().toPromise());
-    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['getInstance']);
-    notificationsServiceSpy.getInstance.and.returnValue(pwaNotificationServiceSpy);
-    notificationsHelperServiceSpy = jasmine.createSpyObj('NotificationsHelperService', ['save']);
+      authServiceMock = {
+        isLoggedIn: new ReplaySubject<boolean>(1),
+        logout: () => null,
+      };
+      activatedRouteMock = {};
+      pwaNotificationServiceSpy = jasmine.createSpyObj('PwaNotificationsService', [
+        'init',
+        'requestPermission',
+        'pushNotificationReceived',
+      ]);
+      pwaNotificationServiceSpy.requestPermission.and.returnValue(of().toPromise());
+      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['getInstance']);
+      notificationsServiceSpy.getInstance.and.returnValue(pwaNotificationServiceSpy);
+      notificationsHelperServiceSpy = jasmine.createSpyObj('NotificationsHelperService', ['save']);
 
-    TestBed.configureTestingModule({
-      declarations: [AppComponent, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: TrackService, useValue: trackServiceSpy },
-        { provide: StatusBar, useValue: statusBarSpy },
-        { provide: SplashScreen, useValue: splashScreenSpy },
-        { provide: Platform, useValue: platformSpy },
-        { provide: LanguageService, useValue: languageServiceSpy },
-        { provide: LoadingService, useValue: loadingServiceSpy },
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
-        { provide: PublicLogsService, useValue: publicLogSpy },
-        { provide: NotificationsService, useValue: notificationsServiceSpy },
-        { provide: NotificationsHelperService, useValue: notificationsHelperServiceSpy },
-        { provide: UpdatePWAService, useValue: updatePWAServiceSpy }
-      ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
-          { path: 'users/login', component: DummyComponent },
-          { path: 'tutorials/help', component: DummyComponent },
-          { path: 'tabs/funds', component: DummyComponent },
-          { path: 'profiles/user', component: DummyComponent },
-          { path: 'deposits/currency', component: DummyComponent },
-          { path: 'users/password-change', component: DummyComponent },
-          { path: 'referrals/list', component: DummyComponent },
-          { path: 'notifications/list', component: DummyComponent }
-        ]),
-        TranslateModule.forRoot()
-      ]
-    }).compileComponents();
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    publicLogSpy = TestBed.inject(PublicLogsService);
-  }));
+      TestBed.configureTestingModule({
+        declarations: [AppComponent, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: TrackService, useValue: trackServiceSpy },
+          { provide: StatusBar, useValue: statusBarSpy },
+          { provide: SplashScreen, useValue: splashScreenSpy },
+          { provide: Platform, useValue: platformSpy },
+          { provide: LanguageService, useValue: languageServiceSpy },
+          { provide: LoadingService, useValue: loadingServiceSpy },
+          { provide: AuthService, useValue: authServiceMock },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: PublicLogsService, useValue: publicLogSpy },
+          { provide: NotificationsService, useValue: notificationsServiceSpy },
+          { provide: NotificationsHelperService, useValue: notificationsHelperServiceSpy },
+          { provide: UpdateService, useValue: updateService },
+        ],
+        imports: [
+          HttpClientTestingModule,
+          RouterTestingModule.withRoutes([
+            { path: 'users/login', component: DummyComponent },
+            { path: 'tutorials/help', component: DummyComponent },
+            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'profiles/user', component: DummyComponent },
+            { path: 'deposits/currency', component: DummyComponent },
+            { path: 'users/password-change', component: DummyComponent },
+            { path: 'referrals/list', component: DummyComponent },
+            { path: 'notifications/list', component: DummyComponent },
+          ]),
+          TranslateModule.forRoot(),
+        ],
+      }).compileComponents();
+      fixture = TestBed.createComponent(AppComponent);
+      component = fixture.componentInstance;
+      publicLogSpy = TestBed.inject(PublicLogsService);
+    })
+  );
 
   it('should create the app', async () => {
     const app = fixture.debugElement.componentInstance;
@@ -125,28 +124,25 @@ describe('AppComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should call update service checkForUpdate when ngOnInit', async (done) => {
+    component.ngOnInit();
+    expect(updateService.checkForUpdate).toHaveBeenCalledTimes(1);
+    done();
+  });
+
   it('routerEventSubscription should not be null after ngOnInit call', async () => {
     const app = fixture.componentInstance;
     fixture.detectChanges();
     expect(app.routerNavEndSubscription).not.toBeNull();
   });
 
-  it('updateAppSubscription should not be null after ngAfterViewInit call', async () => {
-    const app = fixture.componentInstance;
-    fixture.detectChanges();
-    expect(app.updateAppSubscription).not.toBeNull();
-    expect(updatePWAServiceSpy.update).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent  after ngOnInit call', async () => {
+  it('should call trackEvent after ngOnInit call', async () => {
     // el TrackService mediante el injector se debería poder obtener de otra
     // manera, pero parece que hay un problema con la abstract class, por ahora
     // queda.
     const isUnauthRoute = spyOn(component, 'isUnauthRoute');
     isUnauthRoute.and.returnValue(0);
-    const localTrackService = fixture.debugElement.injector.get<TrackService>(
-      TrackService as Type<TrackService>
-    );
+    const localTrackService = fixture.debugElement.injector.get<TrackService>(TrackService as Type<TrackService>);
     const spy = spyOn(localTrackService, 'trackEvent');
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);

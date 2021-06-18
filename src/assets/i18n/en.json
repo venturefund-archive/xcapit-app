@@ -68,7 +68,10 @@
         "alert_header": "Update available",
         "alert_message": "A new version of the app is available!",
         "alert_cancel_button": "Cancel",
-        "alert_update_button": "Update"
+        "alert_update_button": "Update",
+        "alert_required_header": "Update Required",
+        "alert_required_text": "An update of the application is necessary to continue using it.",
+        "alert_required_button": "Update"
       }
     },
     "card_info_robot": {
@@ -97,7 +100,9 @@
       "register_link": "Create new account",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
-      "title": "Login"
+      "title": "Login",
+      "google_auth": "Sign in with Google",
+      "or_text": "or"
     },
     "register": {
       "card_header": "Create your account",
@@ -274,7 +279,9 @@
         "period": "period",
         "performance": "performance",
         "take_profit": "Take profit",
-        "stop_loss": "Stop loss"
+        "stop_loss": "Stop loss",
+        "strategy": "Strategy",
+        "currency": "Currency"
       },
       "fund_portfolio_card": {
         "title": "PORTFOLIO COMPOSITION",
@@ -401,6 +408,24 @@
           "Mary_index": {
             "title": "Andes",
             "description": "Don't miss out on opportunities in the growing cryptocurrency market."
+          },
+          "classic_BTC": {
+            "title": "Classic"
+          },
+          "classic_USDT": {
+            "title": "Classic"
+          },
+          "pro_BTC": {
+            "title": "Pro"
+          },
+          "pro_USDT": {
+            "title": "Pro"
+          },
+          "multiestrategias_xl_USDT": {
+            "title": "Multi XL USDT"
+          },
+          "multiestrategias_xl_BTC": {
+            "title": "Multi XL BTC"
           }
         }
       },
@@ -982,7 +1007,10 @@
       },
       "login": {
         "invalidCredentials": "No active account found with the given credentials",
-        "noActiveUser": "Verify your email to login."
+        "noActiveUser": "Verify your email to login.",
+        "notClientAccess": "You can't access from other apps. Use our app to login.",
+        "notVerifiedGoogleAccount": "Your Google account is not verified.",
+        "notGoogleLoginUser": "Couldn't log in. Your email is already signed as a Xcapit user."
       },
       "changePassword": {
         "invalid": "Error Changing Password."
@@ -1196,9 +1224,12 @@
       "link_help": "Need Help?"
     },
     "register_success_begginer": {
-      "textPrimary": "Great! You are one step away from your first investment.",
-      "textSecondary": "Choose the strategy that best suits you.",
-      "namePrimaryAction": "Create my first invest"
+      "textPrimary": "You have already linked your account with Binance!",
+      "textSecondary": "CWe are able to create a fund to start managing your investment.",
+      "textThird": "or you can also",
+      "namePrimaryAction": "Create an investment fund",
+      "nameSecondaryAction": "Skip for now",
+      "nameThirdAction": "Buy cryptocurrencies"
     },
     "register_success": {
       "textPrimary": "Your account is now linked to Binace!",
@@ -1280,12 +1311,7 @@
         "text": "Point your camera towards a QR code."
       }
     },
-    "tabs": {
-      "home": "Home",
-      "refer": "Refer",
-      "new_fund": "New",
-      "menu": "More"
-    },
+
     "deposit_addresses": {
       "deposit_currency": {
         "header": "Deposit Address",
@@ -1308,9 +1334,15 @@
       }
     }
   },
+  "tabs": {
+    "home": "Home",
+    "refer": "Refer",
+    "new_fund": "New",
+    "menu": "More"
+  },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Buy/Sell cryptos",
+      "header": "Buy cryptocurrencies",
       "title": "My operations",
       "id": "ID",
       "operation": "Operation",
@@ -1320,36 +1352,59 @@
       "date": "Date",
       "new": "New"
     },
-
+    "fiat_success": {
+      "textPrimary": "Operation created!",
+      "textSecondary": "To continue you need to transfer from your bank to the following data:",
+      "bank": "Bank:",
+      "cbu": "CBU:",
+      "concept": "Concept:",
+      "amount": "Amount:",
+      "info_telegram": "If you have any questions, you can contact Kripton through Telegram:",
+      "info_email": "*The provider will email you when the process advances.",
+      "buttonText": "Attach voucher"
+    },
     "select_provider": {
       "header": "Buy Crypto",
       "title": "Select the provider:"
     },
 
+    "information_paxful": {
+      "header": "Buy",
+      "title": "Buy BTC with Paxful:",
+      "subtitle": "Paxful will allow you to buy only BTC. We will redirect you to their page to make the P2P purchase. Make sure you understand the following points before making a transaction:",
+      "recordatory_1": "I understand that from this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
+      "recordatory_2": "I understand that the seller sets their own BTC price based on speed, privacy, and convenience. Rates may vary depending on the method of payment.",
+      "recordatory_3": "I understand that there will be a network fee to send the BTC to my Binance wallet. It is recommended to add to your purchase as max 0.0566USD to cover the network fee, otherwise the purchase will remain in your Paxful wallet.",
+      "recordatory_4": "Remember that if you have active investments, your purchase will automatically be part of that investment.",
+      "button": "Select my receiving address",
+      "modal_content": "Please check the points to consider before making a purchase"
+    },
+
     "operation_detail": {
       "header": "Operation:",
       "card": {
-        "provider": "Provider: ",
-        "type": "Operation type: ",
+        "provider": "Provider:",
+        "type": "Operation type:",
         "buy": {
           "operationType": "Buy",
-          "title": "Buy: ",
+          "title": "Buy:",
           "with": " with "
         },
         "sell": {
           "operationType": "Sell",
-          "title": "Sell: ",
+          "title": "Sell:",
           "with": " for "
         },
-        "amount": "Amount: ",
-        "quotation": "Quotation: ",
-        "status": "Status: ",
-        "date": "Date: ",
-        "id": "ID: "
+        "amount": "Amount:",
+        "quotation": "Quotation:",
+        "status": "Status:",
+        "date": "Date:",
+        "id": "ID:"
       },
       "voucher": "Comprobante",
       "send": "Enviar comprobante",
-      "my_operations": "See my operations"
+      "my_operations": "See my operations",
+      "has_voucher": "Voucher has been uploaded"
     },
 
     "operationStatus": {
@@ -1362,14 +1417,14 @@
         "cancel": "Cancelled"
       },
       "paxful": {
-        "SUCCESSFUL": "Complete",
+        "SUCCESS": "Complete",
         "EXPIRED": "Expired",
-        "CANCELED": "Cancelled"
+        "CANCELLED": "Cancelled"
       }
     },
 
     "ramp_initial": {
-      "header": "Buy/Sell cryptos",
+      "header": "Buy cryptocurrencies",
       "title": "New operation",
       "operation": "What operation do you want to do?",
       "pair_buy": "What currency do you want to buy?",
@@ -1411,24 +1466,43 @@
       "not_politically": "Not politically exposed",
       "not_bound": "Subject not bound",
       "tos": "Terms and conditions",
-      "register": "Next"
+      "register": "Next",
+      "marital_status_list": {
+        "married": "Married",
+        "single": "Single",
+        "widower": "Widower",
+        "divorcee": "Divorcee"
+      }
     },
     "confirm": {
       "header": "Confirm operation",
-      "title": "Check that the data is correct",
-      "operation": "Operation:",
+      "title": "Check that the data is correct:",
+      "provider": "Provider:",
+      "type": "Operation type:",
       "amount": "Amount:",
-      "quotation": "Quotation",
-      "wallet_address": "Reception address",
+      "quotation": "Quotation:",
+      "wallet": "Reception address",
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "buy": {
+        "operationType": "Buy",
+        "title": "Buy:",
+        "with": " with "
+      },
+      "sell": {
+        "operationType": "Sell",
+        "title": "Sell:",
+        "with": " for "
+      }
     },
     "paxful": {
       "header": "Buy BTC with Paxful",
       "title": "Buy BTC with Paxful",
       "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
       "label-wallet": "Select your wallet",
-      "button-text": "Continue to Paxful"
+      "placeholder-wallet": "Receiving address",
+      "button-text": "Go to Paxful",
+      "recordatory_info": "By clicking on Go to Paxful, you will exit Xcapit."
     },
     "paxful_success": {
       "textPrimary": "We've redirect you to Paxful",
@@ -1445,8 +1519,28 @@
   },
 
   "payment": {
-    "header": "Payment methods",
-    "title": "Payment method to start the process",
-    "paypal_button": "Pay"
+    "methods": {
+      "header": "Payment methods",
+      "title": "Payment method to start the process",
+      "coming_badge": "Coming soon",
+      "all_countries": "All the countries",
+      "arg": "Argentina"
+    },
+    "licenses": {
+      "header": "Annual payments",
+      "title": "Choose your plan",
+      "textPrimary": "Try all plans for 30 days for free!",
+      "textSecondary": "You can cancel whenever you want.",
+      "btnAnnual": "Annual plans",
+      "btnMonthly": "Monthly plans",
+      "infoExplorer": "You can invest up to USD$300",
+      "infoAdvanced": "Invest up to USD$10,000",
+      "infoExpert": "Invest up to USD$50,000",
+      "infoPremium": "For investments greater than USD$50,000",
+      "contact": "Contact us",
+      "monthly": "monthly",
+      "annual": "annual",
+      "free": "FREE"
+    }
   }
 }

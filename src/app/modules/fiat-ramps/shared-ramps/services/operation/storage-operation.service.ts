@@ -2,36 +2,38 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 interface OperationDataInterface {
-  pais: string;
-  operacion: string;
-  par: string;
-  monto_entrada: string;
-  monto_salida: string;
-  moneda_entrada: string;
-  moneda_salida: string;
-  precio_entrada: string;
-  precio_salida: string;
-  wallet: string;
+  country: string;
+  operation_type: string;
+  pair: string;
+  amount_in: string;
+  amount_out: string;
+  currency_in: string;
+  currency_out: string;
+  price_in: string;
+  price_out: string;
+  wallet_address: string;
+  provider: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageOperationService {
-  constructor() { }
+  constructor() {}
 
   initial = {
-    pais: '',
-    operacion: '',
-    par: '',
-    monto_entrada: '',
-    monto_salida: '',
-    moneda_entrada: '',
-    moneda_salida: '',
-    precio_entrada: '',
-    precio_salida: '',
-    wallet: ''
-  }
+    country: '',
+    operation_type: '',
+    pair: '',
+    amount_in: '',
+    amount_out: '',
+    currency_in: '',
+    currency_out: '',
+    price_in: '',
+    price_out: '',
+    wallet_address: '',
+    provider: '',
+  };
 
   private dataSource = new BehaviorSubject<OperationDataInterface>(this.initial);
   data = this.dataSource.asObservable();

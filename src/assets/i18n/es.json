@@ -61,11 +61,14 @@
   },
   "shared": {
     "services": {
-      "update_pwa_service": {
+      "update_service": {
         "alert_header": "Actualización Disponible",
         "alert_message": "¡Una nueva versión de la app esta disponible!",
         "alert_cancel_button": "Cancelar",
-        "alert_update_button": "Actualizar"
+        "alert_update_button": "Actualizar",
+        "alert_required_header": "Actualización Requerida",
+        "alert_required_text": "Es necesario actualizar la app para continuar usandola.",
+        "alert_required_button": "Actualizar"
       },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"
@@ -97,7 +100,9 @@
       "register_link": "Crear nueva cuenta",
       "reset_password_link": "Olvidé mi contraseña",
       "login_button_text": "Iniciar sesión",
-      "title": "Iniciar sesión"
+      "title": "Iniciar sesión",
+      "google_auth": "Ingresa con Google",
+      "or_text": "o"
     },
     "register": {
       "card_header": "Crea tu cuenta",
@@ -276,7 +281,9 @@
         "period": "Período",
         "performance": "Rendimiento",
         "take_profit": "Take profit",
-        "stop_loss": "Stop loss"
+        "stop_loss": "Stop loss",
+        "strategy": "Estrategia",
+        "currency": "Moneda"
       },
       "fund_portfolio_card": {
         "title": "COMPOSICIÓN DE CARTERA",
@@ -403,6 +410,24 @@
           "Mary_index": {
             "title": "Andes",
             "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
+          },
+          "classic_BTC": {
+            "title": "Classic"
+          },
+          "classic_USDT": {
+            "title": "Classic"
+          },
+          "pro_BTC": {
+            "title": "Pro"
+          },
+          "pro_USDT": {
+            "title": "Pro"
+          },
+          "multiestrategias_xl_USDT": {
+            "title": "Multi XL USDT"
+          },
+          "multiestrategias_xl_BTC": {
+            "title": "Multi XL BTC"
           }
         }
       },
@@ -985,7 +1010,10 @@
       },
       "login": {
         "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente.",
-        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión."
+        "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión.",
+        "notClientAccess": "No se permite acceder desde otra aplicación. Usa nuestra app para iniciar sesión.",
+        "notVerifiedGoogleAccount": "Tu cuenta de Google no está verificada.",
+        "notGoogleLoginUser": "No se pudo iniciar sesión. Tu usuario ya está registrado como cuenta de Xcapit."
       },
       "changePassword": {
         "invalid": "Error al Cambiar la Password."
@@ -1195,9 +1223,12 @@
       "create_fund_later_button_text": "Lo voy a crear mas tarde"
     },
     "register_success_beginner": {
-      "textPrimary": "¡Genial! Estás a un paso de tu primera inversión.",
-      "textSecondary": "Elige la estrategia que mejor se adapta a ti.",
-      "namePrimaryAction": "Crear mi primera inversión"
+      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
+      "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
+      "textThird": "o también puedes",
+      "namePrimaryAction": "Crear un fondo de inversión",
+      "nameSecondaryAction": "Omitir por ahora",
+      "nameThirdAction": "Comprar criptomonedas"
     },
     "register_success": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
@@ -1315,7 +1346,7 @@
   },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Comprar/Vender cryptos",
+      "header": "Comprar criptomonedas",
       "title": "Mis operaciones",
       "id": "ID",
       "operation": "Operación",
@@ -1330,30 +1361,43 @@
       "title": "Selecciona el proveedor:"
     },
 
+    "information_paxful": {
+      "header": "Comprar",
+      "title": "Compra BTC con Paxful:",
+      "subtitle": "Paxful te permitirá comprar unicamente BTC. Te redirigiremos a su página para que realices la compra P2P. Asegurate de comprender los siguientes puntos antes de hacer una transacción:",
+      "recordatory_1": "Entiendo que desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se responsabiliza por precios incorrectos en los valores o divisas definidas de aquí en más, ni de prejuicios que puedan surgir con la interacción con el proveedor. ",
+      "recordatory_2": "Entiendo que el vendedor establece su propio BTC precio basado en la velocidad, privacidad y conveniencia. Las tasas pueden variar dependiendo de la forma de pago.",
+      "recordatory_3": "Entiendo que habrá una tarifa de red para realizar el envio de los BTC a mi billetera de Binance. Se recomienda añadir a tu compra como max 0.0566USD para cubir la tarifa de red de lo contrario la compra permanecerá en tu monedero de Paxful. ",
+      "recordatory_4": "Recuerda que si tienes inversiones activas, tu compra será automáticamene parte de esa inversión. ",
+      "button": "Seleccionar mi dirección de recepción",
+      "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
+    },
+
     "operation_detail": {
       "header": "Operación:",
       "card": {
-        "provider": "Proveedor: ",
-        "type": "Tipo de operación: ",
+        "provider": "Proveedor:",
+        "type": "Tipo de operación:",
         "buy": {
           "operationType": "Compra",
-          "title": "Comprar: ",
+          "title": "Comprar:",
           "with": " con "
         },
         "sell": {
           "operationType": "Venta",
-          "title": "Vender: ",
+          "title": "Vender:",
           "with": " por "
         },
-        "amount": "Monto: ",
-        "quotation": "Cotización: ",
-        "status": "Estado: ",
-        "date": "Fecha: ",
-        "id": "ID: "
+        "amount": "Monto:",
+        "quotation": "Cotización:",
+        "status": "Estado:",
+        "date": "Fecha:",
+        "id": "ID:"
       },
       "voucher": "Comprobante",
       "send": "Enviar comprobante",
-      "my_operations": "Ver mis operaciones"
+      "my_operations": "Ver mis operaciones",
+      "has_voucher": "El comprobante ha sido cargado"
     },
 
     "operationStatus": {
@@ -1366,14 +1410,14 @@
         "cancel": "Cancelada"
       },
       "paxful": {
-        "SUCCESSFUL": "Completada",
+        "SUCCESS": "Completada",
         "EXPIRED": "Expirada",
-        "CANCELED": "Cancelada"
+        "CANCELLED": "Cancelada"
       }
     },
 
     "ramp_initial": {
-      "header": "Comprar/Vender cryptos",
+      "header": "Comprar criptomonedas",
       "title": "Nueva operación",
       "operation": "¿Qué operación quieres hacer?",
       "pair_buy": "¿Qué moneda quieres comprar?",
@@ -1418,35 +1462,55 @@
       "not_bound": "Sujeto no obligado",
       "tos": "Terminos y condiciones",
       "register": "Finalizar",
-      "next": "Siguiente"
+      "next": "Siguiente",
+      "marital_status_list": {
+        "married": "Casado/a",
+        "single": "Soltero/a",
+        "widower": "Viudo/a",
+        "divorcee": "Divorciado/a"
+      }
     },
     "confirm": {
       "header": "Confirmar operación",
-      "title": "Revisa que los datos sean correctos",
-      "operation": "Operación:",
+      "title": "Revisa que los datos sean correctos:",
+      "provider": "Proveedor:",
+      "type": "Tipo de operación:",
       "amount": "Monto:",
       "quotation": "Cotización:",
-      "wallet_address": "Dirección de recepción:",
+      "wallet": "Dirección de recepción:",
       "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
-      "confirm": "Confirmar"
+      "confirm": "Confirmar",
+      "buy": {
+        "operationType": "Compra",
+        "title": "Comprar:",
+        "with": " con "
+      },
+      "sell": {
+        "operationType": "Venta",
+        "title": "Vender:",
+        "with": " por "
+      }
     },
     "fiat_success": {
-      "textPrimary": "¡La operación fue creada con éxito!",
-      "textSecondary": "Para continuar deberás transferir desde tu banco con los siguientes datos:",
+      "textPrimary": "¡La operación fue creada!",
+      "textSecondary": "Para continuar deberás transferir desde tu banco a los siguientes datos:",
+      "amount": "Monto:",
       "bank": "Banco:",
       "cbu": "CBU:",
       "concept": "Concepto:",
-      "amount": "Monto:",
-      "info_telegram": "Por dudas o consultas, contactanos por Télegram:",
-      "info_email": "El proveedor se comunicará por email conforme avance el proceso.",
-      "buttonText": "Terminar"
+      "info_telegram": "Por dudas o consultas, contactate con Kripton en Télegram",
+      "info_email": "*El proveedor se comunicará por email conforme avance el proceso.",
+      "buttonText": "Añadir comprobante"
     },
     "paxful": {
-      "header": "Comprar BTC con Paxful",
+      "header": "Comprar",
       "title": "Comprar BTC con Paxful",
-      "text": "Paxful sólo te permitirá comprar BTC. Te redigiremos a su página para finalizar la compra.",
-      "label-wallet": "Seleccioná tu wallet",
-      "button-text": "Continuar a Paxful"
+      "text": "La dirección de recepción es aquella API KEY que has cargado de tu billetera de Binance. Las compras que realice se verán reflejadas en la siguiente dirección de Binance.",
+      "label-wallet": "Selecciona tu dirección de recepción:",
+      "placeholder-wallet": "Dirección de recepción",
+      "recordatory_title": "Recuerda",
+      "recordatory_info": "Al hacer click en “Ir a Paxful”, vas a salir de Xcapit.",
+      "button-text": "Ir a Paxful"
     },
     "paxful_success": {
       "textPrimary": "Te redirigimos a la página de Paxful",
@@ -1463,8 +1527,28 @@
   },
 
   "payment": {
-    "header": "Método de pago",
-    "title": "Método de pago para comenzar con el proceso",
-    "paypal_button": "Pagar"
+    "methods": {
+      "header": "Método de pago",
+      "title": "Elige tu método de pago para comenzar con el proceso",
+      "coming_badge": "Próximamente",
+      "all_countries": "Todos los países",
+      "arg": "Argentina"
+    },
+    "licenses": {
+      "header": "Pagos anual",
+      "title": "Elige tu plan",
+      "textPrimary": "¡Prueba 30 días gratis todos los planes!",
+      "textSecondary": "Puedes cancelar cuando quieras.",
+      "btnAnnual": "Planes anuales",
+      "btnMonthly": "Planes mensuales",
+      "infoExplorer": "Puedes invertir hasta USD$300",
+      "infoAdvanced": "Invierte hasta USD$10.000",
+      "infoExpert": "Invierte hasta USD$50.000",
+      "infoPremium": "Para inversiones mayores a USD$50.000",
+      "contact": "Contactanos",
+      "monthly": "mensual",
+      "annual": "anual",
+      "free": "GRATIS"
+    }
   }
 }

@@ -1,12 +1,18 @@
 :host {
   ion-icon {
-    color: rgba(0,0,0,0.38);
+    color: rgba(0, 0, 0, 0.38);
   }
 
-  .item-style {
+  .icons {
+    width: 14px;
+    height: 15px;
+    margin-right: 10px;
+  }
+
+  .menu-item {
     height: 50px;
     margin: 0 16px;
-    border-bottom: 1px solid #0000000A;
+    border-bottom: 1px solid #0000000a;
     --inner-border-width: 0px;
     --padding-start: 0px;
     --padding-end: 0px;

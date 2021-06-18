@@ -5,3 +5,8 @@ interface Env {
   API_URL: string;
   PRODUCTION: boolean;
 }
+
+declare module '*.json' {
+  const value: any;
+  export default value;
+}

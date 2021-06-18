@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  AfterViewInit
-} from '@angular/core';
-
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -22,35 +15,26 @@ import { PublicLogsService } from './shared/services/public-logs/public-logs.ser
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 // tslint:disable-next-line: max-line-length
 import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
-import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
-import {
-  Plugins,
-  PushNotification,
-  PushNotificationToken,
-  PushNotificationActionPerformed
-} from '@capacitor/core';
-
-const { PushNotifications } = Plugins;
+import { UpdateService } from './shared/services/update/update.service';
 
 @Component({
   selector: 'app-root',
   providers: [{ provide: TrackService, useClass: LogsService }],
   template: `
-      <ion-app>
-          <ion-split-pane contentId="main-content">
-              <ion-router-outlet id="main-content"></ion-router-outlet>
-          </ion-split-pane>
-      </ion-app>
-  `
+    <ion-app>
+      <ion-split-pane contentId="main-content">
+        <ion-router-outlet id="main-content"></ion-router-outlet>
+      </ion-split-pane>
+    </ion-app>
+  `,
 })
-export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(IonRouterOutlet, { static: true })
   ionRouterOutlet: IonRouterOutlet;
 
   isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn;
 
   routerNavEndSubscription: Subscription;
-  updateAppSubscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -66,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private publicLogsService: PublicLogsService,
     private notificationsService: NotificationsService,
     private notificationsHelper: NotificationsHelperService,
-    private updatePWAService: UpdatePWAService
+    private updateService: UpdateService
   ) {
     this.initializeApp();
   }
@@ -76,27 +60,16 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.submitButtonService.enabled();
     this.loadingService.enabled();
     this.trackLoad();
+    this.checkForUpdate();
   }
 
-  async ngAfterViewInit() {
-    await this.updateApp();
+  checkForUpdate() {
+    this.updateService.checkForUpdate().then();
   }
 
   initNotifications() {
     const notifications = this.notificationsService.getInstance();
-    notifications.init(() =>
-      console.error('Error inicializando notificaciones')
-    );
-  }
-
-  private async updateApp() {
-    this.updateAppSubscription = this.updatePWAService.update().subscribe();
-  }
-
-  private unsubscribeUpdateAppSubscription() {
-    if (!!this.updateAppSubscription) {
-      this.updateAppSubscription.unsubscribe();
-    }
+    notifications.init(() => console.error('Error inicializando notificaciones'));
   }
 
   private unsubscribeRouterNavEndSubscription() {
@@ -109,18 +82,17 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.isUnauthRoute()) {
       this.trackService.trackEvent({
         eventAction: 'load',
-        description: window.location.href
+        description: window.location.href,
       });
     } else {
       this.publicLogsService.trackEvent({
         eventAction: 'load',
-        description: window.location.href
+        description: window.location.href,
       });
     }
   }
 
   ngOnDestroy() {
-    this.unsubscribeUpdateAppSubscription();
     this.unsubscribeRouterNavEndSubscription();
   }
 
@@ -141,15 +113,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   routeChangeSubscribe() {
     this.routerNavEndSubscription = this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         map(() => this.activatedRoute),
-        map(route => {
+        map((route) => {
           while (route.firstChild) {
             route = route.firstChild;
           }
           return route;
         }),
-        filter(route => route.outlet === 'primary')
+        filter((route) => route.outlet === 'primary')
       )
       .subscribe(() => {
         this.trackNav();
@@ -161,16 +133,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.isUnauthRoute()) {
       this.trackService.trackView({
         pageUrl: window.location.href,
-        screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component
-          .name,
-        eventAction: 'nav'
+        screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component.name,
+        eventAction: 'nav',
       });
     } else {
       this.publicLogsService.trackView({
         pageUrl: window.location.href,
-        screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component
-          .name,
-        eventAction: 'nav'
+        screenName: this.ionRouterOutlet.activatedRoute.routeConfig.component.name,
+        eventAction: 'nav',
       });
     }
   }
@@ -182,8 +152,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       '/users/email-validation',
       '/users/reset-password',
       '/users/success-reset',
-      '/users/success-register'
-    ].filter(item => {
+      '/users/success-register',
+    ].filter((item) => {
       const regex = new RegExp(item, 'gi');
       const pathname = window.location.pathname;
       return pathname.match(regex) || pathname.length === 1;

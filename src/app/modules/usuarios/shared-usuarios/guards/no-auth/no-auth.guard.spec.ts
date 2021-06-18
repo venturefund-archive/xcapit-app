@@ -13,15 +13,15 @@ describe('NoAuthGuard', () => {
   let navControllerSpy: any;
 
   beforeEach(() => {
-    authServiceSpy = jasmine.createSpyObj('AuthService', ['checkToken']);
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['checkToken', 'checkRefreshToken']);
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
         NoAuthGuard,
         { provide: AuthService, useValue: authServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
+        { provide: NavController, useValue: navControllerSpy },
+      ],
     });
   });
 
@@ -33,25 +33,34 @@ describe('NoAuthGuard', () => {
     expect(noAuthGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is false', async (done) => {
+  it('should be able to hit route when checkToken is false and checkRefreshToken is false ', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
-    noAuthGuard.canActivate().then(res => expect(res).toBe(true));
+    authServiceSpy.checkRefreshToken.and.returnValue(of(false).toPromise());
+    noAuthGuard.canActivate().then((res) => expect(res).toBe(true));
     done();
   });
 
   it('should not be able to hit route when checkToken is true', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
-    noAuthGuard.canActivate().then(res => expect(res).toBe(false));
+    noAuthGuard.canActivate().then((res) => expect(res).toBe(false));
     done();
   });
 
-  it('should call navigateRoot with ["/tabs/funds"] on navController when checkToken is true', async done => {
+  it('should call navigateRoot with ["/tabs/funds"] on navController when checkToken is true', async (done) => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
-    noAuthGuard.canActivate().then(res => {
+    noAuthGuard.canActivate().then((res) => {
       expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith([
-        '/tabs/funds'
-      ]);
+      expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['/tabs/funds']);
+    });
+    done();
+  });
+
+  it('should call navigateRoot with ["/tabs/funds"] on navController when checkToken is false and checkRefreshToken is true', async (done) => {
+    authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
+    authServiceSpy.checkRefreshToken.and.returnValue(of(true).toPromise());
+    noAuthGuard.canActivate().then((res) => {
+      expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['/tabs/funds']);
     });
     done();
   });

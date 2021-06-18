@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -7,12 +7,10 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
-import { AUTH } from './config/app-constants.config';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { FundsModule } from './modules/funds/funds.module';
@@ -23,7 +21,7 @@ import { WildcardRoutingModule } from './wildcard-routing.module';
 import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
 import { TrackClickUnauthModule } from './shared/directives/track-click-unauth/track-click-unauth.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { TabsModule } from './modules/tabs/tabs.module';
@@ -37,22 +35,15 @@ import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
 import { AppStorageService } from './shared/services/app-storage/app-storage.service';
-import { RefreshTokenInterceptorService } from "./modules/usuarios/shared-usuarios/services/refresh-token-interceptor/refresh-token-interceptor.service";
+import { RefreshTokenInterceptorService } from './modules/usuarios/shared-usuarios/services/refresh-token-interceptor/refresh-token-interceptor.service';
 import { PaymentsModule } from './modules/payments/payments.module';
+import { AppInitializerFactory } from './shared/factories/app-initializer/app-initializer.factory';
+import { updateServiceProvider } from './shared/providers/update/update.provider';
+import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
+import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
-
-export function jwtOptionsFactory(storage: AppStorageService) {
-  return {
-    tokenGetter: () => storage.get(AUTH.storageKey),
-    allowedDomains: environment.whitelistedDomains,
-  };
-}
-
-export function httpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
 
 @NgModule({
   declarations: [AppComponent],
@@ -114,9 +105,16 @@ export function httpLoaderFactory(http: HttpClient) {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptorService,
-      multi: true
+      multi: true,
     },
     FileOpener,
+    updateServiceProvider,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: AppInitializerFactory,
+      deps: [TranslateService],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

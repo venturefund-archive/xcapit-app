@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { Countries } from '../enums/countries.enum';
@@ -11,6 +10,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
+import { PROVIDERS } from '../shared-ramps/constants/providers';
 
 @Component({
   selector: 'app-operations-new',
@@ -40,7 +40,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
             [label]="'profiles.user_profile.country' | translate"
             [modalTitle]="'profiles.user_profile.country_placeholder' | translate"
             [placeholder]="'profiles.user_profile.country_placeholder' | translate"
-            controlName="pais"
+            controlName="country"
             [data]="this.countries"
           ></app-ux-input-select>
 
@@ -53,7 +53,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
 
           <app-ux-radio-group [label]="">
             <ion-list>
-              <ion-radio-group formControlName="type">
+              <ion-radio-group formControlName="operation_type">
                 <div class="container">
                   <ion-item>
                     <ion-label>{{ 'fiat_ramps.ramp_initial.buy' | translate }}</ion-label>
@@ -72,11 +72,11 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
                 </div>
               </ion-radio-group>
             </ion-list>
-            <app-errors-form-item controlName="type"></app-errors-form-item>
+            <app-errors-form-item controlName="operation_type"></app-errors-form-item>
           </app-ux-radio-group>
 
           <!-- pares -->
-          <div *ngIf="this.form.value['type'] === 'cash-in'">
+          <div *ngIf="this.form.value['operation_type'] === 'cash-in'">
             <app-ux-text class="ion-padding-top ion-margin-top">
               <div class="ion-margin-top">
                 {{ 'fiat_ramps.ramp_initial.pair_buy' | translate }}
@@ -85,21 +85,21 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
 
             <app-ux-radio-group [label]="">
               <ion-list>
-                <ion-radio-group formControlName="par">
-                  <div *ngFor="let par of this.buyPair; let last = last" class="container">
+                <ion-radio-group formControlName="pair">
+                  <div *ngFor="let pair of this.buyPair; let last = last" class="container">
                     <ion-item>
-                      <ion-label>{{ par.name }}</ion-label>
-                      <ion-radio mode="md" slot="start" [value]="par.id" (click)="getQuotations()"></ion-radio>
+                      <ion-label>{{ pair.name }}</ion-label>
+                      <ion-radio mode="md" slot="start" [value]="pair.id" (click)="getQuotations()"></ion-radio>
                     </ion-item>
                     <div class="list-divider" *ngIf="!last"></div>
                   </div>
                 </ion-radio-group>
               </ion-list>
-              <app-errors-form-item controlName="par"></app-errors-form-item>
+              <app-errors-form-item controlName="pair"></app-errors-form-item>
             </app-ux-radio-group>
           </div>
 
-          <div *ngIf="this.form.value['type'] === 'cash-out'">
+          <div *ngIf="this.form.value['operation_type'] === 'cash-out'">
             <app-ux-text class="ion-padding-top ion-margin-top">
               <div class="ion-margin-top">
                 {{ 'fiat_ramps.ramp_initial.pair_sell' | translate }}
@@ -108,22 +108,22 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
 
             <app-ux-radio-group [label]="">
               <ion-list>
-                <ion-radio-group formControlName="par">
-                  <div *ngFor="let par of this.sellPair; let last = last" class="container">
+                <ion-radio-group formControlName="pair">
+                  <div *ngFor="let pair of this.sellPair; let last = last" class="container">
                     <ion-item>
-                      <ion-label>{{ par.name }}</ion-label>
-                      <ion-radio mode="md" slot="start" [value]="par.id" (click)="getQuotations()"></ion-radio>
+                      <ion-label>{{ pair.name }}</ion-label>
+                      <ion-radio mode="md" slot="start" [value]="pair.id" (click)="getQuotations()"></ion-radio>
                     </ion-item>
                     <div class="list-divider" *ngIf="!last"></div>
                   </div>
                 </ion-radio-group>
               </ion-list>
-              <app-errors-form-item controlName="par"></app-errors-form-item>
+              <app-errors-form-item controlName="pair"></app-errors-form-item>
             </app-ux-radio-group>
           </div>
 
           <!-- monto y wallet -->
-          <div *ngIf="this.form.value['par']">
+          <div *ngIf="this.form.value['pair']">
             <app-ux-text class="ion-padding-top ion-margin-top">
               <div class="ion-margin-top">
                 {{ 'fiat_ramps.ramp_initial.amount' | translate }}
@@ -167,19 +167,21 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
             </div>
 
             <!-- wallet -->
-            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">
-              {{ 'fiat_ramps.ramp_initial.wallet' | translate }}
-            </ion-text>
-            <app-ux-loading-block *ngIf="!(this.walletAddress.length > 0)" minSize="30px"></app-ux-loading-block>
-            <app-ux-input-select
-              [modalTitle]="'Wallet'"
-              [placeholder]="'Wallet'"
-              controlName="wallet"
-              [data]="this.walletAddress"
-              [keyName]="'name'"
-              [valueName]="'id'"
-              *ngIf="this.walletAddress.length > 0"
-            ></app-ux-input-select>
+            <div class="ion-margin-top">
+              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">
+                {{ 'fiat_ramps.ramp_initial.wallet' | translate }}
+              </ion-text>
+              <app-ux-loading-block *ngIf="!(this.walletAddress.length > 0)" minSize="30px"></app-ux-loading-block>
+              <app-ux-input-select
+                [modalTitle]="'Wallet'"
+                [placeholder]="'Wallet'"
+                controlName="wallet_address"
+                [data]="this.walletAddress"
+                [keyName]="'name'"
+                [valueName]="'id'"
+                *ngIf="this.walletAddress.length > 0"
+              ></app-ux-input-select>
+            </div>
           </div>
         </div>
 
@@ -196,10 +198,11 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
   styleUrls: ['./operations-new.page.scss'],
 })
 export class OperationsNewPage implements OnInit {
+  provider = PROVIDERS[0];
   form: FormGroup = this.formBuilder.group({
-    pais: ['Argentina', [Validators.maxLength(150)]],
-    type: ['cash-in', [Validators.required]],
-    par: ['', [Validators.required]],
+    country: ['Argentina', [Validators.maxLength(150)]],
+    operation_type: ['cash-in', [Validators.required]],
+    pair: ['', [Validators.required]],
     currency_in: [null, [Validators.required]],
     currency_out: ['', [Validators.required]],
     amount_in: [
@@ -213,9 +216,10 @@ export class OperationsNewPage implements OnInit {
       ],
     ],
     amount_out: [null, [Validators.required]],
-    wallet: ['', [Validators.required]],
+    wallet_address: ['', [Validators.required]],
     price_in: [null, [Validators.required]],
     price_out: [null, [Validators.required]],
+    provider: [this.provider.id.toString()],
   });
 
   countries = Object.values(Countries);
@@ -230,7 +234,6 @@ export class OperationsNewPage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
-    private router: Router,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private storageOperationService: StorageOperationService
@@ -238,13 +241,17 @@ export class OperationsNewPage implements OnInit {
 
   ngOnInit() {}
 
+  ionViewWillEnter() {
+    this.fiatRampsService.setProvider(this.provider.id.toString());
+  }
+
   resetPair() {
-    this.form.controls.par.setValue('');
+    this.form.controls.pair.setValue('');
     this.form.controls.amount_in.setValue('');
     this.form.controls.price_out.setValue('');
     this.form.controls.currency_in.setValue('');
     this.form.controls.currency_out.setValue('');
-    this.form.controls.wallet.setValue('');
+    this.form.controls.wallet_address.setValue('');
   }
 
   handleSubmit() {
@@ -259,7 +266,7 @@ export class OperationsNewPage implements OnInit {
   async getQuotations() {
     this.changePrice = '';
     this.walletAddress = [];
-    this.form.controls.wallet.setValue('');
+    this.form.controls.wallet_address.setValue('');
     this.form.controls.amount_in.setValue('');
     this.fiatRampsService.getQuotations().subscribe((res) => {
       this.quotations = res.data;
@@ -272,20 +279,20 @@ export class OperationsNewPage implements OnInit {
       if (!res.id) {
         this.createUser();
       } else {
-        this.redirectByStatus(res)
+        this.redirectByStatus(res);
       }
     });
   }
 
   getPrice() {
-    this.pairSplit = this.form.value.par.split('_');
+    this.pairSplit = this.form.value.pair.split('_');
     this.form.controls.currency_in.setValue(this.pairSplit[0]);
     this.form.controls.currency_out.setValue(this.pairSplit[1]);
-    this.pairSplit = this.form.value.type === 'cash-out' ? this.pairSplit.reverse() : this.pairSplit;
+    this.pairSplit = this.form.value.operation_type === 'cash-out' ? this.pairSplit.reverse() : this.pairSplit;
     const price = this.quotations.filter((pair) => pair.currency === this.pairSplit[1].toLowerCase());
 
     if (price[0]) {
-      if (this.form.value.type === 'cash-in') {
+      if (this.form.value.operation_type === 'cash-in') {
         this.changePrice = price[0].quotation[this.pairSplit[0].toLowerCase()].sell;
         this.changePrice = parseFloat(this.changePrice.replaceAll(',', ''));
         this.form.controls.price_in.setValue(1);
@@ -304,7 +311,7 @@ export class OperationsNewPage implements OnInit {
   async createUser() {
     this.fiatRampsService.createUser().subscribe({
       next: (res) => {
-        this.redirectByStatus(res)
+        this.redirectByStatus(res);
       },
     });
   }

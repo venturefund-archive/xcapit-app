@@ -1,7 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Browser } from '@capacitor/core';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -9,6 +11,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { OperationsNewPaxfulPage } from './operations-new-paxful.page';
 
@@ -47,19 +50,20 @@ describe('OperationsNewPaxfulPage', () => {
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
   let browserSpy: any;
-
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsNewPaxfulPage>;
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
       platformServiceSpy = jasmine.createSpyObj('PlatformServiceSpy', ['isWeb']);
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', ['getUserWallets', 'getLink', 'setProvider']);
       fiatRampsServiceSpy.getUserWallets.and.returnValue(of({}));
       fiatRampsServiceSpy.getLink.and.returnValue(of({}));
-      browserSpy = jasmine.createSpyObj('Browser', ['open', 'addListener']);
+      browserSpy = jasmine.createSpyObj('Browser', ['open']);
       browserSpy.open.and.returnValue(Promise.resolve());
 
       TestBed.configureTestingModule({
-        declarations: [OperationsNewPaxfulPage],
+        declarations: [OperationsNewPaxfulPage, TrackClickDirective],
         imports: [
           RouterTestingModule.withRoutes([
             { path: 'apikeys/list', component: DummyComponent },
@@ -69,6 +73,7 @@ describe('OperationsNewPaxfulPage', () => {
           TranslateModule.forRoot(),
           IonicModule,
           ReactiveFormsModule,
+          HttpClientTestingModule,
         ],
         providers: [
           TrackClickDirective,
@@ -85,6 +90,8 @@ describe('OperationsNewPaxfulPage', () => {
       component.browser = browserSpy;
 
       fixture.detectChanges();
+
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
@@ -101,18 +108,6 @@ describe('OperationsNewPaxfulPage', () => {
     fiatRampsServiceSpy.getUserWallets.and.returnValue(of(userWallets));
     component.ionViewWillEnter();
     expect(component.walletAddressSelect).toEqual(walletAddress);
-  });
-
-  it('should call checkIsWebPlatform on ionViewWillEnter', () => {
-    const spy = spyOn(component, 'checkIsWebPlatform');
-    component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set isPWA on checkIsWebPlatform', () => {
-    platformServiceSpy.isWeb.and.returnValue(false);
-    component.checkIsWebPlatform();
-    expect(component.isPWA).toBeFalse();
   });
 
   it('should call goToCreateApikey if no wallets are found', () => {
@@ -142,13 +137,6 @@ describe('OperationsNewPaxfulPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should open in app browser on handleSubmit and form valid', () => {
-    component.walletAddressSelect = walletAddress;
-    component.form.patchValue({ wallet: walletAddress[0].address });
-    component.handleSubmit();
-    expect(browserSpy.open).toHaveBeenCalledTimes(1);
-  });
-
   it('should not call openPaxfulLink on handleSubmit and form invalid', () => {
     const spy = spyOn(component, 'openPaxfulLink');
     component.handleSubmit();
@@ -165,6 +153,17 @@ describe('OperationsNewPaxfulPage', () => {
     expect(fiatRampsServiceSpy.getLink).toHaveBeenCalledTimes(1);
   });
 
+  it('should open in app browser on handleSubmit and form valid', async () => {
+    fiatRampsServiceSpy.getLink.and.returnValue(of({ url: 'url' }));
+    component.walletAddressSelect = walletAddress;
+    component.form.patchValue({ wallet: walletAddress[0].address });
+    fixture.detectChanges();
+    component.handleSubmit();
+    fixture.whenStable().then(() => {
+      expect(browserSpy.open).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it('should open in app browser on openPaxfulLink with Paxful link', async () => {
     fiatRampsServiceSpy.getLink.and.returnValue(of({ url: 'url' }));
     await component.openPaxfulLink(0);
@@ -172,16 +171,19 @@ describe('OperationsNewPaxfulPage', () => {
   });
 
   it('should call success on openPaxfulLink', async () => {
-    component.isPWA = true;
-    const spy = spyOn(component, 'success');
+    const spy = spyOn(component, 'success').and.returnValue(Promise.resolve(true));
     await component.openPaxfulLink(0);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should create listener in native app on openPaxfulLink', async () => {
-    component.isPWA = false;
-    await component.openPaxfulLink(0);
-    expect(browserSpy.addListener).toHaveBeenCalledTimes(1);
+  it('should call trackEvent on trackService when Help-paxful link clicked', () => {
+    spyOn(component, 'openInfo');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Help-paxful');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should go to success page on success', () => {

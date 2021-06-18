@@ -9,9 +9,14 @@ const routes: Routes = [
     children: [
       {
         path: 'payment-methods',
-        loadChildren: () => import('./payment-methods/payment-methods.module').then( m => m.PaymentMethodsPageModule)
+        loadChildren: () => import('./payment-methods/payment-methods.module').then((m) => m.PaymentMethodsPageModule),
       },
-    ]
+      {
+        path: 'select-license',
+        loadChildren: () =>
+          import('./select-license/select-license/select-license.module').then((m) => m.SelectLicensePageModule),
+      },
+    ],
   },
 ];
 
