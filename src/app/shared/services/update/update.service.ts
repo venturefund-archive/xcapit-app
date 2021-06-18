@@ -52,6 +52,7 @@ export abstract class UpdateService {
           handler: (_) => this.update(),
         },
       ],
+      backdropDismiss: false,
     });
     await alert.present();
   }
