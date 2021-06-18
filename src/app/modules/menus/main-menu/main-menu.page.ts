@@ -137,7 +137,7 @@ export class MainMenuPage implements OnInit {
       url: '/menus/main-menu',
       icon: 'ux-buysell-icon',
       elementClick: 'buyCrypto',
-      showInProd: false,
+      showInProd: true,
     },
     {
       id: 7,

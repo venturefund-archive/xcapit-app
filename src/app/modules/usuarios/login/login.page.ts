@@ -73,27 +73,27 @@ import { Plugins } from '@capacitor/core';
           </ion-button>
         </div>
       </app-auth-form>
-      <div class="ion-text-center">
-        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14 or-text"
-          >- {{ 'usuarios.login.or_text' | translate }} -</ion-text
-        >
-      </div>
-      <div class="google-auth">
-        <ion-button
-          appTrackClickUnauth
-          name="Google Auth"
-          expand="block"
-          fill="solid"
-          size="large"
-          type="button"
-          class="ux_button google-auth__button"
-          [disabled]="this.submitButtonService.isDisabled | async"
-          (click)="this.googleSingUp()"
-        >
-          <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google Logo" />
-          <span class="google-auth__button__text ux-font-lato ux-fweight-regular ux-fsize-16">{{ 'usuarios.login.google_auth' | translate }}</span>
-        </ion-button>
-      </div>
+      <!--      <div class="ion-text-center">-->
+      <!--        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14 or-text"-->
+      <!--          >- {{ 'usuarios.login.or_text' | translate }} -</ion-text-->
+      <!--        >-->
+      <!--      </div>-->
+      <!--      <div class="google-auth">-->
+      <!--        <ion-button-->
+      <!--          appTrackClickUnauth-->
+      <!--          name="Google Auth"-->
+      <!--          expand="block"-->
+      <!--          fill="solid"-->
+      <!--          size="large"-->
+      <!--          type="button"-->
+      <!--          class="ux_button google-auth__button"-->
+      <!--          [disabled]="this.submitButtonService.isDisabled | async"-->
+      <!--          (click)="this.googleSingUp()"-->
+      <!--        >-->
+      <!--          <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google Logo" />-->
+      <!--          <span class="google-auth__button__text ux-font-lato ux-fweight-regular ux-fsize-16">{{ 'usuarios.login.google_auth' | translate }}</span>-->
+      <!--        </ion-button>-->
+      <!--      </div>-->
     </div>
   `,
   styleUrls: ['./login.page.scss'],
@@ -121,9 +121,7 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    this.apiUsuarios
-      .loginWithGoogle(googleUser.authentication.idToken)
-      .subscribe(() => this.success());
+    this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
   }
 
   loginUser(data: any) {
@@ -131,14 +129,11 @@ export class LoginPage implements OnInit {
   }
 
   async success() {
-    console.log('Success');
     this.loadingService.enabled();
     this.loginForm.form.reset();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      this.apiUsuarios
-        .status(false)
-        .subscribe((res) => this.redirectByStatus(res));
+      this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
     }
   }
 
