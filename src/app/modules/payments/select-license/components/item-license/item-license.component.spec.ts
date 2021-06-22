@@ -41,7 +41,7 @@ describe('ItemLicenseComponent', () => {
     component.license = { type: LicenseType.premium };
     fixture.detectChanges();
     spyOn(component, 'goToContactUs');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'contact');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Contact Us');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
