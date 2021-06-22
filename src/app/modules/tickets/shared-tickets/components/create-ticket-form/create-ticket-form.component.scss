@@ -1,0 +1,18 @@
+:host {
+  .main {
+    padding-top: 8px;
+    height: 100%;
+
+    .button {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--ux-font-lato);
+      font-size: 16px;
+    }
+  }
+  .container {
+    height: 100%;
+    width: 100%;
+  }
+}

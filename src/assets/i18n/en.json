@@ -7,7 +7,7 @@
       "deposit_address": "Deposit address",
       "logout": "Log Out",
       "commissions": "Commissions",
-      "help": "Help",
+      "help": "Support",
       "password_change": "Password Change",
       "referrals": "Referrals",
       "notifications": "Notifications",
@@ -169,11 +169,11 @@
     "create": {
       "title": "Open a ticket",
       "text": "Fill the details of your ticket. A member of the team will contact you soon.",
-      "label_email": "Email",
+      "label_email": "EMAIL",
       "placeholder_email": "example@email.com",
-      "label_subject": "Subject",
+      "label_subject": "SUBJECT",
       "placeholder_subject": "Subject",
-      "label_message": "Description",
+      "label_message": "DESCRIPTION",
       "placeholder_message": "Write the details of your ticket here.",
       "submit_button": "Send",
       "cancel_button": "Go back to login"
@@ -182,6 +182,34 @@
       "textPrimary": "Thank you for your patience!",
       "textSecondary": "A member of the team will contact you soon.",
       "namePrimaryAction": "Ok"
+    },
+    "create_support_ticket": {
+      "header": "Support",
+      "info": "Enter your comments to help you. A member of the team will contact you."
+    },
+    "create_support_ticket_success": {
+      "textPrimary": "¡Thank you for your patience!",
+      "textSecondary": "Stay tuned, you will receive the answer in your mail",
+      "namePrimaryAction": "Accept"
+    },
+    "create_ticket_form": {
+      "label_email": "EMAIL",
+      "placeholder_email": "example@email.com",
+      "label_subject": "CHOOSE A CATEGORY",
+      "placeholder_subject": "Choose a category",
+      "label_message": "DESCRIPTION",
+      "placeholder_message": "Write your comment or query here",
+      "submit_button": "Send"
+    },
+    "categories": {
+      "my_account": "My account",
+      "link_binance_account": "Link my binance account",
+      "buy_crypto": "Buy Crypto",
+      "subscription_plans": "Subscription Plans",
+      "investment_strategies": "Investment strategies",
+      "account_security": "Account Security",
+      "others": "Others",
+      "email_validation": "Account Validation"
     }
   },
   "funds": {

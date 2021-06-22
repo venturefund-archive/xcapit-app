@@ -8,8 +8,11 @@ const routes: Routes = [
     path: '',
     component: CreateTicketSuccessPage,
   },
+  {
+    path: ':isEmailValidation',
+    component: CreateTicketSuccessPage,
+  },
 ];
-
 @NgModule({
   imports: [SharedTicketsModule, RouterModule.forChild(routes)],
   declarations: [CreateTicketSuccessPage],
