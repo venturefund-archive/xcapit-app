@@ -93,6 +93,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
 export class OperationsPagePage implements OnInit {
   operationsList: any[];
   providers = PROVIDERS;
+  modalOpen = false;
 
   constructor(
     private navController: NavController,
@@ -205,11 +206,18 @@ export class OperationsPagePage implements OnInit {
   }
 
   async openModal() {
-    const modal = await this.modalController.create({
-      component: InformativeModalComponent,
-      cssClass: 'ux-modal-informative',
-      swipeToClose: false,
-    });
-    await modal.present();
+    if (!this.modalOpen) {
+      this.modalOpen = true;
+      const modal = await this.modalController.create({
+        component: InformativeModalComponent,
+        cssClass: 'ux-modal-informative',
+        swipeToClose: false,
+      });
+      await modal.present();
+
+      modal.onDidDismiss().then(() => {
+        this.modalOpen = false;
+      });
+    }
   }
 }
