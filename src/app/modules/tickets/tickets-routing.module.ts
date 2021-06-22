@@ -8,7 +8,7 @@ const routes: Routes = [
     children: [
       {
         path: 'create',
-        // canActivate: [NoAuthGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./create-email-validation-ticket/create-email-validation-ticket.module').then(
             (m) => m.CreateEmailValidationTicketPageModule
@@ -16,7 +16,6 @@ const routes: Routes = [
       },
       {
         path: 'create/success',
-        // canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./create-ticket-success/create-ticket-success.module').then((m) => m.CreateTicketSuccessPageModule),
       },

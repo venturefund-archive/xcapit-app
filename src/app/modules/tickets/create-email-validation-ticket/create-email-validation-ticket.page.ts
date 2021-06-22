@@ -56,7 +56,9 @@ export class CreateEmailValidationTicketPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.validationCategory = this.translate.instant(`tickets.categories.email_validation`);
   }
 

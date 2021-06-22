@@ -103,9 +103,7 @@ export class CreateTicketFormComponent implements OnInit {
     }
   }
   handleSubmit() {
-    console.log(this.form.value);
     this.setCategoryCode();
-    console.log(this.form.value);
     if (this.form.valid) {
       this.send.emit(this.form.value);
     } else {
