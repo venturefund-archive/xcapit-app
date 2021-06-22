@@ -9,18 +9,12 @@ const routes: Routes = [
       {
         path: 'create',
         canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./create-ticket/create-ticket.module').then(
-            (m) => m.CreateTicketPageModule
-          ),
+        loadChildren: () => import('./create-ticket/create-ticket.module').then((m) => m.CreateTicketPageModule),
       },
       {
         path: 'create/success',
-        canActivate: [NoAuthGuard],
         loadChildren: () =>
-          import('./create-ticket-success/create-ticket-success.module').then(
-            (m) => m.CreateTicketSuccessPageModule
-          ),
+          import('./create-ticket-success/create-ticket-success.module').then((m) => m.CreateTicketSuccessPageModule),
       },
     ],
   },

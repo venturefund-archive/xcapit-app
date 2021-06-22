@@ -1504,8 +1504,19 @@
   },
 
   "payment": {
-    "header": "Payment methods",
-    "title": "Payment method to start the process",
-    "paypal_button": "Pay"
+    "methods": {
+      "header": "Payment methods",
+      "title": "Payment method to start the process",
+      "paypal_button": "Pay"
+    },
+    "contact": {
+      "title": "Contact us to be Premium!",
+      "textPrimary": "We would love to know a little more about your investment to be able to give you your ideal plan. We will be communicating with you as soon as possible.",
+      "label_email": "EMAIL",
+      "placeholder_email": "example@email.com",
+      "label_message": "TELL US A LITTLE MORE ABOUT YOUR INVESTMENT",
+      "placeholder_message": "Tell us more about your investment here",
+      "submit_button": "Send"
+    }
   }
 }

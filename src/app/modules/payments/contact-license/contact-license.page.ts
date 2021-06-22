@@ -1,61 +1,55 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiProfilesService } from '../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
+import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
 
 @Component({
   selector: 'app-contact-license',
   template: `
-    <ion-content class="ion-padding">
-      <form [formGroup]="this.form" class="ux_main">
+    <ion-content class="ion-padding-horizontal ion-padding-bottom">
+      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
         <div class="ux_content">
-          <div class="ux_main">
-            <div class="cl__title ux-font-gilory ux-fweight-extrabold ux-fsize-24">
-              <ion-text>{{ 'payment.contact.title' | translate }}</ion-text>
+          <div class="header">
+            <div class="header__title">
+              <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+                {{ 'payment.contact.title' | translate }}
+              </ion-text>
             </div>
-            <ion-text class="cl__textPrimary ux-font-lato ux-fweight-regular ux-fsize-14">
-              {{ 'payment.contact.textPrimary' | translate }}
-            </ion-text>
-            <ion-text class="cl__label_input ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">
-              {{ 'payment.contact.label_email' | translate }}
-            </ion-text>
-            <div class="cl__email_input">
-              <ion-input
-                class="ux-font-lato ux-fweight-regular ux-fsize-14"
-                controlName="email"
-                type="text"
-                [value]="this.data?.email"
-                [disabled]="condition ? true : false"
-              ></ion-input>
-              <ion-button
-                class="edit_button"
-                type="button"
-                name="EditButton"
-                fill="clear"
-                size="small"
-                (click)="this.edit()"
-              >
-                <ion-icon class="cib__buttons__icon" style="zoom:1.1;" name="pencil-sharp"></ion-icon>
-              </ion-button>
-            </div>
-            <ion-text class="cl__label_message ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">
-              {{ 'payment.contact.label_message' | translate }}
-            </ion-text>
-            <div class="cl__message_input">
-              <app-ux-textarea class="message" controlName="message" type="text" inputmode="text"></app-ux-textarea>
+            <div class="header__text">
+              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+                {{ 'payment.contact.textPrimary' | translate }}
+              </ion-text>
             </div>
           </div>
+          <app-ux-input
+            controlName="email"
+            name="email"
+            type="text"
+            inputmode="text"
+            [label]="'payment.contact.label_email' | translate"
+            [placeholder]="'payment.contact.placeholder_email' | translate"
+          ></app-ux-input>
+          <app-ux-textarea
+            controlName="message"
+            inputmode="text"
+            [label]="'payment.contact.label_message' | translate"
+            [placeholder]="'payment.contact.placeholder_message' | translate"
+          ></app-ux-textarea>
         </div>
-        <div class="cl__send_button">
+        <div class="ux_footer">
           <ion-button
             appTrackClick
-            name="Send"
             expand="block"
-            size="large"
+            class="button"
+            name="Submit"
+            size="medium"
             type="submit"
             color="uxsecondary"
-            class="ux_button"
+            [disabled]="this.submitButtonService.isDisabled | async"
           >
-            {{ 'payment.contact.btn_send' | translate }}
+            {{ 'payment.contact.submit_button' | translate }}
           </ion-button>
         </div>
       </form>
@@ -64,14 +58,21 @@ import { ApiProfilesService } from '../../profiles/shared-profiles/services/api-
   styleUrls: ['./contact-license.page.scss'],
 })
 export class ContactLicensePage implements OnInit {
-  data: any;
-  condition = true;
   form: FormGroup = this.formBuilder.group({
-    email: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    category_code: ['', [Validators.required]],
+    subject: ['', [Validators.required]],
     message: ['', [Validators.required]],
   });
+  data: any;
 
-  constructor(private formBuilder: FormBuilder, private apiProfiles: ApiProfilesService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private apiProfiles: ApiProfilesService,
+    public submitButtonService: SubmitButtonService,
+    private apiTicketsService: ApiTicketsService,
+    private navController: NavController
+  ) {}
 
   ngOnInit() {
     this.getData();
@@ -80,13 +81,27 @@ export class ContactLicensePage implements OnInit {
   getData() {
     this.apiProfiles.crud.get().subscribe((res) => {
       this.data = res;
-      console.log(this.data);
+      this.form.patchValue({ email: this.data?.email });
     });
   }
 
-  edit() {
-    if (this.condition) {
-      this.condition = !this.condition;
+  handleSubmit() {
+    this.form.patchValue({ category_code: 'PREMIUM_ACCOUNTS' });
+    this.form.patchValue({ subject: 'Cuenta Premium' });
+    if (this.form.valid) {
+      console.log(this.form.value);
+      this.createTicket();
+    } else {
+      this.form.markAllAsTouched();
     }
+  }
+
+  createTicket() {
+    const data = this.form.value;
+    this.apiTicketsService.crud.create(data).subscribe(() => this.success());
+  }
+
+  success() {
+    this.navController.navigateForward(['/tickets/create/success']);
   }
 }
