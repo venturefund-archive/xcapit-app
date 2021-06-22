@@ -86,11 +86,18 @@ export const SUCCESS_TYPES = {
     urlSecondaryAction: '/tabs/funds',
     nameSecondaryAction: 'apikeys.register_success.nameSecondaryAction',
   },
-  ticket_create: {
+  ticket_email_validation_create: {
     urlClose: '/users/login',
     textPrimary: 'tickets.createSuccess.textPrimary',
     textSecondary: 'tickets.createSuccess.textSecondary',
     urlPrimaryAction: '/users/login',
     namePrimaryAction: 'tickets.createSuccess.namePrimaryAction',
+  },
+  generic_ticket_create: {
+    urlClose: '/tabs/funds',
+    textPrimary: 'tickets.create_support_ticket_success.textPrimary',
+    textSecondary: 'tickets.create_support_ticket_success.textSecondary',
+    urlPrimaryAction: '/tabs/funds',
+    namePrimaryAction: 'tickets.create_support_ticket_success.namePrimaryAction',
   },
 };

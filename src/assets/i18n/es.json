@@ -7,7 +7,7 @@
       "deposit_address": "Dirección de depósito",
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",
-      "help": "Ayuda",
+      "help": "Soporte",
       "password_change": "Cambio de Password",
       "referrals": "Referidos",
       "notifications": "Notificaciones",
@@ -169,11 +169,11 @@
     "create": {
       "title": "Enviar una solicitud",
       "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad.",
-      "label_email": "Correo electrónico",
+      "label_email": "CORREO ELECTRÓNICO",
       "placeholder_email": "ejemplo@email.com",
-      "label_subject": "Asunto",
+      "label_subject": "ASUNTO",
       "placeholder_subject": "Asunto",
-      "label_message": "¿Cuál es tu consulta?",
+      "label_message": "¿CUÁL ES TU CONSULTA?",
       "placeholder_message": "Escriba su consulta aquí.",
       "submit_button": "Enviar",
       "cancel_button": "Volver a inicio de sesión"
@@ -182,6 +182,35 @@
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
       "textSecondary": "En unos momentos, un miembro del equipo se pondrá en contacto contigo.",
       "namePrimaryAction": "Aceptar"
+    },
+    "create_support_ticket": {
+      "header": "Soporte",
+      "info": "Ingresa tus comentarios para poder ayudarte. Un integrante del equipo se pondrá en contacto contigo."
+    },
+    "create_support_ticket_success": {
+      "textPrimary": "¡Gracias por comunicarte con nosotros!",
+      "textSecondary": "Quédate atento, recibirás la respuesta en tu mail",
+      "namePrimaryAction": "Aceptar"
+    },
+    "create_ticket_form": {
+      "label_email": "CORREO ELECTRÓNICO",
+      "placeholder_email": "ejemplo@email.com",
+      "label_subject": "ELIGE UNA CATEGORÍA DE CONSULTA",
+      "placeholder_subject": "Seleccione una categoría",
+      "label_message": "ESCRIBE TU CONSULTA",
+      "placeholder_message": "Escriba su consulta aquí.",
+      "submit_button": "Enviar",
+      "cancel_button": "Volver a inicio de sesión"
+    },
+    "categories": {
+      "my_account": "Mi cuenta",
+      "link_binance_account": "Vincular mi cuenta de Binance",
+      "buy_crypto": "Comprar criptomonedas",
+      "subscription_plans": "Planes de suscripción",
+      "investment_strategies": "Estrategias de inversión",
+      "account_security": "Seguridad de mi cuenta",
+      "others": "Otros",
+      "email_validation": "Validación de cuenta"
     }
   },
   "funds": {

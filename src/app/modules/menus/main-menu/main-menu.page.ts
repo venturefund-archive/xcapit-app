@@ -125,10 +125,9 @@ export class MainMenuPage implements OnInit {
     {
       id: 5,
       title: 'app.main_menu.help',
-      url: '/tabs/funds',
+      url: '/tickets/create-support-ticket',
       icon: 'ux-settings-icon',
       routeDirection: 'forward',
-      elementClick: 'openTutorials',
       showInProd: true,
     },
     {
