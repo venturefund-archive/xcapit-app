@@ -3,6 +3,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-confirm-page',
@@ -32,7 +33,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.provider' | translate }}
             </span>
-            <span> {{ this.provider.name }} </span>
+            <span> {{ this.provider }} </span>
           </ion-text>
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
@@ -145,7 +146,8 @@ export class ConfirmPagePage implements OnInit {
   constructor(
     private storageOperationService: StorageOperationService,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private storage: Storage
   ) {}
 
   ngOnInit() {}
@@ -153,14 +155,20 @@ export class ConfirmPagePage implements OnInit {
   ionViewWillEnter() {
     this.storageOperationService.data.subscribe((data) => {
       this.operationData = data;
-      this.provider = this.getProvider(this.operationData.provider);
-      delete this.operationData.provider;
       this.calculateQuotation();
     });
+    this.getProvider();
   }
 
-  getProvider(providerId: string) {
-    return PROVIDERS.find((provider) => provider.id.toString() === providerId);
+  getProvider() {
+    this.storage.get('provider-crypto').then((val) => {
+      this.provider = val;
+    });
+    this.removeProviderOnLocalStorage();
+  }
+
+  removeProviderOnLocalStorage() {
+    this.storage.remove('provider-crypto');
   }
 
   async calculateQuotation() {
