@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('./payment-methods/payment-methods.module').then((m) => m.PaymentMethodsPageModule),
       },
       {
+        path: 'contact-license',
+        loadChildren: () => import('./contact-license/contact-license.module').then((m) => m.ContactLicensePageModule),
+      },
+      {
         path: 'select-license',
         loadChildren: () =>
           import('./select-license/select-license/select-license.module').then((m) => m.SelectLicensePageModule),
