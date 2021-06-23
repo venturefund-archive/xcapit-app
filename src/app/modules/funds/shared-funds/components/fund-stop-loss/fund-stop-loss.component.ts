@@ -140,7 +140,11 @@ export class FundStopLossComponent implements OnInit {
   async openCustomSL() {
     const modal = await this.modalController.create({
       component: CustomRangeModalComponent,
-      componentProps: { selected: this.form.value.stop_loss },
+      componentProps: {
+        selected: this.form.value.stop_loss,
+        max: 100,
+        min: 3,
+      },
       cssClass: 'ux_modal_crm',
     });
 
