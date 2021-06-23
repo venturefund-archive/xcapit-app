@@ -7,7 +7,7 @@
       "deposit_address": "Deposit address",
       "logout": "Log Out",
       "commissions": "Commissions",
-      "help": "Help",
+      "help": "Support",
       "password_change": "Password Change",
       "referrals": "Referrals",
       "notifications": "Notifications",
@@ -169,11 +169,11 @@
     "create": {
       "title": "Open a ticket",
       "text": "Fill the details of your ticket. A member of the team will contact you soon.",
-      "label_email": "Email",
+      "label_email": "EMAIL",
       "placeholder_email": "example@email.com",
-      "label_subject": "Subject",
+      "label_subject": "SUBJECT",
       "placeholder_subject": "Subject",
-      "label_message": "Description",
+      "label_message": "DESCRIPTION",
       "placeholder_message": "Write the details of your ticket here.",
       "submit_button": "Send",
       "cancel_button": "Go back to login"
@@ -182,6 +182,34 @@
       "textPrimary": "Thank you for your patience!",
       "textSecondary": "A member of the team will contact you soon.",
       "namePrimaryAction": "Ok"
+    },
+    "create_support_ticket": {
+      "header": "Support",
+      "info": "Enter your comments to help you. A member of the team will contact you."
+    },
+    "create_support_ticket_success": {
+      "textPrimary": "¡Thank you for your patience!",
+      "textSecondary": "Stay tuned, you will receive the answer in your mail",
+      "namePrimaryAction": "Accept"
+    },
+    "create_ticket_form": {
+      "label_email": "EMAIL",
+      "placeholder_email": "example@email.com",
+      "label_subject": "CHOOSE A CATEGORY",
+      "placeholder_subject": "Choose a category",
+      "label_message": "DESCRIPTION",
+      "placeholder_message": "Write your comment or query here",
+      "submit_button": "Send"
+    },
+    "categories": {
+      "my_account": "My account",
+      "link_binance_account": "Link my binance account",
+      "buy_crypto": "Buy Crypto",
+      "subscription_plans": "Subscription Plans",
+      "investment_strategies": "Investment strategies",
+      "account_security": "Account Security",
+      "others": "Others",
+      "email_validation": "Account Validation"
     }
   },
   "funds": {
@@ -1311,12 +1339,7 @@
         "text": "Point your camera towards a QR code."
       }
     },
-    "tabs": {
-      "home": "Home",
-      "refer": "Refer",
-      "new_fund": "New",
-      "menu": "More"
-    },
+
     "deposit_addresses": {
       "deposit_currency": {
         "header": "Deposit Address",
@@ -1339,9 +1362,15 @@
       }
     }
   },
+  "tabs": {
+    "home": "Home",
+    "refer": "Refer",
+    "new_fund": "New",
+    "menu": "More"
+  },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Buy/Sell cryptos",
+      "header": "Buy cryptocurrencies",
       "title": "My operations",
       "id": "ID",
       "operation": "Operation",
@@ -1365,6 +1394,18 @@
     "select_provider": {
       "header": "Buy Crypto",
       "title": "Select the provider:"
+    },
+
+    "information_paxful": {
+      "header": "Buy",
+      "title": "Buy BTC with Paxful:",
+      "subtitle": "Paxful will allow you to buy only BTC. We will redirect you to their page to make the P2P purchase. Make sure you understand the following points before making a transaction:",
+      "recordatory_1": "I understand that from this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
+      "recordatory_2": "I understand that the seller sets their own BTC price based on speed, privacy, and convenience. Rates may vary depending on the method of payment.",
+      "recordatory_3": "I understand that there will be a network fee to send the BTC to my Binance wallet. It is recommended to add to your purchase as max 0.0566USD to cover the network fee, otherwise the purchase will remain in your Paxful wallet.",
+      "recordatory_4": "Remember that if you have active investments, your purchase will automatically be part of that investment.",
+      "button": "Select my receiving address",
+      "modal_content": "Please check the points to consider before making a purchase"
     },
 
     "operation_detail": {
@@ -1404,14 +1445,14 @@
         "cancel": "Cancelled"
       },
       "paxful": {
-        "SUCCESSFUL": "Complete",
+        "SUCCESS": "Complete",
         "EXPIRED": "Expired",
-        "CANCELED": "Cancelled"
+        "CANCELLED": "Cancelled"
       }
     },
 
     "ramp_initial": {
-      "header": "Buy/Sell cryptos",
+      "header": "Buy cryptocurrencies",
       "title": "New operation",
       "operation": "What operation do you want to do?",
       "pair_buy": "What currency do you want to buy?",
@@ -1468,7 +1509,7 @@
       "type": "Operation type:",
       "amount": "Amount:",
       "quotation": "Quotation:",
-      "wallet_address": "Reception address",
+      "wallet": "Reception address",
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
       "confirm": "Confirm",
       "buy": {
@@ -1487,7 +1528,9 @@
       "title": "Buy BTC with Paxful",
       "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
       "label-wallet": "Select your wallet",
-      "button-text": "Continue to Paxful"
+      "placeholder-wallet": "Receiving address",
+      "button-text": "Go to Paxful",
+      "recordatory_info": "By clicking on Go to Paxful, you will exit Xcapit."
     },
     "paxful_success": {
       "textPrimary": "We've redirect you to Paxful",
@@ -1507,7 +1550,9 @@
     "methods": {
       "header": "Payment methods",
       "title": "Payment method to start the process",
-      "paypal_button": "Pay"
+      "coming_badge": "Coming soon",
+      "all_countries": "All the countries",
+      "arg": "Argentina"
     },
     "contact": {
       "title": "Contact us to be Premium!",
@@ -1517,6 +1562,22 @@
       "label_message": "TELL US A LITTLE MORE ABOUT YOUR INVESTMENT",
       "placeholder_message": "Tell us more about your investment here",
       "submit_button": "Send"
+    },
+    "licenses": {
+      "header": "Annual payments",
+      "title": "Choose your plan",
+      "textPrimary": "Try all plans for 30 days for free!",
+      "textSecondary": "You can cancel whenever you want.",
+      "btnAnnual": "Annual plans",
+      "btnMonthly": "Monthly plans",
+      "infoExplorer": "You can invest up to USD$300",
+      "infoAdvanced": "Invest up to USD$10,000",
+      "infoExpert": "Invest up to USD$50,000",
+      "infoPremium": "For investments greater than USD$50,000",
+      "contact": "Contact us",
+      "monthly": "monthly",
+      "annual": "annual",
+      "free": "FREE"
     }
   }
 }

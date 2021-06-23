@@ -19,6 +19,8 @@
       }
       &__title {
         width: 70%;
+        padding-top: 16px;
+        padding-bottom: 16px;
         margin-left: 14px;
         font-weight: 600;
         font-size: 14px;
@@ -52,7 +54,7 @@
     &__important {
       display: flex;
       width: 100%;
-      height: 52px;
+      height: auto;
       &__image {
         margin-left: 18px;
         width: 25px;
@@ -60,6 +62,8 @@
         display: flex;
       }
       &__title {
+        padding-top: 16px;
+        padding-bottom: 16px;
         width: 70%;
         margin-left: 14px;
         font-weight: 600;
@@ -72,7 +76,6 @@
         margin-right: 5px;
         align-items: center;
         display: flex;
-
         align-items: center;
         flex-direction: row;
         &__button_color {
@@ -95,7 +98,7 @@
     &__important {
       display: flex;
       width: 100%;
-      height: 25px;
+      height: auto;
       &__image {
         margin-top: 14px;
         height: 22px;
@@ -119,8 +122,8 @@
     &__message {
       width: 280px;
       padding-top: 8px;
+      padding-bottom: 16px;
       margin-top: 8px;
-      margin-bottom: 16px;
       height: auto;
       justify-content: center;
       margin-left: 48px;
@@ -190,7 +193,7 @@
     &__important {
       display: flex;
       width: 100%;
-      height: 100%;
+      height: auto;
       &__image {
         margin-top: 14px;
         height: 22px;
@@ -201,7 +204,7 @@
       }
       &__title {
         width: 70%;
-        margin: 16px;
+        padding-top: 8px;
         margin-left: 14px;
         font-weight: 600;
         font-size: 14px;
@@ -212,8 +215,9 @@
     }
     &__message {
       width: 280px;
-      margin-top: 8px;
-      height: 95px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      height: auto;
       justify-content: center;
       margin-left: 48px;
     }
@@ -255,7 +259,8 @@
     }
     &__items {
       width: 280px;
-      margin-bottom: 16px;
+      padding-top: 8px;
+      padding-bottom: 16px;
       height: auto;
       justify-content: flex-start;
       margin-left: 22px;

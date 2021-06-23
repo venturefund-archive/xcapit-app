@@ -91,7 +91,9 @@ import { Plugins } from '@capacitor/core';
           (click)="this.googleSingUp()"
         >
           <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google Logo" />
-          <span class="google-auth__button__text ux-font-lato ux-fweight-regular ux-fsize-16">{{ 'usuarios.login.google_auth' | translate }}</span>
+          <span class="google-auth__button__text ux-font-lato ux-fweight-regular ux-fsize-16">{{
+            'usuarios.login.google_auth' | translate
+          }}</span>
         </ion-button>
       </div>
     </div>
@@ -121,9 +123,7 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    this.apiUsuarios
-      .loginWithGoogle(googleUser.authentication.idToken)
-      .subscribe(() => this.success());
+    this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
   }
 
   loginUser(data: any) {
@@ -131,14 +131,11 @@ export class LoginPage implements OnInit {
   }
 
   async success() {
-    console.log('Success');
     this.loadingService.enabled();
     this.loginForm.form.reset();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      this.apiUsuarios
-        .status(false)
-        .subscribe((res) => this.redirectByStatus(res));
+      this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
     }
   }
 

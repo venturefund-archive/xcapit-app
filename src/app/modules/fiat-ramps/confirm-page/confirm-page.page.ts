@@ -37,17 +37,17 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
             <span class="cp__content__text__title"> {{ 'fiat_ramps.confirm.type' | translate }} </span>
-            <span *ngIf="this.operationData.operation_type === 'cash-in'">
+            <span *ngIf="this.operationData.type === 'cash-in'">
               {{ 'fiat_ramps.confirm.buy.operationType' | translate }}
             </span>
-            <span *ngIf="this.operationData.operation_type === 'cash-out'">
+            <span *ngIf="this.operationData.type === 'cash-out'">
               {{ 'fiat_ramps.confirm.sell.operationType' | translate }}
             </span>
           </ion-text>
 
           <ion-text
             class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text"
-            *ngIf="this.operationData.operation_type === 'cash-in'"
+            *ngIf="this.operationData.type === 'cash-in'"
           >
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.buy.title' | translate }}
@@ -61,7 +61,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <ion-text
             class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text"
-            *ngIf="this.operationData.operation_type === 'cash-out'"
+            *ngIf="this.operationData.type === 'cash-out'"
           >
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.sell.title' | translate }}
@@ -77,11 +77,11 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.amount' | translate }}
             </span>
-            <span *ngIf="this.operationData.operation_type === 'cash-in'"
+            <span *ngIf="this.operationData.type === 'cash-in'"
               >{{ this.operationData.amount_in | currency }}
               <small>{{ this.operationData.currency_in }}</small>
             </span>
-            <span *ngIf="this.operationData.operation_type === 'cash-out'"
+            <span *ngIf="this.operationData.type === 'cash-out'"
               >{{ this.operationData.amount_out | currency }}
               <small>{{ this.operationData.currency_out }}</small> }}</span
             >
@@ -103,9 +103,9 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
             <span class="cp__content__text__title">
-              {{ 'fiat_ramps.confirm.wallet_address' | translate }}
+              {{ 'fiat_ramps.confirm.wallet' | translate }}
             </span>
-            <span> {{ this.operationData.wallet_address }} </span>
+            <span> {{ this.operationData.wallet }} </span>
           </ion-text>
         </div>
       </div>
@@ -154,7 +154,6 @@ export class ConfirmPagePage implements OnInit {
     this.storageOperationService.data.subscribe((data) => {
       this.operationData = data;
       this.provider = this.getProvider(this.operationData.provider);
-      delete this.operationData.provider;
       this.calculateQuotation();
     });
   }
@@ -164,7 +163,7 @@ export class ConfirmPagePage implements OnInit {
   }
 
   async calculateQuotation() {
-    if (this.operationData.operation_type === 'cash-in') {
+    if (this.operationData.type === 'cash-in') {
       this.quotation = this.operationData.price_in;
     }
     this.quotation = this.operationData.price_out;

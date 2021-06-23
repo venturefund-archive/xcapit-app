@@ -15,6 +15,11 @@ const routes: Routes = [
         path: 'contact-license',
         loadChildren: () => import('./contact-license/contact-license.module').then((m) => m.ContactLicensePageModule),
       },
+      {
+        path: 'select-license',
+        loadChildren: () =>
+          import('./select-license/select-license/select-license.module').then((m) => m.SelectLicensePageModule),
+      },
     ],
   },
 ];

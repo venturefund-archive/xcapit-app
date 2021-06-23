@@ -59,6 +59,11 @@ const routes: Routes = [
             (m) => m.SelectProviderPageModule
           ),
       },
+      {
+        path: 'information-paxful',
+        loadChildren: () =>
+          import('./information-paxful/information-paxful.module').then((m) => m.InformationPaxfulPageModule),
+      },
     ],
   },
 ];

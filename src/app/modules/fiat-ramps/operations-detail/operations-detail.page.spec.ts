@@ -47,7 +47,7 @@ describe('OperationsDetailPage', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-        getUserSingleOperation: of({}),
+        getUserSingleOperation: of([{}]),
         confirmOperation: of({}),
         setProvider: null,
       });
@@ -95,7 +95,7 @@ describe('OperationsDetailPage', () => {
   });
 
   it('should call getUserSingleOperation on ionViewWillEnter', async (done) => {
-    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of(operation));
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([operation]));
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -148,7 +148,7 @@ describe('OperationsDetailPage', () => {
   });
 
   it('should set operation to data', () => {
-    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of(operation));
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([operation]));
     component.ionViewWillEnter();
     fixture.detectChanges();
     const result = component.operation;

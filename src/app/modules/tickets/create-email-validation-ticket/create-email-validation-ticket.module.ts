@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 
-import { CreateTicketPage } from './create-ticket.page';
+import { CreateEmailValidationTicketPage } from './create-email-validation-ticket.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedTicketsModule } from '../shared-tickets/shared-tickets.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: CreateTicketPage,
+    component: CreateEmailValidationTicketPage,
   },
 ];
 
 @NgModule({
   imports: [SharedTicketsModule, RouterModule.forChild(routes)],
-  declarations: [CreateTicketPage],
+  declarations: [CreateEmailValidationTicketPage],
 })
-export class CreateTicketPageModule {}
+export class CreateEmailValidationTicketPageModule {}

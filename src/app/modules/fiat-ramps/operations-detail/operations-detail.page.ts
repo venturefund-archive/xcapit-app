@@ -16,6 +16,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
         </ion-buttons>
         <ion-title class="ion-text-center">
           {{ 'fiat_ramps.operation_detail.header' | translate }}
+          <span *ngIf="this.operation"> {{ this.operation.operation_id }} </span>
         </ion-title>
       </ion-toolbar>
     </ion-header>
@@ -234,7 +235,7 @@ export class OperationsDetailPage implements OnInit {
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.fiatRampsService.getUserSingleOperation(operationId).subscribe({
       next: (data) => {
-        this.operation = data;
+        this.operation = data[0];
         this.calculateQuotation();
         this.verifyVoucher();
       },
