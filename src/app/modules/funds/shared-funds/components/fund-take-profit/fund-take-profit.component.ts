@@ -166,7 +166,7 @@ export class FundTakeProfitComponent implements OnInit {
   async openCustomTP() {
     const modal = await this.modalController.create({
       component: CustomRangeModalComponent,
-      componentProps: { selected: this.form.value.take_profit },
+      componentProps: { selected: this.form.value.take_profit, max: 1000, min: 3 },
       cssClass: 'ux_modal_crm',
     });
 
