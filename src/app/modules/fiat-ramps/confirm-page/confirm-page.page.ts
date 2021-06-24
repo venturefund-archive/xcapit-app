@@ -173,6 +173,7 @@ export class ConfirmPagePage implements OnInit {
     this.disabledButton = true;
     this.fiatRampsService.createOperation(this.operationData).subscribe({
       next: (res) => {
+        this.storageOperationService.setOperationId(res.id);
         this.navController.navigateForward(['fiat-ramps/success-page']);
       },
       complete: () => {

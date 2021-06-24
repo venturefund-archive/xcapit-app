@@ -49,6 +49,8 @@ const storageData = {
   },
 };
 
+const operationId = 6;
+
 describe('ConfirmPagePage', () => {
   let component: ConfirmPagePage;
   let fixture: ComponentFixture<ConfirmPagePage>;
@@ -65,6 +67,7 @@ describe('ConfirmPagePage', () => {
         data: of(storageData.valid.data),
         valid: storageData.valid.valid,
         clear: () => of({}),
+        setOperationId: () => of(operationId),
       };
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         createOperation: of({}),

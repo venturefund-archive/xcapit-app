@@ -212,7 +212,7 @@ export class UserInformationPage implements OnInit {
   handleSubmit() {
     if (this.form.valid) {
       this.fiatRampsService.registerUserInfo(this.form.value).subscribe((res) => {
-        this.navController.navigateForward(['fiat-ramps/user-bank']);
+        this.navController.navigateForward(['fiat-ramps/user-bank'], { replaceUrl: true });
       });
     } else {
       this.form.markAllAsTouched();

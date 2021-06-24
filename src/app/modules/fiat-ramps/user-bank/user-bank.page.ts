@@ -96,7 +96,7 @@ export class UserBankPage implements OnInit {
   async handleSubmit() {
     this.fiatRampsService.registerUserBank(this.form.value).subscribe({
       next: (res) => {
-        this.navController.navigateForward(['fiat-ramps/user-images']);
+        this.navController.navigateForward(['fiat-ramps/user-images'], { replaceUrl: true });
       },
     });
   }

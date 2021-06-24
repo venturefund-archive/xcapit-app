@@ -126,7 +126,7 @@ export class UserImagesPage implements OnInit {
 
   async handleSubmit() {
     this.fiatRampsService.registerUserImages(this.form.value).subscribe((res) => {
-      this.navController.navigateForward(['fiat-ramps/confirm-page']);
+      this.navController.navigateForward(['fiat-ramps/confirm-page'], { replaceUrl: true });
     });
   }
 
