@@ -37,6 +37,7 @@ export class StorageOperationService {
 
   private dataSource = new BehaviorSubject<OperationDataInterface>(this.initial);
   data = this.dataSource.asObservable();
+  operationId = null;
   valid = false;
 
   public updateData(data: OperationDataInterface) {
@@ -47,5 +48,13 @@ export class StorageOperationService {
   public clear() {
     this.dataSource.next(this.initial);
     this.valid = false;
+  }
+
+  public setOperationId(id) {
+    this.operationId = id;
+  }
+
+  public getOperationId() {
+    return this.operationId;
   }
 }

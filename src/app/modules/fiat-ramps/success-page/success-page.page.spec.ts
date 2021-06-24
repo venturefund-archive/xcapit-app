@@ -47,6 +47,8 @@ const storageData = {
   },
 };
 
+const operationId = 6;
+
 describe('SuccessPagePage', () => {
   let component: SuccessPagePage;
   let fixture: ComponentFixture<SuccessPagePage>;
@@ -64,6 +66,7 @@ describe('SuccessPagePage', () => {
         data: of(storageData.valid.data),
         valid: storageData.valid.valid,
         clear: () => of({}),
+        getOperationId: () => of(operationId),
       };
       toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
       clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
@@ -148,7 +151,6 @@ describe('SuccessPagePage', () => {
   });
 
   it('should call trackEvent on trackService when Add Voucher Button clicked', () => {
-    component.operationData = { id: 1 };
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Add Voucher');
     const directive = trackClickDirectiveHelper.getDirective(el);
