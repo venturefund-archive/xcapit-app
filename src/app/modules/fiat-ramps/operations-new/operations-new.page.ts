@@ -162,7 +162,8 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
               <!-- precio seleccionado -->
               <app-ux-loading-block *ngIf="!this.changePrice" minSize="30px"></app-ux-loading-block>
               <div class="ux-card__price" *ngIf="this.changePrice">
-                1 {{ pairSplit[1] }} <span class="ux-card__price__dark"> {{ changePrice }} {{ pairSplit[0] }}</span>
+                1 {{ pairSplit[1] }}
+                <span class="ux-card__price__dark"> {{ changePrice | number: '1.2-2' }} {{ pairSplit[0] }}</span>
               </div>
             </div>
 
@@ -293,13 +294,11 @@ export class OperationsNewPage implements OnInit {
 
     if (price[0]) {
       if (this.form.value.type === 'cash-in') {
-        this.changePrice = price[0].quotation[this.pairSplit[0].toLowerCase()].sell;
-        this.changePrice = parseFloat(this.changePrice.replaceAll(',', ''));
+        this.changePrice = price[0].quotations[this.pairSplit[0].toLowerCase()].sell;
         this.form.controls.price_in.setValue(1);
         this.form.controls.price_out.setValue(this.changePrice);
       } else {
-        this.changePrice = price[0].quotation[this.pairSplit[0].toLowerCase()].buy;
-        this.changePrice = parseFloat(this.changePrice.replaceAll(',', ''));
+        this.changePrice = price[0].quotations[this.pairSplit[0].toLowerCase()].buy;
         this.form.controls.price_in.setValue(1);
         this.form.controls.price_out.setValue(this.changePrice);
       }

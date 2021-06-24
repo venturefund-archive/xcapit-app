@@ -1,5 +1,5 @@
 export enum Buy {
-  ARS_BTC = 'ARS → BTC',
+  ARS_RIF = 'ARS → RIF',
   ARS_DAI = 'ARS → DAI',
   ARS_USDT = 'ARS → USDT',
 }
