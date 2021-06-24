@@ -56,6 +56,7 @@
     "@ionic/storage": "^2.2.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "bitcore-wallet-client": "^8.25.12",
     "chart.js": "^2.8.0",
     "cordova": "^10.0.0",
     "cordova-plugin-file-opener2": "^3.0.5",
