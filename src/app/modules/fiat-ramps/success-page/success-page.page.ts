@@ -102,6 +102,7 @@ const { Browser } = Plugins;
 export class SuccessPagePage implements OnInit {
   telegramApp = 'https://t.me/kriptonmarket';
   operationData: any;
+  operationId: any;
   cbu = '1500623500062332502528';
 
   constructor(
@@ -118,6 +119,7 @@ export class SuccessPagePage implements OnInit {
 
   ngOnInit() {
     this.storageOperationService.data.subscribe((data) => (this.operationData = data));
+    this.operationId = this.storageOperationService.getOperationId();
   }
 
   async launchChat() {
@@ -128,10 +130,7 @@ export class SuccessPagePage implements OnInit {
   }
 
   addVoucher() {
-    this.navController.navigateForward([
-      'fiat-ramps/operation-detail/provider/1/operation',
-      this.operationData.id.toString(),
-    ]);
+    this.navController.navigateForward(['fiat-ramps/operation-detail/provider/1/operation', this.operationId]);
   }
 
   copyToClipboard() {
