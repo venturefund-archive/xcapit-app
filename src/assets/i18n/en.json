@@ -1151,6 +1151,7 @@
       "header": "Your Referrals",
       "list_title": "MY REFERRALS",
       "points_title": "MY POINTS",
+      "prize_title": "ACCUMULATED MONEY",
       "shared_referral_card": {
         "title": "Invite your friends to invest by sharing the following link.",
         "button": "Share"
@@ -1159,12 +1160,27 @@
         "points_text": "points",
         "coming_badge": "Coming soon"
       },
-      "help_alert": {
-        "alert_title": "Referral System",
-        "alert_message": "Add 10 points for each referral who accepts your invitation. We are adding benefits to exchange for your earned points.",
-        "alert_button": "I understand"
+      "prize_card": {
+        "prize_button": "Request Reward"
       }
     },
+    "success_claim_reward": {
+      "primary_text": "Request sent successfully!",
+      "secondary_text": "We will contact you to apply the benefit",
+      "button_home": "Go to home"
+    },
+    "referrals_info": {
+      "header": "Referrals System",
+      "info_title1": "HOW DOES IT WORK?",
+      "info_title2": "HOW MUCH CAN I EARN?",
+      "info_title3": "HOW DO I CLAIM MY PRIZE?",
+      "info_title4": "HOW I SEE HOW MANY REFERRALS I HAVE?",
+      "info_description1": "Any user can invite other people to visit Xcapit, they just need to create an account and share their link within their referral panel.",
+      "info_description2": "You will earn $ 10 (ten dollars) for each guest who activates an Advanced or Expert account, and you will earn $ 1 (one dollar) for each guest who activates an Explorer account. In either case, your guest must have an active account for more than 60 days. Don't have an account yet? Turn it on",
+      "info_description3": "Within the app, in your referral panel, click Request a reward. We will contact you to coordinate the payment.",
+      "info_description4": "Within the app in your referral panel you will see the list of active guests and a counter of the money you have earned."
+    },
+
     "referrals_list": {
       "header": "Referrals",
       "new_button": "New",

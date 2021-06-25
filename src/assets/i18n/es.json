@@ -1155,6 +1155,7 @@
       "header": "Tus Referidos",
       "list_title": "MIS REFERIDOS",
       "points_title": "MIS PUNTOS",
+      "prize_title": "DINERO ACUMULADO",
       "shared_referral_card": {
         "title": "Invita a tus amigos a invertir compartiendo el siguiente link.",
         "button": "Compartir"
@@ -1163,11 +1164,25 @@
         "points_text": "puntos",
         "coming_badge": "Próximamente"
       },
-      "help_alert": {
-        "alert_title": "Sistema de Referidos",
-        "alert_message": "Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
-        "alert_button": "Entendido"
+      "prize_card": {
+        "prize_button": "Solicitar Recompensa"
       }
+    },
+    "success_claim_reward": {
+      "primary_text": "¡Solicitud enviada con éxito!",
+      "secondary_text": "Nos contactaremos para aplicar el beneficio",
+      "button_home": "Ir al inicio"
+    },
+    "referrals_info": {
+      "header": "Sistema de Referidos",
+      "info_title1": "¿CÓMO FUNCIONA?",
+      "info_title2": "¿CUÁNTO PUEDO GANAR?",
+      "info_title3": "¿CÓMO RECLAMO MI PREMIO?",
+      "info_title4": "¿CÓMO VEO CUÁNTOS REFERIDOS TENGO?",
+      "info_description1": "Cualquier usuario puede invitar a otras personas a conocer Xcapit, solo necesita crear una cuenta y compartir su link dentro de su panel de referidos.",
+      "info_description2": "Vas a ganar $10 (diez dólares) por cada invitado que active una cuenta Advanced o Expert, y vas a ganar $1 (un dólar) por cada invitado que active una cuenta Explorer. En cualquiera de los casos tu invitado debe tener la cuenta activa por más de 60 días.",
+      "info_description3": "Dentro de la app en tu panel de referidos dale click a Solicitar recompensa. Nos contactaremos para coordinar el pago.",
+      "info_description4": "Dentro de la app en tu panel de referidos vas a ver el listado de invitados activos y un contador del dinero que has ganado."
     },
     "referrals_list": {
       "header": "Referidos",

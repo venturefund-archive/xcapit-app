@@ -9,10 +9,15 @@ const routes: Routes = [
     children: [
       {
         path: 'list',
-        loadChildren: () =>
-          import('./referrals-list/referrals-list.module').then(
-            (m) => m.ReferralsListPageModule
-          ),
+        loadChildren: () => import('./referrals-list/referrals-list.module').then((m) => m.ReferralsListPageModule),
+      },
+      {
+        path: 'info',
+        loadChildren: () => import('./referrals-info/referrals-info.module').then((m) => m.ReferralsInfoPageModule),
+      },
+      {
+        path: 'success-claim',
+        loadChildren: () => import('./success-claim/success-claim.module').then((m) => m.SuccessClaimPageModule),
       },
     ],
   },
