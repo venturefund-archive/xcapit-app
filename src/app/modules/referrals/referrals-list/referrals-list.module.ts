@@ -7,6 +7,7 @@ import { SharedReferralsModule } from '../shared-referrals/shared-referrals.modu
 import { RouterModule, Routes } from '@angular/router';
 import { ShareReferralCardComponent } from './components/share-referral-card/share-referral-card.component';
 import { PointsCardComponent } from './components/points-card/points-card.component';
+import { PrizeCardComponent } from './components/prize-card/prize-card.component';
 
 const routes: Routes = [
   {
@@ -16,17 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SharedReferralsModule,
-    RouterModule.forChild(routes),
-  ],
-  declarations: [
-    ReferralsListPage,
-    ShareReferralCardComponent,
-    PointsCardComponent,
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, SharedReferralsModule, RouterModule.forChild(routes)],
+  declarations: [ReferralsListPage, ShareReferralCardComponent, PointsCardComponent, PrizeCardComponent],
 })
 export class ReferralsListPageModule {}
