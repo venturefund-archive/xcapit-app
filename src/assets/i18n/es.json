@@ -1165,7 +1165,8 @@
         "coming_badge": "Próximamente"
       },
       "prize_card": {
-        "prize_button": "Solicitar Recompensa"
+        "prize_button": "Solicitar Recompensa",
+        "modal_info": "No tienes dinero por reclamar aún, invita a tus amigos para obtener recompensas."
       }
     },
     "success_claim_reward": {

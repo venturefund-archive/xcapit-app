@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 
 @Component({
   selector: 'app-prize-card',
@@ -7,7 +9,9 @@ import { NavController } from '@ionic/angular';
     <div class="pcc__content">
       <div class="pcc__content__left">
         <div class="prizes">
-          <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14" color="uxsemidark">$0</ion-text>
+          <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14" color="uxsemidark">{{
+            '$' + this.accumulatedMoney
+          }}</ion-text>
         </div>
       </div>
       <div class="pcc__content__right">
@@ -21,11 +25,35 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./prize-card.component.scss'],
 })
 export class PrizeCardComponent implements OnInit {
-  constructor(private navController: NavController) {}
-
+  constructor(
+    private navController: NavController,
+    private modalController: ModalController,
+    private translate: TranslateService
+  ) {}
+  accumulatedMoney = 0;
   ngOnInit() {}
 
   sendEmail() {
-    this.navController.navigateForward(['/referrals/success-claim']);
+    if (this.accumulatedMoney > 0) {
+      this.navController.navigateForward(['/referrals/success-claim']);
+    } else {
+      this.openModalAlert();
+    }
+  }
+
+  async openModalAlert() {
+    const modal = await this.modalController.create({
+      component: ToastAlertComponent,
+      cssClass: 'ux-alert',
+      showBackdrop: false,
+      componentProps: {
+        title: this.translate.instant('referrals.new_referral_page.prize_card.modal_info'),
+        type: 'error',
+      },
+    });
+    await modal.present();
+    setTimeout(() => {
+      modal.dismiss();
+    }, 3000);
   }
 }

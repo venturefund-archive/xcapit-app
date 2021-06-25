@@ -1161,6 +1161,7 @@
         "coming_badge": "Coming soon"
       },
       "prize_card": {
+        "modal_info": "You don't have money to claim yet, invite your friends to get rewards.",
         "prize_button": "Request Reward"
       }
     },
