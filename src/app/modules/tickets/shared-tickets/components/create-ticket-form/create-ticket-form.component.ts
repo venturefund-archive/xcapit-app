@@ -75,7 +75,7 @@ export class CreateTicketFormComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     subject: ['', [Validators.required]],
     category_code: ['', [Validators.required]],
-    message: ['', [Validators.required]],
+    message: ['', [Validators.required, Validators.maxLength(2000)]],
   });
   isValidationEmail = false;
   @Input() canModifyEmail = false;
