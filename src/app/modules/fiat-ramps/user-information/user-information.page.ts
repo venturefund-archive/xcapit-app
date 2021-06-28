@@ -80,6 +80,8 @@ import { TranslateService } from '@ngx-translate/core';
             [placeholder]="'fiat_ramps.register.gender' | translate"
             controlName="genero"
             [data]="this.gender"
+            keyName="nameGender"
+            valueName="id"
           ></app-ux-input-select>
 
           <!-- Estado civil -->
@@ -89,7 +91,7 @@ import { TranslateService } from '@ngx-translate/core';
             [placeholder]="'fiat_ramps.register.marital_status' | translate"
             controlName="estado_civil"
             [data]="this.maritalStatus"
-            keyName="name"
+            keyName="nameMarital"
             valueName="id"
           ></app-ux-input-select>
 
@@ -100,6 +102,8 @@ import { TranslateService } from '@ngx-translate/core';
             [placeholder]="'fiat_ramps.register.doc_type' | translate"
             controlName="tipo_doc"
             [data]="this.docTypes"
+            keyName="nameDocType"
+            valueName="id"
           ></app-ux-input-select>
 
           <!-- Nro doc -->
@@ -196,8 +200,8 @@ export class UserInformationPage implements OnInit {
   countries = Object.values(Countries);
   maritalStatus = this.mapMaritalStatus(Object.keys(MaritalStatus));
   provinces = Object.values(Province);
-  gender = Object.values(Gender);
-  docTypes = Object.values(DocTypes);
+  gender = this.mapGender(Object.keys(Gender));
+  docTypes = this.mapDocTypes(Object.keys(DocTypes));
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -220,9 +224,23 @@ export class UserInformationPage implements OnInit {
   }
 
   mapMaritalStatus(keys) {
-    return keys.map((key) => ({
-      name: this.translate.instant(`fiat_ramps.register.marital_status_list.${MaritalStatus[key]}`),
-      id: key,
+    return keys.map((keyMarital) => ({
+      nameMarital: this.translate.instant(`fiat_ramps.register.marital_status_list.${MaritalStatus[keyMarital]}`),
+      id: keyMarital,
+    }));
+  }
+
+  mapGender(keys) {
+    return keys.map((keyGender) => ({
+      nameGender: this.translate.instant(`fiat_ramps.register.gender_list.${Gender[keyGender]}`),
+      id: keyGender,
+    }));
+  }
+
+  mapDocTypes(keys) {
+    return keys.map((keyDocTypes) => ({
+      nameDocType: this.translate.instant(`fiat_ramps.register.doctypes_list.${DocTypes[keyDocTypes]}`),
+      id: keyDocTypes,
     }));
   }
 }
