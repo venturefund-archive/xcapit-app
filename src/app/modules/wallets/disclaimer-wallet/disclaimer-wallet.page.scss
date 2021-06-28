@@ -1,0 +1,25 @@
+.checkbox {
+  margin-top: 8px;
+
+  ion-label {
+    color: black !important;
+    font-size: 14px !important;
+  }
+}
+
+.checkbox_card {
+  background-color: white;
+  --background: white;
+  --ion-item-background: white;
+  border-radius: 8px;
+}
+
+.description {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
