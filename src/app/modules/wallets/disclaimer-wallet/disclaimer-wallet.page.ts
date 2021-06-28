@@ -26,41 +26,47 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               'wallets.disclaimer.description' | translate
             }}</ion-text>
           </div>
-          <div name="Disclaimer Form Checkboxes" class="checkbox_card ion-padding">
-            <div>
-              <div class="checkbox">
-                <app-ux-checkbox
-                  controlName="localStoredKeysCheckbox"
-                  name="Local Stored Keys Checkbox"
-                  [label]="'wallets.disclaimer.local_stored_keys_checkbox' | translate"
-                  ngClass="checkbox"
-                  color="uxsecondary"
-                  slot="start"
-                ></app-ux-checkbox>
+          <div name="Disclaimer Form Checkboxes" class="checkbox_card">
+            <ion-item class="ion-no-padding ion-no-margin checkbox">
+              <div class="ux_checkbox_container">
+                <ion-item class="ux_checkbox_container__item">
+                  <ion-label class="ux_checkbox_container__item__label checkbox__label">
+                    {{ 'wallets.disclaimer.local_stored_keys_checkbox' | translate }}
+                  </ion-label>
+                  <ion-checkbox
+                    formControlName="localStoredKeysCheckbox"
+                    color="uxsecondary"
+                    slot="start"
+                  ></ion-checkbox>
+                </ion-item>
               </div>
+            </ion-item>
 
-              <div class="checkbox">
-                <app-ux-checkbox
-                  controlName="recoveryPhraseCheckbox"
-                  name="Recovery Phrase Checkbox"
-                  [label]="'wallets.disclaimer.recovery_phrase_checkbox' | translate"
-                  ngClass="checkbox"
-                  color="uxsecondary"
-                  slot="start"
-                ></app-ux-checkbox>
+            <ion-item class="ion-no-padding ion-no-margin checkbox">
+              <div class="ux_checkbox_container">
+                <ion-item class="ux_checkbox_container__item">
+                  <ion-label class="ux_checkbox_container__item__label checkbox__label">
+                    {{ 'wallets.disclaimer.recovery_phrase_checkbox' | translate }}
+                  </ion-label>
+                  <ion-checkbox
+                    formControlName="recoveryPhraseCheckbox"
+                    color="uxsecondary"
+                    slot="start"
+                  ></ion-checkbox>
+                </ion-item>
               </div>
+            </ion-item>
 
-              <div class="checkbox">
-                <app-ux-checkbox
-                  controlName="termsOfUseCheckbox"
-                  name="Terms of Use Checkbox"
-                  [label]="'wallets.disclaimer.terms_of_use_checkbox' | translate"
-                  ngClass="checkbox"
-                  color="uxsecondary"
-                  slot="start"
-                ></app-ux-checkbox>
+            <ion-item class="ion-no-padding ion-no-margin checkbox last">
+              <div class="ux_checkbox_container">
+                <ion-item class="ux_checkbox_container__item">
+                  <ion-label class="ux_checkbox_container__item__label checkbox__label">
+                    {{ 'wallets.disclaimer.terms_of_use_checkbox' | translate }}
+                  </ion-label>
+                  <ion-checkbox formControlName="termsOfUseCheckbox" color="uxsecondary" slot="start"></ion-checkbox>
+                </ion-item>
               </div>
-            </div>
+            </ion-item>
           </div>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
