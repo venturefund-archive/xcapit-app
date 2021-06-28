@@ -1513,6 +1513,17 @@
         "single": "Soltero/a",
         "widower": "Viudo/a",
         "divorcee": "Divorciado/a"
+      },
+      "gender_list": {
+        "male": "Masculino",
+        "female": "Femenino",
+        "other": "Otro",
+        "no_specified": "Prefiero no decirlo"
+      },
+      "doctypes_list": {
+        "DU": "DU",
+        "foreign_document": "Documento extranjero",
+        "passport": "Pasaporte"
       }
     },
     "confirm": {

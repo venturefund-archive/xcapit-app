@@ -79,7 +79,9 @@ import { TranslateService } from '@ngx-translate/core';
             [modalTitle]="'fiat_ramps.register.gender' | translate"
             [placeholder]="'fiat_ramps.register.gender' | translate"
             controlName="genero"
-            [data]="this.gender"
+            [data]="this.translatedGender"
+            keyName="name"
+            valueName="id"
           ></app-ux-input-select>
 
           <!-- Estado civil -->
@@ -88,7 +90,7 @@ import { TranslateService } from '@ngx-translate/core';
             [modalTitle]="'fiat_ramps.register.marital_status' | translate"
             [placeholder]="'fiat_ramps.register.marital_status' | translate"
             controlName="estado_civil"
-            [data]="this.maritalStatus"
+            [data]="this.translatedMaritalStatus"
             keyName="name"
             valueName="id"
           ></app-ux-input-select>
@@ -99,7 +101,9 @@ import { TranslateService } from '@ngx-translate/core';
             [modalTitle]="'fiat_ramps.register.doc_type' | translate"
             [placeholder]="'fiat_ramps.register.doc_type' | translate"
             controlName="tipo_doc"
-            [data]="this.docTypes"
+            [data]="this.translatedDocTypes"
+            keyName="name"
+            valueName="id"
           ></app-ux-input-select>
 
           <!-- Nro doc -->
@@ -194,10 +198,10 @@ export class UserInformationPage implements OnInit {
   });
 
   countries = Object.values(Countries);
-  maritalStatus = this.mapMaritalStatus(Object.keys(MaritalStatus));
+  translatedMaritalStatus = this.translateEnum(MaritalStatus, 'fiat_ramps.register.marital_status_list.');
   provinces = Object.values(Province);
-  gender = Object.values(Gender);
-  docTypes = Object.values(DocTypes);
+  translatedGender = this.translateEnum(Gender, 'fiat_ramps.register.gender_list.');
+  translatedDocTypes = this.translateEnum(DocTypes, 'fiat_ramps.register.doctypes_list.');
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -219,10 +223,10 @@ export class UserInformationPage implements OnInit {
     }
   }
 
-  mapMaritalStatus(keys) {
-    return keys.map((key) => ({
-      name: this.translate.instant(`fiat_ramps.register.marital_status_list.${MaritalStatus[key]}`),
-      id: key,
+  translateEnum(enumSelected, prefix) {
+    return Object.keys(enumSelected).map((id) => ({
+      name: this.translate.instant(`${prefix}${enumSelected[id]}`),
+      id,
     }));
   }
 }

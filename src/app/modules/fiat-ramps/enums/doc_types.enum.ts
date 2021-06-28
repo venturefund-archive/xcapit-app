@@ -1,5 +1,5 @@
 export enum DocTypes {
-    DU = 'DU',
-    DE = 'Documento extranjero',
-    PASSPORT = 'Pasaporte'
+  DU = 'DU',
+  DE = 'foreign_document',
+  PASSPORT = 'passport',
 }
