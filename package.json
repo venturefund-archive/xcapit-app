@@ -56,7 +56,9 @@
     "@ionic/storage": "^2.2.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "bitcore-wallet-client": "^8.25.12",
+    "bitcore-wallet-client": "8.25.11",
+    "buffer": "^6.0.3",
+    "buffer-compare": "^1.1.1",
     "chart.js": "^2.8.0",
     "cordova": "^10.0.0",
     "cordova-plugin-file-opener2": "^3.0.5",
@@ -103,6 +105,9 @@
     "ts-node": "~7.0.0",
     "tslint": "~6.1.0",
     "typescript": "^3.9.7"
+  },
+  "resolutions": {
+    "bitcore-wallet-client/crypto-wallet-core": "8.25.10"
   },
   "postinstall": "jetifier",
   "description": "An Ionic project"

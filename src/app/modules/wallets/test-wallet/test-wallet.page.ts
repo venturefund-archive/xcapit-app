@@ -76,7 +76,8 @@ export class TestWalletPage implements OnInit {
           // Si se creó la wallet, imprimir los datos
           // de la misma
           console.log('Wallet creada con éxito:');
-          console.log(client.credentials);
+          console.log(client);
+          console.log(key);
         }
       }
     );
