@@ -41,7 +41,7 @@ const { Browser } = Plugins;
           </div>
           <app-ux-input-select
             [label]="'fiat_ramps.paxful.label-wallet' | translate"
-            [modalTitle]="'Wallet'"
+            [modalTitle]="'fiat_ramps.paxful.modal_title' | translate"
             [placeholder]="'fiat_ramps.paxful.placeholder-wallet' | translate"
             controlName="wallet"
             [data]="this.walletAddressSelect"

@@ -1565,6 +1565,7 @@
       "label-wallet": "Selecciona tu dirección de recepción:",
       "placeholder-wallet": "Dirección de recepción",
       "recordatory_title": "Recuerda",
+      "modal_title": "Dirección de recepción",
       "recordatory_info": "Al hacer click en “Ir a Paxful”, vas a salir de Xcapit.",
       "button-text": "Ir a Paxful"
     },
