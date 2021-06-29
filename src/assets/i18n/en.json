@@ -1517,6 +1517,17 @@
         "single": "Single",
         "widower": "Widower",
         "divorcee": "Divorcee"
+      },
+      "gender_list": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "no_specified": "I prefer not to say"
+      },
+      "doctypes_list": {
+        "DU": "DU",
+        "foreign_document": "Foreign Document",
+        "passport": "Passport"
       }
     },
     "confirm": {
