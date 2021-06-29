@@ -1541,12 +1541,13 @@
       }
     },
     "paxful": {
-      "header": "Buy BTC with Paxful",
+      "header": "Buy",
       "title": "Buy BTC with Paxful",
       "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
-      "label-wallet": "Select your wallet",
+      "label-wallet": "Deposit Address",
       "placeholder-wallet": "Receiving address",
       "button-text": "Go to Paxful",
+      "modal_title": "Deposit Address",
       "recordatory_info": "By clicking on Go to Paxful, you will exit Xcapit."
     },
     "paxful_success": {
