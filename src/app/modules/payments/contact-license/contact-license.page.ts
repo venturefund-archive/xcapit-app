@@ -30,6 +30,7 @@ import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tic
             inputmode="text"
             [label]="'payment.contact.label_email' | translate"
             [placeholder]="'payment.contact.placeholder_email' | translate"
+            [readonly]="true"
           ></app-ux-input>
           <app-ux-textarea
             controlName="message"
