@@ -1556,7 +1556,8 @@
       "concept": "Concepto:",
       "info_telegram": "Por dudas o consultas, contactate con Kripton en Télegram",
       "info_email": "*El proveedor se comunicará por email conforme avance el proceso.",
-      "buttonText": "Añadir comprobante"
+      "buttonText": "Añadir comprobante",
+      "copy_cbu_ok_text": "El CBU fue copiado exitosamente."
     },
     "paxful": {
       "header": "Comprar",

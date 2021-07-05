@@ -1406,7 +1406,8 @@
       "amount": "Amount:",
       "info_telegram": "If you have any questions, you can contact Kripton through Telegram:",
       "info_email": "*The provider will email you when the process advances.",
-      "buttonText": "Attach voucher"
+      "buttonText": "Attach voucher",
+      "copy_cbu_ok_text": "The CBU was copied succesfully."
     },
     "select_provider": {
       "header": "Buy Crypto",
