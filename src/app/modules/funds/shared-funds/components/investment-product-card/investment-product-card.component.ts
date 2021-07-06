@@ -36,7 +36,7 @@ const { Browser } = Plugins;
         </div>
         <div class="ipc__content__description">
           <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxlight">{{
-            this.productData?.description
+            this.productData?.description | translate
           }}</ion-text>
         </div>
         <div class="ipc__content__capital_and_info">
@@ -142,12 +142,12 @@ export class InvestmentProductCardComponent implements OnInit {
     },
     DeFi_index: {
       title: 'funds.fund_investment.card.profiles.DeFi_index.title',
-      description: 'funds.fund_investment.card.profiles.DeFi_index.title',
+      description: 'funds.fund_investment.card.profiles.DeFi_index.description',
       style: 'light-blue-style',
     },
     Mary_index: {
       title: 'funds.fund_investment.card.profiles.Mary_index.title',
-      description: 'funds.fund_investment.card.profiles.Mary_index.title',
+      description: 'funds.fund_investment.card.profiles.Mary_index.description',
       style: 'purple-style',
     },
   };
@@ -170,7 +170,6 @@ export class InvestmentProductCardComponent implements OnInit {
 
     this.productData.risk_class = this.getRiskClass();
     this.productData.title = this.translate.instant(this.productData.title);
-    this.productData.description = this.translate.instant(this.productData.description);
   }
 
   getRiskClass() {
