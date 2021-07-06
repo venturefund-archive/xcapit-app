@@ -426,19 +426,19 @@
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
-            "description": "Permite que Brainy tradee por ti y obten rendimientos en dólares."
+            "description": "Permite que nuestro algoritmo tradee por ti. Operamos la totalidad de tus criptos y cuando tu inversión finalice se convertirá a USDT."
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
-            "description": "Genera más Bitcoins con los Bitcoins que ya tienes."
+            "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus criptos y cuando tu inversión finalice se convertirá a BTC."
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Participa del creciente mercado de las finanzas descentralizadas."
+            "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
+            "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT."
           },
           "classic_BTC": {
             "title": "Classic"
