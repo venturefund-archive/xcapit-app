@@ -33,6 +33,7 @@ import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-i
 import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
 import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
+import { UxDatetimeComponent } from './components/ux-datetime/ux-datetime.component';
 import { NeedHelpComponent } from './components/need-help/need-help.component';
 import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
@@ -69,6 +70,7 @@ import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-a
     UxCheckboxComponent,
     UxDateRangeComponent,
     UxTextareaComponent,
+    UxDatetimeComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -118,6 +120,7 @@ import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-a
     UxCheckboxComponent,
     UxDateRangeComponent,
     UxTextareaComponent,
+    UxDatetimeComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
