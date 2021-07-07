@@ -7,6 +7,7 @@
 
     .checkbox {
       --border-color: var(--ion-background-color);
+      --background-hover: transparent;
       --background: transparent;
 
       &__label {
@@ -37,6 +38,8 @@
       --padding-start: 16px;
       --padding-end: 16px;
       --border-color: transparent;
+
+      --background-hover: transparent;
       --background-activated: transparent;
       --min-height: 24px;
       --min-width: 24px;

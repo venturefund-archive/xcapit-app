@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-disclaimer-wallet',
@@ -14,7 +18,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <form [formGroup]="this.disclaimerForm" class="ux_main">
+      <form [formGroup]="this.disclaimerForm" class="ux_main" (ngSubmit)="this.handleSubmit()">
         <div class="ux_content">
           <div>
             <ion-text name="Title" class="ux-font-gilroy ux-fsize-22 ux-fweight-bold">{{
@@ -72,13 +76,13 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         <div name="Disclaimer Form Buttons" class="ux_footer">
           <div class="button">
             <ion-button
-              class=""
               appTrackClick
               name="Terms of Use Button"
               type="button"
               color="uxsecondary"
               size="small"
               fill="clear"
+              (click)="this.showTermsOfUse()"
             >
               {{ 'wallets.disclaimer.terms_of_use_button' | translate }}
             </ion-button>
@@ -92,7 +96,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="!this.disclaimerForm.valid || (this.submitButtonService.isDisabled | async)"
+              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'wallets.disclaimer.submit_button' | translate }}
             </ion-button>
@@ -111,11 +115,42 @@ export class DisclaimerWalletPage implements OnInit {
     termsOfUseCheckbox: [false, [Validators.requiredTrue]],
   });
 
-  constructor(private formBuilder: FormBuilder, public submitButtonService: SubmitButtonService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    public submitButtonService: SubmitButtonService,
+    private navController: NavController,
+    private modalController: ModalController,
+    private translate: TranslateService,
+    private storageWalletsService: StorageWalletsService
+  ) {}
 
   ngOnInit() {}
 
-  test() {
-    console.log(this.disclaimerForm.valid);
+  handleSubmit() {
+    if (this.disclaimerForm.valid) {
+      this.acceptToS();
+      this.navController.navigateForward(['wallets/test']);
+    } else {
+      this.showModalDidNotAccept();
+    }
+  }
+
+  async showModalDidNotAccept() {
+    const modal = await this.modalController.create({
+      component: ToastAlertComponent,
+      cssClass: 'ux-alert',
+      showBackdrop: false,
+      componentProps: {
+        title: this.translate.instant('wallets.disclaimer.error_did_not_accept'),
+        type: 'error',
+      },
+    });
+    await modal.present();
+  }
+
+  showTermsOfUse() {}
+
+  acceptToS() {
+    this.storageWalletsService.acceptToS();
   }
 }
