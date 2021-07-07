@@ -65,13 +65,11 @@ import { TranslateService } from '@ngx-translate/core';
           ></app-ux-input-select>
 
           <!-- fecha de nacimiento -->
-          <app-ux-input
+          <app-ux-datetime
             controlName="nacimiento"
-            type="text"
-            inputmode="text"
             [label]="'fiat_ramps.register.dob' | translate"
             [placeholder]="'fiat_ramps.register.dob' | translate"
-          ></app-ux-input>
+          ></app-ux-datetime>
 
           <!-- Género -->
           <app-ux-input-select
