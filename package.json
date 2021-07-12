@@ -108,7 +108,8 @@
     "typescript": "^3.9.7"
   },
   "resolutions": {
-    "bitcore-wallet-client/crypto-wallet-core": "8.25.10"
+    "bitcore-wallet-client/crypto-wallet-core": "8.25.10",
+    "@codetrix-studio/capacitor-google-auth/@capacitor/core": "2.4.8"
   },
   "postinstall": "jetifier",
   "description": "An Ionic project"

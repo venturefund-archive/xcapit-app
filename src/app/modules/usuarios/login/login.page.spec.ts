@@ -73,136 +73,136 @@ describe('LoginPage', () => {
     })
   );
 
-  // beforeEach(() => {
-  //   fixture = TestBed.createComponent(LoginPage);
-  //   subscriptionsService = TestBed.inject(SubscriptionsService);
-  //   apiUsuariosService = TestBed.inject(ApiUsuariosService);
-  //   component = fixture.componentInstance;
-  //   component.googleAuthPlugin = googleAuthPluginSpy;
-  //   trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
-  //   fixture.detectChanges();
-  // });
-  //
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
-  //
-  // it('should call success from loginUser', () => {
-  //   const spy = spyOn(component, 'success');
-  //   component.loginUser(null);
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should reset form on success', () => {
-  //   const spy = spyOn(component.loginForm.form, 'reset');
-  //   component.success();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should call checkStoredLink on success', () => {
-  //   component.success();
-  //   expect(subscriptionsService.checkStoredLink).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should call status on storedLink not exists', async (done) => {
-  //   subscriptionsService.checkStoredLink.and.returnValue(Promise.resolve(false));
-  //   component.success();
-  //   fixture.whenStable().then(() => {
-  //     expect(apiUsuariosService.status).toHaveBeenCalledTimes(1);
-  //   });
-  //   done();
-  // });
-  //
-  // it('should redirect to fund list when status is COMPLETE', () => {
-  //   const url = component.getUrlByStatus('COMPLETE');
-  //   expect(url).toEqual(['tabs/funds']);
-  // });
-  //
-  // it('should redirect to fund list when status is CREATOR', () => {
-  //   const url = component.getUrlByStatus('CREATOR');
-  //   expect(url).toEqual(['tabs/funds']);
-  // });
-  //
-  // it('should redirect to fund list when status is EXPLORER', () => {
-  //   const url = component.getUrlByStatus('EXPLORER');
-  //   expect(url).toEqual(['tabs/funds']);
-  // });
-  //
-  // it('should redirect to first steps when status is BEGINNER', () => {
-  //   const url = component.getUrlByStatus('BEGINNER');
-  //   expect(url).toEqual(['tutorials/first-steps']);
-  // });
-  //
-  // it('should call signIn on googleSingUp', async () => {
-  //   await component.googleSingUp();
-  //   expect(googleAuthPluginSpy.signIn).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should call loginWithGoogle on googleSingUp', async () => {
-  //   await component.googleSingUp();
-  //   expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should call success after successful login with Google', async () => {
-  //   const spy = spyOn(component, 'success');
-  //   await component.googleSingUp();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should not call success if user closed login with Google window', async () => {
-  //   const spy = spyOn(component, 'success');
-  //   googleAuthPluginSpy.signIn.and.throwError('User closed window');
-  //   await component.googleSingUp();
-  //   expect(spy).toHaveBeenCalledTimes(0);
-  // });
-  //
-  // it('should not call loginWithGoogle if user closed login with Google window', async () => {
-  //   googleAuthPluginSpy.signIn.and.throwError('User closed window');
-  //   await component.googleSingUp();
-  //   expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
-  // });
-  //
-  // it('should call trackEvent on trackService when Google Auth button clicked', () => {
-  //   fixture.detectChanges();
-  //   component.loginForm.form.patchValue(formData.valid);
-  //   fixture.detectChanges();
-  //   expect(component.loginForm.form.valid).toBeTruthy();
-  //   const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
-  //   const directive = trackClickUnauthDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should call trackEvent on trackService when Login button clicked', () => {
-  //   fixture.detectChanges();
-  //   component.loginForm.form.patchValue(formData.valid);
-  //   fixture.detectChanges();
-  //   expect(component.loginForm.form.valid).toBeTruthy();
-  //   const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Login');
-  //   const directive = trackClickUnauthDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should call trackEvent on trackService when Go To Register button clicked', () => {
-  //   const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Go To Register');
-  //   const directive = trackClickUnauthDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should call trackEvent on trackService when Reset Password button clicked', () => {
-  //   const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Reset Password');
-  //   const directive = trackClickUnauthDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LoginPage);
+    subscriptionsService = TestBed.inject(SubscriptionsService);
+    apiUsuariosService = TestBed.inject(ApiUsuariosService);
+    component = fixture.componentInstance;
+    component.googleAuthPlugin = googleAuthPluginSpy;
+    trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should call success from loginUser', () => {
+    const spy = spyOn(component, 'success');
+    component.loginUser(null);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should reset form on success', () => {
+    const spy = spyOn(component.loginForm.form, 'reset');
+    component.success();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call checkStoredLink on success', () => {
+    component.success();
+    expect(subscriptionsService.checkStoredLink).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call status on storedLink not exists', async (done) => {
+    subscriptionsService.checkStoredLink.and.returnValue(Promise.resolve(false));
+    component.success();
+    fixture.whenStable().then(() => {
+      expect(apiUsuariosService.status).toHaveBeenCalledTimes(1);
+    });
+    done();
+  });
+
+  it('should redirect to fund list when status is COMPLETE', () => {
+    const url = component.getUrlByStatus('COMPLETE');
+    expect(url).toEqual(['tabs/funds']);
+  });
+
+  it('should redirect to fund list when status is CREATOR', () => {
+    const url = component.getUrlByStatus('CREATOR');
+    expect(url).toEqual(['tabs/funds']);
+  });
+
+  it('should redirect to fund list when status is EXPLORER', () => {
+    const url = component.getUrlByStatus('EXPLORER');
+    expect(url).toEqual(['tabs/funds']);
+  });
+
+  it('should redirect to first steps when status is BEGINNER', () => {
+    const url = component.getUrlByStatus('BEGINNER');
+    expect(url).toEqual(['tutorials/first-steps']);
+  });
+
+  it('should call signIn on googleSingUp', async () => {
+    await component.googleSingUp();
+    expect(googleAuthPluginSpy.signIn).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call loginWithGoogle on googleSingUp', async () => {
+    await component.googleSingUp();
+    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call success after successful login with Google', async () => {
+    const spy = spyOn(component, 'success');
+    await component.googleSingUp();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call success if user closed login with Google window', async () => {
+    const spy = spyOn(component, 'success');
+    googleAuthPluginSpy.signIn.and.throwError('User closed window');
+    await component.googleSingUp();
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not call loginWithGoogle if user closed login with Google window', async () => {
+    googleAuthPluginSpy.signIn.and.throwError('User closed window');
+    await component.googleSingUp();
+    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call trackEvent on trackService when Google Auth button clicked', () => {
+    fixture.detectChanges();
+    component.loginForm.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    expect(component.loginForm.form.valid).toBeTruthy();
+    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
+    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Login button clicked', () => {
+    fixture.detectChanges();
+    component.loginForm.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    expect(component.loginForm.form.valid).toBeTruthy();
+    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Login');
+    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Go To Register button clicked', () => {
+    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Go To Register');
+    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Reset Password button clicked', () => {
+    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Reset Password');
+    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });

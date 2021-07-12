@@ -48,7 +48,6 @@ export class TestWalletPage {
         m: 1,
       })
     );
-    ``;
     client.credentials.m = 1;
     console.log(client.credentials);
 
