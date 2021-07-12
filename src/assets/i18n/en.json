@@ -1447,8 +1447,8 @@
         "date": "Date:",
         "id": "ID:"
       },
-      "voucher": "Comprobante",
-      "send": "Enviar comprobante",
+      "voucher": "Voucher",
+      "send": "Send voucher",
       "my_operations": "See my operations",
       "has_voucher": "Voucher has been uploaded"
     },
