@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { SelectLicensePage } from './select-license.page';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SelectLicensePage', () => {
   let component: SelectLicensePage;
@@ -11,7 +13,7 @@ describe('SelectLicensePage', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [SelectLicensePage],
-        imports: [IonicModule.forRoot()],
+        imports: [IonicModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SelectLicensePage);

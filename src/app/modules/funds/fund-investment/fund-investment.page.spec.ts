@@ -88,13 +88,12 @@ describe('FundInvestmentPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on init', async (done) => {
+  it('should call fundDataStorageService.getData on init', async () => {
     const spy = spyOn(fundDataStorageService, 'getData');
     spy.and.returnValue(Promise.resolve('test'));
     await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(2);
-    done();
   });
 
   it('should save data and check balance on handleSubmit and form valid', async (done) => {

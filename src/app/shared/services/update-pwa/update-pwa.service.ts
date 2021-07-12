@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { LoadingService } from '../loading/loading.service';
 import { HttpClient } from '@angular/common/http';
-import version from 'pwa/version.json';
+import { version } from 'pwa/version';
 
 @Injectable({
   providedIn: 'root',

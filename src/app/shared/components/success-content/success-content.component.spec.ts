@@ -16,10 +16,13 @@ describe('SuccessContentComponent', () => {
     urlClose: '/tabs/funds',
     textPrimary: 'test.test.textPrimary',
     textSecondary: 'test.test.textSecondary',
+    textThird: 'test.test.textThird',
     urlPrimaryAction: '/apikeys/new',
     namePrimaryAction: 'test.test.namePrimaryAction',
     urlSecondaryAction: '/tabs/funds',
     nameSecondaryAction: 'test.test.nameSecondaryAction',
+    urlThirdAction: '/tabs/funds',
+    nameThirdAction: 'test.test.nameThirdAction',
   };
   beforeEach(
     waitForAsync(() => {

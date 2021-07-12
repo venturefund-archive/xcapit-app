@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { ItemLicenseComponent } from './item-license.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ItemLicenseComponent', () => {
   let component: ItemLicenseComponent;
@@ -11,11 +12,12 @@ describe('ItemLicenseComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ItemLicenseComponent],
-        imports: [IonicModule.forRoot()],
+        imports: [IonicModule, TranslateModule.forRoot()],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ItemLicenseComponent);
       component = fixture.componentInstance;
+      component.license = { type: 'premium' };
       fixture.detectChanges();
     })
   );

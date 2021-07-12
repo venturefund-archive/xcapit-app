@@ -7,7 +7,7 @@ const testOpts = {
 };
 
 const testWallet = {};
-fdescribe('BwcService', () => {
+describe('BwcService', () => {
   let service: BwcService;
 
   beforeEach(() => {

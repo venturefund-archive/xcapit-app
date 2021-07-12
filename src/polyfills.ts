@@ -56,7 +56,7 @@ import '@angular/localize/init';
  *
  */
 
-import './zone-flags.ts';
+import './zone-flags';
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
@@ -67,5 +67,5 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-global.Buffer = require('buffer').Buffer;
-(window as any).Buffer = require('buffer').Buffer;
+(window as any).global = window;
+(window as any).global.Buffer = (window as any).global.Buffer || require('safe-buffer').Buffer;

@@ -6,8 +6,8 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
 import { Router } from '@angular/router';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
-import '@codetrix-studio/capacitor-google-auth';
-import { Plugins } from '@capacitor/core';
+// import '@codetrix-studio/capacitor-google-auth';
+// import { Plugins } from '@capacitor/core';
 
 @Component({
   selector: 'app-login',
@@ -102,7 +102,7 @@ import { Plugins } from '@capacitor/core';
 })
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
-  googleAuthPlugin: any = Plugins.GoogleAuth;
+  // googleAuthPlugin: any = Plugins.GoogleAuth;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -115,15 +115,15 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   async googleSingUp() {
-    let googleUser;
-
-    try {
-      googleUser = await this.googleAuthPlugin.signIn();
-    } catch (e) {
-      return;
-    }
-
-    this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
+    // let googleUser;
+    //
+    // try {
+    //   googleUser = await this.googleAuthPlugin.signIn();
+    // } catch (e) {
+    //   return;
+    // }
+    //
+    // this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
   }
 
   loginUser(data: any) {

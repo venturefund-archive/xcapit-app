@@ -1,17 +1,37 @@
-/*
-  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
-  It is not intended to be used to perform a compilation.
-
-  To learn more about this file see: https://angular.io/config/solution-tsconfig.
-*/
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "lib": ["dom", "es2015", "es2020"],
+    "module": "es2020",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "target": "es6",
+    "types": ["node"],
+    "baseUrl": "./"
+  },
+  "include": ["src/main.ts", "src/polyfills.ts", "src/zone-flags.ts"],
+  "exclude": ["node_modules"],
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "typeRoots": ["node_modules/@types"],
+  "atom": {
+    "rewriteTsconfig": false
+  },
+  "rules": {
+    "no-console": false
+  }
 }
