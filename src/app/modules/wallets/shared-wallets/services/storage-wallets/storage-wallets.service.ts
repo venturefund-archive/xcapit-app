@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs';
 
 const initialValues = [{ userAcceptedToS: false }, { wallets: null }];
 @Injectable({
@@ -38,5 +39,25 @@ export class StorageWalletsService {
 
   acceptToS() {
     this.setValue('userAcceptedToS', true);
+  }
+
+  getRecoveryPhrase(): Observable<string[]> {
+    return new Observable((observer) =>
+      observer.next([
+        'insecto',
+        'puerta',
+        'vestido',
+        'piso',
+        'plato',
+        'nube',
+        'afuera',
+        'fuego',
+        'laptop',
+        'libre',
+        'perro',
+        'niño',
+      ])
+    );
+    // return this.getValue('recoveryPhrase');
   }
 }
