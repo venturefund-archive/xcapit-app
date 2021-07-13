@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./select-license/select-license/select-license.module').then((m) => m.SelectLicensePageModule),
       },
+      {
+        path: 'payment-success',
+        loadChildren: () => import('./payment-success/payment-success.module').then((m) => m.PaymentSuccessPageModule),
+      },
     ],
   },
 ];

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { LicenseType } from '../../enums/license_type.enum';
 
@@ -66,7 +66,6 @@ import { LicenseType } from '../../enums/license_type.enum';
 })
 export class ItemLicenseComponent implements OnInit {
   @Input() license: any;
-
   licenseType = LicenseType;
 
   constructor(private navController: NavController) {}
