@@ -41,7 +41,7 @@
       }
     }
     &__description {
-      width: 85%;
+      width: 100%;
       padding-top: 7px;
     }
     &__capital_and_info {
@@ -92,16 +92,8 @@
 /*----- Styles for Brainy USDT  --------*/
 .green-style {
   & .ipc__content {
-    background: linear-gradient(
-        75.47deg,
-        rgba(111, 207, 151, 0.75) 9.97%,
-        rgba(111, 207, 151, 0.75) 81.14%
-      ),
-      linear-gradient(
-        0deg,
-        rgba(111, 207, 151, 0.75),
-        rgba(111, 207, 151, 0.75)
-      ),
+    background: linear-gradient(75.47deg, rgba(111, 207, 151, 0.75) 9.97%, rgba(111, 207, 151, 0.75) 81.14%),
+      linear-gradient(0deg, rgba(111, 207, 151, 0.75), rgba(111, 207, 151, 0.75)),
       url('/assets/img/investment-products/Brainy_USDT.jpg');
   }
   & .ipc__footer {
@@ -109,7 +101,7 @@
     &__button {
       & ion-button {
         --background: #219653;
-        --background-activated: #107A3E;
+        --background-activated: #107a3e;
       }
     }
     &__last_year_revenue__value_and_icon__icon {
@@ -123,16 +115,8 @@
 
 .orange-style {
   & .ipc__content {
-    background: linear-gradient(
-        0deg,
-        rgba(255, 194, 115, 0.75),
-        rgba(255, 194, 115, 0.75)
-      ),
-      linear-gradient(
-        0deg,
-        rgba(255, 194, 115, 0.75),
-        rgba(255, 194, 115, 0.75)
-      ),
+    background: linear-gradient(0deg, rgba(255, 194, 115, 0.75), rgba(255, 194, 115, 0.75)),
+      linear-gradient(0deg, rgba(255, 194, 115, 0.75), rgba(255, 194, 115, 0.75)),
       url('/assets/img/investment-products/Brainy_BTC.jpg');
   }
   & .ipc__footer {
@@ -140,7 +124,7 @@
     &__button {
       & ion-button {
         --background: #ff9100;
-        --background-activated: #C67100;
+        --background-activated: #c67100;
       }
     }
     &__last_year_revenue__value_and_icon__icon {
@@ -154,11 +138,7 @@
 
 .light-blue-style {
   & .ipc__content {
-    background: linear-gradient(
-        0deg,
-        rgba(86, 204, 242, 0.75),
-        rgba(86, 204, 242, 0.75)
-      ),
+    background: linear-gradient(0deg, rgba(86, 204, 242, 0.75), rgba(86, 204, 242, 0.75)),
       linear-gradient(0deg, rgba(86, 204, 242, 0.75), rgba(86, 204, 242, 0.75)),
       url('/assets/img/investment-products/Indice_Defi.jpg');
   }
@@ -167,7 +147,7 @@
     &__button {
       & ion-button {
         --background: #2f80ed;
-        --background-activated: #106AE7;
+        --background-activated: #106ae7;
       }
     }
     &__last_year_revenue__value_and_icon__icon {
@@ -181,11 +161,7 @@
 
 .purple-style {
   & .ipc__content {
-    background: linear-gradient(
-        0deg,
-        rgba(187, 107, 217, 0.75),
-        rgba(187, 107, 217, 0.75)
-      ),
+    background: linear-gradient(0deg, rgba(187, 107, 217, 0.75), rgba(187, 107, 217, 0.75)),
       linear-gradient(0deg, rgba(86, 204, 242, 0.75), rgba(86, 204, 242, 0.75)),
       url('/assets/img/investment-products/Indice_Mary.jpg');
   }
@@ -194,7 +170,7 @@
     &__button {
       & ion-button {
         --background: #9b51e0 75%;
-        --background-activated: #8530D3;
+        --background-activated: #8530d3;
       }
     }
     &__last_year_revenue__value_and_icon__icon {
