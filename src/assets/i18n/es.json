@@ -1616,6 +1616,11 @@
       "monthly": "mensual",
       "annual": "anual",
       "free": "GRATIS"
+    },
+    "success": {
+      "textPrimary": "¡Tu plan está activo!",
+      "textSecondary": "Sigue configurando tu inversión",
+      "textBtn": "Continuar"
     }
   }
 }
