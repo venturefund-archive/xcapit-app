@@ -1289,6 +1289,14 @@
       "description_text": "We are able to create your fund to start managing your investment.",
       "create_fund_later_button_text": "I'll create it later"
     },
+    "register_success_beginner": {
+      "textPrimary": "You have already linked your account with Binance!",
+      "textSecondary": "We are in a position to create a fund to start managing your investment. ",
+      "textThird": "or you can also",
+      "namePrimaryAction": "Create an investment fund",
+      "nameSecondaryAction": "Skip for now",
+      "nameThirdAction": "Buy cryptocurrencies"
+    },
     "tutorial_apikeys": {
       "header": "Link with Binance",
       "title": "Associate an external management key (API key)",
