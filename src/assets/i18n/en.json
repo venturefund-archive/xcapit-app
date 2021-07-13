@@ -423,19 +423,19 @@
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
-            "description": "Let our algorithm trade for you. We operate all of your cryptos and when your investment is finished it will be converted to USDT."
+            "description": "Let our algorithm trade for you. We operate all of your cryptos and when your investment is finished it will be converted to USDT (Tether)."
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
-            "description": "Generate more Bitcoins with your cryptos. We operate all of your cryptos and when your investment is finished it will be converted to BTC."
+            "description": "Generate more Bitcoins with your cryptos. We operate all of your cryptos and when your investment is finished it will be converted to BTC (Bitcoin)."
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT."
+            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether)."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invest in the 5 cryptocurrencies with the highest market capitalization. When your investment is finished, it will be converted into USDT."
+            "description": "Invest in the 5 cryptocurrencies with the highest market capitalization. When your investment is finished, it will be converted into USDT (Tether)."
           },
           "classic_BTC": {
             "title": "Classic"
