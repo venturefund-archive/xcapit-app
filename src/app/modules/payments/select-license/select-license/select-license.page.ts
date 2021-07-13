@@ -73,7 +73,7 @@ export class SelectLicensePage implements OnInit {
   annualState = 'payment.licenses.annual';
   monthlyState = 'payment.licenses.monthly';
   selectedLicense: string;
-  paymentMethods: Array<any>;
+  paymentMethods = [];
 
   constructor(private navController: NavController, private apiPayment: ApiPaymentsService) {}
 
@@ -81,9 +81,7 @@ export class SelectLicensePage implements OnInit {
     this.changeLicenses(this.annualState);
   }
 
-  ngOnInit() {
-    this.action(this.selectedLicense);
-  }
+  ngOnInit() {}
 
   changeLicenses(aState: string) {
     this.licenses = LICENSES;
@@ -109,8 +107,6 @@ export class SelectLicensePage implements OnInit {
         this.getSuccessRoute();
       });
     }
-    console.log('Elementos array: ', this.paymentMethods?.length);
-    console.log('Licencia seleccionada: ', this.selectedLicense);
   }
 
   getSuccessRoute() {

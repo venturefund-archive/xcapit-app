@@ -7,7 +7,7 @@ import { NavController } from '@ionic/angular';
     <ion-content class="ion-padding">
       <div class="main">
         <div class="main__close_button">
-          <ion-button appTrackClick fill="clear" name="Close Success" (click)="this.close()">
+          <ion-button appTrackClick fill="clear" name="Close" (click)="this.close()">
             <ion-icon class="main__close_button__icon" name="ux-close" color="uxmedium"></ion-icon>
           </ion-button>
         </div>
@@ -22,7 +22,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="main__actions">
           <div class="main__actions__primary">
-            <ion-button appTrackClick class="ux_button" name="Continue" (click)="this.goToMenu()">
+            <ion-button appTrackClick class="ux_button" name="Continue" (click)="this.continue()">
               {{ 'payment.success.textBtn' | translate }}
             </ion-button>
           </div>
@@ -37,7 +37,9 @@ export class PaymentSuccessPage implements OnInit {
 
   ngOnInit() {}
 
-  goToMenu() {}
+  continue() {
+    this.navController.navigateForward(['/tabs/funds']);
+  }
 
   close() {
     this.navController.navigateBack(['/tabs/funds']);
