@@ -1616,6 +1616,11 @@
       "monthly": "monthly",
       "annual": "annual",
       "free": "FREE"
+    },
+    "success": {
+      "textPrimary": "Your plan is active!",
+      "textSecondary": "Keep configuring your investment",
+      "textBtn": "Continue"
     }
   }
 }
