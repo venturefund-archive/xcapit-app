@@ -1,7 +1,29 @@
+import { getLocaleNumberFormat } from '@angular/common';
 import { Injectable } from '@angular/core';
 import BWC from 'bitcore-wallet-client';
+import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
+import { LanguageService } from 'src/app/shared/services/language/language.service';
 
 const BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api';
+
+enum GenerationType {
+  NEW,
+  EXTENDED_PRIVATE_KEY,
+  MNEMONIC,
+}
+
+interface WalletData {
+  password: string;
+  coin: string;
+  network: string;
+  account: number;
+  maximumCopayers: number;
+  minimumSignsForTx: number;
+  name: string;
+  copayerName: string;
+  generationType: GenerationType;
+  generationData?: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +32,7 @@ export class BwcService {
   public Client = BWC;
   clientInstance: BWC;
 
-  constructor() {}
+  constructor(private languageService: LanguageService) {}
 
   public getClient(walletData?, opts?): BWC {
     opts = opts || {};
@@ -28,62 +50,111 @@ export class BwcService {
     return bwc;
   }
 
-  public generateFirstWallets() {
-    // Creamos el cliente usando getClient()
+  createSharedWallet() {}
+
+  createSimpleWallet(coin: string): Promise<any> {
+    const walletData: WalletData = {
+      password: 'test',
+      coin,
+      account: 0,
+      network: 'testnet',
+      maximumCopayers: 1,
+      minimumSignsForTx: 1,
+      name: `${coin.toUpperCase()} Wallet`,
+      copayerName: 'Federico',
+      generationType: GenerationType.NEW,
+    };
+
+    return this.createWallet(walletData);
+  }
+
+  joinWallet() {}
+
+  createChildWallet(extendedPrivateKey: string, coin: string, account: number): Promise<any> {
+    const walletData: WalletData = {
+      password: 'test',
+      coin,
+      account,
+      network: 'testnet',
+      maximumCopayers: 1,
+      minimumSignsForTx: 1,
+      name: `${coin.toUpperCase()} Wallet`,
+      copayerName: 'Federico',
+      generationType: GenerationType.EXTENDED_PRIVATE_KEY,
+      generationData: extendedPrivateKey,
+    };
+
+    return this.createWallet(walletData);
+  }
+
+  createTokenWallet() {}
+
+  private createWallet(walletData: WalletData): Promise<any> {
     this.clientInstance = this.getClient();
 
-    // Creamos una nueva Key donde le indicamos
-    // a la wallet que vamos a generar una nueva seed
-    const key = new BWC.Key({
-      seedType: 'new',
-      useLegacyCoinType: false,
-      useLegacyPurpose: false,
+    const key = this.generateWalletSeed(walletData.generationType, walletData.generationData);
+
+    const credentials = key.createCredentials(walletData.password, {
+      coin: walletData.coin,
+      network: walletData.network || 'testnet',
+      account: walletData.account,
+      n: walletData.maximumCopayers,
     });
 
-    // Creamos un nuevo conjunto de credenciales con
-    // nombre 'test', para monedas BitCoin en la red
-    // de pruebas, para un único peer (n=1, m=1)
-    const credentials = key.createCredentials('test', {
-      coin: 'btc',
-      network: 'testnet',
-      account: 0,
-      n: 1,
-      m: 1,
-    });
+    credentials.m = walletData.minimumSignsForTx;
 
-    credentials.m = 1;
-
-    // Creamos un nuevo cliente a partir de las credenciales
     this.clientInstance.fromString(credentials);
 
-    // Creamos la wallet usando client.createWallet()
-    // Los parámetros son: nombre de la wallet, nombre
-    // del peer, m, n, opciones avanzadas y callback
-    this.clientInstance.createWallet(
-      'Test Wallet',
-      'Alice',
-      this.clientInstance.credentials.m,
-      this.clientInstance.credentials.n,
-      {
-        coin: this.clientInstance.credentials.coin,
-        network: this.clientInstance.credentials.network,
-        singleAddress: false,
-        useNativeSegwit: true,
-        walletPrivKey: this.clientInstance.credentials.walletPrivKey,
-      },
-      (err) => {
-        if (err) {
-          // Si hubo un error, imprimirlo
-          console.log('error: ', err);
-          return;
-        } else {
-          // Si se creó la wallet, imprimir los datos
-          // de la misma
-          console.log('Wallet creada con éxito:');
-          console.log(this.clientInstance);
-          console.log(key);
+    return new Promise((resolve) => {
+      this.clientInstance.createWallet(
+        walletData.name,
+        walletData.copayerName,
+        this.clientInstance.credentials.m,
+        this.clientInstance.credentials.n,
+        {
+          coin: this.clientInstance.credentials.coin,
+          network: this.clientInstance.credentials.network,
+          singleAddress: false,
+          useNativeSegwit: true,
+          walletPrivKey: this.clientInstance.credentials.walletPrivKey,
+        },
+        (err) => {
+          if (err) {
+            console.log('error: ', err);
+            return;
+          } else {
+            console.log('Wallet creada con éxito:');
+            return resolve({ credentials, key });
+          }
         }
-      }
-    );
+      );
+    });
+  }
+
+  private generateWalletSeed(generationType: GenerationType, data?: string): Key {
+    const keyData = {
+      seedType: null,
+      seedData: null,
+      language: null,
+      useLegacyCoinType: false,
+      useLegacyPurpose: false,
+    };
+
+    switch (generationType) {
+      case GenerationType.NEW:
+        keyData.seedType = 'new';
+        keyData.language = this.languageService.selected;
+        break;
+      case GenerationType.MNEMONIC:
+        keyData.seedType = 'mnemonic';
+        keyData.seedData = data;
+        break;
+      case GenerationType.EXTENDED_PRIVATE_KEY:
+        keyData.seedType = 'extendedPrivateKey';
+        keyData.seedData = data;
+        break;
+    }
+
+    return new Key(keyData);
   }
 }
