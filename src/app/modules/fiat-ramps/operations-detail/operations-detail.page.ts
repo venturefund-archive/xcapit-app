@@ -150,7 +150,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             <span>{{ 'fiat_ramps.operation_detail.has_voucher' | translate }}</span>
           </div>
 
-          <div class="updload_voucher" *ngIf="this.comprobante">
+          <div class="updload_voucher" *ngIf="this.comprobante && !this.hasVoucher">
             <app-ux-loading-block *ngIf="this.loading" minSize="60px"></app-ux-loading-block>
 
             <div class="button-next" *ngIf="!this.loading">
