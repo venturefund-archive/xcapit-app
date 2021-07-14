@@ -9,6 +9,7 @@ import { Gender } from '../enums/gender.enums';
 import { DocTypes } from '../enums/doc_types.enum';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-user-information',
@@ -69,6 +70,7 @@ import { TranslateService } from '@ngx-translate/core';
             controlName="nacimiento"
             [label]="'fiat_ramps.register.dob' | translate"
             [placeholder]="'fiat_ramps.register.dob' | translate"
+            [max]="this.maxDate"
           ></app-ux-datetime>
 
           <!-- Género -->
@@ -200,6 +202,7 @@ export class UserInformationPage implements OnInit {
   provinces = Object.values(Province);
   translatedGender = this.translateEnum(Gender, 'fiat_ramps.register.gender_list.');
   translatedDocTypes = this.translateEnum(DocTypes, 'fiat_ramps.register.doctypes_list.');
+  maxDate = this.getLegalAgeBirthDate();
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -226,5 +229,9 @@ export class UserInformationPage implements OnInit {
       name: this.translate.instant(`${prefix}${enumSelected[id]}`),
       id,
     }));
+  }
+
+  getLegalAgeBirthDate() {
+    return moment().subtract(18, 'y').utc().format();
   }
 }
