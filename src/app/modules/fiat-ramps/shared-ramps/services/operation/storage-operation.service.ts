@@ -13,6 +13,7 @@ interface OperationDataInterface {
   price_out: string;
   wallet: string;
   provider: string;
+  network: string;
 }
 
 @Injectable({
@@ -33,6 +34,7 @@ export class StorageOperationService {
     price_out: '',
     wallet: '',
     provider: '',
+    network: '',
   };
 
   private dataSource = new BehaviorSubject<OperationDataInterface>(this.initial);
