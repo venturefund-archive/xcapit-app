@@ -1119,7 +1119,8 @@
           "errorProvider": "Error trying to create operation in provider."
         },
         "confirm": {
-          "errorProvider": "Error when trying to save the voucher in the provider."
+          "errorProvider": "Error when trying to save the voucher in the provider.",
+          "errorConfirmation": "You must confirm the created operation. Please, check your email."
         }
       },
       "paxful": {

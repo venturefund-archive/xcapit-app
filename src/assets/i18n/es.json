@@ -1123,7 +1123,8 @@
           "errorProvider": "Error al intentar crear la operación en el proveedor."
         },
         "confirm": {
-          "errorProvider": "Error al intentar guardar el comprobante en el proveedor."
+          "errorProvider": "Error al intentar guardar el comprobante en el proveedor.",
+          "errorConfirmation": "Debes confirmar la operación creada. Por favor, verifica tu correo electrónico."
         }
       },
       "paxful": {
