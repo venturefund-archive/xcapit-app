@@ -221,6 +221,7 @@ export class OperationsNewPage implements OnInit {
     price_in: [null, [Validators.required]],
     price_out: [null, [Validators.required]],
     provider: [this.provider.id.toString()],
+    network: [null],
   });
 
   countries = Object.values(Countries);
@@ -253,10 +254,12 @@ export class OperationsNewPage implements OnInit {
     this.form.controls.currency_in.setValue('');
     this.form.controls.currency_out.setValue('');
     this.form.controls.wallet.setValue('');
+    this.form.controls.network.setValue('');
   }
 
   handleSubmit() {
     if (this.form.valid) {
+      this.setWalletInfo();
       this.setOperationStorage();
       this.checkUser();
     } else {
@@ -268,6 +271,7 @@ export class OperationsNewPage implements OnInit {
     this.changePrice = '';
     this.walletAddress = [];
     this.form.controls.wallet.setValue('');
+    this.form.controls.network.setValue('');
     this.form.controls.amount_in.setValue('');
     this.fiatRampsService.getQuotations().subscribe((res) => {
       this.quotations = res.data;
@@ -330,7 +334,7 @@ export class OperationsNewPage implements OnInit {
     this.fiatRampsService.getUserWallets(this.pairSplit[1]).subscribe((res) => {
       Object.keys(res).forEach((key, value) => {
         const l = Object.keys(res[key].wallets).map((wallet) => {
-          return { name: key + ' (' + wallet + ')', id: res[key].wallets[wallet] };
+          return { name: key + ' (' + wallet + ')', id: res[key].wallets[wallet] + ' (' + wallet + ')' };
         });
         wallets = [...wallets, ...l];
       });
@@ -365,5 +369,13 @@ export class OperationsNewPage implements OnInit {
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.registration_status);
     this.navController.navigateForward(url);
+  }
+
+  setWalletInfo() {
+    const walletInfo = this.form.value.wallet.split(' ');
+    walletInfo[1] = walletInfo[1].replace(/\(|\)/g, '');
+
+    this.form.controls.wallet.setValue(walletInfo[0]);
+    this.form.controls.network.setValue(walletInfo[1]);
   }
 }
