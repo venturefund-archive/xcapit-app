@@ -1,0 +1,18 @@
+import { NgModule } from '@angular/core';
+import { SelectCoinsWalletPage } from './select-coins-wallet.page';
+import { RouterModule, Routes } from '@angular/router';
+import { SharedWalletsModule } from '../shared-wallets/shared-wallets.module';
+import { ItemCoinComponent } from '../components/item-coin/item-coin.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: SelectCoinsWalletPage,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), SharedWalletsModule],
+  declarations: [SelectCoinsWalletPage, ItemCoinComponent],
+})
+export class SelectCoinsWalletPageModule {}
