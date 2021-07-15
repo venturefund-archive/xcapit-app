@@ -134,10 +134,3 @@ Release Develop:
     - develop
   script:
     - npx semantic-release --tag-format ${CI_COMMIT_BRANCH}-\${version} -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git" 
-
-### Smoke test sobre la imagen recien creada
-Smoke test:
-  <<: *django-smoke-test
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^\[build\]/
-    - when: never
