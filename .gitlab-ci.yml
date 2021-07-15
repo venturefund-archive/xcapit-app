@@ -1,106 +1,143 @@
 ---
 stages:
+  - syntax
   - test
   - build
+  - release
+  - docker-build
 
 image: docker:19.03.1
-
 services:
   - docker:19.03.1-dind
-
+    
 variables:
+  API_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
   CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
-
+  CI_RUNNER_REPO: registry.gitlab.com/xcapit/infra/ci-runner
+  CI_RUNNER_TAG: v1.0.0
+  HADOLINT_REPO: hadolint/hadolint
+  HADOLINT_TAG: v2.0.0-alpine
+  SRC_DIR: "."  # Indicar aqui donde esta el src code, puede ser indicado en las vars de gitlab
+  NODE_VERSION: 14-alpine
+  
 ###########################################################################
-### Core Workflow
-# # * si el commit msg comienza con [skip tests] salta los tests
-# # * si el commit msg comienza con [skip smoke-test] salta el smoke-test
-workflow:
-  rules:
-    - if: $CI_COMMIT_MESSAGE =~ /^\[skip tests\]/
-      when: never
-    - if: $CI_COMMIT_MESSAGE =~ /^\[skip smoke-test\]/
-      when: never
-    - when: always
-
 ###########################################################################
-# # Templates
+### Templates
+
+### Syntax check
+.syntax-check: &syntax-check
+  stage: syntax
+  tags:
+    - coreinfra
+  image: node:${NODE_VERSION}
+  cache:
+    untracked: true
+    key: ${CI_COMMIT_REF_SLUG}
+  before_script:
+    - cd ${SRC_DIR}
+  script:
+    - nodejs --check *.js
+  allow_failure: true
+
+### NodeJS test
+.nodejs-test: &nodejs-test
+  stage: test
+  image: node:${NODE_VERSION}
+  cache:
+    untracked: true
+    key: ${CI_COMMIT_REF_SLUG}
+  tags:
+    - coreinfra    
+  before_script:
+    - cd ${SRC_DIR}
+  script:
+    - npm test
 
 ### Docker lint
 .docker-lint: &docker-lint
-  stage: test
-  image: hadolint/hadolint:v2.0.0-alpine
+  stage: syntax
+  image: "${HADOLINT_REPO}:${HADOLINT_TAG}"
   before_script:
     - hadolint --version
+    - cd ${SRC_DIR}
   tags:
     - coreinfra
   script:
-    - hadolint --ignore DL3016 --ignore DL3018 --ignore DL3006 --ignore DL3003 --ignore DL3013 --ignore DL3007 --ignore DL3002 --ignore DL3008 Dockerfile
+    - hadolint --ignore DL3018 --ignore DL3006 --ignore DL3003 --ignore DL3013 --ignore DL3007 --ignore DL3002 --ignore DL3008 --ignore DL3042 Dockerfile
 
-### Build
-.build-branch: &build-branch
-  stage: build
+### Semantic release
+.semantic-release: &semantic-release
+  stage: release
+  image: "${CI_RUNNER_REPO}:${CI_RUNNER_TAG}"
   tags:
     - coreinfra
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build --tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker push $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME
 
 ###########################################################################
+###########################################################################
+### Stages
+
 # # Test
-Docker lint:
+Docker Lint:
   <<: *docker-lint
   rules:
-    - if: $CI_MERGE_REQUEST_IID
-    - if: $CI_COMMIT_TAG
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
-Docker lint manual:
-  <<: *docker-lint
+### Syntax check
+Syntax checking:
+  <<: *syntax-check
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - when: never
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
-Docker lint push:
-  <<: *docker-lint
+### pytest
+NodeJS Test:
+  <<: *nodejs-test
+  needs:
+    - job: Syntax checking
+      artifacts: false
+    - job: Docker Lint
+      artifacts: false
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-    # - when: never
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
-##########################################################################
-# # Build
-.build-branch: &build-branch
-  stage: build
+### Build
+Build docker image:
+  stage: docker-build
   tags:
     - coreinfra
-  # before_script:
-  #   - cd api
+  before_script:
+    - cd ${SRC_DIR}
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build --tag $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME .
-    - docker push $CONTAINER_IMAGE:$CI_COMMIT_REF_NAME
-
-Build from Tag:
-  stage: build
-  tags:
-    - coreinfra
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build --tag $CONTAINER_IMAGE:$CI_COMMIT_TAG .
-    - docker push $CONTAINER_IMAGE:$CI_COMMIT_TAG
+    - docker build --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
   only:
     - tags
 
-Build:
-  <<: *build-branch
+# # Release
+Release Master:
+  <<: *semantic-release
+  only:
+    refs:
+    - master
+  script:
+    - npx semantic-release -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git" 
+
+Release Develop:
+  <<: *semantic-release
+  only:
+    refs:
+    - develop
+  script:
+    - npx semantic-release --tag-format ${CI_COMMIT_BRANCH}-\${version} -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git" 
+
+### Smoke test sobre la imagen recien creada
+Smoke test:
+  <<: *django-smoke-test
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /^\[build\]/
-    - when: never
-
-Build manual:
-  <<: *build-branch
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
     - when: never
