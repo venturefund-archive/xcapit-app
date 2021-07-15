@@ -1,4 +1,3 @@
-import { getLocaleNumberFormat } from '@angular/common';
 import { Injectable } from '@angular/core';
 import BWC from 'bitcore-wallet-client';
 import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
@@ -50,7 +49,21 @@ export class BwcService {
     return bwc;
   }
 
-  createSharedWallet() {}
+  createSharedWallet(coin: string, maximumCopayers: number, minimumSignsForTx: number): Promise<any> {
+    const walletData: WalletData = {
+      password: 'test',
+      coin,
+      account: 0,
+      network: 'testnet',
+      maximumCopayers,
+      minimumSignsForTx,
+      name: `${coin.toUpperCase()} Shared Wallet`,
+      copayerName: 'Federico',
+      generationType: GenerationType.NEW,
+    };
+
+    return this.createWallet(walletData);
+  }
 
   createSimpleWallet(coin: string): Promise<any> {
     const walletData: WalletData = {
@@ -70,29 +83,34 @@ export class BwcService {
 
   joinWallet() {}
 
-  createChildWallet(extendedPrivateKey: string, coin: string, account: number): Promise<any> {
+  createChildWallet(parentKey: Key, coin: string): Promise<any> {
     const walletData: WalletData = {
       password: 'test',
       coin,
-      account,
+      account: 0,
       network: 'testnet',
       maximumCopayers: 1,
       minimumSignsForTx: 1,
       name: `${coin.toUpperCase()} Wallet`,
       copayerName: 'Federico',
-      generationType: GenerationType.EXTENDED_PRIVATE_KEY,
-      generationData: extendedPrivateKey,
+      generationType: GenerationType.NEW,
     };
 
-    return this.createWallet(walletData);
+    return this.createWallet(walletData, parentKey);
   }
 
   createTokenWallet() {}
 
-  private createWallet(walletData: WalletData): Promise<any> {
+  private createWallet(walletData: WalletData, parentKey?: Key): Promise<any> {
     this.clientInstance = this.getClient();
 
-    const key = this.generateWalletSeed(walletData.generationType, walletData.generationData);
+    let key;
+
+    if (parentKey !== undefined) {
+      key = parentKey;
+    } else {
+      key = this.generateWalletSeed(walletData.generationType, walletData.generationData);
+    }
 
     const credentials = key.createCredentials(walletData.password, {
       coin: walletData.coin,

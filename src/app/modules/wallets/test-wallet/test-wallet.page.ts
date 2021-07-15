@@ -19,6 +19,8 @@ import { BwcService } from '../shared-wallets/services/bwc/bwc.service';
     <ion-content class="ion-padding">
       <ion-button (click)="this.createBTCWallet()">Crear nueva wallet BTC</ion-button>
       <ion-button (click)="this.createBTCAndETHWallet()">Crear nueva wallet BTC y una hija ETH</ion-button>
+      <ion-button (click)="this.createSharedBTCWallet()">Crear nueva wallet BTC compartida</ion-button>
+      <!-- <ion-button (click)="">Unirse a la wallet compartida</ion-button> -->
     </ion-content>
   `,
   styleUrls: ['./test-wallet.page.scss'],
@@ -40,10 +42,16 @@ export class TestWalletPage {
 
   createBTCAndETHWallet() {
     this.bwcSerivice.createSimpleWallet('btc').then((data) => {
-      this.bwcSerivice.createChildWallet(data.key.toString(), 'eth', 0).then((subdata) => {
+      this.bwcSerivice.createChildWallet(data.key, 'eth').then((subdata) => {
         console.log(data.credentials, data.key.toObj());
         console.log(subdata.credentials, subdata.key.toObj());
       });
+    });
+  }
+
+  createSharedBTCWallet() {
+    this.bwcSerivice.createSharedWallet('btc', 4, 3).then((data) => {
+      console.log(data.credentials, data.key.toObj());
     });
   }
 }

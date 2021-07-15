@@ -18,11 +18,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
       },
-      {
-        canActivate: [AcceptedToSGuard],
-        path: 'create-first/recovery-phrase',
-        loadChildren: () => import('./recovery-phrase/recovery-phrase.module').then((m) => m.RecoveryPhrasePageModule),
-      },
     ],
   },
 ];
