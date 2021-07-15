@@ -40,7 +40,7 @@ export class TestWalletPage {
 
   createBTCAndETHWallet() {
     this.bwcSerivice.createSimpleWallet('btc').then((data) => {
-      this.bwcSerivice.createChildWallet(data.key.extendedPrivateKey, 'eth', 0).then((subdata) => {
+      this.bwcSerivice.createChildWallet(data.key.toString(), 'eth', 0).then((subdata) => {
         console.log(data.credentials, data.key.toObj());
         console.log(subdata.credentials, subdata.key.toObj());
       });
