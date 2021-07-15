@@ -48,7 +48,7 @@ cache:
 ### NodeJS test
 .nodejs-test: &nodejs-test
   stage: test
-  image: zenika/alpine-chrome:89-with-chromedriver
+  image: zenika/alpine-chrome:89-with-node-14
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
