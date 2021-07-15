@@ -20,7 +20,7 @@ import { BwcService } from '../shared-wallets/services/bwc/bwc.service';
       <ion-button (click)="this.createBTCWallet()">Crear nueva wallet BTC</ion-button>
       <ion-button (click)="this.createBTCAndETHWallet()">Crear nueva wallet BTC y una hija ETH</ion-button>
       <ion-button (click)="this.createSharedBTCWallet()">Crear nueva wallet BTC compartida</ion-button>
-      <!-- <ion-button (click)="">Unirse a la wallet compartida</ion-button> -->
+      <ion-button (click)="this.joinBTCWallet()">Unirse a la wallet compartida</ion-button>
     </ion-content>
   `,
   styleUrls: ['./test-wallet.page.scss'],
@@ -29,20 +29,20 @@ export class TestWalletPage {
   client;
   key;
 
-  constructor(private bwcSerivice: BwcService) {}
-  clientText: string;
+  constructor(private bwcService: BwcService) {}
+  secret: string;
 
   ionViewWillEnter() {}
 
   createBTCWallet() {
-    this.bwcSerivice.createSimpleWallet('btc').then((data) => {
+    this.bwcService.createSimpleWallet('btc').then((data) => {
       console.log(data.credentials, data.key.toObj());
     });
   }
 
   createBTCAndETHWallet() {
-    this.bwcSerivice.createSimpleWallet('btc').then((data) => {
-      this.bwcSerivice.createChildWallet(data.key, 'eth').then((subdata) => {
+    this.bwcService.createSimpleWallet('btc').then((data) => {
+      this.bwcService.createChildWallet(data.key, 'eth').then((subdata) => {
         console.log(data.credentials, data.key.toObj());
         console.log(subdata.credentials, subdata.key.toObj());
       });
@@ -50,8 +50,15 @@ export class TestWalletPage {
   }
 
   createSharedBTCWallet() {
-    this.bwcSerivice.createSharedWallet('btc', 4, 3).then((data) => {
-      console.log(data.credentials, data.key.toObj());
+    this.bwcService.createSharedWallet('btc', 4, 3).then((data) => {
+      this.secret = data.secret;
+      console.log(data.credentials, data.key.toObj(), data.secret);
+    });
+  }
+
+  joinBTCWallet() {
+    this.bwcService.joinWallet(this.secret, 'test', 'Victoria').then((data) => {
+      console.log(data.credentials, data.key.toObj(), data.wallet);
     });
   }
 }

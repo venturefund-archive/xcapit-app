@@ -81,7 +81,41 @@ export class BwcService {
     return this.createWallet(walletData);
   }
 
-  joinWallet() {}
+  joinWallet(secret: string, password?: string, copayerName?: string): Promise<any> {
+    this.clientInstance = this.getClient();
+
+    const walletData = BWC.parseSecret(secret);
+
+    const key = this.generateWalletSeed(GenerationType.NEW);
+
+    const credentials = key.createCredentials(password, {
+      coin: walletData.coin,
+      network: walletData.network,
+      account: 0,
+      n: 2,
+    });
+
+    this.clientInstance.fromString(credentials);
+
+    return new Promise((resolve) => {
+      this.clientInstance.joinWallet(
+        secret,
+        copayerName,
+        {
+          coin: this.clientInstance.credentials.coin,
+        },
+        (err, wallet) => {
+          if (err) {
+            console.log('error: ', err);
+            return;
+          } else {
+            console.log('Wallet creada con éxito:');
+            return resolve({ credentials, key, wallet });
+          }
+        }
+      );
+    });
+  }
 
   createChildWallet(parentKey: Key, coin: string): Promise<any> {
     const walletData: WalletData = {
@@ -136,13 +170,13 @@ export class BwcService {
           useNativeSegwit: true,
           walletPrivKey: this.clientInstance.credentials.walletPrivKey,
         },
-        (err) => {
+        (err, secret) => {
           if (err) {
             console.log('error: ', err);
             return;
           } else {
             console.log('Wallet creada con éxito:');
-            return resolve({ credentials, key });
+            return resolve({ credentials, key, secret });
           }
         }
       );
