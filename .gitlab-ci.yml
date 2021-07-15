@@ -95,11 +95,6 @@ Syntax checking:
 ### pytest
 NodeJS Test:
   <<: *nodejs-test
-  needs:
-    - job: Syntax checking
-      artifacts: false
-    - job: Docker Lint
-      artifacts: false
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
