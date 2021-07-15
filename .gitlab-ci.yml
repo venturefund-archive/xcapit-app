@@ -52,6 +52,8 @@ variables:
     - coreinfra    
   before_script:
     - cd ${SRC_DIR}
+    - npm install yarn
+    - yarn install
     - npm link @angular/cli
   script:
     - npm test
