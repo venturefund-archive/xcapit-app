@@ -21,7 +21,11 @@ variables:
   HADOLINT_TAG: v2.0.0-alpine
   SRC_DIR: "."  # Indicar aqui donde esta el src code, puede ser indicado en las vars de gitlab
   NODE_VERSION: 14-alpine
-  
+
+cache:
+  paths:
+    - node_modules/
+
 ###########################################################################
 ###########################################################################
 ### Templates
@@ -52,9 +56,9 @@ variables:
     - coreinfra    
   before_script:
     - cd ${SRC_DIR}
-    - npm install yarn
-    - yarn install
-    - npm link @angular/cli
+    - npm install
+    # - yarn install
+    # - npm link @angular/cli
   script:
     - npm test
 
