@@ -48,7 +48,7 @@ cache:
 ### NodeJS test
 .nodejs-test: &nodejs-test
   stage: test
-  image: node:${NODE_VERSION}
+  image: docker pull zenika/alpine-chrome:89-with-chromedriver
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
@@ -57,8 +57,7 @@ cache:
   before_script:
     - cd ${SRC_DIR}
     - npm install
-    # - yarn install
-    # - npm link @angular/cli
+    - yarn install
   script:
     - npm test
 
