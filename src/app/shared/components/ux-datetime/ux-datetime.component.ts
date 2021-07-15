@@ -13,6 +13,7 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
           [doneText]="'funds.fund_operations.done_datepicker_text' | translate"
           [placeholder]="this.placeholder"
           [readonly]="this.readonly"
+          [max]="this.max"
         ></ion-datetime>
         <ion-icon [name]="'ux-calendar'" slot="end"></ion-icon>
       </ion-item>
@@ -38,6 +39,7 @@ export class UxDatetimeComponent implements OnInit {
   @Input() readonly = false;
   @Input() displayFormat = 'DD-MM-YYYY';
   @Input() placeholder: string;
+  @Input() max = '';
 
   control: AbstractControl;
 
