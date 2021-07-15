@@ -38,7 +38,7 @@ variables:
   before_script:
     - cd ${SRC_DIR}
   script:
-    - nodejs --check *.js
+    - node --check *.js
   allow_failure: true
 
 ### NodeJS test
@@ -52,6 +52,7 @@ variables:
     - coreinfra    
   before_script:
     - cd ${SRC_DIR}
+    - npm link @angular/cli
   script:
     - npm test
 
