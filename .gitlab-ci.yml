@@ -48,7 +48,7 @@ cache:
 ### NodeJS test
 .nodejs-test: &nodejs-test
   stage: test
-  image: zenika/alpine-chrome:89-with-node-14
+  image: node:14
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
@@ -56,10 +56,11 @@ cache:
     - coreinfra    
   before_script:
     - cd ${SRC_DIR}
+    - npm install --save-dev puppeteer   
     - npm install
     - yarn install
   script:
-    - npm test
+    - npm test-ci
 
 ### Docker lint
 .docker-lint: &docker-lint
