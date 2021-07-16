@@ -53,7 +53,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <app-ux-radio-group [label]="">
             <ion-list>
-              <ion-radio-group formControlName="operation_type">
+              <ion-radio-group formControlName="type">
                 <div class="container">
                   <ion-item>
                     <ion-label>{{ 'fiat_ramps.ramp_initial.buy' | translate }}</ion-label>
@@ -72,11 +72,11 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
                 </div>
               </ion-radio-group>
             </ion-list>
-            <app-errors-form-item controlName="operation_type"></app-errors-form-item>
+            <app-errors-form-item controlName="type"></app-errors-form-item>
           </app-ux-radio-group>
 
           <!-- pares -->
-          <div *ngIf="this.form.value['operation_type'] === 'cash-in'">
+          <div *ngIf="this.form.value['type'] === 'cash-in'">
             <app-ux-text class="ion-padding-top ion-margin-top">
               <div class="ion-margin-top">
                 {{ 'fiat_ramps.ramp_initial.pair_buy' | translate }}
@@ -99,7 +99,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </app-ux-radio-group>
           </div>
 
-          <div *ngIf="this.form.value['operation_type'] === 'cash-out'">
+          <div *ngIf="this.form.value['type'] === 'cash-out'">
             <app-ux-text class="ion-padding-top ion-margin-top">
               <div class="ion-margin-top">
                 {{ 'fiat_ramps.ramp_initial.pair_sell' | translate }}
@@ -162,7 +162,8 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
               <!-- precio seleccionado -->
               <app-ux-loading-block *ngIf="!this.changePrice" minSize="30px"></app-ux-loading-block>
               <div class="ux-card__price" *ngIf="this.changePrice">
-                1 {{ pairSplit[1] }} <span class="ux-card__price__dark"> {{ changePrice }} {{ pairSplit[0] }}</span>
+                1 {{ pairSplit[1] }}
+                <span class="ux-card__price__dark"> {{ changePrice | number: '1.2-2' }} {{ pairSplit[0] }}</span>
               </div>
             </div>
 
@@ -175,7 +176,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
               <app-ux-input-select
                 [modalTitle]="'Wallet'"
                 [placeholder]="'Wallet'"
-                controlName="wallet_address"
+                controlName="wallet"
                 [data]="this.walletAddress"
                 [keyName]="'name'"
                 [valueName]="'id'"
@@ -201,7 +202,7 @@ export class OperationsNewPage implements OnInit {
   provider = PROVIDERS[0];
   form: FormGroup = this.formBuilder.group({
     country: ['Argentina', [Validators.maxLength(150)]],
-    operation_type: ['cash-in', [Validators.required]],
+    type: ['cash-in', [Validators.required]],
     pair: ['', [Validators.required]],
     currency_in: [null, [Validators.required]],
     currency_out: ['', [Validators.required]],
@@ -216,10 +217,11 @@ export class OperationsNewPage implements OnInit {
       ],
     ],
     amount_out: [null, [Validators.required]],
-    wallet_address: ['', [Validators.required]],
+    wallet: ['', [Validators.required]],
     price_in: [null, [Validators.required]],
     price_out: [null, [Validators.required]],
     provider: [this.provider.id.toString()],
+    network: [null],
   });
 
   countries = Object.values(Countries);
@@ -251,11 +253,13 @@ export class OperationsNewPage implements OnInit {
     this.form.controls.price_out.setValue('');
     this.form.controls.currency_in.setValue('');
     this.form.controls.currency_out.setValue('');
-    this.form.controls.wallet_address.setValue('');
+    this.form.controls.wallet.setValue('');
+    this.form.controls.network.setValue('');
   }
 
   handleSubmit() {
     if (this.form.valid) {
+      this.setWalletInfo();
       this.setOperationStorage();
       this.checkUser();
     } else {
@@ -266,7 +270,8 @@ export class OperationsNewPage implements OnInit {
   async getQuotations() {
     this.changePrice = '';
     this.walletAddress = [];
-    this.form.controls.wallet_address.setValue('');
+    this.form.controls.wallet.setValue('');
+    this.form.controls.network.setValue('');
     this.form.controls.amount_in.setValue('');
     this.fiatRampsService.getQuotations().subscribe((res) => {
       this.quotations = res.data;
@@ -288,18 +293,16 @@ export class OperationsNewPage implements OnInit {
     this.pairSplit = this.form.value.pair.split('_');
     this.form.controls.currency_in.setValue(this.pairSplit[0]);
     this.form.controls.currency_out.setValue(this.pairSplit[1]);
-    this.pairSplit = this.form.value.operation_type === 'cash-out' ? this.pairSplit.reverse() : this.pairSplit;
+    this.pairSplit = this.form.value.type === 'cash-out' ? this.pairSplit.reverse() : this.pairSplit;
     const price = this.quotations.filter((pair) => pair.currency === this.pairSplit[1].toLowerCase());
 
     if (price[0]) {
-      if (this.form.value.operation_type === 'cash-in') {
-        this.changePrice = price[0].quotation[this.pairSplit[0].toLowerCase()].sell;
-        this.changePrice = parseFloat(this.changePrice.replaceAll(',', ''));
+      if (this.form.value.type === 'cash-in') {
+        this.changePrice = price[0].quotations[this.pairSplit[0].toLowerCase()].sell;
         this.form.controls.price_in.setValue(1);
         this.form.controls.price_out.setValue(this.changePrice);
       } else {
-        this.changePrice = price[0].quotation[this.pairSplit[0].toLowerCase()].buy;
-        this.changePrice = parseFloat(this.changePrice.replaceAll(',', ''));
+        this.changePrice = price[0].quotations[this.pairSplit[0].toLowerCase()].buy;
         this.form.controls.price_in.setValue(1);
         this.form.controls.price_out.setValue(this.changePrice);
       }
@@ -331,7 +334,7 @@ export class OperationsNewPage implements OnInit {
     this.fiatRampsService.getUserWallets(this.pairSplit[1]).subscribe((res) => {
       Object.keys(res).forEach((key, value) => {
         const l = Object.keys(res[key].wallets).map((wallet) => {
-          return { name: key + ' (' + wallet + ')', id: res[key].wallets[wallet] };
+          return { name: key + ' (' + wallet + ')', id: res[key].wallets[wallet] + ' (' + wallet + ')' };
         });
         wallets = [...wallets, ...l];
       });
@@ -366,5 +369,13 @@ export class OperationsNewPage implements OnInit {
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.registration_status);
     this.navController.navigateForward(url);
+  }
+
+  setWalletInfo() {
+    const walletInfo = this.form.value.wallet.split(' ');
+    walletInfo[1] = walletInfo[1].replace(/\(|\)/g, '');
+
+    this.form.controls.wallet.setValue(walletInfo[0]);
+    this.form.controls.network.setValue(walletInfo[1]);
   }
 }

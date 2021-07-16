@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonInfiniteScroll } from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LINKS } from 'src/app/config/static-links';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
@@ -13,9 +13,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
-          {{ 'referrals.new_referral_page.header' | translate }}</ion-title
-        >
+        <ion-title class="ion-text-center"> {{ 'referrals.new_referral_page.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -23,16 +21,10 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
       <div class="ux_main">
         <div class="ux_content">
           <div class="src__share-referral-card">
-            <app-share-referral-card
-              [referralId]="this.referralId"
-              *ngIf="this.referralId"
-            ></app-share-referral-card>
+            <app-share-referral-card [referralId]="this.referralId" *ngIf="this.referralId"></app-share-referral-card>
           </div>
           <div class="src__referrals-list__label">
-            <ion-label
-              class="ux-font-lato ux-fweight-bold ux-fsize-12"
-              color="uxsemidark"
-            >
+            <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
               {{ 'referrals.new_referral_page.points_title' | translate }}
             </ion-label>
           </div>
@@ -40,20 +32,22 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
             <app-points-card></app-points-card>
           </div>
           <div class="src__referrals-list__label">
-            <ion-label
-              class="ux-font-lato ux-fweight-bold ux-fsize-12"
-              color="uxsemidark"
-            >
+            <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
+              {{ 'referrals.new_referral_page.prize_title' | translate }}
+            </ion-label>
+          </div>
+          <div class="src__prize-card">
+            <app-prize-card></app-prize-card>
+          </div>
+          <div class="src__referrals-list__label">
+            <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
               {{ 'referrals.new_referral_page.list_title' | translate }}
             </ion-label>
           </div>
           <div class="src__referrals-list">
             <app-ux-list-inverted>
               <ion-list>
-                <div
-                  class="container"
-                  *ngFor="let referral of this.referrals; let last = last"
-                >
+                <div class="container" *ngFor="let referral of this.referrals; let last = last">
                   <ion-item>
                     <ion-label>
                       <h2>
@@ -65,11 +59,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
                     </ion-label>
                     <div class="src__referrals-list__accepted">
                       <ion-icon
-                        [name]="
-                          referral.accepted
-                            ? 'ux-checked-circle'
-                            : 'hourglass-outline'
-                        "
+                        [name]="referral.accepted ? 'ux-checked-circle' : 'hourglass-outline'"
                         color="uxmedium"
                       ></ion-icon>
                     </div>
@@ -79,29 +69,16 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
               </ion-list>
             </app-ux-list-inverted>
           </div>
-          <ion-infinite-scroll
-            threshold="200px"
-            (ionInfinite)="this.loadMore()"
-          >
-            <ion-infinite-scroll-content
-              loadingSpinner="bubbles"
-              loadingText="Loading more data..."
-            >
+          <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadMore()">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
             </ion-infinite-scroll-content>
           </ion-infinite-scroll>
         </div>
         <div class="ux_footer ">
           <div class="src__help_referral_link">
-            <ion-button
-              name="Go To Help"
-              (click)="this.showAlert()"
-              appTrackClick
-              fill="clear"
-              size="small"
-              >{{
-                'shared.referrals_help.text_referrals_help_link' | translate
-              }}</ion-button
-            >
+            <ion-button name="Go To Help" (click)="this.goToReferralsInfo()" appTrackClick fill="clear" size="small">{{
+              'shared.referrals_help.text_referrals_help_link' | translate
+            }}</ion-button>
           </div>
         </div>
       </div>
@@ -123,7 +100,8 @@ export class ReferralsListPage implements OnInit {
     private apiReferrals: ApiReferralsService,
     private apiUsuarios: ApiUsuariosService,
     private alertController: AlertController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private navController: NavController
   ) {}
 
   ionViewDidEnter() {
@@ -132,9 +110,7 @@ export class ReferralsListPage implements OnInit {
   }
 
   getReferralId() {
-    this.apiUsuarios
-      .getUser()
-      .subscribe((data: any) => (this.referralId = data.referral_id));
+    this.apiUsuarios.getUser().subscribe((data: any) => (this.referralId = data.referral_id));
   }
 
   getUserReferrals(options: any = null, hasInfiniteScroll?: boolean) {
@@ -165,24 +141,8 @@ export class ReferralsListPage implements OnInit {
       ...this.paginationOptions,
     };
   }
-
-  async showAlert() {
-    const alert = await this.alertController.create({
-      header: this.translate.instant(
-        'referrals.new_referral_page.help_alert.alert_title'
-      ),
-      message: this.translate.instant(
-        'referrals.new_referral_page.help_alert.alert_message'
-      ),
-      buttons: [
-        {
-          text: this.translate.instant(
-            'referrals.new_referral_page.help_alert.alert_button'
-          ),
-        },
-      ],
-    });
-    await alert.present();
+  goToReferralsInfo() {
+    this.navController.navigateForward(['/referrals/info']);
   }
 
   ngOnInit() {}

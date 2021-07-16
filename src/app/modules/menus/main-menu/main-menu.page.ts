@@ -125,10 +125,9 @@ export class MainMenuPage implements OnInit {
     {
       id: 5,
       title: 'app.main_menu.help',
-      url: '/tabs/funds',
+      url: '/tickets/create-support-ticket',
       icon: 'ux-settings-icon',
       routeDirection: 'forward',
-      elementClick: 'openTutorials',
       showInProd: true,
     },
     {
@@ -174,7 +173,7 @@ export class MainMenuPage implements OnInit {
     {
       id: 11,
       title: 'app.main_menu.payment',
-      url: '/payment/payment-methods',
+      url: '/payment/select-license',
       icon: 'ux-cash-icon',
       routeDirection: 'forward',
       showInProd: false,

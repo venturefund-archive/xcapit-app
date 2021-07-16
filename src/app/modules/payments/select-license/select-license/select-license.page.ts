@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { ApiPaymentsService } from '../../shared-payments/services/api-payments.service';
 import { LICENSES } from '../constants/license';
 @Component({
   selector: 'app-select-license',
@@ -49,7 +51,11 @@ import { LICENSES } from '../constants/license';
         <div class="ux_content">
           <div>
             <ion-list>
-              <app-item-license *ngFor="let license of licenses" [license]="license"></app-item-license>
+              <app-item-license
+                *ngFor="let license of licenses"
+                [license]="license"
+                (click)="this.action(this.license.type)"
+              ></app-item-license>
             </ion-list>
           </div>
         </div>
@@ -66,8 +72,10 @@ export class SelectLicensePage implements OnInit {
   activeButtonMonthly = true;
   annualState = 'payment.licenses.annual';
   monthlyState = 'payment.licenses.monthly';
+  selectedLicense: string;
+  paymentMethods = [];
 
-  constructor() {}
+  constructor(private navController: NavController, private apiPayment: ApiPaymentsService) {}
 
   ionViewWillEnter() {
     this.changeLicenses(this.annualState);
@@ -87,5 +95,21 @@ export class SelectLicensePage implements OnInit {
     this.stateAnnual = annual ? 'active' : '';
     this.activeButtonMonthly = !annual;
     this.stateMonthly = !annual ? 'active' : '';
+  }
+
+  action(type: string) {
+    this.selectedLicense = type;
+    this.apiPayment.getPaymentMethods().subscribe((res) => {
+      res = this.paymentMethods;
+    });
+    if (this.selectedLicense === 'free' && this.paymentMethods?.length === 0) {
+      this.apiPayment.registerLicense().subscribe(() => {
+        this.getSuccessRoute();
+      });
+    }
+  }
+
+  getSuccessRoute() {
+    return this.navController.navigateForward(['/payment/payment-success']);
   }
 }

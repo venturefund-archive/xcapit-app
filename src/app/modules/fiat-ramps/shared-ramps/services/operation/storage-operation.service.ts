@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 interface OperationDataInterface {
   country: string;
-  operation_type: string;
+  type: string;
   pair: string;
   amount_in: string;
   amount_out: string;
@@ -11,8 +11,9 @@ interface OperationDataInterface {
   currency_out: string;
   price_in: string;
   price_out: string;
-  wallet_address: string;
+  wallet: string;
   provider: string;
+  network: string;
 }
 
 @Injectable({
@@ -23,7 +24,7 @@ export class StorageOperationService {
 
   initial = {
     country: '',
-    operation_type: '',
+    type: '',
     pair: '',
     amount_in: '',
     amount_out: '',
@@ -31,12 +32,14 @@ export class StorageOperationService {
     currency_out: '',
     price_in: '',
     price_out: '',
-    wallet_address: '',
+    wallet: '',
     provider: '',
+    network: '',
   };
 
   private dataSource = new BehaviorSubject<OperationDataInterface>(this.initial);
   data = this.dataSource.asObservable();
+  operationId = null;
   valid = false;
 
   public updateData(data: OperationDataInterface) {
@@ -47,5 +50,13 @@ export class StorageOperationService {
   public clear() {
     this.dataSource.next(this.initial);
     this.valid = false;
+  }
+
+  public setOperationId(id) {
+    this.operationId = id;
+  }
+
+  public getOperationId() {
+    return this.operationId;
   }
 }
