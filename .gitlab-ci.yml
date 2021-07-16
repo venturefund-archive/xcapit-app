@@ -60,7 +60,7 @@ cache:
     - npm install
     - yarn install
   script:
-    - npm test-ci
+    - npm test --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox
 
 ### Docker lint
 .docker-lint: &docker-lint
