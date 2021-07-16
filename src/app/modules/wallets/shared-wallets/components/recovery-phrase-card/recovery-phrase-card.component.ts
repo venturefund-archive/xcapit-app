@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { StorageWalletsService } from '../../services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-recovery-phrase-card',
@@ -14,17 +13,26 @@ import { StorageWalletsService } from '../../services/storage-wallets/storage-wa
 })
 export class RecoveryPhraseCardComponent implements OnInit {
   ordered = true;
-  words: string[];
+  words: string[] = [
+    'insecto',
+    'puerta',
+    'vestido',
+    'piso',
+    'plato',
+    'nube',
+    'afuera',
+    'fuego',
+    'laptop',
+    'libre',
+    'perro',
+    'niño',
+  ];
 
-  constructor(private storageWalletsService: StorageWalletsService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.storageWalletsService.getRecoveryPhrase().subscribe((words) => {
-      this.words = words;
-
-      if (this.ordered) {
-        this.words.sort();
-      }
-    });
+    if (this.ordered) {
+      this.words.sort();
+    }
   }
 }
