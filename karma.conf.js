@@ -29,9 +29,15 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['ChromeHeadless'],
     customLaunchers: {
-      ChromeHeadlessNoSandbox: {
+      headlessChrome: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"],
+        flags: [
+               "--no-sandbox",
+               "--no-proxy-server",
+               "--disable-web-security",
+               "--disable-gpu",
+               "--js-flags=--max-old-space-size=8196", // THIS LINE FIXED IT!!!
+        ],
       },
     },
     singleRun: false
