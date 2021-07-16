@@ -52,7 +52,7 @@ cache:
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
-  env:
+  variables:
     CI: true
   tags:
     - coreinfra    
