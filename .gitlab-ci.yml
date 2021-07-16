@@ -53,7 +53,7 @@ cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
   variables:
-    CI: true
+    CI: "true"
   tags:
     - coreinfra    
   before_script:
