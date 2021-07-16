@@ -27,7 +27,8 @@
     "format:fix": "pretty-quick --staged",
     "precommit": "run-s format:fix lint",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "test-ci": "ng test --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox"
   },
   "private": true,
   "dependencies": {
