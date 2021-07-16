@@ -52,6 +52,8 @@ cache:
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
+  env:
+    CI: true
   tags:
     - coreinfra    
   before_script:
@@ -73,7 +75,7 @@ cache:
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
     # - npm test --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox
-    - npm test 
+    - npm test --watchAll=false --coverage --forceExit
 
 ### Docker lint
 .docker-lint: &docker-lint
