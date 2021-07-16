@@ -72,13 +72,6 @@ describe('InformationPaxfulPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/new-operation-paxful']);
   });
 
-  it('should go to new-operation page on handleSubmit and valid form', () => {
-    fixture.detectChanges();
-    component.form.patchValue(formData.valid);
-    component.handleSubmit();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/new-operation-paxful']);
-  });
-
   it('should call openModalAlert on handleSubmit and invalid form', () => {
     const spyOpenModal = spyOn(component, 'openModalAlert');
     spyOpenModal.and.returnValue(undefined);

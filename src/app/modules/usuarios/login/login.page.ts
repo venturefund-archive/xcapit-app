@@ -73,11 +73,11 @@ import { Plugins } from '@capacitor/core';
           </ion-button>
         </div>
       </app-auth-form>
-      <!--      <div class="ion-text-center">-->
-      <!--        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14 or-text"-->
-      <!--          >- {{ 'usuarios.login.or_text' | translate }} -</ion-text-->
-      <!--        >-->
-      <!--      </div>-->
+      <div class="ion-text-center">
+        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14 or-text"
+          >- {{ 'usuarios.login.or_text' | translate }} -</ion-text
+        >
+      </div>
       <!--      <div class="google-auth">-->
       <!--        <ion-button-->
       <!--          appTrackClickUnauth-->
@@ -91,7 +91,9 @@ import { Plugins } from '@capacitor/core';
       <!--          (click)="this.googleSingUp()"-->
       <!--        >-->
       <!--          <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google Logo" />-->
-      <!--          <span class="google-auth__button__text ux-font-lato ux-fweight-regular ux-fsize-16">{{ 'usuarios.login.google_auth' | translate }}</span>-->
+      <!--          <span class="google-auth__button__text ux-font-lato ux-fweight-regular ux-fsize-16">{{-->
+      <!--            'usuarios.login.google_auth' | translate-->
+      <!--          }}</span>-->
       <!--        </ion-button>-->
       <!--      </div>-->
     </div>

@@ -18,7 +18,7 @@ const storageData = {
   valid: {
     data: {
       country: 'country',
-      operation_type: 'cash-in',
+      type: 'cash-in',
       pair: 'ARS_USDT',
       amount_in: '100',
       amount_out: '100',
@@ -26,7 +26,7 @@ const storageData = {
       currency_out: 'USDT',
       price_in: '1',
       price_out: '100',
-      wallet_address: '0x000000000000000000000dead',
+      wallet: '0x000000000000000000000dead',
       provider: '1',
     },
     valid: true,
@@ -34,7 +34,7 @@ const storageData = {
   invalid: {
     data: {
       country: '',
-      operation_type: '',
+      type: '',
       pair: '',
       amount_in: '',
       amount_out: '',
@@ -42,12 +42,14 @@ const storageData = {
       currency_out: '',
       price_in: '',
       price_out: '',
-      wallet_address: '',
+      wallet: '',
       provider: '',
     },
     valid: false,
   },
 };
+
+const operationId = 6;
 
 describe('ConfirmPagePage', () => {
   let component: ConfirmPagePage;
@@ -65,6 +67,7 @@ describe('ConfirmPagePage', () => {
         data: of(storageData.valid.data),
         valid: storageData.valid.valid,
         clear: () => of({}),
+        setOperationId: () => of(operationId),
       };
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         createOperation: of({}),

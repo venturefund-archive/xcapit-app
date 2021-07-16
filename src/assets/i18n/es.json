@@ -7,13 +7,13 @@
       "deposit_address": "Dirección de depósito",
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",
-      "help": "Ayuda",
+      "help": "Soporte",
       "password_change": "Cambio de Password",
       "referrals": "Referidos",
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
       "change_language": "Idioma",
-      "payment": "Pagar"
+      "payment": "Planes"
     }
   },
   "config": {
@@ -169,11 +169,11 @@
     "create": {
       "title": "Enviar una solicitud",
       "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad.",
-      "label_email": "Correo electrónico",
+      "label_email": "CORREO ELECTRÓNICO",
       "placeholder_email": "ejemplo@email.com",
-      "label_subject": "Asunto",
+      "label_subject": "ASUNTO",
       "placeholder_subject": "Asunto",
-      "label_message": "¿Cuál es tu consulta?",
+      "label_message": "¿CUÁL ES TU CONSULTA?",
       "placeholder_message": "Escriba su consulta aquí.",
       "submit_button": "Enviar",
       "cancel_button": "Volver a inicio de sesión"
@@ -182,6 +182,35 @@
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
       "textSecondary": "En unos momentos, un miembro del equipo se pondrá en contacto contigo.",
       "namePrimaryAction": "Aceptar"
+    },
+    "create_support_ticket": {
+      "header": "Soporte",
+      "info": "Ingresa tus comentarios para poder ayudarte. Un integrante del equipo se pondrá en contacto contigo."
+    },
+    "create_support_ticket_success": {
+      "textPrimary": "¡Gracias por comunicarte con nosotros!",
+      "textSecondary": "Quédate atento, recibirás la respuesta en tu mail",
+      "namePrimaryAction": "Aceptar"
+    },
+    "create_ticket_form": {
+      "label_email": "CORREO ELECTRÓNICO",
+      "placeholder_email": "ejemplo@email.com",
+      "label_subject": "ELIGE UNA CATEGORÍA DE CONSULTA",
+      "placeholder_subject": "Seleccione una categoría",
+      "label_message": "ESCRIBE TU CONSULTA",
+      "placeholder_message": "Escriba su consulta aquí.",
+      "submit_button": "Enviar",
+      "cancel_button": "Volver a inicio de sesión"
+    },
+    "categories": {
+      "my_account": "Mi cuenta",
+      "link_binance_account": "Vincular mi cuenta de Binance",
+      "buy_crypto": "Comprar criptomonedas",
+      "subscription_plans": "Planes de suscripción",
+      "investment_strategies": "Estrategias de inversión",
+      "account_security": "Seguridad de mi cuenta",
+      "others": "Otros",
+      "email_validation": "Validación de cuenta"
     }
   },
   "funds": {
@@ -397,19 +426,19 @@
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
-            "description": "Permite que Brainy tradee por ti y obten rendimientos en dólares."
+            "description": "Permite que nuestro algoritmo tradee por ti. Operamos la totalidad de tus criptos y cuando tu inversión finalice se convertirá a USDT (Tether)."
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
-            "description": "Genera más Bitcoins con los Bitcoins que ya tienes."
+            "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus criptos y cuando tu inversión finalice se convertirá a BTC (Bitcoin)."
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Participa del creciente mercado de las finanzas descentralizadas."
+            "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT (Tether)."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "No pierdas oportunidades del creciente mercado de las criptomonedas."
+            "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT (Tether)."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -1094,7 +1123,8 @@
           "errorProvider": "Error al intentar crear la operación en el proveedor."
         },
         "confirm": {
-          "errorProvider": "Error al intentar guardar el comprobante en el proveedor."
+          "errorProvider": "Error al intentar guardar el comprobante en el proveedor.",
+          "errorConfirmation": "Debes confirmar la operación creada. Por favor, verifica tu correo electrónico."
         }
       },
       "paxful": {
@@ -1126,6 +1156,7 @@
       "header": "Tus Referidos",
       "list_title": "MIS REFERIDOS",
       "points_title": "MIS PUNTOS",
+      "prize_title": "DINERO ACUMULADO",
       "shared_referral_card": {
         "title": "Invita a tus amigos a invertir compartiendo el siguiente link.",
         "button": "Compartir"
@@ -1134,11 +1165,26 @@
         "points_text": "puntos",
         "coming_badge": "Próximamente"
       },
-      "help_alert": {
-        "alert_title": "Sistema de Referidos",
-        "alert_message": "Sumá 10 puntos por cada referido que acepte tu invitación. Estamos sumando beneficios para canjear por tus puntos ganados.",
-        "alert_button": "Entendido"
+      "prize_card": {
+        "prize_button": "Solicitar Recompensa",
+        "modal_info": "No tienes dinero por reclamar aún, invita a tus amigos para obtener recompensas."
       }
+    },
+    "success_claim_reward": {
+      "primary_text": "¡Solicitud enviada con éxito!",
+      "secondary_text": "Nos contactaremos para aplicar el beneficio",
+      "button_home": "Ir al inicio"
+    },
+    "referrals_info": {
+      "header": "Sistema de Referidos",
+      "info_title1": "¿CÓMO FUNCIONA?",
+      "info_title2": "¿CUÁNTO PUEDO GANAR?",
+      "info_title3": "¿CÓMO RECLAMO MI PREMIO?",
+      "info_title4": "¿CÓMO VEO CUÁNTOS REFERIDOS TENGO?",
+      "info_description1": "Cualquier usuario puede invitar a otras personas a conocer Xcapit, solo necesita crear una cuenta y compartir su link dentro de su panel de referidos.",
+      "info_description2": "Vas a ganar $10 (diez dólares) por cada invitado que active una cuenta Advanced o Expert, y vas a ganar $1 (un dólar) por cada invitado que active una cuenta Explorer. En cualquiera de los casos tu invitado debe tener la cuenta activa por más de 60 días.",
+      "info_description3": "Dentro de la app en tu panel de referidos dale click a Solicitar recompensa. Nos contactaremos para coordinar el pago.",
+      "info_description4": "Dentro de la app en tu panel de referidos vas a ver el listado de invitados activos y un contador del dinero que has ganado."
     },
     "referrals_list": {
       "header": "Referidos",
@@ -1468,6 +1514,17 @@
         "single": "Soltero/a",
         "widower": "Viudo/a",
         "divorcee": "Divorciado/a"
+      },
+      "gender_list": {
+        "male": "Masculino",
+        "female": "Femenino",
+        "other": "Otro",
+        "no_specified": "Prefiero no decirlo"
+      },
+      "doctypes_list": {
+        "DU": "DU",
+        "foreign_document": "Documento extranjero",
+        "passport": "Pasaporte"
       }
     },
     "confirm": {
@@ -1500,7 +1557,8 @@
       "concept": "Concepto:",
       "info_telegram": "Por dudas o consultas, contactate con Kripton en Télegram",
       "info_email": "*El proveedor se comunicará por email conforme avance el proceso.",
-      "buttonText": "Añadir comprobante"
+      "buttonText": "Añadir comprobante",
+      "copy_cbu_ok_text": "El CBU fue copiado exitosamente."
     },
     "paxful": {
       "header": "Comprar",
@@ -1509,6 +1567,7 @@
       "label-wallet": "Selecciona tu dirección de recepción:",
       "placeholder-wallet": "Dirección de recepción",
       "recordatory_title": "Recuerda",
+      "modal_title": "Dirección de recepción",
       "recordatory_info": "Al hacer click en “Ir a Paxful”, vas a salir de Xcapit.",
       "button-text": "Ir a Paxful"
     },
@@ -1534,6 +1593,15 @@
       "all_countries": "Todos los países",
       "arg": "Argentina"
     },
+    "contact": {
+      "title": "¡Contáctanos para ser Premium!",
+      "textPrimary": "Nos encantaría saber un poco más de tu inversión para poder darte tu plan ideal. Nos estaremos comunicando contigo lo más breve posible.",
+      "label_email": "CORREO ELECTRÓNICO",
+      "placeholder_email": "ejemplo@email.com",
+      "label_message": "CUENTANOS UN POCO MÁS DE TU INVERSIÓN",
+      "placeholder_message": "Cuentanos más de tu inversión aquí",
+      "submit_button": "Enviar"
+    },
     "licenses": {
       "header": "Pagos anual",
       "title": "Elige tu plan",
@@ -1549,6 +1617,11 @@
       "monthly": "mensual",
       "annual": "anual",
       "free": "GRATIS"
+    },
+    "success": {
+      "textPrimary": "¡Tu plan está activo!",
+      "textSecondary": "Sigue configurando tu inversión",
+      "textBtn": "Continuar"
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
@@ -9,12 +9,12 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
     <div class="crm ion-padding-start ion-padding-end">
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <div class="crm__input">
-          <app-ux-range min="5" max="50" minText="%" maxText="%" controlName="selected">
+          <app-ux-range [min]="this.min" [max]="this.max" minText="%" maxText="%" controlName="selected">
             <ion-range
               mode="md"
-              min="5"
-              max="50"
-              step="5"
+              [min]="this.min"
+              [max]="this.max"
+              step="1"
               ticks="true"
               formControlName="selected"
             ></ion-range
@@ -39,7 +39,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             type="submit"
             color="uxsecondary"
             fill="clear"
-            [disabled]="(this.submitButtonService.isDisabled | async)"
+            [disabled]="this.submitButtonService.isDisabled | async"
           >
             {{ 'funds.custom_range_component.confirm_button' | translate }}
           </ion-button>
@@ -47,7 +47,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
       </form>
     </div>
   `,
-  styleUrls: ['./custom-range-modal.component.scss']
+  styleUrls: ['./custom-range-modal.component.scss'],
 })
 export class CustomRangeModalComponent implements OnInit {
   constructor(
@@ -56,10 +56,11 @@ export class CustomRangeModalComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
   selected: string;
-
+  @Input() min: number;
+  @Input() max: number;
 
   form: FormGroup = this.formBuilder.group({
-    selected: [5, [Validators.required]]
+    selected: [5, [Validators.required]],
   });
 
   handleSubmit() {

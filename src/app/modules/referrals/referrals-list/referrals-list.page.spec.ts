@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -70,15 +70,6 @@ describe('ReferralsListPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call showAlert when Go To Help Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Help');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(component, 'showAlert');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call getUserReferrals on ionViewDidEnter', () => {

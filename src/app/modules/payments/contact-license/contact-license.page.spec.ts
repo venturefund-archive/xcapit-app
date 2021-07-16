@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,41 +6,33 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
-import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click-unauth/track-click-unauth.directive';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
-import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
-import { AuthFormComponent } from '../../usuarios/shared-usuarios/components/auth-form/auth-form.component';
-import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
+import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
 
-import { CreateTicketPage } from './create-ticket.page';
+import { ContactLicensePage } from './contact-license.page';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 
 const formData = {
   valid: {
     email: 'example@email.com',
     subject: 'Subject',
     message: 'Message',
+    category_code: 'Category',
   },
   invalid: {
     email: '',
     subject: '',
     message: '',
+    category_code: '',
   },
 };
 
-const extras = {
-  extras: {
-    state: {
-      email: 'test@test.com',
-    },
-  },
-};
-
-describe('CreateTicketPage', () => {
-  let component: CreateTicketPage;
-  let fixture: ComponentFixture<CreateTicketPage>;
+describe('ContactLicensePage', () => {
+  let component: ContactLicensePage;
+  let fixture: ComponentFixture<ContactLicensePage>;
   let apiTicketsMock: any;
-  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<CreateTicketPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ContactLicensePage>;
   let activatedRouteMock: any;
   let navControllerSpy: any;
 
@@ -57,23 +48,16 @@ describe('CreateTicketPage', () => {
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [DummyComponent, CreateTicketPage, TrackClickUnauthDirective],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        declarations: [ContactLicensePage, TrackClickDirective],
         imports: [
           HttpClientTestingModule,
           TranslateModule.forRoot(),
-          RouterTestingModule.withRoutes([
-            { path: 'users/login', component: DummyComponent },
-            {
-              path: 'tickets/create-ticket-success',
-              component: DummyComponent,
-            },
-          ]),
+          RouterTestingModule,
           ReactiveFormsModule,
           IonicModule,
         ],
         providers: [
-          TrackClickUnauthDirective,
+          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: ApiTicketsService, useValue: apiTicketsMock },
@@ -84,23 +68,16 @@ describe('CreateTicketPage', () => {
       const currentNavigation = router.getCurrentNavigation();
       spyOn(router, 'getCurrentNavigation').and.returnValue({
         ...currentNavigation,
-        ...extras,
       });
-
-      fixture = TestBed.createComponent(CreateTicketPage);
+      fixture = TestBed.createComponent(ContactLicensePage);
       component = fixture.componentInstance;
-      trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       fixture.detectChanges();
     })
   );
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should fill form with user email if redirected from resend verification email', () => {
-    activatedRouteMock.queryParams.next();
-    expect(component.form.value.email).toEqual(extras.extras.state.email);
   });
 
   it('should call createTicket on handleSubmit if formData valid', () => {
@@ -123,17 +100,8 @@ describe('CreateTicketPage', () => {
   });
 
   it('should call trackEvent on trackService when Submit button clicked', () => {
-    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Submit');
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent on trackService when Cancel button clicked', () => {
-    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Cancel');
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();
     fixture.detectChanges();
