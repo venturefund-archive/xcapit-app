@@ -1141,6 +1141,19 @@
       "i_agree_button": "Acepto"
     }
   },
+  "wallets": {
+    "disclaimer": {
+      "header": "Crear Billetera",
+      "title": "¡Empecemos con tu billetera!",
+      "description": "Antes de crear tu billetera, verifica los permisos esenciales para comenzar",
+      "local_stored_keys_checkbox": "Entiendo que mis fondos se mantienen de forma segura en este dispositivo, no por una empresa.",
+      "recovery_phrase_checkbox": "Entiendo que si esta aplicación se mueve a otro dispositivo o se elimina, mis fondos solo se pueden recuperar con la frase de recuperación.",
+      "terms_of_use_checkbox": "He leído, comprendido y acepto los términos de uso.",
+      "terms_of_use_button": "Ver términos de uso",
+      "submit_button": "Confirmar y aceptar",
+      "error_did_not_accept": "Debes marcar todas las opciones para continuar."
+    }
+  },
   "referrals": {
     "new_referral": {
       "header": "Referir",
