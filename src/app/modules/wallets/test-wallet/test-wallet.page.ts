@@ -1,8 +1,4 @@
 import { Component } from '@angular/core';
-import { Utils } from 'bitcore-wallet-client/ts_build/lib/common';
-import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
-import { BitcoreLib } from 'crypto-wallet-core';
-import * as _ from 'lodash';
 import { BwcService } from '../shared-wallets/services/bwc/bwc.service';
 
 @Component({
@@ -21,12 +17,14 @@ import { BwcService } from '../shared-wallets/services/bwc/bwc.service';
       <ion-button (click)="this.createBTCAndETHWallet()">Crear nueva wallet BTC y una hija ETH</ion-button>
       <ion-button (click)="this.createSharedBTCWallet()">Crear nueva wallet BTC compartida</ion-button>
       <ion-button (click)="this.joinBTCWallet()">Unirse a la wallet compartida</ion-button>
+      <ion-button (click)="this.createTokenWalletBUSD()">Crear wallet de tokens BUSD</ion-button>
     </ion-content>
   `,
   styleUrls: ['./test-wallet.page.scss'],
 })
 export class TestWalletPage {
   client;
+  ethWallet;
   key;
 
   constructor(private bwcService: BwcService) {}
@@ -36,29 +34,50 @@ export class TestWalletPage {
 
   createBTCWallet() {
     this.bwcService.createSimpleWallet('btc').then((data) => {
-      console.log(data.credentials, data.key.toObj());
+      console.log('Wallet creada con éxito:');
+      console.log(data.walletClient, data.key.toObj());
     });
   }
 
   createBTCAndETHWallet() {
     this.bwcService.createSimpleWallet('btc').then((data) => {
+      console.log('Wallet padre creada con éxito:');
+      console.log(data.walletClient, data.key.toObj());
       this.bwcService.createChildWallet(data.key, 'eth').then((subdata) => {
-        console.log(data.credentials, data.key.toObj());
-        console.log(subdata.credentials, subdata.key.toObj());
+        console.log('Wallet hija creada con éxito:');
+        this.ethWallet = { walletClient: subdata.walletClient, key: subdata.key };
+        console.log(subdata.walletClient, subdata.key.toObj());
       });
     });
   }
 
   createSharedBTCWallet() {
     this.bwcService.createSharedWallet('btc', 4, 3).then((data) => {
+      console.log('Wallet creada con éxito:');
       this.secret = data.secret;
-      console.log(data.credentials, data.key.toObj(), data.secret);
+      console.log(data.walletClient, data.key.toObj(), data.secret);
     });
   }
 
   joinBTCWallet() {
-    this.bwcService.joinWallet(this.secret, 'test', 'Victoria').then((data) => {
-      console.log(data.credentials, data.key.toObj(), data.wallet);
-    });
+    if (this.secret === undefined) {
+      console.log('Primero crea una wallet compartida.');
+    } else {
+      this.bwcService.joinWallet(this.secret, 'test', 'Victoria').then((data) => {
+        console.log('Wallet creada con éxito:');
+        console.log(data.walletClient, data.key.toObj(), data.wallet);
+      });
+    }
+  }
+
+  createTokenWalletBUSD() {
+    if (this.ethWallet === undefined) {
+      console.log('Primero crea una wallet ETH.');
+    } else {
+      this.bwcService.createTokenWallet(this.ethWallet, 'BUSD').then((data) => {
+        console.log('Wallet creada con éxito:');
+        console.log(data);
+      });
+    }
   }
 }
