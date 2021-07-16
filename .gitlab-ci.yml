@@ -73,7 +73,7 @@ cache:
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
     # - npm test --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox
-    - npm test --headless ChromeHeadlessNoSandbox 
+    - npm test 
 
 ### Docker lint
 .docker-lint: &docker-lint
