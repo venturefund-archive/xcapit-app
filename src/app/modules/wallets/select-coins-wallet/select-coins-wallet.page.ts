@@ -91,21 +91,21 @@ export class SelectCoinsWalletPage implements OnInit {
 
   validate() {
     for (const field in this.form.controls) {
-      if (this.form.controls[field].value === true) {
-        this.activateButton();
-        break;
-      } else if (this.form.controls[field].value === false) {
-        this.desactivateButton();
+      if (this.form.controls.hasOwnProperty(field)) {
+        this.enabledButton(this.isFieldTrue(field));
+        if (this.isFieldTrue(field)) {
+          break;
+        }
       }
     }
   }
 
-  activateButton() {
-    this.almostOneChecked = true;
+  isFieldTrue(field) {
+    return this.form.controls[field].value === true;
   }
 
-  desactivateButton() {
-    this.almostOneChecked = false;
+  enabledButton(isEnabled) {
+    this.almostOneChecked = isEnabled;
   }
 
   toggleAll() {
@@ -113,9 +113,8 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   handleSubmit() {
-    if (this.form.valid) {
+    if (this.almostOneChecked) {
       this.selectedCoins = this.form.value;
-      console.log(this.selectedCoins);
     }
   }
 }

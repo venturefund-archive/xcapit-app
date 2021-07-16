@@ -8,15 +8,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'test',
-        loadChildren: () => import('./test-wallet/test-wallet.module').then((m) => m.TestWalletPageModule),
-      },
-      {
-        path: 'create-first/disclaimer',
-        loadChildren: () =>
-          import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
-      },
-      {
         path: 'select-coins',
         loadChildren: () =>
           import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
