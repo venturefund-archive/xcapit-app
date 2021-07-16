@@ -117,8 +117,8 @@ export class DisclaimerWalletPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public submitButtonService: SubmitButtonService,
-    private navController: NavController,
     private modalController: ModalController,
+    private navController: NavController,
     private translate: TranslateService,
     private storageWalletsService: StorageWalletsService
   ) {}
@@ -128,7 +128,7 @@ export class DisclaimerWalletPage implements OnInit {
   handleSubmit() {
     if (this.disclaimerForm.valid) {
       this.acceptToS();
-      this.navController.navigateForward(['wallets/test']);
+      this.navController.navigateForward(['wallets/select-coins']);
     } else {
       this.showModalDidNotAccept();
     }

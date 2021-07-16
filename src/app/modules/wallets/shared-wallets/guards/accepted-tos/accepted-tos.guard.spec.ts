@@ -5,7 +5,7 @@ import { StorageWalletsService } from '../../services/storage-wallets/storage-wa
 import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from '../../../../../../testing/dummy.component.spec';
 
-describe('AcceptedToSGuard', () => {
+fdescribe('AcceptedToSGuard', () => {
   let guard: AcceptedToSGuard;
   const storageWalletServiceMock = {
     hasAcceptedToS: () => Promise.resolve(true),

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { StorageWalletsService } from './storage-wallets.service';
 import { Storage } from '@ionic/storage';
 
-describe('StorageWalletsService', () => {
+fdescribe('StorageWalletsService', () => {
   let service: StorageWalletsService;
   let storageSpy: any;
   storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);

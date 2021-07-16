@@ -13,7 +13,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
 
 import { DisclaimerWalletPage } from './disclaimer-wallet.page';
 
-describe('DisclaimerWalletPage', () => {
+fdescribe('DisclaimerWalletPage', () => {
   let component: DisclaimerWalletPage;
   let fixture: ComponentFixture<DisclaimerWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DisclaimerWalletPage>;
@@ -27,7 +27,7 @@ describe('DisclaimerWalletPage', () => {
       TestBed.configureTestingModule({
         declarations: [DisclaimerWalletPage, TrackClickDirective],
         imports: [
-          RouterTestingModule.withRoutes([{ path: 'wallets/test', component: DummyComponent }]),
+          RouterTestingModule.withRoutes([{ path: 'wallets/select-coins', component: DummyComponent }]),
           TranslateModule.forRoot(),
           HttpClientTestingModule,
           IonicModule,
