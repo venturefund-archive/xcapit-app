@@ -82,8 +82,7 @@ cache:
     - yarn install
   script:
     # - npm test --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox
-    # - npm test --watch=false --code-coverage=true --single-run=true --browser=ChromeHeadless
-    - ng test --single-run --progress false
+    - npm test --watch=false --code-coverage=true --single-run=true --browser=ChromeHeadless
 
 ### Docker lint
 .docker-lint: &docker-lint
