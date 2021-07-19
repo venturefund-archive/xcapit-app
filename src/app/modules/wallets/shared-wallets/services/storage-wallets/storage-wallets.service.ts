@@ -9,55 +9,21 @@ const initialValues = [{ userAcceptedToS: false }, { wallets: null }];
 export class StorageWalletsService {
   constructor(private storage: Storage) {}
 
-  initializeStorage() {
-    if (this.getValue('userAcceptedToS') === undefined) {
-      initialValues.forEach((p) => {
-        this.setValue(Object.keys(p)[0], Object.values(p)[0]);
-      });
-    }
+  async setValue(key: string, value: any): Promise<void> {
+    return this.storage.set(key, value);
   }
 
-  setValue(key: string, value: any) {
-    this.storage.set(key, value);
-  }
-
-  getValue(key: string): Promise<any> {
+  async getValue(key: string): Promise<any> {
     return this.storage.get(key);
   }
 
-  getAllValues(): any[] {
-    const values = [];
-    initialValues.forEach((p) => {
-      values.push(this.getValue(Object.keys(p)[0]));
-    });
-    return values;
-  }
-
   async hasAcceptedToS(): Promise<boolean> {
-    return this.getValue('userAcceptedToS');
+    return new Promise((resolve) => {
+      this.getValue('userAcceptedToS').then((v) => resolve(v === true));
+    });
   }
 
-  acceptToS() {
-    this.setValue('userAcceptedToS', true);
-  }
-
-  getRecoveryPhrase(): Observable<string[]> {
-    return new Observable((observer) =>
-      observer.next([
-        'insecto',
-        'puerta',
-        'vestido',
-        'piso',
-        'plato',
-        'nube',
-        'afuera',
-        'fuego',
-        'laptop',
-        'libre',
-        'perro',
-        'niño',
-      ])
-    );
-    // return this.getValue('recoveryPhrase');
+  async acceptToS(): Promise<void> {
+    return this.setValue('userAcceptedToS', true);
   }
 }
