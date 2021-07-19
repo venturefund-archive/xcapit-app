@@ -8,7 +8,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'payment-methods',
+        path: 'payment-methods/:plan_id',
         loadChildren: () => import('./payment-methods/payment-methods.module').then((m) => m.PaymentMethodsPageModule),
       },
       {

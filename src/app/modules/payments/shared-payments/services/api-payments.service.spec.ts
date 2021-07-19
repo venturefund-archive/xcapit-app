@@ -31,7 +31,7 @@ describe('ApiPaymentsService', () => {
   });
 
   it('it should call get on http when getPaymentMethods', () => {
-    apiPaymentservice.getPaymentMethods().subscribe(() => {
+    apiPaymentservice.getPaymentMethods('1').subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });

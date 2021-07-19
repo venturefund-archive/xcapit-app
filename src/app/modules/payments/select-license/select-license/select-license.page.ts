@@ -54,7 +54,7 @@ import { LICENSES } from '../constants/license';
               <app-item-license
                 *ngFor="let license of licenses"
                 [license]="license"
-                (click)="this.action(this.license.type)"
+                (click)="this.action(this.license.type, this.license.id)"
               ></app-item-license>
             </ion-list>
           </div>
@@ -73,7 +73,6 @@ export class SelectLicensePage implements OnInit {
   annualState = 'payment.licenses.annual';
   monthlyState = 'payment.licenses.monthly';
   selectedLicense: string;
-  paymentMethods = [];
 
   constructor(private navController: NavController, private apiPayment: ApiPaymentsService) {}
 
@@ -97,19 +96,22 @@ export class SelectLicensePage implements OnInit {
     this.stateMonthly = !annual ? 'active' : '';
   }
 
-  action(type: string) {
+  action(type: string, licenseID: string) {
     this.selectedLicense = type;
-    this.apiPayment.getPaymentMethods().subscribe((res) => {
-      res = this.paymentMethods;
-    });
-    if (this.selectedLicense === 'free' && this.paymentMethods?.length === 0) {
+    if (this.selectedLicense === 'free') {
       this.apiPayment.registerLicense().subscribe(() => {
         this.getSuccessRoute();
       });
+    } else {
+      this.getPaymentRoute(licenseID);
     }
   }
 
   getSuccessRoute() {
     return this.navController.navigateForward(['/payment/payment-success']);
+  }
+
+  getPaymentRoute(planID: string) {
+    return this.navController.navigateForward(['/payment/payment-methods', planID]);
   }
 }

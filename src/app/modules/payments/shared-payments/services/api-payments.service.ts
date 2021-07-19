@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 export class ApiPaymentsService {
   constructor(private http: CustomHttpService) {}
 
-  getPaymentMethods() {
-    return this.http.get(`${environment.apiUrl}/subscription_plans/plans/1/payment_methods`);
+  getPaymentMethods(planID: string) {
+    return this.http.get(`${environment.apiUrl}/subscription_plans/plans/${planID}/payment_methods`);
   }
 
   registerLicense(): Observable<any> {
