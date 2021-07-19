@@ -41,6 +41,7 @@ import { AppInitializerFactory } from './shared/factories/app-initializer/app-in
 import { updateServiceProvider } from './shared/providers/update/update.provider';
 import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
 import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
+import { WalletsModule } from './modules/wallets/wallets.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -73,6 +74,7 @@ registerLocaleData(localeEn, 'en');
     TabsModule,
     ApikeysModule,
     NotificationsModule,
+    WalletsModule,
     MenusModule,
     TicketsModule,
     DepositAddressesModule,
