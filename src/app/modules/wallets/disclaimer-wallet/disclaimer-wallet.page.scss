@@ -1,0 +1,77 @@
+:host {
+  .checkbox_card {
+    background-color: white;
+    --background: white;
+    --ion-item-background: white;
+    border-radius: 8px;
+
+    .checkbox {
+      --border-color: var(--ion-background-color);
+      --background-hover: transparent;
+      --background: transparent;
+
+      &__label {
+        color: black;
+        font-size: 14px;
+      }
+    }
+
+    .last {
+      --border-color: transparent;
+    }
+  }
+
+  .description {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .ux_checkbox_container {
+    width: fit-content;
+    margin-top: 10px;
+
+    &__item {
+      --padding-start: 16px;
+      --padding-end: 16px;
+      --border-color: transparent;
+
+      --background-hover: transparent;
+      --background-activated: transparent;
+      --min-height: 24px;
+      --min-width: 24px;
+
+      &__label {
+        font-family: var(--ux-font-lato);
+        color: #0000008a;
+      }
+
+      .normal {
+        font-size: 15px;
+      }
+
+      .small {
+        font-weight: 600;
+        font-size: 12px;
+      }
+    }
+  }
+
+  ion-checkbox {
+    --border-radius: 15%;
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: #00000029;
+    --background: #fff;
+    --size: 18px;
+    --checkmark-width: 2px;
+    margin-right: 12px;
+  }
+
+  ion-item {
+    --background: transparent;
+  }
+}
