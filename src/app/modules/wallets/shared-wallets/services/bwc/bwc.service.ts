@@ -1,85 +1,135 @@
 import { Injectable } from '@angular/core';
 import BWC from 'bitcore-wallet-client';
 import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
+import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
+import { Coin } from '../../interfaces/coin';
+import { Token } from '../../interfaces/token';
+import { Wallet } from '../../interfaces/wallet';
 
 const BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api';
 
-export interface Token {
-  name: string;
-  symbol: string;
-  decimal: number;
-  address: string;
-}
-
-export const TokenOpts = {
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': {
-    name: 'USD Coin',
-    symbol: 'USDC',
-    decimal: 6,
-    address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-  },
-  '0x8e870d67f660d95d5be530380d0ec0bd388289e1': {
-    name: 'Paxos Standard',
-    symbol: 'PAX',
-    decimal: 18,
-    address: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
-  },
-  '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd': {
-    name: 'Gemini Dollar',
-    symbol: 'GUSD',
-    decimal: 2,
-    address: '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd',
-  },
-  '0x4fabb145d64652a948d72533023f6e7a623c7c53': {
-    name: 'Binance USD Coin',
-    symbol: 'BUSD',
-    decimal: 18,
-    address: '0x4fabb145d64652a948d72533023f6e7a623c7c53',
-  },
-  '0x6b175474e89094c44da98b954eedeac495271d0f': {
-    name: 'Dai',
-    symbol: 'DAI',
-    decimal: 18,
-    address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-  },
-  '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599': {
-    name: 'Wrapped Bitcoin',
-    symbol: 'WBTC',
-    decimal: 9,
-    address: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-  },
-};
-
-enum GenerationType {
+enum SeedType {
   NEW,
   EXTENDED_PRIVATE_KEY,
   MNEMONIC,
 }
-
-interface WalletData {
+interface Seed {
+  seedType: SeedType;
+  extendedPrivateKey?: string;
+  mnemonic?: string;
+}
+interface WalletOptions {
+  walletName: string;
+  copayerName: string;
   password: string;
   coin: string;
   network: string;
   account: number;
-  maximumCopayers: number;
+  totalCopayers: number;
   minimumSignsForTx: number;
-  name: string;
-  copayerName: string;
-  generationType: GenerationType;
-  generationData?: string;
+  singleAddress: boolean;
+  nativeSegWit: boolean;
+  seed: Seed;
 }
-
 @Injectable({
   providedIn: 'root',
 })
 export class BwcService {
   public Client = BWC;
-  clientInstance: BWC;
 
   constructor(private languageService: LanguageService) {}
 
-  public getClient(walletData?, opts?): BWC {
+  public createMultipleWallets(coins: Coin[], tokens?: Token[]): Observable<Wallet[]> {
+    if (tokens !== undefined && coins.find((coin) => coin.symbol.toLowerCase() === 'eth') === undefined) {
+      return;
+    }
+
+    const wallets: Wallet[] = [];
+    let mainWallet: Wallet;
+    let ethereumWallet: Wallet;
+
+    return new Observable((observer) => {
+      coins.forEach((coin, i) => {
+        if (i === 0) {
+          this.createSimpleWallet(coin).subscribe((wallet) => {
+            mainWallet = wallet;
+            wallets.push(wallet);
+          });
+        } else {
+          this.createSimpleWalletFromKey(coin, mainWallet.rootKey).subscribe((wallet) => {
+            wallets.push(wallet);
+
+            if (coin.symbol.toLowerCase() === 'eth') {
+              ethereumWallet = wallet;
+            }
+          });
+        }
+      });
+
+      tokens.forEach((token) => {
+        this.createSimpleTokenWallet(token, ethereumWallet).subscribe((wallet) => {
+          wallets.push(wallet);
+        });
+      });
+
+      observer.next(wallets);
+    });
+  }
+
+  public createSimpleWallet(
+    coin: Coin,
+    nativeSegWit?: boolean,
+    singleAddress: boolean = false,
+    network: string = 'livenet'
+  ): Observable<Wallet> {
+    const walletOptions = this.getDefaultWalletOptions(coin);
+
+    walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
+    walletOptions.singleAddress = singleAddress;
+    walletOptions.network = network;
+
+    return this.createWallet(walletOptions);
+  }
+
+  public createSimpleWalletFromKey(coin: Coin, rootKey: Key): Observable<Wallet> {
+    const walletOptions = this.getDefaultWalletOptions(coin);
+
+    return this.createWallet(walletOptions, rootKey);
+  }
+
+  public createSimpleTokenWallet(token: Token, ethereumWallet?: Wallet): Observable<Wallet> {
+    if (ethereumWallet === undefined) {
+      const ethereum = this.getCoin('eth');
+
+      this.createSimpleWallet(ethereum).subscribe((wallet) => {
+        ethereumWallet = wallet;
+      });
+    }
+
+    return this.createTokenWallet(token, ethereumWallet);
+  }
+
+  public createSharedWallet(
+    coin: Coin,
+    totalCopayers: number,
+    minimumSignsForTx: number,
+    nativeSegWit?: boolean,
+    singleAddress: boolean = false,
+    network: string = 'livenet'
+  ): Observable<Wallet> {
+    const walletOptions = this.getDefaultWalletOptions(coin);
+
+    walletOptions.totalCopayers = totalCopayers;
+    walletOptions.minimumSignsForTx = minimumSignsForTx;
+    walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
+    walletOptions.singleAddress = singleAddress;
+    walletOptions.network = network;
+
+    return this.createWallet(walletOptions);
+  }
+
+  private getClient(walletData?, opts?): BWC {
     opts = opts || {};
 
     const bwc = new BWC({
@@ -95,44 +145,53 @@ export class BwcService {
     return bwc;
   }
 
-  createSharedWallet(coin: string, maximumCopayers: number, minimumSignsForTx: number): Promise<any> {
-    const walletData: WalletData = {
-      password: 'test',
-      coin,
-      account: 0,
-      network: 'testnet',
-      maximumCopayers,
-      minimumSignsForTx,
-      name: `${coin.toUpperCase()} Shared Wallet`,
-      copayerName: 'Federico',
-      generationType: GenerationType.NEW,
+  private getCoin(symbol: string): Coin {
+    return {
+      id: 0,
+      name: 'Ethereum',
+      symbol: 'ETH',
+      logoRoute: '',
     };
-
-    return this.createWallet(walletData);
   }
 
-  createSimpleWallet(coin: string): Promise<any> {
-    const walletData: WalletData = {
-      password: 'test',
-      coin,
-      account: 0,
-      network: 'testnet',
-      maximumCopayers: 1,
+  private getDefaultWalletOptions(coin: Coin): WalletOptions {
+    return {
+      walletName: `${coin.name} Wallet`,
+      copayerName: this.getUserName(),
+      password: this.getUserPassword(),
+      coin: coin.symbol.toLowerCase(),
+      network: 'livenet',
+      account: this.getNextAccount(coin),
+      totalCopayers: 1,
       minimumSignsForTx: 1,
-      name: `${coin.toUpperCase()} Wallet`,
-      copayerName: 'Federico',
-      generationType: GenerationType.NEW,
+      singleAddress: false,
+      nativeSegWit: coin.symbol.toLowerCase() === 'btc' ? true : false,
+      seed: {
+        seedType: SeedType.NEW,
+      },
     };
-
-    return this.createWallet(walletData);
   }
 
-  joinWallet(secret: string, password?: string, copayerName?: string): Promise<any> {
-    this.clientInstance = this.getClient();
+  private getUserPassword(): string {
+    return 'test';
+  }
+
+  private getUserName(): string {
+    return 'Federico Marquez';
+  }
+
+  private getNextAccount(coin: Coin): number {
+    return 0;
+  }
+
+  public joinWallet(secret: string): Observable<Wallet> {
+    const password = this.getUserPassword();
+    const copayerName = this.getUserName();
+    const walletClient = this.getClient();
 
     const walletData = BWC.parseSecret(secret);
 
-    const key = this.generateWalletSeed(GenerationType.NEW);
+    const key = this.generateWalletSeed(SeedType.NEW);
 
     const credentials = key.createCredentials(password, {
       coin: walletData.coin,
@@ -141,130 +200,122 @@ export class BwcService {
       n: 2,
     });
 
-    this.clientInstance.fromString(credentials);
+    walletClient.fromString(credentials);
 
-    return new Promise((resolve) => {
-      this.clientInstance.joinWallet(
+    return new Observable((observer) => {
+      walletClient.joinWallet(
         secret,
         copayerName,
         {
-          coin: this.clientInstance.credentials.coin,
+          coin: walletClient.credentials.coin,
         },
-        (err, wallet) => {
-          if (err) {
-            console.log('error: ', err);
-            return;
-          } else {
-            console.log('Wallet creada con éxito:');
-            return resolve({ walletClient: this.clientInstance, key, wallet });
+        (error, wallet) => {
+          if (!error) {
+            return observer.next({ walletClient, rootKey: key, secret: '' });
           }
         }
       );
     });
   }
 
-  createChildWallet(parentKey: Key, coin: string): Promise<any> {
-    const walletData: WalletData = {
-      password: 'test',
-      coin,
-      account: 0,
-      network: 'testnet',
-      maximumCopayers: 1,
-      minimumSignsForTx: 1,
-      name: `${coin.toUpperCase()} Wallet`,
-      copayerName: 'Federico',
-      generationType: GenerationType.NEW,
-    };
+  private createTokenWallet(token: Token, ethereumWallet: Wallet): Observable<Wallet> {
+    const tokenCredentials = ethereumWallet.walletClient.credentials.getTokenCredentials(token);
 
-    return this.createWallet(walletData, parentKey);
+    const walletClient = this.getClient();
+
+    walletClient.fromObj(tokenCredentials);
+
+    ethereumWallet.preferences = ethereumWallet.preferences || {};
+    ethereumWallet.preferences.tokenAddresses = ethereumWallet.preferences.tokenAddresses || [];
+    ethereumWallet.preferences.tokenAddresses.push(token.address);
+
+    return new Observable((observer) => {
+      observer.next({ walletClient, rootKey: ethereumWallet.rootKey, secret: ethereumWallet.secret });
+    });
   }
 
-  createTokenWallet(ethWallet: any, token: string): Promise<any> {
-    const tokenObj = Object.values(TokenOpts).find((t) => t.symbol === token);
-    const tokenCredentials = ethWallet.walletClient.credentials.getTokenCredentials(tokenObj);
-
-    this.clientInstance = this.getClient();
-
-    this.clientInstance.fromObj(tokenCredentials);
-
-    ethWallet.preferences = ethWallet.preferences || {};
-    ethWallet.preferences.tokenAddresses = ethWallet.preferences.tokenAddresses || [];
-    ethWallet.preferences.tokenAddresses.push(tokenObj.address);
-
-    return Promise.resolve(this.clientInstance);
-  }
-
-  private createWallet(walletData: WalletData, parentKey?: Key): Promise<any> {
-    this.clientInstance = this.getClient();
+  private createWallet(walletOptions: WalletOptions, parentKey?: Key): Observable<Wallet> {
+    const walletClient = this.getClient();
 
     let key;
 
     if (parentKey !== undefined) {
       key = parentKey;
     } else {
-      key = this.generateWalletSeed(walletData.generationType, walletData.generationData);
+      const seedData = walletOptions.seed.extendedPrivateKey
+        ? walletOptions.seed.extendedPrivateKey
+        : walletOptions.seed.mnemonic;
+      key = this.generateWalletSeed(walletOptions.seed.seedType, seedData);
     }
 
-    const credentials = key.createCredentials(walletData.password, {
-      coin: walletData.coin,
-      network: walletData.network || 'testnet',
-      account: walletData.account,
-      n: walletData.maximumCopayers,
+    const credentials = key.createCredentials(walletOptions.password, {
+      coin: walletOptions.coin,
+      network: walletOptions.network,
+      account: walletOptions.account,
+      n: walletOptions.totalCopayers,
     });
 
-    credentials.m = walletData.minimumSignsForTx;
+    credentials.m = walletOptions.minimumSignsForTx;
 
-    this.clientInstance.fromString(credentials);
+    walletClient.fromString(credentials);
 
-    return new Promise((resolve) => {
-      this.clientInstance.createWallet(
-        walletData.name,
-        walletData.copayerName,
-        this.clientInstance.credentials.m,
-        this.clientInstance.credentials.n,
+    return new Observable((observer) => {
+      walletClient.createWallet(
+        walletOptions.walletName,
+        walletOptions.copayerName,
+        walletOptions.minimumSignsForTx,
+        walletOptions.totalCopayers,
         {
-          coin: this.clientInstance.credentials.coin,
-          network: this.clientInstance.credentials.network,
-          singleAddress: false,
-          useNativeSegwit: true,
-          walletPrivKey: this.clientInstance.credentials.walletPrivKey,
+          coin: walletOptions.coin,
+          network: walletOptions.network,
+          singleAddress: walletOptions.singleAddress,
+          useNativeSegwit: walletOptions.nativeSegWit,
+          walletPrivKey: walletClient.credentials.walletPrivKey,
         },
         (err, secret) => {
-          if (err) {
-            console.log('error: ', err);
-            return;
-          } else {
-            return resolve({ walletClient: this.clientInstance, key, secret });
+          if (!err) {
+            return observer.next({ walletClient, rootKey: key, secret });
           }
         }
       );
     });
   }
 
-  private generateWalletSeed(generationType: GenerationType, data?: string): Key {
-    const keyData = {
-      seedType: null,
-      seedData: null,
-      language: null,
+  private generateNewWalletSeed(): Key {
+    return new Key({
+      seedType: 'new',
+      language: this.languageService.selected,
       useLegacyCoinType: false,
       useLegacyPurpose: false,
-    };
+    });
+  }
 
+  private generateWalletSeedFromMnemonic(mnemonic: string): Key {
+    return new Key({
+      seedType: 'mnemonic',
+      seedData: mnemonic,
+      useLegacyCoinType: false,
+      useLegacyPurpose: false,
+    });
+  }
+
+  private generateWalletSeedFromPrivateKey(extendedPrivateKey: string): Key {
+    return new Key({
+      seedType: 'extendedPrivateKey',
+      seedData: extendedPrivateKey,
+      useLegacyCoinType: false,
+      useLegacyPurpose: false,
+    });
+  }
+
+  private generateWalletSeed(generationType: SeedType, data?: string): Key {
     switch (generationType) {
-      case GenerationType.NEW:
-        keyData.seedType = 'new';
-        keyData.language = this.languageService.selected;
-        break;
-      case GenerationType.MNEMONIC:
-        keyData.seedType = 'mnemonic';
-        keyData.seedData = data;
-        break;
-      case GenerationType.EXTENDED_PRIVATE_KEY:
-        keyData.seedType = 'extendedPrivateKey';
-        keyData.seedData = data;
-        break;
+      case SeedType.NEW:
+        return this.generateNewWalletSeed();
+      case SeedType.MNEMONIC:
+        return this.generateWalletSeedFromMnemonic(data);
+      case SeedType.EXTENDED_PRIVATE_KEY:
+        return this.generateWalletSeedFromPrivateKey(data);
     }
-
-    return new Key(keyData);
   }
 }
