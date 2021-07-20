@@ -79,6 +79,7 @@ registerLocaleData(localeEn, 'en');
     TicketsModule,
     DepositAddressesModule,
     FiatRampsModule,
+    WalletsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

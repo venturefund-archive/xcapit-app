@@ -12,6 +12,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
       },
+      {
+        path: 'select-coins',
+        loadChildren: () =>
+          import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
+      },
     ],
   },
 ];

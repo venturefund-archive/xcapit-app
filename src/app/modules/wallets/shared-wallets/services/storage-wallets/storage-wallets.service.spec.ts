@@ -11,6 +11,7 @@ describe('StorageWalletsService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: Storage, useValue: storageSpy }],
     });
+
     service = TestBed.inject(StorageWalletsService);
   });
 

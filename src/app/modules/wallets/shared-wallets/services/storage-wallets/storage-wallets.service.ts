@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs';
 
-const initialValues = [{ userAcceptedToS: false }, { wallets: null }];
 @Injectable({
   providedIn: 'root',
 })
