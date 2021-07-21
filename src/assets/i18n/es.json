@@ -1623,5 +1623,21 @@
       "textSecondary": "Sigue configurando tu inversión",
       "textBtn": "Continuar"
     }
+  },
+  "wallets": {
+    "recovery-phrase": {
+      "header": "Crear Billetera",
+      "title": "Frase de recuperación",
+      "text1": "Estas son las 12 palabras que conforman tu billetera.",
+      "text2": "Siempre que tengas las 12 palabras vas a poder recuperar tu billetera y todos los fondos.",
+      "text3": "Si pierdas las palabras no vas a poder hacerlo.",
+      "text4": "EScribe cuidadosamente cada palabra en el orden que aparecen y guardalas en un lugar seguro (archivo de texto, pendrive, a mano en un papel, etc).",
+      "btn_next": "Siguiente"
+    },
+    "verify-phrase": {
+      "header": "Crear Billetera",
+      "title": "Verifica tu frase",
+      "text1": "Toca las palabras en el orden correspondiente"
+    }
   }
 }

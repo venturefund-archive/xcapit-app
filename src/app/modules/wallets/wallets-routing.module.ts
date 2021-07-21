@@ -11,6 +11,10 @@ const routes: Routes = [
         path: 'create-first/recovery-phrase',
         loadChildren: () => import('./recovery-phrase/recovery-phrase.module').then((m) => m.RecoveryPhrasePageModule),
       },
+      {
+        path: 'create-first/verify-phrase',
+        loadChildren: () => import('./verify-phrase/verify-phrase.module').then((m) => m.VerifyPhrasePageModule),
+      },
     ],
   },
 ];

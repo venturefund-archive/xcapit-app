@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-recovery-phrase-card',
   template: `
     <ion-card>
-      <div *ngFor="let word of this.words">
+      <div class="word ion-no-padding" *ngFor="let word of this.words">
         <app-recovery-word-button [word]="word" class="ion-margin"></app-recovery-word-button>
       </div>
     </ion-card>
