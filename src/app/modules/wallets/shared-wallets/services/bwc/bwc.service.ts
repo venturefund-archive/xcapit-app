@@ -214,7 +214,7 @@ export class BwcService {
 
     const walletData = BWC.parseSecret(secret);
 
-    const key = this.generateWalletSeed(SeedType.NEW);
+    const key = this.generateNewWalletSeed(password);
 
     const credentials = key.createCredentials(password, {
       coin: walletData.coin,
@@ -313,7 +313,7 @@ export class BwcService {
   private createWallet(walletOptions: WalletOptions): Observable<WalletGroup> {
     const walletClient = this.getClient();
 
-    const key = this.generateNewWalletSeed();
+    const key = this.generateNewWalletSeed(walletOptions.password);
 
     const credentials = key.createCredentials(walletOptions.password, {
       coin: walletOptions.coin,
@@ -356,41 +356,33 @@ export class BwcService {
     });
   }
 
-  private generateNewWalletSeed(): Key {
+  private generateNewWalletSeed(password: string): Key {
     return new Key({
       seedType: 'new',
       language: this.languageService.selected,
+      passphrase: password,
       useLegacyCoinType: false,
       useLegacyPurpose: false,
     });
   }
 
-  private generateWalletSeedFromMnemonic(mnemonic: string): Key {
+  private generateWalletSeedFromMnemonic(mnemonic: string, password: string): Key {
     return new Key({
       seedType: 'mnemonic',
       seedData: mnemonic,
+      passphrase: password,
       useLegacyCoinType: false,
       useLegacyPurpose: false,
     });
   }
 
-  private generateWalletSeedFromPrivateKey(extendedPrivateKey: string): Key {
+  private generateWalletSeedFromPrivateKey(extendedPrivateKey: string, password: string): Key {
     return new Key({
       seedType: 'extendedPrivateKey',
       seedData: extendedPrivateKey,
+      passphrase: password,
       useLegacyCoinType: false,
       useLegacyPurpose: false,
     });
-  }
-
-  private generateWalletSeed(generationType: SeedType, data?: string): Key {
-    switch (generationType) {
-      case SeedType.NEW:
-        return this.generateNewWalletSeed();
-      case SeedType.MNEMONIC:
-        return this.generateWalletSeedFromMnemonic(data);
-      case SeedType.EXTENDED_PRIVATE_KEY:
-        return this.generateWalletSeedFromPrivateKey(data);
-    }
   }
 }
