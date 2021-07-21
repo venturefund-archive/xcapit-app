@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-success-creation',
-  template: `<ion-content class="ion-padding">
+  template: ` <ion-content class="ion-padding">
     <div class="main">
       <div class="main__ux_success_image">
         <img src="../../../../assets/img/wallets/success_celebration.svg" />
@@ -29,6 +29,7 @@ export class SuccessCreationPage implements OnInit {
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
+
   goToHome() {
     this.navController.navigateBack(['/tabs/funds']);
   }
