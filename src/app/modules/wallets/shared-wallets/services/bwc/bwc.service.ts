@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { Coin } from '../../interfaces/coin';
 import { Token } from '../../interfaces/token';
+import { Coins } from '../../constants/coins';
 import { Wallet, WalletGroup } from '../../interfaces/wallet';
 
 const BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api';
@@ -48,9 +49,11 @@ export class BwcService {
     return new Observable((observer) => {
       this.createSimpleWalletGroup(coins.pop()).subscribe((rootWalletGroup) => {
         this.createMultipleWalletsInGroup(coins, rootWalletGroup).subscribe((walletGroup) => {
-          this.createMultipleTokenWalletsInGroup(tokens, walletGroup).subscribe((walletGroupWithTokens) => {
-            observer.next(walletGroupWithTokens);
-          });
+          if (tokens) {
+            this.createMultipleTokenWalletsInGroup(tokens, walletGroup).subscribe((walletGroupWithTokens) => {
+              observer.next(walletGroupWithTokens);
+            });
+          }
         });
       });
     });
@@ -146,7 +149,7 @@ export class BwcService {
     return this.createWallet(walletOptions);
   }
 
-  private getClient(walletData?, opts?): BWC {
+  getClient(walletData?, opts?): BWC {
     opts = opts || {};
 
     const bwc = new BWC({
@@ -162,16 +165,11 @@ export class BwcService {
     return bwc;
   }
 
-  private getCoin(symbol: string): Coin {
-    return {
-      id: 0,
-      name: 'Ethereum',
-      symbol: 'ETH',
-      logoRoute: '',
-    };
+  getCoin(symbol: string): Coin {
+    return Coins.find((coin) => coin.symbol.toLowerCase() === symbol.toLowerCase());
   }
 
-  private getDefaultWalletOptions(coin: Coin, walletGroup?: WalletGroup): WalletOptions {
+  getDefaultWalletOptions(coin: Coin, walletGroup?: WalletGroup): WalletOptions {
     return {
       walletName: `${coin.name} Wallet`,
       copayerName: this.getUserName(),
@@ -189,20 +187,24 @@ export class BwcService {
     };
   }
 
-  private getUserPassword(): string {
+  getUserPassword(): string {
     return 'test';
   }
 
-  private getUserName(): string {
+  getUserName(): string {
     return 'Federico Marquez';
   }
 
-  private getNextAccount(coin: Coin, walletGroup: WalletGroup): number {
+  getNextAccount(coin: Coin, walletGroup: WalletGroup): number {
     const filteredWalletsAccounts = walletGroup.wallets
       .filter((wallet) => {
         return wallet.walletClient.credentials.coin.toLowerCase() === coin.symbol.toLowerCase();
       })
       .map((wallet) => parseInt(wallet.walletClient.credentials.account, 10));
+
+    if (filteredWalletsAccounts.length === 0) {
+      return 0;
+    }
 
     return Math.max(...filteredWalletsAccounts) + 1;
   }
@@ -214,7 +216,9 @@ export class BwcService {
 
     const walletData = BWC.parseSecret(secret);
 
-    const key = this.generateNewWalletSeed(password);
+    const key = this.generateNewWalletSeed();
+
+    // key.encrypt(password, null);
 
     const credentials = key.createCredentials(password, {
       coin: walletData.coin,
@@ -249,7 +253,7 @@ export class BwcService {
     });
   }
 
-  private createTokenWallet(token: Token, ethereumWallet: Wallet): Observable<Wallet> {
+  createTokenWallet(token: Token, ethereumWallet: Wallet): Observable<Wallet> {
     const tokenCredentials = ethereumWallet.walletClient.credentials.getTokenCredentials(token);
 
     const walletClient = this.getClient();
@@ -265,7 +269,7 @@ export class BwcService {
     });
   }
 
-  private addNewWalletsToGroup(walletOptions: WalletOptions[], walletGroup: WalletGroup): Observable<WalletGroup> {
+  addNewWalletsToGroup(walletOptions: WalletOptions[], walletGroup: WalletGroup): Observable<WalletGroup> {
     return new Observable((observer) => {
       walletOptions.forEach((wo) => this.addNewWalletToGroup(wo, walletGroup));
 
@@ -273,7 +277,7 @@ export class BwcService {
     });
   }
 
-  private addNewWalletToGroup(walletOptions: WalletOptions, walletGroup: WalletGroup): Observable<WalletGroup> {
+  addNewWalletToGroup(walletOptions: WalletOptions, walletGroup: WalletGroup): Observable<WalletGroup> {
     const walletClient = this.getClient();
 
     const credentials = walletGroup.rootKey.createCredentials(walletOptions.password, {
@@ -310,10 +314,12 @@ export class BwcService {
     });
   }
 
-  private createWallet(walletOptions: WalletOptions): Observable<WalletGroup> {
+  createWallet(walletOptions: WalletOptions): Observable<WalletGroup> {
     const walletClient = this.getClient();
 
-    const key = this.generateNewWalletSeed(walletOptions.password);
+    const key = this.generateNewWalletSeed();
+
+    // key.encrypt(walletClient.password, null);
 
     const credentials = key.createCredentials(walletOptions.password, {
       coin: walletOptions.coin,
@@ -356,31 +362,29 @@ export class BwcService {
     });
   }
 
-  private generateNewWalletSeed(password: string): Key {
+  private generateNewWalletSeed(): Key {
     return new Key({
       seedType: 'new',
       language: this.languageService.selected,
-      passphrase: password,
       useLegacyCoinType: false,
       useLegacyPurpose: false,
     });
   }
 
-  private generateWalletSeedFromMnemonic(mnemonic: string, password: string): Key {
+  private generateWalletSeedFromMnemonic(mnemonic: string, passphrase: string): Key {
     return new Key({
       seedType: 'mnemonic',
       seedData: mnemonic,
-      passphrase: password,
+      passphrase,
       useLegacyCoinType: false,
       useLegacyPurpose: false,
     });
   }
 
-  private generateWalletSeedFromPrivateKey(extendedPrivateKey: string, password: string): Key {
+  private generateWalletSeedFromPrivateKey(extendedPrivateKey: string): Key {
     return new Key({
       seedType: 'extendedPrivateKey',
       seedData: extendedPrivateKey,
-      passphrase: password,
       useLegacyCoinType: false,
       useLegacyPurpose: false,
     });

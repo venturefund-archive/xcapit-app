@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BwcService } from '../shared-wallets/services/bwc/bwc.service';
+import { TokenOpts } from '../shared-wallets/constants/tokens';
 
 @Component({
   selector: 'app-test-wallet',
@@ -33,29 +34,30 @@ export class TestWalletPage {
   ionViewWillEnter() {}
 
   createBTCWallet() {
-    this.bwcService.createSimpleWallet('btc').then((data) => {
+    this.bwcService.createSimpleWalletGroup(this.bwcService.getCoin('btc')).subscribe((data) => {
       console.log('Wallet creada con éxito:');
-      console.log(data.walletClient, data.key.toObj());
+      console.log(data);
+      console.log(data.rootKey.toObj());
     });
   }
 
   createBTCAndETHWallet() {
-    this.bwcService.createSimpleWallet('btc').then((data) => {
-      console.log('Wallet padre creada con éxito:');
-      console.log(data.walletClient, data.key.toObj());
-      this.bwcService.createChildWallet(data.key, 'eth').then((subdata) => {
-        console.log('Wallet hija creada con éxito:');
-        this.ethWallet = { walletClient: subdata.walletClient, key: subdata.key };
-        console.log(subdata.walletClient, subdata.key.toObj());
-      });
+    const coins = [];
+    coins.push(this.bwcService.getCoin('btc'));
+    coins.push(this.bwcService.getCoin('eth'));
+
+    this.bwcService.createMultipleWallets(coins).subscribe((data) => {
+      console.log('Wallets creadas con éxito:');
+      this.ethWallet = data.wallets.find((wallet) => wallet.walletClient.credentials.coin.toLowerCase() === 'eth');
+      console.log(data);
     });
   }
 
   createSharedBTCWallet() {
-    this.bwcService.createSharedWallet('btc', 4, 3).then((data) => {
+    this.bwcService.createSharedWallet(this.bwcService.getCoin('btc'), 4, 3).subscribe((data) => {
       console.log('Wallet creada con éxito:');
-      this.secret = data.secret;
-      console.log(data.walletClient, data.key.toObj(), data.secret);
+      this.secret = data.wallets[0].secret;
+      console.log(data);
     });
   }
 
@@ -63,9 +65,9 @@ export class TestWalletPage {
     if (this.secret === undefined) {
       console.log('Primero crea una wallet compartida.');
     } else {
-      this.bwcService.joinWallet(this.secret, 'test', 'Victoria').then((data) => {
+      this.bwcService.joinWallet(this.secret).subscribe((data) => {
         console.log('Wallet creada con éxito:');
-        console.log(data.walletClient, data.key.toObj(), data.wallet);
+        console.log(data);
       });
     }
   }
@@ -74,7 +76,8 @@ export class TestWalletPage {
     if (this.ethWallet === undefined) {
       console.log('Primero crea una wallet ETH.');
     } else {
-      this.bwcService.createTokenWallet(this.ethWallet, 'BUSD').then((data) => {
+      const token = Object.values(TokenOpts).find((t) => t.symbol.toLowerCase() === 'busd');
+      this.bwcService.createTokenWallet(token, this.ethWallet).subscribe((data) => {
         console.log('Wallet creada con éxito:');
         console.log(data);
       });
