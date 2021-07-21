@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { Coin } from '../../interfaces/coin';
 import { Token } from '../../interfaces/token';
-import { Wallet } from '../../interfaces/wallet';
+import { Wallet, WalletGroup } from '../../interfaces/wallet';
 
 const BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api';
 
@@ -40,49 +40,28 @@ export class BwcService {
 
   constructor(private languageService: LanguageService) {}
 
-  public createMultipleWallets(coins: Coin[], tokens?: Token[]): Observable<Wallet[]> {
+  public createMultipleWallets(coins: Coin[], tokens?: Token[]): Observable<WalletGroup> {
     if (tokens !== undefined && coins.find((coin) => coin.symbol.toLowerCase() === 'eth') === undefined) {
-      return;
+      coins.push(this.getCoin('eth'));
     }
 
-    const wallets: Wallet[] = [];
-    let mainWallet: Wallet;
-    let ethereumWallet: Wallet;
-
     return new Observable((observer) => {
-      coins.forEach((coin, i) => {
-        if (i === 0) {
-          this.createSimpleWallet(coin).subscribe((wallet) => {
-            mainWallet = wallet;
-            wallets.push(wallet);
+      this.createSimpleWalletGroup(coins.pop()).subscribe((rootWalletGroup) => {
+        this.createMultipleWalletsInGroup(coins, rootWalletGroup).subscribe((walletGroup) => {
+          this.createMultipleTokenWalletsInGroup(tokens, walletGroup).subscribe((walletGroupWithTokens) => {
+            observer.next(walletGroupWithTokens);
           });
-        } else {
-          this.createSimpleWalletFromKey(coin, mainWallet.rootKey).subscribe((wallet) => {
-            wallets.push(wallet);
-
-            if (coin.symbol.toLowerCase() === 'eth') {
-              ethereumWallet = wallet;
-            }
-          });
-        }
-      });
-
-      tokens.forEach((token) => {
-        this.createSimpleTokenWallet(token, ethereumWallet).subscribe((wallet) => {
-          wallets.push(wallet);
         });
       });
-
-      observer.next(wallets);
     });
   }
 
-  public createSimpleWallet(
+  public createSimpleWalletGroup(
     coin: Coin,
     nativeSegWit?: boolean,
     singleAddress: boolean = false,
     network: string = 'livenet'
-  ): Observable<Wallet> {
+  ): Observable<WalletGroup> {
     const walletOptions = this.getDefaultWalletOptions(coin);
 
     walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
@@ -92,22 +71,60 @@ export class BwcService {
     return this.createWallet(walletOptions);
   }
 
-  public createSimpleWalletFromKey(coin: Coin, rootKey: Key): Observable<Wallet> {
-    const walletOptions = this.getDefaultWalletOptions(coin);
+  createMultipleWalletsInGroup(coins: Coin[], walletGroup: WalletGroup): Observable<WalletGroup> {
+    const walletOptions: WalletOptions[] = [];
 
-    return this.createWallet(walletOptions, rootKey);
+    coins.forEach((coin) => {
+      walletOptions.push(this.getDefaultWalletOptions(coin, walletGroup));
+    });
+
+    return this.addNewWalletsToGroup(walletOptions, walletGroup);
   }
 
-  public createSimpleTokenWallet(token: Token, ethereumWallet?: Wallet): Observable<Wallet> {
+  public createSimpleWalletInGroup(coin: Coin, walletGroup: WalletGroup): Observable<WalletGroup> {
+    const walletOptions = this.getDefaultWalletOptions(coin, walletGroup);
+
+    return this.addNewWalletToGroup(walletOptions, walletGroup);
+  }
+
+  public createSimpleTokenWallet(token: Token, walletGroup: WalletGroup): Observable<WalletGroup> {
+    const ethereumWallet = walletGroup.wallets.find(
+      (wallet) => wallet.walletClient.credentials.coin.toLowerCase() === 'eth'
+    );
+
     if (ethereumWallet === undefined) {
       const ethereum = this.getCoin('eth');
-
-      this.createSimpleWallet(ethereum).subscribe((wallet) => {
-        ethereumWallet = wallet;
-      });
+      const walletOptions = this.getDefaultWalletOptions(ethereum, walletGroup);
+      this.addNewWalletToGroup(walletOptions, walletGroup);
     }
 
-    return this.createTokenWallet(token, ethereumWallet);
+    return new Observable((observer) => {
+      this.createTokenWallet(token, ethereumWallet).subscribe((tokenWallet) => {
+        walletGroup.wallets.push(tokenWallet);
+        observer.next(walletGroup);
+      });
+    });
+  }
+
+  public createMultipleTokenWalletsInGroup(tokens: Token[], walletGroup: WalletGroup): Observable<WalletGroup> {
+    const ethereumWallet = walletGroup.wallets.find(
+      (wallet) => wallet.walletClient.credentials.coin.toLowerCase() === 'eth'
+    );
+
+    if (ethereumWallet === undefined) {
+      const ethereum = this.getCoin('eth');
+      const walletOptions = this.getDefaultWalletOptions(ethereum, walletGroup);
+      this.addNewWalletToGroup(walletOptions, walletGroup);
+    }
+
+    return new Observable((observer) => {
+      tokens.forEach((token) => {
+        this.createTokenWallet(token, ethereumWallet).subscribe((tokenWallet) => {
+          walletGroup.wallets.push(tokenWallet);
+          observer.next(walletGroup);
+        });
+      });
+    });
   }
 
   public createSharedWallet(
@@ -117,7 +134,7 @@ export class BwcService {
     nativeSegWit?: boolean,
     singleAddress: boolean = false,
     network: string = 'livenet'
-  ): Observable<Wallet> {
+  ): Observable<WalletGroup> {
     const walletOptions = this.getDefaultWalletOptions(coin);
 
     walletOptions.totalCopayers = totalCopayers;
@@ -154,14 +171,14 @@ export class BwcService {
     };
   }
 
-  private getDefaultWalletOptions(coin: Coin): WalletOptions {
+  private getDefaultWalletOptions(coin: Coin, walletGroup?: WalletGroup): WalletOptions {
     return {
       walletName: `${coin.name} Wallet`,
       copayerName: this.getUserName(),
       password: this.getUserPassword(),
       coin: coin.symbol.toLowerCase(),
       network: 'livenet',
-      account: this.getNextAccount(coin),
+      account: walletGroup ? this.getNextAccount(coin, walletGroup) : 0,
       totalCopayers: 1,
       minimumSignsForTx: 1,
       singleAddress: false,
@@ -180,11 +197,17 @@ export class BwcService {
     return 'Federico Marquez';
   }
 
-  private getNextAccount(coin: Coin): number {
-    return 0;
+  private getNextAccount(coin: Coin, walletGroup: WalletGroup): number {
+    const filteredWalletsAccounts = walletGroup.wallets
+      .filter((wallet) => {
+        return wallet.walletClient.credentials.coin.toLowerCase() === coin.symbol.toLowerCase();
+      })
+      .map((wallet) => parseInt(wallet.walletClient.credentials.account, 10));
+
+    return Math.max(...filteredWalletsAccounts) + 1;
   }
 
-  public joinWallet(secret: string): Observable<Wallet> {
+  public joinWallet(secret: string): Observable<WalletGroup> {
     const password = this.getUserPassword();
     const copayerName = this.getUserName();
     const walletClient = this.getClient();
@@ -209,9 +232,17 @@ export class BwcService {
         {
           coin: walletClient.credentials.coin,
         },
-        (error, wallet) => {
+        (error) => {
           if (!error) {
-            return observer.next({ walletClient, rootKey: key, secret: '' });
+            observer.next({
+              rootKey: key,
+              wallets: [
+                {
+                  walletClient,
+                  secret,
+                },
+              ],
+            });
           }
         }
       );
@@ -230,23 +261,59 @@ export class BwcService {
     ethereumWallet.preferences.tokenAddresses.push(token.address);
 
     return new Observable((observer) => {
-      observer.next({ walletClient, rootKey: ethereumWallet.rootKey, secret: ethereumWallet.secret });
+      observer.next({ walletClient, secret: ethereumWallet.secret });
     });
   }
 
-  private createWallet(walletOptions: WalletOptions, parentKey?: Key): Observable<Wallet> {
+  private addNewWalletsToGroup(walletOptions: WalletOptions[], walletGroup: WalletGroup): Observable<WalletGroup> {
+    return new Observable((observer) => {
+      walletOptions.forEach((wo) => this.addNewWalletToGroup(wo, walletGroup));
+
+      observer.next(walletGroup);
+    });
+  }
+
+  private addNewWalletToGroup(walletOptions: WalletOptions, walletGroup: WalletGroup): Observable<WalletGroup> {
     const walletClient = this.getClient();
 
-    let key;
+    const credentials = walletGroup.rootKey.createCredentials(walletOptions.password, {
+      coin: walletOptions.coin,
+      network: walletOptions.network,
+      account: walletOptions.account,
+      n: walletOptions.totalCopayers,
+    });
 
-    if (parentKey !== undefined) {
-      key = parentKey;
-    } else {
-      const seedData = walletOptions.seed.extendedPrivateKey
-        ? walletOptions.seed.extendedPrivateKey
-        : walletOptions.seed.mnemonic;
-      key = this.generateWalletSeed(walletOptions.seed.seedType, seedData);
-    }
+    credentials.m = walletOptions.minimumSignsForTx;
+
+    walletClient.fromString(credentials);
+
+    return new Observable((observer) => {
+      walletClient.createWallet(
+        walletOptions.walletName,
+        walletOptions.copayerName,
+        walletOptions.minimumSignsForTx,
+        walletOptions.totalCopayers,
+        {
+          coin: walletOptions.coin,
+          network: walletOptions.network,
+          singleAddress: walletOptions.singleAddress,
+          useNativeSegwit: walletOptions.nativeSegWit,
+          walletPrivKey: walletClient.credentials.walletPrivKey,
+        },
+        (err, secret) => {
+          if (!err) {
+            walletGroup.wallets.push({ walletClient, secret });
+            observer.next(walletGroup);
+          }
+        }
+      );
+    });
+  }
+
+  private createWallet(walletOptions: WalletOptions): Observable<WalletGroup> {
+    const walletClient = this.getClient();
+
+    const key = this.generateNewWalletSeed();
 
     const credentials = key.createCredentials(walletOptions.password, {
       coin: walletOptions.coin,
@@ -274,7 +341,15 @@ export class BwcService {
         },
         (err, secret) => {
           if (!err) {
-            return observer.next({ walletClient, rootKey: key, secret });
+            observer.next({
+              rootKey: key,
+              wallets: [
+                {
+                  walletClient,
+                  secret,
+                },
+              ],
+            });
           }
         }
       );
