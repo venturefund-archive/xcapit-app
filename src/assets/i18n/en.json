@@ -1384,28 +1384,27 @@
       "qr_scanner": {
         "text": "Point your camera towards a QR code."
       }
+    }
+  },
+  "deposit_addresses": {
+    "deposit_currency": {
+      "header": "Deposit Address",
+      "currency_title": "Currency",
+      "title": "In what currency will you pay the commission?",
+      "text_before": "Choose the currency with which you want to make the deposit",
+      "next_button": "Next"
     },
-
-    "deposit_addresses": {
-      "deposit_currency": {
-        "header": "Deposit Address",
-        "currency_title": "Currency",
-        "title": "In what currency will you pay the commission?",
-        "text_before": "Choose the currency with which you want to make the deposit",
-        "next_button": "Next"
-      },
-      "deposit_address": {
-        "header": "Deposit Address",
-        "title": "Address info",
-        "text_before": "Use any of the following information to make the deposit",
-        "address_title": "Address",
-        "address_tag_title": "Address tag",
-        "link_title": "Link",
-        "qr_title": "QR",
-        "copy_address_ok_text": "The address was copied to the clipboard",
-        "copy_address_error_text": "The address could not be copied to the clipboard",
-        "back_link": "Back to home"
-      }
+    "deposit_address": {
+      "header": "Deposit Address",
+      "title": "Address info",
+      "text_before": "Use any of the following information to make the deposit",
+      "address_title": "Address",
+      "address_tag_title": "Address tag",
+      "link_title": "Link",
+      "qr_title": "QR",
+      "copy_address_ok_text": "The address was copied to the clipboard",
+      "copy_address_error_text": "The address could not be copied to the clipboard",
+      "back_link": "Back to home"
     }
   },
   "tabs": {
