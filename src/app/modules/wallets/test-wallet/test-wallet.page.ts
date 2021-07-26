@@ -34,7 +34,7 @@ export class TestWalletPage {
   ionViewWillEnter() {}
 
   createBTCWallet() {
-    this.bwcService.createSimpleWalletGroup(this.bwcService.getCoin('btc')).subscribe((data) => {
+    this.bwcService.createSimpleWalletGroup(this.bwcService.getCoin('btc')).then((data) => {
       console.log('Wallet creada con éxito:');
       console.log(data);
       console.log(data.rootKey.toObj());
@@ -54,7 +54,7 @@ export class TestWalletPage {
   }
 
   createSharedBTCWallet() {
-    this.bwcService.createSharedWallet(this.bwcService.getCoin('btc'), 4, 3).subscribe((data) => {
+    this.bwcService.createSharedWallet(this.bwcService.getCoin('btc'), 4, 3).then((data) => {
       console.log('Wallet creada con éxito:');
       this.secret = data.wallets[0].secret;
       console.log(data);
@@ -65,7 +65,7 @@ export class TestWalletPage {
     if (this.secret === undefined) {
       console.log('Primero crea una wallet compartida.');
     } else {
-      this.bwcService.joinWallet(this.secret).subscribe((data) => {
+      this.bwcService.joinWallet(this.secret).then((data) => {
         console.log('Wallet creada con éxito:');
         console.log(data);
       });
@@ -77,7 +77,7 @@ export class TestWalletPage {
       console.log('Primero crea una wallet ETH.');
     } else {
       const token = Object.values(TokenOpts).find((t) => t.symbol.toLowerCase() === 'busd');
-      this.bwcService.createTokenWallet(token, this.ethWallet).subscribe((data) => {
+      this.bwcService.createTokenWalletFromEthWallet(token, this.ethWallet).then((data) => {
         console.log('Wallet creada con éxito:');
         console.log(data);
       });

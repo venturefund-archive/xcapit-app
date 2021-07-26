@@ -3,7 +3,7 @@ import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
 
 export interface Wallet {
   walletClient: BWC;
-  secret: string;
+  secret?: string;
   preferences?: any;
 }
 
