@@ -7,6 +7,7 @@ import { Coin } from '../../interfaces/coin';
 import { Token } from '../../interfaces/token';
 import { Coins } from '../../constants/coins';
 import { Wallet, WalletGroup } from '../../interfaces/wallet';
+import { ApiProfilesService } from 'src/app/modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
 
 enum SeedType {
   NEW,
@@ -36,9 +37,14 @@ interface WalletOptions {
 })
 export class BwcService {
   bwsInstanceUrl = 'https://bws.bitpay.com/bws/api';
+  copayerName: string;
   public Client = BWC;
 
-  constructor(private languageService: LanguageService) {}
+  constructor(private languageService: LanguageService, private apiProfilesService: ApiProfilesService) {
+    this.getUserName().subscribe((userName) => {
+      this.copayerName = userName;
+    });
+  }
 
   public createMultipleWallets(coins: Coin[], tokens?: Token[]): Observable<WalletGroup> {
     if (tokens !== undefined && coins.find((coin) => coin.symbol.toLowerCase() === 'eth') === undefined) {
@@ -171,7 +177,7 @@ export class BwcService {
   getDefaultWalletOptions(coin: Coin, walletGroup?: WalletGroup): WalletOptions {
     return {
       walletName: `${coin.name} Wallet`,
-      copayerName: this.getUserName(),
+      copayerName: this.copayerName,
       password: this.getUserPassword(),
       coin: coin.symbol.toLowerCase(),
       network: 'livenet',
@@ -190,8 +196,16 @@ export class BwcService {
     return 'test';
   }
 
-  getUserName(): string {
-    return 'Federico Marquez';
+  getUserName(): Observable<string> {
+    return new Observable<string>((observer) => {
+      this.apiProfilesService.crud.get().subscribe((data) => {
+        if (data.first_name) {
+          observer.next(data.first_name);
+        } else {
+          observer.next(data.email);
+        }
+      });
+    });
   }
 
   getNextAccount(coin: Coin, walletGroup: WalletGroup): number {

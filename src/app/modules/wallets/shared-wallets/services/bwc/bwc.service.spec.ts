@@ -3,6 +3,8 @@ import { LanguageService } from '../../../../../shared/services/language/languag
 import { BwcService } from './bwc.service';
 import BWC from 'bitcore-wallet-client';
 import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
+import { ApiProfilesService } from '../../../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
+import { of } from 'rxjs';
 
 const testOpts = {
   bwsurl: 'localhost',
@@ -127,9 +129,15 @@ fdescribe('BwcService', () => {
   let bwcSpy: any;
   let bwcMock: any;
   let getClientSpy: any;
+  let apiProfilesServiceMock: any;
 
   beforeEach(() => {
     languageServiceMock = { selected: 'es' };
+    apiProfilesServiceMock = {
+      crud: {
+        get: () => of({}),
+      },
+    };
     bwcSpy = jasmine.createSpyObj(BWC, ['createWallet', 'fromString', 'fromObj', 'joinWallet']);
     bwcSpy.createWallet.and.callFake((name, copayerName, m, n, opts, cb) => {
       cb(null, {});
@@ -150,7 +158,10 @@ fdescribe('BwcService', () => {
 
     TestBed.configureTestingModule({
       imports: [],
-      providers: [{ provide: LanguageService, useValue: languageServiceMock }],
+      providers: [
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+      ],
     });
 
     service = TestBed.inject(BwcService);
@@ -288,5 +299,21 @@ fdescribe('BwcService', () => {
   it('should return 2 if there are 2 wallets in the WalletGroup when calling getNextAccount for BTC', () => {
     const account = service.getNextAccount(testCoin, testWalletGroups.twoBTCWallets);
     expect(account).toBe(2);
+  });
+
+  it('should return the user email if user has no name on getUserName', () => {
+    const userData = { email: 'test@xcapit.com' };
+    apiProfilesServiceMock.crud.get = () => of(userData);
+    service.getUserName().subscribe((data) => {
+      expect(data).toBe(userData.email);
+    });
+  });
+
+  it('should return the user name if user has no name on getUserName', () => {
+    const userData = { first_name: 'Test' };
+    apiProfilesServiceMock.crud.get = () => of(userData);
+    service.getUserName().subscribe((data) => {
+      expect(data).toBe(userData.first_name);
+    });
   });
 });

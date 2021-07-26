@@ -19,6 +19,7 @@ import { TokenOpts } from '../shared-wallets/constants/tokens';
       <ion-button (click)="this.createSharedBTCWallet()">Crear nueva wallet BTC compartida</ion-button>
       <ion-button (click)="this.joinBTCWallet()">Unirse a la wallet compartida</ion-button>
       <ion-button (click)="this.createTokenWalletBUSD()">Crear wallet de tokens BUSD</ion-button>
+      <ion-button (click)="this.getUserName()">Ver mi nombre</ion-button>
     </ion-content>
   `,
   styleUrls: ['./test-wallet.page.scss'],
@@ -82,5 +83,11 @@ export class TestWalletPage {
         console.log(data);
       });
     }
+  }
+
+  getUserName() {
+    this.bwcService.getUserName().subscribe((username) => {
+      console.log(username);
+    });
   }
 }
