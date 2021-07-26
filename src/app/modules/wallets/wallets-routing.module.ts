@@ -17,6 +17,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
       },
+      {
+        path: 'success-creation',
+        loadChildren: () =>
+          import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
+      },
     ],
   },
 ];

@@ -1,28 +1,29 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
-import { SuccessClaimPage } from './success-claim.page';
 
-describe('SuccessClaimPage', () => {
-  let component: SuccessClaimPage;
-  let fixture: ComponentFixture<SuccessClaimPage>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SuccessClaimPage>;
+import { SuccessCreationPage } from './success-creation.page';
+
+describe('SuccessCreationPage', () => {
+  let component: SuccessCreationPage;
+  let fixture: ComponentFixture<SuccessCreationPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SuccessCreationPage>;
   let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [SuccessClaimPage, TrackClickDirective],
+        declarations: [SuccessCreationPage, TrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(SuccessClaimPage);
+      fixture = TestBed.createComponent(SuccessCreationPage);
       component = fixture.componentInstance;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       fixture.detectChanges();
