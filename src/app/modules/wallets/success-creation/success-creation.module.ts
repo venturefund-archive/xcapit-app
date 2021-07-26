@@ -1,7 +1,4 @@
-import { FormsModule } from '@angular/forms';
-
-import { IonicModule } from '@ionic/angular';
-
+import { NgModule } from '@angular/core';
 import { SuccessCreationPage } from './success-creation.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedWalletsModule } from '../shared-wallets/shared-wallets.module';
