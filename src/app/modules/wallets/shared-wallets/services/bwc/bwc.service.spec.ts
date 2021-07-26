@@ -32,8 +32,8 @@ const testCoin = {
   symbol: 'BTC',
 };
 
-const testWalletOptions = [
-  {
+const testWalletOptions = {
+  btcWallet: {
     walletName: 'BTC Wallet',
     copayerName: 'Federico Marquez',
     password: 'fede123',
@@ -48,7 +48,22 @@ const testWalletOptions = [
       seedType: 0,
     },
   },
-  {
+  btcDefaultWallet: {
+    walletName: 'BTC - Bitcoin Wallet',
+    copayerName: 'Federico Marquez',
+    password: 'fede123',
+    coin: 'btc',
+    network: 'livenet',
+    account: 0,
+    totalCopayers: 1,
+    minimumSignsForTx: 1,
+    singleAddress: false,
+    nativeSegWit: true,
+    seed: {
+      seedType: 0,
+    },
+  },
+  ethWallet: {
     walletName: 'ETH Wallet',
     copayerName: 'Federico Marquez',
     password: 'fede123',
@@ -63,7 +78,7 @@ const testWalletOptions = [
       seedType: 0,
     },
   },
-];
+};
 
 const testWalletGroups = {
   noBTCWallets: {
@@ -225,7 +240,7 @@ fdescribe('BwcService', () => {
   });
 
   it('should create a WalletGroup on createWalletAndGroup', async () => {
-    const walletGroup = await service.createWalletAndGroup(testWalletOptions[0]);
+    const walletGroup = await service.createWalletAndGroup(testWalletOptions.btcWallet);
 
     expect(walletGroup).toBeDefined();
     expect(Object.keys(walletGroup)).toContain('wallets');
@@ -233,7 +248,7 @@ fdescribe('BwcService', () => {
   });
 
   it('should create a Wallet on createWalletAndGroup', async () => {
-    const walletGroup = await service.createWalletAndGroup(testWalletOptions[0]);
+    const walletGroup = await service.createWalletAndGroup(testWalletOptions.btcWallet);
 
     expect(walletGroup.wallets[0]).toBeDefined();
     expect(Object.keys(walletGroup.wallets[0])).toContain('walletClient');
@@ -241,7 +256,7 @@ fdescribe('BwcService', () => {
   });
 
   it('should create a Wallet on createWalletFromKey', async () => {
-    const wallet = await service.createWalletFromKey(testWalletOptions[0], testKey);
+    const wallet = await service.createWalletFromKey(testWalletOptions.btcWallet, testKey);
 
     expect(wallet).toBeDefined();
     expect(Object.keys(wallet)).toContain('walletClient');
@@ -260,12 +275,13 @@ fdescribe('BwcService', () => {
     const spy = spyOn(service, 'createWalletFromKey').and.returnValue(
       Promise.resolve({ walletClient: null, secret: null })
     );
-    await service.createMultipleWalletsAndAddToGroup(testWalletOptions, { rootKey: null, wallets: [] });
+    const walletOptions = [testWalletOptions.btcWallet, testWalletOptions.ethWallet];
+    await service.createMultipleWalletsAndAddToGroup(walletOptions, { rootKey: null, wallets: [] });
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
   it('should create a WalletGroup on createTokenWalletFromEthWallet', async () => {
-    const wallet = await service.createWalletFromKey(testWalletOptions[1], testKey);
+    const wallet = await service.createWalletFromKey(testWalletOptions.ethWallet, testKey);
     const tokenWallet = await service.createTokenWalletFromEthWallet(testToken, wallet);
     expect(tokenWallet).toBeDefined();
     expect(Object.keys(tokenWallet)).toContain('walletClient');
@@ -315,5 +331,17 @@ fdescribe('BwcService', () => {
     service.getUserName().subscribe((data) => {
       expect(data).toBe(userData.first_name);
     });
+  });
+
+  it('should return the right WalletOptions when calling getDefaultWalletOptions', () => {
+    service.password = 'fede123';
+    service.copayerName = 'Federico Marquez';
+    const walletOptions = service.getDefaultWalletOptions(testCoin);
+    expect(walletOptions).toEqual(testWalletOptions.btcDefaultWallet);
+  });
+
+  it('should return Bitcoin on getCoin with btc', () => {
+    const coin = service.getCoin('btc');
+    expect(coin).toEqual(testCoin);
   });
 });

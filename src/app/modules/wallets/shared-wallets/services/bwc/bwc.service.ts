@@ -38,6 +38,7 @@ interface WalletOptions {
 export class BwcService {
   bwsInstanceUrl = 'https://bws.bitpay.com/bws/api';
   copayerName: string;
+  password: string;
   public Client = BWC;
 
   constructor(private languageService: LanguageService, private apiProfilesService: ApiProfilesService) {
@@ -178,7 +179,7 @@ export class BwcService {
     return {
       walletName: `${coin.name} Wallet`,
       copayerName: this.copayerName,
-      password: this.getUserPassword(),
+      password: this.password,
       coin: coin.symbol.toLowerCase(),
       network: 'livenet',
       account: walletGroup ? this.getNextAccount(coin, walletGroup) : 0,
@@ -190,10 +191,6 @@ export class BwcService {
         seedType: SeedType.NEW,
       },
     };
-  }
-
-  getUserPassword(): string {
-    return 'test';
   }
 
   getUserName(): Observable<string> {
@@ -223,8 +220,8 @@ export class BwcService {
   }
 
   public joinWallet(secret: string): Promise<WalletGroup> {
-    const password = this.getUserPassword();
-    const copayerName = this.getUserName();
+    const password = this.password;
+    const copayerName = this.copayerName;
     const walletClient = this.getClient();
 
     const walletData = this.Client.parseSecret(secret);
