@@ -72,7 +72,6 @@
     "lodash": "^4.17.21",
     "qrcode": "^1.4.2",
     "rxjs": "^6.6.2",
-    "semantic-git-commit-cli": "^3.7.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
