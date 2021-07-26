@@ -1231,6 +1231,12 @@
       "title": "Select assets",
       "subtitle": "Choose the assets you want to view in your wallet",
       "select_all": "Select all currencies"
+    },
+
+    "success_creation": {
+      "title": "Your verification phrase is verified",
+      "subtitle": "Keep it in a safe place, if possible, without an internet connection",
+      "success_button": "Go to my wallet"
     }
   },
   "apikeys": {
