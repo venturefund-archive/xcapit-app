@@ -4,7 +4,7 @@ import { BwcService } from './bwc.service';
 import BWC from 'bitcore-wallet-client';
 import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
 import { ApiProfilesService } from '../../../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
-import { of } from 'rxjs';
+import { async, of } from 'rxjs';
 
 const testOpts = {
   bwsurl: 'localhost',
@@ -74,6 +74,21 @@ const testWalletOptions = {
     minimumSignsForTx: 2,
     singleAddress: false,
     nativeSegWit: false,
+    seed: {
+      seedType: 0,
+    },
+  },
+  sharedBtcDefaultWallet: {
+    walletName: 'BTC - Bitcoin Shared Wallet',
+    copayerName: 'Federico Marquez',
+    password: 'fede123',
+    coin: 'btc',
+    network: 'testnet',
+    account: 0,
+    totalCopayers: 3,
+    minimumSignsForTx: 2,
+    singleAddress: false,
+    nativeSegWit: true,
     seed: {
       seedType: 0,
     },
@@ -255,6 +270,22 @@ fdescribe('BwcService', () => {
     expect(Object.keys(walletGroup.wallets[0])).toContain('secret');
   });
 
+  it('should create a WalletGroup on createWalletAndGroup with shared wallet options', async () => {
+    const walletGroup = await service.createWalletAndGroup(testWalletOptions.sharedBtcDefaultWallet);
+
+    expect(walletGroup).toBeDefined();
+    expect(Object.keys(walletGroup)).toContain('wallets');
+    expect(Object.keys(walletGroup)).toContain('rootKey');
+  });
+
+  it('should create a Wallet on createWalletAndGroup with shared wallet options', async () => {
+    const walletGroup = await service.createWalletAndGroup(testWalletOptions.sharedBtcDefaultWallet);
+
+    expect(walletGroup.wallets[0]).toBeDefined();
+    expect(Object.keys(walletGroup.wallets[0])).toContain('walletClient');
+    expect(Object.keys(walletGroup.wallets[0])).toContain('secret');
+  });
+
   it('should create a Wallet on createWalletFromKey', async () => {
     const wallet = await service.createWalletFromKey(testWalletOptions.btcWallet, testKey);
 
@@ -343,5 +374,13 @@ fdescribe('BwcService', () => {
   it('should return Bitcoin on getCoin with btc', () => {
     const coin = service.getCoin('btc');
     expect(coin).toEqual(testCoin);
+  });
+
+  it('should use default options on createSharedWallet', async () => {
+    const spy = spyOn(service, 'createWalletAndGroup').and.returnValue(Promise.resolve(testWalletGroups.noWallets));
+    service.copayerName = 'Federico Marquez';
+    service.password = 'fede123';
+    await service.createSharedWallet(testCoin, 3, 2, undefined, undefined, 'testnet');
+    expect(spy).toHaveBeenCalledWith(testWalletOptions.sharedBtcDefaultWallet);
   });
 });

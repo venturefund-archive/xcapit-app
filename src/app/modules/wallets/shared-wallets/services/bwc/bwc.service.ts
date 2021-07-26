@@ -146,9 +146,9 @@ export class BwcService {
   ): Promise<WalletGroup> {
     const walletOptions = this.getDefaultWalletOptions(coin);
 
+    walletOptions.walletName = `${coin.name} Shared Wallet`;
     walletOptions.totalCopayers = totalCopayers;
     walletOptions.minimumSignsForTx = minimumSignsForTx;
-    walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
     walletOptions.singleAddress = singleAddress;
     walletOptions.network = network;
 
