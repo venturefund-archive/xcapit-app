@@ -34,7 +34,7 @@ interface WalletOptions {
   providedIn: 'root',
 })
 export class BwcService {
-  bwsInstanceUrl = 'https://10.10.21.165:3737/bws/api';
+  bwsInstanceUrl = 'http://10.10.21.165:3232/bws/api';
   copayerName: string;
   password: string;
   public Client = BWC;
