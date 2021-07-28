@@ -34,7 +34,7 @@ interface WalletOptions {
   providedIn: 'root',
 })
 export class BwcService {
-  bwsInstanceUrl = 'https://bws.bitpay.com/bws/api';
+  bwsInstanceUrl = 'https://10.10.21.165:3737/bws/api';
   copayerName: string;
   password: string;
   public Client = BWC;
@@ -60,7 +60,9 @@ export class BwcService {
   ): Promise<WalletGroup> {
     const walletOptions = this.getDefaultWalletOptions(coin);
 
-    walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
+    if (nativeSegWit) {
+      walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
+    }
     walletOptions.singleAddress = singleAddress;
     walletOptions.network = network;
 
@@ -139,7 +141,9 @@ export class BwcService {
     walletOptions.walletName = `${coin.name} Shared Wallet`;
     walletOptions.totalCopayers = totalCopayers;
     walletOptions.minimumSignsForTx = minimumSignsForTx;
-    walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
+    if (nativeSegWit) {
+      walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
+    }
     walletOptions.singleAddress = singleAddress;
     walletOptions.network = network;
 

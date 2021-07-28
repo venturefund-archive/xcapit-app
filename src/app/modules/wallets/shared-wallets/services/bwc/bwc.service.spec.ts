@@ -178,7 +178,7 @@ const testWalletGroups = {
   },
 };
 
-fdescribe('BwcService', () => {
+describe('BwcService', () => {
   let service: BwcService;
   let languageServiceMock: any;
   let bwcSpy: any;
