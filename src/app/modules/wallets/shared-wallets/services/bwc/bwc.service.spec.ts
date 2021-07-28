@@ -3,8 +3,6 @@ import { LanguageService } from '../../../../../shared/services/language/languag
 import { BwcService } from './bwc.service';
 import BWC from 'bitcore-wallet-client';
 import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
-import { ApiProfilesService } from '../../../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
-import { async, of } from 'rxjs';
 
 const testOpts = {
   bwsurl: 'localhost',
@@ -17,19 +15,36 @@ const testKey = new Key({
   useLegacyPurpose: false,
 });
 
-const testToken = {
-  name: 'Paxos Standard',
-  symbol: 'PAX',
-  decimal: 18,
-  address: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
+const testTokens = {
+  pax: {
+    name: 'Paxos Standard',
+    symbol: 'PAX',
+    decimal: 18,
+    address: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
+  },
+  gusd: {
+    name: 'Gemini Dollar',
+    symbol: 'GUSD',
+    decimal: 2,
+    address: '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd',
+  },
 };
 
-const testCoin = {
-  id: 1,
-  name: 'BTC - Bitcoin',
-  logoRoute: '../../assets/img/coins/BTC.svg',
-  last: false,
-  symbol: 'BTC',
+const testCoins = {
+  btc: {
+    id: 1,
+    name: 'BTC - Bitcoin',
+    logoRoute: '../../assets/img/coins/BTC.svg',
+    last: false,
+    symbol: 'BTC',
+  },
+  eth: {
+    id: 4,
+    name: 'ETH - Ethereum',
+    logoRoute: '../../assets/img/coins/ETH.svg',
+    last: true,
+    symbol: 'ETH',
+  },
 };
 
 const testWalletOptions = {
@@ -78,6 +93,21 @@ const testWalletOptions = {
       seedType: 0,
     },
   },
+  ethDefaultWallet: {
+    walletName: 'ETH - Ethereum Wallet',
+    copayerName: 'Federico Marquez',
+    password: 'fede123',
+    coin: 'eth',
+    network: 'testnet',
+    account: 0,
+    totalCopayers: 1,
+    minimumSignsForTx: 1,
+    singleAddress: false,
+    nativeSegWit: false,
+    seed: {
+      seedType: 0,
+    },
+  },
   sharedBtcDefaultWallet: {
     walletName: 'BTC - Bitcoin Shared Wallet',
     copayerName: 'Federico Marquez',
@@ -115,12 +145,7 @@ const testWalletGroups = {
     wallets: [],
   },
   twoBTCWallets: {
-    rootKey: new Key({
-      seedType: 'new',
-      language: 'es',
-      useLegacyCoinType: false,
-      useLegacyPurpose: false,
-    }),
+    rootKey: testKey,
     wallets: [
       {
         walletClient: new BWC({
@@ -159,15 +184,10 @@ fdescribe('BwcService', () => {
   let bwcSpy: any;
   let bwcMock: any;
   let getClientSpy: any;
-  let apiProfilesServiceMock: any;
+  let hasDoneSetUp = false;
 
   beforeEach(() => {
     languageServiceMock = { selected: 'es' };
-    apiProfilesServiceMock = {
-      crud: {
-        get: () => of({}),
-      },
-    };
     bwcSpy = jasmine.createSpyObj(BWC, ['createWallet', 'fromString', 'fromObj', 'joinWallet']);
     bwcSpy.createWallet.and.callFake((name, copayerName, m, n, opts, cb) => {
       cb(null, {});
@@ -183,15 +203,13 @@ fdescribe('BwcService', () => {
 
     bwcSpy.credentials = {
       walletPrivKey: '',
+      coin: 'eth',
       getTokenCredentials: (token) => Promise.resolve(),
     };
 
     TestBed.configureTestingModule({
       imports: [],
-      providers: [
-        { provide: LanguageService, useValue: languageServiceMock },
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
-      ],
+      providers: [{ provide: LanguageService, useValue: languageServiceMock }],
     });
 
     service = TestBed.inject(BwcService);
@@ -199,41 +217,45 @@ fdescribe('BwcService', () => {
     getClientSpy = spyOn(service, 'getClient').and.returnValue(bwcSpy);
     service.bwsInstanceUrl = 'localhost';
 
-    testWalletGroups.noBTCWallets.wallets[0].walletClient.fromString(
-      testKey.createCredentials(null, {
-        coin: 'eth',
-        network: 'testnet',
-        account: 0,
-        n: 1,
-      })
-    );
+    if (!hasDoneSetUp) {
+      testWalletGroups.noBTCWallets.wallets[0].walletClient.fromString(
+        testKey.createCredentials(null, {
+          coin: 'eth',
+          network: 'testnet',
+          account: 0,
+          n: 1,
+        })
+      );
 
-    testWalletGroups.twoBTCWallets.wallets[0].walletClient.fromString(
-      testKey.createCredentials(null, {
-        coin: 'btc',
-        network: 'testnet',
-        account: 0,
-        n: 1,
-      })
-    );
+      testWalletGroups.twoBTCWallets.wallets[0].walletClient.fromString(
+        testKey.createCredentials(null, {
+          coin: 'btc',
+          network: 'testnet',
+          account: 0,
+          n: 1,
+        })
+      );
 
-    testWalletGroups.twoBTCWallets.wallets[1].walletClient.fromString(
-      testKey.createCredentials(null, {
-        coin: 'eth',
-        network: 'testnet',
-        account: 0,
-        n: 1,
-      })
-    );
+      testWalletGroups.twoBTCWallets.wallets[1].walletClient.fromString(
+        testKey.createCredentials(null, {
+          coin: 'eth',
+          network: 'testnet',
+          account: 0,
+          n: 1,
+        })
+      );
 
-    testWalletGroups.twoBTCWallets.wallets[2].walletClient.fromString(
-      testKey.createCredentials(null, {
-        coin: 'btc',
-        network: 'testnet',
-        account: 1,
-        n: 1,
-      })
-    );
+      testWalletGroups.twoBTCWallets.wallets[2].walletClient.fromString(
+        testKey.createCredentials(null, {
+          coin: 'btc',
+          network: 'testnet',
+          account: 1,
+          n: 1,
+        })
+      );
+
+      hasDoneSetUp = true;
+    }
   });
 
   it('should be created', () => {
@@ -302,6 +324,12 @@ fdescribe('BwcService', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should add new Wallet to WalletGroup on createWalletAndAddToGroup', async () => {
+    spyOn(service, 'createWalletFromKey').and.returnValue(Promise.resolve({ walletClient: null, secret: null }));
+    const walletGroup = await service.createWalletAndAddToGroup(testWalletOptions[0], { rootKey: null, wallets: [] });
+    expect(walletGroup.wallets.length).toEqual(1);
+  });
+
   it('should call createWalletFromKey 2 times on createMultipleWalletsAndAddToGroup', async () => {
     const spy = spyOn(service, 'createWalletFromKey').and.returnValue(
       Promise.resolve({ walletClient: null, secret: null })
@@ -313,7 +341,7 @@ fdescribe('BwcService', () => {
 
   it('should create a WalletGroup on createTokenWalletFromEthWallet', async () => {
     const wallet = await service.createWalletFromKey(testWalletOptions.ethWallet, testKey);
-    const tokenWallet = await service.createTokenWalletFromEthWallet(testToken, wallet);
+    const tokenWallet = await service.createTokenWalletFromEthWallet(testTokens.pax, wallet);
     expect(tokenWallet).toBeDefined();
     expect(Object.keys(tokenWallet)).toContain('walletClient');
     expect(Object.keys(tokenWallet)).toContain('secret');
@@ -334,53 +362,175 @@ fdescribe('BwcService', () => {
   });
 
   it('should return 0 if there are no BTC wallets in the WalletGroup when calling getNextAccount for BTC', () => {
-    const account = service.getNextAccount(testCoin, testWalletGroups.noBTCWallets);
+    const account = service.getNextAccount(testCoins.btc, testWalletGroups.noBTCWallets);
     expect(account).toBe(0);
   });
 
   it('should return 0 if there are no wallets in the WalletGroup when calling getNextAccount for BTC', () => {
-    const account = service.getNextAccount(testCoin, testWalletGroups.noWallets);
+    const account = service.getNextAccount(testCoins.btc, testWalletGroups.noWallets);
     expect(account).toBe(0);
   });
 
   it('should return 2 if there are 2 wallets in the WalletGroup when calling getNextAccount for BTC', () => {
-    const account = service.getNextAccount(testCoin, testWalletGroups.twoBTCWallets);
+    const account = service.getNextAccount(testCoins.btc, testWalletGroups.twoBTCWallets);
     expect(account).toBe(2);
-  });
-
-  it('should return the user email if user has no name on getUserName', () => {
-    const userData = { email: 'test@xcapit.com' };
-    apiProfilesServiceMock.crud.get = () => of(userData);
-    service.getUserName().subscribe((data) => {
-      expect(data).toBe(userData.email);
-    });
-  });
-
-  it('should return the user name if user has no name on getUserName', () => {
-    const userData = { first_name: 'Test' };
-    apiProfilesServiceMock.crud.get = () => of(userData);
-    service.getUserName().subscribe((data) => {
-      expect(data).toBe(userData.first_name);
-    });
   });
 
   it('should return the right WalletOptions when calling getDefaultWalletOptions', () => {
     service.password = 'fede123';
     service.copayerName = 'Federico Marquez';
-    const walletOptions = service.getDefaultWalletOptions(testCoin);
+    const walletOptions = service.getDefaultWalletOptions(testCoins.btc);
     expect(walletOptions).toEqual(testWalletOptions.btcDefaultWallet);
   });
 
   it('should return Bitcoin on getCoin with btc', () => {
     const coin = service.getCoin('btc');
-    expect(coin).toEqual(testCoin);
+    expect(coin).toEqual(testCoins.btc);
   });
 
   it('should use default options on createSharedWallet', async () => {
     const spy = spyOn(service, 'createWalletAndGroup').and.returnValue(Promise.resolve(testWalletGroups.noWallets));
     service.copayerName = 'Federico Marquez';
     service.password = 'fede123';
-    await service.createSharedWallet(testCoin, 3, 2, undefined, undefined, 'testnet');
+    await service.createSharedWallet(testCoins.btc, 3, 2, undefined, undefined, 'testnet');
     expect(spy).toHaveBeenCalledWith(testWalletOptions.sharedBtcDefaultWallet);
+  });
+
+  it('should call createTokenWalletFromEthWallet as many times as tokens are on createMultipleTokenWalletsInGroup', async () => {
+    const tokens = [testTokens.gusd, testTokens.pax];
+    const spy = spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.twoBTCWallets));
+    await service.createMultipleTokenWalletsInGroup(tokens, originalWalletGroup);
+    expect(spy).toHaveBeenCalledTimes(tokens.length);
+  });
+
+  it('should add all token wallets to WalletGroup on createMultipleTokenWalletsInGroup', async () => {
+    const tokens = [testTokens.gusd, testTokens.pax];
+    spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.twoBTCWallets));
+    const expectedLength = originalWalletGroup.wallets.length + tokens.length;
+    const walletGroup = await service.createMultipleTokenWalletsInGroup(tokens, originalWalletGroup);
+    expect(walletGroup.wallets.length).toEqual(expectedLength);
+  });
+
+  it('should not call createWalletAndAddToGroup if there are ETH wallets on createMultipleTokenWalletsInGroup', async () => {
+    const tokens = [testTokens.gusd, testTokens.pax];
+    spyOn(service, 'getCoin').and.returnValue(testCoins.eth);
+    spyOn(service, 'getDefaultWalletOptions').and.returnValue(testWalletOptions.ethWallet);
+    spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const spy = spyOn(service, 'createWalletAndAddToGroup').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets)
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.twoBTCWallets));
+    await service.createMultipleTokenWalletsInGroup(tokens, originalWalletGroup);
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call createWalletAndAddToGroup if there are no ETH wallets on createMultipleTokenWalletsInGroup', async () => {
+    const tokens = [testTokens.gusd, testTokens.pax];
+    spyOn(service, 'getCoin').and.returnValue(testCoins.eth);
+    spyOn(service, 'getDefaultWalletOptions').and.returnValue(testWalletOptions.ethWallet);
+    spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const spy = spyOn(service, 'createWalletAndAddToGroup').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets)
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.noWallets));
+    await service.createMultipleTokenWalletsInGroup(tokens, originalWalletGroup);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call createTokenWalletFromEthWallet if there are no tokens on createMultipleTokenWalletsInGroup', async () => {
+    const tokens = [];
+    const spy = spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.twoBTCWallets));
+    await service.createMultipleTokenWalletsInGroup(tokens, originalWalletGroup);
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call createTokenWalletFromEthWallet on createSimpleTokenWallet', async () => {
+    const spy = spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.twoBTCWallets));
+    await service.createSimpleTokenWallet(testTokens.gusd, originalWalletGroup);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should add token wallets to WalletGroup on createSimpleTokenWallet', async () => {
+    spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.twoBTCWallets));
+    const expectedLength = originalWalletGroup.wallets.length + 1;
+    const walletGroup = await service.createSimpleTokenWallet(testTokens.gusd, originalWalletGroup);
+    expect(walletGroup.wallets.length).toEqual(expectedLength);
+  });
+
+  it('should not call createWalletAndAddToGroup if there are ETH wallets on createSimpleTokenWallet', async () => {
+    spyOn(service, 'getCoin').and.returnValue(testCoins.eth);
+    spyOn(service, 'getDefaultWalletOptions').and.returnValue(testWalletOptions.ethWallet);
+    spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const spy = spyOn(service, 'createWalletAndAddToGroup').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets)
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.twoBTCWallets));
+    await service.createSimpleTokenWallet(testTokens.gusd, originalWalletGroup);
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call createWalletAndAddToGroup if there are no ETH wallets on createSimpleTokenWallet', async () => {
+    spyOn(service, 'getCoin').and.returnValue(testCoins.eth);
+    spyOn(service, 'getDefaultWalletOptions').and.returnValue(testWalletOptions.ethWallet);
+    spyOn(service, 'createTokenWalletFromEthWallet').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets.wallets[1])
+    );
+    const spy = spyOn(service, 'createWalletAndAddToGroup').and.returnValue(
+      Promise.resolve(testWalletGroups.twoBTCWallets)
+    );
+    const originalWalletGroup = JSON.parse(JSON.stringify(testWalletGroups.noWallets));
+    await service.createSimpleTokenWallet(testTokens.gusd, originalWalletGroup);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set nativeSegWit to false if coin is not BTC on createSimpleWalletGroup', async () => {
+    const spy = spyOn(service, 'createWalletAndGroup').and.returnValue(Promise.resolve(testWalletGroups.noWallets));
+    const walletOptions = testWalletOptions.ethDefaultWallet;
+    service.copayerName = walletOptions.copayerName;
+    service.password = walletOptions.password;
+    await service.createSimpleWalletGroup(testCoins.eth, true, walletOptions.singleAddress, walletOptions.network);
+    expect(spy).toHaveBeenCalledWith(walletOptions);
+  });
+
+  it('should not set nativeSegWit to false if coin is BTC on createSimpleWalletGroup', async () => {
+    const spy = spyOn(service, 'createWalletAndGroup').and.returnValue(Promise.resolve(testWalletGroups.noWallets));
+    const walletOptions = testWalletOptions.btcDefaultWallet;
+    service.copayerName = walletOptions.copayerName;
+    service.password = walletOptions.password;
+    await service.createSimpleWalletGroup(
+      testCoins.btc,
+      walletOptions.nativeSegWit,
+      walletOptions.singleAddress,
+      walletOptions.network
+    );
+    expect(spy).toHaveBeenCalledWith(walletOptions);
+  });
+
+  it('should create a WalletGroup containing all Wallets on createMultipleWallets', async () => {
+    const coins = [testCoins.btc, testCoins.eth];
+    const tokens = [testTokens.pax, testTokens.gusd];
+    const result = await service.createMultipleWallets(coins, tokens);
+    expect(result.wallets.length).toEqual(4);
   });
 });

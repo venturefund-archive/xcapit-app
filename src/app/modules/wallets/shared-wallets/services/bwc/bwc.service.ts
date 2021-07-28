@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import BWC from 'bitcore-wallet-client';
 import { Key } from 'bitcore-wallet-client/ts_build/lib/key';
-import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { Coin } from '../../interfaces/coin';
 import { Token } from '../../interfaces/token';
 import { Coins } from '../../constants/coins';
 import { Wallet, WalletGroup } from '../../interfaces/wallet';
-import { ApiProfilesService } from 'src/app/modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
 
 enum SeedType {
   NEW,
@@ -41,28 +39,17 @@ export class BwcService {
   password: string;
   public Client = BWC;
 
-  constructor(private languageService: LanguageService, private apiProfilesService: ApiProfilesService) {
-    this.getUserName().subscribe((userName) => {
-      this.copayerName = userName;
-    });
-  }
+  constructor(private languageService: LanguageService) {}
 
-  public createMultipleWallets(coins: Coin[], tokens?: Token[]): Observable<WalletGroup> {
-    if (tokens !== undefined && coins.find((coin) => coin.symbol.toLowerCase() === 'eth') === undefined) {
-      coins.push(this.getCoin('eth'));
+  public async createMultipleWallets(coins: Coin[], tokens?: Token[]): Promise<WalletGroup> {
+    let walletGroup = await this.createSimpleWalletGroup(coins.pop());
+    walletGroup = await this.createMultipleWalletsInGroup(coins, walletGroup);
+
+    if (tokens?.length > 0) {
+      walletGroup = await this.createMultipleTokenWalletsInGroup(tokens, walletGroup);
     }
 
-    return new Observable((observer) => {
-      this.createSimpleWalletGroup(coins.pop()).then((rootWalletGroup) => {
-        this.createMultipleWalletsInGroup(coins, rootWalletGroup).then((walletGroup) => {
-          if (tokens) {
-            this.createMultipleTokenWalletsInGroup(tokens, walletGroup).subscribe((walletGroupWithTokens) => {
-              observer.next(walletGroupWithTokens);
-            });
-          }
-        });
-      });
-    });
+    return Promise.resolve(walletGroup);
   }
 
   public createSimpleWalletGroup(
@@ -81,6 +68,10 @@ export class BwcService {
   }
 
   createMultipleWalletsInGroup(coins: Coin[], walletGroup: WalletGroup): Promise<WalletGroup> {
+    if (coins.length === 0) {
+      return Promise.resolve(walletGroup);
+    }
+
     const walletOptions: WalletOptions[] = [];
 
     coins.forEach((coin) => {
@@ -96,7 +87,7 @@ export class BwcService {
     return this.createWalletAndAddToGroup(walletOptions, walletGroup);
   }
 
-  public createSimpleTokenWallet(token: Token, walletGroup: WalletGroup): Observable<WalletGroup> {
+  public createSimpleTokenWallet(token: Token, walletGroup: WalletGroup): Promise<WalletGroup> {
     const ethereumWallet = walletGroup.wallets.find(
       (wallet) => wallet.walletClient.credentials.coin.toLowerCase() === 'eth'
     );
@@ -107,15 +98,15 @@ export class BwcService {
       this.createWalletAndAddToGroup(walletOptions, walletGroup);
     }
 
-    return new Observable((observer) => {
+    return new Promise((resolve) => {
       this.createTokenWalletFromEthWallet(token, ethereumWallet).then((tokenWallet) => {
         walletGroup.wallets.push(tokenWallet);
-        observer.next(walletGroup);
+        resolve(walletGroup);
       });
     });
   }
 
-  public createMultipleTokenWalletsInGroup(tokens: Token[], walletGroup: WalletGroup): Observable<WalletGroup> {
+  public createMultipleTokenWalletsInGroup(tokens: Token[], walletGroup: WalletGroup): Promise<WalletGroup> {
     const ethereumWallet = walletGroup.wallets.find(
       (wallet) => wallet.walletClient.credentials.coin.toLowerCase() === 'eth'
     );
@@ -126,14 +117,13 @@ export class BwcService {
       this.createWalletAndAddToGroup(walletOptions, walletGroup);
     }
 
-    return new Observable((observer) => {
-      tokens.forEach((token) => {
-        this.createTokenWalletFromEthWallet(token, ethereumWallet).then((tokenWallet) => {
-          walletGroup.wallets.push(tokenWallet);
-          observer.next(walletGroup);
-        });
+    tokens.forEach((token) => {
+      this.createTokenWalletFromEthWallet(token, ethereumWallet).then((tokenWallet) => {
+        walletGroup.wallets.push(tokenWallet);
       });
     });
+
+    return Promise.resolve(walletGroup);
   }
 
   public createSharedWallet(
@@ -149,6 +139,7 @@ export class BwcService {
     walletOptions.walletName = `${coin.name} Shared Wallet`;
     walletOptions.totalCopayers = totalCopayers;
     walletOptions.minimumSignsForTx = minimumSignsForTx;
+    walletOptions.nativeSegWit = coin.symbol.toLowerCase() === 'btc' ? nativeSegWit : false;
     walletOptions.singleAddress = singleAddress;
     walletOptions.network = network;
 
@@ -191,18 +182,6 @@ export class BwcService {
         seedType: SeedType.NEW,
       },
     };
-  }
-
-  getUserName(): Observable<string> {
-    return new Observable<string>((observer) => {
-      this.apiProfilesService.crud.get().subscribe((data) => {
-        if (data.first_name) {
-          observer.next(data.first_name);
-        } else {
-          observer.next(data.email);
-        }
-      });
-    });
   }
 
   getNextAccount(coin: Coin, walletGroup: WalletGroup): number {
