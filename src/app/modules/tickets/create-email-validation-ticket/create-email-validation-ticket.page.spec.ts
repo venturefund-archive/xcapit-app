@@ -11,7 +11,6 @@ import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
-import { AuthFormComponent } from '../../usuarios/shared-usuarios/components/auth-form/auth-form.component';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
 
 import { CreateEmailValidationTicketPage } from './create-email-validation-ticket.page';
@@ -120,11 +119,6 @@ describe('CreateEmailValidationTicketPage', () => {
     component.close();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/users/login']);
-  });
-
-  it('should get data from storage if page was reloaded and there is user data in storage', async () => {
-    getCurrentNavigationSpy.and.returnValue(currentNavigation);
-    expect(component.userEmail).toBe(extras.extras.state.email);
   });
 
   it('should fill form with user email if redirected from resend verification email', () => {
