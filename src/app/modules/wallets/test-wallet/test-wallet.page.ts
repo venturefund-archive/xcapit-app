@@ -23,8 +23,8 @@ import { ApiProfilesService } from '../../profiles/shared-profiles/services/api-
         <ion-button style="width: 100%" (click)="this.createBTCWallet()">Crear nueva wallet BTC</ion-button>
       </div>
       <div>
-        <ion-button style="width: 100%" (click)="this.createBTCAndETHWallet()"
-          >Crear wallets BTC y ETH de la misma seed</ion-button
+        <ion-button style="width: 100%" (click)="this.createBTCAndETHAndDOGEWallet()"
+          >Crear wallets BTC, DOGE y ETH de la misma seed</ion-button
         >
       </div>
       <div>
@@ -97,10 +97,11 @@ export class TestWalletPage {
     });
   }
 
-  createBTCAndETHWallet() {
+  createBTCAndETHAndDOGEWallet() {
     this.errorMsg = undefined;
     const coins = [];
     coins.push(this.bwcService.getCoin('btc'));
+    coins.push(this.bwcService.getCoin('doge'));
     coins.push(this.bwcService.getCoin('eth'));
 
     this.bwcService.createMultipleWallets(coins, null, true).then((data) => {

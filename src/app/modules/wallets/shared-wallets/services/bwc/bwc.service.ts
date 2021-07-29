@@ -182,7 +182,7 @@ export class BwcService {
   }
 
   getDefaultWalletOptions(coin: Coin, walletGroup?: WalletGroup): WalletOptions {
-    let walletOptions: WalletOptions = {
+    const walletOptions: WalletOptions = {
       walletName: `${coin.name} Wallet`,
       copayerName: this.copayerName,
       password: this.password,
@@ -280,7 +280,7 @@ export class BwcService {
 
   createMultipleWalletsAndAddToGroup(walletOptions: WalletOptions[], walletGroup: WalletGroup): Promise<WalletGroup> {
     return new Promise((resolve) => {
-      walletOptions.forEach((wo) => this.createWalletAndAddToGroup(wo, walletGroup));
+      walletOptions.forEach(async (wo) => await this.createWalletAndAddToGroup(wo, walletGroup));
 
       resolve(walletGroup);
     });

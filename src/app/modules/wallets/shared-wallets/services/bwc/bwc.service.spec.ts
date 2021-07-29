@@ -204,6 +204,7 @@ describe('BwcService', () => {
     bwcSpy.credentials = {
       walletPrivKey: '',
       coin: 'eth',
+      network: 'testnet',
       getTokenCredentials: (token) => Promise.resolve(),
     };
 
@@ -530,7 +531,7 @@ describe('BwcService', () => {
   it('should create a WalletGroup containing all Wallets on createMultipleWallets', async () => {
     const coins = [testCoins.btc, testCoins.eth];
     const tokens = [testTokens.pax, testTokens.gusd];
-    const result = await service.createMultipleWallets(coins, tokens);
+    const result = await service.createMultipleWallets(coins, tokens, true);
     expect(result.wallets.length).toEqual(4);
   });
 });
