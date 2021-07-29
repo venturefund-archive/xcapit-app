@@ -103,7 +103,7 @@ export class TestWalletPage {
     coins.push(this.bwcService.getCoin('btc'));
     coins.push(this.bwcService.getCoin('eth'));
 
-    this.bwcService.createMultipleWallets(coins).then((data) => {
+    this.bwcService.createMultipleWallets(coins, null, true).then((data) => {
       this.wallets.push(data);
       this.ethWalletGroup = data;
     });

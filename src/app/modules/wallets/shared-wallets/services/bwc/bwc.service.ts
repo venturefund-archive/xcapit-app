@@ -41,8 +41,19 @@ export class BwcService {
 
   constructor(private languageService: LanguageService) {}
 
-  public async createMultipleWallets(coins: Coin[], tokens?: Token[]): Promise<WalletGroup> {
-    let walletGroup = await this.createSimpleWalletGroup(coins.pop());
+  public async createMultipleWallets(
+    coins: Coin[],
+    tokens?: Token[],
+    isTestnet: boolean = false
+  ): Promise<WalletGroup> {
+    let walletGroup: WalletGroup;
+
+    if (isTestnet) {
+      walletGroup = await this.createSimpleWalletGroup(coins.pop(), null, null, 'testnet');
+    } else {
+      walletGroup = await this.createSimpleWalletGroup(coins.pop());
+    }
+
     walletGroup = await this.createMultipleWalletsInGroup(coins, walletGroup);
 
     if (tokens?.length > 0) {
@@ -171,13 +182,13 @@ export class BwcService {
   }
 
   getDefaultWalletOptions(coin: Coin, walletGroup?: WalletGroup): WalletOptions {
-    return {
+    let walletOptions: WalletOptions = {
       walletName: `${coin.name} Wallet`,
       copayerName: this.copayerName,
       password: this.password,
       coin: coin.symbol.toLowerCase(),
       network: 'livenet',
-      account: walletGroup ? this.getNextAccount(coin, walletGroup) : 0,
+      account: 0,
       totalCopayers: 1,
       minimumSignsForTx: 1,
       singleAddress: false,
@@ -186,6 +197,13 @@ export class BwcService {
         seedType: SeedType.NEW,
       },
     };
+
+    if (walletGroup) {
+      walletOptions.network = walletGroup.wallets[0].walletClient.credentials.network;
+      walletOptions.account = this.getNextAccount(coin, walletGroup);
+    }
+
+    return walletOptions;
   }
 
   getNextAccount(coin: Coin, walletGroup: WalletGroup): number {
