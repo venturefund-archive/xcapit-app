@@ -1235,7 +1235,7 @@
       "select_all": "Seleccionar todas las monedas"
     },
     "success_creation": {
-      "title": "Tu frase de recuperación está verificado",
+      "title": "¡Genial! creamos tu billetera y tu frase de recuperación está verificada",
       "subtitle": "Guardala en un lugar seguro, en lo posible, sin conexión a internet",
       "success_button": "Ir a mi billetera"
     }
