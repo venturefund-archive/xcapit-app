@@ -104,7 +104,7 @@ export class VerifyPhrasePage implements OnInit {
   }
 
   verifyPhrase() {
-    var equalsWords = 0;
+    let equalsWords = 0;
     if (this.words.length === this.inputWords.length) {
       for (let i = 0; i < this.inputWords.length; i++) {
         if (this.inputWords[i] === this.words[i]) {
