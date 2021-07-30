@@ -1,12 +1,26 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RecoveryPhraseCardComponent } from './components/recovery-phrase-card/recovery-phrase-card.component';
-import { RecoveryWordButtonComponent } from './components/recovery-word-button/recovery-word-button.component';
-import { RecoveryWordInputComponent } from './components/recovery-word-input/recovery-word-input.component';
+import { RecoveryWordComponent } from './components/recovery-word/recovery-word.component';
+import { VerifyPhraseCardComponent } from './components/verify-phrase-card/verify-phrase-card.component';
+import { VerifyWordButtonComponent } from './components/verify-word-button/verify-word-button.component';
 
 @NgModule({
-  declarations: [RecoveryPhraseCardComponent, RecoveryWordButtonComponent, RecoveryWordInputComponent],
+  declarations: [
+    RecoveryPhraseCardComponent,
+    RecoveryWordComponent,
+    VerifyWordButtonComponent,
+    VerifyWordButtonComponent,
+    VerifyPhraseCardComponent,
+  ],
   imports: [SharedModule],
-  exports: [SharedModule, RecoveryPhraseCardComponent, RecoveryWordButtonComponent, RecoveryWordInputComponent],
+  exports: [
+    SharedModule,
+    RecoveryPhraseCardComponent,
+    RecoveryWordComponent,
+    VerifyWordButtonComponent,
+    VerifyWordButtonComponent,
+    VerifyPhraseCardComponent,
+  ],
 })
 export class SharedWalletsModule {}

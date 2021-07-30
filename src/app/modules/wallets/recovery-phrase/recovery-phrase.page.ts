@@ -19,27 +19,27 @@ import { NavController } from '@ionic/angular';
             'wallets.recovery-phrase.title' | translate
           }}</ion-text>
         </div>
-        <div class="text1">
-          <ion-text class="text1 ux-font-lato ux-fweight-regular ux-fsize-16">{{
+        <div class="text">
+          <ion-text class="text ux-font-lato ux-fweight-regular ux-fsize-16">{{
             'wallets.recovery-phrase.text1' | translate
           }}</ion-text>
         </div>
-        <div class="text2">
-          <ion-text class="text2 ux-font-lato ux-fweight-regular ux-fsize-16">{{
+        <div class="text">
+          <ion-text class="text ux-font-lato ux-fweight-regular ux-fsize-16">{{
             'wallets.recovery-phrase.text2' | translate
           }}</ion-text>
         </div>
-        <div class="text3">
-          <ion-text class="text3 ux-font-lato ux-fweight-regular ux-fsize-16">{{
+        <div class="text">
+          <ion-text class="text ux-font-lato ux-fweight-regular ux-fsize-16">{{
             'wallets.recovery-phrase.text3' | translate
           }}</ion-text>
         </div>
-        <div class="text4">
-          <ion-text class="text4 ux-font-lato ux-fweight-regular ux-fsize-16">{{
+        <div class="text">
+          <ion-text class="text ux-font-lato ux-fweight-regular ux-fsize-16">{{
             'wallets.recovery-phrase.text4' | translate
           }}</ion-text>
         </div>
-        <app-recovery-phrase-card class="card"></app-recovery-phrase-card>
+        <app-recovery-phrase-card></app-recovery-phrase-card>
       </div>
     </ion-content>
     <div class="ux_footer ion-padding">

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonInput, IonSlides, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-verify-phrase',
@@ -18,27 +19,107 @@ import { Component, Input, OnInit } from '@angular/core';
             'wallets.verify-phrase.title' | translate
           }}</ion-text>
         </div>
-        <app-recovery-word-input></app-recovery-word-input>
+        <div>
+          <ion-slides spaceBetween="40" slidesPerView="2" (ionSlideWillChange)="this.view()">
+            <ion-slide class="slide" *ngFor="let word of this.words; let indice = index">
+              <ion-card>
+                <div class="div-input">
+                  <ion-button class="input-word" [ngClass]="{ active: wordInput }" size="small" fill="clear"
+                    >{{ this.inputWords[indice] }}
+                  </ion-button>
+                </div>
+                <ion-label class="label-card">{{ indice + 1 + '/' + this.countWords }}</ion-label>
+              </ion-card>
+            </ion-slide>
+          </ion-slides>
+        </div>
+        <div class="create_button">
+          <ion-button
+            *ngIf="!this.activated"
+            class="ux_button"
+            appTrackClick
+            name="Create Wallet"
+            type="submit"
+            (click)="this.verifyPhrase()"
+          >
+            {{ 'wallets.verify-phrase.btn_create' | translate }}
+          </ion-button>
+        </div>
         <div class="text1">
-          <ion-text class="text1 ux-font-lato ux-fweight-regular ux-fsize-16">{{
+          <ion-text class="text1 ux-font-lato ux-fweight-semibold ux-fsize-15">{{
             'wallets.verify-phrase.text1' | translate
           }}</ion-text>
         </div>
-        <app-recovery-phrase-card class="card"></app-recovery-phrase-card>
+        <app-verify-phrase-card (useButtonClicked)="this.wordValor($event)" class="card"></app-verify-phrase-card>
       </div>
     </ion-content>
-    <div class="ux_footer ion-padding">
-      <div class="next_button">
-        <ion-button class="ux_button" appTrackClick name="Next" type="submit" size="large">
-          {{ 'wallets.recovery-phrase.btn_next' | translate }}
-        </ion-button>
-      </div>
-    </div>
   `,
   styleUrls: ['./verify-phrase.page.scss'],
 })
 export class VerifyPhrasePage implements OnInit {
-  constructor() {}
+  @ViewChild(IonSlides, { static: true }) slides: IonSlides;
+  activated = true;
+  ordered = true;
+  inputWords: string[] = [];
+  wordInput = false;
+  words: string[] = [
+    'insecto',
+    'puerta',
+    'vestido',
+    'piso',
+    'plato',
+    'nube',
+    'afuera',
+    'fuego',
+    'laptop',
+    'libre',
+    'perro',
+    'niño',
+  ];
+  countWords = this.words.length;
 
-  ngOnInit() {}
+  constructor(private navController: NavController) {}
+
+  ngOnInit() {
+    this.slides.lockSwipeToNext(true);
+    this.slides.lockSwipeToPrev(true);
+  }
+
+  swipeNext() {
+    this.slides.lockSwipeToNext(false);
+    this.slides.slideNext();
+    this.slides.lockSwipeToNext(true);
+    this.slides.lockSwipeToPrev(true);
+  }
+
+  wordValor(word: string) {
+    this.inputWords.push(word);
+    this.wordInput = true;
+    setTimeout(() => {
+      this.swipeNext();
+    }, 800);
+    if (this.inputWords.length === this.countWords) {
+      this.activated = !this.activated;
+    }
+  }
+
+  verifyPhrase() {
+    var equalsWords = 0;
+    if (this.words.length === this.inputWords.length) {
+      for (let i = 0; i < this.inputWords.length; i++) {
+        if (this.inputWords[i] === this.words[i]) {
+          equalsWords++;
+        }
+      }
+    }
+    if (equalsWords === this.inputWords.length) {
+      this.navController.navigateForward(['/wallets/success-creation']);
+    }
+  }
+
+  view() {
+    setTimeout(() => {
+      this.wordInput = false;
+    }, 77);
+  }
 }

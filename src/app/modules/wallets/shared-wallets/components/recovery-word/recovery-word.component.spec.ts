@@ -1,19 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { RecoveryWordButtonComponent } from './recovery-word-button.component';
+import { RecoveryWordComponent } from './recovery-word.component';
 
-describe('RecoveryWordButtonComponent', () => {
-  let component: RecoveryWordButtonComponent;
-  let fixture: ComponentFixture<RecoveryWordButtonComponent>;
+describe('RecoveryWordComponent', () => {
+  type NewType = RecoveryWordComponent;
+  let component: NewType;
+  let fixture: ComponentFixture<RecoveryWordComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RecoveryWordButtonComponent],
+      declarations: [RecoveryWordComponent],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RecoveryWordButtonComponent);
+    fixture = TestBed.createComponent(RecoveryWordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

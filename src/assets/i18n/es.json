@@ -1637,7 +1637,8 @@
     "verify-phrase": {
       "header": "Crear Billetera",
       "title": "Verifica tu frase",
-      "text1": "Toca las palabras en el orden correspondiente"
+      "text1": "Toca las palabras en el orden correspondiente",
+      "btn_create": "Crear Billetera"
     }
   }
 }

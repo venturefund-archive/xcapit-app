@@ -1,18 +1,17 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-recovery-phrase-card',
   template: `
-    <ion-card>
-      <div class="word ion-no-padding" *ngFor="let word of this.words">
-        <app-recovery-word-button [word]="word" class="ion-margin"></app-recovery-word-button>
+    <ion-card class="ion-padding">
+      <div class="word" *ngFor="let word of this.words; let indice = index">
+        <app-recovery-word [indice]="indice" [word]="word"> </app-recovery-word>
       </div>
     </ion-card>
   `,
   styleUrls: ['./recovery-phrase-card.component.scss'],
 })
 export class RecoveryPhraseCardComponent implements OnInit {
-  ordered = true;
   words: string[] = [
     'insecto',
     'puerta',
@@ -27,12 +26,7 @@ export class RecoveryPhraseCardComponent implements OnInit {
     'perro',
     'niño',
   ];
-
   constructor() {}
 
-  ngOnInit() {
-    if (this.ordered) {
-      this.words.sort();
-    }
-  }
+  ngOnInit() {}
 }
