@@ -21,7 +21,8 @@ import { ActivatedRoute } from '@angular/router';
         <div class="ux_content">
           <div>
             <ion-list>
-              <app-method *ngFor="let method of paymentMethods" [paymentMethods]="method"> </app-method>
+              <app-method *ngFor="let method of paymentMethods" [paymentMethod]="method" [planID]="this.planID">
+              </app-method>
             </ion-list>
           </div>
         </div>
@@ -33,24 +34,16 @@ import { ActivatedRoute } from '@angular/router';
 export class PaymentMethodsPage implements OnInit {
   public paymentMethodsAssets = [
     {
-      name: 'PayPal',
-      link: 'https://py.pl/IZg5M4XLCm',
-      img: '../../../../assets/img/payment-methods/paypal.png',
+      name: 'MercadoPago',
     },
     {
-      name: 'Mercadopago',
-      link: 'https://www.mercadopago.com/mla/debits/new?preapproval_plan_id=2c93808478f916c70179003e21d40717',
-      img: '../../../../assets/img/payment-methods/mercadopago.png',
+      name: 'PayPal',
     },
     {
       name: 'BitPay',
-      link: '',
-      img: '../../../../assets/img/payment-methods/bitpay.png',
     },
     {
       name: 'Binance',
-      link: '',
-      img: '../../../../assets/img/payment-methods/binance.png',
     },
   ];
   planID: string;
@@ -61,7 +54,7 @@ export class PaymentMethodsPage implements OnInit {
 
   ionViewWillEnter() {
     this.planID = this.route.snapshot.paramMap.get('plan_id');
-    this.apiPayment.getPaymentMethods(this.planID).subscribe((res) => {
+    this.apiPayment.getPaymentMethods().subscribe((res) => {
       res.forEach((element) => {
         const methodAssets = this.paymentMethodsAssets.filter((method) => method.name === element.name);
         this.paymentMethods.push({ ...element, ...methodAssets[0] });
