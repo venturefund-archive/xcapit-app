@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { COINS } from '../../constants/coins';
 
 import { ItemCoinComponent } from './item-coin.component';
 
@@ -16,6 +17,7 @@ describe('ItemCoinComponent', () => {
 
       fixture = TestBed.createComponent(ItemCoinComponent);
       component = fixture.componentInstance;
+      component.coin = COINS[0];
       fixture.detectChanges();
     })
   );

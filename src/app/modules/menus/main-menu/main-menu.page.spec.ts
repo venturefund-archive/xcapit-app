@@ -95,6 +95,7 @@ describe('MainMenuPage', () => {
             { path: 'notifications/list', component: DummyComponent },
             { path: 'apikeys/list', component: DummyComponent },
             { path: 'payment/payment-methods', component: DummyComponent },
+            { path: 'payment/select-license', component: DummyComponent },
           ]),
         ],
       }).compileComponents();
