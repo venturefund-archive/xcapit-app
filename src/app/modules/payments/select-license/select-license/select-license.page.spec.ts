@@ -2,12 +2,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { ApiPaymentsService } from '../../shared-payments/services/api-payments.service';
 import { SelectLicensePage } from './select-license.page';
+import { of } from 'rxjs';
 
 describe('SelectLicensePage', () => {
   let component: SelectLicensePage;
@@ -19,7 +19,8 @@ describe('SelectLicensePage', () => {
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      apiPaymentsServiceSpy = jasmine.createSpyObj('ApiPaymentMethods', ['getPaymentMethods', 'registerLicense']);
+      apiPaymentsServiceSpy = jasmine.createSpyObj('ApiPaymentMethods', ['registerLicense']);
+
       TestBed.configureTestingModule({
         declarations: [SelectLicensePage, TrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
@@ -66,20 +67,51 @@ describe('SelectLicensePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call getPaymentMethods on action and result is array empty', () => {
-    const spy = spyOn(apiPaymentsServiceSpy, 'getPaymentMethods');
-    spy.and.returnValue(new Observable());
-    component.paymentMethods = [];
-    component.action('');
-    expect(apiPaymentsServiceSpy.getPaymentMethods).toHaveBeenCalledTimes(1);
-    expect(component.paymentMethods.length).toBe(0);
+  it('should call activatedBtn on changeLicenses on ionViewWillEnter', () => {
+    const spy = spyOn(component, 'activatedBtn');
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
-  it('should call registerLicense on action', () => {
+  [true, false].forEach((p) => {
+    it(`when activatedBtn is called with ${p} parameter`, () => {
+      const stateAnnual = p ? 'active' : '';
+      const stateMonthly = !p ? 'active' : '';
+      component.activatedBtn(p);
+      expect(component.activeButtonAnnual).toBe(p);
+      expect(component.stateAnnual).toBe(stateAnnual);
+      expect(component.activeButtonMonthly).toBe(!p);
+      expect(component.stateMonthly).toBe(stateMonthly);
+    });
+  });
+
+  it('should call registerLicense and getSuccess route on action with free license', () => {
     const spy = spyOn(apiPaymentsServiceSpy, 'registerLicense');
-    component.paymentMethods = [];
+    const spyGetSucessRoute = spyOn(component, 'getSuccessRoute');
     component.selectedLicense = 'free';
-    spy.and.returnValue(new Observable());
-    component.action(component.selectedLicense);
+    spy.and.returnValue(of({}));
+    spyGetSucessRoute.and.returnValue(Promise.resolve(true));
+    component.action(component.selectedLicense, '1');
     expect(apiPaymentsServiceSpy.registerLicense).toHaveBeenCalledTimes(1);
+    expect(component.getSuccessRoute).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call registerLicense and getSuccess route on action with non-free license', () => {
+    const spy = spyOn(component, 'getPaymentRoute');
+    component.selectedLicense = 'asdadsa';
+    spy.and.returnValue(Promise.resolve(true));
+    component.action(component.selectedLicense, '2');
+    expect(component.getPaymentRoute).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call navigateForward with ["/payment/payment-success"] on navController when getSuccessRoute is called', () => {
+    component.getSuccessRoute();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/payment/payment-success']);
+  });
+
+  it('should call navigateForward with ["/payment/payment-methods", plan_id] on navController when getPaymentRoute is called', () => {
+    component.getPaymentRoute('2');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/payment/payment-methods', '2']);
   });
 });

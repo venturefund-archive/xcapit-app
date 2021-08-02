@@ -185,14 +185,14 @@ export class RegisterPage implements OnInit {
 
   async openTOS() {
     await Browser.open({
-      toolbarColor: 'red',
+      toolbarColor: '#ff9100',
       url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
     });
   }
 
   async openWaitingList() {
     await Browser.open({
-      toolbarColor: 'red',
+      toolbarColor: '#ff9100',
       url: 'https://www.xcapit.com/waiting-list',
     });
   }
