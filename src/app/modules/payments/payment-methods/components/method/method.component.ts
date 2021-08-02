@@ -6,7 +6,13 @@ const { Browser } = Plugins;
 @Component({
   selector: 'app-method',
   template: `
-    <div class="mc" (click)="openLink(this.paymentMethod?.id, this.planID)">
+    <div
+      class="mc"
+      appTrackClick
+      [dataToTrack]="{ description: this.paymentMethod?.name }"
+      name="Payment Method Select"
+      (click)="openLink(this.paymentMethod?.id, this.planID)"
+    >
       <div class="mc__content">
         <div class="mc__content__both">
           <div class="mc__content__img">
@@ -28,9 +34,8 @@ const { Browser } = Plugins;
         <div class="mc__content__button">
           <div class="button">
             <ion-button
-              *ngIf="this.isActive"
-              appTrackClick
-              name="Payment Method"
+              *ngIf="this.paymentMethod?.status === 'active'"
+              name="Payment Method Select"
               fill="clear"
               color="uxmedium"
               size="small"
@@ -39,7 +44,7 @@ const { Browser } = Plugins;
             >
               <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-button>
-            <ion-badge *ngIf="!this.isActive" class="ux_badge_coming" slot="end"
+            <ion-badge *ngIf="this.paymentMethod?.status === 'soon'" class="ux_badge_coming" slot="end"
               >{{ 'payment.methods.coming_badge' | translate }}
             </ion-badge>
           </div>
@@ -53,41 +58,27 @@ export class MethodComponent implements OnInit {
   @Input() paymentMethod: any;
   @Input() planID: any;
   paymentImage = '';
-  buttonName = '';
-  isActive: boolean;
 
   constructor(private apiPayment: ApiPaymentsService) {}
 
   ngOnInit() {
-    console.log(this.paymentMethod);
     this.getPaymentImage();
-    this.getButtonName();
-    this.MethodIsActive();
   }
 
   openLink(methodID: string, planID: string) {
-    this.apiPayment.getPaymentLink({ plan_id: planID, payment_method_id: methodID }).subscribe((res) => {
-      if (res.link) {
-        Browser.open({
-          toolbarColor: '#ff9100',
-          url: res.link,
-        });
-      }
-    });
-  }
-
-  MethodIsActive() {
-    this.isActive =
-      this.paymentMethod?.name !== 'Binance' &&
-      this.paymentMethod?.name !== 'BitPay' &&
-      this.paymentMethod?.name !== 'PayPal';
+    if (this.paymentMethod?.status === 'active') {
+      this.apiPayment.getPaymentLink({ plan_id: planID, payment_method_id: methodID }).subscribe((res) => {
+        if (res.link) {
+          Browser.open({
+            toolbarColor: '#ff9100',
+            url: res.link,
+          });
+        }
+      });
+    }
   }
 
   getPaymentImage() {
     this.paymentImage = `../../../../assets/img/payment-methods/${this.paymentMethod?.name.toLowerCase()}.png`;
-  }
-
-  getButtonName() {
-    this.buttonName = `Payment Method: ${this.paymentMethod?.name}`;
   }
 }

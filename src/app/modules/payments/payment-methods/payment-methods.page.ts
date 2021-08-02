@@ -32,20 +32,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./payment-methods.page.scss'],
 })
 export class PaymentMethodsPage implements OnInit {
-  public paymentMethodsAssets = [
-    {
-      name: 'MercadoPago',
-    },
-    {
-      name: 'PayPal',
-    },
-    {
-      name: 'BitPay',
-    },
-    {
-      name: 'Binance',
-    },
-  ];
   planID: string;
   paymentMethods = [];
   constructor(private apiPayment: ApiPaymentsService, private route: ActivatedRoute) {}
@@ -55,10 +41,7 @@ export class PaymentMethodsPage implements OnInit {
   ionViewWillEnter() {
     this.planID = this.route.snapshot.paramMap.get('plan_id');
     this.apiPayment.getPaymentMethods().subscribe((res) => {
-      res.forEach((element) => {
-        const methodAssets = this.paymentMethodsAssets.filter((method) => method.name === element.name);
-        this.paymentMethods.push({ ...element, ...methodAssets[0] });
-      });
+      this.paymentMethods = res.filter((method) => method.status !== 'inactive');
     });
   }
 }
