@@ -90,7 +90,6 @@ export class ContactLicensePage implements OnInit {
     this.form.patchValue({ category_code: 'PREMIUM_ACCOUNTS' });
     this.form.patchValue({ subject: 'Cuenta Premium' });
     if (this.form.valid) {
-      console.log(this.form.value);
       this.createTicket();
     } else {
       this.form.markAllAsTouched();
