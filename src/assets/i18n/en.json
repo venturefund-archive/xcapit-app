@@ -1622,17 +1622,23 @@
       "textPrimary": "Your plan is active!",
       "textSecondary": "Keep configuring your investment",
       "textBtn": "Continue"
+    }
+  },
+  "wallets": {
+    "recovery_phrase": {
+      "header": "Create Wallet",
+      "title": "Recovery phrase",
+      "text1": "These are the 12 words that make up your wallet.",
+      "text2": "As long as you have the 12 words you will be able to recover your wallet and all the funds.",
+      "text3": "If you lose the words you will not be able to do it.",
+      "text4": "Carefully write each word in the order they appear and keep them in a safe place (text file, USB stick, by hand on a piece of paper, etc).",
+      "btn_next": "Next"
     },
-    "wallets": {
-      "recovery_phrase": {
-        "header": "Crear Billetera",
-        "title": "Frase de recuperación",
-        "text1": "Estas son las 12 palabras que conforman tu billetera.",
-        "text2": "Siempre que tengas las 12 palabras vas a poder recuperar tu billetera y todos los fondos.",
-        "text3": "Si pierdas las palabras no vas a poder hacerlo.",
-        "text4": "EScribe cuidadosamente cada palabra en el orden que aparecen y guardalas en un lugar seguro (archivo de texto, pendrive, a mano en un papel, etc).",
-        "btn_next": "Siguiente"
-      }
+    "verify_phrase": {
+      "header": "Create Wallet",
+      "title": "Check your phrase",
+      "text1": "Tap the words in the corresponding order",
+      "btn_create": "Create Wallet"
     }
   }
 }
