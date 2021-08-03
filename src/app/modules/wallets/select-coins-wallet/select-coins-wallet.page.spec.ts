@@ -8,6 +8,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { By } from '@angular/platform-browser';
 import { SelectCoinsWalletPage } from './select-coins-wallet.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const formData = {
   valid: {
@@ -44,6 +45,7 @@ describe('SelectCoinsWalletPage', () => {
         declarations: [SelectCoinsWalletPage, TrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
   );

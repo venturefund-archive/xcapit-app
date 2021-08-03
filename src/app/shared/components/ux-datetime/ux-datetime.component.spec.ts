@@ -4,6 +4,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UxDatetimeComponent } from './ux-datetime.component';
 import { FormGroupDirective } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { IonicModule } from '@ionic/angular';
 
 describe('UxDatetimeComponent', () => {
   let component: UxDatetimeComponent;
@@ -14,7 +15,7 @@ describe('UxDatetimeComponent', () => {
       formGroupDirectiveMock = { control: { get: () => null } };
       TestBed.configureTestingModule({
         declarations: [UxDatetimeComponent],
-        imports: [TranslateModule.forRoot()],
+        imports: [IonicModule, TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
       }).compileComponents();

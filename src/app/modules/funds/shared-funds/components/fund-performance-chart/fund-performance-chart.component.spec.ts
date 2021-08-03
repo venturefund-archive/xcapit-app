@@ -63,11 +63,11 @@ describe('FundPerformanceChartComponent', () => {
     component = fixture.componentInstance;
     component.fundPercentageEvolution = fundPerformanceMock;
 
-    let chartElementMock = document.createElement('div');
+    const chartElementMock = document.createElement('div');
     chartElementMock.className = 'testPage';
     chartElementMock.setAttribute('id', 'chart');
 
-    let tooltipElementMock = document.createElement('div');
+    const tooltipElementMock = document.createElement('div');
     tooltipElementMock.setAttribute('id', 'tooltip');
 
     spyOn(component, 'getToRenderElement').and.returnValue(chartElementMock);
