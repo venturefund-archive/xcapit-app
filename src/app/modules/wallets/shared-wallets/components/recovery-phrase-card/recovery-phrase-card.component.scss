@@ -1,0 +1,10 @@
+:host {
+  ion-card {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+
+  .word {
+    text-align: center;
+  }
+}
