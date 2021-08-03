@@ -8,6 +8,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'create-first/recovery-phrase',
+        loadChildren: () => import('./recovery-phrase/recovery-phrase.module').then((m) => m.RecoveryPhrasePageModule),
+      },
+      {
+        path: 'create-first/verify-phrase',
+        loadChildren: () => import('./verify-phrase/verify-phrase.module').then((m) => m.VerifyPhrasePageModule),
+      },
+      {
         path: 'create-first/disclaimer',
         loadChildren: () =>
           import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
