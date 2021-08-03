@@ -1238,6 +1238,21 @@
       "title": "¡Genial! creamos tu billetera y tu frase de recuperación está verificada",
       "subtitle": "Guardala en un lugar seguro, en lo posible, sin conexión a internet",
       "success_button": "Ir a mi billetera"
+    },
+    "recovery_phrase": {
+      "header": "Crear Billetera",
+      "title": "Frase de recuperación",
+      "text1": "Estas son las 12 palabras que conforman tu billetera.",
+      "text2": "Siempre que tengas las 12 palabras vas a poder recuperar tu billetera y todos los fondos.",
+      "text3": "Si pierdas las palabras no vas a poder hacerlo.",
+      "text4": "Escribe cuidadosamente cada palabra en el orden que aparecen y guardalas en un lugar seguro (archivo de texto, pendrive, a mano en un papel, etc).",
+      "btn_next": "Siguiente"
+    },
+    "verify_phrase": {
+      "header": "Crear Billetera",
+      "title": "Verifica tu frase",
+      "text1": "Toca las palabras en el orden correspondiente",
+      "btn_create": "Crear Billetera"
     }
   },
   "apikeys": {
@@ -1646,23 +1661,6 @@
       "textPrimary": "¡Tu plan está activo!",
       "textSecondary": "Sigue configurando tu inversión",
       "textBtn": "Continuar"
-    }
-  },
-  "wallets": {
-    "recovery_phrase": {
-      "header": "Crear Billetera",
-      "title": "Frase de recuperación",
-      "text1": "Estas son las 12 palabras que conforman tu billetera.",
-      "text2": "Siempre que tengas las 12 palabras vas a poder recuperar tu billetera y todos los fondos.",
-      "text3": "Si pierdas las palabras no vas a poder hacerlo.",
-      "text4": "Escribe cuidadosamente cada palabra en el orden que aparecen y guardalas en un lugar seguro (archivo de texto, pendrive, a mano en un papel, etc).",
-      "btn_next": "Siguiente"
-    },
-    "verify_phrase": {
-      "header": "Crear Billetera",
-      "title": "Verifica tu frase",
-      "text1": "Toca las palabras en el orden correspondiente",
-      "btn_create": "Crear Billetera"
     }
   }
 }
