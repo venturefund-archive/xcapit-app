@@ -1137,6 +1137,7 @@
       "i_agree_button": "I agree"
     }
   },
+
   "referrals": {
     "new_referral": {
       "header": "Refer",
@@ -1178,7 +1179,7 @@
       "info_title3": "HOW DO I CLAIM MY PRIZE?",
       "info_title4": "HOW I SEE HOW MANY REFERRALS I HAVE?",
       "info_description1": "Any user can invite other people to visit Xcapit, they just need to create an account and share their link within their referral panel.",
-      "info_description2": "You will earn $ 10 (ten dollars) for each guest who activates an Advanced or Expert account, and you will earn $ 1 (one dollar) for each guest who activates an Explorer account. In either case, your guest must have an active account for more than 60 days. Don't have an account yet? Turn it on",
+      "info_description2": "You will earn $ 10 (ten dollars) for each guest who activates an Advanced or Expert account, and you will earn $ 1 (one dollar) for each guest who activates an Explorer account. In either case, your guest must have an active account for more than 60 days.",
       "info_description3": "Within the app, in your referral panel, click Request a reward. We will contact you to coordinate the payment.",
       "info_description4": "Within the app in your referral panel you will see the list of active guests and a counter of the money you have earned."
     },
@@ -1211,6 +1212,31 @@
     "notifications_helper": {
       "message": "You have a new notifications!",
       "view_button": "View"
+    }
+  },
+  "wallets": {
+    "disclaimer": {
+      "header": "Create Wallet",
+      "title": "Let's start with your wallet!",
+      "description": "Before creating your wallet, verify the essential permissions to start",
+      "local_stored_keys_checkbox": "I understand that my funds are kept safely within this device, and not by a company.",
+      "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
+      "terms_of_use_checkbox": "I have read, understand and accept the terms of use.",
+      "terms_of_use_button": "See terms of use",
+      "submit_button": "Confirm and accept",
+      "error_did_not_accept": "You need to check all the options to continue."
+    },
+    "select_coin": {
+      "header": "Create Wallet",
+      "title": "Select assets",
+      "subtitle": "Choose the assets you want to view in your wallet",
+      "select_all": "Select all currencies"
+    },
+
+    "success_creation": {
+      "title": "Nice! your wallet is now created and your recovery phrase is verified",
+      "subtitle": "Keep it in a safe place, if possible, without an internet connection",
+      "success_button": "Go to my wallet"
     }
   },
   "apikeys": {
@@ -1364,28 +1390,27 @@
       "qr_scanner": {
         "text": "Point your camera towards a QR code."
       }
+    }
+  },
+  "deposit_addresses": {
+    "deposit_currency": {
+      "header": "Deposit Address",
+      "currency_title": "Currency",
+      "title": "In what currency will you pay the commission?",
+      "text_before": "Choose the currency with which you want to make the deposit",
+      "next_button": "Next"
     },
-
-    "deposit_addresses": {
-      "deposit_currency": {
-        "header": "Deposit Address",
-        "currency_title": "Currency",
-        "title": "In what currency will you pay the commission?",
-        "text_before": "Choose the currency with which you want to make the deposit",
-        "next_button": "Next"
-      },
-      "deposit_address": {
-        "header": "Deposit Address",
-        "title": "Address info",
-        "text_before": "Use any of the following information to make the deposit",
-        "address_title": "Address",
-        "address_tag_title": "Address tag",
-        "link_title": "Link",
-        "qr_title": "QR",
-        "copy_address_ok_text": "The address was copied to the clipboard",
-        "copy_address_error_text": "The address could not be copied to the clipboard",
-        "back_link": "Back to home"
-      }
+    "deposit_address": {
+      "header": "Deposit Address",
+      "title": "Address info",
+      "text_before": "Use any of the following information to make the deposit",
+      "address_title": "Address",
+      "address_tag_title": "Address tag",
+      "link_title": "Link",
+      "qr_title": "QR",
+      "copy_address_ok_text": "The address was copied to the clipboard",
+      "copy_address_error_text": "The address could not be copied to the clipboard",
+      "back_link": "Back to home"
     }
   },
   "tabs": {

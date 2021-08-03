@@ -122,11 +122,6 @@ describe('CreateEmailValidationTicketPage', () => {
     expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/users/login']);
   });
 
-  it('should get data from storage if page was reloaded and there is user data in storage', async () => {
-    getCurrentNavigationSpy.and.returnValue(currentNavigation);
-    expect(component.userEmail).toBe(extras.extras.state.email);
-  });
-
   it('should fill form with user email if redirected from resend verification email', () => {
     activatedRouteMock.queryParams.next();
     expect(component.userEmail).toEqual(extras.extras.state.email);

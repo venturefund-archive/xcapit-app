@@ -10,10 +10,14 @@ export class ApiPaymentsService {
   constructor(private http: CustomHttpService) {}
 
   getPaymentMethods() {
-    return this.http.get(`${environment.apiUrl}/subscription_plans/plans/1/payment_methods`);
+    return this.http.get(`${environment.apiUrl}/subscription_plans/plans/payment_methods`);
   }
 
   registerLicense(): Observable<any> {
     return this.http.post(`${environment.apiUrl}/subscription_plans/free_subscription/`, {});
+  }
+
+  getPaymentLink(data: any) {
+    return this.http.post(`${environment.apiUrl}/subscription_plans/paid_subscription_link/`, data);
   }
 }

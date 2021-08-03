@@ -16,42 +16,43 @@ import { NavController } from '@ionic/angular';
     </ion-header>
 
     <ion-content class="ion-padding rp">
-      <app-ux-text class="ion-padding-top ion-margin-top">
-        <div class="ion-margin-top ion-margin-bottom" style="font-size: 16px;">
-          {{ 'fiat_ramps.register.description_bank' | translate }}
-        </div>
-      </app-ux-text>
-
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
-        <!-- CUIT/CUIL -->
-        <app-ux-input
-          controlName="cuit"
-          type="text"
-          inputmode="numeric"
-          [label]="'fiat_ramps.register.cuil' | translate"
-          [placeholder]="'fiat_ramps.register.cuil' | translate"
-        ></app-ux-input>
+        <div class="ux_content">
+          <div>
+            <ion-text class="text-info ux-font-lato ux-fweight-regular ux-fsize-15">
+              {{ 'fiat_ramps.register.description_bank' | translate }}
+            </ion-text>
+          </div>
+          <!-- CUIT/CUIL -->
+          <app-ux-input
+            controlName="cuit"
+            type="text"
+            inputmode="numeric"
+            [label]="'fiat_ramps.register.cuil' | translate"
+            [placeholder]="'fiat_ramps.register.cuil' | translate"
+          ></app-ux-input>
 
-        <!-- CBU/CVU -->
-        <app-ux-input
-          controlName="cbu_cvu"
-          type="text"
-          inputmode="text"
-          [label]="'fiat_ramps.register.cbu' | translate"
-          [placeholder]="'fiat_ramps.register.cbu' | translate"
-          (keyup)="this.cbuCountFunc()"
-          [maxlength]="22"
-        ></app-ux-input>
-        <div class="cbu-count">{{ this.cbuCount }} / 22</div>
+          <!-- CBU/CVU -->
+          <app-ux-input
+            controlName="cbu_cvu"
+            type="text"
+            inputmode="text"
+            [label]="'fiat_ramps.register.cbu' | translate"
+            [placeholder]="'fiat_ramps.register.cbu' | translate"
+            (keyup)="this.cbuCountFunc()"
+            [maxlength]="22"
+          ></app-ux-input>
+          <div class="cbu-count">{{ this.cbuCount }} / 22</div>
 
-        <!-- Banco -->
-        <app-ux-input
-          controlName="banco"
-          type="text"
-          inputmode="text"
-          [label]="'fiat_ramps.register.bank' | translate"
-          [placeholder]="'fiat_ramps.register.bank' | translate"
-        ></app-ux-input>
+          <!-- Banco -->
+          <app-ux-input
+            controlName="banco"
+            type="text"
+            inputmode="text"
+            [label]="'fiat_ramps.register.bank' | translate"
+            [placeholder]="'fiat_ramps.register.bank' | translate"
+          ></app-ux-input>
+        </div>
 
         <div class="ux_footer">
           <div class="button-next">

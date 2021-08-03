@@ -15,6 +15,21 @@ const routes: Routes = [
         path: 'create-first/verify-phrase',
         loadChildren: () => import('./verify-phrase/verify-phrase.module').then((m) => m.VerifyPhrasePageModule),
       },
+      {
+        path: 'create-first/disclaimer',
+        loadChildren: () =>
+          import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
+      },
+      {
+        path: 'select-coins',
+        loadChildren: () =>
+          import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
+      },
+      {
+        path: 'success-creation',
+        loadChildren: () =>
+          import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
+      },
     ],
   },
 ];

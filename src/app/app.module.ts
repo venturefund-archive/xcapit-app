@@ -74,6 +74,7 @@ registerLocaleData(localeEn, 'en');
     TabsModule,
     ApikeysModule,
     NotificationsModule,
+    WalletsModule,
     MenusModule,
     TicketsModule,
     DepositAddressesModule,

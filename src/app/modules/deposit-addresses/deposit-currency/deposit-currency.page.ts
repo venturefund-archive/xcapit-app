@@ -38,7 +38,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                     <ion-label>{{ this.currencyEnum.BTC }}</ion-label>
                     <ion-radio mode="md" slot="start" [value]="this.currencyEnum.BTC"></ion-radio>
                   </ion-item>
-                  <div class="list-divider"></div>
                   <ion-item>
                     <ion-label>{{ this.currencyEnum.USDT }}</ion-label>
                     <ion-radio mode="md" slot="start" [value]="this.currencyEnum.USDT"></ion-radio>

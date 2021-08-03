@@ -40,6 +40,6 @@ export class FundSliderNewsCardComponent implements OnInit {
   ngOnInit() {}
 
   async goToWeb(slug) {
-    await Browser.open({ toolbarColor: 'red', url: `https://www.xcapit.com/xcapit-academy/${slug}` });
+    await Browser.open({ toolbarColor: '#ff9100', url: `https://www.xcapit.com/xcapit-academy/${slug}` });
   }
 }
