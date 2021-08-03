@@ -20,4 +20,8 @@ export class ApiPaymentsService {
   getPaymentLink(data: any) {
     return this.http.post(`${environment.apiUrl}/subscription_plans/paid_subscription_link/`, data);
   }
+
+  getSubscriptionPlans() {
+    return this.http.get(`${environment.apiUrl}/subscription_plans/`);
+  }
 }

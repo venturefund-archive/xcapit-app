@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ApiPaymentsService } from '../../shared-payments/services/api-payments.service';
-import { LICENSES } from '../constants/license';
 @Component({
   selector: 'app-select-license',
   template: `
@@ -34,7 +33,7 @@ import { LICENSES } from '../constants/license';
             appTrackClick
             fill="clear"
             size="small"
-            (click)="this.changeLicenses(this.annualState)"
+            (click)="this.changePlans(this.annualFrequency)"
             >{{ 'payment.licenses.btnAnnual' | translate }}</ion-button
           >
           <ion-button
@@ -44,7 +43,7 @@ import { LICENSES } from '../constants/license';
             appTrackClick
             fill="clear"
             size="small"
-            (click)="this.changeLicenses(this.monthlyState)"
+            (click)="this.changePlans(this.monthlyFrequency)"
             >{{ 'payment.licenses.btnMonthly' | translate }}</ion-button
           >
         </div>
@@ -52,9 +51,9 @@ import { LICENSES } from '../constants/license';
           <div>
             <ion-list>
               <app-item-license
-                *ngFor="let license of licenses"
-                [license]="license"
-                (click)="this.action(this.license.type, this.license.id)"
+                *ngFor="let plan of filteredPlans"
+                [plan]="plan"
+                (click)="this.action(this.plan.type, this.plan.id)"
               ></app-item-license>
             </ion-list>
           </div>
@@ -65,28 +64,37 @@ import { LICENSES } from '../constants/license';
   styleUrls: ['./select-license.page.scss'],
 })
 export class SelectLicensePage implements OnInit {
-  licenses = LICENSES;
+  subscriptionPlans = [];
+  filteredPlans = [];
   stateAnnual: string;
   activeButtonAnnual = true;
   stateMonthly: string;
   activeButtonMonthly = true;
-  annualState = 'payment.licenses.annual';
-  monthlyState = 'payment.licenses.monthly';
-  selectedLicense: string;
+  annualFrequency = 'years';
+  monthlyFrequency = 'months';
+  selectedPlan: string;
 
   constructor(private navController: NavController, private apiPayment: ApiPaymentsService) {}
 
   ionViewWillEnter() {
-    this.changeLicenses(this.annualState);
+    this.getSubscriptionPlans();
   }
 
   ngOnInit() {}
 
-  changeLicenses(aState: string) {
-    this.licenses = LICENSES;
-    const filteredLicenses = this.licenses.filter((licenses) => licenses.state === aState || licenses.state === '');
-    this.licenses = filteredLicenses;
-    this.activatedBtn(aState === this.annualState);
+  getSubscriptionPlans() {
+    this.apiPayment.getSubscriptionPlans().subscribe((res) => {
+      this.subscriptionPlans = res;
+      this.changePlans(this.annualFrequency);
+    });
+  }
+
+  changePlans(frequency: string) {
+    const filteredPlans = this.subscriptionPlans.filter(
+      (plans) => plans.frequency_type === frequency || plans.frequency === ''
+    );
+    this.filteredPlans = filteredPlans;
+    this.activatedBtn(frequency === this.annualFrequency);
   }
 
   activatedBtn(annual: boolean) {
@@ -97,12 +105,12 @@ export class SelectLicensePage implements OnInit {
   }
 
   action(type: string, licenseID: string) {
-    this.selectedLicense = type;
-    if (this.selectedLicense === 'free') {
+    this.selectedPlan = type;
+    if (this.selectedPlan === 'free') {
       this.apiPayment.registerLicense().subscribe(() => {
         this.getSuccessRoute();
       });
-    } else {
+    } else if (this.selectedPlan === 'paid') {
       this.getPaymentRoute(licenseID);
     }
   }
