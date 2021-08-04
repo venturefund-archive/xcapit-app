@@ -7,6 +7,7 @@ import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { RecoveryPhrasePage } from './recovery-phrase.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('RecoveryPhrasePage', () => {
   let component: RecoveryPhrasePage;
@@ -20,6 +21,7 @@ describe('RecoveryPhrasePage', () => {
         declarations: [RecoveryPhrasePage, TrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [TrackClickDirective, { provide: NavController, useValue: navControllerMock }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(RecoveryPhrasePage);

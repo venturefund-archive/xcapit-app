@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { COINS } from '../../constants/coins';
 
 import { ItemCoinComponent } from './item-coin.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ItemCoinComponent', () => {
   let component: ItemCoinComponent;
@@ -13,6 +14,7 @@ describe('ItemCoinComponent', () => {
       TestBed.configureTestingModule({
         declarations: [ItemCoinComponent],
         imports: [IonicModule.forRoot()],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ItemCoinComponent);
