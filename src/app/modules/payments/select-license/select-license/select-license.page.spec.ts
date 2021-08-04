@@ -19,12 +19,19 @@ describe('SelectLicensePage', () => {
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      apiPaymentsServiceSpy = jasmine.createSpyObj('ApiPaymentMethods', ['registerLicense']);
+
+      apiPaymentsServiceSpy = {
+        registerLicense: () => of({}),
+        getSubscriptionPlans: () => of([{ frequency_type: 'months' }]),
+      };
 
       TestBed.configureTestingModule({
         declarations: [SelectLicensePage, TrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ApiPaymentsService, useValue: apiPaymentsServiceSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SelectLicensePage);
@@ -42,7 +49,7 @@ describe('SelectLicensePage', () => {
   });
 
   it('should call trackEvent on trackService when anual button is clicked', () => {
-    spyOn(component, 'changeLicenses');
+    spyOn(component, 'changePlans');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'anual');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -52,7 +59,7 @@ describe('SelectLicensePage', () => {
   });
 
   it('should call trackEvent on trackService when mensual button is clicked', () => {
-    spyOn(component, 'changeLicenses');
+    spyOn(component, 'changePlans');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'mensual');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -61,10 +68,11 @@ describe('SelectLicensePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call changeLicenses on ionViewWillEnter', () => {
-    const spy = spyOn(component, 'changeLicenses');
+  it('should call changePlans on ionViewWillEnter', async (done) => {
+    const spy = spyOn(component, 'changePlans');
     component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
+    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
+    done();
   });
 
   it('should call activatedBtn on changeLicenses on ionViewWillEnter', () => {
@@ -87,19 +95,19 @@ describe('SelectLicensePage', () => {
   it('should call registerLicense and getSuccess route on action with free license', () => {
     const spy = spyOn(apiPaymentsServiceSpy, 'registerLicense');
     const spyGetSucessRoute = spyOn(component, 'getSuccessRoute');
-    component.selectedLicense = 'free';
+    component.selectedPlan = 'free';
     spy.and.returnValue(of({}));
     spyGetSucessRoute.and.returnValue(Promise.resolve(true));
-    component.action(component.selectedLicense, '1');
+    component.action(component.selectedPlan, '1');
     expect(apiPaymentsServiceSpy.registerLicense).toHaveBeenCalledTimes(1);
     expect(component.getSuccessRoute).toHaveBeenCalledTimes(1);
   });
 
-  it('should call registerLicense and getSuccess route on action with non-free license', () => {
+  it('should call registerLicense and getSuccess route on action with paid license', () => {
     const spy = spyOn(component, 'getPaymentRoute');
-    component.selectedLicense = 'asdadsa';
+    component.selectedPlan = 'paid';
     spy.and.returnValue(Promise.resolve(true));
-    component.action(component.selectedLicense, '2');
+    component.action(component.selectedPlan, '2');
     expect(component.getPaymentRoute).toHaveBeenCalledTimes(1);
   });
 
