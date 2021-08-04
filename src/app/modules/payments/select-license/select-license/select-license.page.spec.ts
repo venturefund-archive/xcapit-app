@@ -8,6 +8,7 @@ import { navControllerMock } from '../../../../../testing/spies/nav-controller-m
 import { ApiPaymentsService } from '../../shared-payments/services/api-payments.service';
 import { SelectLicensePage } from './select-license.page';
 import { of } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SelectLicensePage', () => {
   let component: SelectLicensePage;
@@ -30,8 +31,9 @@ describe('SelectLicensePage', () => {
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: ApiPaymentsService, useValue: apiPaymentsServiceSpy },
+          { provide: ApiPaymentsService, useValue: apiPaymentsServiceSpy }
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SelectLicensePage);

@@ -12,6 +12,7 @@ import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tic
 
 import { ContactLicensePage } from './contact-license.page';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const formData = {
   valid: {
@@ -62,6 +63,7 @@ describe('ContactLicensePage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: ApiTicketsService, useValue: apiTicketsMock },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       const router = TestBed.inject(Router);

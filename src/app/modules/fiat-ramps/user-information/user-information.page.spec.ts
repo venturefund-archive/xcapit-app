@@ -47,7 +47,7 @@ const formData = {
   },
 };
 
-describe('RegisterPagePage', () => {
+describe('UserInformationPage', () => {
   let component: UserInformationPage;
   let fixture: ComponentFixture<UserInformationPage>;
   let fiatRampsServiceSpy: any;
