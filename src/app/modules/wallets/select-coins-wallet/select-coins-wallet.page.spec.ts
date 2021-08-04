@@ -8,6 +8,17 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { SelectCoinsWalletPage } from './select-coins-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+
+const testCoins = [
+  {
+    id: 4,
+    name: 'ETH - Ethereum',
+    logoRoute: '../../assets/img/coins/ETH.svg',
+    last: true,
+    value: 'ETH',
+  },
+];
 
 const formData = {
   valid: {
@@ -36,13 +47,22 @@ describe('SelectCoinsWalletPage', () => {
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
   let navController: NavController;
+  let walletService: WalletService;
+  let walletServiceMock;
 
   beforeEach(
     waitForAsync(() => {
+      walletServiceMock = {
+        coins: [],
+      };
       TestBed.configureTestingModule({
         declarations: [SelectCoinsWalletPage, TrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerMock }],
+        providers: [
+          TrackClickDirective,
+          { provide: NavController, useValue: navControllerMock },
+          { provide: WalletService, useValue: walletServiceMock },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
@@ -54,6 +74,7 @@ describe('SelectCoinsWalletPage', () => {
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     navController = TestBed.inject(NavController);
+    walletService = TestBed.inject(WalletService);
   });
 
   it('should create', () => {
@@ -99,5 +120,14 @@ describe('SelectCoinsWalletPage', () => {
     component.validate();
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set coins in wallet service on handleSubmit and valid form', () => {
+    spyOn(navController, 'navigateForward');
+    component.form.patchValue({ ETH: true });
+    fixture.detectChanges();
+    component.validate();
+    component.handleSubmit();
+    expect(walletService.coins).toEqual(testCoins);
   });
 });

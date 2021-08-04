@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { COINS } from '../constants/coins';
 import { NavController } from '@ionic/angular';
+import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-select-coins-wallet',
@@ -76,7 +77,11 @@ export class SelectCoinsWalletPage implements OnInit {
     ETH: [false],
   });
 
-  constructor(private formBuilder: FormBuilder, private navController: NavController) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private navController: NavController,
+    private walletService: WalletService
+  ) {}
   isChecked: boolean;
   almostOneChecked = false;
   selectedCoins: Array<any> = [];
