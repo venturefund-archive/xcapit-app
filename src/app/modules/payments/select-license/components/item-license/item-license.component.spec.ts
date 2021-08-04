@@ -6,7 +6,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { ItemLicenseComponent } from './item-license.component';
-import { LicenseType } from '../../../select-license/enums/license_type.enum';
+import { PlanType } from '../../../select-license/enums/plan_type.enum';
 
 describe('ItemLicenseComponent', () => {
   let component: ItemLicenseComponent;
@@ -38,7 +38,7 @@ describe('ItemLicenseComponent', () => {
   });
 
   it('should call trackEvent on trackService when Next Button clicked', () => {
-    component.license = { type: LicenseType.premium };
+    component.plan = { type: PlanType.premium };
     fixture.detectChanges();
     spyOn(component, 'goToContactUs');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Contact Us');
