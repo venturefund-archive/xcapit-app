@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 
 @Component({
   selector: 'app-disclaimer-wallet',
@@ -120,10 +121,13 @@ export class DisclaimerWalletPage implements OnInit {
     private modalController: ModalController,
     private navController: NavController,
     private translate: TranslateService,
-    private storageWalletsService: StorageWalletsService
+    private storageWalletsService: StorageWalletsService,
+    private walletMnemonicService: WalletMnemonicService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.walletMnemonicService.mnemonic());
+  }
 
   handleSubmit() {
     if (this.disclaimerForm.valid) {

@@ -69,17 +69,10 @@ import { COINS } from '../constants/coins';
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
-  coins = COINS;
+  coins = COINS.filter((coin) => coin.value === 'ETH');
 
   form: FormGroup = this.formBuilder.group({
-    BTC: [false],
-    USDT: [false],
-    BNB: [false],
     ETH: [false],
-    DOGE: [false],
-    LTC: [false],
-    PAX: [false],
-    USDC: [false],
   });
 
   constructor(private formBuilder: FormBuilder) {}
