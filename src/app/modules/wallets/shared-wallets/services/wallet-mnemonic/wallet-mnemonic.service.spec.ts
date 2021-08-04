@@ -22,19 +22,19 @@ describe('WalletMnemonicService', () => {
   });
 
   it('should return a mnemonic on mnemonic', () => {
-    const mnemonic = service.mnemonic();
+    const mnemonic = service.newMnemonic();
     expect(mnemonic.phrase.split(' ').length).toBe(12);
   });
 
   it('should match selected language spanish on mnemonic', () => {
     languageService.selected = 'es';
-    const mnemonic = service.mnemonic();
+    const mnemonic = service.newMnemonic();
     expect(mnemonic.locale).toBe('es');
   });
 
   it('should match selected language english on mnemonic', () => {
     languageService.selected = 'en';
-    const mnemonic = service.mnemonic();
+    const mnemonic = service.newMnemonic();
     expect(mnemonic.locale).toBe('en');
   });
 });

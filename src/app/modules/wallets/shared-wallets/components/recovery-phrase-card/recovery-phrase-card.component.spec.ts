@@ -18,6 +18,7 @@ describe('RecoveryPhraseCardComponent', () => {
 
       fixture = TestBed.createComponent(RecoveryPhraseCardComponent);
       component = fixture.componentInstance;
+      component.words = [];
       fixture.detectChanges();
     })
   );

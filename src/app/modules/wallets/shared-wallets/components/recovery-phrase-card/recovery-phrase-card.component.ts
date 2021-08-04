@@ -23,20 +23,8 @@ export class RecoveryPhraseCardComponent implements OnInit {
   @Input() ordered = false;
   @Input() clickable = false;
   @Output() useButtonClicked: EventEmitter<string> = new EventEmitter<string>();
-  words: string[] = [
-    'insecto',
-    'puerta',
-    'vestido',
-    'piso',
-    'plato',
-    'nube',
-    'afuera',
-    'fuego',
-    'laptop',
-    'libre',
-    'perro',
-    'niño',
-  ];
+  @Input() words: string[];
+
   constructor() {}
 
   ngOnInit() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { COINS } from '../constants/coins';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-select-coins-wallet',
@@ -39,7 +40,7 @@ import { COINS } from '../constants/coins';
                   </ion-item>
                   <div class="list-divider"></div>
                   <app-item-coin
-                    (ionChange)="this.validate()"
+                    (change)="this.validate()"
                     [disabled]="this.isChecked"
                     [isChecked]="this.isChecked"
                     *ngFor="let coin of coins"
@@ -75,7 +76,7 @@ export class SelectCoinsWalletPage implements OnInit {
     ETH: [false],
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private navController: NavController) {}
   isChecked: boolean;
   almostOneChecked = false;
   selectedCoins: Array<any> = [];
@@ -108,6 +109,7 @@ export class SelectCoinsWalletPage implements OnInit {
   handleSubmit() {
     if (this.almostOneChecked) {
       this.selectedCoins = this.form.value;
+      this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
     }
   }
 }

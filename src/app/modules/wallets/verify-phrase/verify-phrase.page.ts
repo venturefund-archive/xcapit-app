@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, NavController } from '@ionic/angular';
+import { Mnemonic } from '@ethersproject/hdnode';
+import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 @Component({
   selector: 'app-verify-phrase',
   template: `
@@ -18,24 +20,18 @@ import { IonSlides, NavController } from '@ionic/angular';
             'wallets.verify_phrase.title' | translate
           }}</ion-text>
         </div>
-        <div>
-          <ion-slides [options]="options">
-            <ion-slide class="slide" *ngFor="let word of this.words; let indice = index">
-              <ion-card>
-                <div class="div-input">
-                  <ion-button
-                    class="input-word"
-                    [ngClass]="{ active: true ? this.inputWords[indice] : '' }"
-                    size="small"
-                    fill="clear"
-                    >{{ this.inputWords[indice] }}
-                  </ion-button>
-                </div>
-                <ion-label class="label-card">{{ indice + 1 + '/' + this.countWords }}</ion-label>
-              </ion-card>
-            </ion-slide>
-          </ion-slides>
-        </div>
+        <ion-slides [options]="options">
+          <ion-slide class="slide" *ngFor="let word of this.words; let indice = index">
+            <ion-card>
+              <div class="div-input">
+                <ion-button class="input-word" [ngClass]="{ active: this.inputWords[indice] }" size="small" fill="clear"
+                  >{{ this.inputWords[indice] }}
+                </ion-button>
+              </div>
+              <ion-label class="label-card">{{ indice + 1 + '/' + this.countWords }}</ion-label>
+            </ion-card>
+          </ion-slide>
+        </ion-slides>
         <div class="create_button">
           <ion-button
             *ngIf="this.activated"
@@ -52,20 +48,23 @@ import { IonSlides, NavController } from '@ionic/angular';
             'wallets.verify_phrase.text1' | translate
           }}</ion-text>
         </div>
-        <app-recovery-phrase-card
-          [ordered]="true"
-          [clickable]="true"
-          [showOrder]="false"
-          (useButtonClicked)="this.wordValue($event)"
-          class="card"
-        ></app-recovery-phrase-card>
+        <div *ngIf="this.words">
+          <app-recovery-phrase-card
+            [words]="this.words"
+            [ordered]="true"
+            [clickable]="true"
+            [showOrder]="false"
+            (useButtonClicked)="this.wordValue($event)"
+            class="card"
+          ></app-recovery-phrase-card>
+        </div>
       </div>
     </ion-content>
   `,
   styleUrls: ['./verify-phrase.page.scss'],
 })
 export class VerifyPhrasePage {
-  @ViewChild(IonSlides, { static: true }) slides: IonSlides;
+  @ViewChild(IonSlides) slides: IonSlides;
   options = {
     slidesPerView: 1.8,
     centeredSlides: true,
@@ -74,25 +73,16 @@ export class VerifyPhrasePage {
   activated = false;
   ordered = true;
   inputWords: string[] = [];
-  words: string[] = [
-    'insecto',
-    'puerta',
-    'vestido',
-    'piso',
-    'plato',
-    'nube',
-    'afuera',
-    'fuego',
-    'laptop',
-    'libre',
-    'perro',
-    'niño',
-  ];
-  countWords = this.words.length;
+  words: string[];
+  countWords: number;
+  mnemonic: Mnemonic;
 
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private walletMnemonicService: WalletMnemonicService) {}
 
   ionViewWillEnter() {
+    this.mnemonic = this.walletMnemonicService.mnemonic;
+    this.words = this.mnemonic.phrase.split(' ');
+    this.countWords = this.words.length;
     this.blockNextSlide(true);
     this.blockPrevSlide(true);
   }

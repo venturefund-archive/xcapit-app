@@ -8,26 +8,46 @@ import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { VerifyPhrasePage } from './verify-phrase.page';
+import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
+import { Mnemonic } from '@ethersproject/hdnode';
 
 const words1 = ['insecto', 'puerta', 'vestido'];
 const words2 = ['piso', 'plato', 'nube'];
+const testMnemonic: Mnemonic = {
+  locale: 'en',
+  path: '',
+  phrase: 'test mnemonic phrase',
+};
 
 describe('VerifyPhrasePage', () => {
   let component: VerifyPhrasePage;
   let fixture: ComponentFixture<VerifyPhrasePage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<VerifyPhrasePage>;
   let navController: NavController;
+  let walletMnemonicServiceSpy;
 
   beforeEach(
     waitForAsync(() => {
+      walletMnemonicServiceSpy = jasmine.createSpyObj(
+        'WalletMnemonicService',
+        {
+          newMnemonic: () => testMnemonic,
+        },
+        { mnemonic: testMnemonic }
+      );
       TestBed.configureTestingModule({
         declarations: [VerifyPhrasePage, TrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerMock }],
+        providers: [
+          TrackClickDirective,
+          { provide: NavController, useValue: navControllerMock },
+          { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
       fixture = TestBed.createComponent(VerifyPhrasePage);
       component = fixture.componentInstance;
+      component.words = ['test', 'words'];
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       navController = TestBed.inject(NavController);
@@ -58,13 +78,25 @@ describe('VerifyPhrasePage', () => {
     expect(spyBlockPrev).toHaveBeenCalledTimes(1);
   });
 
-  it('should push word in inputWord when wordValue is called', async () => {
-    component.inputWords = [];
-    await component.wordValue('prueba');
-    expect(component.inputWords).toEqual(['prueba']);
+  it('should get mnemonic from walletMnemonicService on ionViewWillEnter', () => {
+    spyOn(component.slides, 'lockSwipeToNext');
+    spyOn(component.slides, 'lockSwipeToPrev');
+    component.ionViewWillEnter();
+    expect(component.mnemonic).toEqual(testMnemonic);
   });
 
-  it('should call slideNext on wordValue ', fakeAsync(() => {
+  it('should push word in inputWord when wordValue is called', fakeAsync(() => {
+    component.inputWords = [];
+    spyOn(component.slides, 'slideNext');
+    spyOn(component.slides, 'lockSwipeToNext').and.returnValue(null);
+    spyOn(component.slides, 'lockSwipeToPrev').and.returnValue(null);
+    fixture.detectChanges();
+    component.wordValue('prueba');
+    tick(850);
+    expect(component.inputWords).toEqual(['prueba']);
+  }));
+
+  it('should call slideNext on wordValue is called', fakeAsync(() => {
     component.inputWords = [];
     const spySlideNext = spyOn(component.slides, 'slideNext');
     spyOn(component.slides, 'lockSwipeToNext').and.returnValue(null);

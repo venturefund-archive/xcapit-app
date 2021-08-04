@@ -8,6 +8,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
       <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
       <ion-label class="ic__label">{{ this.coin.name }}</ion-label>
       <ion-toggle
+        (ionChange)="this.onChange()"
         [attr.disabled]="this.disabled"
         [formControlName]="this.coin.value"
         [value]="this.coin.value"
@@ -31,8 +32,13 @@ export class ItemCoinComponent implements OnInit {
   @Input() coin: any;
   @Input() isChecked: boolean;
   @Input() disabled: boolean;
+  @Output() change: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
 
   ngOnInit() {}
+
+  onChange() {
+    this.change.emit();
+  }
 }

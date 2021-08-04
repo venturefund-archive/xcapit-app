@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
-import { By } from '@angular/platform-browser';
 import { SelectCoinsWalletPage } from './select-coins-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
@@ -15,7 +14,7 @@ const formData = {
     BTC: false,
     USDT: true,
     BNB: false,
-    ETH: false,
+    ETH: true,
     DOGE: false,
     LTC: false,
     PAX: false,
@@ -36,15 +35,14 @@ describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
-  let navControllerSpy: any;
+  let navController: NavController;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [SelectCoinsWalletPage, TrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerMock }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
@@ -55,6 +53,7 @@ describe('SelectCoinsWalletPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    navController = TestBed.inject(NavController);
   });
 
   it('should create', () => {
@@ -72,13 +71,33 @@ describe('SelectCoinsWalletPage', () => {
 
   it('should almostOneChecked be true when execute method validate() and valid form', () => {
     component.form.patchValue(formData.valid);
+    fixture.detectChanges();
     component.validate();
     expect(component.almostOneChecked).toBe(true);
   });
 
   it('should almostOneChecked be false when execute method validate() and invalid form', () => {
     component.form.patchValue(formData.invalid);
+    fixture.detectChanges();
     component.validate();
     expect(component.almostOneChecked).toBe(false);
+  });
+
+  it('should navigate to recovery phrase page on submit button clicked and valid form', () => {
+    const spy = spyOn(navController, 'navigateForward');
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    component.validate();
+    component.handleSubmit();
+    expect(spy).toHaveBeenCalledWith(['/wallets/create-first/recovery-phrase']);
+  });
+
+  it('should not navigate to recovery phrase page on submit button clicked and invalid form', () => {
+    const spy = spyOn(navController, 'navigateForward');
+    component.form.patchValue(formData.invalid);
+    fixture.detectChanges();
+    component.validate();
+    component.handleSubmit();
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 });
