@@ -8,6 +8,7 @@ describe('WalletService', () => {
   let walletMnemonicServiceMock;
 
   beforeEach(() => {
+    walletMnemonicServiceMock = {};
     TestBed.configureTestingModule({
       providers: [{ provide: WalletMnemonicService, useValue: walletMnemonicServiceMock }],
     });
