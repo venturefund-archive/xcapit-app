@@ -15,22 +15,25 @@ describe('TabsComponent', () => {
   let fixture: ComponentFixture<TabsComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TabsComponent>;
   let navControllerSpy: any;
-  beforeEach(waitForAsync(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [TabsComponent, TrackClickDirective, DummyComponent],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([
-          { path: 'apikeys/tutorial', component: DummyComponent },
-          { path: 'menus/main-menu', component: DummyComponent }
-        ])
-      ],
-      providers: [{provide: NavController, useValue: navControllerSpy}],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [TabsComponent, TrackClickDirective, DummyComponent],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([
+            { path: 'apikeys/tutorial', component: DummyComponent },
+            { path: 'menus/main-menu', component: DummyComponent },
+            { path: 'tabs/wallets', component: DummyComponent },
+          ]),
+        ],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabsComponent);
@@ -44,10 +47,7 @@ describe('TabsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Tab Home button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-tab-button',
-      'Tab Home'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Home');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -55,11 +55,8 @@ describe('TabsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Tab Refer button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-tab-button',
-      'Tab Refer'
-    );
+  it('should call trackEvent on trackService when Tab Wallet button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -68,10 +65,7 @@ describe('TabsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Tab New Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-tab-button',
-      'Tab New Fund'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab New Fund');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -80,10 +74,7 @@ describe('TabsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Tab Menu button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-tab-button',
-      'Tab Menu'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Menu');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
