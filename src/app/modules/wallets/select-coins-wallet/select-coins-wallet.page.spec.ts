@@ -42,7 +42,7 @@ const formData = {
     USDC: false,
   },
 };
-fdescribe('SelectCoinsWalletPage', () => {
+describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
