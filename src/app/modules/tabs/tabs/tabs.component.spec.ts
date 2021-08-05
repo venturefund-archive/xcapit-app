@@ -26,6 +26,7 @@ describe('TabsComponent', () => {
           RouterTestingModule.withRoutes([
             { path: 'apikeys/tutorial', component: DummyComponent },
             { path: 'menus/main-menu', component: DummyComponent },
+            { path: 'tabs/wallets', component: DummyComponent },
           ]),
         ],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
