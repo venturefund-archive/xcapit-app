@@ -1,0 +1,39 @@
+.ux_toolbar {
+  --border-width: 0;
+  --border-color: transparent;
+}
+
+.title {
+  color: white;
+}
+
+.wt {
+  &__title {
+    color: white;
+  }
+
+  &__amount {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: 8px;
+    margin-bottom: 25px;
+  }
+
+  &__subheader {
+    margin-top: -30px;
+    &__value {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      box-shadow: 0 0 9px grey;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      height: 121px;
+      width: 100%;
+      background-color: var(--ion-color-uxprimary);
+    }
+  }
+}

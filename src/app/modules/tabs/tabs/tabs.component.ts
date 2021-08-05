@@ -7,22 +7,22 @@ import { MenuController, NavController } from '@ionic/angular';
     <ion-tabs #tabs>
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="funds" appTrackClick name="Tab Home">
-          <ion-icon name="ux-bag-outline"></ion-icon>
+          <ion-icon src="assets/img/tabs/Home.svg"></ion-icon>
           <ion-label>{{ 'tabs.home' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button (click)="this.goToReferralsList()" appTrackClick name="Tab Refer">
-          <ion-icon name="ux-bookmark"></ion-icon>
-          <ion-label>{{ 'tabs.refer' | translate }}</ion-label>
-        </ion-tab-button>
-
         <ion-tab-button (click)="this.goToNewFund()" appTrackClick name="Tab New Fund">
-          <ion-icon name="ux-more"></ion-icon>
+          <ion-icon src="assets/img/tabs/Trending-up.svg"></ion-icon>
           <ion-label>{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
 
+        <ion-tab-button (click)="this.goToWallet()" tab="wallets" appTrackClick name="Tab Wallet">
+          <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
+          <ion-label>{{ 'tabs.wallet' | translate }}</ion-label>
+        </ion-tab-button>
+
         <ion-tab-button (click)="showMenu()" appTrackClick name="Tab Menu">
-          <ion-icon name="ux-menu"></ion-icon>
+          <ion-icon src="assets/img/tabs/Menu.svg"></ion-icon>
           <ion-label>{{ 'tabs.menu' | translate }}</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -45,7 +45,7 @@ export class TabsComponent {
     this.navController.navigateRoot(this.newFundUrl);
   }
 
-  goToReferralsList() {
-    this.navController.navigateForward('referrals/list');
+  goToWallet() {
+    this.navController.navigateForward('tabs/wallets');
   }
 }

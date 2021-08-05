@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { COINS } from '../../constants/coins';
+import { COINS } from '../../../constants/coins';
 
 import { ItemCoinComponent } from './item-coin.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
