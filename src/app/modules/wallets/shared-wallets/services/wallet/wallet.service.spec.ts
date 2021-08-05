@@ -4,7 +4,6 @@ import { Mnemonic } from 'ethers/lib/utils';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { COINS } from '../../../constants/coins';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
-
 import { WalletService } from './wallet.service';
 
 const testMnemonic: Mnemonic = {
@@ -18,6 +17,10 @@ const testCoins = {
   invalid: [],
   undefined: null,
 };
+
+const testCreatedWallet: Wallet = {
+  address: 'testAddress',
+} as Wallet;
 
 describe('WalletService', () => {
   let service: WalletService;
@@ -95,8 +98,9 @@ describe('WalletService', () => {
     spyOn(service, 'selectedCoins').and.returnValue(true);
     walletMnemonicService.mnemonic = testMnemonic;
     languageService.selected = 'en';
-    const spy = spyOn(Wallet, 'fromMnemonic');
+    const spy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testCreatedWallet);
     service.create();
+    expect(service.createdWallet).toEqual(testCreatedWallet);
     expect(spy).toHaveBeenCalledWith('test mnemonic phrase', "m/44'/60'/0'/0/0", ethers.wordlists[en]);
   });
 
