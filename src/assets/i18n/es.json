@@ -1228,6 +1228,15 @@
       "submit_button": "Confirmar y aceptar",
       "error_did_not_accept": "Debes marcar todas las opciones para continuar."
     },
+
+    "home": {
+      "available_money": "Dinero disponible en billetera",
+      "subheader_component": {
+        "title": "Todavía no creaste tu billetera",
+        "create_wallet_button": "Crear Billetera"
+      }
+    },
+
     "select_coin": {
       "header": "Crear Billetera",
       "title": "Selecciona los activos",
@@ -1390,8 +1399,9 @@
   "tabs": {
     "home": "Inicio",
     "refer": "Referir",
-    "new_fund": "Nuevo",
-    "menu": "Más"
+    "new_fund": "Inversiones",
+    "menu": "Más",
+    "wallet": "Billetera"
   },
   "deposit_addresses": {
     "deposit_currency": {
