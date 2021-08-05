@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, IonSlides, NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
@@ -10,6 +10,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { VerifyPhrasePage } from './verify-phrase.page';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { Mnemonic } from '@ethersproject/hdnode';
+import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 
 const phrase = ['insecto', 'puerta', 'vestido'];
 const phrase2 = ['piso', 'plato', 'nube'];
@@ -25,6 +26,8 @@ describe('VerifyPhrasePage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<VerifyPhrasePage>;
   let navController: NavController;
   let walletMnemonicServiceSpy;
+  let walletServiceMock;
+  let walletService: WalletService;
 
   beforeEach(
     waitForAsync(() => {
@@ -35,6 +38,9 @@ describe('VerifyPhrasePage', () => {
         },
         { mnemonic: testMnemonic }
       );
+      walletServiceMock = {
+        create: () => {},
+      };
       TestBed.configureTestingModule({
         declarations: [VerifyPhrasePage, TrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
@@ -42,6 +48,7 @@ describe('VerifyPhrasePage', () => {
           TrackClickDirective,
           { provide: NavController, useValue: navControllerMock },
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
+          { provide: WalletService, useValue: walletServiceMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -51,6 +58,7 @@ describe('VerifyPhrasePage', () => {
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       navController = TestBed.inject(NavController);
+      walletService = TestBed.inject(WalletService);
     })
   );
 
@@ -139,11 +147,29 @@ describe('VerifyPhrasePage', () => {
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it('should', () => {
+  it('should not navigate to success page on createWallet if phrase is incorrect', () => {
     component.verificationPhrase = phrase;
     component.phrase = phrase2;
     fixture.detectChanges();
     const spy = spyOn(navController, 'navigateForward');
+    component.createWallet();
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should create wallet on createWallet if arrays are equal', () => {
+    component.verificationPhrase = phrase;
+    component.phrase = phrase;
+    fixture.detectChanges();
+    const spy = spyOn(walletService, 'create');
+    component.createWallet();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not create wallet on createWallet if arrays are different', () => {
+    component.verificationPhrase = phrase;
+    component.phrase = phrase2;
+    fixture.detectChanges();
+    const spy = spyOn(walletService, 'create');
     component.createWallet();
     expect(spy).toHaveBeenCalledTimes(0);
   });
