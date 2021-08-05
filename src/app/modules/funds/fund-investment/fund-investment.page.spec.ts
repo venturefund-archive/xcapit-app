@@ -14,6 +14,7 @@ import { alertControllerMock } from '../../../../testing/spies/alert-controller-
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { of } from 'rxjs';
 import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
+import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 
 const storageApiKeysData = { alias: '', nombre_bot: '', id: 1 };
 
@@ -68,6 +69,7 @@ describe('FundInvestmentPage', () => {
           { provide: ApiApikeysService, useValue: apiApiKeysServiceMock },
           { provide: StorageApikeysService, useValue: storageApiKeysServiceMock },
           { provide: AlertController, useValue: alertControllerSpy },
+          { provide: NavController, useValue: navControllerMock },
         ],
       }).compileComponents();
     })
@@ -88,16 +90,14 @@ describe('FundInvestmentPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on init', async (done) => {
+  it('should call fundDataStorageService.getData on init', async () => {
     const spy = spyOn(fundDataStorageService, 'getData');
     spy.and.returnValue(Promise.resolve('test'));
     await component.ionViewWillEnter();
-    fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(2);
-    done();
   });
 
-  it('should save data and check balance on handleSubmit and form valid', async (done) => {
+  it('should save data and check balance on handleSubmit and form valid', async () => {
     const spyCheckBalance = spyOn(apiApiKeysService, 'checkMinBalance');
     spyCheckBalance.and.returnValue(
       of({
@@ -110,10 +110,9 @@ describe('FundInvestmentPage', () => {
     await component.handleSubmit({ risk_level: 'prueba', currency: 'USDT' });
     expect(spy).toHaveBeenCalledTimes(2);
     expect(spyCheckBalance).toHaveBeenCalledTimes(1);
-    done();
   });
 
-  it('should call alert and not save data when balance is not enough', async (done) => {
+  it('should call alert and not save data when balance is not enough', async () => {
     const spyCheckBalance = spyOn(apiApiKeysService, 'checkMinBalance');
     spyCheckBalance.and.returnValue(
       of({
@@ -127,6 +126,5 @@ describe('FundInvestmentPage', () => {
     expect(spy).toHaveBeenCalledTimes(0);
     expect(spyCheckBalance).toHaveBeenCalledTimes(1);
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-    done();
   });
 });

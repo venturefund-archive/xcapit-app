@@ -124,10 +124,9 @@ describe('AppComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call update service checkForUpdate when ngOnInit', async (done) => {
+  it('should call update service checkForUpdate when ngOnInit', async () => {
     component.ngOnInit();
     expect(updateService.checkForUpdate).toHaveBeenCalledTimes(1);
-    done();
   });
 
   it('routerEventSubscription should not be null after ngOnInit call', async () => {
@@ -169,11 +168,8 @@ describe('AppComponent', () => {
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
   });
 
-  it('should init notification service on ngOnInit', async (done) => {
+  it('should init notification service on ngOnInit', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
   });
 });

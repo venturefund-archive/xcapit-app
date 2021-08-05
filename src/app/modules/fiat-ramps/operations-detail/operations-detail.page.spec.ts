@@ -94,14 +94,11 @@ describe('OperationsDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getUserSingleOperation on ionViewWillEnter', async (done) => {
+  it('should call getUserSingleOperation on ionViewWillEnter', async () => {
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([operation]));
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fiatRampsServiceSpy.getUserSingleOperation).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(fiatRampsServiceSpy.getUserSingleOperation).toHaveBeenCalledTimes(1);
   });
 
   it('should call confirmOperation on sendPicture with and a voucher image', () => {
@@ -191,6 +188,7 @@ describe('OperationsDetailPage', () => {
   });
 
   it('should call trackEvent on trackService when Upload Voucher Button clicked', () => {
+    spyOn(component, 'addPhoto');
     component.ionViewWillEnter();
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Upload Voucher');
