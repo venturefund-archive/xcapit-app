@@ -1,4 +1,6 @@
-export const COINS = [
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+
+export const COINS: Coin[] = [
   {
     id: 1,
     name: 'BTC - Bitcoin',

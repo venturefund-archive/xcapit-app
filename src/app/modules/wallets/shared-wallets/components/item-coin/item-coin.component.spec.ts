@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { COINS } from '../../constants/coins';
+import { COINS } from '../../../constants/coins';
 
 import { ItemCoinComponent } from './item-coin.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -13,7 +13,7 @@ describe('ItemCoinComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ItemCoinComponent],
-        imports: [IonicModule.forRoot()],
+        imports: [IonicModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
@@ -26,5 +26,11 @@ describe('ItemCoinComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit event on change', () => {
+    const spy = spyOn(component.change, 'emit');
+    component.onChange();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

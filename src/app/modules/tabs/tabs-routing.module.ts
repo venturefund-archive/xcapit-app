@@ -12,10 +12,11 @@ const routes: Routes = [
     children: [
       {
         path: 'funds',
-        loadChildren: () =>
-          import('../funds/funds-list/funds-list.module').then(
-            (m) => m.FundsListPageModule
-          ),
+        loadChildren: () => import('../funds/funds-list/funds-list.module').then((m) => m.FundsListPageModule),
+      },
+      {
+        path: 'wallets',
+        loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),
       },
       {
         path: '',

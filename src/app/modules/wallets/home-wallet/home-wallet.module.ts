@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
-import { SelectCoinsWalletPage } from './select-coins-wallet.page';
+import { HomeWalletPage } from './home-wallet.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedWalletsModule } from '../shared-wallets/shared-wallets.module';
-import { ItemCoinComponent } from '../shared-wallets/components/item-coin/item-coin.component';
+import { __exportStar } from 'tslib';
 
 const routes: Routes = [
   {
     path: '',
-    component: SelectCoinsWalletPage,
+    component: HomeWalletPage,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedWalletsModule],
-  declarations: [SelectCoinsWalletPage, ItemCoinComponent],
+  declarations: [HomeWalletPage],
 })
-export class SelectCoinsWalletPageModule {}
+export class HomeWalletPageModule {}
