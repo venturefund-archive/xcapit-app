@@ -124,10 +124,9 @@ export class VerifyPhrasePage {
   }
 
   createWallet() {
-    console.log(this.verificationPhrase, this.phrase);
     if (this.validPhrase()) {
       this.walletService.create();
-      // this.navController.navigateForward(['/wallets/success-creation']);
+      this.navController.navigateForward(['/wallets/success-creation']);
     }
   }
 }
