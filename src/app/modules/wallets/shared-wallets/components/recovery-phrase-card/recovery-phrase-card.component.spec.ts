@@ -18,7 +18,7 @@ describe('RecoveryPhraseCardComponent', () => {
 
       fixture = TestBed.createComponent(RecoveryPhraseCardComponent);
       component = fixture.componentInstance;
-      component.words = [];
+      component.phrase = [];
       fixture.detectChanges();
     })
   );
@@ -27,16 +27,16 @@ describe('RecoveryPhraseCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should sort words if ordered is true', () => {
-    const spy = spyOn(component.words, 'sort');
+  it('should sort phrase if ordered is true', () => {
+    const spy = spyOn(component.phrase, 'sort');
     component.ordered = true;
     fixture.detectChanges();
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not sort words if ordered is false', () => {
-    const spy = spyOn(component.words, 'sort');
+  it('should not sort phrase if ordered is false', () => {
+    const spy = spyOn(component.phrase, 'sort');
     component.ordered = false;
     fixture.detectChanges();
     component.ngOnInit();

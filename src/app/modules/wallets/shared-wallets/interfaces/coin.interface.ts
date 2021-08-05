@@ -4,4 +4,5 @@ export interface Coin {
   logoRoute: string;
   last: boolean;
   value: string;
+  selected?: boolean;
 }

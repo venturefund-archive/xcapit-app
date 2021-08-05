@@ -11,7 +11,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
         (ionChange)="this.onChange()"
         [attr.disabled]="this.disabled"
         [formControlName]="this.coin.value"
-        [value]="this.coin.value"
+        [value]="this.coin"
         [checked]="this.isChecked"
         class="ic__toggle"
         mode="ios"

@@ -43,7 +43,7 @@ import { Mnemonic } from '@ethersproject/hdnode';
         </div>
         <div *ngIf="this.mnemonic">
           <app-recovery-phrase-card
-            [words]="this.mnemonic.phrase.split(' ')"
+            [phrase]="this.mnemonic.phrase.split(' ')"
             [showOrder]="true"
           ></app-recovery-phrase-card>
         </div>

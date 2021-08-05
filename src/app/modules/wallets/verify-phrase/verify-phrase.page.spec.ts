@@ -11,8 +11,8 @@ import { VerifyPhrasePage } from './verify-phrase.page';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { Mnemonic } from '@ethersproject/hdnode';
 
-const words1 = ['insecto', 'puerta', 'vestido'];
-const words2 = ['piso', 'plato', 'nube'];
+const phrase = ['insecto', 'puerta', 'vestido'];
+const phrase2 = ['piso', 'plato', 'nube'];
 const testMnemonic: Mnemonic = {
   locale: 'en',
   path: '',
@@ -47,7 +47,7 @@ describe('VerifyPhrasePage', () => {
       }).compileComponents();
       fixture = TestBed.createComponent(VerifyPhrasePage);
       component = fixture.componentInstance;
-      component.words = ['test', 'words'];
+      component.phrase = ['test', 'phrase'];
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       navController = TestBed.inject(NavController);
@@ -85,23 +85,23 @@ describe('VerifyPhrasePage', () => {
     expect(component.mnemonic).toEqual(testMnemonic);
   });
 
-  it('should push word in inputWord when wordValue is called', fakeAsync(() => {
-    component.inputWords = [];
+  it('should push word in inputWord when addWord is called', fakeAsync(() => {
+    component.verificationPhrase = [];
     spyOn(component.slides, 'slideNext');
     spyOn(component.slides, 'lockSwipeToNext').and.returnValue(null);
     spyOn(component.slides, 'lockSwipeToPrev').and.returnValue(null);
     fixture.detectChanges();
-    component.wordValue('prueba');
+    component.addWord('prueba');
     tick(850);
-    expect(component.inputWords).toEqual(['prueba']);
+    expect(component.verificationPhrase).toEqual(['prueba']);
   }));
 
-  it('should call slideNext on wordValue is called', fakeAsync(() => {
-    component.inputWords = [];
+  it('should call slideNext on addWord is called', fakeAsync(() => {
+    component.verificationPhrase = [];
     const spySlideNext = spyOn(component.slides, 'slideNext');
     spyOn(component.slides, 'lockSwipeToNext').and.returnValue(null);
     spyOn(component.slides, 'lockSwipeToPrev').and.returnValue(null);
-    component.wordValue('prueba');
+    component.addWord('prueba');
     tick(850);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -109,11 +109,11 @@ describe('VerifyPhrasePage', () => {
     });
   }));
 
-  it('should activated is true when countWords and inputWords = 1', fakeAsync(() => {
+  it('should activated is true when countWords and verificationPhrase = 1', fakeAsync(() => {
     component.countWords = 1;
-    component.inputWords = [];
+    component.verificationPhrase = [];
     spyOn(component, 'swipeNext');
-    component.wordValue('prueba');
+    component.addWord('prueba');
     tick(850);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -122,20 +122,29 @@ describe('VerifyPhrasePage', () => {
   }));
 
   it('should navigate to success when arrays equals', () => {
-    component.inputWords = words1;
-    component.words = words1;
+    component.verificationPhrase = phrase;
+    component.phrase = phrase;
     fixture.detectChanges();
     const spy = spyOn(navController, 'navigateForward');
-    component.verifyPhrase();
+    component.createWallet();
     expect(spy).toHaveBeenCalledWith(['/wallets/success-creation']);
   });
 
   it('should not navigate to success when arrays different', () => {
-    component.inputWords = words1;
-    component.words = words2;
+    component.verificationPhrase = phrase;
+    component.phrase = phrase2;
     fixture.detectChanges();
     const spy = spyOn(navController, 'navigateForward');
-    component.verifyPhrase();
+    component.createWallet();
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should', () => {
+    component.verificationPhrase = phrase;
+    component.phrase = phrase2;
+    fixture.detectChanges();
+    const spy = spyOn(navController, 'navigateForward');
+    component.createWallet();
     expect(spy).toHaveBeenCalledTimes(0);
   });
 });

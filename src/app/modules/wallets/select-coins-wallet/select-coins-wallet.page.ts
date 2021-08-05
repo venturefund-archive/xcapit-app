@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { COINS } from '../constants/coins';
 import { NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
 
 @Component({
   selector: 'app-select-coins-wallet',
@@ -84,7 +85,6 @@ export class SelectCoinsWalletPage implements OnInit {
   ) {}
   isChecked: boolean;
   almostOneChecked = false;
-  selectedCoins: Array<any> = [];
 
   ngOnInit() {}
 
@@ -113,7 +113,9 @@ export class SelectCoinsWalletPage implements OnInit {
 
   handleSubmit() {
     if (this.almostOneChecked) {
-      this.selectedCoins = this.form.value;
+      this.walletService.coins = Object.keys(this.form.value).map((key) =>
+        this.coins.find((coin) => coin.value === key)
+      );
       this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
     }
   }

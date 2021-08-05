@@ -4,11 +4,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   selector: 'app-recovery-phrase-card',
   template: `
     <ion-card class="ion-padding">
-      <div class="word" *ngFor="let word of this.words; let indice = index">
+      <div class="word" *ngFor="let word of this.phraseCopy; let i = index">
         <app-recovery-word
           [clickable]="this.clickable"
           [showOrder]="this.showOrder"
-          [indice]="indice"
+          [indice]="i"
           [word]="word"
           (useButtonClicked)="this.useValue($event)"
         >
@@ -23,13 +23,15 @@ export class RecoveryPhraseCardComponent implements OnInit {
   @Input() ordered = false;
   @Input() clickable = false;
   @Output() useButtonClicked: EventEmitter<string> = new EventEmitter<string>();
-  @Input() words: string[];
+  phraseCopy: string[];
+  @Input() phrase: string[];
 
   constructor() {}
 
   ngOnInit() {
+    this.phraseCopy = [...this.phrase];
     if (this.ordered) {
-      this.words.sort();
+      this.phraseCopy.sort();
     }
   }
 
