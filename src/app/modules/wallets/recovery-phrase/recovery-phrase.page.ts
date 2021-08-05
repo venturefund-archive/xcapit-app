@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
+import { Mnemonic } from '@ethersproject/hdnode';
 
 @Component({
   selector: 'app-recovery-phrase',
@@ -39,7 +41,12 @@ import { NavController } from '@ionic/angular';
             'wallets.recovery_phrase.text4' | translate
           }}</ion-text>
         </div>
-        <app-recovery-phrase-card [showOrder]="true"></app-recovery-phrase-card>
+        <div *ngIf="this.mnemonic">
+          <app-recovery-phrase-card
+            [phrase]="this.mnemonic.phrase.split(' ')"
+            [showOrder]="true"
+          ></app-recovery-phrase-card>
+        </div>
       </div>
     </ion-content>
     <div class="ux_footer ion-padding">
@@ -53,11 +60,17 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./recovery-phrase.page.scss'],
 })
 export class RecoveryPhrasePage implements OnInit {
-  constructor(private navController: NavController) {}
+  mnemonic: Mnemonic;
+  constructor(private navController: NavController, private walletMnemonicService: WalletMnemonicService) {}
 
   ngOnInit() {}
 
+  ionViewWillEnter() {
+    this.mnemonic = this.walletMnemonicService.newMnemonic();
+  }
+
   goToVerifyPhrase() {
+    this.walletMnemonicService.mnemonic = this.mnemonic;
     this.navController.navigateForward(['/wallets/create-first/verify-phrase']);
   }
 }
