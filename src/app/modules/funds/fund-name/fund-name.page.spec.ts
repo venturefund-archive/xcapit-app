@@ -14,11 +14,11 @@ import { navControllerMock } from '../../../../testing/spies/nav-controller-mock
 
 const formData = {
   valid: {
-    fund_name: 'test'
+    fund_name: 'test',
   },
   invalid: {
-    fund_name: ''
-  }
+    fund_name: '',
+  },
 };
 
 describe('FundNamePage', () => {
@@ -29,35 +29,35 @@ describe('FundNamePage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundNamePage>;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    fundDataStorageServiceMock = {
-      getData: () => Promise.resolve({}),
-      setData: () => Promise.resolve()
-    };
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [FundNamePage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([
-          { path: 'funds/fund-risk', component: DummyComponent }
-        ]),
-        HttpClientTestingModule,
-        TranslateModule.forRoot()
-      ],
-      providers: [
-        {
-          provide: FundDataStorageService,
-          useValue: fundDataStorageServiceMock
-        },
-        {
-          provide: NavController,
-          useValue: navControllerSpy
-        }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      fundDataStorageServiceMock = {
+        getData: () => Promise.resolve({}),
+        setData: () => Promise.resolve(),
+      };
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [FundNamePage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule.withRoutes([{ path: 'funds/fund-risk', component: DummyComponent }]),
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+        ],
+        providers: [
+          {
+            provide: FundDataStorageService,
+            useValue: fundDataStorageServiceMock,
+          },
+          {
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundNamePage);
@@ -71,13 +71,12 @@ describe('FundNamePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on init', async done => {
+  it('should call fundDataStorageService.getData on init', () => {
     const spy = spyOn(fundDataStorageService, 'getData');
     spy.and.returnValue(Promise.resolve(formData.valid));
-    component.ngOnInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call fundDataStorageService.setData on handleSubmit and form valid', () => {
@@ -97,10 +96,7 @@ describe('FundNamePage', () => {
   });
 
   it('should call trackEvent on trackService when Save Fund Name button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Save Fund Name'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Save Fund Name');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

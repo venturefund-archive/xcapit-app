@@ -53,27 +53,14 @@ describe('FundPortfolioCardComponent', () => {
         remove: () => Promise.resolve(),
       };
 
-      modalControllerSpy = jasmine.createSpyObj(
-        'ModalController',
-        modalControllerMock
-      );
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
         getBalance: of(testBalance),
       });
 
       TestBed.configureTestingModule({
-        declarations: [
-          FundPortfolioCardComponent,
-          TrackClickDirective,
-          CurrencyFormatPipe,
-          DecimalPipe,
-          HideTextPipe,
-        ],
-        imports: [
-          IonicModule,
-          TranslateModule.forRoot(),
-          HttpClientTestingModule,
-        ],
+        declarations: [FundPortfolioCardComponent, TrackClickDirective, CurrencyFormatPipe, DecimalPipe, HideTextPipe],
+        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           CurrencyFormatPipe,
@@ -131,7 +118,7 @@ describe('FundPortfolioCardComponent', () => {
     const spy = spyOn(component, 'orderChartData');
     const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
     component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledTimes(1);
     expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
   });
 
@@ -140,17 +127,11 @@ describe('FundPortfolioCardComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when View Details is clicked', async (done) => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'View Details'
-    );
+  it('should call trackEvent on trackService when View Details is clicked', async () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'View Details');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
-    fixture.whenStable().then(() => {
-      expect(spyClickEvent).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 });

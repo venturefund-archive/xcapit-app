@@ -31,48 +31,43 @@ describe('FundTakeProfitComponent', () => {
   let modalControllerSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    apiFundsMock = {
-      getMostChosenTP: () => of(15),
-    };
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+  beforeEach(
+    waitForAsync(() => {
+      apiFundsMock = {
+        getMostChosenTP: () => of(15),
+      };
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
-    TestBed.configureTestingModule({
-      declarations: [
-        FundTakeProfitComponent,
-        TrackClickDirective,
-        DummyComponent,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([
+      TestBed.configureTestingModule({
+        declarations: [FundTakeProfitComponent, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'funds/fund-stop-loss',
+              component: DummyComponent,
+            },
+          ]),
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+        ],
+        providers: [
           {
-            path: 'funds/fund-stop-loss',
-            component: DummyComponent,
+            provide: ApiFundsService,
+            useValue: apiFundsMock,
           },
-        ]),
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-      ],
-      providers: [
-        {
-          provide: ApiFundsService,
-          useValue: apiFundsMock,
-        },
-        {
-          provide: NavController,
-          useValue: navControllerSpy,
-        },
-        { provide: ModalController, useValue: modalControllerSpy },
-      ],
-    }).compileComponents();
-  }));
+          {
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundTakeProfitComponent);
@@ -99,10 +94,7 @@ describe('FundTakeProfitComponent', () => {
   });
 
   it('should call trackEvent on trackService when Back button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Back'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Back');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -111,10 +103,7 @@ describe('FundTakeProfitComponent', () => {
   });
 
   it('should call trackEvent on trackService when Save Fund Take Profit button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Save Fund Take Profit'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Save Fund Take Profit');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -131,10 +120,7 @@ describe('FundTakeProfitComponent', () => {
       },
     ];
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Edit Custom Take Profit'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Custom Take Profit');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -142,25 +128,19 @@ describe('FundTakeProfitComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit form data to parent on form valid', async (done) => {
+  it('should emit form data to parent on form valid', async () => {
     const spy = spyOn(component.save, 'emit');
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
     component.handleSubmit();
-    fixture.detectChanges();
-    fixture
-      .whenStable()
-      .then(() => expect(spy).toHaveBeenCalledWith(formData.valid));
-    done();
+    expect(spy).toHaveBeenCalledWith(formData.valid);
   });
 
-  it('should not emit form data to parent on form invalid', async (done) => {
+  it('should not emit form data to parent on form invalid', async () => {
     const spy = spyOn(component.save, 'emit');
     component.form.patchValue(formData.invalid);
     fixture.detectChanges();
     component.handleSubmit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(0));
-    done();
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 });

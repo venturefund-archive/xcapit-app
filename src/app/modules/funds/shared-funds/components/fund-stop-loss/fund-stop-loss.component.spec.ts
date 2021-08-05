@@ -29,36 +29,27 @@ describe('FundStopLossComponent', () => {
   let apiFundsService: any;
   let modalControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    apiFundsMock = {
-      getMostChosenSL: () => of(10),
-    };
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
+  beforeEach(
+    waitForAsync(() => {
+      apiFundsMock = {
+        getMostChosenSL: () => of(10),
+      };
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
 
-    TestBed.configureTestingModule({
-      declarations: [
-        FundStopLossComponent,
-        TrackClickDirective
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-      ],
-      providers: [
-        {
-          provide: ApiFundsService,
-          useValue: apiFundsMock,
-        },
-        { provide: ModalController, useValue: modalControllerSpy }
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [FundStopLossComponent, TrackClickDirective],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule],
+        providers: [
+          {
+            provide: ApiFundsService,
+            useValue: apiFundsMock,
+          },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundStopLossComponent);
@@ -72,24 +63,20 @@ describe('FundStopLossComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit form data to parent on form valid', async (done) => {
+  it('should emit form data to parent on form valid', async () => {
     const spy = spyOn(component.save, 'emit');
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
     component.handleSubmit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledWith(formData.valid));
-    done();
+    expect(spy).toHaveBeenCalledWith(formData.valid);
   });
 
-  it('should not emit form data to parent on form invalid', async (done) => {
+  it('should not emit form data to parent on form invalid', async () => {
     const spy = spyOn(component.save, 'emit');
     component.form.patchValue(formData.invalid);
     fixture.detectChanges();
     component.handleSubmit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(0));
-    done();
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 
   it('should call apiFunds.getMostChosenSL on getMostChosenSL', () => {
@@ -105,10 +92,7 @@ describe('FundStopLossComponent', () => {
   });
 
   it('should call trackEvent on trackService when Create Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Create Fund'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Fund');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -125,10 +109,7 @@ describe('FundStopLossComponent', () => {
       },
     ];
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Edit Custom Stop Loss'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Custom Stop Loss');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

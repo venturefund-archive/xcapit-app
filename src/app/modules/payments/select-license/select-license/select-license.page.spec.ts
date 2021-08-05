@@ -31,7 +31,7 @@ describe('SelectLicensePage', () => {
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: ApiPaymentsService, useValue: apiPaymentsServiceSpy }
+          { provide: ApiPaymentsService, useValue: apiPaymentsServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -70,11 +70,10 @@ describe('SelectLicensePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call changePlans on ionViewWillEnter', async (done) => {
+  it('should call changePlans on ionViewWillEnter', async () => {
     const spy = spyOn(component, 'changePlans');
     component.ionViewWillEnter();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call activatedBtn on changeLicenses on ionViewWillEnter', () => {
