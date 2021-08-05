@@ -69,7 +69,8 @@
     "qrcode": "^1.4.2",
     "rxjs": "^6.6.2",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.10.3",
+    "ethers": "^5.4.3"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^12.1.0",

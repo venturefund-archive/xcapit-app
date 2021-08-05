@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { COINS } from '../constants/coins';
+import { NavController } from '@ionic/angular';
+import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
 
 @Component({
   selector: 'app-select-coins-wallet',
@@ -39,7 +42,7 @@ import { COINS } from '../constants/coins';
                   </ion-item>
                   <div class="list-divider"></div>
                   <app-item-coin
-                    (ionChange)="this.validate()"
+                    (change)="this.validate()"
                     [disabled]="this.isChecked"
                     [isChecked]="this.isChecked"
                     *ngFor="let coin of coins"
@@ -69,23 +72,19 @@ import { COINS } from '../constants/coins';
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
-  coins = COINS;
+  coins = COINS.filter((coin) => coin.value === 'ETH');
 
   form: FormGroup = this.formBuilder.group({
-    BTC: [false],
-    USDT: [false],
-    BNB: [false],
     ETH: [false],
-    DOGE: [false],
-    LTC: [false],
-    PAX: [false],
-    USDC: [false],
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private navController: NavController,
+    private walletService: WalletService
+  ) {}
   isChecked: boolean;
   almostOneChecked = false;
-  selectedCoins: Array<any> = [];
 
   ngOnInit() {}
 
@@ -114,7 +113,10 @@ export class SelectCoinsWalletPage implements OnInit {
 
   handleSubmit() {
     if (this.almostOneChecked) {
-      this.selectedCoins = this.form.value;
+      this.walletService.coins = Object.keys(this.form.value).map((key) =>
+        this.coins.find((coin) => coin.value === key)
+      );
+      this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
     }
   }
 }

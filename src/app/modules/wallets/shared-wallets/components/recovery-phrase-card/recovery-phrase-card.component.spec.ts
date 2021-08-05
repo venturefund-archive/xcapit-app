@@ -18,6 +18,7 @@ describe('RecoveryPhraseCardComponent', () => {
 
       fixture = TestBed.createComponent(RecoveryPhraseCardComponent);
       component = fixture.componentInstance;
+      component.phrase = [];
       fixture.detectChanges();
     })
   );
@@ -26,20 +27,26 @@ describe('RecoveryPhraseCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should sort words if ordered is true', () => {
-    const spy = spyOn(component.words, 'sort');
+  it('should call sortPhrase if ordered is true', () => {
+    const spy = spyOn(component, 'sortPhrase');
     component.ordered = true;
     fixture.detectChanges();
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not sort words if ordered is false', () => {
-    const spy = spyOn(component.words, 'sort');
+  it('should not call sortPhrase if ordered is false', () => {
+    const spy = spyOn(component, 'sortPhrase');
     component.ordered = false;
     fixture.detectChanges();
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should sort phraseCopy on sortPhrase', () => {
+    const spy = spyOn(component.phraseCopy, 'sort');
+    component.sortPhrase();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should emit event when useValue called', () => {
