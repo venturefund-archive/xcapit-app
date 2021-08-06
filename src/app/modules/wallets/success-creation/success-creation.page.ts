@@ -31,6 +31,6 @@ export class SuccessCreationPage implements OnInit {
   ngOnInit() {}
 
   goToHome() {
-    this.navController.navigateBack(['/tabs/funds']);
+    this.navController.navigateBack(['tabs/wallets/']);
   }
 }
