@@ -33,6 +33,11 @@ describe('WalletsSubheaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should navigate to disclaimer when create wallet is called', () => {
+    component.createWallet();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/create-first/disclaimer']);
+  });
+
   it('should call trackEvent on trackService when Create Wallet Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);

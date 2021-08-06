@@ -37,6 +37,6 @@ export class WalletsSubheaderComponent implements OnInit {
   ngOnInit() {}
 
   createWallet() {
-    this.navController.navigateBack(['/tabs/funds']);
+    this.navController.navigateForward(['wallets/create-first/disclaimer']);
   }
 }
