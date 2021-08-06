@@ -104,13 +104,10 @@ describe('LoginPage', () => {
     expect(subscriptionsService.checkStoredLink).toHaveBeenCalledTimes(1);
   });
 
-  it('should call status on storedLink not exists', async (done) => {
+  it('should call status on storedLink not exists', async () => {
     subscriptionsService.checkStoredLink.and.returnValue(Promise.resolve(false));
-    component.success();
-    fixture.whenStable().then(() => {
-      expect(apiUsuariosService.status).toHaveBeenCalledTimes(1);
-    });
-    done();
+    await component.success();
+    expect(apiUsuariosService.status).toHaveBeenCalledTimes(1);
   });
 
   it('should redirect to fund list when status is COMPLETE', () => {

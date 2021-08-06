@@ -95,15 +95,14 @@ describe('FundShareChartComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call fileSystemWrite,  and showToast and openFile if write is successfully on nativeDownload', async (done) => {
+  it('should call fileSystemWrite,  and showToast and openFile if write is successfully on nativeDownload', async () => {
     const spy = spyOn(Plugins.Filesystem, 'writeFile').and.returnValue(Promise.resolve(resultFileWrite));
     const spyToast = spyOn(component, 'showToast');
     const spyOpenFile = spyOn(component, 'openImage');
-    component.nativeDownload();
+    await component.nativeDownload();
     expect(spy).toHaveBeenCalledTimes(1);
-    fixture.whenStable().then(() => expect(spyToast).toHaveBeenCalledTimes(1));
-    fixture.whenStable().then(() => expect(spyOpenFile).toHaveBeenCalledTimes(1));
-    done();
+    expect(spyToast).toHaveBeenCalledTimes(1);
+    expect(spyOpenFile).toHaveBeenCalledTimes(1);
   });
 
   it('should call toastService on showToast', () => {

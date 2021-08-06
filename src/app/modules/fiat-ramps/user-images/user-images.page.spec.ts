@@ -89,14 +89,11 @@ describe('UserImagesPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call registerUserImages on handleSubmit and valid form', async (done) => {
+  it('should call registerUserImages on handleSubmit and valid form', async () => {
     fiatRampsServiceSpy.registerUserImages.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
-    component.handleSubmit();
+    await component.handleSubmit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fiatRampsServiceSpy.registerUserImages).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(fiatRampsServiceSpy.registerUserImages).toHaveBeenCalledTimes(1);
   });
 });

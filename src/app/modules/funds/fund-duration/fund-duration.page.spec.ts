@@ -14,11 +14,11 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 const formData = {
   valid: {
-    cantidad_dias: 30
+    cantidad_dias: 30,
   },
   invalid: {
-    cantidad_dias: ''
-  }
+    cantidad_dias: '',
+  },
 };
 describe('FundDurationPage', () => {
   let component: FundDurationPage;
@@ -28,37 +28,39 @@ describe('FundDurationPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundDurationPage>;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    fundDataStorageServiceMock = {
-      getData: () => Promise.resolve({}),
-      setData: () => Promise.resolve()
-    };
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [FundDurationPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([
-          { path: 'funds/fund-risk', component: DummyComponent },
-          { path: 'funds/fund-currency', component: DummyComponent }
-        ]),
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule
-      ],
-      providers: [
-        {
-          provide: FundDataStorageService,
-          useValue: fundDataStorageServiceMock
-        },
-        {
-          provide: NavController,
-          useValue: navControllerSpy
-        }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      fundDataStorageServiceMock = {
+        getData: () => Promise.resolve({}),
+        setData: () => Promise.resolve(),
+      };
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [FundDurationPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule.withRoutes([
+            { path: 'funds/fund-risk', component: DummyComponent },
+            { path: 'funds/fund-currency', component: DummyComponent },
+          ]),
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+        ],
+        providers: [
+          {
+            provide: FundDataStorageService,
+            useValue: fundDataStorageServiceMock,
+          },
+          {
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundDurationPage);
@@ -72,40 +74,33 @@ describe('FundDurationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on init', async done => {
+  it('should call fundDataStorageService.getData on init', async () => {
     const spy = spyOn(fundDataStorageService, 'getData');
     spy.and.returnValue(Promise.resolve(formData.valid));
-    component.ngOnInit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    await component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call fundDataStorageService.setData on handleSubmit and form valid', async done => {
+  it('should call fundDataStorageService.setData on handleSubmit and form valid', () => {
     const spy = spyOn(fundDataStorageService, 'setData');
     spy.and.returnValue(Promise.resolve());
     component.form.patchValue(formData.valid);
-    component.handleSubmit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    component.handleSubmit();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call fundDataStorageService.setData on handleSubmit and form invalid', async done => {
+  it('should not call fundDataStorageService.setData on handleSubmit and form invalid', () => {
     const spy = spyOn(fundDataStorageService, 'setData');
     spy.and.returnValue(Promise.resolve());
     component.form.patchValue(formData.invalid);
-    component.handleSubmit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(0));
-    done();
+    component.handleSubmit();
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 
   it('should call trackEvent on trackService when Back button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Back'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Back');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -114,10 +109,7 @@ describe('FundDurationPage', () => {
   });
 
   it('should call trackEvent on trackService when Save Fund Duration button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Save Fund Duration'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Save Fund Duration');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

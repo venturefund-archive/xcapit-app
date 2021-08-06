@@ -90,19 +90,17 @@ describe('FundEditTakeProfitPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call apiFundsService.getLastFundRun on ionViewWillEnter', async (done) => {
+  it('should call apiFundsService.getLastFundRun on ionViewWillEnter', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(apiFundsServiceSpy).toHaveBeenCalledTimes(1));
-    done();
+    expect(apiFundsServiceSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call apiFunds.update on handleSubmit', async (done) => {
+  it('should call apiFunds.update on handleSubmit', async () => {
     const spy = spyOn(apiFundsService.crud, 'update');
     spy.and.returnValue(of({}));
     fixture.detectChanges();
-    component.handleSubmit(formData.valid);
+    await component.handleSubmit(formData.valid);
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

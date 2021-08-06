@@ -19,13 +19,13 @@ const formData = {
   valid: {
     actual_password: 'asdf',
     password: 'asdfF1',
-    repeat_password: 'asdfF1'
+    repeat_password: 'asdfF1',
   },
   invalid: {
     actual_password: 'fdaas',
     password: 'dsfaaa',
-    repeat_password: 'dsfaa'
-  }
+    repeat_password: 'dsfaa',
+  },
 };
 
 describe('PasswordChangePage', () => {
@@ -37,36 +37,34 @@ describe('PasswordChangePage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<PasswordChangePage>;
   let toastServiceSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    toastServiceSpy = jasmine.createSpyObj('ToastService', [
-      'showToast',
-    ]);
-    apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
-      'changePassword'
-    ]);
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
-    authServiceSpy = jasmine.createSpyObj('AuthService', ['logout']);
-    authServiceSpy.logout.and.returnValue(of({}).toPromise());
-    TestBed.configureTestingModule({
-      declarations: [PasswordChangePage, PasswordChangeFormComponent, TrackClickDirective],
-      imports: [
-        HttpClientTestingModule,
-        IonicModule,
-        ReactiveFormsModule,
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([])
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        TrackClickDirective,
-        { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
-        { provide: AuthService, useValue: authServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: ToastService, useValue: toastServiceSpy }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
+      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', ['changePassword']);
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy.navigateBack.and.returnValue(of({}).toPromise());
+      authServiceSpy = jasmine.createSpyObj('AuthService', ['logout']);
+      authServiceSpy.logout.and.returnValue(of({}).toPromise());
+      TestBed.configureTestingModule({
+        declarations: [PasswordChangePage, PasswordChangeFormComponent, TrackClickDirective],
+        imports: [
+          HttpClientTestingModule,
+          IonicModule,
+          ReactiveFormsModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([]),
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          TrackClickDirective,
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+          { provide: AuthService, useValue: authServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordChangePage);
@@ -92,33 +90,23 @@ describe('PasswordChangePage', () => {
     expect(apiUsuariosServiceSpy.changePassword).toHaveBeenCalledTimes(1);
   });
 
-  it('should reset form on success', async (done) => {
+  it('should reset form on success', async () => {
     const spy = spyOn(component.formComponent.form, 'reset');
-    component.success().then(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-    done();
+    await component.success();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call navigateBack with ["/users/login"] and { replaceUrl: true }, on navController when from success', async (done) => {
-    component.success().then(() => {
-      expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(
-        ['/users/login'],
-        { replaceUrl: true }
-      );
-    });
-    done();
+  it('should call navigateBack with ["/users/login"] and { replaceUrl: true }, on navController when from success', async () => {
+    await component.success();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/users/login'], { replaceUrl: true });
   });
 
   it('should call trackEvent on trackService when Change Password button clicked', () => {
     fixture.detectChanges();
     component.formComponent.form.patchValue(formData.valid);
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Change Password'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Change Password');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -126,4 +114,3 @@ describe('PasswordChangePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });
-

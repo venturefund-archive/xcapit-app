@@ -17,25 +17,22 @@ describe('SubscribeGuard', () => {
     authServiceMock = {
       checkToken: () => Promise.resolve(true),
       checkRefreshToken: () => Promise.resolve(true),
-      sesionExpired: () => null
+      sesionExpired: () => null,
     };
-    subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', [
-      'saveLinkData'
-    ]);
+    subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', ['saveLinkData']);
     activatedRouteSnapshotMock = {
-      firstChild: { paramMap: { get: param => 'test' } }
+      firstChild: { paramMap: { get: (param) => 'test' } },
     } as ActivatedRouteSnapshot;
     TestBed.configureTestingModule({
       providers: [
         SubscribeGuard,
         { provide: AuthService, useValue: authServiceMock },
-        { provide: SubscriptionsService, useValue: subscriptionsServiceSpy }
-      ]
+        { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
+      ],
     });
   });
 
   beforeEach(() => {
-
     subscribeGuard = TestBed.inject(SubscribeGuard);
     authService = TestBed.inject(AuthService);
   });
@@ -44,50 +41,36 @@ describe('SubscribeGuard', () => {
     expect(subscribeGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is true', async (done) => {
+  it('should be able to hit route when checkToken is true', async () => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     checkTokenSpy.and.returnValue(Promise.resolve(true));
-    subscribeGuard
-      .canActivate(activatedRouteSnapshotMock)
-      .then(res => expect(res).toBe(true));
-    done();
+    await expectAsync(subscribeGuard.canActivate(activatedRouteSnapshotMock)).toBeResolvedTo(true);
   });
 
-  it('should not be able to hit route when checkToken is false', async (done) => {
+  it('should not be able to hit route when checkToken is false', async () => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
     checkTokenSpy.and.returnValue(Promise.resolve(false));
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    subscribeGuard
-      .canActivate(activatedRouteSnapshotMock)
-      .then(res => expect(res).toBe(false));
-    done();
+    await expectAsync(subscribeGuard.canActivate(activatedRouteSnapshotMock)).toBeResolvedTo(false);
   });
 
-  it('should call sesionExpired on authService when checkToken is false', async (done) => {
+  it('should call sesionExpired on authService when checkToken is false', async () => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     const sesionExpiredSpy = spyOn(authService, 'sesionExpired');
     const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
     checkTokenSpy.and.returnValue(Promise.resolve(false));
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    subscribeGuard
-      .canActivate(activatedRouteSnapshotMock)
-      .then(res =>
-        expect(sesionExpiredSpy).toHaveBeenCalledTimes(1)
-      );
-    done();
+    await subscribeGuard.canActivate(activatedRouteSnapshotMock);
+    expect(sesionExpiredSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call saveLinkData on subscriptionService when checkToken is false and checkRefreshToken is false', async (done) => {
+  it('should call saveLinkData on subscriptionService when checkToken is false and checkRefreshToken is false', async () => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
     checkTokenSpy.and.returnValue(Promise.resolve(false));
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    subscribeGuard
-      .canActivate(activatedRouteSnapshotMock)
-      .then(res =>
-        expect(subscriptionsServiceSpy.saveLinkData).toHaveBeenCalledTimes(1)
-      );
-    done();
+    await subscribeGuard.canActivate(activatedRouteSnapshotMock);
+    expect(subscriptionsServiceSpy.saveLinkData).toHaveBeenCalledTimes(1);
   });
 });

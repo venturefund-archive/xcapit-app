@@ -4,6 +4,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -17,6 +18,7 @@ describe('HomeWalletPage', () => {
         declarations: [HomeWalletPage],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(HomeWalletPage);

@@ -13,19 +13,17 @@ describe('BeforeStepDataGuard', () => {
   let beforeStepDataGuard: BeforeStepDataGuard;
   beforeEach(() => {
     fundDataStorageServiceMock = {
-      canActivatePage: () => Promise.resolve(true)
+      canActivatePage: () => Promise.resolve(true),
     };
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([
-        { path: 'funds/fund-name', component: DummyComponent }
-      ])],
+      imports: [RouterTestingModule.withRoutes([{ path: 'funds/fund-name', component: DummyComponent }])],
       providers: [
         BeforeStepDataGuard,
         {
           provide: FundDataStorageService,
-          useValue: fundDataStorageServiceMock
-        }
-      ]
+          useValue: fundDataStorageServiceMock,
+        },
+      ],
     });
   });
 
@@ -34,29 +32,23 @@ describe('BeforeStepDataGuard', () => {
     fundDataStorageService = TestBed.inject(FundDataStorageService);
   });
 
-  it('should ...', () => {
+  it('should create', () => {
     expect(BeforeStepDataGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when before data is valid', async done => {
+  it('should be able to hit route when before data is valid', async () => {
     const spy = spyOn(fundDataStorageService, 'canActivatePage');
     spy.and.returnValue(Promise.resolve(true));
-    beforeStepDataGuard
-      .canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
-      .then(result => {
-        expect(result).toBeTruthy();
-        done();
-      });
+    await expectAsync(
+      beforeStepDataGuard.canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
+    ).toBeResolvedTo(true);
   });
 
-  it('should not be able to hit route when before data is invalid', async done => {
+  it('should not be able to hit route when before data is invalid', async () => {
     const spy = spyOn(fundDataStorageService, 'canActivatePage');
     spy.and.returnValue(Promise.resolve(false));
-    beforeStepDataGuard
-      .canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
-      .then(result => {
-        expect(result).toBeFalsy();
-        done();
-      });
+    await expectAsync(
+      beforeStepDataGuard.canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
+    ).toBeResolvedTo(false);
   });
 });

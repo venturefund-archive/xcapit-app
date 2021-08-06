@@ -16,30 +16,23 @@ const testProduct = {
   percentage: '',
   link_info: '',
   risk: 2,
-  currency: 'USDT'
+  currency: 'USDT',
 };
 describe('InvestmentProductCardComponent', () => {
   let component: InvestmentProductCardComponent;
   let fixture: ComponentFixture<InvestmentProductCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InvestmentProductCardComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        InvestmentProductCardComponent,
-        TrackClickDirective,
-        DummyComponent,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-      ],
-      providers: [],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [InvestmentProductCardComponent, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule],
+        providers: [],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(InvestmentProductCardComponent);
@@ -53,17 +46,12 @@ describe('InvestmentProductCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit data to parent on button clicked', async (done) => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Invest'
-    );
+  it('should emit data to parent on button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Invest');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call window.open when moreInfo is called', () => {
