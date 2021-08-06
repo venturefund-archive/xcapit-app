@@ -54,6 +54,6 @@ describe('SuccessCreationPage', () => {
 
   it('should go to home page on goToHome', () => {
     component.goToHome();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/wallets']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['tabs/wallets/']);
   });
 });

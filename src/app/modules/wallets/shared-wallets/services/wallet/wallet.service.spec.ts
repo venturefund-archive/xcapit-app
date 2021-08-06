@@ -20,6 +20,7 @@ const testCoins = {
 
 const testCreatedWallet: Wallet = {
   address: 'testAddress',
+  connect: (provider) => ({ address: 'testAddress' } as Wallet),
 } as Wallet;
 
 describe('WalletService', () => {
