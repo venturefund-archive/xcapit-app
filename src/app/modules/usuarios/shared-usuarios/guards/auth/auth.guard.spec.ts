@@ -27,29 +27,27 @@ describe('AuthGuard', () => {
     expect(authGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is true', async (done) => {
+  it('should be able to hit route when checkToken is true', async () => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     checkTokenSpy.and.returnValue(Promise.resolve(true));
-    authGuard.canActivate().then((res) => expect(res).toBe(true));
-    done();
+    await expectAsync(authGuard.canActivate()).toBeResolvedTo(true);
   });
 
-  it('should not be able to hit route when checkToken is false', async (done) => {
+  it('should not be able to hit route when checkToken is false', async () => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
     checkTokenSpy.and.returnValue(Promise.resolve(false));
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    authGuard.canActivate().then((res) => expect(res).toBe(false));
-    done();
+    await expectAsync(authGuard.canActivate()).toBeResolvedTo(false);
   });
 
-  it('should call sesionExpired on authService when checkToken is false', async (done) => {
+  it('should call sesionExpired on authService when checkToken is false', async () => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
     const sesionExpiredSpy = spyOn(authService, 'sesionExpired');
     checkTokenSpy.and.returnValue(Promise.resolve(false));
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    authGuard.canActivate().then((res) => expect(sesionExpiredSpy).toHaveBeenCalledTimes(1));
-    done();
+    await authGuard.canActivate();
+    expect(sesionExpiredSpy).toHaveBeenCalledTimes(1);
   });
 });

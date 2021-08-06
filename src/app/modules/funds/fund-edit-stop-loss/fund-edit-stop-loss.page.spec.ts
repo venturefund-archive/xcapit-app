@@ -90,20 +90,16 @@ describe('FundEditStopLossPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call apiFundsService.getLastFundRun on ionViewWillEnter', async (done) => {
+  it('should call apiFundsService.getLastFundRun on ionViewWillEnter', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(apiFundsServiceSpy).toHaveBeenCalledTimes(1));
-    done();
+    expect(apiFundsServiceSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call apiFunds.update on handleSubmit', async (done) => {
+  it('should call apiFunds.update on handleSubmit', async () => {
     fixture.detectChanges();
     const spy = spyOn(apiFundsService.crud, 'update');
     spy.and.returnValue(of({}));
-    fixture.detectChanges();
-    component.handleSubmit(formData.valid);
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    await component.handleSubmit(formData.valid);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

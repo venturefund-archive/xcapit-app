@@ -94,14 +94,10 @@ describe('UserInformationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call registerUserInfo on handleSubmit and valid form', async (done) => {
+  it('should call registerUserInfo on handleSubmit and valid form', async () => {
     fiatRampsServiceSpy.registerUserInfo.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
     component.handleSubmit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledTimes(1);
   });
 });

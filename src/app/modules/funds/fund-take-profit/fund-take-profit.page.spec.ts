@@ -17,11 +17,11 @@ import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spe
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 const formData = {
   valid: {
-    take_profit: 15
+    take_profit: 15,
   },
   invalid: {
-    take_profit: ''
-  }
+    take_profit: '',
+  },
 };
 describe('FundTakeProfitPage', () => {
   let component: FundTakeProfitPage;
@@ -34,53 +34,51 @@ describe('FundTakeProfitPage', () => {
   let modalControllerSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    fundDataStorageServiceMock = {
-      getData: () => Promise.resolve({}),
-      setData: () => Promise.resolve()
-    };
-    apiFundsMock = {
-      getMostChosenTP: () => of(15)
-    };
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+  beforeEach(
+    waitForAsync(() => {
+      fundDataStorageServiceMock = {
+        getData: () => Promise.resolve({}),
+        setData: () => Promise.resolve(),
+      };
+      apiFundsMock = {
+        getMostChosenTP: () => of(15),
+      };
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
-
-    TestBed.configureTestingModule({
-      declarations: [FundTakeProfitPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([
+      TestBed.configureTestingModule({
+        declarations: [FundTakeProfitPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'funds/fund-stop-loss',
+              component: DummyComponent,
+            },
+          ]),
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+        ],
+        providers: [
           {
-            path: 'funds/fund-stop-loss',
-            component: DummyComponent
-          }
-        ]),
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule
-      ],
-      providers: [
-        {
-          provide: FundDataStorageService,
-          useValue: fundDataStorageServiceMock
-        },
-        {
-          provide: ApiFundsService,
-          useValue: apiFundsMock
-        },
-        {
-          provide: NavController,
-          useValue: navControllerSpy
-        },
-        { provide: ModalController, useValue: modalControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+            provide: FundDataStorageService,
+            useValue: fundDataStorageServiceMock,
+          },
+          {
+            provide: ApiFundsService,
+            useValue: apiFundsMock,
+          },
+          {
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundTakeProfitPage);
@@ -95,21 +93,17 @@ describe('FundTakeProfitPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on ionViewWillEnter', async done => {
+  it('should call fundDataStorageService.getData on ionViewWillEnter', () => {
     const spy = spyOn(fundDataStorageService, 'getData');
     spy.and.returnValue(Promise.resolve({}));
     component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(2));
-    done();
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  it('should call fundDataStorageService.setData on handleSubmit and form valid', async done => {
+  it('should call fundDataStorageService.setData on handleSubmit and form valid', () => {
     const spy = spyOn(fundDataStorageService, 'setData');
     spy.and.returnValue(Promise.resolve());
     component.handleSubmit(formData.valid);
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
