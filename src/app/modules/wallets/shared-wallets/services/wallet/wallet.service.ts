@@ -3,30 +3,33 @@ import { Coin } from '../../interfaces/coin.interface';
 import { ethers } from 'ethers';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
-import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletService {
   coins: Coin[];
-  createdWallet: ethers.Wallet;
+  createdWallets: ethers.Wallet[];
+  derivationPaths: string[] = ["m/44'/60'/0'/0/0"];
 
-  constructor(
-    private walletMnemonicService: WalletMnemonicService,
-    private languageService: LanguageService,
-    private blockchainProviderService: BlockchainProviderService
-  ) {}
+  constructor(private walletMnemonicService: WalletMnemonicService, private languageService: LanguageService) {}
 
-  create(): ethers.Wallet {
+  create(): ethers.Wallet[] {
     if (this.mnemonicExists() && this.selectedCoins()) {
-      this.createdWallet = ethers.Wallet.fromMnemonic(
-        this.walletMnemonicService.mnemonic.phrase,
-        "m/44'/60'/0'/0/0",
-        ethers.wordlists[this.languageService.selected]
-      );
-      return this.createdWallet.connect(this.blockchainProviderService.provider);
+      this.createdWallets = [];
+      for (const derivedPath of this.derivationPaths) {
+        this.createdWallets.push(this.createForDerivedPath(derivedPath));
+      }
+      return this.createdWallets;
     }
+  }
+
+  private createForDerivedPath(derivedPath: string) {
+    return ethers.Wallet.fromMnemonic(this.walletMnemonicService.mnemonic.phrase, derivedPath, this.wordList());
+  }
+
+  private wordList() {
+    return ethers.wordlists[this.languageService.selected];
   }
 
   mnemonicExists(): boolean {

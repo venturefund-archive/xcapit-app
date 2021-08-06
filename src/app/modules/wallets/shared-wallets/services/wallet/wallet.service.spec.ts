@@ -18,10 +18,8 @@ const testCoins = {
   undefined: null,
 };
 
-const testCreatedWallet: Wallet = {
-  address: 'testAddress',
-  connect: (provider) => ({ address: 'testAddress' } as Wallet),
-} as Wallet;
+const testWallet: Wallet = { address: 'testAddress' } as Wallet;
+const testCreatedWallets: Wallet[] = [testWallet];
 
 describe('WalletService', () => {
   let service: WalletService;
@@ -99,9 +97,9 @@ describe('WalletService', () => {
     spyOn(service, 'selectedCoins').and.returnValue(true);
     walletMnemonicService.mnemonic = testMnemonic;
     languageService.selected = 'en';
-    const spy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testCreatedWallet);
+    const spy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
     service.create();
-    expect(service.createdWallet).toEqual(testCreatedWallet);
+    expect(service.createdWallets).toEqual(testCreatedWallets);
     expect(spy).toHaveBeenCalledWith('test mnemonic phrase', "m/44'/60'/0'/0/0", ethers.wordlists[en]);
   });
 
