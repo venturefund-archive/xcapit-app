@@ -1,10 +1,11 @@
 .style-error {
+  background-color: var(--ion-color-dangerlight);
   .text {
-    color: rgba(159, 40, 40, 1);
+    color: var(--ion-color-dangerdark);
   }
   .pcc_content {
     display: table;
-    background: #fef2f2;
+    background: var(--ion-color-dangerlight);
     width: 100%;
     height: auto;
     &__important {
@@ -35,7 +36,7 @@
         align-items: center;
         flex-direction: row;
         &__button_color {
-          color: rgba(248, 113, 113, 1);
+          color: var(--ion-color-dangerdark);
         }
       }
     }
@@ -43,12 +44,12 @@
 }
 
 .style-success {
-  background-color: rgba(236, 253, 245, 1);
+  background-color: var(--ion-color-successlight);
   .text {
-    color: rgba(6, 95, 70, 1);
+    color: var(--ion-color-successdark);
   }
   .pcc_content {
-    background: rgba(236, 253, 245, 1);
+    background: var(--ion-color-successlight);
     width: 100%;
     height: 52px;
     &__important {
@@ -79,7 +80,7 @@
         align-items: center;
         flex-direction: row;
         &__button_color {
-          color: rgba(16, 185, 129, 1);
+          color: var(--ion-color-successdark);
         }
       }
     }
@@ -87,12 +88,12 @@
 }
 
 .style-atention {
-  background-color: rgba(255, 251, 235, 1);
+  background-color: var(--ion-color-warninglight);
   .text {
-    color: rgba(180, 83, 9, 1);
+    color: var(--ion-color-warningdark);
   }
   .pcc_content {
-    background: rgba(255, 251, 235, 1);
+    background: var(--ion-color-warninglight);
     width: 100%;
     height: auto;
     &__important {
@@ -132,12 +133,12 @@
 }
 
 .style-information {
-  background-color: rgba(239, 246, 255, 1);
+  background-color: var(--ion-color-infolight);
   .text {
-    color: rgba(30, 64, 175, 1);
+    color: var(--ion-color-infodark);
   }
   .pcc_content {
-    background: rgba(239, 246, 255, 1);
+    background: var(--ion-color-infolight);
     width: 100%;
     height: auto;
     &__important {
@@ -171,7 +172,7 @@
       height: 40px;
       width: 100%;
       &__link {
-        color: rgba(29, 78, 216, 1);
+        color: var(--ion-color-infodark);
         &__icon {
           font-size: 14px;
           margin-left: 4px;
@@ -182,12 +183,12 @@
 }
 
 .style-errorv3 {
-  background-color: rgba(254, 242, 242, 1);
+  background-color: var(--ion-color-dangerlight);
   .text {
-    color: rgba(159, 40, 40, 1);
+    color: var(--ion-color-dangerdark);
   }
   .pcc_content {
-    background: rgba(254, 242, 242, 1);
+    background: var(--ion-color-dangerlight);
     width: 100%;
     height: auto;
     &__important {
@@ -225,12 +226,12 @@
 }
 
 .style-items-error {
-  background-color: rgba(254, 242, 242, 1);
+  background-color: var(--ion-color-dangerlight);
   .text {
-    color: rgba(159, 40, 40, 1);
+    color: var(--ion-color-dangerdark);
   }
   .pcc_content {
-    background: rgba(254, 242, 242, 1);
+    background: var(--ion-color-dangerlight);
     width: 100%;
     height: 144px;
     &__important {

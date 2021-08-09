@@ -29,8 +29,8 @@
 
   .active {
     --color: white;
-    --background: rgba(255, 145, 0, 1);
-    --background-activated: rgba(255, 145, 0, 1);
+    --background: var(--ion-color-uxprimary);
+    --background-activated: var(--ion-color-uxprimary);
     border-radius: 25px;
   }
 }

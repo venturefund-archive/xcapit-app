@@ -60,7 +60,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
                     <div class="src__referrals-list__accepted">
                       <ion-icon
                         [name]="referral.accepted ? 'ux-checked-circle' : 'hourglass-outline'"
-                        color="uxmedium"
+                        color="uxsemidark"
                       ></ion-icon>
                     </div>
                   </ion-item>

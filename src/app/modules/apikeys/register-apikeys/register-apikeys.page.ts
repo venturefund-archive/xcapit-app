@@ -84,7 +84,7 @@ import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enu
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >
-              {{ 'apikeys.register.button_submmit' | translate }}
+              {{ 'apikeys.register.button_submit' | translate }}
             </ion-button>
           </div>
         </div>
