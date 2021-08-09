@@ -30,7 +30,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
           <div class="foc">
             <div class="foc__date">
               <div class="foc__date__label">
-                <ion-label color="uxmedium" class="ux-font-lato ux-fweight-regular ux-fsize-12">
+                <ion-label color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-12">
                   <ion-text> {{ 'funds.fund_operations.since_date_range' | translate }}: </ion-text>
                 </ion-label>
               </div>
@@ -51,7 +51,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             </div>
             <div class="foc__date">
               <div class="foc__date__label">
-                <ion-label color="uxmedium" class="ux-font-lato ux-fweight-regular ux-fsize-12">
+                <ion-label color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-12">
                   {{ 'funds.fund_operations.until_date_range' | translate }}:
                 </ion-label>
               </div>

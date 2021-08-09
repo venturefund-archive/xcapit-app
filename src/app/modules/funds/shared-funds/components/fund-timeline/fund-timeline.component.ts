@@ -70,7 +70,7 @@ import { NavController } from '@ionic/angular';
             </div>
           </div>
           <div class="ftl__content__item__content">
-            <ion-label color="uxmedium" class="ux-font-lato ux-fweight-semibold ux-fsize-12">
+            <ion-label color="uxsemidark" class="ux-font-lato ux-fweight-semibold ux-fsize-12">
               {{ 'funds.fund_timeline.start_of' | translate }}
               {{ this.fundName }}</ion-label
             >

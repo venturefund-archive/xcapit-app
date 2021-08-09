@@ -43,15 +43,15 @@
           display: flex;
           width: 100%;
           font-size: 12px;
-          color: var(--ion-color-uxmedium);
+          color: var(--ion-color-uxsemidark);
           --min-height: 19px;
         }
-        &__item>ion-text{
+        &__item > ion-text {
           color: var(--ion-color-uxdark);
         }
       }
     }
-    &__content>ion-item-group{
+    &__content > ion-item-group {
       margin: 10px 0px;
     }
     &__align_left {
@@ -61,8 +61,8 @@
       text-align: right;
     }
     &__margin {
-      margin-top:0px;
-      margin-bottom:0px;
+      margin-top: 0px;
+      margin-bottom: 0px;
     }
   }
 }

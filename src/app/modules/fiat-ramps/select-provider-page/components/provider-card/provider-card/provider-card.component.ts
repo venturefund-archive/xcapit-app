@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
       <div class="pcc__content">
         <div class="pcc__content__id ">
           <div class="ux-font-lato ux-fweight-regular ux-fsize-12">
-            <ion-text color="uxmedium">0{{ this.provider?.id }}</ion-text>
+            <ion-text color="uxsemidark">0{{ this.provider?.id }}</ion-text>
           </div>
         </div>
         <div class="pcc__content__image">
@@ -25,7 +25,7 @@ import { NavController } from '@ionic/angular';
               appTrackClick
               name="Select"
               fill="clear"
-              color="uxmedium"
+              color="uxsemidark"
               size="small"
               slot="end"
               class="ux-font-lato ux-fweight-semibold ux-fsize-14"
