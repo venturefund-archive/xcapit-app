@@ -103,76 +103,12 @@ ion-toast.refresher_toast {
     color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
   }
 
-  // Font family, weight, size
-  // Family
-  .ux-font-gilroy {
+  .ux-font-header {
     font-family: var(--ux-font-gilroy);
-  }
-
-  .ux-font-lato {
-    font-family: var(--ux-font-lato);
-  }
-
-  // Weight
-  .ux-fweight-regular {
-    font-weight: var(--ux-fweight-regular);
-  }
-
-  .ux-fweight-semibold {
-    font-weight: var(--ux-fweight-semibold);
-  }
-
-  .ux-fweight-bold {
-    font-weight: var(--ux-fweight-bold);
-  }
-
-  .ux-fweight-extrabold {
-    font-weight: var(--ux-fweight-extrabold);
-  }
-
-  // Size
-  .ux-fsize-10 {
-    font-size: var(--ux-fsize-10);
-  }
-
-  .ux-fsize-11 {
-    font-size: var(--ux-fsize-11);
-  }
-
-  .ux-fsize-12 {
-    font-size: var(--ux-fsize-12);
-  }
-
-  .ux-fsize-14 {
-    font-size: var(--ux-fsize-14);
-  }
-
-  .ux-fsize-15 {
-    font-size: var(--ux-fsize-15);
-  }
-
-  .ux-fsize-16 {
     font-size: var(--ux-fsize-16);
-  }
-
-  .ux-fsize-18 {
-    font-size: var(--ux-fsize-18);
-  }
-
-  .ux-fsize-20 {
-    font-size: var(--ux-fsize-20);
-  }
-
-  .ux-fsize-22 {
-    font-size: var(--ux-fsize-22);
-  }
-
-  .ux-fsize-24 {
-    font-size: var(--ux-fsize-24);
-  }
-
-  .ux-fsize-40 {
-    font-size: var(--ux-fsize-40);
+    font-weight: var(--ux-fweight-extrabold);
+    color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    text-align: center;
   }
 
   // Estilo de la toolbar para botones ux
