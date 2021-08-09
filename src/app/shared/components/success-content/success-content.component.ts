@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
           name="Close Success"
           (click)="this.close()"
         >
-          <ion-icon class="main__close_button__icon" name="ux-close" color="uxmedium"></ion-icon>
+          <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
         </ion-button>
       </div>
       <div class="main__ux_success_image">

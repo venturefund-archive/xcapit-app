@@ -61,7 +61,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
           <ion-text
             class="ux-font-lato ux-fweight-regular ux-fsize-10"
-            color="uxmedium"
+            color="uxsemidark"
             *ngIf="!(this.isRefreshAvailable$ | async)"
           >
             {{
