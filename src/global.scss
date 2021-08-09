@@ -45,6 +45,64 @@ ion-toast.refresher_toast {
 }
 
 :root {
+  // Tipografías
+  .ux-font-text-xxs {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-12);
+    font-weight: var(--ux-fweight-bold);
+    color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+  }
+
+  .ux-font-text-xs {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-regular);
+    color: #333333; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+  }
+
+  .ux-font-text-base {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-16);
+    font-weight: var(--ux-fweight-regular);
+    color: #333333; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+  }
+
+  .ux-font-text-lg {
+    font-family: var(--ux-font-gilroy);
+    font-size: var(--ux-fsize-18);
+    font-weight: var(--ux-fweight-extrabold);
+    color: #333333; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+  }
+
+  .ux-font-subheading {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-12);
+    font-weight: var(--ux-fweight-regular);
+    color: #929292; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    text-transform: uppercase;
+  }
+
+  .ux-font-text-xl {
+    font-family: var(--ux-font-gilroy);
+    font-size: var(--ux-fsize-22);
+    font-weight: var(--ux-fweight-extrabold);
+    color: #000000; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+  }
+
+  .ux-font-num-titulo {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-40);
+    font-weight: var(--ux-fweight-extrabold);
+    color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+  }
+
+  .ux-font-num-subtitulo {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-17);
+    font-weight: var(--ux-fweight-extrabold);
+    color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+  }
+
   // Font family, weight, size
   // Family
   .ux-font-gilroy {
@@ -57,64 +115,64 @@ ion-toast.refresher_toast {
 
   // Weight
   .ux-fweight-regular {
-    font-weight: 400;
+    font-weight: var(--ux-fweight-regular);
   }
 
   .ux-fweight-semibold {
-    font-weight: 600;
+    font-weight: var(--ux-fweight-semibold);
   }
 
   .ux-fweight-bold {
-    font-weight: 700;
+    font-weight: var(--ux-fweight-bold);
   }
 
   .ux-fweight-extrabold {
-    font-weight: 800;
+    font-weight: var(--ux-fweight-extrabold);
   }
 
   // Size
   .ux-fsize-10 {
-    font-size: 10px;
+    font-size: var(--ux-fsize-10);
   }
 
   .ux-fsize-11 {
-    font-size: 11px;
+    font-size: var(--ux-fsize-11);
   }
 
   .ux-fsize-12 {
-    font-size: 12px;
+    font-size: var(--ux-fsize-12);
   }
 
   .ux-fsize-14 {
-    font-size: 14px;
+    font-size: var(--ux-fsize-14);
   }
 
   .ux-fsize-15 {
-    font-size: 15px;
+    font-size: var(--ux-fsize-15);
   }
 
   .ux-fsize-16 {
-    font-size: 16px;
+    font-size: var(--ux-fsize-16);
   }
 
   .ux-fsize-18 {
-    font-size: 18px;
+    font-size: var(--ux-fsize-18);
   }
 
   .ux-fsize-20 {
-    font-size: 20px;
+    font-size: var(--ux-fsize-20);
   }
 
   .ux-fsize-22 {
-    font-size: 22px;
+    font-size: var(--ux-fsize-22);
   }
 
   .ux-fsize-24 {
-    font-size: 24px;
+    font-size: var(--ux-fsize-24);
   }
 
   .ux-fsize-40 {
-    font-size: 40px;
+    font-size: var(--ux-fsize-40);
   }
 
   // Estilo de la toolbar para botones ux
