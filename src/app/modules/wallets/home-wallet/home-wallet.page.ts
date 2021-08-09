@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 
 @Component({
   selector: 'app-home-wallet',
@@ -20,18 +21,48 @@ import { Component, OnInit } from '@angular/core';
           </ion-text>
         </div>
       </div>
-      <div [ngClass]="'wt__subheader'">
-        <app-wallets-subheader *ngIf="this.haveWallets === false"></app-wallets-subheader>
+      <div *ngIf="!this.haveWallets" class="wt__subheader">
+        <app-wallets-subheader></app-wallets-subheader>
+      </div>
+
+      <!-- Assets list -->
+      <div class="wt__balance ion-padding-start ion-padding-end" *ngIf="this.haveWallets && this.balances?.length">
+        <div div class="wt__balance__title">
+          <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
+            {{ 'wallets.home.wallet-balance-title' | translate }}
+          </ion-label>
+        </div>
+        <div class="wt__balance__wallet-balance-card">
+          <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
+        </div>
       </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
 export class HomeWalletPage implements OnInit {
-  haveWallets = false;
+  haveWallets = true;
   transactions: Array<any>;
   assets: Array<any>;
   totalBalanceWallet = 0;
   currency = 'USD';
+  balances: Array<AssetBalance> = [
+    {
+      icon: 'assets/img/coins/USDT.svg',
+      symbol: 'USDT',
+      name: 'Tether',
+      amount: 3000,
+      nativeTokenAmount: 1,
+      nativeTokenSymbol: 'ETH',
+    },
+    {
+      icon: 'assets/img/coins/ETH.svg',
+      symbol: 'ETH',
+      name: 'Ethereum',
+      amount: 1,
+      nativeTokenAmount: 1,
+      nativeTokenSymbol: 'ETH',
+    },
+  ];
 
   constructor() {}
 

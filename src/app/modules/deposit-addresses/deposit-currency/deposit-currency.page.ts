@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Currency } from 'src/app/modules/funds/shared-funds/enums/currency.enum';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-deposit-currency',
@@ -78,14 +78,14 @@ export class DepositCurrencyPage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
 
   handleSubmit() {
     if (this.form.valid) {
-      this.router.navigate(['deposits/address/', this.form.value.currency]);
+      this.navController.navigateForward(['deposits/address/', this.form.value.currency]);
     } else {
       this.form.markAllAsTouched();
     }

@@ -1231,6 +1231,7 @@
 
     "home": {
       "available_money": "Dinero disponible en billetera",
+      "wallet-balance-title": "ACTIVOS",
       "subheader_component": {
         "title": "Todavía no creaste tu billetera",
         "create_wallet_button": "Crear Billetera"

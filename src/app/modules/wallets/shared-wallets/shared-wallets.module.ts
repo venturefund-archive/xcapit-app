@@ -2,11 +2,26 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RecoveryPhraseCardComponent } from './components/recovery-phrase-card/recovery-phrase-card.component';
 import { RecoveryWordComponent } from './components/recovery-word/recovery-word.component';
+import { WalletBalanceCardItemComponent } from './components/wallet-balance-card-item/wallet-balance-card-item.component';
+import { WalletBalanceCardComponent } from './components/wallet-balance-card/wallet-balance-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
 
 @NgModule({
-  declarations: [RecoveryPhraseCardComponent, RecoveryWordComponent, WalletsSubheaderComponent],
+  declarations: [
+    RecoveryPhraseCardComponent,
+    RecoveryWordComponent,
+    WalletsSubheaderComponent,
+    WalletBalanceCardItemComponent,
+    WalletBalanceCardComponent,
+  ],
   imports: [SharedModule],
-  exports: [SharedModule, RecoveryPhraseCardComponent, RecoveryWordComponent, WalletsSubheaderComponent],
+  exports: [
+    SharedModule,
+    RecoveryPhraseCardComponent,
+    RecoveryWordComponent,
+    WalletsSubheaderComponent,
+    WalletBalanceCardItemComponent,
+    WalletBalanceCardComponent,
+  ],
 })
 export class SharedWalletsModule {}

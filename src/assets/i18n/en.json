@@ -1229,6 +1229,7 @@
 
     "home": {
       "available_money": "Available money in wallet",
+      "wallet-balance-title": "ASSETS",
       "subheader_component": {
         "title": "You haven't created your wallet yet",
         "create_wallet_button": "Create Wallet"
