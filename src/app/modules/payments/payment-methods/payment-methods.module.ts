@@ -1,20 +1,17 @@
 import { NgModule } from '@angular/core';
 import { PaymentMethodsPage } from './payment-methods.page';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { MethodComponent } from './components/method/method.component';
+import { SharedPaymentsModule } from '../shared-payments/shared-payments.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: PaymentMethodsPage
-  }
+    component: PaymentMethodsPage,
+  },
 ];
 @NgModule({
-  imports: [
-    SharedModule,
-    RouterModule.forChild(routes),
-  ],
-  declarations: [PaymentMethodsPage, MethodComponent]
+  imports: [SharedPaymentsModule, RouterModule.forChild(routes)],
+  declarations: [PaymentMethodsPage, MethodComponent],
 })
 export class PaymentMethodsPageModule {}

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { SelectLicensePage } from './select-license.page';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { ItemLicenseComponent } from '../components/item-license/item-license.component';
+import { SharedPaymentsModule } from '../../shared-payments/shared-payments.module';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), SharedModule],
+  imports: [RouterModule.forChild(routes), SharedPaymentsModule],
   declarations: [SelectLicensePage, ItemLicenseComponent],
 })
 export class SelectLicensePageModule {}
