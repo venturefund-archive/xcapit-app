@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-ux-text',
   template: `
-    <div class="ux-font-text-xs ux_text">
+    <div class="ux-font-text-base ux_text">
       <ng-content></ng-content>
     </div>
   `,
