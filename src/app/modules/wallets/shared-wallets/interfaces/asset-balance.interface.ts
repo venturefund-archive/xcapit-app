@@ -3,6 +3,6 @@ export interface AssetBalance {
   symbol: string;
   name: string;
   amount: number;
-  nativeTokenAmount: number;
-  nativeTokenSymbol: string;
+  usdAmount: number;
+  usdSymbol: string;
 }

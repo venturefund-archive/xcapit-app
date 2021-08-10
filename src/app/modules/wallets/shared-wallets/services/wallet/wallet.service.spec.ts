@@ -5,6 +5,7 @@ import { LanguageService } from 'src/app/shared/services/language/language.servi
 import { COINS } from '../../../constants/coins';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from './wallet.service';
+import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -27,7 +28,8 @@ describe('WalletService', () => {
   let walletMnemonicServiceMock;
   let languageService: LanguageService;
   let languageServiceMock;
-
+  let blockchainProviderServiceMock;
+  let blockchainProviderService: BlockchainProviderService;
   beforeEach(() => {
     walletMnemonicServiceMock = {
       mnemonic: testMnemonic,
@@ -35,15 +37,20 @@ describe('WalletService', () => {
     languageServiceMock = {
       selected: 'en',
     };
+    blockchainProviderServiceMock = {
+      getFormattedBalanceOf: (address: string, asset: string) => Promise.resolve('20'),
+    };
     TestBed.configureTestingModule({
       providers: [
         { provide: WalletMnemonicService, useValue: walletMnemonicServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
+        { provide: BlockchainProviderService, useValue: blockchainProviderServiceMock },
       ],
     });
     service = TestBed.inject(WalletService);
     walletMnemonicService = TestBed.inject(WalletMnemonicService);
     languageService = TestBed.inject(LanguageService);
+    blockchainProviderService = TestBed.inject(BlockchainProviderService);
   });
 
   it('should be created', () => {
@@ -126,5 +133,12 @@ describe('WalletService', () => {
       service.create();
       expect(spy).toHaveBeenCalledTimes(0);
     });
+  });
+
+  it('should call provider get balance when balanceOf is called', async () => {
+    const spy = spyOn(blockchainProviderService, 'getFormattedBalanceOf').and.returnValue(Promise.resolve('20'));
+    const response = service.balanceOf('testAddress');
+    expect(spy).toHaveBeenCalledWith('testAddress');
+    await expectAsync(response).toBeResolvedTo('20');
   });
 });

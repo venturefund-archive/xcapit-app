@@ -20,9 +20,6 @@ import { AssetBalance } from '../../interfaces/asset-balance.interface';
             <ion-label color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">{{
               this.balance.name
             }}</ion-label>
-            <ion-label color="uxmedium" class="ux-font-lato ux-fsize-10 ux-fweight-regular"
-              >= {{ this.balance.nativeTokenAmount }} {{ this.balance.nativeTokenSymbol }}</ion-label
-            >
           </div>
         </div>
       </div>

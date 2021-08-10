@@ -3,6 +3,7 @@ import { Coin } from '../../interfaces/coin.interface';
 import { ethers } from 'ethers';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
+import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,11 @@ export class WalletService {
   createdWallets: ethers.Wallet[];
   derivationPaths: string[] = ["m/44'/60'/0'/0/0"];
 
-  constructor(private walletMnemonicService: WalletMnemonicService, private languageService: LanguageService) {}
+  constructor(
+    private walletMnemonicService: WalletMnemonicService,
+    private blockchainProviderService: BlockchainProviderService,
+    private languageService: LanguageService
+  ) {}
 
   create(): ethers.Wallet[] {
     if (this.mnemonicExists() && this.selectedCoins()) {
@@ -38,5 +43,9 @@ export class WalletService {
 
   selectedCoins(): boolean {
     return !!this.coins && !!this.coins.length;
+  }
+
+  balanceOf(address: string): Promise<string> {
+    return this.blockchainProviderService.getFormattedBalanceOf(address);
   }
 }

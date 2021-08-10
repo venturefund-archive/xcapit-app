@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
+import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -17,7 +18,7 @@ import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interfa
         <div class="wt__amount ux-font-gilroy ux-fweight-extrabold ux-fsize-40">
           <ion-text>
             {{ this.totalBalanceWallet | number: '1.2-6' }}
-            {{ this.currency }}
+            ETH
           </ion-text>
         </div>
       </div>
@@ -42,29 +43,30 @@ import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interfa
 export class HomeWalletPage implements OnInit {
   haveWallets = true;
   transactions: Array<any>;
-  assets: Array<any>;
   totalBalanceWallet = 0;
-  currency = 'USD';
+  walletAddress = '0xAE28be68e2C37c2Cf7B4144cb83537Dbf48Ce8a5';
   balances: Array<AssetBalance> = [
-    {
-      icon: 'assets/img/coins/USDT.svg',
-      symbol: 'USDT',
-      name: 'Tether',
-      amount: 3000,
-      nativeTokenAmount: 1,
-      nativeTokenSymbol: 'ETH',
-    },
     {
       icon: 'assets/img/coins/ETH.svg',
       symbol: 'ETH',
       name: 'Ethereum',
-      amount: 1,
-      nativeTokenAmount: 1,
-      nativeTokenSymbol: 'ETH',
+      amount: 0,
+      usdAmount: 3000,
+      usdSymbol: 'USD',
     },
   ];
 
-  constructor() {}
+  constructor(private walletService: WalletService) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.getWalletBalance();
+  }
+
+  getWalletBalance() {
+    this.walletService.balanceOf(this.walletAddress).then((balance) => {
+      this.balances[0].amount = this.totalBalanceWallet = parseFloat(balance);
+    });
+  }
 }

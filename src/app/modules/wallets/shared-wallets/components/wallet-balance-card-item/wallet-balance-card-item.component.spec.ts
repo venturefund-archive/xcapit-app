@@ -9,8 +9,8 @@ const balance: AssetBalance = {
   symbol: 'ETH',
   name: 'Ethereum',
   amount: 1,
-  nativeTokenAmount: 1,
-  nativeTokenSymbol: 'ETH',
+  usdAmount: 3000,
+  usdSymbol: 'USD',
 };
 
 describe('WalletBalanceCardItemComponent', () => {

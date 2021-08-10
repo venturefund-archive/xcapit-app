@@ -10,4 +10,8 @@ export class BlockchainProviderService {
   constructor() {
     this.provider = new ethers.providers.JsonRpcProvider(environment.ethAlchemyApiUrl);
   }
+
+  getFormattedBalanceOf(address: string): Promise<string> {
+    return this.provider.getBalance(address).then(ethers.utils.formatEther);
+  }
 }
