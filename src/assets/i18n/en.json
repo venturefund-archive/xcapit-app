@@ -1545,8 +1545,10 @@
     "register": {
       "header": "Register Kripton market",
       "header_bank": "Bank account information",
-      "description": "Completa el siguiente formulario para registrarte con nuestro proveedor Kripton Market",
-      "description_bank": "Completa tus datos bancarios con los cuales operarás con el proveedor",
+      "header_images": "Upload Images",
+      "description": "Complete the following form to register with our provider Kripton Market",
+      "description_bank": "Complete your bank details with which you will operate with the provider",
+      "description_images": "Upload the following images to finish the registration.",
       "first_name": "Name",
       "last_name": "Lastname",
       "nationality": "Nationality",
@@ -1570,7 +1572,8 @@
       "not_politically": "Not politically exposed",
       "not_bound": "Subject not bound",
       "tos": "Terms and conditions",
-      "register": "Next",
+      "register": "Finalize",
+      "next": "Next",
       "marital_status_list": {
         "married": "Married",
         "single": "Single",
