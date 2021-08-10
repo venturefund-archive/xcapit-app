@@ -1,24 +1,21 @@
-:host ::ng-deep{
-    width: 100%;
-    .am {
-        font-family: var(--ux-font-lato);
-        font-weight: 400;
-        font-size: 14px;
-        border-radius: 8px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        &__icon {
-            margin: 16px;
-            height: 20px;
-            width: 20px;
-            font-size: 20px;
-        }
-        &__message {
-            margin: 16px 16px 16px 0px;
-        }
+:host ::ng-deep {
+  width: 100%;
+  .am {
+    border-radius: 8px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    &__icon {
+      margin: 16px;
+      height: 20px;
+      width: 20px;
+      font-size: 20px;
+    }
+    &__message {
+      margin: 16px 16px 16px 0px;
+    }
     &.info {
-        background-color: #006EFF1A;
+      background-color: #006eff1a;
     }
-    }
+  }
 }

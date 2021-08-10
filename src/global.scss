@@ -50,35 +50,35 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-12);
     font-weight: var(--ux-fweight-bold);
-    color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxlight);
   }
 
   .ux-font-text-xs {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-regular);
-    color: #333333; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxdark);
   }
 
   .ux-font-text-base {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-regular);
-    color: #333333; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxdark);
   }
 
   .ux-font-text-lg {
     font-family: var(--ux-font-gilroy);
     font-size: var(--ux-fsize-18);
     font-weight: var(--ux-fweight-extrabold);
-    color: #333333; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxdark);
   }
 
   .ux-font-subheading {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-12);
     font-weight: var(--ux-fweight-regular);
-    color: #929292; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxsemidark);
     text-transform: uppercase;
   }
 
@@ -86,38 +86,74 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-gilroy);
     font-size: var(--ux-fsize-22);
     font-weight: var(--ux-fweight-extrabold);
-    color: #000000; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxlight-contrast);
   }
 
   .ux-font-num-titulo {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-40);
     font-weight: var(--ux-fweight-extrabold);
-    color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxlight);
   }
 
   .ux-font-num-subtitulo {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-17);
     font-weight: var(--ux-fweight-extrabold);
-    color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxlight);
   }
 
-  .ux-font-header {
+  .ux-font-header-titulo,
+  .ux_toolbar ion-title {
     font-family: var(--ux-font-gilroy);
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-extrabold);
-    color: #ffffff; // TODO: Cambiar para que sea consistente con los colores que agregó Alan
+    color: var(--ion-color-uxlight);
     text-align: center;
+  }
+
+  .ux-font-input-label {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-12);
+    font-weight: var(--ux-fweight-extrabold);
+    color: var(--ion-color-uxsemidark);
+  }
+
+  .ux-font-form-errors {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-12);
+    font-weight: var(--ux-fweight-regular);
+    color: var(--ion-color-uxdanger);
+  }
+
+  .ux-font-button,
+  .ux_button {
+    text-transform: none;
+    font-family: var(--ux-font-lato);
+    font-weight: var(--ux-fweight-semibold);
+    font-size: var(--ux-fsize-15);
+  }
+
+  .ux-font-badge-primary,
+  .ux_badge_primary {
+    text-transform: uppercase;
+    --color: var(--ion-color-uxprimary);
+    font-family: var(--ux-font-gilroy);
+    font-weight: var(--ux-fweight-extrabold);
+    font-size: var(--ux-fsize-10);
+  }
+
+  .ux-font-badge-coming,
+  .ux_badge_coming {
+    font-family: var(--ux-font-lato);
+    font-weight: var(--ux-fweight-semibold);
+    font-size: var(--ux-fsize-12);
+    --color: rgb(114, 62, 163); // TODO: Cambiar para que sea consistente con los colores que agregó Alan
   }
 
   // Estilo de la toolbar para botones ux
   .ux_button {
     --border-radius: 7px;
-    font-family: var(--ux-font-lato);
-    font-weight: 600;
-    font-size: 15px;
-    text-transform: none;
     height: 48px;
     min-width: 116px;
   }
@@ -125,24 +161,14 @@ ion-toast.refresher_toast {
   // Estilo de la toolbar para el diseño ux
   .ux_toolbar {
     --min-height: 60px;
-    ion-title {
-      font-family: var(--ux-font-gilroy);
-      font-weight: 800;
-      font-size: 16px;
-    }
   }
 
-  // Badge color nararnja para la opcion mas seleccionada
+  // Badge color naranja para la opcion mas seleccionada
   .ux_badge_primary {
     border-radius: 4px;
     height: 21px;
     --background: #ff910033;
-    --color: var(--ion-color-uxprimary);
     --padding-top: 6px;
-    text-transform: uppercase;
-    font-family: var(--ux-font-gilroy);
-    font-weight: 800;
-    font-size: 10px;
   }
 
   //Badge Proximamente - Violeta
@@ -150,12 +176,8 @@ ion-toast.refresher_toast {
     border-radius: 3px;
     height: 21px;
     --background: rgba(187, 107, 217, 0.4);
-    --color: rgb(114, 62, 163);
     --padding-top: 6px;
     --padding-bottom: 6px;
-    font-family: var(--ux-font-lato);
-    font-weight: 600;
-    font-size: 12px;
     line-height: 9.6px;
   }
 
@@ -370,7 +392,7 @@ ion-toast.refresher_toast {
   }
   .picker-toolbar-cancel > button,
   .picker-toolbar-button > button {
-    color: #ff9100;
-    font-weight: bold;
+    color: var(--ion-color-uxprimary);
+    font-weight: var(--ux-fweight-bold);
   }
 }
