@@ -20,9 +20,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
   template: `
     <div class="change_alias">
       <div class="change_alias__header">
-        <ion-text
-          class="ux-font-lato ux-fweight-semibold ux-fsize-14 change_alias__header__text"
-        >
+        <ion-text class="ux-font-text-lg change_alias__header__text">
           {{ 'apikeys.edit_modal.title' | translate }}
         </ion-text>
         <ion-button
@@ -36,18 +34,8 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
           <ion-icon name="close-outline"></ion-icon>
         </ion-button>
       </div>
-      <form
-        [formGroup]="this.form"
-        (ngSubmit)="this.handleSubmit()"
-        class="ux_main"
-      >
-        <app-ux-input
-          controlName="alias"
-          type="text"
-          inputmode="text"
-          class="change_alias__input"
-        >
-        </app-ux-input>
+      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
+        <app-ux-input controlName="alias" type="text" inputmode="text" class="change_alias__input"> </app-ux-input>
 
         <div>
           <div class="change_alias__description">
@@ -91,10 +79,7 @@ export class ApikeysEditModalComponent implements OnInit {
       [
         Validators.required,
         Validators.maxLength(23),
-        CustomValidators.patternValidator(
-          /^[a-zA-Z0-9]+$/,
-          CustomValidatorErrors.hasSpecialCharacter
-        ),
+        CustomValidators.patternValidator(/^[a-zA-Z0-9]+$/, CustomValidatorErrors.hasSpecialCharacter),
       ],
     ],
   });
@@ -131,7 +116,7 @@ export class ApikeysEditModalComponent implements OnInit {
   }
 
   close(state: string = 'canceled') {
-    this.modalController.dismiss(null , state);
+    this.modalController.dismiss(null, state);
   }
 
   success() {
