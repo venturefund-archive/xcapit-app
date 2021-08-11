@@ -13,12 +13,12 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
+        <ion-title>
           {{ 'fiat_ramps.operations_list.header' | translate }}
         </ion-title>
         <ion-buttons slot="end">
           <ion-button
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
+            class="new-operation ion-padding-end"
             appTrackClick
             name="New Operation"
             (click)="this.checkEmptyApiKeys()"
@@ -30,7 +30,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22 ios hydrated ion-padding-top ion-margin-top">
+      <ion-text class="ux-font-text-xl ios hydrated ion-padding-top ion-margin-top">
         <div class="ion-margin-top">
           {{ 'fiat_ramps.operations_list.title' | translate }}
         </div>
@@ -38,20 +38,20 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
 
       <app-ux-list-inverted>
         <ion-list>
-          <ion-item class="table-header ux-font-lato ux-fweight-regular ux-fsize-11">
-            <ion-label class="">
+          <ion-item class="table-header ux-font-text-xs">
+            <ion-label class="label">
               {{ 'fiat_ramps.operations_list.operation' | translate }}
             </ion-label>
-            <ion-label class="">
+            <ion-label class="label">
               {{ 'fiat_ramps.operations_list.amount' | translate }}
             </ion-label>
-            <ion-label class="">
+            <ion-label class="label">
               {{ 'fiat_ramps.operations_list.status' | translate }}
             </ion-label>
-            <ion-label class="">
+            <ion-label class="label">
               {{ 'fiat_ramps.operations_list.date' | translate }}
             </ion-label>
-            <ion-label class="">
+            <ion-label class="label">
               {{ 'fiat_ramps.operations_list.provider' | translate }}
             </ion-label>
           </ion-item>

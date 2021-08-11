@@ -1563,7 +1563,7 @@
       "address_number": "Address (Number)",
       "address_extra": "Address (Floor/Department)",
       "cbu": "CBU/CVU",
-      "bank": "Bank",
+      "bank": "BANK",
       "doc_front": "Front document image",
       "doc_back": "Back document image",
       "selfie": "Selfie with document",

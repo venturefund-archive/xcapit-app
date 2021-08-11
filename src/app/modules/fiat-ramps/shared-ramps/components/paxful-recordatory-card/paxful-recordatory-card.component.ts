@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
         />
       </div>
       <div class="pcc_content__important__title ">
-        <div class="ux-font-lato ux-fweight-regular ux-fsize-14">
+        <div class="ux-font-text-xs">
           <ion-text class="text" color="uxdark">{{ 'fiat_ramps.paxful.recordatory_info' | translate }}</ion-text>
         </div>
       </div>

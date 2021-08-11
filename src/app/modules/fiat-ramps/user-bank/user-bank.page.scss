@@ -12,6 +12,7 @@
   }
 
   .text-info {
-    color: #828282;
+    color: var(--ion-color-uxsemidark);
+    font-size: var(--ux-fsize-15);
   }
 }
