@@ -12,7 +12,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/profiles/success"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ux-font-header">{{ 'apikeys.insert_key.header' | translate }}</ion-title>
+        <ion-title>{{ 'apikeys.insert_key.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
