@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { OperationsNewPaxfulPage } from './operations-new-paxful.page';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { PaxfulRecordatoryCardComponent } from '../shared-ramps/components/paxful-recordatory-card/paxful-recordatory-card.component';
+import { SharedRampsModule } from '../shared-ramps/shared-ramps.module';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(routes)],
+  imports: [SharedRampsModule, RouterModule.forChild(routes)],
   declarations: [OperationsNewPaxfulPage, PaxfulRecordatoryCardComponent],
 })
 export class OperationsNewPaxfulPageModule {}

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OperationsNewPage } from './operations-new.page';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedRampsModule } from '../shared-ramps/shared-ramps.module';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(routes)],
+  imports: [SharedRampsModule, RouterModule.forChild(routes)],
   declarations: [OperationsNewPage],
 })
 export class OperationsNewPageModule {}

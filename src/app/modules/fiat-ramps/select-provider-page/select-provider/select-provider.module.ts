@@ -1,13 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-import { IonicModule } from '@ionic/angular';
-
 import { SelectProviderPage } from './select-provider.page';
 import { RouterModule, Routes } from '@angular/router';
 import { ProviderCardComponent } from '../components/provider-card/provider-card/provider-card.component';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedRampsModule } from '../../shared-ramps/shared-ramps.module';
 
 const routes: Routes = [
   {
@@ -17,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), SharedModule],
+  imports: [RouterModule.forChild(routes), SharedRampsModule],
   declarations: [SelectProviderPage, ProviderCardComponent],
 })
 export class SelectProviderPageModule {}
