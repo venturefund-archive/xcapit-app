@@ -40,6 +40,10 @@ const routes: Routes = [
         path: 'create-password',
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
       },
+      {
+        path: 'receive',
+        loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
+      },
     ],
   },
 ];
