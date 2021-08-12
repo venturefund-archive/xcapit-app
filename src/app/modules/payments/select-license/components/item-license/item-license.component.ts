@@ -9,38 +9,26 @@ import { PlanType } from '../../enums/plan_type.enum';
       <div *ngIf="this.plan?.type === planType.premium" class="image">
         <img src="../assets/ux-icons/ux-corone.png" alt="premium logo" />
       </div>
-      <div
-        *ngIf="this.plan?.type === planType.free || this.plan?.type === planType.paid"
-        class="ilc__content__name ux-font-gilroy ux-fweight-bold ux-fsize-14 "
-      >
+      <div *ngIf="this.plan?.type === planType.free || this.plan?.type === planType.paid" class="ilc__content__name ">
         <input class="input_radio" type="radio" name="select" id="select" value="select" />
         <label class="ilc__content__name__license" for="select">{{ this.plan?.name }}</label>
       </div>
-      <div
-        *ngIf="this.plan?.type === planType.premium"
-        class="ilc__content__name ux-font-gilroy ux-fweight-bold ux-fsize-14 "
-      >
+      <div *ngIf="this.plan?.type === planType.premium" class="ilc__content__name ">
         <label class="ilc__content__name__premium" for="select">{{ this.plan?.name }}</label>
       </div>
       <div class="ilc__content__description">
-        <div class="ux-font-lato ux-fweight-regular ux-fsize-14">
-          <ion-text class="info_text">{{ this.plan?.info | translate }}</ion-text>
+        <div class="ux-font-text-xs">
+          <ion-text>{{ this.plan?.info | translate }}</ion-text>
         </div>
       </div>
       <div *ngIf="this.plan?.type === planType.free || this.plan?.type === planType.paid" class="ilc__content__price">
         <div>
-          <ion-text
-            *ngIf="this.plan?.type === planType.free"
-            class="license_text ux-font-gilroy ux-fweight-bold ux-fsize-15"
-            color="uxdark"
-            >{{ this.plan?.price | translate }}</ion-text
-          >
-          <ion-text
-            *ngIf="this.plan?.type === planType.paid"
-            class="license_text ux-font-gilroy ux-fweight-bold ux-fsize-15"
-            color="uxdark"
-            >{{ '$' + this.plan?.price }}</ion-text
-          >
+          <ion-text *ngIf="this.plan?.type === planType.free" class="license_text" color="uxdark">{{
+            this.plan?.price | translate
+          }}</ion-text>
+          <ion-text *ngIf="this.plan?.type === planType.paid" class="license_text" color="uxdark">{{
+            '$' + this.plan?.price
+          }}</ion-text>
           <ion-text
             class="ux-font-lato ux-fweight-regular ux-fsize-12"
             *ngIf="this.plan?.type === planType.paid && this.plan?.frequency_type === 'years'"

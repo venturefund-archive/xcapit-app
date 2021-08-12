@@ -15,20 +15,20 @@ import { ApiPaymentsService } from '../../shared-payments/services/api-payments.
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="title">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+          <ion-text class="ux-font-text-xl">
             {{ 'payment.licenses.title' | translate }}
           </ion-text>
         </div>
-        <ion-text class="subtitle ux-font-roboto ux-fweight-regular ux-fsize-14">
+        <ion-text class="subtitle ux-font-text-xs ">
           {{ 'payment.licenses.textPrimary' | translate }}
         </ion-text>
-        <ion-text class="second-subtitle ux-font-roboto ux-fsize-14">
+        <ion-text class="second-subtitle ux-font-text-xs">
           {{ 'payment.licenses.textSecondary' | translate }}
         </ion-text>
         <div class="license_type">
           <ion-button
             [ngClass]="{ active: activeButtonAnnual }"
-            class="license_type__anual_button ux-font-roboto ux-fweight-regular ux-fsize-14"
+            class="license_type__anual_button ux-font-text-xs"
             name="anual"
             appTrackClick
             fill="clear"
@@ -38,7 +38,7 @@ import { ApiPaymentsService } from '../../shared-payments/services/api-payments.
           >
           <ion-button
             [ngClass]="{ active: activeButtonMonthly }"
-            class="license_type__mensual_button ux-font-roboto ux-fweight-regular ux-fsize-14"
+            class="license_type__mensual_button ux-font-text-xs"
             name="mensual"
             appTrackClick
             fill="clear"

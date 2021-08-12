@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
     </ion-header>
     <ion-content>
       <div class="ux_main">
-        <div class="pm__title ux-font-gilory ux-fweight-extrabold ux-fsize-24">
+        <div class="pm__title ux-font-text-xl">
           <ion-text>{{ 'payment.methods.title' | translate }}</ion-text>
         </div>
         <div class="ux_content">
