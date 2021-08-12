@@ -26,14 +26,15 @@ export class RecoveryPhraseCardComponent implements OnInit {
   phraseCopy: string[];
   @Input() set phrase(phrase: string[]) {
     this.phraseCopy = [...phrase];
-    if (this.ordered) {
-      this.sortPhrase();
-    }
   }
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.ordered) {
+      this.sortPhrase();
+    }
+  }
 
   sortPhrase() {
     this.phraseCopy.sort();
