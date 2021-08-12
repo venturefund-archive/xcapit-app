@@ -35,6 +35,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
       },
+      {
+        path: 'receive',
+        loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
+      },
     ],
   },
 ];
