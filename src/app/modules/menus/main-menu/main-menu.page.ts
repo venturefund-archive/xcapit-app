@@ -20,7 +20,7 @@ const { Browser } = Plugins;
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'app.main_menu.header' | translate }}</ion-title>
+        <ion-title>{{ 'app.main_menu.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -29,7 +29,7 @@ const { Browser } = Plugins;
         <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p.elementClick)">
           <ion-item
             *ngIf="this.env === 'PREPROD' || (this.env === 'PRODUCCION' && p.showInProd)"
-            class="menu-item"
+            class="menu-item ux-font-text-xs"
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
             [routerDirection]="p.routeDirection"
@@ -44,7 +44,7 @@ const { Browser } = Plugins;
         </div>
         <ion-item
           detail
-          class="menu-item"
+          class="menu-item  ux-font-text-xs"
           appTrackClick
           [dataToTrack]="{
             eventLabel: 'Change Language',
@@ -58,7 +58,7 @@ const { Browser } = Plugins;
           </ion-label>
         </ion-item>
         <ion-item
-          class="menu-item"
+          class="menu-item  ux-font-text-xs"
           appTrackClick
           [dataToTrack]="{
             eventLabel: 'Logout',
