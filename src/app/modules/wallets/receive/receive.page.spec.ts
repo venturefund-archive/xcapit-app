@@ -8,11 +8,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ClipboardService } from '../../../shared/services/clipboard/clipboard.service';
-import { clipboard } from 'ionicons/icons';
 import { ShareService } from '../../../shared/services/share/share.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirective } from '../../../shared/directives/track-click/track-click.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-fdescribe('ReceivePage', () => {
+describe('ReceivePage', () => {
   let component: ReceivePage;
   let fixture: ComponentFixture<ReceivePage>;
   let qrCodeServiceMock;
@@ -23,6 +25,8 @@ fdescribe('ReceivePage', () => {
   let shareService: ShareService;
   let toastServiceMock;
   let toastService: ToastService;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReceivePage>;
+
   beforeEach(
     waitForAsync(() => {
       qrCodeServiceMock = {
@@ -38,8 +42,14 @@ fdescribe('ReceivePage', () => {
         showToast: () => Promise.resolve(),
       };
       TestBed.configureTestingModule({
-        declarations: [ReceivePage],
-        imports: [IonicModule, ReactiveFormsModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
+        declarations: [ReceivePage, TrackClickDirective],
+        imports: [
+          IonicModule,
+          ReactiveFormsModule,
+          HttpClientTestingModule,
+          RouterTestingModule.withRoutes([]),
+          TranslateModule.forRoot(),
+        ],
         providers: [
           { provide: QRCodeService, useValue: qrCodeServiceMock },
           { provide: ClipboardService, useValue: clipboardServiceMock },
@@ -57,6 +67,7 @@ fdescribe('ReceivePage', () => {
       clipboardService = TestBed.inject(ClipboardService);
       shareService = TestBed.inject(ShareService);
       toastService = TestBed.inject(ToastService);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
@@ -85,18 +96,36 @@ fdescribe('ReceivePage', () => {
     expect(spy).toHaveBeenCalledWith({ string: 'test_address' });
   });
 
-  it('should share address when click in share button', () => {
+  it('should share address when click in share button', async () => {
     const spy = spyOn(shareService, 'share').and.callThrough();
     const button = fixture.debugElement.query(By.css('#share-address-button'));
-    button.nativeElement.click();
+    await button.nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(
       {
-        title: 'Direccion de wallet',
-        dialogTitle: 'Direccion de wallet',
+        title: 'wallets.receive.share_title',
+        dialogTitle: 'wallets.receive.share_title',
         text: 'test_address',
       },
-      'Error al compartir'
+      'shared.services.share.share_error'
     );
+  });
+
+  it('should call trackEvent on trackService when Copy Wallet Address is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Copy Wallet Address');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spyClickEvent = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spyClickEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Share Wallet Address is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Share Wallet Address');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spyClickEvent = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 });

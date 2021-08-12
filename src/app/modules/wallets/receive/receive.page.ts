@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { COINS } from '../constants/coins';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,15 +22,17 @@ import { TranslateService } from '@ngx-translate/core';
     <ion-content class="ion-padding-start ion-padding-end wr">
       <div class="wr__title">
         <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-          'Datos de tu billetera' | translate
+          'wallets.receive.title' | translate
         }}</ion-text>
       </div>
       <div class="wr__currency-select">
-        <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12">{{ 'Moneda' | translate }}</ion-text>
+        <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12">{{
+          'wallets.receive.currency_select' | translate
+        }}</ion-text>
         <form [formGroup]="this.form">
           <app-ux-input-select
-            [modalTitle]="'Seleccionar moneda' | translate"
-            [placeholder]="'Currency'"
+            [modalTitle]="'wallets.receive.currency_select_modal_title' | translate"
+            [placeholder]="'wallets.receive.currency_select_modal_title' | translate"
             controlName="currency"
             [data]="this.currencies"
             [keyName]="'name'"
@@ -40,23 +42,25 @@ import { TranslateService } from '@ngx-translate/core';
       </div>
       <div class="wr__remaining-time-text">
         <ion-text color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-12">{{
-          'Tiempo promedio de llegada: 3 min' | translate
+          'wallets.receive.average_time' | translate
         }}</ion-text>
       </div>
       <div class="wr__qr-content" *ngIf="addressQr">
-        <ion-img id="qr-img" [src]="this.addressQr"></ion-img>
+        <img id="qr-img" [src]="this.addressQr" />
       </div>
       <div class="wr__receive-address">
-        <ion-button
-          name="Copy Wallet Address"
-          appTrackClick
-          id="copy-address-button"
-          fill="clear"
-          (click)="this.copyAddress()"
-        >
+        <ion-item lines="none">
           <ion-label class="ux-font-lato ux-fsize-16 ux-fweight-regular">{{ this.address }}</ion-label>
-          <ion-icon name="copy-outline" style="margin-left: 8px;"></ion-icon
-        ></ion-button>
+          <ion-button
+            name="Copy Wallet Address"
+            appTrackClick
+            id="copy-address-button"
+            fill="clear"
+            (click)="this.copyAddress()"
+          >
+            <ion-icon name="copy-outline" style="margin-left: 8px;"></ion-icon
+          ></ion-button>
+        </ion-item>
       </div>
       <div class="wr__share-content">
         <ion-button
@@ -66,18 +70,15 @@ import { TranslateService } from '@ngx-translate/core';
           fill="clear"
           class="ux-font-lato ux-fsize-16 ux-fweight-regular"
           (click)="this.shareAddress()"
-          >{{ 'Compartir' | translate }} <ion-icon name="ux-share" style="margin-left: 8px;"></ion-icon
+          >{{ 'wallets.receive.share' | translate }} <ion-icon name="ux-share" style="margin-left: 8px;"></ion-icon
         ></ion-button>
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'Envíe solo USDT a esta direción de depósito.' | translate }}
+          {{ 'wallets.receive.disclaimer_header' | translate }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{
-            'Enviar otras monedas o tokens a esta dirección distintas a USDT puede resultar en la pérdida de su depósito.'
-              | translate
-          }}
+          {{ 'wallets.receive.disclaimer_body' | translate }}
         </ion-text>
       </div>
     </ion-content>
@@ -110,14 +111,9 @@ export class ReceivePage {
       .write({
         string: this.address,
       })
-      .then(
-        () => {
-          this.showToast('deposit_addresses.deposit_address.copy_address_ok_text'); //TODO: Cambiar de deposit address a otro lado
-        },
-        () => {
-          this.showToast('deposit_addresses.deposit_address.copy_address_error_text');
-        }
-      );
+      .then(() => {
+        this.showToast('shared.services.copy.toast_success');
+      });
   }
 
   private showToast(text: string) {
@@ -127,14 +123,13 @@ export class ReceivePage {
   }
 
   async shareAddress() {
-    // TODO: Translate de textos
     await this.shareService.share(
       {
-        title: 'Direccion de wallet',
-        dialogTitle: 'Direccion de wallet',
-        text: 'test_address',
+        title: this.translate.instant('wallets.receive.share_title'),
+        dialogTitle: this.translate.instant('wallets.receive.share_title'),
+        text: this.address,
       },
-      'Error al compartir'
+      this.translate.instant('shared.services.share.share_error')
     );
   }
 

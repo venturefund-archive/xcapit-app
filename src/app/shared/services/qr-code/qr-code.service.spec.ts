@@ -1,6 +1,6 @@
 import { QRCodeService } from './qr-code.service';
 
-fdescribe('QRCodeService', () => {
+describe('QRCodeService', () => {
   let service: QRCodeService;
 
   beforeEach(() => {
