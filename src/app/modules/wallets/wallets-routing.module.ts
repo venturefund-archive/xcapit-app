@@ -36,6 +36,11 @@ const routes: Routes = [
           import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
       },
       {
+        canActivate: [AcceptedToSGuard],
+        path: 'create-password',
+        loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
+      },
+      {
         path: 'receive',
         loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
       },

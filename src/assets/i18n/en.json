@@ -1263,6 +1263,14 @@
       "text1": "Tap the words in the corresponding order",
       "btn_create": "Create Wallet"
     },
+    "create_password": {
+      "header": "Create Wallet",
+      "title": "Create a password",
+      "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
+      "password": "Password",
+      "repeat_password": "Confirm Password",
+      "finish_button": "Finish and create wallet"
+    },
     "receive": {
       "header": "Receive",
       "title": "Your wallet information",

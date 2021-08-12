@@ -135,7 +135,7 @@ describe('VerifyPhrasePage', () => {
     fixture.detectChanges();
     const spy = spyOn(navController, 'navigateForward');
     component.createWallet();
-    expect(spy).toHaveBeenCalledWith(['/wallets/success-creation']);
+    expect(spy).toHaveBeenCalledWith(['/wallets/create-password']);
   });
 
   it('should not navigate to success when arrays different', () => {

@@ -1266,6 +1266,14 @@
       "text1": "Toca las palabras en el orden correspondiente",
       "btn_create": "Crear Billetera"
     },
+    "create_password": {
+      "header": "Crear Billetera",
+      "title": "Crear una contraseña",
+      "description": "La contraseña sirve para hacer tu billetera más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu billetera con las 12 palabras.",
+      "password": "Contraseña",
+      "repeat_password": "Confirmar contraseña",
+      "finish_button": "Finalizar y crear billetera"
+    },
     "receive": {
       "header": "Recibir",
       "title": "Datos de tu billetera",
