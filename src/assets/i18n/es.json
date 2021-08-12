@@ -1267,6 +1267,7 @@
       "btn_create": "Crear Billetera"
     },
     "receive": {
+      "header": "Recibir",
       "title": "Datos de tu billetera",
       "currency_select": "Moneda",
       "currency_select_modal_title": "Seleccionar moneda",

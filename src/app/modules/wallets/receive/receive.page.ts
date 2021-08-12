@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'Recibir' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'wallets.receive.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding-start ion-padding-end wr">

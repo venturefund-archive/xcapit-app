@@ -1264,6 +1264,7 @@
       "btn_create": "Create Wallet"
     },
     "receive": {
+      "header": "Receive",
       "title": "Your wallet information",
       "currency_select": "Currency",
       "currency_select_modal_title": "Select currency",
