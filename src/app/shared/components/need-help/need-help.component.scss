@@ -15,5 +15,11 @@
         width: 28px;
       }
     }
+
+    &__link {
+      &__text {
+        font-weight: var(--ux-fweight-semibold);
+      }
+    }
   }
 }
