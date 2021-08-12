@@ -25,7 +25,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
       <app-ux-loading-block *ngIf="!this.operation" minSize="30px"></app-ux-loading-block>
 
       <div *ngIf="this.operation">
-        <ion-text class="x-font-text-xl ios hydrated ion-padding-top ion-margin-top">
+        <ion-text class="ux-font-text-xl ios hydrated ion-padding-top ion-margin-top">
           <div class="ion-margin-top">
             {{ 'fiat_ramps.operation_detail.header' | translate }}
           </div>

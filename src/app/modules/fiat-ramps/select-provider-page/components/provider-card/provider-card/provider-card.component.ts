@@ -28,7 +28,6 @@ import { NavController } from '@ionic/angular';
               color="uxmedium"
               size="small"
               slot="end"
-              class="ux-font-lato ux-fweight-semibold ux-fsize-14"
               (click)="this.useProvider()"
             >
               <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>

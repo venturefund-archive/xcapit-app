@@ -39,19 +39,19 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
       <app-ux-list-inverted>
         <ion-list>
           <ion-item class="table-header ux-font-text-xs">
-            <ion-label class="label">
+            <ion-label color="uxdark">
               {{ 'fiat_ramps.operations_list.operation' | translate }}
             </ion-label>
-            <ion-label class="label">
+            <ion-label color="uxdark">
               {{ 'fiat_ramps.operations_list.amount' | translate }}
             </ion-label>
-            <ion-label class="label">
+            <ion-label color="uxdark">
               {{ 'fiat_ramps.operations_list.status' | translate }}
             </ion-label>
-            <ion-label class="label">
+            <ion-label color="uxdark">
               {{ 'fiat_ramps.operations_list.date' | translate }}
             </ion-label>
-            <ion-label class="label">
+            <ion-label color="uxdark">
               {{ 'fiat_ramps.operations_list.provider' | translate }}
             </ion-label>
           </ion-item>

@@ -46,7 +46,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <!-- Operaciones -->
           <app-ux-text class="ion-padding-top ion-margin-top">
-            <div class=" custom-color ion-margin-top">
+            <div class="custom-color ion-margin-top">
               {{ 'fiat_ramps.ramp_initial.operation' | translate }}
             </div>
           </app-ux-text>

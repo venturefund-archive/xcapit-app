@@ -27,7 +27,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             </ion-text>
           </div>
           <div class="info_text">
-            <ion-text class="ux-font-text-xs">
+            <ion-text color="uxdark" class="ux-font-text-xs">
               {{ 'fiat_ramps.information_paxful.subtitle' | translate }}
             </ion-text>
           </div>
