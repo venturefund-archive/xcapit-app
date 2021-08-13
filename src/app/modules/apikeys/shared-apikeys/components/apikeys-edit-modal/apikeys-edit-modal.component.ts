@@ -39,7 +39,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
 
         <div>
           <div class="change_alias__description">
-            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
+            <ion-text class="ux-font-text'xxs" color="uxsemidark">
               {{ 'apikeys.edit_modal.description' | translate }}
             </ion-text>
           </div>

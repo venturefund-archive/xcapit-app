@@ -39,7 +39,7 @@ import { Router } from '@angular/router';
           </ion-button>
         </div>
         <div class="main__third_text ux-font-text-xxs">
-          <ion-text>{{ this.data?.textThird | translate }}</ion-text>
+          <ion-text color="uxsemidark">{{ this.data?.textThird | translate }}</ion-text>
         </div>
         <div class="main__actions__third" *ngIf="this.data.nameThirdAction">
           <ion-button

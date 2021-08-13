@@ -46,7 +46,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
               <img class="nr__image-container__image" src="assets/img/apikeys/no-apikey.svg" alt="no-apikey" />
             </div>
             <div class="nr__subtitle ion-padding-start ion-padding-end">
-              <ion-text class="ux-font-text-base">
+              <ion-text class="ux-font-text-base" color="uxdark">
                 {{ 'apikeys.list_apikeys.subtitle' | translate }}
               </ion-text>
             </div>
