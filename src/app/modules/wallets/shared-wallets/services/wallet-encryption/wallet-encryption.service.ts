@@ -52,6 +52,10 @@ export class WalletEncryptionService {
     });
   }
 
+  getEncryptedWallet(): Promise<any> {
+    return this.storage.get('enc_wallet');
+  }
+
   private storageStructure(encWallet) {
     return {
       alias: this.ethWallet.address,

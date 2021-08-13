@@ -7,6 +7,7 @@ import { ShareService } from '../../../shared/services/share/share.service';
 import { ClipboardService } from '../../../shared/services/clipboard/clipboard.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
 @Component({
   selector: 'app-receive',
@@ -35,8 +36,8 @@ import { TranslateService } from '@ngx-translate/core';
             [placeholder]="'wallets.receive.currency_select_modal_title' | translate"
             controlName="currency"
             [data]="this.currencies"
-            [keyName]="'name'"
-            [valueName]="'id'"
+            keyName="name"
+            valueName="value"
           ></app-ux-input-select>
         </form>
       </div>
@@ -90,7 +91,7 @@ export class ReceivePage {
     currency: ['', Validators.required],
   });
   currencies: Coin[] = COINS.filter((coin) => coin.value === 'ETH');
-  address = '0xAE28be68e2C37c2Cf7B4144cb83537Dbf48Ce8a5';
+  address: string;
   addressQr: string;
 
   constructor(
@@ -99,11 +100,24 @@ export class ReceivePage {
     private clipboardService: ClipboardService,
     private shareService: ShareService,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private walletEncryptionService: WalletEncryptionService
   ) {}
 
   ionViewWillEnter() {
-    this.generateAddressQR();
+    this.subscribeToFormChanges();
+  }
+
+  subscribeToFormChanges() {
+    this.form.valueChanges.subscribe((value) => this.getAddress(value.currency));
+    this.form.patchValue({ currency: 'ETH' });
+  }
+
+  getAddress(currency: string) {
+    this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
+      this.address = wallet.addresses[currency];
+      this.generateAddressQR();
+    });
   }
 
   async copyAddress() {
