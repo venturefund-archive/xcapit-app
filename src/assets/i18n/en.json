@@ -1233,7 +1233,10 @@
     "home": {
       "available_money": "Available money in wallet",
       "subheader_component": {
-        "title": "You haven't created your wallet yet",
+        "title_with_wallet": "Start receiving or buying.",
+        "title_without_wallet": "You haven't created your wallet yet.",
+        "receive_card": "Receive",
+        "buy_card": "Buy or Sell",
         "create_wallet_button": "Create Wallet"
       }
     },

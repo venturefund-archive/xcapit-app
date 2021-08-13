@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -20,20 +21,28 @@ import { Component, OnInit } from '@angular/core';
           </ion-text>
         </div>
       </div>
-      <div [ngClass]="'wt__subheader'">
-        <app-wallets-subheader *ngIf="this.haveWallets === false"></app-wallets-subheader>
+      <div class="wt__subheader">
+        <app-wallets-subheader [walletExist]="this.walletExist"></app-wallets-subheader>
       </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
 export class HomeWalletPage implements OnInit {
-  haveWallets = false;
+  walletExist = false;
   transactions: Array<any>;
   assets: Array<any>;
   totalBalanceWallet = 0;
   currency = 'USD';
 
-  constructor() {}
+  constructor(private walletEncryptionService: WalletEncryptionService) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.encryptedWalletExist();
+  }
+
+  encryptedWalletExist() {
+    this.walletEncryptionService.encryptedWalletExist().then((res) => (this.walletExist = res));
+  }
 }
