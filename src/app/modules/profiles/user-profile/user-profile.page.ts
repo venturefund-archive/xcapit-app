@@ -10,18 +10,12 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
     <ion-header>
       <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button
-            *ngIf="!this.editing"
-            defaultHref="/tabs/funds"
-          >
-          </ion-back-button>
+          <ion-back-button *ngIf="!this.editing" defaultHref="/tabs/funds"> </ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center" *ngIf="this.editing">{{
-          'profiles.user_profile.header' | translate
-        }}</ion-title>
+        <ion-title *ngIf="this.editing">{{ 'profiles.user_profile.header' | translate }}</ion-title>
         <ion-buttons slot="end">
           <ion-button
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
+            class="ion-padding-end"
             appTrackClick
             name="Edit Save Profile"
             (click)="this.toggleEditProfile()"
@@ -76,8 +70,8 @@ export class UserProfilePage implements OnInit {
   toggleEditProfile() {
     if (this.editing) {
       this.editProfile.save().subscribe((res) => {
-          this.getData();
-          this.editing = !this.editing;
+        this.getData();
+        this.editing = !this.editing;
       });
     } else {
       this.editing = true;
