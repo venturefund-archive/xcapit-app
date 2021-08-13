@@ -62,4 +62,8 @@ export class WalletEncryptionService {
       network: environment.walletNetwork,
     };
   }
+
+  async encryptedWalletExist(): Promise<boolean> {
+    return !!(await this.storage.get('enc_wallet'));
+  }
 }

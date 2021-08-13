@@ -1236,7 +1236,10 @@
     "home": {
       "available_money": "Dinero disponible en billetera",
       "subheader_component": {
-        "title": "Todavía no creaste tu billetera",
+        "title_with_wallet": "Empieza recibiendo o comprando.",
+        "title_without_wallet": "Todavía no creaste tu billetera.",
+        "receive_card": "Recibir",
+        "buy_card": "Compra venta",
         "create_wallet_button": "Crear Billetera"
       }
     },
