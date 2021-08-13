@@ -71,7 +71,12 @@
         "alert_required_button": "Actualizar"
       },
       "share": {
-        "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"
+        "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
+        "share_error": "Error al compartir"
+      },
+      "copy": {
+        "toast_success": "Se copió al portapapeles",
+        "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
     },
     "card_info_robot": {
@@ -1228,7 +1233,6 @@
       "submit_button": "Confirmar y aceptar",
       "error_did_not_accept": "Debes marcar todas las opciones para continuar."
     },
-
     "home": {
       "available_money": "Dinero disponible en billetera",
       "wallet-balance-title": "ACTIVOS",
@@ -1237,7 +1241,6 @@
         "create_wallet_button": "Crear Billetera"
       }
     },
-
     "select_coin": {
       "header": "Crear Billetera",
       "title": "Selecciona los activos",
@@ -1263,6 +1266,26 @@
       "title": "Verifica tu frase",
       "text1": "Toca las palabras en el orden correspondiente",
       "btn_create": "Crear Billetera"
+    },
+    "create_password": {
+      "header": "Crear Billetera",
+      "title": "Crear una contraseña",
+      "description": "La contraseña sirve para hacer tu billetera más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu billetera con las 12 palabras.",
+      "password": "Contraseña",
+      "repeat_password": "Confirmar contraseña",
+      "finish_button": "Finalizar y crear billetera"
+    },
+    "receive": {
+      "header": "Recibir",
+      "title": "Datos de tu billetera",
+      "currency_select": "Moneda",
+      "currency_select_modal_title": "Seleccionar moneda",
+      "currency_select_placeholder": "Moneda",
+      "average_time": "Tiempo promedio de llegada: 3 min.",
+      "share": "Compartir",
+      "disclaimer_header": "Envíe solo USDT a esta direción de depósito.",
+      "disclaimer_body": "Enviar otras monedas o tokens a esta dirección distintas a USDT puede resultar en la pérdida de su depósito.",
+      "share_title": "Direccion de wallet"
     }
   },
   "apikeys": {
@@ -1395,7 +1418,7 @@
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submmit": "Agregar",
+      "button_submit": "Agregar",
       "link_help": "¿Necesitas Ayuda?"
     },
     "edit_modal": {
@@ -1634,7 +1657,6 @@
       "btn_add_apikey": "Agregar Api Key"
     }
   },
-
   "payment": {
     "methods": {
       "header": "Método de pago",

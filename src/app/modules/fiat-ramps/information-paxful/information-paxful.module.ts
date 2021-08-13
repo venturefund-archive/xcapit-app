@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-
 import { InformationPaxfulPage } from './information-paxful.page';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
+import { SharedRampsModule } from '../shared-ramps/shared-ramps.module';
 
 const routes: Routes = [
   {
@@ -12,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(routes)],
+  imports: [SharedRampsModule, RouterModule.forChild(routes)],
   declarations: [InformationPaxfulPage],
 })
 export class InformationPaxfulPageModule {}

@@ -24,13 +24,13 @@ export class RecoveryPhraseCardComponent implements OnInit {
   @Input() clickable = false;
   @Output() useButtonClicked: EventEmitter<string> = new EventEmitter<string>();
   phraseCopy: string[];
-  @Input() phrase: string[];
+  @Input() set phrase(phrase: string[]) {
+    this.phraseCopy = [...phrase];
+  }
 
   constructor() {}
 
   ngOnInit() {
-    this.phraseCopy = [...this.phrase];
-
     if (this.ordered) {
       this.sortPhrase();
     }

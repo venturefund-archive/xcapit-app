@@ -11,7 +11,7 @@ import { Storage } from '@ionic/storage';
       <div class="main">
         <div class="main__close_button">
           <ion-button fill="clear" appTrackClickUnauth name="Close Resend Email" (click)="this.close()">
-            <ion-icon class="main__close_button__icon" name="ux-close" color="uxmedium"></ion-icon>
+            <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
           </ion-button>
         </div>
         <div class="main__ux_success_image">

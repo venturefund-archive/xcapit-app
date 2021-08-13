@@ -20,7 +20,7 @@ import { NavController } from '@ionic/angular';
             </ion-text>
           </div>
           <div class="item second">
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxmedium">{{
+            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">{{
               'funds.funds_finished.fund_finished_card.take_profit' | translate
             }}</ion-text>
             <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxdark"
@@ -30,7 +30,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="ffc__content__right">
           <div class="item">
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxmedium">{{
+            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">{{
               'funds.funds_finished.fund_finished_card.risk' | translate
             }}</ion-text>
             <ion-text
@@ -41,7 +41,7 @@ import { NavController } from '@ionic/angular';
             >
           </div>
           <div class="item second">
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxmedium">{{
+            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">{{
               'funds.funds_finished.fund_finished_card.stop_loss' | translate
             }}</ion-text>
             <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxdark"

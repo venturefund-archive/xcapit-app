@@ -19,7 +19,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           <ion-text>
             {{ this.fund?.fund_name }}
           </ion-text>
-          <ion-text class="fc__main__title__strategy" color="uxmedium">
+          <ion-text class="fc__main__title__strategy" color="uxsemidark">
             {{ this.fund?.profile | strategyName }}
           </ion-text>
         </div>
@@ -46,7 +46,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
               </ion-text>
             </div>
             <div class="ux-font-lato ux-fweight-regular ux-fsize-12">
-              <ion-text color="uxmedium">
+              <ion-text color="uxsemidark">
                 {{ 'funds.fund_card.current_capital' | translate }}
               </ion-text>
             </div>
@@ -78,7 +78,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
               </ion-text>
             </div>
             <div class="ux-font-lato ux-fweight-regular ux-fsize-12 fc__main__content__right__flex">
-              <ion-text color="uxmedium">
+              <ion-text color="uxsemidark">
                 {{
                   'funds.fund_card.' + this.createdTime[0]
                     | translate

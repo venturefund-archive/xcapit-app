@@ -25,7 +25,7 @@ const { Browser } = Plugins;
               </div>
             </div>
             <div class="mc__content__description">
-              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxmedium">{{
+              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">{{
                 this.paymentMethod?.description | translate
               }}</ion-text>
             </div>
@@ -37,7 +37,7 @@ const { Browser } = Plugins;
               *ngIf="this.paymentMethod?.status === 'active'"
               name="Payment Method Select"
               fill="clear"
-              color="uxmedium"
+              color="uxsemidark"
               size="small"
               slot="end"
               class="ux-font-lato ux-fweight-semibold ux-fsize-14"

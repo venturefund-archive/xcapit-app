@@ -34,7 +34,7 @@
       border-bottom: 1px solid #0000000a;
 
       &__fund_text {
-        color: rgba(186, 186, 186, 1);
+        color: var(--ion-color-uxmedium);
         font-weight: 400;
       }
       &__content {
@@ -57,13 +57,12 @@
       &__used_key {
         padding-top: 16px;
         padding-right: 16px;
-        color: rgba(33, 221, 98, 1);
       }
 
       &__buttons {
         &__removeButton {
           margin-right: auto;
-          color: rgba(186, 186, 186, 1);
+          color: var(--ion-color-uxmedium);
           font-size: 16px;
         }
       }

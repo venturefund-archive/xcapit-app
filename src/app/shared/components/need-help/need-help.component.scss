@@ -15,5 +15,9 @@
         width: 28px;
       }
     }
+    &__link {
+      display: flex;
+      justify-content: center;
+    }
   }
 }

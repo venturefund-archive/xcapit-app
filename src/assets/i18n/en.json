@@ -62,7 +62,8 @@
   "shared": {
     "services": {
       "share": {
-        "copy_text": "The subscription link has been copied to the clipboard."
+        "copy_text": "The subscription link has been copied to the clipboard.",
+        "share_error": "Share error"
       },
       "update_pwa_service": {
         "alert_header": "Update available",
@@ -72,6 +73,10 @@
         "alert_required_header": "Update Required",
         "alert_required_text": "An update of the application is necessary to continue using it.",
         "alert_required_button": "Update"
+      },
+      "copy": {
+        "toast_success": "Copied to the clipboard",
+        "toast_error": "Could not be copied to the clipboard"
       }
     },
     "card_info_robot": {
@@ -1137,7 +1142,6 @@
       "i_agree_button": "I agree"
     }
   },
-
   "referrals": {
     "new_referral": {
       "header": "Refer",
@@ -1226,7 +1230,6 @@
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."
     },
-
     "home": {
       "available_money": "Available money in wallet",
       "wallet-balance-title": "ASSETS",
@@ -1235,14 +1238,12 @@
         "create_wallet_button": "Create Wallet"
       }
     },
-
     "select_coin": {
       "header": "Create Wallet",
       "title": "Select assets",
       "subtitle": "Choose the assets you want to view in your wallet",
       "select_all": "Select all currencies"
     },
-
     "success_creation": {
       "title": "Nice! your wallet is now created and your recovery phrase is verified",
       "subtitle": "Keep it in a safe place, if possible, without an internet connection",
@@ -1262,6 +1263,26 @@
       "title": "Check your phrase",
       "text1": "Tap the words in the corresponding order",
       "btn_create": "Create Wallet"
+    },
+    "create_password": {
+      "header": "Create Wallet",
+      "title": "Create a password",
+      "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
+      "password": "Password",
+      "repeat_password": "Confirm Password",
+      "finish_button": "Finish and create wallet"
+    },
+    "receive": {
+      "header": "Receive",
+      "title": "Your wallet information",
+      "currency_select": "Currency",
+      "currency_select_modal_title": "Select currency",
+      "currency_select_placeholder": "Currency",
+      "average_time": "Average receive time: 3 min.",
+      "share": "Share",
+      "disclaimer_header": "Send only USDT to this deposit address.",
+      "disclaimer_body": "Sending other coins or tokens to this address other than USDT may result in the loss of your deposit.",
+      "share_title": "Wallet address"
     }
   },
   "apikeys": {
@@ -1317,7 +1338,7 @@
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submmit": "Submmit",
+      "button_submit": "Submit",
       "link_help": "Need Help?"
     },
     "register_success_begginer": {
@@ -1546,8 +1567,10 @@
     "register": {
       "header": "Register Kripton market",
       "header_bank": "Bank account information",
-      "description": "Completa el siguiente formulario para registrarte con nuestro proveedor Kripton Market",
-      "description_bank": "Completa tus datos bancarios con los cuales operarás con el proveedor",
+      "header_images": "Upload Images",
+      "description": "Complete the following form to register with our provider Kripton Market",
+      "description_bank": "Complete your bank details with which you will operate with the provider",
+      "description_images": "Upload the following images to finish the registration.",
       "first_name": "Name",
       "last_name": "Lastname",
       "nationality": "Nationality",
@@ -1571,7 +1594,8 @@
       "not_politically": "Not politically exposed",
       "not_bound": "Subject not bound",
       "tos": "Terms and conditions",
-      "register": "Next",
+      "register": "Finalize",
+      "next": "Next",
       "marital_status_list": {
         "married": "Married",
         "single": "Single",

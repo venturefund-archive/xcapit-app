@@ -32,7 +32,7 @@ const { Browser } = Plugins;
             </ion-text>
           </div>
           <div class="info_text">
-            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">
               {{ 'fiat_ramps.paxful.text' | translate }}
             </ion-text>
           </div>
