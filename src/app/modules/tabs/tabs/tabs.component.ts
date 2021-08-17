@@ -8,22 +8,22 @@ import { MenuController, NavController } from '@ionic/angular';
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="funds" appTrackClick name="Tab Home">
           <ion-icon src="assets/img/tabs/Home.svg"></ion-icon>
-          <ion-label>{{ 'tabs.home' | translate }}</ion-label>
+          <ion-label class="label ux-font-text-xs">{{ 'tabs.home' | translate }}</ion-label>
         </ion-tab-button>
 
         <ion-tab-button (click)="this.goToNewFund()" appTrackClick name="Tab New Fund">
           <ion-icon src="assets/img/tabs/Trending-up.svg"></ion-icon>
-          <ion-label>{{ 'tabs.new_fund' | translate }}</ion-label>
+          <ion-label class="label ux-font-text-xs">{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
 
         <ion-tab-button (click)="this.goToWallet()" tab="wallets" appTrackClick name="Tab Wallet">
           <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
-          <ion-label>{{ 'tabs.wallet' | translate }}</ion-label>
+          <ion-label class="label ux-font-text-xs">{{ 'tabs.wallet' | translate }}</ion-label>
         </ion-tab-button>
 
         <ion-tab-button (click)="showMenu()" appTrackClick name="Tab Menu">
           <ion-icon src="assets/img/tabs/Menu.svg"></ion-icon>
-          <ion-label>{{ 'tabs.menu' | translate }}</ion-label>
+          <ion-label class="label ux-font-text-xs">{{ 'tabs.menu' | translate }}</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
