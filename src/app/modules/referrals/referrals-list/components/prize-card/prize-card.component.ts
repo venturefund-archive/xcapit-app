@@ -9,9 +9,7 @@ import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-
     <div class="pcc__content">
       <div class="pcc__content__left">
         <div class="prizes">
-          <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14" color="uxsemidark">{{
-            '$' + this.accumulatedMoney
-          }}</ion-text>
+          <ion-text class="ux-font-text-base">{{ '$' + this.accumulatedMoney }}</ion-text>
         </div>
       </div>
       <div class="pcc__content__right">
