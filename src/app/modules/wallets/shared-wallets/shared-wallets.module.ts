@@ -5,14 +5,14 @@ import { RecoveryWordComponent } from './components/recovery-word/recovery-word.
 import { WalletBalanceCardItemComponent } from './components/wallet-balance-card-item/wallet-balance-card-item.component';
 import { WalletBalanceCardComponent } from './components/wallet-balance-card/wallet-balance-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
+import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
 
 @NgModule({
   declarations: [
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
-    WalletBalanceCardItemComponent,
-    WalletBalanceCardComponent,
+    IconButtonCardComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -20,8 +20,7 @@ import { WalletsSubheaderComponent } from './components/wallets-subheader/wallet
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
-    WalletBalanceCardItemComponent,
-    WalletBalanceCardComponent,
+    IconButtonCardComponent,
   ],
 })
 export class SharedWalletsModule {}

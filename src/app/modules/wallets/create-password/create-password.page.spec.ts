@@ -33,7 +33,7 @@ describe('CreatePasswordPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage],
-      imports: [IonicModule.forRoot(), ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
+      imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
       providers: [
         UrlSerializer,
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },

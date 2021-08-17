@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
-import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -22,26 +22,14 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
           </ion-text>
         </div>
       </div>
-      <div *ngIf="!this.haveWallets" class="wt__subheader">
-        <app-wallets-subheader></app-wallets-subheader>
-      </div>
-
-      <!-- Assets list -->
-      <div class="wt__balance ion-padding-start ion-padding-end" *ngIf="this.haveWallets && this.balances?.length">
-        <div div class="wt__balance__title">
-          <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
-            {{ 'wallets.home.wallet-balance-title' | translate }}
-          </ion-label>
-        </div>
-        <div class="wt__balance__wallet-balance-card">
-          <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
-        </div>
+      <div class="wt__subheader">
+        <app-wallets-subheader [walletExist]="this.walletExist"></app-wallets-subheader>
       </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
 export class HomeWalletPage implements OnInit {
-  haveWallets = true;
+  walletExist = false;
   transactions: Array<any>;
   totalBalanceWallet = 0;
   walletAddress = '0xAE28be68e2C37c2Cf7B4144cb83537Dbf48Ce8a5';
@@ -56,17 +44,15 @@ export class HomeWalletPage implements OnInit {
     },
   ];
 
-  constructor(private walletService: WalletService) {}
+  constructor(private walletEncryptionService: WalletEncryptionService) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.getWalletBalance();
+    this.encryptedWalletExist();
   }
 
-  getWalletBalance() {
-    this.walletService.balanceOf(this.walletAddress).then((balance) => {
-      this.balances[0].amount = this.totalBalanceWallet = parseFloat(balance);
-    });
+  encryptedWalletExist() {
+    this.walletEncryptionService.encryptedWalletExist().then((res) => (this.walletExist = res));
   }
 }
