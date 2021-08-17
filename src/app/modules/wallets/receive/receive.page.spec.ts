@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ReceivePage } from './receive.page';
 import { QRCodeService } from '../../../shared/services/qr-code/qr-code.service';
@@ -13,6 +13,18 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { TrackClickDirective } from '../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+
+const testCurrencies: Coin[] = [
+  {
+    id: 4,
+    name: 'ETH - Ethereum',
+    logoRoute: '../../assets/img/coins/ETH.svg',
+    last: true,
+    value: 'ETH',
+  },
+];
 
 describe('ReceivePage', () => {
   let component: ReceivePage;
@@ -24,6 +36,8 @@ describe('ReceivePage', () => {
   let shareServiceMock;
   let shareService: ShareService;
   let toastServiceMock;
+  let walletEncryptionService: WalletEncryptionService;
+  let walletEncryptionServiceMock;
   let toastService: ToastService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReceivePage>;
 
@@ -41,6 +55,9 @@ describe('ReceivePage', () => {
       toastServiceMock = {
         showToast: () => Promise.resolve(),
       };
+      walletEncryptionServiceMock = {
+        getEncryptedWallet: () => Promise.resolve({ addresses: { ETH: 'test_address' } }),
+      };
       TestBed.configureTestingModule({
         declarations: [ReceivePage, TrackClickDirective],
         imports: [
@@ -55,6 +72,7 @@ describe('ReceivePage', () => {
           { provide: ClipboardService, useValue: clipboardServiceMock },
           { provide: ShareService, useValue: shareServiceMock },
           { provide: ToastService, useValue: toastServiceMock },
+          { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -62,11 +80,13 @@ describe('ReceivePage', () => {
       fixture = TestBed.createComponent(ReceivePage);
       component = fixture.componentInstance;
       component.address = 'test_address';
+      component.currencies = testCurrencies;
       fixture.detectChanges();
       qrCodeService = TestBed.inject(QRCodeService);
       clipboardService = TestBed.inject(ClipboardService);
       shareService = TestBed.inject(ShareService);
       toastService = TestBed.inject(ToastService);
+      walletEncryptionService = TestBed.inject(WalletEncryptionService);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -77,13 +97,13 @@ describe('ReceivePage', () => {
 
   it('should generate QR with address on enter page', async () => {
     const spy = spyOn(qrCodeService, 'generateQRFromText').and.callThrough();
-
     await component.ionViewWillEnter();
-
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith('test_address');
-    expect(component.addressQr).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('#qr-img')));
+    fixture.whenStable().then(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith('test_address');
+      expect(component.addressQr).toBeTruthy();
+      expect(fixture.debugElement.query(By.css('#qr-img')));
+    });
   });
 
   it('should copy address when click in copy button', async () => {
