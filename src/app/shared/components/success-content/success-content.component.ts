@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
         <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
       </div>
       <div class="main__secondary_text">
-        <app-ux-text>{{ this.data?.textSecondary | translate }}</app-ux-text>
+        <ion-text class="ux-font-text-base" color="uxsemidark">{{ this.data?.textSecondary | translate }}</ion-text>
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">

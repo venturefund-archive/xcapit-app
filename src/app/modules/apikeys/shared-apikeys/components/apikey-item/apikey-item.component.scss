@@ -29,6 +29,7 @@
       &__content {
         &__title {
           font-weight: var(--ux-fweight-semibold);
+          font-size: var(--ux-fsize-15);
         }
         &__text {
           font-weight: var(--ux-fweight-regular);
@@ -57,7 +58,6 @@
         &__removeButton {
           margin-top: 9.4px;
           margin-right: auto;
-          color: rgba(186, 186, 186, 1);
         }
       }
     }

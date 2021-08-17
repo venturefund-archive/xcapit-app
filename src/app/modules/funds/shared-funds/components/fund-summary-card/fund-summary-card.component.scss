@@ -24,11 +24,10 @@
         justify-content: flex-end;
         align-items: flex-start;
         &__fund_name {
-          color: var(--ion-color-uxdark);
+          font-weight: var(--ux-fweight-semibold);
         }
         &__actual_ammount {
           font-weight: var(--ux-fweight-regular);
-          color: var(--ion-color-uxdark);
         }
         // Con esto logro que cada item (menos el primero) se separe por 4px
         & > *:not(:first-child) {

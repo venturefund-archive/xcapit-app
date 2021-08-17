@@ -6,8 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { Currency } from '../../enums/currency.enum';
-import { ApiFundsService } from '../../services/api-funds/api-funds.service';
-import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
 
 @Component({
   selector: 'app-fund-summary-card',
@@ -16,7 +14,7 @@ import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
       <div class="fsc__content">
         <div class="fsc__content__left">
           <div class="fund-name">
-            <ion-text class="ux-font-text-xxs fsc__content__left__fund_name">{{
+            <ion-text class="ux-font-text-xxs fsc__content__left__fund_name" color="uxdark">{{
               this.summary?.fund.nombre_bot
             }}</ion-text>
           </div>
@@ -33,8 +31,8 @@ import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
                   | hideText: this.hideFundText
               }}
             </ion-text>
-            <ion-text class="ux-font-text-base"> ≈ </ion-text>
-            <ion-text class="ux-font-text-base">
+            <ion-text class="ux-font-text-base" color="uxdark"> ≈ </ion-text>
+            <ion-text class="ux-font-text-base" color="uxdark">
               {{
                 this.totalSecond
                   | currencyFormat
@@ -48,7 +46,7 @@ import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
             </ion-text>
           </div>
           <div class="actual-text">
-            <ion-text class="ux-font-text-xxs fsc__content__left__actual_ammount">{{
+            <ion-text class="ux-font-text-xxs fsc__content__left__actual_ammount" color="uxdark">{{
               'funds.fund_detail.fund_summary_card.actual_amount' | translate
             }}</ion-text>
           </div>

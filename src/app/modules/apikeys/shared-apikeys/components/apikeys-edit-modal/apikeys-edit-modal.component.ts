@@ -20,7 +20,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
   template: `
     <div class="change_alias">
       <div class="change_alias__header">
-        <ion-text class="ux-font-text-lg change_alias__header__text">
+        <ion-text class="ux-font-text-lg change_alias__header__text" color="uxdark">
           {{ 'apikeys.edit_modal.title' | translate }}
         </ion-text>
         <ion-button
@@ -39,7 +39,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
 
         <div>
           <div class="change_alias__description">
-            <ion-text class="ux-font-text'xxs" color="uxsemidark">
+            <ion-text class="ux-font-text'xxs" color="uxmedium">
               {{ 'apikeys.edit_modal.description' | translate }}
             </ion-text>
           </div>

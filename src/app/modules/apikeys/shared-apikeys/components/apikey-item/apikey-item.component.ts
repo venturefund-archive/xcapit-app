@@ -28,11 +28,11 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
             </ion-button>
           </div>
           <div class="cib__main__content__text ux-font-text-xxs">
-            <ion-text *ngIf="this.fundName" color="uxdark">
+            <ion-text *ngIf="this.fundName" color="uxsemidark">
               {{ 'apikeys.card_apikeys.content' | translate }}
               {{ this.fundName }}
             </ion-text>
-            <ion-text *ngIf="!this.fundName" color="uxdark">
+            <ion-text *ngIf="!this.fundName" color="uxsemidark">
               {{ 'apikeys.card_apikeys.no_fund_text' | translate }}
             </ion-text>
           </div>
@@ -49,7 +49,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           class="cib__footer__buttons__removeButton"
           (click)="showAlert(this.id)"
         >
-          <ion-icon name="trash-sharp" class="ux-font-text-xs" color="uxdark"></ion-icon>
+          <ion-icon name="trash-sharp" class="ux-font-text-xs" color="uxsemidark"></ion-icon>
         </ion-button>
         <ion-button
           *ngIf="!this.fundName"
@@ -120,6 +120,7 @@ export class ApikeyItemComponent implements OnInit {
     const alert = await this.alertController.create({
       header: this.translate.instant('apikeys.card_apikeys.confirmation_alert.header'),
       message: this.translate.instant('apikeys.card_apikeys.confirmation_alert.message'),
+      cssClass: 'ux-alert-small-text',
       buttons: [
         {
           text: this.translate.instant('apikeys.card_apikeys.confirmation_alert.cancel_button'),
