@@ -1288,6 +1288,12 @@
       "disclaimer_header": "Envíe solo USDT a esta direción de depósito.",
       "disclaimer_body": "Enviar otras monedas o tokens a esta dirección distintas a USDT puede resultar en la pérdida de su depósito.",
       "share_title": "Direccion de wallet"
+    },
+    "send": {
+      "select_currency": {
+        "header": "Enviar",
+        "title": "Selecciona moneda"
+      }
     }
   },
   "apikeys": {

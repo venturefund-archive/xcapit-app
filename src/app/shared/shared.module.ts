@@ -26,7 +26,6 @@ import { UxCardInfoRobotComponent } from './components/ux-card-info-robot/ux-car
 import { UxListComponent } from './components/ux-list/ux-list.component';
 import { UxSelectModalComponent } from './components/ux-select-modal/ux-select-modal.component';
 import { UxInputSelectComponent } from './components/ux-input-select/ux-input-select.component';
-import { UxSelectableListComponent } from './components/ux-selectable-list/ux-selectable-list.component';
 import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
 import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loading-block.component';
 import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
@@ -37,6 +36,7 @@ import { UxDatetimeComponent } from './components/ux-datetime/ux-datetime.compon
 import { NeedHelpComponent } from './components/need-help/need-help.component';
 import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
+import { UxListCardComponent } from './components/ux-list-card/ux-list-card.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +63,7 @@ import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-a
     UxListInvertedComponent,
     UxSelectModalComponent,
     UxInputSelectComponent,
-    UxSelectableListComponent,
+    UxListCardComponent,
     UxLoadingBlockComponent,
     BinanceLogoComponent,
     SuccessContentComponent,
@@ -113,7 +113,7 @@ import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-a
     UxListInvertedComponent,
     UxSelectModalComponent,
     UxInputSelectComponent,
-    UxSelectableListComponent,
+    UxListCardComponent,
     UxLoadingBlockComponent,
     BinanceLogoComponent,
     SuccessContentComponent,
