@@ -13,6 +13,8 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     RecoveryWordComponent,
     WalletsSubheaderComponent,
     IconButtonCardComponent,
+    WalletBalanceCardComponent,
+    WalletBalanceCardItemComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -21,6 +23,8 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     RecoveryWordComponent,
     WalletsSubheaderComponent,
     IconButtonCardComponent,
+    WalletBalanceCardComponent,
+    WalletBalanceCardItemComponent,
   ],
 })
 export class SharedWalletsModule {}

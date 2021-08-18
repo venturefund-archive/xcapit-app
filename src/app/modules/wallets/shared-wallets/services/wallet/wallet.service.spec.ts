@@ -104,6 +104,7 @@ describe('WalletService', () => {
     spyOn(service, 'selectedCoins').and.returnValue(true);
     walletMnemonicService.mnemonic = testMnemonic;
     languageService.selected = 'en';
+    service.coins = testCoins.valid;
     const spy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
     service.create();
     expect(service.createdWallets).toEqual(testCreatedWallets);
@@ -137,8 +138,8 @@ describe('WalletService', () => {
 
   it('should call provider get balance when balanceOf is called', async () => {
     const spy = spyOn(blockchainProviderService, 'getFormattedBalanceOf').and.returnValue(Promise.resolve('20'));
-    const response = service.balanceOf('testAddress');
-    expect(spy).toHaveBeenCalledWith('testAddress');
+    const response = service.balanceOf('testAddress', 'testCoin');
+    expect(spy).toHaveBeenCalledWith('testAddress', 'testCoin');
     await expectAsync(response).toBeResolvedTo('20');
   });
 });

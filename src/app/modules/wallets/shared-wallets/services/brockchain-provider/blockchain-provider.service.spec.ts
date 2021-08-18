@@ -1,6 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { BlockchainProviderService } from './blockchain-provider.service';
 import { BigNumber } from 'ethers';
+import { Coin } from '../../interfaces/coin.interface';
+
+const COINS: Coin[] = [
+  {
+    id: 1,
+    name: 'coinTest',
+    logoRoute: '../../assets/img/coins/ETH.svg',
+    last: false,
+    value: 'ETH',
+    network: 'ETH',
+    rpc: 'http://testrpc.test',
+  },
+];
 
 describe('BlockchainProviderService', () => {
   let service: BlockchainProviderService;
@@ -25,7 +38,8 @@ describe('BlockchainProviderService', () => {
   });
 
   it('should call provider get balance and format output when formattedBalanceOf is called', async () => {
-    const response = service.getFormattedBalanceOf('testAddress');
+    spyOn(service, 'getProvider').and.returnValue(providerMock);
+    const response = service.getFormattedBalanceOf('testAddress', 'coinTest');
     await expectAsync(response).toBeResolvedTo('1.152921504606846975');
   });
 });
