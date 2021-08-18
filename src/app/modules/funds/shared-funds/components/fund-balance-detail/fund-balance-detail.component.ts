@@ -6,21 +6,14 @@ import { Router } from '@angular/router';
   selector: 'app-fund-balance-detail',
   template: `
     <div class="fbd__header">
-      <ion-text
-        class="fbd__header__text ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
-      >
-        {{
-          'funds.fund_detail.fund_portfolio_card.fund_balance_detail_title'
-            | translate
-        }}
+      <ion-text class="fbd__header__text ux-font-text-lg">
+        {{ 'funds.fund_detail.fund_portfolio_card.fund_balance_detail_title' | translate }}
       </ion-text>
       <ion-button
         appTrackClick
         name="Close"
         [dataToTrack]="{
-          description:
-            'funds.fund_detail.fund_portfolio_card.fund_balance_detail_title'
-            | translate
+          description: 'funds.fund_detail.fund_portfolio_card.fund_balance_detail_title' | translate
         }"
         (click)="this.close()"
         fill="clear"
@@ -41,22 +34,13 @@ import { Router } from '@angular/router';
           ></app-fund-balance-detail-item>
         </div>
         <div class="fbd__content__dates ion-padding">
-          <ion-text
-            class="ux-font-lato ux-fweight-regular ux-fsize-14"
-            color="uxsemidark"
+          <ion-text class="ux-font-text-xxs" color="uxmedium">
+            {{ 'funds.fund_detail.fund_portfolio_card.fund_balance_detail_period_begin' | translate }}:
+            {{ this.startDate | date: 'dd/MM/yyyy' }}</ion-text
           >
-            {{
-              'funds.fund_detail.fund_portfolio_card.fund_balance_detail_period_begin'
-                | translate
-            }}: {{ this.startDate | date: 'dd/MM/yyyy' }}</ion-text
-          >
-          <ion-text
-            class="ux-font-lato ux-fweight-regular ux-fsize-14"
-            color="uxsemidark"
-            >{{
-              'funds.fund_detail.fund_portfolio_card.fund_balance_detail_last_update'
-                | translate
-            }}: {{ this.endDate | date: 'dd/MM/yyyy' }}
+          <ion-text class="ux-font-text-xxs" color="uxmedium"
+            >{{ 'funds.fund_detail.fund_portfolio_card.fund_balance_detail_last_update' | translate }}:
+            {{ this.endDate | date: 'dd/MM/yyyy' }}
           </ion-text>
         </div>
         <div class="fbd__content__history ion-padding" *ngIf="this.isOwner">
@@ -65,9 +49,9 @@ import { Router } from '@angular/router';
             (click)="this.viewOperations()"
             fill="clear"
             size="small"
-            class="fbd__content__history__button ux-font-lato ux-fweight-semibold ux-fsize-14"
+            class="fbd__content__history__button ux-font-button-small"
           >
-          {{'funds.fund_detail.fund_portfolio_card.view_operation_history'| translate}}
+            {{ 'funds.fund_detail.fund_portfolio_card.view_operation_history' | translate }}
           </ion-button>
         </div>
       </div>
@@ -83,10 +67,7 @@ export class FundBalanceDetailComponent implements OnInit {
   fundName: string;
   isOwner: any;
 
-  constructor(
-    private modalController: ModalController,
-    private router: Router
-  ) {}
+  constructor(private modalController: ModalController, private router: Router) {}
 
   ngOnInit() {}
 

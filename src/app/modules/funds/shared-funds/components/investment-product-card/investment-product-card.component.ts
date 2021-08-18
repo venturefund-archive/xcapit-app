@@ -13,12 +13,10 @@ const { Browser } = Plugins;
       <div class="ipc__content">
         <div class="ipc__content__title_and_risk">
           <div>
-            <ion-text class="ux-font-gilroy ux-fweight-bold ux-fsize-22" color="uxlight">{{
-              this.productData?.title
-            }}</ion-text>
+            <ion-text class="ux-font-header-titulo" color="uxlight">{{ this.productData?.title }}</ion-text>
           </div>
           <div class="ipc__content__title_and_risk__risk_container">
-            <ion-text class="ux-font-gilroy ux-fweight-semibold ux-fsize-12" color="uxlight">{{
+            <ion-text class="ux-font-header-titulo" color="uxlight">{{
               'funds.fund_investment.card.risk_label' | translate
             }}</ion-text>
 
@@ -35,30 +33,26 @@ const { Browser } = Plugins;
           </div>
         </div>
         <div class="ipc__content__description">
-          <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxlight">{{
-            this.productData?.description | translate
-          }}</ion-text>
+          <ion-text class="ux-font-text-xs" color="uxlight">{{ this.productData?.description | translate }}</ion-text>
         </div>
         <div class="ipc__content__capital_and_info">
           <div class="ipc__content__capital_and_info__capital">
             <div class="ipc__content__capital_and_info__capital__number">
               <ion-label>
-                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-18" color="uxlight"
-                  >{{ this.productData?.min_capital }}
-                </ion-text>
-                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxlight">{{
+                <ion-text class="ux-font-text-regular" color="uxlight">{{ this.productData?.min_capital }} </ion-text>
+                <ion-text class="ux-font-text-xxs" color="uxlight">{{
                   'funds.fund_investment.card.currency' | translate
                 }}</ion-text>
               </ion-label>
             </div>
             <div class="ipc__content__capital_and_info__capital__label">
-              <ion-text class="ux-font-lato ux-fweight-semibold" color="uxlight">{{
+              <ion-text class="ux-font-text-regular" color="uxlight">{{
                 'funds.fund_investment.card.min_capital_label' | translate
               }}</ion-text>
             </div>
           </div>
           <div class="ipc__content__capital_and_info__info">
-            <ion-text (click)="this.moreInfo()" class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxlight">{{
+            <ion-text (click)="this.moreInfo()" class="ux-font-button-small" color="uxlight">{{
               'funds.fund_investment.card.more_info' | translate
             }}</ion-text>
           </div>
@@ -77,21 +71,19 @@ const { Browser } = Plugins;
                 currency: this.productData.currency
               })
             "
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14"
+            class="ux-font-button-small"
           >
             {{ 'funds.fund_investment.card.invest_button' | translate }}
           </ion-button>
         </div>
         <div class="ipc__footer__last_year_revenue">
           <div class="ipc__footer__last_year_revenue__label">
-            <ion-text class="ux-font-lato ux-fweight-semibold" color="uxlight">{{
+            <ion-text class="ux-font-text-regular" color="uxlight">{{
               'funds.fund_investment.card.last_year_revenue' | translate
             }}</ion-text>
           </div>
           <div class="ipc__footer__last_year_revenue__value_and_icon">
-            <ion-text class="ux-font-gilroy ux-fweight-bold ux-fsize-18" color="uxlight"
-              >+{{ this.productData?.percentage }}%
-            </ion-text>
+            <ion-text class="ux-font-text-lg" color="uxlight">+{{ this.productData?.percentage }}% </ion-text>
             <ion-icon
               *ngIf="this.productData.currency === 'USDT'"
               class="ipc__footer__last_year_revenue__value_and_icon__icon"

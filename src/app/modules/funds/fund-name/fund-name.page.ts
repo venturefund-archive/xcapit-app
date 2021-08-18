@@ -13,22 +13,14 @@ import { NavController } from '@ionic/angular';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/profiles/success"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'funds.fund_name.header' | translate
-        }}</ion-title>
+        <ion-title>{{ 'funds.fund_name.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <form
-        [formGroup]="this.form"
-        (ngSubmit)="this.handleSubmit()"
-        class="ux_main"
-      >
+      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
         <div class="ux_content">
           <div class="fn__title">
-            <app-ux-title>{{
-              'funds.fund_name.title' | translate
-            }}</app-ux-title>
+            <app-ux-title>{{ 'funds.fund_name.title' | translate }}</app-ux-title>
           </div>
           <div class="fn__text_before">
             <app-ux-text>
@@ -41,9 +33,7 @@ import { NavController } from '@ionic/angular';
               type="text"
               inputmode="text"
               [label]="'funds.fund_name.fund_name' | translate"
-              [placeholder]="
-                'funds.fund_name.fund_name_placeholder' | translate
-              "
+              [placeholder]="'funds.fund_name.fund_name_placeholder' | translate"
             ></app-ux-input>
           </div>
         </div>
@@ -56,7 +46,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="(this.submitButtonService.isDisabled | async)"
+              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'funds.fund_name.next_button' | translate }}
             </ion-button>
@@ -65,14 +55,14 @@ import { NavController } from '@ionic/angular';
       </form>
     </ion-content>
   `,
-  styleUrls: ['./fund-name.page.scss']
+  styleUrls: ['./fund-name.page.scss'],
 })
 export class FundNamePage implements OnInit {
   form: FormGroup = this.formBuilder.group({
     fund_name: [
       '',
-      [Validators.required, Validators.minLength(2), Validators.maxLength(100), Validators.pattern('^[a-zA-Z0-9]*')]
-    ]
+      [Validators.required, Validators.minLength(2), Validators.maxLength(100), Validators.pattern('^[a-zA-Z0-9]*')],
+    ],
   });
 
   constructor(
@@ -83,7 +73,7 @@ export class FundNamePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fundDataStorage.getData('fundName').then(data => {
+    this.fundDataStorage.getData('fundName').then((data) => {
       if (data) {
         this.form.patchValue(data);
       }

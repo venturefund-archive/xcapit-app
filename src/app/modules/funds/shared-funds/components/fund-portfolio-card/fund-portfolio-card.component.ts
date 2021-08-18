@@ -22,19 +22,17 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             <div class="by-currency__item" *ngFor="let p of this.orderedPortfolio | slice: 0:3">
               <div class="by-currency__item__left">
                 <div class="color" [style.background-color]="p.color"></div>
-                <ion-text class="text ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark"
-                  >{{ p.ca }}
-                </ion-text>
+                <ion-text class="semibold text ux-font-text-xs" color="uxdark">{{ p.ca }} </ion-text>
               </div>
               <div>
-                <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark"
+                <ion-text class="semibold text ux-font-text-xs" color="uxdark"
                   >{{ p.percentage | number: '1.0-2' }} %</ion-text
                 >
               </div>
             </div>
           </div>
           <div class="base">
-            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22" color="uxdark">
+            <ion-text class="ux-font-text-xl" color="uxdark">
               {{
                 this.totalBase
                   | currencyFormat
@@ -48,7 +46,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             </ion-text>
           </div>
           <div class="base" style="margin-top:0px">
-            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-18" color="uxdark">
+            <ion-text class="ux-font-text-lg" color="uxsemidark">
               {{
                 this.totalSecond
                   | currencyFormat
@@ -69,7 +67,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           name="View Details"
           fill="clear"
           size="small"
-          class="fpc__footer__details-button ux-font-lato ux-fweight-semibold ux-fsize-14"
+          class="fpc__footer__details-button ux-font-button-small"
         >
           {{ 'funds.fund_detail.fund_portfolio_card.view_detail' | translate }}
           <ion-icon slot="end" name="ux-forward"></ion-icon>

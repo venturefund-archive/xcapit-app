@@ -84,15 +84,13 @@ import { Currency } from '../shared-funds/enums/currency.enum';
           </ion-text>
         </div>
         <app-ux-loading-block *ngIf="!this.fundResume || !this.fundSettings" minSize="40px"></app-ux-loading-block>
-        <!--TODO: Restore this *ngIf="this.fundResume && this.fundSettings" -->
         <app-fund-metrics-card
-          *ngIf="true"
+          *ngIf="this.fundResume && this.fundSettings"
           [resume]="this.fundResume"
           [settings]="this.fundSettings"
         ></app-fund-metrics-card>
       </div>
 
-      <!--TODO: QUEDÉ ACÁ -->
       <!-- Fund Portfolio Card -->
       <div class="fd__fund-portfolio-card">
         <div class="fd__fund-portfolio-card__title">
@@ -131,13 +129,8 @@ export class FundDetailPage implements OnInit {
   fundBalance: any;
   fundPercentageEvolution: FundPercentageEvolutionChartInterface;
   profitGraphCardInfo$: Observable<any>;
-  fundResume: any = {
-    startTime: '',
-    endTime: '',
-  }; // TODO: Remove this
-  fundSettings: any = {
-    currency: 'btc',
-  }; // TODO: Remove this
+  fundResume: any;
+  fundSettings: any;
   fundPortfolio: Array<any>;
   fundTimeline: Array<any>;
   currency: string;

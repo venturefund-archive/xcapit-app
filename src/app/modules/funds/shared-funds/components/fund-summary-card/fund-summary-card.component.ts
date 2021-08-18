@@ -31,8 +31,8 @@ import { Currency } from '../../enums/currency.enum';
                   | hideText: this.hideFundText
               }}
             </ion-text>
-            <ion-text class="ux-font-text-base" color="uxdark"> ≈ </ion-text>
-            <ion-text class="ux-font-text-base" color="uxdark">
+            <ion-text class="ux-font-text-base" color="uxsemidark"> ≈ </ion-text>
+            <ion-text class="ux-font-text-base" color="uxsemidark">
               {{
                 this.totalSecond
                   | currencyFormat
@@ -46,7 +46,7 @@ import { Currency } from '../../enums/currency.enum';
             </ion-text>
           </div>
           <div class="actual-text">
-            <ion-text class="ux-font-text-xxs fsc__content__left__actual_ammount" color="uxdark">{{
+            <ion-text class="ux-font-text-xxs fsc__content__left__actual_ammount" color="uxsemidark">{{
               'funds.fund_detail.fund_summary_card.actual_amount' | translate
             }}</ion-text>
           </div>
@@ -63,7 +63,7 @@ import { Currency } from '../../enums/currency.enum';
               fill="clear"
               size="small"
               [disabled]="!this.summary"
-              class="ux-font-button fsc__footer__right__button"
+              class="ux-font-button-small fsc__footer__right__button"
             >
               {{ 'funds.fund_detail.fund_summary_card.invite' | translate }}
               <ion-icon slot="end" name="ux-forward"></ion-icon>
@@ -118,6 +118,7 @@ export class FundSummaryCardComponent implements OnInit {
     const alert = await this.alertController.create({
       header: this.translate.instant('funds.fund_detail.fund_summary_card.alert_header'),
       message: this.translate.instant('funds.fund_detail.fund_summary_card.alert_message'),
+      cssClass: 'ux-alert-small-text',
       buttons: [
         {
           text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_exit_button'),

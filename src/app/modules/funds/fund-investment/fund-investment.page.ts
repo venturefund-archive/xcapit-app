@@ -16,7 +16,7 @@ import { Browser } from '@capacitor/core';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
+        <ion-title>{{
           (this.fundRenew ? 'funds.fund_investment.header_renew' : 'funds.fund_investment.header') | translate
         }}</ion-title>
       </ion-toolbar>
@@ -24,12 +24,12 @@ import { Browser } from '@capacitor/core';
     <ion-content class="ion-padding fi">
       <div class="fi__info">
         <div>
-          <ion-text class="ux-font-gilroy ux-fweight-bold ux-fsize-22" color="uxdark">{{
+          <ion-text class="ux-font-text-lg" color="uxdark">{{
             'funds.fund_investment.header_info.title' | translate
           }}</ion-text>
         </div>
         <div class="fi__info__description">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">{{
+          <ion-text class="ux-font-text-xs" color="uxsemidark">{{
             'funds.fund_investment.header_info.description' | translate
           }}</ion-text>
         </div>
