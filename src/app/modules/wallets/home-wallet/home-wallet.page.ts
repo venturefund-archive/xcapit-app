@@ -30,7 +30,7 @@ import { COINS } from '../constants/coins';
       <div class="wt__balance ion-padding-start ion-padding-end" *ngIf="this.walletExist && this.balances?.length">
         <div div class="wt__balance__title">
           <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
-            {{ 'wallets.home.wallet-balance-title' | translate }}
+            {{ 'wallets.home.wallet_balance_title' | translate }}
           </ion-label>
         </div>
         <div class="wt__balance__wallet-balance-card">

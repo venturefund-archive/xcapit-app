@@ -1232,7 +1232,7 @@
     },
     "home": {
       "available_money": "Available money in wallet",
-      "wallet-balance-title": "ASSETS",
+      "wallet_balance_title": "ASSETS",
       "subheader_component": {
         "title_with_wallet": "Start receiving or buying.",
         "title_without_wallet": "You haven't created your wallet yet.",
