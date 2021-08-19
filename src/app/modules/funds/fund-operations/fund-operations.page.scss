@@ -31,23 +31,24 @@
     }
     &__list {
       &__pair {
+        .operation-type {
+          padding: 2px 2px;
+          font-size: var(--ux-fsize-8);
+          font-weight: var(--ux-fweight-extrabold);
+          font-family: var(--ux-font-gilroy);
+          text-transform: uppercase;
+          margin-left: 2px;
+          overflow-wrap: normal;
+        }
+
         &__type {
-          font-weight: var(--ux-fweight-semibold);
           &__sell {
-            background: #eba3ac;
-            color: #ffffff;
-            padding: 2px 2px;
-            font-size: 6.5px;
-            margin-left: 2px;
-            overflow-wrap: normal;
+            background: var(--ion-color-dangerlight);
+            color: var(--ion-color-dangerdark);
           }
           &__buy {
-            background: #96d8bd;
-            color: #ffffff;
-            padding: 2px 2px;
-            font-size: 6.5px;
-            margin-left: 2px;
-            overflow-wrap: normal;
+            background: var(--ion-color-successlight);
+            color: var(--ion-color-successdark);
           }
         }
         &h3 {
@@ -70,5 +71,8 @@
   }
   .regular {
     font-weight: var(--ux-fweight-regular);
+  }
+  .small {
+    font-size: var(--ux-fsize-11);
   }
 }

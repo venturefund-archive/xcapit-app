@@ -28,7 +28,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
           <div class="foc">
             <div class="foc__date">
               <div class="foc__date__label">
-                <ion-label color="uxmedium" class="ux-font-text-xxs regular">
+                <ion-label color="uxsemidark" class="ux-font-text-xxs regular">
                   <ion-text> {{ 'funds.fund_operations.since_date_range' | translate }}: </ion-text>
                 </ion-label>
               </div>
@@ -49,7 +49,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             </div>
             <div class="foc__date">
               <div class="foc__date__label">
-                <ion-label color="uxmedium" class="ux-font-text-xxs regular">
+                <ion-label color="uxsemidark" class="ux-font-text-xxs regular">
                   {{ 'funds.fund_operations.until_date_range' | translate }}:
                 </ion-label>
               </div>
@@ -75,14 +75,14 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
       <div class="fol">
         <app-ux-list-inverted>
           <ion-list>
-            <ion-item class="fol__headers ux-font-text-xxs regular" color="uxmedium">
-              <ion-label class="fol__headers__label-left">
+            <ion-item class="fol__headers ux-font-text-xxs regular small">
+              <ion-label class="fol__headers__label-left" color="uxsemidark">
                 {{ 'funds.fund_operations.header_pair' | translate }}
               </ion-label>
-              <ion-label class="fol__headers__label-center">
+              <ion-label class="fol__headers__label-center" color="uxsemidark">
                 {{ 'funds.fund_operations.header_price' | translate }}
               </ion-label>
-              <ion-label class="fol__headers__label-right">
+              <ion-label class="fol__headers__label-right" color="uxsemidark">
                 {{ 'funds.fund_operations.header_qty' | translate }}
               </ion-label>
             </ion-item>
@@ -90,20 +90,19 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
               <ion-item (click)="viewOrderDetail(order.id)" class="ux-font-text-xxs regular">
                 <ion-label class="fol__list__pair">
                   <app-symbol-format [symbol]="this.order.symbol" *ngIf="this.order.symbol"></app-symbol-format>
-
-                  <ion-text *ngIf="order.side === 'buy'" class="fol__list__pair__type__buy">{{
+                  <ion-text *ngIf="order.side === 'buy'" class="fol__list__pair__type__buy operation-type">{{
                     'funds.fund_operations.order_side_buy' | translate
                   }}</ion-text>
-                  <ion-text *ngIf="order.side === 'sell'" class="fol__list__pair__type__sell">{{
+                  <ion-text *ngIf="order.side === 'sell'" class="fol__list__pair__type__sell operation-type">{{
                     'funds.fund_operations.order_side_sell' | translate
                   }}</ion-text>
-                  <h3>
+                  <h3 color="uxmedium">
                     {{ order.creation_datetime | date: 'dd-MM-yy HH:mm:ss' }}
                   </h3>
                 </ion-label>
                 <ion-label class="fol__list__price">
                   {{ order.price | number: '1.2-6' }}
-                  <h3 *ngIf="order.order_type === 'market'">
+                  <h3 *ngIf="order.order_type === 'market'" color="uxmedium">
                     {{ 'funds.fund_operations.order_type_market' | translate }}
                   </h3>
                 </ion-label>

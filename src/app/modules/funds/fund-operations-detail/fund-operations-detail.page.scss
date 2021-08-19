@@ -26,13 +26,23 @@
       &__symbol {
         margin-right: 2px;
       }
-      &__buy {
-        color: #96d8bd;
-        font-size: 7.5px;
+      .operation-type {
+        padding: 2px 2px;
+        font-size: var(--ux-fsize-8);
+        font-weight: var(--ux-fweight-extrabold);
+        font-family: var(--ux-font-gilroy);
+        text-transform: uppercase;
+        margin-left: 2px;
+        overflow-wrap: normal;
       }
+
       &__sell {
-        color: #eba3ac;
-        font-size: 7.5px;
+        background: var(--ion-color-dangerlight);
+        color: var(--ion-color-dangerdark);
+      }
+      &__buy {
+        background: var(--ion-color-successlight);
+        color: var(--ion-color-successdark);
       }
     }
     &__content {
@@ -46,12 +56,12 @@
           color: var(--ion-color-uxmedium);
           --min-height: 19px;
         }
-        &__item>ion-text{
+        &__item > ion-text {
           color: var(--ion-color-uxdark);
         }
       }
     }
-    &__content>ion-item-group{
+    &__content > ion-item-group {
       margin: 10px 0px;
     }
     &__align_left {
@@ -61,8 +71,12 @@
       text-align: right;
     }
     &__margin {
-      margin-top:0px;
-      margin-bottom:0px;
+      margin-top: 0px;
+      margin-bottom: 0px;
     }
+  }
+
+  .regular {
+    font-weight: var(--ux-fweight-regularl);
   }
 }
