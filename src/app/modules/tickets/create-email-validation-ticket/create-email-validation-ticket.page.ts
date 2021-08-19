@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
           </ion-text>
         </div>
         <div class="header__text">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+          <ion-text class="ux-font-text-xl">
             {{ 'tickets.create.text' | translate }}
           </ion-text>
         </div>

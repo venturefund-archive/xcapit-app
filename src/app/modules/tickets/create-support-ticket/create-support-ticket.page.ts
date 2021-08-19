@@ -22,9 +22,7 @@ import { NavController } from '@ionic/angular';
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-label class="ux-font-lato ux-fweight-regular ux-fsize-14">{{
-        'tickets.create_support_ticket.info' | translate
-      }}</ion-label>
+      <ion-label class="ux-font-text-xs">{{ 'tickets.create_support_ticket.info' | translate }}</ion-label>
       <div class="form_component">
         <app-create-ticket-form
           *ngIf="this.userEmail"
