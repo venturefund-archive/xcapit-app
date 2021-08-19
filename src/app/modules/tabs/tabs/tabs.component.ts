@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
+import { MenuController, NavController, IonTabs } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
   template: `
-    <ion-tabs #tabs>
+    <ion-tabs #tabs (ionTabsDidChange)="this.tabChange(tabs)">
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="funds" appTrackClick name="Tab Home">
           <ion-icon src="assets/img/tabs/Home.svg"></ion-icon>
@@ -32,9 +32,36 @@ import { MenuController, NavController } from '@ionic/angular';
 })
 export class TabsComponent {
   private openMenu = false;
+  private activeTab?: HTMLElement;
   newFundUrl: string;
 
   constructor(private menu: MenuController, private navController: NavController) {}
+
+  tabChange(tabsRef: IonTabs) {
+    this.activeTab = tabsRef.outlet.activatedView.element;
+  }
+
+  ionViewWillLeave() {
+    this.propagateToActiveTab('ionViewWillLeave');
+  }
+
+  ionViewDidLeave() {
+    this.propagateToActiveTab('ionViewDidLeave');
+  }
+
+  ionViewWillEnter() {
+    this.propagateToActiveTab('ionViewWillEnter');
+  }
+
+  ionViewDidEnter() {
+    this.propagateToActiveTab('ionViewDidEnter');
+  }
+
+  private propagateToActiveTab(eventName: string) {
+    if (this.activeTab) {
+      this.activeTab.dispatchEvent(new CustomEvent(eventName));
+    }
+  }
 
   showMenu() {
     // this.menu.toggle();
