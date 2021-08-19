@@ -30,6 +30,8 @@ export class CustomValidators {
     const field2: string = control.get(controlName2).value;
     if (field1 !== field2) {
       control.get(controlName2).setErrors(error);
+    } else {
+      control.get(controlName2).setErrors(null);
     }
   }
 
