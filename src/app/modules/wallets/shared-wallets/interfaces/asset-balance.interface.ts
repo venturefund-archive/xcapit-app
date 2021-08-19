@@ -5,4 +5,5 @@ export interface AssetBalance {
   amount: number;
   usdAmount: number;
   usdSymbol: string;
+  walletAddress: string;
 }

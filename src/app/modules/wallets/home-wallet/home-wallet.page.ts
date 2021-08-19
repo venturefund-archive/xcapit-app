@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { COINS } from '../constants/coins';
+import { ApiWalletService } from '../shared-wallets/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -19,7 +20,7 @@ import { COINS } from '../constants/coins';
         <div class="wt__amount ux-font-gilroy ux-fweight-extrabold ux-fsize-40">
           <ion-text>
             {{ this.totalBalanceWallet | number: '1.2-6' }}
-            ETH
+            USD
           </ion-text>
         </div>
       </div>
@@ -49,7 +50,7 @@ export class HomeWalletPage implements OnInit {
 
   coins = COINS;
 
-  constructor(private walletService: WalletService) {}
+  constructor(private walletService: WalletService, private apiWalletService: ApiWalletService) {}
 
   ngOnInit() {}
 
@@ -65,6 +66,7 @@ export class HomeWalletPage implements OnInit {
       amount: 0,
       usdAmount: 0,
       usdSymbol: 'USD',
+      walletAddress: this.walletAddress,
     };
 
     this.balances.push(balance);
@@ -87,16 +89,28 @@ export class HomeWalletPage implements OnInit {
 
       if (this.walletAddress) {
         this.pushBalancesStructure(coin);
+      }
 
-        this.walletService.balanceOf(this.walletAddress, coin.value).then((balance) => {
-          const balanceKey = Object.keys(this.balances).filter((key) => this.balances[key].symbol === coin.value)[0];
-          this.balances[balanceKey].amount = parseFloat(balance);
-          // this.balances[balanceKey].usdAmount = parseFloat(usdBalance);
-          // this.totalBalanceWallet = parseFloat(usdBalance);
+      this.walletAddress = null;
+    }
 
-          this.walletAddress = null;
+    this.apiWalletService.getPrices(this.balances.map((balance) => balance.symbol)).subscribe((prices) => {
+      for (const balance of this.balances) {
+        this.walletService.balanceOf(balance.walletAddress, balance.symbol).then((data) => {
+          const ammount = parseFloat(data);
+          balance.amount = ammount;
+
+          const usdBalance = this.calculateUsdBalance(ammount, prices.prices[balance.symbol]);
+          balance.usdAmount = usdBalance;
+          this.totalBalanceWallet += usdBalance;
         });
       }
-    }
+    });
+
+    console.log(this.balances);
+  }
+
+  calculateUsdBalance(balance: number, coinValue: number): number {
+    return balance * coinValue;
   }
 }
