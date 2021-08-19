@@ -1235,6 +1235,7 @@
     },
     "home": {
       "available_money": "Dinero disponible en billetera",
+      "wallet_balance_title": "ACTIVOS",
       "subheader_component": {
         "title_with_wallet": "Empieza recibiendo o comprando.",
         "title_without_wallet": "Todavía no creaste tu billetera.",
