@@ -38,6 +38,10 @@ const routes: Routes = [
           import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
       },
       {
+        path: 'failed-mnemonic',
+        loadChildren: () => import('./failed-mnemonic/failed-mnemonic.module').then((m) => m.FailedMnemonicPageModule),
+      },
+      {
         canActivate: [AcceptedToSGuard, CreatedWalletGuard],
         path: 'create-password',
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
