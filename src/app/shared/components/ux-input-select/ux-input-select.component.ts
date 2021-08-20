@@ -7,7 +7,7 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
   selector: 'app-ux-input-select',
   template: `
     <div class="uxselect">
-      <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
+      <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
       <ion-item class="uxselect__item">
         <ion-label *ngIf="this.control.value !== '' && this.keyName !== ''">{{ this.selectedItem }}</ion-label>
         <ion-input

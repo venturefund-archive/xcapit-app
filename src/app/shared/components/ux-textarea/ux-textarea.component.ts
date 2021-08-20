@@ -5,7 +5,7 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
   selector: 'app-ux-textarea',
   template: `
     <div class="ux_textarea_container">
-      <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
+      <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
       <ion-item class="ux_textarea_container__item">
         <ion-textarea
           #inputRegister

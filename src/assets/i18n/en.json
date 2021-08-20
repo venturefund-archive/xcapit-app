@@ -195,7 +195,7 @@
     "create_ticket_form": {
       "label_email": "EMAIL",
       "placeholder_email": "example@email.com",
-      "label_subject": "CHOOSE A CATEGORY",
+      "label_subject": "Choose a category",
       "placeholder_subject": "Choose a category",
       "label_message": "DESCRIPTION",
       "placeholder_message": "Write your comment or query here",
