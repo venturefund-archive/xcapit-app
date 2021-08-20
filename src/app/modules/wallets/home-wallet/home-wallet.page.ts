@@ -106,7 +106,6 @@ export class HomeWalletPage implements OnInit {
 
           this.balances[balanceKey].usdAmount = usdAmount;
           this.totalBalanceWallet += usdAmount;
-          console.log({ usdAmount, total: this.totalBalanceWallet, balance });
         });
       }
     });

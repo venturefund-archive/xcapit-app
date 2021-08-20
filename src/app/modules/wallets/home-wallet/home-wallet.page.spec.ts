@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
@@ -54,7 +54,7 @@ const balances: Array<AssetBalance> = [
   },
 ];
 
-describe('HomeWalletPage', () => {
+fdescribe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let navControllerSpy: any;
@@ -145,51 +145,55 @@ describe('HomeWalletPage', () => {
     expect(balanceElement).toBeNull();
   });
 
-  it('should get eth balance on view will enter', async () => {
+  it('should get eth balance on view will enter', fakeAsync(() => {
     spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
     component.coins = coins;
     const spyBalance = spyOn(walletService, 'balanceOf').and.returnValue(Promise.resolve('20'));
     fixture.detectChanges();
-    await component.ionViewWillEnter();
+    component.ionViewWillEnter();
+    tick(850);
     expect(component.walletExist).toBe(true);
     expect(component.balances[0].walletAddress).toBe('testAddress');
     expect(spyBalance).toHaveBeenCalledWith('testAddress', 'ETH');
-  });
+  }));
 
-  it('should show the total balance in USD on getWalletsBalances', async () => {
+  it('should show the total balance in USD on getWalletsBalances', fakeAsync(() => {
     component.balances = [];
     walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
     component.totalBalanceWallet = 0;
     component.coins = coins;
     const expectedBalance = 1060000;
 
-    await component.getWalletsBalances();
+    component.getWalletsBalances();
 
+    tick(850);
     expect(component.totalBalanceWallet).toBe(expectedBalance);
-  });
+  }));
 
-  fit('should show the total balance in USD on ionViewWillEnter', async () => {
+  it('should show the total balance in USD on ionViewWillEnter', fakeAsync(() => {
     spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
     component.totalBalanceWallet = 0;
     walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
     component.coins = coins;
     const expectedBalance = 1060000;
 
-    await component.ionViewWillEnter();
+    component.ionViewWillEnter();
 
+    tick(850);
     expect(component.totalBalanceWallet).toBe(expectedBalance);
-  });
+  }));
 
-  it('should show the equivalent of each coin balance in USD on getWalletsBalances', async () => {
+  it('should show the equivalent of each coin balance in USD on getWalletsBalances', fakeAsync(() => {
     component.balances = [];
     walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
     component.coins = coins;
     const expectedBalanceBTC = 1000000;
     const expectedBalanceETH = 60000;
 
-    await component.getWalletsBalances();
+    component.getWalletsBalances();
 
+    tick(850);
     expect(component.balances[0].usdAmount).toBe(expectedBalanceETH);
     expect(component.balances[1].usdAmount).toBe(expectedBalanceBTC);
-  });
+  }));
 });
