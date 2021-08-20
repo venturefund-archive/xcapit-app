@@ -76,7 +76,12 @@ export class SelectCoinsWalletPage implements OnInit {
 
   form: FormGroup = this.formBuilder.group({
     ETH: [false],
+    LINK: [false],
+    USDT: [false],
+    AAVE: [false],
+    UNI: [false],
     RBTC: [false],
+    RIF: [false],
   });
 
   constructor(
