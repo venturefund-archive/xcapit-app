@@ -1265,7 +1265,7 @@
       "header": "Create Wallet",
       "title": "Check your phrase",
       "text1": "Tap the words in the corresponding order",
-      "btn_create": "Create Wallet"
+      "btn_create": "Next"
     },
     "create_password": {
       "header": "Create Wallet",
