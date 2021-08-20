@@ -18,15 +18,6 @@ export class ApiWalletService {
   }
 
   getPrices(coins: string[]): Observable<any> {
-    return new Observable((observer) => {
-      observer.next({
-        prices: {
-          BTC: 45099.8,
-          ETH: 3042.55,
-        },
-        errors: [],
-      });
-    });
     return this.http.post(`${environment.apiUrl}/${this.entity}/get_token_prices`, {
       bases: coins,
     });

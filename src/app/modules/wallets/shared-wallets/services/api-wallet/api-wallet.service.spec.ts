@@ -4,7 +4,7 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { ApiWalletService } from './api-wallet.service';
 
-fdescribe('ApiWalletService', () => {
+describe('ApiWalletService', () => {
   let service: ApiWalletService;
   let crudSpy;
   let customHttpServiceSpy;

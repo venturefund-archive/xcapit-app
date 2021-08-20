@@ -11,6 +11,7 @@ const balance: AssetBalance = {
   amount: 1,
   usdAmount: 3000,
   usdSymbol: 'USD',
+  walletAddress: 'testAddress',
 };
 
 describe('WalletBalanceCardItemComponent', () => {

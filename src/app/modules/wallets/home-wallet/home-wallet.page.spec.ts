@@ -9,6 +9,8 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 import { By } from '@angular/platform-browser';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { of } from 'rxjs';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 
 const coins: Coin[] = [
   {
@@ -16,8 +18,26 @@ const coins: Coin[] = [
     name: 'coinTest',
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: false,
-    value: 'coinTest',
+    value: 'ETH',
     network: 'ETH',
+    rpc: 'http://testrpc.test',
+  },
+  {
+    id: 2,
+    name: 'coinTest',
+    logoRoute: '../../assets/img/coins/ETH.svg',
+    last: false,
+    value: 'BTC',
+    network: 'BTC',
+    rpc: 'http://testrpc.test',
+  },
+  {
+    id: 3,
+    name: 'coinTest',
+    logoRoute: '../../assets/img/coins/ETH.svg',
+    last: false,
+    value: 'BUSD',
+    network: 'BUSD',
     rpc: 'http://testrpc.test',
   },
 ];
@@ -30,6 +50,7 @@ const balances: Array<AssetBalance> = [
     amount: 1,
     usdAmount: 3000,
     usdSymbol: 'USD',
+    walletAddress: 'testAddress',
   },
 ];
 
@@ -39,9 +60,13 @@ describe('HomeWalletPage', () => {
   let navControllerSpy: any;
   let walletServiceMock: any;
   let walletService: WalletService;
+  let apiWalletServiceMock: any;
 
   beforeEach(
     waitForAsync(() => {
+      apiWalletServiceMock = {
+        getPrices: (tokens) => of({ prices: { ETH: 3000, BTC: 50000 } }),
+      };
       walletServiceMock = {
         walletExist: () => Promise.resolve(true),
         balanceOf: (address, coin) => Promise.resolve('20'),
@@ -54,6 +79,7 @@ describe('HomeWalletPage', () => {
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceMock },
+          { provide: ApiWalletService, useValue: apiWalletServiceMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -126,7 +152,44 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     await component.ionViewWillEnter();
     expect(component.walletExist).toBe(true);
-    expect(component.walletAddress).toBe('testAddress');
-    expect(spyBalance).toHaveBeenCalledWith('testAddress', 'coinTest');
+    expect(component.balances[0].walletAddress).toBe('testAddress');
+    expect(spyBalance).toHaveBeenCalledWith('testAddress', 'ETH');
+  });
+
+  it('should show the total balance in USD on getWalletsBalances', async () => {
+    component.balances = [];
+    walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
+    component.totalBalanceWallet = 0;
+    component.coins = coins;
+    const expectedBalance = 1060000;
+
+    await component.getWalletsBalances();
+
+    expect(component.totalBalanceWallet).toBe(expectedBalance);
+  });
+
+  fit('should show the total balance in USD on ionViewWillEnter', async () => {
+    spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
+    component.totalBalanceWallet = 0;
+    walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
+    component.coins = coins;
+    const expectedBalance = 1060000;
+
+    await component.ionViewWillEnter();
+
+    expect(component.totalBalanceWallet).toBe(expectedBalance);
+  });
+
+  it('should show the equivalent of each coin balance in USD on getWalletsBalances', async () => {
+    component.balances = [];
+    walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
+    component.coins = coins;
+    const expectedBalanceBTC = 1000000;
+    const expectedBalanceETH = 60000;
+
+    await component.getWalletsBalances();
+
+    expect(component.balances[0].usdAmount).toBe(expectedBalanceETH);
+    expect(component.balances[1].usdAmount).toBe(expectedBalanceBTC);
   });
 });

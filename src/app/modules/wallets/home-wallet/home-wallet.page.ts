@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { COINS } from '../constants/coins';
-import { ApiWalletService } from '../shared-wallets/api-wallet/api-wallet.service';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -45,7 +45,6 @@ export class HomeWalletPage implements OnInit {
   walletExist = false;
   transactions: Array<any>;
   totalBalanceWallet = 0;
-  walletAddress = null;
   balances: Array<AssetBalance> = [];
 
   coins = COINS;
@@ -58,7 +57,7 @@ export class HomeWalletPage implements OnInit {
     this.encryptedWalletExist();
   }
 
-  pushBalancesStructure(coin) {
+  pushBalancesStructure(coin, walletAddress) {
     const balance = {
       icon: coin.logoRoute,
       symbol: coin.value,
@@ -66,7 +65,7 @@ export class HomeWalletPage implements OnInit {
       amount: 0,
       usdAmount: 0,
       usdSymbol: 'USD',
-      walletAddress: this.walletAddress,
+      walletAddress,
     };
 
     this.balances.push(balance);
@@ -85,29 +84,32 @@ export class HomeWalletPage implements OnInit {
 
   getWalletsBalances() {
     for (const coin of this.coins) {
-      this.walletAddress = this.walletService.addresses[coin.network];
+      let walletAddress = this.walletService.addresses[coin.network];
 
-      if (this.walletAddress) {
-        this.pushBalancesStructure(coin);
+      if (walletAddress) {
+        this.pushBalancesStructure(coin, walletAddress);
       }
 
-      this.walletAddress = null;
+      walletAddress = null;
     }
 
     this.apiWalletService.getPrices(this.balances.map((balance) => balance.symbol)).subscribe((prices) => {
+      this.totalBalanceWallet = 0;
       for (const balance of this.balances) {
-        this.walletService.balanceOf(balance.walletAddress, balance.symbol).then((data) => {
-          const ammount = parseFloat(data);
-          balance.amount = ammount;
+        this.walletService.balanceOf(balance.walletAddress, balance.symbol).then((coinAmount) => {
+          const balanceKey = Object.keys(this.balances).filter(
+            (key) => this.balances[key].symbol === balance.symbol
+          )[0];
+          this.balances[balanceKey].amount = parseFloat(coinAmount);
 
-          const usdBalance = this.calculateUsdBalance(ammount, prices.prices[balance.symbol]);
-          balance.usdAmount = usdBalance;
-          this.totalBalanceWallet += usdBalance;
+          const usdAmount = this.calculateUsdBalance(parseFloat(coinAmount), prices.prices[balance.symbol]);
+
+          this.balances[balanceKey].usdAmount = usdAmount;
+          this.totalBalanceWallet += usdAmount;
+          console.log({ usdAmount, total: this.totalBalanceWallet, balance });
         });
       }
     });
-
-    console.log(this.balances);
   }
 
   calculateUsdBalance(balance: number, coinValue: number): number {
