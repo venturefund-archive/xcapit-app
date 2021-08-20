@@ -16,7 +16,6 @@ export class UxCenterImgComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.imageName);
     this.getImagePath();
   }
 

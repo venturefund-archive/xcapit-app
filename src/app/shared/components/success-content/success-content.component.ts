@@ -81,9 +81,7 @@ export class SuccessContentComponent implements OnInit {
 
   constructor(private navController: NavController) {}
 
-  ngOnInit() {
-    console.log({ successcontent: this.imageName });
-  }
+  ngOnInit() {}
 
   close() {
     this.navController.navigateForward([this.data.urlClose]);

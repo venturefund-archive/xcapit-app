@@ -100,4 +100,11 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/funds',
     namePrimaryAction: 'tickets.create_support_ticket_success.namePrimaryAction',
   },
+  unsuccesful_mnemonic_verification: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.failed_mnemonic.title',
+    textSecondary: 'wallets.failed_mnemonic.description',
+    urlPrimaryAction: '/wallets/create-first/recovery-phrase',
+    namePrimaryAction: 'wallets.failed_mnemonic.button',
+  },
 };

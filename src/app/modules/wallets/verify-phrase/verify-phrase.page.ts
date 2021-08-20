@@ -127,6 +127,8 @@ export class VerifyPhrasePage {
     if (this.validPhrase()) {
       this.walletService.create();
       this.navController.navigateForward(['/wallets/create-password']);
+    } else {
+      this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
   }
 }
