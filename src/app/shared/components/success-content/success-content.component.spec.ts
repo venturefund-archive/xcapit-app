@@ -101,40 +101,40 @@ describe('SuccessContentComponent', () => {
     });
 
     it('should router navigate when Close Success is clicked', () => {
-      closeSuccessButton.triggerEventHandler('click', null);
+      closeSuccessButton.nativeElement.click();
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlClose]);
     });
 
     it('should router navigate when Success Action Primary is clicked', () => {
-      actionPrimaryButton.triggerEventHandler('click', null);
+      actionPrimaryButton.nativeElement.click();
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlPrimaryAction]);
     });
 
     it('should router navigate when Success Action Secondary is clicked', () => {
-      actionSecondaryButton.triggerEventHandler('click', null);
+      actionSecondaryButton.nativeElement.click();
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlSecondaryAction]);
     });
 
     it('should router navigate when Success Action Third is clicked', () => {
-      actionThirdButton.triggerEventHandler('click', null);
+      actionThirdButton.nativeElement.click();
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlThirdAction]);
     });
 
     it('should emit event when Success Action Primary is clicked', () => {
       const spy = spyOn(component.primaryActionEvent, 'emit');
-      actionPrimaryButton.triggerEventHandler('click', null);
+      actionPrimaryButton.nativeElement.click();
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('should emit event when Success Action Secondary is clicked', () => {
       const spy = spyOn(component.secondaryActionEvent, 'emit');
-      actionSecondaryButton.triggerEventHandler('click', null);
+      actionSecondaryButton.nativeElement.click();
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('should emit event when Success Action Third is clicked', () => {
       const spy = spyOn(component.secondaryActionEvent, 'emit');
-      actionThirdButton.triggerEventHandler('click', null);
+      actionThirdButton.nativeElement.click();
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });
