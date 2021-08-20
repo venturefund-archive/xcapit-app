@@ -15,7 +15,7 @@ import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.compon
 import { UxInputComponent } from './components/ux-input/ux-input.component';
 import { UxInputGooglePlacesComponent } from './components/ux-input-google-places/ux-input-google-places.component';
 import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
-import { UxSuccessImgComponent } from './components/ux-success-img/ux-success-img.component';
+import { UxCenterImgComponent } from './components/ux-center-img/ux-center-img.component';
 import { SuccessContentComponent } from './components/success-content/success-content.component';
 import { UxTitleComponent } from './components/ux-title/ux-title.component';
 import { UxTextComponent } from './components/ux-text/ux-text.component';
@@ -52,7 +52,7 @@ import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-a
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
-    UxSuccessImgComponent,
+    UxCenterImgComponent,
     UxTitleComponent,
     UxTextComponent,
     UxRadioGroupComponent,
@@ -102,7 +102,7 @@ import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-a
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
-    UxSuccessImgComponent,
+    UxCenterImgComponent,
     UxTitleComponent,
     UxTextComponent,
     UxRadioGroupComponent,
