@@ -2,8 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { BlockchainProviderService } from './blockchain-provider.service';
 import { BigNumber } from 'ethers';
 import { Coin } from '../../interfaces/coin.interface';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-const COINS: Coin[] = [
+const tokenAbi: any = [
+  {
+    contractAbi: true,
+  },
+];
+
+const testCoins: Coin[] = [
   {
     id: 1,
     name: 'coinTest',
@@ -13,6 +20,18 @@ const COINS: Coin[] = [
     network: 'ETH',
     rpc: 'http://testrpc.test',
   },
+  {
+    id: 2,
+    name: 'coinTest2',
+    logoRoute: '../../assets/img/coins/USDT.svg',
+    last: false,
+    value: 'USDT',
+    network: 'USD',
+    rpc: 'http://testrpc.test',
+    contract: '0x00000000000000',
+    abi: tokenAbi,
+    decimals: 6,
+  },
 ];
 
 describe('BlockchainProviderService', () => {
@@ -21,25 +40,80 @@ describe('BlockchainProviderService', () => {
   beforeEach(() => {
     providerMock = {
       getBalance: (): Promise<BigNumber> => Promise.resolve(BigNumber.from('0xfffffffffffffff')),
+      balanceOf: (): Promise<BigNumber> => Promise.resolve(BigNumber.from('0x000000000000F4240')),
     };
     TestBed.configureTestingModule({
       providers: [],
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(BlockchainProviderService);
-    service.provider = providerMock;
+    service.coins = testCoins;
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should save provider on create', () => {
-    expect(service.provider).toBeTruthy();
+  it('should return a new provider when createProvider() is called', () => {
+    service.createProvider = () => providerMock;
+
+    const provider = service.createProvider('rpc');
+
+    expect(provider.getBalance).toEqual(providerMock.getBalance);
   });
 
-  it('should call provider get balance and format output when formattedBalanceOf is called', async () => {
-    spyOn(service, 'getProvider').and.returnValue(providerMock);
-    const response = service.getFormattedBalanceOf('testAddress', 'coinTest');
-    await expectAsync(response).toBeResolvedTo('1.152921504606846975');
+  it('should return a new contract when createContract() is called', () => {
+    service.createContract = () => providerMock;
+
+    const contract = service.createContract('contract', 'abi', 'provider');
+
+    expect(contract.balanceOf).toEqual(providerMock.balanceOf);
+  });
+
+  [
+    {
+      coinValue: 'ETH',
+      contract: undefined,
+      abi: undefined,
+      decimals: 18,
+    },
+    {
+      coinValue: 'USDT',
+      contract: '0x00000000000000',
+      abi: tokenAbi,
+      decimals: 6,
+    },
+  ].forEach((data) => {
+    it(`should returns contract: ${data.contract},  abi: ${JSON.stringify(data.abi)} and decimals: ${
+      data.decimals
+    } for ${data.coinValue} when getProvider() is called`, async () => {
+      service.createProvider = () => providerMock;
+      service.createContract = () => providerMock;
+      const response = await service.getProvider(data.coinValue);
+
+      expect(response.contract).toBe(data.contract);
+      expect(response.abi).toEqual(data.abi);
+      expect(response.decimals).toEqual(data.decimals);
+    });
+  });
+
+  [
+    {
+      coinValue: 'ETH',
+      balance: '1.152921504606846975',
+    },
+    {
+      coinValue: 'USDT',
+      balance: '1.0',
+    },
+  ].forEach((data) => {
+    it(`should obtain ${data.coinValue} balance and format output when formattedBalanceOf() is called`, async () => {
+      service.createProvider = () => providerMock;
+      service.createContract = () => providerMock;
+
+      const response = await service.getFormattedBalanceOf('testAddress', data.coinValue);
+
+      expect(response).toEqual(data.balance);
+    });
   });
 });
