@@ -38,6 +38,7 @@ import { NeedHelpComponent } from './components/need-help/need-help.component';
 import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
 import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
+import { SliderNewsCardComponent } from './components/slider-news/slider-news.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     UxTextareaComponent,
     UxDatetimeComponent,
     IconButtonCardComponent,
+    SliderNewsCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -124,6 +126,7 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     UxTextareaComponent,
     UxDatetimeComponent,
     IconButtonCardComponent,
+    SliderNewsCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
