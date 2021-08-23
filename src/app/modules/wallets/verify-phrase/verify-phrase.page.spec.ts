@@ -11,6 +11,7 @@ import { VerifyPhrasePage } from './verify-phrase.page';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recovery-phrase-card/recovery-phrase-card.component';
 import { By } from '@angular/platform-browser';
 
 const phrase = ['insecto', 'puerta', 'vestido'];
@@ -43,7 +44,7 @@ describe('VerifyPhrasePage', () => {
         create: () => {},
       };
       TestBed.configureTestingModule({
-        declarations: [VerifyPhrasePage, TrackClickDirective],
+        declarations: [VerifyPhrasePage, TrackClickDirective, RecoveryPhraseCardComponent],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           TrackClickDirective,
@@ -94,29 +95,28 @@ describe('VerifyPhrasePage', () => {
     expect(component.mnemonic).toEqual(testMnemonic);
   });
 
-  it('should push word in inputWord when addWord is called', fakeAsync(() => {
+  it('should push word in verificationPhrase when addWord is called', () => {
     component.verificationPhrase = [];
     spyOn(component.slides, 'slideNext');
     spyOn(component.slides, 'lockSwipeToNext').and.returnValue(null);
     spyOn(component.slides, 'lockSwipeToPrev').and.returnValue(null);
     fixture.detectChanges();
     component.addWord('prueba');
-    tick(850);
     expect(component.verificationPhrase).toEqual(['prueba']);
-  }));
+  });
 
-  it('should call slideNext on addWord is called', fakeAsync(() => {
+  it('should call slideNext on addWord is called', () => {
     component.verificationPhrase = [];
+    component.slide = 2;
     const spySlideNext = spyOn(component.slides, 'slideNext');
     spyOn(component.slides, 'lockSwipeToNext').and.returnValue(null);
     spyOn(component.slides, 'lockSwipeToPrev').and.returnValue(null);
     component.addWord('prueba');
-    tick(850);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(spySlideNext).toHaveBeenCalledTimes(1);
     });
-  }));
+  });
 
   it('should activated is true when countWords and verificationPhrase = 1', fakeAsync(() => {
     component.countWords = 1;
@@ -155,6 +155,15 @@ describe('VerifyPhrasePage', () => {
     const spy = spyOn(walletService, 'create');
     component.createWallet();
     expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should delete word of verificationPhrase and call enable when deleteWord is called', () => {
+    component.verificationPhrase = ['test'];
+    const spyEnable = spyOn(component.recoveryPhraseComponent, 'enable');
+    fixture.detectChanges();
+    component.deleteWord('');
+    expect(component.verificationPhrase).toEqual([]);
+    expect(spyEnable).toHaveBeenCalledTimes(1);
   });
 
   it('should redirect on createWallet verification phrase is wrong', () => {
