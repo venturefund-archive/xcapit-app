@@ -40,17 +40,6 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
             </ion-card>
           </ion-slide>
         </ion-slides>
-        <div class="create_button">
-          <ion-button
-            *ngIf="this.activated"
-            class="ux_button"
-            appTrackClick
-            name="Create Wallet"
-            (click)="this.createWallet()"
-          >
-            {{ 'wallets.verify_phrase.btn_create' | translate }}
-          </ion-button>
-        </div>
         <div class="text1">
           <ion-text class="text1 ux-font-lato ux-fweight-semibold ux-fsize-15">{{
             'wallets.verify_phrase.text1' | translate
@@ -65,6 +54,17 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
             (useButtonClicked)="this.addWord($event)"
             class="card"
           ></app-recovery-phrase-card>
+        </div>
+        <div class="create_button">
+          <ion-button
+            *ngIf="this.activated"
+            class="ux_button"
+            appTrackClick
+            name="Create Wallet"
+            (click)="this.createWallet()"
+          >
+            {{ 'wallets.verify_phrase.btn_create' | translate }}
+          </ion-button>
         </div>
       </div>
     </ion-content>
@@ -138,6 +138,8 @@ export class VerifyPhrasePage {
     if (this.validPhrase()) {
       this.walletService.create();
       this.navController.navigateForward(['/wallets/create-password']);
+    } else {
+      this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
   }
 }

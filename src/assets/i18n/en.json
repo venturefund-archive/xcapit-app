@@ -1232,6 +1232,7 @@
     },
     "home": {
       "available_money": "Available money in wallet",
+      "wallet_balance_title": "ASSETS",
       "subheader_component": {
         "title_with_wallet": "Start receiving or buying.",
         "title_without_wallet": "You haven't created your wallet yet.",
@@ -1264,7 +1265,7 @@
       "header": "Create Wallet",
       "title": "Check your phrase",
       "text1": "Tap the words in the corresponding order",
-      "btn_create": "Create Wallet"
+      "btn_create": "Next"
     },
     "create_password": {
       "header": "Create Wallet",
@@ -1285,6 +1286,11 @@
       "disclaimer_header": "Send only USDT to this deposit address.",
       "disclaimer_body": "Sending other coins or tokens to this address other than USDT may result in the loss of your deposit.",
       "share_title": "Wallet address"
+    },
+    "failed_mnemonic": {
+      "title": "Your recovery phrase is wrong",
+      "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
+      "button": "Try again"
     }
   },
   "apikeys": {

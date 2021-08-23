@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-success-content',
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
         </ion-button>
       </div>
       <div class="main__ux_success_image">
-        <app-ux-success-img></app-ux-success-img>
+        <app-ux-center-img [imageName]="this.imageName" [imageAlt]="this.imageAlt"></app-ux-center-img>
       </div>
       <div class="main__primary_text">
         <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
@@ -73,35 +73,37 @@ import { Router } from '@angular/router';
 export class SuccessContentComponent implements OnInit {
   @Input() data: any;
   @Input() unauth: any = false;
+  @Input() imageName = 'ux-success.svg';
+  @Input() imageAlt = 'Success Image';
   @Output() primaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() secondaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() thirdActionEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private router: Router) {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
   close() {
-    this.router.navigate([this.data.urlClose]);
+    this.navController.navigateForward([this.data.urlClose]);
   }
 
   primaryAction() {
     if (this.data.urlPrimaryAction) {
-      this.router.navigate([this.data.urlPrimaryAction]);
+      this.navController.navigateForward([this.data.urlPrimaryAction]);
     }
     this.primaryActionEvent.emit();
   }
 
   secondaryAction() {
     if (this.data.urlSecondaryAction) {
-      this.router.navigate([this.data.urlSecondaryAction]);
+      this.navController.navigateForward([this.data.urlSecondaryAction]);
     }
     this.secondaryActionEvent.emit();
   }
 
   thirdAction() {
     if (this.data.urlThirdAction) {
-      this.router.navigate([this.data.urlThirdAction]);
+      this.navController.navigateForward([this.data.urlThirdAction]);
     }
     this.secondaryActionEvent.emit();
   }

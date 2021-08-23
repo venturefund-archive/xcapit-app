@@ -18,11 +18,13 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 
 const testCurrencies: Coin[] = [
   {
-    id: 4,
+    id: 1,
     name: 'ETH - Ethereum',
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: true,
     value: 'ETH',
+    network: 'ETH',
+    rpc: 'http://testrpc.test/',
   },
 ];
 

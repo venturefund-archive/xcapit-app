@@ -12,6 +12,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
 import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recovery-phrase-card/recovery-phrase-card.component';
+import { By } from '@angular/platform-browser';
 
 const phrase = ['insecto', 'puerta', 'vestido'];
 const phrase2 = ['piso', 'plato', 'nube'];
@@ -138,24 +139,6 @@ describe('VerifyPhrasePage', () => {
     expect(spy).toHaveBeenCalledWith(['/wallets/create-password']);
   });
 
-  it('should not navigate to success when arrays different', () => {
-    component.verificationPhrase = phrase;
-    component.phrase = phrase2;
-    fixture.detectChanges();
-    const spy = spyOn(navController, 'navigateForward');
-    component.createWallet();
-    expect(spy).toHaveBeenCalledTimes(0);
-  });
-
-  it('should not navigate to success page on createWallet if phrase is incorrect', () => {
-    component.verificationPhrase = phrase;
-    component.phrase = phrase2;
-    fixture.detectChanges();
-    const spy = spyOn(navController, 'navigateForward');
-    component.createWallet();
-    expect(spy).toHaveBeenCalledTimes(0);
-  });
-
   it('should create wallet on createWallet if arrays are equal', () => {
     component.verificationPhrase = phrase;
     component.phrase = phrase;
@@ -181,5 +164,16 @@ describe('VerifyPhrasePage', () => {
     component.deleteWord('');
     expect(component.verificationPhrase).toEqual([]);
     expect(spyEnable).toHaveBeenCalledTimes(1);
+  });
+
+  it('should redirect on createWallet verification phrase is wrong', () => {
+    const spy = spyOn(navController, 'navigateForward');
+    component.activated = true;
+    component.verificationPhrase = phrase;
+    component.phrase = phrase2;
+    fixture.detectChanges();
+    const createWalletButton = fixture.debugElement.query(By.css("ion-button[name='Create Wallet']"));
+    createWalletButton.triggerEventHandler('click', null);
+    expect(spy).toHaveBeenCalledOnceWith(['/wallets/failed-mnemonic']);
   });
 });
