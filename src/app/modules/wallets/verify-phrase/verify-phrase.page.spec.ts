@@ -21,7 +21,7 @@ const testMnemonic: Mnemonic = {
   phrase: 'test mnemonic phrase',
 };
 
-fdescribe('VerifyPhrasePage', () => {
+describe('VerifyPhrasePage', () => {
   let component: VerifyPhrasePage;
   let fixture: ComponentFixture<VerifyPhrasePage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<VerifyPhrasePage>;
