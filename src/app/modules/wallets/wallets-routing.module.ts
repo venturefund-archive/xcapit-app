@@ -54,6 +54,10 @@ const routes: Routes = [
             loadChildren: () =>
               import('./send/select-currency/select-currency.module').then((m) => m.SelectCurrencyPageModule),
           },
+          {
+            path: 'detail',
+            loadChildren: () => import('./send/send-detail/send-detail.module').then((m) => m.SendDetailPageModule),
+          },
         ],
       },
     ],

@@ -4,6 +4,8 @@ import { RecoveryPhraseCardComponent } from './components/recovery-phrase-card/r
 import { RecoveryWordComponent } from './components/recovery-word/recovery-word.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
 import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
+import { NetworkSelectCardComponent } from './components/network-select-card/network-select-card.component';
+import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
 
 @NgModule({
   declarations: [
@@ -11,6 +13,8 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     RecoveryWordComponent,
     WalletsSubheaderComponent,
     IconButtonCardComponent,
+    NetworkSelectCardComponent,
+    AddressInputCardComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -19,6 +23,8 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     RecoveryWordComponent,
     WalletsSubheaderComponent,
     IconButtonCardComponent,
+    NetworkSelectCardComponent,
+    AddressInputCardComponent,
   ],
 })
 export class SharedWalletsModule {}

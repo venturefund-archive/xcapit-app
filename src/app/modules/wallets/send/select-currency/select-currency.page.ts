@@ -39,6 +39,6 @@ export class SelectCurrencyPage implements OnInit {
   ngOnInit() {}
 
   selectCurrency(currency) {
-    this.navController.navigateForward(['/wallets/send/', currency.value]);
+    this.navController.navigateForward(['/wallets/send/detail', currency.value]);
   }
 }

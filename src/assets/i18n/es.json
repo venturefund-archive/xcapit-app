@@ -1293,6 +1293,14 @@
       "select_currency": {
         "header": "Enviar",
         "title": "Selecciona moneda"
+      },
+      "send_detail": {
+        "header": "Enviar",
+        "title": "Datos de la transferencia",
+        "network_select": {
+          "title": "Red",
+          "disclaimer": "Asegurse que la billetera de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito."
+        }
       }
     }
   },

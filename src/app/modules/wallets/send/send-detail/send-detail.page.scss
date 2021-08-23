@@ -1,0 +1,29 @@
+:host {
+  .sd {
+    &__title {
+      margin-top: 24px;
+    }
+
+    &__selected-currency {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background-color: var(--ion-color-uxlight);
+      border-radius: 8px;
+
+      &__icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    &__network-select-card {
+      margin-top: 16px;
+    }
+    &__address-input-card {
+      margin-top: 16px;
+    }
+  }
+}

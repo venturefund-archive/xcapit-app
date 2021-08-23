@@ -37,6 +37,8 @@ import { NeedHelpComponent } from './components/need-help/need-help.component';
 import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
 import { UxListCardComponent } from './components/ux-list-card/ux-list-card.component';
+import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
+import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
     XcapitLogoComponent,
     NeedHelpComponent,
     ToastAlertComponent,
+    ScanQrModalComponent,
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
@@ -71,6 +74,7 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
     UxDateRangeComponent,
     UxTextareaComponent,
     UxDatetimeComponent,
+    UxSegmentComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -99,6 +103,7 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
     XcapitLogoComponent,
     NeedHelpComponent,
     ToastAlertComponent,
+    ScanQrModalComponent,
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
@@ -121,6 +126,7 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
     UxDateRangeComponent,
     UxTextareaComponent,
     UxDatetimeComponent,
+    UxSegmentComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

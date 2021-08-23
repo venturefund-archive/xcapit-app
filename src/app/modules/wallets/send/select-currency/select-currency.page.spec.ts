@@ -8,7 +8,6 @@ import { navControllerMock } from '../../../../../testing/spies/nav-controller-m
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from '../../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const coins: Coin[] = [
   {
@@ -69,6 +68,6 @@ describe('SelectCurrencyPage', () => {
     const list = fixture.debugElement.query(By.css('app-ux-list-card'));
     list.triggerEventHandler('itemClicked', coinClicked);
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(['/wallets/send/', 'BTC']);
+    expect(spy).toHaveBeenCalledWith(['/wallets/send/detail', 'BTC']);
   });
 });
