@@ -422,25 +422,32 @@
         "risk_label": "Risk",
         "currency": "USD",
         "min_capital_label": "Minimum to operate",
-        "more_info": "More info",
         "invest_button": "Invest",
         "last_year_revenue": "90 days",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
-            "description": "Let our algorithm trade for you. We operate all of your cryptos and when your investment is finished it will be converted to USDT (Tether)."
+            "description": "Let our algorithm trade for you. We operate all of your crypto and when your investment is finished it will be converted to USDT (Theter).",
+            "more_info": "Read more about Denali",
+            "strategie_type": "Trading"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
-            "description": "Generate more Bitcoins with your cryptos. We operate all of your cryptos and when your investment is finished it will be converted to BTC (Bitcoin)."
+            "description": "Generate more Bitcoins with your cryptos. We operate all of your crypto and when your investment is finished it will be converted to BTC (Bitcoin).",
+            "more_info": "Read more about Olympus Mons",
+            "strategie_type": "Trading"
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether)."
+            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether).",
+            "more_info": "Read more about Himalayas",
+            "strategie_type": "Index"
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invest in the 5 cryptocurrencies with the highest market capitalization. When your investment is finished, it will be converted into USDT (Tether)."
+            "description": "Invest in the 5 cryptocurrencies with the largest market capitalization. When your investment is finished, it will be converted into USDT. (Theter)",
+            "more_info": "Read more about Andes",
+            "strategie_type": "Index"
           },
           "classic_BTC": {
             "title": "Classic"
