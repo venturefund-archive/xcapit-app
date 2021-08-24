@@ -54,14 +54,14 @@
 /*----- Styles for Brainy USDT  --------*/
 .green-style {
   & .ipc__content {
-    background: #e5fff0;
+    background: var(--ion-background-denali);
   }
   & .ipc__footer {
-    background: #000000;
+    background: var(--ion-background-footer-strategie-card);
     &__button {
       & ion-button {
         width: 131px;
-        --background: #ffffff;
+        --background: var(--ion-background-colorwhite);
         --color: var(--ion-color-uxsecondary);
         --background-hover: var(--background);
       }
@@ -74,14 +74,14 @@
 
 .orange-style {
   & .ipc__content {
-    background: #f8e5d6;
+    background: var(--ion-background-olympus);
   }
   & .ipc__footer {
-    background: #000000;
+    background: var(--ion-background-footer-strategie-card);
     &__button {
       & ion-button {
         width: 131px;
-        --background: #ffffff;
+        --background: var(--ion-background-colorwhite);
         --color: var(--ion-color-uxsecondary);
         --background-hover: var(--background);
       }
@@ -94,14 +94,14 @@
 
 .light-blue-style {
   & .ipc__content {
-    background: #edfbff;
+    background: var(--ion-background-himalayas);
   }
   & .ipc__footer {
-    background: #000000;
+    background: var(--ion-background-footer-strategie-card);
     &__button {
       & ion-button {
         width: 131px;
-        --background: #ffffff;
+        --background: var(--ion-background-colorwhite);
         --color: var(--ion-color-uxsecondary);
         --background-hover: var(--background);
       }
@@ -114,14 +114,14 @@
 
 .purple-style {
   & .ipc__content {
-    background: #f1e8ff;
+    background: var(--ion-background-andes);
   }
   & .ipc__footer {
-    background: #000000;
+    background: var(--ion-background-footer-strategie-card);
     &__button {
       & ion-button {
         width: 131px;
-        --background: #ffffff;
+        --background: var(--ion-background-colorwhite);
         --color: var(--ion-color-uxsecondary);
         --background-hover: var(--background);
       }
