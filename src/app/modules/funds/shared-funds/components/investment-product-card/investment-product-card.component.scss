@@ -54,10 +54,10 @@
 /*----- Styles for Brainy USDT  --------*/
 .green-style {
   & .ipc__content {
-    background: var(--ion-background-denali);
+    background: #e5fff0;
   }
   & .ipc__footer {
-    background: var(--ion-background-footer-strategie-card);
+    background: #000000;
     &__button {
       & ion-button {
         width: 131px;
@@ -74,10 +74,10 @@
 
 .orange-style {
   & .ipc__content {
-    background: var(--ion-background-olympus);
+    background: #f8e5d6;
   }
   & .ipc__footer {
-    background: var(--ion-background-footer-strategie-card);
+    background: #000000;
     &__button {
       & ion-button {
         width: 131px;
@@ -94,10 +94,10 @@
 
 .light-blue-style {
   & .ipc__content {
-    background: var(--ion-background-himalayas);
+    background: #edfbff;
   }
   & .ipc__footer {
-    background: var(--ion-background-footer-strategie-card);
+    background: #000000;
     &__button {
       & ion-button {
         width: 131px;
@@ -114,10 +114,10 @@
 
 .purple-style {
   & .ipc__content {
-    background: var(--ion-background-andes);
+    background: #f1e8ff;
   }
   & .ipc__footer {
-    background: var(--ion-background-footer-strategie-card);
+    background: #000000;
     &__button {
       & ion-button {
         width: 131px;
