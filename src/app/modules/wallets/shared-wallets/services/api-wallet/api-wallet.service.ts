@@ -18,7 +18,7 @@ export class ApiWalletService {
   }
 
   getPrices(coins: string[]): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/get_token_prices`, {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/get_symbol_prices`, {
       bases: coins,
     });
   }

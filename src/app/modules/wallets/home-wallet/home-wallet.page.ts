@@ -93,25 +93,34 @@ export class HomeWalletPage implements OnInit {
       walletAddress = null;
     }
 
-    this.apiWalletService.getPrices(this.balances.map((balance) => balance.symbol)).subscribe((prices) => {
-      this.totalBalanceWallet = 0;
-      for (const balance of this.balances) {
-        this.walletService.balanceOf(balance.walletAddress, balance.symbol).then((coinAmount) => {
-          const balanceKey = Object.keys(this.balances).filter(
-            (key) => this.balances[key].symbol === balance.symbol
-          )[0];
-          this.balances[balanceKey].amount = parseFloat(coinAmount);
+    this.apiWalletService
+      .getPrices(this.balances.map((balance) => this.getSymbol(balance.symbol)))
+      .subscribe((prices) => {
+        this.totalBalanceWallet = 0;
+        for (const balance of this.balances) {
+          this.walletService.balanceOf(balance.walletAddress, balance.symbol).then((coinAmount) => {
+            const balanceKey = Object.keys(this.balances).filter(
+              (key) => this.balances[key].symbol === balance.symbol
+            )[0];
+            this.balances[balanceKey].amount = parseFloat(coinAmount);
+            const price = prices.prices[this.getSymbol(balance.symbol)];
+            const usdAmount = this.calculateUsdBalance(parseFloat(coinAmount), price);
 
-          const usdAmount = this.calculateUsdBalance(parseFloat(coinAmount), prices.prices[balance.symbol]);
-
-          this.balances[balanceKey].usdAmount = usdAmount;
-          this.totalBalanceWallet += usdAmount;
-        });
-      }
-    });
+            this.balances[balanceKey].usdAmount = usdAmount;
+            this.totalBalanceWallet += usdAmount < 0 ? 0 : usdAmount;
+          });
+        }
+      });
   }
 
   calculateUsdBalance(balance: number, coinValue: number): number {
-    return balance * coinValue;
+    if (coinValue !== null) {
+      return balance * coinValue;
+    }
+    return -1;
+  }
+
+  getSymbol(symbol: string): string {
+    return symbol === 'RBTC' ? 'BTC' : symbol;
   }
 }

@@ -1239,6 +1239,9 @@
         "receive_card": "Receive",
         "buy_card": "Buy or Sell",
         "create_wallet_button": "Create Wallet"
+      },
+      "balance_card": {
+        "cant_get_usd_balance_error": "Can't get {{symbol}} price"
       }
     },
     "select_coin": {

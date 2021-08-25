@@ -54,7 +54,7 @@ const balances: Array<AssetBalance> = [
   },
 ];
 
-fdescribe('HomeWalletPage', () => {
+describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let navControllerSpy: any;
@@ -195,5 +195,19 @@ fdescribe('HomeWalletPage', () => {
     tick(850);
     expect(component.balances[0].usdAmount).toBe(expectedBalanceETH);
     expect(component.balances[1].usdAmount).toBe(expectedBalanceBTC);
+  }));
+
+  it('should not sum USD balances if coin price was not found on ionViewWillEnter', fakeAsync(() => {
+    spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
+    apiWalletServiceMock.getPrices = (tokens) => of({ prices: { ETH: null, BTC: null } });
+    component.totalBalanceWallet = 0;
+    walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
+    component.coins = coins;
+    const expectedBalance = 0;
+
+    component.ionViewWillEnter();
+
+    tick(850);
+    expect(component.totalBalanceWallet).toBe(expectedBalance);
   }));
 });

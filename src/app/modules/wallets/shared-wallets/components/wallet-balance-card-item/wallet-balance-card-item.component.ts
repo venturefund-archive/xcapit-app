@@ -20,6 +20,23 @@ import { AssetBalance } from '../../interfaces/asset-balance.interface';
             <ion-label color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">{{
               this.balance.name
             }}</ion-label>
+            <ion-label
+              id="usd-balance"
+              color="uxmedium"
+              class="ux-font-lato ux-fsize-12 ux-fweight-regular"
+              *ngIf="this.balance.usdAmount >= 0"
+            >
+              / {{ this.balance.usdAmount }} {{ this.balance.usdSymbol }}
+            </ion-label>
+            <ion-label
+              id="error-message"
+              color="uxmedium"
+              class="ux-font-lato ux-fsize-12 ux-fweight-regular"
+              *ngIf="this.balance.usdAmount < 0"
+            >
+              /
+              {{ 'wallets.home.balance_card.cant_get_usd_balance_error' | translate: { symbol: this.balance.symbol } }}
+            </ion-label>
           </div>
         </div>
       </div>
