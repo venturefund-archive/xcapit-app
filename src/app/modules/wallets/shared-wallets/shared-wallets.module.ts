@@ -5,14 +5,12 @@ import { RecoveryWordComponent } from './components/recovery-word/recovery-word.
 import { WalletBalanceCardItemComponent } from './components/wallet-balance-card-item/wallet-balance-card-item.component';
 import { WalletBalanceCardComponent } from './components/wallet-balance-card/wallet-balance-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
-import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
 
 @NgModule({
   declarations: [
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
-    IconButtonCardComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
   ],
@@ -22,7 +20,6 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
-    IconButtonCardComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
   ],

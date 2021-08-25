@@ -113,7 +113,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
         <div class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12">
           <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
         </div>
-        <app-fund-slider-news [news]="this.news"></app-fund-slider-news>
+        <app-slider-news [news]="this.news"></app-slider-news>
       </div>
     </ion-content>
   `,

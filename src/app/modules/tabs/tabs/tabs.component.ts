@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
+import { Plugins } from '@capacitor/core';
 import { MenuController, NavController, IonTabs } from '@ionic/angular';
 
+const { Browser } = Plugins;
 @Component({
   selector: 'app-tabs',
   template: `
     <ion-tabs #tabs (ionTabsDidChange)="this.tabChange(tabs)">
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="funds" appTrackClick name="Tab Home">
+        <ion-tab-button tab="home" appTrackClick name="Tab Home">
           <ion-icon src="assets/img/tabs/Home.svg"></ion-icon>
           <ion-label>{{ 'tabs.home' | translate }}</ion-label>
         </ion-tab-button>
@@ -16,7 +18,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
           <ion-label>{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button (click)="this.goToWallet()" tab="wallets" appTrackClick name="Tab Wallet">
+        <ion-tab-button (click)="this.goToWallet()" appTrackClick name="Tab Wallet">
           <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
           <ion-label>{{ 'tabs.wallet' | translate }}</ion-label>
         </ion-tab-button>
@@ -72,7 +74,10 @@ export class TabsComponent {
     this.navController.navigateRoot(this.newFundUrl);
   }
 
-  goToWallet() {
-    this.navController.navigateForward('tabs/wallets');
+  async goToWallet() {
+    await Browser.open({
+      toolbarColor: '#ff9100',
+      url: 'https://www.xcapit.com/#lista-espera',
+    });
   }
 }

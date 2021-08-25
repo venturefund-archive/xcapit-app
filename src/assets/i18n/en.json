@@ -89,6 +89,9 @@
     },
     "referrals_help": {
       "text_referrals_help_link": "How the referral system works?"
+    },
+    "app_icon_button_card": {
+      "coming_soon": "Coming Soon"
     }
   },
   "usuarios": {
@@ -1711,6 +1714,31 @@
       "textPrimary": "Your plan is active!",
       "textSecondary": "Keep configuring your investment",
       "textBtn": "Continue"
+    }
+  },
+  "home": {
+    "home_page": {
+      "want_my_wallet": {
+        "title": "I want my wallet!",
+        "description": "With the wallet you have the power, you can invest simply, effortlessly and with a click."
+      },
+      "strategies": {
+        "title": "Strategies",
+        "description": "Learn about our investment proposal and choose the one that best suits you",
+        "link_text": "View strategies"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Need help? Our experts will contact you to guide you",
+        "link_text": "Write us"
+      },
+      "subheader_component": {
+        "wallet": "Wallet",
+        "buy_card": "Buy",
+        "investments": "Investments",
+        "objectives": "Objectives",
+        "coming_soon_alert": "This option will be available soon"
+      }
     }
   }
 }

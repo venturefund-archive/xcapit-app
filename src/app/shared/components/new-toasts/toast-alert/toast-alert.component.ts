@@ -32,7 +32,7 @@ import { ModalController, NavController } from '@ionic/angular';
         </div>
       </div>
       <div *ngIf="this.typeAlert === this.types.information_update" class="pcc_content__information">
-        <div class="pcc_content__details_link">
+        <div class="pcc_content__details_link" *ngIf="this.detailsEnabled">
           <ion-button
             class="pcc_content__details_link__link"
             name="Go To Help"
@@ -64,6 +64,7 @@ export class ToastAlertComponent implements OnInit {
   @Input() message: string;
   @Input() item1: string;
   @Input() item2: string;
+  @Input() detailsEnabled = true;
 
   typeAlert;
 
