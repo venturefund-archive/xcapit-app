@@ -6,7 +6,7 @@ import { PROVIDERS } from '../../shared-ramps/constants/providers';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center"> {{ 'fiat_ramps.select_provider.header' | translate }}</ion-title>
       </ion-toolbar>
