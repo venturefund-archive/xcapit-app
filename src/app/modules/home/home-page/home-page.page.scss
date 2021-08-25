@@ -72,17 +72,18 @@
     }
   }
 
-  .subheader {
+  .toolbar_extend {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 68px;
+    width: 100%;
+    background-color: var(--ion-color-uxprimary);
+  }
+
+  .overlap_buttons {
     margin-top: -52px;
-    &__value {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      display: flex;
-      height: 68px;
-      width: 100%;
-      background-color: var(--ion-color-uxprimary);
-    }
   }
 
   .two_cards {
