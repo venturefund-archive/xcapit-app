@@ -1309,6 +1309,12 @@
         "amount_input": {
           "title": "Monto a enviar"
         }
+      },
+      "send_summary": {
+        "header": "Enviar",
+        "title": "Datos de la transferencia",
+        "amounts_title": "Monto a enviar",
+        "send_button": "Enviar"
       }
     },
     "shared_wallet": {

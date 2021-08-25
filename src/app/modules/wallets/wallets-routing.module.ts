@@ -58,6 +58,10 @@ const routes: Routes = [
             path: 'detail',
             loadChildren: () => import('./send/send-detail/send-detail.module').then((m) => m.SendDetailPageModule),
           },
+          {
+            path: 'summary',
+            loadChildren: () => import('./send/send-summary/send-summary.module').then((m) => m.SendSummaryPageModule),
+          },
         ],
       },
     ],

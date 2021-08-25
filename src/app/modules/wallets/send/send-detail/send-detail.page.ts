@@ -4,6 +4,7 @@ import { COINS } from '../../constants/coins';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 
 @Component({
   selector: 'app-send-detail',
@@ -91,7 +92,12 @@ export class SendDetailPage {
     referenceAmount: ['', Validators.required],
   });
 
-  constructor(private route: ActivatedRoute, private navController: NavController, private formBuilder: FormBuilder) {}
+  constructor(
+    private route: ActivatedRoute,
+    private navController: NavController,
+    private formBuilder: FormBuilder,
+    private transactionDataService: TransactionDataService
+  ) {}
 
   ionViewWillEnter() {
     this.getCurrency();
@@ -105,7 +111,14 @@ export class SendDetailPage {
     this.selectedNetwork = network;
   }
 
-  goToSummary() {
-    console.error('Not implemented yet :{');
+  async goToSummary() {
+    if (this.form.valid) {
+      this.transactionDataService.transactionData = {
+        network: this.selectedNetwork,
+        currency: this.currency,
+        ...this.form.value,
+      };
+      await this.navController.navigateForward(['/wallets/send/summary']);
+    }
   }
 }
