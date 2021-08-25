@@ -10,7 +10,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
   template: ` <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.select_coin.header' | translate }}</ion-title>
       </ion-toolbar>

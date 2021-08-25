@@ -143,15 +143,15 @@ export class LoginPage implements OnInit {
     let url: string[];
     switch (statusName) {
       case UserStatus.COMPLETE: {
-        url = ['tabs/funds'];
+        url = ['tabs/home'];
         break;
       }
       case UserStatus.EXPLORER: {
-        url = ['tabs/funds'];
+        url = ['tabs/home'];
         break;
       }
       case UserStatus.CREATOR: {
-        url = ['tabs/funds'];
+        url = ['tabs/home'];
         break;
       }
       case UserStatus.BEGINNER: {
@@ -159,7 +159,7 @@ export class LoginPage implements OnInit {
         break;
       }
       default: {
-        url = ['tabs/funds'];
+        url = ['tabs/home'];
         break;
       }
     }

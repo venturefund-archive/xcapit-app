@@ -58,7 +58,7 @@ describe('DepositAddressPage', () => {
           TranslateModule.forRoot(),
           ReactiveFormsModule,
           IonicModule,
-          RouterTestingModule.withRoutes([{ path: 'tabs/funds', component: DummyComponent }]),
+          RouterTestingModule.withRoutes([{ path: 'tabs/home', component: DummyComponent }]),
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [

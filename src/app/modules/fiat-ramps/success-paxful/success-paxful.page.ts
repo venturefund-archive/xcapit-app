@@ -38,7 +38,7 @@ export class SuccessPaxfulPage implements OnInit {
   ngOnInit() {}
 
   close() {
-    this.navController.navigateBack(['/tabs/funds']);
+    this.navController.navigateBack(['/tabs/home']);
   }
 
   goToMyOperations() {

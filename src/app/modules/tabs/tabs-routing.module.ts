@@ -14,6 +14,10 @@ const routes: Routes = [
         loadChildren: () => import('../home/home-page/home-page.module').then((m) => m.HomePageModule),
       },
       {
+        path: 'funds',
+        loadChildren: () => import('../funds/funds-list/funds-list.module').then((m) => m.FundsListPageModule),
+      },
+      {
         path: 'wallets',
         loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),
       },
