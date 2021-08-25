@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
         <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
       </div>
       <div class="main__secondary_text">
-        <ion-text class="ux-font-text-base" color="uxsemidark">{{ this.data?.textSecondary | translate }}</ion-text>
+        <ion-text class="ux-font-text-xs" color="uxsemidark">{{ this.data?.textSecondary | translate }}</ion-text>
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">
@@ -55,7 +55,7 @@ import { Router } from '@angular/router';
         </div>
         <div class="main__actions__secondary" *ngIf="this.data.nameSecondaryAction">
           <ion-button
-            class="ux_button"
+            class="action_secondary ux_button"
             appTrackClick="!this.unauth"
             appTrackClickUnauth="this.unauth"
             fill="clear"

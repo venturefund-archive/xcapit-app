@@ -25,7 +25,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
           </app-ux-title>
 
           <app-ux-text class="ion-padding-top ion-margin-top">
-            <div class="ion-margin-top">
+            <div class="subtitle ux-font-text-xxs ion-margin-top">
               {{ 'wallets.select_coin.subtitle' | translate }}
             </div>
           </app-ux-text>
@@ -35,9 +35,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
               <ion-radio-group>
                 <div class="container">
                   <ion-item>
-                    <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-14">{{
-                      'wallets.select_coin.select_all' | translate
-                    }}</ion-label>
+                    <ion-label class="ux-font-text-xxs">{{ 'wallets.select_coin.select_all' | translate }}</ion-label>
                     <ion-toggle class="sc__toggle" (ionChange)="toggleAll()" mode="ios" slot="end"></ion-toggle>
                   </ion-item>
                   <div class="list-divider"></div>

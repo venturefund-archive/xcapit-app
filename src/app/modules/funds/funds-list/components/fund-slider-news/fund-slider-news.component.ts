@@ -12,14 +12,10 @@ const { Browser } = Plugins;
           <img src="{{ article.image.url }}" alt="" />
           <div class="fsn__main__info">
             <div>
-              <ion-label color="uxdark" class="ux-font-gilroy ux-fweight-bold ux-fsize-16">{{
-                article.name
-              }}</ion-label>
+              <ion-label color="uxdark" class="article-name ux-font-text-base">{{ article.name }}</ion-label>
             </div>
             <div>
-              <ion-label color="uxregular" class="ux-font-lato ux-fweight-semibold ux-fsize-12">{{
-                article.summary
-              }}</ion-label>
+              <ion-label color="uxregular" class="article-summary ux-font-text-xxs">{{ article.summary }}</ion-label>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 :host {
   justify-content: start !important;
-    
+
   .app_header_trama {
     height: calc(100vh - 63%);
     width: 100%;
@@ -55,10 +55,6 @@
     margin-left: 16px;
   }
 
-  .or-text {
-    color: #0000008a
-  }
-
   .google-auth {
     padding-bottom: 16px;
     margin-top: 16px;
@@ -74,7 +70,7 @@
       &__text {
         margin-left: 8px;
       }
-      
+
       &__icon {
         margin-right: 8px;
       }

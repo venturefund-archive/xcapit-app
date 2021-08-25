@@ -21,19 +21,17 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
       <form [formGroup]="this.disclaimerForm" class="ux_main" (ngSubmit)="this.handleSubmit()">
         <div class="ux_content">
           <div>
-            <ion-text name="Title" class="ux-font-gilroy ux-fsize-22 ux-fweight-bold">{{
-              'wallets.disclaimer.title' | translate
-            }}</ion-text>
+            <ion-text name="Title" class="ux-font-text-xl">{{ 'wallets.disclaimer.title' | translate }}</ion-text>
           </div>
           <div class="description">
-            <ion-text name="Description" class="ux-font-lato ux-fsize-14 ux-fweight-normal">{{
+            <ion-text name="Description" class="ux-font-text-xs">{{
               'wallets.disclaimer.description' | translate
             }}</ion-text>
           </div>
           <div name="Disclaimer Form Checkboxes" class="checkbox_card">
             <ion-item class="ion-no-padding ion-no-margin checkbox">
               <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item">
+                <ion-item class="ux-font-text-xs ux_checkbox_container__item">
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.local_stored_keys_checkbox' | translate }}
                   </ion-label>
@@ -48,7 +46,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
 
             <ion-item class="ion-no-padding ion-no-margin checkbox">
               <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item">
+                <ion-item class="ux-font-text-xs ux_checkbox_container__item">
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.recovery_phrase_checkbox' | translate }}
                   </ion-label>
@@ -63,7 +61,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
 
             <ion-item class="ion-no-padding ion-no-margin checkbox last">
               <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item">
+                <ion-item class="ux-font-text-xs ux_checkbox_container__item">
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.terms_of_use_checkbox' | translate }}
                   </ion-label>

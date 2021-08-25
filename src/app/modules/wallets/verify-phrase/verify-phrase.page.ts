@@ -17,9 +17,7 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
     <ion-content class="ion-padding">
       <div name="Content" class="ux-content">
         <div class="title">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-            'wallets.verify_phrase.title' | translate
-          }}</ion-text>
+          <ion-text class="ux-font-text-xl">{{ 'wallets.verify_phrase.title' | translate }}</ion-text>
         </div>
         <ion-slides [options]="options">
           <ion-slide class="slide" *ngFor="let word of this.phrase; let i = index">
@@ -49,9 +47,7 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
           </ion-button>
         </div>
         <div class="text1">
-          <ion-text class="text1 ux-font-lato ux-fweight-semibold ux-fsize-15">{{
-            'wallets.verify_phrase.text1' | translate
-          }}</ion-text>
+          <ion-text class="text1 ux-font-text-base">{{ 'wallets.verify_phrase.text1' | translate }}</ion-text>
         </div>
         <div *ngIf="this.phrase">
           <app-recovery-phrase-card

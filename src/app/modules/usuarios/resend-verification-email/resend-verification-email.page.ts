@@ -18,12 +18,12 @@ import { Storage } from '@ionic/storage';
           <app-ux-success-img></app-ux-success-img>
         </div>
         <div class="main__primary_text">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
+          <ion-text class="ux-font-text-xl">{{
             'usuarios.register.resend_verification_email.title' | translate
           }}</ion-text>
         </div>
         <div class="main__secondary_text">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">{{
+          <ion-text class="ux-font-text-xs">{{
             'usuarios.register.resend_verification_email.text' | translate
           }}</ion-text>
         </div>

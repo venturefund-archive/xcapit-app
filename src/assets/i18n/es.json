@@ -229,7 +229,7 @@
       "sub_header": {
         "total_title": "Capital total operado",
         "not_balance_found": "No hay balance para mostrar",
-        "total_detail": "En las ultimas 24 hs",
+        "total_detail": "En las últimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
       "user_status": {

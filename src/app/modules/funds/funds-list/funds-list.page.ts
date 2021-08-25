@@ -78,7 +78,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
       <!-- Fund lists -->
       <div class="fl" *ngIf="this.status?.status_name === 'COMPLETE'">
         <div *ngIf="this.ownerFundBalances?.length" class="fl__funds ion-padding">
-          <div class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+          <div class="fl__funds__title ux-font-subheading">
             {{ 'funds.funds_list.funds_title' | translate }}
           </div>
 
@@ -98,7 +98,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
       </div>
       <div class="fl" *ngIf="this.notOwnerFundBalances?.length">
         <div class="fl__funds ion-padding">
-          <div class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+          <div class="fl__funds__title ux-font-subheading">
             {{ 'funds.funds_list.shared_funds_title' | translate }}
           </div>
           <app-ux-loading-block minSize="50px" *ngIf="!this.notOwnerFundBalances"></app-ux-loading-block>
@@ -110,7 +110,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
 
       <!-- Slider News -->
       <div class="academy ion-padding" *ngIf="this.news">
-        <div class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+        <div class="academy__news__title ux-font-subheading">
           <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
         </div>
         <app-fund-slider-news [news]="this.news"></app-fund-slider-news>

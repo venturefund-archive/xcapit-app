@@ -8,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 
     <ion-content>
       <div class="wt__subheader__value">
-        <div class="wt__title ux-font-lato ux-fweight-regular ux-fsize-16">
+        <div class="wt__title ux-font-text-base">
           <ion-text>
             {{ 'wallets.home.available_money' | translate }}
           </ion-text>
         </div>
-        <div class="wt__amount ux-font-gilroy ux-fweight-extrabold ux-fsize-40">
+        <div class="wt__amount ux-font-num-titulo">
           <ion-text>
             {{ this.totalBalanceWallet | number: '1.2-6' }}
             {{ this.currency }}
