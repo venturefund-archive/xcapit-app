@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NotificationsService } from '../notifications/shared-notifications/services/notifications/notifications.service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { RefreshTimeoutService } from '../../shared/services/refresh-timeout/refresh-timeout.service';
+import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { Plugins } from '@capacitor/core';
 
 const { Browser } = Plugins;
@@ -37,8 +37,8 @@ const { Browser } = Plugins;
     </ion-header>
 
     <ion-content>
-      <div class="subheader__value"></div>
-      <div class="subheader">
+      <div class="toolbar_extend"></div>
+      <div class="overlap_buttons">
         <app-home-subheader></app-home-subheader>
       </div>
       <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
@@ -139,7 +139,7 @@ const { Browser } = Plugins;
       </div>
     </ion-content>
   `,
-  styleUrls: ['./home.page.scss'],
+  styleUrls: ['./home-page.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
   news: Array<any>;

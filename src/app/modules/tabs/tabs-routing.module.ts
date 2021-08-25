@@ -11,7 +11,11 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../home/home.module').then((m) => m.HomePageModule),
+        loadChildren: () => import('../home/home-page/home-page.module').then((m) => m.HomePageModule),
+      },
+      {
+        path: 'funds',
+        loadChildren: () => import('../funds/funds-list/funds-list.module').then((m) => m.FundsListPageModule),
       },
       {
         path: 'wallets',

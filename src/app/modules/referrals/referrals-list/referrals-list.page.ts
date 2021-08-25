@@ -11,7 +11,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center"> {{ 'referrals.new_referral_page.header' | translate }}</ion-title>
       </ion-toolbar>

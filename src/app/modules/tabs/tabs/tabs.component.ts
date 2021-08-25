@@ -13,7 +13,7 @@ const { Browser } = Plugins;
           <ion-label>{{ 'tabs.home' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button (click)="this.goToNewFund()" appTrackClick name="Tab New Fund">
+        <ion-tab-button (click)="this.goToFunds()" appTrackClick name="Tab New Fund">
           <ion-icon src="assets/img/tabs/Trending-up.svg"></ion-icon>
           <ion-label>{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
@@ -35,7 +35,6 @@ const { Browser } = Plugins;
 export class TabsComponent {
   private openMenu = false;
   private activeTab?: HTMLElement;
-  newFundUrl: string;
 
   constructor(private menu: MenuController, private navController: NavController) {}
 
@@ -70,8 +69,8 @@ export class TabsComponent {
     this.navController.navigateForward('menus/main-menu');
   }
 
-  goToNewFund() {
-    this.navController.navigateRoot(this.newFundUrl);
+  goToFunds() {
+    this.navController.navigateRoot(['/tabs/funds']);
   }
 
   async goToWallet() {

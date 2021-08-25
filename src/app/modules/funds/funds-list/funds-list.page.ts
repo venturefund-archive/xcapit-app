@@ -1,15 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { TranslateService } from '@ngx-translate/core';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
-import { TabsComponent } from '../../tabs/tabs/tabs.component';
-import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { LocalStorageService } from '../../../shared/services/local-storage/local-storage.service';
 
 @Component({
@@ -145,14 +141,10 @@ export class FundsListPage implements OnInit, OnDestroy {
 
   constructor(
     private apiFundsService: ApiFundsService,
-    private translate: TranslateService,
     private apiUsers: ApiUsuariosService,
     private navController: NavController,
-    private tabsComponent: TabsComponent,
-    private apiWebFlow: ApiWebflowService,
     private notificationsService: NotificationsService,
     private refreshTimeoutService: RefreshTimeoutService,
-    private toastService: ToastService,
     private localStorageService: LocalStorageService
   ) {}
 
@@ -179,7 +171,6 @@ export class FundsListPage implements OnInit, OnDestroy {
     this.getStatus();
     await this.getOwnerFundBalances();
     await this.getNotOwnerFundBalances();
-    await this.getNews();
   }
 
   initQtyNotifications() {
@@ -227,16 +218,11 @@ export class FundsListPage implements OnInit, OnDestroy {
     if (this.refreshTimeoutService.isAvailable()) {
       await this.getOwnerFundBalances();
       await this.getNotOwnerFundBalances();
-      await this.getNews();
       this.refreshTimeoutService.lock();
       event.target.complete();
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
-  }
-
-  async getNews() {
-    this.news = await this.apiWebFlow.getNews().toPromise();
   }
 
   ngOnDestroy() {

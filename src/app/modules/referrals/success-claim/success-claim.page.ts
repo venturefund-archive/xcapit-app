@@ -38,7 +38,7 @@ export class SuccessClaimPage implements OnInit {
   ngOnInit() {}
 
   goToHome() {
-    this.navController.navigateBack(['/tabs/funds']);
+    this.navController.navigateBack(['/tabs/home']);
   }
 
   close() {

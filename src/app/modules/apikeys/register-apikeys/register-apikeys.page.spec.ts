@@ -100,7 +100,6 @@ describe('RegisterApikeysPage', () => {
             { path: 'apikeys/success-register', component: DummyComponent },
             { path: 'apikeys/success-register-beginner', component: DummyComponent },
             { path: 'apikeys/list', component: DummyComponent },
-            { path: 'tabs/funds', component: DummyComponent },
           ]),
           TranslateModule.forRoot(),
           HttpClientTestingModule,

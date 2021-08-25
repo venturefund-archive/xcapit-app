@@ -38,10 +38,10 @@ export class PaymentSuccessPage implements OnInit {
   ngOnInit() {}
 
   continue() {
-    this.navController.navigateForward(['/tabs/funds']);
+    this.navController.navigateForward(['/tabs/home']);
   }
 
   close() {
-    this.navController.navigateBack(['/tabs/funds']);
+    this.navController.navigateBack(['/tabs/home']);
   }
 }

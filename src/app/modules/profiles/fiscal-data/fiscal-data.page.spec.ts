@@ -20,14 +20,14 @@ const formData = {
     condicion_iva: 'Cliente del Exterior',
     tipo_factura: 'C',
     cuit: '1234123443',
-    pais: 'Argentina'
+    pais: 'Argentina',
   },
   invalid: {
     condicion_iva: 'Cliente del Exterior',
     tipo_factura: 'C',
     cuit: '12341234x43',
-    pais: ''
-  }
+    pais: '',
+  },
 };
 
 describe('FiscalDataPage', () => {
@@ -37,40 +37,42 @@ describe('FiscalDataPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FiscalDataPage>;
   let apiProfilesService: ApiProfilesService;
   let navControllerSpy: any;
-  beforeEach(waitForAsync(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    apiProfilesServiceMock = {
-      crud: {
-        update: () => of({}),
-        get: () => of({})
-      }
-    };
-    TestBed.configureTestingModule({
-      declarations: [FiscalDataPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([
-          {
-            path: 'tabs/funds',
-            component: DummyComponent
-          },
-          {
-            path: 'profiles/success',
-            component: DummyComponent
-          }
-        ])
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      apiProfilesServiceMock = {
+        crud: {
+          update: () => of({}),
+          get: () => of({}),
+        },
+      };
+      TestBed.configureTestingModule({
+        declarations: [FiscalDataPage, TrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+          ReactiveFormsModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'tabs/home',
+              component: DummyComponent,
+            },
+            {
+              path: 'profiles/success',
+              component: DummyComponent,
+            },
+          ]),
+        ],
+        providers: [
+          TrackClickDirective,
+          { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FiscalDataPage);
@@ -94,9 +96,7 @@ describe('FiscalDataPage', () => {
   it('should call save on submit form', () => {
     fixture.detectChanges();
     const spy = spyOn(component, 'save');
-    fixture.debugElement
-      .query(By.css('form'))
-      .triggerEventHandler('ngSubmit', null);
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -132,10 +132,7 @@ describe('FiscalDataPage', () => {
     fixture.detectChanges();
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Save Fiscal Data'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Save Fiscal Data');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
