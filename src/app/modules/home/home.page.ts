@@ -171,7 +171,7 @@ export class HomePage implements OnInit, OnDestroy {
   async ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
-    await this.getNews();
+    this.getNews();
   }
 
   createNotificationTimer() {
@@ -214,8 +214,10 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  async getNews() {
-    this.news = await this.apiWebFlow.getNews().toPromise();
+  getNews() {
+    this.apiWebFlow.getNews().subscribe((res) => {
+      this.news = res;
+    });
   }
 
   async goToWalletWaitingList() {
