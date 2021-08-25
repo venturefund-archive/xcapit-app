@@ -25,5 +25,15 @@
     &__address-input-card {
       margin-top: 16px;
     }
+    &__amount-input-card {
+      margin-top: 16px;
+    }
+    &__submit-button {
+      display: flex;
+      margin-top: 16px;
+      &__button {
+        flex-grow: 1;
+      }
+    }
   }
 }

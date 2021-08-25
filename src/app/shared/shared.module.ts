@@ -39,6 +39,7 @@ import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-a
 import { UxListCardComponent } from './components/ux-list-card/ux-list-card.component';
 import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
+import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.c
     UxTextareaComponent,
     UxDatetimeComponent,
     UxSegmentComponent,
+    UxInputUnderlinedComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -127,6 +129,7 @@ import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.c
     UxTextareaComponent,
     UxDatetimeComponent,
     UxSegmentComponent,
+    UxInputUnderlinedComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

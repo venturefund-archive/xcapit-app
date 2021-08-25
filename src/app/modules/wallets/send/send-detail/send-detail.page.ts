@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { COINS } from '../../constants/coins';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
+import { NavController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-send-detail',
   template: `
     <ion-header>
-      <!--    <ion-header [style.visibility]="this.scanActive ? 'hidden' : 'visible'"> -->
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/select-currency"></ion-back-button>
@@ -16,7 +17,6 @@ import { Coin } from '../../shared-wallets/interfaces/coin.interface';
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd ion-padding-start ion-padding-end">
-      <!--      [style.visibility]="this.scanActive ? 'hidden' : 'visible'"-->
       <div class="sd__title">
         <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24">
           {{ 'wallets.send.send_detail.title' | translate }}
@@ -46,35 +46,66 @@ import { Coin } from '../../shared-wallets/interfaces/coin.interface';
           "
         ></app-network-select-card>
       </div>
-      <div class="sd__address-input-card">
-        <app-address-input-card
-          (scanActiveChange)="this.scanActiveChange($event)"
-          [title]="'Billetera destino' | translate"
-          [helpText]="'Direccion o alias' | translate"
-        ></app-address-input-card>
+
+      <form [formGroup]="this.form">
+        <div class="sd__address-input-card" *ngIf="this.currency">
+          <app-address-input-card
+            [title]="'wallets.send.send_detail.address_input.title' | translate"
+            [helpText]="
+              'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.currency.value }
+            "
+          ></app-address-input-card>
+        </div>
+        <div class="sd__amount-input-card" *ngIf="this.currency">
+          <app-amount-input-card
+            [title]="'wallets.send.send_detail.amount_input.title' | translate"
+            [currencyName]="this.currency.value"
+            referenceCurrencyName="USD"
+          ></app-amount-input-card>
+        </div>
+      </form>
+
+      <div class="sd__submit-button">
+        <ion-button
+          class="ux_button sd__submit-button__button"
+          appTrackClick
+          name="Continue"
+          (click)="this.goToSummary()"
+          [disabled]="!this.form.valid || !this.selectedNetwork"
+          >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
+        >
       </div>
-      <div class="sd__amount-to-send-card">amount-to-send-card</div>
     </ion-content>
   `,
   styleUrls: ['./send-detail.page.scss'],
 })
 export class SendDetailPage {
+  coins = COINS;
   currency: Coin;
   networks = ['ERC20'];
   selectedNetwork: string = this.networks[0];
-  scanActive = false;
+  amount: number;
+  form: FormGroup = this.formBuilder.group({
+    address: ['', [Validators.required]],
+    amount: ['', Validators.required],
+    referenceAmount: ['', Validators.required],
+  });
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private navController: NavController, private formBuilder: FormBuilder) {}
 
   ionViewWillEnter() {
-    this.currency = COINS.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
+    this.getCurrency();
+  }
+
+  private getCurrency() {
+    this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
   }
 
   selectedNetworkChanged(network) {
     this.selectedNetwork = network;
   }
 
-  scanActiveChange(active: boolean) {
-    this.scanActive = active;
+  goToSummary() {
+    console.error('Not implemented yet :{');
   }
 }

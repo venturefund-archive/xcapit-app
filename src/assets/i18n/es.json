@@ -1300,7 +1300,21 @@
         "network_select": {
           "title": "Red",
           "disclaimer": "Asegurse que la billetera de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito."
+        },
+        "continue_button": "Continuar",
+        "address_input": {
+          "title": "Billetera destino",
+          "help_text": "{{currency}} direccion o alias"
+        },
+        "amount_input": {
+          "title": "Monto a enviar"
         }
+      }
+    },
+    "shared_wallet": {
+      "address_input_card": {
+        "scan_error": "Error al escanear el código QR",
+        "scan_unauthorized": "No tienes permiso para escanear"
       }
     }
   },

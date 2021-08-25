@@ -1290,6 +1290,28 @@
       "select_currency": {
         "header": "Send",
         "title": "Select currency"
+      },
+      "send_detail": {
+        "header": "Send",
+        "title": "Transfer data",
+        "network_select": {
+          "title": "Network",
+          "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit."
+        },
+        "continue_button": "Continue",
+        "address_input": {
+          "title": "Target wallet",
+          "help_text": "{{currency}} address or alias"
+        },
+        "amount_input": {
+          "title": "Amount to send"
+        }
+      }
+    },
+    "shared_wallet": {
+      "address_input_card": {
+        "scan_error": "Error scanning QR code",
+        "scan_unauthorized": "You have no permission to scan"
       }
     }
   },

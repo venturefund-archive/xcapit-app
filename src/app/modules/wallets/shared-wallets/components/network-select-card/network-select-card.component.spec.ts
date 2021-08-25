@@ -31,14 +31,15 @@ describe('NetworkSelectCardComponent', () => {
 
     fixture.detectChanges();
     await fixture.whenStable();
+    await fixture.whenRenderingDone();
 
-    const titleEl = fixture.debugElement.query(By.css('.nsc__title'));
-    expect(titleEl.nativeElement.innerText).toContain('Test title');
+    const titleEl = fixture.debugElement.query(By.css('.nsc__title')).query(By.css('ion-text'));
+    expect(titleEl.nativeElement.innerHTML).toContain('Test title');
 
     const networksEl = fixture.debugElement.queryAll(By.css('app-ux-segment'));
     expect(networksEl).toBeTruthy();
 
     const disclaimerEl = fixture.debugElement.query(By.css('.nsc__disclaimer'));
-    expect(disclaimerEl.nativeElement.innerText).toContain('Test Disclaimer');
+    expect(disclaimerEl.nativeNode.innerHTML).toContain('Test Disclaimer');
   });
 });

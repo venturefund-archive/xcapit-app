@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
+import { ToastService } from '../../../../../shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-address-input-card',
@@ -10,7 +12,7 @@ import { ScanQrModalComponent } from '../../../../../shared/components/scan-qr-m
     <div class="aic ion-padding">
       <div class="aic__header">
         <div class="aic__header__title">
-          <ion-text>{{ this.title }}</ion-text>
+          <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14">{{ this.title }}</ion-text>
         </div>
         <div class="aic__header__buttons">
           <ion-button
@@ -37,14 +39,21 @@ import { ScanQrModalComponent } from '../../../../../shared/components/scan-qr-m
         </div>
       </div>
       <div class="aic__content">
-        <form [formGroup]="this.form">
-          <ion-item class="aic__content__item">
-            <ion-input id="address-input" formControlName="address"></ion-input>
-          </ion-item>
-        </form>
+        <app-ux-input-underlined
+          [labelLeft]="this.helpText"
+          controlName="address"
+          type="text"
+          id="address-input"
+        ></app-ux-input-underlined>
       </div>
     </div>
   `,
+  viewProviders: [
+    {
+      provide: ControlContainer,
+      useExisting: FormGroupDirective,
+    },
+  ],
   styleUrls: ['./address-input-card.component.scss'],
 })
 export class AddressInputCardComponent implements OnInit {
@@ -58,7 +67,9 @@ export class AddressInputCardComponent implements OnInit {
   constructor(
     private clipboardService: ClipboardService,
     private formBuilder: FormBuilder,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {}
@@ -81,8 +92,24 @@ export class AddressInputCardComponent implements OnInit {
     });
     await modal.present();
     const { data, role } = await modal.onDidDismiss();
-    if (role === 'success') {
-      this.form.patchValue({ address: data });
+    await this.handleScanResult(data, role);
+  }
+
+  async handleScanResult(data, role) {
+    switch (role) {
+      case 'success':
+        this.form.patchValue({ address: data });
+        break;
+      case 'error':
+        await this.showToast(this.translate.instant('wallets.shared_wallets.address_input_card.scan_error'));
+        break;
+      case 'unauthorized':
+        await this.showToast(this.translate.instant('wallets.shared_wallets.address_input_card.scan_unauthorized'));
+        break;
     }
+  }
+
+  private async showToast(message) {
+    await this.toastService.showToast({ message });
   }
 }
