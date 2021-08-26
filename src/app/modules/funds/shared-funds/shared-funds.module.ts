@@ -29,6 +29,7 @@ import { FundTimelineComponent } from './components/fund-timeline/fund-timeline.
 import { InvestmentProductCardComponent } from './components/investment-product-card/investment-product-card.component';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { StrategyNamePipe } from './pipes/strategy-name/strategy-name.pipe';
+import { NoApikeysModalComponent } from './components/no-apikeys-modal/no-apikeys-modal.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { StrategyNamePipe } from './pipes/strategy-name/strategy-name.pipe';
     CurrencyFormatPipe,
     HideTextPipe,
     StrategyNamePipe,
+    NoApikeysModalComponent,
   ],
   providers: [DatePipe, DecimalPipe, HideTextPipe],
   imports: [SharedModule],
@@ -71,6 +73,7 @@ import { StrategyNamePipe } from './pipes/strategy-name/strategy-name.pipe';
     StateShowNamePipe,
     CurrencyAmountValueComponent,
     CommissionNamePipe,
+    NoApikeysModalComponent,
     CommissionsModalComponent,
     CommissionsContentComponent,
     CustomRangeModalComponent,

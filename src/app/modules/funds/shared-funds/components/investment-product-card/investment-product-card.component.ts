@@ -3,6 +3,10 @@ import { InvestmentProductInterface } from './investment-product-card.interface'
 import { TranslateService } from '@ngx-translate/core';
 import { Plugins } from '@capacitor/core';
 import { SubmitButtonService } from '../../../../../shared/services/submit-button/submit-button.service';
+import { ModalController, NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { NoApikeysModalComponent } from '../no-apikeys-modal/no-apikeys-modal.component';
 
 const { Browser } = Plugins;
 
@@ -65,7 +69,7 @@ const { Browser } = Plugins;
             type="button"
             [disabled]="this.submitButtonService.isDisabled | async"
             (click)="
-              this.handleSubmit({
+              this.invest({
                 risk_level: this.productData.profile,
                 currency: this.productData.currency
               })
@@ -83,6 +87,8 @@ const { Browser } = Plugins;
 export class InvestmentProductCardComponent implements OnInit {
   @Input() product: InvestmentProductInterface;
   @Output() save = new EventEmitter<any>();
+  apikeys: any = [];
+  strategie: any;
 
   productData = {
     title: '',
@@ -138,7 +144,14 @@ export class InvestmentProductCardComponent implements OnInit {
     },
   };
 
-  constructor(private translate: TranslateService, public submitButtonService: SubmitButtonService) {
+  constructor(
+    private modalController: ModalController,
+    private apiApikeysService: ApiApikeysService,
+    private route: ActivatedRoute,
+    private navController: NavController,
+    private translate: TranslateService,
+    public submitButtonService: SubmitButtonService
+  ) {
     Browser.prefetch({
       urls: ['https://www.info.xcapit.com/'],
     });
@@ -146,6 +159,7 @@ export class InvestmentProductCardComponent implements OnInit {
 
   ngOnInit() {
     this.setProductData();
+    this.getAllApiKeys();
   }
 
   setProductData() {
@@ -158,15 +172,46 @@ export class InvestmentProductCardComponent implements OnInit {
     this.productData.title = this.translate.instant(this.productData.title);
   }
 
+  invest(profile) {
+    if (this.apikeys.length === 0) {
+      this.openModal();
+    } else {
+      this.handleSubmit(profile);
+    }
+  }
+
   getRiskClass() {
     return `risk-${this.productData.risk}`;
   }
 
-  async moreInfo() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
-      url: this.productData.link_info,
+  getAllApiKeys() {
+    this.apiApikeysService.getAll().subscribe((data) => {
+      this.apikeys = data;
     });
+  }
+
+  checkEmptyApikeys() {
+    if (this.apikeys.length === 0) {
+      this.openModal();
+    } else {
+      this.checkBalance();
+    }
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: NoApikeysModalComponent,
+      cssClass: 'ux-modal-no-apikeys',
+      swipeToClose: false,
+    });
+    await modal.present();
+  }
+
+  checkBalance() {}
+
+  moreInfo() {
+    const title = this.productData.title !== 'Olympus Mons' ? this.productData.title : 'Olympus';
+    this.navController.navigateForward(['funds/fund-investment-info', title]);
   }
 
   handleSubmit(profile) {
