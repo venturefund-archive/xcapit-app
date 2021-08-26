@@ -168,7 +168,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
-  async ionViewWillEnter() {
+  ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
     this.getNews();
