@@ -25,7 +25,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
           </app-ux-title>
 
           <app-ux-text class="ion-padding-top ion-margin-top">
-            <div class="subtitle ux-font-text-xxs ion-margin-top">
+            <div class="subtitle ux-font-text-xs ion-margin-top">
               {{ 'wallets.select_coin.subtitle' | translate }}
             </div>
           </app-ux-text>

@@ -20,7 +20,7 @@ const { Browser } = Plugins;
           </div>
           <div class="mc__content__name_description">
             <div class="mc__content__name">
-              <div class="ux-font-lato ux-fweight-regular ux-fsize-22">
+              <div class="ux-font-text-base">
                 <ion-text>{{ this.paymentMethod?.name }} </ion-text>
               </div>
             </div>

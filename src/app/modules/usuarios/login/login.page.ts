@@ -89,7 +89,7 @@ import { Plugins } from '@capacitor/core';
           (click)="this.googleSingUp()"
         >
           <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google Logo" />
-          <span class="google-auth__button__text ux-font-lato ux-fweight-regular ux-fsize-16">{{
+          <span class="google-auth__button__text ux-font-text-base">{{
             'usuarios.login.google_auth' | translate
           }}</span>
         </ion-button>

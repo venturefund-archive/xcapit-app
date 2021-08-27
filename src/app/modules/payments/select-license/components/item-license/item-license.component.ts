@@ -30,22 +30,20 @@ import { PlanType } from '../../enums/plan_type.enum';
             '$' + this.plan?.price
           }}</ion-text>
           <ion-text
-            class="ux-font-lato ux-fweight-regular ux-fsize-12"
             *ngIf="this.plan?.type === planType.paid && this.plan?.frequency_type === 'years'"
-            class="name_text ux-font-lato ux-fsize-14"
+            class="name_text ux-font-text-xs"
             >/{{ 'payment.licenses.annual' | translate }}</ion-text
           >
           <ion-text
-            class="ux-font-lato ux-fweight-regular ux-fsize-12"
             *ngIf="this.plan?.type === planType.paid && this.plan?.frequency_type === 'months'"
-            class="name_text ux-font-lato ux-fsize-14"
+            class="name_text ux-font-text-xs"
             >/{{ 'payment.licenses.monthly' | translate }}</ion-text
           >
         </div>
       </div>
       <div *ngIf="this.plan?.type === planType.premium">
         <ion-button
-          class="ilc__content__button ux-fweight-bold ux-fsize-14"
+          class="ilc__content__button ux-font-text-xs"
           name="Contact Us"
           appTrackClick
           fill="clear"

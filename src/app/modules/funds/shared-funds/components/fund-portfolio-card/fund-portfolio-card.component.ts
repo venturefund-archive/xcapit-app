@@ -46,7 +46,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             </ion-text>
           </div>
           <div class="base" style="margin-top:0px">
-            <ion-text class="ux-font-text-lg" color="uxsemidark">
+            <ion-text class="ux-font-text-lg" color="uxdark">
               {{
                 this.totalSecond
                   | currencyFormat

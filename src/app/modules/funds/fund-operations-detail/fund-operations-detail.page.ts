@@ -17,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
         <!-- Comentado hasta la implementación del filtro -->
         <!-- <ion-buttons slot="end">
           <ion-button
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
+            class="ux-font-text-xs semibold ion-padding-end"
             appTrackClick
             name="Filter Orders"
           >
@@ -74,7 +74,7 @@ import { ActivatedRoute } from '@angular/router';
                 </ion-item>
               </ion-item-group>
               <div class="list-divider"></div>
-              <ion-item-group class="ux-font-lato ux-fweight-regular ux-fsize-12">
+              <ion-item-group class="item-group ux-font-text-xs">
                 <ion-item class="fodc__content__block__item">
                   <ion-label class="fodc__align_left fodc__margin">Fee</ion-label>
                   <ion-label class="fodc__align_right fodc__margin">{{ order.fee_cost | number: '1.2-6' }}</ion-label>
@@ -87,7 +87,7 @@ import { ActivatedRoute } from '@angular/router';
                 </ion-item>
               </ion-item-group>
               <div class="list-divider"></div>
-              <ion-item-group class="ux-font-lato ux-fweight-regular ux-fsize-12">
+              <ion-item-group class="ux-font-text-xxs">
                 <ion-item class="fodc__content__block__item">
                   <ion-label class="fodc__align_left fodc__margin">{{
                     'funds.fund_operations_detail.status' | translate

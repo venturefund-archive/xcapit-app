@@ -9,10 +9,10 @@ import * as moment from 'moment';
         <div class="fmc__content__right ion-padding-top ion-padding-start ion-padding-bottom">
           <!-- Período -->
           <div class="item">
-            <ion-text class="item__title ux-font-text-xs" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.period' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-text-xs">
+            <ion-text class="item__value ux-font-text-xxs regular">
               {{
                 'funds.fund_card.' + this.createdTime[0]
                   | translate
@@ -26,18 +26,18 @@ import * as moment from 'moment';
 
           <!-- Take profit -->
           <div class="item second">
-            <ion-text class="item__title ux-font-text-xs" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.take_profit' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-text-xs"> {{ this.settings?.ganancia }}% </ion-text>
+            <ion-text class="item__value ux-font-text-xxs regular"> {{ this.settings?.ganancia }}% </ion-text>
           </div>
 
           <!-- Estrategia -->
           <div class="item second">
-            <ion-text class="item__title ux-font-text-xs" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.strategy' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-text-xs">
+            <ion-text class="item__value ux-font-text-xxs regular">
               {{ this.settings?.nivel_de_riesgo | strategyName }}
             </ion-text>
           </div>
@@ -45,7 +45,7 @@ import * as moment from 'moment';
         <div class="fmc__content__right ion-padding-top ion-padding-end ion-padding-bottom">
           <!-- Rendimiento -->
           <div class="item">
-            <ion-text class="item__title ux-font-text-xs" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.performance' | translate }}
             </ion-text>
             <div>
@@ -59,7 +59,7 @@ import * as moment from 'moment';
                 name="ux-triangle-down"
                 *ngIf="this.resume?.total_profit < 0"
               ></ion-icon>
-              <ion-text class="item__value ux-font-text-xs">
+              <ion-text class="item__value ux-font-text-xxs regular">
                 {{ this.resume?.total_profit * 100 | absoluteValue | number: '1.2-2' }}%
               </ion-text>
             </div>
@@ -67,18 +67,18 @@ import * as moment from 'moment';
 
           <!-- Stop loss -->
           <div class="item second">
-            <ion-text class="item__title ux-font-text-xs" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.stop_loss' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-text-xs"> {{ this.settings?.perdida }}% </ion-text>
+            <ion-text class="item__value ux-font-text-xxs regular"> {{ this.settings?.perdida }}% </ion-text>
           </div>
 
           <!-- Moneda -->
           <div class="item second">
-            <ion-text class="item__title ux-font-text-xs" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.currency' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-text-xs">
+            <ion-text class="item__value ux-font-text-xxs regular">
               {{ this.settings?.currency }}
             </ion-text>
           </div>

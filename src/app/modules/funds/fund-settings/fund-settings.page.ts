@@ -14,30 +14,20 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/funds/fund-detail"></ion-back-button>
         </ion-buttons>
         <div>
-          <ion-title class="fst__main-title ion-text-center">{{
-            'funds.fund_settings.header' | translate
-          }}</ion-title>
-          <ion-title class="fst__fund-name ion-text-center">{{
-            this.fundName
-          }}</ion-title>
+          <ion-title class="fst__main-title">{{ 'funds.fund_settings.header' | translate }}</ion-title>
+          <ion-title class="fst__fund-name">{{ this.fundName }}</ion-title>
         </div>
       </ion-toolbar>
     </ion-header>
     <ion-content class="fs ion-padding">
       <div class="fs__title">
-        <ion-text
-          class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22"
-          color="uxdark"
-        >
+        <ion-text class="ux-font-text-xl" color="uxdark">
           {{ this.fund?.nombre_bot }}
         </ion-text>
       </div>
       <div class="fs__fund-info">
         <div class="fs__fund-info__title">
-          <ion-text
-            class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-            color="uxsemidark"
-          >
+          <ion-text class="ux-font-subheading">
             {{ 'funds.fund_settings.fund_info_title' | translate }}
           </ion-text>
         </div>
@@ -60,10 +50,7 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="fs__fund-modify">
         <div class="fs__fund-modify__title">
-          <ion-text
-            class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-            color="uxsemidark"
-          >
+          <ion-text class="ux-font-subheading">
             {{ 'funds.fund_settings.fund_modify_title' | translate }}
           </ion-text>
         </div>
@@ -77,11 +64,7 @@ import { NavController } from '@ionic/angular';
                   </h2>
                   <h3>{{ this.fund?.ganancia }}%</h3>
                 </ion-label>
-                <ion-icon
-                  slot="end"
-                  name="ux-forward"
-                  class="fs__fund-modify__list__icon"
-                ></ion-icon>
+                <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
               </ion-item>
               <div class="list-divider"></div>
               <ion-item (click)="this.editStopLoss()">
@@ -91,22 +74,14 @@ import { NavController } from '@ionic/angular';
                   </h2>
                   <h3>{{ this.fund?.perdida }}%</h3>
                 </ion-label>
-                <ion-icon
-                  slot="end"
-                  name="ux-forward"
-                  class="fs__fund-modify__list__icon"
-                ></ion-icon>
+                <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
               </ion-item>
             </ion-list>
           </app-ux-list-inverted>
         </div>
       </div>
       <div class="fs__fund-finish" *ngIf="this.fund">
-        <app-fund-finish
-          [fundName]="this.fund.nombre_bot"
-          [runId]="this.fund.id_corrida"
-        >
-        </app-fund-finish>
+        <app-fund-finish [fundName]="this.fund.nombre_bot" [runId]="this.fund.id_corrida"> </app-fund-finish>
       </div>
     </ion-content>
   `,
@@ -131,29 +106,19 @@ export class FundSettingsPage implements OnInit {
   }
 
   getActiveFund() {
-    this.apiFunds
-      .getLastFundRun(this.fundName)
-      .subscribe((res) => (this.fund = res));
+    this.apiFunds.getLastFundRun(this.fundName).subscribe((res) => (this.fund = res));
   }
 
   getApiKeys() {
-    this.apiApiKeys
-      .getByFundName(this.fundName)
-      .subscribe((res) => (this.apiKeys = res));
+    this.apiApiKeys.getByFundName(this.fundName).subscribe((res) => (this.apiKeys = res));
   }
 
   editStopLoss() {
-    this.navController.navigateForward([
-      'funds/edit-stop-loss/',
-      this.fundName,
-    ]);
+    this.navController.navigateForward(['funds/edit-stop-loss/', this.fundName]);
   }
 
   editTakeProfit() {
-    this.navController.navigateForward([
-      'funds/edit-take-profit/',
-      this.fundName,
-    ]);
+    this.navController.navigateForward(['funds/edit-take-profit/', this.fundName]);
   }
 
   ngOnInit() {}

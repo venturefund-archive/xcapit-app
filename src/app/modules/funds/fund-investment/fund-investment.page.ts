@@ -29,7 +29,7 @@ import { Browser } from '@capacitor/core';
           }}</ion-text>
         </div>
         <div class="fi__info__description">
-          <ion-text class="ux-font-text-xs" color="uxsemidark">{{
+          <ion-text class="ux-font-text-xs" color="uxdark">{{
             'funds.fund_investment.header_info.description' | translate
           }}</ion-text>
         </div>

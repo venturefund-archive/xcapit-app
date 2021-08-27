@@ -14,11 +14,20 @@
     margin-bottom: 15px;
     &__content {
       &__item {
+        .label {
+          font-weight: var(--ux-fweight-extrabold);
+          color: red;
+        }
         ion-label {
+          ion-text.regular {
+            font-weight: var(--ux-fweight-regular);
+          }
           ion-text.positive {
+            font-size: var(--ux-fsize-10);
             color: #21dd62;
           }
           ion-text.negative {
+            font-size: var(--ux-fsize-10);
             color: var(--ion-color-danger);
           }
         }

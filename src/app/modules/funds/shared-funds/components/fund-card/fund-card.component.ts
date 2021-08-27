@@ -91,7 +91,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             </div>
           </div>
         </div>
-        <div *ngIf="!this.fund?.end_balance" class="fl__total__amount ux-font-lato ux-fweight-regular ux-fsize-14">
+        <div *ngIf="!this.fund?.end_balance" class="fl__total__amount ux-font-text-xs">
           <ion-text>
             {{ 'funds.fund_card.not_balance_found' | translate }}
           </ion-text>

@@ -17,7 +17,7 @@ import { Component, OnInit } from '@angular/core';
             <ion-text class="title ux-font-num-subtitulo">{{
               'referrals.referrals_info.info_title1' | translate
             }}</ion-text>
-            <ion-text class="description ux-fsize-14 ux-fweight-semibold ux-font-lato">{{
+            <ion-text class="description ux-font-text-xs semibold">{{
               'referrals.referrals_info.info_description1' | translate
             }}</ion-text>
           </div>

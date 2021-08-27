@@ -1,4 +1,7 @@
 :host {
+  .regular {
+    font-weight: var(--ux-fweight-regular);
+  }
   width: 100%;
   .fmc {
     margin-top: 8px;

@@ -62,6 +62,7 @@
       }
     }
     &__content > ion-item-group {
+      font-size: var(--ux-fsize-22);
       margin: 10px 0px;
     }
     &__align_left {
@@ -76,7 +77,11 @@
     }
   }
 
+  .semibold {
+    font-weight: var(--ux-fweight-semibold);
+  }
+
   .regular {
-    font-weight: var(--ux-fweight-regularl);
+    font-weight: var(--ux-fweight-regular);
   }
 }
