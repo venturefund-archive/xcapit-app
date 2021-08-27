@@ -1296,7 +1296,7 @@
         "title": "Transfer data",
         "network_select": {
           "title": "Network",
-          "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit."
+          "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
         },
         "continue_button": "Continue",
         "address_input": {
@@ -1306,12 +1306,30 @@
         "amount_input": {
           "title": "Amount to send"
         }
+      },
+      "send_summary": {
+        "header": "Send",
+        "title": "Transfer data",
+        "amounts_title": "Amount to send",
+        "send_button": "Send",
+        "wrong_password": "Wrong password"
+      },
+      "send_success": {
+        "textPrimary": "Your transfer was made.",
+        "textSecondary": "It will be available shortly",
+        "namePrimaryAction": "Go to my wallet"
       }
     },
-    "shared_wallet": {
+    "shared_wallets": {
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "scan_unauthorized": "You have no permission to scan"
+      },
+      "wallet_password": {
+        "title": "Enter your password",
+        "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
+        "submit_button_text": "Accept",
+        "input_label": "Password"
       }
     }
   },

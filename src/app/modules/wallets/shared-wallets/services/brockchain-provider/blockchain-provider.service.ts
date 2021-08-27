@@ -6,8 +6,13 @@ import { environment } from '../../../../../../environments/environment';
   providedIn: 'root',
 })
 export class BlockchainProviderService {
-  provider: ethers.providers.JsonRpcProvider;
+  readonly provider: ethers.providers.JsonRpcProvider;
+
   constructor() {
     this.provider = new ethers.providers.JsonRpcProvider(environment.ethAlchemyApiUrl);
+  }
+
+  signer(addressOrIndex?: string) {
+    return this.provider.getSigner(addressOrIndex);
   }
 }

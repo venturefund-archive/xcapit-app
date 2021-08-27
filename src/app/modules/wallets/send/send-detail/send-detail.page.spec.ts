@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,6 +10,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
+import createSpyObj = jasmine.createSpyObj;
 
 const coins = [
   {
@@ -21,11 +23,20 @@ const coins = [
   },
 ];
 
+const formData = {
+  valid: {
+    address: 'asdfasdfasdfas',
+    amount: '29',
+    referenceAmount: '29',
+  },
+};
+
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
   let activatedRouteMock: any;
+  let navControllerSpy: any;
 
   beforeEach(() => {
     activatedRouteMock = {
@@ -35,6 +46,7 @@ describe('SendDetailPage', () => {
         },
       },
     };
+    navControllerSpy = createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, TrackClickDirective],
       imports: [
@@ -44,7 +56,11 @@ describe('SendDetailPage', () => {
         RouterTestingModule,
         ReactiveFormsModule,
       ],
-      providers: [TrackClickDirective, { provide: ActivatedRoute, useValue: activatedRouteMock }],
+      providers: [
+        TrackClickDirective,
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: NavController, useValue: navControllerSpy },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
@@ -83,5 +99,13 @@ describe('SendDetailPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+  it('should save transaction data and navigate when Continue Button clicked and form valid', () => {
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Continue');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   });
 });

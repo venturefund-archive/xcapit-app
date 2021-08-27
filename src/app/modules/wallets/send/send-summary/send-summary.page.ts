@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
+import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
+import { ModalController, NavController } from '@ionic/angular';
+import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
 
 @Component({
   selector: 'app-send-summary',
@@ -32,7 +35,8 @@ import { SubmitButtonService } from '../../../../shared/services/submit-button/s
           name="Send"
           [disabled]="this.submitButtonService.isDisabled | async"
           (click)="this.send()"
-        ></ion-button>
+          >{{ 'wallets.send.send_summary.send_button' | translate }}</ion-button
+        >
       </div>
     </ion-content>`,
   styleUrls: ['./send-summary.page.scss'],
@@ -41,6 +45,9 @@ export class SendSummaryPage {
   summaryData: SummaryData;
   constructor(
     private transactionDataService: TransactionDataService,
+    private walletTransactionsService: WalletTransactionsService,
+    private modalController: ModalController,
+    private navController: NavController,
     public submitButtonService: SubmitButtonService
   ) {}
 
@@ -48,7 +55,26 @@ export class SendSummaryPage {
     this.summaryData = this.transactionDataService.transactionData;
   }
 
-  send() {
-    console.error('Not implemented yet :S');
+  async askForPassword() {
+    const modal = await this.modalController.create({
+      component: WalletPasswordComponent,
+      cssClass: 'ux-routeroutlet-modal full-screen-modal',
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    return data;
+  }
+
+  async send() {
+    const password = await this.askForPassword();
+    if (!!password) {
+      await this.walletTransactionsService.send(
+        password,
+        this.summaryData.amount,
+        this.summaryData.address,
+        this.summaryData.currency
+      );
+      await this.navController.navigateForward(['/wallets/send/success']);
+    }
   }
 }

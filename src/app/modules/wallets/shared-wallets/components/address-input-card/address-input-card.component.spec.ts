@@ -22,7 +22,7 @@ describe('AddressInputCardComponent', () => {
 
   beforeEach(() => {
     controlContainerMock = new FormGroup({
-      address: new FormControl(),
+      address: new FormControl(''),
     });
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;

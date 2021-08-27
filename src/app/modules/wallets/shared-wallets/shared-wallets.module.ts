@@ -8,6 +8,7 @@ import { NetworkSelectCardComponent } from './components/network-select-card/net
 import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
 import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
+import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TransactionSummaryCardComponent } from './components/transaction-summar
     AddressInputCardComponent,
     AmountInputCardComponent,
     TransactionSummaryCardComponent,
+    WalletPasswordComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -31,6 +33,7 @@ import { TransactionSummaryCardComponent } from './components/transaction-summar
     AddressInputCardComponent,
     AmountInputCardComponent,
     TransactionSummaryCardComponent,
+    WalletPasswordComponent,
   ],
 })
 export class SharedWalletsModule {}

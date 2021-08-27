@@ -60,19 +60,20 @@ export class AddressInputCardComponent implements OnInit {
   @Input() title: string;
   @Input() helpText: string;
   @Input() enableQR = true;
-  form: FormGroup = this.formBuilder.group({
-    address: ['', Validators.required],
-  });
+  form: FormGroup;
 
   constructor(
     private clipboardService: ClipboardService,
     private formBuilder: FormBuilder,
     private modalController: ModalController,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private formGroupDirective: FormGroupDirective
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.form = this.formGroupDirective.form;
+  }
 
   pasteClipboardData() {
     this.clipboardService.read().then((result) => {

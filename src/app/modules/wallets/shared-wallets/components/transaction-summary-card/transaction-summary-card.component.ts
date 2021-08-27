@@ -6,7 +6,7 @@ import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.
   template: `
     <div class="tsc ion-padding">
       <div class="tsc__name-and-icon">
-        <div>
+        <div class="tsc__name-and-icon__name">
           <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">{{ this.summaryData.currency.name }}</ion-text>
           <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">{{ this.summaryData.network }}</ion-text>
         </div>
