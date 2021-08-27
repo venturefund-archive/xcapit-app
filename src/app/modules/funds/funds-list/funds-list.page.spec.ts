@@ -4,8 +4,8 @@ import { FundsListPage } from './funds-list.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { of } from 'rxjs';
-import { IonicModule } from '@ionic/angular';
+import { of, Subscription } from 'rxjs';
+import { IonicModule, NavController } from '@ionic/angular';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -14,7 +14,15 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { By } from '@angular/platform-browser';
 
+const testStatus = {
+  has_own_funds: false,
+  empty_linked_keys: true,
+  has_subscribed_funds: false,
+  status_name: 'CREATOR',
+};
 describe('FundsListPage', () => {
   let component: FundsListPage;
   let fixture: ComponentFixture<FundsListPage>;
@@ -27,6 +35,7 @@ describe('FundsListPage', () => {
   let notificationsServiceMock: any;
   let localStorageService: LocalStorageService;
   let localStorageServiceMock: any;
+  let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
@@ -41,25 +50,17 @@ describe('FundsListPage', () => {
 
       localStorageServiceMock = {
         toggleHideFunds: () => undefined,
-        getHideFunds: () => Promise.resolve(true),
+        hideFunds: of(true),
       };
 
       apiUsuariosServiceMock = {
-        status: () =>
-          of({
-            profile_valid: true,
-            empty_linked_keys: false,
-            has_own_funds: true,
-            has_subscribed_funds: true,
-            status_name: 'COMPLETE',
-          }),
+        status: () => of(testStatus),
       };
 
       notificationsServiceMock = {
-        getNotifications: () => of({}),
-        getCountNotifications: () => of({}),
+        getCountNotifications: () => of({ count: 5 }),
       };
-
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         imports: [
           HttpClientTestingModule,
@@ -96,6 +97,10 @@ describe('FundsListPage', () => {
             provide: LocalStorageService,
             useValue: localStorageServiceMock,
           },
+          {
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
         ],
       }).compileComponents();
     })
@@ -116,17 +121,18 @@ describe('FundsListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call SubscribeOnHideFunds on ionViewWillEnter', async () => {
-    const spyStatus = spyOn(apiUsuariosService, 'status');
-    const spyCreateNotificationTimer = spyOn(component, 'createNotificationTimer');
-    const spyInitQtyNotification = spyOn(component, 'initQtyNotifications');
-    spyStatus.and.returnValue(of({}));
-    const spySubscribeHideFunds = spyOn(component, 'subscribeOnHideFunds');
-    await component.ionViewWillEnter();
-    expect(spyStatus).toHaveBeenCalledTimes(1);
-    expect(spySubscribeHideFunds).toHaveBeenCalledTimes(1);
-    expect(spyCreateNotificationTimer).toHaveBeenCalledTimes(1);
-    expect(spyInitQtyNotification).toHaveBeenCalledTimes(1);
+  it('should call SubscribeOnHideFunds, createNotificationTimer and initQtyNotifications on ionViewWillEnter', () => {
+    component.ionViewWillEnter();
+    expect(component.status).toEqual(testStatus);
+    expect(component.hideFundText).toBeTrue();
+    expect(component.unreadNotifications).toEqual(5);
+  });
+
+  it('should unsubscribe timerSubscription, notificationQtySubscription on ionViewDidLeave', () => {
+    component.ionViewWillEnter();
+    const spy = spyOn(Subscription.prototype, 'unsubscribe');
+    component.ionViewDidLeave();
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 
   it('should call getFundBalances and getNews on doRefresh', async () => {
@@ -146,6 +152,12 @@ describe('FundsListPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should navigate to user profile when Go To Profile is clicked', () => {
+    const button = fixture.debugElement.query(By.css("ion-button[name='Go To Profile']"));
+    button.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/profiles/user');
+  });
+
   it('should call toggleHideFunds in HideText', () => {
     const spyToggle = spyOn(localStorageService, 'toggleHideFunds');
     spyToggle.and.returnValue(undefined);
@@ -161,5 +173,11 @@ describe('FundsListPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to notifications list when Show Notifications is clicked', () => {
+    const button = fixture.debugElement.query(By.css("ion-button[name='Show Notifications']"));
+    button.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/notifications/list');
   });
 });

@@ -31,6 +31,7 @@ const { Browser } = Plugins;
           </div>
           <div class="hsub__card-buttons__investments card">
             <app-icon-button-card
+              (click)="this.goToInvestments()"
               appTrackClick
               name="Go to Investments"
               [text]="'home.home_page.subheader_component.investments' | translate"
@@ -71,6 +72,10 @@ export class HomeSubheaderComponent implements OnInit {
 
   goToBuy() {
     this.navController.navigateForward('/fiat-ramps/operations');
+  }
+
+  goToInvestments() {
+    this.navController.navigateForward('/tabs/funds');
   }
 
   async goToObjectives() {

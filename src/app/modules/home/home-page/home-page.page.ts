@@ -100,7 +100,7 @@ const { Browser } = Plugins;
                 }}</ion-text>
               </div>
             </div>
-            <div class="strategies__link">
+            <div class="link">
               <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14">{{
                 'home.home_page.strategies.link_text' | translate
               }}</ion-text>
@@ -122,7 +122,7 @@ const { Browser } = Plugins;
                 }}</ion-text>
               </div>
             </div>
-            <div class="support__link">
+            <div class="link">
               <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14">{{
                 'home.home_page.support.link_text' | translate
               }}</ion-text>
@@ -141,7 +141,7 @@ const { Browser } = Plugins;
   `,
   styleUrls: ['./home-page.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage implements OnInit {
   news: Array<any>;
   hasNotifications = false;
   lockActivated = false;
@@ -168,12 +168,23 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
-  async ionViewWillEnter() {
+  ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
     this.getNews();
   }
 
+  ionViewDidLeave() {
+    if (this.timerSubscription && !this.timerSubscription.closed) {
+      this.timerSubscription.unsubscribe();
+    }
+
+    if (this.notificationQtySubscription && !this.notificationQtySubscription.closed) {
+      this.notificationQtySubscription.unsubscribe();
+    }
+
+    this.refreshTimeoutService.unsubscribe();
+  }
   createNotificationTimer() {
     this.timerSubscription = timer(0, 0.5 * 60000).subscribe(() => {
       this.notificationQtySubject.next();
@@ -196,12 +207,12 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   showNotifications() {
-    this.navController.navigateForward('notifications/list');
+    this.navController.navigateForward('/notifications/list');
     this.unreadNotifications = 0;
   }
 
   goToProfile() {
-    this.navController.navigateForward('profiles/user');
+    this.navController.navigateForward('/profiles/user');
   }
 
   async doRefresh(event) {
@@ -229,17 +240,5 @@ export class HomePage implements OnInit, OnDestroy {
 
   goToSupportPage() {
     this.navController.navigateForward(['/tickets/create-support-ticket']);
-  }
-
-  ngOnDestroy() {
-    if (this.timerSubscription && !this.timerSubscription.closed) {
-      this.timerSubscription.unsubscribe();
-    }
-
-    if (this.notificationQtySubscription && !this.notificationQtySubscription.closed) {
-      this.notificationQtySubscription.unsubscribe();
-    }
-
-    this.refreshTimeoutService.unsubscribe();
   }
 }

@@ -99,6 +99,13 @@
       align-items: center;
       padding: 10px 11.5px 19px 11.5px;
       border-radius: 8px;
+
+      .link {
+        color: var(--ion-color-primary);
+        text-align: center;
+        line-height: 16.8px;
+        margin-top: 10px;
+      }
     }
     .strategies {
       margin-right: 11px;
@@ -113,13 +120,6 @@
           margin-top: 10px;
         }
       }
-
-      &__link {
-        color: #006eff;
-        text-align: center;
-        line-height: 16.8px;
-        margin-top: 10px;
-      }
     }
 
     .support {
@@ -132,13 +132,6 @@
           line-height: 12px;
           margin-top: 10px;
         }
-      }
-
-      &__link {
-        color: #006eff;
-        text-align: center;
-        line-height: 16.8px;
-        margin-top: 10px;
       }
     }
   }
