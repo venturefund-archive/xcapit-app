@@ -46,11 +46,11 @@ const balances: Array<AssetBalance> = [
   {
     icon: 'assets/img/coins/ETH.svg',
     symbol: 'ETH',
+    usePriceCoin: 'ETH',
     name: 'ETH - Ethereum',
     amount: 1,
     usdAmount: 3000,
     usdSymbol: 'USD',
-    walletAddress: 'testAddress',
   },
 ];
 
@@ -153,7 +153,7 @@ describe('HomeWalletPage', () => {
     component.ionViewWillEnter();
     tick(850);
     expect(component.walletExist).toBe(true);
-    expect(component.balances[0].walletAddress).toBe('testAddress');
+    // expect(component.balances[0].walletAddress).toBe('testAddress');
     expect(spyBalance).toHaveBeenCalledWith('testAddress', 'ETH');
   }));
 

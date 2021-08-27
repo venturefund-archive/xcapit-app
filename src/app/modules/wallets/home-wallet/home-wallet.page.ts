@@ -57,20 +57,6 @@ export class HomeWalletPage implements OnInit {
     this.encryptedWalletExist();
   }
 
-  pushBalancesStructure(coin, walletAddress) {
-    const balance = {
-      icon: coin.logoRoute,
-      symbol: coin.value,
-      name: coin.name,
-      amount: 0,
-      usdAmount: 0,
-      usdSymbol: 'USD',
-      walletAddress,
-    };
-
-    this.balances.push(balance);
-  }
-
   encryptedWalletExist() {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
@@ -83,44 +69,15 @@ export class HomeWalletPage implements OnInit {
   }
 
   getWalletsBalances() {
-    for (const coin of this.coins) {
-      let walletAddress = this.walletService.addresses[coin.network];
-
-      if (walletAddress) {
-        this.pushBalancesStructure(coin, walletAddress);
-      }
-
-      walletAddress = null;
-    }
-
-    this.apiWalletService
-      .getPrices(this.balances.map((balance) => this.getSymbol(balance.symbol)))
-      .subscribe((prices) => {
-        this.totalBalanceWallet = 0;
-        for (const balance of this.balances) {
-          this.walletService.balanceOf(balance.walletAddress, balance.symbol).then((coinAmount) => {
-            const balanceKey = Object.keys(this.balances).filter(
-              (key) => this.balances[key].symbol === balance.symbol
-            )[0];
-            this.balances[balanceKey].amount = parseFloat(coinAmount);
-            const price = prices.prices[this.getSymbol(balance.symbol)];
-            const usdAmount = this.calculateUsdBalance(parseFloat(coinAmount), price);
-
-            this.balances[balanceKey].usdAmount = usdAmount;
-            this.totalBalanceWallet += usdAmount < 0 ? 0 : usdAmount;
-          });
-        }
-      });
-  }
-
-  calculateUsdBalance(balance: number, coinValue: number): number {
-    if (coinValue !== null) {
-      return balance * coinValue;
-    }
-    return -1;
-  }
-
-  getSymbol(symbol: string): string {
-    return symbol === 'RBTC' ? 'BTC' : symbol;
+    this.walletService.getWalletBalanceWithUsdAmount().subscribe({
+      next: (balances) => {
+        this.balances = balances;
+      },
+      complete: () => {
+        this.totalBalanceWallet = this.balances
+          .map((b) => (b.usdAmount === -1 ? 0 : b.usdAmount))
+          .reduce((a, b) => a + b, 0);
+      },
+    });
   }
 }

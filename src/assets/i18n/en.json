@@ -1241,7 +1241,7 @@
         "create_wallet_button": "Create Wallet"
       },
       "balance_card": {
-        "cant_get_usd_balance_error": "Can't get {{symbol}} price"
+        "cant_get_usd_balance_error": "Updating value for {{symbol}}"
       }
     },
     "select_coin": {
