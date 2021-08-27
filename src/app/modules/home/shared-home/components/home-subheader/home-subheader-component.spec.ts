@@ -73,6 +73,20 @@ describe('HomeSubheaderComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should navigate to tabs/funds operations when Go to Investments is clicked', () => {
+    const button = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Investments']"));
+    button.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/funds');
+  });
+
+  it('should call trackEvent on trackService when Go to Investments Button clicked', () => {
+    const button = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Investments');
+    const directive = trackClickDirectiveHelper.getDirective(button);
+    const spy = spyOn(directive, 'clickEvent');
+    button.nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
   it('should call ModalController create when Go to Objectives button is clicked', async () => {
     const IWantMyWalletButton = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Objectives']"));
     IWantMyWalletButton.nativeElement.click();
