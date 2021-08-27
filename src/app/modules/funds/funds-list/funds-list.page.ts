@@ -103,14 +103,6 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
           </div>
         </div>
       </div>
-
-      <!-- Slider News -->
-      <div class="academy ion-padding" *ngIf="this.news">
-        <div class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12">
-          <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
-        </div>
-        <app-slider-news [news]="this.news"></app-slider-news>
-      </div>
     </ion-content>
   `,
   styleUrls: ['./funds-list.page.scss'],
@@ -118,13 +110,11 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
 export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
-  news: Array<any>;
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
 
   status = {
-    profile_valid: false,
     empty_linked_keys: false,
     has_own_funds: false,
     has_subscribed_funds: false,
@@ -218,12 +208,12 @@ export class FundsListPage implements OnInit {
   }
 
   showNotifications() {
-    this.navController.navigateForward('notifications/list');
+    this.navController.navigateForward('/notifications/list');
     this.unreadNotifications = 0;
   }
 
   goToProfile() {
-    this.navController.navigateForward('profiles/user');
+    this.navController.navigateForward('/profiles/user');
   }
 
   async doRefresh(event) {
