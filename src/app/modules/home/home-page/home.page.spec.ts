@@ -10,7 +10,7 @@ import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webfl
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 
 describe('HomePage', () => {
@@ -20,6 +20,7 @@ describe('HomePage', () => {
   let navControllerSpy: any;
   let apiWebflowService: ApiWebflowService;
   let apiWebflowServiceMock: any;
+  let notificationsService: NotificationsService;
   let notificationsServiceMock: any;
   let windowSpy: any;
 
@@ -28,11 +29,10 @@ describe('HomePage', () => {
       windowSpy = spyOn(window, 'open');
 
       apiWebflowServiceMock = {
-        getNews: () => of([]),
+        getNews: () => of(['test new']),
       };
       notificationsServiceMock = {
-        getNotifications: () => of({}),
-        getCountNotifications: () => of({}),
+        getCountNotifications: () => of({ count: 5 }),
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
@@ -59,6 +59,7 @@ describe('HomePage', () => {
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       apiWebflowService = TestBed.inject(ApiWebflowService);
+      notificationsService = TestBed.inject(NotificationsService);
     })
   );
 
@@ -91,8 +92,8 @@ describe('HomePage', () => {
   });
 
   it('should navigate to create-support-ticket when Go to Support Page is clicked', () => {
-    const IWantMyWalletButton = fixture.debugElement.query(By.css("div[name='Go to Support Page']"));
-    IWantMyWalletButton.nativeElement.click();
+    const button = fixture.debugElement.query(By.css("div[name='Go to Support Page']"));
+    button.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/create-support-ticket']);
   });
 
@@ -106,6 +107,12 @@ describe('HomePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should navigate to notifications list when Show Notifications is clicked', () => {
+    const button = fixture.debugElement.query(By.css("ion-button[name='Show Notifications']"));
+    button.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/notifications/list');
+  });
+
   it('should call trackEvent on trackService when Go To Profile button clicked', () => {
     spyOn(component, 'goToProfile');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Profile');
@@ -116,6 +123,12 @@ describe('HomePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should navigate to user profile when Go To Profile is clicked', () => {
+    const button = fixture.debugElement.query(By.css("ion-button[name='Go To Profile']"));
+    button.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/profiles/user');
+  });
+
   it('should call getNews on doRefresh', async () => {
     const spyNews = spyOn(apiWebflowService, 'getNews');
     spyNews.and.returnValue(of([]));
@@ -123,14 +136,17 @@ describe('HomePage', () => {
     expect(spyNews).toHaveBeenCalledTimes(1);
   });
 
-  it('should call getNews, createNotificationTimer and initQtyNotifications on ionViewWillEnter', async () => {
-    const spyNews = spyOn(apiWebflowService, 'getNews');
-    spyNews.and.returnValue(of([]));
-    const spyCreateNotificationTimer = spyOn(component, 'createNotificationTimer');
-    const spyInitQtyNotification = spyOn(component, 'initQtyNotifications');
-    await component.ionViewWillEnter();
-    expect(spyCreateNotificationTimer).toHaveBeenCalledTimes(1);
-    expect(spyInitQtyNotification).toHaveBeenCalledTimes(1);
-    expect(spyNews).toHaveBeenCalledTimes(1);
+  it('should call getNews, createNotificationTimer and initQtyNotifications on ionViewWillEnter', () => {
+    component.ionViewWillEnter();
+
+    expect(component.news).toEqual(['test new']);
+    expect(component.unreadNotifications).toEqual(5);
+  });
+
+  it('should unsubscribe timerSubscription, notificationQtySubscription on ionViewDidLeave', () => {
+    component.ionViewWillEnter();
+    const spy = spyOn(Subscription.prototype, 'unsubscribe');
+    component.ionViewDidLeave();
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 });

@@ -115,7 +115,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
   `,
   styleUrls: ['./funds-list.page.scss'],
 })
-export class FundsListPage implements OnInit, OnDestroy {
+export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
   news: Array<any>;
@@ -173,6 +173,18 @@ export class FundsListPage implements OnInit, OnDestroy {
     await this.getNotOwnerFundBalances();
   }
 
+  ionViewDidLeave() {
+    if (this.timerSubscription && !this.timerSubscription.closed) {
+      this.timerSubscription.unsubscribe();
+    }
+
+    if (this.notificationQtySubscription && !this.notificationQtySubscription.closed) {
+      this.notificationQtySubscription.unsubscribe();
+    }
+
+    this.refreshTimeoutService.unsubscribe();
+  }
+
   initQtyNotifications() {
     this.notificationQtySubscription = this.notificationQtySubject
       .pipe(
@@ -223,17 +235,5 @@ export class FundsListPage implements OnInit, OnDestroy {
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
-  }
-
-  ngOnDestroy() {
-    if (this.timerSubscription && !this.timerSubscription.closed) {
-      this.timerSubscription.unsubscribe();
-    }
-
-    if (this.notificationQtySubscription && !this.notificationQtySubscription.closed) {
-      this.notificationQtySubscription.unsubscribe();
-    }
-
-    this.refreshTimeoutService.unsubscribe();
   }
 }
