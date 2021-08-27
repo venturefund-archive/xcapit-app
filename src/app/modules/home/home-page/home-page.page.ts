@@ -100,7 +100,7 @@ const { Browser } = Plugins;
                 }}</ion-text>
               </div>
             </div>
-            <div class="strategies__link">
+            <div class="link">
               <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14">{{
                 'home.home_page.strategies.link_text' | translate
               }}</ion-text>
@@ -122,7 +122,7 @@ const { Browser } = Plugins;
                 }}</ion-text>
               </div>
             </div>
-            <div class="support__link">
+            <div class="link">
               <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14">{{
                 'home.home_page.support.link_text' | translate
               }}</ion-text>
