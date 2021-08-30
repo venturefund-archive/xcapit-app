@@ -113,10 +113,9 @@ export class CreatePasswordPage implements OnInit {
     if (this.createPasswordForm.valid) {
       this.loadingService.show();
       const password = this.createPasswordForm.value.password;
-
       this.walletEncryptionService.encryptWallet(password).then((res) => {
         this.loadingService.dismiss();
-        this.navController.navigateForward(['wallets/success-creation']);
+        this.navController.navigateForward(['/wallets/success-creation']);
       });
     } else {
       this.createPasswordForm.markAllAsTouched();

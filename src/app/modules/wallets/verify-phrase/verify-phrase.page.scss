@@ -5,7 +5,8 @@
 
   .create_button {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-end;
     margin-bottom: 40px;
   }
 
@@ -31,6 +32,6 @@
     --color: white;
     --background: var(--ion-color-uxprimary);
     --background-activated: var(--ion-color-uxprimary);
-    border-radius: 25px;
+    --border-radius: 150px;
   }
 }

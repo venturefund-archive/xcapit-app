@@ -21,6 +21,8 @@ const summaryData: SummaryData = {
     logoRoute: '../../assets/img/coins/BTC.svg',
     last: false,
     value: 'BTC',
+    network: '',
+    rpc: '',
   },
   address: 'asdlkfjasd56lfjasdpodlfkj',
   amount: 1,
@@ -114,6 +116,8 @@ describe('SendSummaryPage', () => {
       logoRoute: '../../assets/img/coins/BTC.svg',
       last: false,
       value: 'BTC',
+      network: '',
+      rpc: '',
     });
     expect(spyNav).toHaveBeenCalledOnceWith(['/wallets/send/success']);
   });

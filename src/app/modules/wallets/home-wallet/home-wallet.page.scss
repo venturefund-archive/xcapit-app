@@ -21,6 +21,13 @@
     margin-bottom: 25px;
   }
 
+  &__balance {
+    margin-top: 24px;
+    &__wallet-balance-card {
+      margin-top: 8px;
+    }
+  }
+
   &__subheader {
     margin-top: -30px;
     &__value {
@@ -28,12 +35,20 @@
       justify-content: center;
       align-items: center;
       display: flex;
-      box-shadow: 0 0 9px grey;
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
       height: 121px;
       width: 100%;
       background-color: var(--ion-color-uxprimary);
+    }
+  }
+
+  &__transactions-list {
+    margin-top: 8px;
+
+    &__label {
+      margin-top: 24px;
+      margin-bottom: 10px;
     }
   }
 }

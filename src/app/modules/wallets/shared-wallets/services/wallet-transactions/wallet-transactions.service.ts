@@ -18,7 +18,8 @@ export class WalletTransactionsService {
   async send(password: string, amount: number | string, targetAddress: string, currency: Coin, loading = true) {
     if (loading) await this.loadingService.show();
     const wallet = await this.walletEncryptionService.getDecryptedWallet(password);
-    wallet.connect(this.blockchainProviderService.provider).sendTransaction({
+    const provider = (await this.blockchainProviderService.getProvider(currency.value)).provider;
+    wallet.connect(provider).sendTransaction({
       to: targetAddress,
       value: ethers.utils.parseEther(amount.toString()),
     });

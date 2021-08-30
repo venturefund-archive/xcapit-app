@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
 import { WalletTransactionsService } from './wallet-transactions.service';
 import { LoadingService } from '../../../../../shared/services/loading/loading.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
-import { wallet } from 'ionicons/icons';
 import { ethers } from 'ethers';
 const coin: Coin = {
   id: 4,
@@ -13,7 +11,10 @@ const coin: Coin = {
   logoRoute: '../../assets/img/coins/ETH.svg',
   last: true,
   value: 'ETH',
+  network: '',
+  rpc: '',
 };
+
 describe('WalletTransactionsService', () => {
   let service: WalletTransactionsService;
   let loadingServiceSpy: any;
@@ -31,7 +32,7 @@ describe('WalletTransactionsService', () => {
       getDecryptedWallet: () => Promise.resolve({ connect: () => ({ sendTransaction: sendTransactionSpy }) }),
     };
     blockchainProviderServiceMock = {
-      provider: {},
+      getProvider: () => Promise.resolve({ provider: {} }),
     };
     TestBed.configureTestingModule({
       providers: [

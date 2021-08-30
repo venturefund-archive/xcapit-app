@@ -15,7 +15,7 @@ import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.compon
 import { UxInputComponent } from './components/ux-input/ux-input.component';
 import { UxInputGooglePlacesComponent } from './components/ux-input-google-places/ux-input-google-places.component';
 import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
-import { UxSuccessImgComponent } from './components/ux-success-img/ux-success-img.component';
+import { UxCenterImgComponent } from './components/ux-center-img/ux-center-img.component';
 import { SuccessContentComponent } from './components/success-content/success-content.component';
 import { UxTitleComponent } from './components/ux-title/ux-title.component';
 import { UxTextComponent } from './components/ux-text/ux-text.component';
@@ -36,6 +36,8 @@ import { UxDatetimeComponent } from './components/ux-datetime/ux-datetime.compon
 import { NeedHelpComponent } from './components/need-help/need-help.component';
 import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
+import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
+import { SliderNewsCardComponent } from './components/slider-news/slider-news.component';
 import { UxListCardComponent } from './components/ux-list-card/ux-list-card.component';
 import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
@@ -56,7 +58,7 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
-    UxSuccessImgComponent,
+    UxCenterImgComponent,
     UxTitleComponent,
     UxTextComponent,
     UxRadioGroupComponent,
@@ -75,6 +77,8 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     UxDateRangeComponent,
     UxTextareaComponent,
     UxDatetimeComponent,
+    IconButtonCardComponent,
+    SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     // Pipes
@@ -109,7 +113,7 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
-    UxSuccessImgComponent,
+    UxCenterImgComponent,
     UxTitleComponent,
     UxTextComponent,
     UxRadioGroupComponent,
@@ -128,6 +132,8 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     UxDateRangeComponent,
     UxTextareaComponent,
     UxDatetimeComponent,
+    IconButtonCardComponent,
+    SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     // Pipes

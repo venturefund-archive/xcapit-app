@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { SelectCurrencyPage } from './select-currency.page';
 import { UxListCardComponent } from '../../../../shared/components/ux-list-card/ux-list-card.component';
@@ -16,6 +16,8 @@ const coins: Coin[] = [
     logoRoute: '../../assets/img/coins/BTC.svg',
     last: false,
     value: 'BTC',
+    network: '',
+    rpc: '',
   },
   {
     id: 2,
@@ -23,6 +25,8 @@ const coins: Coin[] = [
     logoRoute: '../../assets/img/coins/USDT.svg',
     last: false,
     value: 'USDT',
+    network: '',
+    rpc: '',
   },
 ];
 

@@ -14,11 +14,11 @@ import { navControllerMock } from '../../../../testing/spies/nav-controller-mock
 
 const formData = {
   valid: {
-    currency: 'BTC'
+    currency: 'BTC',
   },
   invalid: {
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('DepositCurrencyPage', () => {
@@ -28,26 +28,26 @@ describe('DepositCurrencyPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DepositCurrencyPage>;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [ DepositCurrencyPage, TrackClickDirective ],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-        IonicModule,
-        RouterTestingModule.withRoutes([
-          {path: 'deposits/address', component: DummyComponent}
-        ])
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: LogsService, useValue: logsServiceMock },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [DepositCurrencyPage, TrackClickDirective],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          ReactiveFormsModule,
+          IonicModule,
+          RouterTestingModule.withRoutes([{ path: 'deposits/address', component: DummyComponent }]),
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: LogsService, useValue: logsServiceMock },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DepositCurrencyPage);
@@ -62,11 +62,18 @@ describe('DepositCurrencyPage', () => {
   });
 
   it('should call trackEvent on trackService when next is clicked', () => {
+    spyOn(component, 'handleSubmit');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call submitData on handleSubmit and valid form', () => {
+    component.form.patchValue(formData.valid);
+    component.handleSubmit();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['deposits/address/', 'BTC']);
   });
 });

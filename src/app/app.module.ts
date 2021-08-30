@@ -42,6 +42,7 @@ import { updateServiceProvider } from './shared/providers/update/update.provider
 import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
 import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
 import { WalletsModule } from './modules/wallets/wallets.module';
+import { HomeModule } from './modules/home/home.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -80,6 +81,7 @@ registerLocaleData(localeEn, 'en');
     DepositAddressesModule,
     FiatRampsModule,
     WalletsModule,
+    HomeModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

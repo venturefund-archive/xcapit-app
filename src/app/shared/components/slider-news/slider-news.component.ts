@@ -4,7 +4,7 @@ import { Plugins } from '@capacitor/core';
 const { Browser } = Plugins;
 
 @Component({
-  selector: 'app-fund-slider-news',
+  selector: 'app-slider-news',
   template: `
     <ion-slides pager="false" [options]="slideOpts">
       <ion-slide class="fsn" *ngFor="let article of news" (click)="this.goToWeb(article.slug)">
@@ -26,9 +26,9 @@ const { Browser } = Plugins;
       </ion-slide>
     </ion-slides>
   `,
-  styleUrls: ['./fund-slider-news.component.scss'],
+  styleUrls: ['./slider-news.component.scss'],
 })
-export class FundSliderNewsCardComponent implements OnInit {
+export class SliderNewsCardComponent implements OnInit {
   @Input() news: any;
   slideOpts = {
     initialSlide: 0,

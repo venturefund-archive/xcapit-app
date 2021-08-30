@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
 import { TransactionSummaryCardComponent } from './transaction-summary-card.component';
 import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 import { By } from '@angular/platform-browser';
+
 const summaryData: SummaryData = {
   network: 'ERC20',
   currency: {
@@ -12,6 +12,8 @@ const summaryData: SummaryData = {
     logoRoute: '../../assets/img/coins/BTC.svg',
     last: false,
     value: 'BTC',
+    network: '',
+    rpc: '',
   },
   address: 'asdlkfjasd56lfjasdpodlfkj',
   amount: 1,

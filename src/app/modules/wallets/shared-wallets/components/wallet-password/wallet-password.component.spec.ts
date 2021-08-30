@@ -8,6 +8,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-c
 import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('WalletPasswordComponent', () => {
   let component: WalletPasswordComponent;
@@ -20,6 +21,7 @@ describe('WalletPasswordComponent', () => {
       declarations: [WalletPasswordComponent, TrackClickDirective],
       imports: [IonicModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [TrackClickDirective, { provide: ModalController, useValue: modalControllerSpy }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WalletPasswordComponent);

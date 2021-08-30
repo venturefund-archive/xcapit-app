@@ -10,7 +10,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
   template: ` <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.select_coin.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -72,10 +72,16 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
-  coins = COINS.filter((coin) => coin.value === 'ETH');
+  coins = COINS;
 
   form: FormGroup = this.formBuilder.group({
     ETH: [false],
+    LINK: [false],
+    USDT: [false],
+    AAVE: [false],
+    UNI: [false],
+    RBTC: [false],
+    RIF: [false],
   });
 
   constructor(
@@ -112,10 +118,17 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   handleSubmit() {
+    this.walletService.coins = [];
+
     if (this.almostOneChecked) {
-      this.walletService.coins = Object.keys(this.form.value).map((key) =>
-        this.coins.find((coin) => coin.value === key)
-      );
+      Object.keys(this.form.value).forEach((key) => {
+        if (this.form.value[key]) {
+          const coin = this.coins.find((coinRes) => coinRes.value === key);
+
+          if (coin) this.walletService.coins.push(coin);
+        }
+      });
+
       this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
     }
   }

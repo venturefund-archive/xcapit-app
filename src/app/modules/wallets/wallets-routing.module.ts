@@ -32,10 +32,14 @@ const routes: Routes = [
           import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
       },
       {
-        canActivate: [AcceptedToSGuard, CreatedWalletGuard],
+        canActivate: [AcceptedToSGuard],
         path: 'success-creation',
         loadChildren: () =>
           import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
+      },
+      {
+        path: 'failed-mnemonic',
+        loadChildren: () => import('./failed-mnemonic/failed-mnemonic.module').then((m) => m.FailedMnemonicPageModule),
       },
       {
         canActivate: [AcceptedToSGuard, CreatedWalletGuard],

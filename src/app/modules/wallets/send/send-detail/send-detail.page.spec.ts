@@ -12,14 +12,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import createSpyObj = jasmine.createSpyObj;
+import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 
-const coins = [
+const coins: Coin[] = [
   {
     id: 1,
     name: 'BTC - Bitcoin',
     logoRoute: '../../assets/img/coins/BTC.svg',
     last: false,
     value: 'BTC',
+    network: '',
+    rpc: '',
   },
 ];
 

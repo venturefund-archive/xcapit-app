@@ -89,6 +89,9 @@
     },
     "referrals_help": {
       "text_referrals_help_link": "How the referral system works?"
+    },
+    "app_icon_button_card": {
+      "coming_soon": "Coming Soon"
     }
   },
   "usuarios": {
@@ -422,25 +425,32 @@
         "risk_label": "Risk",
         "currency": "USD",
         "min_capital_label": "Minimum to operate",
-        "more_info": "More info",
         "invest_button": "Invest",
         "last_year_revenue": "90 days",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
-            "description": "Let our algorithm trade for you. We operate all of your cryptos and when your investment is finished it will be converted to USDT (Tether)."
+            "description": "Let our algorithm trade for you. We operate all of your crypto and when your investment is finished it will be converted to USDT (Theter).",
+            "more_info": "Read more about Denali",
+            "strategie_type": "Trading"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
-            "description": "Generate more Bitcoins with your cryptos. We operate all of your cryptos and when your investment is finished it will be converted to BTC (Bitcoin)."
+            "description": "Generate more Bitcoins with your cryptos. We operate all of your crypto and when your investment is finished it will be converted to BTC (Bitcoin).",
+            "more_info": "Read more about Olympus Mons",
+            "strategie_type": "Trading"
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether)."
+            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether).",
+            "more_info": "Read more about Himalayas",
+            "strategie_type": "Index"
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invest in the 5 cryptocurrencies with the highest market capitalization. When your investment is finished, it will be converted into USDT (Tether)."
+            "description": "Invest in the 5 cryptocurrencies with the largest market capitalization. When your investment is finished, it will be converted into USDT. (Theter)",
+            "more_info": "Read more about Andes",
+            "strategie_type": "Index"
           },
           "classic_BTC": {
             "title": "Classic"
@@ -1232,6 +1242,7 @@
     },
     "home": {
       "available_money": "Available money in wallet",
+      "wallet_balance_title": "ASSETS",
       "subheader_component": {
         "title_with_wallet": "Start receiving or buying.",
         "title_without_wallet": "You haven't created your wallet yet.",
@@ -1264,7 +1275,7 @@
       "header": "Create Wallet",
       "title": "Check your phrase",
       "text1": "Tap the words in the corresponding order",
-      "btn_create": "Create Wallet"
+      "btn_create": "Next"
     },
     "create_password": {
       "header": "Create Wallet",
@@ -1285,6 +1296,11 @@
       "disclaimer_header": "Send only USDT to this deposit address.",
       "disclaimer_body": "Sending other coins or tokens to this address other than USDT may result in the loss of your deposit.",
       "share_title": "Wallet address"
+    },
+    "failed_mnemonic": {
+      "title": "Your recovery phrase is wrong",
+      "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
+      "button": "Try again"
     },
     "send": {
       "select_currency": {
@@ -1743,6 +1759,31 @@
       "textPrimary": "Your plan is active!",
       "textSecondary": "Keep configuring your investment",
       "textBtn": "Continue"
+    }
+  },
+  "home": {
+    "home_page": {
+      "want_my_wallet": {
+        "title": "I want my wallet!",
+        "description": "With the wallet you have the power, you can invest simply, effortlessly and with a click."
+      },
+      "strategies": {
+        "title": "Strategies",
+        "description": "Learn about our investment proposal and choose the one that best suits you",
+        "link_text": "View strategies"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Need help? Our experts will contact you to guide you",
+        "link_text": "Write us"
+      },
+      "subheader_component": {
+        "wallet": "Wallet",
+        "buy_card": "Buy",
+        "investments": "Investments",
+        "objectives": "Objectives",
+        "coming_soon_alert": "This option will be available soon"
+      }
     }
   }
 }

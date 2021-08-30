@@ -96,7 +96,7 @@ describe('AppComponent', () => {
           RouterTestingModule.withRoutes([
             { path: 'users/login', component: DummyComponent },
             { path: 'tutorials/help', component: DummyComponent },
-            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'tabs/home', component: DummyComponent },
             { path: 'profiles/user', component: DummyComponent },
             { path: 'deposits/currency', component: DummyComponent },
             { path: 'users/password-change', component: DummyComponent },
