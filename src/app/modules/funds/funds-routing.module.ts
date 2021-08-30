@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UserProfileDataGuard } from '../profiles/shared-profiles/guards/user-profile-data/user-profile-data.guard';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
-import { TacAcceptedGuard } from '../terms-and-conditions/shared-terms-and-conditions/guards/tac-accepted/tac-accepted.guard';
 import { IsSubscribedGuard } from '../subscriptions/shared-subscriptions/guards/is-subscribed/is-subscribed.guard';
 import { IsOwnerGuard } from '../funds/shared-funds/guards/is-owner-guard/is-owner.guard';
 import { BeforeStepDataGuard } from './shared-funds/guards/before-steps-data-guard/before-step-data.guard';
+import { UserStatusGuard } from './shared-funds/guards/user-status-guard/user-status-guard.guard';
 
 export const routes: Routes = [
   {
@@ -13,6 +12,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        canActivate: [UserStatusGuard],
         path: 'list',
         loadChildren: () => import('./funds-list/funds-list.module').then((m) => m.FundsListPageModule),
       },

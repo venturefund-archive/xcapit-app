@@ -12,7 +12,6 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { ListApikeysPage } from './list-apikeys.page';
 
-
 describe('ListApikeysPage', () => {
   let component: ListApikeysPage;
   let fixture: ComponentFixture<ListApikeysPage>;
@@ -20,26 +19,28 @@ describe('ListApikeysPage', () => {
   let apiApikeysServiceSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['getAll']);
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['getAll']);
 
-    TestBed.configureTestingModule({
-      declarations: [ListApikeysPage, TrackClickDirective, DummyComponent],
-      imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'menus/main-menu', component: DummyComponent },
-          { path: 'apikeys/list', component: DummyComponent },
-          { path: 'apikeys/register', component: DummyComponent }
-        ]),
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        IonicModule
-      ],
-      providers: [{ provide: ApiApikeysService, useValue: apiApikeysServiceSpy }, TrackClickDirective],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [ListApikeysPage, TrackClickDirective, DummyComponent],
+        imports: [
+          RouterTestingModule.withRoutes([
+            { path: 'menus/main-menu', component: DummyComponent },
+            { path: 'apikeys/list', component: DummyComponent },
+            { path: 'apikeys/register', component: DummyComponent },
+          ]),
+          TranslateModule.forRoot(),
+          HttpClientTestingModule,
+          IonicModule,
+        ],
+        providers: [{ provide: ApiApikeysService, useValue: apiApikeysServiceSpy }, TrackClickDirective],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ListApikeysPage);
@@ -79,10 +80,7 @@ describe('ListApikeysPage', () => {
 
   it('should call trackEvent on trackService when Register New Key Button clicked', () => {
     spyOn(component, 'addApiKey');
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Register New Key'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Register New Key');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -92,10 +90,7 @@ describe('ListApikeysPage', () => {
 
   it('should call trackEvent on trackService when Register New Key More Button clicked', () => {
     spyOn(component, 'addApiKey');
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Register New Key More'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Register New Key More');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

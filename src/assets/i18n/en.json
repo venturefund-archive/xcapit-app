@@ -89,6 +89,9 @@
     },
     "referrals_help": {
       "text_referrals_help_link": "How the referral system works?"
+    },
+    "app_icon_button_card": {
+      "coming_soon": "Coming Soon"
     }
   },
   "usuarios": {
@@ -1305,6 +1308,52 @@
       "title": "Your recovery phrase is wrong",
       "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
       "button": "Try again"
+    },
+    "send": {
+      "select_currency": {
+        "header": "Send",
+        "title": "Select currency"
+      },
+      "send_detail": {
+        "header": "Send",
+        "title": "Transfer data",
+        "network_select": {
+          "title": "Network",
+          "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
+        },
+        "continue_button": "Continue",
+        "address_input": {
+          "title": "Target wallet",
+          "help_text": "{{currency}} address or alias"
+        },
+        "amount_input": {
+          "title": "Amount to send"
+        }
+      },
+      "send_summary": {
+        "header": "Send",
+        "title": "Transfer data",
+        "amounts_title": "Amount to send",
+        "send_button": "Send",
+        "wrong_password": "Wrong password"
+      },
+      "send_success": {
+        "textPrimary": "Your transfer was made.",
+        "textSecondary": "It will be available shortly",
+        "namePrimaryAction": "Go to my wallet"
+      }
+    },
+    "shared_wallets": {
+      "address_input_card": {
+        "scan_error": "Error scanning QR code",
+        "scan_unauthorized": "You have no permission to scan"
+      },
+      "wallet_password": {
+        "title": "Enter your password",
+        "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
+        "submit_button_text": "Accept",
+        "input_label": "Password"
+      }
     }
   },
   "apikeys": {
@@ -1680,7 +1729,6 @@
       "btn_add_apikey": "Add Api Key"
     }
   },
-
   "payment": {
     "methods": {
       "header": "Payment methods",
@@ -1718,6 +1766,31 @@
       "textPrimary": "Your plan is active!",
       "textSecondary": "Keep configuring your investment",
       "textBtn": "Continue"
+    }
+  },
+  "home": {
+    "home_page": {
+      "want_my_wallet": {
+        "title": "I want my wallet!",
+        "description": "With the wallet you have the power, you can invest simply, effortlessly and with a click."
+      },
+      "strategies": {
+        "title": "Strategies",
+        "description": "Learn about our investment proposal and choose the one that best suits you",
+        "link_text": "View strategies"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Need help? Our experts will contact you to guide you",
+        "link_text": "Write us"
+      },
+      "subheader_component": {
+        "wallet": "Wallet",
+        "buy_card": "Buy",
+        "investments": "Investments",
+        "objectives": "Objectives",
+        "coming_soon_alert": "This option will be available soon"
+      }
     }
   }
 }

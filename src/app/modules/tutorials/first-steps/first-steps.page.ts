@@ -9,19 +9,13 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
   selector: 'app-first-steps',
   template: `
     <ion-content fullscreen>
-      <ion-slides
-        [options]="this.slideOpts"
-        (ionSlideWillChange)="this.setActualStep()"
-      >
+      <ion-slides [options]="this.slideOpts" (ionSlideWillChange)="this.setActualStep()">
         <!-- <div class="fs__parallax_bg"> -->
         <div data-swiper-parallax-x="33%" class="fs__parallax_bg"></div>
         <ion-slide>
           <div class="fs__content_slide">
             <div class="fs__content_slide__image">
-              <img
-                src="../../../../assets/img/tutorials/first-steps/step1/image1.png"
-                alt="Welcome to Xcapit"
-              />
+              <img src="../../../../assets/img/tutorials/first-steps/step1/image1.png" alt="Welcome to Xcapit" />
             </div>
             <div class="fs__content_slide__primary_text">
               <app-ux-title>
@@ -33,13 +27,8 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
                 {{ 'tutorials.first_steps.step1.secondary_text' | translate }}
               </app-ux-text>
             </div>
-            <div
-              class="fs__content_slide__slide_step_show"
-            >
-              <app-ux-slide-step-show
-                [step]="this.actualStep"
-                [total]="this.sliderLength"
-              ></app-ux-slide-step-show>
+            <div class="fs__content_slide__slide_step_show">
+              <app-ux-slide-step-show [step]="this.actualStep" [total]="this.sliderLength"></app-ux-slide-step-show>
             </div>
 
             <div class="fs__content_slide__button_next">
@@ -60,10 +49,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
         <ion-slide>
           <div class="fs__content_slide">
             <div class="fs__content_slide__image">
-              <img
-                src="../../../../assets/img/tutorials/first-steps/step2/image2.png"
-                alt="Mobile Banking"
-              />
+              <img src="../../../../assets/img/tutorials/first-steps/step2/image2.png" alt="Mobile Banking" />
             </div>
             <div class="fs__content_slide__primary_text">
               <app-ux-title>
@@ -76,10 +62,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
               </app-ux-text>
             </div>
             <div class="fs__content_slide__slide_step_show">
-              <app-ux-slide-step-show
-                [step]="this.actualStep"
-                [total]="this.sliderLength"
-              ></app-ux-slide-step-show>
+              <app-ux-slide-step-show [step]="this.actualStep" [total]="this.sliderLength"></app-ux-slide-step-show>
             </div>
 
             <div class="fs__content_slide__button_back">
@@ -113,10 +96,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
         <ion-slide>
           <div class="fs__content_slide">
             <div class="fs__content_slide__image">
-              <img
-                src="../../../../assets/img/tutorials/first-steps/step3/image3.png"
-                alt="Security"
-              />
+              <img src="../../../../assets/img/tutorials/first-steps/step3/image3.png" alt="Security" />
             </div>
             <div class="fs__content_slide__primary_text">
               <app-ux-title>
@@ -129,10 +109,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
               </app-ux-text>
             </div>
             <div class="fs__content_slide__slide_step_show">
-              <app-ux-slide-step-show
-                [step]="this.actualStep"
-                [total]="this.sliderLength"
-              ></app-ux-slide-step-show>
+              <app-ux-slide-step-show [step]="this.actualStep" [total]="this.sliderLength"></app-ux-slide-step-show>
             </div>
             <div class="fs__content_slide__button_back">
               <ion-button
@@ -219,7 +196,7 @@ export class FirstStepsPage implements OnInit {
     this.navController.navigateForward(['profiles/user']);
   }
 
-  goToMenu(){
-    this.navController.navigateForward(['tabs/funds']);
+  goToMenu() {
+    this.navController.navigateForward(['tabs/home']);
   }
 }

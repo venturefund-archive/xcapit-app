@@ -1,7 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
-import { TabsComponent } from '../../../../tabs/tabs/tabs.component';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
@@ -59,12 +57,7 @@ export class UserStatusCardComponent implements OnInit {
   newFundUrl: string;
   hideFundText: boolean;
 
-  constructor(
-    private translate: TranslateService,
-    private navController: NavController,
-    private tabsComponent: TabsComponent,
-    private localStorageService: LocalStorageService
-  ) {}
+  constructor(private navController: NavController, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.setActionButtonName();
@@ -95,7 +88,6 @@ export class UserStatusCardComponent implements OnInit {
     } else {
       this.newFundUrl = 'apikeys/tutorial';
     }
-    this.tabsComponent.newFundUrl = this.newFundUrl;
   }
 
   doActionButton() {

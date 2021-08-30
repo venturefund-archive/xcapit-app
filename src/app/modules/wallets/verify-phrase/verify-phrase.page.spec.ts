@@ -105,7 +105,7 @@ describe('VerifyPhrasePage', () => {
     expect(component.verificationPhrase).toEqual(['prueba']);
   });
 
-  it('should call slideNext on addWord is called', () => {
+  it('should call slideNext on addWord is called', async () => {
     component.verificationPhrase = [];
     component.slide = 2;
     const spySlideNext = spyOn(component.slides, 'slideNext');
@@ -113,9 +113,8 @@ describe('VerifyPhrasePage', () => {
     spyOn(component.slides, 'lockSwipeToPrev').and.returnValue(null);
     component.addWord('prueba');
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(spySlideNext).toHaveBeenCalledTimes(1);
-    });
+    await fixture.whenStable();
+    expect(spySlideNext).toHaveBeenCalledTimes(1);
   });
 
   it('should activated is true when countWords and verificationPhrase = 1', fakeAsync(() => {
@@ -173,7 +172,7 @@ describe('VerifyPhrasePage', () => {
     component.phrase = phrase2;
     fixture.detectChanges();
     const createWalletButton = fixture.debugElement.query(By.css("ion-button[name='Create Wallet']"));
-    createWalletButton.triggerEventHandler('click', null);
+    createWalletButton.nativeElement.click();
     expect(spy).toHaveBeenCalledOnceWith(['/wallets/failed-mnemonic']);
   });
 });

@@ -15,8 +15,10 @@ describe('TabsComponent', () => {
   let fixture: ComponentFixture<TabsComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TabsComponent>;
   let navControllerSpy: any;
+  let windowSpy: any;
   beforeEach(
     waitForAsync(() => {
+      windowSpy = spyOn(window, 'open');
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [TabsComponent, TrackClickDirective, DummyComponent],
