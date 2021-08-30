@@ -96,9 +96,9 @@ export class HomeWalletPage implements OnInit {
 
         this.walletService.balanceOf(this.walletAddress, coin.value).then((res) => {
           balance.amount = parseFloat(res);
-          const usdAmount = this.allPrices.prices[this.getCoinForPrice(balance.symbol)];
-          balance.usdAmount = usdAmount;
-          this.totalBalanceWallet += usdAmount;
+          const usdPrice = this.allPrices.prices[this.getCoinForPrice(balance.symbol)];
+          balance.usdAmount = usdPrice * balance.amount;
+          this.totalBalanceWallet += balance.usdAmount;
 
           balances.push(balance);
 
