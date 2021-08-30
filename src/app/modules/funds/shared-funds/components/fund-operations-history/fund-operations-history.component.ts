@@ -5,7 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
   template: `
     <div class="foh">
       <div class="foh__content">
-        <app-ux-selectable-list>
+        <ion-list>
           <div
             class="item"
             *ngFor="let o of this.operations"
@@ -13,9 +13,7 @@ import { Component, OnInit, Input } from '@angular/core';
             name="View Run Details"
             (click)="this.viewRunDetails()"
           >
-            <div class="title">
-              {{o.nombre_bot}} {{o.estado | titlecase}}
-            </div>
+            <div class="title">{{ o.nombre_bot }} {{ o.estado | titlecase }}</div>
             <div class="subtitle">
               {{ o.fecha_inicio | localizedDate: 'longDate' }}
             </div>
@@ -23,11 +21,11 @@ import { Component, OnInit, Input } from '@angular/core';
               <ion-icon name="ux-forward"></ion-icon>
             </div>
           </div>
-        </app-ux-selectable-list>
+        </ion-list>
       </div>
     </div>
   `,
-  styleUrls: ['./fund-operations-history.component.scss']
+  styleUrls: ['./fund-operations-history.component.scss'],
 })
 export class FundOperationsHistoryComponent implements OnInit {
   @Input() operations: Array<any>;
