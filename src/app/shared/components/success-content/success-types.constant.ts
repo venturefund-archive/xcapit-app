@@ -100,4 +100,11 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/funds',
     namePrimaryAction: 'tickets.create_support_ticket_success.namePrimaryAction',
   },
+  wallet_send: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.send.send_success.textPrimary',
+    textSecondary: 'wallets.send.send_success.textSecondary',
+    urlPrimaryAction: '/tabs/wallets',
+    namePrimaryAction: 'wallets.send.send_success.namePrimaryAction',
+  },
 };

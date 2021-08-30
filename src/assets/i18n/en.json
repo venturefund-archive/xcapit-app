@@ -1285,6 +1285,52 @@
       "disclaimer_header": "Send only USDT to this deposit address.",
       "disclaimer_body": "Sending other coins or tokens to this address other than USDT may result in the loss of your deposit.",
       "share_title": "Wallet address"
+    },
+    "send": {
+      "select_currency": {
+        "header": "Send",
+        "title": "Select currency"
+      },
+      "send_detail": {
+        "header": "Send",
+        "title": "Transfer data",
+        "network_select": {
+          "title": "Network",
+          "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
+        },
+        "continue_button": "Continue",
+        "address_input": {
+          "title": "Target wallet",
+          "help_text": "{{currency}} address or alias"
+        },
+        "amount_input": {
+          "title": "Amount to send"
+        }
+      },
+      "send_summary": {
+        "header": "Send",
+        "title": "Transfer data",
+        "amounts_title": "Amount to send",
+        "send_button": "Send",
+        "wrong_password": "Wrong password"
+      },
+      "send_success": {
+        "textPrimary": "Your transfer was made.",
+        "textSecondary": "It will be available shortly",
+        "namePrimaryAction": "Go to my wallet"
+      }
+    },
+    "shared_wallets": {
+      "address_input_card": {
+        "scan_error": "Error scanning QR code",
+        "scan_unauthorized": "You have no permission to scan"
+      },
+      "wallet_password": {
+        "title": "Enter your password",
+        "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
+        "submit_button_text": "Accept",
+        "input_label": "Password"
+      }
     }
   },
   "apikeys": {
@@ -1660,7 +1706,6 @@
       "btn_add_apikey": "Add Api Key"
     }
   },
-
   "payment": {
     "methods": {
       "header": "Payment methods",

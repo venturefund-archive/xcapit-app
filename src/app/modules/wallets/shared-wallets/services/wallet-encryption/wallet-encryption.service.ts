@@ -42,7 +42,7 @@ export class WalletEncryptionService {
     });
   }
 
-  private getDecryptedWallet(password: string): Promise<any> {
+  getDecryptedWallet(password: string): Promise<any> {
     return new Promise<any>(async (resolve) => {
       const storageWallet = await this.storage.get('enc_wallet');
 
