@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { COINS } from '../constants/coins';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
 
 @Component({
   selector: 'app-home-wallet',
@@ -19,7 +21,7 @@ import { COINS } from '../constants/coins';
         <div class="wt__amount ux-font-gilroy ux-fweight-extrabold ux-fsize-40">
           <ion-text>
             {{ this.totalBalanceWallet | number: '1.2-6' }}
-            ETH
+            USD
           </ion-text>
         </div>
       </div>
@@ -45,11 +47,12 @@ export class HomeWalletPage implements OnInit {
   transactions: Array<any>;
   totalBalanceWallet = 0;
   walletAddress = null;
-  balances: Array<AssetBalance> = [];
+  balances: Array<AssetBalance>;
+  allPrices: any;
 
   coins = COINS;
 
-  constructor(private walletService: WalletService) {}
+  constructor(private walletService: WalletService, private apiWalletService: ApiWalletService) {}
 
   ngOnInit() {}
 
@@ -57,7 +60,7 @@ export class HomeWalletPage implements OnInit {
     this.encryptedWalletExist();
   }
 
-  pushBalancesStructure(coin) {
+  createBalancesStructure(coin: Coin): AssetBalance {
     const balance = {
       icon: coin.logoRoute,
       symbol: coin.value,
@@ -67,7 +70,7 @@ export class HomeWalletPage implements OnInit {
       usdSymbol: 'USD',
     };
 
-    this.balances.push(balance);
+    return balance;
   }
 
   encryptedWalletExist() {
@@ -76,27 +79,49 @@ export class HomeWalletPage implements OnInit {
 
       if (res) {
         this.balances = [];
-        this.getWalletsBalances();
+        this.getAllPrices();
       }
     });
   }
 
   getWalletsBalances() {
+    const balances = [];
+    this.totalBalanceWallet = 0;
+
     for (const coin of this.coins) {
       this.walletAddress = this.walletService.addresses[coin.network];
 
       if (this.walletAddress) {
-        this.pushBalancesStructure(coin);
+        const balance = this.createBalancesStructure(coin);
 
-        this.walletService.balanceOf(this.walletAddress, coin.value).then((balance) => {
-          const balanceKey = Object.keys(this.balances).filter((key) => this.balances[key].symbol === coin.value)[0];
-          this.balances[balanceKey].amount = parseFloat(balance);
-          // this.balances[balanceKey].usdAmount = parseFloat(usdBalance);
-          // this.totalBalanceWallet = parseFloat(usdBalance);
+        this.walletService.balanceOf(this.walletAddress, coin.value).then((res) => {
+          balance.amount = parseFloat(res);
+          const usdAmount = this.allPrices.prices[this.getCoinForPrice(balance.symbol)];
+          balance.usdAmount = usdAmount;
+          this.totalBalanceWallet += usdAmount;
+
+          balances.push(balance);
 
           this.walletAddress = null;
         });
       }
     }
+
+    this.balances = balances;
+  }
+
+  async getAllPrices() {
+    this.apiWalletService.getPrices(this.coins.map((coin) => this.getCoinForPrice(coin.value))).subscribe({
+      next: (res) => {
+        this.allPrices = res;
+      },
+      complete: () => {
+        this.getWalletsBalances();
+      },
+    });
+  }
+
+  private getCoinForPrice(symbol: string) {
+    return symbol === 'RBTC' ? 'BTC' : symbol;
   }
 }
