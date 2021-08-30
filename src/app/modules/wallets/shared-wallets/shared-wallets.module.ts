@@ -10,7 +10,6 @@ import { AddressInputCardComponent } from './components/address-input-card/addre
 import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
 import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
-import { IconButtonCardComponent } from '../../../shared/components/icon-button-card/icon-button-card.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,6 @@ import { IconButtonCardComponent } from '../../../shared/components/icon-button-
     WalletsSubheaderComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
-    IconButtonCardComponent,
     NetworkSelectCardComponent,
     AddressInputCardComponent,
     AmountInputCardComponent,
@@ -34,7 +32,6 @@ import { IconButtonCardComponent } from '../../../shared/components/icon-button-
     WalletsSubheaderComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
-    IconButtonCardComponent,
     NetworkSelectCardComponent,
     AddressInputCardComponent,
     AmountInputCardComponent,
