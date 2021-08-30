@@ -26,7 +26,6 @@ export const routes: Routes = [
       },
       {
         path: 'fund-investment',
-        canActivate: [BeforeStepDataGuard],
         loadChildren: () => import('./fund-investment/fund-investment.module').then((m) => m.FundInvestmentPageModule),
       },
       {

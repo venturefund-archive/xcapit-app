@@ -1,14 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { InvestmentProductInterface } from './investment-product-card.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { Plugins } from '@capacitor/core';
 import { SubmitButtonService } from '../../../../../shared/services/submit-button/submit-button.service';
-import { ModalController, NavController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
-import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
-import { NoApikeysModalComponent } from '../no-apikeys-modal/no-apikeys-modal.component';
-
-const { Browser } = Plugins;
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-investment-product-card',
@@ -20,7 +14,7 @@ const { Browser } = Plugins;
             <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxdark">{{
               this.productData?.strategie_type | translate
             }}</ion-text>
-            <ion-text class="ux-font-gilroy ux-fweight-bold ux-fsize-16" color="uxdark">{{
+            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-16" color="uxdark">{{
               this.productData?.title
             }}</ion-text>
           </div>
@@ -69,7 +63,7 @@ const { Browser } = Plugins;
             type="button"
             [disabled]="this.submitButtonService.isDisabled | async"
             (click)="
-              this.invest({
+              this.handleSubmit({
                 risk_level: this.productData.profile,
                 currency: this.productData.currency
               })
@@ -145,21 +139,13 @@ export class InvestmentProductCardComponent implements OnInit {
   };
 
   constructor(
-    private modalController: ModalController,
-    private apiApikeysService: ApiApikeysService,
-    private route: ActivatedRoute,
     private navController: NavController,
     private translate: TranslateService,
     public submitButtonService: SubmitButtonService
-  ) {
-    Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/'],
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.setProductData();
-    this.getAllApiKeys();
   }
 
   setProductData() {
@@ -172,42 +158,9 @@ export class InvestmentProductCardComponent implements OnInit {
     this.productData.title = this.translate.instant(this.productData.title);
   }
 
-  invest(profile) {
-    if (this.apikeys.length === 0) {
-      this.openModal();
-    } else {
-      this.handleSubmit(profile);
-    }
-  }
-
   getRiskClass() {
     return `risk-${this.productData.risk}`;
   }
-
-  getAllApiKeys() {
-    this.apiApikeysService.getAll().subscribe((data) => {
-      this.apikeys = data;
-    });
-  }
-
-  checkEmptyApikeys() {
-    if (this.apikeys.length === 0) {
-      this.openModal();
-    } else {
-      this.checkBalance();
-    }
-  }
-
-  async openModal() {
-    const modal = await this.modalController.create({
-      component: NoApikeysModalComponent,
-      cssClass: 'ux-modal-no-apikeys',
-      swipeToClose: false,
-    });
-    await modal.present();
-  }
-
-  checkBalance() {}
 
   moreInfo() {
     const title = this.productData.title !== 'Olympus Mons' ? this.productData.title : 'Olympus';

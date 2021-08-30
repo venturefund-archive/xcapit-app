@@ -3,11 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { FundInvestmentPage } from './fund-investment.page';
 import { SharedFundsModule } from '../shared-funds/shared-funds.module';
-import { FundInvestmentInfoPage } from '../fund-investment-info/fund-investment-info.page';
+import { BeforeStepDataGuard } from '../shared-funds/guards/before-steps-data-guard/before-step-data.guard';
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [BeforeStepDataGuard],
+    component: FundInvestmentPage,
+  },
+  {
+    path: ':show',
     component: FundInvestmentPage,
   },
 ];

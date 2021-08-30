@@ -419,17 +419,15 @@
       "invest_button": "Invertir"
     },
     "fund_investment": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
+      "header": "Estrategias de inversión",
       "header_more_about": "Más sobre",
       "header_info": {
-        "title": "Selecciona la estrategia de inversión",
-        "description": "Esto condicionará el modo a operar y el consiguiente riesgo a asumir a la hora de invertir."
+        "title": "Elige tu estrategia favorita",
+        "description": "Cada estrategia tiene diferente rendimientos y volatilidad. Elige la que mejor se adapte a ti."
       },
       "card": {
-        "risk_label": "Riesgo",
         "currency": "USD",
-        "min_capital_label": "Mínimo para operar",
+        "min_capital_label": "Inversión mínima",
         "invest_button": "Invertir",
         "last_year_revenue": "90 días",
         "profiles": {
@@ -489,7 +487,7 @@
       },
       "no_apikeys_modal": {
         "first_title": "Vincular cuenta",
-        "second_title": "Detectamos que aun no vinculaste tu cuenta con Binance. ",
+        "second_title": "Detectamos que aún no vinculaste tu cuenta con Binance. ",
         "message": "Para comenzar a invertir necesitas tener una cuenta de Binance y  vincularla con tu cuenta de Xcapit.",
         "button": "Vincular cuenta en Binance"
       }

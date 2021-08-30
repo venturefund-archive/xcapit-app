@@ -76,7 +76,7 @@ export class UserStatusCardComponent implements OnInit {
   }
 
   goToStrategies() {
-    this.navController.navigateForward(['/funds/fund-investment']);
+    this.navController.navigateForward(['/funds/fund-investment/show']);
   }
 
   setActionButtonName() {

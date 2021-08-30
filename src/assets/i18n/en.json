@@ -416,17 +416,15 @@
       "invest_button": "Invest"
     },
     "fund_investment": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
+      "header": "Investment strategies",
       "header_more_about": "More about",
       "header_info": {
-        "title": "Select investment strategy",
-        "description": "This will condition the way to operate and the consequent risk to assume when investing."
+        "title": "Choose your favorite strategy",
+        "description": "Each strategy has different returns and volatility. Choose the one that best suits you."
       },
       "card": {
-        "risk_label": "Risk",
         "currency": "USD",
-        "min_capital_label": "Minimum to operate",
+        "min_capital_label": "Minimum investment",
         "invest_button": "Invest",
         "last_year_revenue": "90 days",
         "profiles": {

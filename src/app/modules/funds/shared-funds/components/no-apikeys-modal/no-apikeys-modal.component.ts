@@ -30,7 +30,7 @@ import { ModalController, NavController } from '@ionic/angular';
           <img src="assets/img/apikeys/no-apikey.svg" />
         </div>
         <div class="nam__content__second_title">
-          <ion-text class="ux-font-lato ux-fweight-extrabold ux-fsize-14">
+          <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-15">
             {{ 'funds.fund_investment.no_apikeys_modal.second_title' | translate }}
           </ion-text>
         </div>
@@ -65,7 +65,7 @@ export class NoApikeysModalComponent implements OnInit {
 
   addApiKey() {
     this.close();
-    this.navController.navigateForward(['/apikeys/register']);
+    this.navController.navigateForward('/apikeys/register');
   }
 
   close(state: string = 'canceled') {
