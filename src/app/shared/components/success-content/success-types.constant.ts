@@ -100,4 +100,11 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/wallets/create-first/recovery-phrase',
     namePrimaryAction: 'wallets.failed_mnemonic.button',
   },
+  wallet_send: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.send.send_success.textPrimary',
+    textSecondary: 'wallets.send.send_success.textSecondary',
+    urlPrimaryAction: '/tabs/wallets',
+    namePrimaryAction: 'wallets.send.send_success.namePrimaryAction',
+  },
 };

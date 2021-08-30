@@ -40,6 +40,14 @@ ion-picker {
   background-color: transparent;
 }
 
+.hidden-visibility {
+  visibility: hidden !important;
+}
+
+.transparent-background {
+  --ion-background-color: transparent !important;
+}
+
 ion-toast.refresher_toast {
   top: 86%;
 }
