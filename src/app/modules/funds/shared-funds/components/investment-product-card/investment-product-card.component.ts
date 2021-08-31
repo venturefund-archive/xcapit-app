@@ -1,10 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { InvestmentProductInterface } from './investment-product-card.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { Plugins } from '@capacitor/core';
 import { SubmitButtonService } from '../../../../../shared/services/submit-button/submit-button.service';
-
-const { Browser } = Plugins;
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-investment-product-card',
@@ -16,7 +14,7 @@ const { Browser } = Plugins;
             <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxdark">{{
               this.productData?.strategie_type | translate
             }}</ion-text>
-            <ion-text class="ux-font-gilroy ux-fweight-bold ux-fsize-16" color="uxdark">{{
+            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-16" color="uxdark">{{
               this.productData?.title
             }}</ion-text>
           </div>
@@ -83,6 +81,8 @@ const { Browser } = Plugins;
 export class InvestmentProductCardComponent implements OnInit {
   @Input() product: InvestmentProductInterface;
   @Output() save = new EventEmitter<any>();
+  apikeys: any = [];
+  strategie: any;
 
   productData = {
     title: '',
@@ -138,11 +138,11 @@ export class InvestmentProductCardComponent implements OnInit {
     },
   };
 
-  constructor(private translate: TranslateService, public submitButtonService: SubmitButtonService) {
-    Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/'],
-    });
-  }
+  constructor(
+    private navController: NavController,
+    private translate: TranslateService,
+    public submitButtonService: SubmitButtonService
+  ) {}
 
   ngOnInit() {
     this.setProductData();
@@ -162,11 +162,9 @@ export class InvestmentProductCardComponent implements OnInit {
     return `risk-${this.productData.risk}`;
   }
 
-  async moreInfo() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
-      url: this.productData.link_info,
-    });
+  moreInfo() {
+    const title = this.productData.title !== 'Olympus Mons' ? this.productData.title : 'Olympus';
+    this.navController.navigateForward(['funds/fund-investment-info', title]);
   }
 
   handleSubmit(profile) {

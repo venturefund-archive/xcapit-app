@@ -4,7 +4,6 @@
     margin: 0 16px 16px 16px;
     border-radius: 8px;
 
-
     &__title {
       text-align: center;
     }
@@ -16,11 +15,15 @@
       padding-top: 24px;
     }
 
+    &__link_strategies {
+      margin-top: 14px;
+    }
 
     &__buttons {
       margin-top: 25px;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
   }
 }

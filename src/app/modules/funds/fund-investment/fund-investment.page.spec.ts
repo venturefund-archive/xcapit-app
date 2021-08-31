@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AlertController, IonicModule, NavController } from '@ionic/angular';
+import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -14,42 +14,56 @@ import { alertControllerMock } from '../../../../testing/spies/alert-controller-
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { of } from 'rxjs';
 import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 const storageApiKeysData = { alias: '', nombre_bot: '', id: 1 };
+const testApiKey = [
+  {
+    id: 778,
+    alias: 'TestKeys',
+    nombre_bot: '',
+  },
+];
+const checkMinBalanceFalse = {
+  min_balance: 500,
+  balance_is_enough: false,
+};
+const checkMinBalanceTrue = {
+  min_balance: 500,
+  balance_is_enough: true,
+};
+const paramShowTrue = {
+  paramMap: convertToParamMap({
+    show: true,
+  }),
+};
+const paramShowFalse = {
+  paramMap: convertToParamMap({}),
+};
 
 describe('FundInvestmentPage', () => {
   let component: FundInvestmentPage;
   let fixture: ComponentFixture<FundInvestmentPage>;
-  let fundDataStorageServiceMock;
-  let fundDataStorageService;
-  let apiApiKeysServiceMock;
+  let fundDataStorageServiceSpy;
   let apiApiKeysService: ApiApikeysService;
   let storageApiKeysServiceMock;
   let storageApiKeysService: StorageApikeysService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundInvestmentPage>;
   let alertControllerSpy: any;
+  let apiApiKeysServiceSpy: any;
+  let activatedRouteSpy: any;
+  let modalControllerSpy: any;
+  let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
-      fundDataStorageServiceMock = {
-        getData: () => Promise.resolve(),
-        setData: () => Promise.resolve(),
-      };
-      apiApiKeysServiceMock = {
-        checkMinBalance: () =>
-          of({
-            min_balance: 500,
-            balance_is_enough: true,
-          }),
-      };
-      storageApiKeysServiceMock = {
-        checkMinBalance: () =>
-          of({
-            min_balance: 500,
-            balance_is_enough: true,
-          }),
-      };
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      storageApiKeysServiceMock = { data: storageApiKeysData };
+      fundDataStorageServiceSpy = jasmine.createSpyObj('FundDataStorageService', ['getData', 'setData']);
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+      apiApiKeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', ['checkMinBalance', 'getAll']);
+      navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
       TestBed.configureTestingModule({
         declarations: [FundInvestmentPage, TrackClickDirective, DummyComponent],
@@ -65,11 +79,13 @@ describe('FundInvestmentPage', () => {
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
-          { provide: FundDataStorageService, useValue: fundDataStorageServiceMock },
-          { provide: ApiApikeysService, useValue: apiApiKeysServiceMock },
+          { provide: FundDataStorageService, useValue: fundDataStorageServiceSpy },
+          { provide: ApiApikeysService, useValue: apiApiKeysServiceSpy },
           { provide: StorageApikeysService, useValue: storageApiKeysServiceMock },
           { provide: AlertController, useValue: alertControllerSpy },
-          { provide: NavController, useValue: navControllerMock },
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
         ],
       }).compileComponents();
     })
@@ -79,10 +95,8 @@ describe('FundInvestmentPage', () => {
     fixture = TestBed.createComponent(FundInvestmentPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.inject(FundDataStorageService);
     apiApiKeysService = TestBed.inject(ApiApikeysService);
     storageApiKeysService = TestBed.inject(StorageApikeysService);
-    storageApiKeysService.data = storageApiKeysData;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -91,40 +105,76 @@ describe('FundInvestmentPage', () => {
   });
 
   it('should call fundDataStorageService.getData on init', async () => {
-    const spy = spyOn(fundDataStorageService, 'getData');
-    spy.and.returnValue(Promise.resolve('test'));
+    activatedRouteSpy.snapshot = paramShowFalse;
+    fundDataStorageServiceSpy.getData.and.returnValue(Promise.resolve('test'));
+    apiApiKeysServiceSpy.getAll.and.returnValue(of([]));
     await component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(2);
+    expect(fundDataStorageServiceSpy.getData).toHaveBeenCalledTimes(2);
   });
 
-  it('should save data and check balance on handleSubmit and form valid', async () => {
-    const spyCheckBalance = spyOn(apiApiKeysService, 'checkMinBalance');
-    spyCheckBalance.and.returnValue(
-      of({
-        min_balance: 500,
-        balance_is_enough: true,
-      })
-    );
-    const spy = spyOn(fundDataStorageService, 'setData');
-    spy.and.returnValue(Promise.resolve());
+  it('should save data and check balance on handleSubmit and form valid on new fund', async () => {
+    fundDataStorageServiceSpy.setData.and.returnValue(Promise.resolve());
+    activatedRouteSpy.snapshot = paramShowFalse;
+    apiApiKeysServiceSpy.getAll.and.returnValue(of(testApiKey));
+    apiApiKeysServiceSpy.checkMinBalance.and.returnValue(of(checkMinBalanceTrue));
+    fixture.detectChanges();
+    await component.ionViewWillEnter();
     await component.handleSubmit({ risk_level: 'prueba', currency: 'USDT' });
-    expect(spy).toHaveBeenCalledTimes(2);
-    expect(spyCheckBalance).toHaveBeenCalledTimes(1);
+    await fixture.whenStable();
+
+    expect(fundDataStorageServiceSpy.setData).toHaveBeenCalledTimes(2);
+  });
+
+  it('should return testFund on getDataToCheckBalance when is renew', async () => {
+    activatedRouteSpy.snapshot = paramShowFalse;
+    apiApiKeysServiceSpy.getAll.and.returnValue(of(testApiKey));
+    fundDataStorageServiceSpy.getData.and.returnValues(Promise.resolve(true), Promise.resolve('testFund'));
+
+    fixture.detectChanges();
+    await component.ionViewWillEnter();
+    const result = component.getDataToCheckBalance();
+
+    expect(result).toBe('testFund');
+  });
+
+  it('should return apikey id on getDataToCheckBalance when is not renew', async () => {
+    activatedRouteSpy.snapshot = paramShowFalse;
+    apiApiKeysServiceSpy.getAll.and.returnValue(of(testApiKey));
+    fundDataStorageServiceSpy.getData.and.returnValues(Promise.resolve(false), Promise.resolve());
+
+    fixture.detectChanges();
+    await component.ionViewWillEnter();
+    const result = component.getDataToCheckBalance();
+
+    expect(result).toEqual({ id: 1 });
   });
 
   it('should call alert and not save data when balance is not enough', async () => {
-    const spyCheckBalance = spyOn(apiApiKeysService, 'checkMinBalance');
-    spyCheckBalance.and.returnValue(
-      of({
-        min_balance: 500,
-        balance_is_enough: false,
-      })
-    );
-    const spy = spyOn(fundDataStorageService, 'setData');
-    spy.and.returnValue(Promise.resolve());
+    fundDataStorageServiceSpy.getData.and.returnValue(Promise.resolve());
+    apiApiKeysServiceSpy.getAll.and.returnValue(of(testApiKey));
+    apiApiKeysServiceSpy.checkMinBalance.and.returnValue(of(checkMinBalanceFalse));
+    activatedRouteSpy.snapshot = paramShowFalse;
+    fixture.detectChanges();
+
+    await component.ionViewWillEnter();
     await component.handleSubmit({ risk_level: 'prueba', currency: 'USDT' });
-    expect(spy).toHaveBeenCalledTimes(0);
-    expect(spyCheckBalance).toHaveBeenCalledTimes(1);
+    await fixture.whenStable();
+
+    expect(fundDataStorageServiceSpy.setData).toHaveBeenCalledTimes(0);
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open modal on handleSubmit when there no apikeys', async () => {
+    await component.handleSubmit({ risk_level: 'prueba', currency: 'USDT' });
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to apikeys list on handleSubmit when there are apikeys and readOnly is true', async () => {
+    apiApiKeysServiceSpy.getAll.and.returnValue(of(testApiKey));
+    activatedRouteSpy.snapshot = paramShowTrue;
+    fixture.detectChanges();
+    await component.ionViewWillEnter();
+    await component.handleSubmit({ risk_level: 'prueba', currency: 'USDT' });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/list');
   });
 });
