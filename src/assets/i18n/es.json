@@ -89,6 +89,9 @@
     },
     "referrals_help": {
       "text_referrals_help_link": "¿Cómo funciona el sistema de referidos?"
+    },
+    "app_icon_button_card": {
+      "coming_soon": "Proximamente"
     }
   },
   "usuarios": {
@@ -425,25 +428,32 @@
         "risk_label": "Riesgo",
         "currency": "USD",
         "min_capital_label": "Mínimo para operar",
-        "more_info": "Más info",
         "invest_button": "Invertir",
         "last_year_revenue": "90 días",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
-            "description": "Permite que nuestro algoritmo tradee por ti. Operamos la totalidad de tus criptos y cuando tu inversión finalice se convertirá a USDT (Tether)."
+            "description": "Permite que nuestro algoritmo haga trading por ti. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a USDT (Theter).",
+            "more_info": "Leer más sobre Denali",
+            "strategie_type": "Trading"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
-            "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus criptos y cuando tu inversión finalice se convertirá a BTC (Bitcoin)."
+            "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a BTC (Bitcoin).",
+            "more_info": "Leer más sobre Olympus Mons",
+            "strategie_type": "Trading"
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT (Tether)."
+            "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT(Tether).",
+            "more_info": "Leer más sobre Himalayas",
+            "strategie_type": "Indice"
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT (Tether)."
+            "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT. (Theter)",
+            "more_info": "Leer más sobre Andes",
+            "strategie_type": "Indice"
           },
           "classic_BTC": {
             "title": "Classic"
@@ -1302,6 +1312,52 @@
       "sended": "Enviado",
       "received": "Recibido",
       "swap": "Swap"
+    },
+    "send": {
+      "select_currency": {
+        "header": "Enviar",
+        "title": "Selecciona moneda"
+      },
+      "send_detail": {
+        "header": "Enviar",
+        "title": "Datos de la transferencia",
+        "network_select": {
+          "title": "Red",
+          "disclaimer": "Asegurse que la billetera de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
+        },
+        "continue_button": "Continuar",
+        "address_input": {
+          "title": "Billetera destino",
+          "help_text": "{{currency}} direccion o alias"
+        },
+        "amount_input": {
+          "title": "Monto a enviar"
+        }
+      },
+      "send_summary": {
+        "header": "Enviar",
+        "title": "Datos de la transferencia",
+        "amounts_title": "Monto a enviar",
+        "send_button": "Enviar",
+        "wrong_password": "Password incorrecto"
+      },
+      "send_success": {
+        "textPrimary": "Tu transferencia fue realizada",
+        "textSecondary": "En breve estara disponible ",
+        "namePrimaryAction": "Ir a mi billetera"
+      }
+    },
+    "shared_wallets": {
+      "address_input_card": {
+        "scan_error": "Error al escanear el código QR",
+        "scan_unauthorized": "No tienes permiso para escanear"
+      },
+      "wallet_password": {
+        "title": "Ingrese la contraseña",
+        "disclaimer": "Por seguridad necesitamos que ingreses la contraseña de tu billetera para completar la transacción",
+        "submit_button_text": "Aceptar",
+        "input_label": "Contraseña"
+      }
     }
   },
   "apikeys": {
@@ -1710,6 +1766,31 @@
       "textPrimary": "¡Tu plan está activo!",
       "textSecondary": "Sigue configurando tu inversión",
       "textBtn": "Continuar"
+    }
+  },
+  "home": {
+    "home_page": {
+      "want_my_wallet": {
+        "title": "¡Quiero mi billetera!",
+        "description": "Con la billetera tu tienes el poder, puedes invertir de forma simple, sin esfuerzo y con un click. "
+      },
+      "strategies": {
+        "title": "Estrategias",
+        "description": "Aprendé sobre nuestras propuesta de inversión y elige la que mejor se adapte a ti",
+        "link_text": "Ver estrategias"
+      },
+      "support": {
+        "title": "Soporte",
+        "description": "¿Necesitas ayuda? Nuestros expertos te contactaran para guiarte",
+        "link_text": "Escribinos"
+      },
+      "subheader_component": {
+        "wallet": "Billetera",
+        "buy_card": "Compra",
+        "investments": "Inversiones",
+        "objectives": "Objetivos",
+        "coming_soon_alert": "Esta opción estará disponible pronto"
+      }
     }
   }
 }

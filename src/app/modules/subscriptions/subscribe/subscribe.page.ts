@@ -9,10 +9,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-subscribe',
-  template: `
-    <ion-content></ion-content>
-  `,
-  styleUrls: ['./subscribe.page.scss']
+  template: ` <ion-content></ion-content> `,
+  styleUrls: ['./subscribe.page.scss'],
 })
 export class SubscribePage implements OnInit, OnDestroy {
   subscriptionToken: string;
@@ -44,23 +42,16 @@ export class SubscribePage implements OnInit, OnDestroy {
   subscribeToFund() {
     this.subscribeToFundSubscription = this.route.params
       .pipe(
-        filter(
-          (params: Params) => params.subscriptionToken && params.fundNameb64
-        ),
+        filter((params: Params) => params.subscriptionToken && params.fundNameb64),
         tap((params: Params) => {
           this.subscriptionToken = params.subscriptionToken;
           this.fundNameb64 = params.fundNameb64;
         }),
-        switchMap(() =>
-          this.apiSubscription.subscribeToFund(
-            this.subscriptionToken,
-            this.fundNameb64
-          )
-        )
+        switchMap(() => this.apiSubscription.subscribeToFund(this.subscriptionToken, this.fundNameb64))
       )
       .subscribe({
-        next: data => this.handleSubscriptionResponse(data),
-        error: error => this.handleSubscriptionErrorResponse(error)
+        next: (data) => this.handleSubscriptionResponse(data),
+        error: (error) => this.handleSubscriptionErrorResponse(error),
       });
   }
 
@@ -73,26 +64,26 @@ export class SubscribePage implements OnInit, OnDestroy {
       url = `/funds/fund-summary/${data.fundName}`;
       message = 'subscriptions.subscribe.ok_text';
     } else {
-      url = `/tabs/funds`;
+      url = `/tabs/home`;
       message = 'subscriptions.subscribe.error_text';
     }
     this.navController
       .navigateForward([url], {
-        replaceUrl: true
+        replaceUrl: true,
       })
       .then(() =>
         this.toastService.showToast({
-          message: this.translate.instant(message)
+          message: this.translate.instant(message),
         })
       );
   }
   handleSubscriptionErrorResponse(data: any) {
-    let url = `/tabs/funds`;
+    let url = `/tabs/home`;
     if (data.error.error_code && data.error.fundName) {
       url = `/funds/fund-summary/${data.error.fundName}`;
     }
     this.navController.navigateForward([url], {
-      replaceUrl: true
+      replaceUrl: true,
     });
   }
 }

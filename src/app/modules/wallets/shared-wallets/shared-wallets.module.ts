@@ -7,18 +7,26 @@ import { WalletBalanceCardComponent } from './components/wallet-balance-card/wal
 import { WalletTransactionCardItemComponent } from './components/wallet-transaction-card-item/wallet-transaction-card-item.component';
 import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
-import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
+import { NetworkSelectCardComponent } from './components/network-select-card/network-select-card.component';
+import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
+import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
+import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
+import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 
 @NgModule({
   declarations: [
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
-    IconButtonCardComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
+    NetworkSelectCardComponent,
+    AddressInputCardComponent,
+    AmountInputCardComponent,
+    TransactionSummaryCardComponent,
+    WalletPasswordComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -26,11 +34,15 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
-    IconButtonCardComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
+    NetworkSelectCardComponent,
+    AddressInputCardComponent,
+    AmountInputCardComponent,
+    TransactionSummaryCardComponent,
+    WalletPasswordComponent,
   ],
 })
 export class SharedWalletsModule {}

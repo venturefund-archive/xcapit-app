@@ -56,6 +56,28 @@ const routes: Routes = [
         loadChildren: () =>
           import('./transactions-wallet/transactions-wallet.module').then((m) => m.TransactionsWalletPageModule),
       },
+      {
+        path: 'send',
+        children: [
+          {
+            path: 'select-currency',
+            loadChildren: () =>
+              import('./send/select-currency/select-currency.module').then((m) => m.SelectCurrencyPageModule),
+          },
+          {
+            path: 'detail',
+            loadChildren: () => import('./send/send-detail/send-detail.module').then((m) => m.SendDetailPageModule),
+          },
+          {
+            path: 'summary',
+            loadChildren: () => import('./send/send-summary/send-summary.module').then((m) => m.SendSummaryPageModule),
+          },
+          {
+            path: 'success',
+            loadChildren: () => import('./send/send-success/send-success.module').then((m) => m.SendSuccessPageModule),
+          },
+        ],
+      },
     ],
   },
 ];

@@ -23,7 +23,7 @@ describe('SuccessPaxfulPage', () => {
         declarations: [SuccessPaxfulPage, TrackClickDirective, DummyComponent],
         imports: [
           RouterTestingModule.withRoutes([
-            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'tabs/home', component: DummyComponent },
             { path: 'fiat-ramps/operations', component: DummyComponent },
           ]),
           HttpClientTestingModule,

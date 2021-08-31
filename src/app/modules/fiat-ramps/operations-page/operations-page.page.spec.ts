@@ -156,7 +156,7 @@ describe('OperationsPagePage', () => {
               path: 'fiat-ramps/operation-detail/provider/:provider_id/operation/:operation_id',
               component: DummyComponent,
             },
-            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'tabs/home', component: DummyComponent },
             { path: 'fiat-ramps/select-provider', component: DummyComponent },
           ]),
           HttpClientTestingModule,
