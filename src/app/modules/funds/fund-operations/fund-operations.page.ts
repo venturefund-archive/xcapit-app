@@ -167,19 +167,24 @@ export class FundOperationsPage implements OnInit {
     this.fundName = this.route.snapshot.params.fundName;
     await this.getStorageDates();
     this.setInitialDatePicker();
-  }
-
-  ionViewDidEnter() {
     this.getOperationsHistory(this.getQueryParams());
   }
 
+  async getStorageDates() {
+    await this.loadingService.show();
+    this.storageSince = await this.storage.get(CONFIG.operationHistoryDates.since);
+    this.storageUntil = await this.storage.get(CONFIG.operationHistoryDates.until);
+    await this.loadingService.dismiss();
+  }
+
   setInitialDatePicker() {
-    if (this.storageSince !== '') {
+    if (this.storageSince) {
       this.queryOptions.since = this.storageSince;
     } else {
       this.queryOptions.since = moment().subtract(7, 'd').startOf('day').utc().format();
     }
-    if (this.storageUntil !== '') {
+
+    if (this.storageUntil) {
       this.queryOptions.until = this.storageUntil;
     } else {
       this.queryOptions.until = moment().endOf('day').utc().format();
@@ -238,13 +243,6 @@ export class FundOperationsPage implements OnInit {
   viewOrderDetail(id) {
     const order = this.orders.find((x) => x.id === id);
     this.navController.navigateForward(['funds/fund-operations-detail', order.id]);
-  }
-
-  async getStorageDates() {
-    await this.loadingService.show();
-    this.storageSince = await this.storage.get(CONFIG.operationHistoryDates.since);
-    this.storageUntil = await this.storage.get(CONFIG.operationHistoryDates.until);
-    await this.loadingService.dismiss();
   }
 
   async setDatesInStorage(since?, until?) {

@@ -581,7 +581,7 @@
     },
     "fund_operations": {
       "title": "Operations History",
-      "since_date_range": "Begin:",
+      "since_date_range": "Begin",
       "until_date_range": "End",
       "header_pair": "Pair",
       "header_price": "Price",

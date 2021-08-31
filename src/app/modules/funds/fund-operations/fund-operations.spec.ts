@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FundOperationsPage } from './fund-operations.page';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -58,38 +58,40 @@ describe('FundOperationsPage', () => {
       },
     ],
   };
-  beforeEach(() => {
-    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
-    activatedRouteMock = { snapshot: { params: { fundName: 'testFundName' } } };
-    ionInfiniteScrollMock = {
-      complete: () => true,
-      disabled: true,
-    };
-    apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', {
-      getOperationsHistory: () => of(ordersTestData),
-    });
-    apiFundsServiceSpy.getOperationsHistory.and.returnValue(of(ordersTestData));
-    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
-    loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['show', 'dismiss']);
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [FundOperationsPage],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(), RouterTestingModule],
-      providers: [
-        TranslateService,
-        { provide: ApiFundsService, useValue: apiFundsServiceSpy },
-        { provide: Storage, useValue: storageSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
-        { provide: LoadingService, useValue: loadingServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-    fixture = TestBed.createComponent(FundOperationsPage);
-    component = fixture.componentInstance;
-    component.infiniteScroll = ionInfiniteScrollMock;
-    fixture.detectChanges();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
+      activatedRouteMock = { snapshot: { params: { fundName: 'testFundName' } } };
+      ionInfiniteScrollMock = {
+        complete: () => true,
+        disabled: true,
+      };
+      apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', {
+        getOperationsHistory: () => of(ordersTestData),
+      });
+      apiFundsServiceSpy.getOperationsHistory.and.returnValue(of(ordersTestData));
+      storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
+      loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['show', 'dismiss']);
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [FundOperationsPage],
+        imports: [HttpClientTestingModule, TranslateModule.forRoot(), RouterTestingModule],
+        providers: [
+          TranslateService,
+          { provide: ApiFundsService, useValue: apiFundsServiceSpy },
+          { provide: Storage, useValue: storageSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: LoadingService, useValue: loadingServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+      fixture = TestBed.createComponent(FundOperationsPage);
+      component = fixture.componentInstance;
+      component.infiniteScroll = ionInfiniteScrollMock;
+      fixture.detectChanges();
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -111,7 +113,6 @@ describe('FundOperationsPage', () => {
     storageSpy.get.and.returnValues(Promise.resolve('2020-01-01T03:00:00Z'), Promise.resolve('2020-01-02T03:00:00Z'));
     expect(storageSpy.get).toHaveBeenCalledTimes(0);
     await component.ionViewWillEnter();
-    fixture.detectChanges();
     await fixture.whenStable();
     expect(storageSpy.get).toHaveBeenCalledTimes(2);
     expect(component.storageSince).toBe('2020-01-01T03:00:00Z');
@@ -120,10 +121,9 @@ describe('FundOperationsPage', () => {
     expect(component.datepicker.doneText).toBe('funds.fund_operations.done_datepicker_text');
   });
 
-  it('should get operations history on did enter', async () => {
+  it('should get operations history on will enter', async () => {
     storageSpy.get.and.returnValues(Promise.resolve('2020-01-01T03:00:00Z'), Promise.resolve('2020-01-02T03:00:00Z'));
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
+    await component.ionViewWillEnter();
     await fixture.whenStable();
     expect(apiFundsServiceSpy.getOperationsHistory).toHaveBeenCalledTimes(1);
   });
@@ -144,7 +144,6 @@ describe('FundOperationsPage', () => {
   it('should set since when date changes', async () => {
     const sinceEl = fixture.debugElement.query(By.css('#datetime-since'));
     sinceEl.triggerEventHandler('ionChange', { detail: { value: '2020-01-01T03:00:00Z' } });
-    fixture.detectChanges();
     await fixture.whenStable();
     expect(component.queryOptions.since).toBe('2020-01-01T03:00:00Z');
   });
@@ -152,7 +151,6 @@ describe('FundOperationsPage', () => {
   it('should set until when date changes', async () => {
     const sinceEl = fixture.debugElement.query(By.css('#datetime-until'));
     sinceEl.triggerEventHandler('ionChange', { detail: { value: '2020-01-01T03:00:00Z' } });
-    fixture.detectChanges();
     await fixture.whenStable();
     expect(component.queryOptions.until).toBe('2020-01-01T03:00:00Z');
   });
