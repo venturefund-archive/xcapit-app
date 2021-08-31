@@ -64,7 +64,6 @@ const { Browser } = Plugins;
         <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWalletWaitingList()">
           <div class="wmw__image">
             <ion-img src="../assets/img/home/want_my_wallet.svg" alt="Girl with coins"></ion-img>
-            <!-- <ion-icon color="uxprimary" name="ux-want_my_wallet"> </ion-icon> -->
           </div>
           <div class="wmw__content">
             <div class="wmw__content__title">
@@ -84,7 +83,12 @@ const { Browser } = Plugins;
         </div>
 
         <div class="two_cards">
-          <div class="strategies vertical-card">
+          <div
+            class="strategies vertical-card"
+            appTrackClick
+            name="Go to Strategies Cards"
+            (click)="this.goToStrategies()"
+          >
             <div class="strategies__image">
               <ion-img src="../assets/img/home/girl_with_screen.svg"></ion-img>
             </div>
@@ -241,6 +245,10 @@ export class HomePage implements OnInit {
   }
 
   goToSupportPage() {
-    this.navController.navigateForward(['/tickets/create-support-ticket']);
+    this.navController.navigateForward('/tickets/create-support-ticket');
+  }
+
+  goToStrategies() {
+    this.navController.navigateForward('/funds/fund-investment/show');
   }
 }
