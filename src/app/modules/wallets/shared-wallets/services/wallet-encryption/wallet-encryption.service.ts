@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ethers } from 'ethers';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { WalletService } from '../wallet/wallet.service';
-import { DerivedPaths } from '../../../enums/derived-paths.enum';
+import { StorageService } from '../../services/storage-wallets/storage-wallets.service';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
+import { COINS } from '../../../constants/coins';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +12,21 @@ import { environment } from '../../../../../../environments/environment';
 export class WalletEncryptionService {
   private ethWallet: any = null;
   private walletsAddresses = {};
+  private selectedCoins = {};
+  coins = COINS;
 
-  constructor(private storage: AppStorageService, private walletService: WalletService) {}
+  constructor(private walletService: WalletService, private storageService: StorageService) {}
 
   encryptWallet(password: string): Promise<any> {
     const wallets = this.walletService.createdWallets;
+    const derivedPaths = environment.derivedPaths;
 
     wallets.forEach((wallet) => {
-      if (wallet.mnemonic.path === DerivedPaths.ETH) {
+      if (wallet.mnemonic.path === derivedPaths.ETH) {
         this.ethWallet = wallet;
       }
 
-      const key = Object.keys(DerivedPaths).filter((keyName) => DerivedPaths[keyName] === wallet.mnemonic.path);
+      const key = Object.keys(derivedPaths).filter((keyName) => derivedPaths[keyName] === wallet.mnemonic.path);
       const value = wallet.address;
 
       this.walletsAddresses[key[0]] = value;
@@ -35,7 +38,7 @@ export class WalletEncryptionService {
     return new Promise<any>(async (resolve) => {
       this.ethWallet.encrypt(password).then(async (wallet) => {
         const structure = this.storageStructure(wallet);
-        await this.storage.set('enc_wallet', structure);
+        await this.storageService.saveWalletToStorage(structure);
 
         resolve(true);
       });
@@ -44,7 +47,7 @@ export class WalletEncryptionService {
 
   private getDecryptedWallet(password: string): Promise<any> {
     return new Promise<any>(async (resolve) => {
-      const storageWallet = await this.storage.get('enc_wallet');
+      const storageWallet = await this.storageService.getWalletFromStorage();
 
       const res = ethers.Wallet.fromEncryptedJsonSync(storageWallet.wallet, password);
 
@@ -53,7 +56,21 @@ export class WalletEncryptionService {
   }
 
   getEncryptedWallet(): Promise<any> {
-    return this.storage.get('enc_wallet');
+    return this.storageService.getWalletFromStorage();
+  }
+
+  selectedAssetsStructure() {
+    const userCoins = this.walletService.coins;
+    this.selectedCoins = {};
+
+    for (const coin of this.coins) {
+      const key = coin.value;
+      const value = userCoins.includes(coin);
+
+      this.selectedCoins[key] = value;
+    }
+
+    return this.selectedCoins;
   }
 
   private storageStructure(encWallet) {
@@ -64,10 +81,11 @@ export class WalletEncryptionService {
       updatedAt: moment().utc().format(),
       addresses: this.walletsAddresses,
       network: environment.walletNetwork,
+      assets: this.selectedAssetsStructure(),
     };
   }
 
   async encryptedWalletExist(): Promise<boolean> {
-    return !!(await this.storage.get('enc_wallet'));
+    return !!(await this.storageService.getWalletFromStorage());
   }
 }

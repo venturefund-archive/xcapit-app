@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { COINS } from '../../../constants/coins';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +26,95 @@ export class StorageWalletsService {
 
   async acceptToS(): Promise<void> {
     return this.setValue('userAcceptedToS', true);
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class StorageService {
+  allCoins = [];
+
+  constructor(private appStorageService: AppStorageService) {}
+
+  async getWalletFromStorage() {
+    return await this.appStorageService.get('enc_wallet');
+  }
+
+  async saveWalletToStorage(wallet: any) {
+    return await this.appStorageService.set('enc_wallet', wallet);
+  }
+
+  async getWalletsAddresses() {
+    const wallets = await this.getWalletFromStorage();
+
+    return wallets.addresses;
+  }
+
+  async getAssestsSelected() {
+    const wallets = await this.getWalletFromStorage();
+    const userCoins = [];
+    this.allCoins = COINS;
+
+    if (!!wallets) {
+      if (!!wallets.assets) {
+        for (const coin of this.allCoins) {
+          if (wallets.assets[coin.value]) {
+            userCoins.push(coin);
+          }
+        }
+      }
+    }
+
+    return userCoins;
+  }
+
+  async saveAssetSelected(asset: any) {
+    const wallets = await this.getWalletFromStorage();
+
+    if (!!wallets) {
+      if (!!wallets.assets[asset]) {
+        wallets.assets[asset] = !wallets.assets[asset];
+        wallets.updatedAt = moment().utc().format();
+
+        return await this.saveWalletToStorage(wallets);
+      }
+
+      return false;
+    }
+
+    return false;
+  }
+
+  async updateAssetsList() {
+    const wallets = await this.getWalletFromStorage();
+    let updated = false;
+
+    if (!!wallets) {
+      if (!!wallets.assets) {
+        for (const coin of COINS) {
+          if (wallets.assets[coin.value] === undefined) {
+            wallets.assets[coin.value] = true;
+            updated = true;
+          }
+        }
+      } else {
+        const selectedCoins = {};
+
+        for (const coin of COINS) {
+          selectedCoins[coin.value] = true;
+        }
+
+        wallets.assets = selectedCoins;
+        updated = true;
+      }
+
+      if (!!updated) {
+        wallets.updatedAt = moment().utc().format();
+        return await this.saveWalletToStorage(wallets);
+      } else {
+        return false;
+      }
+    }
   }
 }

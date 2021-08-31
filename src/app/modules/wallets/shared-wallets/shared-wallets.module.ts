@@ -4,6 +4,8 @@ import { RecoveryPhraseCardComponent } from './components/recovery-phrase-card/r
 import { RecoveryWordComponent } from './components/recovery-word/recovery-word.component';
 import { WalletBalanceCardItemComponent } from './components/wallet-balance-card-item/wallet-balance-card-item.component';
 import { WalletBalanceCardComponent } from './components/wallet-balance-card/wallet-balance-card.component';
+import { WalletTransactionCardItemComponent } from './components/wallet-transaction-card-item/wallet-transaction-card-item.component';
+import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
 import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
 
@@ -15,6 +17,8 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     IconButtonCardComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
+    WalletTransactionCardComponent,
+    WalletTransactionCardItemComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -25,6 +29,8 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     IconButtonCardComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
+    WalletTransactionCardComponent,
+    WalletTransactionCardItemComponent,
   ],
 })
 export class SharedWalletsModule {}

@@ -1236,6 +1236,8 @@
     "home": {
       "available_money": "Dinero disponible en billetera",
       "wallet_balance_title": "ACTIVOS",
+      "wallet_transaction_title": "RECIENTE",
+      "go_to_history": "Ver todas las transacciones",
       "subheader_component": {
         "title_with_wallet": "Empieza recibiendo o comprando.",
         "title_without_wallet": "Todavía no creaste tu billetera.",
@@ -1294,6 +1296,12 @@
       "title": "Tu frase de recuperación es incorrecta",
       "description": "Generaremos otras 12 palabras para mayor seguridad. Recuerda que tienes que anotarlas y guardarlas en un lugar seguro.",
       "button": "Volver a intentarlo"
+    },
+    "transactions": {
+      "header": "Historico transacciones",
+      "sended": "Enviado",
+      "received": "Recibido",
+      "swap": "Swap"
     }
   },
   "apikeys": {
