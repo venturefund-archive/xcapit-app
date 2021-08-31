@@ -142,22 +142,6 @@ describe('FundsListPage', () => {
     expect(spyFund).toHaveBeenCalledTimes(2);
   });
 
-  it('should call trackEvent on trackService when Go To Profile button clicked', () => {
-    spyOn(component, 'goToProfile');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Profile');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to user profile when Go To Profile is clicked', () => {
-    const button = fixture.debugElement.query(By.css("ion-button[name='Go To Profile']"));
-    button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/profiles/user');
-  });
-
   it('should call toggleHideFunds in HideText', () => {
     const spyToggle = spyOn(localStorageService, 'toggleHideFunds');
     spyToggle.and.returnValue(undefined);
