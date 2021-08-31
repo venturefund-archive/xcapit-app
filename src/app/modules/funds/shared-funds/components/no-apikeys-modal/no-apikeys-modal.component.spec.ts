@@ -17,7 +17,7 @@ describe('NoApikeysModalComponent', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
       TestBed.configureTestingModule({
         declarations: [NoApikeysModalComponent],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        imports: [IonicModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },

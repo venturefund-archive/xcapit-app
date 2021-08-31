@@ -24,7 +24,7 @@ describe('FundInvestmentInfoPage', () => {
       };
       TestBed.configureTestingModule({
         declarations: [FundInvestmentInfoPage],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        imports: [IonicModule, TranslateModule.forRoot()],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },

@@ -37,7 +37,7 @@ describe('HomePage', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [HomePage, TrackClickDirective],
-        imports: [HttpClientTestingModule, IonicModule.forRoot(), TranslateModule.forRoot()],
+        imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
         providers: [
           {
             provide: NavController,
