@@ -18,7 +18,7 @@ const { Browser } = Plugins;
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'app.main_menu.header' | translate }}</ion-title>
       </ion-toolbar>

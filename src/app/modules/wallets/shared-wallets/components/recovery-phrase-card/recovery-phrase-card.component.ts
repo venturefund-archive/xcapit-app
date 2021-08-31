@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { RecoveryWordComponent } from '../recovery-word/recovery-word.component';
 
 @Component({
   selector: 'app-recovery-phrase-card',
@@ -19,18 +20,19 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./recovery-phrase-card.component.scss'],
 })
 export class RecoveryPhraseCardComponent implements OnInit {
+  @ViewChildren(RecoveryWordComponent) recoveryWordComponents: QueryList<RecoveryWordComponent>;
   @Input() showOrder = true;
   @Input() ordered = false;
   @Input() clickable = false;
   @Output() useButtonClicked: EventEmitter<string> = new EventEmitter<string>();
   phraseCopy: string[];
-  @Input() phrase: string[];
+  @Input() set phrase(phrase: string[]) {
+    this.phraseCopy = [...phrase];
+  }
 
   constructor() {}
 
   ngOnInit() {
-    this.phraseCopy = [...this.phrase];
-
     if (this.ordered) {
       this.sortPhrase();
     }
@@ -42,5 +44,10 @@ export class RecoveryPhraseCardComponent implements OnInit {
 
   useValue(word: string) {
     this.useButtonClicked.emit(word);
+  }
+
+  enable(word: string) {
+    const toEnableComponent = this.recoveryWordComponents.find((wordComponent) => wordComponent.word === word);
+    toEnableComponent.isActivated = true;
   }
 }

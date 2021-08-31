@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonSlides, NavController } from '@ionic/angular';
 import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recovery-phrase-card/recovery-phrase-card.component';
 @Component({
   selector: 'app-verify-phrase',
   template: `
@@ -28,24 +29,15 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
                   [ngClass]="{ active: this.verificationPhrase[i] }"
                   size="small"
                   fill="clear"
+                  (click)="this.deleteWord(this.verificationPhrase[i])"
                   >{{ this.verificationPhrase[i] }}
+                  <ion-icon style="color:white;" name="close" slot="end"></ion-icon>
                 </ion-button>
               </div>
               <ion-label class="label-card">{{ i + 1 + '/' + this.countWords }}</ion-label>
             </ion-card>
           </ion-slide>
         </ion-slides>
-        <div class="create_button">
-          <ion-button
-            *ngIf="this.activated"
-            class="ux_button"
-            appTrackClick
-            name="Create Wallet"
-            (click)="this.createWallet()"
-          >
-            {{ 'wallets.verify_phrase.btn_create' | translate }}
-          </ion-button>
-        </div>
         <div class="text1">
           <ion-text class="text1 ux-font-text-base">{{ 'wallets.verify_phrase.text1' | translate }}</ion-text>
         </div>
@@ -59,6 +51,17 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
             class="card"
           ></app-recovery-phrase-card>
         </div>
+        <div class="create_button">
+          <ion-button
+            *ngIf="this.activated"
+            class="ux_button"
+            appTrackClick
+            name="Create Wallet"
+            (click)="this.createWallet()"
+          >
+            {{ 'wallets.verify_phrase.btn_create' | translate }}
+          </ion-button>
+        </div>
       </div>
     </ion-content>
   `,
@@ -66,9 +69,9 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 })
 export class VerifyPhrasePage {
   @ViewChild(IonSlides) slides: IonSlides;
+  @ViewChild(RecoveryPhraseCardComponent) recoveryPhraseComponent: RecoveryPhraseCardComponent;
   options = {
-    slidesPerView: 1.8,
-    centeredSlides: true,
+    slidesPerView: 2,
     spaceBetween: -30,
   };
   activated = false;
@@ -77,6 +80,7 @@ export class VerifyPhrasePage {
   phrase: string[];
   countWords: number;
   mnemonic: Mnemonic;
+  slide = 0;
 
   constructor(
     private navController: NavController,
@@ -93,10 +97,12 @@ export class VerifyPhrasePage {
   }
 
   swipeNext() {
-    this.blockNextSlide(false);
-    this.slides.slideNext();
-    this.blockNextSlide(true);
-    this.blockPrevSlide(true);
+    if (this.slide > 1) {
+      this.blockNextSlide(false);
+      this.slides.slideNext();
+      this.blockNextSlide(true);
+      this.blockPrevSlide(true);
+    }
   }
 
   blockNextSlide(state: boolean) {
@@ -109,9 +115,8 @@ export class VerifyPhrasePage {
 
   addWord(word: string) {
     this.verificationPhrase.push(word);
-    setTimeout(() => {
-      this.swipeNext();
-    }, 800);
+    this.slide++;
+    this.swipeNext();
     this.activated = this.verificationPhrase.length === this.countWords;
   }
 
@@ -119,10 +124,18 @@ export class VerifyPhrasePage {
     return JSON.stringify(this.verificationPhrase) === JSON.stringify(this.phrase);
   }
 
+  deleteWord(word: string) {
+    this.verificationPhrase.pop();
+    this.recoveryPhraseComponent.enable(word);
+    this.slide = 0;
+  }
+
   createWallet() {
     if (this.validPhrase()) {
       this.walletService.create();
-      this.navController.navigateForward(['/wallets/success-creation']);
+      this.navController.navigateForward(['/wallets/create-password']);
+    } else {
+      this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
   }
 }

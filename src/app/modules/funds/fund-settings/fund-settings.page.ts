@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar fst">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/fund-detail"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <div>
           <ion-title class="fst__main-title">{{ 'funds.fund_settings.header' | translate }}</ion-title>

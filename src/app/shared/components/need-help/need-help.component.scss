@@ -20,6 +20,10 @@
       &__text {
         font-weight: var(--ux-fweight-semibold);
       }
+      &__link {
+        display: flex;
+        justify-content: center;
+      }
     }
   }
 }

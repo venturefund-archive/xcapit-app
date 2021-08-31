@@ -25,7 +25,7 @@ import { NavController } from '@ionic/angular';
               appTrackClick
               name="Select"
               fill="clear"
-              color="uxmedium"
+              color="uxsemidark"
               size="small"
               slot="end"
               (click)="this.useProvider()"

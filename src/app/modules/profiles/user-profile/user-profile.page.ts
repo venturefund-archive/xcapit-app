@@ -10,7 +10,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
     <ion-header>
       <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button *ngIf="!this.editing" defaultHref="/tabs/funds"> </ion-back-button>
+          <ion-back-button *ngIf="!this.editing" defaultHref="/tabs/home"> </ion-back-button>
         </ion-buttons>
         <ion-title *ngIf="this.editing">{{ 'profiles.user_profile.header' | translate }}</ion-title>
         <ion-buttons slot="end">

@@ -4,7 +4,7 @@
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #3880ff;
+  --ion-color-primary: #006eff;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -78,7 +78,7 @@
   /** xcapit custom colors **/
 
   /** ux primary **/
-  --ion-color-uxprimary: #ff9100;
+  --ion-color-uxprimary: #ff8006;
   --ion-color-uxprimary-rgb: 255, 145, 0;
   --ion-color-uxprimary-contrast: #ffffff;
   --ion-color-uxprimary-contrast-rgb: 255, 255, 255;
@@ -109,23 +109,23 @@
   --ion-color-uxsuccess-shade: #1dc256;
   --ion-color-uxsuccess-tint: #37e072;
 
-  /** ux medium **/
-  --ion-color-uxmedium: #00000061;
+  /** ux medium (Neutro-50)**/
+  --ion-color-uxmedium: #929292;
   --ion-color-uxmedium-rgb: 0, 0, 0, 0.3803921568627451;
   --ion-color-uxmedium-contrast: #ffffff;
   --ion-color-uxmedium-contrast-rgb: 255, 255, 255;
   --ion-color-uxmedium-shade: #676767;
   --ion-color-uxmedium-tint: #838383;
 
-  /** ux semidark **/
-  --ion-color-uxsemidark: #0000008a;
+  /** ux semidark (Neutro-90) **/
+  --ion-color-uxsemidark: #333333;
   --ion-color-uxsemidark-rgb: 0, 0, 0, 0.54;
   --ion-color-uxsemidark-contrast: #0000008a;
   --ion-color-uxsemidark-contrast-rgb: 255, 255, 255;
   --ion-color-uxsemidark-shade: #0000008a;
   --ion-color-uxsemidark-tint: #0000008a;
 
-  /** ux dark **/
+  /** ux dark (Black) **/
   --ion-color-uxdark: #000000de;
   --ion-color-uxdark-rgb: 0, 0, 0, 0.8705882352941177;
   --ion-color-uxdark-contrast: #000000de;
@@ -149,10 +149,30 @@
   --ion-color-uxcombination-shade: #65b168;
   --ion-color-uxcombination-tint: #65b168;
 
-  --ion-background-color: #f5f5f5;
+  /** ux neutro-30 **/
+  --ion-color-uxline: #bababa;
 
-  // Tipografías
-  // Family
+  /** alerts color **/
+  /** warning **/
+  --ion-color-warninglight: #fffbeb;
+  --ion-color-warning: #fbbf24;
+  --ion-color-warningdark: #bc5b11;
+
+  /** success **/
+  --ion-color-successlight: #ecfdf5;
+  --ion-color-success: #059669;
+  --ion-color-successdark: #065f46;
+
+  /** danger **/
+  --ion-color-dangerlight: #fef2f2;
+  --ion-color-danger: #ff5656;
+  --ion-color-dangerdark: #c91c1c;
+
+  /** info **/
+  --ion-color-infolight: #eff6ff;
+  --ion-color-info: #3b82f6;
+  --ion-color-infodark: #1e40af;
+
   --ux-font-gilroy: 'Gilroy';
   --ux-font-lato: 'Lato';
   --ux-font-symbola: 'Symbola';
@@ -180,6 +200,8 @@
 
   --ion-font-family: var(--ux-font-lato);
   --ion-text-color: var(--ion-color-uxdark);
+  --ion-background-color: #f5f5f5;
+  --ion-background-colorwhite: #ffffff;
 }
 
 .ion-color-uxprimary {

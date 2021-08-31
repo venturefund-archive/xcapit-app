@@ -13,9 +13,10 @@
     }
     &__message {
       margin: 16px 16px 16px 0px;
+      color: var(--ion-color-infodark);
     }
     &.info {
-      background-color: #006eff1a;
+      background-color: var(--ion-color-infolight);
     }
   }
 }

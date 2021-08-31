@@ -37,7 +37,7 @@ const { Browser } = Plugins;
               *ngIf="this.paymentMethod?.status === 'active'"
               name="Payment Method Select"
               fill="clear"
-              color="uxmedium"
+              color="uxsemidark"
               size="small"
               slot="end"
               class="ux-font-text-xs"

@@ -19,7 +19,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           <ion-text>
             {{ this.fund?.fund_name }}
           </ion-text>
-          <ion-text class="fc__main__title__strategy" color="uxmedium">
+          <ion-text class="fc__main__title__strategy" color="uxsemidark">
             {{ this.fund?.profile | strategyName }}
           </ion-text>
         </div>

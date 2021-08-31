@@ -17,6 +17,21 @@
       padding-top: 24px;
     }
 
+    &__card-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+      &__receive-card {
+        width: 78px;
+        height: 88px;
+      }
+      &__buy-card {
+        margin-left: 16px;
+        width: 78px;
+        height: 88px;
+      }
+    }
     &__buttons {
       margin-top: 25px;
       display: flex;

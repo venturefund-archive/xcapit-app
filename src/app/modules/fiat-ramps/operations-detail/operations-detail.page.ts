@@ -140,7 +140,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
           </div>
 
           <div *ngIf="this.hasVoucher" class="dp__voucher">
-            <app-ux-success-img></app-ux-success-img>
+            <app-ux-center-img></app-ux-center-img>
             <span>{{ 'fiat_ramps.operation_detail.has_voucher' | translate }}</span>
           </div>
 

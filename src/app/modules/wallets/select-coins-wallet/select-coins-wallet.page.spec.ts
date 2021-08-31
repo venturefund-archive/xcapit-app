@@ -12,34 +12,24 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 
 const testCoins = [
   {
-    id: 4,
+    id: 1,
     name: 'ETH - Ethereum',
     logoRoute: '../../assets/img/coins/ETH.svg',
-    last: true,
+    last: false,
     value: 'ETH',
+    network: 'ETH',
+    rpc: 'http://testrpc.test/',
   },
 ];
 
 const formData = {
   valid: {
-    BTC: false,
-    USDT: true,
-    BNB: false,
     ETH: true,
-    DOGE: false,
-    LTC: false,
-    PAX: false,
-    USDC: false,
+    RBTC: false,
   },
   invalid: {
-    BTC: false,
-    USDT: false,
-    BNB: false,
     ETH: false,
-    DOGE: false,
-    LTC: false,
-    PAX: false,
-    USDC: false,
+    RBTC: false,
   },
 };
 describe('SelectCoinsWalletPage', () => {
@@ -124,7 +114,8 @@ describe('SelectCoinsWalletPage', () => {
 
   it('should set coins in wallet service on handleSubmit and valid form', () => {
     spyOn(navController, 'navigateForward');
-    component.form.patchValue({ ETH: true });
+    component.coins = testCoins;
+    component.form.patchValue({ ETH: true, RBTC: false });
     fixture.detectChanges();
     component.validate();
     component.handleSubmit();

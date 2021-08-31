@@ -1,15 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { TranslateService } from '@ngx-translate/core';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
-import { TabsComponent } from '../../tabs/tabs/tabs.component';
-import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { LocalStorageService } from '../../../shared/services/local-storage/local-storage.service';
 
 @Component({
@@ -103,28 +99,18 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
           </div>
         </div>
       </div>
-
-      <!-- Slider News -->
-      <div class="academy ion-padding" *ngIf="this.news">
-        <div class="academy__news__title ux-font-subheading">
-          <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
-        </div>
-        <app-fund-slider-news [news]="this.news"></app-fund-slider-news>
-      </div>
     </ion-content>
   `,
   styleUrls: ['./funds-list.page.scss'],
 })
-export class FundsListPage implements OnInit, OnDestroy {
+export class FundsListPage implements OnInit {
   ownerFundBalances: Array<any>;
   notOwnerFundBalances: Array<any>;
-  news: Array<any>;
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
 
   status = {
-    profile_valid: false,
     empty_linked_keys: false,
     has_own_funds: false,
     has_subscribed_funds: false,
@@ -141,14 +127,10 @@ export class FundsListPage implements OnInit, OnDestroy {
 
   constructor(
     private apiFundsService: ApiFundsService,
-    private translate: TranslateService,
     private apiUsers: ApiUsuariosService,
     private navController: NavController,
-    private tabsComponent: TabsComponent,
-    private apiWebFlow: ApiWebflowService,
     private notificationsService: NotificationsService,
     private refreshTimeoutService: RefreshTimeoutService,
-    private toastService: ToastService,
     private localStorageService: LocalStorageService
   ) {}
 
@@ -175,7 +157,18 @@ export class FundsListPage implements OnInit, OnDestroy {
     this.getStatus();
     await this.getOwnerFundBalances();
     await this.getNotOwnerFundBalances();
-    await this.getNews();
+  }
+
+  ionViewDidLeave() {
+    if (this.timerSubscription && !this.timerSubscription.closed) {
+      this.timerSubscription.unsubscribe();
+    }
+
+    if (this.notificationQtySubscription && !this.notificationQtySubscription.closed) {
+      this.notificationQtySubscription.unsubscribe();
+    }
+
+    this.refreshTimeoutService.unsubscribe();
   }
 
   initQtyNotifications() {
@@ -211,39 +204,22 @@ export class FundsListPage implements OnInit, OnDestroy {
   }
 
   showNotifications() {
-    this.navController.navigateForward('notifications/list');
+    this.navController.navigateForward('/notifications/list');
     this.unreadNotifications = 0;
   }
 
   goToProfile() {
-    this.navController.navigateForward('profiles/user');
+    this.navController.navigateForward('/profiles/user');
   }
 
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
       await this.getOwnerFundBalances();
       await this.getNotOwnerFundBalances();
-      await this.getNews();
       this.refreshTimeoutService.lock();
       event.target.complete();
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
-  }
-
-  async getNews() {
-    this.news = await this.apiWebFlow.getNews().toPromise();
-  }
-
-  ngOnDestroy() {
-    if (this.timerSubscription && !this.timerSubscription.closed) {
-      this.timerSubscription.unsubscribe();
-    }
-
-    if (this.notificationQtySubscription && !this.notificationQtySubscription.closed) {
-      this.notificationQtySubscription.unsubscribe();
-    }
-
-    this.refreshTimeoutService.unsubscribe();
   }
 }

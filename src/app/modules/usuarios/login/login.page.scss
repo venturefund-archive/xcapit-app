@@ -1,5 +1,5 @@
 :host {
-  justify-content: start !important;
+  justify-content: flex-start !important;
 
   .app_header_trama {
     height: calc(100vh - 63%);
@@ -19,7 +19,7 @@
       }
 
       &__app_xcapit_logo {
-        align-self: start;
+        align-self: flex-start;
         margin-left: 16px;
         margin-top: 48px;
         width: 30%;
@@ -53,6 +53,10 @@
   .login_title {
     margin-top: 24px;
     margin-left: 16px;
+  }
+
+  .or-text {
+    color: #0000008a;
   }
 
   .google-auth {

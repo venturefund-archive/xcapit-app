@@ -4,5 +4,10 @@ export interface Coin {
   logoRoute: string;
   last: boolean;
   value: string;
+  network: string;
+  rpc: string;
+  contract?: string;
+  abi?: JSON;
+  decimals?: number;
   selected?: boolean;
 }

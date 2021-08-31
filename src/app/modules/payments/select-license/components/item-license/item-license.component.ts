@@ -11,10 +11,13 @@ import { PlanType } from '../../enums/plan_type.enum';
       </div>
       <div *ngIf="this.plan?.type === planType.free || this.plan?.type === planType.paid" class="ilc__content__name ">
         <input class="input_radio" type="radio" name="select" id="select" value="select" />
-        <label class="ilc__content__name__license" for="select">{{ this.plan?.name }}</label>
+        <label class="ilc__content__name__license">{{ this.plan?.name }}</label>
       </div>
-      <div *ngIf="this.plan?.type === planType.premium" class="ilc__content__name ">
-        <label class="ilc__content__name__premium" for="select">{{ this.plan?.name }}</label>
+      <div
+        *ngIf="this.plan?.type === planType.premium"
+        class="ilc__content__name ux-font-gilroy ux-fweight-bold ux-fsize-14"
+      >
+        <label class="ilc__content__name__premium">{{ this.plan?.name }}</label>
       </div>
       <div class="ilc__content__description">
         <div class="ux-font-text-xs">
