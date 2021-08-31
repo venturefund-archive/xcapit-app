@@ -64,10 +64,12 @@ export class HomeSubheaderComponent implements OnInit {
   ngOnInit() {}
 
   async goToWalletWaitingList() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
-      url: 'https://www.xcapit.com/#lista-espera',
-    });
+    // TODO: Restore this code after presentation
+    // await Browser.open({
+    //   toolbarColor: '#ff9100',
+    //   url: 'https://www.xcapit.com/#lista-espera',
+    // });
+    this.navController.navigateForward('/tabs/wallets');
   }
 
   goToBuy() {
