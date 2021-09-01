@@ -53,6 +53,6 @@ describe('SuccessClaimPage', () => {
 
   it('should go to home page on goToHome', () => {
     component.goToHome();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/funds']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/home']);
   });
 });

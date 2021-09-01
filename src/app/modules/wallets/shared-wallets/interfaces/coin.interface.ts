@@ -7,6 +7,7 @@ export interface Coin {
   network: string;
   rpc: string;
   contract?: string;
-  abi?: string;
+  abi?: JSON;
+  decimals?: number;
   selected?: boolean;
 }

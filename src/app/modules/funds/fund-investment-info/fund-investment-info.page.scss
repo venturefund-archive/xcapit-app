@@ -1,0 +1,33 @@
+.main {
+  background-color: rgb(144, 144, 144);
+}
+.content {
+  display: block;
+}
+.title {
+  color: rgb(144, 144, 144);
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.description {
+  margin-top: 30px;
+  display: flex;
+}
+
+.info {
+  margin-top: 16px;
+  width: 95%;
+  height: auto;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 20px;
+}
+
+.button-next {
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+  margin-bottom: 16px;
+  padding: 0 20px;
+}

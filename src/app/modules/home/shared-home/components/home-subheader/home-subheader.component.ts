@@ -1,0 +1,96 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { Plugins } from '@capacitor/core';
+import { ModalController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
+
+const { Browser } = Plugins;
+@Component({
+  selector: 'app-home-subheader',
+  template: `
+    <div class="hsub">
+      <div class="hsub">
+        <div class="hsub__card-buttons">
+          <div class="hsub__card-buttons__wallet-card card">
+            <app-icon-button-card
+              (click)="this.goToWalletWaitingList()"
+              appTrackClick
+              name="Go to Wallet"
+              [text]="'home.home_page.subheader_component.wallet' | translate"
+              icon="ux-wallet"
+            ></app-icon-button-card>
+          </div>
+          <div class="hsub__card-buttons__buy-card card">
+            <app-icon-button-card
+              (click)="this.goToBuy()"
+              appTrackClick
+              name="Go to Buy"
+              [text]="'home.home_page.subheader_component.buy_card' | translate"
+              icon="ux-money-flow"
+            ></app-icon-button-card>
+          </div>
+          <div class="hsub__card-buttons__investments card">
+            <app-icon-button-card
+              (click)="this.goToInvestments()"
+              appTrackClick
+              name="Go to Investments"
+              [text]="'home.home_page.subheader_component.investments' | translate"
+              icon="ux-trending-up"
+            ></app-icon-button-card>
+          </div>
+          <div class="hsub__card-buttons__objectives card">
+            <app-icon-button-card
+              (click)="this.goToObjectives()"
+              appTrackClick
+              name="Go to Objectives"
+              [text]="'home.home_page.subheader_component.objectives' | translate"
+              icon="ux-buy-sell"
+              comingSoon="true"
+            ></app-icon-button-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  styleUrls: ['./home-subheader.component.scss'],
+})
+export class HomeSubheaderComponent implements OnInit {
+  constructor(
+    private navController: NavController,
+    private modalController: ModalController,
+    private translate: TranslateService
+  ) {}
+
+  ngOnInit() {}
+
+  async goToWalletWaitingList() {
+    // TODO: Restore this code after presentation
+    // await Browser.open({
+    //   toolbarColor: '#ff9100',
+    //   url: 'https://www.xcapit.com/#lista-espera',
+    // });
+    this.navController.navigateForward('/tabs/wallets');
+  }
+
+  goToBuy() {
+    this.navController.navigateForward('/fiat-ramps/operations');
+  }
+
+  goToInvestments() {
+    this.navController.navigateForward('/tabs/funds');
+  }
+
+  async goToObjectives() {
+    const modal = await this.modalController.create({
+      component: ToastAlertComponent,
+      cssClass: 'ux-alert',
+      showBackdrop: false,
+      componentProps: {
+        title: this.translate.instant('home.home_page.subheader_component.coming_soon_alert'),
+        type: 'information',
+        detailsEnabled: false,
+      },
+    });
+    await modal.present();
+  }
+}

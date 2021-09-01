@@ -6,8 +6,9 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
+import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 
 const testProduct = {
   profile: 'volume_profile_strategies_USDT',
@@ -22,14 +23,16 @@ describe('InvestmentProductCardComponent', () => {
   let component: InvestmentProductCardComponent;
   let fixture: ComponentFixture<InvestmentProductCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InvestmentProductCardComponent>;
+  let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [InvestmentProductCardComponent, TrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule],
-        providers: [],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
     })
   );
@@ -54,9 +57,11 @@ describe('InvestmentProductCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call window.open when moreInfo is called', () => {
-    spyOn(window, 'open');
+  it('should navigate to funds/fund-investment-info when moreInfo is called', () => {
     component.moreInfo();
-    expect(window.open).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      'funds/fund-investment-info',
+      component.productData.title,
+    ]);
   });
 });

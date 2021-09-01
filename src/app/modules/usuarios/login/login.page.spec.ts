@@ -56,7 +56,7 @@ describe('LoginPage', () => {
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([
             { path: 'users/register', component: DummyComponent },
-            { path: 'tabs/funds', component: DummyComponent },
+            { path: 'tabs/home', component: DummyComponent },
             { path: 'tutorials/first-steps', component: DummyComponent },
             { path: 'users/reset-password', component: DummyComponent },
           ]),
@@ -112,17 +112,17 @@ describe('LoginPage', () => {
 
   it('should redirect to fund list when status is COMPLETE', () => {
     const url = component.getUrlByStatus('COMPLETE');
-    expect(url).toEqual(['tabs/funds']);
+    expect(url).toEqual(['tabs/home']);
   });
 
   it('should redirect to fund list when status is CREATOR', () => {
     const url = component.getUrlByStatus('CREATOR');
-    expect(url).toEqual(['tabs/funds']);
+    expect(url).toEqual(['tabs/home']);
   });
 
   it('should redirect to fund list when status is EXPLORER', () => {
     const url = component.getUrlByStatus('EXPLORER');
-    expect(url).toEqual(['tabs/funds']);
+    expect(url).toEqual(['tabs/home']);
   });
 
   it('should redirect to first steps when status is BEGINNER', () => {

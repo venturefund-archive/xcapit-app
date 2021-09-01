@@ -40,6 +40,14 @@ ion-picker {
   background-color: transparent;
 }
 
+.hidden-visibility {
+  visibility: hidden !important;
+}
+
+.transparent-background {
+  --ion-background-color: transparent !important;
+}
+
 ion-toast.refresher_toast {
   top: 86%;
 }
@@ -73,6 +81,10 @@ ion-toast.refresher_toast {
   }
 
   // Size
+  .ux-fsize-8 {
+    font-size: 8px;
+  }
+
   .ux-fsize-10 {
     font-size: 10px;
   }
@@ -179,6 +191,16 @@ ion-toast.refresher_toast {
     --max-width: 85%;
     .modal-wrapper {
       border-radius: 16px;
+    }
+  }
+
+  .ux-modal-no-apikeys {
+    --max-height: 378px;
+    --max-width: 85%;
+
+    .modal-wrapper {
+      background-color: var(--ion-background-colorwhite);
+      border-radius: 8px;
     }
   }
 

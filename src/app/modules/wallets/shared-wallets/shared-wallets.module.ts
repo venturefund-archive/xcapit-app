@@ -5,16 +5,24 @@ import { RecoveryWordComponent } from './components/recovery-word/recovery-word.
 import { WalletBalanceCardItemComponent } from './components/wallet-balance-card-item/wallet-balance-card-item.component';
 import { WalletBalanceCardComponent } from './components/wallet-balance-card/wallet-balance-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
-import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
+import { NetworkSelectCardComponent } from './components/network-select-card/network-select-card.component';
+import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
+import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
+import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
+import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 
 @NgModule({
   declarations: [
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
-    IconButtonCardComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
+    NetworkSelectCardComponent,
+    AddressInputCardComponent,
+    AmountInputCardComponent,
+    TransactionSummaryCardComponent,
+    WalletPasswordComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -22,9 +30,13 @@ import { IconButtonCardComponent } from './components/icon-button-card/icon-butt
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
-    IconButtonCardComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
+    NetworkSelectCardComponent,
+    AddressInputCardComponent,
+    AmountInputCardComponent,
+    TransactionSummaryCardComponent,
+    WalletPasswordComponent,
   ],
 })
 export class SharedWalletsModule {}
