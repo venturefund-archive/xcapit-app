@@ -8,8 +8,6 @@ import { ClipboardService } from '../../../shared/services/clipboard/clipboard.s
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { ValueAccessor } from '@ionic/angular/directives/control-value-accessors/value-accessor';
-import { Currency } from '../../funds/shared-funds/enums/currency.enum';
 
 @Component({
   selector: 'app-receive',
