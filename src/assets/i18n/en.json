@@ -484,6 +484,12 @@
         "message": "Load balance in your Binance account",
         "cancel_text": "Cancel",
         "ok_text": "Go to Binance"
+      },
+      "no_apikeys_modal": {
+        "first_title": "Link account",
+        "second_title": "We discovered that you have not yet linked your account with Binance.",
+        "message": "To start investing you need to have a Binance account and link it with your Xcapit account.",
+        "button": "Link account on Binance"
       }
     },
     "fund_duration": {
