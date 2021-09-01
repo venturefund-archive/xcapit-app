@@ -3,7 +3,7 @@
     "main_menu": {
       "header": "Menú",
       "funds": "Fondos",
-      "user_profile": "Perfil de Usuario",
+      "user_profile": "Perfil de usuario",
       "deposit_address": "Dirección de depósito",
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",

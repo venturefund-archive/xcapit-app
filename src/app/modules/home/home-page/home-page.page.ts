@@ -13,13 +13,6 @@ const { Browser } = Plugins;
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-buttons slot="start">
-          <ion-button appTrackClick name="Go To Profile" (click)="this.goToProfile()">
-            <ion-avatar class="avatar">
-              <img src="assets/img/user-profile/avatar-default.png" />
-            </ion-avatar>
-          </ion-button>
-        </ion-buttons>
         <ion-buttons slot="end" *ngIf="true">
           <ion-button appTrackClick name="Show Notifications" (click)="this.showNotifications()">
             <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
@@ -213,10 +206,6 @@ export class HomePage implements OnInit {
   showNotifications() {
     this.navController.navigateForward('/notifications/list');
     this.unreadNotifications = 0;
-  }
-
-  goToProfile() {
-    this.navController.navigateForward('/profiles/user');
   }
 
   async doRefresh(event) {
