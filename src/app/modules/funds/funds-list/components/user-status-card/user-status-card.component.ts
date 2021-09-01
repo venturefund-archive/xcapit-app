@@ -20,6 +20,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
         <div class="user-status__img">
           <img src="assets/img/fund-list/start-invest.svg" alt="Start invest" />
         </div>
+
         <div class="user-status__buttons">
           <ion-button
             appTrackClick
@@ -34,6 +35,14 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           >
             {{ 'funds.funds_list.user_status.action_button' | translate }}
           </ion-button>
+          <div class="user-status__link_strategies">
+            <ion-text
+              (click)="this.goToStrategies()"
+              class="ux-font-lato ux-fweight-regular ux-fsize-14"
+              color="uxsecondary"
+              >{{ 'funds.funds_list.user_status.link_strategies_button' | translate }}</ion-text
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -57,6 +66,10 @@ export class UserStatusCardComponent implements OnInit {
 
   async hideText() {
     this.localStorageService.toggleHideFunds();
+  }
+
+  goToStrategies() {
+    this.navController.navigateForward(['/funds/fund-investment/show']);
   }
 
   setActionButtonName() {
