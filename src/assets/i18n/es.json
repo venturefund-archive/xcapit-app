@@ -203,9 +203,9 @@
     "create_ticket_form": {
       "label_email": "CORREO ELECTRÓNICO",
       "placeholder_email": "ejemplo@email.com",
-      "label_subject": "ELIGE UNA CATEGORÍA DE CONSULTA",
+      "label_subject": "Elige una categoría de consulta",
       "placeholder_subject": "Seleccione una categoría",
-      "label_message": "ESCRIBE TU CONSULTA",
+      "label_message": "Escribe tu consulta",
       "placeholder_message": "Escriba su consulta aquí.",
       "submit_button": "Enviar",
       "cancel_button": "Volver a inicio de sesión"
@@ -237,7 +237,7 @@
       "sub_header": {
         "total_title": "Capital total operado",
         "not_balance_found": "No hay balance para mostrar",
-        "total_detail": "En las ultimas 24 hs",
+        "total_detail": "En las últimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
       "user_status": {
@@ -1205,10 +1205,10 @@
     },
     "referrals_info": {
       "header": "Sistema de Referidos",
-      "info_title1": "¿CÓMO FUNCIONA?",
-      "info_title2": "¿CUÁNTO PUEDO GANAR?",
-      "info_title3": "¿CÓMO RECLAMO MI PREMIO?",
-      "info_title4": "¿CÓMO VEO CUÁNTOS REFERIDOS TENGO?",
+      "info_title1": "¿Cómo funciona?",
+      "info_title2": "¿Cuánto puedo ganar?",
+      "info_title3": "¿Cómo reclamo mi premio?",
+      "info_title4": "¿Cómo ver cuantos referidos tengo?",
       "info_description1": "Cualquier usuario puede invitar a otras personas a conocer Xcapit, solo necesita crear una cuenta y compartir su link dentro de su panel de referidos.",
       "info_description2": "Vas a ganar $10 (diez dólares) por cada invitado que active una cuenta Advanced o Expert, y vas a ganar $1 (un dólar) por cada invitado que active una cuenta Explorer. En cualquiera de los casos tu invitado debe tener la cuenta activa por más de 60 días.",
       "info_description3": "Dentro de la app en tu panel de referidos dale click a Solicitar recompensa. Nos contactaremos para coordinar el pago.",
@@ -1650,7 +1650,7 @@
       "address_number": "Dirección (Número)",
       "address_extra": "Dirección (Piso/Dpto)",
       "cbu": "CBU/CVU",
-      "bank": "Banco",
+      "bank": "BANCO",
       "doc_front": "Foto documento frente",
       "doc_back": "Foto documento dorso",
       "selfie": "Foto selfie con documento",

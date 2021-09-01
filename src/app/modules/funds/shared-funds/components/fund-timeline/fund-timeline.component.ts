@@ -22,12 +22,12 @@ import { NavController } from '@ionic/angular';
           </div>
           <div class="ftl__content__item__content" *ngIf="this.run.estado === 'active'">
             <div class="ftl__content__item__content__info">
-              <ion-text color="black" class="ux-font-lato ux-fweight-semibold ux-fsize-14">
+              <ion-text color="uxdark" class="ux-font-text-xs semibold">
                 {{ this.run.fecha_inicio | date: 'dd/MM/yyyy' }}
               </ion-text>
             </div>
             <div class="ftl__content__item__content__label">
-              <ion-text color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-11">
+              <ion-text color="uxsemidark" class="ux-font-text-xxs regular">
                 {{ 'funds.fund_timeline.active_fund' | translate }}
               </ion-text>
             </div>
@@ -35,29 +35,23 @@ import { NavController } from '@ionic/angular';
           <div class="ftl__content__item__content" *ngIf="this.run.estado === 'finalizado'">
             <div class="ftl__content__item__content__info">
               <div>
-                <ion-label color="primary" class="ux-font-lato ux-fweight-semibold ux-fsize-14">
+                <ion-label color="uxsecondary" class="ux-font-text-xs semibold">
                   {{ this.run.fecha_inicio | date: 'dd/MM/yyyy' }}
                 </ion-label>
               </div>
               <div class="ftl__content__item__content__info__percentage">
                 <ion-label *ngIf="this.run.percentage">
-                  <ion-text
-                    class="ux-font-lato ux-fweight-semibold ux-fsize-11 positive"
-                    *ngIf="this.run.percentage >= 0"
-                  >
+                  <ion-text class="ux-font-text-xxs regular extrasmall positive" *ngIf="this.run.percentage >= 0">
                     {{ this.run.percentage | number: '1.0-2' }}%
                   </ion-text>
-                  <ion-text
-                    class="ux-font-lato ux-fweight-semibold ux-fsize-11 negative"
-                    *ngIf="this.run.percentage < 0"
-                  >
+                  <ion-text class="ux-font-text-xxs regular extrasmall negative" *ngIf="this.run.percentage < 0">
                     {{ this.run.percentage | number: '1.0-2' }}%
                   </ion-text>
                 </ion-label>
               </div>
             </div>
             <div class="ftl__content__item__content__label">
-              <ion-text color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-11">
+              <ion-text color="uxsemidark" class="ux-font-text-xxs extrasmall regular">
                 {{ 'funds.fund_timeline.finished_fund' | translate }}
               </ion-text>
             </div>
@@ -70,7 +64,7 @@ import { NavController } from '@ionic/angular';
             </div>
           </div>
           <div class="ftl__content__item__content">
-            <ion-label color="uxsemidark" class="ux-font-lato ux-fweight-semibold ux-fsize-12">
+            <ion-label color="uxmedium" class="ux-font-text-xxs semibold">
               {{ 'funds.fund_timeline.start_of' | translate }}
               {{ this.fundName }}</ion-label
             >

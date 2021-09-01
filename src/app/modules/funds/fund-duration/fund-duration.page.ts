@@ -12,22 +12,14 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-risk"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'funds.fund_duration.header' | translate
-        }}</ion-title>
+        <ion-title>{{ 'funds.fund_duration.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <form
-        [formGroup]="this.form"
-        (ngSubmit)="this.handleSubmit()"
-        class="ux_main"
-      >
+      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
         <div class="ux_content">
           <div class="fd__title">
-            <app-ux-title>{{
-              'funds.fund_duration.title' | translate
-            }}</app-ux-title>
+            <app-ux-title>{{ 'funds.fund_duration.title' | translate }}</app-ux-title>
           </div>
           <div class="fd__text_before">
             <app-ux-text>
@@ -44,14 +36,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
               controlName="cantidad_dias"
             >
               <ion-item>
-                <ion-range
-                  formControlName="cantidad_dias"
-                  mode="md"
-                  min="30"
-                  max="120"
-                  step="10"
-                  ticks="true"
-                >
+                <ion-range formControlName="cantidad_dias" mode="md" min="30" max="120" step="10" ticks="true">
                 </ion-range>
               </ion-item>
             </app-ux-range>
@@ -87,7 +72,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 type="submit"
                 color="uxsecondary"
                 size="large"
-                [disabled]="(this.submitButtonService.isDisabled | async)"
+                [disabled]="this.submitButtonService.isDisabled | async"
               >
                 {{ 'funds.fund_duration.next_button' | translate }}
               </ion-button>
@@ -97,11 +82,11 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
       </form>
     </ion-content>
   `,
-  styleUrls: ['./fund-duration.page.scss']
+  styleUrls: ['./fund-duration.page.scss'],
 })
 export class FundDurationPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    cantidad_dias: [30, [Validators.required, Validators.min(30)]]
+    cantidad_dias: [30, [Validators.required, Validators.min(30)]],
   });
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -111,7 +96,7 @@ export class FundDurationPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fundDataStorage.getData('fundDuration').then(data => {
+    this.fundDataStorage.getData('fundDuration').then((data) => {
       if (data) {
         this.form.patchValue(data);
       }

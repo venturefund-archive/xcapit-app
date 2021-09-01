@@ -133,4 +133,15 @@
       }
     }
   }
+  .semibold {
+    font-weight: var(--ux-fweight-semibold);
+  }
+
+  .regular {
+    font-weight: var(--ux-fweight-regular);
+  }
+
+  .extrasmall {
+    font-size: var(--ux-fsize-11);
+  }
 }

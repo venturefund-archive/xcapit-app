@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-ux-title',
   template: `
-    <div class="ux_title">
+    <div class="ux-font-text-xl ux_title">
       <ng-content></ng-content>
     </div>
   `,
-  styleUrls: ['./ux-title.component.scss']
+  styleUrls: ['./ux-title.component.scss'],
 })
 export class UxTitleComponent implements OnInit {
   constructor() {}

@@ -20,7 +20,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/operations-page"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
+        <ion-title>
           {{ 'fiat_ramps.ramp_initial.header' | translate }}
         </ion-title>
       </ion-toolbar>
@@ -46,7 +46,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <!-- Operaciones -->
           <app-ux-text class="ion-padding-top ion-margin-top">
-            <div class="ion-margin-top">
+            <div class="ux-font-input-label ion-margin-top">
               {{ 'fiat_ramps.ramp_initial.operation' | translate }}
             </div>
           </app-ux-text>
@@ -78,7 +78,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
           <!-- pares -->
           <div *ngIf="this.form.value['type'] === 'cash-in'">
             <app-ux-text class="ion-padding-top ion-margin-top">
-              <div class="ion-margin-top">
+              <div class="ux-font-input-label ion-margin-top">
                 {{ 'fiat_ramps.ramp_initial.pair_buy' | translate }}
               </div>
             </app-ux-text>
@@ -101,7 +101,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <div *ngIf="this.form.value['type'] === 'cash-out'">
             <app-ux-text class="ion-padding-top ion-margin-top">
-              <div class="ion-margin-top">
+              <div class="ux-font-input-label  ion-margin-top">
                 {{ 'fiat_ramps.ramp_initial.pair_sell' | translate }}
               </div>
             </app-ux-text>
@@ -125,7 +125,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
           <!-- monto y wallet -->
           <div *ngIf="this.form.value['pair']">
             <app-ux-text class="ion-padding-top ion-margin-top">
-              <div class="ion-margin-top">
+              <div class="ux-font-input-label ion-margin-top">
                 {{ 'fiat_ramps.ramp_initial.amount' | translate }}
               </div>
             </app-ux-text>
@@ -169,7 +169,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
             <!-- wallet -->
             <div class="ion-margin-top">
-              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">
+              <ion-text class="ux-font-input-label ux-font-text-xs" color="uxsemidark">
                 {{ 'fiat_ramps.ramp_initial.wallet' | translate }}
               </ion-text>
               <app-ux-loading-block *ngIf="!(this.walletAddress.length > 0)" minSize="30px"></app-ux-loading-block>

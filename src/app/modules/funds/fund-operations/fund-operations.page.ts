@@ -17,10 +17,8 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
           <ion-back-button defaultHref="funds/detail/{{ this.fundName }}"></ion-back-button>
         </ion-buttons>
         <div>
-          <ion-title class="foh__header-title ion-text-center">
-            {{ 'funds.fund_operations.title' | translate }}</ion-title
-          >
-          <ion-title class="foh__header-fund ion-text-center">{{ this.fundName }}</ion-title>
+          <ion-title class="foh__header-title"> {{ 'funds.fund_operations.title' | translate }}</ion-title>
+          <ion-title class="foh__header-fund">{{ this.fundName }}</ion-title>
         </div>
       </ion-toolbar>
     </ion-header>
@@ -30,7 +28,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
           <div class="foc">
             <div class="foc__date">
               <div class="foc__date__label">
-                <ion-label color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-12">
+                <ion-label color="uxsemidark" class="ux-font-text-xxs regular">
                   <ion-text> {{ 'funds.fund_operations.since_date_range' | translate }}: </ion-text>
                 </ion-label>
               </div>
@@ -39,7 +37,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
                 <ion-datetime
                   id="datetime-since"
                   #since_datetime
-                  class="ux-font-lato ux-fweight-regular ux-fsize-12"
+                  class="ux-font-text-xxs regular"
                   value="{{ this.queryOptions.since }}"
                   display-format="YYYY-MM-DD"
                   cancelText="{{ this.datepicker.cancelText }}"
@@ -52,7 +50,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             </div>
             <div class="foc__date">
               <div class="foc__date__label">
-                <ion-label color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-12">
+                <ion-label color="uxsemidark" class="ux-font-text-xxs regular">
                   {{ 'funds.fund_operations.until_date_range' | translate }}:
                 </ion-label>
               </div>
@@ -61,7 +59,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
                 <ion-datetime
                   id="datetime-until"
                   #until_datetime
-                  class="ux-font-lato ux-fweight-regular ux-fsize-12"
+                  class="ux-font-text-xxs regular"
                   value="{{ this.queryOptions.until }}"
                   display-format="YYYY-MM-DD"
                   cancelText="{{ this.datepicker.cancelText }}"
@@ -79,39 +77,34 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
       <div class="fol">
         <app-ux-list-inverted>
           <ion-list>
-            <ion-item class="fol__headers ux-font-lato ux-fweight-regular ux-fsize-11">
-              <ion-label class="fol__headers__label-left">
+            <ion-item class="fol__headers ux-font-text-xxs regular small">
+              <ion-label class="fol__headers__label-left" color="uxsemidark">
                 {{ 'funds.fund_operations.header_pair' | translate }}
               </ion-label>
-              <ion-label class="fol__headers__label-center">
+              <ion-label class="fol__headers__label-center" color="uxsemidark">
                 {{ 'funds.fund_operations.header_price' | translate }}
               </ion-label>
-              <ion-label class="fol__headers__label-right">
+              <ion-label class="fol__headers__label-right" color="uxsemidark">
                 {{ 'funds.fund_operations.header_qty' | translate }}
               </ion-label>
             </ion-item>
             <div class="container fol__list" *ngFor="let order of this.orders; let last = last">
-              <ion-item
-                id="view-order-detail"
-                (click)="viewOrderDetail(order.id)"
-                class="ux-font-lato ux-fweight-regular ux-fsize-12"
-              >
+              <ion-item id="view-order-detail" (click)="viewOrderDetail(order.id)" class="ux-font-text-xxs regular">
                 <ion-label class="fol__list__pair">
                   <app-symbol-format [symbol]="this.order.symbol" *ngIf="this.order.symbol"></app-symbol-format>
-
-                  <ion-text *ngIf="order.side === 'buy'" class="fol__list__pair__type__buy ux-fweight-semibold">{{
+                  <ion-text *ngIf="order.side === 'buy'" class="fol__list__pair__type__buy operation-type">{{
                     'funds.fund_operations.order_side_buy' | translate
                   }}</ion-text>
-                  <ion-text *ngIf="order.side === 'sell'" class="fol__list__pair__type__sell ux-fweight-semibold">{{
+                  <ion-text *ngIf="order.side === 'sell'" class="fol__list__pair__type__sell operation-type">{{
                     'funds.fund_operations.order_side_sell' | translate
                   }}</ion-text>
-                  <h3>
+                  <h3 color="uxmedium">
                     {{ order.creation_datetime | date: 'dd-MM-yy HH:mm:ss' }}
                   </h3>
                 </ion-label>
                 <ion-label class="fol__list__price">
                   {{ order.price | number: '1.2-6' }}
-                  <h3 *ngIf="order.order_type === 'market'">
+                  <h3 *ngIf="order.order_type === 'market'" color="uxmedium">
                     {{ 'funds.fund_operations.order_type_market' | translate }}
                   </h3>
                 </ion-label>

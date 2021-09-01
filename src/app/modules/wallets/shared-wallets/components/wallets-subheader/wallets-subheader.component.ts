@@ -6,7 +6,7 @@ import { NavController } from '@ionic/angular';
   template: `
     <div class="wsc">
       <div class="wsc ion-padding">
-        <div class="ux-font-roboto ux-fweight-extrabold ux-fsize-14 wsc__title">
+        <div class="ux-font-text-xs wsc__title">
           <ion-text>{{
             (this.walletExist
               ? 'wallets.home.subheader_component.title_with_wallet'

@@ -12,14 +12,14 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/operations-new"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
+        <ion-title>
           {{ 'fiat_ramps.confirm.header' | translate }}
         </ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding cp">
-      <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22 ios hydrated ion-padding-top ion-margin-top">
+      <ion-text class="ux-font-text-xl ios hydrated ion-padding-top ion-margin-top">
         <div class="ion-margin-top">
           {{ 'fiat_ramps.confirm.title' | translate }}
         </div>
@@ -28,14 +28,14 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
       <div class="cp__content">
         <app-ux-loading-block *ngIf="!this.operationData" minSize="30px"></app-ux-loading-block>
         <div *ngIf="this.operationData">
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
+          <ion-text class="ux-font-text-xs cp__content__text">
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.provider' | translate }}
             </span>
             <span> {{ this.provider.name }} </span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
+          <ion-text class="ux-font-text-xs cp__content__text">
             <span class="cp__content__text__title"> {{ 'fiat_ramps.confirm.type' | translate }} </span>
             <span *ngIf="this.operationData.type === 'cash-in'">
               {{ 'fiat_ramps.confirm.buy.operationType' | translate }}
@@ -45,10 +45,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text
-            class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text"
-            *ngIf="this.operationData.type === 'cash-in'"
-          >
+          <ion-text class="ux-font-text-xs cp__content__text" *ngIf="this.operationData.type === 'cash-in'">
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.buy.title' | translate }}
             </span>
@@ -59,10 +56,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text
-            class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text"
-            *ngIf="this.operationData.type === 'cash-out'"
-          >
+          <ion-text class="ux-font-text-xs cp__content__text" *ngIf="this.operationData.type === 'cash-out'">
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.sell.title' | translate }}
             </span>
@@ -73,7 +67,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
+          <ion-text class="ux-font-text-xs cp__content__text">
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.amount' | translate }}
             </span>
@@ -87,7 +81,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             >
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
+          <ion-text class="ux-font-text-xs cp__content__text">
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.quotation' | translate }}
             </span>
@@ -101,7 +95,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular cp__content__text">
+          <ion-text class="ux-font-text-xs cp__content__text">
             <span class="cp__content__text__title">
               {{ 'fiat_ramps.confirm.wallet' | translate }}
             </span>
