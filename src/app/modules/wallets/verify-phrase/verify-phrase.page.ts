@@ -28,12 +28,13 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
               <div class="div-input">
                 <ion-button
                   class="input-word"
+                  [id]="i"
                   [ngClass]="{ active: this.verificationPhrase[i] }"
                   size="small"
                   fill="clear"
-                  (click)="this.deleteWord(this.verificationPhrase[i])"
+                  (click)="this.deleteWord(i)"
                   >{{ this.verificationPhrase[i] }}
-                  <ion-icon style="color:white;" name="close" slot="end"></ion-icon>
+                  <ion-icon name="close" slot="end"></ion-icon>
                 </ion-button>
               </div>
               <ion-label class="label-card">{{ i + 1 + '/' + this.countWords }}</ion-label>
@@ -128,10 +129,15 @@ export class VerifyPhrasePage {
     return JSON.stringify(this.verificationPhrase) === JSON.stringify(this.phrase);
   }
 
-  deleteWord(word: string) {
-    this.verificationPhrase.pop();
-    this.recoveryPhraseComponent.enable(word);
-    this.slide = 0;
+  async deleteWord(index: number) {
+    const word = this.verificationPhrase[index];
+    await this.slides.getActiveIndex().then((activeIndex) => {
+      if (activeIndex === index && word) {
+        this.verificationPhrase.pop();
+        this.recoveryPhraseComponent.enable(word);
+        this.slide = 0;
+      }
+    });
   }
 
   createWallet() {
