@@ -3,7 +3,7 @@
     "main_menu": {
       "header": "Menú",
       "funds": "Fondos",
-      "user_profile": "Perfil de Usuario",
+      "user_profile": "Perfil de usuario",
       "deposit_address": "Dirección de depósito",
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",
@@ -241,8 +241,9 @@
         "change_currency": "Cambiar moneda"
       },
       "user_status": {
-        "title": "Comienza a invertir en el mundo cripto",
-        "action_button": "Comenzar ahora"
+        "title": "Comienza a invertir",
+        "action_button": "Empezar vinculando con binance",
+        "link_strategies_button": "Estrategias de inversión"
       },
       "funds_title": "MIS FONDOS",
       "shared_funds_title": "FONDOS COMPARTIDOS",
@@ -384,7 +385,7 @@
     },
     "new_fund_info": {
       "header": "Nuevo fondo - Ayuda",
-      "fund_name_title": "Nombre del Fondo",
+      "fund_name_title": "Nombre del Foshareddo",
       "fund_name_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
       "currency_title": "Moneda a Optimizar",
       "currency_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
@@ -417,17 +418,19 @@
       "fund_name_placeholder": "Ej: MiPrimerFondo",
       "next_button": "Siguiente"
     },
+    "fund_investment_info": {
+      "invest_button": "Invertir"
+    },
     "fund_investment": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
+      "header": "Estrategias de inversión",
+      "header_more_about": "Más sobre",
       "header_info": {
-        "title": "Selecciona la estrategia de inversión",
-        "description": "Esto condicionará el modo a operar y el consiguiente riesgo a asumir a la hora de invertir."
+        "title": "Elige tu estrategia favorita",
+        "description": "Cada estrategia tiene diferente rendimientos y volatilidad. Elige la que mejor se adapte a ti."
       },
       "card": {
-        "risk_label": "Riesgo",
         "currency": "USD",
-        "min_capital_label": "Mínimo para operar",
+        "min_capital_label": "Inversión mínima",
         "invest_button": "Invertir",
         "last_year_revenue": "90 días",
         "profiles": {
@@ -435,25 +438,29 @@
             "title": "Denali",
             "description": "Permite que nuestro algoritmo haga trading por ti. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a USDT (Theter).",
             "more_info": "Leer más sobre Denali",
-            "strategie_type": "Trading"
+            "strategie_type": "Trading",
+            "info_description": "Denali es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en dólares (Tether o USDT). Trabaja aplicando diferentes estrategias sobre cada cripto que opera. En resumen, usa dólares para generar más dólares. Su rendimiento anual ronda le 17%"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
             "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a BTC (Bitcoin).",
             "more_info": "Leer más sobre Olympus Mons",
-            "strategie_type": "Trading"
+            "strategie_type": "Trading",
+            "info_description": "Olympus mons es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en Bitcoins. Trabaja aplicando diferentes estrategias sobre cada cripto que opera."
           },
           "DeFi_index": {
             "title": "Himalayas",
             "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT(Tether).",
             "more_info": "Leer más sobre Himalayas",
-            "strategie_type": "Indice"
+            "strategie_type": "Indice",
+            "info_description": "Himalayas es un índice de inversión con un riesgo alto. Un índice es la cotización promedio de un grupo de activos… (cosas). Estas cosas (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu billetera…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
           },
           "Mary_index": {
             "title": "Andes",
             "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT. (Theter)",
             "more_info": "Leer más sobre Andes",
-            "strategie_type": "Indice"
+            "strategie_type": "Indice",
+            "info_description": "Andes es un índice de inversión con un riesgo medio-alto. Un índice es la cotización promedio de un grupo de activos… (cosas). Estas cosas (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu billetera…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos… (cosas). En resumen, esta estrategia apuesta a diversificar."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -480,6 +487,12 @@
         "message": "Carga saldo en tu cuenta de Binance",
         "cancel_text": "Cancelar",
         "ok_text": "Ir a Binance"
+      },
+      "no_apikeys_modal": {
+        "first_title": "Vincular cuenta",
+        "second_title": "Detectamos que aún no vinculaste tu cuenta con Binance. ",
+        "message": "Para comenzar a invertir necesitas tener una cuenta de Binance y  vincularla con tu cuenta de Xcapit.",
+        "button": "Vincular cuenta en Binance"
       }
     },
     "fund_duration": {

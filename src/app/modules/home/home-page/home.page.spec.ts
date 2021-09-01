@@ -37,7 +37,7 @@ describe('HomePage', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [HomePage, TrackClickDirective],
-        imports: [HttpClientTestingModule, IonicModule.forRoot(), TranslateModule.forRoot()],
+        imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
         providers: [
           {
             provide: NavController,
@@ -95,7 +95,7 @@ describe('HomePage', () => {
   it('should navigate to create-support-ticket when Go to Support Page is clicked', () => {
     const button = fixture.debugElement.query(By.css("div[name='Go to Support Page']"));
     button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/create-support-ticket']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tickets/create-support-ticket');
   });
 
   it('should call trackEvent on trackService when Show Notifications button clicked', () => {
@@ -112,22 +112,6 @@ describe('HomePage', () => {
     const button = fixture.debugElement.query(By.css("ion-button[name='Show Notifications']"));
     button.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/notifications/list');
-  });
-
-  it('should call trackEvent on trackService when Go To Profile button clicked', () => {
-    spyOn(component, 'goToProfile');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Profile');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to user profile when Go To Profile is clicked', () => {
-    const button = fixture.debugElement.query(By.css("ion-button[name='Go To Profile']"));
-    button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/profiles/user');
   });
 
   it('should call getNews on doRefresh', async () => {

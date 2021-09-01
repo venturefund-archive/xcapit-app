@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { IonInfiniteScroll } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
@@ -37,6 +37,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
               <div class="foc__date__datetime-section" (click)="since_datetime.open()">
                 <ion-icon [name]="'ux-calendar'"></ion-icon>
                 <ion-datetime
+                  id="datetime-since"
                   #since_datetime
                   class="ux-font-lato ux-fweight-regular ux-fsize-12"
                   value="{{ this.queryOptions.since }}"
@@ -58,6 +59,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
               <div class="foc__date__datetime-section" (click)="until_datetime.open()">
                 <ion-icon [name]="'ux-calendar'"></ion-icon>
                 <ion-datetime
+                  id="datetime-until"
                   #until_datetime
                   class="ux-font-lato ux-fweight-regular ux-fsize-12"
                   value="{{ this.queryOptions.until }}"
@@ -89,7 +91,11 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
               </ion-label>
             </ion-item>
             <div class="container fol__list" *ngFor="let order of this.orders; let last = last">
-              <ion-item (click)="viewOrderDetail(order.id)" class="ux-font-lato ux-fweight-regular ux-fsize-12">
+              <ion-item
+                id="view-order-detail"
+                (click)="viewOrderDetail(order.id)"
+                class="ux-font-lato ux-fweight-regular ux-fsize-12"
+              >
                 <ion-label class="fol__list__pair">
                   <app-symbol-format [symbol]="this.order.symbol" *ngIf="this.order.symbol"></app-symbol-format>
 
@@ -152,27 +158,33 @@ export class FundOperationsPage implements OnInit {
     private apiFunds: ApiFundsService,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private router: Router,
+    private navController: NavController,
     private storage: Storage,
     private loadingService: LoadingService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.fundName = this.route.snapshot.params.fundName;
-    this.getStorageDates();
+    await this.getStorageDates();
     this.setInitialDatePicker();
-  }
-  ionViewDidEnter() {
     this.getOperationsHistory(this.getQueryParams());
   }
 
+  async getStorageDates() {
+    await this.loadingService.show();
+    this.storageSince = await this.storage.get(CONFIG.operationHistoryDates.since);
+    this.storageUntil = await this.storage.get(CONFIG.operationHistoryDates.until);
+    await this.loadingService.dismiss();
+  }
+
   setInitialDatePicker() {
-    if (this.storageSince !== '') {
+    if (this.storageSince) {
       this.queryOptions.since = this.storageSince;
     } else {
       this.queryOptions.since = moment().subtract(7, 'd').startOf('day').utc().format();
     }
-    if (this.storageUntil !== '') {
+
+    if (this.storageUntil) {
       this.queryOptions.until = this.storageUntil;
     } else {
       this.queryOptions.until = moment().endOf('day').utc().format();
@@ -181,6 +193,7 @@ export class FundOperationsPage implements OnInit {
     this.datepicker.cancelText = this.translate.instant('funds.fund_operations.cancel_datepicker_text');
     this.datepicker.doneText = this.translate.instant('funds.fund_operations.done_datepicker_text');
   }
+
   getOperationsHistory(options: any = null, hasInfiniteScroll?: boolean) {
     this.apiFunds.getOperationsHistory(this.fundName, options).subscribe((data) => {
       this.paginationOptions.cursor = (data.cursors && data.cursors.next) || '';
@@ -229,19 +242,12 @@ export class FundOperationsPage implements OnInit {
 
   viewOrderDetail(id) {
     const order = this.orders.find((x) => x.id === id);
-    this.router.navigate(['funds/fund-operations-detail', order.id]);
-  }
-
-  async getStorageDates() {
-    this.loadingService.show();
-    this.storageSince = await this.storage.get(CONFIG.operationHistoryDates.since);
-    this.storageUntil = await this.storage.get(CONFIG.operationHistoryDates.until);
-    this.loadingService.dismiss();
+    this.navController.navigateForward(['funds/fund-operations-detail', order.id]);
   }
 
   async setDatesInStorage(since?, until?) {
     if (since) {
-      this.loadingService.show();
+      await this.loadingService.show();
       this.storageSince = this.queryOptions.since;
       await this.storage.set(CONFIG.operationHistoryDates.since, this.queryOptions.since).then(() => {
         this.loadingService.dismiss();
@@ -249,7 +255,7 @@ export class FundOperationsPage implements OnInit {
     }
 
     if (until) {
-      this.loadingService.show();
+      await this.loadingService.show();
       this.storageUntil = this.queryOptions.until;
       await this.storage.set(CONFIG.operationHistoryDates.until, this.queryOptions.until).then(() => {
         this.loadingService.dismiss();
@@ -259,7 +265,7 @@ export class FundOperationsPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillLeave() {
-    this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
+  async ionViewWillLeave() {
+    await this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
   }
 }

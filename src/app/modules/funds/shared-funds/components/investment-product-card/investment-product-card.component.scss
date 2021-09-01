@@ -41,7 +41,7 @@
     padding: 12px;
     justify-content: space-between;
     &__capital {
-      flex-basis: 82%;
+      align-items: center;
       display: flex;
       flex-direction: column;
       &__label {
