@@ -156,11 +156,15 @@ describe('VerifyPhrasePage', () => {
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it('should delete word of verificationPhrase and call enable when deleteWord is called', () => {
+  it('should delete word of verificationPhrase and call enable when deleteWord is called', async () => {
+    const spy = spyOn(component.slides, 'getActiveIndex');
+    spy.and.returnValue(Promise.resolve(0));
+
     component.verificationPhrase = ['test'];
     const spyEnable = spyOn(component.recoveryPhraseComponent, 'enable');
     fixture.detectChanges();
-    component.deleteWord('');
+    await component.deleteWord(0);
+    await fixture.whenStable();
     expect(component.verificationPhrase).toEqual([]);
     expect(spyEnable).toHaveBeenCalledTimes(1);
   });
