@@ -134,11 +134,7 @@ export class VerifyPhrasePage {
         this.slides.slidePrev();
         this.blockPrevSlide(true);
         this.recoveryPhraseComponent.enable(word);
-        if (index === 0) {
-          this.slide = 0;
-        } else {
-          this.slide = 1;
-        }
+        this.slide--;
       }
     });
   }
