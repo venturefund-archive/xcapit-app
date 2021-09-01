@@ -26,7 +26,6 @@ export const routes: Routes = [
       },
       {
         path: 'fund-investment',
-        canActivate: [BeforeStepDataGuard],
         loadChildren: () => import('./fund-investment/fund-investment.module').then((m) => m.FundInvestmentPageModule),
       },
       {
@@ -91,6 +90,11 @@ export const routes: Routes = [
         canActivate: [IsOwnerGuard],
         loadChildren: () =>
           import('./fund-timeline-detail/fund-timeline-detail.module').then((m) => m.FundTimelineDetailPageModule),
+      },
+      {
+        path: 'fund-investment-info/:strategy',
+        loadChildren: () =>
+          import('./fund-investment-info/fund-investment-info.module').then((m) => m.FundInvestmentInfoPageModule),
       },
     ],
   },

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LINKS } from '../../../config/static-links';
 import { Browser } from '@capacitor/core';
+import { ActivatedRoute } from '@angular/router';
+import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-modal/no-apikeys-modal.component';
 
 @Component({
   selector: 'app-fund-investment',
@@ -16,20 +18,18 @@ import { Browser } from '@capacitor/core';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          (this.fundRenew ? 'funds.fund_investment.header_renew' : 'funds.fund_investment.header') | translate
-        }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'funds.fund_investment.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding fi">
       <div class="fi__info">
         <div>
-          <ion-text class="ux-font-gilroy ux-fweight-bold ux-fsize-22" color="uxdark">{{
+          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22" color="uxdark">{{
             'funds.fund_investment.header_info.title' | translate
           }}</ion-text>
         </div>
         <div class="fi__info__description">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">{{
+          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">{{
             'funds.fund_investment.header_info.description' | translate
           }}</ion-text>
         </div>
@@ -82,26 +82,38 @@ export class FundInvestmentPage implements OnInit {
 
   fundRenew: any;
   fundName: any;
+  readOnly: boolean;
+  apikeys: any = [];
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private fundDataStorage: FundDataStorageService,
     private navController: NavController,
     private apiApiKeysService: ApiApikeysService,
+    private modalController: ModalController,
     private storageApiKeysService: StorageApikeysService,
     private alertController: AlertController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {}
 
   async ionViewWillEnter() {
+    this.readOnly = this.route.snapshot.paramMap.has('show');
     await this.getFundRenewData();
+    this.getAllApiKeys();
   }
 
   async getFundRenewData() {
     this.fundRenew = await this.fundDataStorage.getData('fundRenew');
     this.fundName = await this.fundDataStorage.getData('fundName');
+  }
+
+  getAllApiKeys() {
+    this.apiApiKeysService.getAll().subscribe((data) => {
+      this.apikeys = data;
+    });
   }
 
   getDataToCheckBalance(): any {
@@ -141,17 +153,34 @@ export class FundInvestmentPage implements OnInit {
   }
 
   saveProfileAndCurrency(data: any) {
-    this.fundDataStorage.setData('fundRiskLevel', { risk_level: data.risk_level }).then();
-    this.fundDataStorage.setData('fundCurrency', { currency: data.currency }).then();
+    this.fundDataStorage.setData('fundRiskLevel', { risk_level: data.risk_level });
+    this.fundDataStorage.setData('fundCurrency', { currency: data.currency });
   }
 
   async handleSubmit(data: any) {
+    if (this.apikeys.length === 0) {
+      this.openModal();
+      return;
+    }
+    this.readOnly ? this.navController.navigateForward('/apikeys/list') : this.handleCreation(data);
+  }
+
+  async handleCreation(data: any) {
     const response = await this.checkMinBalance(data.risk_level);
     if (response.balance_is_enough) {
       this.saveProfileAndCurrency(data);
-      this.navController.navigateForward(['funds/fund-take-profit']).then();
+      this.navController.navigateForward(['funds/fund-take-profit']);
     } else {
       await this.showNotEnoughBalanceAlert(response.min_balance);
     }
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: NoApikeysModalComponent,
+      cssClass: 'ux-modal-no-apikeys',
+      swipeToClose: false,
+    });
+    await modal.present();
   }
 }

@@ -37,7 +37,7 @@ describe('HomePage', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [HomePage, TrackClickDirective],
-        imports: [HttpClientTestingModule, IonicModule.forRoot(), TranslateModule.forRoot()],
+        imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
         providers: [
           {
             provide: NavController,
@@ -95,7 +95,7 @@ describe('HomePage', () => {
   it('should navigate to create-support-ticket when Go to Support Page is clicked', () => {
     const button = fixture.debugElement.query(By.css("div[name='Go to Support Page']"));
     button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/create-support-ticket']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tickets/create-support-ticket');
   });
 
   it('should call trackEvent on trackService when Show Notifications button clicked', () => {
