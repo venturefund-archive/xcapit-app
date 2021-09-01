@@ -8,6 +8,8 @@ import { ClipboardService } from '../../../shared/services/clipboard/clipboard.s
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { ValueAccessor } from '@ionic/angular/directives/control-value-accessors/value-accessor';
+import { Currency } from '../../funds/shared-funds/enums/currency.enum';
 
 @Component({
   selector: 'app-receive',
@@ -76,10 +78,10 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_header' | translate }}
+          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.selectedCurrency } }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_body' | translate }}
+          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.selectedCurrency } }}
         </ion-text>
       </div>
     </ion-content>
@@ -90,10 +92,11 @@ export class ReceivePage {
   form: FormGroup = this.formBuilder.group({
     currency: ['', Validators.required],
   });
+
   currencies: Coin[] = COINS.filter((coin) => coin.value === 'ETH');
   address: string;
   addressQr: string;
-
+  selectedCurrency: string;
   constructor(
     private formBuilder: FormBuilder,
     private qrCodeService: QRCodeService,
@@ -110,7 +113,12 @@ export class ReceivePage {
 
   subscribeToFormChanges() {
     this.form.valueChanges.subscribe((value) => this.getAddress(value.currency));
+    this.form.valueChanges.subscribe((value) => this.setCurrencyOnLabel(value.currency));
     this.form.patchValue({ currency: 'ETH' });
+  }
+
+  setCurrencyOnLabel(currency: string) {
+    this.selectedCurrency = currency;
   }
 
   getAddress(currency: string) {
