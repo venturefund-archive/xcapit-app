@@ -68,10 +68,30 @@ import { NavController } from '@ionic/angular';
                 currency: this.productData.currency
               })
             "
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14"
+            class="ux-font-button-small"
           >
             {{ 'funds.fund_investment.card.invest_button' | translate }}
           </ion-button>
+        </div>
+        <div class="ipc__footer__last_year_revenue">
+          <div class="ipc__footer__last_year_revenue__label">
+            <ion-text class="ux-font-text-regular" color="uxlight">{{
+              'funds.fund_investment.card.last_year_revenue' | translate
+            }}</ion-text>
+          </div>
+          <div class="ipc__footer__last_year_revenue__value_and_icon">
+            <ion-text class="ux-font-text-lg" color="uxlight">+{{ this.productData?.percentage }}% </ion-text>
+            <ion-icon
+              *ngIf="this.productData.currency === 'USDT'"
+              class="ipc__footer__last_year_revenue__value_and_icon__icon"
+              name="ux-tether-logo"
+            ></ion-icon>
+            <ion-icon
+              *ngIf="this.productData.currency === 'BTC'"
+              class="ipc__footer__last_year_revenue__value_and_icon__icon"
+              name="ux-btc-logo"
+            ></ion-icon>
+          </div>
         </div>
       </div>
     </div>

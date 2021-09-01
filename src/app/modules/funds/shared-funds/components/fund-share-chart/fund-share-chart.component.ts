@@ -14,9 +14,7 @@ const { Filesystem } = Plugins;
   selector: 'app-fund-share-chart',
   template: `
     <div class="fbd__header">
-      <ion-text class="fbd__header__text ux-font-lato ux-fweight-semibold ux-fsize-16">
-        Muestra tus rendimientos
-      </ion-text>
+      <ion-text class="fbd__header__text ux-font-text-base semibold"> Muestra tus rendimientos </ion-text>
       <ion-button
         appTrackClick
         name="Close"
@@ -46,14 +44,12 @@ const { Filesystem } = Plugins;
           >
           </a>
           <ion-icon name="ux-download"></ion-icon>
-          <ion-label class="ux-font-lato ux-fweight-regular ux-fsize-14"
-            ><ion-text color="uxsemidark">Descargar</ion-text></ion-label
-          >
+          <ion-label class="ux-font-text-xs"><ion-text color="uxsemidark">Descargar</ion-text></ion-label>
         </div>
         <!-- Comentado hasta posterior implementación -->
         <!-- <div class="fbd__main_content__item" (click)="this.shareChart()">
           <ion-icon name="ux-share"></ion-icon>
-          <ion-label class="ux-font-lato ux-fweight-regular ux-fsize-14"
+          <ion-label class="ux-font-text-xs"
             ><ion-text color="uxsemidark">Compartir</ion-text></ion-label
           >
         </div> -->

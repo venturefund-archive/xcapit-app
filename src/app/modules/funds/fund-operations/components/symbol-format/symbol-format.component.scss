@@ -1,5 +1,9 @@
 :host {
+  .base {
+    font-weight: var(--ux-fweight-regular);
+  }
   .quote {
-    font-size: 10px;
+    font-weight: var(--ux-fweight-regular);
+    font-size: var(--ux-fsize-10);
   }
 }

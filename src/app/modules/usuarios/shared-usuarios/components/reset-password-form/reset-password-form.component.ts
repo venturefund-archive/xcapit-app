@@ -18,7 +18,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
         </app-ux-title>
 
         <app-ux-text>
-          <div class="ion-margin-top ion-margin-bottom">
+          <div class="ux-font-text-xs ion-margin-top ion-margin-bottom">
             {{ 'usuarios.reset_password.text_before' | translate }}
           </div>
         </app-ux-text>

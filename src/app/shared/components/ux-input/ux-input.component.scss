@@ -1,12 +1,6 @@
 :host {
   .ux_input_container {
     padding-top: 16px;
-    &__label {
-      font-weight: 600;
-      font-size: 12px;
-      font-family: var(--ux-font-lato);
-      color: #0000008a; // Color negro con opacity 0.54
-    }
 
     &__item {
       height: 100%;
@@ -15,11 +9,6 @@
       --background: #0000000a;
       --inner-border-width: 0;
       --highlight-background: none;
-
-      font-weight: 400;
-      color: #000000DE;
-      font-size: 14px;
-      font-family: var(--ux-font-lato);
 
       &.item-has-focus {
         border: 1.5px solid var(--ion-color-uxsecondary);

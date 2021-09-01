@@ -11,15 +11,13 @@ import { ActivatedRoute } from '@angular/router';
           <ion-back-button defaultHref="funds/fund-operations/{{ this.fundName }}"></ion-back-button>
         </ion-buttons>
         <div>
-          <ion-title class="foh__header-title ion-text-center">
-            {{ 'funds.fund_operations_detail.title' | translate }}</ion-title
-          >
-          <ion-title class="foh__header-fund ion-text-center">{{ this.fundName }}</ion-title>
+          <ion-title class="foh__header-title"> {{ 'funds.fund_operations_detail.title' | translate }}</ion-title>
+          <ion-title class="foh__header-fund">{{ this.fundName }}</ion-title>
         </div>
         <!-- Comentado hasta la implementación del filtro -->
         <!-- <ion-buttons slot="end">
           <ion-button
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
+            class="ux-font-text-xs semibold ion-padding-end"
             appTrackClick
             name="Filter Orders"
           >
@@ -34,19 +32,19 @@ import { ActivatedRoute } from '@angular/router';
           <ion-list>
             <ion-item class="fodc__header">
               <div>
-                <ion-text class="fodc__header__symbol ux-font-lato ux-fweight-regular ux-fsize-12">
+                <ion-text class="fodc__header__symbol ux-font-text-xxs regular">
                   {{ order.symbol }}
                 </ion-text>
-                <ion-text *ngIf="order.side === 'buy'" class="fodc__header__buy ux-font-lato ux-fweight-semibold">{{
+                <ion-text *ngIf="order.side === 'buy'" class="fodc__header__buy operation-type">{{
                   'funds.fund_operations.order_side_buy' | translate
                 }}</ion-text>
-                <ion-text *ngIf="order.side === 'sell'" class="fodc__header__sell ux-font-lato ux-fweight-semibold">{{
+                <ion-text *ngIf="order.side === 'sell'" class="fodc__header__sell operation-type">{{
                   'funds.fund_operations.order_side_sell' | translate
                 }}</ion-text>
               </div>
             </ion-item>
             <div class="container fodc__content">
-              <ion-item-group class="fodc__content__block ux-font-lato ux-fweight-regular ux-fsize-12">
+              <ion-item-group class="fodc__content__block ux-font-text-xxs regular">
                 <ion-item class="fodc__content__block__item">
                   <ion-label class="fodc__align_left fodc__margin">{{
                     'funds.fund_operations_detail.order_type_label' | translate
@@ -76,7 +74,7 @@ import { ActivatedRoute } from '@angular/router';
                 </ion-item>
               </ion-item-group>
               <div class="list-divider"></div>
-              <ion-item-group class="ux-font-lato ux-fweight-regular ux-fsize-12">
+              <ion-item-group class="item-group ux-font-text-xs">
                 <ion-item class="fodc__content__block__item">
                   <ion-label class="fodc__align_left fodc__margin">Fee</ion-label>
                   <ion-label class="fodc__align_right fodc__margin">{{ order.fee_cost | number: '1.2-6' }}</ion-label>
@@ -89,7 +87,7 @@ import { ActivatedRoute } from '@angular/router';
                 </ion-item>
               </ion-item-group>
               <div class="list-divider"></div>
-              <ion-item-group class="ux-font-lato ux-fweight-regular ux-fsize-12">
+              <ion-item-group class="ux-font-text-xxs">
                 <ion-item class="fodc__content__block__item">
                   <ion-label class="fodc__align_left fodc__margin">{{
                     'funds.fund_operations_detail.status' | translate

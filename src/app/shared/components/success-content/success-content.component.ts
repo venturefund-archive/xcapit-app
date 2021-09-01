@@ -23,7 +23,7 @@ import { NavController } from '@ionic/angular';
         <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
       </div>
       <div class="main__secondary_text">
-        <app-ux-text>{{ this.data?.textSecondary | translate }}</app-ux-text>
+        <ion-text class="ux-font-text-xs" color="uxsemidark">{{ this.data?.textSecondary | translate }}</ion-text>
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">
@@ -38,8 +38,8 @@ import { NavController } from '@ionic/angular';
             {{ this.data?.namePrimaryAction | translate }}
           </ion-button>
         </div>
-        <div class="main__third_text ux-font-lato ux-fweight-semibold ux-fsize-12">
-          <ion-text>{{ this.data?.textThird | translate }}</ion-text>
+        <div class="main__third_text ux-font-text-xxs">
+          <ion-text color="uxsemidark">{{ this.data?.textThird | translate }}</ion-text>
         </div>
         <div class="main__actions__third" *ngIf="this.data.nameThirdAction">
           <ion-button
@@ -55,7 +55,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="main__actions__secondary" *ngIf="this.data.nameSecondaryAction">
           <ion-button
-            class="ux_button"
+            class="action_secondary ux_button"
             appTrackClick="!this.unauth"
             appTrackClickUnauth="this.unauth"
             fill="clear"

@@ -15,9 +15,15 @@
         width: 28px;
       }
     }
+
     &__link {
-      display: flex;
-      justify-content: center;
+      &__text {
+        font-weight: var(--ux-fweight-semibold);
+      }
+      &__link {
+        display: flex;
+        justify-content: center;
+      }
     }
   }
 }

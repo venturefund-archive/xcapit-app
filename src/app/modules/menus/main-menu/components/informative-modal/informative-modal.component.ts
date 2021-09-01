@@ -8,19 +8,19 @@ import { ModalController, NavController } from '@ionic/angular';
       <img src="assets/img/apikeys/no-apikey.svg" />
     </div>
     <div class="im__content__title">
-      <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-15">
+      <ion-text class="ux-font-text-lg">
         {{ 'fiat_ramps.wallet_comprobation.title' | translate }}
       </ion-text>
     </div>
     <div class="im__content__message">
-      <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+      <ion-text class="ux-font-text-xs">
         {{ 'fiat_ramps.wallet_comprobation.message' | translate }}
       </ion-text>
     </div>
     <div class="im__content__buttons">
       <div class="im__content__button__back">
         <ion-button
-          class="ux-font-lato ux-fweight-regular ux-fsize-14"
+          class="ux-font-text-xs"
           appTrackClick
           name="close"
           fill="clear"
@@ -34,7 +34,6 @@ import { ModalController, NavController } from '@ionic/angular';
       </div>
       <div class="im__content__button__add">
         <ion-button
-          class="ux-font-lato ux-fweight-bold ux-fsize-14"
           appTrackClick
           name="addApiKey"
           fill="clear"

@@ -25,26 +25,35 @@
         &__trash {
           color: black;
           margin-top: 6px;
+          font-weight: var(--ux-fweight-semibold);
           &__icon {
             height: 16px;
           }
+        }
+      }
+      &__right {
+        ion-button.renovate-fund {
+          font-weight: var(--ux-fweight-semibold);
         }
       }
     }
     .item {
       display: flex;
       flex-direction: column;
+      ion-text.regular {
+        font-weight: var(--ux-fweight-regular);
+      }
       &__value {
-          margin-top: 4px;
+        margin-top: 4px;
       }
       &.second {
-          margin-top: 18px;
+        margin-top: 18px;
       }
       .risk {
-        color: #F7BB5D;
+        color: #f7bb5d;
       }
       .high-risk {
-        color: #FF8006;
+        color: #ff8006;
       }
     }
   }

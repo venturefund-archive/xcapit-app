@@ -5,8 +5,8 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
   selector: 'app-ux-input',
   template: `
     <div class="ux_input_container">
-      <ion-label class="ux_input_container__label">{{ this.label }}</ion-label>
-      <ion-item class="ux_input_container__item">
+      <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
+      <ion-item class="ux_input_container__item ux-font-text-xs">
         <ion-input
           #inputRegister
           [ngClass]="{ 'google-place-input': this.type === 'google-places' }"

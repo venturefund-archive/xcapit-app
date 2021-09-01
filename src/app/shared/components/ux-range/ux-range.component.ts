@@ -1,9 +1,5 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import {
-  AbstractControl,
-  ControlContainer,
-  FormGroupDirective
-} from '@angular/forms';
+import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-ux-range',
@@ -12,14 +8,10 @@ import {
       <ion-label class="ux_range__label">{{ this.label }}</ion-label>
       <div class="ux_range__content">
         <div class="ux_range__content__display-on-release">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-20">
+          <ion-text class="ux-font-text-lg">
             {{ this.control?.value }}
           </ion-text>
-          <ion-text
-            *ngIf="this.control"
-            class="text ux-font-gilroy ux-fweight-extrabold ux-fsize-20"
-            >{{ this.minText }}</ion-text
-          >
+          <ion-text *ngIf="this.control" class="text ux-font-text-lg">{{ this.minText }}</ion-text>
         </div>
         <ng-content></ng-content>
         <div class="ux_range__content__max_min">
@@ -32,10 +24,10 @@ import {
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
+      useExisting: FormGroupDirective,
+    },
   ],
-  styleUrls: ['./ux-range.component.scss']
+  styleUrls: ['./ux-range.component.scss'],
 })
 export class UxRangeComponent implements OnInit {
   @Input() label = '';

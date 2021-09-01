@@ -14,7 +14,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             fc__main__title: fund.state === 'active',
             'fc__main__title-finalized': fund.state === 'finalizado'
           }"
-          class="fc__main__title ux-font-lato ux-fweight-semibold ux-fsize-12"
+          class="fc__main__title ux-font-text-xxs"
         >
           <ion-text>
             {{ this.fund?.fund_name }}
@@ -30,7 +30,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
                 fc__main__content__left__balance: fund.state === 'active',
                 'fc__main__content__left__balance-finalized': fund.state === 'finalizado'
               }"
-              class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold"
+              class="ux-font-text-xl"
             >
               <ion-text>
                 {{
@@ -45,14 +45,14 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
                 }}
               </ion-text>
             </div>
-            <div class="ux-font-lato ux-fweight-regular ux-fsize-12">
-              <ion-text color="uxsemidark">
+            <div class="ux-font-text-xxs">
+              <ion-text color="uxmedium">
                 {{ 'funds.fund_card.current_capital' | translate }}
               </ion-text>
             </div>
           </div>
           <div class="fc__main__content__right">
-            <div class="ux-font-gilroy ux-fsize-24 ux-fweight-extrabold">
+            <div class="ux-font-text-xl">
               <ion-icon
                 [ngClass]="{
                   fc__main__content__right__amount__up: fund.state === 'active',
@@ -77,8 +77,8 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
                 >{{ this.fund?.total_profit * 100 | absoluteValue | number: '1.2-2' }}%
               </ion-text>
             </div>
-            <div class="ux-font-lato ux-fweight-regular ux-fsize-12 fc__main__content__right__flex">
-              <ion-text color="uxsemidark">
+            <div class="ux-font-text-xxs fc__main__content__right__flex">
+              <ion-text color="uxmedium">
                 {{
                   'funds.fund_card.' + this.createdTime[0]
                     | translate
@@ -91,7 +91,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             </div>
           </div>
         </div>
-        <div *ngIf="!this.fund?.end_balance" class="fl__total__amount ux-font-lato ux-fweight-regular ux-fsize-14">
+        <div *ngIf="!this.fund?.end_balance" class="fl__total__amount ux-font-text-xs">
           <ion-text>
             {{ 'funds.fund_card.not_balance_found' | translate }}
           </ion-text>
@@ -104,7 +104,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             name="View Fund"
             fill="clear"
             size="small"
-            class="fc__footer__view_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
+            class="fc__footer__view_fund ux-font-text-xs"
             [disabled]="!this.fund.end_balance"
           >
             {{ 'funds.fund_card.view_fund' | translate }}
@@ -114,7 +114,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
       </div>
       <div class="fc__footer" *ngIf="this.fund.state === 'finalizado'">
         <div class="fc__footer__left">
-          <ion-text class="fc__footer__finalized-label ux-font-lato ux-fweight-semibold ux-fsize-14">
+          <ion-text class="fc__footer__finalized-label ux-font-text-xs">
             {{ 'funds.fund_card.finalized' | translate }}
           </ion-text>
         </div>
@@ -123,7 +123,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             name="Renovate Fund"
             fill="clear"
             size="small"
-            class="fc__footer__renovate_fund ux-font-lato ux-fweight-semibold ux-fsize-14"
+            class="fc__footer__renovate_fund ux-font-text-xs"
             [disabled]="!this.fund.end_balance"
           >
             {{ 'funds.fund_card.renovate' | translate }}

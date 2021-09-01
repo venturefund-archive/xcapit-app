@@ -22,20 +22,17 @@ import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.servic
         <div class="fs__header">
           <h1>
             {{ 'runs.run_summary.run_title' | translate }}
-            {{ this.runStatus?.fund?.id_corrida
-            }}{{ 'runs.run_summary.fund_title' | translate }}
+            {{ this.runStatus?.fund?.id_corrida }}{{ 'runs.run_summary.fund_title' | translate }}
             {{ this.runStatus?.fund?.nombre_bot }}
           </h1>
-          <ion-label class="fs__header__state">
+          <ion-label class="ux-font-num-subtitulo fs__header__state">
             {{ this.runStatus?.fund.estado }}
           </ion-label>
         </div>
         <div class="fs__content" *ngIf="this.runStatus">
           <div class="fs__profit" *ngIf="this.runStatus.status">
             <div class="fs__profit__main">
-              <app-percentage-display
-                [percentage]="this.runStatus.status.porcentaje"
-              ></app-percentage-display>
+              <app-percentage-display [percentage]="this.runStatus.status.porcentaje"></app-percentage-display>
             </div>
             <div class="fs__profit__days">
               {{
@@ -84,7 +81,7 @@ import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.servic
       </div>
     </ion-content>
   `,
-  styleUrls: ['./run-summary.page.scss']
+  styleUrls: ['./run-summary.page.scss'],
 })
 export class RunSummaryPage implements OnInit, OnDestroy {
   pk: string;
@@ -110,11 +107,9 @@ export class RunSummaryPage implements OnInit, OnDestroy {
 
   getRunStatus() {
     this.loadingStatus = true;
-    this.runStatusSubscription = this.apiRuns
-      .getStatus(this.pk)
-      .subscribe(res => {
-        this.runStatus = res;
-        this.loadingStatus = false;
-      });
+    this.runStatusSubscription = this.apiRuns.getStatus(this.pk).subscribe((res) => {
+      this.runStatus = res;
+      this.loadingStatus = false;
+    });
   }
 }

@@ -11,36 +11,26 @@ import { Mnemonic } from '@ethersproject/hdnode';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.recovery_phrase.header' | translate }}</ion-title>
+        <ion-title>{{ 'wallets.recovery_phrase.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
       <div class="ux_main">
         <div name="Content" class="ux_content">
           <div class="title">
-            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-              'wallets.recovery_phrase.title' | translate
-            }}</ion-text>
+            <ion-text class="ux-font-text-xl">{{ 'wallets.recovery_phrase.title' | translate }}</ion-text>
           </div>
           <div class="text">
-            <ion-text class="text ux-font-lato ux-fweight-regular ux-fsize-16">{{
-              'wallets.recovery_phrase.text1' | translate
-            }}</ion-text>
+            <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text1' | translate }}</ion-text>
           </div>
           <div class="text">
-            <ion-text class="text ux-font-lato ux-fweight-regular ux-fsize-16">{{
-              'wallets.recovery_phrase.text2' | translate
-            }}</ion-text>
+            <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text2' | translate }}</ion-text>
           </div>
           <div class="text">
-            <ion-text class="text ux-font-lato ux-fweight-regular ux-fsize-16">{{
-              'wallets.recovery_phrase.text3' | translate
-            }}</ion-text>
+            <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text3' | translate }}</ion-text>
           </div>
           <div class="text">
-            <ion-text class="text ux-font-lato ux-fweight-regular ux-fsize-16">{{
-              'wallets.recovery_phrase.text4' | translate
-            }}</ion-text>
+            <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text4' | translate }}</ion-text>
           </div>
           <div *ngIf="this.mnemonic">
             <app-recovery-phrase-card

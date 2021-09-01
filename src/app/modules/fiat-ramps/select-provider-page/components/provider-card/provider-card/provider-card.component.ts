@@ -7,15 +7,15 @@ import { NavController } from '@ionic/angular';
     <div class="pcc" (click)="this.useProvider()">
       <div class="pcc__content">
         <div class="pcc__content__id ">
-          <div class="ux-font-lato ux-fweight-regular ux-fsize-12">
-            <ion-text color="uxsemidark">0{{ this.provider?.id }}</ion-text>
+          <div class="ux-font-text-xxs">
+            <ion-text color="uxmedium">0{{ this.provider?.id }}</ion-text>
           </div>
         </div>
         <div class="pcc__content__image">
           <img [src]="this.provider?.logoRoute" alt="Provider Logo" />
         </div>
         <div class="pcc__content__name">
-          <div class="ux-font-lato ux-fweight-regular ux-fsize-12">
+          <div class="ux-font-text-base">
             <ion-text class="name_text" color="uxdark"> {{ this.provider?.name }}</ion-text>
           </div>
         </div>
@@ -28,7 +28,6 @@ import { NavController } from '@ionic/angular';
               color="uxsemidark"
               size="small"
               slot="end"
-              class="ux-font-lato ux-fweight-semibold ux-fsize-14"
               (click)="this.useProvider()"
             >
               <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>

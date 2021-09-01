@@ -31,9 +31,16 @@ const { Browser } = Plugins;
         </ion-button>
       </div>
       <div class="need-help__link">
-        <ion-button name="Go To Help" (click)="this.moreInfo()" appTrackClick fill="clear" size="small">{{
-          'shared.need_help.text_help_link' | translate
-        }}</ion-button>
+        <ion-button
+          name="Go To Help"
+          (click)="this.moreInfo()"
+          class="need-help__link__text ux-font-text-xs"
+          appTrackClick
+          fill="clear"
+          size="small"
+        >
+          {{ 'shared.need_help.text_help_link' | translate }}
+        </ion-button>
       </div>
     </div>
   `,

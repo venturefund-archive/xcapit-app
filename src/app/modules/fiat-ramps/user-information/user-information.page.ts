@@ -19,7 +19,7 @@ import * as moment from 'moment';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/operations-new"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
+        <ion-title>
           {{ 'fiat_ramps.register.header' | translate }}
         </ion-title>
       </ion-toolbar>
