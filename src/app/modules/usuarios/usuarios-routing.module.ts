@@ -44,7 +44,7 @@ const routes: Routes = [
       },
       {
         path: 'resend-verification-email',
-        // canActivate: [NoAuthGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./resend-verification-email/resend-verification-email.module').then(
             (m) => m.ResendVerificationEmailPageModule

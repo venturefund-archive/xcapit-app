@@ -15,27 +15,36 @@ import { Mnemonic } from '@ethersproject/hdnode';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div name="Content" class="ux-content">
-        <div class="title">
-          <ion-text class="ux-font-text-xl">{{ 'wallets.recovery_phrase.title' | translate }}</ion-text>
+      <div class="ux_main">
+        <div name="Content" class="ux_content">
+          <div class="title">
+            <ion-text class="ux-font-text-xl">{{ 'wallets.recovery_phrase.title' | translate }}</ion-text>
+          </div>
+          <div class="text">
+            <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text1' | translate }}</ion-text>
+          </div>
+          <div class="text">
+            <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text2' | translate }}</ion-text>
+          </div>
+          <div class="text">
+            <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text3' | translate }}</ion-text>
+          </div>
+          <div class="text">
+            <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text4' | translate }}</ion-text>
+          </div>
+          <div *ngIf="this.mnemonic">
+            <app-recovery-phrase-card
+              [phrase]="this.mnemonic.phrase.split(' ')"
+              [showOrder]="true"
+            ></app-recovery-phrase-card>
+          </div>
         </div>
-        <div class="text">
-          <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text1' | translate }}</ion-text>
-        </div>
-        <div class="text">
-          <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text2' | translate }}</ion-text>
-        </div>
-        <div class="text">
-          <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text3' | translate }}</ion-text>
-        </div>
-        <div class="text">
-          <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text4' | translate }}</ion-text>
-        </div>
-        <div *ngIf="this.mnemonic">
-          <app-recovery-phrase-card
-            [phrase]="this.mnemonic.phrase.split(' ')"
-            [showOrder]="true"
-          ></app-recovery-phrase-card>
+        <div class="ux_footer">
+          <div class="next_button">
+            <ion-button class="ux_button" appTrackClick name="Next" size="large" (click)="goToVerifyPhrase()">
+              {{ 'wallets.recovery_phrase.btn_next' | translate }}
+            </ion-button>
+          </div>
         </div>
       </div>
     </ion-content>

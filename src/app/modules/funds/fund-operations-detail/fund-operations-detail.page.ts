@@ -132,22 +132,11 @@ export class FundOperationsDetailPage implements OnInit {
   }
 
   getOrder() {
-    this.order = {
-      id: 1,
-      symbol: 'USDT/BTC',
-      side: 'buy',
-      price: 123.4,
-      order_type: 'market',
-      executedQty: 245,
-      creation_datetime: new Date(),
-    };
-    this.fundName = 'hola';
-    this.loading = false;
-    // this.apiFunds.getOrderDetail(this.orderId, this.loading).subscribe((data) => {
-    //   this.order = data;
-    //   this.fundName = data.fund_name;
-    //   this.loading = false;
-    // });
+    this.apiFunds.getOrderDetail(this.orderId, this.loading).subscribe((data) => {
+      this.order = data;
+      this.fundName = data.fund_name;
+      this.loading = false;
+    });
   }
 
   ngOnInit() {}

@@ -203,7 +203,7 @@
     "create_ticket_form": {
       "label_email": "CORREO ELECTRÓNICO",
       "placeholder_email": "ejemplo@email.com",
-      "label_subject": "Elige una categoria de consulta",
+      "label_subject": "Elige una categoría de consulta",
       "placeholder_subject": "Seleccione una categoría",
       "label_message": "Escribe tu consulta",
       "placeholder_message": "Escriba su consulta aquí.",
