@@ -7,13 +7,18 @@
     text-align: center;
   }
 
+  .new-operation {
+    font-size: var(--ux-fsize-14);
+  }
+
   .table-header {
     margin-bottom: 0;
     font-size: 12px;
-    color: #8a8a8a;
+    color: var(--ion-color-uxsemidark);
     flex-direction: row;
     display: flex;
     text-align: center;
+    font-weight: var(--ux-fweight-regular);
 
     ion-label {
       margin: 0;

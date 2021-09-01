@@ -6,7 +6,7 @@ import { FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms'
   selector: 'app-ux-select-modal',
   template: `
     <div class="sm__header">
-      <ion-text class="sm__header__text ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+      <ion-text class="sm__header__text ux-font-text-xl">
         {{ this.title }}
       </ion-text>
       <ion-button

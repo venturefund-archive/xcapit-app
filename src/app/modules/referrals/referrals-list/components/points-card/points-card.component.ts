@@ -6,18 +6,13 @@ import { Component, OnInit } from '@angular/core';
     <div class="ric__content">
       <div class="ric__content__left">
         <div class="points">
-          <ion-text
-            class="ux-font-lato ux-fweight-bold ux-fsize-14"
-            color="uxsemidark"
-            >0
-            {{
-              'referrals.new_referral_page.points_card.points_text' | translate
-            }}</ion-text
+          <ion-text class="ux-font-text-base"
+            >0 {{ 'referrals.new_referral_page.points_card.points_text' | translate }}</ion-text
           >
         </div>
       </div>
       <div class="ric__content__right">
-        <ion-badge class="ux_badge_coming" slot="end">{{
+        <ion-badge class="badge ux_badge_coming" slot="end">{{
           'referrals.new_referral_page.points_card.coming_badge' | translate
         }}</ion-badge>
       </div>

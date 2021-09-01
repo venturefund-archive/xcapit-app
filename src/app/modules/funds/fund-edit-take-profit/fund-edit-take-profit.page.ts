@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="this.goToFundSettings()"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center"> {{ 'funds.fund_take_profit.edit_title' | translate }}</ion-title>
+        <ion-title> {{ 'funds.fund_take_profit.edit_title' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>

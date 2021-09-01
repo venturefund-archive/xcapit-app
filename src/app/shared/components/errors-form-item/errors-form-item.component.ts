@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ItemFormError } from '../../models/item-form-error';
 import { AbstractControl, FormGroupDirective, FormGroup } from '@angular/forms';
 import { CONFIG } from 'src/app/config/app-constants.config';
@@ -15,13 +8,13 @@ import { CONFIG } from 'src/app/config/app-constants.config';
   template: `
     <div class="ux-error" *ngIf="this.invalid">
       <ion-item class="ux-error__item" lines="none">
-        <p class="ux-error__item__message">
+        <p class="ux-error__item__message ux-font-form-errors">
           {{ this.getError() | translate }}
         </p>
       </ion-item>
     </div>
   `,
-  styleUrls: ['./errors-form-item.component.scss']
+  styleUrls: ['./errors-form-item.component.scss'],
 })
 export class ErrorsFormItemComponent implements OnInit {
   @Input() controlName: string;
@@ -53,10 +46,8 @@ export class ErrorsFormItemComponent implements OnInit {
   private setErrors() {
     if (Array.isArray(this.errors)) {
       this.errors = [
-        ...CONFIG.formErrors.filter(item =>
-          this.errors.every(i => i.name !== item.name)
-        ),
-        ...this.errors
+        ...CONFIG.formErrors.filter((item) => this.errors.every((i) => i.name !== item.name)),
+        ...this.errors,
       ];
     } else {
       this.errors = CONFIG.formErrors;
@@ -73,10 +64,7 @@ export class ErrorsFormItemComponent implements OnInit {
   }
 
   private getErrorMessage(error): string {
-    this.errorMessage =
-      this.control && this.control.hasError(error.name) && this.control.touched
-        ? error.text
-        : '';
+    this.errorMessage = this.control && this.control.hasError(error.name) && this.control.touched ? error.text : '';
     return this.errorMessage;
   }
 }

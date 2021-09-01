@@ -8,10 +8,10 @@ import { NavController } from '@ionic/angular';
       <div class="main__ux_success_image">
         <img src="../../../../assets/img/wallets/success_celebration.svg" />
       </div>
-      <div class="main__primary_text">
+      <div class="main__primary_text ux-font-text-xl">
         <ion-text>{{ 'wallets.success_creation.title' | translate }}</ion-text>
       </div>
-      <div class="main__secondary_text">
+      <div class="main__secondary_text ux-font-text-xs">
         <ion-text>{{ 'wallets.success_creation.subtitle' | translate }}</ion-text>
       </div>
       <div class="main__actions">

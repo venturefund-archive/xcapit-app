@@ -1,4 +1,7 @@
 :host {
+  .regular {
+    font-weight: var(--ux-fweight-regular);
+  }
   width: 100%;
   .fmc {
     margin-top: 8px;
@@ -7,28 +10,28 @@
     &__content {
       display: flex;
       &__left {
-          flex: 1;
+        flex: 1;
       }
       &__right {
-          flex: 1;
-          &__amount__up {
-            color: var(--ion-color-uxsuccess);
-            height: 10px;
-          }
-          &__amount__down {
-            color: var(--ion-color-uxdanger);
-            height: 10px;
-          }
+        flex: 1;
+        &__amount__up {
+          color: var(--ion-color-uxsuccess);
+          height: 10px;
+        }
+        &__amount__down {
+          color: var(--ion-color-uxdanger);
+          height: 10px;
+        }
       }
     }
     .item {
       display: flex;
       flex-direction: column;
       &__value {
-          margin-top: 4px;
+        margin-top: 4px;
       }
       &.second {
-          margin-top: 18px;
+        margin-top: 18px;
       }
     }
   }

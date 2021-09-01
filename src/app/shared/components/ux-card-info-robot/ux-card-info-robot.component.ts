@@ -7,10 +7,10 @@ const { Browser } = Plugins;
   selector: 'app-ux-card-info-robot',
   template: `
     <div class="cir ion-padding">
-      <div class="cir__title ux-font-gilroy ux-fweight-extrabold ux-fsize-22 ion-text-center">
+      <div class="cir__title ux-font-text-xl ion-text-center">
         <ion-text>{{ 'shared.card_info_robot.title' | translate }}</ion-text>
       </div>
-      <div class="cir__content ux-font-lato ux-fweight-semibold ux-fsize-14 ion-text-center">
+      <div class="cir__content ux-font-text-xs semibold ion-text-center">
         <ion-text>{{ 'shared.card_info_robot.content' | translate }}</ion-text>
       </div>
       <div class="cir__action">

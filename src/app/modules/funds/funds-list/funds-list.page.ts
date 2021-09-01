@@ -48,11 +48,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
       <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
         <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="false" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-          <ion-text
-            class="ux-font-lato ux-fweight-regular ux-fsize-10"
-            color="uxsemidark"
-            *ngIf="!(this.isRefreshAvailable$ | async)"
-          >
+          <ion-text class="ux-font-text-xs" color="uxmedium" *ngIf="!(this.isRefreshAvailable$ | async)">
             {{
               'funds.funds_list.refresh_time'
                 | translate
@@ -67,7 +63,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
       <!-- Fund lists -->
       <div class="fl" *ngIf="this.status?.status_name === 'COMPLETE'">
         <div *ngIf="this.ownerFundBalances?.length" class="fl__funds ion-padding">
-          <div class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+          <div class="fl__funds__title ux-font-subheading">
             {{ 'funds.funds_list.funds_title' | translate }}
           </div>
 
@@ -87,7 +83,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
       </div>
       <div class="fl" *ngIf="this.notOwnerFundBalances?.length">
         <div class="fl__funds ion-padding">
-          <div class="fl__funds__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+          <div class="fl__funds__title ux-font-subheading">
             {{ 'funds.funds_list.shared_funds_title' | translate }}
           </div>
           <app-ux-loading-block minSize="50px" *ngIf="!this.notOwnerFundBalances"></app-ux-loading-block>

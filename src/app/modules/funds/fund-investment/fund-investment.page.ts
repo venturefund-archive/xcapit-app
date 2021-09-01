@@ -18,18 +18,20 @@ import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-m
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'funds.fund_investment.header' | translate }}</ion-title>
+        <ion-title>{{
+          (this.fundRenew ? 'funds.fund_investment.header_renew' : 'funds.fund_investment.header') | translate
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding fi">
       <div class="fi__info">
         <div>
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22" color="uxdark">{{
+          <ion-text class="ux-font-text-lg" color="uxdark">{{
             'funds.fund_investment.header_info.title' | translate
           }}</ion-text>
         </div>
         <div class="fi__info__description">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">{{
+          <ion-text class="ux-font-text-xs" color="uxdark">{{
             'funds.fund_investment.header_info.description' | translate
           }}</ion-text>
         </div>

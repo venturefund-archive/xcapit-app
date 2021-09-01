@@ -17,7 +17,7 @@ const { Browser } = Plugins;
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
+        <ion-title>
           {{ 'fiat_ramps.paxful.header' | translate }}
         </ion-title>
       </ion-toolbar>
@@ -27,12 +27,12 @@ const { Browser } = Plugins;
       <form class="ux_main" [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <div class="ux_content">
           <div>
-            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+            <ion-text class="ux-font-text-xl">
               {{ 'fiat_ramps.paxful.title' | translate }}
             </ion-text>
           </div>
           <div class="info_text">
-            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">
+            <ion-text class="ux-font-text-xs">
               {{ 'fiat_ramps.paxful.text' | translate }}
             </ion-text>
           </div>

@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'app.main_menu.header' | translate }}</ion-title>
+        <ion-title>{{ 'app.main_menu.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -27,7 +27,7 @@ import { environment } from 'src/environments/environment';
         <div *ngFor="let p of appPages; trackBy: this.trackBy" (click)="this.clickAction(p)">
           <ion-item
             *ngIf="this.env === 'PREPROD' || (this.env === 'PRODUCCION' && p.showInProd)"
-            class="menu-item"
+            class="menu-item ux-font-text-xs"
             [id]="p.name"
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
@@ -40,7 +40,7 @@ import { environment } from 'src/environments/environment';
         </div>
         <ion-item
           detail
-          class="menu-item"
+          class="menu-item  ux-font-text-xs"
           appTrackClick
           id="ChangeLanguage"
           [dataToTrack]="{
@@ -55,7 +55,7 @@ import { environment } from 'src/environments/environment';
           </ion-label>
         </ion-item>
         <ion-item
-          class="menu-item"
+          class="menu-item  ux-font-text-xs"
           appTrackClick
           [dataToTrack]="{
             eventLabel: 'Logout',

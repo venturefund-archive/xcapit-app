@@ -10,7 +10,7 @@ import { ModalController, NavController } from '@ionic/angular';
           <img class="pcc_content__important__image__img" [src]="this.typeAlert.img" alt="Toast Logo" />
         </div>
         <div class="pcc_content__important__title ">
-          <div class="ux-font-lato ux-fweight-bold ux-fsize-14">
+          <div class="ux-font-text-xs">
             <ion-text class="text">{{ this.typeAlert.title }}</ion-text>
           </div>
         </div>
@@ -27,7 +27,7 @@ import { ModalController, NavController } from '@ionic/angular';
         *ngIf="this.typeAlert === this.types.error_v3 || this.typeAlert === this.types.atention"
         class="pcc_content__message"
       >
-        <div class="ux-font-lato ux-fweight-regular ux-fsize-14">
+        <div class="ux-font-text-xs">
           <ion-text class="text" color="uxdark"> {{ this.typeAlert.message }}</ion-text>
         </div>
       </div>
@@ -45,10 +45,7 @@ import { ModalController, NavController } from '@ionic/angular';
           ></ion-button>
         </div>
       </div>
-      <div
-        *ngIf="this.typeAlert === this.types.items_error"
-        class="ux-font-lato ux-fweight-regular ux-fsize-14 pcc_content__items"
-      >
+      <div *ngIf="this.typeAlert === this.types.items_error" class="ux-font-text-xs pcc_content__items">
         <ul class="text" style="list-style-type:disc">
           <li>{{ this.types.items_error.item1 }}</li>
           <li [hidden]="this.types.items_error.item2 == null">{{ this.types.items_error.item2 }}</li>

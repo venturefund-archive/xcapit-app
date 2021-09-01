@@ -8,13 +8,13 @@ import { PROVIDERS } from '../../shared-ramps/constants/providers';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center"> {{ 'fiat_ramps.select_provider.header' | translate }}</ion-title>
+        <ion-title> {{ 'fiat_ramps.select_provider.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="sp__title">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+          <ion-text class="ux-font-text-xl">
             {{ 'fiat_ramps.select_provider.title' | translate }}
           </ion-text>
         </div>

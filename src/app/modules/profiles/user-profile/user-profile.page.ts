@@ -12,12 +12,10 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
         <ion-buttons slot="start">
           <ion-back-button *ngIf="!this.editing" defaultHref="/tabs/home"> </ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center" *ngIf="this.editing">{{
-          'profiles.user_profile.header' | translate
-        }}</ion-title>
+        <ion-title *ngIf="this.editing">{{ 'profiles.user_profile.header' | translate }}</ion-title>
         <ion-buttons slot="end">
           <ion-button
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
+            class="ion-padding-end"
             appTrackClick
             name="Edit Save Profile"
             (click)="this.toggleEditProfile()"
