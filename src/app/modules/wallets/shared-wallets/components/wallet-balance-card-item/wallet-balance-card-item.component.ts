@@ -4,7 +4,7 @@ import { AssetBalance } from '../../interfaces/asset-balance.interface';
 @Component({
   selector: 'app-wallet-balance-card-item',
   template: `
-    <div>
+    <div id="balance-card" *ngIf="!(this.balance.amount > 0 && this.balance.usdAmount === 0)">
       <div class="wbci ion-padding">
         <div>
           <ion-img class="wbci__img" [src]="this.balance.icon"></ion-img>
@@ -20,6 +20,9 @@ import { AssetBalance } from '../../interfaces/asset-balance.interface';
             <ion-label color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">{{
               this.balance.name
             }}</ion-label>
+            <ion-label color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
+              / {{ this.balance.usdAmount }} {{ this.balance.usdSymbol }}
+            </ion-label>
           </div>
         </div>
       </div>
