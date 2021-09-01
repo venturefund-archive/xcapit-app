@@ -1306,8 +1306,8 @@
       "currency_select_placeholder": "Currency",
       "average_time": "Average receive time: 3 min.",
       "share": "Share",
-      "disclaimer_header": "Send only USDT to this deposit address.",
-      "disclaimer_body": "Sending other coins or tokens to this address other than USDT may result in the loss of your deposit.",
+      "disclaimer_header": "Send only {{currency}} to this deposit address.",
+      "disclaimer_body": "Sending other coins or tokens to this address other than {{currency}} may result in the loss of your deposit.",
       "share_title": "Wallet address"
     },
     "failed_mnemonic": {
