@@ -225,8 +225,6 @@ export class MainMenuPage implements OnInit {
     await modal.present();
     const data = await modal.onDidDismiss();
     if (data.role === 'selected') {
-      console.log(data);
-      console.log(this.language);
       this.language.setLanguage(data.data);
     }
   }

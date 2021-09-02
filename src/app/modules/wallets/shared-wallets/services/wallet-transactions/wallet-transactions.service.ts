@@ -50,7 +50,7 @@ export class WalletTransactionsService {
     });
   }
 
-  async getLastTransaction(): Promise<any> {
+  getLastTransaction(): Promise<any> {
     return new Promise<any>(async (resolve) => {
       const addresses = await this.storageService.getWalletsAddresses();
 
