@@ -96,7 +96,8 @@ export class HomeWalletPage implements OnInit {
 
         this.walletService.balanceOf(this.walletAddress, coin.value).then((res) => {
           balance.amount = parseFloat(res);
-          const usdPrice = this.allPrices.prices[this.getCoinForPrice(balance.symbol)];
+          const usdPrice = this.getPrice(balance.symbol);
+
           balance.usdAmount = usdPrice * balance.amount;
           this.totalBalanceWallet += balance.usdAmount;
 
@@ -121,7 +122,17 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
-  private getCoinForPrice(symbol: string) {
+  private getCoinForPrice(symbol: string): string {
     return symbol === 'RBTC' ? 'BTC' : symbol;
+  }
+
+  private getPrice(symbol: string): number {
+    console.log(symbol);
+    if (symbol === 'USDT') {
+      return 1;
+    }
+    console.log(this.allPrices.prices[this.getCoinForPrice(symbol)]);
+
+    return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }
 }

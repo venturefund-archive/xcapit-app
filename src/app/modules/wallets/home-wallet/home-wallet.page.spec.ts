@@ -18,27 +18,28 @@ const coins: Coin[] = [
     name: 'coinTest',
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: false,
-    value: 'coinTest',
+    value: 'ETH',
     network: 'ETH',
     rpc: 'http://testrpc.test',
   },
   {
-    id: 2,
-    name: 'coinTest',
-    logoRoute: '../../assets/img/coins/ETH.svg',
+    id: 6,
+    name: 'RBTC - Smart Bitcoin',
+    logoRoute: '../../assets/img/coins/RBTC.png',
     last: false,
-    value: 'BTC',
-    network: 'BTC',
+    value: 'RBTC',
+    network: 'RSK',
     rpc: 'http://testrpc.test',
   },
   {
     id: 3,
-    name: 'coinTest',
-    logoRoute: '../../assets/img/coins/ETH.svg',
+    name: 'USDT - Tether',
+    logoRoute: '../../assets/img/coins/USDT.svg',
     last: false,
-    value: 'BUSD',
-    network: 'BUSD',
+    value: 'USDT',
+    network: 'ETH',
     rpc: 'http://testrpc.test',
+    decimals: 6,
   },
 ];
 
@@ -60,6 +61,7 @@ fdescribe('HomeWalletPage', () => {
   let walletServiceMock: any;
   let walletService: WalletService;
   let apiWalletServiceMock: any;
+  let apiWalletService: ApiWalletService;
 
   beforeEach(
     waitForAsync(() => {
@@ -85,8 +87,11 @@ fdescribe('HomeWalletPage', () => {
 
       fixture = TestBed.createComponent(HomeWalletPage);
       component = fixture.componentInstance;
+      component.allPrices = undefined;
+      component.coins = coins;
       fixture.detectChanges();
       walletService = TestBed.inject(WalletService);
+      apiWalletService = TestBed.inject(ApiWalletService);
     })
   );
 
@@ -105,8 +110,8 @@ fdescribe('HomeWalletPage', () => {
     expect(component.walletExist).toBe(false);
   });
 
-  it('should render app-wallets-subheader when walletExist is false', () => {
-    component.walletExist = false;
+  it('should render app-wallets-subheader when have not balance', () => {
+    component.balances = [];
     fixture.detectChanges();
     const subheader = fixture.debugElement.query(By.css('.wt__subheader'));
     expect(subheader).not.toBeNull();
@@ -146,35 +151,29 @@ fdescribe('HomeWalletPage', () => {
 
   it('should get eth balance on view will enter', async () => {
     spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
-    component.coins = coins;
     const spyBalance = spyOn(walletService, 'balanceOf').and.returnValue(Promise.resolve('20'));
     fixture.detectChanges();
     await component.ionViewWillEnter();
     expect(component.walletExist).toBe(true);
-    expect(spyBalance).toHaveBeenCalledWith('testAddress', 'coinTest');
+    expect(spyBalance).toHaveBeenCalledWith('testAddress', 'ETH');
   });
 
   // Acá empiezan mis tests
 
   it('should show the total balance in USD on getWalletsBalances', fakeAsync(() => {
-    component.balances = [];
-    walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
-    component.totalBalanceWallet = 0;
-    component.coins = coins;
-    const expectedBalance = 1060000;
+    walletServiceMock.addresses = { ETH: 'testAddress', RSK: 'testAddress' };
+    component.allPrices = { prices: { ETH: 3000, BTC: 50000 } };
+    const expectedBalance = 1060020;
 
     component.getWalletsBalances();
 
-    tick(2050);
+    tick(850);
     expect(component.totalBalanceWallet).toBe(expectedBalance);
   }));
 
   it('should show the total balance in USD on ionViewWillEnter', fakeAsync(() => {
-    spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
-    component.totalBalanceWallet = 0;
-    walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
-    component.coins = coins;
-    const expectedBalance = 1060000;
+    walletServiceMock.addresses = { ETH: 'testAddress', RSK: 'testAddress' };
+    const expectedBalance = 1060020;
 
     component.ionViewWillEnter();
 
@@ -183,26 +182,25 @@ fdescribe('HomeWalletPage', () => {
   }));
 
   it('should show the equivalent of each coin balance in USD on getWalletsBalances', fakeAsync(() => {
-    component.balances = [];
-    walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
-    component.coins = coins;
-    const expectedBalanceBTC = 1000000;
+    walletServiceMock.addresses = { ETH: 'testAddress', RSK: 'testAddress' };
+    component.allPrices = { prices: { ETH: 3000, BTC: 50000 } };
+
+    const expectedBalanceRBTC = 1000000;
     const expectedBalanceETH = 60000;
+    const expectedBalanceUSDT = 20;
 
     component.getWalletsBalances();
 
     tick(850);
     expect(component.balances[0].usdAmount).toBe(expectedBalanceETH);
-    expect(component.balances[1].usdAmount).toBe(expectedBalanceBTC);
+    expect(component.balances[1].usdAmount).toBe(expectedBalanceRBTC);
+    expect(component.balances[2].usdAmount).toBe(expectedBalanceUSDT);
   }));
 
   it('should not sum USD balances if coin price was not found on ionViewWillEnter', fakeAsync(() => {
-    spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
-    apiWalletServiceMock.getPrices = (tokens) => of({ prices: { ETH: null, BTC: null } });
-    component.totalBalanceWallet = 0;
-    walletServiceMock.addresses = { ETH: 'testAddress', BTC: 'testAddress' };
-    component.coins = coins;
-    const expectedBalance = 0;
+    walletServiceMock.addresses = { ETH: 'testAddress', RSK: 'testAddress' };
+    spyOn(apiWalletService, 'getPrices').and.returnValue(of({ prices: { ETH: null, BTC: null } }));
+    const expectedBalance = 20;
 
     component.ionViewWillEnter();
 
