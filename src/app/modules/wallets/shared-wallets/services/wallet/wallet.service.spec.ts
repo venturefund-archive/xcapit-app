@@ -107,7 +107,6 @@ describe('WalletService', () => {
     service.coins = testCoins.valid;
     const spy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
     service.create();
-    // expect(service.createdWallets).toEqual(testCreatedWallets);
     expect(spy).toHaveBeenCalledWith('test mnemonic phrase', "m/44'/60'/0'/0/0", ethers.wordlists[en]);
   });
 

@@ -56,12 +56,10 @@ export class StorageService {
     const userCoins = [];
     this.allCoins = COINS;
 
-    if (!!wallets) {
-      if (!!wallets.assets) {
-        for (const coin of this.allCoins) {
-          if (wallets.assets[coin.value]) {
-            userCoins.push(coin);
-          }
+    if (!!wallets && !!wallets.assets) {
+      for (const coin of this.allCoins) {
+        if (wallets.assets[coin.value]) {
+          userCoins.push(coin);
         }
       }
     }
@@ -72,15 +70,11 @@ export class StorageService {
   async saveAssetSelected(asset: any) {
     const wallets = await this.getWalletFromStorage();
 
-    if (!!wallets) {
-      if (!!wallets.assets[asset]) {
-        wallets.assets[asset] = !wallets.assets[asset];
-        wallets.updatedAt = moment().utc().format();
+    if (!!wallets && !!wallets.assets[asset]) {
+      wallets.assets[asset] = !wallets.assets[asset];
+      wallets.updatedAt = moment().utc().format();
 
-        return await this.saveWalletToStorage(wallets);
-      }
-
-      return false;
+      return await this.saveWalletToStorage(wallets);
     }
 
     return false;

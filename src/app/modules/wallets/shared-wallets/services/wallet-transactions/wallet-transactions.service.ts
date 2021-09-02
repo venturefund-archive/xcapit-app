@@ -74,35 +74,8 @@ export class WalletTransactionsService {
   }
 
   getTransactions(address, urlProvider): Observable<any> {
-    const bodyReceived = {
-      jsonrpc: '2.0',
-      id: 2,
-      method: 'alchemy_getAssetTransfers',
-      params: [
-        {
-          fromBlock: '0x0000000',
-          toBlock: 'latest',
-          toAddress: address,
-          excludeZeroValue: true,
-          category: ['external', 'token'],
-        },
-      ],
-    };
-
-    const bodySended = {
-      jsonrpc: '2.0',
-      id: 2,
-      method: 'alchemy_getAssetTransfers',
-      params: [
-        {
-          fromBlock: '0x0000000',
-          toBlock: 'latest',
-          fromAddress: address,
-          excludeZeroValue: true,
-          category: ['external', 'token'],
-        },
-      ],
-    };
+    const bodyReceived = this.getBodyStructure('toAddress', address);
+    const bodySended = this.getBodyStructure('fromAddress', address);
 
     return forkJoin([this.http.post(urlProvider, bodyReceived), this.http.post(urlProvider, bodySended)]).pipe(
       map((response) => {
@@ -112,6 +85,26 @@ export class WalletTransactionsService {
         return this.mergeTransactions(received, sended);
       })
     );
+  }
+
+  getBodyStructure(type, address) {
+    const body = {
+      jsonrpc: '2.0',
+      id: 2,
+      method: 'alchemy_getAssetTransfers',
+      params: [
+        {
+          fromBlock: '0x0000000',
+          toBlock: 'latest',
+          excludeZeroValue: true,
+          category: ['external', 'token'],
+        },
+      ],
+    };
+
+    body.params[0][type] = address;
+
+    return body;
   }
 
   mapResponse(response, action) {
