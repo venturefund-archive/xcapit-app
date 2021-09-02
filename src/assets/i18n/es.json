@@ -540,9 +540,9 @@
       "confirm_button": "Confirmar"
     },
     "fund_success": {
-      "textPrimary": "¡Felicitaciones, ya estas invirtiendo en el mundo crypto!",
-      "textSecondary": "Ya creamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
-      "namePrimaryAction": "Ver mi inversión"
+      "textPrimary": "¡Felicitaciones! Tu inversión está activa",
+      "textSecondary": "Ya creamos tu inversión y nuestros algoritmos comenzarán a gestionar tu capital en base a la información que configuraste. Asegurate haber chequeado el campo “habilitar spot trading” en Binance para que podemos operar.",
+      "namePrimaryAction": "Ver mis inversiones"
     },
     "fund_success_renew": {
       "textPrimary": "¡Tu fondo ha sido renovado!",
