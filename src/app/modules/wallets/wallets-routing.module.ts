@@ -51,6 +51,12 @@ const routes: Routes = [
         loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
       },
       {
+        canActivate: [AcceptedToSGuard],
+        path: 'transactions',
+        loadChildren: () =>
+          import('./transactions-wallet/transactions-wallet.module').then((m) => m.TransactionsWalletPageModule),
+      },
+      {
         path: 'send',
         children: [
           {

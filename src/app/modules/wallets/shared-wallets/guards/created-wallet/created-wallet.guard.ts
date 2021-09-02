@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CreatedWalletGuard implements CanActivate {
-  constructor(private navController: NavController, private appStorageService: AppStorageService) {}
+  constructor(private navController: NavController, private storageService: StorageService) {}
 
   async canActivate(): Promise<boolean> {
     const hasCreatedWallet = await this.hasCreatedWallet();
@@ -18,7 +18,7 @@ export class CreatedWalletGuard implements CanActivate {
   }
 
   async hasCreatedWallet(): Promise<boolean> {
-    return await this.appStorageService.get('enc_wallet');
+    return await this.storageService.getWalletFromStorage();
   }
 
   async redirectToToSPage() {

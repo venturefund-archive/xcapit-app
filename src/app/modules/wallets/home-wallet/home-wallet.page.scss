@@ -29,6 +29,13 @@
     }
   }
 
+  &__transaction {
+    margin-top: 24px;
+    &__wallet-transaction-card {
+      margin-top: 8px;
+    }
+  }
+
   &__subheader {
     margin-top: -30px;
     &__value {
@@ -54,5 +61,12 @@
       margin-top: 24px;
       margin-bottom: 10px;
     }
+  }
+
+  &__transaction-history {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

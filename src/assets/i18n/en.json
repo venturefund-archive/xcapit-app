@@ -1256,6 +1256,8 @@
     "home": {
       "available_money": "Available money in wallet",
       "wallet_balance_title": "ASSETS",
+      "wallet_transaction_title": "LATEST",
+      "go_to_history": "View all transactions",
       "subheader_component": {
         "title_with_wallet": "Start receiving or buying.",
         "title_without_wallet": "You haven't created your wallet yet.",
@@ -1314,6 +1316,12 @@
       "title": "Your recovery phrase is wrong",
       "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
       "button": "Try again"
+    },
+    "transactions": {
+      "header": "Transactions history",
+      "sended": "Sended",
+      "received": "Received",
+      "swap": "Swap"
     },
     "send": {
       "select_currency": {

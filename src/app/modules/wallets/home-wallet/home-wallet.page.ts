@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { COINS } from '../constants/coins';
 
 @Component({
@@ -23,7 +26,7 @@ import { COINS } from '../constants/coins';
           </ion-text>
         </div>
       </div>
-      <div class="wt__subheader" *ngIf="this.balances?.length == 0">
+      <div class="wt__subheader" *ngIf="this.transactionsExists === false">
         <app-wallets-subheader [walletExist]="this.walletExist"></app-wallets-subheader>
       </div>
 
@@ -37,6 +40,28 @@ import { COINS } from '../constants/coins';
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
       </div>
+
+      <div class="wt__transaction ion-padding-start ion-padding-end" *ngIf="this.transactionsExists === true">
+        <div div class="wt__transaction__title">
+          <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
+            {{ 'wallets.home.wallet_transaction_title' | translate }}
+          </ion-label>
+        </div>
+        <div class="wt__transaction__wallet-transaction-card">
+          <app-wallet-transaction-card [transactions]="this.lastTransaction"></app-wallet-transaction-card>
+        </div>
+        <div class="wt__transaction-history">
+          <ion-button
+            name="Transactions History"
+            id="transaction-history"
+            appTrackClick
+            fill="clear"
+            class="ux-font-lato ux-fsize-14 ux-fweight-semibold"
+            (click)="this.goToTransactionHistory()"
+            >{{ 'wallets.home.go_to_history' | translate }}
+          </ion-button>
+        </div>
+      </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
@@ -46,10 +71,16 @@ export class HomeWalletPage implements OnInit {
   totalBalanceWallet = 0;
   walletAddress = null;
   balances: Array<AssetBalance> = [];
+  transactionsExists = false;
+  lastTransaction = [];
+  userCoins;
 
-  coins = COINS;
-
-  constructor(private walletService: WalletService) {}
+  constructor(
+    private walletService: WalletService,
+    private storageService: StorageService,
+    private walletTransactionsService: WalletTransactionsService,
+    private navController: NavController
+  ) {}
 
   ngOnInit() {}
 
@@ -76,13 +107,16 @@ export class HomeWalletPage implements OnInit {
 
       if (res) {
         this.balances = [];
-        this.getWalletsBalances();
+        this.getLastTransactions();
       }
     });
   }
 
-  getWalletsBalances() {
-    for (const coin of this.coins) {
+  async getWalletsBalances() {
+    await this.storageService.updateAssetsList();
+    this.userCoins = await this.storageService.getAssestsSelected();
+
+    for (const coin of this.userCoins) {
       this.walletAddress = this.walletService.addresses[coin.network];
 
       if (this.walletAddress) {
@@ -98,5 +132,20 @@ export class HomeWalletPage implements OnInit {
         });
       }
     }
+  }
+
+  async getLastTransactions() {
+    this.walletTransactionsService.getLastTransaction().then((res) => {
+      this.transactionsExists = !!(res.length > 0);
+
+      if (this.transactionsExists) {
+        this.lastTransaction = res;
+        this.getWalletsBalances();
+      }
+    });
+  }
+
+  goToTransactionHistory() {
+    this.navController.navigateForward(['/wallets/transactions']);
   }
 }
