@@ -11,8 +11,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
 const formData = {
   valid: {
@@ -37,10 +37,12 @@ describe('FundEditStopLossPage', () => {
   let modalControllerSpy: any;
   let navControllerSpy: any;
   let apiFundsServiceSpy: any;
+  let fakeNavController: FakeNavController;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       apiFundsMock = {
         crud: {
