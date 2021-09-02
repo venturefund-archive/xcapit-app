@@ -3,7 +3,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UrlSerializer } from '@angular/router';
-import { WalletTransactionService } from '../shared-wallets/services/wallet-transaction/wallet-transaction.service';
+import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { Storage } from '@ionic/storage';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -35,7 +35,7 @@ describe('TransactionsWalletPage', () => {
   let component: TransactionsWalletPage;
   let fixture: ComponentFixture<TransactionsWalletPage>;
   let walletTransactionServiceMock: any;
-  let walletTransactionService: WalletTransactionService;
+  let walletTransactionService: WalletTransactionsService;
   let storageSpy: any;
 
   beforeEach(
@@ -49,7 +49,7 @@ describe('TransactionsWalletPage', () => {
         declarations: [TransactionsWalletPage],
         imports: [TranslateModule.forRoot(), IonicModule, HttpClientTestingModule],
         providers: [
-          { provider: WalletTransactionService, useValue: walletTransactionServiceMock },
+          { provider: WalletTransactionsService, useValue: walletTransactionServiceMock },
           { provide: Storage, useValue: storageSpy },
           UrlSerializer,
         ],
@@ -59,7 +59,7 @@ describe('TransactionsWalletPage', () => {
       fixture = TestBed.createComponent(TransactionsWalletPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      walletTransactionService = TestBed.inject(WalletTransactionService);
+      walletTransactionService = TestBed.inject(WalletTransactionsService);
     })
   );
 

@@ -9,7 +9,7 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 import { By } from '@angular/platform-browser';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { WalletTransactionService } from '../shared-wallets/services/wallet-transaction/wallet-transaction.service';
+import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 const testCoins = [
@@ -62,8 +62,8 @@ describe('HomeWalletPage', () => {
   let navControllerSpy: any;
   let walletServiceMock: any;
   let walletService: WalletService;
-  let walletTransactionServiceMock: any;
-  let walletTransactionService: WalletTransactionService;
+  let walletTransactionsServiceMock: any;
+  let walletTransactionsService: WalletTransactionsService;
   let storageServiceMock: any;
   let storageService: StorageService;
 
@@ -74,7 +74,7 @@ describe('HomeWalletPage', () => {
         balanceOf: (address, coin) => Promise.resolve('20'),
         addresses: { ETH: 'testAddress' },
       };
-      walletTransactionServiceMock = {
+      walletTransactionsServiceMock = {
         getLastTransaction: () => Promise.resolve(transaction),
       };
       storageServiceMock = {
@@ -87,7 +87,7 @@ describe('HomeWalletPage', () => {
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceMock },
-          { provider: WalletTransactionService, useValue: walletTransactionServiceMock },
+          { provider: WalletTransactionsService, useValue: walletTransactionsServiceMock },
           { provider: StorageService, useValue: storageServiceMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -97,7 +97,7 @@ describe('HomeWalletPage', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       walletService = TestBed.inject(WalletService);
-      walletTransactionService = TestBed.inject(WalletTransactionService);
+      walletTransactionsService = TestBed.inject(WalletTransactionsService);
       storageService = TestBed.inject(StorageService);
     })
   );
@@ -193,7 +193,7 @@ describe('HomeWalletPage', () => {
 
   it('should get the last transaction on view will enter', async () => {
     spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
-    spyOn(walletTransactionService, 'getLastTransaction').and.returnValue(Promise.resolve(transaction));
+    spyOn(walletTransactionsService, 'getLastTransaction').and.returnValue(Promise.resolve(transaction));
     fixture.detectChanges();
     await component.ionViewWillEnter();
     fixture.whenStable().then(() => {
@@ -203,9 +203,11 @@ describe('HomeWalletPage', () => {
     });
   });
 
-  /*fit('should get eth balance on view will enter', async () => {
+  /* TODO: Resolver la obtención de balance
+
+  fit('should get eth balance on view will enter', async () => {
     spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
-    spyOn(walletTransactionService, 'getLastTransaction').and.returnValue(Promise.resolve(transaction));
+    spyOn(walletTransactionsService, 'getLastTransaction').and.returnValue(Promise.resolve(transaction));
     component.userCoins = testCoins;
     const spyBalance = spyOn(walletService, 'balanceOf').and.returnValue(Promise.resolve('20'));
     fixture.detectChanges();
@@ -214,5 +216,7 @@ describe('HomeWalletPage', () => {
     expect(component.walletExist).toBe(true);
     expect(component.walletAddress).toBe('testAddress');
     expect(spyBalance).toHaveBeenCalledWith('testAddress', 'coinTest');
-  });*/
+  });
+
+  */
 });

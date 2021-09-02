@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { WalletTransactionCardItemComponent } from './wallet-transaction-card-item.component';
-import { WalletTransactionService } from '../../../shared-wallets/services/wallet-transaction/wallet-transaction.service';
+import { WalletTransactionsService } from '../../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 const transaction = {

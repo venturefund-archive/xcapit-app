@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WalletTransactionService } from '../shared-wallets/services/wallet-transaction/wallet-transaction.service';
+import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 
 @Component({
   selector: 'app-transactions-wallet',
@@ -25,7 +25,7 @@ import { WalletTransactionService } from '../shared-wallets/services/wallet-tran
 export class TransactionsWalletPage implements OnInit {
   allTransactions = [];
 
-  constructor(private walletTransactionService: WalletTransactionService) {}
+  constructor(private walletTransactionsService: WalletTransactionsService) {}
 
   ngOnInit() {}
 
@@ -34,7 +34,7 @@ export class TransactionsWalletPage implements OnInit {
   }
 
   async getAllTransactions() {
-    this.walletTransactionService.getAllTransactions().then((res) => {
+    this.walletTransactionsService.getAllTransactions().then((res) => {
       this.allTransactions = res;
     });
   }

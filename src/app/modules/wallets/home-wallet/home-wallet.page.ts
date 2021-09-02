@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { WalletTransactionService } from '../shared-wallets/services/wallet-transaction/wallet-transaction.service';
+import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { COINS } from '../constants/coins';
 
 @Component({
@@ -78,7 +78,7 @@ export class HomeWalletPage implements OnInit {
   constructor(
     private walletService: WalletService,
     private storageService: StorageService,
-    private walletTransactionService: WalletTransactionService,
+    private walletTransactionsService: WalletTransactionsService,
     private navController: NavController
   ) {}
 
@@ -135,7 +135,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   async getLastTransactions() {
-    this.walletTransactionService.getLastTransaction().then((res) => {
+    this.walletTransactionsService.getLastTransaction().then((res) => {
       this.transactionsExists = !!(res.length > 0);
 
       if (this.transactionsExists) {
