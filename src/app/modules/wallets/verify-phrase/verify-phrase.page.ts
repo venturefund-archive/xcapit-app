@@ -30,7 +30,6 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
                   [ngClass]="{ active: this.verificationPhrase[i] }"
                   size="small"
                   fill="clear"
-                  [disabled]="this.disabled"
                   (click)="this.deleteWord(i)"
                   >{{ this.verificationPhrase[i] }}
                   <ion-icon name="close" slot="end"></ion-icon>
@@ -75,7 +74,6 @@ export class VerifyPhrasePage {
   options = {
     slidesPerView: 1.3,
     spaceBetween: -10,
-    centerSlides: true,
   };
   activated = false;
   ordered = true;
@@ -84,7 +82,6 @@ export class VerifyPhrasePage {
   countWords: number;
   mnemonic: Mnemonic;
   slide = 0;
-  disabled = false;
 
   constructor(
     private navController: NavController,
