@@ -4,10 +4,10 @@ import { AddressInputCardComponent } from './address-input-card.component';
 import { By } from '@angular/platform-browser';
 import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
-import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { UxInputUnderlinedComponent } from '../../../../../shared/components/ux-input-underlined/ux-input-underlined.component';
+import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
 
 describe('AddressInputCardComponent', () => {
   let component: AddressInputCardComponent;
@@ -19,8 +19,10 @@ describe('AddressInputCardComponent', () => {
   let toastService: ToastService;
   let controlContainerMock: FormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
+  let fakeModalController: FakeModalController;
 
   beforeEach(() => {
+    fakeModalController = new FakeModalController();
     controlContainerMock = new FormGroup({
       address: new FormControl(''),
     });
@@ -32,7 +34,7 @@ describe('AddressInputCardComponent', () => {
     toastServiceMock = {
       showToast: () => Promise.resolve(),
     };
-    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+    modalControllerSpy = fakeModalController.createSpy();
     TestBed.configureTestingModule({
       declarations: [AddressInputCardComponent, UxInputUnderlinedComponent],
       imports: [IonicModule, ReactiveFormsModule, TranslateModule.forRoot()],
@@ -84,15 +86,12 @@ describe('AddressInputCardComponent', () => {
   });
 
   it('should render address on qr code scanned success', async () => {
-    modalControllerSpy.create.and.returnValue(
-      Promise.resolve({
-        onDidDismiss: () =>
-          Promise.resolve({
-            data: 'testAddress',
-            role: 'success',
-          }),
-        present: () => Promise.resolve(),
-      })
+    fakeModalController.modifyReturns(
+      {},
+      {
+        data: 'testAddress',
+        role: 'success',
+      }
     );
     fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
     fixture.detectChanges();
@@ -102,16 +101,7 @@ describe('AddressInputCardComponent', () => {
 
   it('should not render address and show toast on qr code scanned error', async () => {
     const spy = spyOn(toastService, 'showToast').and.callThrough();
-    modalControllerSpy.create.and.returnValue(
-      Promise.resolve({
-        onDidDismiss: () =>
-          Promise.resolve({
-            data: 'errorData',
-            role: 'error',
-          }),
-        present: () => Promise.resolve(),
-      })
-    );
+    fakeModalController.modifyReturns({}, { data: 'errorData', role: 'error' });
     fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -121,15 +111,12 @@ describe('AddressInputCardComponent', () => {
 
   it('should not render address and show toast on qr code scanned unauthorized', async () => {
     const spy = spyOn(toastService, 'showToast').and.callThrough();
-    modalControllerSpy.create.and.returnValue(
-      Promise.resolve({
-        onDidDismiss: () =>
-          Promise.resolve({
-            data: 'unauthorizedData',
-            role: 'unauthorized',
-          }),
-        present: () => Promise.resolve(),
-      })
+    fakeModalController.modifyReturns(
+      {},
+      {
+        data: 'unauthorizedData',
+        role: 'unauthorized',
+      }
     );
     fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
     fixture.detectChanges();
