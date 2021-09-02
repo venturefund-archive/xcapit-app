@@ -23,7 +23,7 @@ const testCurrencies: Coin[] = [
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: true,
     value: 'ETH',
-    network: 'ETH',
+    network: 'ERC20',
     rpc: 'http://testrpc.test/',
   },
 ];

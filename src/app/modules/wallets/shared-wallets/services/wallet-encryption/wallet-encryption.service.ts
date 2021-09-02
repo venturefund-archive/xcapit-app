@@ -22,7 +22,7 @@ export class WalletEncryptionService {
     const derivedPaths = environment.derivedPaths;
 
     wallets.forEach((wallet) => {
-      if (wallet.mnemonic.path === derivedPaths.ETH) {
+      if (wallet.mnemonic.path === derivedPaths.ERC20) {
         this.ethWallet = wallet;
       }
 
