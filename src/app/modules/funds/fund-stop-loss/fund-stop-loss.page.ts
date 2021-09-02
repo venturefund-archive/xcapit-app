@@ -8,35 +8,36 @@ import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/sto
 @Component({
   selector: 'app-fund-stop-loss',
   template: `
-      <ion-header>
-          <ion-toolbar color="uxprimary" class="ux_toolbar">
-              <ion-buttons slot="start">
-                  <ion-back-button
-                          defaultHref="/funds/fund-take-profit"
-                  ></ion-back-button>
-              </ion-buttons>
-              <ion-title class="ion-text-center" *ngIf="this.opType === 'renew'">
-                  {{ 'funds.fund_stop_loss.header_renew' | translate }}
-              </ion-title>
-              <ion-title class="ion-text-center" *ngIf="this.opType === 'new'">
-                  {{ 'funds.fund_stop_loss.header' | translate }}
-              </ion-title>
-          </ion-toolbar>
-      </ion-header>
-      <ion-content>
-          <app-fund-select-stop-loss
-                  [opType]="this.opType"
-                  [stopLoss]="this.stopLoss"
-                  (save)="this.handleSubmit($event)"
-          ></app-fund-select-stop-loss>
-      </ion-content>
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/funds/fund-take-profit"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center" *ngIf="this.opType === 'renew'">
+          {{ 'funds.fund_stop_loss.header_renew' | translate }}
+        </ion-title>
+        <ion-title class="ion-text-center" *ngIf="this.opType === 'new'">
+          {{ 'funds.fund_stop_loss.header' | translate }}
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <app-fund-select-stop-loss
+        *ngIf="this.profile"
+        [opType]="this.opType"
+        [stopLoss]="this.stopLoss"
+        [profile]="this.profile"
+        (save)="this.handleSubmit($event)"
+      ></app-fund-select-stop-loss>
+    </ion-content>
   `,
-  styleUrls: ['./fund-stop-loss.page.scss']
+  styleUrls: ['./fund-stop-loss.page.scss'],
 })
 export class FundStopLossPage implements OnInit {
   @ViewChild('editStopLossForm') editStopLossForm: FormGroupDirective;
   fund: any;
   stopLoss: number;
+  profile: string;
 
   opType: string;
 
@@ -45,11 +46,9 @@ export class FundStopLossPage implements OnInit {
     protected navController: NavController,
     protected apiFunds: ApiFundsService,
     private storageApiKeysService: StorageApikeysService
-  ) {
-  }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.fundDataStorage.getData('fundStopLoss').then((data) => {
@@ -61,6 +60,12 @@ export class FundStopLossPage implements OnInit {
     this.fundDataStorage.getData('fundRenew').then((data) => {
       this.opType = data ? 'renew' : 'new';
     });
+
+    this.fundDataStorage.getData('fundRiskLevel').then((data) => {
+      if (data) {
+        this.profile = data.risk_level;
+      }
+    });
   }
 
   addApiKeyToFund(fund: any) {
@@ -71,13 +76,11 @@ export class FundStopLossPage implements OnInit {
   async handleSubmit(data: any) {
     let fund = {
       ...(await this.fundDataStorage.getFund()),
-      ...data
+      ...data,
     };
     fund.risk_level = `${fund.risk_level}`;
     if (this.opType === 'renew') {
-      this.apiFunds
-        .renewFund(fund)
-        .subscribe(() => this.success());
+      this.apiFunds.renewFund(fund).subscribe(() => this.success());
     } else {
       fund = this.addApiKeyToFund(fund);
       this.apiFunds.crud.create(fund).subscribe(
@@ -89,17 +92,16 @@ export class FundStopLossPage implements OnInit {
 
   async success() {
     this.fundDataStorage.clearAll();
-    this.navController.navigateForward(
-      ['funds/fund-success', this.opType === 'renew'],
-      {
-        replaceUrl: true
-      }
-    ).then();
+    this.navController
+      .navigateForward(['/funds/fund-success', this.opType === 'renew'], {
+        replaceUrl: true,
+      })
+      .then();
   }
 
   async error(e) {
     if (e.error.error_code === 'funds.create.fundNameExists') {
-      this.navController.navigateBack(['funds/fund-name']).then();
+      this.navController.navigateBack('/funds/fund-name').then();
     }
   }
 }

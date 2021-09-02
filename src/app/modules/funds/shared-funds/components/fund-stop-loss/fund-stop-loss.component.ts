@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { CustomRangeModalComponent } from 'src/app/modules/funds/shared-funds/components/custom-range-modal/custom-range-modal.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fund-select-stop-loss',
@@ -52,7 +53,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                       <ion-button
                         class="ux_button"
                         appTrackClick
-                        name="Back"
+                        name="Create Custom Stop Loss"
                         type="button"
                         color="uxsecondary"
                         fill="clear"
@@ -92,6 +93,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 export class FundStopLossComponent implements OnInit {
   @Input() opType: any;
   @Input() stopLoss?: number;
+  @Input() profile: string;
   @Output() save = new EventEmitter<any>();
 
   form: FormGroup = this.formBuilder.group({
@@ -114,16 +116,25 @@ export class FundStopLossComponent implements OnInit {
     { name: '-15%', value: 15, custom: false },
   ];
 
+  stopLossManualOption = {
+    name: this.translate.instant('funds.fund_stop_loss.manual_stop_loss'),
+    value: 100,
+    custom: false,
+  };
+
   customSL: boolean;
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private apiFunds: ApiFundsService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
+    this.addManualOptionIfApplies();
+
     if (this.stopLoss) {
       if (!this.existsInRadio(this.stopLoss)) {
         this.addCustom(this.stopLoss);
@@ -131,6 +142,12 @@ export class FundStopLossComponent implements OnInit {
       this.form.patchValue({ stop_loss: this.stopLoss });
     }
     this.getMostChosenSL();
+  }
+
+  addManualOptionIfApplies() {
+    if (this.profile && this.profile.includes('index')) {
+      this.stopLossOptions.push(this.stopLossManualOption);
+    }
   }
 
   getMostChosenSL() {
@@ -152,7 +169,6 @@ export class FundStopLossComponent implements OnInit {
     const data = await modal.onDidDismiss();
 
     if (data.role === 'selected') {
-      // Si no existe creo el nuevo item
       if (this.existsInRadio(data.data)) {
         this.removeCustom();
       } else {

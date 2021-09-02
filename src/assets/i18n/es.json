@@ -533,7 +533,8 @@
       "submit_button_renew": "Renovar fondo",
       "submit_button_edit": "Guardar",
       "edit_custom": "Editar",
-      "edit_title": "Modificar Stop Loss"
+      "edit_title": "Modificar Stop Loss",
+      "manual_stop": "Voy a finalizarlo manualmente"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",

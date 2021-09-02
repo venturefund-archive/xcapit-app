@@ -522,7 +522,8 @@
       "submit_button_renew": "Renew fund",
       "submit_button_edit": "Save",
       "edit_custom": "Edit",
-      "edit_title": "Change Stop Loss"
+      "edit_title": "Change Stop Loss",
+      "manual_stop": "I'm going to finish it manually"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
