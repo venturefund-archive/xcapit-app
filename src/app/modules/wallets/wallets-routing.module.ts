@@ -74,6 +74,10 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'recovery-wallet',
+    loadChildren: () => import('./recovery-wallet/recovery-wallet.module').then((m) => m.RecoveryWalletPageModule),
+  },
 ];
 
 @NgModule({
