@@ -10,10 +10,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
-import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const formData = {
   valid: {
@@ -38,12 +38,17 @@ describe('FundEditStopLossPage', () => {
   let navControllerSpy: any;
   let apiFundsServiceSpy: any;
   let activatedRouteSpy: any;
+  let fakeNavController: FakeNavController;
+  let fakeModalController: FakeModalController;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
-      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
       activatedRouteSpy.snapshot = {
         paramMap: convertToParamMap({

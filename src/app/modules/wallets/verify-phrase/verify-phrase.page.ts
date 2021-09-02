@@ -130,8 +130,11 @@ export class VerifyPhrasePage {
     await this.slides.getActiveIndex().then((activeIndex) => {
       if (activeIndex === index && word) {
         this.verificationPhrase.pop();
+        this.blockPrevSlide(false);
+        this.slides.slidePrev();
+        this.blockPrevSlide(true);
         this.recoveryPhraseComponent.enable(word);
-        this.slide = 0;
+        this.slide--;
       }
     });
   }

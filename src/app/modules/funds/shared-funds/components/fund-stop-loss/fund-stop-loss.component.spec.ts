@@ -161,7 +161,7 @@ fdescribe('FundStopLossComponent', () => {
   });
 
   fit('should add custom option when selected option in modal of custom stop loss doesnt exists on default options', async () => {
-    //TODO: Cambiar por el nuevo fake del modalController cuando esté libreado
+    // TODO: Cambiar por el nuevo fake del modalController cuando esté libreado
     modalControllerSpy.create.and.returnValue(
       Promise.resolve({
         present: () => Promise.resolve(),
@@ -176,7 +176,7 @@ fdescribe('FundStopLossComponent', () => {
   });
 
   fit('should not add custom option when there is no selected option in modal of custom stop loss', async () => {
-    //TODO: Cambiar por el nuevo fake del modalController cuando esté libreado
+    // TODO: Cambiar por el nuevo fake del modalController cuando esté libreado
     modalControllerSpy.create.and.returnValue(
       Promise.resolve({
         present: () => Promise.resolve(),
@@ -187,6 +187,23 @@ fdescribe('FundStopLossComponent', () => {
     fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
 
     expect(component.stopLossOptions).not.toContain({ name: '-99%', value: 99, custom: true });
+  });
+
+  fit('should remove custom option when selected option in modal of custom stop loss exists on default options', async () => {
+    component.stopLoss = 99;
+    component.ngOnInit();
+    // TODO: Cambiar por el nuevo fake del modalController cuando esté libreado
+    modalControllerSpy.create.and.returnValue(
+      Promise.resolve({
+        present: () => Promise.resolve(),
+        onDidDismiss: () => Promise.resolve({ data: '99', role: 'selected' }),
+        dismiss: () => Promise.resolve(),
+      })
+    );
+    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
+
+    expect(component.stopLossOptions).toContain({ name: '-99%', value: 99, custom: true });
+    expect(component.form.value.stop_loss).toEqual(99);
   });
   // -------------------------------------------------------------------------------------------
 
