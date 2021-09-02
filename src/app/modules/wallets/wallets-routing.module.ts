@@ -72,6 +72,25 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'recovery-wallet',
+        children: [
+          {
+            path: 'error',
+            loadChildren: () =>
+              import('./error-recovery-wallet/error-recovery-wallet.module').then(
+                (m) => m.ErrorRecoveryWalletPageModule
+              ),
+          },
+          {
+            path: 'success',
+            loadChildren: () =>
+              import('./success-recovery-wallet/success-recovery-wallet.module').then(
+                (m) => m.SuccessRecoveryWalletPageModule
+              ),
+          },
+        ],
+      },
     ],
   },
   {

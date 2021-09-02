@@ -1256,6 +1256,7 @@
     "home": {
       "available_money": "Available money in wallet",
       "wallet_balance_title": "ASSETS",
+      "wallet_recovery": "Import an existing wallet",
       "subheader_component": {
         "title_with_wallet": "Start receiving or buying.",
         "title_without_wallet": "You haven't created your wallet yet.",
@@ -1360,6 +1361,15 @@
         "submit_button_text": "Accept",
         "input_label": "Password"
       }
+    },
+    "error_wallet_recovery": {
+      "title": "Your recovery phrase is wrong",
+      "description": "Check your words and try again",
+      "button": "Try again"
+    },
+    "success_wallet_recovery": {
+      "title": "Brilliant! We import your wallet with your recovery phrase",
+      "button": "Go to my wallet"
     }
   },
   "apikeys": {

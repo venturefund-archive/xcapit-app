@@ -107,4 +107,17 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'wallets.send.send_success.namePrimaryAction',
   },
+  error_wallet_recovery: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.error_wallet_recovery.title',
+    textSecondary: 'wallets.error_wallet_recovery.description',
+    urlPrimaryAction: '/tabs/wallets',
+    namePrimaryAction: 'wallets.error_wallet_recovery.button',
+  },
+  success_wallet_recovery: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.success_wallet_recovery.title',
+    urlPrimaryAction: '/tabs/wallets',
+    namePrimaryAction: 'wallets.success_wallet_recovery.button',
+  },
 };

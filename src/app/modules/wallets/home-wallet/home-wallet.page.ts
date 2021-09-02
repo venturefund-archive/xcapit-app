@@ -37,6 +37,18 @@ import { COINS } from '../constants/coins';
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
       </div>
+      <div class="wt__button">
+        <ion-button
+          class="ux-font-text-xs"
+          appTrackClick
+          name="Import Wallet"
+          type="button"
+          color="uxsecondary"
+          fill="clear"
+        >
+          {{ 'wallets.home.wallet_recovery' | translate }}
+        </ion-button>
+      </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
