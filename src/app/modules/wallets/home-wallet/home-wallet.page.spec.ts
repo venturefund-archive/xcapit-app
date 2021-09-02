@@ -8,7 +8,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { By } from '@angular/platform-browser';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
@@ -19,7 +18,7 @@ const testCoins = [
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: false,
     value: 'coinTest',
-    network: 'ETH',
+    network: 'ERC20',
     rpc: 'http://testrpc.test',
   },
 ];
@@ -51,7 +50,7 @@ const transaction = [
       currencyIn: '',
       currencyOut: '',
       amountIn: null,
-      amounOut: null,
+      amountOut: null,
     },
   },
 ];
@@ -60,25 +59,29 @@ describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let navControllerSpy: any;
-  let walletServiceMock: any;
-  let walletService: WalletService;
-  let walletTransactionsServiceMock: any;
-  let walletTransactionsService: WalletTransactionsService;
+  let walletServiceSpy: any;
+  let walletTransactionsServiceSpy: any;
   let storageServiceMock: any;
   let storageService: StorageService;
 
   beforeEach(
     waitForAsync(() => {
-      walletServiceMock = {
-        walletExist: () => Promise.resolve(true),
-        balanceOf: (address, coin) => Promise.resolve('20'),
-        addresses: { ETH: 'testAddress' },
-      };
-      walletTransactionsServiceMock = {
-        getLastTransaction: () => Promise.resolve(transaction),
-      };
+      walletServiceSpy = jasmine.createSpyObj(
+        'WalletService',
+        {
+          walletExist: Promise.resolve(true),
+          balanceOf: Promise.resolve(20),
+        },
+        {
+          addresses: { ERC20: 'testAddress' },
+        }
+      );
+      walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionsService', {
+        getLastTransaction: Promise.resolve(transaction),
+      });
       storageServiceMock = {
         getAssestsSelected: () => Promise.resolve(testCoins),
+        updateAssetsList: () => null,
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
@@ -86,9 +89,9 @@ describe('HomeWalletPage', () => {
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletService, useValue: walletServiceMock },
-          { provider: WalletTransactionsService, useValue: walletTransactionsServiceMock },
-          { provider: StorageService, useValue: storageServiceMock },
+          { provide: WalletService, useValue: walletServiceSpy },
+          { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
+          { provide: StorageService, useValue: storageServiceMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -96,8 +99,6 @@ describe('HomeWalletPage', () => {
       fixture = TestBed.createComponent(HomeWalletPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      walletService = TestBed.inject(WalletService);
-      walletTransactionsService = TestBed.inject(WalletTransactionsService);
       storageService = TestBed.inject(StorageService);
     })
   );
@@ -108,11 +109,13 @@ describe('HomeWalletPage', () => {
 
   it('should check if wallet exist on view will enter and there are a wallet', async () => {
     await component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
     expect(component.walletExist).toBe(true);
   });
 
   it('should check if wallet exist on view will enter and there are not a wallet', async () => {
-    spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(false));
+    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
     await component.ionViewWillEnter();
     expect(component.walletExist).toBe(false);
   });
@@ -192,31 +195,23 @@ describe('HomeWalletPage', () => {
   });
 
   it('should get the last transaction on view will enter', async () => {
-    spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
-    spyOn(walletTransactionsService, 'getLastTransaction').and.returnValue(Promise.resolve(transaction));
     fixture.detectChanges();
     await component.ionViewWillEnter();
-    fixture.whenStable().then(() => {
-      expect(component.walletExist).toBe(true);
-      expect(component.transactionsExists).toBe(true);
-      expect(component.lastTransaction).toEqual(transaction);
-    });
-  });
-
-  /* TODO: Resolver la obtención de balance
-
-  fit('should get eth balance on view will enter', async () => {
-    spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
-    spyOn(walletTransactionsService, 'getLastTransaction').and.returnValue(Promise.resolve(transaction));
-    component.userCoins = testCoins;
-    const spyBalance = spyOn(walletService, 'balanceOf').and.returnValue(Promise.resolve('20'));
-    fixture.detectChanges();
-    await component.ionViewWillEnter();
-    console.log(component)
+    await fixture.whenStable();
     expect(component.walletExist).toBe(true);
-    expect(component.walletAddress).toBe('testAddress');
-    expect(spyBalance).toHaveBeenCalledWith('testAddress', 'coinTest');
+    expect(component.transactionsExists).toBe(true);
+    expect(component.lastTransaction).toEqual(transaction);
   });
-
-  */
+  //
+  // fit('should get eth balance on view will enter', async () => {
+  //   component.userCoins = testCoins;
+  //   fixture.detectChanges();
+  //   await component.ionViewWillEnter();
+  //   console.log(component);
+  //   fixture.detectChanges();
+  //   await fixture.whenStable();
+  //   expect(component.walletExist).toBe(true);
+  //   expect(walletServiceSpy.balanceOf).toHaveBeenCalledWith('testAddress', 'coinTest');
+  //   expect(component.balances.find(balance => balance.symbol === 'coinTest').amount).toBe(20);
+  // });
 });

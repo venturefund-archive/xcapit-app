@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Wallet } from 'ethers';
 import { WalletService } from '../wallet/wallet.service';
 import { WalletEncryptionService } from './wallet-encryption.service';
-import { StorageService } from '../../services/storage-wallets/storage-wallets.service';
+import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { Coin } from '../../interfaces/coin.interface';
 
 const wallet = {
@@ -23,7 +23,7 @@ const testCoins: Coin[] = [
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: false,
     value: 'ETH',
-    network: 'ETH',
+    network: 'ERC20',
     rpc: 'http://testrpc.test',
   },
   {
@@ -32,7 +32,7 @@ const testCoins: Coin[] = [
     logoRoute: '../../assets/img/coins/USDT.svg',
     last: false,
     value: 'USDT',
-    network: 'USD',
+    network: 'ERC20',
     rpc: 'http://testrpc.test',
   },
 ];
@@ -57,8 +57,8 @@ describe('WalletEncryptionService', () => {
 
   beforeEach(() => {
     walletServiceMock = {
-      wallets: testCreatedWallets,
       coins: testCoins,
+      createdWallets: testCreatedWallets,
     };
     TestBed.configureTestingModule({
       providers: [

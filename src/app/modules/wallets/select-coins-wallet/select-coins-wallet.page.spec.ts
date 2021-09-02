@@ -17,7 +17,7 @@ const testCoins = [
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: false,
     value: 'ETH',
-    network: 'ETH',
+    network: 'ERC20',
     rpc: 'http://testrpc.test/',
   },
 ];
