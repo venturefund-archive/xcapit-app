@@ -1265,6 +1265,9 @@
         "receive_card": "Recibir",
         "buy_card": "Compra venta",
         "create_wallet_button": "Crear Billetera"
+      },
+      "balance_card": {
+        "cant_get_usd_balance_error": "Actualizando valor de {{symbol}}"
       }
     },
     "select_coin": {

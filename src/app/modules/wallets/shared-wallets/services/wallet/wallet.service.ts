@@ -6,6 +6,10 @@ import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.servic
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { DerivedPaths } from '../../../enums/derived-paths.enum';
+import { AssetBalance } from '../../interfaces/asset-balance.interface';
+import { COINS } from '../../../constants/coins';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +24,8 @@ export class WalletService {
     private walletMnemonicService: WalletMnemonicService,
     private blockchainProviderService: BlockchainProviderService,
     private languageService: LanguageService,
-    private appStorageService: AppStorageService
+    private appStorageService: AppStorageService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   create(): ethers.Wallet[] {
@@ -72,5 +77,67 @@ export class WalletService {
     }
 
     return !!wallets;
+  }
+
+  getWalletBalances(): Observable<Array<AssetBalance>> {
+    return new Observable((observer) => {
+      const walletCoins = this.getWalletCoins();
+      const balances: Array<AssetBalance> = [];
+
+      walletCoins.forEach((coin, i) => {
+        this.balanceOf(this.addresses[coin.network], coin.value).then((value) => {
+          balances.push(this.createBalance(coin, parseFloat(value)));
+          observer.next(balances);
+          if (i === walletCoins.length - 1) {
+            observer.complete();
+          }
+        });
+      });
+    });
+  }
+
+  getWalletCoins(): Array<Coin> {
+    return COINS.filter((coin) => Object.keys(this.addresses).includes(coin.network));
+  }
+
+  getWalletPriceCoinsName(): Array<string> {
+    return this.getWalletCoins().map((coin) => this.getCoinForPrice(coin.value));
+  }
+
+  createBalance(coin: Coin, amount: number): AssetBalance {
+    return {
+      icon: coin.logoRoute,
+      symbol: coin.value,
+      usePriceCoin: this.getCoinForPrice(coin.value),
+      name: coin.name,
+      amount,
+      usdAmount: 0,
+      usdSymbol: 'USD',
+    };
+  }
+
+  getWalletBalanceWithUsdAmount(): Observable<Array<AssetBalance>> {
+    return new Observable((observer) => {
+      const balanceWithUsdAmount: Array<AssetBalance> = [];
+      this.apiWalletService.getPrices(this.getWalletPriceCoinsName()).subscribe((prices) => {
+        this.getWalletBalances().subscribe({
+          next: (assetBalancesList) => {
+            const assetBalance = assetBalancesList.pop();
+            if (prices.prices[assetBalance.usePriceCoin] === null) {
+              assetBalance.usdAmount = -1;
+            } else {
+              assetBalance.usdAmount = prices.prices[assetBalance.usePriceCoin] * assetBalance.amount;
+            }
+            balanceWithUsdAmount.push(assetBalance);
+            observer.next(balanceWithUsdAmount);
+          },
+          complete: () => observer.complete(),
+        });
+      });
+    });
+  }
+
+  private getCoinForPrice(symbol: string) {
+    return symbol === 'RBTC' ? 'BTC' : symbol;
   }
 }

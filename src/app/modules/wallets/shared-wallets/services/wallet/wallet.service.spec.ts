@@ -6,6 +6,7 @@ import { COINS } from '../../../constants/coins';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from './wallet.service';
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -21,8 +22,12 @@ const testCoins = {
 
 const testWallet: Wallet = { address: 'testAddress' } as Wallet;
 const testCreatedWallets: Wallet[] = [testWallet];
+const testAddresses = {
+  one: { RSK: 'testAddress' },
+  none: {},
+};
 
-describe('WalletService', () => {
+fdescribe('WalletService', () => {
   let service: WalletService;
   let walletMnemonicService: WalletMnemonicService;
   let walletMnemonicServiceMock;
@@ -30,7 +35,13 @@ describe('WalletService', () => {
   let languageServiceMock;
   let blockchainProviderServiceMock;
   let blockchainProviderService: BlockchainProviderService;
+  let apiWalletService: ApiWalletService;
+  let apiWalletServiceMock;
+
   beforeEach(() => {
+    apiWalletServiceMock = {
+      getPrices: (coins) => Promise.resolve({ prices: { BTC: 3000 } }),
+    };
     walletMnemonicServiceMock = {
       mnemonic: testMnemonic,
     };
@@ -45,12 +56,14 @@ describe('WalletService', () => {
         { provide: WalletMnemonicService, useValue: walletMnemonicServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: BlockchainProviderService, useValue: blockchainProviderServiceMock },
+        { provide: ApiWalletService, useValue: apiWalletServiceMock },
       ],
     });
     service = TestBed.inject(WalletService);
     walletMnemonicService = TestBed.inject(WalletMnemonicService);
     languageService = TestBed.inject(LanguageService);
     blockchainProviderService = TestBed.inject(BlockchainProviderService);
+    apiWalletService = TestBed.inject(ApiWalletService);
   });
 
   it('should be created', () => {
@@ -141,5 +154,45 @@ describe('WalletService', () => {
     const response = service.balanceOf('testAddress', 'testCoin');
     expect(spy).toHaveBeenCalledWith('testAddress', 'testCoin');
     await expectAsync(response).toBeResolvedTo('20');
+  });
+
+  it('should return one coin when wallet has one coin on getWalletCoins', () => {
+    service.addresses = testAddresses.one;
+    const walletCoins = service.getWalletCoins();
+    expect(walletCoins.length).toBe(1);
+  });
+
+  it('should return zero coins when wallet has not coins on getWalletCoins', () => {
+    service.addresses = testAddresses.none;
+    const walletCoins = service.getWalletCoins();
+    expect(walletCoins.length).toBe(0);
+  });
+
+  // it('should return one coin when wallet has one coin on getWalletCoinsName', () => {
+  //   service.addresses = testAddresses.one;
+  //   const walletCoins = service.getWalletCoinsName();
+  //   expect(walletCoins[0]).toBe('RBTC');
+  // });
+
+  // it('should return zero coins when wallet has not coins on getWalletCoinsName', () => {
+  //   service.addresses = testAddresses.none;
+  //   const walletCoins = service.getWalletCoinsName();
+  //   expect(walletCoins.length).toBe(0);
+  // });
+
+  xit('should get balance for a wallet on getWalletBalances', () => {
+    service.addresses = testAddresses.one;
+    spyOn(service, 'balanceOf').and.returnValue(Promise.resolve('20'));
+    service.getWalletBalances().subscribe((data) => {
+      expect(data[0].amount).toBe(20);
+    });
+  });
+
+  xit('should get usd balance for a wallet on getWalletBalances', () => {
+    service.addresses = testAddresses.one;
+    spyOn(service, 'balanceOf').and.returnValue(Promise.resolve('20'));
+    service.getWalletBalances().subscribe((data) => {
+      expect(data[0].usdAmount).toBe(60000);
+    });
   });
 });

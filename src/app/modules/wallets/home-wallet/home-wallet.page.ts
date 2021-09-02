@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { COINS } from '../constants/coins';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -19,7 +20,7 @@ import { COINS } from '../constants/coins';
         <div class="wt__amount ux-font-num-titulo">
           <ion-text>
             {{ this.totalBalanceWallet | number: '1.2-6' }}
-            ETH
+            USD
           </ion-text>
         </div>
       </div>
@@ -44,30 +45,16 @@ export class HomeWalletPage implements OnInit {
   walletExist = false;
   transactions: Array<any>;
   totalBalanceWallet = 0;
-  walletAddress = null;
   balances: Array<AssetBalance> = [];
 
   coins = COINS;
 
-  constructor(private walletService: WalletService) {}
+  constructor(private walletService: WalletService, private apiWalletService: ApiWalletService) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
     this.encryptedWalletExist();
-  }
-
-  pushBalancesStructure(coin) {
-    const balance = {
-      icon: coin.logoRoute,
-      symbol: coin.value,
-      name: coin.name,
-      amount: 0,
-      usdAmount: 0,
-      usdSymbol: 'USD',
-    };
-
-    this.balances.push(balance);
   }
 
   encryptedWalletExist() {
@@ -82,21 +69,15 @@ export class HomeWalletPage implements OnInit {
   }
 
   getWalletsBalances() {
-    for (const coin of this.coins) {
-      this.walletAddress = this.walletService.addresses[coin.network];
-
-      if (this.walletAddress) {
-        this.pushBalancesStructure(coin);
-
-        this.walletService.balanceOf(this.walletAddress, coin.value).then((balance) => {
-          const balanceKey = Object.keys(this.balances).filter((key) => this.balances[key].symbol === coin.value)[0];
-          this.balances[balanceKey].amount = parseFloat(balance);
-          // this.balances[balanceKey].usdAmount = parseFloat(usdBalance);
-          // this.totalBalanceWallet = parseFloat(usdBalance);
-
-          this.walletAddress = null;
-        });
-      }
-    }
+    this.walletService.getWalletBalanceWithUsdAmount().subscribe({
+      next: (balances) => {
+        this.balances = balances;
+      },
+      complete: () => {
+        this.totalBalanceWallet = this.balances
+          .map((b) => (b.usdAmount === -1 ? 0 : b.usdAmount))
+          .reduce((a, b) => a + b, 0);
+      },
+    });
   }
 }

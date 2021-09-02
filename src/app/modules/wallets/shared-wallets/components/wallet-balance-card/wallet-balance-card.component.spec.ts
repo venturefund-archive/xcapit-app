@@ -14,6 +14,7 @@ const balances: Array<AssetBalance> = [
     amount: 1,
     usdAmount: 3000,
     usdSymbol: 'USD',
+    walletAddress: 'testAddress',
   },
 ];
 
