@@ -535,9 +535,9 @@
       "confirm_button": "Confirm"
     },
     "fund_success": {
-      "textPrimary": "Congratulations, you are already investing in the crypto world!",
-      "textSecondary": "We have already created your fund and our robot will start managing your capital based on the information you set up.",
-      "namePrimaryAction": "See my investment"
+      "textPrimary": "Congratulations! Your investment is active",
+      "textSecondary": "We have already created your investment and our algorithms will begin to manage your capital based on the information you configured. Make sure you have checked the “enable spot trading” field in Binance so that we can trade.",
+      "namePrimaryAction": "See my investments"
     },
     "fund_success_renew": {
       "textPrimary": "Your fund has been renewed!",
