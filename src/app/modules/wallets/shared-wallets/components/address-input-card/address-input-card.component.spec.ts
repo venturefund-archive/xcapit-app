@@ -23,6 +23,7 @@ describe('AddressInputCardComponent', () => {
 
   beforeEach(() => {
     fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
     controlContainerMock = new FormGroup({
       address: new FormControl(''),
     });
@@ -34,7 +35,6 @@ describe('AddressInputCardComponent', () => {
     toastServiceMock = {
       showToast: () => Promise.resolve(),
     };
-    modalControllerSpy = fakeModalController.createSpy();
     TestBed.configureTestingModule({
       declarations: [AddressInputCardComponent, UxInputUnderlinedComponent],
       imports: [IonicModule, ReactiveFormsModule, TranslateModule.forRoot()],
