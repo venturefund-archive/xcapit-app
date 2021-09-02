@@ -9,8 +9,10 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 import { By } from '@angular/platform-browser';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
-const coins: Coin[] = [
+const testCoins = [
   {
     id: 1,
     name: 'coinTest',
@@ -33,12 +35,37 @@ const balances: Array<AssetBalance> = [
   },
 ];
 
+const transaction = [
+  {
+    icon: 'assets/img/wallet-transactions/received.svg',
+    type: 'received',
+    asset: 'ETH',
+    from: '0x00000000000000000000000000',
+    to: '0x00000000000000000000000001',
+    value: '0.2',
+    hash: '0x000000000000000000000000000000000000000000001',
+    blockNumber: '0x00000001',
+    erc721: false,
+    rawContract: false,
+    swap: {
+      currencyIn: '',
+      currencyOut: '',
+      amountIn: null,
+      amounOut: null,
+    },
+  },
+];
+
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let navControllerSpy: any;
   let walletServiceMock: any;
   let walletService: WalletService;
+  let walletTransactionsServiceMock: any;
+  let walletTransactionsService: WalletTransactionsService;
+  let storageServiceMock: any;
+  let storageService: StorageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -47,6 +74,12 @@ describe('HomeWalletPage', () => {
         balanceOf: (address, coin) => Promise.resolve('20'),
         addresses: { ETH: 'testAddress' },
       };
+      walletTransactionsServiceMock = {
+        getLastTransaction: () => Promise.resolve(transaction),
+      };
+      storageServiceMock = {
+        getAssestsSelected: () => Promise.resolve(testCoins),
+      };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage],
@@ -54,6 +87,8 @@ describe('HomeWalletPage', () => {
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceMock },
+          { provider: WalletTransactionsService, useValue: walletTransactionsServiceMock },
+          { provider: StorageService, useValue: storageServiceMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -62,6 +97,8 @@ describe('HomeWalletPage', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       walletService = TestBed.inject(WalletService);
+      walletTransactionsService = TestBed.inject(WalletTransactionsService);
+      storageService = TestBed.inject(StorageService);
     })
   );
 
@@ -87,31 +124,50 @@ describe('HomeWalletPage', () => {
     expect(subheader).not.toBeNull();
   });
 
-  it('should not render app-wallets-subheader when walletExist is true and have balance', () => {
+  it('should render app-wallets-subheader when walletExist is true and dont have transactions', () => {
+    component.walletExist = false;
+    component.transactionsExists = false;
+    fixture.detectChanges();
+    const subheader = fixture.debugElement.query(By.css('.wt__subheader'));
+    expect(subheader).not.toBeNull();
+  });
+
+  it('should not render app-wallets-subheader when walletExist is true and have transactions', () => {
     component.walletExist = true;
-    component.balances = balances;
+    component.transactionsExists = true;
     fixture.detectChanges();
     const subheader = fixture.debugElement.query(By.css('.wt__subheader'));
     expect(subheader).toBeNull();
   });
 
-  it('should not render app-wallet-balance-card when walletExist and have balances', () => {
+  it('should render app-wallet-balance-card when walletExist is true and have transactions and balance', () => {
     component.walletExist = true;
+    component.transactionsExists = true;
     component.balances = balances;
     fixture.detectChanges();
     const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
     expect(balanceElement).not.toBeNull();
   });
 
-  it('should not render app-wallet-balance-card when walletExist and dont have balances', () => {
+  it('should not render app-wallet-balance-card when walletExist is true and dont have transactions', () => {
     component.walletExist = true;
+    component.transactionsExists = false;
     component.balances = [];
     fixture.detectChanges();
     const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
     expect(balanceElement).toBeNull();
   });
 
-  it('should not render app-wallet-balance-card when walletExist and have balances', () => {
+  it('should not render app-wallet-balance-card when walletExist is true and have transactions but nor balances', () => {
+    component.walletExist = true;
+    component.transactionsExists = false;
+    component.balances = [];
+    fixture.detectChanges();
+    const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
+    expect(balanceElement).toBeNull();
+  });
+
+  it('should not render app-wallet-balance-card when walletExist is false and have balances', () => {
     component.walletExist = false;
     component.balances = balances;
     fixture.detectChanges();
@@ -119,14 +175,48 @@ describe('HomeWalletPage', () => {
     expect(balanceElement).toBeNull();
   });
 
-  it('should get eth balance on view will enter', async () => {
+  it('should not render app-wallet-transaction-card when walletExist is true and dont have transactions', () => {
+    component.walletExist = true;
+    component.transactionsExists = false;
+    fixture.detectChanges();
+    const transactionElement = fixture.debugElement.query(By.css('.wt__transaction'));
+    expect(transactionElement).toBeNull();
+  });
+
+  it('should render app-wallet-transaction-card when walletExist is true and have transactions', () => {
+    component.walletExist = true;
+    component.transactionsExists = true;
+    fixture.detectChanges();
+    const transactionElement = fixture.debugElement.query(By.css('.wt__transaction'));
+    expect(transactionElement).not.toBeNull();
+  });
+
+  it('should get the last transaction on view will enter', async () => {
     spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
-    component.coins = coins;
+    spyOn(walletTransactionsService, 'getLastTransaction').and.returnValue(Promise.resolve(transaction));
+    fixture.detectChanges();
+    await component.ionViewWillEnter();
+    fixture.whenStable().then(() => {
+      expect(component.walletExist).toBe(true);
+      expect(component.transactionsExists).toBe(true);
+      expect(component.lastTransaction).toEqual(transaction);
+    });
+  });
+
+  /* TODO: Resolver la obtención de balance
+
+  fit('should get eth balance on view will enter', async () => {
+    spyOn(walletService, 'walletExist').and.returnValue(Promise.resolve(true));
+    spyOn(walletTransactionsService, 'getLastTransaction').and.returnValue(Promise.resolve(transaction));
+    component.userCoins = testCoins;
     const spyBalance = spyOn(walletService, 'balanceOf').and.returnValue(Promise.resolve('20'));
     fixture.detectChanges();
     await component.ionViewWillEnter();
+    console.log(component)
     expect(component.walletExist).toBe(true);
     expect(component.walletAddress).toBe('testAddress');
     expect(spyBalance).toHaveBeenCalledWith('testAddress', 'coinTest');
   });
+
+  */
 });

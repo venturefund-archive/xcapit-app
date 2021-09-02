@@ -4,6 +4,8 @@ import { RecoveryPhraseCardComponent } from './components/recovery-phrase-card/r
 import { RecoveryWordComponent } from './components/recovery-word/recovery-word.component';
 import { WalletBalanceCardItemComponent } from './components/wallet-balance-card-item/wallet-balance-card-item.component';
 import { WalletBalanceCardComponent } from './components/wallet-balance-card/wallet-balance-card.component';
+import { WalletTransactionCardItemComponent } from './components/wallet-transaction-card-item/wallet-transaction-card-item.component';
+import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
 import { NetworkSelectCardComponent } from './components/network-select-card/network-select-card.component';
 import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
@@ -18,6 +20,8 @@ import { WalletPasswordComponent } from './components/wallet-password/wallet-pas
     WalletsSubheaderComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
+    WalletTransactionCardComponent,
+    WalletTransactionCardItemComponent,
     NetworkSelectCardComponent,
     AddressInputCardComponent,
     AmountInputCardComponent,
@@ -32,6 +36,8 @@ import { WalletPasswordComponent } from './components/wallet-password/wallet-pas
     WalletsSubheaderComponent,
     WalletBalanceCardComponent,
     WalletBalanceCardItemComponent,
+    WalletTransactionCardComponent,
+    WalletTransactionCardItemComponent,
     NetworkSelectCardComponent,
     AddressInputCardComponent,
     AmountInputCardComponent,
