@@ -14,6 +14,7 @@ import { navControllerMock } from '../../../../testing/spies/nav-controller-mock
 import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
 import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { By } from '@angular/platform-browser';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 const formData = {
   valid: {
@@ -35,17 +36,17 @@ describe('FundStopLossPage', () => {
   let fundDataStorageServiceSpy: any;
   let storageApikeysService: StorageApikeysService;
   let storageApikeysServiceMock: any;
+  let fakeNavController: FakeNavController;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController(Promise.resolve(), Promise.resolve());
+      navControllerSpy = fakeNavController.createSpy();
       modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       apiFundsServiceSpy = {
         crud: jasmine.createSpyObj('CRUD', ['create']),
         renewFund: () => of(),
       };
-      navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
-      navControllerSpy.navigateBack.and.returnValue(Promise.resolve());
       storageApikeysServiceMock = {
         data: {},
       };
