@@ -51,7 +51,6 @@ export class FundInvestmentPage implements OnInit {
     {
       profile: 'volume_profile_strategies_BTC',
       min_capital: '150',
-      percentage: '5.02',
       link_info: 'https://bit.ly/factsheet-strategy2',
       risk: 3,
       currency: 'BTC',
@@ -59,7 +58,6 @@ export class FundInvestmentPage implements OnInit {
     {
       profile: 'volume_profile_strategies_USDT',
       min_capital: '150',
-      percentage: '22.5',
       link_info: 'https://bit.ly/factsheet-strategy1',
       risk: 3,
       currency: 'USDT',
@@ -67,7 +65,6 @@ export class FundInvestmentPage implements OnInit {
     {
       profile: 'DeFi_index',
       min_capital: '500',
-      percentage: '434.02',
       link_info: 'https://bit.ly/factsheet-strategy4',
       risk: 5,
       currency: 'USDT',
@@ -75,7 +72,6 @@ export class FundInvestmentPage implements OnInit {
     {
       profile: 'Mary_index',
       min_capital: '500',
-      percentage: '160.5',
       link_info: 'https://bit.ly/factsheet-strategy3',
       risk: 4,
       currency: 'USDT',
