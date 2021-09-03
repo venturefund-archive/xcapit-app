@@ -12,18 +12,15 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-investment"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center" *ngIf="this.opType === 'renew'">
-          {{ 'funds.fund_take_profit.header_renew' | translate }}</ion-title
-        >
-        <ion-title class="ion-text-center" *ngIf="this.opType === 'new'">
-          {{ 'funds.fund_take_profit.header' | translate }}</ion-title
-        >
+        <ion-title class="ion-text-center"> {{ 'funds.fund_take_profit.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <app-fund-select-take-profit
+        *ngIf="this.profile"
         [opType]="this.opType"
         [takeProfit]="this.takeProfit"
+        [profile]="this.profile"
         (save)="this.handleSubmit($event)"
       ></app-fund-select-take-profit>
     </ion-content>
@@ -33,6 +30,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 export class FundTakeProfitPage implements OnInit {
   opType: string;
   takeProfit: number;
+  profile: string;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -52,10 +50,16 @@ export class FundTakeProfitPage implements OnInit {
     this.fundDataStorage.getData('fundRenew').then((data) => {
       this.opType = data ? 'renew' : 'new';
     });
+
+    this.fundDataStorage.getData('fundRiskLevel').then((data) => {
+      if (data) {
+        this.profile = data.risk_level;
+      }
+    });
   }
 
   handleSubmit(data: any) {
     this.fundDataStorage.setData('fundTakeProfit', data);
-    this.navController.navigateForward(['funds/fund-stop-loss']);
+    this.navController.navigateForward(['/funds/fund-stop-loss']);
   }
 }

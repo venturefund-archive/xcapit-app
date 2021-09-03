@@ -19,6 +19,7 @@ import { NavController } from '@ionic/angular';
         *ngIf="this.takeProfit"
         opType="edit"
         [takeProfit]="this.takeProfit"
+        [profile]="this.profile"
         (save)="this.handleSubmit($event)"
       ></app-fund-select-take-profit>
     </ion-content>
@@ -29,6 +30,7 @@ export class FundEditTakeProfitPage implements OnInit {
   fundName: string;
   fund: any;
   takeProfit: number;
+  profile: string;
 
   constructor(private route: ActivatedRoute, private apiFunds: ApiFundsService, private navController: NavController) {}
 
@@ -40,6 +42,7 @@ export class FundEditTakeProfitPage implements OnInit {
       if (data) {
         this.fund = data;
         this.takeProfit = this.fund.ganancia;
+        this.profile = this.fund.nivel_de_riesgo;
       }
     });
   }
@@ -60,19 +63,11 @@ export class FundEditTakeProfitPage implements OnInit {
   async handleSubmit(data: any) {
     this.fund.ganancia = data.take_profit;
     data = this.serializeFund(this.fund);
-    this.apiFunds.crud.update(data, this.fund.id).subscribe(
-      () => this.success(),
-      (e) => this.error(e)
-    );
+    this.apiFunds.crud.update(data, this.fund.id).subscribe(() => this.success());
   }
 
   async success() {
     this.goToFundSettings();
-  }
-  async error(e) {
-    if (e.error.error_code === 'funds.create.fundNameExists') {
-      this.navController.navigateBack(['funds/fund-name']);
-    }
   }
 
   goToFundSettings() {

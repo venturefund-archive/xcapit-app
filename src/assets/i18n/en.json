@@ -503,8 +503,7 @@
       "text_help": "In short terms, the robot is more likely to have performance problems."
     },
     "fund_take_profit": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
+      "header": "Change Stop Loss",
       "title": "When do you want us to stop investing and take the profits?",
       "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
       "take_profit": "Take profit",
@@ -514,11 +513,12 @@
       "back_button": "Back",
       "edit_custom": "Edit",
       "submit_button_edit": "Save",
-      "edit_title": "Change Take Profit"
+      "edit_title": "Change Take Profit",
+      "manual_stop": "I'm going to finish it manually",
+      "alert_manual_option": "“Keep in mind that investing without profit limits implies that you must end your investment manually."
     },
     "fund_stop_loss": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
+      "header": "Change Stop Loss",
       "title": "In case of loss, until what percentage of your capital are you willing to risk?",
       "text_before": "Once this percentage is reached, we will stop the operation of the fund to safeguard your capital.",
       "stop_loss": "Stop loss",
@@ -528,7 +528,9 @@
       "submit_button_renew": "Renew fund",
       "submit_button_edit": "Save",
       "edit_custom": "Edit",
-      "edit_title": "Change Stop Loss"
+      "edit_title": "Change Stop Loss",
+      "manual_stop": "I'm going to finish it manually",
+      "alert_manual_option": "“Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies”"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
