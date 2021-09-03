@@ -506,10 +506,9 @@
       "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
     },
     "fund_take_profit": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "¿Cuándo vas a querer que dejemos de invertir y tomemos las ganancias?",
-      "text_before": "En caso en que tu inversión genere ganancias necesitamos que decidas hasta que porcentaje seguiremos invirtiendo.",
+      "header": "Modificar Take Profit",
+      "title": "Configura el límites de beneficios",
+      "text_before": "¿Cuándo quieres que dejemos de invertir? Tu inversión se finalizará cuando alcance este porcentajes de beneficio.",
       "take_profit": "Take profit",
       "most_chosen": "Más elegida",
       "custom_tp_button": "Elegir otra opción",
@@ -517,13 +516,14 @@
       "back_button": "Anterior",
       "edit_custom": "Editar",
       "submit_button_edit": "Guardar",
-      "edit_title": "Modificar Take Profit"
+      "edit_title": "Modificar Take Profit",
+      "manual_stop": "Voy a finalizarlo manualmente",
+      "alert_manual_option": "“Ten en cuenta que invertir sin límite de beneficios implica que debes finalizar tu inversion manualmente."
     },
     "fund_stop_loss": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "En caso de pérdida… ¿Hasta que porcentaje de tu capital estas dispuesto a arriesgar?",
-      "text_before": "Una vez alcanzado este porcentaje, detendremos la operatoria del fondo para resguardar tu capital.",
+      "header": "Modificar Stop Loss",
+      "title": "Configura el límite de pérdida",
+      "text_before": "En el caso de perdida ¿Cuando quieres que dejemos de invertir? Tu inversión se finalizara cuando alcance este porcentaje de perdida",
       "stop_loss": "Stop loss",
       "most_chosen": "Más elegida",
       "custom_tp_button": "Elegir otra opción",
@@ -533,7 +533,9 @@
       "submit_button_renew": "Renovar fondo",
       "submit_button_edit": "Guardar",
       "edit_custom": "Editar",
-      "edit_title": "Modificar Stop Loss"
+      "edit_title": "Modificar Stop Loss",
+      "manual_stop": "Voy a finalizarlo manualmente",
+      "alert_manual_option": "“Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas”"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",

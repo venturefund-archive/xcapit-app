@@ -1,80 +1,38 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FundTakeProfitPage } from './fund-take-profit.page';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
-import { of } from 'rxjs';
-import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { By } from '@angular/platform-browser';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 const formData = {
   valid: {
     take_profit: 15,
-  },
-  invalid: {
-    take_profit: '',
   },
 };
 describe('FundTakeProfitPage', () => {
   let component: FundTakeProfitPage;
   let fixture: ComponentFixture<FundTakeProfitPage>;
-  let fundDataStorageServiceMock;
-  let fundDataStorageService;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundTakeProfitPage>;
-  let apiFundsMock: any;
-  let apiFundsService: any;
-  let modalControllerSpy: any;
   let navControllerSpy: any;
+  let fakeNavController: any;
+  let fundDataStorageServiceSpy: any;
 
   beforeEach(
     waitForAsync(() => {
-      fundDataStorageServiceMock = {
-        getData: () => Promise.resolve({}),
-        setData: () => Promise.resolve(),
-      };
-      apiFundsMock = {
-        getMostChosenTP: () => of(15),
-      };
-      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fundDataStorageServiceSpy = jasmine.createSpyObj('FundDataStorageService', ['getData', 'setData']);
+      fakeNavController = new FakeNavController(Promise.resolve());
+      navControllerSpy = fakeNavController.createSpy();
 
       TestBed.configureTestingModule({
-        declarations: [FundTakeProfitPage, TrackClickDirective, DummyComponent],
+        declarations: [FundTakeProfitPage],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule.withRoutes([
-            {
-              path: 'funds/fund-stop-loss',
-              component: DummyComponent,
-            },
-          ]),
-          HttpClientTestingModule,
-          TranslateModule.forRoot(),
-          IonicModule,
-        ],
+        imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule],
         providers: [
-          {
-            provide: FundDataStorageService,
-            useValue: fundDataStorageServiceMock,
-          },
-          {
-            provide: ApiFundsService,
-            useValue: apiFundsMock,
-          },
-          {
-            provide: NavController,
-            useValue: navControllerSpy,
-          },
-          { provide: ModalController, useValue: modalControllerSpy },
+          { provide: FundDataStorageService, useValue: fundDataStorageServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
         ],
       }).compileComponents();
     })
@@ -84,26 +42,72 @@ describe('FundTakeProfitPage', () => {
     fixture = TestBed.createComponent(FundTakeProfitPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fundDataStorageService = TestBed.inject(FundDataStorageService);
-    apiFundsService = TestBed.inject(ApiFundsService);
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.getData on ionViewWillEnter', () => {
-    const spy = spyOn(fundDataStorageService, 'getData');
-    spy.and.returnValue(Promise.resolve({}));
+  it('should not define takeProfit and profile when fundTakeProfit and fundRiskLevel keys doesnt exists inside fundDataStorageService on ionViewWillEnter', async () => {
+    fundDataStorageServiceSpy.getData
+      .withArgs('fundTakeProfit')
+      .and.returnValue(Promise.resolve())
+      .withArgs('fundRenew')
+      .and.returnValue(Promise.resolve(false))
+      .withArgs('fundRiskLevel')
+      .and.returnValue(Promise.resolve());
     component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(2);
+    await fixture.whenStable();
+    expect(component.takeProfit).toBeFalsy();
+    expect(component.profile).toBeFalsy();
   });
 
-  it('should call fundDataStorageService.setData on handleSubmit and form valid', () => {
-    const spy = spyOn(fundDataStorageService, 'setData');
-    spy.and.returnValue(Promise.resolve());
-    component.handleSubmit(formData.valid);
-    expect(spy).toHaveBeenCalledTimes(1);
+  it('should define takeProfit and profile when fundTakeProfit and fundRiskLevel keys exists inside fundDataStorageService on ionViewWillEnter', async () => {
+    fundDataStorageServiceSpy.getData
+      .withArgs('fundTakeProfit')
+      .and.returnValue(Promise.resolve(formData.valid))
+      .withArgs('fundRenew')
+      .and.returnValue(Promise.resolve(false))
+      .withArgs('fundRiskLevel')
+      .and.returnValue(Promise.resolve({ risk_level: 'volume_profile_strategies_USDT' }));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    expect(component.takeProfit).toEqual(15);
+    expect(component.profile).toEqual('volume_profile_strategies_USDT');
+  });
+
+  it('should set fundTakeProfit in storage and navigate to fund stop loss when form is submited', async () => {
+    fundDataStorageServiceSpy.getData
+      .withArgs('fundTakeProfit')
+      .and.returnValue(Promise.resolve(formData.valid))
+      .withArgs('fundRenew')
+      .and.returnValue(Promise.resolve(true))
+      .withArgs('fundRiskLevel')
+      .and.returnValue(Promise.resolve({ risk_level: 'volume_profile_strategies_USDT' }));
+
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const selectTakeProfitComponent = fixture.debugElement.query(By.css('app-fund-select-take-profit'));
+    selectTakeProfitComponent.triggerEventHandler('save', formData.valid);
+    await fixture.whenStable();
+
+    expect(fundDataStorageServiceSpy.setData).toHaveBeenCalledOnceWith('fundTakeProfit', formData.valid);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/funds/fund-stop-loss']);
+  });
+
+  it('should render properly the header title', async () => {
+    fundDataStorageServiceSpy.getData
+      .withArgs('fundTakeProfit')
+      .and.returnValue(Promise.resolve())
+      .withArgs('fundRenew')
+      .and.returnValue(Promise.resolve(false))
+      .withArgs('fundRiskLevel')
+      .and.returnValue(Promise.resolve());
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const headerTitle = fixture.debugElement.query(By.css('.ux_toolbar ion-title'));
+    expect(headerTitle.nativeElement.innerText).toContain('funds.fund_take_profit.header');
   });
 });
