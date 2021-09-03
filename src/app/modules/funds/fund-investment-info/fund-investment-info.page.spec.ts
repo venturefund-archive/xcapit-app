@@ -1,15 +1,19 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { FundInvestmentInfoPage } from './fund-investment-info.page';
 
 describe('FundInvestmentInfoPage', () => {
   let component: FundInvestmentInfoPage;
   let fixture: ComponentFixture<FundInvestmentInfoPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundInvestmentInfoPage>;
   let activatedRouteSpy: any;
   let navControllerSpy: any;
 
@@ -23,8 +27,8 @@ describe('FundInvestmentInfoPage', () => {
         }),
       };
       TestBed.configureTestingModule({
-        declarations: [FundInvestmentInfoPage],
-        imports: [IonicModule, TranslateModule.forRoot()],
+        declarations: [FundInvestmentInfoPage, TrackClickDirective],
+        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
@@ -32,6 +36,7 @@ describe('FundInvestmentInfoPage', () => {
       }).compileComponents();
 
       fixture = TestBed.createComponent(FundInvestmentInfoPage);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })
@@ -51,5 +56,19 @@ describe('FundInvestmentInfoPage', () => {
     expect(name.nativeElement.innerHTML).toContain(
       'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.info_description'
     );
+  });
+
+  it('should call trackEvent on trackService when Next Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Invest Info Page');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to apikeys list when Invest Info Page button is clicked', () => {
+    fixture.debugElement.query(By.css('ion-button[name="Invest Info Page"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/list');
   });
 });
