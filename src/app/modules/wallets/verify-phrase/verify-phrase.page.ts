@@ -72,8 +72,8 @@ export class VerifyPhrasePage {
   @ViewChild(IonSlides) slides: IonSlides;
   @ViewChild(RecoveryPhraseCardComponent) recoveryPhraseComponent: RecoveryPhraseCardComponent;
   options = {
-    slidesPerView: 1.3,
-    spaceBetween: -10,
+    slidesPerView: 2,
+    spaceBetween: -30,
   };
   activated = false;
   ordered = true;
@@ -127,19 +127,17 @@ export class VerifyPhrasePage {
 
   async deleteWord(index: number) {
     const word = this.verificationPhrase[index];
-    await this.slides.getActiveIndex().then((activeIndex) => {
-      activeIndex = 1;
-      index = 1;
-      if (activeIndex === index && word) {
-        this.verificationPhrase.pop();
-        this.blockPrevSlide(false);
-        this.slides.slidePrev();
-        this.blockPrevSlide(true);
-        this.recoveryPhraseComponent.enable(word);
-        this.slide--;
-        this.activated = this.verificationPhrase.length === this.countWords;
-      }
-    });
+    const activeIndex = this.getActiveIndex();
+
+    if (activeIndex - 1 === index && word) {
+      this.verificationPhrase.pop();
+      this.blockPrevSlide(false);
+      this.slides.slidePrev();
+      this.blockPrevSlide(true);
+      this.recoveryPhraseComponent.enable(word);
+      this.slide--;
+      this.activated = this.verificationPhrase.length === this.countWords;
+    }
   }
 
   createWallet() {
@@ -149,5 +147,9 @@ export class VerifyPhrasePage {
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
+  }
+
+  getActiveIndex() {
+    return this.verificationPhrase.length;
   }
 }
