@@ -4,6 +4,7 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 import { COINS } from '../constants/coins';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-wallet',
@@ -85,7 +86,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   getWalletsBalances() {
-    const balances = [];
+    this.balances = [];
     this.totalBalanceWallet = 0;
 
     for (const coin of this.coins) {
@@ -96,30 +97,27 @@ export class HomeWalletPage implements OnInit {
 
         this.walletService.balanceOf(this.walletAddress, coin.value).then((res) => {
           balance.amount = parseFloat(res);
-          const usdPrice = this.getPrice(balance.symbol);
 
-          balance.usdAmount = usdPrice * balance.amount;
-          this.totalBalanceWallet += balance.usdAmount;
+          if (this.allPrices) {
+            const usdPrice = this.getPrice(balance.symbol);
 
-          balances.push(balance);
+            balance.usdAmount = usdPrice * balance.amount;
+            this.totalBalanceWallet += balance.usdAmount;
+          }
+
+          this.balances.push(balance);
 
           this.walletAddress = null;
         });
       }
     }
-
-    this.balances = balances;
   }
 
   async getAllPrices() {
-    this.apiWalletService.getPrices(this.coins.map((coin) => this.getCoinForPrice(coin.value))).subscribe({
-      next: (res) => {
-        this.allPrices = res;
-      },
-      complete: () => {
-        this.getWalletsBalances();
-      },
-    });
+    this.apiWalletService
+      .getPrices(this.coins.map((coin) => this.getCoinForPrice(coin.value)))
+      .pipe(finalize(() => this.getWalletsBalances()))
+      .subscribe((res) => (this.allPrices = res));
   }
 
   private getCoinForPrice(symbol: string): string {
@@ -127,11 +125,9 @@ export class HomeWalletPage implements OnInit {
   }
 
   private getPrice(symbol: string): number {
-    console.log(symbol);
     if (symbol === 'USDT') {
       return 1;
     }
-    console.log(this.allPrices.prices[this.getCoinForPrice(symbol)]);
 
     return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }

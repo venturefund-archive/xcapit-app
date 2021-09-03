@@ -22,9 +22,25 @@ const testBalances: any = {
     usdAmount: 0,
     usdSymbol: 'USD',
   },
+  withoutBalance: {
+    icon: 'assets/img/coins/ETH.svg',
+    symbol: 'ETH',
+    name: 'Ethereum',
+    amount: 1,
+    usdAmount: undefined,
+    usdSymbol: 'USD',
+  },
+  zeroBalance: {
+    icon: 'assets/img/coins/ETH.svg',
+    symbol: 'ETH',
+    name: 'Ethereum',
+    amount: 0,
+    usdAmount: 0,
+    usdSymbol: 'USD',
+  },
 };
 
-describe('WalletBalanceCardItemComponent', () => {
+fdescribe('WalletBalanceCardItemComponent', () => {
   let component: WalletBalanceCardItemComponent;
   let fixture: ComponentFixture<WalletBalanceCardItemComponent>;
 
@@ -46,10 +62,27 @@ describe('WalletBalanceCardItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should hide balance if there was no price for coin', () => {
+  it('should return false on hasPrice if there was no price for coin', () => {
     component.balance = testBalances.withoutPrice;
-    fixture.detectChanges();
-    const el = fixture.debugElement.query(By.css('#balance-card'));
-    expect(el).toBeNull();
+    const value = component.hasPrice();
+    expect(value).toBeFalse();
+  });
+
+  it('should return false on hasPrice if there was no usd balance', () => {
+    component.balance = testBalances.withoutBalance;
+    const value = component.hasPrice();
+    expect(value).toBeFalse();
+  });
+
+  it('should return true on hasPrice if there was price for coin', () => {
+    component.balance = testBalances.withPrice;
+    const value = component.hasPrice();
+    expect(value).toBeTrue();
+  });
+
+  it('should return true on hasPrice if wallet has balance zero', () => {
+    component.balance = testBalances.zeroBalance;
+    const value = component.hasPrice();
+    expect(value).toBeTrue();
   });
 });
