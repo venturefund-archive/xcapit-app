@@ -127,19 +127,26 @@ describe('HomeWalletPage', () => {
     expect(subheader).not.toBeNull();
   });
 
-  it('should render app-wallets-subheader when walletExist is true and dont have transactions', () => {
-    component.walletExist = false;
-    component.transactionsExists = false;
+  it('should not render app-wallets-subheader when walletExist is true', () => {
+    component.walletExist = true;
     fixture.detectChanges();
     const subheader = fixture.debugElement.query(By.css('.wt__subheader'));
+    expect(subheader).toBeNull();
+  });
+
+  it('should render app-wallets-buttons-subheader when walletExist is true', () => {
+    component.walletExist = true;
+    component.transactionsExists = false;
+    fixture.detectChanges();
+    const subheader = fixture.debugElement.query(By.css('.wt__overlap_buttons'));
     expect(subheader).not.toBeNull();
   });
 
-  it('should not render app-wallets-subheader when walletExist is true and have transactions', () => {
-    component.walletExist = true;
-    component.transactionsExists = true;
+  it('should not render app-wallets-buttons-subheader when walletExist is false', () => {
+    component.walletExist = false;
+    component.transactionsExists = undefined;
     fixture.detectChanges();
-    const subheader = fixture.debugElement.query(By.css('.wt__subheader'));
+    const subheader = fixture.debugElement.query(By.css('.wt__overlap_buttons'));
     expect(subheader).toBeNull();
   });
 
@@ -152,13 +159,13 @@ describe('HomeWalletPage', () => {
     expect(balanceElement).not.toBeNull();
   });
 
-  it('should not render app-wallet-balance-card when walletExist is true and dont have transactions', () => {
+  it('should render app-wallet-balance-card when walletExist is true and dont have transactions', () => {
     component.walletExist = true;
     component.transactionsExists = false;
-    component.balances = [];
+    component.balances = balances;
     fixture.detectChanges();
     const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
-    expect(balanceElement).toBeNull();
+    expect(balanceElement).not.toBeNull();
   });
 
   it('should not render app-wallet-balance-card when walletExist is true and have transactions but nor balances', () => {
@@ -189,6 +196,7 @@ describe('HomeWalletPage', () => {
   it('should render app-wallet-transaction-card when walletExist is true and have transactions', () => {
     component.walletExist = true;
     component.transactionsExists = true;
+    component.balances = balances;
     fixture.detectChanges();
     const transactionElement = fixture.debugElement.query(By.css('.wt__transaction'));
     expect(transactionElement).not.toBeNull();
