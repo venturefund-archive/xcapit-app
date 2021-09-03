@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { runInThisContext } from 'vm';
 
 @Component({
@@ -28,7 +29,15 @@ import { runInThisContext } from 'vm';
         </div>
         <div class="ux_footer ">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="Acept" type="submit" color="uxsecondary" size="large">
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="Invest Info Page"
+              type="submit"
+              color="uxsecondary"
+              size="large"
+              (click)="this.navigateToCreateFund()"
+            >
               {{ 'funds.fund_investment_info.invest_button' | translate }}
             </ion-button>
           </div>
@@ -58,7 +67,7 @@ export class FundInvestmentInfoPage implements OnInit {
     Himalayas: { name: 'Himalayas', description: 'funds.fund_investment.card.profiles.DeFi_index.info_description' },
   };
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private navController: NavController) {
     this.selectedStrategy = this.route.snapshot.paramMap.get('strategy');
   }
 
@@ -70,5 +79,9 @@ export class FundInvestmentInfoPage implements OnInit {
     this.strategyData = {
       ...this.strategy[this.selectedStrategy],
     };
+  }
+
+  navigateToCreateFund() {
+    this.navController.navigateForward('/apikeys/list');
   }
 }
