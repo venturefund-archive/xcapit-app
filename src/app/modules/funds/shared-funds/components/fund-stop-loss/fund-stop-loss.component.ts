@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { CustomRangeModalComponent } from 'src/app/modules/funds/shared-funds/components/custom-range-modal/custom-range-modal.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 
 @Component({
   selector: 'app-fund-select-stop-loss',
@@ -22,7 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
         <div class="fsl__input">
           <app-ux-radio-group [label]="'funds.fund_stop_loss.stop_loss' | translate">
             <ion-list>
-              <ion-radio-group formControlName="stop_loss">
+              <ion-radio-group formControlName="stop_loss" (ionChange)="this.ShowAlertIfManualSelected($event)">
                 <div
                   *ngFor="let sl of this.stopLossOptions; let last = last"
                   class="container"
@@ -117,7 +118,7 @@ export class FundStopLossComponent implements OnInit {
   ];
 
   stopLossManualOption = {
-    name: this.translate.instant('funds.fund_stop_loss.manual_stop_loss'),
+    name: this.translate.instant('funds.fund_take_profit.manual_stop'),
     value: 100,
     custom: false,
   };
@@ -129,7 +130,8 @@ export class FundStopLossComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiFunds: ApiFundsService,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -141,6 +143,7 @@ export class FundStopLossComponent implements OnInit {
       }
       this.form.patchValue({ stop_loss: this.stopLoss });
     }
+
     this.getMostChosenSL();
   }
 
@@ -211,5 +214,24 @@ export class FundStopLossComponent implements OnInit {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  ShowAlertIfManualSelected(event) {
+    if (event.detail.value === 100) {
+      this.openModalAlert();
+    }
+  }
+  async openModalAlert() {
+    const modal = await this.modalController.create({
+      component: ToastAlertComponent,
+      cssClass: 'ux-alert',
+      showBackdrop: false,
+      componentProps: {
+        title: this.translate.instant('funds.fund_stop_loss.alert_manual_option'),
+        type: 'information',
+        detailsEnabled: false,
+      },
+    });
+    await modal.present();
   }
 }

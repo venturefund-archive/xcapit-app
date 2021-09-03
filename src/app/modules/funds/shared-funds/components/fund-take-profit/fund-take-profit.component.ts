@@ -5,6 +5,8 @@ import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api
 import { CustomRangeModalComponent } from 'src/app/modules/funds/shared-funds/components/custom-range-modal/custom-range-modal.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 
 @Component({
   selector: 'app-fund-select-take-profit',
@@ -22,7 +24,7 @@ import { NavController } from '@ionic/angular';
         <div class="ftp__input">
           <app-ux-radio-group [label]="'funds.fund_take_profit.take_profit' | translate">
             <ion-list>
-              <ion-radio-group formControlName="take_profit">
+              <ion-radio-group formControlName="take_profit" (ionChange)="this.ShowAlertIfManualSelected($event)">
                 <div
                   *ngFor="let tp of this.takeProfitsOptions; let last = last"
                   class="container"
@@ -53,7 +55,7 @@ import { NavController } from '@ionic/angular';
                       <ion-button
                         class="ux_button"
                         appTrackClick
-                        name="Back"
+                        name="Create Custom Take Profit"
                         type="button"
                         color="uxsecondary"
                         fill="clear"
@@ -123,6 +125,7 @@ import { NavController } from '@ionic/angular';
 export class FundTakeProfitComponent implements OnInit {
   @Input() opType: any;
   @Input() takeProfit?: number;
+  @Input() profile: string;
   @Output() save = new EventEmitter<any>();
 
   form: FormGroup = this.formBuilder.group({
@@ -137,6 +140,12 @@ export class FundTakeProfitComponent implements OnInit {
     { name: '+15%', value: 15, custom: false },
   ];
 
+  takeProfitManualOption = {
+    name: this.translate.instant('funds.fund_take_profit.manual_stop'),
+    value: 5000,
+    custom: false,
+  };
+
   customTP = false;
 
   fundRenew: any;
@@ -146,10 +155,13 @@ export class FundTakeProfitComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiFunds: ApiFundsService,
     private modalController: ModalController,
-    private navController: NavController
+    private navController: NavController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
+    this.addManualOptionIfApplies();
+
     if (this.takeProfit) {
       if (!this.existsInRadio(this.takeProfit)) {
         this.addCustom(this.takeProfit);
@@ -157,6 +169,12 @@ export class FundTakeProfitComponent implements OnInit {
       this.form.patchValue({ take_profit: this.takeProfit });
     }
     this.getMostChosenTP();
+  }
+
+  addManualOptionIfApplies() {
+    if (this.profile && this.profile.includes('index')) {
+      this.takeProfitsOptions.push(this.takeProfitManualOption);
+    }
   }
 
   getMostChosenTP() {
@@ -174,7 +192,6 @@ export class FundTakeProfitComponent implements OnInit {
     const data = await modal.onDidDismiss();
 
     if (data.role === 'selected') {
-      // Si no existe creo el nuevo item
       if (this.existsInRadio(data.data)) {
         this.removeCustom();
       } else {
@@ -221,5 +238,24 @@ export class FundTakeProfitComponent implements OnInit {
 
   goBack() {
     this.navController.navigateBack(['funds/fund-investment']);
+  }
+
+  ShowAlertIfManualSelected(event) {
+    if (event.detail.value === 5000) {
+      this.openModalAlert();
+    }
+  }
+  async openModalAlert() {
+    const modal = await this.modalController.create({
+      component: ToastAlertComponent,
+      cssClass: 'ux-alert',
+      showBackdrop: false,
+      componentProps: {
+        title: this.translate.instant('funds.fund_take_profit.alert_manual_option'),
+        type: 'information',
+        detailsEnabled: false,
+      },
+    });
+    await modal.present();
   }
 }

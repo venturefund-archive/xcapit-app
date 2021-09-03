@@ -203,4 +203,21 @@ describe('FundStopLossPage', () => {
 
     expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(0);
   });
+
+  it('should render properly the header title', async () => {
+    fundDataStorageServiceSpy
+      .withArgs('fundStopLoss')
+      .and.returnValue(Promise.resolve(formData.valid))
+      .withArgs('fundRenew')
+      .and.returnValue(Promise.resolve(false))
+      .withArgs('fundRiskLevel')
+      .and.returnValue(Promise.resolve({ risk_level: 'volume_profile_strategies_USDT' }));
+
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const headerTitle = fixture.debugElement.query(By.css('.ux_toolbar ion-title'));
+    expect(headerTitle.nativeElement.innerText).toContain('funds.fund_stop_loss.header');
+  });
 });

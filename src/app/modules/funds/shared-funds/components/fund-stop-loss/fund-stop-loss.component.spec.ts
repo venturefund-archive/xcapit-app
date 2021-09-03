@@ -8,10 +8,10 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
-import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { By } from '@angular/platform-browser';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const formData = {
   valid: {
@@ -22,44 +22,30 @@ const formData = {
   },
 };
 
-fdescribe('FundStopLossComponent', () => {
+describe('FundStopLossComponent', () => {
   let component: FundStopLossComponent;
   let fixture: ComponentFixture<FundStopLossComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundStopLossComponent>;
-  let apiFundsMock: any;
-  let apiFundsService: any;
+  let apiFundsServiceSpy: any;
   let modalControllerSpy: any;
-  let onDidDismissSpy: any;
+  let fakeModalController: FakeModalController;
 
   beforeEach(
     waitForAsync(() => {
-      modalControllerSpy = jasmine.createSpyObj('ModalController', ['create']);
-      modalControllerSpy = {
-        create: jasmine.createSpy('create', () =>
-          Promise.resolve({
-            present: Promise.resolve(),
-            onDidDismiss: onDidDismissSpy,
-            dismiss: Promise.resolve(),
-          })
-        ),
-        dismiss: Promise.resolve(),
-      };
-      onDidDismissSpy = jasmine
-        .createSpy('onDidDismiss', () => Promise.resolve({ data: '5', role: 'selected' }))
-        .and.callThrough();
-      apiFundsMock = {
-        getMostChosenSL: () => of(10),
-      };
-      // modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+      apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', {
+        getMostChosenSL: of(10),
+      });
 
       TestBed.configureTestingModule({
         declarations: [FundStopLossComponent, TrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule.forRoot()],
+        imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule],
         providers: [
           {
             provide: ApiFundsService,
-            useValue: apiFundsMock,
+            useValue: apiFundsServiceSpy,
           },
           { provide: ModalController, useValue: modalControllerSpy },
         ],
@@ -70,9 +56,8 @@ fdescribe('FundStopLossComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FundStopLossComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-    apiFundsService = TestBed.inject(ApiFundsService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -80,10 +65,10 @@ fdescribe('FundStopLossComponent', () => {
   });
 
   it('should call trackEvent on trackService when Create Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Fund');
-    const directive = trackClickDirectiveHelper.getDirective(el);
+    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Fund');
+    const directive = trackClickDirectiveHelper.getDirective(button);
     const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
+    button.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -105,8 +90,8 @@ fdescribe('FundStopLossComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Back button clicked', () => {
-    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Back');
+  it('should call trackEvent on trackService when Create Custom Stop Loss button clicked', () => {
+    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Custom Stop Loss');
     const directive = trackClickDirectiveHelper.getDirective(button);
     const spy = spyOn(directive, 'clickEvent');
     button.nativeElement.click();
@@ -160,70 +145,96 @@ fdescribe('FundStopLossComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  fit('should add custom option when selected option in modal of custom stop loss doesnt exists on default options', async () => {
-    // TODO: Cambiar por el nuevo fake del modalController cuando esté libreado
-    modalControllerSpy.create.and.returnValue(
-      Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => Promise.resolve({ data: '99', role: 'selected' }),
-        dismiss: () => Promise.resolve(),
-      })
-    );
+  it('should add custom option when selected option in modal of custom stop loss doesnt exists on initial options', async () => {
+    fakeModalController.modifyReturns({}, { data: 99, role: 'selected' });
     fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
-
+    await fixture.whenStable();
     expect(component.stopLossOptions).toContain({ name: '-99%', value: 99, custom: true });
     expect(component.form.value.stop_loss).toEqual(99);
   });
 
-  fit('should not add custom option when there is no selected option in modal of custom stop loss', async () => {
-    // TODO: Cambiar por el nuevo fake del modalController cuando esté libreado
-    modalControllerSpy.create.and.returnValue(
-      Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => Promise.resolve({}),
-        dismiss: () => Promise.resolve(),
-      })
-    );
+  it('should replace custom option when selected option in modal of custom stop loss doesnt exists on initial options', async () => {
+    component.stopLoss = 82;
+    component.ngOnInit();
+    fakeModalController.modifyReturns({}, { data: 99, role: 'selected' });
+    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.stopLossOptions).toContain({ name: '-99%', value: 99, custom: true });
+    expect(component.form.value.stop_loss).toEqual(99);
+  });
+
+  it('should not add custom option when there is no selected option in modal of custom stop loss', async () => {
+    fakeModalController.modifyReturns({}, {});
     fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
 
     expect(component.stopLossOptions).not.toContain({ name: '-99%', value: 99, custom: true });
   });
 
-  fit('should remove custom option when selected option in modal of custom stop loss exists on default options', async () => {
+  it('should remove custom option if selected option in modal exists in initial options', async () => {
     component.stopLoss = 99;
     component.ngOnInit();
-    // TODO: Cambiar por el nuevo fake del modalController cuando esté libreado
-    modalControllerSpy.create.and.returnValue(
-      Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => Promise.resolve({ data: '99', role: 'selected' }),
-        dismiss: () => Promise.resolve(),
-      })
-    );
+    fakeModalController.modifyReturns({}, { data: 5, role: 'selected' });
     fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
-
-    expect(component.stopLossOptions).toContain({ name: '-99%', value: 99, custom: true });
-    expect(component.form.value.stop_loss).toEqual(99);
+    await fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.form.value.stop_loss).toEqual(5);
+    expect(component.customSL).toBeFalse();
   });
-  // -------------------------------------------------------------------------------------------
 
-  // it('should not emit form data to parent on form invalid', async () => {
-  //   const spy = spyOn(component.save, 'emit');
-  //   component.form.patchValue(formData.invalid);
-  //   fixture.detectChanges();
-  //   component.handleSubmit();
-  //   expect(spy).toHaveBeenCalledTimes(0);
-  // });
+  it('should not have to do anything when selected option in modal doesnt exists in initial options', async () => {
+    fakeModalController.modifyReturns({}, { data: 5, role: 'selected' });
+    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
+    expect(component.stopLossOptions.length).toBe(3);
+    expect(component.customSL).toBeFalsy();
+  });
 
-  // it('should call apiFunds.getMostChosenSL on getMostChosenSL', () => {
-  //   const spy = spyOn(apiFundsService, 'getMostChosenSL');
-  //   spy.and.returnValue(of(15));
-  //   component.getMostChosenSL();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+  it('should get the most chosen SL on component.creation', async () => {
+    component.ngOnInit();
+    expect(component.mostChosenSL).toEqual(10);
+  });
 
-  // it('should call modal.present on openCustomSL', () => {
-  //   component.openCustomSL();
-  //   expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  // });
+  it('should open modal alert when manual option is selected', async () => {
+    fixture.debugElement.query(By.css('ion-radio-group')).triggerEventHandler('ionChange', { detail: { value: 100 } });
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not open modal alert when an option different than manual is selected', async () => {
+    fixture.debugElement.query(By.css('ion-radio-group')).triggerEventHandler('ionChange', { detail: { value: 5 } });
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
+
+  it('should render properly', async () => {
+    component.profile = 'Mary_index';
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+
+    const radioItems = fixture.debugElement.query(By.css('ion-radio-group')).nativeNode.children;
+    expect(radioItems.length).toEqual(4);
+
+    const createCustomButton = fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"'));
+    expect(createCustomButton).toBeTruthy();
+    expect(createCustomButton.nativeElement.innerText).toContain('funds.fund_stop_loss.custom_tp_button');
+
+    const badgeMostChosenSL = fixture.debugElement.query(By.css('ion-radio-group ion-badge.ux_badge_primary'));
+    expect(badgeMostChosenSL.nativeElement.innerText).toContain('funds.fund_stop_loss.most_chosen');
+  });
+
+  it('should render properly the custom option and the edition button ', async () => {
+    component.profile = 'Mary_index';
+    component.stopLoss = 92;
+
+    component.ngOnInit();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+
+    const customOption = fixture.debugElement.query(By.css('ion-radio-group div.container.custom'));
+    expect(customOption.nativeElement.innerHTML).toContain('-92%');
+
+    const editButton = fixture.debugElement.query(By.css('ion-button[name="Edit Custom Stop Loss"'));
+    expect(editButton.nativeElement.innerText).toContain('funds.fund_stop_loss.edit_custom');
+  });
 });

@@ -13,10 +13,7 @@ import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/sto
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-take-profit"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center" *ngIf="this.opType === 'renew'">
-          {{ 'funds.fund_stop_loss.header_renew' | translate }}
-        </ion-title>
-        <ion-title class="ion-text-center" *ngIf="this.opType === 'new'">
+        <ion-title class="ion-text-center">
           {{ 'funds.fund_stop_loss.header' | translate }}
         </ion-title>
       </ion-toolbar>
