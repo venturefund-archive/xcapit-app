@@ -1525,6 +1525,8 @@
         }
       },
       "qr_scanner": {
+        "title": "Point the camera at the QR code",
+        "cancel_label": "Cancel and enter manually",
         "text": "Point your camera towards a QR code."
       }
     }
