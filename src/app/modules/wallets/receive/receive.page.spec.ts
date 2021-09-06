@@ -58,7 +58,7 @@ describe('ReceivePage', () => {
         showToast: () => Promise.resolve(),
       };
       walletEncryptionServiceMock = {
-        getEncryptedWallet: () => Promise.resolve({ addresses: { ETH: 'test_address' } }),
+        getEncryptedWallet: () => Promise.resolve({ addresses: { ERC20: 'test_address' } }),
       };
       TestBed.configureTestingModule({
         declarations: [ReceivePage, TrackClickDirective],
@@ -100,12 +100,11 @@ describe('ReceivePage', () => {
   it('should generate QR with address on enter page', async () => {
     const spy = spyOn(qrCodeService, 'generateQRFromText').and.callThrough();
     await component.ionViewWillEnter();
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith('test_address');
-      expect(component.addressQr).toBeTruthy();
-      expect(fixture.debugElement.query(By.css('#qr-img')));
-    });
+    await fixture.whenStable();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith('test_address');
+    expect(component.addressQr).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#qr-img')));
   });
 
   it('should copy address when click in copy button', async () => {
