@@ -72,7 +72,7 @@
       },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
-        "share_error": "Error al compartir"
+        "share_error": "El texto se copió en el portapapeles"
       },
       "copy": {
         "toast_success": "Se copió al portapapeles",
