@@ -147,7 +147,7 @@ export class FundInvestmentPage implements OnInit {
         },
         {
           text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
-          handler: () => Browser.open({ url: LINKS.binance }),
+          handler: () => this.navController.navigateForward('/fiat-ramps/select-provider'),
         },
       ],
     });
