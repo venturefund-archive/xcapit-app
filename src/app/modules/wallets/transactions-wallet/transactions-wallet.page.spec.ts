@@ -26,7 +26,7 @@ const transaction = [
       currencyIn: '',
       currencyOut: '',
       amountIn: null,
-      amounOut: null,
+      amountOut: null,
     },
   },
 ];
