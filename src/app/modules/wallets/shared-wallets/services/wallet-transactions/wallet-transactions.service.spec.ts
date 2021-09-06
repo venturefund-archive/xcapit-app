@@ -5,13 +5,15 @@ import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { ethers } from 'ethers';
-import { TranslateModule } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
+import { FakeConnectedWallet } from '../../../../../../testing/fakes/wallet.fake.spec';
+import { EthersService } from '../ethers/ethers.service';
+import { FakeEthersService } from '../../../../../../testing/fakes/ethers.fake.spec';
 
-const coin: Coin = {
+const ETH: Coin = {
   id: 4,
   name: 'ETH - Ethereum',
   logoRoute: '../../assets/img/coins/ETH.svg',
@@ -19,6 +21,19 @@ const coin: Coin = {
   value: 'ETH',
   network: '',
   rpc: '',
+};
+
+const LINK: Coin = {
+  id: 3,
+  name: 'LINK - Chainlink',
+  logoRoute: '../../assets/img/coins/LINK.svg',
+  last: false,
+  value: 'LINK',
+  network: '',
+  rpc: '',
+  contract: 'testContractAddress',
+  decimals: 18,
+  abi: JSON.parse(JSON.stringify({ test: 'abi' })),
 };
 
 const testAddresses = { ETH_TEST: 'testAddress' };
@@ -77,7 +92,7 @@ const testStructure = [
     icon: 'assets/img/wallet-transactions/sended.svg',
     rawContract: false,
     swap: {
-      amounOut: null,
+      amountOut: null,
       amountIn: null,
       currencyIn: '',
       currencyOut: '',
@@ -95,7 +110,7 @@ const testStructure = [
     icon: 'assets/img/wallet-transactions/received.svg',
     rawContract: false,
     swap: {
-      amounOut: null,
+      amountOut: null,
       amountIn: null,
       currencyIn: '',
       currencyOut: '',
@@ -109,27 +124,32 @@ const testStructure = [
 describe('WalletTransactionsService', () => {
   let service: WalletTransactionsService;
   let loadingServiceSpy: any;
-  let walletEncryptionServiceMock: any;
   let blockchainProviderServiceMock: any;
-  let sendTransactionSpy: any;
   let storageServiceMock: any;
   let storageService: StorageService;
   let storageSpy: any;
   let customHttpServiceSpy;
+  let walletEncryptionServiceSpy: any;
+  let connectedWalletSpy;
+  let fakeConnectedWallet: FakeConnectedWallet;
+  let ethersServiceSpy: any;
+  let fakeEthersService: FakeEthersService;
 
   beforeEach(() => {
+    fakeEthersService = new FakeEthersService();
+    ethersServiceSpy = fakeEthersService.createSpy();
+    fakeConnectedWallet = new FakeConnectedWallet();
+    connectedWalletSpy = fakeConnectedWallet.createSpy();
     loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
-      show: () => Promise.resolve(),
-      dismiss: () => Promise.resolve(),
+      show: Promise.resolve(),
+      dismiss: Promise.resolve(),
+    });
+    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+      getDecryptedWallet: Promise.resolve({ connect: () => connectedWalletSpy }),
     });
 
-    sendTransactionSpy = jasmine.createSpy('sendTransaction');
-    walletEncryptionServiceMock = {
-      getDecryptedWallet: () => Promise.resolve({ connect: () => ({ sendTransaction: sendTransactionSpy }) }),
-    };
-
     blockchainProviderServiceMock = {
-      getProvider: () => Promise.resolve({ provider: {} }),
+      getProvider: () => Promise.resolve({ provider: {}, abi: LINK.abi }),
     };
 
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
@@ -144,11 +164,12 @@ describe('WalletTransactionsService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: LoadingService, useValue: loadingServiceSpy },
-        { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: BlockchainProviderService, useValue: blockchainProviderServiceMock },
         { provide: Storage, useValue: storageSpy },
         { provide: StorageService, useValue: storageServiceMock },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
+        { provide: EthersService, useValue: ethersServiceSpy },
       ],
     });
     service = TestBed.inject(WalletTransactionsService);
@@ -159,19 +180,26 @@ describe('WalletTransactionsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should send transaction', async () => {
-    await service.send('testPassword', '20', 'testAddress', coin);
-    expect(sendTransactionSpy).toHaveBeenCalledOnceWith({
+  it('should send native token transaction', async () => {
+    await service.send('testPassword', '20', 'testAddress', ETH);
+    expect(connectedWalletSpy.sendTransaction).toHaveBeenCalledOnceWith({
       to: 'testAddress',
       value: ethers.utils.parseEther('20'),
     });
+    expect(walletEncryptionServiceSpy.getDecryptedWallet).toHaveBeenCalledOnceWith('testPassword');
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
   });
 
+  it('should send no native token transaction', async () => {
+    await service.send('testPassword', '20', 'testAddress', LINK);
+    expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
+    expect(ethersServiceSpy.newContract).toHaveBeenCalledOnceWith('testContractAddress', LINK.abi, connectedWalletSpy);
+  });
+
   it('should not call loading when loading is false', async () => {
-    await service.send('testPassword', '20', 'testAddress', coin, false);
-    expect(sendTransactionSpy).toHaveBeenCalledOnceWith({
+    await service.send('testPassword', '20', 'testAddress', ETH, false);
+    expect(connectedWalletSpy.sendTransaction).toHaveBeenCalledOnceWith({
       to: 'testAddress',
       value: ethers.utils.parseEther('20'),
     });
