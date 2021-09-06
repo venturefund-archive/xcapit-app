@@ -12,6 +12,7 @@ import { AddressInputCardComponent } from './components/address-input-card/addre
 import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
 import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
+import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { WalletPasswordComponent } from './components/wallet-password/wallet-pas
     AmountInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
+    WalletSubheaderButtonsComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -43,6 +45,7 @@ import { WalletPasswordComponent } from './components/wallet-password/wallet-pas
     AmountInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
+    WalletSubheaderButtonsComponent,
   ],
 })
 export class SharedWalletsModule {}

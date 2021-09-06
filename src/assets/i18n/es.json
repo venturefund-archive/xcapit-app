@@ -1264,11 +1264,15 @@
       "wallet_transaction_title": "RECIENTE",
       "go_to_history": "Ver todas las transacciones",
       "subheader_component": {
-        "title_with_wallet": "Empieza recibiendo o comprando.",
         "title_without_wallet": "Todavía no creaste tu billetera.",
-        "receive_card": "Recibir",
-        "buy_card": "Compra venta",
         "create_wallet_button": "Crear Billetera"
+      },
+      "subheader_buttons_component": {
+        "send_card": "Enviar",
+        "receive_card": "Recibir",
+        "buy_card": "Comprar",
+        "performance_card": "Obtener rendimiento",
+        "title_without_transactions": "Empieza recibiendo o comprando."
       }
     },
     "select_coin": {

@@ -26,8 +26,12 @@ import { COINS } from '../constants/coins';
           </ion-text>
         </div>
       </div>
-      <div class="wt__subheader" *ngIf="this.transactionsExists === false">
-        <app-wallets-subheader [walletExist]="this.walletExist"></app-wallets-subheader>
+      <div class="wt__subheader" *ngIf="this.walletExist === false && !this.transactionsExists">
+        <app-wallets-subheader></app-wallets-subheader>
+      </div>
+
+      <div class="wt__overlap_buttons" *ngIf="this.walletExist === true && this.transactionsExists !== undefined">
+        <app-wallet-subheader-buttons [hasTransactions]="this.transactionsExists"></app-wallet-subheader-buttons>
       </div>
 
       <div class="wt__balance ion-padding-start ion-padding-end" *ngIf="this.walletExist && this.balances?.length">
@@ -41,7 +45,10 @@ import { COINS } from '../constants/coins';
         </div>
       </div>
 
-      <div class="wt__transaction ion-padding-start ion-padding-end" *ngIf="this.transactionsExists === true">
+      <div
+        class="wt__transaction ion-padding-start ion-padding-end"
+        *ngIf="this.transactionsExists && this.balances?.length"
+      >
         <div div class="wt__transaction__title">
           <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
             {{ 'wallets.home.wallet_transaction_title' | translate }}
@@ -66,12 +73,12 @@ import { COINS } from '../constants/coins';
   styleUrls: ['./home-wallet.page.scss'],
 })
 export class HomeWalletPage implements OnInit {
-  walletExist = false;
+  walletExist: boolean;
   transactions: Array<any>;
   totalBalanceWallet = 0;
   walletAddress = null;
   balances: Array<AssetBalance> = [];
-  transactionsExists = false;
+  transactionsExists: boolean;
   lastTransaction = [];
   userCoins;
 
@@ -140,8 +147,9 @@ export class HomeWalletPage implements OnInit {
 
       if (this.transactionsExists) {
         this.lastTransaction = res;
-        this.getWalletsBalances();
       }
+
+      this.getWalletsBalances();
     });
   }
 
