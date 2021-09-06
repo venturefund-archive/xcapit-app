@@ -91,7 +91,7 @@ export class ReceivePage {
     currency: ['', Validators.required],
   });
 
-  currencies: Coin[] = COINS.filter((coin) => coin.value === 'ETH');
+  currencies: Coin[] = COINS;
   address: string;
   addressQr: string;
   selectedCurrency: string;
@@ -121,7 +121,8 @@ export class ReceivePage {
 
   getAddress(currency: string) {
     this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      this.address = wallet.addresses[currency];
+      const network = COINS.find((coin) => coin.value === currency).network;
+      this.address = wallet.addresses[network];
       this.generateAddressQR();
     });
   }
