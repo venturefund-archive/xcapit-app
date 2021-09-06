@@ -1261,11 +1261,15 @@
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
       "subheader_component": {
-        "title_with_wallet": "Start receiving or buying.",
         "title_without_wallet": "You haven't created your wallet yet.",
+        "create_wallet_button": "Create Wallet"
+      },
+      "subheader_buttons_component": {
+        "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy or Sell",
-        "create_wallet_button": "Create Wallet"
+        "performance_card": "Obtain performance",
+        "title_without_transactions": "Start receiving or buying."
       }
     },
     "select_coin": {

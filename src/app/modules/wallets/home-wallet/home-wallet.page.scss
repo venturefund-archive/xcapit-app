@@ -23,7 +23,7 @@
   }
 
   &__balance {
-    margin-top: 24px;
+    margin-top: 10px;
     &__wallet-balance-card {
       margin-top: 8px;
     }
@@ -52,6 +52,10 @@
         color: red;
       }
     }
+  }
+
+  &__overlap_buttons {
+    margin-top: -28px;
   }
 
   &__transactions-list {
