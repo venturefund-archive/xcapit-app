@@ -39,19 +39,6 @@ import { LocalStorageService } from '../../../../../shared/services/local-storag
           </ion-text>
         </div>
       </div>
-      <div class="fl__total__detail" *ngIf="totalBalanceBTC?.start_balance !== 0">
-        <ion-badge class="ux-font-text-xxs">
-          <ion-icon name="ux-triangle-up" *ngIf="this.totalBalanceBTC?.profit > 0"></ion-icon>
-          <ion-icon name="ux-triangle-down" *ngIf="this.totalBalanceBTC?.profit < 0"></ion-icon>
-          {{ this.totalBalanceBTC?.profit | absoluteValue | number: '1.2-2' }}
-          %
-        </ion-badge>
-        <div class="fl__total__detail__text ux-font-text-xxs">
-          <ion-text>
-            {{ 'funds.funds_list.sub_header.total_detail' | translate }}
-          </ion-text>
-        </div>
-      </div>
     </div>
   `,
   styleUrls: ['./fund-list-sub-header.component.scss'],
