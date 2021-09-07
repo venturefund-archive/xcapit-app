@@ -484,9 +484,9 @@
       },
       "balance_not_enough": {
         "title": "Necesitás USD${{minBalance}} en tu cuenta de Binance para comenzar a invertir.",
-        "message": "Carga saldo en tu cuenta de Binance",
+        "message": "Comprar cripto en Xcapit",
         "cancel_text": "Cancelar",
-        "ok_text": "Ir a Binance"
+        "ok_text": "Comprar"
       },
       "no_apikeys_modal": {
         "first_title": "Vincular cuenta",
