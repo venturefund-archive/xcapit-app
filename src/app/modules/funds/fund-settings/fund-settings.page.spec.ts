@@ -6,8 +6,6 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DummyComponent } from '../../../../testing/dummy.component.spec';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -60,7 +58,7 @@ describe('FundSettingsPage', () => {
         getByFundName: () => of(ak),
       };
       TestBed.configureTestingModule({
-        declarations: [FundSettingsPage, DummyComponent],
+        declarations: [FundSettingsPage],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
