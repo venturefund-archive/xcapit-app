@@ -11,7 +11,7 @@ export class FakeModalController implements Fake {
   }
 
   createSpy(): any {
-    this.spy = jasmine.createSpyObj('ModalController', ['create']);
+    this.spy = jasmine.createSpyObj('ModalController', ['create', 'dismiss']);
     this.modifyReturns(this.onWillDismissResponse, this.onDidDismissResponse);
     return this.spy;
   }
@@ -25,5 +25,6 @@ export class FakeModalController implements Fake {
         dismiss: () => Promise.resolve(),
       })
     );
+    this.spy.dismiss.and.returnValue(Promise.resolve());
   }
 }

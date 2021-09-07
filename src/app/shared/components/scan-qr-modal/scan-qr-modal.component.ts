@@ -75,11 +75,11 @@ export class ScanQrModalComponent implements OnInit {
     this.renderer.removeClass(this.document.getElementsByTagName('ion-split-pane').item(0), 'hidden-visibility');
   }
 
-  private async contentOf(result: any) {
+  private contentOf(result: any): any {
     if (result.hasContent) return result.content;
   }
 
-  private roleOf(result: any) {
+  private roleOf(result: any): string {
     return result.hasContent ? 'success' : 'error';
   }
 
