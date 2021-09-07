@@ -4,7 +4,9 @@ import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interfa
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
-import { COINS } from '../constants/coins';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-wallet',
@@ -22,7 +24,7 @@ import { COINS } from '../constants/coins';
         <div class="wt__amount ux-font-num-titulo">
           <ion-text>
             {{ this.totalBalanceWallet | number: '1.2-6' }}
-            ETH
+            USD
           </ion-text>
         </div>
       </div>
@@ -78,12 +80,14 @@ export class HomeWalletPage implements OnInit {
   totalBalanceWallet = 0;
   walletAddress = null;
   balances: Array<AssetBalance> = [];
+  allPrices: any;
   transactionsExists: boolean;
   lastTransaction = [];
-  userCoins;
+  userCoins: Coin[];
 
   constructor(
     private walletService: WalletService,
+    private apiWalletService: ApiWalletService,
     private storageService: StorageService,
     private walletTransactionsService: WalletTransactionsService,
     private navController: NavController
@@ -95,8 +99,8 @@ export class HomeWalletPage implements OnInit {
     this.encryptedWalletExist();
   }
 
-  pushBalancesStructure(coin) {
-    const balance = {
+  createBalancesStructure(coin: Coin): AssetBalance {
+    const balance: AssetBalance = {
       icon: coin.logoRoute,
       symbol: coin.value,
       name: coin.name,
@@ -105,40 +109,68 @@ export class HomeWalletPage implements OnInit {
       usdSymbol: 'USD',
     };
 
-    this.balances.push(balance);
+    return balance;
   }
 
-  encryptedWalletExist() {
+  async encryptedWalletExist() {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
 
       if (res) {
         this.balances = [];
+        this.getAllPrices();
         this.getLastTransactions();
       }
     });
   }
 
   async getWalletsBalances() {
-    await this.storageService.updateAssetsList();
-    this.userCoins = await this.storageService.getAssestsSelected();
+    this.balances = [];
+    this.totalBalanceWallet = 0;
 
     for (const coin of this.userCoins) {
       this.walletAddress = this.walletService.addresses[coin.network];
 
       if (this.walletAddress) {
-        this.pushBalancesStructure(coin);
+        const balance = this.createBalancesStructure(coin);
+        this.walletService.balanceOf(this.walletAddress, coin.value).then((res) => {
+          balance.amount = parseFloat(res);
 
-        this.walletService.balanceOf(this.walletAddress, coin.value).then((balance) => {
-          const balanceKey = Object.keys(this.balances).filter((key) => this.balances[key].symbol === coin.value)[0];
-          this.balances[balanceKey].amount = parseFloat(balance);
-          // this.balances[balanceKey].usdAmount = parseFloat(usdBalance);
-          // this.totalBalanceWallet = parseFloat(usdBalance);
+          if (this.allPrices) {
+            const usdPrice = this.getPrice(balance.symbol);
+
+            balance.usdAmount = usdPrice * balance.amount;
+            this.totalBalanceWallet += balance.usdAmount;
+          }
+
+          this.balances.push(balance);
 
           this.walletAddress = null;
         });
       }
     }
+  }
+
+  async getAllPrices() {
+    this.userCoins = await this.storageService.getAssestsSelected();
+    await this.storageService.updateAssetsList();
+
+    this.apiWalletService
+      .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
+      .pipe(finalize(() => this.getWalletsBalances()))
+      .subscribe((res) => (this.allPrices = res));
+  }
+
+  private getCoinForPrice(symbol: string): string {
+    return symbol === 'RBTC' ? 'BTC' : symbol;
+  }
+
+  private getPrice(symbol: string): number {
+    if (symbol === 'USDT') {
+      return 1;
+    }
+
+    return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }
 
   async getLastTransactions() {
@@ -148,8 +180,6 @@ export class HomeWalletPage implements OnInit {
       if (this.transactionsExists) {
         this.lastTransaction = res;
       }
-
-      this.getWalletsBalances();
     });
   }
 
