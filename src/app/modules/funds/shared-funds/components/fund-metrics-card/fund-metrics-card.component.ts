@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
+import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
 
 @Component({
   selector: 'app-fund-metrics-card',
@@ -25,11 +26,22 @@ import * as moment from 'moment';
           </div>
 
           <!-- Take profit -->
-          <div class="item second">
+          <div class="item second fmc__take_profit">
             <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.take_profit' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-text-xxs regular"> {{ this.settings?.ganancia }}% </ion-text>
+            <ion-text
+              *ngIf="this.settings?.ganancia !== manualSLTP.takeProfit"
+              class="item__value ux-font-text-xxs regular"
+            >
+              {{ this.settings?.ganancia }}%
+            </ion-text>
+            <ion-text
+              *ngIf="this.settings?.ganancia === manualSLTP.takeProfit"
+              class="item__value ux-font-text-xxs regular"
+            >
+              {{ 'shared.without_SL_TP.without_take_profit' | translate }}
+            </ion-text>
           </div>
 
           <!-- Estrategia -->
@@ -66,11 +78,22 @@ import * as moment from 'moment';
           </div>
 
           <!-- Stop loss -->
-          <div class="item second">
+          <div class="item second fmc__stop_loss">
             <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.stop_loss' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-text-xxs regular"> {{ this.settings?.perdida }}% </ion-text>
+            <ion-text
+              *ngIf="this.settings?.perdida !== manualSLTP.stopLoss"
+              class="item__value ux-font-text-xxs regular"
+            >
+              {{ this.settings?.perdida }}%
+            </ion-text>
+            <ion-text
+              *ngIf="this.settings?.perdida === manualSLTP.stopLoss"
+              class="item__value ux-font-text-xxs regular"
+            >
+              {{ 'shared.without_SL_TP.without_stop_loss' | translate }}
+            </ion-text>
           </div>
 
           <!-- Moneda -->
@@ -92,6 +115,7 @@ export class FundMetricsCardComponent implements OnInit {
   @Input() resume: any;
   @Input() settings: any;
   createdTime: any;
+  manualSLTP = ManualSLTP;
 
   constructor() {}
 

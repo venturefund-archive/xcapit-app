@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
-import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { NavController } from '@ionic/angular';
+import { ManualSLTP } from '../shared-funds/constants/manual-stop-loss-take-profit';
 
 @Component({
   selector: 'app-fund-settings',
@@ -57,22 +57,28 @@ import { NavController } from '@ionic/angular';
         <div class="fs__fund-modify__list">
           <app-ux-list-inverted>
             <ion-list>
-              <ion-item (click)="this.editTakeProfit()">
+              <ion-item (click)="this.editTakeProfit()" class="fs__take_profit">
                 <ion-label>
                   <h2>
                     {{ 'funds.fund_settings.take_profit' | translate }}
                   </h2>
-                  <h3>{{ this.fund?.ganancia }}%</h3>
+                  <h3 *ngIf="this.fund?.ganancia !== manualSLTP.takeProfit">{{ this.fund?.ganancia }}%</h3>
+                  <h3 *ngIf="this.fund?.ganancia === manualSLTP.takeProfit">
+                    {{ 'shared.without_SL_TP.without_take_profit' | translate }}
+                  </h3>
                 </ion-label>
                 <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
               </ion-item>
               <div class="list-divider"></div>
-              <ion-item (click)="this.editStopLoss()">
+              <ion-item (click)="this.editStopLoss()" class="fs__stop_loss">
                 <ion-label>
                   <h2>
                     {{ 'funds.fund_settings.stop_loss' | translate }}
                   </h2>
-                  <h3>{{ this.fund?.perdida }}%</h3>
+                  <h3 *ngIf="this.fund?.perdida !== manualSLTP.stopLoss">{{ this.fund?.perdida }}%</h3>
+                  <h3 *ngIf="this.fund?.perdida === manualSLTP.stopLoss">
+                    {{ 'shared.without_SL_TP.without_stop_loss' | translate }}
+                  </h3>
                 </ion-label>
                 <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
               </ion-item>
@@ -91,6 +97,7 @@ export class FundSettingsPage implements OnInit {
   fund: any;
   apiKeys: any;
   fundName: string;
+  manualSLTP = ManualSLTP;
 
   constructor(
     private apiFunds: ApiFundsService,
@@ -100,7 +107,7 @@ export class FundSettingsPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
-    this.fundName = this.route.snapshot.params.name;
+    this.fundName = this.route.snapshot.paramMap.get('name');
     this.getActiveFund();
     this.getApiKeys();
   }
