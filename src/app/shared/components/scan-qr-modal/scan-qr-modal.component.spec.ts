@@ -5,7 +5,7 @@ import { Renderer2, Type } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 
-fdescribe('ScanQrModalComponent', () => {
+describe('ScanQrModalComponent', () => {
   let component: ScanQrModalComponent;
   let fixture: ComponentFixture<ScanQrModalComponent>;
   let barcodeScannerMock: any;
