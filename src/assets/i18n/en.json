@@ -92,6 +92,10 @@
     },
     "app_icon_button_card": {
       "coming_soon": "Coming Soon"
+    },
+    "without_SL_TP": {
+      "without_stop_loss": "Manual",
+      "without_take_profit": "Manual"
     }
   },
   "usuarios": {
@@ -515,7 +519,7 @@
       "submit_button_edit": "Save",
       "edit_title": "Change Take Profit",
       "manual_stop": "I'm going to finish it manually",
-      "alert_manual_option": "“Keep in mind that investing without profit limits implies that you must end your investment manually."
+      "alert_manual_option": "Keep in mind that investing without profit limits implies that you must end your investment manually."
     },
     "fund_stop_loss": {
       "header": "Change Stop Loss",
@@ -530,7 +534,7 @@
       "edit_custom": "Edit",
       "edit_title": "Change Stop Loss",
       "manual_stop": "I'm going to finish it manually",
-      "alert_manual_option": "“Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies”"
+      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
