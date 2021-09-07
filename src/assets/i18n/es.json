@@ -1319,6 +1319,13 @@
       "description": "Generaremos otras 12 palabras para mayor seguridad. Recuerda que tienes que anotarlas y guardarlas en un lugar seguro.",
       "button": "Volver a intentarlo"
     },
+    "recovery_wallet": {
+      "header": "Importar Billetera",
+      "title": "Ingresar frase de recuperación",
+      "subtitle": "Escribe tus palabras separadas por un espacio",
+      "label": "Frase de recuperación",
+      "button": "Importar billetera"
+    },
     "send": {
       "select_currency": {
         "header": "Enviar",

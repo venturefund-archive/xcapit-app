@@ -111,7 +111,7 @@ export const SUCCESS_TYPES = {
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.error_wallet_recovery.title',
     textSecondary: 'wallets.error_wallet_recovery.description',
-    urlPrimaryAction: '/tabs/wallets',
+    urlPrimaryAction: '/wallets/recovery',
     namePrimaryAction: 'wallets.error_wallet_recovery.button',
   },
   success_wallet_recovery: {

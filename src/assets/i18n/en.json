@@ -1316,6 +1316,13 @@
       "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
       "button": "Try again"
     },
+    "recovery_wallet": {
+      "header": "Import Wallet",
+      "title": "Enter recovery phrase",
+      "subtitle": "Write your words separated by a space",
+      "label": "Recovery phrase",
+      "button": "Import Wallet"
+    },
     "send": {
       "select_currency": {
         "header": "Send",

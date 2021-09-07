@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { COINS } from '../constants/coins';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home-wallet',
@@ -39,6 +40,7 @@ import { COINS } from '../constants/coins';
       </div>
       <div class="wt__button">
         <ion-button
+          (click)="this.goToRecoveryWallet()"
           class="ux-font-text-xs"
           appTrackClick
           name="Import Wallet"
@@ -61,7 +63,7 @@ export class HomeWalletPage implements OnInit {
 
   coins = COINS;
 
-  constructor(private walletService: WalletService) {}
+  constructor(private navController: NavController, private walletService: WalletService) {}
 
   ngOnInit() {}
 
@@ -91,6 +93,10 @@ export class HomeWalletPage implements OnInit {
         this.getWalletsBalances();
       }
     });
+  }
+
+  goToRecoveryWallet() {
+    this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
   getWalletsBalances() {

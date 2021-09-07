@@ -4,6 +4,7 @@ import { COINS } from '../constants/coins';
 import { NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-select-coins-wallet',
@@ -12,7 +13,10 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'wallets.select_coin.header' | translate }}</ion-title>
+        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
+          'wallets.recovery_wallet.header' | translate
+        }}</ion-title>
+        <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.select_coin.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -71,6 +75,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 })
 export class SelectCoinsWalletPage implements OnInit {
   coins = COINS;
+  mode: string;
 
   form: FormGroup = this.formBuilder.group({
     ETH: [false],
@@ -83,12 +88,17 @@ export class SelectCoinsWalletPage implements OnInit {
   });
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private navController: NavController,
     private walletService: WalletService
   ) {}
   isChecked: boolean;
   almostOneChecked = false;
+
+  ionViewWillEnter() {
+    this.mode = this.route.snapshot.paramMap.get('mode');
+  }
 
   ngOnInit() {}
 
@@ -122,12 +132,23 @@ export class SelectCoinsWalletPage implements OnInit {
       Object.keys(this.form.value).forEach((key) => {
         if (this.form.value[key]) {
           const coin = this.coins.find((coinRes) => coinRes.value === key);
-
           if (coin) this.walletService.coins.push(coin);
         }
       });
-
-      this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+      this.navigateByMode();
+      // if (this.mode === 'import'){
+      //   this.walletService.create();
+      //   console.log(this.walletService.createdWallets);
+      //   this.navController.navigateForward(['/wallets/create-password', 'import'] );
+      // }else{
+      //   this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+      // }
     }
+  }
+
+  navigateByMode() {
+    const url =
+      this.mode === 'import' ? '/wallets/create-password' + '/import' : '/wallets/create-first/recovery-phrase';
+    this.navController.navigateForward([url]);
   }
 }

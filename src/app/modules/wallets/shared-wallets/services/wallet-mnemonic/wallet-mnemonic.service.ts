@@ -14,4 +14,8 @@ export class WalletMnemonicService {
   newMnemonic() {
     return ethers.Wallet.createRandom({ locale: this.languageService.selected }).mnemonic;
   }
+
+  importMnemonic(phrase: string) {
+    this.mnemonic = ethers.Wallet.fromMnemonic(phrase).mnemonic;
+  }
 }

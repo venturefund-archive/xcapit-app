@@ -51,6 +51,10 @@ const routes: Routes = [
         loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
       },
       {
+        path: 'recovery',
+        loadChildren: () => import('./recovery-wallet/recovery-wallet.module').then((m) => m.RecoveryWalletPageModule),
+      },
+      {
         path: 'send',
         children: [
           {
@@ -73,7 +77,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'recovery-wallet',
+        path: 'recovery',
         children: [
           {
             path: 'error',
@@ -92,10 +96,6 @@ const routes: Routes = [
         ],
       },
     ],
-  },
-  {
-    path: 'recovery-wallet',
-    loadChildren: () => import('./recovery-wallet/recovery-wallet.module').then((m) => m.RecoveryWalletPageModule),
   },
 ];
 
