@@ -26,7 +26,6 @@ import { UxCardInfoRobotComponent } from './components/ux-card-info-robot/ux-car
 import { UxListComponent } from './components/ux-list/ux-list.component';
 import { UxSelectModalComponent } from './components/ux-select-modal/ux-select-modal.component';
 import { UxInputSelectComponent } from './components/ux-input-select/ux-input-select.component';
-import { UxSelectableListComponent } from './components/ux-selectable-list/ux-selectable-list.component';
 import { LocalizedDatePipe } from './pipes/localized-date/localized-date.pipe';
 import { UxLoadingBlockComponent } from './components/ux-loading-block/ux-loading-block.component';
 import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-inverted.component';
@@ -39,6 +38,10 @@ import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
 import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
 import { SliderNewsCardComponent } from './components/slider-news/slider-news.component';
+import { UxListCardComponent } from './components/ux-list-card/ux-list-card.component';
+import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
+import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
+import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,7 @@ import { SliderNewsCardComponent } from './components/slider-news/slider-news.co
     XcapitLogoComponent,
     NeedHelpComponent,
     ToastAlertComponent,
+    ScanQrModalComponent,
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
@@ -65,7 +69,7 @@ import { SliderNewsCardComponent } from './components/slider-news/slider-news.co
     UxListInvertedComponent,
     UxSelectModalComponent,
     UxInputSelectComponent,
-    UxSelectableListComponent,
+    UxListCardComponent,
     UxLoadingBlockComponent,
     BinanceLogoComponent,
     SuccessContentComponent,
@@ -75,6 +79,8 @@ import { SliderNewsCardComponent } from './components/slider-news/slider-news.co
     UxDatetimeComponent,
     IconButtonCardComponent,
     SliderNewsCardComponent,
+    UxSegmentComponent,
+    UxInputUnderlinedComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -103,6 +109,7 @@ import { SliderNewsCardComponent } from './components/slider-news/slider-news.co
     XcapitLogoComponent,
     NeedHelpComponent,
     ToastAlertComponent,
+    ScanQrModalComponent,
     // Ux
     UxInputComponent,
     UxInputGooglePlacesComponent,
@@ -117,7 +124,7 @@ import { SliderNewsCardComponent } from './components/slider-news/slider-news.co
     UxListInvertedComponent,
     UxSelectModalComponent,
     UxInputSelectComponent,
-    UxSelectableListComponent,
+    UxListCardComponent,
     UxLoadingBlockComponent,
     BinanceLogoComponent,
     SuccessContentComponent,
@@ -127,6 +134,8 @@ import { SliderNewsCardComponent } from './components/slider-news/slider-news.co
     UxDatetimeComponent,
     IconButtonCardComponent,
     SliderNewsCardComponent,
+    UxSegmentComponent,
+    UxInputUnderlinedComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

@@ -12,14 +12,10 @@
 
   .tos-text {
     z-index: 1;
-    font-weight: 600;
 
     &__label {
       display: flex;
       justify-content: center;
-      font-family: var(--ux-font-lato);
-      color: #0000008a;
-      font-size: 12px;
       z-index: 1;
       margin: 0;
       margin-top: 20px;
@@ -29,7 +25,7 @@
     &__button {
       float: right;
       height: auto;
-      font-size: 12px;
+      font-size: var(--ux-fsize-14);
       min-width: 0px;
       margin: 0;
       --padding-start: 0.35em;
@@ -76,17 +72,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 600;
-    font-size: 12px;
-    font-family: var(--ux-font-lato);
-    color: #0000008a;
   }
 
   .main {
     &__back_login__button {
       float: right;
       height: auto;
-      font-size: 12px;
+      font-size: var(--ux-fsize-14);
       min-width: 0px;
       margin: 0;
       .button-native {

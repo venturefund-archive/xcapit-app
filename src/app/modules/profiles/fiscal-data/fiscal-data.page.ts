@@ -15,44 +15,27 @@ import { BillType } from '../user-profile/enums/bill_types.enum';
     <ion-header>
       <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="/profiles/personal-data"
-          ></ion-back-button>
+          <ion-back-button defaultHref="/profiles/personal-data"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'profiles.fiscal_data.header' | translate
-        }}</ion-title>
+        <ion-title>{{ 'profiles.fiscal_data.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content>
-      <form
-        [formGroup]="this.form"
-        (ngSubmit)="this.save()"
-        *ngIf="this.isFormSet"
-        class="ion-padding ux_main"
-      >
+      <form [formGroup]="this.form" (ngSubmit)="this.save()" *ngIf="this.isFormSet" class="ion-padding ux_main">
         <div class="ux_content">
           <div class="fd__fiscal_data_title">
-            <app-ux-title>{{
-              'profiles.fiscal_data.fiscal_data_title' | translate
-            }}</app-ux-title>
+            <app-ux-title>{{ 'profiles.fiscal_data.fiscal_data_title' | translate }}</app-ux-title>
           </div>
           <div class="fd__fiscal_data_not_sure_text">
-            <app-ux-text>{{
-              'profiles.fiscal_data.not_sure_text' | translate
-            }}</app-ux-text>
+            <app-ux-text>{{ 'profiles.fiscal_data.not_sure_text' | translate }}</app-ux-text>
           </div>
 
           <!-- Pais -->
           <app-ux-input-select
             [label]="'profiles.fiscal_data.country' | translate"
-            [modalTitle]="
-              'profiles.fiscal_data.country_placeholder' | translate
-            "
-            [placeholder]="
-              'profiles.fiscal_data.country_placeholder' | translate
-            "
+            [modalTitle]="'profiles.fiscal_data.country_placeholder' | translate"
+            [placeholder]="'profiles.fiscal_data.country_placeholder' | translate"
             controlName="pais"
             [data]="this.countries"
           ></app-ux-input-select>
@@ -68,43 +51,26 @@ import { BillType } from '../user-profile/enums/bill_types.enum';
           ></app-ux-input>
 
           <!-- Condicion IVA -->
-          <app-ux-radio-group
-            [label]="'profiles.fiscal_data.iva_condition' | translate"
-          >
+          <app-ux-radio-group [label]="'profiles.fiscal_data.iva_condition' | translate">
             <ion-list>
               <ion-radio-group formControlName="condicion_iva">
-                <div
-                  class="container"
-                  *ngFor="let ci of condicionesIva; let last = last"
-                >
+                <div class="container" *ngFor="let ci of condicionesIva; let last = last">
                   <ion-item>
                     <ion-label>{{ ci }}</ion-label>
-                    <ion-radio
-                      mode="md"
-                      slot="start"
-                      [value]="ci"
-                      checked
-                    ></ion-radio>
+                    <ion-radio mode="md" slot="start" [value]="ci" checked></ion-radio>
                   </ion-item>
                   <div class="list-divider" *ngIf="!last"></div>
                 </div>
               </ion-radio-group>
             </ion-list>
-            <app-errors-form-item
-              controlName="condicion_iva"
-            ></app-errors-form-item>
+            <app-errors-form-item controlName="condicion_iva"></app-errors-form-item>
           </app-ux-radio-group>
 
           <!-- Tipo factura -->
-          <app-ux-radio-group
-            [label]="'profiles.fiscal_data.tipo_factura' | translate"
-          >
+          <app-ux-radio-group [label]="'profiles.fiscal_data.tipo_factura' | translate">
             <ion-list>
               <ion-radio-group formControlName="tipo_factura">
-                <div
-                  class="container"
-                  *ngFor="let tf of tiposFactura; let last = last"
-                >
+                <div class="container" *ngFor="let tf of tiposFactura; let last = last">
                   <ion-item>
                     <ion-label>{{ tf }}</ion-label>
                     <ion-radio mode="md" slot="start" [value]="tf"></ion-radio>
@@ -114,9 +80,7 @@ import { BillType } from '../user-profile/enums/bill_types.enum';
                 </div>
               </ion-radio-group>
             </ion-list>
-            <app-errors-form-item
-              controlName="tipo_factura"
-            ></app-errors-form-item>
+            <app-errors-form-item controlName="tipo_factura"></app-errors-form-item>
           </app-ux-radio-group>
         </div>
         <div class="ux_footer">
@@ -137,7 +101,7 @@ import { BillType } from '../user-profile/enums/bill_types.enum';
       </form>
     </ion-content>
   `,
-  styleUrls: ['./fiscal-data.page.scss']
+  styleUrls: ['./fiscal-data.page.scss'],
 })
 export class FiscalDataPage implements OnInit {
   disabledButton = false;
@@ -150,14 +114,9 @@ export class FiscalDataPage implements OnInit {
     tipo_factura: ['', [Validators.required]],
     cuit: [
       '',
-      [
-        Validators.required,
-        Validators.minLength(7),
-        Validators.maxLength(15),
-        Validators.pattern('[0-9][^.a-zA-Z]*$')
-      ]
+      [Validators.required, Validators.minLength(7), Validators.maxLength(15), Validators.pattern('[0-9][^.a-zA-Z]*$')],
     ],
-    pais: ['', [Validators.required, Validators.maxLength(150)]]
+    pais: ['', [Validators.required, Validators.maxLength(150)]],
   };
 
   form: FormGroup;
@@ -169,7 +128,7 @@ export class FiscalDataPage implements OnInit {
   countries = Object.values(Countries);
 
   interfaceOptions = {
-    header: this.translate.instant('profiles.fiscal_data.country')
+    header: this.translate.instant('profiles.fiscal_data.country'),
   };
 
   constructor(
@@ -188,7 +147,7 @@ export class FiscalDataPage implements OnInit {
       this.disabledButton = true;
       this.apiProfiles.crud.update(this.form.value).subscribe(() => {
         this.navController.navigateForward(['/profiles/success'], {
-          replaceUrl: true
+          replaceUrl: true,
         });
         this.disabledButton = false;
       });
@@ -200,6 +159,6 @@ export class FiscalDataPage implements OnInit {
   setForm() {
     this.form = this.formBuilder.group({ ...this.controls });
     this.isFormSet = true;
-    this.apiProfiles.crud.get().subscribe(res => this.form.patchValue(res));
+    this.apiProfiles.crud.get().subscribe((res) => this.form.patchValue(res));
   }
 }

@@ -31,6 +31,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
         <ng-content select=".auth-link-reset-password"></ng-content>
 
         <app-ux-checkbox
+          class="ux-font-text-xs"
           *ngIf="!this.isLogin"
           class="normal"
           [label]="'usuarios.register.manual_referral' | translate"

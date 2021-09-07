@@ -12,7 +12,7 @@ import { NavController } from '@ionic/angular';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'notifications.notifications_list.header' | translate }}</ion-title>
+        <ion-title>{{ 'notifications.notifications_list.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="">

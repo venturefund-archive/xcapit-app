@@ -10,6 +10,7 @@
 .wt {
   &__title {
     color: white;
+    font-weight: var(--ux-fweight-semibold);
   }
 
   &__amount {
@@ -22,8 +23,15 @@
   }
 
   &__balance {
-    margin-top: 24px;
+    margin-top: 10px;
     &__wallet-balance-card {
+      margin-top: 8px;
+    }
+  }
+
+  &__transaction {
+    margin-top: 24px;
+    &__wallet-transaction-card {
       margin-top: 8px;
     }
   }
@@ -40,7 +48,14 @@
       height: 121px;
       width: 100%;
       background-color: var(--ion-color-uxprimary);
+      &__title {
+        color: red;
+      }
     }
+  }
+
+  &__overlap_buttons {
+    margin-top: -28px;
   }
 
   &__transactions-list {
@@ -50,5 +65,12 @@
       margin-top: 24px;
       margin-bottom: 10px;
     }
+  }
+
+  &__transaction-history {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

@@ -13,13 +13,6 @@ const { Browser } = Plugins;
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-buttons slot="start">
-          <ion-button appTrackClick name="Go To Profile" (click)="this.goToProfile()">
-            <ion-avatar class="avatar">
-              <img src="assets/img/user-profile/avatar-default.png" />
-            </ion-avatar>
-          </ion-button>
-        </ion-buttons>
         <ion-buttons slot="end" *ngIf="true">
           <ion-button appTrackClick name="Show Notifications" (click)="this.showNotifications()">
             <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
@@ -64,7 +57,6 @@ const { Browser } = Plugins;
         <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWalletWaitingList()">
           <div class="wmw__image">
             <ion-img src="../assets/img/home/want_my_wallet.svg" alt="Girl with coins"></ion-img>
-            <!-- <ion-icon color="uxprimary" name="ux-want_my_wallet"> </ion-icon> -->
           </div>
           <div class="wmw__content">
             <div class="wmw__content__title">
@@ -84,7 +76,12 @@ const { Browser } = Plugins;
         </div>
 
         <div class="two_cards">
-          <div class="strategies vertical-card">
+          <div
+            class="strategies vertical-card"
+            appTrackClick
+            name="Go to Strategies Cards"
+            (click)="this.goToStrategies()"
+          >
             <div class="strategies__image">
               <ion-img src="../assets/img/home/girl_with_screen.svg"></ion-img>
             </div>
@@ -211,10 +208,6 @@ export class HomePage implements OnInit {
     this.unreadNotifications = 0;
   }
 
-  goToProfile() {
-    this.navController.navigateForward('/profiles/user');
-  }
-
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
       await this.getNews();
@@ -232,13 +225,19 @@ export class HomePage implements OnInit {
   }
 
   async goToWalletWaitingList() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
-      url: 'https://www.xcapit.com/#lista-espera',
-    });
+    // TODO: Restore this code after presentation
+    // await Browser.open({
+    //   toolbarColor: '#ff9100',
+    //   url: 'https://www.xcapit.com/#lista-espera',
+    // });
+    this.navController.navigateForward('/tabs/wallets');
   }
 
   goToSupportPage() {
-    this.navController.navigateForward(['/tickets/create-support-ticket']);
+    this.navController.navigateForward('/tickets/create-support-ticket');
+  }
+
+  goToStrategies() {
+    this.navController.navigateForward('/funds/fund-investment/show');
   }
 }

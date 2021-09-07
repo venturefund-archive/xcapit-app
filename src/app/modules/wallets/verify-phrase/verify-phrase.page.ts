@@ -18,9 +18,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
     <ion-content class="ion-padding">
       <div name="Content" class="ux-content">
         <div class="title">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-            'wallets.verify_phrase.title' | translate
-          }}</ion-text>
+          <ion-text class="ux-font-text-xl">{{ 'wallets.verify_phrase.title' | translate }}</ion-text>
         </div>
         <ion-slides [options]="options">
           <ion-slide class="slide" *ngFor="let word of this.phrase; let i = index">
@@ -28,12 +26,13 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
               <div class="div-input">
                 <ion-button
                   class="input-word"
+                  [id]="i"
                   [ngClass]="{ active: this.verificationPhrase[i] }"
                   size="small"
                   fill="clear"
-                  (click)="this.deleteWord(this.verificationPhrase[i])"
+                  (click)="this.deleteWord(i)"
                   >{{ this.verificationPhrase[i] }}
-                  <ion-icon style="color:white;" name="close" slot="end"></ion-icon>
+                  <ion-icon name="close" slot="end"></ion-icon>
                 </ion-button>
               </div>
               <ion-label class="label-card">{{ i + 1 + '/' + this.countWords }}</ion-label>
@@ -41,9 +40,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
           </ion-slide>
         </ion-slides>
         <div class="text1">
-          <ion-text class="text1 ux-font-lato ux-fweight-semibold ux-fsize-15">{{
-            'wallets.verify_phrase.text1' | translate
-          }}</ion-text>
+          <ion-text class="text1 ux-font-text-base">{{ 'wallets.verify_phrase.text1' | translate }}</ion-text>
         </div>
         <div *ngIf="this.phrase">
           <app-recovery-phrase-card
@@ -128,10 +125,19 @@ export class VerifyPhrasePage {
     return JSON.stringify(this.verificationPhrase) === JSON.stringify(this.phrase);
   }
 
-  deleteWord(word: string) {
-    this.verificationPhrase.pop();
-    this.recoveryPhraseComponent.enable(word);
-    this.slide = 0;
+  async deleteWord(index: number) {
+    const word = this.verificationPhrase[index];
+    const activeIndex = this.getActiveIndex();
+
+    if (activeIndex - 1 === index && word) {
+      this.verificationPhrase.pop();
+      this.blockPrevSlide(false);
+      this.slides.slidePrev();
+      this.blockPrevSlide(true);
+      this.recoveryPhraseComponent.enable(word);
+      this.slide--;
+      this.activated = this.verificationPhrase.length === this.countWords;
+    }
   }
 
   createWallet() {
@@ -141,5 +147,9 @@ export class VerifyPhrasePage {
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
+  }
+
+  getActiveIndex() {
+    return this.verificationPhrase.length;
   }
 }

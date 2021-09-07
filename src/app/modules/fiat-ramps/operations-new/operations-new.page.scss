@@ -1,6 +1,9 @@
 :host {
   width: 100%;
-
+  .custom-color {
+    color: var(--ion-color-uxsemidark);
+    font-size: var(--ux-fsize-14);
+  }
   .ux-card {
     background-color: var(--ion-color-uxlight);
     border-radius: 8px;

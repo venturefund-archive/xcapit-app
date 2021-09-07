@@ -13,7 +13,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center"> {{ 'referrals.new_referral_page.header' | translate }}</ion-title>
+        <ion-title> {{ 'referrals.new_referral_page.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -24,7 +24,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
             <app-share-referral-card [referralId]="this.referralId" *ngIf="this.referralId"></app-share-referral-card>
           </div>
           <div class="src__referrals-list__label">
-            <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
+            <ion-label class="ux-font-input-label">
               {{ 'referrals.new_referral_page.points_title' | translate }}
             </ion-label>
           </div>
@@ -32,7 +32,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
             <app-points-card></app-points-card>
           </div>
           <div class="src__referrals-list__label">
-            <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
+            <ion-label class="ux-font-input-label">
               {{ 'referrals.new_referral_page.prize_title' | translate }}
             </ion-label>
           </div>
@@ -40,7 +40,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
             <app-prize-card></app-prize-card>
           </div>
           <div class="src__referrals-list__label">
-            <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
+            <ion-label class="ux-font-input-label">
               {{ 'referrals.new_referral_page.list_title' | translate }}
             </ion-label>
           </div>

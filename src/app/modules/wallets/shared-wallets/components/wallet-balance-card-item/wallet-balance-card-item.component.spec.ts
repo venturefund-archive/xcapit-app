@@ -40,7 +40,7 @@ const testBalances: any = {
   },
 };
 
-fdescribe('WalletBalanceCardItemComponent', () => {
+describe('WalletBalanceCardItemComponent', () => {
   let component: WalletBalanceCardItemComponent;
   let fixture: ComponentFixture<WalletBalanceCardItemComponent>;
 

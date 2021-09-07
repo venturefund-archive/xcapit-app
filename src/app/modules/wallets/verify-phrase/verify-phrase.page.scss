@@ -1,6 +1,8 @@
 :host {
   .text1 {
     text-align: center;
+    font-size: var(--ux-fsize-15);
+    font-weight: var(--ux-fweight-semibold);
   }
 
   .create_button {
@@ -22,6 +24,10 @@
     margin-left: 20px;
     margin-right: 20px;
     border-bottom: 1px solid grey;
+
+    ion-icon {
+      color: var(--ion-color-uxlight);
+    }
   }
 
   .text-card {

@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-ux-alert-message',
   template: `
-    <div class="am" [ngClass]="this.type">
+    <div class="am ux-font-text-xs" [ngClass]="this.type">
       <div class="am__icon">
         <ion-icon [name]="this.iconName"></ion-icon>
       </div>
@@ -12,7 +12,7 @@ import { Component, OnInit, Input } from '@angular/core';
       </div>
     </div>
   `,
-  styleUrls: ['./ux-alert-message.component.scss']
+  styleUrls: ['./ux-alert-message.component.scss'],
 })
 export class UxAlertMessageComponent implements OnInit {
   constructor() {}

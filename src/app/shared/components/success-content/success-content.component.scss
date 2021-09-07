@@ -33,11 +33,13 @@
     &__secondary_text {
       margin-top: 16px;
       text-align: center;
+      .text {
+        font-size: var(--ux-fsize-14);
+      }
     }
     &__third_text {
       margin-top: 16px;
       text-align: center;
-      color: #828282;
     }
 
     &__actions {
@@ -52,7 +54,7 @@
       &__secondary {
         margin-top: 8px;
         .ux_button {
-          font-size: 12px !important;
+          font-size: var(--ux-fsize-14);
           margin-top: 0px;
           text-align: center;
         }
