@@ -481,9 +481,9 @@
       },
       "balance_not_enough": {
         "title": "You need USD${{minBalance}} in your Binance account to start investing.",
-        "message": "Load balance in your Binance account",
+        "message": "Buy crypto at Xcapit",
         "cancel_text": "Cancel",
-        "ok_text": "Go to Binance"
+        "ok_text": "Buy"
       },
       "no_apikeys_modal": {
         "first_title": "Link account",
