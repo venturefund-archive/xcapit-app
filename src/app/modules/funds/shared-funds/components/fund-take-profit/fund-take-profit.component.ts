@@ -7,6 +7,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
+import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
 
 @Component({
   selector: 'app-fund-select-take-profit',
@@ -182,9 +183,11 @@ export class FundTakeProfitComponent implements OnInit {
   }
 
   async openCustomTP() {
+    const currentTP = this.form.value.take_profit;
+    const selectedValue = currentTP === ManualSLTP.takeProfit ? '3' : currentTP;
     const modal = await this.modalController.create({
       component: CustomRangeModalComponent,
-      componentProps: { selected: this.form.value.take_profit, max: 1000, min: 3 },
+      componentProps: { selected: selectedValue, max: 1000, min: 3 },
       cssClass: 'ux_modal_crm',
     });
 
