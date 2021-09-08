@@ -25,7 +25,8 @@
       "minlength": "Se requieren más caracteres",
       "maxlength": "Se requieren menos caracteres",
       "not_matching": "Los campos no coinciden",
-      "has_special_character": "No permite caracteres especiales ni espacios"
+      "has_special_character": "No permite caracteres especiales ni espacios",
+      "count_words_match": "La cantidad de palabras es distinta de 12"
     },
     "field_errors": {
       "cellphone": {

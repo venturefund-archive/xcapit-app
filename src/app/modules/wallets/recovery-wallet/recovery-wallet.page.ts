@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { isWhileStatement } from 'typescript';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 
@@ -77,9 +79,15 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
 })
 export class RecoveryWalletPage implements OnInit {
   validPhrase: string;
-  form: FormGroup = this.formBuilder.group({
-    phrase: ['', [Validators.required, Validators.maxLength(2000)]],
-  });
+  form: FormGroup = this.formBuilder.group(
+    {
+      phrase: ['', [Validators.required]],
+    },
+    {
+      validators: [CustomValidators.countWordsValidator],
+    }
+  );
+
   constructor(
     private clipboardService: ClipboardService,
     private formBuilder: FormBuilder,
@@ -97,11 +105,14 @@ export class RecoveryWalletPage implements OnInit {
     });
   }
 
+  eraseSpacesBetweenWords() {
+    this.validPhrase = this.form.value.phrase.trim().replace(/\s\s+/g, ' ');
+  }
+
   handleSubmit() {
     if (this.form.valid) {
       try {
-        this.validPhrase = this.form.value.phrase;
-        this.validPhrase = this.validPhrase.trim().replace(/\s\s+/g, ' ');
+        this.eraseSpacesBetweenWords();
         this.walletMnemonicService.importMnemonic(this.validPhrase);
         this.navController.navigateForward(['wallets/select-coins', 'import']);
       } catch (e) {
