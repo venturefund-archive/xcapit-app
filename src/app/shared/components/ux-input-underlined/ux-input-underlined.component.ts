@@ -15,6 +15,9 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
           [readonly]="this.readonly"
           [debounce]="this.debounce"
         ></ion-input>
+        <div id="loading" *ngIf="this.loading">
+          <app-ux-loading-block></app-ux-loading-block>
+        </div>
       </ion-item>
       <div class="iu__labels">
         <ion-label class="ux-font-lato ux-fweight-regular ux-fsize-10">{{ this.labelLeft }}</ion-label>
@@ -42,6 +45,7 @@ export class UxInputUnderlinedComponent implements OnInit {
   @Input() maxlength: number;
   @Input() readonly: boolean;
   @Input() debounce = 0;
+  @Input() loading = false;
 
   constructor() {}
 

@@ -31,7 +31,12 @@ describe('ApiWalletService', () => {
 
   it('should call post on getPrices with coins', () => {
     service.getPrices([]).subscribe(() => {
-      expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), { bases: [] });
+      expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), { bases: [] }, null, true);
+    });
+  });
+  it('should call post on getPrices with coins and loading false', () => {
+    service.getPrices([], false).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), { bases: [] }, null, false);
     });
   });
 });

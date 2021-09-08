@@ -17,9 +17,14 @@ export class ApiWalletService {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
 
-  getPrices(coins: string[]): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/get_symbol_prices`, {
-      bases: coins,
-    });
+  getPrices(coins: string[], loading = true): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/get_symbol_prices`,
+      {
+        bases: coins,
+      },
+      null,
+      loading
+    );
   }
 }
