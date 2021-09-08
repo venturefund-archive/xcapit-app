@@ -9,6 +9,11 @@ import { navControllerMock } from '../../../../testing/spies/nav-controller-mock
 import { SelectCoinsWalletPage } from './select-coins-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { By } from '@angular/platform-browser';
+import { ItemCoinComponent } from '../shared-wallets/components/item-coin/item-coin.component';
+import { UxRadioGroupComponent } from 'src/app/shared/components/ux-radio-group/ux-radio-group.component';
+import { UxTitleComponent } from 'src/app/shared/components/ux-title/ux-title.component';
+import { UxTextComponent } from 'src/app/shared/components/ux-text/ux-text.component';
 
 const testCoins = [
   {
@@ -46,14 +51,20 @@ describe('SelectCoinsWalletPage', () => {
         coins: [],
       };
       TestBed.configureTestingModule({
-        declarations: [SelectCoinsWalletPage, TrackClickDirective],
-        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
+        declarations: [
+          SelectCoinsWalletPage,
+          TrackClickDirective,
+          ItemCoinComponent,
+          UxRadioGroupComponent,
+          UxTitleComponent,
+          UxTextComponent,
+        ],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [
           TrackClickDirective,
           { provide: NavController, useValue: navControllerMock },
           { provide: WalletService, useValue: walletServiceMock },
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
   );

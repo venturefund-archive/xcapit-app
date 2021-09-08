@@ -9,7 +9,6 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
       <ion-label class="ic__label">{{ this.coin.name }}</ion-label>
       <ion-toggle
         (ionChange)="this.onChange()"
-        [attr.disabled]="this.disabled"
         [formControlName]="this.coin.value"
         [value]="this.coin"
         [checked]="this.isChecked"
@@ -31,7 +30,6 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 export class ItemCoinComponent implements OnInit {
   @Input() coin: any;
   @Input() isChecked: boolean;
-  @Input() disabled: boolean;
   @Output() change: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
