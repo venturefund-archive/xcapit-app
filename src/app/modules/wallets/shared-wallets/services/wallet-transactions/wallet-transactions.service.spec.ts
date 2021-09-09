@@ -145,7 +145,7 @@ describe('WalletTransactionsService', () => {
       dismiss: Promise.resolve(),
     });
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-      getDecryptedWallet: Promise.resolve({ connect: () => connectedWalletSpy }),
+      getDecryptedWalletForCurrency: Promise.resolve({ connect: () => connectedWalletSpy }),
     });
 
     blockchainProviderServiceMock = {
@@ -186,7 +186,7 @@ describe('WalletTransactionsService', () => {
       to: 'testAddress',
       value: ethers.utils.parseEther('20'),
     });
-    expect(walletEncryptionServiceSpy.getDecryptedWallet).toHaveBeenCalledOnceWith('testPassword');
+    expect(walletEncryptionServiceSpy.getDecryptedWalletForCurrency).toHaveBeenCalledOnceWith('testPassword', ETH);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
   });
