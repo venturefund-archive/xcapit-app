@@ -1533,6 +1533,38 @@
         "cancel_label": "Cancel and enter manually",
         "text": "Point your camera towards a QR code."
       }
+    },
+    "exchange_information": {
+      "header": "Link API Key",
+      "title": "Binance is our Partner and the largest exchange in the world",
+      "description": "Every investment you make in Xcapit needs to connect to a unique Binance API. But first step by step choose:",
+      "cards": {
+        "have_exchange_account": {
+          "title": "I already have a Binance account",
+          "description": "If you already have a Binance account, let's go to the next step."
+        },
+        "dont_have_exchange_account": {
+          "title": "I don't have a Binance account",
+          "description": "We tell you how to create a free account in the largest exchange in the world."
+        }
+      },
+      "information_card": "Remember that for your safety, we will only have permits to operate on the total of your capital in the Spot wallet. We will not be able to make withdrawals."
+    },
+    "apikey_information": {
+      "header": "Link API Key",
+      "title": "An API key is used to connect your Binance account with Xcapit",
+      "description": "The API Key is a code that only allows us to manage your account. You must create it for it to exist. ",
+      "cards": {
+        "have_apikey": {
+          "title": "I already have API Key ",
+          "description": "If you have already created your API Key with Binance, let's go to the next step."
+        },
+        "dont_have_apikey": {
+          "title": "I don't have an API Key",
+          "description": "If you never created an API Key, we can help you create one."
+        }
+      },
+      "what_is_api_key": "What is an API Key?"
     }
   },
   "deposit_addresses": {
