@@ -48,7 +48,7 @@ describe('RecoveryWalletPage', () => {
         read: () => Promise.resolve({ value: 'phrase', type: 'text/plain' }),
       };
       walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
-        importMnemonic: () => testMnemonic.phrase,
+        importMnemonic: () => testMnemonic,
       });
       TestBed.configureTestingModule({
         declarations: [RecoveryWalletPage, TrackClickDirective],
