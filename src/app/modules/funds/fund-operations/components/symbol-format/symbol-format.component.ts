@@ -3,8 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-symbol-format',
   template: `
-    <ion-text class="base ux-font-lato ux-fweight-regular ux-fsize-12">{{ this.base }}</ion-text
-    ><ion-text color="uxsemidark" class="quote ux-font-lato ux-fweight-regular">/{{ this.quote }}</ion-text>
+    <ion-text class="base ux-font-text-xxs">{{ this.base }}</ion-text
+    ><ion-text color="uxsemidark" class="quote ux-font-text-xxs">/{{ this.quote }}</ion-text>
   `,
   styleUrls: ['./symbol-format.component.scss'],
 })

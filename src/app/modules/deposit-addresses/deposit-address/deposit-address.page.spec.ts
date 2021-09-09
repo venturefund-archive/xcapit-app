@@ -28,51 +28,49 @@ describe('DepositAddressPage', () => {
     success: true,
     addressTag: '',
     asset: 'BTC',
-    url: 'https://1234.com'
+    url: 'https://1234.com',
   };
   let clipboardServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DepositAddressPage>;
   let toastServiceSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    toastServiceSpy = jasmine.createSpyObj('ToastService', [
-      'showToast',
-    ]);
-    apiDaServiceMock = {
-      getDepositAddress: () => of(depositAddressData)
-    };
-    logsServiceMock = {
-      log: () => of({})
-    };
-    clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
-    clipboardServiceSpy.write.and.returnValue(Promise.resolve());
-    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        currency: 'BTC'
-      })
-    };
-    TestBed.configureTestingModule({
-      declarations: [ DepositAddressPage, TrackClickDirective, DummyComponent ],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-        IonicModule,
-        RouterTestingModule.withRoutes([
-          { path: 'tabs/funds', component: DummyComponent }
-        ])
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: ApiDaService, useValue: apiDaServiceMock },
-        { provide: LogsService, useValue: logsServiceMock },
-        { provide: ClipboardService, useValue: clipboardServiceSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy },
-        { provide: ToastService, useValue: toastServiceSpy }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
+      apiDaServiceMock = {
+        getDepositAddress: () => of(depositAddressData),
+      };
+      logsServiceMock = {
+        log: () => of({}),
+      };
+      clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
+      clipboardServiceSpy.write.and.returnValue(Promise.resolve());
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+      activatedRouteSpy.snapshot = {
+        paramMap: convertToParamMap({
+          currency: 'BTC',
+        }),
+      };
+      TestBed.configureTestingModule({
+        declarations: [DepositAddressPage, TrackClickDirective, DummyComponent],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          ReactiveFormsModule,
+          IonicModule,
+          RouterTestingModule.withRoutes([{ path: 'tabs/home', component: DummyComponent }]),
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: ApiDaService, useValue: apiDaServiceMock },
+          { provide: LogsService, useValue: logsServiceMock },
+          { provide: ClipboardService, useValue: clipboardServiceSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DepositAddressPage);
@@ -87,16 +85,13 @@ describe('DepositAddressPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getDepositAdress on ionViewWillEnter', async (done) => {
+  it('should call getDepositAdress on ionViewWillEnter', async () => {
     const spy = spyOn(apiDaService, 'getDepositAddress');
     spy.and.returnValue(of(depositAddressData));
     component.ionViewWillEnter();
     component.currency = 'BTC';
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   describe('Deposit Address loaded', () => {
@@ -108,20 +103,14 @@ describe('DepositAddressPage', () => {
       fixture.detectChanges();
     });
 
-    it('should call write in ClipboardService when call copyToClipboard', async (done) => {
+    it('should call write in ClipboardService when call copyToClipboard', async () => {
       clipboardServiceSpy.write.and.returnValue(of({}).toPromise());
-      fixture.whenStable().then(() => {
-        component.copyToClipboard();
-        expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
-      });
-      done();
+      component.copyToClipboard();
+      expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
     });
 
     it('should call trackEvent on trackService when Copy Deposit Address is clicked', () => {
-      const el = trackClickDirectiveHelper.getByElementByName(
-        'ion-button',
-        'Copy Deposit Address'
-      );
+      const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Copy Deposit Address');
       const directive = trackClickDirectiveHelper.getDirective(el);
       const spyClickEvent = spyOn(directive, 'clickEvent');
       clipboardServiceSpy.write.and.returnValue(of({}).toPromise());
@@ -132,10 +121,7 @@ describe('DepositAddressPage', () => {
 
     it('should call trackEvent on trackService when Open URL Deposit Address is clicked', () => {
       spyOn(window, 'open');
-      const el = trackClickDirectiveHelper.getByElementByName(
-        'ion-button',
-        'Open URL Deposit Address'
-      );
+      const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Open URL Deposit Address');
       const directive = trackClickDirectiveHelper.getDirective(el);
       const spyClickEvent = spyOn(directive, 'clickEvent');
       el.nativeElement.click();
@@ -144,15 +130,12 @@ describe('DepositAddressPage', () => {
     });
 
     it('should call trackEvent on trackService when back to home is clicked', () => {
-      const el = trackClickDirectiveHelper.getByElementByName(
-        'ion-button',
-        'Back Home'
-      );
+      const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Back Home');
       const directive = trackClickDirectiveHelper.getDirective(el);
       const spyClickEvent = spyOn(directive, 'clickEvent');
       el.nativeElement.click();
       fixture.detectChanges();
       expect(spyClickEvent).toHaveBeenCalledTimes(1);
     });
-  })
+  });
 });

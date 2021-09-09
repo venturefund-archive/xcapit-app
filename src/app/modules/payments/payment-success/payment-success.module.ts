@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PaymentSuccessPage } from './payment-success.page';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedPaymentsModule } from '../shared-payments/shared-payments.module';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(routes)],
+  imports: [SharedPaymentsModule, RouterModule.forChild(routes)],
   declarations: [PaymentSuccessPage],
 })
 export class PaymentSuccessPageModule {}

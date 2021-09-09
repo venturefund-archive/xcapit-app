@@ -5,13 +5,10 @@ import { Plugins, ShareOptions, ClipboardWrite } from '@capacitor/core';
 const { Share } = Plugins;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShareService {
-  constructor(
-    private toastService: ToastService,
-    private clipboardService: ClipboardService
-  ) {}
+  constructor(private toastService: ToastService, private clipboardService: ClipboardService) {}
   /**
    * Funcion que comparte segun la plataforma, si no puede lo copia al clipboard
    * @param data - Data para compartir.
@@ -22,13 +19,11 @@ export class ShareService {
       () => {},
       () => {
         const clipboardData = {
-          string: data.text.concat(data.url),
+          string: data.text.concat(data.url || ''),
           label: data.title,
-          url: data.url
+          url: data.url,
         } as ClipboardWrite;
-        this.clipboardService
-          .write(clipboardData)
-          .then(() => this.showToast(copiedMessage));
+        this.clipboardService.write(clipboardData).then(() => this.showToast(copiedMessage));
       }
     );
   }

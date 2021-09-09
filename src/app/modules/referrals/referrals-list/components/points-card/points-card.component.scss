@@ -1,33 +1,36 @@
 :host {
-    width: 100%;
-    .ric {
-      background-color: var(--ion-color-uxlight);
-      border-radius: 8px;
-  
-      &__content {
+  width: 100%;
+  .badge {
+    --background: rgba(239, 246, 255, 1);
+    color: rgba(30, 64, 175, 1);
+  }
+  .ric {
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+
+    &__content {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 16px 24px 16px;
+      width: auto;
+      height: 43px;
+
+      &__right {
+        margin-top: 15px;
+        margin-bottom: 15px;
         display: flex;
-        justify-content: space-between;
-        padding: 16px 16px 24px 16px;
-        width: auto;
-        height: 43px;
-        
-        &__right {
-          margin-top: 15px;
-          margin-bottom: 15px;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          align-items: flex-end;
-        }
-        &__left {
-          margin-top: 15px;
-          margin-bottom: 15px;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          align-items: flex-start;
-        }
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+      }
+      &__left {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
       }
     }
   }
-  
+}

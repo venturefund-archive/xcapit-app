@@ -13,12 +13,12 @@ import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tic
         <div class="ux_content">
           <div class="header">
             <div class="header__title">
-              <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+              <ion-text class="ux-font-text-xl">
                 {{ 'payment.contact.title' | translate }}
               </ion-text>
             </div>
             <div class="header__text">
-              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+              <ion-text class="ux-font-text-xs">
                 {{ 'payment.contact.textPrimary' | translate }}
               </ion-text>
             </div>
@@ -90,7 +90,6 @@ export class ContactLicensePage implements OnInit {
     this.form.patchValue({ category_code: 'PREMIUM_ACCOUNTS' });
     this.form.patchValue({ subject: 'Cuenta Premium' });
     if (this.form.valid) {
-      console.log(this.form.value);
       this.createTicket();
     } else {
       this.form.markAllAsTouched();

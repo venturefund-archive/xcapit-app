@@ -81,11 +81,13 @@
         align-items: flex-end;
       }
       &__view_fund {
+        font-weight: VAR(--ux-fweight-semibold);
         ion-icon {
           height: 10px;
         }
       }
       &__renovate_fund {
+        font-weight: VAR(--ux-fweight-semibold);
         ion-icon {
           height: 10px;
         }

@@ -32,7 +32,7 @@ const { Browser } = Plugins;
       <div class="main">
         <app-auth-form (send)="this.registerUser($event)">
           <div class="tos-text">
-            <div class="tos-text__label">
+            <div class="ux-font-text-xs tos-text__label">
               {{ 'usuarios.register.accept_tos' | translate }}
 
               <ion-button
@@ -41,7 +41,7 @@ const { Browser } = Plugins;
                 type="button"
                 appTrackClickUnauth
                 name="Open TOS"
-                class="tos-text__button ux_button"
+                class="ux-font-text-xs tos-text__button ux_button"
                 routerDirection="back"
                 (click)="openTOS()"
               >
@@ -64,7 +64,7 @@ const { Browser } = Plugins;
               {{ 'usuarios.register.submit_button' | translate }}
             </ion-button>
           </div>
-          <div class="auth-link ion-text-right ion-padding-top">
+          <div class="ux-font-text-xs auth-link ion-text-right ion-padding-top">
             {{ 'usuarios.register.have_an_account' | translate }}
             <ion-button
               fill="clear"
@@ -185,14 +185,14 @@ export class RegisterPage implements OnInit {
 
   async openTOS() {
     await Browser.open({
-      toolbarColor: 'red',
+      toolbarColor: '#ff9100',
       url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
     });
   }
 
   async openWaitingList() {
     await Browser.open({
-      toolbarColor: 'red',
+      toolbarColor: '#ff9100',
       url: 'https://www.xcapit.com/waiting-list',
     });
   }

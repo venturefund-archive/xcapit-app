@@ -12,41 +12,32 @@ import { NavController } from '@ionic/angular';
       <div class="ffc__content">
         <div class="ffc__content__right">
           <div class="item">
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxdark">{{
-              this.fund.nombre_bot
-            }}</ion-text>
-            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24" color="uxdark">
+            <ion-text class="ux-font-text-xxs regular" color="uxdark">{{ this.fund.nombre_bot }}</ion-text>
+            <ion-text class="ux-font-text-xl" color="uxdark">
               {{ this.fund.currency }}
             </ion-text>
           </div>
           <div class="item second">
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxmedium">{{
+            <ion-text class="ux-font-text-xxs regular" color="uxmedium">{{
               'funds.funds_finished.fund_finished_card.take_profit' | translate
             }}</ion-text>
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxdark"
-              >{{ this.fund.ganancia }}%</ion-text
-            >
+            <ion-text class="ux-font-text-xxs regular" color="uxdark">{{ this.fund.ganancia }}%</ion-text>
           </div>
         </div>
         <div class="ffc__content__right">
           <div class="item">
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxmedium">{{
+            <ion-text class="ux-font-text-xxs regular" color="uxmedium">{{
               'funds.funds_finished.fund_finished_card.risk' | translate
             }}</ion-text>
-            <ion-text
-              [ngClass]="{ 'high-risk': this.risk === 'Alto' }"
-              class="risk ux-font-gilroy ux-fweight-semibold ux-fsize-24"
-              color="uxdark"
-              >{{ this.risk }}</ion-text
-            >
+            <ion-text [ngClass]="{ 'high-risk': this.risk === 'Alto' }" class="risk ux-font-text-xl" color="uxdark">{{
+              this.risk
+            }}</ion-text>
           </div>
           <div class="item second">
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxmedium">{{
+            <ion-text class="ux-font-text-xxs regular" color="uxmedium">{{
               'funds.funds_finished.fund_finished_card.stop_loss' | translate
             }}</ion-text>
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxdark"
-              >-{{ this.fund.perdida }}%</ion-text
-            >
+            <ion-text class="ux-font-text-xxs regular" color="uxdark">-{{ this.fund.perdida }}%</ion-text>
           </div>
         </div>
       </div>
@@ -59,7 +50,7 @@ import { NavController } from '@ionic/angular';
             fill="clear"
             size="small"
             (click)="this.deleteFund()"
-            class="ffc__footer__left__trash ux-font-lato ux-fweight-semibold ux-fsize-14"
+            class="ffc__footer__left__trash ux-font-text-xs semibold"
           >
             <ion-icon class="ffc__footer__left__trash__icon" name="trash-outline"></ion-icon>
           </ion-button>
@@ -73,7 +64,7 @@ import { NavController } from '@ionic/angular';
               fill="clear"
               size="small"
               (click)="this.renewFund()"
-              class="ux-font-lato ux-fweight-semibold ux-fsize-14"
+              class="renovate-fund ux-font-text-xxs"
             >
               {{ 'funds.funds_finished.fund_finished_card.renovate' | translate }}
             </ion-button>

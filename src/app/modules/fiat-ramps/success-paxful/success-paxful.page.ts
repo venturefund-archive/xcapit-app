@@ -8,16 +8,16 @@ import { NavController } from '@ionic/angular';
       <div class="main">
         <div class="main__close_button">
           <ion-button appTrackClick fill="clear" name="Close Success" (click)="this.close()">
-            <ion-icon class="main__close_button__icon" name="ux-close" color="uxmedium"></ion-icon>
+            <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
           </ion-button>
         </div>
         <div class="main__ux_success_image">
           <img src="../../../../assets/img/fiat-ramps/success-paxful/to-paxful.svg" />
         </div>
-        <div class="main__primary_text">
+        <div class="main__primary_text ux-font-text-xl">
           <ion-text>{{ 'fiat_ramps.paxful_success.textPrimary' | translate }}</ion-text>
         </div>
-        <div class="main__secondary_text">
+        <div class="main__secondary_text ux-font-text-xs">
           <ion-text>{{ 'fiat_ramps.paxful_success.textSecondary' | translate }}</ion-text>
         </div>
         <div class="main__actions">
@@ -38,7 +38,7 @@ export class SuccessPaxfulPage implements OnInit {
   ngOnInit() {}
 
   close() {
-    this.navController.navigateBack(['/tabs/funds']);
+    this.navController.navigateBack(['/tabs/home']);
   }
 
   goToMyOperations() {

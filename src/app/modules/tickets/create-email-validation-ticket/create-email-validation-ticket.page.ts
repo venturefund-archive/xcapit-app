@@ -11,12 +11,12 @@ import { TranslateService } from '@ngx-translate/core';
     <ion-content class="ion-padding-horizontal ion-padding-bottom">
       <div class="header">
         <div class="header__title">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+          <ion-text class="ux-font-text-xl">
             {{ 'tickets.create.title' | translate }}
           </ion-text>
         </div>
         <div class="header__text">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+          <ion-text class="ux-font-text-xl">
             {{ 'tickets.create.text' | translate }}
           </ion-text>
         </div>

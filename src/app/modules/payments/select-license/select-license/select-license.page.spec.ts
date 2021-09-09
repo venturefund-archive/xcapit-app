@@ -2,12 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { ApiPaymentsService } from '../../shared-payments/services/api-payments.service';
 import { SelectLicensePage } from './select-license.page';
+import { of } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SelectLicensePage', () => {
   let component: SelectLicensePage;
@@ -19,11 +20,20 @@ describe('SelectLicensePage', () => {
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      apiPaymentsServiceSpy = jasmine.createSpyObj('ApiPaymentMethods', ['getPaymentMethods', 'registerLicense']);
+
+      apiPaymentsServiceSpy = {
+        registerLicense: () => of({}),
+        getSubscriptionPlans: () => of([{ frequency_type: 'months' }]),
+      };
+
       TestBed.configureTestingModule({
         declarations: [SelectLicensePage, TrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ApiPaymentsService, useValue: apiPaymentsServiceSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SelectLicensePage);
@@ -41,7 +51,7 @@ describe('SelectLicensePage', () => {
   });
 
   it('should call trackEvent on trackService when anual button is clicked', () => {
-    spyOn(component, 'changeLicenses');
+    spyOn(component, 'changePlans');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'anual');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -51,7 +61,7 @@ describe('SelectLicensePage', () => {
   });
 
   it('should call trackEvent on trackService when mensual button is clicked', () => {
-    spyOn(component, 'changeLicenses');
+    spyOn(component, 'changePlans');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'mensual');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -60,26 +70,57 @@ describe('SelectLicensePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call changeLicenses on ionViewWillEnter', () => {
-    const spy = spyOn(component, 'changeLicenses');
+  it('should call changePlans on ionViewWillEnter', async () => {
+    const spy = spyOn(component, 'changePlans');
     component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call getPaymentMethods on action and result is array empty', () => {
-    const spy = spyOn(apiPaymentsServiceSpy, 'getPaymentMethods');
-    spy.and.returnValue(new Observable());
-    component.paymentMethods = [];
-    component.action('');
-    expect(apiPaymentsServiceSpy.getPaymentMethods).toHaveBeenCalledTimes(1);
-    expect(component.paymentMethods.length).toBe(0);
+  it('should call activatedBtn on changeLicenses on ionViewWillEnter', () => {
+    const spy = spyOn(component, 'activatedBtn');
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
-  it('should call registerLicense on action', () => {
+  [true, false].forEach((p) => {
+    it(`when activatedBtn is called with ${p} parameter`, () => {
+      const stateAnnual = p ? 'active' : '';
+      const stateMonthly = !p ? 'active' : '';
+      component.activatedBtn(p);
+      expect(component.activeButtonAnnual).toBe(p);
+      expect(component.stateAnnual).toBe(stateAnnual);
+      expect(component.activeButtonMonthly).toBe(!p);
+      expect(component.stateMonthly).toBe(stateMonthly);
+    });
+  });
+
+  it('should call registerLicense and getSuccess route on action with free license', () => {
     const spy = spyOn(apiPaymentsServiceSpy, 'registerLicense');
-    component.paymentMethods = [];
-    component.selectedLicense = 'free';
-    spy.and.returnValue(new Observable());
-    component.action(component.selectedLicense);
+    const spyGetSucessRoute = spyOn(component, 'getSuccessRoute');
+    component.selectedPlan = 'free';
+    spy.and.returnValue(of({}));
+    spyGetSucessRoute.and.returnValue(Promise.resolve(true));
+    component.action(component.selectedPlan, '1');
     expect(apiPaymentsServiceSpy.registerLicense).toHaveBeenCalledTimes(1);
+    expect(component.getSuccessRoute).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call registerLicense and getSuccess route on action with paid license', () => {
+    const spy = spyOn(component, 'getPaymentRoute');
+    component.selectedPlan = 'paid';
+    spy.and.returnValue(Promise.resolve(true));
+    component.action(component.selectedPlan, '2');
+    expect(component.getPaymentRoute).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call navigateForward with ["/payment/payment-success"] on navController when getSuccessRoute is called', () => {
+    component.getSuccessRoute();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/payment/payment-success']);
+  });
+
+  it('should call navigateForward with ["/payment/payment-methods", plan_id] on navController when getPaymentRoute is called', () => {
+    component.getPaymentRoute('2');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/payment/payment-methods', '2']);
   });
 });

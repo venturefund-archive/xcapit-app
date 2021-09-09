@@ -3,6 +3,7 @@ export const modalControllerMock = {
     present: () => Promise.resolve(),
     onWillDismiss: () => Promise.resolve({}),
     onDidDismiss: () => Promise.resolve({}),
+    dismiss: () => Promise.resolve(),
   }),
   dismiss: Promise.resolve(),
 };

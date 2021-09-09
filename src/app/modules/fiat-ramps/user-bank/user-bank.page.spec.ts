@@ -71,14 +71,11 @@ describe('UserBankPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call registerUserBank on handleSubmit and valid form', async (done) => {
+  it('should call registerUserBank on handleSubmit and valid form', async () => {
     fiatRampsServiceSpy.registerUserBank.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
-    component.handleSubmit();
+    await component.handleSubmit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fiatRampsServiceSpy.registerUserBank).toHaveBeenCalledTimes(1);
-    });
-    done();
+    expect(fiatRampsServiceSpy.registerUserBank).toHaveBeenCalledTimes(1);
   });
 });

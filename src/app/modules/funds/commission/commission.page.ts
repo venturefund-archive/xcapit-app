@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'funds.commissions.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -16,7 +16,7 @@ import { Component, OnInit } from '@angular/core';
       <app-commissions-content></app-commissions-content>
     </ion-content>
   `,
-  styleUrls: ['./commission.page.scss']
+  styleUrls: ['./commission.page.scss'],
 })
 export class CommissionPage implements OnInit {
   constructor() {}

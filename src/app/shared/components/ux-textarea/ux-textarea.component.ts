@@ -1,17 +1,11 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import {
-  ControlContainer,
-  FormGroupDirective,
-  AbstractControl,
-} from '@angular/forms';
+import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ux-textarea',
   template: `
     <div class="ux_textarea_container">
-      <ion-label class="ux_textarea_container__label">{{
-        this.label
-      }}</ion-label>
+      <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
       <ion-item class="ux_textarea_container__item">
         <ion-textarea
           #inputRegister
@@ -24,17 +18,12 @@ import {
         <ion-icon
           class="ux_textarea_container__item__error_icon"
           item-end
-          [hidden]="
-            !(this.control && this.control.invalid && this.control.touched)
-          "
+          [hidden]="!(this.control && this.control.invalid && this.control.touched)"
           name="ux-error"
           color="uxsecondary"
         ></ion-icon>
       </ion-item>
-      <app-errors-form-item
-        [controlName]="this.controlName"
-        [errors]="this.errors"
-      ></app-errors-form-item>
+      <app-errors-form-item [controlName]="this.controlName" [errors]="this.errors"></app-errors-form-item>
     </div>
   `,
   styleUrls: ['./ux-textarea.component.scss'],

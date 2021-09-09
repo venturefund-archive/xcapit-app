@@ -1,0 +1,45 @@
+:host {
+  .wr {
+    &__title {
+      margin-top: 24px;
+    }
+    &__currency-select {
+      margin-top: 8px;
+    }
+
+    &__remaining-time-text {
+      margin-top: 16px;
+    }
+    &__qr-content {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      }
+    }
+    &__receive-address {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      ion-item {
+        text-align: center;
+      }
+    }
+    &__share-content {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &__disclaimer {
+      margin-top: 24px;
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+    }
+  }
+}

@@ -57,11 +57,11 @@ describe('PaymentsSuccessPage', () => {
 
   it('should call navigateForward in continue', () => {
     component.continue();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tabs/funds']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tabs/home']);
   });
 
   it('should call navigateBack in close', () => {
     component.close();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/funds']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/home']);
   });
 });

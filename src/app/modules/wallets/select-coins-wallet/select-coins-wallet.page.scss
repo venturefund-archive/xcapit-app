@@ -1,0 +1,24 @@
+:host {
+  .sc {
+    &__radio_text {
+      font-size: 12px;
+    }
+
+    &__next_button {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-top: 16px;
+    }
+    &__img {
+      padding-right: 14px;
+      height: 33px;
+    }
+    &__toggle {
+      height: 22px;
+      width: 42px;
+      --handle-width: 17.66px;
+      --handle-height: 17.66px;
+    }
+  }
+}

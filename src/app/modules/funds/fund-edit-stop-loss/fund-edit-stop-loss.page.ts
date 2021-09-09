@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -11,16 +11,17 @@ import { NavController } from '@ionic/angular';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="this.goToFundSettings()"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
+        <ion-title>
           {{ 'funds.fund_stop_loss.edit_title' | translate }}
         </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <app-fund-select-stop-loss
-        *ngIf="this.stopLoss"
+        *ngIf="this.stopLoss && this.profile"
         opType="edit"
         [stopLoss]="this.stopLoss"
+        [profile]="this.profile"
         (save)="this.handleSubmit($event)"
       ></app-fund-select-stop-loss>
     </ion-content>
@@ -31,6 +32,7 @@ export class FundEditStopLossPage implements OnInit {
   fundName: string;
   fund: any;
   stopLoss: number;
+  profile: string;
 
   constructor(private route: ActivatedRoute, private apiFunds: ApiFundsService, private navController: NavController) {}
 
@@ -42,6 +44,7 @@ export class FundEditStopLossPage implements OnInit {
       if (data) {
         this.fund = data;
         this.stopLoss = this.fund.perdida;
+        this.profile = this.fund.nivel_de_riesgo;
       }
     });
   }
@@ -62,19 +65,11 @@ export class FundEditStopLossPage implements OnInit {
   async handleSubmit(data: any) {
     this.fund.perdida = data.stop_loss;
     data = this.serializeFund(this.fund);
-    this.apiFunds.crud.update(data, this.fund.id).subscribe(
-      () => this.success(),
-      (e) => this.error(e)
-    );
+    this.apiFunds.crud.update(data, this.fund.id).subscribe(() => this.success());
   }
 
   async success() {
     this.goToFundSettings();
-  }
-  async error(e) {
-    if (e.error.error_code === 'funds.create.fundNameExists') {
-      this.navController.navigateBack(['funds/fund-name']);
-    }
   }
 
   goToFundSettings() {

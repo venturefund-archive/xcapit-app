@@ -1,5 +1,7 @@
-.info_text {
-  color: #6b7280;
+.license_text {
+  font-family: var(--ux-font-gilroy);
+  font-size: var(--ux-fsize-14);
+  font-weight: var(--ux-fweight-bold);
 }
 .image {
   display: block;
@@ -22,12 +24,15 @@
   margin-bottom: 15px;
   &__content {
     padding-top: 12px;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     &__name {
       display: flex;
       width: 100%;
       margin-left: 25px;
+      font-family: var(--ux-font-gilroy);
+      font-size: var(--ux-fsize-14);
+      font-weight: var(--ux-fweight-bold);
       &__license {
         margin-left: 8px;
       }

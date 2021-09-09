@@ -18,36 +18,29 @@ describe('ResetPasswordPage', () => {
   let apiUsuariosServiceSpy: any;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', [
-      'resetPassword',
-      'sendResetPasswordEmail'
-    ]);
-    apiUsuariosServiceSpy.resetPassword.and.returnValue(null);
-    apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(null);
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    navControllerSpy.navigateForward.and.returnValue(of({}).toPromise());
-    TestBed.configureTestingModule({
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([
-          { path: 'users/success-reset/:isReset', component: DummyComponent }
-        ])
-      ],
-      declarations: [
-        ResetPasswordPage,
-        ResetPasswordFormComponent,
-        DummyComponent
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', ['resetPassword', 'sendResetPasswordEmail']);
+      apiUsuariosServiceSpy.resetPassword.and.returnValue(null);
+      apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(null);
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy.navigateForward.and.returnValue(of({}).toPromise());
+      TestBed.configureTestingModule({
+        imports: [
+          IonicModule,
+          ReactiveFormsModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([{ path: 'users/success-reset/:isReset', component: DummyComponent }]),
+        ],
+        declarations: [ResetPasswordPage, ResetPasswordFormComponent, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordPage);
@@ -96,9 +89,7 @@ describe('ResetPasswordPage', () => {
     component.isReset = false;
     apiUsuariosServiceSpy.sendResetPasswordEmail.and.returnValue(of({}));
     component.handleSubmit(null);
-    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(
-      1
-    );
+    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(1);
     expect(apiUsuariosServiceSpy.resetPassword).toHaveBeenCalledTimes(0);
   });
 
@@ -107,32 +98,24 @@ describe('ResetPasswordPage', () => {
     apiUsuariosServiceSpy.resetPassword.and.returnValue(of({}));
     component.handleSubmit(null);
     expect(apiUsuariosServiceSpy.resetPassword).toHaveBeenCalledTimes(1);
-    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(
-      0
-    );
+    expect(apiUsuariosServiceSpy.sendResetPasswordEmail).toHaveBeenCalledTimes(0);
   });
 
-  it('should call navigateForward with ["/users/success-reset", false] and { replaceUrl: true }, on navController when from success', async (done) => {
+  it('should call navigateForward with ["/users/success-reset", false] and { replaceUrl: true }, on navController when from success', async () => {
     component.isReset = false;
-    component.success().then(() => {
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
-        ['/users/success-reset', false],
-        { replaceUrl: true }
-      );
+    await component.success();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/users/success-reset', false], {
+      replaceUrl: true,
     });
-    done();
   });
 
-  it('should call navigateForward with ["/users/success-reset", true] and { replaceUrl: true }, on navController when from success', async (done) => {
+  it('should call navigateForward with ["/users/success-reset", true] and { replaceUrl: true }, on navController when from success', async () => {
     component.isReset = true;
-    component.success().then(() => {
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
-        ['/users/success-reset', true],
-        { replaceUrl: true }
-      );
+    await component.success();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/users/success-reset', true], {
+      replaceUrl: true,
     });
-    done();
   });
 });

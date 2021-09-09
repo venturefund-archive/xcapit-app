@@ -36,12 +36,11 @@ describe('UpdatePWAService', () => {
     { actual: '1.0.0', expected: { version: '1.0.0', level: 'RECOMMENDED' }, calledTimes: 0 },
     { actual: '1.0.0', expected: { version: '1.0.0', level: 'NOT_REQUIRED' }, calledTimes: 0 },
   ]) {
-    it(`should call ${calledTimes} times alert, actual version ${actual} expected version ${expected.version} and level ${expected.level}`, async (done) => {
+    it(`should call ${calledTimes} times alert, actual version ${actual} expected version ${expected.version} and level ${expected.level}`, async () => {
       spyOn(service, 'getActualVersion').and.returnValue(Promise.resolve(actual));
       spyOn(service, 'getExpectedVersion').and.returnValue(Promise.resolve(expected));
       await service.checkForUpdate();
       expect(alertControllerSpy.create).toHaveBeenCalledTimes(calledTimes);
-      done();
     });
   }
 });

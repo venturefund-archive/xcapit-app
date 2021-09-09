@@ -13,7 +13,7 @@ import { NavController } from '@ionic/angular';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'usuarios.password_change.header' | translate }}
@@ -33,7 +33,7 @@ import { NavController } from '@ionic/angular';
               type="submit"
               color="uxsecondary"
               class="ux_button"
-              [disabled]="(this.submitButtonService.isDisabled | async)"
+              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'usuarios.password_change.submit_button' | translate }}
             </ion-button>
@@ -42,7 +42,7 @@ import { NavController } from '@ionic/angular';
       </app-password-change-form>
     </ion-content>
   `,
-  styleUrls: ['./password-change.page.scss']
+  styleUrls: ['./password-change.page.scss'],
 })
 export class PasswordChangePage {
   @ViewChild(PasswordChangeFormComponent, { static: true })
@@ -63,18 +63,12 @@ export class PasswordChangePage {
 
   async success() {
     await this.auth.logout();
-    await this.navController
-      .navigateBack(['/users/login'], { replaceUrl: true })
-      .then(() => {
-        this.formComponent.form.reset();
-        this.toast.showToast({
-          header: this.translate.instant(
-            'usuarios.password_change.toast_password_change_header'
-          ),
-          message: this.translate.instant(
-            'usuarios.password_change.toast_password_change_message'
-          )
-        });
+    await this.navController.navigateBack(['/users/login'], { replaceUrl: true }).then(() => {
+      this.formComponent.form.reset();
+      this.toast.showToast({
+        header: this.translate.instant('usuarios.password_change.toast_password_change_header'),
+        message: this.translate.instant('usuarios.password_change.toast_password_change_message'),
       });
+    });
   }
 }

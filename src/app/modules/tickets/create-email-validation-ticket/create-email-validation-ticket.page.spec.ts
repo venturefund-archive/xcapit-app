@@ -108,23 +108,16 @@ describe('CreateEmailValidationTicketPage', () => {
     expect(apiTicketsMock.crud.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call navigateBack with ["/tickets/create/success"], on navController when from success', async (done) => {
-    component.success().then(() => {
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tickets/create/success', true]);
-    });
-    done();
+  it('should call navigateBack with ["/tickets/create/success"], on navController when from success', async () => {
+    await component.success();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tickets/create/success', true]);
   });
 
   it('should call navigateBack with ["/users/login"], on navController when from success', () => {
     component.close();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/users/login']);
-  });
-
-  it('should get data from storage if page was reloaded and there is user data in storage', async () => {
-    getCurrentNavigationSpy.and.returnValue(currentNavigation);
-    expect(component.userEmail).toBe(extras.extras.state.email);
   });
 
   it('should fill form with user email if redirected from resend verification email', () => {

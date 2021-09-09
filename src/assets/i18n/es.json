@@ -3,7 +3,7 @@
     "main_menu": {
       "header": "Menú",
       "funds": "Fondos",
-      "user_profile": "Perfil de Usuario",
+      "user_profile": "Perfil de usuario",
       "deposit_address": "Dirección de depósito",
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",
@@ -71,7 +71,12 @@
         "alert_required_button": "Actualizar"
       },
       "share": {
-        "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles"
+        "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
+        "share_error": "El texto se copió en el portapapeles"
+      },
+      "copy": {
+        "toast_success": "Se copió al portapapeles",
+        "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
     },
     "card_info_robot": {
@@ -84,6 +89,13 @@
     },
     "referrals_help": {
       "text_referrals_help_link": "¿Cómo funciona el sistema de referidos?"
+    },
+    "app_icon_button_card": {
+      "coming_soon": "Proximamente"
+    },
+    "without_SL_TP": {
+      "without_stop_loss": "Manual",
+      "without_take_profit": "Manual"
     }
   },
   "usuarios": {
@@ -195,9 +207,9 @@
     "create_ticket_form": {
       "label_email": "CORREO ELECTRÓNICO",
       "placeholder_email": "ejemplo@email.com",
-      "label_subject": "ELIGE UNA CATEGORÍA DE CONSULTA",
+      "label_subject": "Elige una categoría de consulta",
       "placeholder_subject": "Seleccione una categoría",
-      "label_message": "ESCRIBE TU CONSULTA",
+      "label_message": "Escribe tu consulta",
       "placeholder_message": "Escriba su consulta aquí.",
       "submit_button": "Enviar",
       "cancel_button": "Volver a inicio de sesión"
@@ -229,12 +241,13 @@
       "sub_header": {
         "total_title": "Capital total operado",
         "not_balance_found": "No hay balance para mostrar",
-        "total_detail": "En las ultimas 24 hs",
+        "total_detail": "En las últimas 24 hs",
         "change_currency": "Cambiar moneda"
       },
       "user_status": {
-        "title": "Comienza a invertir en el mundo cripto",
-        "action_button": "Comenzar ahora"
+        "title": "Comienza a invertir",
+        "action_button": "Empezar vinculando con binance",
+        "link_strategies_button": "Estrategias de inversión"
       },
       "funds_title": "MIS FONDOS",
       "shared_funds_title": "FONDOS COMPARTIDOS",
@@ -376,7 +389,7 @@
     },
     "new_fund_info": {
       "header": "Nuevo fondo - Ayuda",
-      "fund_name_title": "Nombre del Fondo",
+      "fund_name_title": "Nombre del Foshareddo",
       "fund_name_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
       "currency_title": "Moneda a Optimizar",
       "currency_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
@@ -409,36 +422,49 @@
       "fund_name_placeholder": "Ej: MiPrimerFondo",
       "next_button": "Siguiente"
     },
+    "fund_investment_info": {
+      "invest_button": "Invertir"
+    },
     "fund_investment": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
+      "header": "Estrategias de inversión",
+      "header_more_about": "Más sobre",
       "header_info": {
-        "title": "Selecciona la estrategia de inversión",
-        "description": "Esto condicionará el modo a operar y el consiguiente riesgo a asumir a la hora de invertir."
+        "title": "Elige tu estrategia favorita",
+        "description": "Cada estrategia tiene diferente rendimientos y volatilidad. Elige la que mejor se adapte a ti."
       },
       "card": {
-        "risk_label": "Riesgo",
         "currency": "USD",
-        "min_capital_label": "Mínimo para operar",
-        "more_info": "Más info",
+        "min_capital_label": "Inversión mínima",
         "invest_button": "Invertir",
         "last_year_revenue": "90 días",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
-            "description": "Permite que nuestro algoritmo tradee por ti. Operamos la totalidad de tus criptos y cuando tu inversión finalice se convertirá a USDT (Tether)."
+            "description": "Permite que nuestro algoritmo haga trading por ti. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a USDT (Theter).",
+            "more_info": "Leer más sobre Denali",
+            "strategie_type": "Trading",
+            "info_description": "Denali es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en dólares (Tether o USDT). Trabaja aplicando diferentes estrategias sobre cada cripto que opera. En resumen, usa dólares para generar más dólares. Su rendimiento anual ronda le 17%"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
-            "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus criptos y cuando tu inversión finalice se convertirá a BTC (Bitcoin)."
+            "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a BTC (Bitcoin).",
+            "more_info": "Leer más sobre Olympus Mons",
+            "strategie_type": "Trading",
+            "info_description": "Olympus mons es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en Bitcoins. Trabaja aplicando diferentes estrategias sobre cada cripto que opera."
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT (Tether)."
+            "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT(Tether).",
+            "more_info": "Leer más sobre Himalayas",
+            "strategie_type": "Indice",
+            "info_description": "Himalayas es un índice de inversión con un riesgo alto.\n Un índice es la cotización promedio de un grupo de activos. Estas activos (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu billetera…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT (Tether)."
+            "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT. (Theter)",
+            "more_info": "Leer más sobre Andes",
+            "strategie_type": "Indice",
+            "info_description": "Andes es un índice de inversión con un riesgo medio-alto.\n Un índice es la cotización promedio de un grupo de activos. Estos activos (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu billetera…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos del mercado. En resumen, esta estrategia apuesta a diversificar."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -462,9 +488,15 @@
       },
       "balance_not_enough": {
         "title": "Necesitás USD${{minBalance}} en tu cuenta de Binance para comenzar a invertir.",
-        "message": "Carga saldo en tu cuenta de Binance",
+        "message": "Comprar cripto en Xcapit",
         "cancel_text": "Cancelar",
-        "ok_text": "Ir a Binance"
+        "ok_text": "Comprar"
+      },
+      "no_apikeys_modal": {
+        "first_title": "Vincular cuenta",
+        "second_title": "Detectamos que aún no vinculaste tu cuenta con Binance. ",
+        "message": "Para comenzar a invertir necesitas tener una cuenta de Binance y  vincularla con tu cuenta de Xcapit.",
+        "button": "Vincular cuenta en Binance"
       }
     },
     "fund_duration": {
@@ -478,10 +510,9 @@
       "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
     },
     "fund_take_profit": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "¿Cuándo vas a querer que dejemos de invertir y tomemos las ganancias?",
-      "text_before": "En caso en que tu inversión genere ganancias necesitamos que decidas hasta que porcentaje seguiremos invirtiendo.",
+      "header": "Modificar Take Profit",
+      "title": "Configura el límites de beneficios",
+      "text_before": "¿Cuándo quieres que dejemos de invertir? Tu inversión se finalizará cuando alcance este porcentajes de beneficio.",
       "take_profit": "Take profit",
       "most_chosen": "Más elegida",
       "custom_tp_button": "Elegir otra opción",
@@ -489,13 +520,14 @@
       "back_button": "Anterior",
       "edit_custom": "Editar",
       "submit_button_edit": "Guardar",
-      "edit_title": "Modificar Take Profit"
+      "edit_title": "Modificar Take Profit",
+      "manual_stop": "Voy a finalizarlo manualmente",
+      "alert_manual_option": "Ten en cuenta que invertir sin límite de beneficios implica que debes finalizar tu inversion manualmente."
     },
     "fund_stop_loss": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "En caso de pérdida… ¿Hasta que porcentaje de tu capital estas dispuesto a arriesgar?",
-      "text_before": "Una vez alcanzado este porcentaje, detendremos la operatoria del fondo para resguardar tu capital.",
+      "header": "Modificar Stop Loss",
+      "title": "Configura el límite de pérdida",
+      "text_before": "En el caso de perdida ¿Cuando quieres que dejemos de invertir? Tu inversión se finalizara cuando alcance este porcentaje de perdida",
       "stop_loss": "Stop loss",
       "most_chosen": "Más elegida",
       "custom_tp_button": "Elegir otra opción",
@@ -505,16 +537,18 @@
       "submit_button_renew": "Renovar fondo",
       "submit_button_edit": "Guardar",
       "edit_custom": "Editar",
-      "edit_title": "Modificar Stop Loss"
+      "edit_title": "Modificar Stop Loss",
+      "manual_stop": "Voy a finalizarlo manualmente",
+      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",
       "confirm_button": "Confirmar"
     },
     "fund_success": {
-      "textPrimary": "¡Felicitaciones, ya estas invirtiendo en el mundo crypto!",
-      "textSecondary": "Ya creamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
-      "namePrimaryAction": "Ver mi inversión"
+      "textPrimary": "¡Felicitaciones! Tu inversión está activa",
+      "textSecondary": "Ya creamos tu inversión y nuestros algoritmos comenzarán a gestionar tu capital en base a la información que configuraste. Asegurate haber chequeado el campo “habilitar spot trading” en Binance para que podemos operar.",
+      "namePrimaryAction": "Ver mis inversiones"
     },
     "fund_success_renew": {
       "textPrimary": "¡Tu fondo ha sido renovado!",
@@ -1177,10 +1211,10 @@
     },
     "referrals_info": {
       "header": "Sistema de Referidos",
-      "info_title1": "¿CÓMO FUNCIONA?",
-      "info_title2": "¿CUÁNTO PUEDO GANAR?",
-      "info_title3": "¿CÓMO RECLAMO MI PREMIO?",
-      "info_title4": "¿CÓMO VEO CUÁNTOS REFERIDOS TENGO?",
+      "info_title1": "¿Cómo funciona?",
+      "info_title2": "¿Cuánto puedo ganar?",
+      "info_title3": "¿Cómo reclamo mi premio?",
+      "info_title4": "¿Cómo ver cuantos referidos tengo?",
       "info_description1": "Cualquier usuario puede invitar a otras personas a conocer Xcapit, solo necesita crear una cuenta y compartir su link dentro de su panel de referidos.",
       "info_description2": "Vas a ganar $10 (diez dólares) por cada invitado que active una cuenta Advanced o Expert, y vas a ganar $1 (un dólar) por cada invitado que active una cuenta Explorer. En cualquiera de los casos tu invitado debe tener la cuenta activa por más de 60 días.",
       "info_description3": "Dentro de la app en tu panel de referidos dale click a Solicitar recompensa. Nos contactaremos para coordinar el pago.",
@@ -1214,6 +1248,139 @@
     "notifications_helper": {
       "message": "Tienes una nueva notificación!",
       "view_button": "Ver"
+    }
+  },
+  "wallets": {
+    "disclaimer": {
+      "header": "Crear Billetera",
+      "title": "¡Empecemos con tu billetera!",
+      "description": "Antes de crear tu billetera, verifica los permisos esenciales para comenzar",
+      "local_stored_keys_checkbox": "Entiendo que mis fondos se mantienen de forma segura en este dispositivo, no por una empresa.",
+      "recovery_phrase_checkbox": "Entiendo que si esta aplicación se mueve a otro dispositivo o se elimina, mis fondos solo se pueden recuperar con la frase de recuperación.",
+      "terms_of_use_checkbox": "He leído, comprendido y acepto los términos de uso.",
+      "terms_of_use_button": "Ver términos de uso",
+      "submit_button": "Confirmar y aceptar",
+      "error_did_not_accept": "Debes marcar todas las opciones para continuar."
+    },
+    "home": {
+      "available_money": "Dinero disponible en billetera",
+      "wallet_balance_title": "ACTIVOS",
+      "wallet_transaction_title": "RECIENTE",
+      "go_to_history": "Ver todas las transacciones",
+      "subheader_component": {
+        "title_without_wallet": "Todavía no creaste tu billetera.",
+        "create_wallet_button": "Crear Billetera"
+      },
+      "subheader_buttons_component": {
+        "send_card": "Enviar",
+        "receive_card": "Recibir",
+        "buy_card": "Comprar",
+        "performance_card": "Obtener rendimiento",
+        "title_without_transactions": "Empieza recibiendo o comprando."
+      }
+    },
+    "select_coin": {
+      "header": "Crear Billetera",
+      "title": "Selecciona los activos",
+      "subtitle": "Elige los activos que quieres visualizar en tu billetera",
+      "select_all": "Seleccionar todas las monedas"
+    },
+    "success_creation": {
+      "title": "¡Genial! creamos tu billetera y tu frase de recuperación está verificada",
+      "subtitle": "Guardala en un lugar seguro, en lo posible, sin conexión a internet",
+      "success_button": "Ir a mi billetera"
+    },
+    "recovery_phrase": {
+      "header": "Crear Billetera",
+      "title": "Frase de recuperación",
+      "text1": "Estas son las 12 palabras que conforman tu billetera.",
+      "text2": "Siempre que tengas las 12 palabras vas a poder recuperar tu billetera y todos los fondos.",
+      "text3": "Si pierdas las palabras no vas a poder hacerlo.",
+      "text4": "Escribe cuidadosamente cada palabra en el orden que aparecen y guardalas en un lugar seguro (archivo de texto, pendrive, a mano en un papel, etc).",
+      "btn_next": "Siguiente"
+    },
+    "verify_phrase": {
+      "header": "Crear Billetera",
+      "title": "Verifica tu frase",
+      "text1": "Toca las palabras en el orden correspondiente",
+      "btn_create": "Siguiente"
+    },
+    "create_password": {
+      "header": "Crear Billetera",
+      "title": "Crear una contraseña",
+      "description": "La contraseña sirve para hacer tu billetera más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu billetera con las 12 palabras.",
+      "password": "Contraseña",
+      "repeat_password": "Confirmar contraseña",
+      "finish_button": "Finalizar y crear billetera"
+    },
+    "receive": {
+      "header": "Recibir",
+      "title": "Datos de tu billetera",
+      "currency_select": "Moneda",
+      "currency_select_modal_title": "Seleccionar moneda",
+      "currency_select_placeholder": "Moneda",
+      "average_time": "Tiempo promedio de llegada: 3 min.",
+      "share": "Compartir",
+      "disclaimer_header": "Envíe solo {{currency}} a esta direción de depósito.",
+      "disclaimer_body": "Enviar otras monedas o tokens a esta dirección distintas a {{currency}} puede resultar en la pérdida de su depósito.",
+      "share_title": "Direccion de wallet"
+    },
+    "failed_mnemonic": {
+      "title": "Tu frase de recuperación es incorrecta",
+      "description": "Generaremos otras 12 palabras para mayor seguridad. Recuerda que tienes que anotarlas y guardarlas en un lugar seguro.",
+      "button": "Volver a intentarlo"
+    },
+    "transactions": {
+      "header": "Historico transacciones",
+      "sended": "Enviado",
+      "received": "Recibido",
+      "swap": "Swap"
+    },
+    "send": {
+      "select_currency": {
+        "header": "Enviar",
+        "title": "Selecciona moneda"
+      },
+      "send_detail": {
+        "header": "Enviar",
+        "title": "Datos de la transferencia",
+        "network_select": {
+          "title": "Red",
+          "disclaimer": "Asegúrese que la billetera de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
+        },
+        "continue_button": "Continuar",
+        "address_input": {
+          "title": "Billetera destino",
+          "help_text": "{{currency}} direccion o alias"
+        },
+        "amount_input": {
+          "title": "Monto a enviar"
+        }
+      },
+      "send_summary": {
+        "header": "Enviar",
+        "title": "Datos de la transferencia",
+        "amounts_title": "Monto a enviar",
+        "send_button": "Enviar",
+        "wrong_password": "Password incorrecto"
+      },
+      "send_success": {
+        "textPrimary": "Tu transferencia fue realizada",
+        "textSecondary": "En breve estara disponible ",
+        "namePrimaryAction": "Ir a mi billetera"
+      }
+    },
+    "shared_wallets": {
+      "address_input_card": {
+        "scan_error": "Error al escanear el código QR",
+        "scan_unauthorized": "No tienes permiso para escanear"
+      },
+      "wallet_password": {
+        "title": "Ingrese la contraseña",
+        "disclaimer": "Por seguridad necesitamos que ingreses la contraseña de tu billetera para completar la transacción",
+        "submit_button_text": "Aceptar",
+        "input_label": "Contraseña"
+      }
     }
   },
   "apikeys": {
@@ -1346,7 +1513,7 @@
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submmit": "Agregar",
+      "button_submit": "Agregar",
       "link_help": "¿Necesitas Ayuda?"
     },
     "edit_modal": {
@@ -1366,8 +1533,9 @@
   "tabs": {
     "home": "Inicio",
     "refer": "Referir",
-    "new_fund": "Nuevo",
-    "menu": "Más"
+    "new_fund": "Inversiones",
+    "menu": "Más",
+    "wallet": "Billetera"
   },
   "deposit_addresses": {
     "deposit_currency": {
@@ -1500,7 +1668,7 @@
       "address_number": "Dirección (Número)",
       "address_extra": "Dirección (Piso/Dpto)",
       "cbu": "CBU/CVU",
-      "bank": "Banco",
+      "bank": "BANCO",
       "doc_front": "Foto documento frente",
       "doc_back": "Foto documento dorso",
       "selfie": "Foto selfie con documento",
@@ -1584,7 +1752,6 @@
       "btn_add_apikey": "Agregar Api Key"
     }
   },
-
   "payment": {
     "methods": {
       "header": "Método de pago",
@@ -1622,6 +1789,31 @@
       "textPrimary": "¡Tu plan está activo!",
       "textSecondary": "Sigue configurando tu inversión",
       "textBtn": "Continuar"
+    }
+  },
+  "home": {
+    "home_page": {
+      "want_my_wallet": {
+        "title": "¡Quiero mi billetera!",
+        "description": "Con la billetera tu tienes el poder, puedes invertir de forma simple, sin esfuerzo y con un click. "
+      },
+      "strategies": {
+        "title": "Estrategias",
+        "description": "Aprendé sobre nuestras propuesta de inversión y elige la que mejor se adapte a ti",
+        "link_text": "Ver estrategias"
+      },
+      "support": {
+        "title": "Soporte",
+        "description": "¿Necesitas ayuda? Nuestros expertos te contactaran para guiarte",
+        "link_text": "Escribinos"
+      },
+      "subheader_component": {
+        "wallet": "Billetera",
+        "buy_card": "Compra",
+        "investments": "Inversiones",
+        "objectives": "Objetivos",
+        "coming_soon_alert": "Esta opción estará disponible pronto"
+      }
     }
   }
 }

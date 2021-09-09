@@ -52,13 +52,12 @@ describe('FundFinishedCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call dataStorageService.setData on click', async (done) => {
+  it('should call dataStorageService.setData on click', async () => {
     const spy = spyOn(fundDataStorageService, 'setData');
     spy.and.returnValue(Promise.resolve());
-    component.renewFund();
+    await component.renewFund();
     fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(2));
-    done();
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 
   it('should call trackEvent on trackService when Renovate Fund button clicked', () => {

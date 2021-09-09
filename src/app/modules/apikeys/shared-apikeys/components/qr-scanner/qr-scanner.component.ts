@@ -9,9 +9,7 @@ import { Platform } from '@ionic/angular';
       <div class="barcode-scanner--area--container">
         <ion-row class="relative ion-aling-items-center">
           <ion-col size="12" class="ion-text-center">
-            <ion-text color="light" class="ux-fsize-18 ux-fweight-regular ux-font-lato">{{
-              'apikeys.qr_scanner.title' | translate
-            }}</ion-text>
+            <ion-text class="ux-font-text-base title">{{ 'apikeys.qr_scanner.title' | translate }}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="square surround-cover">
@@ -37,7 +35,7 @@ import { Platform } from '@ionic/angular';
         </ion-row>
         <ion-row class="ion-align-items-center">
           <ion-col size="5" class="ion-text-center center">
-            <ion-text color="light" class="ux-fsize-16 ux-fweight-regular ux-font-lato">{{
+            <ion-text class="ux-font-text-base button-text">{{
               'apikeys.qr_scanner.cancel_label' | translate
             }}</ion-text>
           </ion-col>

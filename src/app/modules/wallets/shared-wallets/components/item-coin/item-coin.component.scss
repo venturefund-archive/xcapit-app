@@ -1,0 +1,15 @@
+:host {
+  .ic {
+    &__img {
+      padding-right: 14px;
+      height: 33px;
+      width: 47px;
+    }
+    &__toggle {
+      height: 22px;
+      width: 42px;
+      --handle-width: 17.66px;
+      --handle-height: 17.66px;
+    }
+  }
+}

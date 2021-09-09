@@ -6,9 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { Currency } from '../../enums/currency.enum';
-import { ApiFundsService } from '../../services/api-funds/api-funds.service';
-import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
-
 
 @Component({
   selector: 'app-fund-summary-card',
@@ -17,17 +14,12 @@ import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
       <div class="fsc__content">
         <div class="fsc__content__left">
           <div class="fund-name">
-            <ion-text
-              class="ux-font-lato ux-fweight-semibold ux-fsize-12"
-              color="uxdark"
-              >{{ this.summary?.fund.nombre_bot }}</ion-text
-            >
+            <ion-text class="ux-font-text-xxs fsc__content__left__fund_name" color="uxdark">{{
+              this.summary?.fund.nombre_bot
+            }}</ion-text>
           </div>
           <div class="actual-amount">
-            <ion-text
-              class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24"
-              color="uxdark"
-            >
+            <ion-text class="ux-font-text-xl" color="uxdark">
               {{
                 this.totalBase
                   | currencyFormat
@@ -39,16 +31,8 @@ import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
                   | hideText: this.hideFundText
               }}
             </ion-text>
-            <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-18"
-              color="uxmedium"
-            >
-              ≈
-            </ion-text>
-            <ion-text
-              class="ux-font-gilroy ux-fweight-regular ux-fsize-18"
-              color="uxmedium"
-            >
+            <ion-text class="ux-font-text-base" color="uxsemidark"> ≈ </ion-text>
+            <ion-text class="ux-font-text-base" color="uxsemidark">
               {{
                 this.totalSecond
                   | currencyFormat
@@ -62,19 +46,14 @@ import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
             </ion-text>
           </div>
           <div class="actual-text">
-            <ion-text
-              class="ux-font-lato ux-fweight-regular ux-fsize-12"
-              color="uxmedium"
-              >{{
-                'funds.fund_detail.fund_summary_card.actual_amount' | translate
-              }}</ion-text
-            >
+            <ion-text class="ux-font-text-xxs fsc__content__left__actual_ammount" color="uxsemidark">{{
+              'funds.fund_detail.fund_summary_card.actual_amount' | translate
+            }}</ion-text>
           </div>
         </div>
       </div>
       <div class="fsc__footer">
-        <div class="fsc__footer__left">
-        </div>
+        <div class="fsc__footer__left"></div>
         <div class="fsc__footer__right">
           <div class="share-button">
             <ion-button
@@ -84,9 +63,10 @@ import { parse } from 'jasmine-spec-reporter/built/configuration-parser';
               fill="clear"
               size="small"
               [disabled]="!this.summary"
-              class="ux-font-lato ux-fweight-semibold ux-fsize-14"
+              class="ux-font-button-small fsc__footer__right__button"
             >
               {{ 'funds.fund_detail.fund_summary_card.invite' | translate }}
+              <ion-icon slot="end" name="ux-forward"></ion-icon>
             </ion-button>
           </div>
         </div>
@@ -136,24 +116,17 @@ export class FundSummaryCardComponent implements OnInit {
 
   async showShareSubscriptionAlert() {
     const alert = await this.alertController.create({
-      header: this.translate.instant(
-        'funds.fund_detail.fund_summary_card.alert_header'
-      ),
-      message: this.translate.instant(
-        'funds.fund_detail.fund_summary_card.alert_message'
-      ),
+      header: this.translate.instant('funds.fund_detail.fund_summary_card.alert_header'),
+      message: this.translate.instant('funds.fund_detail.fund_summary_card.alert_message'),
+      cssClass: 'ux-alert-small-text',
       buttons: [
         {
-          text: this.translate.instant(
-            'funds.fund_detail.fund_summary_card.alert_exit_button'
-          ),
+          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_exit_button'),
           role: 'cancel',
           cssClass: 'secondary',
         },
         {
-          text: this.translate.instant(
-            'funds.fund_detail.fund_summary_card.alert_share_button'
-          ),
+          text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_share_button'),
           handler: (_) => this.shareSubscriptionLink(),
         },
       ],
@@ -162,32 +135,20 @@ export class FundSummaryCardComponent implements OnInit {
   }
 
   subscribeOnHideFunds() {
-    this.localStorageService.hideFunds.subscribe(
-      (res) => (this.hideFundText = res)
-    );
+    this.localStorageService.hideFunds.subscribe((res) => (this.hideFundText = res));
   }
 
   shareSubscriptionLink() {
-    this.apiSubscriptions
-      .getSubscriptionLink(this.summary.fund.nombre_bot)
-      .subscribe((data: any) => {
-        this.shareService.share(
-          {
-            title: this.translate.instant(
-              'subscriptions.subscriptions_service.share_title'
-            ),
-            text: this.translate.instant(
-              'subscriptions.subscriptions_service.share_text'
-            ),
-            url: data.link,
-            dialogTitle: this.translate.instant(
-              'subscriptions.subscriptions_service.share_title'
-            ),
-          },
-          this.translate.instant(
-            'subscriptions.subscriptions_service.toast_text_copied'
-          )
-        );
-      });
+    this.apiSubscriptions.getSubscriptionLink(this.summary.fund.nombre_bot).subscribe((data: any) => {
+      this.shareService.share(
+        {
+          title: this.translate.instant('subscriptions.subscriptions_service.share_title'),
+          text: this.translate.instant('subscriptions.subscriptions_service.share_text'),
+          url: data.link,
+          dialogTitle: this.translate.instant('subscriptions.subscriptions_service.share_title'),
+        },
+        this.translate.instant('subscriptions.subscriptions_service.toast_text_copied')
+      );
+    });
   }
 }
