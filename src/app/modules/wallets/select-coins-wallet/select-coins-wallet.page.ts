@@ -127,7 +127,6 @@ export class SelectCoinsWalletPage implements OnInit {
 
   handleSubmit() {
     this.walletService.coins = [];
-
     if (this.almostOneChecked) {
       Object.keys(this.form.value).forEach((key) => {
         if (this.form.value[key]) {
@@ -135,20 +134,12 @@ export class SelectCoinsWalletPage implements OnInit {
           if (coin) this.walletService.coins.push(coin);
         }
       });
-      this.navigateByMode();
-      // if (this.mode === 'import'){
-      //   this.walletService.create();
-      //   console.log(this.walletService.createdWallets);
-      //   this.navController.navigateForward(['/wallets/create-password', 'import'] );
-      // }else{
-      //   this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
-      // }
+      if (this.mode === 'import') {
+        this.walletService.create();
+        this.navController.navigateForward(['/wallets/create-password', 'import']);
+      } else {
+        this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+      }
     }
-  }
-
-  navigateByMode() {
-    const url =
-      this.mode === 'import' ? '/wallets/create-password' + '/import' : '/wallets/create-first/recovery-phrase';
-    this.navController.navigateForward([url]);
   }
 }

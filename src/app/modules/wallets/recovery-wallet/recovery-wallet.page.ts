@@ -41,7 +41,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
             <div class="rwp__copy_button">
               <ion-button
                 appTrackClick
-                name="EditButton"
+                name="Paste Phrase"
                 fill="clear"
                 color="uxdark"
                 size="small"

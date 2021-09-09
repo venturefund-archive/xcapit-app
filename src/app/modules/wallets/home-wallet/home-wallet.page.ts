@@ -38,7 +38,7 @@ import { NavController } from '@ionic/angular';
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
       </div>
-      <div class="wt__button">
+      <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
           (click)="this.goToRecoveryWallet()"
           class="ux-font-text-xs"
