@@ -68,11 +68,11 @@ import { NavController } from '@ionic/angular';
               >
             </div>
           </div>
-          <div class="aei__need_help ux_footer">
-            <ion-button name="Need Help" (click)="this.needHelp()" appTrackClick fill="clear" size="small">{{
-              'shared.need_help.text_help_link' | translate
-            }}</ion-button>
-          </div>
+        </div>
+        <div class="aei__need_help ux_footer">
+          <ion-button name="Need Help" (click)="this.needHelp()" appTrackClick fill="clear" size="small">{{
+            'shared.need_help.text_help_link' | translate
+          }}</ion-button>
         </div>
       </div>
     </ion-content>
@@ -90,7 +90,7 @@ export class ExchangeInformationPage implements OnInit {
   }
 
   accountDoesntExist() {
-    //TODO: Modal
+    // TODO: Modal
   }
 
   needHelp() {

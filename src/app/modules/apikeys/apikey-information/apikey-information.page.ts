@@ -58,11 +58,11 @@ import { NavController } from '@ionic/angular';
               </div>
             </div>
           </div>
-          <div class="apnf__need_help ux_footer">
-            <ion-button name="Need Help" (click)="this.howToCreateAPIKey()" appTrackClick fill="clear" size="small">{{
-              'apikeys.apikey_information.what_is_api_key' | translate
-            }}</ion-button>
-          </div>
+        </div>
+        <div class="apnf__need_help ux_footer">
+          <ion-button name="Need Help" (click)="this.howToCreateAPIKey()" appTrackClick fill="clear" size="small">{{
+            'apikeys.apikey_information.what_is_api_key' | translate
+          }}</ion-button>
         </div>
       </div>
     </ion-content>
@@ -83,6 +83,6 @@ export class ApikeyInformationPage implements OnInit {
   }
 
   howToCreateAPIKey() {
-    //TODO: Modal
+    // TODO: Modal
   }
 }
