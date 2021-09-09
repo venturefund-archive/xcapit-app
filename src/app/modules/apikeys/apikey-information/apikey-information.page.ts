@@ -10,6 +10,7 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'apikeys.apikey_information.header' | translate }}</ion-title>
+        <ion-label class="step_counter" slot="end">2 de 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
