@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { ControlContainer, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-recovery-wallet-form',

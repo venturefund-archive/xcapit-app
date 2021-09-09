@@ -9,6 +9,7 @@ import { navControllerMock } from '../../../../testing/spies/nav-controller-mock
 import { SelectCoinsWalletPage } from './select-coins-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { ActivatedRoute } from '@angular/router';
 
 const testCoins = [
   {
@@ -37,20 +38,27 @@ describe('SelectCoinsWalletPage', () => {
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
   let navController: NavController;
+  let activatedRouteMock: any;
+  let navControllerSpy: any;
   let walletService: WalletService;
   let walletServiceMock;
 
   beforeEach(
     waitForAsync(() => {
+      activatedRouteMock = {};
       walletServiceMock = {
         coins: [],
+        create: () => {},
       };
+
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [SelectCoinsWalletPage, TrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [
           TrackClickDirective,
-          { provide: NavController, useValue: navControllerMock },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -95,30 +103,37 @@ describe('SelectCoinsWalletPage', () => {
   });
 
   it('should navigate to recovery phrase page on submit button clicked and valid form', () => {
-    const spy = spyOn(navController, 'navigateForward');
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
     component.validate();
     component.handleSubmit();
-    expect(spy).toHaveBeenCalledWith(['/wallets/create-first/recovery-phrase']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-first/recovery-phrase']);
   });
 
   it('should not navigate to recovery phrase page on submit button clicked and invalid form', () => {
-    const spy = spyOn(navController, 'navigateForward');
     component.form.patchValue(formData.invalid);
     fixture.detectChanges();
     component.validate();
     component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(0);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
 
   it('should set coins in wallet service on handleSubmit and valid form', () => {
-    spyOn(navController, 'navigateForward');
     component.coins = testCoins;
     component.form.patchValue({ ETH: true, RBTC: false });
     fixture.detectChanges();
     component.validate();
     component.handleSubmit();
     expect(walletService.coins).toEqual(testCoins);
+  });
+
+  it('should navigate [/wallets/create-password, import] and create when almostOneChecked = true, and mode = import', () => {
+    const spy = spyOn(walletService, 'create');
+    component.almostOneChecked = true;
+    component.mode = 'import';
+    component.handleSubmit();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password', 'import']);
   });
 });

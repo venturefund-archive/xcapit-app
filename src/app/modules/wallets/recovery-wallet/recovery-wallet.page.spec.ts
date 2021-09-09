@@ -3,13 +3,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Mnemonic } from '@ethersproject/hdnode';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
-import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
@@ -35,11 +33,10 @@ const testMnemonic: Mnemonic = {
   path: '',
   phrase: 'rhythm heavy choose day question few genre sport daring item cat carbon',
 };
-fdescribe('RecoveryWalletPage', () => {
+describe('RecoveryWalletPage', () => {
   let component: RecoveryWalletPage;
   let fixture: ComponentFixture<RecoveryWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RecoveryWalletPage>;
-  // let languageServiceMock;
   let clipboardServiceMock: any;
   let navControllerSpy: any;
   let walletMnemonicServiceSpy: any;
@@ -61,7 +58,6 @@ fdescribe('RecoveryWalletPage', () => {
           TranslateService,
           TrackClickDirective,
           { provide: ClipboardService, useValue: clipboardServiceMock },
-          // { provide: LanguageService, useValue: languageServiceMock },
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
         ],
@@ -151,7 +147,7 @@ fdescribe('RecoveryWalletPage', () => {
 
   it('should navigate "([wallets/recovery/error])" when form is valid and phrase not exist', () => {
     component.form.patchValue(formData.valid);
-    component.validPhrase = 'rhythm heavy choose day question few genre sport dog daring item carbon';
+    walletMnemonicServiceSpy.importMnemonic = jasmine.createSpy().and.throwError('invalid mnemonic');
     component.handleSubmit();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/recovery/error']);
   });

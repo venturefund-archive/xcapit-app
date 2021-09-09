@@ -9,6 +9,8 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 import { By } from '@angular/platform-browser';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 const coins: Coin[] = [
   {
@@ -36,6 +38,7 @@ const balances: Array<AssetBalance> = [
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
   let navControllerSpy: any;
   let walletServiceMock: any;
   let walletService: WalletService;
@@ -49,9 +52,10 @@ describe('HomeWalletPage', () => {
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [HomeWalletPage],
+        declarations: [HomeWalletPage, TrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [
+          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceMock },
         ],
@@ -59,6 +63,7 @@ describe('HomeWalletPage', () => {
       }).compileComponents();
 
       fixture = TestBed.createComponent(HomeWalletPage);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
       fixture.detectChanges();
       walletService = TestBed.inject(WalletService);
@@ -128,5 +133,20 @@ describe('HomeWalletPage', () => {
     expect(component.walletExist).toBe(true);
     expect(component.walletAddress).toBe('testAddress');
     expect(spyBalance).toHaveBeenCalledWith('testAddress', 'coinTest');
+  });
+
+  it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Import Wallet');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate when goToRecoveryWallet is called', async () => {
+    component.goToRecoveryWallet();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-first/disclaimer', 'import']);
   });
 });

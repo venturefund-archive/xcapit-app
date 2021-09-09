@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
@@ -12,6 +13,7 @@ describe('RecoveryWalletFormComponent', () => {
       TestBed.configureTestingModule({
         declarations: [RecoveryWalletFormComponent],
         imports: [IonicModule.forRoot()],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(RecoveryWalletFormComponent);

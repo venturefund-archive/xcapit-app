@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { COINS } from '../constants/coins';
 import { NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
