@@ -83,6 +83,6 @@ export class ApikeyInformationPage implements OnInit {
   }
 
   howToCreateAPIKey() {
-    //TODO: Modal
+    // TODO: Modal
   }
 }

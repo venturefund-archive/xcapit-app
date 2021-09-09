@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apikeys-tutorial-modal/apikeys-tutorial-modal.component';
 
 @Component({
   selector: 'app-exchange-information',
@@ -81,7 +82,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./exchange-information.page.scss'],
 })
 export class ExchangeInformationPage implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private modalController: ModalController) {}
 
   ngOnInit() {}
 
@@ -89,8 +90,24 @@ export class ExchangeInformationPage implements OnInit {
     this.navController.navigateForward('/apikeys/apikey-information');
   }
 
-  accountDoesntExist() {
-    //TODO: Modal
+  async accountDoesntExist() {
+    const modal = await this.modalController.create({
+      component: ApikeysTutorialModalComponent,
+      componentProps: {
+        title: 'apikeys.exchange_information.tutorial_modal.title',
+        messages: [
+          'apikeys.exchange_information.tutorial_modal.text1',
+          'apikeys.exchange_information.tutorial_modal.text2',
+          'apikeys.exchange_information.tutorial_modal.text3',
+          'apikeys.exchange_information.tutorial_modal.text4',
+        ],
+        buttonMessage: 'apikeys.exchange_information.tutorial_modal.button',
+      },
+      cssClass: 'ux-modal-informative',
+      swipeToClose: false,
+    });
+
+    modal.present();
   }
 
   needHelp() {
