@@ -15,6 +15,6 @@ export class FakeConnectedWallet implements Fake {
   }
 
   modifyReturns(sendTransactionResponse: any): void {
-    this.spy.sendTransaction.and.returnValue(sendTransactionResponse);
+    this.spy.sendTransaction.and.returnValue(Promise.resolve(sendTransactionResponse));
   }
 }
