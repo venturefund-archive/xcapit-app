@@ -13,27 +13,18 @@
     justify-content: center;
 
     &__primary_text {
-      font-family: var(--ux-font-gilroy);
-      font-size: 22px;
-      font-weight: 900;
       margin-top: 16px;
       text-align: center;
     }
 
     &__secondary_text {
-      font-family: var(--ux-font-lato);
-      font-size: 14px;
-      font-weight: 500;
       margin-top: 16px;
       text-align: center;
     }
 
     &__small_text {
-      font-family: var(--ux-font-lato);
-      font-size: 11px;
-      font-weight: 400;
+      font-size: var(--ux-fsize-11);
       margin-top: 8px;
-      color: #0000008a;
       text-align: center;
     }
 

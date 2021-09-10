@@ -68,13 +68,11 @@ describe('FundsFinishedPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call fundDataStorageService.clearAll on init', async (done) => {
+  it('should call fundDataStorageService.clearAll on init', async () => {
     const spy = spyOn(fundDataStorageService, 'clearAll');
     spy.and.returnValue(Promise.resolve({}));
     component.ngOnInit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => expect(spy).toHaveBeenCalledTimes(1));
-    done();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call apiFunds.getFundsToRenew on getFundsToRenew', () => {

@@ -7,7 +7,7 @@
     &__content {
       display: flex;
       justify-content: space-between;
-      padding: 16px 16px 24px 16px;
+      padding: 16px 16px 16px 16px;
       &__right {
         display: flex;
         flex-direction: column;
@@ -23,6 +23,12 @@
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-start;
+        &__fund_name {
+          font-weight: var(--ux-fweight-semibold);
+        }
+        &__actual_ammount {
+          font-weight: var(--ux-fweight-regular);
+        }
         // Con esto logro que cada item (menos el primero) se separe por 4px
         & > *:not(:first-child) {
           margin-top: 4px;
@@ -30,7 +36,12 @@
       }
     }
     &__footer {
-      height: 46px;
+      &__right__button {
+        ion-icon {
+          height: 10px;
+        }
+      }
+      height: 36px;
       display: flex;
       justify-content: space-between;
       border-top: 1px solid #0000000a;

@@ -2,7 +2,6 @@
   width: 100%;
 
   .cib {
-    // flex-direction: column;
     width: auto;
     height: auto;
     background-color: var(--ion-color-uxlight);
@@ -14,17 +13,11 @@
 
     &__buttons {
       &__editButton {
-        margin-bottom: 20px;
-        color: black;
-
-        // --ionicon-stroke-width : 32px ;
+        height: 12px;
+        margin-bottom: 8px;
       }
       &__icon {
         font-size: 12px;
-        left: 44.68%;
-        right: 53.06%;
-        top: 64.94%;
-        bottom: 32.1%;
       }
     }
 
@@ -34,13 +27,16 @@
       border-bottom: 1px solid #0000000a;
 
       &__fund_text {
-        color: rgba(186, 186, 186, 1);
+        color: var(--ion-color-uxmedium);
         font-weight: 400;
       }
       &__content {
         &__title {
-          height: 40px;
-          margin-bottom: 1px;
+          font-weight: var(--ux-fweight-semibold);
+          font-size: var(--ux-fsize-15);
+        }
+        &__text {
+          font-weight: var(--ux-fweight-regular);
         }
       }
     }
@@ -50,6 +46,8 @@
       display: flex;
       justify-content: flex-end;
       &__more_info {
+        font-weight: var(--ux-fweight-regular);
+        margin-top: 9.4px;
         ion-icon {
           height: 10px;
         }
@@ -57,68 +55,16 @@
       &__used_key {
         padding-top: 16px;
         padding-right: 16px;
-        color: rgba(33, 221, 98, 1);
       }
 
       &__buttons {
         &__removeButton {
+          margin-top: 9.4px;
           margin-right: auto;
-          color: rgba(186, 186, 186, 1);
+          color: var(--ion-color-uxmedium);
           font-size: 16px;
         }
       }
     }
   }
 }
-
-//   .cib {
-
-//     height: 135px;
-//     width: 100%;
-//     background-color: var(--ion-color-uxlight);
-//     border-radius: 8px;
-//     cursor: pointer;
-//     margin-right: 15px;
-//     margin-left: 15px;
-//     margin-top: 25px;
-//     flex-direction: column;
-
-//     &__main {
-//       display: flex;
-//       justify-content: space-between;
-//       border-bottom: 1px solid #0000000a;
-
-//       &__content {
-//         &__editButton {
-//           margin-bottom: 110px;
-//           position: absolute;
-//           left: 38.3%;
-//           right: 59.44%;
-//           top: 9.16%;
-//           bottom: 87.87%;
-//         }
-//         &__text {
-//           margin-top: px;
-//         }
-//       }
-
-//       // &__image {
-//       //   min-width: 114px;
-//       //   justify-self: flex-end;
-//       // }
-//     }
-
-//     &__footer {
-//       height: 65px;
-//       display: flex;
-//       justify-content: flex-end;
-//       &__more_info {
-//         margin-top: 15px;
-//         margin-bottom: 15px;
-//         ion-icon {
-//           height: 10px;
-//         }
-//       }
-//     }
-//   }
-// }

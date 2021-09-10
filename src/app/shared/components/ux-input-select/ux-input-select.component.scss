@@ -2,10 +2,10 @@
   .uxselect {
     padding-top: 16px;
     &__label {
-      font-weight: 600;
-      font-size: 12px;
       font-family: var(--ux-font-lato);
-      color: #0000008a; // Color negro con opacity 0.54
+      font-size: var(--ux-fsize-14);
+      font-weight: var(--ux-fweight-extrabold);
+      color: var(--ion-color-uxsemidark);
     }
 
     &__item {

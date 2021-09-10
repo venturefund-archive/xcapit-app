@@ -43,11 +43,14 @@ export class FundPerformanceChartComponent implements OnChanges {
     this.createChart();
   }
 
+  getToRenderElement() {
+    return document.querySelector(`${this.page} #chart`) as HTMLElement;
+  }
+
   createChart() {
     if (!this.chart) {
       const width = window.innerWidth * 0.8;
       let height = window.innerHeight * 0.4;
-      const div = document.querySelector(`${this.page} #chart`) as HTMLElement;
       const dataSet = this.createDataSet();
 
       if (height > 300) {
@@ -56,7 +59,7 @@ export class FundPerformanceChartComponent implements OnChanges {
         height = 200;
       }
 
-      this.chart = createChart(div, {
+      this.chart = createChart(this.getToRenderElement(), {
         width,
         height,
         localization: {
@@ -155,9 +158,13 @@ export class FundPerformanceChartComponent implements OnChanges {
     });
   }
 
+  getTooltipElement() {
+    return document.getElementById('tooltip');
+  }
+
   setTooltip(areaSeries) {
-    const divEl = document.querySelector(`${this.page} #chart`);
-    const toolTip = document.getElementById('tooltip');
+    const divEl = this.getToRenderElement();
+    const toolTip = this.getTooltipElement();
     divEl.appendChild(toolTip);
 
     this.chart.subscribeCrosshairMove((param) => {
@@ -208,9 +215,8 @@ export class FundPerformanceChartComponent implements OnChanges {
   }
 
   createLimitDataSet(): any[] {
-    const lastPerformanceValue = this.fundPercentageEvolution.percentage_evolution[
-      this.fundPercentageEvolution.percentage_evolution.length - 1
-    ];
+    const lastPerformanceValue =
+      this.fundPercentageEvolution.percentage_evolution[this.fundPercentageEvolution.percentage_evolution.length - 1];
     let limitDataSet;
     if (Math.abs(this.fundPercentageEvolution.take_profit - lastPerformanceValue) <= 5) {
       limitDataSet = this.getLimitDataSet(this.fundPercentageEvolution.take_profit);

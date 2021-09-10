@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ApiPaymentsService } from '../../shared-payments/services/api-payments.service';
-import { LICENSES } from '../constants/license';
 @Component({
   selector: 'app-select-license',
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center "> {{ 'payment.licenses.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -16,35 +15,35 @@ import { LICENSES } from '../constants/license';
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="title">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+          <ion-text class="ux-font-text-xl">
             {{ 'payment.licenses.title' | translate }}
           </ion-text>
         </div>
-        <ion-text class="subtitle ux-font-roboto ux-fweight-regular ux-fsize-14">
+        <ion-text class="subtitle ux-font-text-xs ">
           {{ 'payment.licenses.textPrimary' | translate }}
         </ion-text>
-        <ion-text class="second-subtitle ux-font-roboto ux-fsize-14">
+        <ion-text class="second-subtitle ux-font-text-xs">
           {{ 'payment.licenses.textSecondary' | translate }}
         </ion-text>
         <div class="license_type">
           <ion-button
             [ngClass]="{ active: activeButtonAnnual }"
-            class="license_type__anual_button ux-font-roboto ux-fweight-regular ux-fsize-14"
+            class="license_type__anual_button ux-font-text-xs"
             name="anual"
             appTrackClick
             fill="clear"
             size="small"
-            (click)="this.changeLicenses(this.annualState)"
+            (click)="this.changePlans(this.annualFrequency)"
             >{{ 'payment.licenses.btnAnnual' | translate }}</ion-button
           >
           <ion-button
             [ngClass]="{ active: activeButtonMonthly }"
-            class="license_type__mensual_button ux-font-roboto ux-fweight-regular ux-fsize-14"
+            class="license_type__mensual_button ux-font-text-xs"
             name="mensual"
             appTrackClick
             fill="clear"
             size="small"
-            (click)="this.changeLicenses(this.monthlyState)"
+            (click)="this.changePlans(this.monthlyFrequency)"
             >{{ 'payment.licenses.btnMonthly' | translate }}</ion-button
           >
         </div>
@@ -52,9 +51,9 @@ import { LICENSES } from '../constants/license';
           <div>
             <ion-list>
               <app-item-license
-                *ngFor="let license of licenses"
-                [license]="license"
-                (click)="this.action(this.license.type)"
+                *ngFor="let plan of filteredPlans"
+                [plan]="plan"
+                (click)="this.action(this.plan.type, this.plan.id)"
               ></app-item-license>
             </ion-list>
           </div>
@@ -65,29 +64,37 @@ import { LICENSES } from '../constants/license';
   styleUrls: ['./select-license.page.scss'],
 })
 export class SelectLicensePage implements OnInit {
-  licenses = LICENSES;
+  subscriptionPlans = [];
+  filteredPlans = [];
   stateAnnual: string;
   activeButtonAnnual = true;
   stateMonthly: string;
   activeButtonMonthly = true;
-  annualState = 'payment.licenses.annual';
-  monthlyState = 'payment.licenses.monthly';
-  selectedLicense: string;
-  paymentMethods = [];
+  annualFrequency = 'years';
+  monthlyFrequency = 'months';
+  selectedPlan: string;
 
   constructor(private navController: NavController, private apiPayment: ApiPaymentsService) {}
 
   ionViewWillEnter() {
-    this.changeLicenses(this.annualState);
+    this.getSubscriptionPlans();
   }
 
   ngOnInit() {}
 
-  changeLicenses(aState: string) {
-    this.licenses = LICENSES;
-    const filteredLicenses = this.licenses.filter((licenses) => licenses.state === aState || licenses.state === '');
-    this.licenses = filteredLicenses;
-    this.activatedBtn(aState === this.annualState);
+  getSubscriptionPlans() {
+    this.apiPayment.getSubscriptionPlans().subscribe((res) => {
+      this.subscriptionPlans = res;
+      this.changePlans(this.annualFrequency);
+    });
+  }
+
+  changePlans(frequency: string) {
+    const filteredPlans = this.subscriptionPlans.filter(
+      (plans) => plans.frequency_type === frequency || plans.frequency === ''
+    );
+    this.filteredPlans = filteredPlans;
+    this.activatedBtn(frequency === this.annualFrequency);
   }
 
   activatedBtn(annual: boolean) {
@@ -97,19 +104,22 @@ export class SelectLicensePage implements OnInit {
     this.stateMonthly = !annual ? 'active' : '';
   }
 
-  action(type: string) {
-    this.selectedLicense = type;
-    this.apiPayment.getPaymentMethods().subscribe((res) => {
-      res = this.paymentMethods;
-    });
-    if (this.selectedLicense === 'free' && this.paymentMethods?.length === 0) {
+  action(type: string, licenseID: string) {
+    this.selectedPlan = type;
+    if (this.selectedPlan === 'free') {
       this.apiPayment.registerLicense().subscribe(() => {
         this.getSuccessRoute();
       });
+    } else if (this.selectedPlan === 'paid') {
+      this.getPaymentRoute(licenseID);
     }
   }
 
   getSuccessRoute() {
     return this.navController.navigateForward(['/payment/payment-success']);
+  }
+
+  getPaymentRoute(planID: string) {
+    return this.navController.navigateForward(['/payment/payment-methods', planID]);
   }
 }

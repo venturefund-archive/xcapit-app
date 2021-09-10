@@ -1,0 +1,41 @@
+:host {
+  .wsc {
+    background-color: white;
+    margin: 0 16px 16px 16px;
+    border-radius: 8px;
+
+    &__title {
+      text-align: center;
+      color: #54576b;
+      font-weight: var(--ux-fweight-bold);
+    }
+
+    &__img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 24px;
+    }
+
+    &__card-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+      &__receive-card {
+        width: 78px;
+        height: 88px;
+      }
+      &__buy-card {
+        margin-left: 16px;
+        width: 78px;
+        height: 88px;
+      }
+    }
+    &__buttons {
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

@@ -33,35 +33,29 @@ describe('NoAuthGuard', () => {
     expect(noAuthGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is false and checkRefreshToken is false ', async (done) => {
+  it('should be able to hit route when checkToken is false and checkRefreshToken is false ', async () => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
     authServiceSpy.checkRefreshToken.and.returnValue(of(false).toPromise());
-    noAuthGuard.canActivate().then((res) => expect(res).toBe(true));
-    done();
+    await expectAsync(noAuthGuard.canActivate()).toBeResolvedTo(true);
   });
 
-  it('should not be able to hit route when checkToken is true', async (done) => {
+  it('should not be able to hit route when checkToken is true', async () => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
-    noAuthGuard.canActivate().then((res) => expect(res).toBe(false));
-    done();
+    await expectAsync(noAuthGuard.canActivate()).toBeResolvedTo(false);
   });
 
-  it('should call navigateRoot with ["/tabs/funds"] on navController when checkToken is true', async (done) => {
+  it('should call navigateRoot with ["/tabs/home"] on navController when checkToken is true', async () => {
     authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
-    noAuthGuard.canActivate().then((res) => {
-      expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['/tabs/funds']);
-    });
-    done();
+    await noAuthGuard.canActivate();
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['/tabs/home']);
   });
 
-  it('should call navigateRoot with ["/tabs/funds"] on navController when checkToken is false and checkRefreshToken is true', async (done) => {
+  it('should call navigateRoot with ["/tabs/home"] on navController when checkToken is false and checkRefreshToken is true', async () => {
     authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
     authServiceSpy.checkRefreshToken.and.returnValue(of(true).toPromise());
-    noAuthGuard.canActivate().then((res) => {
-      expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['/tabs/funds']);
-    });
-    done();
+    await noAuthGuard.canActivate();
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['/tabs/home']);
   });
 });

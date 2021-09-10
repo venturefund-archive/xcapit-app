@@ -33,7 +33,7 @@ describe('SuccessClaimPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Next Button clicked', () => {
+  it('should call trackEvent on trackService when Go to Home Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Home');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -53,6 +53,6 @@ describe('SuccessClaimPage', () => {
 
   it('should go to home page on goToHome', () => {
     component.goToHome();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/funds']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/home']);
   });
 });

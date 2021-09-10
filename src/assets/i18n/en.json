@@ -62,7 +62,8 @@
   "shared": {
     "services": {
       "share": {
-        "copy_text": "The subscription link has been copied to the clipboard."
+        "copy_text": "The subscription link has been copied to the clipboard.",
+        "share_error": "Text was copied to the clipboard"
       },
       "update_pwa_service": {
         "alert_header": "Update available",
@@ -72,6 +73,10 @@
         "alert_required_header": "Update Required",
         "alert_required_text": "An update of the application is necessary to continue using it.",
         "alert_required_button": "Update"
+      },
+      "copy": {
+        "toast_success": "Copied to the clipboard",
+        "toast_error": "Could not be copied to the clipboard"
       }
     },
     "card_info_robot": {
@@ -84,6 +89,13 @@
     },
     "referrals_help": {
       "text_referrals_help_link": "How the referral system works?"
+    },
+    "app_icon_button_card": {
+      "coming_soon": "Coming Soon"
+    },
+    "without_SL_TP": {
+      "without_stop_loss": "Manual",
+      "without_take_profit": "Manual"
     }
   },
   "usuarios": {
@@ -195,7 +207,7 @@
     "create_ticket_form": {
       "label_email": "EMAIL",
       "placeholder_email": "example@email.com",
-      "label_subject": "CHOOSE A CATEGORY",
+      "label_subject": "Choose a category",
       "placeholder_subject": "Choose a category",
       "label_message": "DESCRIPTION",
       "placeholder_message": "Write your comment or query here",
@@ -230,8 +242,9 @@
         "change_currency": "Change currency"
       },
       "user_status": {
-        "title": "Start investing in the crypto world",
-        "action_button": "Start now"
+        "title": "Start investing",
+        "action_button": "Get started by linking with binance",
+        "link_strategies_button": "Investment strategies"
       },
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
@@ -406,36 +419,49 @@
       "fund_name_placeholder": "Ej: MyFirstFund",
       "next_button": "Next"
     },
+    "fund_investment_info": {
+      "invest_button": "Invest"
+    },
     "fund_investment": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
+      "header": "Investment strategies",
+      "header_more_about": "More about",
       "header_info": {
-        "title": "Select investment strategy",
-        "description": "This will condition the way to operate and the consequent risk to assume when investing."
+        "title": "Choose your favorite strategy",
+        "description": "Each strategy has different returns and volatility. Choose the one that best suits you."
       },
       "card": {
-        "risk_label": "Risk",
         "currency": "USD",
-        "min_capital_label": "Minimum to operate",
-        "more_info": "More info",
+        "min_capital_label": "Minimum investment",
         "invest_button": "Invest",
         "last_year_revenue": "90 days",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
-            "description": "Let our algorithm trade for you. We operate all of your cryptos and when your investment is finished it will be converted to USDT (Tether)."
+            "description": "Let our algorithm trade for you. We operate all of your crypto and when your investment is finished it will be converted to USDT (Theter).",
+            "more_info": "Read more about Denali",
+            "strategie_type": "Trading",
+            "info_description": "Denali is a low risk investment strategy, which makes it ideal for people who are just starting out or who want to ensure the controlled growth of their investment. Its objective is to generate returns in dollars (Tether or USDT). It works by applying different strategies on each crypto that it operates. In short, use dollars to generate more dollars. Its annual yield is around 17%"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
-            "description": "Generate more Bitcoins with your cryptos. We operate all of your cryptos and when your investment is finished it will be converted to BTC (Bitcoin)."
+            "description": "Generate more Bitcoins with your cryptos. We operate all of your crypto and when your investment is finished it will be converted to BTC (Bitcoin).",
+            "more_info": "Read more about Olympus Mons",
+            "strategie_type": "Trading",
+            "info_description": "Olympus mons is an investment strategy with a low risk, which makes it ideal for people who are just starting out or who want to ensure controlled growth of their investment. Its objective is to generate returns in Bitcoins. It works by applying different strategies on each crypto that it operates."
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether)."
+            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether).",
+            "more_info": "Read more about Himalayas",
+            "strategie_type": "Index",
+            "info_description": "Himalayas is a high risk investment index.\n An index is the average price of a group of assets. These assets (in the Himalayas) are the 5 cryptocurrencies with the most blocked capital (amount of money invested within a crypto). Himalayas works on the DeFi ecosystem (a decentralized system that is leveraged on real-life financial instruments - such as loans, credits, interest, and the ease of creating markets). In simple words, Himalayas selects the most promising cryptocurrencies within DeFi and updates your portfolio… (portfolio = the coins you have in your wallet…) once a month. In short, this strategy is committed to diversifying within DeFi)."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invest in the 5 cryptocurrencies with the highest market capitalization. When your investment is finished, it will be converted into USDT (Tether)."
+            "description": "Invest in the 5 cryptocurrencies with the largest market capitalization. When your investment is finished, it will be converted into USDT. (Theter)",
+            "more_info": "Read more about Andes",
+            "strategie_type": "Index",
+            "info_description": "Andes is an investment index with a medium-high risk.\n An index is the average price of a group of assets. These assets (in Andes) are the 5 most important cryptocurrencies (representing 77% of the entire market). Basically, you build an investment portfolio ... (portfolio = the coins you have in your wallet ...) and update it once a month to make sure you have the best 5 assets on the market. In short, this strategy is committed to diversifying."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -459,9 +485,15 @@
       },
       "balance_not_enough": {
         "title": "You need USD${{minBalance}} in your Binance account to start investing.",
-        "message": "Load balance in your Binance account",
+        "message": "Buy crypto at Xcapit",
         "cancel_text": "Cancel",
-        "ok_text": "Go to Binance"
+        "ok_text": "Buy"
+      },
+      "no_apikeys_modal": {
+        "first_title": "Link account",
+        "second_title": "We discovered that you have not yet linked your account with Binance.",
+        "message": "To start investing you need to have a Binance account and link it with your Xcapit account.",
+        "button": "Link account on Binance"
       }
     },
     "fund_duration": {
@@ -475,8 +507,7 @@
       "text_help": "In short terms, the robot is more likely to have performance problems."
     },
     "fund_take_profit": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
+      "header": "Change Stop Loss",
       "title": "When do you want us to stop investing and take the profits?",
       "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
       "take_profit": "Take profit",
@@ -486,11 +517,12 @@
       "back_button": "Back",
       "edit_custom": "Edit",
       "submit_button_edit": "Save",
-      "edit_title": "Change Take Profit"
+      "edit_title": "Change Take Profit",
+      "manual_stop": "I'm going to finish it manually",
+      "alert_manual_option": "Keep in mind that investing without profit limits implies that you must end your investment manually."
     },
     "fund_stop_loss": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
+      "header": "Change Stop Loss",
       "title": "In case of loss, until what percentage of your capital are you willing to risk?",
       "text_before": "Once this percentage is reached, we will stop the operation of the fund to safeguard your capital.",
       "stop_loss": "Stop loss",
@@ -500,16 +532,18 @@
       "submit_button_renew": "Renew fund",
       "submit_button_edit": "Save",
       "edit_custom": "Edit",
-      "edit_title": "Change Stop Loss"
+      "edit_title": "Change Stop Loss",
+      "manual_stop": "I'm going to finish it manually",
+      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
       "confirm_button": "Confirm"
     },
     "fund_success": {
-      "textPrimary": "Congratulations, you are already investing in the crypto world!",
-      "textSecondary": "We have already created your fund and our robot will start managing your capital based on the information you set up.",
-      "namePrimaryAction": "See my investment"
+      "textPrimary": "Congratulations! Your investment is active",
+      "textSecondary": "We have already created your investment and our algorithms will begin to manage your capital based on the information you configured. Make sure you have checked the “enable spot trading” field in Binance so that we can trade.",
+      "namePrimaryAction": "See my investments"
     },
     "fund_success_renew": {
       "textPrimary": "Your fund has been renewed!",
@@ -566,7 +600,7 @@
     },
     "fund_operations": {
       "title": "Operations History",
-      "since_date_range": "Begin:",
+      "since_date_range": "Begin",
       "until_date_range": "End",
       "header_pair": "Pair",
       "header_price": "Price",
@@ -1173,12 +1207,12 @@
     },
     "referrals_info": {
       "header": "Referrals System",
-      "info_title1": "HOW DOES IT WORK?",
-      "info_title2": "HOW MUCH CAN I EARN?",
-      "info_title3": "HOW DO I CLAIM MY PRIZE?",
-      "info_title4": "HOW I SEE HOW MANY REFERRALS I HAVE?",
+      "info_title1": "How does it work?",
+      "info_title2": "How much can i earn?",
+      "info_title3": "How do i claim my prize?",
+      "info_title4": "How i see how many referrals i have?",
       "info_description1": "Any user can invite other people to visit Xcapit, they just need to create an account and share their link within their referral panel.",
-      "info_description2": "You will earn $ 10 (ten dollars) for each guest who activates an Advanced or Expert account, and you will earn $ 1 (one dollar) for each guest who activates an Explorer account. In either case, your guest must have an active account for more than 60 days. Don't have an account yet? Turn it on",
+      "info_description2": "You will earn $ 10 (ten dollars) for each guest who activates an Advanced or Expert account, and you will earn $ 1 (one dollar) for each guest who activates an Explorer account. In either case, your guest must have an active account for more than 60 days.",
       "info_description3": "Within the app, in your referral panel, click Request a reward. We will contact you to coordinate the payment.",
       "info_description4": "Within the app in your referral panel you will see the list of active guests and a counter of the money you have earned."
     },
@@ -1211,6 +1245,139 @@
     "notifications_helper": {
       "message": "You have a new notifications!",
       "view_button": "View"
+    }
+  },
+  "wallets": {
+    "disclaimer": {
+      "header": "Create Wallet",
+      "title": "Let's start with your wallet!",
+      "description": "Before creating your wallet, verify the essential permissions to start",
+      "local_stored_keys_checkbox": "I understand that my funds are kept safely within this device, and not by a company.",
+      "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
+      "terms_of_use_checkbox": "I have read, understand and accept the terms of use.",
+      "terms_of_use_button": "See terms of use",
+      "submit_button": "Confirm and accept",
+      "error_did_not_accept": "You need to check all the options to continue."
+    },
+    "home": {
+      "available_money": "Available money in wallet",
+      "wallet_balance_title": "ASSETS",
+      "wallet_transaction_title": "LATEST",
+      "go_to_history": "View all transactions",
+      "subheader_component": {
+        "title_without_wallet": "You haven't created your wallet yet.",
+        "create_wallet_button": "Create Wallet"
+      },
+      "subheader_buttons_component": {
+        "send_card": "Send",
+        "receive_card": "Receive",
+        "buy_card": "Buy or Sell",
+        "performance_card": "Obtain performance",
+        "title_without_transactions": "Start receiving or buying."
+      }
+    },
+    "select_coin": {
+      "header": "Create Wallet",
+      "title": "Select assets",
+      "subtitle": "Choose the assets you want to view in your wallet",
+      "select_all": "Select all currencies"
+    },
+    "success_creation": {
+      "title": "Nice! your wallet is now created and your recovery phrase is verified",
+      "subtitle": "Keep it in a safe place, if possible, without an internet connection",
+      "success_button": "Go to my wallet"
+    },
+    "recovery_phrase": {
+      "header": "Create Wallet",
+      "title": "Recovery phrase",
+      "text1": "These are the 12 words that make up your wallet.",
+      "text2": "As long as you have the 12 words you will be able to recover your wallet and all the funds.",
+      "text3": "If you lose the words you will not be able to do it.",
+      "text4": "Carefully write each word in the order they appear and keep them in a safe place (text file, USB stick, by hand on a piece of paper, etc).",
+      "btn_next": "Next"
+    },
+    "verify_phrase": {
+      "header": "Create Wallet",
+      "title": "Check your phrase",
+      "text1": "Tap the words in the corresponding order",
+      "btn_create": "Next"
+    },
+    "create_password": {
+      "header": "Create Wallet",
+      "title": "Create a password",
+      "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
+      "password": "Password",
+      "repeat_password": "Confirm Password",
+      "finish_button": "Finish and create wallet"
+    },
+    "receive": {
+      "header": "Receive",
+      "title": "Your wallet information",
+      "currency_select": "Currency",
+      "currency_select_modal_title": "Select currency",
+      "currency_select_placeholder": "Currency",
+      "average_time": "Average receive time: 3 min.",
+      "share": "Share",
+      "disclaimer_header": "Send only {{currency}} to this deposit address.",
+      "disclaimer_body": "Sending other coins or tokens to this address other than {{currency}} may result in the loss of your deposit.",
+      "share_title": "Wallet address"
+    },
+    "failed_mnemonic": {
+      "title": "Your recovery phrase is wrong",
+      "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
+      "button": "Try again"
+    },
+    "transactions": {
+      "header": "Transactions history",
+      "sended": "Sended",
+      "received": "Received",
+      "swap": "Swap"
+    },
+    "send": {
+      "select_currency": {
+        "header": "Send",
+        "title": "Select currency"
+      },
+      "send_detail": {
+        "header": "Send",
+        "title": "Transfer data",
+        "network_select": {
+          "title": "Network",
+          "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
+        },
+        "continue_button": "Continue",
+        "address_input": {
+          "title": "Target wallet",
+          "help_text": "{{currency}} address or alias"
+        },
+        "amount_input": {
+          "title": "Amount to send"
+        }
+      },
+      "send_summary": {
+        "header": "Send",
+        "title": "Transfer data",
+        "amounts_title": "Amount to send",
+        "send_button": "Send",
+        "wrong_password": "Wrong password"
+      },
+      "send_success": {
+        "textPrimary": "Your transfer was made.",
+        "textSecondary": "It will be available shortly",
+        "namePrimaryAction": "Go to my wallet"
+      }
+    },
+    "shared_wallets": {
+      "address_input_card": {
+        "scan_error": "Error scanning QR code",
+        "scan_unauthorized": "You have no permission to scan"
+      },
+      "wallet_password": {
+        "title": "Enter your password",
+        "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
+        "submit_button_text": "Accept",
+        "input_label": "Password"
+      }
     }
   },
   "apikeys": {
@@ -1266,7 +1433,7 @@
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Binance Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submmit": "Submmit",
+      "button_submit": "Submit",
       "link_help": "Need Help?"
     },
     "register_success_begginer": {
@@ -1362,37 +1529,38 @@
         }
       },
       "qr_scanner": {
+        "title": "Point the camera at the QR code",
+        "cancel_label": "Cancel and enter manually",
         "text": "Point your camera towards a QR code."
       }
+    }
+  },
+  "deposit_addresses": {
+    "deposit_currency": {
+      "header": "Deposit Address",
+      "currency_title": "Currency",
+      "title": "In what currency will you pay the commission?",
+      "text_before": "Choose the currency with which you want to make the deposit",
+      "next_button": "Next"
     },
-
-    "deposit_addresses": {
-      "deposit_currency": {
-        "header": "Deposit Address",
-        "currency_title": "Currency",
-        "title": "In what currency will you pay the commission?",
-        "text_before": "Choose the currency with which you want to make the deposit",
-        "next_button": "Next"
-      },
-      "deposit_address": {
-        "header": "Deposit Address",
-        "title": "Address info",
-        "text_before": "Use any of the following information to make the deposit",
-        "address_title": "Address",
-        "address_tag_title": "Address tag",
-        "link_title": "Link",
-        "qr_title": "QR",
-        "copy_address_ok_text": "The address was copied to the clipboard",
-        "copy_address_error_text": "The address could not be copied to the clipboard",
-        "back_link": "Back to home"
-      }
+    "deposit_address": {
+      "header": "Deposit Address",
+      "title": "Address info",
+      "text_before": "Use any of the following information to make the deposit",
+      "address_title": "Address",
+      "address_tag_title": "Address tag",
+      "link_title": "Link",
+      "qr_title": "QR",
+      "copy_address_ok_text": "The address was copied to the clipboard",
+      "copy_address_error_text": "The address could not be copied to the clipboard",
+      "back_link": "Back to home"
     }
   },
   "tabs": {
     "home": "Home",
-    "refer": "Refer",
-    "new_fund": "New",
-    "menu": "More"
+    "new_fund": "Investments",
+    "menu": "More",
+    "wallet": "Wallet"
   },
   "fiat_ramps": {
     "operations_list": {
@@ -1496,8 +1664,10 @@
     "register": {
       "header": "Register Kripton market",
       "header_bank": "Bank account information",
-      "description": "Completa el siguiente formulario para registrarte con nuestro proveedor Kripton Market",
-      "description_bank": "Completa tus datos bancarios con los cuales operarás con el proveedor",
+      "header_images": "Upload Images",
+      "description": "Complete the following form to register with our provider Kripton Market",
+      "description_bank": "Complete your bank details with which you will operate with the provider",
+      "description_images": "Upload the following images to finish the registration.",
       "first_name": "Name",
       "last_name": "Lastname",
       "nationality": "Nationality",
@@ -1514,14 +1684,15 @@
       "address_number": "Address (Number)",
       "address_extra": "Address (Floor/Department)",
       "cbu": "CBU/CVU",
-      "bank": "Bank",
+      "bank": "BANK",
       "doc_front": "Front document image",
       "doc_back": "Back document image",
       "selfie": "Selfie with document",
       "not_politically": "Not politically exposed",
       "not_bound": "Subject not bound",
       "tos": "Terms and conditions",
-      "register": "Next",
+      "register": "Finalize",
+      "next": "Next",
       "marital_status_list": {
         "married": "Married",
         "single": "Single",
@@ -1584,7 +1755,6 @@
       "btn_add_apikey": "Add Api Key"
     }
   },
-
   "payment": {
     "methods": {
       "header": "Payment methods",
@@ -1622,6 +1792,31 @@
       "textPrimary": "Your plan is active!",
       "textSecondary": "Keep configuring your investment",
       "textBtn": "Continue"
+    }
+  },
+  "home": {
+    "home_page": {
+      "want_my_wallet": {
+        "title": "I want my wallet!",
+        "description": "With the wallet you have the power, you can invest simply, effortlessly and with a click."
+      },
+      "strategies": {
+        "title": "Strategies",
+        "description": "Learn about our investment proposal and choose the one that best suits you",
+        "link_text": "View strategies"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Need help? Our experts will contact you to guide you",
+        "link_text": "Write us"
+      },
+      "subheader_component": {
+        "wallet": "Wallet",
+        "buy_card": "Buy",
+        "investments": "Investments",
+        "objectives": "Objectives",
+        "coming_soon_alert": "This option will be available soon"
+      }
     }
   }
 }

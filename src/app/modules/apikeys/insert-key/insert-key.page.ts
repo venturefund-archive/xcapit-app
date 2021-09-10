@@ -12,22 +12,14 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/profiles/success"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{
-          'apikeys.insert_key.header' | translate
-        }}</ion-title>
+        <ion-title>{{ 'apikeys.insert_key.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <form
-        [formGroup]="this.form"
-        (ngSubmit)="this.handleSubmit()"
-        class="ux_main"
-      >
+      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
         <div class="ux_content">
           <div class="ik__title">
-            <app-ux-title>{{
-              'apikeys.insert_key.title' | translate
-            }}</app-ux-title>
+            <app-ux-title>{{ 'apikeys.insert_key.title' | translate }}</app-ux-title>
           </div>
           <div class="ik__text_before">
             <app-ux-text>
@@ -40,9 +32,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
               type="text"
               inputmode="text"
               [label]="'apikeys.insert_key.insert_key' | translate"
-              [placeholder]="
-                'apikeys.insert_key.insert_key_placeholder' | translate
-              "
+              [placeholder]="'apikeys.insert_key.insert_key_placeholder' | translate"
             ></app-ux-input>
           </div>
         </div>

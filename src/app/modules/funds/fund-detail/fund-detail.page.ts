@@ -18,17 +18,12 @@ import { Currency } from '../shared-funds/enums/currency.enum';
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <div>
-          <ion-title class="fd__header-title ion-text-center">{{ 'funds.fund_detail.header' | translate }}</ion-title>
-          <ion-title class="fd__header-fund ion-text-center">{{ this.fundName }}</ion-title>
+          <ion-title class="fd__header-title">{{ 'funds.fund_detail.header' | translate }}</ion-title>
+          <ion-title class="fd__header-fund">{{ this.fundName }}</ion-title>
         </div>
         <div class="fd__header-button" *ngIf="this.isOwner">
           <ion-buttons class="fd__header-button" slot="end">
-            <ion-button
-              class="ux-font-lato ux-fweight-semibold ux-fsize-14 ion-padding-end"
-              appTrackClick
-              name="Edit Fund"
-              (click)="this.editFund()"
-            >
+            <ion-button class="ux-font-button ion-padding-end" appTrackClick name="Edit Fund" (click)="this.editFund()">
               {{ 'funds.fund_detail.edit_button' | translate }}
             </ion-button>
           </ion-buttons>
@@ -56,7 +51,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <!-- Fund Performance Chart Card -->
       <div class="fd__fund-performance-chart-card" *ngIf="this.isChart">
         <div class="fd__fund-performance-chart-card__title">
-          <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">
+          <ion-text class="ux-font-subheading">
             {{ 'funds.fund_detail.performance_chart_card.title' | translate }}
           </ion-text>
         </div>
@@ -64,7 +59,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
           <div class="fd__fund-performance-chart-card__periods__period" *ngFor="let delta of deltas">
             <ion-button
               [ngClass]="{ active: this.selectedDelta === delta.value }"
-              class="fd__fund-performance-chart-card__periods__period__button ux-font-lato ux-fweight-semibold ux-fsize-14"
+              class="fd__fund-performance-chart-card__periods__period__button ux-font-button"
               fill="clear"
               size="small"
               (click)="this.setDelta(delta.value)"
@@ -84,7 +79,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <!-- Fund Metrics Card -->
       <div class="fd__fund-metrics-card">
         <div class="fd__fund-metrics-card__title">
-          <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">
+          <ion-text class="ux-font-subheading">
             {{ 'funds.fund_detail.fund_metrics_card.title' | translate }}
           </ion-text>
         </div>
@@ -99,7 +94,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <!-- Fund Portfolio Card -->
       <div class="fd__fund-portfolio-card">
         <div class="fd__fund-portfolio-card__title">
-          <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">
+          <ion-text class="ux-font-subheading">
             {{ 'funds.fund_detail.fund_portfolio_card.title' | translate }}
           </ion-text>
         </div>
@@ -115,7 +110,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <!-- Fund Timeline Card -->
       <div class="fd__fund-operations-history-card" *ngIf="this.fundTimeline">
         <div class="fd__fund-operations-history-card__title">
-          <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">
+          <ion-text class="ux-font-subheading">
             {{ 'funds.fund_detail.operations_history_card.title' | translate }}
           </ion-text>
         </div>

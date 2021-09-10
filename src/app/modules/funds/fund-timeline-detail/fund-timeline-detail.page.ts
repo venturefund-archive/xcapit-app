@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
           <ion-title class="atd__header-date ion-text-center">
             {{ this.fund?.fecha_inicio | date: 'dd/MM/yy' }}</ion-title
           >
-          <ion-title class="atd__header-fund ion-text-center">{{ this.fundName }}</ion-title>
+          <ion-title class="atd__header-fund">{{ this.fundName }}</ion-title>
         </div>
       </ion-toolbar>
     </ion-header>
@@ -33,21 +33,15 @@ import { TranslateService } from '@ngx-translate/core';
           <ion-list class="atd__performance-card__content">
             <ion-item class="atd__performance-card__content__item">
               <ion-label>
-                <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">
+                <ion-text class="ux-font-text-xxs regular" color="uxsemidark">
                   {{ 'funds.fund_timeline_detail.performance_card.performance_label' | translate }}
                 </ion-text>
               </ion-label>
               <ion-label>
-                <ion-text
-                  class="ux-font-lato ux-fweight-semibold ux-fsize-10 positive"
-                  *ngIf="this.fund?.percentage >= 0"
-                >
+                <ion-text class="ux-font-text-xs positive" *ngIf="this.fund?.percentage >= 0">
                   {{ this.fund?.percentage | number: '1.0-2' }}%
                 </ion-text>
-                <ion-text
-                  class="ux-font-lato ux-fweight-semibold ux-fsize-10 negative"
-                  *ngIf="this.fund?.percentage < 0"
-                >
+                <ion-text class="ux-font-text-xs negative" *ngIf="this.fund?.percentage < 0">
                   {{ this.fund?.percentage | number: '1.0-2' }}%
                 </ion-text>
               </ion-label>
@@ -56,7 +50,7 @@ import { TranslateService } from '@ngx-translate/core';
         </div>
         <div class="atd__config">
           <div class="atd__config__title">
-            <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxsemidark">
+            <ion-text class="ux-font-subheading" color="uxsemidark">
               {{ 'funds.fund_timeline_detail.config_card.title' | translate }}
             </ion-text>
           </div>

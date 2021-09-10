@@ -11,19 +11,19 @@ import { Storage } from '@ionic/storage';
       <div class="main">
         <div class="main__close_button">
           <ion-button fill="clear" appTrackClickUnauth name="Close Resend Email" (click)="this.close()">
-            <ion-icon class="main__close_button__icon" name="ux-close" color="uxmedium"></ion-icon>
+            <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
           </ion-button>
         </div>
         <div class="main__ux_success_image">
-          <app-ux-success-img></app-ux-success-img>
+          <app-ux-center-img></app-ux-center-img>
         </div>
         <div class="main__primary_text">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
+          <ion-text class="ux-font-text-xl">{{
             'usuarios.register.resend_verification_email.title' | translate
           }}</ion-text>
         </div>
         <div class="main__secondary_text">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">{{
+          <ion-text class="ux-font-text-xs">{{
             'usuarios.register.resend_verification_email.text' | translate
           }}</ion-text>
         </div>

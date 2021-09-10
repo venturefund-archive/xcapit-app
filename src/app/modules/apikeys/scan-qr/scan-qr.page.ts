@@ -10,7 +10,7 @@ import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-s
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-title class="ion-text-center">{{ 'apikeys.scan_qr.header' | translate }}</ion-title>
+        <ion-title>{{ 'apikeys.scan_qr.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 

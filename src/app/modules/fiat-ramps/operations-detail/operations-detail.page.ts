@@ -14,7 +14,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/operations"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
+        <ion-title>
           {{ 'fiat_ramps.operation_detail.header' | translate }}
           <span *ngIf="this.operation"> {{ this.operation.operation_id }} </span>
         </ion-title>
@@ -25,20 +25,20 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
       <app-ux-loading-block *ngIf="!this.operation" minSize="30px"></app-ux-loading-block>
 
       <div *ngIf="this.operation">
-        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22 ios hydrated ion-padding-top ion-margin-top">
+        <ion-text class="ux-font-text-xl ios hydrated ion-padding-top ion-margin-top">
           <div class="ion-margin-top">
             {{ 'fiat_ramps.operation_detail.header' | translate }}
           </div>
         </ion-text>
         <div class="dp__content">
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+          <ion-text class="ux-font-text-xs dp__content__text">
             <span class="dp__content__text__title">
               {{ 'fiat_ramps.operation_detail.card.provider' | translate }}
             </span>
             <span> {{ this.provider.name }} </span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+          <ion-text class="ux-font-text-xs dp__content__text">
             <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.type' | translate }} </span>
             <span *ngIf="this.operation.operation_type === 'cash-in'">
               {{ 'fiat_ramps.operation_detail.card.buy.operationType' | translate }}
@@ -48,10 +48,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text
-            class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text"
-            *ngIf="this.operation.operation_type === 'cash-in'"
-          >
+          <ion-text class="ux-font-text-xs dp__content__text" *ngIf="this.operation.operation_type === 'cash-in'">
             <span class="dp__content__text__title">
               {{ 'fiat_ramps.operation_detail.card.buy.title' | translate }}
             </span>
@@ -61,10 +58,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text
-            class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text"
-            *ngIf="this.operation.operation_type === 'cash-out'"
-          >
+          <ion-text class="ux-font-text-xs dp__content__text" *ngIf="this.operation.operation_type === 'cash-out'">
             <span class="dp__content__text__title">
               {{ 'fiat_ramps.operation_detail.card.sell.title' | translate }}
             </span>
@@ -75,7 +69,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+          <ion-text class="ux-font-text-xs dp__content__text">
             <span class="dp__content__text__title">
               {{ 'fiat_ramps.operation_detail.card.amount' | translate }}
             </span>
@@ -89,7 +83,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+          <ion-text class="ux-font-text-xs dp__content__text">
             <span class="dp__content__text__title">
               {{ 'fiat_ramps.operation_detail.card.quotation' | translate }}
             </span>
@@ -103,7 +97,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             </span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+          <ion-text class="ux-font-text-xs dp__content__text">
             <span class="dp__content__text__title">
               {{ 'fiat_ramps.operation_detail.card.status' | translate }}
             </span>
@@ -112,12 +106,12 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
             }}</span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+          <ion-text class="ux-font-text-xs dp__content__text">
             <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.date' | translate }} </span>
             <span>{{ this.operation.created_at | date: 'dd/MM/yy' }}</span>
           </ion-text>
 
-          <ion-text class="ux-font-lato ux-fsize-14 ux-fweight-regular dp__content__text">
+          <ion-text class="ux-font-text-xs dp__content__text">
             <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.id' | translate }} </span>
             <span>{{ this.operation.operation_id }}</span>
           </ion-text>
@@ -146,7 +140,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
           </div>
 
           <div *ngIf="this.hasVoucher" class="dp__voucher">
-            <app-ux-success-img></app-ux-success-img>
+            <app-ux-center-img></app-ux-center-img>
             <span>{{ 'fiat_ramps.operation_detail.has_voucher' | translate }}</span>
           </div>
 

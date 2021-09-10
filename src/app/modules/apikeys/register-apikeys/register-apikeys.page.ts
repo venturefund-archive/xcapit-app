@@ -21,7 +21,7 @@ import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enu
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'apikeys.register.header' | translate }}</ion-title>
+        <ion-title>{{ 'apikeys.register.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -84,7 +84,7 @@ import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enu
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >
-              {{ 'apikeys.register.button_submmit' | translate }}
+              {{ 'apikeys.register.button_submit' | translate }}
             </ion-button>
           </div>
         </div>

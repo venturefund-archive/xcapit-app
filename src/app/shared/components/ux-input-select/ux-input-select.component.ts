@@ -7,7 +7,7 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
   selector: 'app-ux-input-select',
   template: `
     <div class="uxselect">
-      <ion-label class="uxselect__label">{{ this.label }}</ion-label>
+      <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
       <ion-item class="uxselect__item">
         <ion-label *ngIf="this.control.value !== '' && this.keyName !== ''">{{ this.selectedItem }}</ion-label>
         <ion-input
@@ -47,6 +47,7 @@ export class UxInputSelectComponent implements OnInit {
 
   ngOnInit() {
     this.control = this.form.control.get(this.controlName);
+    this.control.valueChanges.subscribe((value) => this.setSelectedValue(value, false));
   }
 
   async openModal(event: UIEvent | undefined) {
@@ -66,7 +67,7 @@ export class UxInputSelectComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal generic-modal',
       swipeToClose: false,
     });
-    modal.present();
+    await modal.present();
 
     const data = await modal.onDidDismiss();
     if (data.role === 'selected') {
@@ -74,8 +75,8 @@ export class UxInputSelectComponent implements OnInit {
     }
   }
 
-  setSelectedValue(value: any) {
-    this.control.patchValue(value);
+  setSelectedValue(value: any, patch = true) {
+    if (patch) this.control.patchValue(value);
     if (this.keyName !== '' && this.valueName !== '') {
       this.selectedItem = this.getKeyForSelectedItem(this.control.value);
     }

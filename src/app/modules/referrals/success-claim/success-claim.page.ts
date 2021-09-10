@@ -8,13 +8,13 @@ import { NavController } from '@ionic/angular';
       <div class="main">
         <div class="main__close_button">
           <ion-button appTrackClick fill="clear" name="Close Success" (click)="this.close()">
-            <ion-icon class="main__close_button__icon" name="ux-close" color="uxmedium"></ion-icon>
+            <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
           </ion-button>
         </div>
         <div class="main__ux_success_image">
           <img src="../../../../assets/img/referrals/success-claim/success-claim.svg" />
         </div>
-        <div class="main__primary_text">
+        <div class="main__primary_text ux-font-text-xl ">
           <ion-text>{{ 'referrals.success_claim_reward.primary_text' | translate }}</ion-text>
         </div>
         <div class="main__secondary_text">
@@ -38,7 +38,7 @@ export class SuccessClaimPage implements OnInit {
   ngOnInit() {}
 
   goToHome() {
-    this.navController.navigateBack(['/tabs/funds']);
+    this.navController.navigateBack(['/tabs/home']);
   }
 
   close() {

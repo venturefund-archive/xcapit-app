@@ -35,4 +35,16 @@ describe('ApiPaymentsService', () => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('it should call get on http when getPaymentLink', () => {
+    apiPaymentservice.getPaymentLink({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('it should call get on http when getSubscriptionPlans', () => {
+    apiPaymentservice.getSubscriptionPlans().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });
