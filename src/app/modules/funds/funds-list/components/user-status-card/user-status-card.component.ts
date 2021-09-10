@@ -91,6 +91,6 @@ export class UserStatusCardComponent implements OnInit {
   }
 
   doActionButton() {
-    this.navController.navigateRoot(this.newFundUrl).then();
+    this.navController.navigateForward(this.newFundUrl).then();
   }
 }

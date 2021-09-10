@@ -15,6 +15,7 @@ import { TrackClickDirective } from '../../../shared/directives/track-click/trac
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 const testCurrencies: Coin[] = [
   {
@@ -23,7 +24,7 @@ const testCurrencies: Coin[] = [
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: true,
     value: 'ETH',
-    network: 'ETH',
+    network: 'ERC20',
     rpc: 'http://testrpc.test/',
   },
 ];
@@ -40,6 +41,7 @@ describe('ReceivePage', () => {
   let toastServiceMock;
   let walletEncryptionService: WalletEncryptionService;
   let walletEncryptionServiceMock;
+  let platformServiceSpy;
   let toastService: ToastService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReceivePage>;
 
@@ -58,8 +60,11 @@ describe('ReceivePage', () => {
         showToast: () => Promise.resolve(),
       };
       walletEncryptionServiceMock = {
-        getEncryptedWallet: () => Promise.resolve({ addresses: { ETH: 'test_address' } }),
+        getEncryptedWallet: () => Promise.resolve({ addresses: { ERC20: 'test_address' } }),
       };
+      platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+        isNative: true,
+      });
       TestBed.configureTestingModule({
         declarations: [ReceivePage, TrackClickDirective],
         imports: [
@@ -75,6 +80,7 @@ describe('ReceivePage', () => {
           { provide: ShareService, useValue: shareServiceMock },
           { provide: ToastService, useValue: toastServiceMock },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
+          { provide: PlatformService, useValue: platformServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -100,12 +106,11 @@ describe('ReceivePage', () => {
   it('should generate QR with address on enter page', async () => {
     const spy = spyOn(qrCodeService, 'generateQRFromText').and.callThrough();
     await component.ionViewWillEnter();
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith('test_address');
-      expect(component.addressQr).toBeTruthy();
-      expect(fixture.debugElement.query(By.css('#qr-img')));
-    });
+    await fixture.whenStable();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith('test_address');
+    expect(component.addressQr).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('#qr-img')));
   });
 
   it('should copy address when click in copy button', async () => {
@@ -118,8 +123,12 @@ describe('ReceivePage', () => {
     expect(spy).toHaveBeenCalledWith({ string: 'test_address' });
   });
 
-  it('should share address when click in share button', async () => {
+  it('should share address when click in share button - native platform', async () => {
     const spy = spyOn(shareService, 'share').and.callThrough();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     const button = fixture.debugElement.query(By.css('#share-address-button'));
     await button.nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
@@ -133,6 +142,16 @@ describe('ReceivePage', () => {
     );
   });
 
+  it('should not render share button on no native platform', async () => {
+    platformServiceSpy.isNative.and.returnValue(false);
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const button = fixture.debugElement.query(By.css('#share-address-button'));
+    expect(button).toBeNull();
+  });
+
   it('should call trackEvent on trackService when Copy Wallet Address is clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Copy Wallet Address');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -143,6 +162,8 @@ describe('ReceivePage', () => {
   });
 
   it('should call trackEvent on trackService when Share Wallet Address is clicked', () => {
+    component.isNativePlatform = true;
+    fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Share Wallet Address');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');

@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { UxInputUnderlinedComponent } from './ux-input-underlined.component';
 import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { UxLoadingBlockComponent } from '../ux-loading-block/ux-loading-block.component';
 
 describe('UxInputUnderlinedComponent', () => {
   let component: UxInputUnderlinedComponent;
@@ -17,20 +18,13 @@ describe('UxInputUnderlinedComponent', () => {
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;
     TestBed.configureTestingModule({
-      declarations: [UxInputUnderlinedComponent],
+      declarations: [UxInputUnderlinedComponent, UxLoadingBlockComponent],
       imports: [IonicModule, ReactiveFormsModule],
       providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UxInputUnderlinedComponent);
     component = fixture.componentInstance;
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should be rendered properly', async () => {
     component.controlName = 'testControlName';
     component.labelLeft = 'labelLeft';
     component.labelRight = 'labelRight';
@@ -38,7 +32,13 @@ describe('UxInputUnderlinedComponent', () => {
     component.maxlength = 5;
     component.readonly = false;
     component.debounce = 100;
+  });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should be rendered properly', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
@@ -54,5 +54,16 @@ describe('UxInputUnderlinedComponent', () => {
     const labels = fixture.debugElement.queryAll(By.css('ion-label'));
     expect(labels[0].nativeElement.innerHTML).toContain('labelLeft');
     expect(labels[1].nativeElement.innerHTML).toContain('labelRight');
+  });
+
+  it('should render loading if loading', async () => {
+    component.loading = false;
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    expect(fixture.debugElement.query(By.css('#loading'))).toBeNull();
+    component.loading = true;
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    expect(fixture.debugElement.query(By.css('#loading'))).not.toBeNull();
   });
 });

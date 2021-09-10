@@ -1,0 +1,10 @@
+:host {
+  .wt {
+    &__transactions {
+      margin-top: 24px;
+      &__wallet-transaction-card {
+        margin-top: 8px;
+      }
+    }
+  }
+}

@@ -73,7 +73,7 @@
       },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
-        "share_error": "Error al compartir"
+        "share_error": "El texto se copió en el portapapeles"
       },
       "copy": {
         "toast_success": "Se copió al portapapeles",
@@ -93,6 +93,10 @@
     },
     "app_icon_button_card": {
       "coming_soon": "Proximamente"
+    },
+    "without_SL_TP": {
+      "without_stop_loss": "Manual",
+      "without_take_profit": "Manual"
     }
   },
   "usuarios": {
@@ -454,14 +458,14 @@
             "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT(Tether).",
             "more_info": "Leer más sobre Himalayas",
             "strategie_type": "Indice",
-            "info_description": "Himalayas es un índice de inversión con un riesgo alto. Un índice es la cotización promedio de un grupo de activos… (cosas). Estas cosas (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu billetera…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
+            "info_description": "Himalayas es un índice de inversión con un riesgo alto.\n Un índice es la cotización promedio de un grupo de activos. Estas activos (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu billetera…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
           },
           "Mary_index": {
             "title": "Andes",
             "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT. (Theter)",
             "more_info": "Leer más sobre Andes",
             "strategie_type": "Indice",
-            "info_description": "Andes es un índice de inversión con un riesgo medio-alto. Un índice es la cotización promedio de un grupo de activos… (cosas). Estas cosas (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu billetera…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos… (cosas). En resumen, esta estrategia apuesta a diversificar."
+            "info_description": "Andes es un índice de inversión con un riesgo medio-alto.\n Un índice es la cotización promedio de un grupo de activos. Estos activos (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu billetera…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos del mercado. En resumen, esta estrategia apuesta a diversificar."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -485,9 +489,9 @@
       },
       "balance_not_enough": {
         "title": "Necesitás USD${{minBalance}} en tu cuenta de Binance para comenzar a invertir.",
-        "message": "Carga saldo en tu cuenta de Binance",
+        "message": "Comprar cripto en Xcapit",
         "cancel_text": "Cancelar",
-        "ok_text": "Ir a Binance"
+        "ok_text": "Comprar"
       },
       "no_apikeys_modal": {
         "first_title": "Vincular cuenta",
@@ -507,10 +511,9 @@
       "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
     },
     "fund_take_profit": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "¿Cuándo vas a querer que dejemos de invertir y tomemos las ganancias?",
-      "text_before": "En caso en que tu inversión genere ganancias necesitamos que decidas hasta que porcentaje seguiremos invirtiendo.",
+      "header": "Modificar Take Profit",
+      "title": "Configura el límites de beneficios",
+      "text_before": "¿Cuándo quieres que dejemos de invertir? Tu inversión se finalizará cuando alcance este porcentajes de beneficio.",
       "take_profit": "Take profit",
       "most_chosen": "Más elegida",
       "custom_tp_button": "Elegir otra opción",
@@ -518,13 +521,14 @@
       "back_button": "Anterior",
       "edit_custom": "Editar",
       "submit_button_edit": "Guardar",
-      "edit_title": "Modificar Take Profit"
+      "edit_title": "Modificar Take Profit",
+      "manual_stop": "Voy a finalizarlo manualmente",
+      "alert_manual_option": "Ten en cuenta que invertir sin límite de beneficios implica que debes finalizar tu inversion manualmente."
     },
     "fund_stop_loss": {
-      "header": "Crea un fondo",
-      "header_renew": "Renueva un fondo",
-      "title": "En caso de pérdida… ¿Hasta que porcentaje de tu capital estas dispuesto a arriesgar?",
-      "text_before": "Una vez alcanzado este porcentaje, detendremos la operatoria del fondo para resguardar tu capital.",
+      "header": "Modificar Stop Loss",
+      "title": "Configura el límite de pérdida",
+      "text_before": "En el caso de perdida ¿Cuando quieres que dejemos de invertir? Tu inversión se finalizara cuando alcance este porcentaje de perdida",
       "stop_loss": "Stop loss",
       "most_chosen": "Más elegida",
       "custom_tp_button": "Elegir otra opción",
@@ -534,16 +538,18 @@
       "submit_button_renew": "Renovar fondo",
       "submit_button_edit": "Guardar",
       "edit_custom": "Editar",
-      "edit_title": "Modificar Stop Loss"
+      "edit_title": "Modificar Stop Loss",
+      "manual_stop": "Voy a finalizarlo manualmente",
+      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",
       "confirm_button": "Confirmar"
     },
     "fund_success": {
-      "textPrimary": "¡Felicitaciones, ya estas invirtiendo en el mundo crypto!",
-      "textSecondary": "Ya creamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
-      "namePrimaryAction": "Ver mi inversión"
+      "textPrimary": "¡Felicitaciones! Tu inversión está activa",
+      "textSecondary": "Ya creamos tu inversión y nuestros algoritmos comenzarán a gestionar tu capital en base a la información que configuraste. Asegurate haber chequeado el campo “habilitar spot trading” en Binance para que podemos operar.",
+      "namePrimaryAction": "Ver mis inversiones"
     },
     "fund_success_renew": {
       "textPrimary": "¡Tu fondo ha sido renovado!",
@@ -1261,12 +1267,18 @@
       "available_money": "Dinero disponible en billetera",
       "wallet_balance_title": "ACTIVOS",
       "wallet_recovery": "Importar una billetera existente",
+      "wallet_transaction_title": "RECIENTE",
+      "go_to_history": "Ver todas las transacciones",
       "subheader_component": {
-        "title_with_wallet": "Empieza recibiendo o comprando.",
         "title_without_wallet": "Todavía no creaste tu billetera.",
-        "receive_card": "Recibir",
-        "buy_card": "Compra venta",
         "create_wallet_button": "Crear Billetera"
+      },
+      "subheader_buttons_component": {
+        "send_card": "Enviar",
+        "receive_card": "Recibir",
+        "buy_card": "Comprar",
+        "performance_card": "Obtener rendimiento",
+        "title_without_transactions": "Empieza recibiendo o comprando."
       }
     },
     "select_coin": {
@@ -1327,6 +1339,12 @@
       "label": "Frase de recuperación",
       "button": "Importar billetera"
     },
+    "transactions": {
+      "header": "Historico transacciones",
+      "sended": "Enviado",
+      "received": "Recibido",
+      "swap": "Swap"
+    },
     "send": {
       "select_currency": {
         "header": "Enviar",
@@ -1337,7 +1355,7 @@
         "title": "Datos de la transferencia",
         "network_select": {
           "title": "Red",
-          "disclaimer": "Asegurse que la billetera de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
+          "disclaimer": "Asegúrese que la billetera de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
         },
         "continue_button": "Continuar",
         "address_input": {

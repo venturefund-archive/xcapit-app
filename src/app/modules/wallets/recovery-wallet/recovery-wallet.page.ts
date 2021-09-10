@@ -64,7 +64,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
               class="ux_button"
               (click)="this.handleSubmit()"
               appTrackClick
-              name="Acept"
+              name="Import Wallet"
               type="submit"
               color="uxsecondary"
               size="large"

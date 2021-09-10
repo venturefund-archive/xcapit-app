@@ -53,6 +53,31 @@ const routes: Routes = [
       {
         path: 'recovery',
         loadChildren: () => import('./recovery-wallet/recovery-wallet.module').then((m) => m.RecoveryWalletPageModule),
+        canActivate: [AcceptedToSGuard],
+      },
+      {
+        path: 'recovery',
+        children: [
+          {
+            path: 'error',
+            loadChildren: () =>
+              import('./error-recovery-wallet/error-recovery-wallet.module').then(
+                (m) => m.ErrorRecoveryWalletPageModule
+              ),
+          },
+          {
+            path: 'success',
+            loadChildren: () =>
+              import('./success-recovery-wallet/success-recovery-wallet.module').then(
+                (m) => m.SuccessRecoveryWalletPageModule
+              ),
+          },
+        ],
+      },
+      {
+        path: 'transactions',
+        loadChildren: () =>
+          import('./transactions-wallet/transactions-wallet.module').then((m) => m.TransactionsWalletPageModule),
       },
       {
         path: 'send',
@@ -73,25 +98,6 @@ const routes: Routes = [
           {
             path: 'success',
             loadChildren: () => import('./send/send-success/send-success.module').then((m) => m.SendSuccessPageModule),
-          },
-        ],
-      },
-      {
-        path: 'recovery',
-        children: [
-          {
-            path: 'error',
-            loadChildren: () =>
-              import('./error-recovery-wallet/error-recovery-wallet.module').then(
-                (m) => m.ErrorRecoveryWalletPageModule
-              ),
-          },
-          {
-            path: 'success',
-            loadChildren: () =>
-              import('./success-recovery-wallet/success-recovery-wallet.module').then(
-                (m) => m.SuccessRecoveryWalletPageModule
-              ),
           },
         ],
       },

@@ -121,8 +121,7 @@ describe('RecoveryWalletPage', () => {
   });
 
   it('should call trackEvent on trackService when Send Button clicked', () => {
-    spyOn(component, 'handleSubmit');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Acept');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Import Wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -140,7 +139,7 @@ describe('RecoveryWalletPage', () => {
 
   it('should call import mnemonic and navigate "([wallets/select-coins, import])" when form and phrase are valid', () => {
     component.form.patchValue(formData.valid);
-    component.handleSubmit();
+    fixture.debugElement.query(By.css('ion-button[name="Import Wallet"]')).nativeElement.click();
     expect(walletMnemonicServiceSpy.importMnemonic).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'import']);
   });
@@ -148,7 +147,7 @@ describe('RecoveryWalletPage', () => {
   it('should navigate "([wallets/recovery/error])" when form is valid and phrase not exist', () => {
     component.form.patchValue(formData.valid);
     walletMnemonicServiceSpy.importMnemonic = jasmine.createSpy().and.throwError('invalid mnemonic');
-    component.handleSubmit();
+    fixture.debugElement.query(By.css('ion-button[name="Import Wallet"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/recovery/error']);
   });
 });

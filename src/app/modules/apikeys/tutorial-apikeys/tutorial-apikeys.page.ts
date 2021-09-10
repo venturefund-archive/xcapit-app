@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Plugins } from '@capacitor/core';
-import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
-import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { LINKS } from '../../../config/static-links';
 
 const { Browser } = Plugins;
@@ -13,7 +11,7 @@ const { Browser } = Plugins;
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/profiles/success"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'apikeys.tutorial_apikeys.header' | translate }}</ion-title>
       </ion-toolbar>

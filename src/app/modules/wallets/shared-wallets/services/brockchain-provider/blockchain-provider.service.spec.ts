@@ -17,7 +17,7 @@ const testCoins: Coin[] = [
     logoRoute: '../../assets/img/coins/ETH.svg',
     last: false,
     value: 'ETH',
-    network: 'ETH',
+    network: 'ERC20',
     rpc: 'http://testrpc.test',
   },
   {
@@ -26,7 +26,7 @@ const testCoins: Coin[] = [
     logoRoute: '../../assets/img/coins/USDT.svg',
     last: false,
     value: 'USDT',
-    network: 'USD',
+    network: 'ERC20',
     rpc: 'http://testrpc.test',
     contract: '0x00000000000000',
     abi: tokenAbi,

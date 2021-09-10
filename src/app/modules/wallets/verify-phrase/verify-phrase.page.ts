@@ -127,16 +127,17 @@ export class VerifyPhrasePage {
 
   async deleteWord(index: number) {
     const word = this.verificationPhrase[index];
-    await this.slides.getActiveIndex().then((activeIndex) => {
-      if (activeIndex === index && word) {
-        this.verificationPhrase.pop();
-        this.blockPrevSlide(false);
-        this.slides.slidePrev();
-        this.blockPrevSlide(true);
-        this.recoveryPhraseComponent.enable(word);
-        this.slide--;
-      }
-    });
+    const activeIndex = this.getActiveIndex();
+
+    if (activeIndex - 1 === index && word) {
+      this.verificationPhrase.pop();
+      this.blockPrevSlide(false);
+      this.slides.slidePrev();
+      this.blockPrevSlide(true);
+      this.recoveryPhraseComponent.enable(word);
+      this.slide--;
+      this.activated = this.verificationPhrase.length === this.countWords;
+    }
   }
 
   createWallet() {
@@ -146,5 +147,9 @@ export class VerifyPhrasePage {
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
+  }
+
+  getActiveIndex() {
+    return this.verificationPhrase.length;
   }
 }
