@@ -298,6 +298,16 @@ ion-toast.refresher_toast {
     }
   }
 
+  .ux-modal-no-binance-account {
+    --max-height: 337px;
+    --max-width: 85%;
+
+    .modal-wrapper {
+      background-color: var(--ion-background-colorwhite);
+      border-radius: 8px;
+    }
+  }
+
   // Modal como swippeable
   .ux-routeroutlet-modal {
     .modal-wrapper {

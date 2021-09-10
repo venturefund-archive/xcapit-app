@@ -103,11 +103,17 @@ export class ExchangeInformationPage implements OnInit {
         ],
         buttonMessage: 'apikeys.exchange_information.tutorial_modal.button',
       },
-      cssClass: 'ux-modal-informative',
+      cssClass: 'ux-modal-no-binance-account',
       swipeToClose: false,
     });
 
-    modal.present();
+    await modal.present();
+
+    const { role } = await modal.onWillDismiss();
+
+    if (role === 'success') {
+      this.accountExist();
+    }
   }
 
   needHelp() {

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-apikeys-tutorial-modal',
   template: `
     <div class="ion-padding atm">
-      <ion-button size="small" fill="clear atm__close">
+      <ion-button name="Close" appTrackClick size="small" fill="clear atm__close" (click)="this.close()">
         <img src="assets/ux-icons/ux-close.svg" alt="Close" />
       </ion-button>
       <div class="atm__title">
@@ -21,9 +22,18 @@ import { Component, OnInit } from '@angular/core';
           </li>
         </ol>
       </div>
-      <ion-button class="ux_button atm__button">
-        {{ this.buttonMessage | translate }}
-      </ion-button>
+      <div class="atm__footer">
+        <ion-button
+          name="I Have an Account"
+          appTrackClick
+          class="ux_button atm__footer__button"
+          color="uxsecondary"
+          size="large"
+          (click)="this.closeAndNavigateForward()"
+        >
+          {{ this.buttonMessage | translate }}
+        </ion-button>
+      </div>
     </div>
   `,
   styleUrls: ['./apikeys-tutorial-modal.component.scss'],
@@ -33,7 +43,15 @@ export class ApikeysTutorialModalComponent implements OnInit {
   messages: string[];
   buttonMessage: string;
 
-  constructor() {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
+
+  close() {
+    this.modalController.dismiss(null, 'cancel');
+  }
+
+  closeAndNavigateForward() {
+    this.modalController.dismiss(null, 'success');
+  }
 }
