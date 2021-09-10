@@ -25,7 +25,8 @@
       "minlength": "More characters are required",
       "maxlength": "Fewer characters required ",
       "not_matching": "The fields do not match ",
-      "has_special_character": "Special characters and spaces are not allowed"
+      "has_special_character": "Special characters and spaces are not allowed",
+      "count_words_match": "The number of words is different from 12"
     },
     "field_errors": {
       "cellphone": {
@@ -1262,6 +1263,7 @@
     "home": {
       "available_money": "Available money in wallet",
       "wallet_balance_title": "ASSETS",
+      "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
       "subheader_component": {
@@ -1327,6 +1329,13 @@
       "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
       "button": "Try again"
     },
+    "recovery_wallet": {
+      "header": "Import Wallet",
+      "title": "Enter recovery phrase",
+      "subtitle": "Write your words separated by a space",
+      "label": "Recovery phrase",
+      "button": "Import Wallet"
+    },
     "transactions": {
       "header": "Transactions history",
       "sended": "Sended",
@@ -1378,6 +1387,15 @@
         "submit_button_text": "Accept",
         "input_label": "Password"
       }
+    },
+    "error_wallet_recovery": {
+      "title": "Your recovery phrase is wrong",
+      "description": "Check your words and try again",
+      "button": "Try again"
+    },
+    "success_wallet_recovery": {
+      "title": "Brilliant! We import your wallet with your recovery phrase",
+      "button": "Go to my wallet"
     }
   },
   "apikeys": {

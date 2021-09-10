@@ -9,6 +9,10 @@ const routes: Routes = [
     path: '',
     component: SelectCoinsWalletPage,
   },
+  {
+    path: ':mode',
+    component: SelectCoinsWalletPage,
+  },
 ];
 
 @NgModule({

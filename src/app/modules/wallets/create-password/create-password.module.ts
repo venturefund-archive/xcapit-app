@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: CreatePasswordPage,
   },
+  {
+    path: ':mode',
+    component: CreatePasswordPage,
+  },
 ];
 
 @NgModule({

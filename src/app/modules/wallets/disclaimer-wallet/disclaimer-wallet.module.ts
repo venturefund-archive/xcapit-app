@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: DisclaimerWalletPage,
   },
+  {
+    path: ':mode',
+    component: DisclaimerWalletPage,
+  },
 ];
 
 @NgModule({

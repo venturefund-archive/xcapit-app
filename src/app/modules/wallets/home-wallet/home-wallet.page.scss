@@ -66,6 +66,11 @@
       margin-bottom: 10px;
     }
   }
+  &__button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
   &__transaction-history {
     margin-top: 16px;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { COINS } from '../constants/coins';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
@@ -46,7 +47,19 @@ import { finalize } from 'rxjs/operators';
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
       </div>
-
+      <div class="wt__button" *ngIf="!this.walletExist">
+        <ion-button
+          (click)="this.goToRecoveryWallet()"
+          class="ux-font-text-xs"
+          appTrackClick
+          name="Import Wallet"
+          type="button"
+          color="uxsecondary"
+          fill="clear"
+        >
+          {{ 'wallets.home.wallet_recovery' | translate }}
+        </ion-button>
+      </div>
       <div
         class="wt__transaction ion-padding-start ion-padding-end"
         *ngIf="this.transactionsExists && this.balances?.length"
@@ -122,6 +135,10 @@ export class HomeWalletPage implements OnInit {
         this.getLastTransactions();
       }
     });
+  }
+
+  goToRecoveryWallet() {
+    this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
   async getWalletsBalances() {
