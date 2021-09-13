@@ -95,7 +95,6 @@ describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
-  let walletServiceMock: any;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let walletService: WalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
