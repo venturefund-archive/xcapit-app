@@ -103,7 +103,7 @@ export class ExchangeInformationPage implements OnInit {
         ],
         buttonMessage: 'apikeys.exchange_information.tutorial_modal.button',
       },
-      cssClass: 'ux-modal-no-binance-account',
+      cssClass: 'ux-modal-apikeys-tutorial-no-binance-account',
       swipeToClose: false,
     });
 

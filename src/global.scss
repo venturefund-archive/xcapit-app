@@ -298,11 +298,22 @@ ion-toast.refresher_toast {
     }
   }
 
-  .ux-modal-no-binance-account {
+  .ux-modal-apikeys-tutorial-no-binance-account {
     --max-height: 337px;
-    --max-width: 85%;
+    --max-width: 89%;
 
     .modal-wrapper {
+      background-color: var(--ion-background-colorwhite);
+      border-radius: 8px;
+    }
+  }
+
+  .ux-modal-apikeys-tutorial-no-apikeys {
+    --max-height: 549px;
+    --max-width: 89%;
+
+    .modal-wrapper {
+      margin-top: 76px;
       background-color: var(--ion-background-colorwhite);
       border-radius: 8px;
     }

@@ -1572,6 +1572,17 @@
           "description": "If you never created an API Key, we can help you create one."
         }
       },
+      "tutorial_modal": {
+        "title": "Create API Key",
+        "text1": "Go to Binance web page using a computer.",
+        "text2": "Once you are logged in, go to your Binance profile and select “API Management”.",
+        "text3": "Assign an identification label. This is just a name so you can recognize the API.",
+        "text4": "Check the “Enable spot trading” option. This action allows us to operate, we can't operate if you disable it.",
+        "text5": "Click “Create API”",
+        "text6": "Complete the security verification.",
+        "text7": "Done!",
+        "button": "I have an API Key"
+      },
       "what_is_api_key": "What is an API Key?"
     }
   },
