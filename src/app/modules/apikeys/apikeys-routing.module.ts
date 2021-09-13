@@ -9,12 +9,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'tutorial',
-        canActivate: [],
-        loadChildren: () =>
-          import('./tutorial-apikeys/tutorial-apikeys.module').then((m) => m.TutorialApikeysPageModule),
-      },
-      {
         path: 'insert-key',
         canActivate: [],
         loadChildren: () => import('./insert-key/insert-key.module').then((m) => m.InsertKeyPageModule),
@@ -61,14 +55,14 @@ const routes: Routes = [
         loadChildren: () => import('./scan-qr/scan-qr.module').then((m) => m.ScanQrPageModule),
       },
       {
-        path: 'exchange-information',
+        path: 'tutorial-exchange',
         loadChildren: () =>
-          import('./exchange-information/exchange-information.module').then((m) => m.ExchangeInformationPageModule),
+          import('./tutorial-exchange/tutorial-exchange.module').then((m) => m.TutorialExchangePageModule),
       },
       {
-        path: 'apikey-information',
+        path: 'tutorial-apikeys',
         loadChildren: () =>
-          import('./apikey-information/apikey-information.module').then((m) => m.ApikeyInformationPageModule),
+          import('./tutorial-apikeys/tutorial-apikeys.module').then((m) => m.TutorialApikeysPageModule),
       },
     ],
   },

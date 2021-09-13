@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-exchange-information',
+  selector: 'app-tutorial-exchange',
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
@@ -79,15 +79,15 @@ import { NavController } from '@ionic/angular';
     </ion-content>
   `,
 
-  styleUrls: ['./exchange-information.page.scss'],
+  styleUrls: ['./tutorial-exchange.page.scss'],
 })
-export class ExchangeInformationPage implements OnInit {
+export class TutorialExchangePage implements OnInit {
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
   accountExist() {
-    this.navController.navigateForward('/apikeys/apikey-information');
+    this.navController.navigateForward('/apikeys/tutorial-apikeys');
   }
 
   accountDoesntExist() {
