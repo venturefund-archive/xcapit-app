@@ -58,7 +58,7 @@ describe('TutorialExchangePage', () => {
 
   it('should navigate to API Key information when Have Binance Account is clicked', () => {
     fixture.debugElement.query(By.css('div[name="Have Binance Account"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/tutorial-apikeys');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/tutorial/apikeys');
   });
 
   it('should navigate to Create Support Ticket Page when Need Help is clicked', () => {

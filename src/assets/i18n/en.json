@@ -96,6 +96,9 @@
     "without_SL_TP": {
       "without_stop_loss": "Manual",
       "without_take_profit": "Manual"
+    },
+    "step_counter": {
+      "of": "of"
     }
   },
   "usuarios": {

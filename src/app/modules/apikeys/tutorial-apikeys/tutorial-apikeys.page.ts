@@ -10,8 +10,9 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'apikeys.apikey_information.header' | translate }}</ion-title>
-        <ion-label class="step_counter" slot="end">2 de 3</ion-label>
+        <ion-label class="step_counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
+      <app-ux-step-progress-bar progress="52.5%"> </app-ux-step-progress-bar>
     </ion-header>
     <ion-content class="ion-padding">
       <div class="ux_main">
@@ -76,7 +77,7 @@ export class TutorialApikeysPage implements OnInit {
   ngOnInit() {}
 
   existingAPIKey() {
-    this.navController.navigateForward('/apikeys/register');
+    this.navController.navigateForward('/apikeys/tutorial/register');
   }
 
   NonExistingAPIKey() {

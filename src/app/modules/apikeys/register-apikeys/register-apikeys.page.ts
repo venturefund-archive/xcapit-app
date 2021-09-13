@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, NavController, Platform } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -12,6 +12,7 @@ import { LINKS } from '../../../config/static-links';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-apikeys',
@@ -22,7 +23,11 @@ import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enu
           <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'apikeys.register.header' | translate }}</ion-title>
+        <ion-label *ngIf="this.isTutorialStep" class="step_counter" slot="end"
+          >3 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+        >
       </ion-toolbar>
+      <app-ux-step-progress-bar progress="80%" *ngIf="this.isTutorialStep"> </app-ux-step-progress-bar>
     </ion-header>
     <ion-content class="ion-padding">
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
@@ -110,23 +115,25 @@ export class RegisterApikeysPage implements OnInit {
   supportLinks = LINKS;
   inPWA = true;
   userStatus: any;
+  isTutorialStep = false;
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private apiApikeysService: ApiApikeysService,
-    private alertController: AlertController,
     private translate: TranslateService,
     private navController: NavController,
     private toastService: ToastService,
     private storageApiKeysService: StorageApikeysService,
     private platformService: PlatformService,
-    private apiUsuariosService: ApiUsuariosService
+    private apiUsuariosService: ApiUsuariosService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.checkIsTutorialStep();
     this.patchFormValue();
     this.checkIsWebPlatform();
     this.getUserStatus();
@@ -134,6 +141,10 @@ export class RegisterApikeysPage implements OnInit {
 
   async getUserStatus() {
     this.apiUsuariosService.status(false).subscribe((res) => (this.userStatus = res));
+  }
+
+  checkIsTutorialStep() {
+    this.isTutorialStep = this.router.url === '/apikeys/tutorial/register';
   }
 
   checkIsWebPlatform() {

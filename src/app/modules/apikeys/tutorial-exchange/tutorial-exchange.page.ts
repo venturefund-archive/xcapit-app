@@ -10,8 +10,9 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'apikeys.exchange_information.header' | translate }}</ion-title>
-        <ion-label class="step_counter" slot="end">1 de 3</ion-label>
+        <ion-label class="step_counter" slot="end">1 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
+      <app-ux-step-progress-bar progress="40%"> </app-ux-step-progress-bar>
     </ion-header>
     <ion-content class="ion-padding">
       <div class="ux_main">
@@ -87,7 +88,7 @@ export class TutorialExchangePage implements OnInit {
   ngOnInit() {}
 
   accountExist() {
-    this.navController.navigateForward('/apikeys/tutorial-apikeys');
+    this.navController.navigateForward('/apikeys/tutorial/apikeys');
   }
 
   accountDoesntExist() {

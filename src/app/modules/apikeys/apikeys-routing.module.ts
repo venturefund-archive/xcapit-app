@@ -55,14 +55,24 @@ const routes: Routes = [
         loadChildren: () => import('./scan-qr/scan-qr.module').then((m) => m.ScanQrPageModule),
       },
       {
-        path: 'tutorial-exchange',
-        loadChildren: () =>
-          import('./tutorial-exchange/tutorial-exchange.module').then((m) => m.TutorialExchangePageModule),
-      },
-      {
-        path: 'tutorial-apikeys',
-        loadChildren: () =>
-          import('./tutorial-apikeys/tutorial-apikeys.module').then((m) => m.TutorialApikeysPageModule),
+        path: 'tutorial',
+        children: [
+          {
+            path: 'exchange',
+            loadChildren: () =>
+              import('./tutorial-exchange/tutorial-exchange.module').then((m) => m.TutorialExchangePageModule),
+          },
+          {
+            path: 'apikeys',
+            loadChildren: () =>
+              import('./tutorial-apikeys/tutorial-apikeys.module').then((m) => m.TutorialApikeysPageModule),
+          },
+          {
+            path: 'register',
+            loadChildren: () =>
+              import('../apikeys/register-apikeys/register-apikeys.module').then((m) => m.RegisterApikeysPageModule),
+          },
+        ],
       },
     ],
   },
