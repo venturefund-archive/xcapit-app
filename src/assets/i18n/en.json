@@ -1430,11 +1430,11 @@
     },
     "register": {
       "header": "Add API key",
-      "label_alias": "Alias",
-      "placeholder_alias": "MyKeysOnBinance",
-      "label_apikey": "Binance API Key",
+      "label_alias": "Enter Alias (You can use the same as binance)",
+      "placeholder_alias": "Ej: MyApiKey",
+      "label_apikey": "Enter API Key",
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
-      "label_secretkey": "Binance Secret Key",
+      "label_secretkey": "Enter Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
       "button_submit": "Submit",
       "link_help": "Need Help?"
