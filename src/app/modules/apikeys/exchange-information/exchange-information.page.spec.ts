@@ -1,28 +1,38 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ExchangeInformationPage } from './exchange-information.page';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
-describe('ExchangeInformationPage', () => {
+fdescribe('ExchangeInformationPage', () => {
   let component: ExchangeInformationPage;
   let fixture: ComponentFixture<ExchangeInformationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ExchangeInformationPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: any;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController({});
       navControllerSpy = fakeNavController.createSpy();
+
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
         declarations: [ExchangeInformationPage, TrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          TrackClickDirective,
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ExchangeInformationPage);
@@ -110,5 +120,23 @@ describe('ExchangeInformationPage', () => {
 
     const descriptionEl = fixture.debugElement.query(By.css('.aei__description ion-text'));
     expect(descriptionEl.nativeElement.innerHTML).toContain('apikeys.exchange_information.description');
+  });
+
+  it('should open modal when Doesnt Have Binance Account button is clicked', () => {
+    const buttonEl = fixture.debugElement.query(By.css('div[name="Doesnt Have Binance Account"]')).nativeElement;
+    buttonEl.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to API Key information when modal is closed using the Done button', async () => {
+    fakeModalController.modifyReturns({ role: 'success' }, null);
+    await component.accountDoesntExist();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/apikey-information');
+  });
+
+  it('should not navigate to API Key information when modal is closed using the Close button', async () => {
+    fakeModalController.modifyReturns({ role: 'cancel' }, null);
+    await component.accountDoesntExist();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
 });
