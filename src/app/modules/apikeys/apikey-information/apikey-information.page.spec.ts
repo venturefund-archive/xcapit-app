@@ -129,4 +129,10 @@ fdescribe('ApikeyInformationPage', () => {
     await component.nonExistingAPIKey();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
+
+  it('should navigate to Whats an API Key when Need Help button is clicked', () => {
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Need Help"]')).nativeElement;
+    buttonEl.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/whats-an-api-key');
+  });
 });

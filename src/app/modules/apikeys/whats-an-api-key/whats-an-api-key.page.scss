@@ -1,0 +1,15 @@
+:host {
+  .waak {
+    &__title {
+      padding-top: 12px;
+    }
+
+    &__description {
+      padding-top: 16px;
+    }
+
+    &__button {
+      width: 100%;
+    }
+  }
+}

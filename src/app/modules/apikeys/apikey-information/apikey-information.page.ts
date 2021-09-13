@@ -80,7 +80,7 @@ export class ApikeyInformationPage implements OnInit {
   }
 
   howToCreateAPIKey() {
-    // this.navController.navigateForward('') //TODO: Add Page
+    this.navController.navigateForward('/apikeys/whats-an-api-key');
   }
 
   async nonExistingAPIKey() {

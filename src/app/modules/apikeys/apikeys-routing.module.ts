@@ -70,6 +70,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./apikey-information/apikey-information.module').then((m) => m.ApikeyInformationPageModule),
       },
+      {
+        path: 'whats-an-api-key',
+        loadChildren: () => import('./whats-an-api-key/whats-an-api-key.module').then((m) => m.WhatsAnApiKeyPageModule),
+      },
     ],
   },
 ];
