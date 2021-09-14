@@ -25,7 +25,8 @@
       "minlength": "Se requieren más caracteres",
       "maxlength": "Se requieren menos caracteres",
       "not_matching": "Los campos no coinciden",
-      "has_special_character": "No permite caracteres especiales ni espacios"
+      "has_special_character": "No permite caracteres especiales ni espacios",
+      "count_words_match": "La cantidad de palabras es distinta de 12"
     },
     "field_errors": {
       "cellphone": {
@@ -1265,6 +1266,7 @@
     "home": {
       "available_money": "Dinero disponible en billetera",
       "wallet_balance_title": "ACTIVOS",
+      "wallet_recovery": "Importar una billetera existente",
       "wallet_transaction_title": "RECIENTE",
       "go_to_history": "Ver todas las transacciones",
       "subheader_component": {
@@ -1330,6 +1332,13 @@
       "description": "Generaremos otras 12 palabras para mayor seguridad. Recuerda que tienes que anotarlas y guardarlas en un lugar seguro.",
       "button": "Volver a intentarlo"
     },
+    "recovery_wallet": {
+      "header": "Importar Billetera",
+      "title": "Ingresar frase de recuperación",
+      "subtitle": "Escribe tus palabras separadas por un espacio",
+      "label": "Frase de recuperación",
+      "button": "Importar billetera"
+    },
     "transactions": {
       "header": "Historico transacciones",
       "sended": "Enviado",
@@ -1381,6 +1390,15 @@
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
       }
+    },
+    "error_wallet_recovery": {
+      "title": "Tu frase de recupeación es incorrecta",
+      "description": "Verifica tus palabras y vuelve a intentarlo",
+      "button": "Volver a intentarlo"
+    },
+    "success_wallet_recovery": {
+      "title": "¡Genial! Importamos tu billetera con tu frase de recuperación",
+      "button": "Ir a mi billetera"
     }
   },
   "apikeys": {

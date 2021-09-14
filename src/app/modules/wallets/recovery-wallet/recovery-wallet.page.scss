@@ -1,0 +1,33 @@
+:host {
+  .resize {
+    font-size: var(--ux-fsize-16);
+  }
+
+  .button-next {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    margin-bottom: 16px;
+  }
+
+  .rwp {
+    &__label_and_icon {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+    }
+    &__subtitle {
+      margin-top: 10px;
+      align-items: center;
+    }
+    &__label {
+      width: 99%;
+    }
+    &__title {
+    }
+    &__copy_button {
+    }
+    &__icon {
+    }
+  }
+}

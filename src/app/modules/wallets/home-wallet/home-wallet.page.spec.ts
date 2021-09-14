@@ -12,6 +12,8 @@ import { of } from 'rxjs';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
+import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 const testCoins = {
   test: [
@@ -92,6 +94,7 @@ const transaction = [
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let walletService: WalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
@@ -125,9 +128,10 @@ describe('HomeWalletPage', () => {
       });
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [HomeWalletPage],
+        declarations: [HomeWalletPage, TrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [
+          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
@@ -138,6 +142,7 @@ describe('HomeWalletPage', () => {
       }).compileComponents();
 
       fixture = TestBed.createComponent(HomeWalletPage);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
       component.allPrices = undefined;
       component.userCoins = testCoins.test;
@@ -263,6 +268,20 @@ describe('HomeWalletPage', () => {
     expect(component.totalBalanceWallet).toBe(expectedBalance);
   });
 
+  it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Import Wallet');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate when goToRecoveryWallet is called', async () => {
+    component.goToRecoveryWallet();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-first/disclaimer', 'import']);
+  });
   it('should show the total balance in USD on ionViewWillEnter', fakeAsync(() => {
     storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));
     (Object.getOwnPropertyDescriptor(walletService, 'addresses').get as jasmine.Spy).and.returnValue({

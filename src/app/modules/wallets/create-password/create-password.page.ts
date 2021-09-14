@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
@@ -9,6 +8,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-password',
@@ -19,7 +19,12 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.create_password.header' | translate }}</ion-title>
+        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
+          'wallets.recovery_wallet.header' | translate
+        }}</ion-title>
+        <ion-title *ngIf="this.mode !== 'import'" class="ion-text-center">{{
+          'wallets.create_password.header' | translate
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -74,6 +79,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
   styleUrls: ['./create-password.page.scss'],
 })
 export class CreatePasswordPage implements OnInit {
+  mode: string;
   createPasswordForm: FormGroup = this.formBuilder.group(
     {
       password: [
@@ -99,13 +105,17 @@ export class CreatePasswordPage implements OnInit {
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     public submitButtonService: SubmitButtonService,
     private navController: NavController,
-    private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
     private loadingService: LoadingService
   ) {}
+
+  ionViewWillEnter() {
+    this.mode = this.route.snapshot.paramMap.get('mode');
+  }
 
   ngOnInit() {}
 
@@ -115,10 +125,15 @@ export class CreatePasswordPage implements OnInit {
       const password = this.createPasswordForm.value.password;
       this.walletEncryptionService.encryptWallet(password).then((res) => {
         this.loadingService.dismiss();
-        this.navController.navigateForward(['/wallets/success-creation']);
+        this.navigateByMode();
       });
     } else {
       this.createPasswordForm.markAllAsTouched();
     }
+  }
+
+  navigateByMode() {
+    const url = this.mode === 'import' ? '/wallets/recovery/success' : '/wallets/success-creation';
+    this.navController.navigateForward([url]);
   }
 }

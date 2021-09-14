@@ -15,6 +15,10 @@ export class CustomValidatorErrors {
     isNotInRange: true,
   };
 
+  static countWordsMatch = {
+    countWordsMatch: true,
+  };
+
   static noPasswordMatch = { noPasswordMatch: true };
 
   static noFieldsMatch = { noFieldsMatch: true };
