@@ -16,7 +16,7 @@ export class ApiKeyDataGuard implements CanActivate {
     if (this.storageApikeysService.data) {
       return of(true);
     } else {
-      this.router.navigate(['apikeys/tutorial']);
+      this.router.navigate(['apikeys/tutorial/exchange']);
       return of(false);
     }
   }

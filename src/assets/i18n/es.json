@@ -97,6 +97,9 @@
     "without_SL_TP": {
       "without_stop_loss": "Manual",
       "without_take_profit": "Manual"
+    },
+    "step_counter": {
+      "of": "de"
     }
   },
   "usuarios": {
@@ -1479,7 +1482,7 @@
       "link_with_binance": "Vincular con Binance"
     },
     "scan_qr": {
-      "header": "Escanea tus keys",
+      "header": "Escanea tu API Key",
       "register_manually": "Ingresar manualmente",
       "errors": {
         "invalidQR": "El código QR no es válido.",
@@ -1525,14 +1528,13 @@
     },
     "register": {
       "header": "Agregar API key",
-      "label_alias": "Alias",
-      "placeholder_alias": "MisKeysEnBinance",
-      "label_apikey": "Binance API Key",
+      "label_alias": "Ingresar Alias (Puede usar el mismo de binance)",
+      "placeholder_alias": "Ej: MiApiKey",
+      "label_apikey": "Ingresar API Key",
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
-      "label_secretkey": "Binance Secret Key",
+      "label_secretkey": "Ingresar Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submit": "Agregar",
-      "link_help": "¿Necesitas Ayuda?"
+      "button_submit": "Agregar"
     },
     "edit_modal": {
       "title": "Cambiar Alias",
@@ -1546,6 +1548,38 @@
       "title": "Apunta la cámara al código QR",
       "cancel_label": "Cancelar e ingresar manual",
       "text": "Apunta la cámara a un código QR."
+    },
+    "exchange_information": {
+      "header": "Vincular API Key",
+      "title": "Binance es nuestro Partner y el exchange más grande del mundo",
+      "description": "Cada inversión que hagas en Xcapit necesita conectarse a una API única de Binance. Pero primero paso a paso elige:",
+      "cards": {
+        "have_exchange_account": {
+          "title": "Ya tengo cuenta en Binance",
+          "description": "Si ya tienes cuenta en Binance vamos al siguiente paso."
+        },
+        "dont_have_exchange_account": {
+          "title": "No tengo cuenta en Binance",
+          "description": "Te contamos como crear una cuenta gratis en el exchange mas grande del mundo."
+        }
+      },
+      "information_card": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la billetera Spot. No podremos realizar retiros."
+    },
+    "apikey_information": {
+      "header": "Vincular API Key",
+      "title": "Una API key sirve para conectar tu cuenta de Binance con Xcapit",
+      "description": "LA API Key es un código que solo nos permite gestionar sobre tu cuenta. Debes crearlo para que exista.",
+      "cards": {
+        "have_apikey": {
+          "title": "Ya tengo API Key",
+          "description": "Si ya creaste tu API Key con Binance vamos al siguiente paso."
+        },
+        "dont_have_apikey": {
+          "title": "No tengo API Key",
+          "description": "Si nunca creaste una API Key te ayudamos a crear una."
+        }
+      },
+      "what_is_api_key": "¿Qué es una API Key?"
     }
   },
   "tabs": {
