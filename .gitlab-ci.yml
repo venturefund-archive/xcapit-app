@@ -71,7 +71,8 @@ cache:
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
-    - npm test --watchAll=false --coverage --forceExit --config ./variables.env.ts
+    - cd ${CI_PROJECT_DIR}
+    - npm test --watchAll=false --coverage --forceExit --config variables.env.ts
 
 ### Docker lint
 .docker-lint: &docker-lint
