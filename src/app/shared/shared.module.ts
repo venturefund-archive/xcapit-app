@@ -42,6 +42,7 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
 import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
 import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
+import { UxInputSelectTraductionComponent } from './ux-input-select-traduction/ux-input-select-traduction.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     ToastAlertComponent,
     ScanQrModalComponent,
     // Ux
+    UxInputSelectTraductionComponent,
     UxInputComponent,
     UxInputGooglePlacesComponent,
     UxCenterImgComponent,
@@ -111,6 +113,7 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     ToastAlertComponent,
     ScanQrModalComponent,
     // Ux
+    UxInputSelectTraductionComponent,
     UxInputComponent,
     UxInputGooglePlacesComponent,
     UxCenterImgComponent,

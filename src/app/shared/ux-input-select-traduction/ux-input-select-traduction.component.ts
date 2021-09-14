@@ -1,0 +1,86 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { UxSelectModalComponent } from '../components/ux-select-modal/ux-select-modal.component';
+
+@Component({
+  selector: 'app-ux-input-select-traduction',
+  template: ` <div class="uxselect">
+    <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
+    <ion-item class="uxselect__item">
+      <ion-label *ngIf="this.control.value !== '' && this.keyName !== ''">{{ this.selectedItem }}</ion-label>
+      <ion-input
+        [ngClass]="{ uxselect__item__input_transparent: this.control.value !== '' && this.keyName !== '' }"
+        mode="md"
+        [formControlName]="this.controlName"
+        [placeholder]="this.placeholder"
+        [readonly]="true"
+        (click)="this.openModal($event)"
+      >
+      </ion-input>
+      <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="uxdark"></ion-icon>
+    </ion-item>
+    <app-errors-form-item [controlName]="this.controlName"></app-errors-form-item>
+  </div>`,
+  viewProviders: [
+    {
+      provide: ControlContainer,
+      useExisting: FormGroupDirective,
+    },
+  ],
+  styleUrls: ['./ux-input-select-traduction.component.scss'],
+})
+export class UxInputSelectTraductionComponent implements OnInit {
+  @Input() label = '';
+  @Input() modalTitle = '';
+  @Input() placeholder = '';
+  @Input() controlName = '';
+  @Input() data = [];
+  @Input() keyName = '';
+  @Input() valueName = '';
+  selectedItem = '';
+  control: AbstractControl;
+
+  constructor(private modalController: ModalController, private form: FormGroupDirective) {}
+
+  ngOnInit() {
+    this.control = this.form.control.get(this.controlName);
+    this.control.valueChanges.subscribe((value) => this.setSelectedValue(value, false));
+  }
+
+  async openModal(event: UIEvent | undefined) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    const modal = await this.modalController.create({
+      component: UxSelectModalComponent,
+      componentProps: {
+        title: this.modalTitle,
+        data: this.data,
+        keyName: this.keyName,
+        valueName: this.valueName,
+        selected: this.control.value,
+      },
+      cssClass: 'ux-routeroutlet-modal generic-modal',
+      swipeToClose: false,
+    });
+    await modal.present();
+
+    const data = await modal.onDidDismiss();
+    if (data.role === 'selected') {
+      this.setSelectedValue(data.data);
+    }
+  }
+
+  setSelectedValue(value: any, patch = true) {
+    if (patch) this.control.patchValue(value);
+    if (this.keyName !== '' && this.valueName !== '') {
+      this.selectedItem = this.getKeyForSelectedItem(this.control.value);
+    }
+  }
+
+  getKeyForSelectedItem(selectedItem) {
+    return this.data.find((item) => item[this.valueName] === selectedItem)[this.keyName];
+  }
+}
