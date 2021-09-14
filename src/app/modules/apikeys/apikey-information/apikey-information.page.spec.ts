@@ -10,7 +10,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 
 import { ApikeyInformationPage } from './apikey-information.page';
 
-fdescribe('ApikeyInformationPage', () => {
+describe('ApikeyInformationPage', () => {
   let component: ApikeyInformationPage;
   let fixture: ComponentFixture<ApikeyInformationPage>;
   let fakeNavController: FakeNavController;

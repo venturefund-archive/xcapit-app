@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-whats-an-api-key',
@@ -26,7 +27,7 @@ import { Component, OnInit } from '@angular/core';
           </div>
         </div>
         <div class="ux_footer">
-          <ion-button class="ux_button waak__button">
+          <ion-button appTrackClick name="Done" class="ux_button waak__button" (click)="this.goToRegisterAPIKey()">
             {{ 'apikeys.whats_an_api_key.button' | translate }}
           </ion-button>
         </div>
@@ -36,7 +37,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./whats-an-api-key.page.scss'],
 })
 export class WhatsAnApiKeyPage implements OnInit {
-  constructor() {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
+
+  goToRegisterAPIKey() {
+    this.navController.navigateForward('/apikeys/register');
+  }
 }

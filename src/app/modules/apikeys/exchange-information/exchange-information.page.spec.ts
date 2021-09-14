@@ -9,7 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ExchangeInformationPage } from './exchange-information.page';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
-fdescribe('ExchangeInformationPage', () => {
+describe('ExchangeInformationPage', () => {
   let component: ExchangeInformationPage;
   let fixture: ComponentFixture<ExchangeInformationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ExchangeInformationPage>;

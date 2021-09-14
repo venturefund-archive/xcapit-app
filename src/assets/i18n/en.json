@@ -1584,6 +1584,12 @@
         "button": "I have an API Key"
       },
       "what_is_api_key": "What is an API Key?"
+    },
+    "whats_an_api_key": {
+      "header": "What's an API Key",
+      "title": "What is an API key?",
+      "description": "An API key is a secret key that can be used to link your Binance account with Xcapit. In doing so you only give us permission to manage your cryptocurrencies but we can't take them out from your account. They are always under your control.",
+      "button": "I have an API key"
     }
   },
   "deposit_addresses": {

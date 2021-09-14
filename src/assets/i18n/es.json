@@ -1579,6 +1579,12 @@
         "button": "Ya tengo API Key"
       },
       "what_is_api_key": "¿Qué es una API Key?"
+    },
+    "whats_an_api_key": {
+      "header": "Qué es una API Key",
+      "title": "¿Qué es una API key?",
+      "description": "Una API key es una clave secreta que sirve para vincular tu cuenta de Binance con Xcapit. Al vincular la cuenta sólo nos das permiso para gestionar tus criptomonedas pero nunca retirarlas de tu cuenta, siempre están bajo tu control.",
+      "button": "Ya tengo una API key"
     }
   },
   "tabs": {

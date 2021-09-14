@@ -9,7 +9,7 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApikeysTutorialModalComponent } from './apikeys-tutorial-modal.component';
 
-fdescribe('ApikeysTutorialModalComponent', () => {
+describe('ApikeysTutorialModalComponent', () => {
   let component: ApikeysTutorialModalComponent;
   let fixture: ComponentFixture<ApikeysTutorialModalComponent>;
   let fakeModalController: FakeModalController;
