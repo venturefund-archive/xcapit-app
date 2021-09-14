@@ -59,9 +59,13 @@ export class AmountInputCardComponent implements OnInit {
 
   private amountChange(value: number) {
     this.loading = true;
-    this.apiWalletService.getPrices([this.currencyName], false).subscribe((res) => {
-      this.form.patchValue({ referenceAmount: value * res.prices[this.currencyName] });
+    this.apiWalletService.getPrices([this.base()], false).subscribe((res) => {
+      this.form.patchValue({ referenceAmount: value * res.prices[this.base()] });
       this.loading = false;
     });
+  }
+
+  private base() {
+    return this.currencyName === 'RBTC' ? 'BTC' : this.currencyName;
   }
 }
