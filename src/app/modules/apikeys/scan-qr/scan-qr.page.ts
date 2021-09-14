@@ -42,11 +42,11 @@ export class ScanQrPage implements OnInit {
   apiKeysScanned(result: any) {
     if (result.error) {
       this.showErrorToast(result.errorType);
-    } else {
-      if (result.scannedApikeys) {
-        this.storageApiKeysService.updateData({ ...result.scannedApikeys, exchange: 'binance' });
-        this.navController.navigateBack(['/apikeys/register']).then();
-      }
+      this.qrScanner.readQRCode();
+    }
+    if (result.scannedApikeys) {
+      this.storageApiKeysService.updateData({ ...result.scannedApikeys, exchange: 'binance' });
+      this.navController.navigateBack(['/apikeys/register']).then();
     }
   }
 
@@ -56,11 +56,6 @@ export class ScanQrPage implements OnInit {
 
   stopQRScan() {
     this.qrScanner.stopQRScan();
-  }
-
-  registerManually() {
-    this.stopQRScan();
-    this.navController.navigateBack(['/apikeys/register']).then();
   }
 
   private showErrorToast(errorCode: string) {
