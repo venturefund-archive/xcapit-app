@@ -183,10 +183,6 @@ export class HomeWalletPage implements OnInit {
   }
 
   private getPrice(symbol: string): number {
-    if (symbol === 'USDT') {
-      return 1;
-    }
-
     return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }
 
