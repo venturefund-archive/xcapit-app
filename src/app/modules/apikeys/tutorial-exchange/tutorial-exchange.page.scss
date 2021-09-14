@@ -1,7 +1,18 @@
 .step_counter {
   margin-right: 13px;
 }
-.apnf {
+.progress_bar {
+  width: 100%;
+  height: 9px;
+  background: #c4c4c4;
+  .progress {
+    background: #ff7115;
+    border-radius: 0px 7px 7px 0px;
+    height: inherit;
+    width: 40%;
+  }
+}
+.aei {
   &__title {
     padding: 8px 0px;
   }
