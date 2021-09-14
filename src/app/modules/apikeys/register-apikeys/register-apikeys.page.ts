@@ -114,9 +114,7 @@ export class RegisterApikeysPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private apiApikeysService: ApiApikeysService,
-    private translate: TranslateService,
     private navController: NavController,
-    private toastService: ToastService,
     private storageApiKeysService: StorageApikeysService,
     private platformService: PlatformService,
     private apiUsuariosService: ApiUsuariosService,
@@ -197,55 +195,7 @@ export class RegisterApikeysPage implements OnInit {
       this.form.reset();
     });
   }
-
-  error() {
-    this.showToast('errorCodes.apikeys.create.default');
-  }
-
   readQRCode() {
     this.navController.navigateForward(['/apikeys/scan']).then();
-  }
-
-  errorCameraAccessDenied() {
-    this.showToast('errorCodes.apikeys.create.cameraAccessDenied');
-  }
-
-  errorNoContentQR() {
-    this.showToast('errorCodes.apikeys.create.noContentQR');
-  }
-
-  errorInvalidQR() {
-    this.showToast('errorCodes.apikeys.create.invalidQR');
-  }
-
-  fillForm(result: any) {
-    this.form.patchValue(result);
-    this.form.markAllAsTouched();
-  }
-
-  apikeysScanned(result: any) {
-    if (result.error) {
-      switch (result.errorType) {
-        case 'invalidQR':
-          this.errorInvalidQR();
-          break;
-        case 'noContent':
-          this.errorNoContentQR();
-          break;
-        case 'permissionDenied':
-          this.errorCameraAccessDenied();
-          break;
-      }
-    } else {
-      if (result.scannedApikeys) {
-        this.fillForm(result.scannedApikeys);
-      }
-    }
-  }
-
-  private showToast(text: string) {
-    this.toastService.showToast({
-      message: this.translate.instant(text),
-    });
   }
 }
