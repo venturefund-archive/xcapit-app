@@ -22,9 +22,9 @@ variables:
   SRC_DIR: "."  # Indicar aqui donde esta el src code, puede ser indicado en las vars de gitlab
   NODE_VERSION: 14-alpine
 
-# cache:
-#   paths:
-#     - node_modules/
+cache:
+  paths:
+    - node_modules/
 
 ###########################################################################
 ###########################################################################
@@ -66,7 +66,7 @@ variables:
     - export DISPLAY=:99
     - npm install --silent --unsafe-perm -g @angular/cli@1.1.2
     - npm install --silent yarn
-    - node ./node_modules/.bin/webdriver-manager update
+    # - node ./node_modules/.bin/webdriver-manager update
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
