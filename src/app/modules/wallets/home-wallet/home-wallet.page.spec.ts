@@ -332,10 +332,6 @@ describe('HomeWalletPage', () => {
 
     expect(component.totalBalanceWallet).toBe(expectedBalance);
   }));
-  //
-  // it('should go to transaction history when transaction history button is clicked', () => {
-  //
-  // });
 
   it('should call appTrackEvent and navigate when Transactions History clicked', () => {
     component.transactionsExists = true;
@@ -358,16 +354,4 @@ describe('HomeWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/transactions']);
   });
-
-  // fit('should get eth balance on view will enter', async () => {
-  //   component.userCoins = testCoins;
-  //   fixture.detectChanges();
-  //   await component.ionViewWillEnter();
-  //   console.log(component);
-  //   fixture.detectChanges();
-  //   await fixture.whenStable();
-  //   expect(component.walletExist).toBe(true);
-  //   expect(walletServiceSpy.balanceOf).toHaveBeenCalledWith('testAddress', 'coinTest');
-  //   expect(component.balances.find(balance => balance.symbol === 'coinTest').amount).toBe(20);
-  // });
 });
