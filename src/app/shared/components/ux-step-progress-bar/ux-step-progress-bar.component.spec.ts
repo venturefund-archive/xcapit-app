@@ -6,7 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 
-fdescribe('UxStepProgressBarComponent', () => {
+describe('UxStepProgressBarComponent', () => {
   let component: UxStepProgressBarComponent;
   let fixture: ComponentFixture<UxStepProgressBarComponent>;
 

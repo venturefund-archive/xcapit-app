@@ -3,7 +3,7 @@ export const SUCCESS_TYPES = {
     urlClose: '/tabs/home',
     textPrimary: 'profiles.success_profile.textPrimary',
     textSecondary: 'profiles.success_profile.textSecondary',
-    urlPrimaryAction: '/apikeys/tutorial',
+    urlPrimaryAction: '/apikeys/tutorial/exchange',
     namePrimaryAction: 'profiles.success_profile.namePrimaryAction',
     urlSecondaryAction: '/tabs/home',
     nameSecondaryAction: 'profiles.success_profile.nameSecondaryAction',
