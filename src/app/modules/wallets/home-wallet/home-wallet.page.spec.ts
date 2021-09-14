@@ -3,7 +3,6 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { By } from '@angular/platform-browser';
@@ -14,6 +13,7 @@ import { WalletTransactionsService } from '../shared-wallets/services/wallet-tra
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
 const testCoins = {
   test: [
@@ -96,6 +96,7 @@ describe('HomeWalletPage', () => {
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
   let walletService: WalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
@@ -106,8 +107,10 @@ describe('HomeWalletPage', () => {
 
   beforeEach(
     waitForAsync(() => {
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getPrices: of({ prices: { ETH: 3000, BTC: 50000 } }),
+        getPrices: of({ prices: { ETH: 3000, BTC: 50000, USDT: 1 } }),
       });
       walletServiceSpy = jasmine.createSpyObj(
         'WalletService',
@@ -126,7 +129,6 @@ describe('HomeWalletPage', () => {
         getAssestsSelected: Promise.resolve(testCoins.test),
         updateAssetsList: Promise.resolve(true),
       });
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, TrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
@@ -260,7 +262,7 @@ describe('HomeWalletPage', () => {
       RSK: 'testAddressRsk',
     });
     component.userCoins = testCoins.usdBalanceTest;
-    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: null } };
+    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
     const expectedBalance = 1060020;
 
     await component.getWalletsBalances();
@@ -282,6 +284,7 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-first/disclaimer', 'import']);
   });
+
   it('should show the total balance in USD on ionViewWillEnter', fakeAsync(() => {
     storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));
     (Object.getOwnPropertyDescriptor(walletService, 'addresses').get as jasmine.Spy).and.returnValue({
@@ -302,7 +305,7 @@ describe('HomeWalletPage', () => {
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
-    component.allPrices = { prices: { ETH: 3000, BTC: 50000 } };
+    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
 
     const expectedBalanceRBTC = 1000000;
     const expectedBalanceETH = 60000;
@@ -321,7 +324,7 @@ describe('HomeWalletPage', () => {
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
-    apiWalletServiceSpy.getPrices.and.returnValue(of({ prices: { ETH: null, BTC: null } }));
+    apiWalletServiceSpy.getPrices.and.returnValue(of({ prices: { ETH: null, BTC: null, USDT: 1 } }));
     const expectedBalance = 20;
 
     component.ionViewWillEnter();
@@ -330,15 +333,25 @@ describe('HomeWalletPage', () => {
     expect(component.totalBalanceWallet).toBe(expectedBalance);
   }));
 
-  // fit('should get eth balance on view will enter', async () => {
-  //   component.userCoins = testCoins;
-  //   fixture.detectChanges();
-  //   await component.ionViewWillEnter();
-  //   console.log(component);
-  //   fixture.detectChanges();
-  //   await fixture.whenStable();
-  //   expect(component.walletExist).toBe(true);
-  //   expect(walletServiceSpy.balanceOf).toHaveBeenCalledWith('testAddress', 'coinTest');
-  //   expect(component.balances.find(balance => balance.symbol === 'coinTest').amount).toBe(20);
-  // });
+  it('should call appTrackEvent and navigate when Transactions History clicked', () => {
+    component.transactionsExists = true;
+    component.balances = [
+      {
+        icon: '',
+        symbol: '',
+        name: 'name',
+        amount: 12,
+        usdAmount: 1,
+        usdSymbol: 'USD',
+      },
+    ];
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Transactions History');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/transactions']);
+  });
 });

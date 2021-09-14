@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { COINS } from '../constants/coins';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
@@ -183,10 +182,6 @@ export class HomeWalletPage implements OnInit {
   }
 
   private getPrice(symbol: string): number {
-    if (symbol === 'USDT') {
-      return 1;
-    }
-
     return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }
 
