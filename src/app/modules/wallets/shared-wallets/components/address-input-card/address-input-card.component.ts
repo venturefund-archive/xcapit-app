@@ -76,6 +76,7 @@ export class AddressInputCardComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
+    this.checkIsWebPlatform();
   }
 
   checkIsWebPlatform() {
