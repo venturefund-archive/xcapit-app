@@ -9,17 +9,17 @@ stages:
 image: docker:19.03.1
 services:
   - docker:19.03.1-dind
-    
+
 variables:
   API_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
   CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
   DOCKER_HOST: tcp://docker:2375
-  DOCKER_TLS_CERTDIR: ""
+  DOCKER_TLS_CERTDIR: ''
   CI_RUNNER_REPO: registry.gitlab.com/xcapit/infra/ci-runner
   CI_RUNNER_TAG: v1.0.0
   HADOLINT_REPO: hadolint/hadolint
   HADOLINT_TAG: v2.0.0-alpine
-  SRC_DIR: "."  # Indicar aqui donde esta el src code, puede ser indicado en las vars de gitlab
+  SRC_DIR: '.' # Indicar aqui donde esta el src code, puede ser indicado en las vars de gitlab
   NODE_VERSION: 14-alpine
 
 cache:
@@ -54,9 +54,9 @@ cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
   variables:
-    CI: "true"
+    CI: 'true'
   tags:
-    - coreinfra    
+    - coreinfra
   before_script:
     - cd ${SRC_DIR}
     # - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee -a /etc/apt/sources.list
@@ -71,12 +71,13 @@ cache:
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
-    - npm test --watchAll=false --coverage --forceExit
+    - ng test --karma-config karma-pipeline.conf.js
+    - ng test --browsers=ChromeHeadlessNoSandbox --watchAll=false --coverage --forceExit
 
 ### Docker lint
 .docker-lint: &docker-lint
   stage: syntax
-  image: "${HADOLINT_REPO}:${HADOLINT_TAG}"
+  image: '${HADOLINT_REPO}:${HADOLINT_TAG}'
   before_script:
     - hadolint --version
     - cd ${SRC_DIR}
@@ -88,7 +89,7 @@ cache:
 ### Semantic release
 .semantic-release: &semantic-release
   stage: release
-  image: "${CI_RUNNER_REPO}:${CI_RUNNER_TAG}"
+  image: '${CI_RUNNER_REPO}:${CI_RUNNER_TAG}'
   tags:
     - coreinfra
 
@@ -136,14 +137,14 @@ Release Master:
   <<: *semantic-release
   only:
     refs:
-    - master
+      - master
   script:
-    - npx semantic-release -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git" 
+    - npx semantic-release -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git"
 
 Release Develop:
   <<: *semantic-release
   only:
     refs:
-    - develop
+      - develop
   script:
-    - npx semantic-release --tag-format ${CI_COMMIT_BRANCH}-\${version} -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git" 
+    - npx semantic-release --tag-format ${CI_COMMIT_BRANCH}-\${version} -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git"
