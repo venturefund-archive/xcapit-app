@@ -80,7 +80,7 @@ export class TutorialApikeysPage implements OnInit {
     this.navController.navigateForward('/apikeys/tutorial/register');
   }
 
-  NonExistingAPIKey() {
+  nonExistingAPIKey() {
     // this.navController.navigateForward('') //TODO: Add Page
   }
 
