@@ -3,7 +3,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apikeys-tutorial-modal/apikeys-tutorial-modal.component';
 
 @Component({
-  selector: 'app-exchange-information',
+  selector: 'app-tutorial-exchange',
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
@@ -11,7 +11,9 @@ import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apik
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'apikeys.exchange_information.header' | translate }}</ion-title>
+        <ion-label class="step_counter" slot="end">1 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
+      <app-ux-step-progress-bar progress="40%"> </app-ux-step-progress-bar>
     </ion-header>
     <ion-content class="ion-padding">
       <div class="ux_main">
@@ -69,25 +71,25 @@ import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apik
               >
             </div>
           </div>
-          <div class="aei__need_help ux_footer">
-            <ion-button name="Need Help" (click)="this.needHelp()" appTrackClick fill="clear" size="small">{{
-              'shared.need_help.text_help_link' | translate
-            }}</ion-button>
-          </div>
+        </div>
+        <div class="aei__need_help ux_footer">
+          <ion-button name="Need Help" (click)="this.needHelp()" appTrackClick fill="clear" size="small">{{
+            'shared.need_help.text_help_link' | translate
+          }}</ion-button>
         </div>
       </div>
     </ion-content>
   `,
 
-  styleUrls: ['./exchange-information.page.scss'],
+  styleUrls: ['./tutorial-exchange.page.scss'],
 })
-export class ExchangeInformationPage implements OnInit {
+export class TutorialExchangePage implements OnInit {
   constructor(private navController: NavController, private modalController: ModalController) {}
 
   ngOnInit() {}
 
   accountExist() {
-    this.navController.navigateForward('/apikeys/apikey-information');
+    this.navController.navigateForward('/apikeys/tutorial/apikeys');
   }
 
   async accountDoesntExist() {

@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { ExchangeInformationPage } from './exchange-information.page';
+import { TutorialExchangePage } from './tutorial-exchange.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedApikeysModule } from '../shared-apikeys/shared-apikeys.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: ExchangeInformationPage,
+    component: TutorialExchangePage,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedApikeysModule],
-  declarations: [ExchangeInformationPage],
+  declarations: [TutorialExchangePage],
 })
-export class ExchangeInformationPageModule {}
+export class TutorialExchangePageModule {}

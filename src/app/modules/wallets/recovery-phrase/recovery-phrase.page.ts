@@ -32,7 +32,7 @@ import { Mnemonic } from '@ethersproject/hdnode';
           <div class="text">
             <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text4' | translate }}</ion-text>
           </div>
-          <div *ngIf="this.mnemonic">
+          <div class="component" *ngIf="this.mnemonic">
             <app-recovery-phrase-card
               [phrase]="this.mnemonic.phrase.split(' ')"
               [showOrder]="true"

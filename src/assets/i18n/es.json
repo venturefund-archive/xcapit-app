@@ -25,7 +25,8 @@
       "minlength": "Se requieren más caracteres",
       "maxlength": "Se requieren menos caracteres",
       "not_matching": "Los campos no coinciden",
-      "has_special_character": "No permite caracteres especiales ni espacios"
+      "has_special_character": "No permite caracteres especiales ni espacios",
+      "count_words_match": "La cantidad de palabras es distinta de 12"
     },
     "field_errors": {
       "cellphone": {
@@ -96,6 +97,9 @@
     "without_SL_TP": {
       "without_stop_loss": "Manual",
       "without_take_profit": "Manual"
+    },
+    "step_counter": {
+      "of": "de"
     }
   },
   "usuarios": {
@@ -1265,6 +1269,7 @@
     "home": {
       "available_money": "Dinero disponible en billetera",
       "wallet_balance_title": "ACTIVOS",
+      "wallet_recovery": "Importar una billetera existente",
       "wallet_transaction_title": "RECIENTE",
       "go_to_history": "Ver todas las transacciones",
       "subheader_component": {
@@ -1330,6 +1335,13 @@
       "description": "Generaremos otras 12 palabras para mayor seguridad. Recuerda que tienes que anotarlas y guardarlas en un lugar seguro.",
       "button": "Volver a intentarlo"
     },
+    "recovery_wallet": {
+      "header": "Importar Billetera",
+      "title": "Ingresar frase de recuperación",
+      "subtitle": "Escribe tus palabras separadas por un espacio",
+      "label": "Frase de recuperación",
+      "button": "Importar billetera"
+    },
     "transactions": {
       "header": "Historico transacciones",
       "sended": "Enviado",
@@ -1381,6 +1393,15 @@
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
       }
+    },
+    "error_wallet_recovery": {
+      "title": "Tu frase de recupeación es incorrecta",
+      "description": "Verifica tus palabras y vuelve a intentarlo",
+      "button": "Volver a intentarlo"
+    },
+    "success_wallet_recovery": {
+      "title": "¡Genial! Importamos tu billetera con tu frase de recuperación",
+      "button": "Ir a mi billetera"
     }
   },
   "apikeys": {
@@ -1461,7 +1482,7 @@
       "link_with_binance": "Vincular con Binance"
     },
     "scan_qr": {
-      "header": "Escanea tus keys",
+      "header": "Escanea tu API Key",
       "register_manually": "Ingresar manualmente",
       "errors": {
         "invalidQR": "El código QR no es válido.",
@@ -1507,14 +1528,13 @@
     },
     "register": {
       "header": "Agregar API key",
-      "label_alias": "Alias",
-      "placeholder_alias": "MisKeysEnBinance",
-      "label_apikey": "Binance API Key",
+      "label_alias": "Ingresar Alias (Puede usar el mismo de binance)",
+      "placeholder_alias": "Ej: MiApiKey",
+      "label_apikey": "Ingresar API Key",
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
-      "label_secretkey": "Binance Secret Key",
+      "label_secretkey": "Ingresar Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submit": "Agregar",
-      "link_help": "¿Necesitas Ayuda?"
+      "button_submit": "Agregar"
     },
     "edit_modal": {
       "title": "Cambiar Alias",

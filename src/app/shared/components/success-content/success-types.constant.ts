@@ -3,7 +3,7 @@ export const SUCCESS_TYPES = {
     urlClose: '/tabs/home',
     textPrimary: 'profiles.success_profile.textPrimary',
     textSecondary: 'profiles.success_profile.textSecondary',
-    urlPrimaryAction: '/apikeys/tutorial',
+    urlPrimaryAction: '/apikeys/tutorial/exchange',
     namePrimaryAction: 'profiles.success_profile.namePrimaryAction',
     urlSecondaryAction: '/tabs/home',
     nameSecondaryAction: 'profiles.success_profile.nameSecondaryAction',
@@ -106,5 +106,18 @@ export const SUCCESS_TYPES = {
     textSecondary: 'wallets.send.send_success.textSecondary',
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'wallets.send.send_success.namePrimaryAction',
+  },
+  error_wallet_recovery: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.error_wallet_recovery.title',
+    textSecondary: 'wallets.error_wallet_recovery.description',
+    urlPrimaryAction: '/wallets/recovery',
+    namePrimaryAction: 'wallets.error_wallet_recovery.button',
+  },
+  success_wallet_recovery: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.success_wallet_recovery.title',
+    urlPrimaryAction: '/tabs/wallets',
+    namePrimaryAction: 'wallets.success_wallet_recovery.button',
   },
 };

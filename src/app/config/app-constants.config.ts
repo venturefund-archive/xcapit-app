@@ -54,6 +54,11 @@ export const CONFIG = {
       text: 'config.form_errors.has_special_character',
       rules: [],
     },
+    {
+      name: 'countWordsMatch',
+      text: 'config.form_errors.count_words_match',
+      rules: [],
+    },
   ],
   fieldErrors: {
     cellphone: [

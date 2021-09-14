@@ -6,13 +6,13 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ExchangeInformationPage } from './exchange-information.page';
+import { TutorialExchangePage } from './tutorial-exchange.page';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
-describe('ExchangeInformationPage', () => {
-  let component: ExchangeInformationPage;
-  let fixture: ComponentFixture<ExchangeInformationPage>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ExchangeInformationPage>;
+describe('TutorialExchangePage', () => {
+  let component: TutorialExchangePage;
+  let fixture: ComponentFixture<TutorialExchangePage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TutorialExchangePage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: any;
   let fakeModalController: FakeModalController;
@@ -26,7 +26,7 @@ describe('ExchangeInformationPage', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [ExchangeInformationPage, TrackClickDirective],
+        declarations: [TutorialExchangePage, TrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           TrackClickDirective,
@@ -35,7 +35,7 @@ describe('ExchangeInformationPage', () => {
         ],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(ExchangeInformationPage);
+      fixture = TestBed.createComponent(TutorialExchangePage);
       component = fixture.componentInstance;
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
@@ -68,7 +68,7 @@ describe('ExchangeInformationPage', () => {
 
   it('should navigate to API Key information when Have Binance Account is clicked', () => {
     fixture.debugElement.query(By.css('div[name="Have Binance Account"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/apikey-information');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/tutorial/apikeys');
   });
 
   it('should navigate to Create Support Ticket Page when Need Help is clicked', () => {
@@ -131,7 +131,7 @@ describe('ExchangeInformationPage', () => {
   it('should navigate to API Key information when modal is closed using the Done button', async () => {
     fakeModalController.modifyReturns({ role: 'success' }, null);
     await component.accountDoesntExist();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/apikey-information');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/tutorial/apikeys');
   });
 
   it('should not navigate to API Key information when modal is closed using the Close button', async () => {

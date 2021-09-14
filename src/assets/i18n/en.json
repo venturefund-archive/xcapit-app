@@ -25,7 +25,8 @@
       "minlength": "More characters are required",
       "maxlength": "Fewer characters required ",
       "not_matching": "The fields do not match ",
-      "has_special_character": "Special characters and spaces are not allowed"
+      "has_special_character": "Special characters and spaces are not allowed",
+      "count_words_match": "The number of words is different from 12"
     },
     "field_errors": {
       "cellphone": {
@@ -96,6 +97,9 @@
     "without_SL_TP": {
       "without_stop_loss": "Manual",
       "without_take_profit": "Manual"
+    },
+    "step_counter": {
+      "of": "of"
     }
   },
   "usuarios": {
@@ -1262,6 +1266,7 @@
     "home": {
       "available_money": "Available money in wallet",
       "wallet_balance_title": "ASSETS",
+      "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
       "subheader_component": {
@@ -1327,6 +1332,13 @@
       "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
       "button": "Try again"
     },
+    "recovery_wallet": {
+      "header": "Import Wallet",
+      "title": "Enter recovery phrase",
+      "subtitle": "Write your words separated by a space",
+      "label": "Recovery phrase",
+      "button": "Import Wallet"
+    },
     "transactions": {
       "header": "Transactions history",
       "sended": "Sended",
@@ -1378,6 +1390,15 @@
         "submit_button_text": "Accept",
         "input_label": "Password"
       }
+    },
+    "error_wallet_recovery": {
+      "title": "Your recovery phrase is wrong",
+      "description": "Check your words and try again",
+      "button": "Try again"
+    },
+    "success_wallet_recovery": {
+      "title": "Brilliant! We import your wallet with your recovery phrase",
+      "button": "Go to my wallet"
     }
   },
   "apikeys": {
@@ -1427,14 +1448,13 @@
     },
     "register": {
       "header": "Add API key",
-      "label_alias": "Alias",
-      "placeholder_alias": "MyKeysOnBinance",
-      "label_apikey": "Binance API Key",
+      "label_alias": "Enter Alias (You can use the same as binance)",
+      "placeholder_alias": "Ej: MyApiKey",
+      "label_apikey": "Enter API Key",
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
-      "label_secretkey": "Binance Secret Key",
+      "label_secretkey": "Enter Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submit": "Submit",
-      "link_help": "Need Help?"
+      "button_submit": "Submit"
     },
     "register_success_begginer": {
       "textPrimary": "You have already linked your account with Binance!",
@@ -1477,62 +1497,62 @@
       "link_with_binance": "Link with Binance"
     },
     "scan_qr": {
-      "header": "Scan your keys",
+      "header": "Scan your API key",
       "register_manually": "Enter manually",
       "errors": {
         "invalidQR": "Invalid QR code.",
         "noContent": "The QR code has no content.",
         "permissionDenied": "We can't access to the camera. Permission denied."
-      },
-      "insert_key": {
-        "header": "Link with Binance",
-        "title": "Enter your API Key",
-        "text_before": "Copy the 18 digits of the API Key you created. Remember that we will not have permission to withdraw money, we can only operate.",
-        "insert_key": "API Key",
-        "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
-        "text_help_link": "Learn more.",
-        "next_button": "Next"
-      },
-      "insert_secret": {
-        "header": "Link with Binance",
-        "title": "Enter your Secret Key",
-        "text_before": "Together with the creation of your API Key, Binance generated a \"Secret Key\" for security reasons. You can find it just below the API Key.",
-        "insert_secret": "Secret Key",
-        "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
-        "text_help": "Remember that, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
-        "submit_button": "Finish Configuration"
-      },
-      "success_apikeys": {
-        "textPrimary": "¡You have already linked your account with Binance!",
-        "textSecondary": "We are able to create a fund to start managing your investment.",
-        "namePrimaryAction": "Create my first investment fund",
-        "nameSecondaryAction": "Skip for now"
-      },
-      "success_apikeys_edition": {
-        "textPrimary": "We have modified your API Key!",
-        "textSecondary": "View your funds now",
-        "namePrimaryAction": "Go to Home"
-      },
-      "edit_apikey": {
-        "header": "Change API Key",
-        "public_key": "Binance API Key",
-        "secret_key": "Binance Secret Key",
-        "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
-        "submit_button": "Save"
-      },
-      "edit_modal": {
-        "title": "Change Alias",
-        "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
-        "button_submit": "Update",
-        "edit_error": {
-          "default": "An error has ocurred"
-        }
-      },
-      "qr_scanner": {
-        "title": "Point the camera at the QR code",
-        "cancel_label": "Cancel and enter manually",
-        "text": "Point your camera towards a QR code."
       }
+    },
+    "insert_key": {
+      "header": "Link with Binance",
+      "title": "Enter your API Key",
+      "text_before": "Copy the 18 digits of the API Key you created. Remember that we will not have permission to withdraw money, we can only operate.",
+      "insert_key": "API Key",
+      "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help_link": "Learn more.",
+      "next_button": "Next"
+    },
+    "insert_secret": {
+      "header": "Link with Binance",
+      "title": "Enter your Secret Key",
+      "text_before": "Together with the creation of your API Key, Binance generated a \"Secret Key\" for security reasons. You can find it just below the API Key.",
+      "insert_secret": "Secret Key",
+      "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help": "Remember that, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
+      "submit_button": "Finish Configuration"
+    },
+    "success_apikeys": {
+      "textPrimary": "¡You have already linked your account with Binance!",
+      "textSecondary": "We are able to create a fund to start managing your investment.",
+      "namePrimaryAction": "Create my first investment fund",
+      "nameSecondaryAction": "Skip for now"
+    },
+    "success_apikeys_edition": {
+      "textPrimary": "We have modified your API Key!",
+      "textSecondary": "View your funds now",
+      "namePrimaryAction": "Go to Home"
+    },
+    "edit_apikey": {
+      "header": "Change API Key",
+      "public_key": "Binance API Key",
+      "secret_key": "Binance Secret Key",
+      "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
+      "submit_button": "Save"
+    },
+    "edit_modal": {
+      "title": "Change Alias",
+      "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
+      "button_submit": "Update",
+      "edit_error": {
+        "default": "An error has ocurred"
+      }
+    },
+    "qr_scanner": {
+      "title": "Point the camera at the QR code",
+      "cancel_label": "Cancel and enter manually",
+      "text": "Point your camera towards a QR code."
     },
     "exchange_information": {
       "header": "Link API Key",
