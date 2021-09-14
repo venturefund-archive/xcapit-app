@@ -72,7 +72,6 @@ cache:
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
     - ng test --karma-config karma-pipeline.conf.js
-    - ng test --browsers=ChromeHeadlessNoSandbox --watchAll=false --coverage --forceExit
 
 ### Docker lint
 .docker-lint: &docker-lint
