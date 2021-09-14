@@ -35,16 +35,14 @@
 
         ion-button {
           margin: 0;
-          --padding-start: 8px;
-          --padding-end: 5px;
+          --padding-start: 17px;
+          --padding-end: 8px;
+          ion-icon {
+            width: 18.33px;
+            height: 18.33px;
+          }
         }
       }
-    }
-
-    &__need-help {
-      width: 100%;
-      display: flex;
-      justify-content: center;
     }
   }
 

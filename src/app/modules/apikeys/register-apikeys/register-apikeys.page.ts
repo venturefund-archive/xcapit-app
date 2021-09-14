@@ -59,7 +59,7 @@ import { ActivatedRoute, Router } from '@angular/router';
                   fill="clear"
                   (click)="this.readQRCode()"
                 >
-                  <ion-icon name="qr-code-outline"></ion-icon>
+                  <ion-icon name="ux-qr-scan"></ion-icon>
                 </ion-button>
               </div>
             </div>
@@ -73,12 +73,6 @@ import { ActivatedRoute, Router } from '@angular/router';
           </div>
         </div>
         <div class="ux_footer">
-          <div class="ik__need-help">
-            <app-need-help
-              [whatsAppLink]="this.supportLinks.apiKeyWhatsappSupport"
-              [telegramLink]="this.supportLinks.apiKeyTelegramSupport"
-            ></app-need-help>
-          </div>
           <div class="ik__submit_button">
             <ion-button
               class="ux_button"
@@ -112,7 +106,6 @@ export class RegisterApikeysPage implements OnInit {
     secret_key: ['', [Validators.required]],
   });
 
-  supportLinks = LINKS;
   inPWA = true;
   userStatus: any;
   isTutorialStep = false;
