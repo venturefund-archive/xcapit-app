@@ -10,13 +10,9 @@ import { environment } from 'src/environments/environment';
   template: `
     <div class="src ion-padding">
       <div class="src__title">
-        <ion-text
-          class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-          color="uxdark"
-          >{{
-            'referrals.new_referral_page.shared_referral_card.title' | translate
-          }}</ion-text
-        >
+        <ion-text class="ux-font-text-xs">{{
+          'referrals.new_referral_page.shared_referral_card.title' | translate
+        }}</ion-text>
       </div>
       <div class="src__buttons">
         <ion-button
@@ -29,10 +25,7 @@ import { environment } from 'src/environments/environment';
           size="medium"
           (click)="this.shareReferralLink()"
         >
-          {{
-            'referrals.new_referral_page.shared_referral_card.button'
-              | translate
-          }}
+          {{ 'referrals.new_referral_page.shared_referral_card.button' | translate }}
         </ion-button>
       </div>
     </div>
@@ -54,20 +47,12 @@ export class ShareReferralCardComponent implements OnInit {
   async shareReferralLink() {
     await this.shareService.share(
       {
-        title: this.translate.instant(
-          'referrals.referrals_list.referral_id_card.share_title'
-        ),
-        dialogTitle: this.translate.instant(
-          'referrals.referrals_list.referral_id_card.share_dialogTitle'
-        ),
+        title: this.translate.instant('referrals.referrals_list.referral_id_card.share_title'),
+        dialogTitle: this.translate.instant('referrals.referrals_list.referral_id_card.share_dialogTitle'),
         url: `${environment.appUrl}users/register/${this.referralId}`,
-        text: this.translate.instant(
-          'referrals.referrals_list.referral_id_card.share_text'
-        ),
+        text: this.translate.instant('referrals.referrals_list.referral_id_card.share_text'),
       },
-      this.translate.instant(
-        'referrals.referrals_list.referral_id_card.toast_text_copied'
-      )
+      this.translate.instant('referrals.referrals_list.referral_id_card.toast_text_copied')
     );
   }
 }

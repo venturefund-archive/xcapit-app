@@ -18,7 +18,7 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 
     <ion-content class="ion-padding ri">
       <app-ux-text class="ion-padding-top ion-margin-top">
-        <div class="ion-margin-top ion-margin-bottom" style="font-size: 16px;">
+        <div class="ux-font-text-base  ion-margin-top ion-margin-bottom" style="font-size: 16px;">
           {{ 'fiat_ramps.register.description_images' | translate }}
         </div>
       </app-ux-text>

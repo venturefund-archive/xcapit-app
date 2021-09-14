@@ -5,8 +5,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LINKS } from '../../../config/static-links';
-import { Browser } from '@capacitor/core';
 import { ActivatedRoute } from '@angular/router';
 import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-modal/no-apikeys-modal.component';
 
@@ -18,18 +16,20 @@ import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-m
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'funds.fund_investment.header' | translate }}</ion-title>
+        <ion-title>{{
+          (this.fundRenew ? 'funds.fund_investment.header_renew' : 'funds.fund_investment.header') | translate
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding fi">
       <div class="fi__info">
         <div>
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22" color="uxdark">{{
+          <ion-text class="ux-font-text-lg" color="uxdark">{{
             'funds.fund_investment.header_info.title' | translate
           }}</ion-text>
         </div>
         <div class="fi__info__description">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxsemidark">{{
+          <ion-text class="ux-font-text-xs" color="uxdark">{{
             'funds.fund_investment.header_info.description' | translate
           }}</ion-text>
         </div>
@@ -49,7 +49,6 @@ export class FundInvestmentPage implements OnInit {
     {
       profile: 'volume_profile_strategies_BTC',
       min_capital: '150',
-      percentage: '5.02',
       link_info: 'https://bit.ly/factsheet-strategy2',
       risk: 3,
       currency: 'BTC',
@@ -57,7 +56,6 @@ export class FundInvestmentPage implements OnInit {
     {
       profile: 'volume_profile_strategies_USDT',
       min_capital: '150',
-      percentage: '22.5',
       link_info: 'https://bit.ly/factsheet-strategy1',
       risk: 3,
       currency: 'USDT',
@@ -65,7 +63,6 @@ export class FundInvestmentPage implements OnInit {
     {
       profile: 'DeFi_index',
       min_capital: '500',
-      percentage: '434.02',
       link_info: 'https://bit.ly/factsheet-strategy4',
       risk: 5,
       currency: 'USDT',
@@ -73,7 +70,6 @@ export class FundInvestmentPage implements OnInit {
     {
       profile: 'Mary_index',
       min_capital: '500',
-      percentage: '160.5',
       link_info: 'https://bit.ly/factsheet-strategy3',
       risk: 4,
       currency: 'USDT',
@@ -145,7 +141,7 @@ export class FundInvestmentPage implements OnInit {
         },
         {
           text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
-          handler: () => Browser.open({ url: LINKS.binance }),
+          handler: () => this.navController.navigateForward(['/fiat-ramps/select-provider']),
         },
       ],
     });

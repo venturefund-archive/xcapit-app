@@ -8,6 +8,7 @@ import { ClipboardService } from '../../../shared/services/clipboard/clipboard.s
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-receive',
@@ -63,7 +64,7 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
           ></ion-button>
         </ion-item>
       </div>
-      <div class="wr__share-content">
+      <div class="wr__share-content" *ngIf="this.isNativePlatform">
         <ion-button
           name="Share Wallet Address"
           id="share-address-button"
@@ -76,10 +77,10 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_header' | translate }}
+          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.selectedCurrency } }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_body' | translate }}
+          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.selectedCurrency } }}
         </ion-text>
       </div>
     </ion-content>
@@ -90,9 +91,11 @@ export class ReceivePage {
   form: FormGroup = this.formBuilder.group({
     currency: ['', Validators.required],
   });
-  currencies: Coin[] = COINS.filter((coin) => coin.value === 'ETH');
+  isNativePlatform: boolean;
+  currencies: Coin[] = COINS;
   address: string;
   addressQr: string;
+  selectedCurrency: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -101,21 +104,33 @@ export class ReceivePage {
     private shareService: ShareService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private walletEncryptionService: WalletEncryptionService
+    private walletEncryptionService: WalletEncryptionService,
+    private platformService: PlatformService
   ) {}
 
   ionViewWillEnter() {
     this.subscribeToFormChanges();
+    this.checkPlatform();
+  }
+
+  checkPlatform() {
+    this.isNativePlatform = this.platformService.isNative();
   }
 
   subscribeToFormChanges() {
     this.form.valueChanges.subscribe((value) => this.getAddress(value.currency));
+    this.form.valueChanges.subscribe((value) => this.setCurrencyOnLabel(value.currency));
     this.form.patchValue({ currency: 'ETH' });
+  }
+
+  setCurrencyOnLabel(currency: string) {
+    this.selectedCurrency = currency;
   }
 
   getAddress(currency: string) {
     this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      this.address = wallet.addresses[currency];
+      const network = COINS.find((coin) => coin.value === currency).network;
+      this.address = wallet.addresses[network];
       this.generateAddressQR();
     });
   }

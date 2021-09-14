@@ -177,6 +177,29 @@
   --ux-font-lato: 'Lato';
   --ux-font-symbola: 'Symbola';
 
+  // Weight
+  --ux-fweight-regular: 400;
+  --ux-fweight-semibold: 600;
+  --ux-fweight-bold: 700;
+  --ux-fweight-extrabold: 800;
+
+  // Size
+  --ux-fsize-8: 8px;
+  --ux-fsize-10: 10px;
+  --ux-fsize-11: 11px;
+  --ux-fsize-12: 12px;
+  --ux-fsize-14: 14px;
+  --ux-fsize-15: 15px;
+  --ux-fsize-16: 16px;
+  --ux-fsize-17: 17px;
+  --ux-fsize-18: 18px;
+  --ux-fsize-20: 20px;
+  --ux-fsize-22: 22px;
+  --ux-fsize-24: 24px;
+  --ux-fsize-40: 40px;
+
+  --ion-font-family: var(--ux-font-lato);
+  --ion-text-color: var(--ion-color-uxdark);
   --ion-background-color: #f5f5f5;
   --ion-background-colorwhite: #ffffff;
 }

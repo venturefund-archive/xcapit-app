@@ -63,7 +63,7 @@
     "services": {
       "share": {
         "copy_text": "The subscription link has been copied to the clipboard.",
-        "share_error": "Share error"
+        "share_error": "Text was copied to the clipboard"
       },
       "update_pwa_service": {
         "alert_header": "Update available",
@@ -92,6 +92,10 @@
     },
     "app_icon_button_card": {
       "coming_soon": "Coming Soon"
+    },
+    "without_SL_TP": {
+      "without_stop_loss": "Manual",
+      "without_take_profit": "Manual"
     }
   },
   "usuarios": {
@@ -203,7 +207,7 @@
     "create_ticket_form": {
       "label_email": "EMAIL",
       "placeholder_email": "example@email.com",
-      "label_subject": "CHOOSE A CATEGORY",
+      "label_subject": "Choose a category",
       "placeholder_subject": "Choose a category",
       "label_message": "DESCRIPTION",
       "placeholder_message": "Write your comment or query here",
@@ -450,14 +454,14 @@
             "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether).",
             "more_info": "Read more about Himalayas",
             "strategie_type": "Index",
-            "info_description": "Himalayas is a high risk investment index. An index is the average price of a group of assets… (things). These things (in the Himalayas) are the 5 cryptocurrencies with the most blocked capital (amount of money invested within a crypto). Himalayas works on the DeFi ecosystem (a decentralized system that is leveraged on real-life financial instruments - such as loans, credits, interest, and the ease of creating markets). In simple words, Himalayas selects the most promising cryptocurrencies within DeFi and updates your portfolio… (portfolio = the coins you have in your wallet…) once a month. In short, this strategy is committed to diversifying within DeFi)."
+            "info_description": "Himalayas is a high risk investment index.\n An index is the average price of a group of assets. These assets (in the Himalayas) are the 5 cryptocurrencies with the most blocked capital (amount of money invested within a crypto). Himalayas works on the DeFi ecosystem (a decentralized system that is leveraged on real-life financial instruments - such as loans, credits, interest, and the ease of creating markets). In simple words, Himalayas selects the most promising cryptocurrencies within DeFi and updates your portfolio… (portfolio = the coins you have in your wallet…) once a month. In short, this strategy is committed to diversifying within DeFi)."
           },
           "Mary_index": {
             "title": "Andes",
             "description": "Invest in the 5 cryptocurrencies with the largest market capitalization. When your investment is finished, it will be converted into USDT. (Theter)",
             "more_info": "Read more about Andes",
             "strategie_type": "Index",
-            "info_description": "Andes is an investment index with a medium-high risk. An index is the average price of a group of assets… (things). These things (in Andes) are the 5 most important cryptocurrencies (representing 77% of the entire market). Basically you build an investment portfolio ... (portfolio = the coins you have in your wallet ...) and update it once a month to make sure you have the best 5 assets ... (things). In short, this strategy is committed to diversifying."
+            "info_description": "Andes is an investment index with a medium-high risk.\n An index is the average price of a group of assets. These assets (in Andes) are the 5 most important cryptocurrencies (representing 77% of the entire market). Basically, you build an investment portfolio ... (portfolio = the coins you have in your wallet ...) and update it once a month to make sure you have the best 5 assets on the market. In short, this strategy is committed to diversifying."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -481,9 +485,15 @@
       },
       "balance_not_enough": {
         "title": "You need USD${{minBalance}} in your Binance account to start investing.",
-        "message": "Load balance in your Binance account",
+        "message": "Buy crypto at Xcapit",
         "cancel_text": "Cancel",
-        "ok_text": "Go to Binance"
+        "ok_text": "Buy"
+      },
+      "no_apikeys_modal": {
+        "first_title": "Link account",
+        "second_title": "We discovered that you have not yet linked your account with Binance.",
+        "message": "To start investing you need to have a Binance account and link it with your Xcapit account.",
+        "button": "Link account on Binance"
       }
     },
     "fund_duration": {
@@ -497,8 +507,7 @@
       "text_help": "In short terms, the robot is more likely to have performance problems."
     },
     "fund_take_profit": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
+      "header": "Change Stop Loss",
       "title": "When do you want us to stop investing and take the profits?",
       "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
       "take_profit": "Take profit",
@@ -508,11 +517,12 @@
       "back_button": "Back",
       "edit_custom": "Edit",
       "submit_button_edit": "Save",
-      "edit_title": "Change Take Profit"
+      "edit_title": "Change Take Profit",
+      "manual_stop": "I'm going to finish it manually",
+      "alert_manual_option": "Keep in mind that investing without profit limits implies that you must end your investment manually."
     },
     "fund_stop_loss": {
-      "header": "Create a fund",
-      "header_renew": "Renew a fund",
+      "header": "Change Stop Loss",
       "title": "In case of loss, until what percentage of your capital are you willing to risk?",
       "text_before": "Once this percentage is reached, we will stop the operation of the fund to safeguard your capital.",
       "stop_loss": "Stop loss",
@@ -522,16 +532,18 @@
       "submit_button_renew": "Renew fund",
       "submit_button_edit": "Save",
       "edit_custom": "Edit",
-      "edit_title": "Change Stop Loss"
+      "edit_title": "Change Stop Loss",
+      "manual_stop": "I'm going to finish it manually",
+      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
       "confirm_button": "Confirm"
     },
     "fund_success": {
-      "textPrimary": "Congratulations, you are already investing in the crypto world!",
-      "textSecondary": "We have already created your fund and our robot will start managing your capital based on the information you set up.",
-      "namePrimaryAction": "See my investment"
+      "textPrimary": "Congratulations! Your investment is active",
+      "textSecondary": "We have already created your investment and our algorithms will begin to manage your capital based on the information you configured. Make sure you have checked the “enable spot trading” field in Binance so that we can trade.",
+      "namePrimaryAction": "See my investments"
     },
     "fund_success_renew": {
       "textPrimary": "Your fund has been renewed!",
@@ -1195,10 +1207,10 @@
     },
     "referrals_info": {
       "header": "Referrals System",
-      "info_title1": "HOW DOES IT WORK?",
-      "info_title2": "HOW MUCH CAN I EARN?",
-      "info_title3": "HOW DO I CLAIM MY PRIZE?",
-      "info_title4": "HOW I SEE HOW MANY REFERRALS I HAVE?",
+      "info_title1": "How does it work?",
+      "info_title2": "How much can i earn?",
+      "info_title3": "How do i claim my prize?",
+      "info_title4": "How i see how many referrals i have?",
       "info_description1": "Any user can invite other people to visit Xcapit, they just need to create an account and share their link within their referral panel.",
       "info_description2": "You will earn $ 10 (ten dollars) for each guest who activates an Advanced or Expert account, and you will earn $ 1 (one dollar) for each guest who activates an Explorer account. In either case, your guest must have an active account for more than 60 days.",
       "info_description3": "Within the app, in your referral panel, click Request a reward. We will contact you to coordinate the payment.",
@@ -1250,12 +1262,18 @@
     "home": {
       "available_money": "Available money in wallet",
       "wallet_balance_title": "ASSETS",
+      "wallet_transaction_title": "LATEST",
+      "go_to_history": "View all transactions",
       "subheader_component": {
-        "title_with_wallet": "Start receiving or buying.",
         "title_without_wallet": "You haven't created your wallet yet.",
+        "create_wallet_button": "Create Wallet"
+      },
+      "subheader_buttons_component": {
+        "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy or Sell",
-        "create_wallet_button": "Create Wallet"
+        "performance_card": "Obtain performance",
+        "title_without_transactions": "Start receiving or buying."
       }
     },
     "select_coin": {
@@ -1300,14 +1318,20 @@
       "currency_select_placeholder": "Currency",
       "average_time": "Average receive time: 3 min.",
       "share": "Share",
-      "disclaimer_header": "Send only USDT to this deposit address.",
-      "disclaimer_body": "Sending other coins or tokens to this address other than USDT may result in the loss of your deposit.",
+      "disclaimer_header": "Send only {{currency}} to this deposit address.",
+      "disclaimer_body": "Sending other coins or tokens to this address other than {{currency}} may result in the loss of your deposit.",
       "share_title": "Wallet address"
     },
     "failed_mnemonic": {
       "title": "Your recovery phrase is wrong",
       "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
       "button": "Try again"
+    },
+    "transactions": {
+      "header": "Transactions history",
+      "sended": "Sended",
+      "received": "Received",
+      "swap": "Swap"
     },
     "send": {
       "select_currency": {
@@ -1505,6 +1529,8 @@
         }
       },
       "qr_scanner": {
+        "title": "Point the camera at the QR code",
+        "cancel_label": "Cancel and enter manually",
         "text": "Point your camera towards a QR code."
       }
     }
@@ -1658,7 +1684,7 @@
       "address_number": "Address (Number)",
       "address_extra": "Address (Floor/Department)",
       "cbu": "CBU/CVU",
-      "bank": "Bank",
+      "bank": "BANK",
       "doc_front": "Front document image",
       "doc_back": "Back document image",
       "selfie": "Selfie with document",

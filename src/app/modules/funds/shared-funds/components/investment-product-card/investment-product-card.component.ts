@@ -68,7 +68,7 @@ import { NavController } from '@ionic/angular';
                 currency: this.productData.currency
               })
             "
-            class="ux-font-lato ux-fweight-semibold ux-fsize-14"
+            class="ux-font-button-small"
           >
             {{ 'funds.fund_investment.card.invest_button' | translate }}
           </ion-button>

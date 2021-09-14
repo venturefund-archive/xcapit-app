@@ -35,7 +35,6 @@
           --padding-start: 8px;
           --padding-end: 5px;
         }
-
       }
     }
 
@@ -49,16 +48,6 @@
   .main {
     margin-top: 8px;
     overflow: auto;
-
-    &__help__button {
-      float: right;
-      height: auto;
-      font-size: 12px;
-
-      .button-native {
-        padding-right: 0 !important;
-      }
-    }
 
     &__go_to_register {
       margin-top: 8px;

@@ -13,14 +13,14 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
           <ion-button appTrackClick name="Register New Key More" class="add-button" (click)="this.addApiKey()">
             <ion-icon style="zoom:1.5; color:white;" name="add"></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'apikeys.list_apikeys.header' | translate }}</ion-title>
+        <ion-title>{{ 'apikeys.list_apikeys.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding-top">
@@ -46,7 +46,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
               <img class="nr__image-container__image" src="assets/img/apikeys/no-apikey.svg" alt="no-apikey" />
             </div>
             <div class="nr__subtitle ion-padding-start ion-padding-end">
-              <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-15" color="uxsemidark">
+              <ion-text class="ux-font-text-base" color="uxsemidark">
                 {{ 'apikeys.list_apikeys.subtitle' | translate }}
               </ion-text>
             </div>
@@ -65,6 +65,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
             ></app-need-help>
           </div>
           <ion-button
+            class="ux_button"
             expand="block"
             type="button"
             color="uxsecondary"

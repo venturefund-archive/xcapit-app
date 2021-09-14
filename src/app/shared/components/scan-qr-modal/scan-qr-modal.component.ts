@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { DOCUMENT } from '@angular/common';
 
@@ -52,14 +52,21 @@ export class ScanQrModalComponent implements OnInit {
   constructor(
     private modalController: ModalController,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document
-  ) {}
+    @Inject(DOCUMENT) private document: Document,
+    private platform: Platform
+  ) {
+    this.platform.backButton.subscribe(() => {
+      this.close();
+    });
+  }
 
   async ngOnInit() {
     await this.scan();
   }
 
   async close() {
+    await this.barcodeScanner.stopScan();
+    await this.showBackground();
     await this.modalController.dismiss(null, 'cancelled');
   }
 
@@ -75,11 +82,11 @@ export class ScanQrModalComponent implements OnInit {
     this.renderer.removeClass(this.document.getElementsByTagName('ion-split-pane').item(0), 'hidden-visibility');
   }
 
-  private async contentOf(result: any) {
+  private contentOf(result: any): any {
     if (result.hasContent) return result.content;
   }
 
-  private roleOf(result: any) {
+  private roleOf(result: any): string {
     return result.hasContent ? 'success' : 'error';
   }
 

@@ -79,8 +79,8 @@ describe('HomePage', () => {
   it('should open in app browser when Go to Wallet is clicked', async () => {
     const IWantMyWalletButton = fixture.debugElement.query(By.css("div[name='Go to Wallet']"));
     IWantMyWalletButton.nativeElement.click();
-    // expect(window.open).toHaveBeenCalledOnceWith('https://www.xcapit.com/#lista-espera', '_blank');
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
+    expect(window.open).toHaveBeenCalledOnceWith('https://www.xcapit.com/#lista-espera', '_blank');
+    // expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
   });
 
   it('should call trackEvent on trackService when Go to Support Page is clicked', () => {
@@ -112,37 +112,6 @@ describe('HomePage', () => {
     const button = fixture.debugElement.query(By.css("ion-button[name='Show Notifications']"));
     button.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/notifications/list');
-  });
-
-  it('should call trackEvent on trackService when Go To Profile button clicked', () => {
-    spyOn(component, 'goToProfile');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Profile');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to user profile when Go To Profile is clicked', () => {
-    const button = fixture.debugElement.query(By.css("ion-button[name='Go To Profile']"));
-    button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/profiles/user');
-  });
-
-  it('should call trackEvent on trackService when Go to Strategies Cards is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('div', 'Go to Strategies Cards');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spyClickEvent = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spyClickEvent).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to create-support-ticket when Go to Strategies Cards is clicked', () => {
-    const button = fixture.debugElement.query(By.css("div[name='Go to Strategies Cards']"));
-    button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/funds/fund-investment/show');
   });
 
   it('should call getNews on doRefresh', async () => {

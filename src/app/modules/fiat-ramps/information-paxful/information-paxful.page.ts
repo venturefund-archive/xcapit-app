@@ -13,7 +13,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">
+        <ion-title>
           {{ 'fiat_ramps.information_paxful.header' | translate }}
         </ion-title>
       </ion-toolbar>
@@ -22,12 +22,12 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
       <form class="ux_main" [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <div class="ux_content">
           <div>
-            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">
+            <ion-text class="ux-font-text-xl">
               {{ 'fiat_ramps.information_paxful.title' | translate }}
             </ion-text>
           </div>
           <div class="info_text">
-            <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14">
+            <ion-text color="uxdark" class="ux-font-text-xs">
               {{ 'fiat_ramps.information_paxful.subtitle' | translate }}
             </ion-text>
           </div>

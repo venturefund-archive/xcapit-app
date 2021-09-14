@@ -15,9 +15,7 @@ import { BillType } from '../../enums/bill_types.enum';
     <div class="ep ion-padding-start ion-padding-end ion-padding-bottom">
       <form #formElement [formGroup]="this.form" (ngSubmit)="this.save()" *ngIf="this.isFormSet">
         <div class="ep__personal">
-          <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-            'profiles.user_profile.personal_data' | translate
-          }}</ion-text>
+          <ion-text class="ux-font-text-xl">{{ 'profiles.user_profile.personal_data' | translate }}</ion-text>
           <!-- First name -->
           <app-ux-input
             controlName="first_name"
@@ -36,9 +34,7 @@ import { BillType } from '../../enums/bill_types.enum';
           ></app-ux-input>
           <div *ngIf="this.data?.viewBillData">
             <div class="ep__bill">
-              <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22">{{
-                'profiles.user_profile.bill_data' | translate
-              }}</ion-text>
+              <ion-text class="ux-font-text-xl">{{ 'profiles.user_profile.bill_data' | translate }}</ion-text>
 
               <!-- Pais -->
               <app-ux-input-select

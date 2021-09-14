@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { InformativeModalComponent } from 'src/app/modules/menus/main-menu/components/informative-modal/informative-modal.component';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 
 const { Browser } = Plugins;
@@ -55,25 +57,47 @@ const { Browser } = Plugins;
   styleUrls: ['./home-subheader.component.scss'],
 })
 export class HomeSubheaderComponent implements OnInit {
+  apikeys: any = [];
   constructor(
     private navController: NavController,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private apiApikeysService: ApiApikeysService
   ) {}
 
-  ngOnInit() {}
-
-  async goToWalletWaitingList() {
-    // TODO: Restore this code after presentation
-    // await Browser.open({
-    //   toolbarColor: '#ff9100',
-    //   url: 'https://www.xcapit.com/#lista-espera',
-    // });
-    this.navController.navigateForward('/tabs/wallets');
+  ngOnInit() {
+    this.getAllApiKeys();
   }
 
-  goToBuy() {
-    this.navController.navigateForward('/fiat-ramps/operations');
+  async goToWalletWaitingList() {
+    await Browser.open({
+      toolbarColor: '#ff9100',
+      url: 'https://www.xcapit.com/#lista-espera',
+    });
+    // this.navController.navigateForward('/tabs/wallets');
+  }
+
+  async goToBuy() {
+    if (this.apikeys.length > 0) {
+      this.navController.navigateForward('/fiat-ramps/operations');
+    } else {
+      await this.openNoApiKeysModal();
+    }
+  }
+
+  getAllApiKeys() {
+    this.apiApikeysService.getAll().subscribe((data) => {
+      this.apikeys = data;
+    });
+  }
+
+  async openNoApiKeysModal() {
+    const modal = await this.modalController.create({
+      component: InformativeModalComponent,
+      cssClass: 'ux-modal-informative',
+      swipeToClose: false,
+    });
+    await modal.present();
   }
 
   goToInvestments() {

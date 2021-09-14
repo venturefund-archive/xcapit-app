@@ -13,11 +13,11 @@ const { Browser } = Plugins;
   template: `
     <ion-content class="ion-padding">
       <div class="main">
-        <div class="main__primary_text">
+        <div class="main__primary_text ux-font-text-xl ">
           <ion-text>{{ 'fiat_ramps.fiat_success.textPrimary' | translate }}</ion-text>
         </div>
 
-        <div class="main__secondary_text">
+        <div class="main__secondary_text ux-font-text-xs">
           <ion-text>{{ 'fiat_ramps.fiat_success.textSecondary' | translate }}</ion-text>
         </div>
 
@@ -64,7 +64,7 @@ const { Browser } = Plugins;
               'fiat_ramps.fiat_success.concept' | translate
             }}</ion-col>
             <ion-col class="main__bank_info__content__right ion-no-padding">
-              <span>No se sabe, nadie lo sabe</span>
+              <span>Kriptobroker</span>
             </ion-col>
           </ion-item>
         </ion-list>
@@ -83,7 +83,7 @@ const { Browser } = Plugins;
           </div>
         </ion-item>
 
-        <div class="main__small_text">
+        <div class="main__small_text ux-font-text-base">
           <ion-text>{{ 'fiat_ramps.fiat_success.info_email' | translate }}</ion-text>
         </div>
 

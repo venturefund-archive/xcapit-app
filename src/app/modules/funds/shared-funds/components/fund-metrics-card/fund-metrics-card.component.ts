@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FundMetricsInterface } from './fund-metrics.interface';
 import * as moment from 'moment';
+import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
 
 @Component({
   selector: 'app-fund-metrics-card',
@@ -10,10 +10,10 @@ import * as moment from 'moment';
         <div class="fmc__content__right ion-padding-top ion-padding-start ion-padding-bottom">
           <!-- Período -->
           <div class="item">
-            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.period' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+            <ion-text class="item__value ux-font-text-xxs regular">
               {{
                 'funds.fund_card.' + this.createdTime[0]
                   | translate
@@ -26,21 +26,30 @@ import * as moment from 'moment';
           </div>
 
           <!-- Take profit -->
-          <div class="item second">
-            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">
+          <div class="item second fmc__take_profit">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.take_profit' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+            <ion-text
+              *ngIf="this.settings?.ganancia !== manualSLTP.takeProfit"
+              class="item__value ux-font-text-xxs regular"
+            >
               {{ this.settings?.ganancia }}%
+            </ion-text>
+            <ion-text
+              *ngIf="this.settings?.ganancia === manualSLTP.takeProfit"
+              class="item__value ux-font-text-xxs regular"
+            >
+              {{ 'shared.without_SL_TP.without_take_profit' | translate }}
             </ion-text>
           </div>
 
           <!-- Estrategia -->
           <div class="item second">
-            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.strategy' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+            <ion-text class="item__value ux-font-text-xxs regular">
               {{ this.settings?.nivel_de_riesgo | strategyName }}
             </ion-text>
           </div>
@@ -48,7 +57,7 @@ import * as moment from 'moment';
         <div class="fmc__content__right ion-padding-top ion-padding-end ion-padding-bottom">
           <!-- Rendimiento -->
           <div class="item">
-            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.performance' | translate }}
             </ion-text>
             <div>
@@ -62,28 +71,37 @@ import * as moment from 'moment';
                 name="ux-triangle-down"
                 *ngIf="this.resume?.total_profit < 0"
               ></ion-icon>
-              <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+              <ion-text class="item__value ux-font-text-xxs regular">
                 {{ this.resume?.total_profit * 100 | absoluteValue | number: '1.2-2' }}%
               </ion-text>
             </div>
           </div>
 
           <!-- Stop loss -->
-          <div class="item second">
-            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">
+          <div class="item second fmc__stop_loss">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.stop_loss' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+            <ion-text
+              *ngIf="this.settings?.perdida !== manualSLTP.stopLoss"
+              class="item__value ux-font-text-xxs regular"
+            >
               {{ this.settings?.perdida }}%
+            </ion-text>
+            <ion-text
+              *ngIf="this.settings?.perdida === manualSLTP.stopLoss"
+              class="item__value ux-font-text-xxs regular"
+            >
+              {{ 'shared.without_SL_TP.without_stop_loss' | translate }}
             </ion-text>
           </div>
 
           <!-- Moneda -->
           <div class="item second">
-            <ion-text class="item__title ux-font-lato ux-fweight-regular ux-fsize-12" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
               {{ 'funds.fund_detail.fund_metrics_card.currency' | translate }}
             </ion-text>
-            <ion-text class="item__value ux-font-lato ux-fweight-semibold ux-fsize-14" color="uxdark">
+            <ion-text class="item__value ux-font-text-xxs regular">
               {{ this.settings?.currency }}
             </ion-text>
           </div>
@@ -97,6 +115,7 @@ export class FundMetricsCardComponent implements OnInit {
   @Input() resume: any;
   @Input() settings: any;
   createdTime: any;
+  manualSLTP = ManualSLTP;
 
   constructor() {}
 

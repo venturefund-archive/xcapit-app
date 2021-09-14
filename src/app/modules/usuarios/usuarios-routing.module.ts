@@ -10,32 +10,23 @@ const routes: Routes = [
       {
         path: 'register',
         canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./register/register.module').then(
-            (m) => m.RegisterPageModule
-          ),
+        loadChildren: () => import('./register/register.module').then((m) => m.RegisterPageModule),
       },
       {
         path: 'email-validation',
         canActivate: [NoAuthGuard],
         loadChildren: () =>
-          import('./email-validation/email-validation.module').then(
-            (m) => m.EmailValidationPageModule
-          ),
+          import('./email-validation/email-validation.module').then((m) => m.EmailValidationPageModule),
       },
       {
         path: 'login',
         canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./login/login.module').then((m) => m.LoginPageModule),
+        loadChildren: () => import('./login/login.module').then((m) => m.LoginPageModule),
       },
       {
         path: 'reset-password',
         canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./reset-password/reset-password.module').then(
-            (m) => m.ResetPasswordPageModule
-          ),
+        loadChildren: () => import('./reset-password/reset-password.module').then((m) => m.ResetPasswordPageModule),
       },
       {
         path: 'success-reset',
@@ -49,25 +40,20 @@ const routes: Routes = [
         path: 'success-register',
         canActivate: [NoAuthGuard],
         loadChildren: () =>
-          import('./success-register/success-register.module').then(
-            (m) => m.SuccessRegisterPageModule
-          ),
+          import('./success-register/success-register.module').then((m) => m.SuccessRegisterPageModule),
       },
       {
         path: 'resend-verification-email',
         canActivate: [NoAuthGuard],
         loadChildren: () =>
-          import(
-            './resend-verification-email/resend-verification-email.module'
-          ).then((m) => m.ResendVerificationEmailPageModule),
+          import('./resend-verification-email/resend-verification-email.module').then(
+            (m) => m.ResendVerificationEmailPageModule
+          ),
       },
       {
         path: 'password-change',
         canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./password-change/password-change.module').then(
-            (m) => m.PasswordChangePageModule
-          ),
+        loadChildren: () => import('./password-change/password-change.module').then((m) => m.PasswordChangePageModule),
       },
     ],
   },

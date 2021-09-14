@@ -14,7 +14,7 @@ import { NavController } from '@ionic/angular';
         <div class="main__ux_success_image">
           <img src="../../../../assets/img/referrals/success-claim/success-claim.svg" />
         </div>
-        <div class="main__primary_text">
+        <div class="main__primary_text ux-font-text-xl ">
           <ion-text>{{ 'referrals.success_claim_reward.primary_text' | translate }}</ion-text>
         </div>
         <div class="main__secondary_text">

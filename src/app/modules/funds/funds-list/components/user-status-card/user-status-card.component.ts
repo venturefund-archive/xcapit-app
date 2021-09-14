@@ -13,7 +13,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             <ion-icon class="eye-button" [hidden]="this.hideFundText" name="eye-outline"></ion-icon>
           </a>
         </div>
-        <div class="ux-font-gilroy ux-fweight-extrabold ux-fsize-22 user-status__title">
+        <div class="ux-font-text-xl user-status__title">
           <ion-text>{{ 'funds.funds_list.user_status.title' | translate }}</ion-text>
         </div>
 
@@ -91,6 +91,6 @@ export class UserStatusCardComponent implements OnInit {
   }
 
   doActionButton() {
-    this.navController.navigateRoot(this.newFundUrl).then();
+    this.navController.navigateForward(this.newFundUrl).then();
   }
 }

@@ -25,7 +25,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
           </app-ux-title>
 
           <app-ux-text class="ion-padding-top ion-margin-top">
-            <div class="ion-margin-top">
+            <div class="subtitle ux-font-text-xs ion-margin-top">
               {{ 'wallets.select_coin.subtitle' | translate }}
             </div>
           </app-ux-text>
@@ -35,15 +35,19 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
               <ion-radio-group>
                 <div class="container">
                   <ion-item>
-                    <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-14">{{
-                      'wallets.select_coin.select_all' | translate
-                    }}</ion-label>
-                    <ion-toggle class="sc__toggle" (ionChange)="toggleAll()" mode="ios" slot="end"></ion-toggle>
+                    <ion-label class="ux-font-text-xxs">{{ 'wallets.select_coin.select_all' | translate }}</ion-label>
+                    <ion-toggle
+                      name="AllToggle"
+                      class="sc__toggle"
+                      [checked]="this.allChecked"
+                      (click)="toggleAll()"
+                      mode="ios"
+                      slot="end"
+                    ></ion-toggle>
                   </ion-item>
                   <div class="list-divider"></div>
                   <app-item-coin
                     (change)="this.validate()"
-                    [disabled]="this.isChecked"
                     [isChecked]="this.isChecked"
                     *ngFor="let coin of coins"
                     [coin]="coin"
@@ -91,30 +95,30 @@ export class SelectCoinsWalletPage implements OnInit {
   ) {}
   isChecked: boolean;
   almostOneChecked = false;
+  allChecked = false;
 
   ngOnInit() {}
 
   validate() {
-    for (const field in this.form.controls) {
-      if (this.form.controls.hasOwnProperty(field)) {
-        this.enabledButton(this.isFieldTrue(field));
-        if (this.isFieldTrue(field)) {
-          break;
-        }
-      }
-    }
+    this.checkAllToggleState();
+    this.almostOneCheckedState();
   }
 
   isFieldTrue(field) {
     return this.form.controls[field].value === true;
   }
 
-  enabledButton(isEnabled) {
-    this.almostOneChecked = isEnabled;
-  }
-
   toggleAll() {
     this.isChecked = !this.isChecked;
+    this.allChecked = !this.isChecked;
+  }
+
+  checkAllToggleState() {
+    this.allChecked = Object.values(this.form.value).every((value) => value === true);
+  }
+
+  almostOneCheckedState() {
+    this.almostOneChecked = Object.values(this.form.value).some((value) => value === true);
   }
 
   handleSubmit() {
