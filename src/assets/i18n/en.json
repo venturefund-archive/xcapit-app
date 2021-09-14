@@ -1436,8 +1436,7 @@
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Enter Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submit": "Submit",
-      "link_help": "Need Help?"
+      "button_submit": "Submit"
     },
     "register_success_begginer": {
       "textPrimary": "You have already linked your account with Binance!",
@@ -1480,7 +1479,7 @@
       "link_with_binance": "Link with Binance"
     },
     "scan_qr": {
-      "header": "Scan your keys",
+      "header": "Scan your API key",
       "register_manually": "Enter manually",
       "errors": {
         "invalidQR": "Invalid QR code.",

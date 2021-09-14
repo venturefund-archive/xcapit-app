@@ -1464,7 +1464,7 @@
       "link_with_binance": "Vincular con Binance"
     },
     "scan_qr": {
-      "header": "Escanea tus keys",
+      "header": "Escanea tu API Key",
       "register_manually": "Ingresar manualmente",
       "errors": {
         "invalidQR": "El código QR no es válido.",
@@ -1516,8 +1516,7 @@
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
       "label_secretkey": "Ingresar Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submit": "Agregar",
-      "link_help": "¿Necesitas Ayuda?"
+      "button_submit": "Agregar"
     },
     "edit_modal": {
       "title": "Cambiar Alias",

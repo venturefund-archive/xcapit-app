@@ -59,7 +59,7 @@ describe('TutorialApikeysPage', () => {
 
   it('should navigate to Register API Key when Have API Key is clicked', () => {
     fixture.debugElement.query(By.css('div[name="Have API Key"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/register');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/tutorial/register');
   });
 
   it('should render properly the existing account button card', () => {
