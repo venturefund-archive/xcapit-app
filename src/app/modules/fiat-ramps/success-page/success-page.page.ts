@@ -64,7 +64,7 @@ const { Browser } = Plugins;
               'fiat_ramps.fiat_success.concept' | translate
             }}</ion-col>
             <ion-col class="main__bank_info__content__right ion-no-padding">
-              <span>No se sabe, nadie lo sabe</span>
+              <span>Kriptobroker</span>
             </ion-col>
           </ion-item>
         </ion-list>
