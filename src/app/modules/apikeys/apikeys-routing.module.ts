@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
-import { ApiKeyDataGuard } from './shared-apikeys/guards/apikey-data/apikey-data.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +14,6 @@ const routes: Routes = [
       },
       {
         path: 'insert-secret',
-        canActivate: [ApiKeyDataGuard],
         loadChildren: () => import('./insert-secret/insert-secret.module').then((m) => m.InsertSecretPageModule),
       },
       {
