@@ -4,13 +4,12 @@
       --border-style: none;
       padding-top: 15px;
       padding-bottom: 15px;
-      &__container {
+      &__container-icon {
         height: 100%;
         margin-right: 16px;
-        &__icon {
-          display: flex;
-          justify-content: center;
-          align-items: center;
+        img {
+          padding-top: 5px;
+          width: 30px;
         }
       }
 

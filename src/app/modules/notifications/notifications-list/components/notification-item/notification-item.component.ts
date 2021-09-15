@@ -7,7 +7,7 @@ import * as moment from 'moment';
   template: `
     <div class="ni">
       <ion-item class="ni__body" [ngClass]="{ ni__new: !this.notification.read }">
-        <div class="ni__body__container">
+        <div class="ni__body__container-icon">
           <img
             *ngIf="this.notification.type === 'TP'"
             src="../../assets/img/notifications/Trading up.svg"
