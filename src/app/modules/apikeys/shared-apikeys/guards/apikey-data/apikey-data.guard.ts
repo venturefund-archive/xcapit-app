@@ -4,13 +4,10 @@ import { Observable, of } from 'rxjs';
 import { StorageApikeysService } from '../../services/storage-apikeys/storage-apikeys.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiKeyDataGuard implements CanActivate {
-  constructor(
-    private storageApikeysService: StorageApikeysService,
-    private router: Router
-  ) {}
+  constructor(private storageApikeysService: StorageApikeysService, private router: Router) {}
 
   canActivate(): Observable<boolean> {
     if (this.storageApikeysService.data) {

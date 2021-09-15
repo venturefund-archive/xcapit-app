@@ -1,10 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { TutorialApikeysPage } from './tutorial-apikeys.page';
@@ -14,16 +15,25 @@ describe('TutorialApikeysPage', () => {
   let fixture: ComponentFixture<TutorialApikeysPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: any;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TutorialApikeysPage>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController({});
       navControllerSpy = fakeNavController.createSpy();
+
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
         declarations: [TutorialApikeysPage, TrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          TrackClickDirective,
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(TutorialApikeysPage);
@@ -100,5 +110,29 @@ describe('TutorialApikeysPage', () => {
 
     const descriptionEl = fixture.debugElement.query(By.css('.apnf__description ion-text'));
     expect(descriptionEl.nativeElement.innerHTML).toContain('apikeys.apikey_information.description');
+  });
+
+  it('should open modal when Doesnt Have API Key button is clicked', () => {
+    const buttonEl = fixture.debugElement.query(By.css('div[name="Doesnt Have API Key"]')).nativeElement;
+    buttonEl.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to Register API Key when modal is closed using the Done button', async () => {
+    fakeModalController.modifyReturns({ role: 'success' }, null);
+    await component.nonExistingAPIKey();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/tutorial/register');
+  });
+
+  it('should not navigate to Register API Key when modal is closed using the Close button', async () => {
+    fakeModalController.modifyReturns({ role: 'cancel' }, null);
+    await component.nonExistingAPIKey();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
+  });
+
+  it('should navigate to Whats an API Key when Need Help button is clicked', () => {
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Need Help"]')).nativeElement;
+    buttonEl.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/whats-an-api-key');
   });
 });

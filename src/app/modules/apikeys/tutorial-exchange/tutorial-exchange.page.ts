@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apikeys-tutorial-modal/apikeys-tutorial-modal.component';
 
 @Component({
   selector: 'app-tutorial-exchange',
@@ -83,7 +84,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./tutorial-exchange.page.scss'],
 })
 export class TutorialExchangePage implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private modalController: ModalController) {}
 
   ngOnInit() {}
 
@@ -91,8 +92,30 @@ export class TutorialExchangePage implements OnInit {
     this.navController.navigateForward('/apikeys/tutorial/apikeys');
   }
 
-  accountDoesntExist() {
-    // TODO: Modal
+  async accountDoesntExist() {
+    const modal = await this.modalController.create({
+      component: ApikeysTutorialModalComponent,
+      componentProps: {
+        title: 'apikeys.exchange_information.tutorial_modal.title',
+        messages: [
+          'apikeys.exchange_information.tutorial_modal.text1',
+          'apikeys.exchange_information.tutorial_modal.text2',
+          'apikeys.exchange_information.tutorial_modal.text3',
+          'apikeys.exchange_information.tutorial_modal.text4',
+        ],
+        buttonMessage: 'apikeys.exchange_information.tutorial_modal.button',
+      },
+      cssClass: 'ux-modal-apikeys-tutorial-no-binance-account',
+      swipeToClose: false,
+    });
+
+    await modal.present();
+
+    const { role } = await modal.onWillDismiss();
+
+    if (role === 'success') {
+      this.accountExist();
+    }
   }
 
   needHelp() {
