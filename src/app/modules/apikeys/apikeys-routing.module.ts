@@ -1,23 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
-import { ApiKeyDataGuard } from './shared-apikeys/guards/apikey-data/apikey-data.guard';
 
 const routes: Routes = [
   {
     path: 'apikeys',
     canActivate: [AuthGuard],
     children: [
-      {
-        path: 'insert-key',
-        canActivate: [],
-        loadChildren: () => import('./insert-key/insert-key.module').then((m) => m.InsertKeyPageModule),
-      },
-      {
-        path: 'insert-secret',
-        canActivate: [ApiKeyDataGuard],
-        loadChildren: () => import('./insert-secret/insert-secret.module').then((m) => m.InsertSecretPageModule),
-      },
       {
         path: 'success/:type',
         canActivate: [],
