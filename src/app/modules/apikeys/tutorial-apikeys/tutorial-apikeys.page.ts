@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apikeys-tutorial-modal/apikeys-tutorial-modal.component';
 
 @Component({
   selector: 'app-tutorial-apikeys',
@@ -72,7 +73,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./tutorial-apikeys.page.scss'],
 })
 export class TutorialApikeysPage implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private modalController: ModalController) {}
 
   ngOnInit() {}
 
@@ -80,11 +81,36 @@ export class TutorialApikeysPage implements OnInit {
     this.navController.navigateForward('/apikeys/tutorial/register');
   }
 
-  nonExistingAPIKey() {
-    // this.navController.navigateForward('') //TODO: Add Page
+  howToCreateAPIKey() {
+    this.navController.navigateForward('/apikeys/whats-an-api-key');
   }
 
-  howToCreateAPIKey() {
-    // TODO: Modal
+  async nonExistingAPIKey() {
+    const modal = await this.modalController.create({
+      component: ApikeysTutorialModalComponent,
+      componentProps: {
+        title: 'apikeys.apikey_information.tutorial_modal.title',
+        messages: [
+          'apikeys.apikey_information.tutorial_modal.text1',
+          'apikeys.apikey_information.tutorial_modal.text2',
+          'apikeys.apikey_information.tutorial_modal.text3',
+          'apikeys.apikey_information.tutorial_modal.text4',
+          'apikeys.apikey_information.tutorial_modal.text5',
+          'apikeys.apikey_information.tutorial_modal.text6',
+          'apikeys.apikey_information.tutorial_modal.text7',
+        ],
+        buttonMessage: 'apikeys.apikey_information.tutorial_modal.button',
+      },
+      cssClass: 'ux-modal-apikeys-tutorial-no-apikeys',
+      swipeToClose: false,
+    });
+
+    await modal.present();
+
+    const { role } = await modal.onWillDismiss();
+
+    if (role === 'success') {
+      this.existingAPIKey();
+    }
   }
 }
