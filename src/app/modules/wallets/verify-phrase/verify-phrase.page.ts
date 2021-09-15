@@ -49,7 +49,6 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
             [clickable]="true"
             [showOrder]="false"
             (useButtonClicked)="this.addWord($event)"
-            class="card"
           ></app-recovery-phrase-card>
         </div>
         <div class="create_button">

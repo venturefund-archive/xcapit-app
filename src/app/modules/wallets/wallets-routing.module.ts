@@ -51,7 +51,30 @@ const routes: Routes = [
         loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
       },
       {
+        path: 'recovery',
+        loadChildren: () => import('./recovery-wallet/recovery-wallet.module').then((m) => m.RecoveryWalletPageModule),
         canActivate: [AcceptedToSGuard],
+      },
+      {
+        path: 'recovery',
+        children: [
+          {
+            path: 'error',
+            loadChildren: () =>
+              import('./error-recovery-wallet/error-recovery-wallet.module').then(
+                (m) => m.ErrorRecoveryWalletPageModule
+              ),
+          },
+          {
+            path: 'success',
+            loadChildren: () =>
+              import('./success-recovery-wallet/success-recovery-wallet.module').then(
+                (m) => m.SuccessRecoveryWalletPageModule
+              ),
+          },
+        ],
+      },
+      {
         path: 'transactions',
         loadChildren: () =>
           import('./transactions-wallet/transactions-wallet.module').then((m) => m.TransactionsWalletPageModule),

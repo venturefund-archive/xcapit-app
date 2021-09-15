@@ -28,7 +28,8 @@ export class WalletTransactionsService {
   async send(password: string, amount: number | string, targetAddress: string, currency: Coin, loading = true) {
     if (loading) await this.loadingService.show();
     const providerData = await this.blockchainProviderService.getProvider(currency.value);
-    const wallet = (await this.walletEncryptionService.getDecryptedWallet(password)).connect(providerData.provider);
+    let wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, currency);
+    wallet = wallet.connect(providerData.provider);
     if (!currency.contract) {
       await this.transferNativeToken(wallet, targetAddress, amount);
     } else {

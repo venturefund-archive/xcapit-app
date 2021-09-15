@@ -42,6 +42,7 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
 import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
 import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
+import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux-step-progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
+    UxStepProgressBarComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -136,6 +138,7 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
+    UxStepProgressBarComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

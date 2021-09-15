@@ -9,6 +9,7 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { ActivatedRoute } from '@angular/router';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-receive',
@@ -64,7 +65,7 @@ import { ActivatedRoute } from '@angular/router';
           ></ion-button>
         </ion-item>
       </div>
-      <div class="wr__share-content">
+      <div class="wr__share-content" *ngIf="this.isNativePlatform">
         <ion-button
           name="Share Wallet Address"
           id="share-address-button"
@@ -91,12 +92,13 @@ export class ReceivePage {
   form: FormGroup = this.formBuilder.group({
     currency: ['', Validators.required],
   });
-
+  isNativePlatform: boolean;
   currencies: Coin[] = COINS;
   address: string;
   addressQr: string;
   selectedCurrency: string;
   defaultAsset = 'ETH';
+
   constructor(
     private formBuilder: FormBuilder,
     private qrCodeService: QRCodeService,
@@ -105,11 +107,17 @@ export class ReceivePage {
     private toastService: ToastService,
     private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private platformService: PlatformService
   ) {}
 
   ionViewWillEnter() {
     this.subscribeToFormChanges();
+    this.checkPlatform();
+  }
+
+  checkPlatform() {
+    this.isNativePlatform = this.platformService.isNative();
   }
 
   subscribeToFormChanges() {

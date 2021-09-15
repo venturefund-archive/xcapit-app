@@ -3,16 +3,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { CreatePasswordPage } from './create-password.page';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { UrlSerializer } from '@angular/router';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
 describe('CreatePasswordPage', () => {
   let component: CreatePasswordPage;
   let fixture: ComponentFixture<CreatePasswordPage>;
   let walletEncryptionServiceMock;
+  let activatedRouteMock: any;
   let navController: NavController;
 
   const formData = {
@@ -30,12 +31,14 @@ describe('CreatePasswordPage', () => {
     walletEncryptionServiceMock = {
       encryptWallet: (password) => true,
     };
+    activatedRouteMock = {};
 
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage],
       imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
       providers: [
         UrlSerializer,
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
         { provide: NavController, useValue: navControllerMock },
       ],

@@ -46,7 +46,19 @@ import { finalize } from 'rxjs/operators';
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
       </div>
-
+      <div class="wt__button" *ngIf="!this.walletExist">
+        <ion-button
+          (click)="this.goToRecoveryWallet()"
+          class="ux-font-text-xs"
+          appTrackClick
+          name="Import Wallet"
+          type="button"
+          color="uxsecondary"
+          fill="clear"
+        >
+          {{ 'wallets.home.wallet_recovery' | translate }}
+        </ion-button>
+      </div>
       <div
         class="wt__transaction ion-padding-start ion-padding-end"
         *ngIf="this.transactionsExists && this.balances?.length"
@@ -124,6 +136,10 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
+  goToRecoveryWallet() {
+    this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
+  }
+
   async getWalletsBalances() {
     this.balances = [];
     this.totalBalanceWallet = 0;
@@ -166,10 +182,6 @@ export class HomeWalletPage implements OnInit {
   }
 
   private getPrice(symbol: string): number {
-    if (symbol === 'USDT') {
-      return 1;
-    }
-
     return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }
 

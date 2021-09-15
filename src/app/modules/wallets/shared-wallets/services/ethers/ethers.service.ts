@@ -1,4 +1,4 @@
-import { Contract, ContractInterface, ethers, Signer } from 'ethers';
+import { Contract, ContractInterface, ethers, Signer, Wallet } from 'ethers';
 import { Injectable } from '@angular/core';
 import { Provider } from '@ethersproject/abstract-provider';
 
@@ -6,6 +6,7 @@ import { Provider } from '@ethersproject/abstract-provider';
   providedIn: 'root',
 })
 export class EthersService {
+  walletClass = Wallet;
   constructor() {}
 
   ethers() {

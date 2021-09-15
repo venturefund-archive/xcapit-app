@@ -7,6 +7,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -28,6 +29,8 @@ import {
           controlName="referenceAmount"
           debounce="1000"
           type="number"
+          readonly="true"
+          [loading]="this.loading"
         ></app-ux-input-underlined>
       </div>
     </div>
@@ -45,8 +48,9 @@ export class AmountInputCardComponent implements OnInit {
   @Input() currencyName: string;
   @Input() referenceCurrencyName: string;
   form: FormGroup;
+  loading = false;
 
-  constructor(private formGroupDirective: FormGroupDirective) {}
+  constructor(private formGroupDirective: FormGroupDirective, private apiWalletService: ApiWalletService) {}
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
@@ -54,10 +58,14 @@ export class AmountInputCardComponent implements OnInit {
   }
 
   private amountChange(value: number) {
-    this.form.patchValue({ referenceAmount: this.referenceEquivalentOf(value) });
+    this.loading = true;
+    this.apiWalletService.getPrices([this.base()], false).subscribe((res) => {
+      this.form.patchValue({ referenceAmount: value * res.prices[this.base()] });
+      this.loading = false;
+    });
   }
 
-  private referenceEquivalentOf(amount: number) {
-    return amount; // TODO: request for price
+  private base() {
+    return this.currencyName === 'RBTC' ? 'BTC' : this.currencyName;
   }
 }

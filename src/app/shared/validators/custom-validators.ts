@@ -12,6 +12,19 @@ export class CustomValidators {
     };
   }
 
+  static countWordsValidator(
+    control: AbstractControl,
+    error: ValidationErrors = CustomValidatorErrors.countWordsMatch
+  ) {
+    const words: string = control.get('phrase').value;
+    const filteredWords = words.split(' ');
+    const groupWords = filteredWords.filter((m) => m);
+    if (groupWords.length !== 12) {
+      control.get('phrase').setErrors(error);
+    }
+    return null;
+  }
+
   static passwordMatchValidator(
     control: AbstractControl,
     pass: string = 'password',

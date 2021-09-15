@@ -86,7 +86,7 @@ export class UserStatusCardComponent implements OnInit {
     if (this.userStatus.status_name === 'CREATOR' || this.userStatus.status_name === 'COMPLETE') {
       this.newFundUrl = 'apikeys/list';
     } else {
-      this.newFundUrl = 'apikeys/tutorial';
+      this.newFundUrl = 'apikeys/tutorial/exchange';
     }
   }
 

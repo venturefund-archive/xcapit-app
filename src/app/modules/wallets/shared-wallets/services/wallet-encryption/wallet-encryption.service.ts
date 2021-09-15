@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ethers } from 'ethers';
+import { Wallet } from 'ethers';
 import { WalletService } from '../wallet/wallet.service';
-import { StorageService } from '../../services/storage-wallets/storage-wallets.service';
+import { StorageService } from '../storage-wallets/storage-wallets.service';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { COINS } from '../../../constants/coins';
+import { Coin } from '../../interfaces/coin.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -46,12 +47,12 @@ export class WalletEncryptionService {
   }
 
   getDecryptedWallet(password: string): Promise<any> {
-    return new Promise<any>(async (resolve) => {
-      const storageWallet = await this.storageService.getWalletFromStorage();
+    return this.storageService.getWalletFromStorage().then((res) => Wallet.fromEncryptedJsonSync(res.wallet, password));
+  }
 
-      const res = ethers.Wallet.fromEncryptedJsonSync(storageWallet.wallet, password);
-
-      resolve(res);
+  getDecryptedWalletForCurrency(password: string, currency: Coin): Promise<Wallet> {
+    return this.getDecryptedWallet(password).then((wallet) => {
+      return Wallet.fromMnemonic(wallet.mnemonic.phrase, environment.derivedPaths[currency.network]);
     });
   }
 
