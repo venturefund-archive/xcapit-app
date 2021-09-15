@@ -1378,6 +1378,10 @@
         "submit_button_text": "Accept",
         "input_label": "Password"
       }
+    },
+    "asset_detail": {
+      "header": "Asset Detail",
+      "wallet_transaction_title": "TRANSACTIONS"
     }
   },
   "apikeys": {

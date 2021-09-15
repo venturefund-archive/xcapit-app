@@ -78,6 +78,10 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'asset-detail/:currency',
+        loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
+      },
     ],
   },
 ];

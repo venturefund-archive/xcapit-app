@@ -1381,6 +1381,10 @@
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
       }
+    },
+    "asset_detail": {
+      "header": "Detalle de activo",
+      "wallet_transaction_title": "TRANSACCIONES"
     }
   },
   "apikeys": {
