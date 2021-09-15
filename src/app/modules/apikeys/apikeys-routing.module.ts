@@ -8,15 +8,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'insert-key',
-        canActivate: [],
-        loadChildren: () => import('./insert-key/insert-key.module').then((m) => m.InsertKeyPageModule),
-      },
-      {
-        path: 'insert-secret',
-        loadChildren: () => import('./insert-secret/insert-secret.module').then((m) => m.InsertSecretPageModule),
-      },
-      {
         path: 'success/:type',
         canActivate: [],
         loadChildren: () => import('./success-apikeys/success-apikeys.module').then((m) => m.SuccessApikeysPageModule),
