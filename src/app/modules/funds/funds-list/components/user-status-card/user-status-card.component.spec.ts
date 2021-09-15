@@ -67,8 +67,8 @@ describe('UserStatusCardComponent', () => {
   });
 
   [
-    ['BEGINNER', 'apikeys/tutorial'],
-    ['EXPLORER', 'apikeys/tutorial'],
+    ['BEGINNER', 'apikeys/tutorial/exchange'],
+    ['EXPLORER', 'apikeys/tutorial/exchange'],
     ['COMPLETE', 'apikeys/list'],
     ['CREATOR', 'apikeys/list'],
   ].forEach(([statusName, expectedUrl]) => {

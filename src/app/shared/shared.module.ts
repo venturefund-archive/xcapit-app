@@ -43,6 +43,7 @@ import { UxSegmentComponent } from './components/ux-segment/ux-segment.component
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
 import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
 import { UxInputSelectTraductionComponent } from './ux-input-select-traduction/ux-input-select-traduction.component';
+import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux-step-progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { UxInputSelectTraductionComponent } from './ux-input-select-traduction/u
     SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
+    UxStepProgressBarComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -139,6 +141,7 @@ import { UxInputSelectTraductionComponent } from './ux-input-select-traduction/u
     SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
+    UxStepProgressBarComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

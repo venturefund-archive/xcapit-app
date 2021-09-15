@@ -97,6 +97,9 @@
     "without_SL_TP": {
       "without_stop_loss": "Manual",
       "without_take_profit": "Manual"
+    },
+    "step_counter": {
+      "of": "of"
     }
   },
   "usuarios": {
@@ -1445,14 +1448,13 @@
     },
     "register": {
       "header": "Add API key",
-      "label_alias": "Alias",
-      "placeholder_alias": "MyKeysOnBinance",
-      "label_apikey": "Binance API Key",
+      "label_alias": "Enter Alias (You can use the same as binance)",
+      "placeholder_alias": "Ej: MyApiKey",
+      "label_apikey": "Enter API Key",
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
-      "label_secretkey": "Binance Secret Key",
+      "label_secretkey": "Enter Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submit": "Submit",
-      "link_help": "Need Help?"
+      "button_submit": "Submit"
     },
     "register_success_begginer": {
       "textPrimary": "You have already linked your account with Binance!",
@@ -1495,62 +1497,119 @@
       "link_with_binance": "Link with Binance"
     },
     "scan_qr": {
-      "header": "Scan your keys",
+      "header": "Scan your API key",
       "register_manually": "Enter manually",
       "errors": {
         "invalidQR": "Invalid QR code.",
         "noContent": "The QR code has no content.",
         "permissionDenied": "We can't access to the camera. Permission denied."
-      },
-      "insert_key": {
-        "header": "Link with Binance",
-        "title": "Enter your API Key",
-        "text_before": "Copy the 18 digits of the API Key you created. Remember that we will not have permission to withdraw money, we can only operate.",
-        "insert_key": "API Key",
-        "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
-        "text_help_link": "Learn more.",
-        "next_button": "Next"
-      },
-      "insert_secret": {
-        "header": "Link with Binance",
-        "title": "Enter your Secret Key",
-        "text_before": "Together with the creation of your API Key, Binance generated a \"Secret Key\" for security reasons. You can find it just below the API Key.",
-        "insert_secret": "Secret Key",
-        "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
-        "text_help": "Remember that, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
-        "submit_button": "Finish Configuration"
-      },
-      "success_apikeys": {
-        "textPrimary": "¡You have already linked your account with Binance!",
-        "textSecondary": "We are able to create a fund to start managing your investment.",
-        "namePrimaryAction": "Create my first investment fund",
-        "nameSecondaryAction": "Skip for now"
-      },
-      "success_apikeys_edition": {
-        "textPrimary": "We have modified your API Key!",
-        "textSecondary": "View your funds now",
-        "namePrimaryAction": "Go to Home"
-      },
-      "edit_apikey": {
-        "header": "Change API Key",
-        "public_key": "Binance API Key",
-        "secret_key": "Binance Secret Key",
-        "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
-        "submit_button": "Save"
-      },
-      "edit_modal": {
-        "title": "Change Alias",
-        "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
-        "button_submit": "Update",
-        "edit_error": {
-          "default": "An error has ocurred"
+      }
+    },
+    "insert_key": {
+      "header": "Link with Binance",
+      "title": "Enter your API Key",
+      "text_before": "Copy the 18 digits of the API Key you created. Remember that we will not have permission to withdraw money, we can only operate.",
+      "insert_key": "API Key",
+      "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help_link": "Learn more.",
+      "next_button": "Next"
+    },
+    "insert_secret": {
+      "header": "Link with Binance",
+      "title": "Enter your Secret Key",
+      "text_before": "Together with the creation of your API Key, Binance generated a \"Secret Key\" for security reasons. You can find it just below the API Key.",
+      "insert_secret": "Secret Key",
+      "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
+      "text_help": "Remember that, for your safety, we will only have permits to operate on your capital but we will not be able to make withdrawals.",
+      "submit_button": "Finish Configuration"
+    },
+    "success_apikeys": {
+      "textPrimary": "¡You have already linked your account with Binance!",
+      "textSecondary": "We are able to create a fund to start managing your investment.",
+      "namePrimaryAction": "Create my first investment fund",
+      "nameSecondaryAction": "Skip for now"
+    },
+    "success_apikeys_edition": {
+      "textPrimary": "We have modified your API Key!",
+      "textSecondary": "View your funds now",
+      "namePrimaryAction": "Go to Home"
+    },
+    "edit_apikey": {
+      "header": "Change API Key",
+      "public_key": "Binance API Key",
+      "secret_key": "Binance Secret Key",
+      "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
+      "submit_button": "Save"
+    },
+    "edit_modal": {
+      "title": "Change Alias",
+      "description": "The alias is a name for you to identify which Binance API key the funds belong to..",
+      "button_submit": "Update",
+      "edit_error": {
+        "default": "An error has ocurred"
+      }
+    },
+    "qr_scanner": {
+      "title": "Point the camera at the QR code",
+      "cancel_label": "Cancel and enter manually",
+      "text": "Point your camera towards a QR code."
+    },
+    "exchange_information": {
+      "header": "Link API Key",
+      "title": "Binance is our Partner and the largest exchange in the world",
+      "description": "Every investment you make in Xcapit needs to connect to a unique Binance API. But first step by step choose:",
+      "cards": {
+        "have_exchange_account": {
+          "title": "I already have a Binance account",
+          "description": "If you already have a Binance account, let's go to the next step."
+        },
+        "dont_have_exchange_account": {
+          "title": "I don't have a Binance account",
+          "description": "We tell you how to create a free account in the largest exchange in the world."
         }
       },
-      "qr_scanner": {
-        "title": "Point the camera at the QR code",
-        "cancel_label": "Cancel and enter manually",
-        "text": "Point your camera towards a QR code."
-      }
+      "tutorial_modal": {
+        "title": "How to create an account",
+        "text1": "Go to Binance web page, we recomend to use a computer.",
+        "text2": "Create an account using your email.",
+        "text3": "Verify your account so you can use it safely.",
+        "text4": "Done!",
+        "button": "I have a Binance account"
+      },
+      "information_card": "Remember that for your safety, we will only have permits to operate on the total of your capital in the Spot wallet. We will not be able to make withdrawals."
+    },
+    "apikey_information": {
+      "header": "Link API Key",
+      "title": "An API key is used to connect your Binance account with Xcapit",
+      "description": "The API Key is a code that only allows us to manage your account. You must create it for it to exist. ",
+      "cards": {
+        "have_apikey": {
+          "title": "I already have API Key ",
+          "description": "If you have already created your API Key with Binance, let's go to the next step."
+        },
+        "dont_have_apikey": {
+          "title": "I don't have an API Key",
+          "description": "If you never created an API Key, we can help you create one."
+        }
+      },
+      "tutorial_modal": {
+        "title": "Create API Key",
+        "text1": "Go to Binance web page using a computer.",
+        "text2": "Once you are logged in, go to your Binance profile and select “API Management”.",
+        "text3": "Assign an identification label. This is just a name so you can recognize the API.",
+        "text4": "Check the “Enable spot trading” option. This action allows us to operate, we can't operate if you disable it.",
+        "text5": "Click “Create API”",
+        "text6": "Complete the security verification.",
+        "text7": "Done!",
+        "button": "I have an API Key"
+      },
+      "what_is_api_key": "What is an API Key?"
+    },
+    "whats_an_api_key": {
+      "header": "What's an API Key",
+      "title": "What is an API key?",
+      "description": "An API key is a secret key that can be used to link your Binance account with Xcapit. In doing so you only give us permission to manage your cryptocurrencies but we can't take them out from your account. They are always under your control.",
+      "button": "I have an API key"
     }
   },
   "deposit_addresses": {

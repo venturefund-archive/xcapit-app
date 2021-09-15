@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { TutorialApikeysPage } from './tutorial-apikeys.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedApikeysModule } from '../shared-apikeys/shared-apikeys.module';
+import { WhatsAnApiKeyPage } from './whats-an-api-key.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: TutorialApikeysPage,
+    component: WhatsAnApiKeyPage,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedApikeysModule],
-  declarations: [TutorialApikeysPage],
+  declarations: [WhatsAnApiKeyPage],
 })
-export class TutorialApikeysPageModule {}
+export class WhatsAnApiKeyPageModule {}
