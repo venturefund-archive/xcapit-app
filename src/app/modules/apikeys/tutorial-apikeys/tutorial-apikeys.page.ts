@@ -43,7 +43,7 @@ import { NavController } from '@ionic/angular';
             </div>
             <div
               class="apnf__cards__card non_existing_apikey"
-              (click)="this.NonExistingAPIKey()"
+              (click)="this.nonExistingAPIKey()"
               appTrackClick
               name="Doesnt Have API Key"
             >
