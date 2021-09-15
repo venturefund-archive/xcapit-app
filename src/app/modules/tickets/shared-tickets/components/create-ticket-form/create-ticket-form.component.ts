@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_email' | translate"
           [readonly]="!this.canModifyEmail"
         ></app-ux-input>
-        <app-ux-input-select
+        <app-ux-input-select-traduction
           *ngIf="!this.category"
           controlName="subject"
           type="text"
@@ -26,7 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_subject' | translate"
           [modalTitle]="'tickets.create_ticket_form.placeholder_subject' | translate"
           [data]="this.data"
-        ></app-ux-input-select>
+        ></app-ux-input-select-traduction>
         <app-ux-input
           *ngIf="this.category"
           controlName="subject"
