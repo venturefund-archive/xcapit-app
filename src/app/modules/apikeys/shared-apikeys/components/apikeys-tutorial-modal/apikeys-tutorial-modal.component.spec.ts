@@ -45,7 +45,7 @@ describe('ApikeysTutorialModalComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledWith(null, 'cancel');
   });
 
-  it('should dismiss and return state cancel when user clicks Done button', () => {
+  it('should dismiss and return state cancel when user clicks I Have an Account button', () => {
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="I Have an Account"]')).nativeElement;
     buttonEl.click();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledWith(null, 'success');
