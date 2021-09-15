@@ -4,6 +4,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { UxInputSelectTraductionComponent } from './ux-input-select-traduction.component';
 import { of } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('UxInputSelectTraductionComponent', () => {
   let component: UxInputSelectTraductionComponent;
@@ -30,6 +31,7 @@ describe('UxInputSelectTraductionComponent', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: AbstractControl, useValue: abstractControlMock },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(UxInputSelectTraductionComponent);
