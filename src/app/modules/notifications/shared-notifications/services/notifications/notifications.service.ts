@@ -8,7 +8,7 @@ import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-ht
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationsService {
   entity = 'notifications';
@@ -20,33 +20,22 @@ export class NotificationsService {
   ) {}
 
   getInstance(): INotification {
-    return Capacitor.platform !== 'web'
-      ? this.capacitorNotificationsService
-      : this.pwaNotificationsService;
+    return Capacitor.platform !== 'web' ? this.capacitorNotificationsService : this.pwaNotificationsService;
   }
 
   getNotifications(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/`,
-      undefined,
-      undefined,
-      false
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/`, undefined, undefined, false);
   }
 
   markAsRead(): Observable<any> {
-    return this.http.put(
-      `${environment.apiUrl}/${this.entity}/`,
-      undefined
-    );
+    return this.http.put(`${environment.apiUrl}/${this.entity}/`, undefined);
   }
 
   getCountNotifications(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/count`,
-      undefined,
-      undefined,
-      false
-    );
+    return this.http.get(`${environment.apiUrl}/${this.entity}/count`, undefined, undefined, false);
+  }
+
+  registerDevice(fcmToken: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/device/fcm`, { fcm_registration_id: fcmToken });
   }
 }

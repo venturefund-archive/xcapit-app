@@ -18,35 +18,28 @@ describe('NotificationsService', () => {
 
   beforeEach(() => {
     platformSpy = jasmine.createSpyObj('Platform', ['is']);
-    capacitorNotificationsServiceSpy = jasmine.createSpyObj(
-      'CapacitorNotificationsService',
-      ['init']
-    );
-    pwaNotificationsServiceSpy = jasmine.createSpyObj(
-      'PwaNotificationsService',
-      ['init']
-    );
+    capacitorNotificationsServiceSpy = jasmine.createSpyObj('CapacitorNotificationsService', ['init']);
+    pwaNotificationsServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       get: of({}),
-      put: of({})
+      post: of({}),
+      put: of({}),
     });
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot()
-      ],
+      imports: [TranslateModule.forRoot()],
       providers: [
         TranslateService,
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
         { provide: Platform, useValue: platformSpy },
         {
           provide: CapacitorNotificationsService,
-          useValue: capacitorNotificationsServiceSpy
+          useValue: capacitorNotificationsServiceSpy,
         },
         {
           provide: PwaNotificationsService,
-          useValue: pwaNotificationsServiceSpy
-        }
-      ]
+          useValue: pwaNotificationsServiceSpy,
+        },
+      ],
     });
   });
 
@@ -83,6 +76,12 @@ describe('NotificationsService', () => {
   it('should be call put on http when markAsRead', () => {
     service.markAsRead().subscribe(() => {
       expect(customHttpServiceSpy.put).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should be call post on http when registerDevice', () => {
+    service.registerDevice('a_token').subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 });
