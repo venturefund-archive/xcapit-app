@@ -1,10 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-
 import { NotificationsService } from './notifications.service';
 import { Platform } from '@ionic/angular';
 import { CapacitorNotificationsService } from '../capacitor-notifications/capacitor-notifications.service';
 import { PwaNotificationsService } from '../pwa-notifications/pwa-notifications.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -22,7 +20,6 @@ describe('NotificationsService', () => {
     pwaNotificationsServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       get: of({}),
-      post: of({}),
       put: of({}),
     });
     TestBed.configureTestingModule({
@@ -76,12 +73,6 @@ describe('NotificationsService', () => {
   it('should be call put on http when markAsRead', () => {
     service.markAsRead().subscribe(() => {
       expect(customHttpServiceSpy.put).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it('should be call post on http when registerDevice', () => {
-    service.registerDevice('a_token').subscribe(() => {
-      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 });

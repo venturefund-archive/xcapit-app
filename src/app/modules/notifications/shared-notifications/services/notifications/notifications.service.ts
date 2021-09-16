@@ -34,8 +34,4 @@ export class NotificationsService {
   getCountNotifications(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/count`, undefined, undefined, false);
   }
-
-  registerDevice(fcmToken: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/device/fcm`, { fcm_registration_id: fcmToken });
-  }
 }

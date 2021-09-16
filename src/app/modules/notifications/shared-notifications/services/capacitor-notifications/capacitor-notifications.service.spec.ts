@@ -1,20 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { CapacitorNotificationsService } from './capacitor-notifications.service';
+import { ApiDevicesService } from '../api-devices/api-devices.service';
 
 describe('CapacitorNotificationsService', () => {
   let service: CapacitorNotificationsService;
-  let pushNotificationsMock: any;
   let pushNotificationsSpy: any;
+  let apiDevicesServiceMock: any;
 
   beforeEach(() => {
+    apiDevicesServiceMock = {};
     pushNotificationsSpy = jasmine.createSpyObj('PushNotifications', ['requestPermission', 'register', 'addListener']);
-    pushNotificationsMock = {
-      requestPermission: () => Promise.resolve({ granted: true }),
-      register: () => Promise.resolve(),
-      addListener: () => {},
-    };
-
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [{ provide: ApiDevicesService, useValue: apiDevicesServiceMock }],
+    });
   });
 
   beforeEach(() => {
