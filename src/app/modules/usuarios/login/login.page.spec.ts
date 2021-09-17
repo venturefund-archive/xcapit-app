@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, fakeAsync, TestBed, TestBedStatic, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPage } from './login.page';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -14,6 +14,7 @@ import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-una
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -26,6 +27,8 @@ describe('LoginPage', () => {
   let navControllerSpy: any;
   let googleAuthPluginMock: any;
   let googleAuthPluginSpy: any;
+  let notificationsServiceSpy: any;
+  let pwaNotificationServiceSpy: any;
 
   const formData = {
     valid: {
@@ -48,6 +51,11 @@ describe('LoginPage', () => {
       googleAuthPluginMock = { signIn: () => Promise.resolve() };
       googleAuthPluginSpy = jasmine.createSpyObj('GoogleAuth', googleAuthPluginMock);
       googleAuthPluginSpy.signIn.and.returnValue(Promise.resolve({ authentication: { idToken: '' } }));
+
+      pwaNotificationServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
+      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['getInstance']);
+      notificationsServiceSpy.getInstance.and.returnValue(pwaNotificationServiceSpy);
+
       TestBed.configureTestingModule({
         declarations: [LoginPage, AuthFormComponent, TrackClickUnauthDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -68,6 +76,7 @@ describe('LoginPage', () => {
           { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
+          { provide: NotificationsService, useValue: notificationsServiceSpy },
         ],
       }).compileComponents();
     })
@@ -97,6 +106,16 @@ describe('LoginPage', () => {
     const spy = spyOn(component.loginForm.form, 'reset');
     component.success();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should get instance of notification service on success', () => {
+    component.success();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+  });
+
+  it('should init notification service on success', () => {
+    component.success();
+    expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
   });
 
   it('should call checkStoredLink on success', () => {
