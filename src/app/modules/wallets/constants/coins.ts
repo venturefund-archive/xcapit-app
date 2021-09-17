@@ -10,7 +10,7 @@ export const COINS: Coin[] = [
   {
     id: 1,
     name: 'ETH - Ethereum',
-    logoRoute: '../../assets/img/coins/ETH.svg',
+    logoRoute: 'assets/img/coins/ETH.svg',
     last: false,
     value: 'ETH',
     network: 'ERC20',
@@ -19,7 +19,7 @@ export const COINS: Coin[] = [
   {
     id: 2,
     name: 'LINK - Chainlink',
-    logoRoute: '../../assets/img/coins/LINK.png',
+    logoRoute: 'assets/img/coins/LINK.png',
     last: false,
     value: 'LINK',
     network: 'ERC20',
@@ -31,7 +31,7 @@ export const COINS: Coin[] = [
   {
     id: 3,
     name: 'USDT - Tether',
-    logoRoute: '../../assets/img/coins/USDT.svg',
+    logoRoute: 'assets/img/coins/USDT.svg',
     last: false,
     value: 'USDT',
     network: 'ERC20',
@@ -43,7 +43,7 @@ export const COINS: Coin[] = [
   {
     id: 4,
     name: 'AAVE',
-    logoRoute: '../../assets/img/coins/AAVE.svg',
+    logoRoute: 'assets/img/coins/AAVE.svg',
     last: false,
     value: 'AAVE',
     network: 'ERC20',
@@ -55,7 +55,7 @@ export const COINS: Coin[] = [
   {
     id: 5,
     name: 'UNI - Uniswap',
-    logoRoute: '../../assets/img/coins/UNI.svg',
+    logoRoute: 'assets/img/coins/UNI.svg',
     last: false,
     value: 'UNI',
     network: 'ERC20',
@@ -67,7 +67,7 @@ export const COINS: Coin[] = [
   {
     id: 6,
     name: 'RBTC - Smart Bitcoin',
-    logoRoute: '../../assets/img/coins/RBTC.png',
+    logoRoute: 'assets/img/coins/RBTC.png',
     last: false,
     value: 'RBTC',
     network: 'RSK',
@@ -76,7 +76,7 @@ export const COINS: Coin[] = [
   {
     id: 6,
     name: 'RIF - Rifos',
-    logoRoute: '../../assets/img/coins/RIF.png',
+    logoRoute: 'assets/img/coins/RIF.png',
     last: true,
     value: 'RIF',
     network: 'RSK',

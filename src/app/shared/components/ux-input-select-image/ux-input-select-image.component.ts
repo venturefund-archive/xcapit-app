@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { UxSelectModalComponent } from '../components/ux-select-modal/ux-select-modal.component';
+import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.component';
 
 @Component({
-  selector: 'app-ux-input-select-traduction',
+  selector: 'app-ux-input-select-image',
   template: ` <div class="uxselect">
     <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
     <ion-item class="uxselect__item">
-      <ion-label *ngIf="this.control.value !== '' && this.keyName !== ''">{{ this.selectedItem }}</ion-label>
+      <img class="uxselect__item__logo" [src]="this.logoRoute" alt="logo" />
       <ion-input
-        [ngClass]="{ uxselect__item__input_transparent: this.control.value !== '' && this.keyName !== '' }"
+        class="input"
         mode="md"
         [formControlName]="this.controlName"
         [placeholder]="this.placeholder"
@@ -28,9 +28,9 @@ import { UxSelectModalComponent } from '../components/ux-select-modal/ux-select-
       useExisting: FormGroupDirective,
     },
   ],
-  styleUrls: ['./ux-input-select-traduction.component.scss'],
+  styleUrls: ['./ux-input-select-image.component.scss'],
 })
-export class UxInputSelectTraductionComponent implements OnInit {
+export class UxInputSelectImageComponent implements OnInit {
   @Input() label = '';
   @Input() modalTitle = '';
   @Input() placeholder = '';
@@ -38,7 +38,7 @@ export class UxInputSelectTraductionComponent implements OnInit {
   @Input() data = [];
   @Input() keyName = '';
   @Input() valueName = '';
-  selectedItem = '';
+  @Input() logoRoute = '';
   control: AbstractControl;
 
   constructor(private modalController: ModalController, private form: FormGroupDirective) {}
@@ -75,12 +75,5 @@ export class UxInputSelectTraductionComponent implements OnInit {
 
   setSelectedValue(value: any, patch = true) {
     if (patch) this.control.patchValue(value);
-    if (this.keyName !== '' && this.valueName !== '') {
-      this.selectedItem = this.getKeyForSelectedItem(this.control.value);
-    }
-  }
-
-  getKeyForSelectedItem(selectedItem) {
-    return this.data.find((item) => item[this.valueName] === selectedItem)[this.keyName];
   }
 }
