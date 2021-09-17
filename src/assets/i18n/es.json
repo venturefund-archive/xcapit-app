@@ -1244,7 +1244,9 @@
   "notifications": {
     "notifications_list": {
       "header": "Notificaciones",
-      "error_message": "No hay notificaciones para mostrar"
+      "title": "Aún no tienes notificaciones",
+      "message": "Hagamos que este espacio cobre vida",
+      "link": "Empieza a invertir"
     },
     "notification": {
       "header": "Notificación"

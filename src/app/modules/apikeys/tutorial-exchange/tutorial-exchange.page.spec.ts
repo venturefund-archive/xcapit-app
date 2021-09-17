@@ -8,6 +8,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TutorialExchangePage } from './tutorial-exchange.page';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('TutorialExchangePage', () => {
   let component: TutorialExchangePage;
@@ -33,6 +34,7 @@ describe('TutorialExchangePage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(TutorialExchangePage);

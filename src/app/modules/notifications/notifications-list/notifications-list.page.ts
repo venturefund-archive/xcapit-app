@@ -15,7 +15,7 @@ import { NavController } from '@ionic/angular';
         <ion-title>{{ 'notifications.notifications_list.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="">
+    <ion-content>
       <ion-list *ngIf="this.notifications">
         <app-notification-item
           *ngFor="let notification of notifications"
@@ -24,7 +24,19 @@ import { NavController } from '@ionic/angular';
           (clickNotification)="this.showNotification($event)"
         ></app-notification-item>
         <div *ngIf="!notifications.length">
-          <ion-text>{{ 'notifications.notifications_list.error_message' | translate }}</ion-text>
+          <div class="container">
+            <img src="../../assets/img/notifications/Notifications-logo.svg" alt="Notifications logo" />
+          </div>
+          <hr />
+          <div class="title ux-font-header-titulo">
+            <ion-text>{{ 'notifications.notifications_list.title' | translate }}</ion-text>
+          </div>
+          <div class="message ux-font-text-xs">
+            <ion-text>{{ 'notifications.notifications_list.message' | translate }}</ion-text>
+          </div>
+          <div class="link ux-font-text-xs">
+            <a href="/tabs/funds">{{ 'notifications.notifications_list.link' | translate }}</a>
+          </div>
         </div>
       </ion-list>
       <ng-template #loading>

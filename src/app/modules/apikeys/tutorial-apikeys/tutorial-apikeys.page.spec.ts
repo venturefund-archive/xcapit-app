@@ -9,6 +9,7 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { TutorialApikeysPage } from './tutorial-apikeys.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('TutorialApikeysPage', () => {
   let component: TutorialApikeysPage;
@@ -34,6 +35,7 @@ describe('TutorialApikeysPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(TutorialApikeysPage);

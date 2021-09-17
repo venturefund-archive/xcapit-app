@@ -1,11 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
-
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
@@ -17,10 +15,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ActivatedRoute } from '@angular/router';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
-import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
-// tslint:disable-next-line: max-line-length
-import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
-import { UpdatePWAService } from './shared/services/update-pwa/update-pwa.service';
 import { UpdateService } from './shared/services/update/update.service';
 
 describe('AppComponent', () => {
@@ -33,9 +27,6 @@ describe('AppComponent', () => {
   let trackServiceSpy: any;
   let activatedRouteMock: any;
   let publicLogSpy: any;
-  let notificationsServiceSpy: any;
-  let pwaNotificationServiceSpy: any;
-  let notificationsHelperServiceSpy: any;
   let updateService: any;
 
   beforeEach(
@@ -64,15 +55,6 @@ describe('AppComponent', () => {
         logout: () => null,
       };
       activatedRouteMock = {};
-      pwaNotificationServiceSpy = jasmine.createSpyObj('PwaNotificationsService', [
-        'init',
-        'requestPermission',
-        'pushNotificationReceived',
-      ]);
-      pwaNotificationServiceSpy.requestPermission.and.returnValue(of().toPromise());
-      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['getInstance']);
-      notificationsServiceSpy.getInstance.and.returnValue(pwaNotificationServiceSpy);
-      notificationsHelperServiceSpy = jasmine.createSpyObj('NotificationsHelperService', ['save']);
 
       TestBed.configureTestingModule({
         declarations: [AppComponent, DummyComponent],
@@ -87,8 +69,6 @@ describe('AppComponent', () => {
           { provide: AuthService, useValue: authServiceMock },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: PublicLogsService, useValue: publicLogSpy },
-          { provide: NotificationsService, useValue: notificationsServiceSpy },
-          { provide: NotificationsHelperService, useValue: notificationsHelperServiceSpy },
           { provide: UpdateService, useValue: updateService },
         ],
         imports: [
@@ -161,15 +141,5 @@ describe('AppComponent', () => {
     await platformReadySpy;
     expect(statusBarSpy.styleDefault).toHaveBeenCalled();
     expect(splashScreenSpy.hide).toHaveBeenCalled();
-  });
-
-  it('should get instance of notification service on ngAfterViewInit', () => {
-    fixture.detectChanges();
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
-  });
-
-  it('should init notification service on ngOnInit', async () => {
-    fixture.detectChanges();
-    expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
   });
 });

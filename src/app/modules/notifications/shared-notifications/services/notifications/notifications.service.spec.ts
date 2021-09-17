@@ -1,10 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-
 import { NotificationsService } from './notifications.service';
 import { Platform } from '@ionic/angular';
 import { CapacitorNotificationsService } from '../capacitor-notifications/capacitor-notifications.service';
 import { PwaNotificationsService } from '../pwa-notifications/pwa-notifications.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -18,35 +16,27 @@ describe('NotificationsService', () => {
 
   beforeEach(() => {
     platformSpy = jasmine.createSpyObj('Platform', ['is']);
-    capacitorNotificationsServiceSpy = jasmine.createSpyObj(
-      'CapacitorNotificationsService',
-      ['init']
-    );
-    pwaNotificationsServiceSpy = jasmine.createSpyObj(
-      'PwaNotificationsService',
-      ['init']
-    );
+    capacitorNotificationsServiceSpy = jasmine.createSpyObj('CapacitorNotificationsService', ['init']);
+    pwaNotificationsServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       get: of({}),
-      put: of({})
+      put: of({}),
     });
     TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot()
-      ],
+      imports: [TranslateModule.forRoot()],
       providers: [
         TranslateService,
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
         { provide: Platform, useValue: platformSpy },
         {
           provide: CapacitorNotificationsService,
-          useValue: capacitorNotificationsServiceSpy
+          useValue: capacitorNotificationsServiceSpy,
         },
         {
           provide: PwaNotificationsService,
-          useValue: pwaNotificationsServiceSpy
-        }
-      ]
+          useValue: pwaNotificationsServiceSpy,
+        },
+      ],
     });
   });
 

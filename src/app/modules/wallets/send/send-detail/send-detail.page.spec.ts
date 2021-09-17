@@ -20,7 +20,7 @@ const coins: Coin[] = [
     logoRoute: '../../assets/img/coins/BTC.svg',
     last: false,
     value: 'BTC',
-    network: '',
+    network: 'BTC',
     rpc: '',
   },
 ];
@@ -77,13 +77,17 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency on ionViewWillEnter', () => {
+  it('should find currency and networks on ionViewWillEnter', () => {
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.networks).toEqual([coins[0].network]);
+    expect(component.selectedNetwork).toEqual(coins[0].network);
     expect(component.currency).toEqual(coins[0]);
   });
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
+    component.selectedNetwork = 'ERC20';
     fixture.detectChanges();
     expect(component.selectedNetwork).toBe('ERC20');
     const networkCard = fixture.debugElement.query(By.css('app-network-select-card'));
@@ -102,6 +106,7 @@ describe('SendDetailPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
   it('should save transaction data and navigate when Continue Button clicked and form valid', () => {
     component.form.patchValue(formData.valid);
     fixture.detectChanges();

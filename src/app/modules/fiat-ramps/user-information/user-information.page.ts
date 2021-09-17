@@ -74,7 +74,7 @@ import * as moment from 'moment';
           ></app-ux-datetime>
 
           <!-- Género -->
-          <app-ux-input-select
+          <app-ux-input-select-traduction
             [label]="'fiat_ramps.register.gender' | translate"
             [modalTitle]="'fiat_ramps.register.gender' | translate"
             [placeholder]="'fiat_ramps.register.gender' | translate"
@@ -82,10 +82,10 @@ import * as moment from 'moment';
             [data]="this.translatedGender"
             keyName="name"
             valueName="id"
-          ></app-ux-input-select>
+          ></app-ux-input-select-traduction>
 
           <!-- Estado civil -->
-          <app-ux-input-select
+          <app-ux-input-select-traduction
             [label]="'fiat_ramps.register.marital_status' | translate"
             [modalTitle]="'fiat_ramps.register.marital_status' | translate"
             [placeholder]="'fiat_ramps.register.marital_status' | translate"
@@ -93,10 +93,10 @@ import * as moment from 'moment';
             [data]="this.translatedMaritalStatus"
             keyName="name"
             valueName="id"
-          ></app-ux-input-select>
+          ></app-ux-input-select-traduction>
 
           <!-- Tipo documento -->
-          <app-ux-input-select
+          <app-ux-input-select-traduction
             [label]="'fiat_ramps.register.doc_type' | translate"
             [modalTitle]="'fiat_ramps.register.doc_type' | translate"
             [placeholder]="'fiat_ramps.register.doc_type' | translate"
@@ -104,7 +104,7 @@ import * as moment from 'moment';
             [data]="this.translatedDocTypes"
             keyName="name"
             valueName="id"
-          ></app-ux-input-select>
+          ></app-ux-input-select-traduction>
 
           <!-- Nro doc -->
           <app-ux-input
