@@ -8,6 +8,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
 import '@codetrix-studio/capacitor-google-auth';
 import { Plugins } from '@capacitor/core';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-login',
@@ -107,7 +108,8 @@ export class LoginPage implements OnInit {
     private apiUsuarios: ApiUsuariosService,
     private subscriptionsService: SubscriptionsService,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private notificationsService: NotificationsService
   ) {}
 
   ngOnInit() {}
@@ -131,6 +133,7 @@ export class LoginPage implements OnInit {
   async success() {
     this.loadingService.enabled();
     this.loginForm.form.reset();
+    this.notificationsService.getInstance().init(() => console.error('Error inicializando notificaciones'));
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
