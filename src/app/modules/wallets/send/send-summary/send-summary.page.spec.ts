@@ -12,6 +12,9 @@ import { TrackClickDirective } from '../../../../shared/directives/track-click/t
 import { By } from '@angular/platform-browser';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -29,7 +32,7 @@ const summaryData: SummaryData = {
   referenceAmount: 50000,
 };
 
-describe('SendSummaryPage', () => {
+fdescribe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
   let transactionDataServiceMock: any;
@@ -40,7 +43,22 @@ describe('SendSummaryPage', () => {
   let walletTransactionsServiceMock: any;
   let walletTransactionService: WalletTransactionsService;
   let onDidDismissSpy;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let routerSpy: jasmine.SpyObj<Router>;
+
   beforeEach(() => {
+    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', null, { queryParams: of({}) });
+    routerSpy = jasmine.createSpyObj('Router', {
+      getCurrentNavigation: {
+        extras: {
+          state: undefined,
+        },
+      },
+    });
+    toastServiceSpy = jasmine.createSpyObj('ToastService', {
+      showToast: Promise.resolve(),
+    });
     transactionDataServiceMock = {
       transactionData: summaryData,
     };
@@ -71,6 +89,9 @@ describe('SendSummaryPage', () => {
         { provide: ModalController, useValue: modalControllerMock },
         { provide: NavController, useValue: navControllerMock },
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceMock },
+        { provide: ToastService, useValue: toastServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: Router, useValue: routerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -122,7 +143,7 @@ describe('SendSummaryPage', () => {
     expect(spyNav).toHaveBeenCalledOnceWith(['/wallets/send/success']);
   });
 
-  it('should send transaction and navigate on Send Button clicked and password is wrong', async () => {
+  it('should not send transaction when Send Button clicked and password is wrong', async () => {
     onDidDismissSpy.and.returnValue({ data: '' });
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -131,6 +152,25 @@ describe('SendSummaryPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(spySend).not.toHaveBeenCalled();
-    expect(spyNav).not.toHaveBeenCalled();
+    // This is wrong
+    expect(spyNav).toHaveBeenCalledWith('/wallets/send/wrong-password');
+  });
+
+  it('should open modal if redirected from Incorrect Password Page', () => {
+    routerSpy.getCurrentNavigation.and.returnValue({
+      id: 1,
+      initialUrl: null,
+      extractedUrl: null,
+      trigger: null,
+      previousNavigation: null,
+      extras: {
+        state: {
+          action: 'retry',
+        },
+      },
+    });
+    component.ngOnInit();
+    component.ionViewWillEnter();
+    expect(modalControllerMock.create).toHaveBeenCalledTimes(1);
   });
 });

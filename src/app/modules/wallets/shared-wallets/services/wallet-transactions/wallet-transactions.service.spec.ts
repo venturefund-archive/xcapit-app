@@ -121,7 +121,7 @@ const testStructure = [
   },
 ];
 
-describe('WalletTransactionsService', () => {
+fdescribe('WalletTransactionsService', () => {
   let service: WalletTransactionsService;
   let loadingServiceSpy: any;
   let blockchainProviderServiceMock: any;
@@ -243,5 +243,16 @@ describe('WalletTransactionsService', () => {
     const lastTransaction = await service.getLastTransaction();
 
     expect(lastTransaction).toEqual([testStructure[0]]);
+  });
+
+  it('should not send if password was invalid', async () => {
+    walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.throwError('invalid password');
+    try {
+      await service.send('wrongPassword', '20', 'testAddress', ETH, false);
+    } catch (error) {
+    } finally {
+      expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
+      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    }
   });
 });

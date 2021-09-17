@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { COINS } from '../../../constants/coins';
 import { Coin } from '../../interfaces/coin.interface';
+import { wordlists } from '@ethersproject/wordlists';
 
 @Injectable({
   providedIn: 'root',
@@ -52,7 +53,11 @@ export class WalletEncryptionService {
 
   getDecryptedWalletForCurrency(password: string, currency: Coin): Promise<Wallet> {
     return this.getDecryptedWallet(password).then((wallet) => {
-      return Wallet.fromMnemonic(wallet.mnemonic.phrase, environment.derivedPaths[currency.network]);
+      return Wallet.fromMnemonic(
+        wallet.mnemonic.phrase,
+        environment.derivedPaths[currency.network],
+        wordlists[wallet.mnemonic.locale]
+      );
     });
   }
 

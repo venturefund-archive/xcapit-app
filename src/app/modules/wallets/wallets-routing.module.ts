@@ -99,6 +99,13 @@ const routes: Routes = [
             path: 'success',
             loadChildren: () => import('./send/send-success/send-success.module').then((m) => m.SendSuccessPageModule),
           },
+          {
+            path: 'error/incorrect-password',
+            loadChildren: () =>
+              import('./send/error-incorrect-password-wallet/error-incorrect-password-wallet.module').then(
+                (m) => m.ErrorIncorrectPasswordWalletPageModule
+              ),
+          },
         ],
       },
     ],

@@ -1382,6 +1382,11 @@
         "textPrimary": "Tu transferencia fue realizada",
         "textSecondary": "En breve estara disponible ",
         "namePrimaryAction": "Ir a mi billetera"
+      },
+      "error_incorrect_password": {
+        "textPrimary": "Al parecer la contraseña es incorrecta",
+        "namePrimaryAction": "Reintentar",
+        "nameSecondaryAction": "Contactar con soporte"
       }
     },
     "shared_wallets": {
@@ -1460,9 +1465,9 @@
     },
     "register_success_beginner": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
-      "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
+      "textSecondary": "Elige la estrategia que mejor se adapta a ti o empieza a comprar criptomonedas.",
       "textThird": "o también puedes",
-      "namePrimaryAction": "Crear un fondo de inversión",
+      "namePrimaryAction": "Crear mi primera inversión",
       "nameSecondaryAction": "Omitir por ahora",
       "nameThirdAction": "Comprar criptomonedas"
     },

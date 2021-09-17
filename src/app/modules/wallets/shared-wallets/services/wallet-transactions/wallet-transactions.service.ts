@@ -28,14 +28,19 @@ export class WalletTransactionsService {
   async send(password: string, amount: number | string, targetAddress: string, currency: Coin, loading = true) {
     if (loading) await this.loadingService.show();
     const providerData = await this.blockchainProviderService.getProvider(currency.value);
-    let wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, currency);
-    wallet = wallet.connect(providerData.provider);
-    if (!currency.contract) {
-      await this.transferNativeToken(wallet, targetAddress, amount);
-    } else {
-      await this.transferNoNativeToken(wallet, amount, targetAddress, currency, providerData.abi);
+    try {
+      let wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, currency);
+      wallet = wallet.connect(providerData.provider);
+      if (!currency.contract) {
+        await this.transferNativeToken(wallet, targetAddress, amount);
+      } else {
+        await this.transferNoNativeToken(wallet, amount, targetAddress, currency, providerData.abi);
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      await this.loadingService.dismiss();
     }
-    await this.loadingService.dismiss();
   }
 
   private async transferNativeToken(wallet: Wallet, targetAddress: string, amount: Amount) {

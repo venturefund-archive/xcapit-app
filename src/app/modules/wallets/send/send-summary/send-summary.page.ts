@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-send-summary',
@@ -41,18 +42,35 @@ import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-
     </ion-content>`,
   styleUrls: ['./send-summary.page.scss'],
 })
-export class SendSummaryPage {
+export class SendSummaryPage implements OnInit {
   summaryData: SummaryData;
+  action: string;
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
     private modalController: ModalController,
     private navController: NavController,
-    public submitButtonService: SubmitButtonService
+    public submitButtonService: SubmitButtonService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(() => {
+      const navParams = this.router.getCurrentNavigation().extras.state;
+      if (navParams) this.action = navParams.action;
+    });
+  }
 
   ionViewWillEnter() {
     this.summaryData = this.transactionDataService.transactionData;
+    this.retry();
+  }
+
+  async retry() {
+    if (this.action) {
+      await this.send();
+    }
   }
 
   async askForPassword() {
@@ -68,13 +86,19 @@ export class SendSummaryPage {
   async send() {
     const password = await this.askForPassword();
     if (!!password) {
-      await this.walletTransactionsService.send(
-        password,
-        this.summaryData.amount,
-        this.summaryData.address,
-        this.summaryData.currency
-      );
-      await this.navController.navigateForward(['/wallets/send/success']);
+      try {
+        await this.walletTransactionsService.send(
+          password,
+          this.summaryData.amount,
+          this.summaryData.address,
+          this.summaryData.currency
+        );
+        await this.navController.navigateForward(['/wallets/send/success']);
+      } catch (error) {
+        if (error.message === 'invalid password') {
+          this.navController.navigateForward('/wallets/send/error/incorrect-password');
+        }
+      }
     }
   }
 }
