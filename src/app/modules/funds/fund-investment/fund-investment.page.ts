@@ -17,7 +17,7 @@ import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-m
           <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
         <ion-title>{{
-          (this.fundRenew ? 'funds.fund_investment.header_renew' : 'funds.fund_investment.header') | translate
+          (this.fundRenew ? 'funds.fund_investment.header' : 'funds.fund_investment.header') | translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
