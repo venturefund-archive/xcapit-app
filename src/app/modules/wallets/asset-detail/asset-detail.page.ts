@@ -146,10 +146,6 @@ export class AssetDetailPage implements OnInit {
   }
 
   private getUsdAmount(symbol: string): number {
-    if (symbol === 'USDT') {
-      return 1;
-    }
-
     return this.usdPrice.prices[this.getCoinForPrice(symbol)];
   }
 }

@@ -112,6 +112,7 @@ export class ReceivePage {
   ) {}
 
   ionViewWillEnter() {
+    this.checkUrlParams();
     this.subscribeToFormChanges();
     this.checkPlatform();
   }
@@ -120,13 +121,15 @@ export class ReceivePage {
     this.isNativePlatform = this.platformService.isNative();
   }
 
-  subscribeToFormChanges() {
+  checkUrlParams() {
     this.route.queryParams.subscribe((params) => {
       if (params.asset) {
         this.defaultAsset = params.asset;
       }
     });
+  }
 
+  subscribeToFormChanges() {
     this.form.valueChanges.subscribe((value) => this.getAddress(value.currency));
     this.form.valueChanges.subscribe((value) => this.setCurrencyOnLabel(value.currency));
 
