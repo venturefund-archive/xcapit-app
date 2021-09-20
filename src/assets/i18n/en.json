@@ -1397,6 +1397,10 @@
         "input_label": "Password"
       }
     },
+    "asset_detail": {
+      "header": "Asset Detail",
+      "wallet_transaction_title": "TRANSACTIONS"
+    },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is wrong",
       "description": "Check your words and try again",

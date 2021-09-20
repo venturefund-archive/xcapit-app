@@ -14,10 +14,11 @@ import { Component, Input, OnInit } from '@angular/core';
               'wallets.transactions.' + this.transaction.type | translate
             }}</ion-label>
             <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold" *ngIf="this.transaction.type !== 'swap'">
-              {{ this.transaction.value }} {{ this.transaction.asset }}
+              {{ this.transaction.value | number: '1.2-6' }} {{ this.transaction.asset }}
             </ion-label>
             <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold" *ngIf="this.transaction.type === 'swap'">
-              {{ this.transaction.swap.amountIn }} {{ this.transaction.swap.currencyIn }}
+              {{ this.transaction.swap.amountIn | number: '1.2-6' }}
+              {{ this.transaction.swap.currencyIn }}
             </ion-label>
           </div>
           <div class="wtci__content__bottom" *ngIf="this.transaction.type === 'swap'">

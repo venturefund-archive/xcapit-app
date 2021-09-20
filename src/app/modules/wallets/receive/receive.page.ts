@@ -8,6 +8,7 @@ import { ClipboardService } from '../../../shared/services/clipboard/clipboard.s
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { ActivatedRoute } from '@angular/router';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 @Component({
@@ -96,6 +97,7 @@ export class ReceivePage {
   address: string;
   addressQr: string;
   selectedCurrency: string;
+  defaultAsset = 'ETH';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -105,10 +107,12 @@ export class ReceivePage {
     private toastService: ToastService,
     private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
+    private route: ActivatedRoute,
     private platformService: PlatformService
   ) {}
 
   ionViewWillEnter() {
+    this.checkUrlParams();
     this.subscribeToFormChanges();
     this.checkPlatform();
   }
@@ -117,10 +121,19 @@ export class ReceivePage {
     this.isNativePlatform = this.platformService.isNative();
   }
 
+  checkUrlParams() {
+    this.route.queryParams.subscribe((params) => {
+      if (params.asset) {
+        this.defaultAsset = params.asset;
+      }
+    });
+  }
+
   subscribeToFormChanges() {
     this.form.valueChanges.subscribe((value) => this.getAddress(value.currency));
     this.form.valueChanges.subscribe((value) => this.setCurrencyOnLabel(value.currency));
-    this.form.patchValue({ currency: 'ETH' });
+
+    this.form.patchValue({ currency: this.defaultAsset });
   }
 
   setCurrencyOnLabel(currency: string) {
