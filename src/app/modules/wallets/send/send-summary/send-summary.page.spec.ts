@@ -15,6 +15,7 @@ import { WalletTransactionsService } from '../../shared-wallets/services/wallet-
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -32,17 +33,15 @@ const summaryData: SummaryData = {
   referenceAmount: 50000,
 };
 
-fdescribe('SendSummaryPage', () => {
+describe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
   let transactionDataServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendSummaryPage>;
-  let modalControllerMock: any;
-  let modalController: ModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
   let navController: NavController;
-  let walletTransactionsServiceMock: any;
-  let walletTransactionService: WalletTransactionsService;
-  let onDidDismissSpy;
+  let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let routerSpy: jasmine.SpyObj<Router>;
@@ -62,33 +61,22 @@ fdescribe('SendSummaryPage', () => {
     transactionDataServiceMock = {
       transactionData: summaryData,
     };
-    walletTransactionsServiceMock = {
+    walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionService', {
       send: () => Promise.resolve(),
-    };
-    onDidDismissSpy = jasmine
-      .createSpy('onDidDismiss', () => Promise.resolve({ data: 'testPassword' }))
-      .and.callThrough();
-    modalControllerMock = {
-      create: jasmine.createSpy('create', () =>
-        Promise.resolve({
-          present: () => Promise.resolve(),
-          onDidDismiss: onDidDismissSpy,
-          dismiss: () => Promise.resolve(),
-        })
-      ),
-      dismiss: Promise.resolve(),
-    };
+    });
 
-    modalControllerMock.create.and.callThrough();
+    fakeModalController = new FakeModalController(Promise.resolve(), Promise.resolve({ data: '' }));
+    modalControllerSpy = fakeModalController.createSpy();
+
     TestBed.configureTestingModule({
       declarations: [SendSummaryPage, TrackClickDirective],
       imports: [IonicModule, TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       providers: [
         TrackClickDirective,
         { provide: TransactionDataService, useValue: transactionDataServiceMock },
-        { provide: ModalController, useValue: modalControllerMock },
+        { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerMock },
-        { provide: WalletTransactionsService, useValue: walletTransactionsServiceMock },
+        { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: Router, useValue: routerSpy },
@@ -100,9 +88,7 @@ fdescribe('SendSummaryPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    modalController = TestBed.inject(ModalController);
     navController = TestBed.inject(NavController);
-    walletTransactionService = TestBed.inject(WalletTransactionsService);
   });
 
   it('should create', () => {
@@ -127,11 +113,11 @@ fdescribe('SendSummaryPage', () => {
   it('should send transaction and navigate on Send Button clicked and password is correct', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
+    fakeModalController.modifyReturns(Promise.resolve(), Promise.resolve({ data: 'testPassword' }));
     const spyNav = spyOn(navController, 'navigateForward').and.callThrough();
-    const spySend = spyOn(walletTransactionService, 'send').and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(spySend).toHaveBeenCalledOnceWith('testPassword', 1, 'asdlkfjasd56lfjasdpodlfkj', {
+    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith('testPassword', 1, 'asdlkfjasd56lfjasdpodlfkj', {
       id: 1,
       name: 'BTC - Bitcoin',
       logoRoute: '../../assets/img/coins/BTC.svg',
@@ -144,16 +130,23 @@ fdescribe('SendSummaryPage', () => {
   });
 
   it('should not send transaction when Send Button clicked and password is wrong', async () => {
-    onDidDismissSpy.and.returnValue({ data: '' });
+    walletTransactionsServiceSpy.send.and.throwError('invalid password');
+    component.ngOnInit();
     component.ionViewWillEnter();
     fixture.detectChanges();
-    const spyNav = spyOn(navController, 'navigateForward').and.callThrough();
-    const spySend = spyOn(walletTransactionService, 'send').and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(spySend).not.toHaveBeenCalled();
-    // This is wrong
-    expect(spyNav).toHaveBeenCalledWith('/wallets/send/wrong-password');
+    expect(walletTransactionsServiceSpy.send).not.toHaveBeenCalled();
+  });
+
+  it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
+    component.summaryData = summaryData;
+    spyOn(component, 'askForPassword').and.returnValue(Promise.resolve('invalid'));
+    const spyNav = spyOn(navController, 'navigateForward');
+    walletTransactionsServiceSpy.send.and.throwError('invalid password');
+    await component.send();
+    await fixture.whenStable();
+    expect(spyNav).toHaveBeenCalledWith('/wallets/send/error/incorrect-password');
   });
 
   it('should open modal if redirected from Incorrect Password Page', () => {
@@ -171,6 +164,6 @@ fdescribe('SendSummaryPage', () => {
     });
     component.ngOnInit();
     component.ionViewWillEnter();
-    expect(modalControllerMock.create).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });
