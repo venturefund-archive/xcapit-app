@@ -8,14 +8,19 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
   template: `
     <div class="uxselect">
       <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
-      <ion-item (click)="this.openModal($event)" class="uxselect__item">
+      <ion-item (click)="this.openModal()" class="uxselect__item">
         <img *ngIf="this.imageKey" class="uxselect__item__logo" [src]="this.control.value[this.imageKey]" alt="logo" />
         <ion-icon
           *ngIf="this.iconKey"
           class="uxselect__item__logo"
           [name]="this.control.value[this.iconKey]"
         ></ion-icon>
-        <ion-label class="uxselect__label">{{ this.control.value[this.valueKey] }}</ion-label>
+        <ion-label *ngIf="!this.control.value && this.placeholder" class="ux-font-text-xs uxselect__placeholder">{{
+          this.placeholder
+        }}</ion-label>
+        <ion-label *ngIf="this.control.value" class="uxselect__label">{{
+          this.translated ? (this.control.value[this.valueKey] | translate) : this.control.value[this.valueKey]
+        }}</ion-label>
         <ion-input
           type="hidden"
           class="input"
@@ -49,26 +54,22 @@ export class InputSelectNewComponent implements OnInit {
   @Input() valueKey: string;
   @Input() iconKey: string;
   @Input() imageKey: string;
-  constructor(private modalController: ModalController, private form: FormGroupDirective) {}
+  @Input() translated = false;
+  constructor(private modalController: ModalController, private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {
-    this.control = this.form.control.get(this.controlName);
-    console.log(this.control.value[this.imageKey]);
-    console.log(this.control);
+    this.control = this.formGroupDirective.form.get(this.controlName);
   }
 
-  async openModal(event: UIEvent | undefined) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  async openModal() {
     const modal = await this.modalController.create({
       component: SelectModalNewComponent,
       componentProps: {
         title: this.modalTitle,
         data: this.data,
-        keyName: this.key,
-        valueName: this.valueKey,
+        key: this.key,
+        valueKey: this.valueKey,
+        translated: this.translated,
         selected: this.control.value,
       },
       cssClass: 'ux-routeroutlet-modal generic-modal',
@@ -82,7 +83,7 @@ export class InputSelectNewComponent implements OnInit {
     }
   }
 
-  setSelectedValue(value: any, patch = true) {
-    if (patch) this.control.patchValue(value);
+  setSelectedValue(value: any) {
+    this.control.patchValue(value);
   }
 }

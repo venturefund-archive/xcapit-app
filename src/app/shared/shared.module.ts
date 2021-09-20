@@ -47,6 +47,7 @@ import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux
 import { UxInputSelectImageComponent } from './components/ux-input-select-image/ux-input-select-image.component';
 import { InputSelectNewComponent } from './components/input-select-new/input-select-new.component';
 import { SelectModalNewComponent } from './components/select-modal-new/select-modal-new.component';
+import { SelectStyleDirective } from './directives/select-style/select-style.directive';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { SelectModalNewComponent } from './components/select-modal-new/select-mo
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
+    SelectStyleDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [
@@ -154,6 +156,7 @@ import { SelectModalNewComponent } from './components/select-modal-new/select-mo
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
+    SelectStyleDirective,
   ],
 })
 export class SharedModule {}

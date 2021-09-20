@@ -29,8 +29,10 @@ import { FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms'
             <ion-radio-group (ionChange)="this.select($event)" formControlName="radio">
               <div class="container" *ngFor="let item of this.data; let last = last">
                 <ion-item>
-                  <ion-label>{{ item[this.keyName] }}</ion-label>
-                  <ion-radio mode="md" slot="start" [value]="item"></ion-radio>
+                  <ion-label class="sm__content__radio_label">{{
+                    this.translated ? (item[this.key] | translate) : item[this.key]
+                  }}</ion-label>
+                  <ion-radio class="sm__content__radio_value" mode="md" slot="start" [value]="item"></ion-radio>
                 </ion-item>
                 <div class="list-divider" *ngIf="!last"></div>
               </div>
@@ -46,8 +48,9 @@ export class SelectModalNewComponent implements OnInit {
   constructor(private modalController: ModalController, private formBuilder: FormBuilder) {}
   title = '';
   data = [];
-  keyName = '';
-  valueName = '';
+  key = '';
+  valueKey = '';
+  translated = false;
   selected: any;
   form: FormGroup = this.formBuilder.group({
     radio: ['', []],
