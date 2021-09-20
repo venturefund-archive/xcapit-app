@@ -319,6 +319,10 @@
           "all": "All"
         }
       },
+      "share_funds_details": {
+        "title": "Show your performances",
+        "subtitle": "Download"
+      },
       "fund_metrics_card": {
         "title": "SUMMARY",
         "period": "period",
