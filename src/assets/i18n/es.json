@@ -1400,6 +1400,10 @@
         "input_label": "Contraseña"
       }
     },
+    "asset_detail": {
+      "header": "Detalle de activo",
+      "wallet_transaction_title": "TRANSACCIONES"
+    },
     "error_wallet_recovery": {
       "title": "Tu frase de recupeación es incorrecta",
       "description": "Verifica tus palabras y vuelve a intentarlo",
