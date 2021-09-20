@@ -1,31 +1,21 @@
 export class CustomValidatorErrors {
-  static hasNumber = {
-    hasNumber: true,
-  };
+  static hasNumber = { hasNumber: true };
 
-  static hasCapitalCase = {
-    hasCapitalCase: true,
-  };
+  static notChecked = { notChecked: true };
 
-  static hasSmallCase = {
-    hasSmallCase: true,
-  };
+  static hasCapitalCase = { hasCapitalCase: true };
 
-  static isNotInRange = {
-    isNotInRange: true,
-  };
+  static hasSmallCase = { hasSmallCase: true };
 
-  static countWordsMatch = {
-    countWordsMatch: true,
-  };
+  static isNotInRange = { isNotInRange: true };
+
+  static countWordsMatch = { countWordsMatch: true };
 
   static noPasswordMatch = { noPasswordMatch: true };
 
   static noFieldsMatch = { noFieldsMatch: true };
 
-  static hasSpecialCharacter = {
-    hasSpecialCharacter: true,
-  };
+  static hasSpecialCharacter = { hasSpecialCharacter: true };
 
   static greaterThanError = { greaterThan: true };
 }

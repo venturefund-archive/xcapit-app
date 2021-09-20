@@ -14,8 +14,7 @@ export class CustomValidators {
 
   static countWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (control.value !== undefined && control.value.split(' ').filter((m) => m).length !== value) return error;
-      return null;
+      return control.value !== undefined && control.value.split(' ').filter((m) => m).length !== value ? error : null;
     };
   }
 
@@ -42,18 +41,16 @@ export class CustomValidators {
     }
   }
 
-  static mustBeTrue(control: AbstractControl): { [key: string]: boolean } {
-    const check: { [key: string]: boolean } = {};
-    if (!control.value) {
-      check.notChecked = true;
-    }
-    return check;
+  static mustBeTrue(
+    control: AbstractControl,
+    error: ValidationErrors = CustomValidatorErrors.notChecked
+  ): ValidationErrors | null {
+    return !control.value ? error : null;
   }
 
   static greaterThan(min: number, error: ValidationErrors = CustomValidatorErrors.greaterThanError): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (control.value !== undefined && (isNaN(control.value) || control.value <= min)) return error;
-      return null;
+      return control.value !== undefined && (isNaN(control.value) || control.value <= min) ? error : null;
     };
   }
 }
