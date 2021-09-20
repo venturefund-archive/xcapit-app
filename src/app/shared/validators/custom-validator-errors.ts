@@ -26,4 +26,6 @@ export class CustomValidatorErrors {
   static hasSpecialCharacter = {
     hasSpecialCharacter: true,
   };
+
+  static greaterThanError = { greaterThan: true };
 }

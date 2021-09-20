@@ -12,17 +12,11 @@ export class CustomValidators {
     };
   }
 
-  static countWordsValidator(
-    control: AbstractControl,
-    error: ValidationErrors = CustomValidatorErrors.countWordsMatch
-  ) {
-    const words: string = control.get('phrase').value;
-    const filteredWords = words.split(' ');
-    const groupWords = filteredWords.filter((m) => m);
-    if (groupWords.length !== 12) {
-      control.get('phrase').setErrors(error);
-    }
-    return null;
+  static countWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value !== undefined && control.value.split(' ').filter((m) => m).length !== value) return error;
+      return null;
+    };
   }
 
   static passwordMatchValidator(
@@ -30,14 +24,14 @@ export class CustomValidators {
     pass: string = 'password',
     rPass: string = 'repeat_password'
   ) {
-    CustomValidators.fieldsdMatchValidator(control, pass, rPass, CustomValidatorErrors.noPasswordMatch);
+    CustomValidators.fieldsMatchValidator(control, pass, rPass, CustomValidatorErrors.noPasswordMatch);
   }
 
-  static fieldsdMatchValidator(
+  static fieldsMatchValidator(
     control: AbstractControl,
     controlName1: string,
     controlName2: string,
-    error: ValidationErrors = CustomValidatorErrors.noFieldsMatch
+    error: ValidationErrors
   ) {
     const field1: string = control.get(controlName1).value;
     const field2: string = control.get(controlName2).value;
@@ -54,5 +48,12 @@ export class CustomValidators {
       check.notChecked = true;
     }
     return check;
+  }
+
+  static greaterThan(min: number, error: ValidationErrors = CustomValidatorErrors.greaterThanError): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value !== undefined && (isNaN(control.value) || control.value <= min)) return error;
+      return null;
+    };
   }
 }
