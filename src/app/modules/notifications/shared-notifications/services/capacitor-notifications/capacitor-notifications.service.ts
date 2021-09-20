@@ -23,7 +23,7 @@ export class CapacitorNotificationsService implements INotification {
 
     this.pushNotifications.addListener('registration', (token: PushNotificationToken) => {
       this.token = token.value;
-      this.apiDevicesService.register(this.token);
+      this.apiDevicesService.register(this.token).subscribe();
       console.log('Push registration success, token: ' + this.token);
     });
 
