@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ethers, Wallet } from 'ethers';
 import { Mnemonic } from 'ethers/lib/utils';
-import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { COINS } from '../../../constants/coins';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from './wallet.service';
@@ -26,16 +25,11 @@ describe('WalletService', () => {
   let service: WalletService;
   let walletMnemonicService: WalletMnemonicService;
   let walletMnemonicServiceMock;
-  let languageService: LanguageService;
-  let languageServiceMock;
   let blockchainProviderServiceMock;
   let blockchainProviderService: BlockchainProviderService;
   beforeEach(() => {
     walletMnemonicServiceMock = {
       mnemonic: testMnemonic,
-    };
-    languageServiceMock = {
-      selected: 'en',
     };
     blockchainProviderServiceMock = {
       getFormattedBalanceOf: (address: string, asset: string) => Promise.resolve('20'),
@@ -43,13 +37,11 @@ describe('WalletService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: WalletMnemonicService, useValue: walletMnemonicServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock },
         { provide: BlockchainProviderService, useValue: blockchainProviderServiceMock },
       ],
     });
     service = TestBed.inject(WalletService);
     walletMnemonicService = TestBed.inject(WalletMnemonicService);
-    languageService = TestBed.inject(LanguageService);
     blockchainProviderService = TestBed.inject(BlockchainProviderService);
   });
 
@@ -103,7 +95,6 @@ describe('WalletService', () => {
     spyOn(service, 'mnemonicExists').and.returnValue(true);
     spyOn(service, 'selectedCoins').and.returnValue(true);
     walletMnemonicService.mnemonic = testMnemonic;
-    languageService.selected = 'en';
     service.coins = testCoins.valid;
     const spy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
     service.create();
