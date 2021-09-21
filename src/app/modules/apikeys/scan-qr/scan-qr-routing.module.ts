@@ -6,8 +6,12 @@ import { ScanQrPage } from './scan-qr.page';
 const routes: Routes = [
   {
     path: '',
-    component: ScanQrPage
-  }
+    component: ScanQrPage,
+  },
+  {
+    path: ':isTutorialStep',
+    component: ScanQrPage,
+  },
 ];
 
 @NgModule({
