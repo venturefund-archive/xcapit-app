@@ -10,26 +10,17 @@ export class CapacitorNotificationsService implements INotification {
   token = '';
   pushNotifications = Plugins.PushNotifications;
 
-  constructor(private apiDevicesService: ApiDevicesService) {}
+  constructor(private apiDevicesService: ApiDevicesService) {
+    this.addListeners();
+  }
 
-  init(onError?: any): void {
+  init(): void {
     this.pushNotifications.requestPermission().then((result) => {
       if (result.granted) {
         this.pushNotifications.register();
       } else {
         console.log('Notifications permission not granted');
       }
-    });
-
-    this.pushNotifications.addListener('registration', (token: PushNotificationToken) => {
-      this.token = token.value;
-      this.apiDevicesService.register(this.token).subscribe();
-      console.log('Push registration success, token: ' + this.token);
-    });
-
-    this.pushNotifications.addListener('registrationError', (error: any) => {
-      onError();
-      console.log('REGISTRATION NOTIFICATION ERROR ' + JSON.stringify(error));
     });
   }
 
@@ -50,5 +41,28 @@ export class CapacitorNotificationsService implements INotification {
 
   requestPermission(): Promise<void> {
     return new Promise<void>(async (resolve) => resolve());
+  }
+
+  private addErrorListener() {
+    this.pushNotifications.addListener('registrationError', (error: any) => {
+      console.log('REGISTRATION NOTIFICATION ERROR ' + JSON.stringify(error));
+    });
+  }
+
+  private addRegistrationListener() {
+    this.pushNotifications.addListener('registration', (token: PushNotificationToken) => {
+      this.token = token.value;
+      this.apiDevicesService.register(this.token).subscribe();
+      console.log('Push registration success, token: ' + this.token);
+    });
+  }
+
+  private addListeners() {
+    try {
+      this.addRegistrationListener();
+      this.addErrorListener();
+    } catch (e) {
+      console.log('Add push notifications listeners error', e);
+    }
   }
 }
