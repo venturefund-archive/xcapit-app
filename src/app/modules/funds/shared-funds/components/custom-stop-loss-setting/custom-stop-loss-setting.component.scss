@@ -1,0 +1,35 @@
+:host {
+  background: var(--ion-color-uxlight);
+  .cslm {
+    background: var(--ion-color-uxlight);
+    --border-radius: 100px;
+
+    .title {
+      padding-top: 10px;
+      font-weight: var(--ux-fweight-extrabold);
+    }
+
+    .message {
+      padding-top: 10px;
+    }
+
+    &__input {
+      border-bottom: 1px solid var(--ion-color-uxline);
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: flex-end;
+
+      &__cancel {
+        color: var(--ion-color-uxline);
+        min-width: 0;
+      }
+
+      &__confirm {
+        min-width: 0;
+        width: 30%;
+      }
+    }
+  }
+}

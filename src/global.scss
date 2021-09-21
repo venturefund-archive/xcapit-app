@@ -280,6 +280,14 @@ ion-toast.refresher_toast {
     }
   }
 
+  .ux_modal_stop_loss {
+    --max-height: 160px;
+    --max-width: 85%;
+    .modal-wrapper {
+      border-radius: 10px;
+    }
+  }
+
   .ux-modal-informative {
     --max-height: 310px;
     --max-width: 85%;

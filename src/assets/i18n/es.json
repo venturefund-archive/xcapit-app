@@ -542,8 +542,14 @@
       "submit_button_edit": "Guardar",
       "edit_custom": "Editar",
       "edit_title": "Modificar Stop Loss",
-      "manual_stop": "Voy a finalizarlo manualmente",
-      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas"
+      "classic_stop_loss": "Stop loss clásico",
+      "inteligent_stop_loss": "Stop loss inteligente",
+      "without_stop_loss": "Sin stop loss",
+      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas",
+      "title_classicSL": "Escribe el % de stop loss clásico",
+      "message_classicSL": "Dejaremos de invertir si la inversión llega a este porcentaje de pérdida",
+      "title_inteligentSL": "Escribe el % de stop loss inteligente",
+      "message_inteligentSL": "El stop Loss se movera a este porcentaje de distancia del rendimiento del fondo"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",
