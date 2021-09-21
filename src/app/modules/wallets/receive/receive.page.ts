@@ -40,6 +40,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
             key="name"
             valueKey="value"
             imageKey="logoRoute"
+            appSelectStyle="white"
           ></app-input-select-new>
         </form>
       </div>
