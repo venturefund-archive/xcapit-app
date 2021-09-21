@@ -8,6 +8,7 @@ import { ClipboardService } from '../../../shared/services/clipboard/clipboard.s
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { ActivatedRoute } from '@angular/router';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 @Component({
@@ -79,10 +80,10 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.form.value.currency.value } }}
+          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.selectedCurrency?.value } }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.form.value.currency.value } }}
+          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.selectedCurrency?.value } }}
         </ion-text>
       </div>
     </ion-content>
@@ -97,6 +98,8 @@ export class ReceivePage {
   currencies: Coin[] = COINS;
   address: string;
   addressQr: string;
+  selectedCurrency: Coin;
+  defaultAsset = COINS.find((coin) => coin.value === 'ETH');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -106,32 +109,42 @@ export class ReceivePage {
     private toastService: ToastService,
     private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
+    private route: ActivatedRoute,
     private platformService: PlatformService
   ) {}
 
   ionViewWillEnter() {
+    this.checkUrlParams();
     this.subscribeToFormChanges();
     this.checkPlatform();
-    this.setDefaultCurrency();
   }
 
   checkPlatform() {
     this.isNativePlatform = this.platformService.isNative();
   }
 
-  subscribeToFormChanges() {
-    this.form.get('currency').valueChanges.subscribe((value) => {
-      this.getAddress(value);
+  checkUrlParams() {
+    this.route.queryParams.subscribe((params) => {
+      if (params.asset) {
+        this.defaultAsset = COINS.find((coin) => coin.value === params.asset);
+      }
     });
   }
 
-  setDefaultCurrency() {
-    this.form.patchValue({ currency: COINS.find((coin) => coin.value === 'ETH') });
+  subscribeToFormChanges() {
+    this.form.valueChanges.subscribe((data) => this.getAddress(data.currency));
+    this.form.valueChanges.subscribe((data) => this.setCurrencyOnLabel(data.currency));
+
+    this.form.patchValue({ currency: this.defaultAsset });
+  }
+
+  setCurrencyOnLabel(currency: Coin) {
+    this.selectedCurrency = currency;
   }
 
   getAddress(currency: Coin) {
     this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      const network = COINS.find((coin) => coin.value === currency.value).network;
+      const network = COINS.find((coin) => coin === currency).network;
       this.address = wallet.addresses[network];
       this.generateAddressQR();
     });

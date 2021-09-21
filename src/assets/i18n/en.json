@@ -319,6 +319,10 @@
           "all": "All"
         }
       },
+      "share_funds_details": {
+        "title": "Show your performances",
+        "subtitle": "Download"
+      },
       "fund_metrics_card": {
         "title": "SUMMARY",
         "period": "period",
@@ -1392,6 +1396,10 @@
         "submit_button_text": "Accept",
         "input_label": "Password"
       }
+    },
+    "asset_detail": {
+      "header": "Asset Detail",
+      "wallet_transaction_title": "TRANSACTIONS"
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is wrong",

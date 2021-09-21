@@ -16,12 +16,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { Subject } from 'rxjs';
 
 const testCurrencies: Coin[] = [
   {
     id: 1,
     name: 'ETH - Ethereum',
-    logoRoute: '../../assets/img/coins/ETH.svg',
+    logoRoute: 'assets/img/coins/ETH.svg',
     last: true,
     value: 'ETH',
     network: 'ERC20',
@@ -44,6 +46,7 @@ describe('ReceivePage', () => {
   let platformServiceSpy;
   let toastService: ToastService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReceivePage>;
+  let activatedRouteMock: any;
 
   beforeEach(
     waitForAsync(() => {
@@ -65,6 +68,10 @@ describe('ReceivePage', () => {
       platformServiceSpy = jasmine.createSpyObj('PlatformService', {
         isNative: true,
       });
+      activatedRouteMock = {
+        queryParams: new Subject(),
+      };
+
       TestBed.configureTestingModule({
         declarations: [ReceivePage, TrackClickDirective],
         imports: [
@@ -81,6 +88,7 @@ describe('ReceivePage', () => {
           { provide: ToastService, useValue: toastServiceMock },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
           { provide: PlatformService, useValue: platformServiceSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -101,6 +109,14 @@ describe('ReceivePage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should use default assets value when route parameter is empty', async () => {
+    const spy = spyOn(component, 'checkUrlParams');
+    activatedRouteMock.queryParams.next();
+    await component.ionViewWillEnter();
+    expect(component.defaultAsset.value).toEqual(testCurrencies[0].value);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should generate QR with address on enter page', async () => {

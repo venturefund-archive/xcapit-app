@@ -322,6 +322,10 @@
           "all": "Todo"
         }
       },
+      "share_funds_details": {
+        "title": "Muestra tus rendimientos",
+        "subtitle": "Descargar"
+      },
       "fund_metrics_card": {
         "title": "RESUMEN",
         "period": "Período",
@@ -1395,6 +1399,10 @@
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
       }
+    },
+    "asset_detail": {
+      "header": "Detalle de activo",
+      "wallet_transaction_title": "TRANSACCIONES"
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recupeación es incorrecta",

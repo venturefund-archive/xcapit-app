@@ -12,9 +12,6 @@ import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/au
 import { TrackService } from './shared/services/track/track.service';
 import { LogsService } from './shared/services/logs/logs.service';
 import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
-import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
-// tslint:disable-next-line: max-line-length
-import { NotificationsHelperService } from './modules/notifications/shared-notifications/services/notifications-helper/notifications-helper.service';
 import { UpdateService } from './shared/services/update/update.service';
 
 @Component({
@@ -48,8 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private trackService: TrackService,
     private publicLogsService: PublicLogsService,
-    private notificationsService: NotificationsService,
-    private notificationsHelper: NotificationsHelperService,
     private updateService: UpdateService
   ) {
     this.initializeApp();
@@ -65,11 +60,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   checkForUpdate() {
     this.updateService.checkForUpdate().then();
-  }
-
-  initNotifications() {
-    const notifications = this.notificationsService.getInstance();
-    notifications.init(() => console.error('Error inicializando notificaciones'));
   }
 
   private unsubscribeRouterNavEndSubscription() {
@@ -101,7 +91,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.languageService.setInitialAppLanguage();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.initNotifications();
     });
   }
 

@@ -79,14 +79,9 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
 })
 export class RecoveryWalletPage implements OnInit {
   validPhrase: string;
-  form: FormGroup = this.formBuilder.group(
-    {
-      phrase: ['', [Validators.required]],
-    },
-    {
-      validators: [CustomValidators.countWordsValidator],
-    }
-  );
+  form: FormGroup = this.formBuilder.group({
+    phrase: ['', [Validators.required, CustomValidators.countWords(12)]],
+  });
 
   constructor(
     private clipboardService: ClipboardService,
