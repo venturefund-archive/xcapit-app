@@ -133,7 +133,7 @@ export class LoginPage implements OnInit {
   async success() {
     this.loadingService.enabled();
     this.loginForm.form.reset();
-    this.notificationsService.getInstance().init(() => console.error('Error inicializando notificaciones'));
+    this.notificationsService.getInstance().init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
