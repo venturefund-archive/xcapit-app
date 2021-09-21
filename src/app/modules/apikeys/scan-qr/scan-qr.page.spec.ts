@@ -124,7 +124,7 @@ describe('ScanQrPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate back to apikeys register (not tutorial) when the keys scanning is stopped', () => {
+  it('should navigate back to apikeys register (tutorial) when the keys scanning is stopped', () => {
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
         isTutorialStep: 'true',
@@ -135,7 +135,7 @@ describe('ScanQrPage', () => {
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/apikeys/tutorial/register']);
   });
 
-  it('should navigate back to apikeys register (tutorial) when the keys scanning is stopped', () => {
+  it('should navigate back to apikeys register (not tutorial) when the keys scanning is stopped', () => {
     component.ionViewWillEnter();
     fixture.debugElement.query(By.css('app-qr-scanner')).triggerEventHandler('stoppedScan', null);
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/apikeys/register']);
