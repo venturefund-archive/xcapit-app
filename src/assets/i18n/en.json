@@ -1383,6 +1383,11 @@
         "textPrimary": "Your transfer was made.",
         "textSecondary": "It will be available shortly",
         "namePrimaryAction": "Go to my wallet"
+      },
+      "error_incorrect_password": {
+        "textPrimary": "Seems like the password is incorrect",
+        "namePrimaryAction": "Retry",
+        "nameSecondaryAction": "Contact support"
       }
     },
     "shared_wallets": {
@@ -1467,10 +1472,10 @@
       "button_submit": "Submit"
     },
     "register_success_begginer": {
-      "textPrimary": "You have already linked your account with Binance!",
-      "textSecondary": "CWe are able to create a fund to start managing your investment.",
+      "textPrimary": "You have linked your account with Binance!",
+      "textSecondary": "Choose the strategy that better suits you or start buying cryptocurrencies.",
       "textThird": "or you can also",
-      "namePrimaryAction": "Create an investment fund",
+      "namePrimaryAction": "Create my first investment",
       "nameSecondaryAction": "Skip for now",
       "nameThirdAction": "Buy cryptocurrencies"
     },

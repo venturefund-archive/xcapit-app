@@ -120,4 +120,11 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'wallets.success_wallet_recovery.button',
   },
+  error_wallet_incorrect_password: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.send.error_incorrect_password.textPrimary',
+    namePrimaryAction: 'wallets.send.error_incorrect_password.namePrimaryAction',
+    urlSecondaryAction: '/tickets/create-support-ticket',
+    nameSecondaryAction: 'wallets.send.error_incorrect_password.nameSecondaryAction',
+  },
 };
