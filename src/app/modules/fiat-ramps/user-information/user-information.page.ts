@@ -3,10 +3,10 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Countries } from '../enums/countries.enum';
-import { MaritalStatus } from '../enums/marital-status.enums';
+import { MARITAL_STATUS } from '../enums/marital-status.enums';
 import { Province } from '../enums/province.enums';
-import { Gender } from '../enums/gender.enums';
-import { DocTypes } from '../enums/doc_types.enum';
+import { GENDERS } from '../enums/gender.enums';
+import { DOC_TYPES } from '../enums/doc_types.enum';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
@@ -74,37 +74,43 @@ import * as moment from 'moment';
           ></app-ux-datetime>
 
           <!-- Género -->
-          <app-ux-input-select-traduction
+          <app-input-select-new
             [label]="'fiat_ramps.register.gender' | translate"
             [modalTitle]="'fiat_ramps.register.gender' | translate"
             [placeholder]="'fiat_ramps.register.gender' | translate"
             controlName="genero"
-            [data]="this.translatedGender"
-            keyName="name"
-            valueName="id"
-          ></app-ux-input-select-traduction>
+            [data]="this.genders"
+            key="value"
+            valueKey="value"
+            [translated]="true"
+            appSelectStyle
+          ></app-input-select-new>
 
           <!-- Estado civil -->
-          <app-ux-input-select-traduction
+          <app-input-select-new
             [label]="'fiat_ramps.register.marital_status' | translate"
             [modalTitle]="'fiat_ramps.register.marital_status' | translate"
             [placeholder]="'fiat_ramps.register.marital_status' | translate"
             controlName="estado_civil"
-            [data]="this.translatedMaritalStatus"
-            keyName="name"
-            valueName="id"
-          ></app-ux-input-select-traduction>
+            [data]="this.maritalStatus"
+            key="value"
+            valueKey="value"
+            [translated]="true"
+            appSelectStyle
+          ></app-input-select-new>
 
           <!-- Tipo documento -->
-          <app-ux-input-select-traduction
+          <app-input-select-new
             [label]="'fiat_ramps.register.doc_type' | translate"
             [modalTitle]="'fiat_ramps.register.doc_type' | translate"
             [placeholder]="'fiat_ramps.register.doc_type' | translate"
             controlName="tipo_doc"
-            [data]="this.translatedDocTypes"
-            keyName="name"
-            valueName="id"
-          ></app-ux-input-select-traduction>
+            [data]="this.docTypes"
+            key="value"
+            valueKey="value"
+            [translated]="true"
+            appSelectStyle
+          ></app-input-select-new>
 
           <!-- Nro doc -->
           <app-ux-input
@@ -196,12 +202,11 @@ export class UserInformationPage implements OnInit {
     direccion_nro: ['', [Validators.required]],
     expuesto_politicamente: [false, [Validators.required]],
   });
-
+  genders = GENDERS;
   countries = Object.values(Countries);
-  translatedMaritalStatus = this.translateEnum(MaritalStatus, 'fiat_ramps.register.marital_status_list.');
+  maritalStatus = MARITAL_STATUS;
   provinces = Object.values(Province);
-  translatedGender = this.translateEnum(Gender, 'fiat_ramps.register.gender_list.');
-  translatedDocTypes = this.translateEnum(DocTypes, 'fiat_ramps.register.doctypes_list.');
+  docTypes = DOC_TYPES;
   maxDate = this.getLegalAgeBirthDate();
 
   constructor(
