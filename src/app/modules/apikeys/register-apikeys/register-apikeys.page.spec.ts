@@ -272,10 +272,19 @@ describe('RegisterApikeysPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to when Use QR Button is clicked', () => {
+  it('should navigate to Apikeys Scan with tutorial step when Use QR Button is clicked and is tutorial step', () => {
     component.inPWA = false;
+    component.isTutorialStep = true;
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Use QR"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/apikeys/scan']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/apikeys/scan', true]);
+  });
+
+  it('should navigate to Apikeys Scan without tutorial step when Use QR Button is clicked and is not tutorial step', () => {
+    component.inPWA = false;
+    component.isTutorialStep = false;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Use QR"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/apikeys/scan', false]);
   });
 });
