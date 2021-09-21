@@ -16,6 +16,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -45,6 +46,7 @@ describe('SendSummaryPage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let routerSpy: jasmine.SpyObj<Router>;
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
 
   beforeEach(() => {
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', null, { queryParams: of({}) });
@@ -65,8 +67,13 @@ describe('SendSummaryPage', () => {
       send: () => Promise.resolve(),
     });
 
-    fakeModalController = new FakeModalController(Promise.resolve(), Promise.resolve({ data: '' }));
+    fakeModalController = new FakeModalController(Promise.resolve(), Promise.resolve({ data: 'testPassword' }));
     modalControllerSpy = fakeModalController.createSpy();
+
+    loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
+      show: Promise.resolve(),
+      dismiss: Promise.resolve(),
+    });
 
     TestBed.configureTestingModule({
       declarations: [SendSummaryPage, TrackClickDirective],
@@ -80,6 +87,7 @@ describe('SendSummaryPage', () => {
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: Router, useValue: routerSpy },
+        { provide: LoadingService, useValue: loadingServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -113,7 +121,6 @@ describe('SendSummaryPage', () => {
   it('should send transaction and navigate on Send Button clicked and password is correct', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fakeModalController.modifyReturns(Promise.resolve(), Promise.resolve({ data: 'testPassword' }));
     const spyNav = spyOn(navController, 'navigateForward').and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
@@ -129,20 +136,10 @@ describe('SendSummaryPage', () => {
     expect(spyNav).toHaveBeenCalledOnceWith(['/wallets/send/success']);
   });
 
-  it('should not send transaction when Send Button clicked and password is wrong', async () => {
-    walletTransactionsServiceSpy.send.and.throwError('invalid password');
-    component.ngOnInit();
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(walletTransactionsServiceSpy.send).not.toHaveBeenCalled();
-  });
-
   it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
-    spyOn(component, 'askForPassword').and.returnValue(Promise.resolve('invalid'));
     const spyNav = spyOn(navController, 'navigateForward');
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
     walletTransactionsServiceSpy.send.and.throwError('invalid password');
     await component.send();
     await fixture.whenStable();
@@ -165,5 +162,21 @@ describe('SendSummaryPage', () => {
     component.ngOnInit();
     component.ionViewWillEnter();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show loader at the start of transaction and dismiss it afterwards', async () => {
+    await component.send();
+    await fixture.whenStable();
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+  });
+
+  it('should dismiss loader if password incorrect', async () => {
+    walletTransactionsServiceSpy.send.and.throwError('invalid password');
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
+    await component.send();
+    await fixture.whenStable();
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 });

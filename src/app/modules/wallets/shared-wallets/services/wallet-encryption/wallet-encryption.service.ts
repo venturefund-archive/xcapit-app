@@ -53,11 +53,7 @@ export class WalletEncryptionService {
 
   getDecryptedWalletForCurrency(password: string, currency: Coin): Promise<Wallet> {
     return this.getDecryptedWallet(password).then((wallet) => {
-      return Wallet.fromMnemonic(
-        wallet.mnemonic.phrase,
-        environment.derivedPaths[currency.network],
-        wordlists[wallet.mnemonic.locale]
-      );
+      return Wallet.fromMnemonic(wallet.mnemonic.phrase, environment.derivedPaths[currency.network]);
     });
   }
 

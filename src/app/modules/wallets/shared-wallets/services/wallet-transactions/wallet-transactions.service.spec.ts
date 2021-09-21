@@ -123,7 +123,6 @@ const testStructure = [
 
 describe('WalletTransactionsService', () => {
   let service: WalletTransactionsService;
-  let loadingServiceSpy: any;
   let blockchainProviderServiceMock: any;
   let storageServiceMock: any;
   let storageService: StorageService;
@@ -140,10 +139,7 @@ describe('WalletTransactionsService', () => {
     ethersServiceSpy = fakeEthersService.createSpy();
     fakeConnectedWallet = new FakeConnectedWallet();
     connectedWalletSpy = fakeConnectedWallet.createSpy();
-    loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
-      show: Promise.resolve(),
-      dismiss: Promise.resolve(),
-    });
+
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       getDecryptedWalletForCurrency: Promise.resolve({ connect: () => connectedWalletSpy }),
     });
@@ -163,7 +159,6 @@ describe('WalletTransactionsService', () => {
     });
     TestBed.configureTestingModule({
       providers: [
-        { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: BlockchainProviderService, useValue: blockchainProviderServiceMock },
         { provide: Storage, useValue: storageSpy },
@@ -187,8 +182,6 @@ describe('WalletTransactionsService', () => {
       value: ethers.utils.parseEther('20'),
     });
     expect(walletEncryptionServiceSpy.getDecryptedWalletForCurrency).toHaveBeenCalledOnceWith('testPassword', ETH);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
   });
 
   it('should send no native token transaction', async () => {
@@ -198,12 +191,11 @@ describe('WalletTransactionsService', () => {
   });
 
   it('should not call loading when loading is false', async () => {
-    await service.send('testPassword', '20', 'testAddress', ETH, false);
+    await service.send('testPassword', '20', 'testAddress', ETH);
     expect(connectedWalletSpy.sendTransaction).toHaveBeenCalledOnceWith({
       to: 'testAddress',
       value: ethers.utils.parseEther('20'),
     });
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should be return a mapped structure when mapResponse', () => {
@@ -248,11 +240,10 @@ describe('WalletTransactionsService', () => {
   it('should not send if password was invalid', async () => {
     walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.throwError('invalid password');
     try {
-      await service.send('wrongPassword', '20', 'testAddress', ETH, false);
+      await service.send('wrongPassword', '20', 'testAddress', ETH);
     } catch (error) {
     } finally {
       expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
     }
   });
 });

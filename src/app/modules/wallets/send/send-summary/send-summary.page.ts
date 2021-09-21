@@ -6,6 +6,7 @@ import { WalletTransactionsService } from '../../shared-wallets/services/wallet-
 import { ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-send-summary',
@@ -51,26 +52,20 @@ export class SendSummaryPage implements OnInit {
     private modalController: ModalController,
     private navController: NavController,
     public submitButtonService: SubmitButtonService,
+    private loadingService: LoadingService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(() => {
+    this.route.queryParams.subscribe(async () => {
       const navParams = this.router.getCurrentNavigation().extras.state;
-      if (navParams) this.action = navParams.action;
+      if (navParams) await this.send();
     });
   }
 
   ionViewWillEnter() {
     this.summaryData = this.transactionDataService.transactionData;
-    this.retry();
-  }
-
-  async retry() {
-    if (this.action) {
-      await this.send();
-    }
   }
 
   async askForPassword() {
@@ -85,7 +80,9 @@ export class SendSummaryPage implements OnInit {
 
   async send() {
     const password = await this.askForPassword();
+
     if (!!password) {
+      await this.loadingService.show();
       try {
         await this.walletTransactionsService.send(
           password,
@@ -98,6 +95,8 @@ export class SendSummaryPage implements OnInit {
         if (error.message === 'invalid password') {
           this.navController.navigateForward('/wallets/send/error/incorrect-password');
         }
+      } finally {
+        await this.loadingService.dismiss();
       }
     }
   }
