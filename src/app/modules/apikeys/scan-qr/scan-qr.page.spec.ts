@@ -11,6 +11,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
 import { QrScannerStubComponent } from '../shared-apikeys/components/qr-scanner/qr-scanner-stub.component.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 const errorScannedApiKeys = {
   error: true,
@@ -29,6 +30,7 @@ describe('ScanQrPage', () => {
   let storageApiKeysService: StorageApikeysService;
   let fakeNavController: FakeNavController;
   let navControllerSpy: any;
+  let activatedRouteSpy: any;
 
   beforeEach(
     waitForAsync(() => {
@@ -40,6 +42,13 @@ describe('ScanQrPage', () => {
       storageApiKeysServiceMock = {
         updateData: () => null,
       };
+
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+      activatedRouteSpy.snapshot = {
+        paramMap: convertToParamMap({
+          isTutorialStep: 'false',
+        }),
+      };
       TestBed.configureTestingModule({
         declarations: [ScanQrPage, QrScannerStubComponent, TrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
@@ -48,6 +57,7 @@ describe('ScanQrPage', () => {
           { provide: ToastService, useValue: toastServiceMock },
           { provide: StorageApikeysService, useValue: storageApiKeysServiceMock },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
         ],
       }).compileComponents();
 
@@ -74,7 +84,7 @@ describe('ScanQrPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should update storage and navigate back to apikeys register when keys were scanned successfully', async () => {
+  it('should update storage and navigate back to apikeys (not tutorial) register when keys were scanned successfully', async () => {
     const spy = spyOn(storageApiKeysService, 'updateData');
     spy.and.returnValue();
     fixture.debugElement
@@ -83,6 +93,23 @@ describe('ScanQrPage', () => {
     await fixture.whenStable();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/apikeys/register']);
+  });
+
+  it('should update storage and navigate back to apikeys register (tutorial) when keys were scanned successfully', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        isTutorialStep: 'true',
+      }),
+    };
+    const spy = spyOn(storageApiKeysService, 'updateData');
+    spy.and.returnValue();
+    component.ionViewWillEnter();
+    fixture.debugElement
+      .query(By.css('app-qr-scanner'))
+      .triggerEventHandler('scannedApikeysEvent', validScannedApiKeys);
+    await fixture.whenStable();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/apikeys/tutorial/register']);
   });
 
   it('should start reading QR on IonViewWillEnter', () => {
@@ -97,7 +124,19 @@ describe('ScanQrPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate back to apikeys register when the keys scanning is stopped', () => {
+  it('should navigate back to apikeys register (not tutorial) when the keys scanning is stopped', () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        isTutorialStep: 'true',
+      }),
+    };
+    component.ionViewWillEnter();
+    fixture.debugElement.query(By.css('app-qr-scanner')).triggerEventHandler('stoppedScan', null);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/apikeys/tutorial/register']);
+  });
+
+  it('should navigate back to apikeys register (tutorial) when the keys scanning is stopped', () => {
+    component.ionViewWillEnter();
     fixture.debugElement.query(By.css('app-qr-scanner')).triggerEventHandler('stoppedScan', null);
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/apikeys/register']);
   });
