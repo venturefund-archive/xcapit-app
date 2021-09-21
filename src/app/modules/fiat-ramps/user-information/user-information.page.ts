@@ -3,12 +3,11 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Countries } from '../enums/countries.enum';
-import { MARITAL_STATUS } from '../enums/marital-status.enums';
+import { MARITAL_STATUS } from '../constants/marital-status';
 import { Province } from '../enums/province.enums';
-import { GENDERS } from '../enums/gender.enums';
-import { DOC_TYPES } from '../enums/doc_types.enum';
+import { GENDERS } from '../constants/gender';
+import { DOC_TYPES } from '../constants/doc_types';
 import { NavController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 
 @Component({
@@ -213,13 +212,13 @@ export class UserInformationPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController,
-    private translate: TranslateService
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
 
   handleSubmit() {
+    this.patchDataFromItems();
     if (this.form.valid) {
       this.fiatRampsService.registerUserInfo(this.form.value).subscribe((res) => {
         this.navController.navigateForward(['fiat-ramps/user-bank'], { replaceUrl: true });
@@ -229,14 +228,13 @@ export class UserInformationPage implements OnInit {
     }
   }
 
-  translateEnum(enumSelected, prefix) {
-    return Object.keys(enumSelected).map((id) => ({
-      name: this.translate.instant(`${prefix}${enumSelected[id]}`),
-      id,
-    }));
-  }
-
   getLegalAgeBirthDate() {
     return moment().subtract(18, 'y').utc().format();
+  }
+
+  patchDataFromItems() {
+    this.form.value.genero = this.form.value.genero.name;
+    this.form.value.estado_civil = this.form.value.estado_civil.name;
+    this.form.value.tipo_doc = this.form.value.tipo_doc.name;
   }
 }
