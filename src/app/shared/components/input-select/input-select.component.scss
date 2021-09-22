@@ -1,5 +1,5 @@
 :host {
-  &.white {
+  .white {
     ion-item {
       --padding-start: 5px;
     }
@@ -51,7 +51,7 @@
     }
   }
 
-  &.classic {
+  .classic {
     .uxselect {
       padding-top: 16px;
       &__label {

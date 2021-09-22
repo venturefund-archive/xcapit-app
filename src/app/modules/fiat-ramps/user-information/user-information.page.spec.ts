@@ -115,9 +115,10 @@ describe('UserInformationPage', () => {
   });
 
   it('should patch form items into data when form is submited', () => {
+    fiatRampsServiceSpy.registerUserInfo.and.returnValue(of({}));
     component.form.patchValue(formData.valid);
     fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-    expect(component.form.value).toEqual(formData.patched);
+    expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledOnceWith(formData.patched);
   });
 
   it('should call trackEvent on trackService when Next Button clicked', () => {

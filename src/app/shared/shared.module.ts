@@ -44,7 +44,7 @@ import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.c
 import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
 import { UxInputSelectTraductionComponent } from './components/ux-input-select-traduction/ux-input-select-traduction.component';
 import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux-step-progress-bar.component';
-import { InputSelectNewComponent } from './components/input-select-new/input-select-new.component';
+import { InputSelectComponent } from './components/input-select/input-select.component';
 import { SelectModalNewComponent } from './components/select-modal-new/select-modal-new.component';
 import { SelectStyleDirective } from './directives/select-style/select-style.directive';
 
@@ -89,7 +89,7 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
-    InputSelectNewComponent,
+    InputSelectComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -149,7 +149,7 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
-    InputSelectNewComponent,
+    InputSelectComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

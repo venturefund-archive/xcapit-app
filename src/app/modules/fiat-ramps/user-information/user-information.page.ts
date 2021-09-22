@@ -73,7 +73,7 @@ import * as moment from 'moment';
           ></app-ux-datetime>
 
           <!-- Género -->
-          <app-input-select-new
+          <app-input-select
             [label]="'fiat_ramps.register.gender' | translate"
             [modalTitle]="'fiat_ramps.register.gender' | translate"
             [placeholder]="'fiat_ramps.register.gender' | translate"
@@ -82,11 +82,10 @@ import * as moment from 'moment';
             key="value"
             valueKey="value"
             [translated]="true"
-            appSelectStyle
-          ></app-input-select-new>
+          ></app-input-select>
 
           <!-- Estado civil -->
-          <app-input-select-new
+          <app-input-select
             [label]="'fiat_ramps.register.marital_status' | translate"
             [modalTitle]="'fiat_ramps.register.marital_status' | translate"
             [placeholder]="'fiat_ramps.register.marital_status' | translate"
@@ -95,11 +94,10 @@ import * as moment from 'moment';
             key="value"
             valueKey="value"
             [translated]="true"
-            appSelectStyle
-          ></app-input-select-new>
+          ></app-input-select>
 
           <!-- Tipo documento -->
-          <app-input-select-new
+          <app-input-select
             [label]="'fiat_ramps.register.doc_type' | translate"
             [modalTitle]="'fiat_ramps.register.doc_type' | translate"
             [placeholder]="'fiat_ramps.register.doc_type' | translate"
@@ -108,8 +106,7 @@ import * as moment from 'moment';
             key="value"
             valueKey="value"
             [translated]="true"
-            appSelectStyle
-          ></app-input-select-new>
+          ></app-input-select>
 
           <!-- Nro doc -->
           <app-ux-input
@@ -218,9 +215,9 @@ export class UserInformationPage implements OnInit {
   ngOnInit() {}
 
   handleSubmit() {
-    this.patchDataFromItems();
+    const parsedValues = this.getParsedValues(this.form.value);
     if (this.form.valid) {
-      this.fiatRampsService.registerUserInfo(this.form.value).subscribe((res) => {
+      this.fiatRampsService.registerUserInfo(parsedValues).subscribe((res) => {
         this.navController.navigateForward(['fiat-ramps/user-bank'], { replaceUrl: true });
       });
     } else {
@@ -232,9 +229,11 @@ export class UserInformationPage implements OnInit {
     return moment().subtract(18, 'y').utc().format();
   }
 
-  patchDataFromItems() {
-    this.form.value.genero = this.form.value.genero.name;
-    this.form.value.estado_civil = this.form.value.estado_civil.name;
-    this.form.value.tipo_doc = this.form.value.tipo_doc.name;
+  getParsedValues(formValues) {
+    const valuesCopy = Object.assign({}, formValues);
+    valuesCopy.genero = valuesCopy.genero.name;
+    valuesCopy.estado_civil = valuesCopy.estado_civil.name;
+    valuesCopy.tipo_doc = valuesCopy.tipo_doc.name;
+    return valuesCopy;
   }
 }

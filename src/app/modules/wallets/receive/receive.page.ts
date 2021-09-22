@@ -33,7 +33,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
           'wallets.receive.currency_select' | translate
         }}</ion-text>
         <form [formGroup]="this.form">
-          <app-input-select-new
+          <app-input-select
             [modalTitle]="'wallets.receive.currency_select_modal_title' | translate"
             [placeholder]="'wallets.receive.currency_select_modal_title' | translate"
             controlName="currency"
@@ -41,8 +41,8 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
             key="name"
             valueKey="value"
             imageKey="logoRoute"
-            appSelectStyle="white"
-          ></app-input-select-new>
+            selectorStyle="white"
+          ></app-input-select>
         </form>
       </div>
       <div class="wr__remaining-time-text">

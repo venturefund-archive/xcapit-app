@@ -7,14 +7,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
-import { InputSelectNewComponent } from './input-select-new.component';
+import { InputSelectComponent } from './input-select.component';
 const data = [
   { key: 'test', value: 'testValue', image: 'test.png', icon: 'icon.png' },
   { key: 'test2', value: 'testValue2', image: 'test.png', icon: 'icon.png' },
 ];
-describe('InputSelectNewComponent', () => {
-  let component: InputSelectNewComponent;
-  let fixture: ComponentFixture<InputSelectNewComponent>;
+describe('InputSelectComponent', () => {
+  let component: InputSelectComponent;
+  let fixture: ComponentFixture<InputSelectComponent>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: any;
 
@@ -34,7 +34,7 @@ describe('InputSelectNewComponent', () => {
       abstractControlMock = { subscribe: () => Promise.resolve('') };
 
       TestBed.configureTestingModule({
-        declarations: [InputSelectNewComponent],
+        declarations: [InputSelectComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: ModalController, useValue: modalControllerSpy },
@@ -43,7 +43,7 @@ describe('InputSelectNewComponent', () => {
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(InputSelectNewComponent);
+      fixture = TestBed.createComponent(InputSelectComponent);
       component = fixture.componentInstance;
       component.controlName = 'testControl';
       component.data = data;
