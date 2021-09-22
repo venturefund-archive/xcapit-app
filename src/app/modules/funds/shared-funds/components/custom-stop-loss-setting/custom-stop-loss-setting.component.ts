@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { CONFIG } from 'src/app/config/app-constants.config';
+import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 
 @Component({
   selector: 'app-custom-stop-loss-setting',
@@ -15,8 +19,9 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
       </div>
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <div class="cslm__input">
-          <ion-input formControlName="valueSL"></ion-input>
+          <ion-input type="number" formControlName="valueSL"></ion-input>
         </div>
+        <app-errors-form-item class="ux_input_container__item__errors" [controlName]="'valueSL'"></app-errors-form-item>
         <div class="cslm__buttons">
           <ion-button
             class="ux_button cslm__buttons__cancel"
@@ -50,10 +55,10 @@ export class CustomStopLossSettingComponent implements OnInit {
   @Input() title;
   @Input() message;
   @Input() type;
-  valueSL: string;
+  valueSL: number;
   typeModal;
   form: FormGroup = this.formBuilder.group({
-    valueSL: [25, [Validators.required]],
+    valueSL: [25, [Validators.required, Validators.min(1), Validators.pattern('[0-9][^.a-zA-Z]*$')]],
   });
 
   types = {

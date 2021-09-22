@@ -114,7 +114,7 @@ export class ApiFundsService {
 
   getMostChosenSL() {
     // TODO: Ver como hacer para tener el mas elegido sin hacer el calculo cada vez.
-    return of(2);
+    return of(1);
   }
 
   getTotalBalance(ca: string, loading = true) {
