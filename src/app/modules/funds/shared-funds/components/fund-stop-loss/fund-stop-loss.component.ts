@@ -36,7 +36,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
                 >
                   <ion-item>
                     <ion-label>{{ sl.name }}</ion-label>
-                    <ion-radio mode="md" slot="start"></ion-radio>
+                    <ion-radio mode="md" slot="start" [value]="sl.value"></ion-radio>
                     <ion-badge *ngIf="sl.value === this.mostChosenSL" class="ux_badge_primary" slot="end">{{
                       'funds.fund_stop_loss.most_chosen' | translate
                     }}</ion-badge>
@@ -84,13 +84,13 @@ export class FundStopLossComponent implements OnInit {
   @Input() trainlingStop?: number;
   @Input() profile: string;
   @Output() save = new EventEmitter<any>();
+  customSL: boolean;
+  mostChosenSL: number;
 
   form: FormGroup = this.formBuilder.group({
     stop_loss: ['', [Validators.required, Validators.min(1), Validators.pattern('[0-9][^.a-zA-Z]*$')]],
     trailing_stop: ['', [Validators.required, Validators.pattern('[0-9][^.a-zA-Z]*$')]],
   });
-
-  mostChosenSL: number;
 
   opTypeLabels = {
     submitButton: {
@@ -114,8 +114,6 @@ export class FundStopLossComponent implements OnInit {
     value: 100,
     custom: false,
   };
-
-  customSL: boolean;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -215,8 +213,9 @@ export class FundStopLossComponent implements OnInit {
     const custom = {
       name: `-${value}%`,
       value,
-      custom: false,
+      custom: true,
     };
+
     const customIndex = this.stopLossOptions.findIndex((item) => item.custom);
     if (customIndex !== -1) {
       this.stopLossOptions[customIndex] = custom;
@@ -227,16 +226,15 @@ export class FundStopLossComponent implements OnInit {
   }
 
   handleSubmit() {
-    console.log('handle submit compoene:', this.form.value);
     if (this.form.valid) {
       this.save.emit(this.form.value);
-      console.log('handle submit compoene:', this.form.value);
     } else {
       this.form.markAllAsTouched();
     }
   }
 
   executeAction(event) {
+    console.log(event);
     if (event.detail.value === 1) {
       this.openCustomClassicSL();
     } else if (event.detail.value === 2) {
