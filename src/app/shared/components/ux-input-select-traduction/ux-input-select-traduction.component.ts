@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { UxSelectModalComponent } from '../components/ux-select-modal/ux-select-modal.component';
+import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.component';
 
 @Component({
   selector: 'app-ux-input-select-traduction',

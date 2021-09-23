@@ -33,14 +33,16 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
           'wallets.receive.currency_select' | translate
         }}</ion-text>
         <form [formGroup]="this.form">
-          <app-ux-input-select
+          <app-input-select
             [modalTitle]="'wallets.receive.currency_select_modal_title' | translate"
             [placeholder]="'wallets.receive.currency_select_modal_title' | translate"
             controlName="currency"
             [data]="this.currencies"
-            keyName="name"
-            valueName="value"
-          ></app-ux-input-select>
+            key="name"
+            valueKey="value"
+            imageKey="logoRoute"
+            selectorStyle="white"
+          ></app-input-select>
         </form>
       </div>
       <div class="wr__remaining-time-text">
@@ -78,10 +80,10 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.selectedCurrency } }}
+          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.selectedCurrency?.value } }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.selectedCurrency } }}
+          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.selectedCurrency?.value } }}
         </ion-text>
       </div>
     </ion-content>
@@ -96,8 +98,8 @@ export class ReceivePage {
   currencies: Coin[] = COINS;
   address: string;
   addressQr: string;
-  selectedCurrency: string;
-  defaultAsset = 'ETH';
+  selectedCurrency: Coin;
+  defaultAsset = COINS.find((coin) => coin.value === 'ETH');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -124,25 +126,26 @@ export class ReceivePage {
   checkUrlParams() {
     this.route.queryParams.subscribe((params) => {
       if (params.asset) {
-        this.defaultAsset = params.asset;
+        this.defaultAsset = COINS.find((coin) => coin.value === params.asset);
       }
     });
   }
 
   subscribeToFormChanges() {
-    this.form.valueChanges.subscribe((value) => this.getAddress(value.currency));
-    this.form.valueChanges.subscribe((value) => this.setCurrencyOnLabel(value.currency));
-
+    this.form.get('currency').valueChanges.subscribe((value) => {
+      this.getAddress(value);
+      this.setCurrencyOnLabel(value);
+    });
     this.form.patchValue({ currency: this.defaultAsset });
   }
 
-  setCurrencyOnLabel(currency: string) {
+  setCurrencyOnLabel(currency: Coin) {
     this.selectedCurrency = currency;
   }
 
-  getAddress(currency: string) {
+  getAddress(currency: Coin) {
     this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      const network = COINS.find((coin) => coin.value === currency).network;
+      const network = COINS.find((coin) => coin === currency).network;
       this.address = wallet.addresses[network];
       this.generateAddressQR();
     });

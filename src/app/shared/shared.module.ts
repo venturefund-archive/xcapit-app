@@ -42,8 +42,11 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
 import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
 import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
-import { UxInputSelectTraductionComponent } from './ux-input-select-traduction/ux-input-select-traduction.component';
+import { UxInputSelectTraductionComponent } from './components/ux-input-select-traduction/ux-input-select-traduction.component';
 import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux-step-progress-bar.component';
+import { InputSelectComponent } from './components/input-select/input-select.component';
+import { SelectModalNewComponent } from './components/select-modal-new/select-modal-new.component';
+import { SelectStyleDirective } from './directives/select-style/select-style.directive';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,7 @@ import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux
     ToastAlertComponent,
     ScanQrModalComponent,
     // Ux
+    SelectModalNewComponent,
     UxInputSelectTraductionComponent,
     UxInputComponent,
     UxInputGooglePlacesComponent,
@@ -85,9 +89,11 @@ import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
+    InputSelectComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
+    SelectStyleDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [
@@ -115,6 +121,7 @@ import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux
     ToastAlertComponent,
     ScanQrModalComponent,
     // Ux
+    SelectModalNewComponent,
     UxInputSelectTraductionComponent,
     UxInputComponent,
     UxInputGooglePlacesComponent,
@@ -142,9 +149,11 @@ import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
+    InputSelectComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
+    SelectStyleDirective,
   ],
 })
 export class SharedModule {}
