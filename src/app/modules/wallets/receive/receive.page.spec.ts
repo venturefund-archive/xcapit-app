@@ -23,7 +23,7 @@ const testCurrencies: Coin[] = [
   {
     id: 1,
     name: 'ETH - Ethereum',
-    logoRoute: '../../assets/img/coins/ETH.svg',
+    logoRoute: 'assets/img/coins/ETH.svg',
     last: true,
     value: 'ETH',
     network: 'ERC20',
@@ -115,8 +115,7 @@ describe('ReceivePage', () => {
     const spy = spyOn(component, 'checkUrlParams');
     activatedRouteMock.queryParams.next();
     await component.ionViewWillEnter();
-    console.log(component.defaultAsset);
-    expect(component.defaultAsset).toEqual('ETH');
+    expect(component.defaultAsset.value).toEqual(testCurrencies[0].value);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
