@@ -132,9 +132,10 @@ export class ReceivePage {
   }
 
   subscribeToFormChanges() {
-    this.form.valueChanges.subscribe((data) => this.getAddress(data.currency));
-    this.form.valueChanges.subscribe((data) => this.setCurrencyOnLabel(data.currency));
-
+    this.form.get('currency').valueChanges.subscribe((value) => {
+      this.getAddress(value);
+      this.setCurrencyOnLabel(value);
+    });
     this.form.patchValue({ currency: this.defaultAsset });
   }
 
