@@ -16,10 +16,12 @@ export interface DataToTrackEvent {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class TrackService {
   abstract startTracker(id?: string): void;
+  abstract trackLogin(userId?: string): void;
+  abstract trackSignUp(userId?: string): void;
   abstract trackView(data: DataToTrackView): void;
   abstract trackEvent(data: DataToTrackEvent): void;
 }

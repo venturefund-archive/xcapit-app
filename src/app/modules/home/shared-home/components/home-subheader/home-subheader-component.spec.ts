@@ -4,15 +4,14 @@ import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { HomeSubheaderComponent } from './home-subheader.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { of } from 'rxjs';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('HomeSubheaderComponent', () => {
   let component: HomeSubheaderComponent;
@@ -34,10 +33,9 @@ describe('HomeSubheaderComponent', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [HomeSubheaderComponent, TrackClickDirective],
+        declarations: [HomeSubheaderComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: ApiApikeysService, useValue: apiApiKeysServiceSpy },
@@ -76,7 +74,6 @@ describe('HomeSubheaderComponent', () => {
     const button = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Wallet']"));
     button.nativeElement.click();
     expect(windowSpy).toHaveBeenCalledOnceWith('https://www.xcapit.com/#lista-espera', '_blank');
-    // expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
   });
 
   it('should call trackEvent on trackService when Go to Wallet Button clicked', () => {

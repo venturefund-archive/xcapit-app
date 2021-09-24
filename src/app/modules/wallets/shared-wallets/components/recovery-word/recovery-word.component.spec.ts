@@ -5,6 +5,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { RecoveryWordComponent } from './recovery-word.component';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('RecoveryWordComponent', () => {
   type NewType = RecoveryWordComponent;
@@ -15,9 +16,9 @@ describe('RecoveryWordComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [RecoveryWordComponent, TrackClickDirective],
+        declarations: [RecoveryWordComponent, FakeTrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule],
-        providers: [TrackClickDirective],
+        providers: [],
       }).compileComponents();
 
       fixture = TestBed.createComponent(RecoveryWordComponent);

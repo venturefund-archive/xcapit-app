@@ -43,6 +43,7 @@
     "@angular/service-worker": "^10.0.11",
     "@auth0/angular-jwt": "^5.0.1",
     "@capacitor-community/barcode-scanner": "^1.2.1",
+    "@capacitor-community/firebase-analytics": "^0.3.3",
     "@capacitor-community/native-market": "^0.1.4",
     "@capacitor/android": "^2.4.1",
     "@capacitor/core": "^2.4.0",
@@ -60,6 +61,7 @@
     "cordova": "^10.0.0",
     "cordova-plugin-file-opener2": "^3.0.5",
     "core-js": "^3.6.5",
+    "ethers": "^5.4.3",
     "firebase": "^7.21.0",
     "ionic": "^5.4.16",
     "ionicons": "^5.5.0",
@@ -69,8 +71,7 @@
     "qrcode": "^1.4.2",
     "rxjs": "^6.6.2",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.3",
-    "ethers": "^5.4.3"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^12.1.0",

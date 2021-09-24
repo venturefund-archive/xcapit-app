@@ -12,6 +12,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { of, Subscription } from 'rxjs';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -36,7 +37,7 @@ describe('HomePage', () => {
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [HomePage, TrackClickDirective],
+        declarations: [HomePage, FakeTrackClickDirective],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
         providers: [
           {

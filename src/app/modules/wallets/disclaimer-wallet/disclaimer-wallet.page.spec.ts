@@ -13,6 +13,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 import { DisclaimerWalletPage } from './disclaimer-wallet.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('DisclaimerWalletPage', () => {
   let component: DisclaimerWalletPage;
@@ -29,7 +30,7 @@ describe('DisclaimerWalletPage', () => {
       storageWalletsServiceSpy = jasmine.createSpyObj('StorageWalletsService', ['acceptToS']);
 
       TestBed.configureTestingModule({
-        declarations: [DisclaimerWalletPage, TrackClickDirective, DummyComponent],
+        declarations: [DisclaimerWalletPage, FakeTrackClickDirective, DummyComponent],
         imports: [
           HttpClientTestingModule,
           TranslateModule.forRoot(),
@@ -38,7 +39,6 @@ describe('DisclaimerWalletPage', () => {
           ReactiveFormsModule,
         ],
         providers: [
-          TrackClickDirective,
           { provide: StorageWalletsService, useValue: storageWalletsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },

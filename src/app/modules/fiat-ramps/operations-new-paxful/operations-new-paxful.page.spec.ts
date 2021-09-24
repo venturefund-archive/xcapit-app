@@ -14,6 +14,7 @@ import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { OperationsNewPaxfulPage } from './operations-new-paxful.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const userWallets = {
   aliasDeEstasKey: {
@@ -63,7 +64,7 @@ describe('OperationsNewPaxfulPage', () => {
       browserSpy.open.and.returnValue(Promise.resolve());
 
       TestBed.configureTestingModule({
-        declarations: [OperationsNewPaxfulPage, TrackClickDirective],
+        declarations: [OperationsNewPaxfulPage, FakeTrackClickDirective],
         imports: [
           RouterTestingModule.withRoutes([
             { path: 'apikeys/list', component: DummyComponent },
@@ -76,7 +77,6 @@ describe('OperationsNewPaxfulPage', () => {
           HttpClientTestingModule,
         ],
         providers: [
-          TrackClickDirective,
           { provide: PlatformService, useValue: platformServiceSpy },
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },

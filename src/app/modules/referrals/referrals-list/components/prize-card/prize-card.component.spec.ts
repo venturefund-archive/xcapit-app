@@ -7,6 +7,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { PrizeCardComponent } from './prize-card.component';
 import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('PrizeCardComponent', () => {
   let component: PrizeCardComponent;
@@ -19,10 +20,9 @@ describe('PrizeCardComponent', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       TestBed.configureTestingModule({
-        declarations: [PrizeCardComponent, TrackClickDirective],
+        declarations: [PrizeCardComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
         ],

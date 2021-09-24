@@ -12,6 +12,7 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 import { IonicModule, NavController } from '@ionic/angular';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 const formData = {
   valid: {
     cantidad_dias: 30,
@@ -36,7 +37,7 @@ describe('FundDurationPage', () => {
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [FundDurationPage, TrackClickDirective, DummyComponent],
+        declarations: [FundDurationPage, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           ReactiveFormsModule,

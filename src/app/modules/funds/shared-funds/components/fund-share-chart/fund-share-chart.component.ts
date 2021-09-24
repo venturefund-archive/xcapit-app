@@ -8,8 +8,6 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import { Capacitor } from '@capacitor/core';
 
-const { Filesystem } = Plugins;
-
 @Component({
   selector: 'app-fund-share-chart',
   template: `
@@ -60,6 +58,7 @@ const { Filesystem } = Plugins;
 })
 export class FundShareChartComponent implements OnInit {
   screenshot: any;
+  fileSystem = Plugins.Filesystem;
 
   constructor(
     private modalController: ModalController,
@@ -97,16 +96,18 @@ export class FundShareChartComponent implements OnInit {
 
   nativeDownload() {
     const fileName = `${this.getDownloadFileName()}.png`;
-    Filesystem.writeFile({
-      path: fileName,
-      data: this.screenshot, // your data to write (ex. base64)
-      directory: FilesystemDirectory.Documents,
-    }).then((savedFile) => {
-      this.showToast('funds.fund_share_chart.toast_image_downloaded');
-      const path = savedFile.uri;
-      const mimeType = 'image/png';
-      this.openImage(path, mimeType);
-    });
+    this.fileSystem
+      .writeFile({
+        path: fileName,
+        data: this.screenshot, // your data to write (ex. base64)
+        directory: FilesystemDirectory.Documents,
+      })
+      .then((savedFile) => {
+        this.showToast('funds.fund_share_chart.toast_image_downloaded');
+        const path = savedFile.uri;
+        const mimeType = 'image/png';
+        this.openImage(path, mimeType);
+      });
   }
 
   pwaDownload() {

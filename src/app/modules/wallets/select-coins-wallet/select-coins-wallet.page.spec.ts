@@ -13,6 +13,7 @@ import { ItemCoinComponent } from '../shared-wallets/components/item-coin/item-c
 import { UxRadioGroupComponent } from 'src/app/shared/components/ux-radio-group/ux-radio-group.component';
 import { UxTitleComponent } from 'src/app/shared/components/ux-title/ux-title.component';
 import { UxTextComponent } from 'src/app/shared/components/ux-text/ux-text.component';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testCoins = [
   {
@@ -58,7 +59,7 @@ describe('SelectCoinsWalletPage', () => {
       TestBed.configureTestingModule({
         declarations: [
           SelectCoinsWalletPage,
-          TrackClickDirective,
+          FakeTrackClickDirective,
           ItemCoinComponent,
           UxRadioGroupComponent,
           UxTitleComponent,
@@ -66,7 +67,6 @@ describe('SelectCoinsWalletPage', () => {
         ],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [
-          TrackClickDirective,
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceMock },

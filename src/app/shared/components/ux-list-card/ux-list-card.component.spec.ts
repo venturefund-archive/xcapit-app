@@ -5,6 +5,8 @@ import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirective } from '../../directives/track-click/track-click.directive';
+import { Fake } from '../../../../testing/fakes/fake.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const exampleData = [
   { label: 'test-label1', icon: 'icon1' },
@@ -18,7 +20,7 @@ describe('UxListCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UxListCardComponent, TrackClickDirective],
+      declarations: [UxListCardComponent, FakeTrackClickDirective],
       imports: [IonicModule, HttpClientTestingModule],
     }).compileComponents();
 

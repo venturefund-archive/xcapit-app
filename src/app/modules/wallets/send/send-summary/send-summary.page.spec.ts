@@ -12,6 +12,7 @@ import { TrackClickDirective } from '../../../../shared/directives/track-click/t
 import { By } from '@angular/platform-browser';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
+import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -63,10 +64,9 @@ describe('SendSummaryPage', () => {
 
     modalControllerMock.create.and.callThrough();
     TestBed.configureTestingModule({
-      declarations: [SendSummaryPage, TrackClickDirective],
+      declarations: [SendSummaryPage, FakeTrackClickDirective],
       imports: [IonicModule, TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       providers: [
-        TrackClickDirective,
         { provide: TransactionDataService, useValue: transactionDataServiceMock },
         { provide: ModalController, useValue: modalControllerMock },
         { provide: NavController, useValue: navControllerMock },
