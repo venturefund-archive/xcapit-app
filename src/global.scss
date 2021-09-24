@@ -248,6 +248,11 @@ ion-toast.refresher_toast {
     min-width: 116px;
   }
 
+  ion-button {
+    --ion-color-shade: var(--ion-color-base) !important;
+    --background-focused: var(--ion-color-base) !important;
+  }
+
   // Estilo de la toolbar para el diseño ux
   .ux_toolbar {
     --min-height: 60px;
