@@ -1,11 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { CONFIG } from 'src/app/config/app-constants.config';
-import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
-import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
-import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 
 @Component({
   selector: 'app-custom-stop-loss-setting',
@@ -18,10 +14,12 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
         <ion-text *ngIf="this.typeModal === this.types.sl">{{ this.typeModal.message }}</ion-text>
       </div>
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
-        <div class="cslm__input">
-          <ion-input type="number" formControlName="valueSL"></ion-input>
+        <div class="cslm__input-error">
+          <div class="cslm__input">
+            <ion-input type="number" formControlName="valueSL"></ion-input>
+          </div>
+          <app-errors-form-item [controlName]="'valueSL'"></app-errors-form-item>
         </div>
-        <app-errors-form-item class="ux_input_container__item__errors" [controlName]="'valueSL'"></app-errors-form-item>
         <div class="cslm__buttons">
           <ion-button
             class="ux_button cslm__buttons__cancel"

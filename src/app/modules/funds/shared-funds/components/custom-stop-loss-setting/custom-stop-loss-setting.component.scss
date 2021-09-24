@@ -1,9 +1,5 @@
 :host {
-  background: var(--ion-color-uxlight);
   .cslm {
-    background: var(--ion-color-uxlight);
-    --border-radius: 100px;
-
     .title {
       padding-top: 10px;
       font-weight: var(--ux-fweight-extrabold);
@@ -17,6 +13,10 @@
       border-bottom: 1px solid var(--ion-color-uxline);
     }
 
+    &__input-error {
+      height: 63px;
+    }
+
     &__buttons {
       display: flex;
       justify-content: flex-end;
@@ -28,7 +28,6 @@
 
       &__confirm {
         min-width: 0;
-        width: 30%;
       }
     }
   }

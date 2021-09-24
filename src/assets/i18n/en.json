@@ -537,8 +537,14 @@
       "submit_button_edit": "Save",
       "edit_custom": "Edit",
       "edit_title": "Change Stop Loss",
-      "manual_stop": "I'm going to finish it manually",
-      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies"
+      "classic_stop_loss": "Classic stop loss",
+      "inteligent_stop_loss": "Inteligent stop loss",
+      "without_stop_loss": "Without stop loss",
+      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies",
+      "title_classicSL": "Write the % of classic stop loss",
+      "message_classicSL": "We will stop investing if the investment reaches this loss percentage",
+      "title_inteligentSL": "Write the % of inteligent stop loss",
+      "message_inteligentSL": "The stop loss will move this percentage away from the fund's performance"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",

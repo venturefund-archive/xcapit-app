@@ -4,7 +4,6 @@ import { ModalController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/custom-stop-loss-setting.component';
 
 @Component({
@@ -20,12 +19,12 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
             {{ 'funds.fund_stop_loss.text_before' | translate }}
           </app-ux-text>
         </div>
-        <div class="fsl__input">
+        <div class="fls__form">
           <app-ux-radio-group [label]="'funds.fund_stop_loss.stop_loss' | translate">
             <ion-list>
               <ion-radio-group [value]="this.selected">
                 <div class="container">
-                  <ion-item (click)="this.openCustomClassicSL('classic')">
+                  <ion-item (click)="this.openCustomClassicSL('classic')" name="classic">
                     <ion-label>{{ 'funds.fund_stop_loss.classic_stop_loss' | translate }}</ion-label>
                     <ion-radio mode="md" slot="start" value="classic"></ion-radio>
                     <ion-button
@@ -39,7 +38,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
                     >
                   </ion-item>
                 </div>
-                <div class="container" (click)="this.openCustomInteligentSL('inteligent')">
+                <div class="container" (click)="this.openCustomInteligentSL('inteligent')" name="inteligent">
                   <ion-item>
                     <ion-label>{{ 'funds.fund_stop_loss.inteligent_stop_loss' | translate }}</ion-label>
                     <ion-radio mode="md" slot="start" value="inteligent"></ion-radio>
@@ -58,15 +57,19 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
                   </ion-item>
                 </div>
                 <div class="container">
-                  <ion-item (click)="this.openModalAlert('withoutSL')">
+                  <ion-item (click)="this.withoutSL('withoutSL')" name="withoutSL">
                     <ion-label>{{ 'funds.fund_stop_loss.without_stop_loss' | translate }}</ion-label>
                     <ion-radio mode="md" slot="start" value="withoutSL"></ion-radio>
                   </ion-item>
                 </div>
-                <!-- <div class="list-divider" *ngIf="!last || !this.customSL"></div> -->
               </ion-radio-group>
             </ion-list>
           </app-ux-radio-group>
+        </div>
+        <div class="info-alert">
+          <app-ux-alert-message type="info">{{
+            'funds.fund_stop_loss.alert_manual_option' | translate
+          }}</app-ux-alert-message>
         </div>
       </div>
       <div class="ux_footer">
@@ -123,7 +126,6 @@ export class FundStopLossComponent implements OnInit {
     if (this.stopLoss) {
       this.form.patchValue({ stop_loss: this.stopLoss });
     }
-
     this.getMostChosenSL();
   }
 
@@ -150,8 +152,8 @@ export class FundStopLossComponent implements OnInit {
 
     await modal.present();
     const data = await modal.onDidDismiss();
-    if (!data.data) {
-      this.selected = '';
+    if (data.data) {
+      this.selected = option;
       this.form.patchValue({ stop_loss: data.data });
       this.form.patchValue({ trailing_stop: 0 });
     }
@@ -169,11 +171,17 @@ export class FundStopLossComponent implements OnInit {
     });
     await modal.present();
     const data = await modal.onDidDismiss();
-    if (!data.data) {
-      this.selected = '';
+    if (data.data) {
+      this.selected = option;
       this.form.patchValue({ stop_loss: data.data });
       this.form.patchValue({ trailing_stop: data.data });
     }
+  }
+
+  withoutSL(option: string) {
+    this.selected = option;
+    this.form.patchValue({ stop_loss: 100 });
+    this.form.patchValue({ trailing_stop: 0 });
   }
 
   handleSubmit() {
@@ -181,31 +189,6 @@ export class FundStopLossComponent implements OnInit {
     if (this.form.value.trailing_stop !== 0) {
       Object.assign(values, { trailing_stop: this.form.value.trailing_stop });
     }
-    this.save.emit(this.form.value);
-  }
-
-  getParsedValues(formValues) {
-    const valuesCopy = Object.assign({}, formValues);
-    valuesCopy.genero = valuesCopy.genero.name;
-    valuesCopy.estado_civil = valuesCopy.estado_civil.name;
-    valuesCopy.tipo_doc = valuesCopy.tipo_doc.name;
-    return valuesCopy;
-  }
-
-  async openModalAlert(option: string) {
-    this.selected = option;
-    const modal = await this.modalController.create({
-      component: ToastAlertComponent,
-      cssClass: 'ux-alert',
-      showBackdrop: false,
-      componentProps: {
-        title: this.translate.instant('funds.fund_stop_loss.alert_manual_option'),
-        type: 'information',
-        detailsEnabled: false,
-      },
-    });
-    this.form.patchValue({ stop_loss: 100 });
-    this.form.patchValue({ trailing_stop: 0 });
-    await modal.present();
+    // this.save.emit(this.form.value);
   }
 }

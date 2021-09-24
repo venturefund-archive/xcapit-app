@@ -1,5 +1,5 @@
-import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
 import { FundStopLossComponent } from './fund-stop-loss.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -12,6 +12,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 
 const formData = {
   valid: {
@@ -22,7 +23,7 @@ const formData = {
   },
 };
 
-describe('FundStopLossComponent', () => {
+fdescribe('FundStopLossComponent', () => {
   let component: FundStopLossComponent;
   let fixture: ComponentFixture<FundStopLossComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundStopLossComponent>;
@@ -35,9 +36,8 @@ describe('FundStopLossComponent', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', {
-        getMostChosenSL: of(10),
+        getMostChosenSL: of(1),
       });
-
       TestBed.configureTestingModule({
         declarations: [FundStopLossComponent, TrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -48,6 +48,7 @@ describe('FundStopLossComponent', () => {
             useValue: apiFundsServiceSpy,
           },
           { provide: ModalController, useValue: modalControllerSpy },
+          { provide: ModalController, useValue: modalControllerMock },
         ],
       }).compileComponents();
     })
@@ -73,6 +74,47 @@ describe('FundStopLossComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should call trackEvent on trackService when Create Custom Stop Loss button clicked', () => {
+    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Custom Stop Loss');
+    const directive = trackClickDirectiveHelper.getDirective(button);
+    const spy = spyOn(directive, 'clickEvent');
+    button.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open modal of classic SL when classic radio button clicked', fakeAsync(() => {
+    fixture.debugElement.query(By.css('ion-item[name="classic"]')).nativeElement.click();
+    expect(modalControllerMock.create).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should open modal of inteligent SL when iteligent radio button clicked', fakeAsync(() => {
+    fixture.debugElement.query(By.css('div[name="inteligent"]')).nativeElement.click();
+    expect(modalControllerMock.create).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should patch data when withoutSL radio button is clicked', () => {
+    fixture.debugElement.query(By.css('ion-item[name="withoutSL"]')).nativeElement.click();
+    component.selected = 'withoutSL';
+    component.withoutSL('withoutSL');
+    fixture.detectChanges();
+    expect(component.form.value.stop_loss).toEqual(100);
+    expect(component.form.value.trailing_stop).toEqual(0);
+  });
+
+  it('should get the most chosen SL', async () => {
+    component.ngOnInit();
+    expect(component.mostChosenSL).toEqual(1);
+  });
+
+  it('should emit form data to parent without TS if TS is 0', () => {
+    const spy = spyOn(component.save, 'emit');
+
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.form.value.trailing_stop).toBeNull();
+  });
+
   // it('should call trackEvent on trackService when Edit Custom Stop Loss button clicked', () => {
   //   component.stopLossOptions = [
   //     {
@@ -89,35 +131,6 @@ describe('FundStopLossComponent', () => {
   //   fixture.detectChanges();
   //   expect(spy).toHaveBeenCalledTimes(1);
   // });
-
-  it('should call trackEvent on trackService when Create Custom Stop Loss button clicked', () => {
-    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Custom Stop Loss');
-    const directive = trackClickDirectiveHelper.getDirective(button);
-    const spy = spyOn(directive, 'clickEvent');
-    button.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should emit form data to parent on form valid', () => {
-    const spy = spyOn(component.save, 'emit');
-    component.form.patchValue(formData.valid);
-
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-
-    expect(spy).toHaveBeenCalledWith(formData.valid);
-  });
-
-  it('should not emit form data to parent and should mark the form as touched on form invalid', async () => {
-    const spy = spyOn(component.save, 'emit');
-    const spyForm = spyOn(component.form, 'markAllAsTouched');
-    component.form.patchValue(formData.invalid);
-
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-
-    expect(spy).toHaveBeenCalledTimes(0);
-    expect(spyForm).toHaveBeenCalledTimes(1);
-  });
 
   // it('should push manual stop loss option if profile is an index strategy on component creation', async () => {
   //   component.profile = 'Mary_index';
@@ -138,12 +151,6 @@ describe('FundStopLossComponent', () => {
   //   expect(component.stopLossOptions).toContain({ name: '-5%', value: 5, custom: false });
   //   expect(component.form.value.stop_loss).toEqual(5);
   // });
-
-  it('should open modal of edition when is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
-
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
 
   // it('should add custom option when selected option in modal of custom stop loss doesnt exists on initial options', async () => {
   //   fakeModalController.modifyReturns({}, { data: 99, role: 'selected' });
@@ -170,16 +177,16 @@ describe('FundStopLossComponent', () => {
   //   expect(component.stopLossOptions).not.toContain({ name: '-99%', value: 99, custom: true });
   // });
 
-  it('should remove custom option if selected option in modal exists in initial options', async () => {
-    component.stopLoss = 99;
-    component.ngOnInit();
-    fakeModalController.modifyReturns({}, { data: 5, role: 'selected' });
-    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
-    await fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component.form.value.stop_loss).toEqual(5);
-    expect(component.customSL).toBeFalse();
-  });
+  // it('should remove custom option if selected option in modal exists in initial options', async () => {
+  //   component.stopLoss = 99;
+  //   component.ngOnInit();
+  //   fakeModalController.modifyReturns({}, { data: 5, role: 'selected' });
+  //   fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
+  //   await fixture.detectChanges();
+  //   await fixture.whenStable();
+  //   expect(component.form.value.stop_loss).toEqual(5);
+  //   expect(component.customSL).toBeFalse();
+  // });
 
   // it('should not have to do anything when selected option in modal doesnt exists in initial options', async () => {
   //   fakeModalController.modifyReturns({}, { data: 5, role: 'selected' });
@@ -187,21 +194,6 @@ describe('FundStopLossComponent', () => {
   //   expect(component.stopLossOptions.length).toBe(3);
   //   expect(component.customSL).toBeFalsy();
   // });
-
-  it('should get the most chosen SL on component.creation', async () => {
-    component.ngOnInit();
-    expect(component.mostChosenSL).toEqual(10);
-  });
-
-  it('should open modal alert when manual option is selected', async () => {
-    fixture.debugElement.query(By.css('ion-radio-group')).triggerEventHandler('ionChange', { detail: { value: 100 } });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not open modal alert when an option different than manual is selected', async () => {
-    fixture.debugElement.query(By.css('ion-radio-group')).triggerEventHandler('ionChange', { detail: { value: 5 } });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
-  });
 
   it('should render properly', async () => {
     component.profile = 'Mary_index';
@@ -211,30 +203,30 @@ describe('FundStopLossComponent', () => {
     await fixture.whenRenderingDone();
 
     const radioItems = fixture.debugElement.query(By.css('ion-radio-group')).nativeNode.children;
-    expect(radioItems.length).toEqual(4);
+    expect(radioItems.length).toEqual(3);
 
-    const createCustomButton = fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"'));
+    const createCustomButton = fixture.debugElement.query(By.css('ion-button[name="Edit Custom Stop Loss"]'));
     expect(createCustomButton).toBeTruthy();
-    expect(createCustomButton.nativeElement.innerText).toContain('funds.fund_stop_loss.custom_tp_button');
+    expect(createCustomButton.nativeElement.innerText).toContain('funds.fund_stop_loss.edit_custom');
 
-    const badgeMostChosenSL = fixture.debugElement.query(By.css('ion-radio-group ion-badge.ux_badge_primary'));
+    const badgeMostChosenSL = fixture.debugElement.query(By.css('ux_badge_primary'));
     expect(badgeMostChosenSL.nativeElement.innerText).toContain('funds.fund_stop_loss.most_chosen');
   });
 
-  it('should render properly the custom option and the edition button ', async () => {
-    component.profile = 'Mary_index';
-    component.stopLoss = 92;
+  // it('should render properly the custom option and the edition button ', async () => {
+  //   component.profile = 'Mary_index';
+  //   component.stopLoss = 92;
 
-    component.ngOnInit();
+  //   component.ngOnInit();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+  //   fixture.detectChanges();
+  //   await fixture.whenStable();
+  //   await fixture.whenRenderingDone();
 
-    const customOption = fixture.debugElement.query(By.css('ion-radio-group div.container.custom'));
-    expect(customOption.nativeElement.innerHTML).toContain('-92%');
+  //   const customOption = fixture.debugElement.query(By.css('ion-radio-group div.container.custom'));
+  //   expect(customOption.nativeElement.innerHTML).toContain('-92%');
 
-    const editButton = fixture.debugElement.query(By.css('ion-button[name="Edit Custom Stop Loss"'));
-    expect(editButton.nativeElement.innerText).toContain('funds.fund_stop_loss.edit_custom');
-  });
+  //   const editButton = fixture.debugElement.query(By.css('ion-button[name="Edit Custom Stop Loss"'));
+  //   expect(editButton.nativeElement.innerText).toContain('funds.fund_stop_loss.edit_custom');
+  // });
 });
