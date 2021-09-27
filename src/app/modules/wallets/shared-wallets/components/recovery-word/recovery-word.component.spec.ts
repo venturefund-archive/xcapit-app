@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -31,20 +32,11 @@ describe('RecoveryWordComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call appTrackEvent on trackService when Recovery Word clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Recovery Word');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('should emit event when useValue called and clickable is true', () => {
     const spy = spyOn(component.useButtonClicked, 'emit');
     component.clickable = true;
     fixture.detectChanges();
-    component.useValue('');
+    fixture.debugElement.query(By.css('ion-button[name="Recovery Word"]')).nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.isActivated).toBeFalsy();
   });
@@ -53,7 +45,7 @@ describe('RecoveryWordComponent', () => {
     const spy = spyOn(component.useButtonClicked, 'emit');
     component.clickable = false;
     fixture.detectChanges();
-    component.useValue('');
+    fixture.debugElement.query(By.css('ion-button[name="Recovery Word"]')).nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(0);
     expect(component.isActivated).toBeTruthy();
   });
