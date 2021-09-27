@@ -56,7 +56,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
                     >
                   </ion-item>
                 </div>
-                <div class="container">
+                <div class="container" *ngIf="this.isIndexProfile" name="withoutSL">
                   <ion-item (click)="this.withoutSL('withoutSL')" name="withoutSL">
                     <ion-label>{{ 'funds.fund_stop_loss.without_stop_loss' | translate }}</ion-label>
                     <ion-radio mode="md" slot="start" value="withoutSL"></ion-radio>
@@ -67,7 +67,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
           </app-ux-radio-group>
         </div>
         <div class="info-alert">
-          <app-ux-alert-message type="info">{{
+          <app-ux-alert-message type="info" *ngIf="this.isIndexProfile">{{
             'funds.fund_stop_loss.alert_manual_option' | translate
           }}</app-ux-alert-message>
         </div>
@@ -100,6 +100,7 @@ export class FundStopLossComponent implements OnInit {
   customSL: boolean;
   mostChosenSL: number;
   selected: string;
+  isIndexProfile: boolean;
   form: FormGroup = this.formBuilder.group({
     stop_loss: [''],
     trailing_stop: [''],
@@ -122,18 +123,18 @@ export class FundStopLossComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.addManualOptionIfApplies();
+    this.addWithoutSLOptionIfApplies();
     if (this.stopLoss) {
       this.form.patchValue({ stop_loss: this.stopLoss });
     }
     this.getMostChosenSL();
   }
 
-  // addManualOptionIfApplies() {
-  //   if (this.profile && this.profile.includes('index')) {
-  //     this.stopLossOptions.push(this.stopLossManualOption);
-  //   }
-  // }
+  addWithoutSLOptionIfApplies() {
+    if (this.profile && this.profile.includes('index')) {
+      this.isIndexProfile = true;
+    }
+  }
 
   getMostChosenSL() {
     this.apiFunds.getMostChosenSL().subscribe((data) => (this.mostChosenSL = data));
@@ -189,6 +190,6 @@ export class FundStopLossComponent implements OnInit {
     if (this.form.value.trailing_stop !== 0) {
       Object.assign(values, { trailing_stop: this.form.value.trailing_stop });
     }
-    // this.save.emit(this.form.value);
+    this.save.emit(values);
   }
 }

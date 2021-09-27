@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import exp from 'constants';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -16,6 +15,13 @@ const formData = {
   },
   invalid: {
     valueSL: 'test',
+  },
+};
+
+const types = {
+  sl: {
+    title: 'Test',
+    message: 'test',
   },
 };
 
@@ -70,25 +76,38 @@ describe('CustomStopLossSettingComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should call handleSubmit when confirm button is clicked and modal dissmis if form is valid', async () => {
-    fixture.debugElement.query(By.css("ion-button[name='Confirm']")).nativeElement.click();
-    const spy = spyOn(component, 'handleSubmit');
+  it('should dissmis modal when confirm button is clicked and set value if form is valid', async () => {
     component.form.patchValue(formData.valid);
+    fixture.debugElement.query(By.css("ion-button[name='Confirm']")).nativeElement.click();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(modalControllerSpy.dismiss).toHaveBeenCalledWith(25, 'valueSL');
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledWith(15, 'valueSL');
   });
 
-  it('should call getTypeModal, setModalValues and patch value on ngOnInit', () => {
-    const spyGetTypeModal = spyOn(component, 'getTypeModal');
-    const spySetModalValues = spyOn(component, 'setModalValues');
-    const spyForm = spyOn(component.form, 'patchValue');
+  it('should dissmis modal when confirm button is clicked and not set value if form is invalid', async () => {
+    component.form.patchValue(formData.invalid);
+    fixture.debugElement.query(By.css("ion-button[name='Confirm']")).nativeElement.click();
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call getTypeModal, setModalValues and if there is valueSL patch value on form on ngOnInit', () => {
+    component.typeModal = types.sl;
     component.valueSL = 1;
     component.ngOnInit();
     fixture.detectChanges();
-    expect(spyGetTypeModal).toHaveBeenCalledTimes(1);
-    expect(spySetModalValues).toHaveBeenCalledTimes(1);
-    expect(spyForm).toHaveBeenCalledTimes(1);
+    expect(component.form.value.valueSL).toEqual(1);
+    expect(types.sl.title).toEqual('Test');
+    expect(types.sl.message).toEqual('test');
+  });
+
+  it('should call getTypeModal, setModalValues and if there is not valueSL not patch value on form on ngOnInit', () => {
+    component.typeModal = types.sl;
+    fixture.detectChanges();
+    component.ngOnInit();
+    expect(component.valueSL).toEqual(undefined);
+    expect(types.sl.title).toEqual('Test');
+    expect(types.sl.message).toEqual('test');
   });
 });
