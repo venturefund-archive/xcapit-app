@@ -15,7 +15,7 @@ const { Filesystem } = Plugins;
   template: `
     <div class="fbd__header">
       <ion-text class="fbd__header__text ux-font-text-base semibold">
-        {{ 'funds.share_funds_details.title' | translate }}
+        {{ 'funds.fund_detail.share_funds_details.title' | translate }}
       </ion-text>
       <ion-button
         appTrackClick
@@ -47,7 +47,9 @@ const { Filesystem } = Plugins;
           </a>
           <ion-icon name="ux-download"></ion-icon>
           <ion-label class="ux-font-text-xs"
-            ><ion-text color="uxsemidark">{{ 'funds.share_funds_details.subtitle' | translate }}</ion-text></ion-label
+            ><ion-text color="uxsemidark">{{
+              'funds.fund_detail.share_funds_details.subtitle' | translate
+            }}</ion-text></ion-label
           >
         </div>
         <!-- Comentado hasta posterior implementación -->
