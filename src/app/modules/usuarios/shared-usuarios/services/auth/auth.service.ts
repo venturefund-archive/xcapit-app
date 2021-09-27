@@ -66,7 +66,7 @@ export class AuthService {
     await this.saveAuth(response);
     this.isLoggedIn.next(true);
     this.user.next(response.usuario);
-    // this.trackService.trackLogin();
+    this.trackService.trackLogin();
     return response.jwt;
   }
 

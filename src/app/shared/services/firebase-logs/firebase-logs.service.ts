@@ -22,15 +22,22 @@ export class FirebaseLogsService implements TrackService {
   }
 
   trackLogin(userId?: string) {
-    // this.firebaseAnalytics.logEvent({
-    //   name: 'login',
-    //   params: {
-    //     method: 'Xcapit',
-    //   },
-    // });
+    this.firebaseAnalytics.logEvent({
+      name: 'login',
+      params: {
+        method: 'Xcapit',
+      },
+    });
   }
 
-  trackSignUp(userId?: string) {}
+  trackSignUp(userId?: string) {
+    this.firebaseAnalytics.logEvent({
+      name: 'sign_up',
+      params: {
+        method: 'Xcapit',
+      },
+    });
+  }
 
   trackView(data: DataToTrackView): void {}
 

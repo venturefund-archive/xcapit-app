@@ -41,4 +41,26 @@ describe('FirebaseLogsService', () => {
       },
     });
   });
+
+  it('should send track event login on track login', () => {
+    const loginEventData = {
+      name: 'login',
+      params: {
+        method: 'Xcapit',
+      },
+    };
+    service.trackLogin();
+    expect(firebaseAnalyticsSpy.logEvent).toHaveBeenCalledOnceWith(loginEventData);
+  });
+
+  it('should send track event sign up on track sign up', () => {
+    const signUpEventData = {
+      name: 'sign_up',
+      params: {
+        method: 'Xcapit',
+      },
+    };
+    service.trackSignUp();
+    expect(firebaseAnalyticsSpy.logEvent).toHaveBeenCalledOnceWith(signUpEventData);
+  });
 });
