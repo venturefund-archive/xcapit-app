@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { COINS } from '../../../constants/coins';
 import { Coin } from '../../interfaces/coin.interface';
+import { wordlists } from '@ethersproject/wordlists';
 
 @Injectable({
   providedIn: 'root',

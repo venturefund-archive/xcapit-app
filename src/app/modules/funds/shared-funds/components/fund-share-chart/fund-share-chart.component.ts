@@ -12,7 +12,9 @@ import { Capacitor } from '@capacitor/core';
   selector: 'app-fund-share-chart',
   template: `
     <div class="fbd__header">
-      <ion-text class="fbd__header__text ux-font-text-base semibold"> Muestra tus rendimientos </ion-text>
+      <ion-text class="fbd__header__text ux-font-text-base semibold">
+        {{ 'funds.fund_detail.share_funds_details.title' | translate }}
+      </ion-text>
       <ion-button
         appTrackClick
         name="Close"
@@ -42,7 +44,11 @@ import { Capacitor } from '@capacitor/core';
           >
           </a>
           <ion-icon name="ux-download"></ion-icon>
-          <ion-label class="ux-font-text-xs"><ion-text color="uxsemidark">Descargar</ion-text></ion-label>
+          <ion-label class="ux-font-text-xs"
+            ><ion-text color="uxsemidark">{{
+              'funds.fund_detail.share_funds_details.subtitle' | translate
+            }}</ion-text></ion-label
+          >
         </div>
         <!-- Comentado hasta posterior implementación -->
         <!-- <div class="fbd__main_content__item" (click)="this.shareChart()">

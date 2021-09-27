@@ -196,6 +196,6 @@ export class RegisterApikeysPage implements OnInit {
     });
   }
   readQRCode() {
-    this.navController.navigateForward(['/apikeys/scan']).then();
+    this.navController.navigateForward(['/apikeys/scan', this.isTutorialStep]);
   }
 }

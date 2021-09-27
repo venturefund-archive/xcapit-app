@@ -41,7 +41,14 @@ import { Mnemonic } from '@ethersproject/hdnode';
         </div>
         <div class="ux_footer">
           <div class="next_button">
-            <ion-button class="ux_button" appTrackClick name="Next" size="large" (click)="goToVerifyPhrase()">
+            <ion-button
+              class="ux_button"
+              color="uxsecondary"
+              appTrackClick
+              name="Next"
+              size="large"
+              (click)="goToVerifyPhrase()"
+            >
               {{ 'wallets.recovery_phrase.btn_next' | translate }}
             </ion-button>
           </div>

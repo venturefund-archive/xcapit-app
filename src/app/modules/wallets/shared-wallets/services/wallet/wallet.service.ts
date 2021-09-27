@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Coin } from '../../interfaces/coin.interface';
 import { ethers } from 'ethers';
-import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
@@ -19,7 +18,6 @@ export class WalletService {
   constructor(
     private walletMnemonicService: WalletMnemonicService,
     private blockchainProviderService: BlockchainProviderService,
-    private languageService: LanguageService,
     private appStorageService: AppStorageService
   ) {}
 
@@ -41,7 +39,7 @@ export class WalletService {
   }
 
   private wordList() {
-    return ethers.wordlists[this.languageService.selected];
+    return ethers.wordlists.en;
   }
 
   mnemonicExists(): boolean {

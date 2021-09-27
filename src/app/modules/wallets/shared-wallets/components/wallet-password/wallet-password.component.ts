@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
           <app-ux-input [label]="this.inputLabel" type="password" controlName="password"></app-ux-input>
         </div>
         <div class="wp__form__disclaimer">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
+          <ion-text class="ux-font-text-xsg">
             {{ this.disclaimer }}
           </ion-text>
         </div>
