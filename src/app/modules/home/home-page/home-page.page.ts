@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
@@ -6,7 +6,6 @@ import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { Plugins } from '@capacitor/core';
-import { FirebaseLogsService } from '../../../shared/services/firebase-logs/firebase-logs.service';
 
 const { Browser } = Plugins;
 @Component({
