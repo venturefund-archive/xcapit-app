@@ -80,8 +80,7 @@ describe('HomePage', () => {
   it('should open in app browser when Go to Wallet is clicked', async () => {
     const IWantMyWalletButton = fixture.debugElement.query(By.css("div[name='Go to Wallet']"));
     IWantMyWalletButton.nativeElement.click();
-    expect(window.open).toHaveBeenCalledOnceWith('https://www.xcapit.com/#lista-espera', '_blank');
-    // expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
   });
 
   it('should call trackEvent on trackService when Go to Support Page is clicked', () => {
