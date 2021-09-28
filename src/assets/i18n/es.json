@@ -549,7 +549,14 @@
       "title_classicSL": "Escribe el % de stop loss clásico",
       "message_classicSL": "Dejaremos de invertir si la inversión llega a este porcentaje de pérdida",
       "title_inteligentSL": "Escribe el % de stop loss inteligente",
-      "message_inteligentSL": "El stop Loss se movera a este porcentaje de distancia del rendimiento del fondo"
+      "message_inteligentSL": "El stop Loss se movera a este porcentaje de distancia del rendimiento del fondo",
+      "inteligent_stop_loss_information": "¿Qué es un Stop Loss Inteligente?",
+      "inteligent_stop_loss_header": "Tutorial",
+      "inteligent_stop_loss_title": "¿Cómo funciona el stop loss inteligente?",
+      "inteligent_stop_loss_text": "A diferencia de un Stop Loss clásico que se mantiene estático en el porcentaje de pérdida que te dispongas a asumir, el Stop Loss inteligente se actualiza y se mueve a un cierto porcentaje de distancia del rendimiento de la estrategia.",
+      "inteligent_stop_loss_text1": "Esta opción de Stop Loss te permitirá capitalizar mas fácil tus ganancias si la estrategia genera rendimientos positivos pero no llega a finalizar tu fondo por Take Profit.",
+      "inteligent_stop_loss_text2": "Te recomendamos usar un porcentaje entre el 5% y el 20%.",
+      "inteligent_stop_loss_button": "Lo tengo claro"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",

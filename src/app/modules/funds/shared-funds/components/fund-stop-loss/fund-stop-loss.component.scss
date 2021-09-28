@@ -18,6 +18,10 @@
       justify-content: normal;
       margin-top: 16px;
       flex-direction: column;
+
+      .semibold {
+        font-weight: var(--ux-fweight-semibold);
+      }
     }
   }
   .info-alert {

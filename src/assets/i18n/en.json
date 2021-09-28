@@ -544,7 +544,14 @@
       "title_classicSL": "Write the % of classic stop loss",
       "message_classicSL": "We will stop investing if the investment reaches this loss percentage",
       "title_inteligentSL": "Write the % of inteligent stop loss",
-      "message_inteligentSL": "The stop loss will move this percentage away from the fund's performance"
+      "message_inteligentSL": "The stop loss will move this percentage away from the fund's performance",
+      "inteligent_stop_loss_information": "What is a Inteligent Stop Loss?",
+      "inteligent_stop_loss_header": "Tutorial",
+      "inteligent_stop_loss_title": "How does the inteligent stop loss work?",
+      "inteligent_stop_loss_text": "Unlike a classic Stop Loss that remains static in the percentage of loss that you are willing to take, the Inteligent Stop Loss updates and moves a certain percentage away from the performance of the strategy.",
+      "inteligent_stop_loss_text1": "This Stop Loss option will allow you to more easily capitalize your profits if the strategy generates positive returns but does not end your fund by Take Profit.",
+      "inteligent_stop_loss_text2": "We recommend using a percentage between 5% and 20%.",
+      "inteligent_stop_loss_button": "I have it clear"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
