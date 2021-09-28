@@ -10,6 +10,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 
 import { TutorialApikeysPage } from './tutorial-apikeys.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('TutorialApikeysPage', () => {
   let component: TutorialApikeysPage;
@@ -28,10 +29,9 @@ describe('TutorialApikeysPage', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [TutorialApikeysPage, TrackClickDirective],
+        declarations: [TutorialApikeysPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
         ],

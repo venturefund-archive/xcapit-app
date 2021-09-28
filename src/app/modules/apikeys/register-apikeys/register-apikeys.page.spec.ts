@@ -15,6 +15,7 @@ import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enu
 import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -94,7 +95,7 @@ describe('RegisterApikeysPage', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [RegisterApikeysPage, TrackClickDirective],
+        declarations: [RegisterApikeysPage, FakeTrackClickDirective],
         imports: [
           RouterTestingModule,
           TranslateModule.forRoot(),
@@ -103,7 +104,6 @@ describe('RegisterApikeysPage', () => {
           ReactiveFormsModule,
         ],
         providers: [
-          TrackClickDirective,
           { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           {

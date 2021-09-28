@@ -15,6 +15,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('DepositAddressPage', () => {
   let component: DepositAddressPage;
@@ -52,7 +53,7 @@ describe('DepositAddressPage', () => {
         }),
       };
       TestBed.configureTestingModule({
-        declarations: [DepositAddressPage, TrackClickDirective, DummyComponent],
+        declarations: [DepositAddressPage, FakeTrackClickDirective, DummyComponent],
         imports: [
           HttpClientTestingModule,
           TranslateModule.forRoot(),

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundShareChartComponent } from './fund-share-chart.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -10,8 +10,10 @@ import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spe
 import { RouterTestingModule } from '@angular/router/testing';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { Capacitor } from '@capacitor/core';
-import { Plugins, FileWriteResult } from '@capacitor/core';
+import { FileWriteResult } from '@capacitor/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { ShareService } from '../../../../../shared/services/share/share.service';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('FundShareChartComponent', () => {
   let component: FundShareChartComponent;
@@ -24,12 +26,14 @@ describe('FundShareChartComponent', () => {
   let fileSystemMock: any;
   let toastServiceMock: any;
   let toastService: any;
+  let shareServiceSpy: any;
 
   const resultFileWrite = {
     uri: 'download/test.png',
   } as FileWriteResult;
 
   beforeEach(() => {
+    shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
     modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
     capacitorSpy = jasmine.createSpyObj('Capacitor', ['isNative']);
     fileOpenerMock = {
@@ -43,14 +47,14 @@ describe('FundShareChartComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [FundShareChartComponent, TrackClickDirective],
+      declarations: [FundShareChartComponent, FakeTrackClickDirective],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: Capacitor, useValue: capacitorSpy },
         { provide: FileOpener, useValue: fileOpenerMock },
-        { provide: Plugins.Share, useValue: fileSystemMock },
+        { provide: ShareService, useValue: shareServiceSpy },
         { provide: ToastService, useValue: toastServiceMock },
       ],
     }).compileComponents();
@@ -59,6 +63,7 @@ describe('FundShareChartComponent', () => {
     fileOpener = TestBed.inject(FileOpener);
     fixture = TestBed.createComponent(FundShareChartComponent);
     component = fixture.componentInstance;
+    component.fileSystem = fileSystemMock;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -96,7 +101,7 @@ describe('FundShareChartComponent', () => {
   });
 
   it('should call fileSystemWrite,  and showToast and openFile if write is successfully on nativeDownload', async () => {
-    const spy = spyOn(Plugins.Filesystem, 'writeFile').and.returnValue(Promise.resolve(resultFileWrite));
+    const spy = spyOn(component.fileSystem, 'writeFile').and.returnValue(Promise.resolve(resultFileWrite));
     const spyToast = spyOn(component, 'showToast');
     const spyOpenFile = spyOn(component, 'openImage');
     await component.nativeDownload();

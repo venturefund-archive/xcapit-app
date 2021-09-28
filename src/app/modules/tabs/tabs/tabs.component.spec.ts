@@ -9,6 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { NavController } from '@ionic/angular';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('TabsComponent', () => {
   let component: TabsComponent;
@@ -21,7 +22,7 @@ describe('TabsComponent', () => {
       windowSpy = spyOn(window, 'open');
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [TabsComponent, TrackClickDirective, DummyComponent],
+        declarations: [TabsComponent, FakeTrackClickDirective, DummyComponent],
         imports: [
           HttpClientTestingModule,
           TranslateModule.forRoot(),

@@ -13,6 +13,7 @@ import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tic
 import { ContactLicensePage } from './contact-license.page';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -49,7 +50,7 @@ describe('ContactLicensePage', () => {
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [ContactLicensePage, TrackClickDirective],
+        declarations: [ContactLicensePage, FakeTrackClickDirective],
         imports: [
           HttpClientTestingModule,
           TranslateModule.forRoot(),
@@ -58,7 +59,6 @@ describe('ContactLicensePage', () => {
           IonicModule,
         ],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: ApiTicketsService, useValue: apiTicketsMock },

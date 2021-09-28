@@ -1,60 +1,46 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
-import { ReplaySubject, of } from 'rxjs';
 import { TrackService } from './shared/services/track/track.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { ActivatedRoute } from '@angular/router';
-import { PublicLogsService } from './shared/services/public-logs/public-logs.service';
 import { UpdateService } from './shared/services/update/update.service';
+import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
+import { FakeNavController } from '../testing/fakes/nav-controller.fake.spec';
 
 describe('AppComponent', () => {
-  let statusBarSpy: any, splashScreenSpy: any, platformReadySpy: any, platformSpy: any;
+  let statusBarSpy: any;
+  let splashScreenSpy: any;
+  let platformSpy: any;
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: any;
   let loadingServiceSpy: any;
-  let authServiceMock: any;
+  let authServiceSpy: any;
   let trackServiceSpy: any;
-  let activatedRouteMock: any;
-  let publicLogSpy: any;
-  let updateService: any;
-
+  let updateServiceSpy: any;
+  let submitButtonServiceSpy: any;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: any;
   beforeEach(
     waitForAsync(() => {
-      trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
-      updateService = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
-      updateService.checkForUpdate.and.returnValue(Promise.resolve());
-      trackServiceSpy.trackView.and.returnValue(null);
-      publicLogSpy = {
-        trackEvent: () => of(null),
-        trackView: () => of(null),
-      };
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
+      trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
+      updateServiceSpy = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
       statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
-      statusBarSpy.styleDefault.and.returnValue(null);
       splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
-      splashScreenSpy.hide.and.returnValue(null);
       loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
-      loadingServiceSpy.enabled.and.returnValue(null);
-      platformReadySpy = Promise.resolve();
-      platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
+      platformSpy = jasmine.createSpyObj('Platform', { ready: Promise.resolve() });
       languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
-      languageServiceSpy.setInitialAppLanguage.and.returnValue(null);
-
-      authServiceMock = {
-        isLoggedIn: new ReplaySubject<boolean>(1),
-        logout: () => null,
-      };
-      activatedRouteMock = {};
+      authServiceSpy = jasmine.createSpyObj('AuthService', { logout: Promise.resolve() });
 
       TestBed.configureTestingModule({
         declarations: [AppComponent, DummyComponent],
@@ -66,29 +52,15 @@ describe('AppComponent', () => {
           { provide: Platform, useValue: platformSpy },
           { provide: LanguageService, useValue: languageServiceSpy },
           { provide: LoadingService, useValue: loadingServiceSpy },
-          { provide: AuthService, useValue: authServiceMock },
-          { provide: ActivatedRoute, useValue: activatedRouteMock },
-          { provide: PublicLogsService, useValue: publicLogSpy },
-          { provide: UpdateService, useValue: updateService },
+          { provide: AuthService, useValue: authServiceSpy },
+          { provide: UpdateService, useValue: updateServiceSpy },
+          { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
         ],
-        imports: [
-          HttpClientTestingModule,
-          RouterTestingModule.withRoutes([
-            { path: 'users/login', component: DummyComponent },
-            { path: 'tutorials/help', component: DummyComponent },
-            { path: 'tabs/home', component: DummyComponent },
-            { path: 'profiles/user', component: DummyComponent },
-            { path: 'deposits/currency', component: DummyComponent },
-            { path: 'users/password-change', component: DummyComponent },
-            { path: 'referrals/list', component: DummyComponent },
-            { path: 'notifications/list', component: DummyComponent },
-          ]),
-          TranslateModule.forRoot(),
-        ],
+        imports: [TranslateModule.forRoot()],
       }).compileComponents();
       fixture = TestBed.createComponent(AppComponent);
       component = fixture.componentInstance;
-      publicLogSpy = TestBed.inject(PublicLogsService);
     })
   );
 
@@ -97,49 +69,22 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should call routeChangeSubscribe from ngOnInit', async () => {
-    const app = fixture.debugElement.componentInstance;
-    const spy = spyOn(app, 'routeChangeSubscribe');
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call update service checkForUpdate when ngOnInit', async () => {
+  it('should set up app on init', async () => {
     component.ngOnInit();
-    expect(updateService.checkForUpdate).toHaveBeenCalledTimes(1);
+    await fixture.whenStable();
+    expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.enabled).toHaveBeenCalledTimes(1);
+    expect(updateServiceSpy.checkForUpdate).toHaveBeenCalledTimes(1);
+    expect(trackServiceSpy.startTracker).toHaveBeenCalledTimes(1);
+    expect(platformSpy.ready).toHaveBeenCalledTimes(1);
+    expect(languageServiceSpy.setInitialAppLanguage).toHaveBeenCalledTimes(1);
+    expect(statusBarSpy.styleDefault).toHaveBeenCalledTimes(1);
+    expect(splashScreenSpy.hide).toHaveBeenCalledTimes(1);
   });
 
-  it('routerEventSubscription should not be null after ngOnInit call', async () => {
-    const app = fixture.componentInstance;
-    fixture.detectChanges();
-    expect(app.routerNavEndSubscription).not.toBeNull();
-  });
-
-  it('should call trackEvent after ngOnInit call', async () => {
-    // el TrackService mediante el injector se debería poder obtener de otra
-    // manera, pero parece que hay un problema con la abstract class, por ahora
-    // queda.
-    const isUnauthRoute = spyOn(component, 'isUnauthRoute');
-    isUnauthRoute.and.returnValue(0);
-    const localTrackService = fixture.debugElement.injector.get<TrackService>(TrackService as Type<TrackService>);
-    const spy = spyOn(localTrackService, 'trackEvent');
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent after ngOnInit call unauth', async () => {
-    const isUnauthRoute = spyOn(component, 'isUnauthRoute');
-    isUnauthRoute.and.returnValue(1);
-    const spy = spyOn(publicLogSpy, 'trackEvent').and.returnValue(of(null));
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should initialize the app', async () => {
-    TestBed.createComponent(AppComponent);
-    expect(platformSpy.ready).toHaveBeenCalled();
-    await platformReadySpy;
-    expect(statusBarSpy.styleDefault).toHaveBeenCalled();
-    expect(splashScreenSpy.hide).toHaveBeenCalled();
+  it('should logout', async () => {
+    await component.logout();
+    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['users/login']);
   });
 });

@@ -14,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const storageData = {
   valid: {
@@ -90,7 +91,7 @@ describe('RampsMenuPage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [OperationsNewPage, TrackClickDirective, DummyComponent],
+        declarations: [OperationsNewPage, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           RouterTestingModule.withRoutes([
@@ -103,7 +104,6 @@ describe('RampsMenuPage', () => {
           ReactiveFormsModule,
         ],
         providers: [
-          TrackClickDirective,
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: StorageOperationService, useValue: storageOperationServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
