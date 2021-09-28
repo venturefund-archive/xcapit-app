@@ -179,4 +179,6 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
+
+  it('should redirect to Wrong Amount Page if amount is bigger than the amount in wallet', () => {});
 });

@@ -127,4 +127,11 @@ export const SUCCESS_TYPES = {
     urlSecondaryAction: '/tickets/create-support-ticket',
     nameSecondaryAction: 'wallets.send.error_incorrect_password.nameSecondaryAction',
   },
+  error_wallet_wrong_amount: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.send.error_wrong_amount.textPrimary',
+    namePrimaryAction: 'wallets.send.error_wrong_amount.namePrimaryAction',
+    urlSecondaryAction: '/tickets/create-support-ticket',
+    nameSecondaryAction: 'wallets.send.error_wrong_amount.nameSecondaryAction',
+  },
 };

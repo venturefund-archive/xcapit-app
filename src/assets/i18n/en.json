@@ -1388,6 +1388,11 @@
         "textPrimary": "Seems like the password is incorrect",
         "namePrimaryAction": "Retry",
         "nameSecondaryAction": "Contact support"
+      },
+      "error_wrong_amount": {
+        "textPrimary": "The amount to send is incorrect",
+        "namePrimaryAction": "Retry",
+        "nameSecondaryAction": "Contact support"
       }
     },
     "shared_wallets": {
