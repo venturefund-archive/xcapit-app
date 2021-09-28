@@ -13,6 +13,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('FundRunsPage', () => {
   let component: FundRunsPage;
@@ -22,37 +23,34 @@ describe('FundRunsPage', () => {
   let logsServiceMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundRunsPage>;
   let modalControllerSpy: any;
-  beforeEach(waitForAsync(() => {
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
+  beforeEach(
+    waitForAsync(() => {
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
 
-    apiFundsServiceMock = {
-      getFundRuns: () => of([])
-    };
-    logsServiceMock = {
-      log: () => of({})
-    };
+      apiFundsServiceMock = {
+        getFundRuns: () => of([]),
+      };
+      logsServiceMock = {
+        log: () => of({}),
+      };
 
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        IonicModule,
-        RouterTestingModule.withRoutes([
-          { path: 'runs/run-summary/:id', component: DummyComponent }
-        ])
-      ],
-      declarations: [FundRunsPage, StateShowNamePipe, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: LogsService, useValue: logsServiceMock },
-        { provide: ApiFundsService, useValue: apiFundsServiceMock },
-        { provide: ModalController, useValue: modalControllerSpy}
-      ]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          IonicModule,
+          RouterTestingModule.withRoutes([{ path: 'runs/run-summary/:id', component: DummyComponent }]),
+        ],
+        declarations: [FundRunsPage, StateShowNamePipe, FakeTrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: LogsService, useValue: logsServiceMock },
+          { provide: ApiFundsService, useValue: apiFundsServiceMock },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundRunsPage);
@@ -77,10 +75,7 @@ describe('FundRunsPage', () => {
   it('should call trackEvent on trackService when View Runs Detail is clicked', () => {
     component.fundRuns = [{ id: 1, id_corrida: 1, estado: 'active' }];
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'View Runs Detail'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'View Runs Detail');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

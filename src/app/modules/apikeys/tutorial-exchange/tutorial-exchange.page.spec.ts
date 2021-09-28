@@ -9,6 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TutorialExchangePage } from './tutorial-exchange.page';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('TutorialExchangePage', () => {
   let component: TutorialExchangePage;
@@ -27,10 +28,9 @@ describe('TutorialExchangePage', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [TutorialExchangePage, TrackClickDirective],
+        declarations: [TutorialExchangePage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
         ],

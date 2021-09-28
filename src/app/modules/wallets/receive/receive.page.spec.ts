@@ -16,6 +16,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -73,7 +74,7 @@ describe('ReceivePage', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [ReceivePage, TrackClickDirective],
+        declarations: [ReceivePage, FakeTrackClickDirective],
         imports: [
           IonicModule,
           ReactiveFormsModule,

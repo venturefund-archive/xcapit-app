@@ -1470,6 +1470,13 @@
   resolved "https://registry.yarnpkg.com/@capacitor-community/barcode-scanner/-/barcode-scanner-1.2.1.tgz#4afb330a5cf58c11d4c430a1ae86662866fd981d"
   integrity sha512-6NZf4O2ZUmlhqgQvTihc96/AMOGtKSsuru790+f7TCceSTYRrl3SCepUY02WBsUHR+G8HSqrTNvkgTxDA+hGsg==
 
+"@capacitor-community/firebase-analytics@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/firebase-analytics/-/firebase-analytics-0.3.3.tgz#e87ad6ec5fb24bd9d2876e64e410f14ff84e5fd4"
+  integrity sha512-ad10mzcvs+C75gYxlmgULyk6NUNs7Si78mg31MndBpP8yz9l8vcWelS8RKhNAgYwwc8WDjbtrXggJlupjzxpVg==
+  dependencies:
+    "@capacitor/core" "^2.4.7"
+
 "@capacitor-community/native-market@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@capacitor-community/native-market/-/native-market-0.1.4.tgz#ddfd1d10aa6040b5dd83f4732df9a7c7e045c682"
@@ -1503,6 +1510,13 @@
   version "2.4.8"
   resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-2.4.8.tgz#c24c8ec0361b20da81608a569adde05127ee7d46"
   integrity sha512-8WD5SntTA0wmX4hAlsZtLRara8Nu5g13GUKoo9R1uT2kcka//4WF7JJJ34WYko8599R87UalVCoOQhxMk+85uw==
+  dependencies:
+    tslib "^1.9.0"
+
+"@capacitor/core@^2.4.7":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-2.5.0.tgz#86b202ed950846427f710fafbdbbd844b1d0cc56"
+  integrity sha512-WUkUnqqLtlEYn6tly8t6VR0ABlSVbXdlD/gBbYxx0P+gEqMF9b46uYb2YqyH+8HBDANzTweEySpLfhiSUvYS7w==
   dependencies:
     tslib "^1.9.0"
 

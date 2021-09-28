@@ -9,14 +9,15 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
-    selected: 15
+    selected: 15,
   },
   invalid: {
-    selected: ''
-  }
+    selected: '',
+  },
 };
 
 describe('CustomRangeModalComponent', () => {
@@ -25,23 +26,17 @@ describe('CustomRangeModalComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CustomRangeModalComponent>;
   let modalControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    modalControllerSpy = jasmine.createSpyObj(
-      'ModalController',
-      modalControllerMock
-    );
-    TestBed.configureTestingModule({
-      declarations: [CustomRangeModalComponent, TrackClickDirective],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ReactiveFormsModule,
-        IonicModule,
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-      ],
-      providers: [{ provide: ModalController, useValue: modalControllerSpy }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [CustomRangeModalComponent, FakeTrackClickDirective],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+        providers: [{ provide: ModalController, useValue: modalControllerSpy }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomRangeModalComponent);
@@ -63,10 +58,7 @@ describe('CustomRangeModalComponent', () => {
   });
 
   it('should call trackEvent on trackService when Confirm button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Confirm'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Confirm');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -75,10 +67,7 @@ describe('CustomRangeModalComponent', () => {
   });
 
   it('should call trackEvent on trackService when Cancel button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Cancel'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Cancel');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

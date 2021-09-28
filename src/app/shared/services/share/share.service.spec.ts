@@ -1,6 +1,6 @@
 import { TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { Plugins, ShareOptions, ClipboardWrite } from '@capacitor/core';
+import { ShareOptions, ClipboardWrite } from '@capacitor/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ShareService } from './share.service';
 import { ClipboardService } from '../clipboard/clipboard.service';
@@ -41,7 +41,6 @@ describe('ShareService', () => {
       imports: [TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: Plugins.Share, useValue: shareMock },
         { provide: ClipboardService, useValue: clipboardServiceMock },
         { provide: ToastService, useValue: toastServiceMock },
       ],
@@ -52,6 +51,7 @@ describe('ShareService', () => {
     clipboardService = TestBed.inject(ClipboardService);
     toastService = TestBed.inject(ToastService);
     service = TestBed.inject(ShareService);
+    service.sharePlugin = shareMock;
   });
 
   it('should be created', () => {
@@ -59,7 +59,7 @@ describe('ShareService', () => {
   });
 
   it('should not call clipboardService write on share success', () => {
-    const spy = spyOn(Plugins.Share, 'share').and.returnValue(Promise.resolve({}));
+    const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.resolve({}));
     spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
     spyOn(toastService, 'showToast').and.returnValue(Promise.resolve());
 
@@ -68,7 +68,7 @@ describe('ShareService', () => {
   });
 
   it('should call clipboardService write on share error', fakeAsync(() => {
-    const spy = spyOn(Plugins.Share, 'share').and.returnValue(Promise.reject({}));
+    const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.reject({}));
     const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
     const spyToast = spyOn(toastService, 'showToast').and.returnValue(Promise.resolve());
     service.share(data, 'Copied');
@@ -79,7 +79,7 @@ describe('ShareService', () => {
   }));
 
   it('should call clipboardService write on share error and not url data', fakeAsync(() => {
-    const spy = spyOn(Plugins.Share, 'share').and.returnValue(Promise.reject({}));
+    const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.reject({}));
     const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
     const spyToast = spyOn(toastService, 'showToast').and.returnValue(Promise.resolve());
     delete data.url;

@@ -12,6 +12,7 @@ import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { RecoveryWalletPage } from './recovery-wallet.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -51,12 +52,11 @@ describe('RecoveryWalletPage', () => {
         importMnemonic: () => testMnemonic,
       });
       TestBed.configureTestingModule({
-        declarations: [RecoveryWalletPage, TrackClickDirective],
+        declarations: [RecoveryWalletPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           ReactiveFormsModule,
           TranslateService,
-          TrackClickDirective,
           { provide: ClipboardService, useValue: clipboardServiceMock },
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },

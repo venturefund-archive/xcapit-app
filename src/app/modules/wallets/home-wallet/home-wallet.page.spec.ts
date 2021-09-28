@@ -14,6 +14,7 @@ import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interfa
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testCoins = {
   test: [
@@ -130,10 +131,9 @@ describe('HomeWalletPage', () => {
         updateAssetsList: Promise.resolve(true),
       });
       TestBed.configureTestingModule({
-        declarations: [HomeWalletPage, TrackClickDirective],
+        declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },

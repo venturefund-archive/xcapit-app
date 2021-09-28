@@ -21,7 +21,7 @@ import { WildcardRoutingModule } from './wildcard-routing.module';
 import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
 import { TrackClickUnauthModule } from './shared/directives/track-click-unauth/track-click-unauth.module';
-import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { TabsModule } from './modules/tabs/tabs.module';
@@ -43,6 +43,8 @@ import { httpLoaderFactory } from './shared/factories/translate/translate.factor
 import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
 import { WalletsModule } from './modules/wallets/wallets.module';
 import { HomeModule } from './modules/home/home.module';
+import { TrackService } from './shared/services/track/track.service';
+import { FirebaseLogsService } from './shared/services/firebase-logs/firebase-logs.service';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -120,6 +122,7 @@ registerLocaleData(localeEn, 'en');
       deps: [TranslateService],
       multi: true,
     },
+    { provide: TrackService, useClass: FirebaseLogsService },
   ],
   bootstrap: [AppComponent],
 })
