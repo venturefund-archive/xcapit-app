@@ -15,7 +15,7 @@ const { Browser } = Plugins;
         <div class="hsub__card-buttons">
           <div class="hsub__card-buttons__wallet-card card">
             <app-icon-button-card
-              (click)="this.goToWalletWaitingList()"
+              (click)="this.goToWallet()"
               appTrackClick
               name="Go to Wallet"
               [text]="'home.home_page.subheader_component.wallet' | translate"
@@ -69,12 +69,8 @@ export class HomeSubheaderComponent implements OnInit {
     this.getAllApiKeys();
   }
 
-  async goToWalletWaitingList() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
-      url: 'https://www.xcapit.com/#lista-espera',
-    });
-    // this.navController.navigateForward('/tabs/wallets');
+  async goToWallet() {
+    this.navController.navigateForward('/tabs/wallets');
   }
 
   async goToBuy() {
