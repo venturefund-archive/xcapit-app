@@ -95,7 +95,9 @@
       "coming_soon": "Proximamente"
     },
     "without_SL_TP": {
-      "without_stop_loss": "Manual",
+      "classic_stop_loss": "Clásico",
+      "inteligent_stop_loss": "Inteligente",
+      "without_stop_loss": "Sin Stop Loss",
       "without_take_profit": "Manual"
     },
     "step_counter": {

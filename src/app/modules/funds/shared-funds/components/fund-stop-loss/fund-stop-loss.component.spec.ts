@@ -63,10 +63,10 @@ describe('FundStopLossComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when radio button classic clicked', () => {
-    component.selected = 'classic';
+  it('should call trackEvent on trackService when radio button classicStopLoss clicked', () => {
+    component.selected = 'classicStopLoss';
     fixture.detectChanges();
-    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Custom Stop Loss');
+    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Classic Stop Loss');
     const directive = trackClickDirectiveHelper.getDirective(button);
     const spy = spyOn(directive, 'clickEvent');
     button.nativeElement.click();
@@ -74,10 +74,10 @@ describe('FundStopLossComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when radio button inteligent clicked', () => {
-    component.selected = 'inteligent';
+  it('should call trackEvent on trackService when radio button inteligentStopLoss clicked', () => {
+    component.selected = 'inteligentStopLoss';
     fixture.detectChanges();
-    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Custom Stop Loss');
+    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Inteligent Stop Loss');
     const directive = trackClickDirectiveHelper.getDirective(button);
     const spy = spyOn(directive, 'clickEvent');
     button.nativeElement.click();
@@ -97,32 +97,32 @@ describe('FundStopLossComponent', () => {
     expect(component.form.value.stop_loss).toEqual(25);
   });
 
-  it('should render radio button withoutSL when profile contain "index"', async () => {
+  it('should render radio button withoutStopLoss when profile contain "index"', async () => {
     component.profile = 'Mary_index';
     component.ngOnInit();
     component.isIndexProfile = true;
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const radioButton = fixture.debugElement.query(By.css('div[name="withoutSL"]'));
+    const radioButton = fixture.debugElement.query(By.css('div[name="withoutStopLoss"]'));
     expect(radioButton).toBeTruthy();
     expect(radioButton.nativeElement.innerText).toContain('funds.fund_stop_loss.without_stop_loss');
   });
 
-  it('should open modal of classic SL when classic radio button clicked and if there is data, patch values', async () => {
+  it('should open modal of classic SL when classicStopLoss radio button clicked and if there is data, patch values', async () => {
     fakeModalController.modifyReturns({}, { data: 25, role: 'valueSL' });
-    fixture.debugElement.query(By.css('ion-item[name="classic"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-item[name="classicStopLoss"]')).nativeElement.click();
     await fixture.detectChanges();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(component.selected).toEqual('classic');
+    expect(component.selected).toEqual('classicStopLoss');
     expect(component.form.value.stop_loss).toEqual(25);
     expect(component.form.value.trailing_stop).toEqual(0);
   });
 
-  it('should open modal of classic SL when classic radio button clicked if and there is not data, not patch values', async () => {
+  it('should open modal of classic SL when classicStopLoss radio button clicked if and there is not data, not patch values', async () => {
     fakeModalController.modifyReturns({}, { data: undefined, role: 'valueSL' });
-    fixture.debugElement.query(By.css('ion-item[name="classic"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-item[name="classicStopLoss"]')).nativeElement.click();
     await fixture.detectChanges();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -131,20 +131,20 @@ describe('FundStopLossComponent', () => {
     expect(component.form.value.trailing_stop).toEqual('');
   });
 
-  it('should open modal of inteligent SL when iteligent radio button clicked and if there is data, patch values', async () => {
+  it('should open modal of inteligentStopLoss SL when iteligent radio button clicked and if there is data, patch values', async () => {
     fakeModalController.modifyReturns({}, { data: 25, role: 'valueSL' });
-    fixture.debugElement.query(By.css('div[name="inteligent"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('div[name="inteligentStopLoss"]')).nativeElement.click();
     await fixture.detectChanges();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(component.selected).toEqual('inteligent');
+    expect(component.selected).toEqual('inteligentStopLoss');
     expect(component.form.value.stop_loss).toEqual(25);
     expect(component.form.value.trailing_stop).toEqual(25);
   });
 
-  it('should open modal of inteligent SL when iteligent radio button clicked and if there is not data, not patch values', async () => {
+  it('should open modal of inteligent SL when inteligentStopLoss radio button clicked and if there is not data, not patch values', async () => {
     fakeModalController.modifyReturns({}, { data: undefined, role: 'valueSL' });
-    fixture.debugElement.query(By.css('div[name="inteligent"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('div[name="inteligentStopLoss"]')).nativeElement.click();
     await fixture.detectChanges();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -153,13 +153,13 @@ describe('FundStopLossComponent', () => {
     expect(component.form.value.trailing_stop).toEqual('');
   });
 
-  it('should patch data when withoutSL radio button is clicked', () => {
+  it('should patch data when withoutStopLoss radio button is clicked', () => {
     component.isIndexProfile = true;
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-item[name="withoutSL"]')).nativeElement.click();
-    component.withoutSL('withoutSL');
+    fixture.debugElement.query(By.css('ion-item[name="withoutStopLoss"]')).nativeElement.click();
+    component.withoutSL('withoutStopLoss');
     fixture.detectChanges();
-    expect(component.selected).toEqual('withoutSL');
+    expect(component.selected).toEqual('withoutStopLoss');
     expect(component.form.value.stop_loss).toEqual(100);
     expect(component.form.value.trailing_stop).toEqual(0);
   });
@@ -180,8 +180,6 @@ describe('FundStopLossComponent', () => {
   it('should emit form data to parent with Trailing Stop if Trailing Stop is diferent of 0', () => {
     component.form.value.stop_loss = 25;
     component.form.value.trailing_stop = 25;
-    const values = { stop_loss: component.form.value.stop_loss };
-    Object.assign(values, { trailing_stop: component.form.value.trailing_stop });
     const spy = spyOn(component.save, 'emit');
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     expect(spy).toHaveBeenCalledWith(Object({ stop_loss: 25, trailing_stop: 25 }));

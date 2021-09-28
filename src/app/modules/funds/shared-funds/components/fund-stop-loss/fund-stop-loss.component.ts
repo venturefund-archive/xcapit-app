@@ -22,44 +22,48 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
         <div class="fls__form">
           <app-ux-radio-group [label]="'funds.fund_stop_loss.stop_loss' | translate">
             <ion-list>
-              <ion-radio-group [value]="this.selected">
+              <ion-radio-group [value]="this.selected" [checked]="this.selected">
                 <div class="container">
-                  <ion-item (click)="this.openCustomClassicSL('classic')" name="classic">
+                  <ion-item (click)="this.openCustomClassicSL('classicStopLoss')" name="classicStopLoss">
                     <ion-label>{{ 'funds.fund_stop_loss.classic_stop_loss' | translate }}</ion-label>
-                    <ion-radio mode="md" slot="start" value="classic"></ion-radio>
+                    <ion-radio mode="md" slot="start" value="classicStopLoss"></ion-radio>
                     <ion-button
-                      *ngIf="this.selected === 'classic'"
+                      *ngIf="this.selected === 'classicStopLoss'"
                       appTrackClick
                       class="ux_button custom"
-                      name="Edit Custom Stop Loss"
+                      name="Edit Classic Stop Loss"
                       fill="clear"
                       color="uxsecondary"
                       >{{ 'funds.fund_stop_loss.edit_custom' | translate }}</ion-button
                     >
                   </ion-item>
                 </div>
-                <div class="container" (click)="this.openCustomInteligentSL('inteligent')" name="inteligent">
+                <div
+                  class="container"
+                  (click)="this.openCustomInteligentSL('inteligentStopLoss')"
+                  name="inteligentStopLoss"
+                >
                   <ion-item>
                     <ion-label>{{ 'funds.fund_stop_loss.inteligent_stop_loss' | translate }}</ion-label>
-                    <ion-radio mode="md" slot="start" value="inteligent"></ion-radio>
-                    <ion-badge *ngIf="this.selected !== 'inteligent'" class="ux_badge_primary" slot="end">{{
+                    <ion-radio mode="md" slot="start" value="inteligentStopLoss"></ion-radio>
+                    <ion-badge *ngIf="this.selected !== 'inteligentStopLoss'" class="ux_badge_primary" slot="end">{{
                       'funds.fund_stop_loss.most_chosen' | translate
                     }}</ion-badge>
                     <ion-button
-                      *ngIf="this.selected === 'inteligent'"
+                      *ngIf="this.selected === 'inteligentStopLoss'"
                       appTrackClick
                       class="ux_button custom"
-                      name="Edit Custom Stop Loss"
+                      name="Edit Inteligent Stop Loss"
                       fill="clear"
                       color="uxsecondary"
                       >{{ 'funds.fund_stop_loss.edit_custom' | translate }}</ion-button
                     >
                   </ion-item>
                 </div>
-                <div class="container" *ngIf="this.isIndexProfile" name="withoutSL">
-                  <ion-item (click)="this.withoutSL('withoutSL')" name="withoutSL">
+                <div class="container" *ngIf="this.isIndexProfile" name="withoutStopLoss">
+                  <ion-item (click)="this.withoutSL('withoutStopLoss')" name="withoutStopLoss">
                     <ion-label>{{ 'funds.fund_stop_loss.without_stop_loss' | translate }}</ion-label>
-                    <ion-radio mode="md" slot="start" value="withoutSL"></ion-radio>
+                    <ion-radio mode="md" slot="start" value="withoutStopLoss"></ion-radio>
                   </ion-item>
                 </div>
               </ion-radio-group>
@@ -100,6 +104,7 @@ export class FundStopLossComponent implements OnInit {
   customSL: boolean;
   mostChosenSL: number;
   selected: string;
+  lastSelected: string;
   isIndexProfile: boolean;
   form: FormGroup = this.formBuilder.group({
     stop_loss: [''],
@@ -125,6 +130,7 @@ export class FundStopLossComponent implements OnInit {
   ngOnInit() {
     this.addWithoutSLOptionIfApplies();
     if (this.stopLoss) {
+      console.log(this.selected);
       this.form.patchValue({ stop_loss: this.stopLoss });
     }
     this.getMostChosenSL();
@@ -177,6 +183,7 @@ export class FundStopLossComponent implements OnInit {
       this.form.patchValue({ stop_loss: data.data });
       this.form.patchValue({ trailing_stop: data.data });
     }
+    console.log(this.selected);
   }
 
   withoutSL(option: string) {

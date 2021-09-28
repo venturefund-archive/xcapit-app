@@ -79,6 +79,15 @@ import { ManualSLTP } from '../shared-funds/constants/manual-stop-loss-take-prof
                   <h3 *ngIf="this.fund?.perdida === manualSLTP.stopLoss">
                     {{ 'shared.without_SL_TP.without_stop_loss' | translate }}
                   </h3>
+                  <h3 *ngIf="this.fund?.perdida > 0 && this.funds?.trailing_stop === 0">
+                    {{ 'shared.without_SL_TP.inteligent_stop_loss' | translate }}
+                  </h3>
+                  <h3
+                    *ngIf="this.fund?.perdida > 0 && this.fund?.perdida !== manualSLTP.stopLoss"
+                    value="classicStopLoss"
+                  >
+                    {{ 'shared.without_SL_TP.classic_stop_loss' | translate }}
+                  </h3>
                 </ion-label>
                 <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
               </ion-item>
@@ -110,6 +119,7 @@ export class FundSettingsPage implements OnInit {
     this.fundName = this.route.snapshot.paramMap.get('name');
     this.getActiveFund();
     this.getApiKeys();
+    console.log(this.fund);
   }
 
   getActiveFund() {
