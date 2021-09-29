@@ -40,7 +40,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
               *ngIf="this.settings?.ganancia === manualSLTP.takeProfit"
               class="item__value ux-font-text-xxs regular"
             >
-              {{ 'shared.without_SL_TP.without_take_profit' | translate }}
+              {{ 'shared.edit_SL_TP.without_take_profit' | translate }}
             </ion-text>
           </div>
 
@@ -92,7 +92,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
               *ngIf="this.settings?.perdida === manualSLTP.stopLoss"
               class="item__value ux-font-text-xxs regular"
             >
-              {{ 'shared.without_SL_TP.without_stop_loss' | translate }}
+              {{ 'shared.edit_SL_TP.without_stop_loss' | translate }}
             </ion-text>
           </div>
 

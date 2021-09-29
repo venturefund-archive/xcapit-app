@@ -23,7 +23,7 @@ import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/sto
         *ngIf="this.profile"
         [opType]="this.opType"
         [stopLoss]="this.stopLoss"
-        [trainlingStop]="this.trailingStop"
+        [trailingStop]="this.trailingStop"
         [profile]="this.profile"
         (save)="this.handleSubmit($event)"
       ></app-fund-select-stop-loss>

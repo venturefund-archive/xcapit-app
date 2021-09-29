@@ -22,7 +22,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
         <div class="fls__form">
           <app-ux-radio-group [label]="'funds.fund_stop_loss.stop_loss' | translate">
             <ion-list>
-              <ion-radio-group [value]="this.selected" [checked]="this.selected">
+              <ion-radio-group [value]="this.selected">
                 <div class="container">
                   <ion-item (click)="this.openCustomClassicSL('classicStopLoss')" name="classicStopLoss">
                     <ion-label>{{ 'funds.fund_stop_loss.classic_stop_loss' | translate }}</ion-label>
@@ -98,7 +98,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
 export class FundStopLossComponent implements OnInit {
   @Input() opType: any;
   @Input() stopLoss?: number;
-  @Input() trainlingStop?: number;
+  @Input() trailingStop?: number;
   @Input() profile: string;
   @Output() save = new EventEmitter<any>();
   customSL: boolean;
@@ -130,10 +130,23 @@ export class FundStopLossComponent implements OnInit {
   ngOnInit() {
     this.addWithoutSLOptionIfApplies();
     if (this.stopLoss) {
-      console.log(this.selected);
       this.form.patchValue({ stop_loss: this.stopLoss });
     }
+    if (this.trailingStop) {
+      this.form.patchValue({ trailing_stop: this.trailingStop });
+    }
+    this.setRadio();
     this.getMostChosenSL();
+  }
+
+  setRadio() {
+    if (this.trailingStop > 0) {
+      this.selected = 'inteligentStopLoss';
+    } else if (this.stopLoss === 100) {
+      this.selected = 'withoutStopLoss';
+    } else if (this.stopLoss) {
+      this.selected = 'classicStopLoss';
+    }
   }
 
   addWithoutSLOptionIfApplies() {
@@ -183,7 +196,6 @@ export class FundStopLossComponent implements OnInit {
       this.form.patchValue({ stop_loss: data.data });
       this.form.patchValue({ trailing_stop: data.data });
     }
-    console.log(this.selected);
   }
 
   withoutSL(option: string) {

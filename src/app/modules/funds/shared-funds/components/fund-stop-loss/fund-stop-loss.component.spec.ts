@@ -88,13 +88,34 @@ describe('FundStopLossComponent', () => {
   it('should not patch value if there is not stop_loss on ngOnInit', () => {
     component.ngOnInit();
     expect(component.form.value.stop_loss).toBe('');
+    expect(component.form.value.trailing_stop).toBe('');
+    expect(component.selected).toBeFalsy();
   });
 
-  it('should patch value if there is stop_loss on ngOnInit', () => {
+  it('should select inteligent option when there is trailingStop on ngOnInit', () => {
+    component.stopLoss = 25;
+    component.trailingStop = 25;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.form.value.stop_loss).toEqual(25);
+    expect(component.form.value.trailing_stop).toEqual(25);
+    expect(component.selected).toEqual('inteligentStopLoss');
+  });
+
+  it('should select classic option when there is only stopLoss and is different than 100 on ngOnInit', () => {
     component.stopLoss = 25;
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.form.value.stop_loss).toEqual(25);
+    expect(component.selected).toEqual('classicStopLoss');
+  });
+
+  it('should select without stop loss option when there is only stopLoss and is equal to 100 on ngOnInit', () => {
+    component.stopLoss = 100;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.form.value.stop_loss).toEqual(100);
+    expect(component.selected).toEqual('withoutStopLoss');
   });
 
   it('should render radio button withoutStopLoss when profile contain "index"', async () => {

@@ -94,7 +94,9 @@
     "app_icon_button_card": {
       "coming_soon": "Coming Soon"
     },
-    "without_SL_TP": {
+    "edit_SL_TP": {
+      "classic_stop_loss": "Classic",
+      "inteligent_stop_loss": "Inteligent",
       "without_stop_loss": "Without Stop Loss",
       "without_take_profit": "Manual"
     },
