@@ -62,8 +62,8 @@ cache:
     - Xvfb :0 -ac -screen 0 1024x768x24 &
     - export DISPLAY=:99
     - npm install --silent yarn
-    - npm install karma-junit-reporter --save-dev
     - yarn install
+    - npm install karma-junit-reporter --save-dev
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
     - ng test --karma-config karma-pipeline.conf.js --reporters=junit
