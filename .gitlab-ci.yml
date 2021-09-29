@@ -63,16 +63,15 @@ cache:
     - export DISPLAY=:99
     - npm install --silent yarn
     - yarn install
-    - npm install karma-junit-reporter --save-dev
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
-    - ng test --karma-config karma-pipeline.conf.js --reporters=junit
+    - ng test --karma-config karma-pipeline.conf.js
   # coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
-  # artifacts:
-  #   when: always
-  #   reports:
-  #     junit:
-  #       - junit.xml
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - testReports/report.xml
 
 ### Docker lint
 .docker-lint: &docker-lint
