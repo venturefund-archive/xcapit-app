@@ -1,10 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 
 import { FundStopLossComponent } from './fund-stop-loss.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { of } from 'rxjs';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
