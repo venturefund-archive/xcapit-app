@@ -13,6 +13,7 @@ import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 const formData = {
   valid: {
     take_profit: 15,
@@ -42,7 +43,7 @@ describe('FundTakeProfitComponent', () => {
       navControllerSpy = fakeNavController.createSpy();
 
       TestBed.configureTestingModule({
-        declarations: [FundTakeProfitComponent, TrackClickDirective],
+        declarations: [FundTakeProfitComponent, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule],
         providers: [

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
@@ -54,7 +54,7 @@ const { Browser } = Plugins;
       </ion-refresher>
       <!-- Content Cards -->
       <div class="ion-padding">
-        <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWalletWaitingList()">
+        <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWallet()">
           <div class="wmw__image">
             <ion-img src="../assets/img/home/want_my_wallet.svg" alt="Girl with coins"></ion-img>
           </div>
@@ -157,11 +157,7 @@ export class HomePage implements OnInit {
     private apiWebFlow: ApiWebflowService,
     private notificationsService: NotificationsService,
     private refreshTimeoutService: RefreshTimeoutService
-  ) {
-    Browser.prefetch({
-      urls: ['https://www.xcapit.com/#lista-espera'],
-    });
-  }
+  ) {}
 
   ngOnInit() {}
 
@@ -224,12 +220,8 @@ export class HomePage implements OnInit {
     });
   }
 
-  async goToWalletWaitingList() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
-      url: 'https://www.xcapit.com/#lista-espera',
-    });
-    // this.navController.navigateForward('/tabs/wallets');
+  async goToWallet() {
+    this.navController.navigateForward('/tabs/wallets');
   }
 
   goToSupportPage() {

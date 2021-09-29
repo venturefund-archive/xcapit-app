@@ -3,9 +3,9 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { ProviderCardComponent } from './provider-card.component';
 import { navControllerMock } from '../../../../../../../testing/spies/nav-controller-mock.spec';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FakeTrackClickDirective } from '../../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('ProviderCardComponent', () => {
   let component: ProviderCardComponent;
@@ -18,9 +18,9 @@ describe('ProviderCardComponent', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
       TestBed.configureTestingModule({
-        declarations: [ProviderCardComponent, TrackClickDirective],
+        declarations: [ProviderCardComponent, FakeTrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
     })
   );

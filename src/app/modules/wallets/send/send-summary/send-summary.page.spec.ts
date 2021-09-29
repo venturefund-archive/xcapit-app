@@ -12,6 +12,7 @@ import { TrackClickDirective } from '../../../../shared/directives/track-click/t
 import { By } from '@angular/platform-browser';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
+import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -76,10 +77,9 @@ describe('SendSummaryPage', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [SendSummaryPage, TrackClickDirective],
+      declarations: [SendSummaryPage, FakeTrackClickDirective],
       imports: [IonicModule, TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       providers: [
-        TrackClickDirective,
         { provide: TransactionDataService, useValue: transactionDataServiceMock },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerMock },

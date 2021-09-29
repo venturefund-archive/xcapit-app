@@ -13,6 +13,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -77,11 +78,10 @@ describe('UserInformationPage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [UserInformationPage, TrackClickDirective, DummyComponent],
+        declarations: [UserInformationPage, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
-          TrackClickDirective,
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
         ],

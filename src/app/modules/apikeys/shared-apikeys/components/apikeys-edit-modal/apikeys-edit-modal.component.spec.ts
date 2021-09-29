@@ -11,19 +11,20 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
 
 import { ApikeysEditModalComponent } from './apikeys-edit-modal.component';
 import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
-    alias: 'MiApiKey'
+    alias: 'MiApiKey',
   },
   invalid: {
-    alias: 'mi api key'
-  }
+    alias: 'mi api key',
+  },
 };
 
 const initData = {
   id: 1,
-  alias: 'MiApiKey'
+  alias: 'MiApiKey',
 };
 
 describe('ApikeysEditModalComponent', () => {
@@ -33,26 +34,22 @@ describe('ApikeysEditModalComponent', () => {
   let apiApikeysServiceSpy;
   let modalControllerSpy;
 
-  beforeEach(waitForAsync(() => {
-    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['update']);
-    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+  beforeEach(
+    waitForAsync(() => {
+      apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['update']);
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
 
-    TestBed.configureTestingModule({
-      declarations: [ApikeysEditModalComponent, TrackClickDirective],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        IonicModule,
-        ReactiveFormsModule
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
-        { provide: ModalController, useValue: modalControllerSpy }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [ApikeysEditModalComponent, FakeTrackClickDirective],
+        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
+        providers: [
+          { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ApikeysEditModalComponent);
@@ -91,10 +88,7 @@ describe('ApikeysEditModalComponent', () => {
   });
 
   it('should call trackEvent on trackService when Submit Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Submit'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -103,10 +97,7 @@ describe('ApikeysEditModalComponent', () => {
   });
 
   it('should call trackEvent on trackService when Close Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Close'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
+import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const coins: Coin[] = [
   {
@@ -50,7 +51,7 @@ describe('SendDetailPage', () => {
     };
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
-      declarations: [SendDetailPage, TrackClickDirective],
+      declarations: [SendDetailPage, FakeTrackClickDirective],
       imports: [
         IonicModule,
         HttpClientTestingModule,
@@ -59,7 +60,6 @@ describe('SendDetailPage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        TrackClickDirective,
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: NavController, useValue: navControllerSpy },
       ],

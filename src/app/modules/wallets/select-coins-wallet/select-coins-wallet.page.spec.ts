@@ -8,13 +8,11 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { SelectCoinsWalletPage } from './select-coins-wallet.page';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ItemCoinComponent } from '../shared-wallets/components/item-coin/item-coin.component';
-import { UxRadioGroupComponent } from 'src/app/shared/components/ux-radio-group/ux-radio-group.component';
-import { UxTitleComponent } from 'src/app/shared/components/ux-title/ux-title.component';
-import { UxTextComponent } from 'src/app/shared/components/ux-text/ux-text.component';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testCoins = [
   {
@@ -113,7 +111,7 @@ describe('SelectCoinsWalletPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [SelectCoinsWalletPage, TrackClickDirective, ItemCoinComponent],
+        declarations: [SelectCoinsWalletPage, FakeTrackClickDirective, ItemCoinComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [
           TrackClickDirective,
