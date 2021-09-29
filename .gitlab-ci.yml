@@ -64,6 +64,7 @@ cache:
     - npm install --silent yarn
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
+    - npm install karma-junit-reporter --save-dev
   script:
     - ng test --karma-config karma-pipeline.conf.js
   # coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
