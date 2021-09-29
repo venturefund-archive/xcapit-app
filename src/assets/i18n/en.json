@@ -542,7 +542,14 @@
       "edit_custom": "Edit",
       "edit_title": "Change Stop Loss",
       "manual_stop": "I'm going to finish it manually",
-      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies"
+      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies",
+      "inteligent_stop_loss_info": "What is a inteligent stop loss?",
+      "inteligent_stop_loss_header": "Tutorial",
+      "inteligent_stop_loss_title": "How does the smart stop loss work?",
+      "inteligent_stop_loss_text": "Unlike a classic Stop Loss that remains static in the percentage of loss that you are willing to take, the Inteligent Stop Loss updates and moves a certain percentage away from the performance of the strategy.",
+      "inteligent_stop_loss_text1": "This Stop Loss option will allow you to more easily capitalize your profits if the strategy generates positive returns but does not end your fund by Take Profit.",
+      "inteligent_stop_loss_text2": "We recommend using a percentage between 5% and 20%.",
+      "inteligent_stop_loss_button": "I have it clear"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
