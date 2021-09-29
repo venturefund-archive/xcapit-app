@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { CustomRangeModalComponent } from 'src/app/modules/funds/shared-funds/components/custom-range-modal/custom-range-modal.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
@@ -75,6 +75,17 @@ import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-
       <div class="ux_footer">
         <div class="fsl__buttons">
           <ion-button
+            class="ux-font-text-xs semibold"
+            appTrackClick
+            name="Information"
+            color="uxsecondary"
+            size="large"
+            fill="clear"
+            (click)="this.goToInformationPage()"
+          >
+            {{ 'funds.fund_stop_loss.inteligent_stop_loss_info' | translate }}
+          </ion-button>
+          <ion-button
             class="ux_button"
             appTrackClick
             name="Create Fund"
@@ -131,7 +142,8 @@ export class FundStopLossComponent implements OnInit {
     private apiFunds: ApiFundsService,
     private modalController: ModalController,
     private translate: TranslateService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
@@ -233,5 +245,9 @@ export class FundStopLossComponent implements OnInit {
       },
     });
     await modal.present();
+  }
+
+  goToInformationPage() {
+    this.navController.navigateForward(['funds/inteligent-stop-loss-information']);
   }
 }
