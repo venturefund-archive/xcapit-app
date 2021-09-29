@@ -1,7 +1,7 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { DebugElement } from '@angular/core';
+import { FakeTrackClickDirective } from './fakes/track-click-directive.fake.spec';
 
 export class TrackClickDirectiveTestHelper<T> {
   fixture: ComponentFixture<T>;
@@ -11,23 +11,19 @@ export class TrackClickDirectiveTestHelper<T> {
   }
 
   getByElementByName(element: string, name: string) {
-    return this.fixture.debugElement.query(
-      By.css(`${element}[name="${name}"]`)
-    );
+    return this.fixture.debugElement.query(By.css(`${element}[name="${name}"]`));
   }
 
   getElement(element: string) {
     return this.fixture.debugElement.query(By.css(`${element}`));
   }
 
-  getDirective(element: DebugElement): TrackClickDirective {
-    return element.injector.get(TrackClickDirective) as TrackClickDirective;
+  getDirective(element: DebugElement): FakeTrackClickDirective {
+    return element.injector.get(FakeTrackClickDirective) as FakeTrackClickDirective;
   }
 
   getAllElementsWithTheDirective() {
-    return this.fixture.debugElement.queryAll(
-      By.directive(TrackClickDirective)
-    );
+    return this.fixture.debugElement.queryAll(By.directive(FakeTrackClickDirective));
   }
 
   getFirstElementWithTheDirective() {

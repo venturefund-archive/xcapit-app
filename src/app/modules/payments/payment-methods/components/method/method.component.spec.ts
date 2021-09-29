@@ -10,6 +10,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { MethodComponent } from './method.component';
 import { ApiPaymentsService } from '../../../shared-payments/services/api-payments.service';
 import { of } from 'rxjs';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('MethodComponent', () => {
   let component: MethodComponent;
@@ -21,10 +22,10 @@ describe('MethodComponent', () => {
     waitForAsync(() => {
       apiPaymentsServiceSpy = jasmine.createSpyObj('ApiPaymentMethods', ['getPaymentMethods']);
       TestBed.configureTestingModule({
-        declarations: [DummyComponent, MethodComponent, TrackClickDirective],
+        declarations: [DummyComponent, MethodComponent, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [HttpClientTestingModule, TranslateModule.forRoot(), IonicModule, RouterTestingModule],
-        providers: [TrackClickDirective],
+        providers: [],
       }).compileComponents();
 
       fixture = TestBed.createComponent(MethodComponent);

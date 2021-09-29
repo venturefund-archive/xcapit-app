@@ -7,6 +7,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { InformativeModalComponent } from './informative-modal.component';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('InformativeModalComponent', () => {
   let component: InformativeModalComponent;
@@ -16,9 +17,9 @@ describe('InformativeModalComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [InformativeModalComponent, TrackClickDirective],
+        declarations: [InformativeModalComponent, FakeTrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [UrlSerializer, TrackClickDirective],
+        providers: [UrlSerializer],
       }).compileComponents();
 
       fixture = TestBed.createComponent(InformativeModalComponent);

@@ -324,6 +324,10 @@
           "all": "Todo"
         }
       },
+      "share_funds_details": {
+        "title": "Muestra tus rendimientos",
+        "subtitle": "Descargar"
+      },
       "fund_metrics_card": {
         "title": "RESUMEN",
         "period": "Período",
@@ -547,11 +551,19 @@
       "classic_stop_loss": "Stop loss clásico",
       "inteligent_stop_loss": "Stop loss inteligente",
       "without_stop_loss": "Sin stop loss",
-      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas",
       "title_classicSL": "Escribe el % de stop loss clásico",
       "message_classicSL": "Dejaremos de invertir si la inversión llega a este porcentaje de pérdida",
       "title_inteligentSL": "Escribe el % de stop loss inteligente",
-      "message_inteligentSL": "El stop Loss se movera a este porcentaje de distancia del rendimiento del fondo"
+      "message_inteligentSL": "El stop Loss se movera a este porcentaje de distancia del rendimiento del fondo",
+      "manual_stop": "Voy a finalizarlo manualmente",
+      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas",
+      "inteligent_stop_loss_info": "¿Qué es un Stop Loss Inteligente?",
+      "inteligent_stop_loss_header": "Tutorial",
+      "inteligent_stop_loss_title": "¿Cómo funciona el stop loss inteligente?",
+      "inteligent_stop_loss_text": "A diferencia de un Stop Loss clásico que se mantiene estático en el porcentaje de pérdida que te dispongas a asumir, el Stop Loss inteligente se actualiza y se mueve a un cierto porcentaje de distancia del rendimiento de la estrategia.",
+      "inteligent_stop_loss_text1": "Esta opción de Stop Loss te permitirá capitalizar mas fácil tus ganancias si la estrategia genera rendimientos positivos pero no llega a finalizar tu fondo por Take Profit.",
+      "inteligent_stop_loss_text2": "Te recomendamos usar un porcentaje entre el 5% y el 20%.",
+      "inteligent_stop_loss_button": "Lo tengo claro"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",
@@ -1390,6 +1402,11 @@
         "textPrimary": "Tu transferencia fue realizada",
         "textSecondary": "En breve estara disponible ",
         "namePrimaryAction": "Ir a mi billetera"
+      },
+      "error_incorrect_password": {
+        "textPrimary": "Al parecer la contraseña es incorrecta",
+        "namePrimaryAction": "Reintentar",
+        "nameSecondaryAction": "Contactar con soporte"
       }
     },
     "shared_wallets": {
@@ -1403,6 +1420,10 @@
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
       }
+    },
+    "asset_detail": {
+      "header": "Detalle de activo",
+      "wallet_transaction_title": "TRANSACCIONES"
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recupeación es incorrecta",
@@ -1468,9 +1489,9 @@
     },
     "register_success_beginner": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
-      "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
+      "textSecondary": "Elige la estrategia que mejor se adapta a ti o empieza a comprar criptomonedas.",
       "textThird": "o también puedes",
-      "namePrimaryAction": "Crear un fondo de inversión",
+      "namePrimaryAction": "Crear mi primera inversión",
       "nameSecondaryAction": "Omitir por ahora",
       "nameThirdAction": "Comprar criptomonedas"
     },

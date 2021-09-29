@@ -5,6 +5,7 @@ import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
 
 @Component({
   selector: 'app-send-detail',
@@ -33,7 +34,7 @@ import { TransactionDataService } from '../../shared-wallets/services/transactio
         </div>
       </div>
 
-      <div class="sd__network-select-card">
+      <div class="sd__network-select-card" *ngIf="this.networks">
         <app-network-select-card
           (networkChanged)="this.selectedNetworkChanged($event)"
           [title]="'wallets.send.send_detail.network_select.title' | translate"
@@ -83,13 +84,13 @@ import { TransactionDataService } from '../../shared-wallets/services/transactio
 export class SendDetailPage {
   coins = COINS;
   currency: Coin;
-  networks = ['ERC20'];
-  selectedNetwork: string = this.networks[0];
+  networks: string[];
+  selectedNetwork: string;
   amount: number;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
-    amount: ['', Validators.required],
-    referenceAmount: ['', Validators.required],
+    amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
+    referenceAmount: ['', [Validators.required]],
   });
 
   constructor(
@@ -101,10 +102,16 @@ export class SendDetailPage {
 
   ionViewWillEnter() {
     this.getCurrency();
+    this.setCurrencyNetworks();
   }
 
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
+  }
+
+  private setCurrencyNetworks() {
+    this.networks = [this.currency.network];
+    this.selectedNetwork = this.currency.network;
   }
 
   selectedNetworkChanged(network) {

@@ -8,6 +8,7 @@ import { navControllerMock } from '../../../../../../testing/spies/nav-controlle
 import { WalletSubheaderButtonsComponent } from './wallet-subheader-buttons.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -19,9 +20,9 @@ describe('WalletSubheaderButtonsComponent', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [WalletSubheaderButtonsComponent, TrackClickDirective],
+        declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
@@ -118,13 +119,24 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to buy page when Go to Send is clicked', () => {
+  it('should navigate to Send page when Go to Send is clicked from HomeWalletPage', () => {
     component.hasTransactions = true;
+    component.asset = '';
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/send/select-currency']);
+  });
+
+  it('should navigate to Send page of an specific asset when Go to Send is clicked from AssetDetailPage', () => {
+    component.hasTransactions = true;
+    component.asset = 'USDT';
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
+    el.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/send/detail/USDT']);
   });
 
   it('should navigate to buy page when Go to Buy is clicked', () => {
@@ -134,10 +146,22 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/fiat-ramps/operations');
   });
 
-  it('should navigate to receive page when Go to Receive is clicked', () => {
+  it('should navigate to receive page with the default asset selected when Go to Receive is clicked from HomeWalletPage', () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Receive');
+    component.asset = '';
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/receive']);
+  });
+
+  it('should navigate to receive page with an asset selected when Go to Receive is clicked from AssetDetailPage', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Receive');
+    component.asset = 'LINK';
+    el.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+      ['wallets/receive'],
+      Object({ queryParams: Object({ asset: 'LINK' }) })
+    );
   });
 });

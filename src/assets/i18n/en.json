@@ -321,6 +321,10 @@
           "all": "All"
         }
       },
+      "share_funds_details": {
+        "title": "Show your performances",
+        "subtitle": "Download"
+      },
       "fund_metrics_card": {
         "title": "SUMMARY",
         "period": "period",
@@ -542,11 +546,19 @@
       "classic_stop_loss": "Classic stop loss",
       "inteligent_stop_loss": "Inteligent stop loss",
       "without_stop_loss": "Without stop loss",
-      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies",
       "title_classicSL": "Write the % of classic stop loss",
       "message_classicSL": "We will stop investing if the investment reaches this loss percentage",
       "title_inteligentSL": "Write the % of inteligent stop loss",
-      "message_inteligentSL": "The stop loss will move this percentage away from the fund's performance"
+      "message_inteligentSL": "The stop loss will move this percentage away from the fund's performance",
+      "manual_stop": "I'm going to finish it manually",
+      "alert_manual_option": "Keep in mind that investing without limit of losses can cause a significant decrease in the valuation of your capital in USD, however you will have the same amount of cryptocurrencies",
+      "inteligent_stop_loss_info": "What is a inteligent stop loss?",
+      "inteligent_stop_loss_header": "Tutorial",
+      "inteligent_stop_loss_title": "How does the smart stop loss work?",
+      "inteligent_stop_loss_text": "Unlike a classic Stop Loss that remains static in the percentage of loss that you are willing to take, the Inteligent Stop Loss updates and moves a certain percentage away from the performance of the strategy.",
+      "inteligent_stop_loss_text1": "This Stop Loss option will allow you to more easily capitalize your profits if the strategy generates positive returns but does not end your fund by Take Profit.",
+      "inteligent_stop_loss_text2": "We recommend using a percentage between 5% and 20%.",
+      "inteligent_stop_loss_button": "I have it clear"
     },
     "custom_range_component": {
       "cancel_button": "Cancel",
@@ -1387,6 +1399,11 @@
         "textPrimary": "Your transfer was made.",
         "textSecondary": "It will be available shortly",
         "namePrimaryAction": "Go to my wallet"
+      },
+      "error_incorrect_password": {
+        "textPrimary": "Seems like the password is incorrect",
+        "namePrimaryAction": "Retry",
+        "nameSecondaryAction": "Contact support"
       }
     },
     "shared_wallets": {
@@ -1400,6 +1417,10 @@
         "submit_button_text": "Accept",
         "input_label": "Password"
       }
+    },
+    "asset_detail": {
+      "header": "Asset Detail",
+      "wallet_transaction_title": "TRANSACTIONS"
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is wrong",
@@ -1467,10 +1488,10 @@
       "button_submit": "Submit"
     },
     "register_success_begginer": {
-      "textPrimary": "You have already linked your account with Binance!",
-      "textSecondary": "CWe are able to create a fund to start managing your investment.",
+      "textPrimary": "You have linked your account with Binance!",
+      "textSecondary": "Choose the strategy that better suits you or start buying cryptocurrencies.",
       "textThird": "or you can also",
-      "namePrimaryAction": "Create an investment fund",
+      "namePrimaryAction": "Create my first investment",
       "nameSecondaryAction": "Skip for now",
       "nameThirdAction": "Buy cryptocurrencies"
     },
@@ -1488,10 +1509,10 @@
       "create_fund_later_button_text": "I'll create it later"
     },
     "register_success_beginner": {
-      "textPrimary": "You have already linked your account with Binance!",
-      "textSecondary": "We are in a position to create a fund to start managing your investment. ",
+      "textPrimary": "You have linked your account with Binance!",
+      "textSecondary": "Choose the strategy that better suits you or start buying cryptocurrencies. ",
       "textThird": "or you can also",
-      "namePrimaryAction": "Create an investment fund",
+      "namePrimaryAction": "Create my first investment",
       "nameSecondaryAction": "Skip for now",
       "nameThirdAction": "Buy cryptocurrencies"
     },

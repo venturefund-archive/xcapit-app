@@ -14,6 +14,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { By } from '@angular/platform-browser';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -47,7 +48,7 @@ describe('FiscalDataPage', () => {
         },
       };
       TestBed.configureTestingModule({
-        declarations: [FiscalDataPage, TrackClickDirective, DummyComponent],
+        declarations: [FiscalDataPage, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           HttpClientTestingModule,
@@ -66,7 +67,6 @@ describe('FiscalDataPage', () => {
           ]),
         ],
         providers: [
-          TrackClickDirective,
           { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
           { provide: NavController, useValue: navControllerSpy },
         ],

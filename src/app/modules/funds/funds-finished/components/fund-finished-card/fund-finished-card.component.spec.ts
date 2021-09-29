@@ -9,6 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FundDataStorageService } from '../../../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('FundFinishedCardComponent', () => {
   let component: FundFinishedCardComponent;
@@ -26,7 +27,7 @@ describe('FundFinishedCardComponent', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
       TestBed.configureTestingModule({
-        declarations: [FundFinishedCardComponent, TrackClickDirective, DummyComponent],
+        declarations: [FundFinishedCardComponent, FakeTrackClickDirective, DummyComponent],
         imports: [
           IonicModule,
           TranslateModule.forRoot(),

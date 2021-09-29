@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -79,6 +79,17 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
       <div class="ux_footer">
         <div class="fsl__buttons">
           <ion-button
+            class="ux-font-text-xs semibold"
+            appTrackClick
+            name="Information"
+            color="uxsecondary"
+            size="large"
+            fill="clear"
+            (click)="this.goToInformationPage()"
+          >
+            {{ 'funds.fund_stop_loss.inteligent_stop_loss_info' | translate }}
+          </ion-button>
+          <ion-button
             class="ux_button"
             appTrackClick
             name="Create Fund"
@@ -124,7 +135,8 @@ export class FundStopLossComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiFunds: ApiFundsService,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
@@ -210,5 +222,9 @@ export class FundStopLossComponent implements OnInit {
       Object.assign(values, { trailing_stop: this.form.value.trailing_stop });
     }
     this.save.emit(values);
+  }
+
+  goToInformationPage() {
+    this.navController.navigateForward(['funds/inteligent-stop-loss-information']);
   }
 }

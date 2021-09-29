@@ -15,18 +15,19 @@ import { PersonalDataPage } from './personal-data.page';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import createSpyObj = jasmine.createSpyObj;
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
     first_name: 'Test',
     cellphone: '12344321',
-    direccion: 'calle falsa 123'
+    direccion: 'calle falsa 123',
   },
   invalid: {
     first_name: 'Test',
     cellphone: '12x344321',
-    direccion: 'calle falsa 123'
-  }
+    direccion: 'calle falsa 123',
+  },
 };
 describe('PersonalDataPage', () => {
   let component: PersonalDataPage;
@@ -36,36 +37,37 @@ describe('PersonalDataPage', () => {
   let apiProfilesService: ApiProfilesService;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    apiProfilesServiceMock = {
-      updatePersonalData: () => of({}),
-      crud: {
-        update: () => of({}),
-        get: () => of({})
-      }
-    };
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [PersonalDataPage, TrackClickDirective, DummyComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-        RouterTestingModule.withRoutes([
-          {
-            path: 'profiles/fiscal-data',
-            component: DummyComponent
-          }
-        ])
-      ],
-      providers: [
-        TrackClickDirective,
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      apiProfilesServiceMock = {
+        updatePersonalData: () => of({}),
+        crud: {
+          update: () => of({}),
+          get: () => of({}),
+        },
+      };
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [PersonalDataPage, FakeTrackClickDirective, DummyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          ReactiveFormsModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'profiles/fiscal-data',
+              component: DummyComponent,
+            },
+          ]),
+        ],
+        providers: [
+          { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PersonalDataPage);
@@ -89,9 +91,7 @@ describe('PersonalDataPage', () => {
   it('should call save on submit form', () => {
     fixture.detectChanges();
     const spy = spyOn(component, 'save');
-    fixture.debugElement
-      .query(By.css('form'))
-      .triggerEventHandler('ngSubmit', null);
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -109,10 +109,9 @@ describe('PersonalDataPage', () => {
     component.successSave();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/profiles/success'],
-      {
-        replaceUrl: true
-      });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/profiles/success'], {
+      replaceUrl: true,
+    });
   });
 
   it('should not call update on apiProfile.crud, invalid form', () => {
@@ -138,10 +137,7 @@ describe('PersonalDataPage', () => {
     component.form.patchValue(formData.valid);
 
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Save Personal Data'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Save Personal Data');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

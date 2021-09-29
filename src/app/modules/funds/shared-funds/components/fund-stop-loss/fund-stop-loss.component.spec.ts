@@ -1,17 +1,17 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundStopLossComponent } from './fund-stop-loss.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { of } from 'rxjs';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 describe('FundStopLossComponent', () => {
   let component: FundStopLossComponent;
@@ -20,6 +20,8 @@ describe('FundStopLossComponent', () => {
   let apiFundsServiceSpy: any;
   let modalControllerSpy: any;
   let fakeModalController: FakeModalController;
+  let navControllerSpy: any;
+  let fakeNavController: FakeNavController;
 
   beforeEach(
     waitForAsync(() => {
@@ -28,8 +30,11 @@ describe('FundStopLossComponent', () => {
       apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', {
         getMostChosenSL: of(1),
       });
+      fakeNavController = new FakeNavController({}, Promise.resolve(), {});
+      navControllerSpy = fakeNavController.createSpy();
+
       TestBed.configureTestingModule({
-        declarations: [FundStopLossComponent, TrackClickDirective],
+        declarations: [FundStopLossComponent, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule],
         providers: [
@@ -38,6 +43,10 @@ describe('FundStopLossComponent', () => {
             useValue: apiFundsServiceSpy,
           },
           { provide: ModalController, useValue: modalControllerSpy },
+          {
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
         ],
       }).compileComponents();
     })
@@ -204,5 +213,10 @@ describe('FundStopLossComponent', () => {
     const spy = spyOn(component.save, 'emit');
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     expect(spy).toHaveBeenCalledWith(Object({ stop_loss: 25, trailing_stop: 25 }));
+  });
+
+  it('should navigate to "funds/inteligent-stop-loss-information" when Information button clicked', () => {
+    fixture.debugElement.query(By.css('ion-button[name="Information"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['funds/inteligent-stop-loss-information']);
   });
 });

@@ -8,6 +8,7 @@ import { ClipboardService } from '../../../shared/services/clipboard/clipboard.s
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { ActivatedRoute } from '@angular/router';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 @Component({
@@ -32,14 +33,16 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
           'wallets.receive.currency_select' | translate
         }}</ion-text>
         <form [formGroup]="this.form">
-          <app-ux-input-select
+          <app-input-select
             [modalTitle]="'wallets.receive.currency_select_modal_title' | translate"
             [placeholder]="'wallets.receive.currency_select_modal_title' | translate"
             controlName="currency"
             [data]="this.currencies"
-            keyName="name"
-            valueName="value"
-          ></app-ux-input-select>
+            key="name"
+            valueKey="value"
+            imageKey="logoRoute"
+            selectorStyle="white"
+          ></app-input-select>
         </form>
       </div>
       <div class="wr__remaining-time-text">
@@ -77,10 +80,10 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.selectedCurrency } }}
+          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.selectedCurrency?.value } }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.selectedCurrency } }}
+          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.selectedCurrency?.value } }}
         </ion-text>
       </div>
     </ion-content>
@@ -95,7 +98,8 @@ export class ReceivePage {
   currencies: Coin[] = COINS;
   address: string;
   addressQr: string;
-  selectedCurrency: string;
+  selectedCurrency: Coin;
+  defaultAsset = COINS.find((coin) => coin.value === 'ETH');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -105,10 +109,12 @@ export class ReceivePage {
     private toastService: ToastService,
     private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
+    private route: ActivatedRoute,
     private platformService: PlatformService
   ) {}
 
   ionViewWillEnter() {
+    this.checkUrlParams();
     this.subscribeToFormChanges();
     this.checkPlatform();
   }
@@ -117,19 +123,29 @@ export class ReceivePage {
     this.isNativePlatform = this.platformService.isNative();
   }
 
-  subscribeToFormChanges() {
-    this.form.valueChanges.subscribe((value) => this.getAddress(value.currency));
-    this.form.valueChanges.subscribe((value) => this.setCurrencyOnLabel(value.currency));
-    this.form.patchValue({ currency: 'ETH' });
+  checkUrlParams() {
+    this.route.queryParams.subscribe((params) => {
+      if (params.asset) {
+        this.defaultAsset = COINS.find((coin) => coin.value === params.asset);
+      }
+    });
   }
 
-  setCurrencyOnLabel(currency: string) {
+  subscribeToFormChanges() {
+    this.form.get('currency').valueChanges.subscribe((value) => {
+      this.getAddress(value);
+      this.setCurrencyOnLabel(value);
+    });
+    this.form.patchValue({ currency: this.defaultAsset });
+  }
+
+  setCurrencyOnLabel(currency: Coin) {
     this.selectedCurrency = currency;
   }
 
-  getAddress(currency: string) {
+  getAddress(currency: Coin) {
     this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      const network = COINS.find((coin) => coin.value === currency).network;
+      const network = COINS.find((coin) => coin === currency).network;
       this.address = wallet.addresses[network];
       this.generateAddressQR();
     });

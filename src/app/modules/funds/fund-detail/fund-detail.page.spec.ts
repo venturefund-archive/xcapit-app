@@ -15,6 +15,7 @@ import { DummyComponent } from '../../../../testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { Storage } from '@ionic/storage';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testFund = [
   {
@@ -47,14 +48,8 @@ describe('FundDetailPage', () => {
         toggleHideFunds: () => undefined,
         getHideFunds: () => Promise.resolve(true),
       };
-      modalControllerSpy = jasmine.createSpyObj(
-        'ModalController',
-        modalControllerMock
-      );
-      navControllerSpy = jasmine.createSpyObj(
-        'NavController',
-        navControllerMock
-      );
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
 
       apiFundsSpy = jasmine.createSpyObj('ApiFundsService', {
         getPercentageEvolution: of(testPerformance),
@@ -66,13 +61,11 @@ describe('FundDetailPage', () => {
       });
       storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
       TestBed.configureTestingModule({
-        declarations: [FundDetailPage, TrackClickDirective, DummyComponent],
+        declarations: [FundDetailPage, FakeTrackClickDirective, DummyComponent],
         imports: [
           IonicModule,
           TranslateModule.forRoot(),
-          RouterTestingModule.withRoutes([
-            { path: 'funds/fund-settings/:name', component: DummyComponent },
-          ]),
+          RouterTestingModule.withRoutes([{ path: 'funds/fund-settings/:name', component: DummyComponent }]),
           HttpClientTestingModule,
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -143,10 +136,7 @@ describe('FundDetailPage', () => {
 
   it('should call trackEvent on trackService when Edit Fund button clicked', () => {
     component.fundName = 'Test';
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Edit Fund'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Fund');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

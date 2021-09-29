@@ -1,16 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-
 import { WhatsAnApiKeyPage } from './whats-an-api-key.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('WhatsAnApiKeyPage', () => {
   let component: WhatsAnApiKeyPage;
@@ -24,7 +23,7 @@ describe('WhatsAnApiKeyPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [WhatsAnApiKeyPage, TrackClickDirective],
+        declarations: [WhatsAnApiKeyPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           IonicModule.forRoot(),
@@ -32,7 +31,7 @@ describe('WhatsAnApiKeyPage', () => {
           HttpClientTestingModule,
           RouterTestingModule.withRoutes([{ path: 'apikeys/register', component: DummyComponent }]),
         ],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(WhatsAnApiKeyPage);

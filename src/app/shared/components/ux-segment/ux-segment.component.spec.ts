@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { TrackClickDirective } from '../../directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const fakeData = ['OneSegment', 'TwoSegment'];
 
@@ -14,7 +15,7 @@ describe('UxSegmentComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxSegmentComponent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UxSegmentComponent, TrackClickDirective],
+      declarations: [UxSegmentComponent, FakeTrackClickDirective],
       imports: [IonicModule, HttpClientTestingModule],
     }).compileComponents();
 

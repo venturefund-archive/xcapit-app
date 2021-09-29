@@ -8,13 +8,13 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import { Capacitor } from '@capacitor/core';
 
-const { Filesystem } = Plugins;
-
 @Component({
   selector: 'app-fund-share-chart',
   template: `
     <div class="fbd__header">
-      <ion-text class="fbd__header__text ux-font-text-base semibold"> Muestra tus rendimientos </ion-text>
+      <ion-text class="fbd__header__text ux-font-text-base semibold">
+        {{ 'funds.fund_detail.share_funds_details.title' | translate }}
+      </ion-text>
       <ion-button
         appTrackClick
         name="Close"
@@ -44,7 +44,11 @@ const { Filesystem } = Plugins;
           >
           </a>
           <ion-icon name="ux-download"></ion-icon>
-          <ion-label class="ux-font-text-xs"><ion-text color="uxsemidark">Descargar</ion-text></ion-label>
+          <ion-label class="ux-font-text-xs"
+            ><ion-text color="uxsemidark">{{
+              'funds.fund_detail.share_funds_details.subtitle' | translate
+            }}</ion-text></ion-label
+          >
         </div>
         <!-- Comentado hasta posterior implementación -->
         <!-- <div class="fbd__main_content__item" (click)="this.shareChart()">
@@ -60,6 +64,7 @@ const { Filesystem } = Plugins;
 })
 export class FundShareChartComponent implements OnInit {
   screenshot: any;
+  fileSystem = Plugins.Filesystem;
 
   constructor(
     private modalController: ModalController,
@@ -97,16 +102,18 @@ export class FundShareChartComponent implements OnInit {
 
   nativeDownload() {
     const fileName = `${this.getDownloadFileName()}.png`;
-    Filesystem.writeFile({
-      path: fileName,
-      data: this.screenshot, // your data to write (ex. base64)
-      directory: FilesystemDirectory.Documents,
-    }).then((savedFile) => {
-      this.showToast('funds.fund_share_chart.toast_image_downloaded');
-      const path = savedFile.uri;
-      const mimeType = 'image/png';
-      this.openImage(path, mimeType);
-    });
+    this.fileSystem
+      .writeFile({
+        path: fileName,
+        data: this.screenshot, // your data to write (ex. base64)
+        directory: FilesystemDirectory.Documents,
+      })
+      .then((savedFile) => {
+        this.showToast('funds.fund_share_chart.toast_image_downloaded');
+        const path = savedFile.uri;
+        const mimeType = 'image/png';
+        this.openImage(path, mimeType);
+      });
   }
 
   pwaDownload() {
