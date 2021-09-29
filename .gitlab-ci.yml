@@ -62,18 +62,17 @@ cache:
     - Xvfb :0 -ac -screen 0 1024x768x24 &
     - export DISPLAY=:99
     - npm install --silent yarn
+    - npm install karma-junit-reporter --save-dev
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
-    - ng test --karma-config karma-pipeline.conf.js
-    - yarn test:ci
-  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
-  artifacts:
-    when: always
-    reports:
-      junit:
-        - junit.xml
-      cobertura: coverage/cobertura-coverage.xml
+    - ng test --karma-config karma-pipeline.conf.js --reporters=junit
+  # coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  # artifacts:
+  #   when: always
+  #   reports:
+  #     junit:
+  #       - junit.xml
 
 ### Docker lint
 .docker-lint: &docker-lint
