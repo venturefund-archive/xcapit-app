@@ -96,6 +96,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./fund-investment-info/fund-investment-info.module').then((m) => m.FundInvestmentInfoPageModule),
       },
+      {
+        path: 'inteligent-stop-loss-information',
+        loadChildren: () =>
+          import('./inteligent-stop-loss-information/inteligent-stop-loss-information.module').then(
+            (m) => m.InteligentStopLossInformationPageModule
+          ),
+      },
     ],
   },
 ];

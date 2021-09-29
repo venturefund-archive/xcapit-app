@@ -8,11 +8,12 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 const formData = {
   valid: {
@@ -30,6 +31,8 @@ describe('FundStopLossComponent', () => {
   let apiFundsServiceSpy: any;
   let modalControllerSpy: any;
   let fakeModalController: FakeModalController;
+  let navControllerSpy: any;
+  let fakeNavController: FakeNavController;
 
   beforeEach(
     waitForAsync(() => {
@@ -38,6 +41,8 @@ describe('FundStopLossComponent', () => {
       apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', {
         getMostChosenSL: of(10),
       });
+      fakeNavController = new FakeNavController({}, Promise.resolve(), {});
+      navControllerSpy = fakeNavController.createSpy();
 
       TestBed.configureTestingModule({
         declarations: [FundStopLossComponent, FakeTrackClickDirective],
@@ -49,6 +54,10 @@ describe('FundStopLossComponent', () => {
             useValue: apiFundsServiceSpy,
           },
           { provide: ModalController, useValue: modalControllerSpy },
+          {
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
         ],
       }).compileComponents();
     })
@@ -237,5 +246,10 @@ describe('FundStopLossComponent', () => {
 
     const editButton = fixture.debugElement.query(By.css('ion-button[name="Edit Custom Stop Loss"'));
     expect(editButton.nativeElement.innerText).toContain('funds.fund_stop_loss.edit_custom');
+  });
+
+  it('should navigate to "funds/inteligent-stop-loss-information" when Information button clicked', () => {
+    fixture.debugElement.query(By.css('ion-button[name="Information"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['funds/inteligent-stop-loss-information']);
   });
 });
