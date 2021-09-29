@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
-import { ErrorWrongAmountWalletPage } from './error-wrong-amount-wallet.page';
+import { ErrorWrongAddressWalletPage } from './error-wrong-address-wallet.page';
 
-fdescribe('ErrorWrongAmountWalletPage', () => {
-  let component: ErrorWrongAmountWalletPage;
-  let fixture: ComponentFixture<ErrorWrongAmountWalletPage>;
+fdescribe('ErrorWrongAddressWalletPage', () => {
+  let component: ErrorWrongAddressWalletPage;
+  let fixture: ComponentFixture<ErrorWrongAddressWalletPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
@@ -19,7 +19,7 @@ fdescribe('ErrorWrongAmountWalletPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [ErrorWrongAmountWalletPage],
+        declarations: [ErrorWrongAddressWalletPage],
         imports: [IonicModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -27,7 +27,7 @@ fdescribe('ErrorWrongAmountWalletPage', () => {
         ],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(ErrorWrongAmountWalletPage);
+      fixture = TestBed.createComponent(ErrorWrongAddressWalletPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })

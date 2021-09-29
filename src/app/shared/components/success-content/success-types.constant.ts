@@ -134,4 +134,11 @@ export const SUCCESS_TYPES = {
     urlSecondaryAction: '/tickets/create-support-ticket',
     nameSecondaryAction: 'wallets.send.error_wrong_amount.nameSecondaryAction',
   },
+  error_wallet_wrong_address: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.send.error_wrong_address.textPrimary',
+    namePrimaryAction: 'wallets.send.error_wrong_address.namePrimaryAction',
+    urlSecondaryAction: '/tickets/create-support-ticket',
+    nameSecondaryAction: 'wallets.send.error_wrong_address.nameSecondaryAction',
+  },
 };

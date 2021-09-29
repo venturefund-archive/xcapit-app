@@ -34,7 +34,7 @@ const summaryData: SummaryData = {
   referenceAmount: 50000,
 };
 
-describe('SendSummaryPage', () => {
+fdescribe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
   let transactionDataServiceMock: any;
@@ -45,18 +45,12 @@ describe('SendSummaryPage', () => {
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  let paramMapSpy: jasmine.SpyObj<any>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
 
   beforeEach(() => {
-    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', null, { queryParams: of({}) });
-    routerSpy = jasmine.createSpyObj('Router', {
-      getCurrentNavigation: {
-        extras: {
-          state: undefined,
-        },
-      },
-    });
+    paramMapSpy = jasmine.createSpyObj('QueryParams', { get: undefined });
+    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', null, { snapshot: { paramMap: paramMapSpy } });
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showToast: Promise.resolve(),
     });
@@ -86,7 +80,6 @@ describe('SendSummaryPage', () => {
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
-        { provide: Router, useValue: routerSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -146,21 +139,10 @@ describe('SendSummaryPage', () => {
     expect(spyNav).toHaveBeenCalledWith('/wallets/send/error/incorrect-password');
   });
 
-  it('should open modal if redirected from Incorrect Password Page', () => {
-    routerSpy.getCurrentNavigation.and.returnValue({
-      id: 1,
-      initialUrl: null,
-      extractedUrl: null,
-      trigger: null,
-      previousNavigation: null,
-      extras: {
-        state: {
-          action: 'retry',
-        },
-      },
-    });
-    component.ngOnInit();
-    component.ionViewWillEnter();
+  it('should open modal if redirected from Incorrect Password Page', async () => {
+    paramMapSpy.get.and.returnValue('retry');
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
@@ -180,5 +162,43 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should redirect to Wrong Amount Page if amount is bigger than the amount in wallet', () => {});
+  it('should redirect to Wrong Amount Page if amount is bigger than the amount in wallet', async () => {
+    walletTransactionsServiceSpy.send.and.throwError('insufficient funds for intrinsic transaction cost ...');
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const spyNav = spyOn(navController, 'navigateForward').and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(spyNav).toHaveBeenCalledWith('/wallets/send/error/wrong-amount');
+  });
+
+  it('should redirect to Wrong Address Page if could not resolve ENS', async () => {
+    walletTransactionsServiceSpy.send.and.throwError('provided ENS resolves to null ...');
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const spyNav = spyOn(navController, 'navigateForward').and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(spyNav).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+  });
+
+  it('should redirect to Wrong Address Page if address is invalid', async () => {
+    walletTransactionsServiceSpy.send.and.throwError('invalid address ...');
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const spyNav = spyOn(navController, 'navigateForward').and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(spyNav).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+  });
+
+  it('should redirect to Wrong Address Page if address did not pass checksum', async () => {
+    walletTransactionsServiceSpy.send.and.throwError('bad address checksum ...');
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const spyNav = spyOn(navController, 'navigateForward').and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(spyNav).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+  });
 });

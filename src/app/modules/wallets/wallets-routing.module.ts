@@ -113,6 +113,13 @@ const routes: Routes = [
                 (m) => m.ErrorWrongAmountWalletPageModule
               ),
           },
+          {
+            path: 'error/wrong-address',
+            loadChildren: () =>
+              import('./send/error-wrong-address-wallet/error-wrong-address-wallet.module').then(
+                (m) => m.ErrorWrongAddressWalletPageModule
+              ),
+          },
         ],
       },
       {

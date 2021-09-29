@@ -9,24 +9,24 @@ import { TransactionDataService } from '../../shared-wallets/services/transactio
     <ion-content class="ion-padding failed-mnemonic-content">
       <app-success-content
         [data]="this.data"
-        imageName="ux-error-currency.svg"
+        imageName="ux-error-wallet.svg"
         imageAlt="Error Image"
         (primaryActionEvent)="this.goBackToDetail()"
       ></app-success-content>
     </ion-content>
   `,
-  styleUrls: ['./error-wrong-amount-wallet.page.scss'],
+  styleUrls: ['./error-wrong-address-wallet.page.scss'],
 })
-export class ErrorWrongAmountWalletPage implements OnInit {
+export class ErrorWrongAddressWalletPage implements OnInit {
   data: any;
   constructor(private navController: NavController, private transactionDataService: TransactionDataService) {}
 
   ngOnInit() {
-    this.data = SUCCESS_TYPES.error_wallet_wrong_amount;
+    this.data = SUCCESS_TYPES.error_wallet_wrong_address;
   }
 
   goBackToDetail() {
     const coinValue = this.transactionDataService.transactionData.currency.value;
-    this.navController.navigateBack(`/wallets/send/detail/${coinValue}/retry`);
+    this.navController.navigateBack(`/wallets/send/detail/${coinValue}`, { state: { action: 'retry' } });
   }
 }

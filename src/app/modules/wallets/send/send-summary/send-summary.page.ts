@@ -53,19 +53,22 @@ export class SendSummaryPage implements OnInit {
     private navController: NavController,
     public submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(async () => {
-      const navParams = this.router.getCurrentNavigation().extras.state;
-      if (navParams) await this.send();
-    });
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
+    this.checkMode();
     this.summaryData = this.transactionDataService.transactionData;
+  }
+
+  async checkMode() {
+    console.log(this.route.snapshot.paramMap.get('mode'));
+    const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
+    if (mode) {
+      await this.send();
+    }
   }
 
   async askForPassword() {
@@ -94,6 +97,14 @@ export class SendSummaryPage implements OnInit {
       } catch (error) {
         if (error.message === 'invalid password') {
           this.navController.navigateForward('/wallets/send/error/incorrect-password');
+        } else if (
+          error.message.startsWith('provided ENS resolves to null') ||
+          error.message.startsWith('invalid address') ||
+          error.message.startsWith('bad address checksum')
+        ) {
+          this.navController.navigateForward('/wallets/send/error/wrong-address');
+        } else if (error.message.startsWith('insufficient funds')) {
+          this.navController.navigateForward('/wallets/send/error/wrong-amount');
         }
       } finally {
         await this.loadingService.dismiss();
