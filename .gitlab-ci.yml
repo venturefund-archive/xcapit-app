@@ -68,11 +68,11 @@ cache:
   script:
     - ng test --karma-config karma-pipeline.conf.js
   # coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
-  artifacts:
-    when: always
-    reports:
-      junit:
-        - testReports/report.xml
+  # artifacts:
+  #   when: always
+  #   reports:
+  #     junit:
+  #       - reports/report.xml
 
 ### Docker lint
 .docker-lint: &docker-lint
