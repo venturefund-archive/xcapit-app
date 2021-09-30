@@ -33,7 +33,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
         <div class="auth-link-reset-password main__reset_password">
           <ion-button
             class="main__reset_password__button ux_button"
-            appTrackClickUnauth
+            appTrackClick
             name="Reset Password"
             fill="clear"
             size="small"
@@ -46,7 +46,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
         </div>
         <div class="auth-button">
           <ion-button
-            appTrackClickUnauth
+            appTrackClick
             name="Login"
             expand="block"
             size="large"
@@ -60,7 +60,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
         </div>
         <div class="auth-link main__go_to_register ion-text-center">
           <ion-button
-            appTrackClickUnauth
+            appTrackClick
             name="Go To Register"
             fill="clear"
             size="large"
@@ -79,7 +79,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
       </div>
       <div class="google-auth">
         <ion-button
-          appTrackClickUnauth
+          appTrackClick
           name="Google Auth"
           expand="block"
           fill="solid"

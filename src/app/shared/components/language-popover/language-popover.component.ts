@@ -11,7 +11,7 @@ import { PopoverController } from '@ionic/angular';
         *ngFor="let lng of this.languages"
         name="Change Language Item"
         (click)="this.select(lng.value)"
-        appTrackClickUnauth
+        appTrackClick
         [dataToTrack]="{
           eventLabel: 'Select Language',
           description: lng.value
@@ -19,24 +19,17 @@ import { PopoverController } from '@ionic/angular';
         detail="false"
       >
         <ion-label class="ion-text-wrap">{{ lng.text }}</ion-label>
-        <ion-icon
-          slot="end"
-          name="checkmark"
-          *ngIf="lng.value === this.selected"
-        ></ion-icon>
+        <ion-icon slot="end" name="checkmark" *ngIf="lng.value === this.selected"></ion-icon>
       </ion-item>
     </ion-list>
   `,
-  styleUrls: ['./language-popover.component.scss']
+  styleUrls: ['./language-popover.component.scss'],
 })
 export class LanguagePopoverComponent implements OnInit {
   languages: any[];
   selected: string;
 
-  constructor(
-    private languageService: LanguageService,
-    private popoverController: PopoverController
-  ) {}
+  constructor(private languageService: LanguageService, private popoverController: PopoverController) {}
 
   ngOnInit() {
     this.languages = this.languageService.getLanguages();

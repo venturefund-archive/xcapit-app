@@ -25,28 +25,28 @@ import { NavController } from '@ionic/angular';
           <div class="ion-padding-top">
             <ion-button
               *ngIf="!this.isReset"
-              appTrackClickUnauth
+              appTrackClick
               name="Reset Password Email"
               expand="block"
               size="large"
               type="submit"
               color="uxsecondary"
               class="ux_button"
-              [disabled]="(this.submitButtonService.isDisabled | async)"
+              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'usuarios.reset_password.reset_button' | translate }}
             </ion-button>
 
             <ion-button
               *ngIf="this.isReset"
-              appTrackClickUnauth
+              appTrackClick
               name="Reset Password Confirm"
               expand="block"
               size="large"
               type="submit"
               color="uxsecondary"
               class="ux_button"
-              [disabled]="(this.submitButtonService.isDisabled | async)"
+              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'usuarios.reset_password.send_email_button' | translate }}
             </ion-button>
@@ -55,7 +55,7 @@ import { NavController } from '@ionic/angular';
       </app-reset-password-form>
     </ion-content>
   `,
-  styleUrls: ['./reset-password.page.scss']
+  styleUrls: ['./reset-password.page.scss'],
 })
 export class ResetPasswordPage implements OnInit {
   @ViewChild(ResetPasswordFormComponent, { static: true })
@@ -80,9 +80,7 @@ export class ResetPasswordPage implements OnInit {
   }
 
   getParams() {
-    this.token = this.activatedRoute.snapshot.paramMap.get(
-      'resetPasswordToken'
-    );
+    this.token = this.activatedRoute.snapshot.paramMap.get('resetPasswordToken');
     this.uidb64 = this.activatedRoute.snapshot.paramMap.get('uidb64');
   }
 
@@ -95,7 +93,7 @@ export class ResetPasswordPage implements OnInit {
       ? this.apiUsuarios.resetPassword({
           token: this.token,
           uidb64: this.uidb64,
-          ...data
+          ...data,
         })
       : this.apiUsuarios.sendResetPasswordEmail(data);
     result$.subscribe(() => this.success());

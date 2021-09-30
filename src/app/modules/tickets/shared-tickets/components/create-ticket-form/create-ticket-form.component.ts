@@ -43,7 +43,7 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_message' | translate"
         ></app-ux-textarea>
         <ion-button
-          appTrackClickUnauth
+          appTrackClick
           class="button"
           name="Submit"
           size="medium"
@@ -56,7 +56,7 @@ import { TranslateService } from '@ngx-translate/core';
       </form>
       <ion-button
         *ngIf="this.isValidationEmail"
-        appTrackClickUnauth
+        appTrackClick
         class="button"
         name="Cancel"
         size="medium"
