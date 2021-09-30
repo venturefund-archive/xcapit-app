@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { INotification } from '../notifications/notifications.interface';
 import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
-import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 @Injectable({
   providedIn: 'root',
