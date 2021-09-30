@@ -1384,7 +1384,11 @@
         "title": "Transfer data",
         "amounts_title": "Amount to send",
         "send_button": "Send",
-        "wrong_password": "Wrong password"
+        "wrong_password": "Wrong password",
+        "sent_notification": {
+          "title": "¡Your transfer was completed successfully!",
+          "body": "¡Your transfer to {{address}} was completed successfully!"
+        }
       },
       "send_success": {
         "textPrimary": "Your transfer was made.",
