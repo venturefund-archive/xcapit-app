@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { INotification } from '../notifications/notifications.interface';
 import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,12 @@ export class CapacitorNotificationsService implements INotification {
   token = '';
   pushNotifications = Plugins.PushNotifications;
 
-  constructor(private apiDevicesService: ApiDevicesService) {
-    this.addListeners();
-  }
+  constructor(private apiDevicesService: ApiDevicesService) {}
 
   init(): void {
     this.pushNotifications.requestPermission().then((result) => {
       if (result.granted) {
+        this.addListeners();
         this.pushNotifications.register();
       } else {
         console.log('Notifications permission not granted');
