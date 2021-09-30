@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { TacAcceptedGuard } from './tac-accepted.guard';
 import { TacHelperService } from '../../services/tac-helper/tac-helper.service';
@@ -10,14 +10,9 @@ describe('TacAcceptedGuard', () => {
   let tacHelperServiceSpy: any;
 
   beforeEach(() => {
-    tacHelperServiceSpy = jasmine.createSpyObj('TacHelperService', [
-      'isTaCAccepted'
-    ]);
+    tacHelperServiceSpy = jasmine.createSpyObj('TacHelperService', ['isTaCAccepted']);
     TestBed.configureTestingModule({
-      providers: [
-        TacAcceptedGuard,
-        { provide: TacHelperService, useValue: tacHelperServiceSpy }
-      ]
+      providers: [TacAcceptedGuard, { provide: TacHelperService, useValue: tacHelperServiceSpy }],
     });
   });
 
@@ -33,20 +28,20 @@ describe('TacAcceptedGuard', () => {
     tacHelperServiceSpy.isTaCAccepted.and.returnValue(of(true));
     tacAcceptedGuard
       .canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
-      .subscribe(result => expect(result).toBe(true));
+      .subscribe((result) => expect(result).toBe(true));
   });
 
   it('should not be able to hit route when isTaCAccepted is false', () => {
     tacHelperServiceSpy.isTaCAccepted.and.returnValue(of(false));
     tacAcceptedGuard
       .canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
-      .subscribe(result => expect(result).toBe(false));
+      .subscribe((result) => expect(result).toBe(false));
   });
 
   it('should call isTaCAccepted on tacHelperService when canActivate', () => {
     tacHelperServiceSpy.isTaCAccepted.and.returnValue(of(true));
     tacAcceptedGuard
       .canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
-      .subscribe(result => expect(tacHelperServiceSpy.isTaCAccepted).toHaveBeenCalledTimes(1));
+      .subscribe((result) => expect(tacHelperServiceSpy.isTaCAccepted).toHaveBeenCalledTimes(1));
   });
 });

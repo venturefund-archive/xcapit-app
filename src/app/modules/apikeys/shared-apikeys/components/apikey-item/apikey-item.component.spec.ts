@@ -7,7 +7,6 @@ import { ApikeyItemComponent } from './apikey-item.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ListApikeysPage } from '../../../list-apikeys/list-apikeys.page';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { DummyComponent } from 'src/testing/dummy.component.spec';

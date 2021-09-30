@@ -3,7 +3,6 @@ import { IonicModule } from '@ionic/angular';
 import { UxSegmentComponent } from './ux-segment.component';
 import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
-import { TrackClickDirective } from '../../directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 

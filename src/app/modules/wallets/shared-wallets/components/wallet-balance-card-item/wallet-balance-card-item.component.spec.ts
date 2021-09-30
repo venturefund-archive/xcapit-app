@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
-import { AssetBalance } from '../../interfaces/asset-balance.interface';
 import { UrlSerializer } from '@angular/router';
 
 import { WalletBalanceCardItemComponent } from './wallet-balance-card-item.component';

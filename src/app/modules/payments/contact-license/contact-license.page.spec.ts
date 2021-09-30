@@ -11,7 +11,6 @@ import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
 
 import { ContactLicensePage } from './contact-license.page';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 

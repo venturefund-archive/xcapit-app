@@ -9,7 +9,6 @@ import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';

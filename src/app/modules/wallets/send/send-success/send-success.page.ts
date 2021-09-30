@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SUCCESS_TYPES } from '../../../../shared/components/success-content/success-types.constant';
 
 @Component({

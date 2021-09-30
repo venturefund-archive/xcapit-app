@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
-import { Validators, FormGroup, FormBuilder, Form } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ApiProfilesService } from '../../../shared-profiles/services/api-profiles/api-profiles.service';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

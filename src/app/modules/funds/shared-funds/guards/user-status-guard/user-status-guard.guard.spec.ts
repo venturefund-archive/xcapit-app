@@ -1,9 +1,9 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { UserStatusGuard } from './user-status-guard.guard';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Observable } from 'rxjs';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { ApiUsuariosService } from 'src/app/modules/usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';

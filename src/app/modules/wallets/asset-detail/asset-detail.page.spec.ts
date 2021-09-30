@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { AssetDetailPage } from './asset-detail.page';
@@ -14,7 +14,6 @@ import { WalletTransactionsService } from '../shared-wallets/services/wallet-tra
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
-import { COINS } from '../constants/coins';
 
 const testCoin = {
   test: [

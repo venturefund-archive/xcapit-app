@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundStopLossComponent } from './fund-stop-loss.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';

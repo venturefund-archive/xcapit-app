@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
-import { LoadingService } from '../../../../../shared/services/loading/loading.service';
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';

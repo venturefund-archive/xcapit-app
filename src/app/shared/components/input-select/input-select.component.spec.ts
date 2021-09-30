@@ -4,7 +4,6 @@ import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from 
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 import { InputSelectComponent } from './input-select.component';

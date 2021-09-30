@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton-notification-item',
@@ -14,6 +14,6 @@ import { Component, OnInit } from '@angular/core';
       </ion-label>
     </ion-item>
   `,
-  styleUrls: ['./skeleton-notification-item.component.scss']
+  styleUrls: ['./skeleton-notification-item.component.scss'],
 })
 export class SkeletonNotificationItemComponent {}

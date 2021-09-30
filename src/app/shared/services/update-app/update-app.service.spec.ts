@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
-import { SwUpdate } from '@angular/service-worker';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { UpdateAppService } from './update-app.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
