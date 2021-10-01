@@ -173,7 +173,7 @@ fdescribe('SendSummaryPage', () => {
   });
 
   it('should redirect to Wrong Address Page if could not resolve ENS', async () => {
-    walletTransactionsServiceSpy.send.and.throwError('provided ENS resolves to null ...');
+    walletTransactionsServiceSpy.send.and.throwError('provided ENS name resolves to null ...');
     component.ionViewWillEnter();
     fixture.detectChanges();
     const spyNav = spyOn(navController, 'navigateForward').and.callThrough();

@@ -25,6 +25,6 @@ export class ErrorIncorrectPasswordWalletPage implements OnInit {
   }
 
   goBackToSummary() {
-    this.navController.navigateBack('/wallets/send/summary', { state: { action: 'retry' } });
+    this.navController.navigateBack('/wallets/send/summary/retry');
   }
 }

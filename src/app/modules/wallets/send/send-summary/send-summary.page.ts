@@ -64,7 +64,6 @@ export class SendSummaryPage implements OnInit {
   }
 
   async checkMode() {
-    console.log(this.route.snapshot.paramMap.get('mode'));
     const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
     if (mode) {
       await this.send();
@@ -98,7 +97,7 @@ export class SendSummaryPage implements OnInit {
         if (error.message === 'invalid password') {
           this.navController.navigateForward('/wallets/send/error/incorrect-password');
         } else if (
-          error.message.startsWith('provided ENS resolves to null') ||
+          error.message.startsWith('provided ENS name resolves to null') ||
           error.message.startsWith('invalid address') ||
           error.message.startsWith('bad address checksum')
         ) {

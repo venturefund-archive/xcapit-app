@@ -4,7 +4,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 import { ErrorIncorrectPasswordWalletPage } from './error-incorrect-password-wallet.page';
 
-describe('ErrorIncorrectPasswordWalletPage', () => {
+fdescribe('ErrorIncorrectPasswordWalletPage', () => {
   let component: ErrorIncorrectPasswordWalletPage;
   let fixture: ComponentFixture<ErrorIncorrectPasswordWalletPage>;
   let fakeNavController: FakeNavController;
@@ -32,6 +32,6 @@ describe('ErrorIncorrectPasswordWalletPage', () => {
 
   it('should redirect to Send Summary Page with modal open on goBackToSummary', () => {
     component.goBackToSummary();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith('/wallets/send/summary', { state: { action: 'retry' } });
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith('/wallets/send/summary/retry');
   });
 });

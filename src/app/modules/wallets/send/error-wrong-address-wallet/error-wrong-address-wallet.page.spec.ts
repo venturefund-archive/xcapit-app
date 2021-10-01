@@ -39,6 +39,6 @@ fdescribe('ErrorWrongAddressWalletPage', () => {
 
   it('should redirect to Send Detail Page with coin selected and the address goBackToDetail', () => {
     component.goBackToDetail();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith('/wallets/send/detail/RBTC/retry');
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith('/wallets/send/detail/RBTC');
   });
 });

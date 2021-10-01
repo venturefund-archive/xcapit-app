@@ -27,6 +27,6 @@ export class ErrorWrongAddressWalletPage implements OnInit {
 
   goBackToDetail() {
     const coinValue = this.transactionDataService.transactionData.currency.value;
-    this.navController.navigateBack(`/wallets/send/detail/${coinValue}`, { state: { action: 'retry' } });
+    this.navController.navigateBack(`/wallets/send/detail/${coinValue}`);
   }
 }
