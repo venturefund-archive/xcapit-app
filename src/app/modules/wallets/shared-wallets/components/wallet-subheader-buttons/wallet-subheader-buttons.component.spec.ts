@@ -8,6 +8,7 @@ import { navControllerMock } from '../../../../../../testing/spies/nav-controlle
 import { WalletSubheaderButtonsComponent } from './wallet-subheader-buttons.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -19,9 +20,9 @@ describe('WalletSubheaderButtonsComponent', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [WalletSubheaderButtonsComponent, TrackClickDirective],
+        declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 

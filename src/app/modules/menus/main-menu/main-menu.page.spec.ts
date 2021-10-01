@@ -4,15 +4,14 @@ import { MainMenuPage } from './main-menu.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
 import { ReplaySubject, of } from 'rxjs';
-import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const appPages = [
   {
@@ -121,27 +120,22 @@ describe('MainMenuPage', () => {
   let component: MainMenuPage;
   let fixture: ComponentFixture<MainMenuPage>;
   let authServiceMock: any;
-  let trackServiceSpy: any;
   let languageServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MainMenuPage>;
   let apiApiKeysServiceSpy: any;
   let fiatRampsServiceSpy: any;
   let windowSpy: any;
-  let navControllerSpy: any;
   let modalControllerMock: any;
   let onDidDismissSpy: any;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
-      trackServiceSpy = jasmine.createSpyObj('LogsService', ['trackView']);
-      trackServiceSpy.trackView.and.returnValue(null);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       apiApiKeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', ['getAll']);
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', ['userHasOperations']);
-      navControllerSpy = jasmine.createSpyObj('NavController', [
-        'navigateForward',
-        'consumeTransition',
-        'navigateRoot',
-      ]);
       languageServiceSpy = jasmine.createSpyObj('LanguageService', [
         'setInitialAppLanguage',
         'getLanguages',
@@ -169,12 +163,10 @@ describe('MainMenuPage', () => {
         dismiss: Promise.resolve(),
       };
       modalControllerMock.create.and.callThrough();
-
       TestBed.configureTestingModule({
-        declarations: [MainMenuPage, TrackClickDirective],
+        declarations: [FakeTrackClickDirective, MainMenuPage],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
-          { provide: TrackService, useValue: trackServiceSpy },
           { provide: AuthService, useValue: authServiceMock },
           { provide: LanguageService, useValue: languageServiceSpy },
           { provide: ModalController, useValue: modalControllerMock },
@@ -182,7 +174,7 @@ describe('MainMenuPage', () => {
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
         ],
-        imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+        imports: [TranslateModule.forRoot()],
       }).compileComponents();
     })
   );

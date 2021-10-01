@@ -10,4 +10,5 @@ export interface Coin {
   abi?: JSON;
   decimals?: number;
   selected?: boolean;
+  native?: boolean;
 }

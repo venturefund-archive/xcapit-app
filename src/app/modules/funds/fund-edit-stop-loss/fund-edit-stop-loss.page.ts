@@ -21,6 +21,7 @@ import { NavController } from '@ionic/angular';
         *ngIf="this.stopLoss && this.profile"
         opType="edit"
         [stopLoss]="this.stopLoss"
+        [trailingStop]="this.trailingStop"
         [profile]="this.profile"
         (save)="this.handleSubmit($event)"
       ></app-fund-select-stop-loss>
@@ -32,6 +33,7 @@ export class FundEditStopLossPage implements OnInit {
   fundName: string;
   fund: any;
   stopLoss: number;
+  trailingStop: number;
   profile: string;
 
   constructor(private route: ActivatedRoute, private apiFunds: ApiFundsService, private navController: NavController) {}
@@ -44,6 +46,7 @@ export class FundEditStopLossPage implements OnInit {
       if (data) {
         this.fund = data;
         this.stopLoss = this.fund.perdida;
+        this.trailingStop = this.fund.trailing_stop;
         this.profile = this.fund.nivel_de_riesgo;
       }
     });

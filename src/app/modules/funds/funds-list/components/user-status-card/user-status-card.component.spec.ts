@@ -8,6 +8,7 @@ import { TrackClickDirective } from '../../../../../shared/directives/track-clic
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('UserStatusCardComponent', () => {
   let component: UserStatusCardComponent;
@@ -32,7 +33,7 @@ describe('UserStatusCardComponent', () => {
         getHideFunds: () => Promise.resolve(true),
       };
       TestBed.configureTestingModule({
-        declarations: [UserStatusCardComponent, TrackClickDirective, DummyComponent],
+        declarations: [UserStatusCardComponent, FakeTrackClickDirective, DummyComponent],
         imports: [
           IonicModule,
           HttpClientTestingModule,
@@ -44,7 +45,7 @@ describe('UserStatusCardComponent', () => {
             { path: 'notifications/list', component: DummyComponent },
           ]),
         ],
-        providers: [TrackClickDirective, { provide: LocalStorageService, useValue: localStorageServiceMock }],
+        providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(UserStatusCardComponent);

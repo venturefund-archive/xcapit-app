@@ -15,6 +15,7 @@ export const COINS: Coin[] = [
     value: 'ETH',
     network: 'ERC20',
     rpc: environment.ethAlchemyApiUrl,
+    native: true,
   },
   {
     id: 2,
@@ -72,6 +73,7 @@ export const COINS: Coin[] = [
     value: 'RBTC',
     network: 'RSK',
     rpc: environment.rskApiUrl,
+    native: true,
   },
   {
     id: 6,

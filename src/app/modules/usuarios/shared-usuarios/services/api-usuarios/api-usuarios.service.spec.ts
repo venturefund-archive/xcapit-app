@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 describe('ApiUsuariosService', () => {
   let service: ApiUsuariosService;
@@ -14,6 +15,7 @@ describe('ApiUsuariosService', () => {
   let customHttpServiceSpy: any;
   let storageSpy: any;
   let jwtHelperServiceSpy: any;
+  let authServiceSpy: any;
 
   beforeEach(() => {
     crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
@@ -21,18 +23,18 @@ describe('ApiUsuariosService', () => {
     customHttpServiceSpy.put.and.returnValue(of({}));
     customHttpServiceSpy.get.and.returnValue(of({}));
     customHttpServiceSpy.post.and.returnValue(of({}));
-    jwtHelperServiceSpy = jasmine.createSpyObj('JwtHelperService', [
-      'isTokenExpired'
-    ]);
+    jwtHelperServiceSpy = jasmine.createSpyObj('JwtHelperService', ['isTokenExpired']);
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['handleLoginResponse']);
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
+        { provide: AuthService, useValue: authServiceSpy },
         { provide: CrudService, useValue: crudSpy },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
         { provide: Storage, useValue: storageSpy },
-        { provide: JwtHelperService, useValue: jwtHelperServiceSpy }
-      ]
+        { provide: JwtHelperService, useValue: jwtHelperServiceSpy },
+      ],
     });
   });
 
@@ -59,6 +61,7 @@ describe('ApiUsuariosService', () => {
   it('should be call post on http when login', () => {
     service.login({}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+      expect(authServiceSpy.handleLoginResponse).toHaveBeenCalledTimes(1);
     });
   });
 

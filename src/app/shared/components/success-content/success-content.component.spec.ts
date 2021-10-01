@@ -9,6 +9,7 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { By } from '@angular/platform-browser';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { NavController } from '@ionic/angular';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('SuccessContentComponent', () => {
   let component: SuccessContentComponent;
@@ -37,7 +38,7 @@ describe('SuccessContentComponent', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         providers: [{ provide: NavController, useValue: navControllerSpy }],
-        declarations: [SuccessContentComponent, TrackClickDirective, DummyComponent],
+        declarations: [SuccessContentComponent, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       }).compileComponents();

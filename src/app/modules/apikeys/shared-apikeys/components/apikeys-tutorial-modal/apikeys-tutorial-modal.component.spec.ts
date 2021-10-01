@@ -8,6 +8,8 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApikeysTutorialModalComponent } from './apikeys-tutorial-modal.component';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { Fake } from '../../../../../../testing/fakes/fake.spec';
 
 describe('ApikeysTutorialModalComponent', () => {
   let component: ApikeysTutorialModalComponent;
@@ -22,10 +24,10 @@ describe('ApikeysTutorialModalComponent', () => {
       modalControllerSpy = fakeModalController.createSpy();
 
       TestBed.configureTestingModule({
-        declarations: [ApikeysTutorialModalComponent, TrackClickDirective],
+        declarations: [ApikeysTutorialModalComponent, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [TranslateModule.forRoot(), IonicModule.forRoot(), HttpClientTestingModule],
-        providers: [TrackClickDirective, { provide: ModalController, useValue: modalControllerSpy }],
+        providers: [{ provide: ModalController, useValue: modalControllerSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ApikeysTutorialModalComponent);

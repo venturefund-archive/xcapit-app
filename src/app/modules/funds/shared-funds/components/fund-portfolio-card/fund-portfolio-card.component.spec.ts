@@ -14,6 +14,7 @@ import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spe
 import { DecimalPipe } from '@angular/common';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testBalance = {
   balance: {
@@ -59,7 +60,13 @@ describe('FundPortfolioCardComponent', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [FundPortfolioCardComponent, TrackClickDirective, CurrencyFormatPipe, DecimalPipe, HideTextPipe],
+        declarations: [
+          FundPortfolioCardComponent,
+          FakeTrackClickDirective,
+          CurrencyFormatPipe,
+          DecimalPipe,
+          HideTextPipe,
+        ],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [

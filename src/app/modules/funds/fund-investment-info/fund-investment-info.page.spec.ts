@@ -9,6 +9,7 @@ import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { FundInvestmentInfoPage } from './fund-investment-info.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('FundInvestmentInfoPage', () => {
   let component: FundInvestmentInfoPage;
@@ -27,7 +28,7 @@ describe('FundInvestmentInfoPage', () => {
         }),
       };
       TestBed.configureTestingModule({
-        declarations: [FundInvestmentInfoPage, TrackClickDirective],
+        declarations: [FundInvestmentInfoPage, FakeTrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },

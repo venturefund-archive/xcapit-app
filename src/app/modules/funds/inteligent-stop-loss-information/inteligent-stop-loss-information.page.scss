@@ -1,0 +1,15 @@
+:host {
+  .text {
+    margin-top: 20px;
+  }
+  .text1 {
+    margin-bottom: 20px;
+  }
+
+  .button {
+    display: flex;
+    justify-content: normal;
+    margin-top: 16px;
+    flex-direction: column;
+  }
+}
