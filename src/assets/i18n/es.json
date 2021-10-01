@@ -1387,7 +1387,11 @@
         "title": "Datos de la transferencia",
         "amounts_title": "Monto a enviar",
         "send_button": "Enviar",
-        "wrong_password": "Password incorrecto"
+        "wrong_password": "Password incorrecto",
+        "sent_notification": {
+          "title": "¡Tu transferencia fue completada exitosamente!",
+          "body": "¡Tu transferencia a {{address}} fue completada con exito!"
+        }
       },
       "send_success": {
         "textPrimary": "Tu transferencia fue realizada",
