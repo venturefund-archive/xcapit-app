@@ -47,7 +47,7 @@ const serializedFund = {
   trailing_stop: 25,
 };
 
-fdescribe('FundEditStopLossPage', () => {
+describe('FundEditStopLossPage', () => {
   let component: FundEditStopLossPage;
   let fixture: ComponentFixture<FundEditStopLossPage>;
   let modalControllerSpy: any;
