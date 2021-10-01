@@ -30,6 +30,7 @@ import { InvestmentProductCardComponent } from './components/investment-product-
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { StrategyNamePipe } from './pipes/strategy-name/strategy-name.pipe';
 import { NoApikeysModalComponent } from './components/no-apikeys-modal/no-apikeys-modal.component';
+import { CustomStopLossSettingComponent } from './components/custom-stop-loss-setting/custom-stop-loss-setting.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { NoApikeysModalComponent } from './components/no-apikeys-modal/no-apikey
     CommissionsModalComponent,
     CommissionsContentComponent,
     CustomRangeModalComponent,
+    CustomStopLossSettingComponent,
     AbsoluteValuePipe,
     FundCardComponent,
     FundSummaryCardComponent,
@@ -77,6 +79,7 @@ import { NoApikeysModalComponent } from './components/no-apikeys-modal/no-apikey
     CommissionsModalComponent,
     CommissionsContentComponent,
     CustomRangeModalComponent,
+    CustomStopLossSettingComponent,
     AbsoluteValuePipe,
     FundCardComponent,
     FundSummaryCardComponent,
