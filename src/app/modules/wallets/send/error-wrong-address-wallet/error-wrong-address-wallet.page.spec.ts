@@ -4,7 +4,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { ErrorWrongAddressWalletPage } from './error-wrong-address-wallet.page';
 
-fdescribe('ErrorWrongAddressWalletPage', () => {
+describe('ErrorWrongAddressWalletPage', () => {
   let component: ErrorWrongAddressWalletPage;
   let fixture: ComponentFixture<ErrorWrongAddressWalletPage>;
   let fakeNavController: FakeNavController;

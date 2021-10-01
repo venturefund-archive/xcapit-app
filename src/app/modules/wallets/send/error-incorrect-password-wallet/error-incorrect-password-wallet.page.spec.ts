@@ -4,7 +4,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 import { ErrorIncorrectPasswordWalletPage } from './error-incorrect-password-wallet.page';
 
-fdescribe('ErrorIncorrectPasswordWalletPage', () => {
+describe('ErrorIncorrectPasswordWalletPage', () => {
   let component: ErrorIncorrectPasswordWalletPage;
   let fixture: ComponentFixture<ErrorIncorrectPasswordWalletPage>;
   let fakeNavController: FakeNavController;
