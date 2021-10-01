@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { CustomStopLossSettingComponent } from './custom-stop-loss-setting.component';
 
@@ -37,9 +37,9 @@ describe('CustomStopLossSettingComponent', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [CustomStopLossSettingComponent, TrackClickDirective],
+        declarations: [CustomStopLossSettingComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
-        providers: [TrackClickDirective, { provide: ModalController, useValue: modalControllerSpy }],
+        providers: [{ provide: ModalController, useValue: modalControllerSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(CustomStopLossSettingComponent);
