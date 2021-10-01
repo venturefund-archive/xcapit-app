@@ -94,8 +94,10 @@
     "app_icon_button_card": {
       "coming_soon": "Proximamente"
     },
-    "without_SL_TP": {
-      "without_stop_loss": "Manual",
+    "edit_SL_TP": {
+      "classic_stop_loss": "Clásico",
+      "inteligent_stop_loss": "Inteligente",
+      "without_stop_loss": "Sin Stop Loss",
       "without_take_profit": "Manual"
     },
     "step_counter": {
@@ -546,6 +548,13 @@
       "submit_button_edit": "Guardar",
       "edit_custom": "Editar",
       "edit_title": "Modificar Stop Loss",
+      "classic_stop_loss": "Stop loss clásico",
+      "inteligent_stop_loss": "Stop loss inteligente",
+      "without_stop_loss": "Sin stop loss",
+      "title_classicSL": "Escribe el % de stop loss clásico",
+      "message_classicSL": "Dejaremos de invertir si la inversión llega a este porcentaje de pérdida",
+      "title_inteligentSL": "Escribe el % de stop loss inteligente",
+      "message_inteligentSL": "El stop Loss se movera a este porcentaje de distancia del rendimiento del fondo",
       "manual_stop": "Voy a finalizarlo manualmente",
       "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas",
       "inteligent_stop_loss_info": "¿Qué es un Stop Loss Inteligente?",
