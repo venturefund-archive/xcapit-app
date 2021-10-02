@@ -61,12 +61,14 @@ export class FundEditStopLossPage implements OnInit {
       take_profit: fund.ganancia,
       stop_loss: fund.perdida,
       risk_level: fund.nivel_de_riesgo,
+      trailing_stop: fund.trailing_stop,
     };
     return newFundObject;
   }
 
   async handleSubmit(data: any) {
     this.fund.perdida = data.stop_loss;
+    this.fund.trailing_stop = data.trailing_stop;
     data = this.serializeFund(this.fund);
     this.apiFunds.crud.update(data, this.fund.id).subscribe(() => this.success());
   }
