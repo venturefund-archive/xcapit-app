@@ -4,6 +4,8 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
+    files: [{ pattern: 'www/svg/*.svg', watched: false, included: false, served: true }],
+    proxies: { '/svg/': '/base/www/svg' },
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),

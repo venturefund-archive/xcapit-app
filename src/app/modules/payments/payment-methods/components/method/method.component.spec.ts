@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { MethodComponent } from './method.component';
@@ -30,7 +29,7 @@ describe('MethodComponent', () => {
 
       fixture = TestBed.createComponent(MethodComponent);
       component = fixture.componentInstance;
-      component.paymentMethod = { link: 'testlink', name: 'test' };
+      component.paymentMethod = { link: 'testlink', name: 'Mercadopago' };
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       apiPaymentsServiceSpy = TestBed.inject(ApiPaymentsService);

@@ -4,8 +4,8 @@ import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from 
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { SelectStyleDirective } from '../../directives/select-style/select-style.directive';
 
 import { InputSelectComponent } from './input-select.component';
 const data = [
@@ -34,7 +34,7 @@ describe('InputSelectComponent', () => {
       abstractControlMock = { subscribe: () => Promise.resolve('') };
 
       TestBed.configureTestingModule({
-        declarations: [InputSelectComponent],
+        declarations: [InputSelectComponent, SelectStyleDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: ModalController, useValue: modalControllerSpy },

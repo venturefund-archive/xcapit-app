@@ -1,27 +1,34 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { BeforeStepDataGuard } from './before-step-data.guard';
 import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { FundDataStorageService } from '../../services/fund-data-storage/fund-data-storage.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DummyComponent } from '../../../../../../testing/dummy.component.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { NavController } from '@ionic/angular';
 
 let fundDataStorageServiceMock;
 let fundDataStorageService;
+let fakeNavController: FakeNavController;
+let navControllerSpy: any;
 
 describe('BeforeStepDataGuard', () => {
+  fakeNavController = new FakeNavController({}, {}, {});
+  navControllerSpy = fakeNavController.createSpy();
   let beforeStepDataGuard: BeforeStepDataGuard;
   beforeEach(() => {
     fundDataStorageServiceMock = {
       canActivatePage: () => Promise.resolve(true),
     };
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([{ path: 'funds/fund-name', component: DummyComponent }])],
       providers: [
         BeforeStepDataGuard,
         {
           provide: FundDataStorageService,
           useValue: fundDataStorageServiceMock,
+        },
+        {
+          provide: NavController,
+          useValue: navControllerSpy,
         },
       ],
     });

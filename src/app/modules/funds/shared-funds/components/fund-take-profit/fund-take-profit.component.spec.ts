@@ -1,9 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundTakeProfitComponent } from './fund-take-profit.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -44,7 +43,6 @@ describe('FundTakeProfitComponent', () => {
 
       TestBed.configureTestingModule({
         declarations: [FundTakeProfitComponent, FakeTrackClickDirective],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), IonicModule],
         providers: [
           {
@@ -57,6 +55,7 @@ describe('FundTakeProfitComponent', () => {
           },
           { provide: ModalController, useValue: modalControllerSpy },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
   );
@@ -246,12 +245,22 @@ describe('FundTakeProfitComponent', () => {
   });
 
   it('should open modal alert when manual option is selected', async () => {
-    fixture.debugElement.query(By.css('ion-radio-group')).triggerEventHandler('ionChange', { detail: { value: 5000 } });
+    component.profile = 'Mary_index';
+    component.ngOnInit();
+    fixture.detectChanges();
+    const targetEl = fixture.debugElement.query(By.css('ion-radio-group')).nativeElement;
+    const manualEvent = new CustomEvent('ionChange', { detail: { value: 5000 } });
+    targetEl.dispatchEvent(manualEvent);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should not open modal alert when an option different than manual is selected', async () => {
-    fixture.debugElement.query(By.css('ion-radio-group')).triggerEventHandler('ionChange', { detail: { value: 30 } });
+    component.takeProfit = 30;
+    component.ngOnInit();
+    fixture.detectChanges();
+    const targetEl = fixture.debugElement.query(By.css('ion-radio-group')).nativeElement;
+    const customEvent = new CustomEvent('ionChange', { detail: { value: 30 } });
+    targetEl.dispatchEvent(customEvent);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 });

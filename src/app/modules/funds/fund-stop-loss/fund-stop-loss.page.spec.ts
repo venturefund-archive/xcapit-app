@@ -10,7 +10,6 @@ import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { modalControllerMock } from '../../../../testing/spies/modal-controller-mock.spec';
 import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { By } from '@angular/platform-browser';

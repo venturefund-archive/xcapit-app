@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -14,7 +15,7 @@ const formData = {
     valueSL: 15,
   },
   invalid: {
-    valueSL: 'test',
+    valueSL: '',
   },
 };
 
@@ -40,6 +41,7 @@ describe('CustomStopLossSettingComponent', () => {
         declarations: [CustomStopLossSettingComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [{ provide: ModalController, useValue: modalControllerSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(CustomStopLossSettingComponent);
