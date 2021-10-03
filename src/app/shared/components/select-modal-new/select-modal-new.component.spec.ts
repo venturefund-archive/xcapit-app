@@ -11,7 +11,7 @@ const data = [
   { name: 'testName', value: 'testValue' },
   { name: 'testName2', value: 'testValue2' },
 ];
-fdescribe('SelectModalNewComponent', () => {
+describe('SelectModalNewComponent', () => {
   let component: SelectModalNewComponent;
   let fixture: ComponentFixture<SelectModalNewComponent>;
   let fakeModalController: FakeModalController;
