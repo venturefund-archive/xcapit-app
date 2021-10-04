@@ -1,17 +1,25 @@
 import { TestBed } from '@angular/core/testing';
 import { CapacitorNotificationsService } from './capacitor-notifications.service';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 describe('CapacitorNotificationsService', () => {
   let service: CapacitorNotificationsService;
   let pushNotificationsSpy: any;
   let apiDevicesServiceMock: any;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
 
   beforeEach(() => {
     apiDevicesServiceMock = {};
     pushNotificationsSpy = jasmine.createSpyObj('PushNotifications', ['requestPermission', 'register', 'addListener']);
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: false,
+    });
     TestBed.configureTestingModule({
-      providers: [{ provide: ApiDevicesService, useValue: apiDevicesServiceMock }],
+      providers: [
+        { provide: ApiDevicesService, useValue: apiDevicesServiceMock },
+        { provide: PlatformService, useValue: platformServiceSpy },
+      ],
     });
   });
 
@@ -34,5 +42,9 @@ describe('CapacitorNotificationsService', () => {
     pushNotificationsSpy.requestPermission.and.returnValue(Promise.resolve({ granted: false }));
     await service.init();
     expect(pushNotificationsSpy.register).not.toHaveBeenCalled();
+  });
+
+  it('should add listeners when platform is not native', () => {
+    expect(pushNotificationsSpy.addListener).toHaveBeenCalledTimes(0);
   });
 });
