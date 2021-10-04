@@ -29,7 +29,7 @@ describe('MethodComponent', () => {
 
       fixture = TestBed.createComponent(MethodComponent);
       component = fixture.componentInstance;
-      component.paymentMethod = { link: 'testlink', name: 'test' };
+      component.paymentMethod = { link: 'testlink', name: 'Mercadopago' };
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       apiPaymentsServiceSpy = TestBed.inject(ApiPaymentsService);

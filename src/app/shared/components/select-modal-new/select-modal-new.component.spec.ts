@@ -23,7 +23,7 @@ describe('SelectModalNewComponent', () => {
       spyModalController = fakeModalController.createSpy();
       TestBed.configureTestingModule({
         declarations: [SelectModalNewComponent],
-        imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
+        imports: [IonicModule, ReactiveFormsModule, TranslateModule.forRoot()],
         providers: [{ provide: ModalController, useValue: spyModalController }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -67,11 +67,10 @@ describe('SelectModalNewComponent', () => {
   });
 
   it('should close modal and emit event on dismiss', async () => {
-    fixture.debugElement
-      .query(By.css('ion-radio-group'))
-      .triggerEventHandler('ionChange', { detail: { value: data[0] } });
+    const targetEl = fixture.debugElement.query(By.css('ion-radio-group')).nativeElement;
+    const customEvent = new CustomEvent('ionChange', { detail: { value: data[0] } });
+    targetEl.dispatchEvent(customEvent);
     fixture.detectChanges();
-    await fixture.whenStable();
     expect(spyModalController.dismiss).toHaveBeenCalledOnceWith(data[0], 'selected');
   });
 
