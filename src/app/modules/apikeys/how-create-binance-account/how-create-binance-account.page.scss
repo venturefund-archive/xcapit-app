@@ -1,0 +1,27 @@
+:host {
+  .step {
+    padding-left: 1em;
+    text-indent: -1em;
+  }
+  .hcba {
+    &__embed {
+      height: auto;
+      width: auto;
+    }
+
+    &__title {
+      padding-top: 12px;
+    }
+
+    &__description {
+      display: flex;
+      flex-direction: column;
+      line-height: 24px;
+      padding-top: 16px;
+    }
+
+    &__button {
+      width: 100%;
+    }
+  }
+}
