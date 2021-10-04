@@ -18,17 +18,33 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 const formData = {
   valid: {
     stop_loss: 10,
+    trailing_stop: 25,
   },
   invalid: {
     stop_loss: '',
   },
 };
+
 const fund = {
+  id: 5,
   nombre_bot: 'test',
+  id_corrida: 1,
   currency: 'USDT',
   ganancia: 10,
   perdida: 10,
   nivel_de_riesgo: 'volume_profile_strategies_USDT',
+  trailing_stop: 25,
+};
+
+const serializedFund = {
+  fund_name: 'test',
+  id_corrida: 1,
+  currency: 'USDT',
+  take_profit: 10,
+  stop_loss: 10,
+  cantidad_dias: undefined,
+  risk_level: 'volume_profile_strategies_USDT',
+  trailing_stop: 25,
 };
 
 describe('FundEditStopLossPage', () => {
@@ -115,7 +131,7 @@ describe('FundEditStopLossPage', () => {
     selectStopLossComponent.triggerEventHandler('save', formData.valid);
     await fixture.whenStable();
 
-    expect(apiFundsServiceSpy.crud.update).toHaveBeenCalledTimes(1);
+    expect(apiFundsServiceSpy.crud.update).toHaveBeenCalledOnceWith(serializedFund, 5);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/funds/fund-settings', 'testFund']);
   });
 });
