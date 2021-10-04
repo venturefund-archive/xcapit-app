@@ -1578,14 +1578,7 @@
           "description": "Te contamos como crear una cuenta gratis en el exchange mas grande del mundo."
         }
       },
-      "tutorial_modal": {
-        "title": "Cómo crear una cuenta",
-        "text1": "Ingresa a la web de Binance, te recomendamos hacerlo desde una computadora.",
-        "text2": "Crea una cuenta con tu correo.",
-        "text3": "Verifica tu cuenta para poder utilizarla de manera segura.",
-        "text4": "¡Listo!",
-        "button": "Ya tengo una cuenta en Binance"
-      },
+
       "information_card": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la billetera Spot. No podremos realizar retiros."
     },
     "apikey_information": {
@@ -1620,6 +1613,15 @@
       "title": "¿Qué es una API key?",
       "description": "Una API key es una clave secreta que sirve para vincular tu cuenta de Binance con Xcapit. Al vincular la cuenta sólo nos das permiso para gestionar tus criptomonedas pero nunca retirarlas de tu cuenta, siempre están bajo tu control.",
       "button": "Ya tengo una API key"
+    },
+    "how_create_binance_account": {
+      "header": "Tutorial",
+      "title": "Cómo crear una cuenta en Binance",
+      "text1": "1. Entra a Binance",
+      "text2": "2. Crea una cuenta con tu correo.",
+      "text3": "3. Verifica tu cuenta para poder utilizarla de manera segura.",
+      "text4": "4. ¡Listo!",
+      "button": "Ya tengo una cuenta en Binance"
     }
   },
   "tabs": {

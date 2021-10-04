@@ -47,6 +47,7 @@ import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux
 import { InputSelectComponent } from './components/input-select/input-select.component';
 import { SelectModalNewComponent } from './components/select-modal-new/select-modal-new.component';
 import { SelectStyleDirective } from './directives/select-style/select-style.directive';
+import { EmbedVideoComponent } from './components/embed-video/embed-video.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     NeedHelpComponent,
     ToastAlertComponent,
     ScanQrModalComponent,
+    EmbedVideoComponent,
     // Ux
     SelectModalNewComponent,
     UxInputSelectTraductionComponent,
@@ -105,6 +107,7 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     ReactiveFormsModule,
   ],
   exports: [
+    EmbedVideoComponent,
     ErrorsFormItemComponent,
     CommonModule,
     ReactiveFormsModule,

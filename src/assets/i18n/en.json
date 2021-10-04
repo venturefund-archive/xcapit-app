@@ -1583,14 +1583,7 @@
           "description": "We tell you how to create a free account in the largest exchange in the world."
         }
       },
-      "tutorial_modal": {
-        "title": "How to create an account",
-        "text1": "Go to Binance web page, we recomend to use a computer.",
-        "text2": "Create an account using your email.",
-        "text3": "Verify your account so you can use it safely.",
-        "text4": "Done!",
-        "button": "I have a Binance account"
-      },
+
       "information_card": "Remember that for your safety, we will only have permits to operate on the total of your capital in the Spot wallet. We will not be able to make withdrawals."
     },
     "apikey_information": {
@@ -1625,6 +1618,15 @@
       "title": "What is an API key?",
       "description": "An API key is a secret key that can be used to link your Binance account with Xcapit. In doing so you only give us permission to manage your cryptocurrencies but we can't take them out from your account. They are always under your control.",
       "button": "I have an API key"
+    },
+    "how_create_binance_account": {
+      "header": "Tutorial",
+      "title": "How to create an account on Binance",
+      "text1": "1. Go to Binance web page",
+      "text2": "2. Create an account using your email.",
+      "text3": "3. Verify your account so you can use it safely.",
+      "text4": "4. Done!",
+      "button": "I have a Binance account"
     }
   },
   "deposit_addresses": {
