@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
@@ -48,7 +49,7 @@ describe('HowCreateBinanceAccountPage', () => {
   });
 
   it('should call navigateForward in goToTutorialAPIKey ', () => {
-    component.goToTutorialAPIKey();
+    fixture.debugElement.query(By.css('ion-button[name="Have A Binance Account"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/apikeys/tutorial/apikeys']);
   });
 });

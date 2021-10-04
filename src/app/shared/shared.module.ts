@@ -48,6 +48,7 @@ import { InputSelectComponent } from './components/input-select/input-select.com
 import { SelectModalNewComponent } from './components/select-modal-new/select-modal-new.component';
 import { SelectStyleDirective } from './directives/select-style/select-style.directive';
 import { EmbedVideoComponent } from './components/embed-video/embed-video.component';
+import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { EmbedVideoComponent } from './components/embed-video/embed-video.compon
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
+    SafeURLPipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [

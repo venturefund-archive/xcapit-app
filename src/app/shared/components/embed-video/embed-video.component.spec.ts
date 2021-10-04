@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
+import { SafeURLPipe } from '../../pipes/safe-url/safe-url.pipe';
 
 import { EmbedVideoComponent } from './embed-video.component';
 
@@ -11,12 +12,13 @@ describe('EmbedVideoComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [EmbedVideoComponent],
+        declarations: [EmbedVideoComponent, SafeURLPipe],
         imports: [IonicModule.forRoot()],
       }).compileComponents();
 
       fixture = TestBed.createComponent(EmbedVideoComponent);
       component = fixture.componentInstance;
+      component.url = '';
       fixture.detectChanges();
     })
   );
@@ -28,6 +30,6 @@ describe('EmbedVideoComponent', () => {
   it('should set url on iframe src attribute', () => {
     const iframe = fixture.debugElement.query(By.css('iframe'));
     const src = iframe.nativeElement.attributes.src.value;
-    expect(src).toBe('https://www.youtube.com/embed/2tr-aQ78Ohg');
+    expect(src).toBe('');
   });
 });

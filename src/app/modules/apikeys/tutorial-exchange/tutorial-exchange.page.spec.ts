@@ -125,6 +125,7 @@ describe('TutorialExchangePage', () => {
   });
 
   it('should navigate to how-to-create-binance-account page when Doesnt Have Binance Account button is clicked', () => {
+    fixture.debugElement.query(By.css('div[name="Doesnt Have Binance Account"]')).nativeElement.click();
     component.accountDoesntExist();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/apikeys/how-create-binance-account']);
   });

@@ -34,7 +34,7 @@ import { NavController } from '@ionic/angular';
             </ion-text>
           </div>
           <div class="hcba__embed">
-            <app-embed-video></app-embed-video>
+            <app-embed-video url="https://www.youtube.com/embed/2tr-aQ78Ohg"></app-embed-video>
           </div>
         </div>
         <div class="ux_footer">
