@@ -64,7 +64,7 @@ import { ManualSLTP } from '../shared-funds/constants/manual-stop-loss-take-prof
                   </h2>
                   <h3 *ngIf="this.fund?.ganancia !== manualSLTP.takeProfit">{{ this.fund?.ganancia }}%</h3>
                   <h3 *ngIf="this.fund?.ganancia === manualSLTP.takeProfit">
-                    {{ 'shared.without_SL_TP.without_take_profit' | translate }}
+                    {{ 'shared.edit_SL_TP.without_take_profit' | translate }}
                   </h3>
                 </ion-label>
                 <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
@@ -75,9 +75,20 @@ import { ManualSLTP } from '../shared-funds/constants/manual-stop-loss-take-prof
                   <h2>
                     {{ 'funds.fund_settings.stop_loss' | translate }}
                   </h2>
-                  <h3 *ngIf="this.fund?.perdida !== manualSLTP.stopLoss">{{ this.fund?.perdida }}%</h3>
-                  <h3 *ngIf="this.fund?.perdida === manualSLTP.stopLoss">
-                    {{ 'shared.without_SL_TP.without_stop_loss' | translate }}
+                  <h3 *ngIf="this.fund?.perdida === manualSLTP.stopLoss && this.fund?.trailing_stop === 0">
+                    {{ 'shared.edit_SL_TP.without_stop_loss' | translate }}
+                  </h3>
+                  <h3 *ngIf="this.fund?.trailing_stop > 0 && this.fund?.trailing_stop === this.fund?.perdida">
+                    {{ 'shared.edit_SL_TP.inteligent_stop_loss' | translate }}
+                  </h3>
+                  <h3
+                    *ngIf="
+                      this.fund?.perdida > 0 &&
+                      this.fund?.perdida !== manualSLTP.stopLoss &&
+                      this.fund?.trailing_stop === 0
+                    "
+                  >
+                    {{ 'shared.edit_SL_TP.classic_stop_loss' | translate }}
                   </h3>
                 </ion-label>
                 <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>

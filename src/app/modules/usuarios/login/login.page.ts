@@ -3,12 +3,13 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
-import { Router } from '@angular/router';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
 import '@codetrix-studio/capacitor-google-auth';
 import { Plugins } from '@capacitor/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +40,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
             size="small"
             type="button"
             color="uxsecondary"
-            [routerLink]="['/users/reset-password']"
+            (click)="this.goToResetPassword()"
           >
             {{ 'usuarios.login.reset_password_link' | translate }}
           </ion-button>
@@ -67,7 +68,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
             expand="block"
             type="button"
             color="uxsecondary"
-            [routerLink]="['/users/register']"
+            (click)="this.goToRegister()"
             class="ux_button"
           >
             {{ 'usuarios.login.register_link' | translate }}
@@ -107,9 +108,10 @@ export class LoginPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
     private subscriptionsService: SubscriptionsService,
-    private router: Router,
     private loadingService: LoadingService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private localNotificationsService: LocalNotificationsService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
@@ -130,10 +132,11 @@ export class LoginPage implements OnInit {
     this.apiUsuarios.login(data).subscribe(() => this.success());
   }
 
-  async success() {
+  private async success() {
     this.loadingService.enabled();
     this.loginForm.form.reset();
     this.notificationsService.getInstance().init();
+    this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
@@ -169,6 +172,14 @@ export class LoginPage implements OnInit {
 
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.status_name);
-    this.router.navigate(url).then(() => this.loadingService.disabled());
+    this.navController.navigateForward(url).then(() => this.loadingService.disabled());
+  }
+
+  async goToResetPassword() {
+    await this.navController.navigateForward(['/users/reset-password']);
+  }
+
+  async goToRegister() {
+    await this.navController.navigateForward(['/users/register']);
   }
 }

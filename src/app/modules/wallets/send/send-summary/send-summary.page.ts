@@ -7,6 +7,12 @@ import { ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
+import { TranslateService } from '@ngx-translate/core';
+import { throwError } from 'rxjs';
+import { LocalNotification } from '@capacitor/core';
+import { ToastService } from '../../../../shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-send-summary',
@@ -36,7 +42,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
           appTrackClick
           name="Send"
           [disabled]="this.submitButtonService.isDisabled | async"
-          (click)="this.send()"
+          (click)="this.beginSend()"
           >{{ 'wallets.send.send_summary.send_button' | translate }}</ion-button
         >
       </div>
@@ -54,13 +60,15 @@ export class SendSummaryPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private localNotificationsService: LocalNotificationsService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(async () => {
       const navParams = this.router.getCurrentNavigation().extras.state;
-      if (navParams) await this.send();
+      if (navParams) await this.beginSend();
     });
   }
 
@@ -78,26 +86,49 @@ export class SendSummaryPage implements OnInit {
     return data;
   }
 
-  async send() {
-    const password = await this.askForPassword();
+  beginSend() {
+    this.askForPassword().then((password: string) => this.send(password));
+  }
 
-    if (!!password) {
-      await this.loadingService.show();
-      try {
-        await this.walletTransactionsService.send(
-          password,
-          this.summaryData.amount,
-          this.summaryData.address,
-          this.summaryData.currency
-        );
-        await this.navController.navigateForward(['/wallets/send/success']);
-      } catch (error) {
-        if (error.message === 'invalid password') {
-          this.navController.navigateForward('/wallets/send/error/incorrect-password');
-        }
-      } finally {
-        await this.loadingService.dismiss();
-      }
+  private goToSuccess(response: TransactionResponse) {
+    this.navController.navigateForward(['/wallets/send/success']).then(() => this.notifyWhenTransactionMined(response));
+  }
+
+  private send(password: string) {
+    this.loadingService.show().then();
+    this.walletTransactionsService
+      .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
+      .then((response: TransactionResponse) => this.goToSuccess(response))
+      .catch((error) => this.handleSendError(error))
+      .finally(() => this.loadingService.dismiss());
+  }
+
+  private createNotification(transaction: TransactionReceipt): LocalNotification[] {
+    return [
+      {
+        id: 1,
+        title: this.translate.instant('wallets.send.send_summary.sent_notification.title'),
+        body: this.translate.instant('wallets.send.send_summary.sent_notification.body', {
+          address: transaction.to,
+        }),
+      },
+    ];
+  }
+
+  private notifyWhenTransactionMined(response: TransactionResponse) {
+    response
+      .wait()
+      .then((transaction: TransactionReceipt) => this.createNotification(transaction))
+      .then((notification: LocalNotification[]) => this.localNotificationsService.send(notification));
+  }
+
+  private handleSendError(error) {
+    let url: string;
+    switch (error.message) {
+      case 'invalid password':
+        url = '/wallets/send/error/incorrect-password';
+        break;
     }
+    this.navController.navigateForward(url).then();
   }
 }

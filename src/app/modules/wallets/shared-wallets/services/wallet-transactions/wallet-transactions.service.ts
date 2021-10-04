@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
@@ -23,26 +24,43 @@ export class WalletTransactionsService {
     private ethersService: EthersService
   ) {}
 
-  async send(password: string, amount: number | string, targetAddress: string, currency: Coin) {
+  async send(
+    password: string,
+    amount: number | string,
+    targetAddress: string,
+    currency: Coin
+  ): Promise<TransactionResponse> {
     const providerData = await this.blockchainProviderService.getProvider(currency.value);
     let wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, currency);
     wallet = wallet.connect(providerData.provider);
+    let transactionResponse: TransactionResponse;
     if (!currency.contract) {
-      await this.transferNativeToken(wallet, targetAddress, amount);
+      transactionResponse = await this.transferNativeToken(wallet, targetAddress, amount);
     } else {
-      await this.transferNoNativeToken(wallet, amount, targetAddress, currency, providerData.abi);
+      transactionResponse = await this.transferNoNativeToken(wallet, amount, targetAddress, currency, providerData.abi);
     }
+    return transactionResponse;
   }
 
-  private async transferNativeToken(wallet: Wallet, targetAddress: string, amount: Amount) {
-    await wallet.sendTransaction({
+  private async transferNativeToken(
+    wallet: Wallet,
+    targetAddress: string,
+    amount: Amount
+  ): Promise<TransactionResponse> {
+    return await wallet.sendTransaction({
       to: targetAddress,
       value: parseEther(amount.toString()),
     });
   }
 
-  private async transferNoNativeToken(wallet: Wallet, amount: Amount, targetAddress: string, currency: Coin, abi) {
-    await this.ethersService
+  private async transferNoNativeToken(
+    wallet: Wallet,
+    amount: Amount,
+    targetAddress: string,
+    currency: Coin,
+    abi
+  ): Promise<TransactionResponse> {
+    return await this.ethersService
       .newContract(currency.contract, abi, wallet)
       .transfer(targetAddress, parseUnits(amount.toString(), currency.decimals));
   }

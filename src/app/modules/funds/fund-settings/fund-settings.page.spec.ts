@@ -24,6 +24,23 @@ const fundWithoutSLAndTP = {
   currency: 'USDT',
   ganancia: 5000,
   perdida: 100,
+  trailing_stop: 0,
+};
+
+const fundInteligentSL = {
+  nombre_bot: 'test',
+  currency: 'USDT',
+  ganancia: 5000,
+  perdida: 25,
+  trailing_stop: 25,
+};
+
+const fundClassicSL = {
+  nombre_bot: 'test',
+  currency: 'USDT',
+  ganancia: 5000,
+  perdida: 15,
+  trailing_stop: 0,
 };
 
 const ak = {
@@ -106,26 +123,49 @@ describe('FundSettingsPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should render manual stop loss code and take_profit code if the stop loss is manual and take profit is manual', () => {
+  it('should render manual take_profit code if take profit is manual', () => {
+    const spy = spyOn(apiFundsService, 'getLastFundRun');
+    spy.and.returnValue(of(fundWithoutSLAndTP));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const takeProfitEl = fixture.debugElement.query(By.css('.fs__take_profit h3'));
+    expect(takeProfitEl.nativeElement.innerHTML).toContain('shared.edit_SL_TP.without_take_profit');
+  });
+
+  it('should render manual take_profit code if take profit is different than manual', () => {
+    const spy = spyOn(apiFundsService, 'getLastFundRun');
+    spy.and.returnValue(of(fund));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const takeProfitEl = fixture.debugElement.query(By.css('.fs__take_profit h3'));
+    expect(takeProfitEl.nativeElement.innerHTML).toContain('10%');
+  });
+
+  it('should render without stop loss code if the stop loss is 100', () => {
     const spy = spyOn(apiFundsService, 'getLastFundRun');
     spy.and.returnValue(of(fundWithoutSLAndTP));
     component.ionViewWillEnter();
     fixture.detectChanges();
     const stopLossEl = fixture.debugElement.query(By.css('.fs__stop_loss h3'));
-    expect(stopLossEl.nativeElement.innerHTML).toContain('shared.without_SL_TP.without_stop_loss');
-    const takeProfitEl = fixture.debugElement.query(By.css('.fs__take_profit h3'));
-    expect(takeProfitEl.nativeElement.innerHTML).toContain('shared.without_SL_TP.without_take_profit');
+    expect(stopLossEl.nativeElement.innerHTML).toContain('shared.edit_SL_TP.without_stop_loss');
   });
 
-  it('should render manual stop loss code and take_profit code if the stop loss and take profit are different than manual', () => {
+  it('should render inteligent stop loss code if the trailing stop is greater than 0', () => {
     const spy = spyOn(apiFundsService, 'getLastFundRun');
-    spy.and.returnValue(of(fund));
+    spy.and.returnValue(of(fundInteligentSL));
     component.ionViewWillEnter();
     fixture.detectChanges();
     const stopLossEl = fixture.debugElement.query(By.css('.fs__stop_loss h3'));
-    expect(stopLossEl.nativeElement.innerHTML).toContain('10%');
-    const takeProfitEl = fixture.debugElement.query(By.css('.fs__take_profit h3'));
-    expect(takeProfitEl.nativeElement.innerHTML).toContain('10%');
+    expect(stopLossEl.nativeElement.innerHTML).toContain('shared.edit_SL_TP.inteligent_stop_loss');
+  });
+
+  it('should render classic stop loss code if the trailing stop is equal to 0 and stop loss greater than 0', () => {
+    const spy = spyOn(apiFundsService, 'getLastFundRun');
+    spy.and.returnValue(of(fundClassicSL));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const stopLossEl = fixture.debugElement.query(By.css('.fs__stop_loss h3'));
+    expect(stopLossEl.nativeElement.innerHTML).toContain('shared.edit_SL_TP.classic_stop_loss');
   });
 
   it('should navigate to Edit Stop Loss Page when ', () => {

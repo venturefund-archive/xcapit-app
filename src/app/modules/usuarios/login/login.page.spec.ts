@@ -6,30 +6,28 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let apiUsuariosSpy: any;
-  let apiUsuariosService: any;
-  let subscriptionsService: any;
   let subscriptionsServiceSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginPage>;
+  let fakeNavController: FakeNavController;
   let navControllerSpy: any;
-  let googleAuthPluginMock: any;
   let googleAuthPluginSpy: any;
   let notificationsServiceSpy: any;
   let pwaNotificationServiceSpy: any;
-
+  let localNotificationServiceSpy: any;
   const formData = {
     valid: {
       email: 'test@test.com',
@@ -41,41 +39,35 @@ describe('LoginPage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', ['login', 'loginWithGoogle', 'status']);
-      apiUsuariosSpy.login.and.returnValue(of({}));
-      apiUsuariosSpy.loginWithGoogle.and.returnValue(of({}));
-      apiUsuariosSpy.status.and.returnValue(of({ status_name: 'COMPLETE' }));
-      subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', ['checkStoredLink']);
-      subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(true));
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      googleAuthPluginMock = { signIn: () => Promise.resolve() };
-      googleAuthPluginSpy = jasmine.createSpyObj('GoogleAuth', googleAuthPluginMock);
-      googleAuthPluginSpy.signIn.and.returnValue(Promise.resolve({ authentication: { idToken: '' } }));
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', {
+        login: of({}),
+        loginWithGoogle: of({}),
+        status: of({ status_name: 'COMPLETE' }),
+      });
+      subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', {
+        checkStoredLink: Promise.resolve(false),
+      });
+      googleAuthPluginSpy = jasmine.createSpyObj('GoogleAuth', {
+        signIn: Promise.resolve({ authentication: { idToken: '' } }),
+      });
 
       pwaNotificationServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
-      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['getInstance']);
-      notificationsServiceSpy.getInstance.and.returnValue(pwaNotificationServiceSpy);
-
+      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+        getInstance: pwaNotificationServiceSpy,
+      });
+      localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
       TestBed.configureTestingModule({
         declarations: [LoginPage, AuthFormComponent, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          HttpClientTestingModule,
-          TranslateModule.forRoot(),
-          RouterTestingModule.withRoutes([
-            { path: 'users/register', component: DummyComponent },
-            { path: 'tabs/home', component: DummyComponent },
-            { path: 'tutorials/first-steps', component: DummyComponent },
-            { path: 'users/reset-password', component: DummyComponent },
-          ]),
-          ReactiveFormsModule,
-          IonicModule,
-        ],
+        imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
         providers: [
           { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
+          { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
         ],
       }).compileComponents();
     })
@@ -83,8 +75,6 @@ describe('LoginPage', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginPage);
-    subscriptionsService = TestBed.inject(SubscriptionsService);
-    apiUsuariosService = TestBed.inject(ApiUsuariosService);
     component = fixture.componentInstance;
     component.googleAuthPlugin = googleAuthPluginSpy;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
@@ -95,37 +85,22 @@ describe('LoginPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call success from loginUser', () => {
-    const spy = spyOn(component, 'success');
-    component.loginUser(null);
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should reset form on success', () => {
+  it('should set up on login success without stored link', async () => {
     const spy = spyOn(component.loginForm.form, 'reset');
-    component.success();
+    await component.loginUser({});
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should get instance of notification service on success', () => {
-    component.success();
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
-  });
-
-  it('should init notification service on success', () => {
-    component.success();
     expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
+    expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
+    expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
   });
 
-  it('should call checkStoredLink on success', () => {
-    component.success();
-    expect(subscriptionsService.checkStoredLink).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call status on storedLink not exists', async () => {
-    subscriptionsService.checkStoredLink.and.returnValue(Promise.resolve(false));
-    await component.success();
-    expect(apiUsuariosService.status).toHaveBeenCalledTimes(1);
+  it('should not call user service status when stored link', async () => {
+    subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(true));
+    await component.loginUser({});
+    await fixture.whenStable();
+    expect(apiUsuariosSpy.status).not.toHaveBeenCalled();
   });
 
   it('should redirect to fund list when status is COMPLETE', () => {
@@ -158,17 +133,22 @@ describe('LoginPage', () => {
     expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
   });
 
-  it('should call success after successful login with Google', async () => {
-    const spy = spyOn(component, 'success');
+  it('should set up login with Google', async () => {
+    const spy = spyOn(component.loginForm.form, 'reset');
     await component.googleSingUp();
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+    expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
+    expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
+    expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call success if user closed login with Google window', async () => {
-    const spy = spyOn(component, 'success');
+  it('should not call login with google if user closed login with Google window', async () => {
     googleAuthPluginSpy.signIn.and.throwError('User closed window');
     await component.googleSingUp();
-    expect(spy).toHaveBeenCalledTimes(0);
+    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
   });
 
   it('should not call loginWithGoogle if user closed login with Google window', async () => {

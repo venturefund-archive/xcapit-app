@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FundStopLossComponent } from './fund-stop-loss.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { of } from 'rxjs';
@@ -13,15 +12,6 @@ import { By } from '@angular/platform-browser';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-
-const formData = {
-  valid: {
-    stop_loss: 15,
-  },
-  invalid: {
-    stop_loss: '',
-  },
-};
 
 describe('FundStopLossComponent', () => {
   let component: FundStopLossComponent;
@@ -38,7 +28,7 @@ describe('FundStopLossComponent', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', {
-        getMostChosenSL: of(10),
+        getMostChosenSL: of(1),
       });
       fakeNavController = new FakeNavController({}, Promise.resolve(), {});
       navControllerSpy = fakeNavController.createSpy();
@@ -82,16 +72,10 @@ describe('FundStopLossComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Edit Custom Stop Loss button clicked', () => {
-    component.stopLossOptions = [
-      {
-        name: '+35%',
-        value: 35,
-        custom: true,
-      },
-    ];
+  it('should call trackEvent on trackService when radio button classicStopLoss clicked', () => {
+    component.selected = 'classicStopLoss';
     fixture.detectChanges();
-    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Custom Stop Loss');
+    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Classic Stop Loss');
     const directive = trackClickDirectiveHelper.getDirective(button);
     const spy = spyOn(directive, 'clickEvent');
     button.nativeElement.click();
@@ -99,8 +83,10 @@ describe('FundStopLossComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Create Custom Stop Loss button clicked', () => {
-    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Custom Stop Loss');
+  it('should call trackEvent on trackService when radio button inteligentStopLoss clicked', () => {
+    component.selected = 'inteligentStopLoss';
+    fixture.detectChanges();
+    const button = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Inteligent Stop Loss');
     const directive = trackClickDirectiveHelper.getDirective(button);
     const spy = spyOn(directive, 'clickEvent');
     button.nativeElement.click();
@@ -108,143 +94,125 @@ describe('FundStopLossComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit form data to parent on form valid', () => {
-    const spy = spyOn(component.save, 'emit');
-    component.form.patchValue(formData.valid);
-
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-
-    expect(spy).toHaveBeenCalledWith(formData.valid);
+  it('should not patch value if there is not stop_loss on ngOnInit', () => {
+    component.ngOnInit();
+    expect(component.form.value.stop_loss).toBe('');
+    expect(component.form.value.trailing_stop).toBe('');
+    expect(component.selected).toBeFalsy();
   });
 
-  it('should not emit form data to parent and should mark the form as touched on form invalid', async () => {
-    const spy = spyOn(component.save, 'emit');
-    const spyForm = spyOn(component.form, 'markAllAsTouched');
-    component.form.patchValue(formData.invalid);
-
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-
-    expect(spy).toHaveBeenCalledTimes(0);
-    expect(spyForm).toHaveBeenCalledTimes(1);
+  it('should select inteligent option when there is trailingStop on ngOnInit', () => {
+    component.stopLoss = 25;
+    component.trailingStop = 25;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.form.value.stop_loss).toEqual(25);
+    expect(component.form.value.trailing_stop).toEqual(25);
+    expect(component.selected).toEqual('inteligentStopLoss');
   });
 
-  it('should push manual stop loss option if profile is an index strategy on component creation', async () => {
+  it('should select classic option when there is only stopLoss and is different than 100 on ngOnInit', () => {
+    component.stopLoss = 25;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.form.value.stop_loss).toEqual(25);
+    expect(component.selected).toEqual('classicStopLoss');
+  });
+
+  it('should select without stop loss option when there is only stopLoss and is equal to 100 on ngOnInit', () => {
+    component.stopLoss = 100;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.form.value.stop_loss).toEqual(100);
+    expect(component.selected).toEqual('withoutStopLoss');
+  });
+
+  it('should render radio button withoutStopLoss when profile contain "index"', async () => {
     component.profile = 'Mary_index';
     component.ngOnInit();
-    expect(component.stopLossOptions).toContain(component.stopLossManualOption);
-  });
-
-  it('should add custom option to stop loss options and selected it if stop loss was provided on component creation', async () => {
-    component.stopLoss = 99;
-    component.ngOnInit();
-    expect(component.stopLossOptions).toContain({ name: '-99%', value: 99, custom: true });
-    expect(component.form.value.stop_loss).toEqual(99);
-  });
-
-  it('should selected option if the option exists in stop loss options and stop loss was provided on component creation', async () => {
-    component.stopLoss = 5;
-    component.ngOnInit();
-    expect(component.stopLossOptions).toContain({ name: '-5%', value: 5, custom: false });
-    expect(component.form.value.stop_loss).toEqual(5);
-  });
-
-  it('should open modal of edition when is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
-
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should add custom option when selected option in modal of custom stop loss doesnt exists on initial options', async () => {
-    fakeModalController.modifyReturns({}, { data: 99, role: 'selected' });
-    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
+    component.isIndexProfile = true;
+    fixture.detectChanges();
     await fixture.whenStable();
-    expect(component.stopLossOptions).toContain({ name: '-99%', value: 99, custom: true });
-    expect(component.form.value.stop_loss).toEqual(99);
+    await fixture.whenRenderingDone();
+    const radioButton = fixture.debugElement.query(By.css('div[name="withoutStopLoss"]'));
+    expect(radioButton).toBeTruthy();
+    expect(radioButton.nativeElement.innerText).toContain('funds.fund_stop_loss.without_stop_loss');
   });
 
-  it('should replace custom option when selected option in modal of custom stop loss doesnt exists on initial options', async () => {
-    component.stopLoss = 82;
-    component.ngOnInit();
-    fakeModalController.modifyReturns({}, { data: 99, role: 'selected' });
-    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(component.stopLossOptions).toContain({ name: '-99%', value: 99, custom: true });
-    expect(component.form.value.stop_loss).toEqual(99);
-  });
-
-  it('should not add custom option when there is no selected option in modal of custom stop loss', async () => {
-    fakeModalController.modifyReturns({}, {});
-    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
-
-    expect(component.stopLossOptions).not.toContain({ name: '-99%', value: 99, custom: true });
-  });
-
-  it('should remove custom option if selected option in modal exists in initial options', async () => {
-    component.stopLoss = 99;
-    component.ngOnInit();
-    fakeModalController.modifyReturns({}, { data: 5, role: 'selected' });
-    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
+  it('should open modal of classic SL when classicStopLoss radio button clicked and if there is data, patch values', async () => {
+    fakeModalController.modifyReturns({}, { data: 25, role: 'valueSL' });
+    fixture.debugElement.query(By.css('ion-item[name="classicStopLoss"]')).nativeElement.click();
     await fixture.detectChanges();
     await fixture.whenStable();
-    expect(component.form.value.stop_loss).toEqual(5);
-    expect(component.customSL).toBeFalse();
-  });
-
-  it('should not have to do anything when selected option in modal doesnt exists in initial options', async () => {
-    fakeModalController.modifyReturns({}, { data: 5, role: 'selected' });
-    fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"]')).nativeElement.click();
-    expect(component.stopLossOptions.length).toBe(3);
-    expect(component.customSL).toBeFalsy();
-  });
-
-  it('should get the most chosen SL on component.creation', async () => {
-    component.ngOnInit();
-    expect(component.mostChosenSL).toEqual(10);
-  });
-
-  it('should open modal alert when manual option is selected', async () => {
-    fixture.debugElement.query(By.css('ion-radio-group')).triggerEventHandler('ionChange', { detail: { value: 100 } });
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(component.selected).toEqual('classicStopLoss');
+    expect(component.form.value.stop_loss).toEqual(25);
+    expect(component.form.value.trailing_stop).toEqual(0);
   });
 
-  it('should not open modal alert when an option different than manual is selected', async () => {
-    fixture.debugElement.query(By.css('ion-radio-group')).triggerEventHandler('ionChange', { detail: { value: 5 } });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
-  });
-
-  it('should render properly', async () => {
-    component.profile = 'Mary_index';
-
-    fixture.detectChanges();
+  it('should open modal of classic SL when classicStopLoss radio button clicked if and there is not data, not patch values', async () => {
+    fakeModalController.modifyReturns({}, { data: undefined, role: 'valueSL' });
+    fixture.debugElement.query(By.css('ion-item[name="classicStopLoss"]')).nativeElement.click();
+    await fixture.detectChanges();
     await fixture.whenStable();
-    await fixture.whenRenderingDone();
-
-    const radioItems = fixture.debugElement.query(By.css('ion-radio-group')).nativeNode.children;
-    expect(radioItems.length).toEqual(4);
-
-    const createCustomButton = fixture.debugElement.query(By.css('ion-button[name="Create Custom Stop Loss"'));
-    expect(createCustomButton).toBeTruthy();
-    expect(createCustomButton.nativeElement.innerText).toContain('funds.fund_stop_loss.custom_tp_button');
-
-    const badgeMostChosenSL = fixture.debugElement.query(By.css('ion-radio-group ion-badge.ux_badge_primary'));
-    expect(badgeMostChosenSL.nativeElement.innerText).toContain('funds.fund_stop_loss.most_chosen');
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(component.selected).toEqual(undefined);
+    expect(component.form.value.stop_loss).toEqual('');
+    expect(component.form.value.trailing_stop).toEqual('');
   });
 
-  it('should render properly the custom option and the edition button ', async () => {
-    component.profile = 'Mary_index';
-    component.stopLoss = 92;
+  it('should open modal of inteligentStopLoss SL when iteligent radio button clicked and if there is data, patch values', async () => {
+    fakeModalController.modifyReturns({}, { data: 25, role: 'valueSL' });
+    fixture.debugElement.query(By.css('div[name="inteligentStopLoss"]')).nativeElement.click();
+    await fixture.detectChanges();
+    await fixture.whenStable();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(component.selected).toEqual('inteligentStopLoss');
+    expect(component.form.value.stop_loss).toEqual(25);
+    expect(component.form.value.trailing_stop).toEqual(25);
+  });
 
+  it('should open modal of inteligent SL when inteligentStopLoss radio button clicked and if there is not data, not patch values', async () => {
+    fakeModalController.modifyReturns({}, { data: undefined, role: 'valueSL' });
+    fixture.debugElement.query(By.css('div[name="inteligentStopLoss"]')).nativeElement.click();
+    await fixture.detectChanges();
+    await fixture.whenStable();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(component.selected).toEqual(undefined);
+    expect(component.form.value.stop_loss).toEqual('');
+    expect(component.form.value.trailing_stop).toEqual('');
+  });
+
+  it('should patch data when withoutStopLoss radio button is clicked', () => {
+    component.isIndexProfile = true;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-item[name="withoutStopLoss"]')).nativeElement.click();
+    component.withoutSL('withoutStopLoss');
+    fixture.detectChanges();
+    expect(component.selected).toEqual('withoutStopLoss');
+    expect(component.form.value.stop_loss).toEqual(100);
+    expect(component.form.value.trailing_stop).toEqual(0);
+  });
+
+  it('should get the most chosen SL', async () => {
     component.ngOnInit();
+    expect(component.mostChosenSL).toEqual(1);
+  });
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+  it('should emit form data to parent without Trailing Stop if Trailing Stop is 0', () => {
+    component.form.value.stop_loss = 25;
+    component.form.value.trailing_stop = 0;
+    const spy = spyOn(component.save, 'emit');
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    expect(spy).toHaveBeenCalledWith(Object({ stop_loss: 25 }));
+  });
 
-    const customOption = fixture.debugElement.query(By.css('ion-radio-group div.container.custom'));
-    expect(customOption.nativeElement.innerHTML).toContain('-92%');
-
-    const editButton = fixture.debugElement.query(By.css('ion-button[name="Edit Custom Stop Loss"'));
-    expect(editButton.nativeElement.innerText).toContain('funds.fund_stop_loss.edit_custom');
+  it('should emit form data to parent with Trailing Stop if Trailing Stop is diferent of 0', () => {
+    component.form.value.stop_loss = 25;
+    component.form.value.trailing_stop = 25;
+    const spy = spyOn(component.save, 'emit');
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    expect(spy).toHaveBeenCalledWith(Object({ stop_loss: 25, trailing_stop: 25 }));
   });
 
   it('should navigate to "funds/inteligent-stop-loss-information" when Information button clicked', () => {

@@ -21,6 +21,7 @@ import { NavController } from '@ionic/angular';
         *ngIf="this.stopLoss && this.profile"
         opType="edit"
         [stopLoss]="this.stopLoss"
+        [trailingStop]="this.trailingStop"
         [profile]="this.profile"
         (save)="this.handleSubmit($event)"
       ></app-fund-select-stop-loss>
@@ -32,6 +33,7 @@ export class FundEditStopLossPage implements OnInit {
   fundName: string;
   fund: any;
   stopLoss: number;
+  trailingStop: number;
   profile: string;
 
   constructor(private route: ActivatedRoute, private apiFunds: ApiFundsService, private navController: NavController) {}
@@ -44,6 +46,7 @@ export class FundEditStopLossPage implements OnInit {
       if (data) {
         this.fund = data;
         this.stopLoss = this.fund.perdida;
+        this.trailingStop = this.fund.trailing_stop;
         this.profile = this.fund.nivel_de_riesgo;
       }
     });
@@ -58,12 +61,14 @@ export class FundEditStopLossPage implements OnInit {
       take_profit: fund.ganancia,
       stop_loss: fund.perdida,
       risk_level: fund.nivel_de_riesgo,
+      trailing_stop: fund.trailing_stop,
     };
     return newFundObject;
   }
 
   async handleSubmit(data: any) {
     this.fund.perdida = data.stop_loss;
+    this.fund.trailing_stop = data.trailing_stop;
     data = this.serializeFund(this.fund);
     this.apiFunds.crud.update(data, this.fund.id).subscribe(() => this.success());
   }

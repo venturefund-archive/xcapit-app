@@ -9,14 +9,34 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrackClickDirectiveTestHelper } from '../../../../../testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { LocalNotification } from '@capacitor/core';
+import { FakeNavController } from '../../../../../testing/fakes/nav-controller.fake.spec';
+
+const testExtras = {
+  id: 1,
+  initialUrl: null,
+  extractedUrl: null,
+  trigger: null,
+  previousNavigation: null,
+  extras: {
+    state: {
+      action: 'retry',
+    },
+  },
+};
+
+const testLocalNotification: LocalNotification = {
+  id: 1,
+  title: 'wallets.send.send_summary.sent_notification.title',
+  body: 'wallets.send.send_summary.sent_notification.body',
+};
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -41,14 +61,20 @@ describe('SendSummaryPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendSummaryPage>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
-  let navController: NavController;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
-  let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let routerSpy: jasmine.SpyObj<Router>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
 
   beforeEach(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
+      send: Promise.resolve(),
+    });
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', null, { queryParams: of({}) });
     routerSpy = jasmine.createSpyObj('Router', {
       getCurrentNavigation: {
@@ -57,17 +83,14 @@ describe('SendSummaryPage', () => {
         },
       },
     });
-    toastServiceSpy = jasmine.createSpyObj('ToastService', {
-      showToast: Promise.resolve(),
-    });
     transactionDataServiceMock = {
       transactionData: summaryData,
     };
     walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionService', {
-      send: () => Promise.resolve(),
+      send: Promise.resolve({ wait: () => Promise.resolve({ transactionHash: 'someHash' }) }),
     });
 
-    fakeModalController = new FakeModalController(Promise.resolve(), Promise.resolve({ data: 'testPassword' }));
+    fakeModalController = new FakeModalController(null, { data: 'testPassword' });
     modalControllerSpy = fakeModalController.createSpy();
 
     loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
@@ -81,12 +104,12 @@ describe('SendSummaryPage', () => {
       providers: [
         { provide: TransactionDataService, useValue: transactionDataServiceMock },
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: NavController, useValue: navControllerMock },
+        { provide: NavController, useValue: navControllerSpy },
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
-        { provide: ToastService, useValue: toastServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: Router, useValue: routerSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
+        { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -95,7 +118,6 @@ describe('SendSummaryPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    navController = TestBed.inject(NavController);
   });
 
   it('should create', () => {
@@ -108,7 +130,7 @@ describe('SendSummaryPage', () => {
   });
 
   it('should call trackEvent on trackService when Send Button clicked', () => {
-    spyOn(component, 'send');
+    spyOn(component, 'beginSend');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Send');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -120,62 +142,42 @@ describe('SendSummaryPage', () => {
   it('should send transaction and navigate on Send Button clicked and password is correct', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    const spyNav = spyOn(navController, 'navigateForward').and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith('testPassword', 1, 'asdlkfjasd56lfjasdpodlfkj', {
-      id: 1,
-      name: 'BTC - Bitcoin',
-      logoRoute: '../../assets/img/coins/BTC.svg',
-      last: false,
-      value: 'BTC',
-      network: '',
-      rpc: '',
-    });
-    expect(spyNav).toHaveBeenCalledOnceWith(['/wallets/send/success']);
+    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
+      'testPassword',
+      1,
+      'asdlkfjasd56lfjasdpodlfkj',
+      summaryData.currency
+    );
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
-    const spyNav = spyOn(navController, 'navigateForward');
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
-    walletTransactionsServiceSpy.send.and.throwError('invalid password');
-    await component.send();
+    walletTransactionsServiceSpy.send.and.rejectWith({ message: 'invalid password' });
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(spyNav).toHaveBeenCalledWith('/wallets/send/error/incorrect-password');
+    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
+      'invalid',
+      1,
+      'asdlkfjasd56lfjasdpodlfkj',
+      summaryData.currency
+    );
+    expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/incorrect-password');
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should open modal if redirected from Incorrect Password Page', () => {
-    routerSpy.getCurrentNavigation.and.returnValue({
-      id: 1,
-      initialUrl: null,
-      extractedUrl: null,
-      trigger: null,
-      previousNavigation: null,
-      extras: {
-        state: {
-          action: 'retry',
-        },
-      },
-    });
+    routerSpy.getCurrentNavigation.and.returnValue(testExtras);
     component.ngOnInit();
     component.ionViewWillEnter();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should show loader at the start of transaction and dismiss it afterwards', async () => {
-    await component.send();
-    await fixture.whenStable();
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
-  });
-
-  it('should dismiss loader if password incorrect', async () => {
-    walletTransactionsServiceSpy.send.and.throwError('invalid password');
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
-    await component.send();
-    await fixture.whenStable();
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 });
