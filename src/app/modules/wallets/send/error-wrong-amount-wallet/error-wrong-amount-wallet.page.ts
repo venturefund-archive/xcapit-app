@@ -8,6 +8,7 @@ import { TransactionDataService } from '../../shared-wallets/services/transactio
   template: `
     <ion-content class="ion-padding failed-mnemonic-content">
       <app-success-content
+        *ngIf="this.data"
         [data]="this.data"
         imageName="ux-error-currency.svg"
         imageAlt="Error Image"
@@ -21,7 +22,9 @@ export class ErrorWrongAmountWalletPage implements OnInit {
   data: any;
   constructor(private navController: NavController, private transactionDataService: TransactionDataService) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.data = SUCCESS_TYPES.error_wallet_wrong_amount;
   }
 
