@@ -23,7 +23,7 @@ import { finalize } from 'rxjs/operators';
         </div>
         <div class="wt__amount ux-font-num-titulo">
           <ion-text>
-            {{ this.totalBalanceWallet | number: '1.2-6' }}
+            {{ this.totalBalanceWallet | number: '1.2-2' }}
             USD
           </ion-text>
         </div>
