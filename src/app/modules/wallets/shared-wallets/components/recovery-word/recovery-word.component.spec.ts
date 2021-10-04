@@ -2,7 +2,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { RecoveryWordComponent } from './recovery-word.component';

@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { IsOwnerGuard } from './is-owner.guard';
 import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api-funds/api-funds.service';
@@ -48,9 +48,7 @@ describe('IsOwnerGuard', () => {
   it('should be able to hit route when isOwner is true and fundName exist', () => {
     activatedRouteSnapshotMock.paramMap.get = (param) => 'test';
     apiFundsServiceSpy.isOwner.and.returnValue(of({ is_owner: true }));
-    const canActivateResult = getObservable(
-      isOwnerGuard.canActivate(activatedRouteSnapshotMock)
-    );
+    const canActivateResult = getObservable(isOwnerGuard.canActivate(activatedRouteSnapshotMock));
     canActivateResult.subscribe((res) => expect(res).toBe(true));
   });
 
@@ -62,33 +60,22 @@ describe('IsOwnerGuard', () => {
   it('should not be able to hit route when isOwner is false and fundName exist', () => {
     activatedRouteSnapshotMock.paramMap.get = (param) => 'test';
     apiFundsServiceSpy.isOwner.and.returnValue(of({ is_owner: false }));
-    const canActivateResult = getObservable(
-      isOwnerGuard.canActivate(activatedRouteSnapshotMock)
-    );
+    const canActivateResult = getObservable(isOwnerGuard.canActivate(activatedRouteSnapshotMock));
     canActivateResult.subscribe((res) => expect(res).toBe(false));
   });
 
   it('should call isOwner on apiFundsService when canActivate', () => {
     apiFundsServiceSpy.isOwner.and.returnValue(of({ is_owner: false }));
-    const canActivateResult = getObservable(
-      isOwnerGuard.canActivate(activatedRouteSnapshotMock)
-    );
-    canActivateResult.subscribe((res) =>
-      expect(apiFundsServiceSpy.isOwner).toHaveBeenCalledTimes(1)
-    );
+    const canActivateResult = getObservable(isOwnerGuard.canActivate(activatedRouteSnapshotMock));
+    canActivateResult.subscribe((res) => expect(apiFundsServiceSpy.isOwner).toHaveBeenCalledTimes(1));
   });
 
   it('should call navigateBack with ["/tabs/funds"], { replaceUrl: true } on navController when isOwner is false', () => {
     apiFundsServiceSpy.isOwner.and.returnValue(of({ is_owner: false }));
-    const canActivateResult = getObservable(
-      isOwnerGuard.canActivate(activatedRouteSnapshotMock)
-    );
+    const canActivateResult = getObservable(isOwnerGuard.canActivate(activatedRouteSnapshotMock));
     canActivateResult.subscribe((res) => {
       expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(
-        ['/tabs/funds'],
-        { replaceUrl: true }
-      );
+      expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/funds'], { replaceUrl: true });
     });
   });
 });

@@ -4,7 +4,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Plugins } from '@capacitor/core';
 import { NavController } from '@ionic/angular';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { LINKS } from 'src/app/config/static-links';
 
 const { Browser } = Plugins;

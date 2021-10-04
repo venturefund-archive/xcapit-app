@@ -1,7 +1,6 @@
-import { Component, DebugElement, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { XcapitLogoComponent } from '../../components/xcapit-logo/xcapit-logo.component';
 import { SelectStyleDirective } from './select-style.directive';
 @Component({
   template: `

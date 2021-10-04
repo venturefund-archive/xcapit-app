@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import { LogsService } from '../../../../../shared/services/logs/logs.service';
 import { TrackService } from '../../../../../shared/services/track/track.service';
 
 @Injectable({

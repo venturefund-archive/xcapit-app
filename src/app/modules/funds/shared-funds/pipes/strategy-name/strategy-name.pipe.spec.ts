@@ -1,5 +1,4 @@
 import { StrategyNamePipe } from './strategy-name.pipe';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('StrategyNamePipe', () => {
   it('create an instance', () => {

@@ -4,16 +4,14 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicModule, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { By } from '@angular/platform-browser';
 import { PersonalDataPage } from './personal-data.page';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import createSpyObj = jasmine.createSpyObj;
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 

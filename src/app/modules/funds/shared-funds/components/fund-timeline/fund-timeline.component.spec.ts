@@ -2,7 +2,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FundTimelineComponent } from './fund-timeline.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';

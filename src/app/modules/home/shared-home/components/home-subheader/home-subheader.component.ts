@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
