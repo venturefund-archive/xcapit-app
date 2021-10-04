@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { UserHasOperationsGuard } from './user-has-operations.guard';
 import { FiatRampsService } from 'src/app/modules/fiat-ramps/shared-ramps/services/fiat-ramps.service';
@@ -22,9 +22,7 @@ describe('UserHasOperationsGuard', () => {
   let navControllerSpy: any;
 
   beforeEach(() => {
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', [
-      'userHasOperations'
-    ]);
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', ['userHasOperations']);
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     activatedRouteSnapshotMock = {} as ActivatedRouteSnapshot;
     TestBed.configureTestingModule({
@@ -32,8 +30,8 @@ describe('UserHasOperationsGuard', () => {
       providers: [
         UserHasOperationsGuard,
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: NavController, useValue: navControllerSpy }
-      ]
+        { provide: NavController, useValue: navControllerSpy },
+      ],
     });
   });
 
@@ -45,32 +43,20 @@ describe('UserHasOperationsGuard', () => {
     expect(userHasOperationsGuard).toBeTruthy();
   });
 
-
   it('should call userHasOperations on fiatRampsService when canActivate', () => {
-    fiatRampsServiceSpy.userHasOperations.and.returnValue(
-      of({ user_has_operations: false })
-    );
-    const canActivateResult = getObservable(
-        userHasOperationsGuard.canActivate(activatedRouteSnapshotMock)
-    );
-    canActivateResult.subscribe(res =>
-      expect(fiatRampsServiceSpy.userHasOperations).toHaveBeenCalledTimes(1)
-    );
+    fiatRampsServiceSpy.userHasOperations.and.returnValue(of({ user_has_operations: false }));
+    const canActivateResult = getObservable(userHasOperationsGuard.canActivate(activatedRouteSnapshotMock));
+    canActivateResult.subscribe((res) => expect(fiatRampsServiceSpy.userHasOperations).toHaveBeenCalledTimes(1));
   });
 
   it('should call navigateForward with ["/fiat-ramps/select-provider"], { replaceUrl: true } on navController when userHasOperations is false', () => {
-    fiatRampsServiceSpy.userHasOperations.and.returnValue(
-      of({ user_has_operations: false })
-    );
-    const canActivateResult = getObservable(
-        userHasOperationsGuard.canActivate(activatedRouteSnapshotMock)
-    );
-    canActivateResult.subscribe(res => {
+    fiatRampsServiceSpy.userHasOperations.and.returnValue(of({ user_has_operations: false }));
+    const canActivateResult = getObservable(userHasOperationsGuard.canActivate(activatedRouteSnapshotMock));
+    canActivateResult.subscribe((res) => {
       expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
-        ['/fiat-ramps/select-provider'],
-        { replaceUrl: true }
-      );
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/select-provider'], {
+        replaceUrl: true,
+      });
     });
   });
 });

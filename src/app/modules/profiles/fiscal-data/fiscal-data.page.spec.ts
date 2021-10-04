@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { By } from '@angular/platform-browser';

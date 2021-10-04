@@ -8,7 +8,6 @@ import { DummyComponent } from '../../../../../../testing/dummy.component.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';

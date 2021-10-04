@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, IonRadioGroup } from '@ionic/angular';
-import { FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-select-modal-new',

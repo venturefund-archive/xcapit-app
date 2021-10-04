@@ -9,7 +9,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StateShowNamePipe } from '../shared-funds/pipes/state-names/state-names.pipe';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';

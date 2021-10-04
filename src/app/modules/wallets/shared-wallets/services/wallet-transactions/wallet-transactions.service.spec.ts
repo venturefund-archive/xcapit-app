@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { WalletTransactionsService } from './wallet-transactions.service';
-import { LoadingService } from '../../../../../shared/services/loading/loading.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';

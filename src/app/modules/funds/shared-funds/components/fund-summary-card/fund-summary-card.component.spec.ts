@@ -9,7 +9,6 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
 import { ShareService } from 'src/app/shared/services/share/share.service';
 import { FundSummaryInterface } from './fund-summary.interface';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DecimalPipe } from '@angular/common';
 import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';

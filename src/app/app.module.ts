@@ -20,7 +20,6 @@ import { TrackClickModule } from './shared/directives/track-click/track-click.mo
 import { WildcardRoutingModule } from './wildcard-routing.module';
 import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
-import { TrackClickUnauthModule } from './shared/directives/track-click-unauth/track-click-unauth.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
@@ -99,7 +98,6 @@ registerLocaleData(localeEn, 'en');
       },
     }),
     TrackClickModule,
-    TrackClickUnauthModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
