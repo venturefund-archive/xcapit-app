@@ -159,6 +159,7 @@ import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
+    SafeURLPipe,
   ],
 })
 export class SharedModule {}
