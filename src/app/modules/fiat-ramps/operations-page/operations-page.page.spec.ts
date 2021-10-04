@@ -12,7 +12,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const operations = [

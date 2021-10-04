@@ -7,7 +7,6 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { of, Subscription } from 'rxjs';
 import { IonicModule, NavController } from '@ionic/angular';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { DummyComponent } from 'src/testing/dummy.component.spec';

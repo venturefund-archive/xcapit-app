@@ -12,7 +12,6 @@ import { of } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const storageData = {

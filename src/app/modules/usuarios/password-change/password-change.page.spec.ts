@@ -10,7 +10,6 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { AuthService } from '../shared-usuarios/services/auth/auth.service';
 import { PasswordChangeFormComponent } from '../shared-usuarios/components/password-change-form/password-change-form.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';

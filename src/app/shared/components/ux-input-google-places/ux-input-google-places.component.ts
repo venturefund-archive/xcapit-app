@@ -1,16 +1,5 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectionStrategy,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
-import {
-  ControlContainer,
-  FormGroupDirective,
-  AbstractControl
-} from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
 import { GooglePlacesDirective } from '../../directives/google-places.directive';
 
 @Component({
@@ -31,9 +20,7 @@ import { GooglePlacesDirective } from '../../directives/google-places.directive'
         <ion-icon
           class="ux_input_container__item__error_icon"
           item-end
-          [hidden]="
-            !(this.control && this.control.invalid && this.control.touched)
-          "
+          [hidden]="!(this.control && this.control.invalid && this.control.touched)"
           name="ux-error"
           color="uxsecondary"
         ></ion-icon>
@@ -49,10 +36,10 @@ import { GooglePlacesDirective } from '../../directives/google-places.directive'
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
+      useExisting: FormGroupDirective,
     },
-    GooglePlacesDirective
-  ]
+    GooglePlacesDirective,
+  ],
 })
 export class UxInputGooglePlacesComponent implements OnInit {
   @Input() label: string;

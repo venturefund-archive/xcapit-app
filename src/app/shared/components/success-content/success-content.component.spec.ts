@@ -1,7 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { SuccessContentComponent } from './success-content.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -10,6 +8,7 @@ import { By } from '@angular/platform-browser';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { NavController } from '@ionic/angular';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 
 describe('SuccessContentComponent', () => {
   let component: SuccessContentComponent;
@@ -47,7 +46,6 @@ describe('SuccessContentComponent', () => {
       component = fixture.componentInstance;
       component.data = testData;
       fixture.detectChanges();
-
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );

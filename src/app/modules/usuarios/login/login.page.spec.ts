@@ -8,11 +8,11 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
-import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click-unauth/track-click-unauth.directive';
-import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
@@ -21,7 +21,7 @@ describe('LoginPage', () => {
   let fixture: ComponentFixture<LoginPage>;
   let apiUsuariosSpy: any;
   let subscriptionsServiceSpy: any;
-  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<LoginPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: any;
   let googleAuthPluginSpy: any;
@@ -59,11 +59,10 @@ describe('LoginPage', () => {
       });
       localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
       TestBed.configureTestingModule({
-        declarations: [LoginPage, AuthFormComponent, TrackClickUnauthDirective, DummyComponent],
+        declarations: [LoginPage, AuthFormComponent, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
         providers: [
-          TrackClickUnauthDirective,
           { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
@@ -78,7 +77,7 @@ describe('LoginPage', () => {
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
     component.googleAuthPlugin = googleAuthPluginSpy;
-    trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
   });
 
@@ -163,8 +162,8 @@ describe('LoginPage', () => {
     component.loginForm.form.patchValue(formData.valid);
     fixture.detectChanges();
     expect(component.loginForm.form.valid).toBeTruthy();
-    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
@@ -176,8 +175,8 @@ describe('LoginPage', () => {
     component.loginForm.form.patchValue(formData.valid);
     fixture.detectChanges();
     expect(component.loginForm.form.valid).toBeTruthy();
-    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Login');
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Login');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
@@ -185,8 +184,8 @@ describe('LoginPage', () => {
   });
 
   it('should call trackEvent on trackService when Go To Register button clicked', () => {
-    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Go To Register');
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Register');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
@@ -194,8 +193,8 @@ describe('LoginPage', () => {
   });
 
   it('should call trackEvent on trackService when Reset Password button clicked', () => {
-    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Reset Password');
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Reset Password');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();

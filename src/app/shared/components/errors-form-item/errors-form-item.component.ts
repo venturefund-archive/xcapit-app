@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ItemFormError } from '../../models/item-form-error';
 import { AbstractControl, FormGroupDirective, FormGroup } from '@angular/forms';
 import { CONFIG } from 'src/app/config/app-constants.config';

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { INotification } from '../notifications/notifications.interface';
 import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,8 @@ export class CapacitorNotificationsService implements INotification {
   token = '';
   pushNotifications = Plugins.PushNotifications;
 
-  constructor(private apiDevicesService: ApiDevicesService) {
-    this.addListeners();
+  constructor(private apiDevicesService: ApiDevicesService, private platformService: PlatformService) {
+    if (this.platformService.isNative()) this.addListeners();
   }
 
   init(): void {
@@ -57,7 +58,7 @@ export class CapacitorNotificationsService implements INotification {
     });
   }
 
-  private addListeners() {
+  addListeners() {
     try {
       this.addRegistrationListener();
       this.addErrorListener();

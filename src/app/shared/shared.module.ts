@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ErrorsFormItemComponent } from './components/errors-form-item/errors-form-item.component';
 import { GooglePlacesDirective } from './directives/google-places.directive';
@@ -9,7 +9,6 @@ import { LanguagePopoverComponent } from './components/language-popover/language
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
 import { TrackClickModule } from './directives/track-click/track-click.module';
 import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
-import { TrackClickUnauthModule } from './directives/track-click-unauth/track-click-unauth.module';
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
 import { UxInputComponent } from './components/ux-input/ux-input.component';
@@ -96,14 +95,7 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     SelectStyleDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    TranslateModule.forChild(),
-    TrackClickModule,
-    TrackClickUnauthModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
     ErrorsFormItemComponent,
     CommonModule,
@@ -113,7 +105,6 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     TranslateModule,
     LanguageButtonComponent,
     TrackClickModule,
-    TrackClickUnauthModule,
     IsSubscribedComponent,
     PercentageDisplayComponent,
     XcapitLogoComponent,

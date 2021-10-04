@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ReceivePage } from './receive.page';
 import { QRCodeService } from '../../../shared/services/qr-code/qr-code.service';
@@ -11,13 +11,12 @@ import { ClipboardService } from '../../../shared/services/clipboard/clipboard.s
 import { ShareService } from '../../../shared/services/share/share.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
-import { TrackClickDirective } from '../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 
 const testCurrencies: Coin[] = [

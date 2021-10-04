@@ -3,7 +3,6 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { ListApikeysPage } from '../../../list-apikeys/list-apikeys.page';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-modal.component';
 

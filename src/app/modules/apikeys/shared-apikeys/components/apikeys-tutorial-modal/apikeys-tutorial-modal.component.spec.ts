@@ -4,12 +4,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApikeysTutorialModalComponent } from './apikeys-tutorial-modal.component';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
-import { Fake } from '../../../../../../testing/fakes/fake.spec';
 
 describe('ApikeysTutorialModalComponent', () => {
   let component: ApikeysTutorialModalComponent;
