@@ -123,21 +123,9 @@ describe('TutorialExchangePage', () => {
     expect(descriptionEl.nativeElement.innerHTML).toContain('apikeys.exchange_information.description');
   });
 
-  it('should open modal when Doesnt Have Binance Account button is clicked', () => {
-    const buttonEl = fixture.debugElement.query(By.css('div[name="Doesnt Have Binance Account"]')).nativeElement;
-    buttonEl.click();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to API Key information when modal is closed using the Done button', async () => {
-    fakeModalController.modifyReturns({ role: 'success' }, null);
-    await component.accountDoesntExist();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/tutorial/apikeys');
-  });
-
-  it('should not navigate to API Key information when modal is closed using the Close button', async () => {
-    fakeModalController.modifyReturns({ role: 'cancel' }, null);
-    await component.accountDoesntExist();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
+  it('should navigate to how-to-create-binance-account page when Doesnt Have Binance Account button is clicked', () => {
+    fixture.debugElement.query(By.css('div[name="Doesnt Have Binance Account"]')).nativeElement.click();
+    component.accountDoesntExist();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/apikeys/how-create-binance-account']);
   });
 });

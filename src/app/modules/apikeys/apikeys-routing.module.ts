@@ -67,6 +67,13 @@ const routes: Routes = [
         path: 'whats-an-api-key',
         loadChildren: () => import('./whats-an-api-key/whats-an-api-key.module').then((m) => m.WhatsAnApiKeyPageModule),
       },
+      {
+        path: 'how-create-binance-account',
+        loadChildren: () =>
+          import('./how-create-binance-account/how-create-binance-account.module').then(
+            (m) => m.HowCreateBinanceAccountPageModule
+          ),
+      },
     ],
   },
 ];
