@@ -34,6 +34,6 @@ describe('ErrorIncorrectPasswordWalletPage', () => {
 
   it('should redirect to Send Summary Page with modal open on goBackToSummary', () => {
     component.goBackToSummary();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith('/wallets/send/summary', { state: { action: 'retry' } });
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith('/wallets/send/summary/retry');
   });
 });

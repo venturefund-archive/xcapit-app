@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { SendSummaryPage } from './send-summary.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,19 +18,6 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { LocalNotification } from '@capacitor/core';
 import { FakeNavController } from '../../../../../testing/fakes/nav-controller.fake.spec';
-
-const testExtras = {
-  id: 1,
-  initialUrl: null,
-  extractedUrl: null,
-  trigger: null,
-  previousNavigation: null,
-  extras: {
-    state: {
-      action: 'retry',
-    },
-  },
-};
 
 const testLocalNotification: LocalNotification = {
   id: 1,
@@ -65,23 +52,17 @@ describe('SendSummaryPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  let paramMapSpy: jasmine.SpyObj<any>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
 
   beforeEach(() => {
+    paramMapSpy = jasmine.createSpyObj('QueryParams', { get: undefined });
+    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', null, { snapshot: { paramMap: paramMapSpy } });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
       send: Promise.resolve(),
-    });
-    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', null, { queryParams: of({}) });
-    routerSpy = jasmine.createSpyObj('Router', {
-      getCurrentNavigation: {
-        extras: {
-          state: undefined,
-        },
-      },
     });
     transactionDataServiceMock = {
       transactionData: summaryData,
@@ -107,7 +88,6 @@ describe('SendSummaryPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
-        { provide: Router, useValue: routerSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
       ],
@@ -174,10 +154,76 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should open modal if redirected from Incorrect Password Page', () => {
-    routerSpy.getCurrentNavigation.and.returnValue(testExtras);
-    component.ngOnInit();
-    component.ionViewWillEnter();
+  it('should open modal if redirected from Incorrect Password Page', async () => {
+    paramMapSpy.get.and.returnValue('retry');
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show loader at the start of transaction and dismiss it afterwards', fakeAsync(() => {
+    component.summaryData = summaryData;
+    component.beginSend();
+    tick(50);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should dismiss loader if password incorrect', fakeAsync(() => {
+    component.summaryData = summaryData;
+    walletTransactionsServiceSpy.send.and.callFake(() => Promise.reject(new Error('invalid password')));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
+    component.beginSend();
+    tick(500);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should redirect to Wrong Amount Page if amount is bigger than the amount in wallet', async () => {
+    component.summaryData = summaryData;
+    walletTransactionsServiceSpy.send.and.callFake(() =>
+      Promise.reject(new Error('insufficient funds for intrinsic transaction cost ...'))
+    );
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    navControllerSpy.navigateForward.and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-amount');
+  });
+
+  it('should redirect to Wrong Address Page if could not resolve ENS', async () => {
+    component.summaryData = summaryData;
+    walletTransactionsServiceSpy.send.and.callFake(() =>
+      Promise.reject(new Error('provided ENS name resolves to null ...'))
+    );
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    navControllerSpy.navigateForward.and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+  });
+
+  it('should redirect to Wrong Address Page if address is invalid', async () => {
+    component.summaryData = summaryData;
+    walletTransactionsServiceSpy.send.and.callFake(() => Promise.reject(new Error('invalid address ...')));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    navControllerSpy.navigateForward.and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+  });
+
+  it('should redirect to Wrong Address Page if address did not pass checksum', async () => {
+    component.summaryData = summaryData;
+    walletTransactionsServiceSpy.send.and.callFake(() => Promise.reject(new Error('bad address checksum ...')));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    navControllerSpy.navigateForward.and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
   });
 });

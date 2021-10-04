@@ -1411,6 +1411,16 @@
         "textPrimary": "Al parecer la contraseña es incorrecta",
         "namePrimaryAction": "Reintentar",
         "nameSecondaryAction": "Contactar con soporte"
+      },
+      "error_wrong_amount": {
+        "textPrimary": "El monto a enviar es incorrecto",
+        "namePrimaryAction": "Reintentar",
+        "nameSecondaryAction": "Contactar con soporte"
+      },
+      "error_wrong_address": {
+        "textPrimary": "La billetera de destino es incorrecta",
+        "namePrimaryAction": "Reintentar",
+        "nameSecondaryAction": "Contactar con soporte"
       }
     },
     "shared_wallets": {
