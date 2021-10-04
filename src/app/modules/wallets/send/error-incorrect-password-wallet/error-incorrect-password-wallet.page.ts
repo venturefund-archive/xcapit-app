@@ -7,6 +7,7 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
   template: `
     <ion-content class="ion-padding failed-mnemonic-content">
       <app-success-content
+        *ngIf="this.data"
         [data]="this.data"
         imageName="ux-error-open-lock.svg"
         imageAlt="Error Image"
@@ -20,11 +21,13 @@ export class ErrorIncorrectPasswordWalletPage implements OnInit {
   data: any;
   constructor(private navController: NavController) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.data = SUCCESS_TYPES.error_wallet_incorrect_password;
   }
 
   goBackToSummary() {
-    this.navController.navigateBack('/wallets/send/summary', { state: { action: 'retry' } });
+    this.navController.navigateBack('/wallets/send/summary/retry');
   }
 }

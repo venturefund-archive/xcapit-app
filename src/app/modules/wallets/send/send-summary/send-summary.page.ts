@@ -10,9 +10,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
-import { throwError } from 'rxjs';
 import { LocalNotification } from '@capacitor/core';
-import { ToastService } from '../../../../shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-send-summary',
@@ -60,20 +58,22 @@ export class SendSummaryPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
     private route: ActivatedRoute,
-    private router: Router,
     private localNotificationsService: LocalNotificationsService,
     private translate: TranslateService
   ) {}
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(async () => {
-      const navParams = this.router.getCurrentNavigation().extras.state;
-      if (navParams) await this.beginSend();
-    });
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
+    this.checkMode();
     this.summaryData = this.transactionDataService.transactionData;
+  }
+
+  async checkMode() {
+    const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
+    if (mode) {
+      await this.beginSend();
+    }
   }
 
   async askForPassword() {
@@ -124,11 +124,19 @@ export class SendSummaryPage implements OnInit {
 
   private handleSendError(error) {
     let url: string;
-    switch (error.message) {
-      case 'invalid password':
-        url = '/wallets/send/error/incorrect-password';
-        break;
+
+    if (error.message === 'invalid password') {
+      url = '/wallets/send/error/incorrect-password';
+    } else if (
+      error.message.startsWith('provided ENS name resolves to null') ||
+      error.message.startsWith('invalid address') ||
+      error.message.startsWith('bad address checksum')
+    ) {
+      url = '/wallets/send/error/wrong-address';
+    } else if (error.message.startsWith('insufficient funds')) {
+      url = '/wallets/send/error/wrong-amount';
     }
+
     this.navController.navigateForward(url).then();
   }
 }

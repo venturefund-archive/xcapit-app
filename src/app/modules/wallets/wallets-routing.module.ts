@@ -106,6 +106,20 @@ const routes: Routes = [
                 (m) => m.ErrorIncorrectPasswordWalletPageModule
               ),
           },
+          {
+            path: 'error/wrong-amount',
+            loadChildren: () =>
+              import('./send/error-wrong-amount-wallet/error-wrong-amount-wallet.module').then(
+                (m) => m.ErrorWrongAmountWalletPageModule
+              ),
+          },
+          {
+            path: 'error/wrong-address',
+            loadChildren: () =>
+              import('./send/error-wrong-address-wallet/error-wrong-address-wallet.module').then(
+                (m) => m.ErrorWrongAddressWalletPageModule
+              ),
+          },
         ],
       },
       {
