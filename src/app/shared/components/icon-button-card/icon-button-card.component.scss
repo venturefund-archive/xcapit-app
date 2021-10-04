@@ -10,11 +10,14 @@
     background: var(--ion-color-uxlight);
     width: 100%;
     height: 100%;
-    &__icon {
-    }
+
     &__text {
       text-align: center;
       line-height: 0.8;
+
+      .regular {
+        font-weight: var(--ux-fweight-regular);
+      }
     }
 
     .coming_soon {
