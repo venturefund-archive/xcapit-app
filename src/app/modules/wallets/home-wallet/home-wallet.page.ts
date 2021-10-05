@@ -96,6 +96,7 @@ export class HomeWalletPage implements OnInit {
   transactionsExists: boolean;
   lastTransaction = [];
   userCoins: Coin[];
+  alreadyInitialized = false;
 
   constructor(
     private walletService: WalletService,
@@ -108,7 +109,10 @@ export class HomeWalletPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.encryptedWalletExist();
+    if (!this.alreadyInitialized) {
+      this.alreadyInitialized = true;
+      this.encryptedWalletExist();
+    }
   }
 
   createBalancesStructure(coin: Coin): AssetBalance {
@@ -140,41 +144,41 @@ export class HomeWalletPage implements OnInit {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
-  async getWalletsBalances() {
-    this.balances = [];
-    this.totalBalanceWallet = 0;
-
+  getWalletsBalances() {
     for (const coin of this.userCoins) {
-      this.walletAddress = this.walletService.addresses[coin.network];
+      const walletAddress = this.walletService.addresses[coin.network];
 
-      if (this.walletAddress) {
+      if (walletAddress) {
         const balance = this.createBalancesStructure(coin);
-        this.walletService.balanceOf(this.walletAddress, coin.value).then((res) => {
-          balance.amount = parseFloat(res);
+        this.walletService
+          .balanceOf(walletAddress, coin.value)
 
-          if (this.allPrices) {
-            const usdPrice = this.getPrice(balance.symbol);
+          .then((res) => {
+            balance.amount = parseFloat(res);
 
-            balance.usdAmount = usdPrice * balance.amount;
-            this.totalBalanceWallet += balance.usdAmount;
-          }
+            if (this.allPrices) {
+              const usdPrice = this.getPrice(balance.symbol);
 
-          this.balances.push(balance);
-
-          this.walletAddress = null;
-        });
+              balance.usdAmount = usdPrice * balance.amount;
+              this.totalBalanceWallet += balance.usdAmount;
+            }
+            this.balances.push(balance);
+          });
       }
     }
   }
 
-  async getAllPrices() {
-    this.userCoins = await this.storageService.getAssestsSelected();
-    await this.storageService.updateAssetsList();
-
-    this.apiWalletService
-      .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
-      .pipe(finalize(() => this.getWalletsBalances()))
-      .subscribe((res) => (this.allPrices = res));
+  getAllPrices() {
+    this.storageService.getAssestsSelected().then((coins) => {
+      this.userCoins = coins;
+      this.storageService.updateAssetsList().then(() => {
+        this.apiWalletService
+          .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
+          .toPromise()
+          .then((res) => (this.allPrices = res))
+          .finally(() => this.getWalletsBalances());
+      });
+    });
   }
 
   private getCoinForPrice(symbol: string): string {
