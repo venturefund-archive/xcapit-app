@@ -57,17 +57,12 @@ export class StorageService {
 
   async getAssestsSelected() {
     const wallets = await this.getWalletFromStorage();
-    const userCoins = [];
+    let userCoins = [];
     this.allCoins = COINS;
 
     if (!!wallets && !!wallets.assets) {
-      for (const coin of this.allCoins) {
-        if (wallets.assets[coin.value]) {
-          userCoins.push(coin);
-        }
-      }
+      userCoins = this.allCoins.filter((coin) => wallets.assets[coin.value]);
     }
-
     return userCoins;
   }
 
