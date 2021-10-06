@@ -6,6 +6,7 @@ import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
 
 @Component({
   selector: 'app-send-detail',
@@ -67,6 +68,15 @@ import { CustomValidators } from '../../../../shared/validators/custom-validator
         </div>
       </form>
 
+      <app-ux-alert-message [type]="this.alertType">
+        <div>
+          <ion-text>Titulo</ion-text>
+        </div>
+        <div>
+          <ion-text>Texto</ion-text>
+        </div>
+      </app-ux-alert-message>
+
       <div class="sd__submit-button">
         <ion-button
           class="ux_button sd__submit-button__button"
@@ -82,6 +92,7 @@ import { CustomValidators } from '../../../../shared/validators/custom-validator
   styleUrls: ['./send-detail.page.scss'],
 })
 export class SendDetailPage {
+  alertType = UX_ALERT_TYPES.warning;
   coins = COINS;
   currency: Coin;
   networks: string[];
