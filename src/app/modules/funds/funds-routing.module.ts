@@ -97,6 +97,10 @@ export const routes: Routes = [
             (m) => m.InteligentStopLossInformationPageModule
           ),
       },
+      {
+        path: 'summary',
+        loadChildren: () => import('./fund-summary/fund-summary.module').then((m) => m.FundSummaryPageModule),
+      },
     ],
   },
 ];

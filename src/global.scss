@@ -150,9 +150,9 @@ ion-toast.refresher_toast {
 
   // Título
   .ux-font-text-lg {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-work-sans);
     font-size: var(--ux-fsize-18);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
   }
 
   // Subtítulos
@@ -165,15 +165,15 @@ ion-toast.refresher_toast {
   }
 
   .ux-font-text-xl {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-work-sans);
     font-size: var(--ux-fsize-22);
     font-weight: var(--ux-fweight-extrabold);
   }
 
   .ux-font-num-titulo {
-    font-family: var(--ux-font-lato);
+    font-family: var(--ux-font-work-sans);
     font-size: var(--ux-fsize-40);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
   }
 
   .ux-font-num-subtitulo {
@@ -184,7 +184,7 @@ ion-toast.refresher_toast {
 
   .ux-font-header-titulo,
   .ux_toolbar ion-title {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-work-sans);
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-extrabold);
   }
@@ -228,7 +228,7 @@ ion-toast.refresher_toast {
   .ux_badge_primary {
     text-transform: uppercase;
     --color: var(--ion-color-uxprimary);
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-work-sans);
     font-weight: var(--ux-fweight-extrabold);
     font-size: var(--ux-fsize-10);
   }

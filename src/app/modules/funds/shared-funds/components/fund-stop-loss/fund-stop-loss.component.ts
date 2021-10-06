@@ -124,7 +124,7 @@ export class FundStopLossComponent implements OnInit {
 
   opTypeLabels = {
     submitButton: {
-      renew: 'funds.fund_stop_loss.submit_button_renew',
+      renew: 'funds.fund_stop_loss.submit_button',
       new: 'funds.fund_stop_loss.submit_button',
       edit: 'funds.fund_stop_loss.submit_button_edit',
     },

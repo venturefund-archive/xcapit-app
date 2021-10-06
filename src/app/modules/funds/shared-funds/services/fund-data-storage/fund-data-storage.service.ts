@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FundDataStorageService {
   // Por cada page (url) indica la key del storage en la cual fijarse si existe para poder acceder a la url.
@@ -10,16 +10,10 @@ export class FundDataStorageService {
   pageKeys = {
     '/funds/fund-investment': 'fundName',
     '/funds/fund-take-profit': 'fundRiskLevel',
-    '/funds/fund-stop-loss': 'fundTakeProfit'
+    '/funds/fund-stop-loss': 'fundTakeProfit',
   };
 
-  allKeys = [
-    'fundName',
-    'fundRiskLevel',
-    'fundCurrency',
-    'fundTakeProfit',
-    'fundRenew'
-  ];
+  allKeys = ['fundName', 'fundRiskLevel', 'fundCurrency', 'fundTakeProfit', 'fundStopLoss', 'fundRenew'];
 
   constructor(private storage: Storage) {}
 
