@@ -94,22 +94,35 @@ describe('CustomStopLossSettingComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(0);
   });
 
-  it('should call getTypeModal, setModalValues and if there is valueSL patch value on form on ngOnInit', () => {
+  it('should call getTypeModal, setModalValues on ngOnInit', () => {
     component.typeModal = types.sl;
-    component.valueSL = 1;
     component.ngOnInit();
     fixture.detectChanges();
-    expect(component.form.value.valueSL).toEqual(1);
     expect(types.sl.title).toEqual('Test');
     expect(types.sl.message).toEqual('test');
   });
 
-  it('should call getTypeModal, setModalValues and if there is not valueSL not patch value on form on ngOnInit', () => {
-    component.typeModal = types.sl;
-    fixture.detectChanges();
+  it('should patch valueSL equal to 25 if type is classicSL and there is trailingStop on ngOnInit', () => {
+    component.type = 'classicSL';
+    component.trailingStop = 10;
     component.ngOnInit();
-    expect(component.valueSL).toEqual(undefined);
-    expect(types.sl.title).toEqual('Test');
-    expect(types.sl.message).toEqual('test');
+    fixture.detectChanges();
+    expect(component.form.value.valueSL).toEqual(25);
+  });
+
+  it('should patch valueSL equal to 25 if type is classicSL and stopLoss is 100 on ngOnInit', () => {
+    component.type = 'classicSL';
+    component.stopLoss = 100;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.form.value.valueSL).toEqual(25);
+  });
+
+  it('should patch valueSL equal to 25 if type is inteligentSL and there is not trailingStop on ngOnInit', () => {
+    component.type = 'inteligentSL';
+    component.trailingStop = '';
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.form.value.valueSL).toEqual(25);
   });
 });
