@@ -68,14 +68,16 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
         </div>
       </form>
 
-      <app-ux-alert-message [type]="this.alertType">
-        <div>
-          <ion-text>Titulo</ion-text>
-        </div>
-        <div>
-          <ion-text>Texto</ion-text>
-        </div>
-      </app-ux-alert-message>
+      <div class="sd__alert">
+        <app-ux-alert-message [type]="this.alertType">
+          <div class="sd__alert__title">
+            <ion-text>{{ 'wallets.send.send_detail.alert.title' | translate }}</ion-text>
+          </div>
+          <div class="sd__alert__text">
+            <ion-text>{{ 'wallets.send.send_detail.alert.text' | translate: { nativeToken: 'ETH' } }}</ion-text>
+          </div>
+        </app-ux-alert-message>
+      </div>
 
       <div class="sd__submit-button">
         <ion-button

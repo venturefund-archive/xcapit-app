@@ -1389,6 +1389,10 @@
         },
         "amount_input": {
           "title": "Monto a enviar"
+        },
+        "alert": {
+          "title": "Atención",
+          "text": "Tiene 0 {{nativeToken}} en su cuenta para pagar las comisiones de transacción. Compre algunos {{nativeToken}} o deposítelos desde otra cuenta."
         }
       },
       "send_summary": {
