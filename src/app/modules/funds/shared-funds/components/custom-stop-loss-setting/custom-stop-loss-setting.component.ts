@@ -53,6 +53,8 @@ export class CustomStopLossSettingComponent implements OnInit {
   @Input() title;
   @Input() message;
   @Input() type;
+  @Input() stopLoss;
+  @Input() trailingStop;
   valueSL: number;
   typeModal;
   form: FormGroup = this.formBuilder.group({
@@ -80,8 +82,14 @@ export class CustomStopLossSettingComponent implements OnInit {
   ngOnInit() {
     this.getTypeModal();
     this.setModalValues();
-    if (this.valueSL) {
-      this.form.patchValue({ valueSL: this.valueSL });
+    if (
+      (this.type === 'classicSL' && this.trailingStop) ||
+      (this.type === 'classicSL' && this.stopLoss === 100) ||
+      (this.type === 'inteligentSL' && !this.trailingStop)
+    ) {
+      this.form.patchValue({ valueSL: 25 });
+    } else {
+      this.form.patchValue({ valueSL: this.stopLoss });
     }
   }
 
