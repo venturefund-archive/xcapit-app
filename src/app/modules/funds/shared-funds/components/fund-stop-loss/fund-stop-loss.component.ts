@@ -175,9 +175,11 @@ export class FundStopLossComponent implements OnInit {
     const modal = await this.modalController.create({
       component: CustomStopLossSettingComponent,
       componentProps: {
-        value: this.form.value.stop_loss,
+        stopLoss: this.form.value.stop_loss,
+        trailingStop: this.form.value.trailing_stop,
         title: this.translate.instant('funds.fund_stop_loss.title_classicSL'),
         message: this.translate.instant('funds.fund_stop_loss.message_classicSL'),
+        type: 'classicSL',
       },
       cssClass: 'ux_modal_stop_loss',
     });
@@ -195,9 +197,11 @@ export class FundStopLossComponent implements OnInit {
     const modal = await this.modalController.create({
       component: CustomStopLossSettingComponent,
       componentProps: {
-        value: this.form.value.stop_loss,
+        trailingStop: this.form.value.trailing_stop,
+        stopLoss: this.form.value.stop_loss,
         title: this.translate.instant('funds.fund_stop_loss.title_inteligentSL'),
         message: this.translate.instant('funds.fund_stop_loss.message_inteligentSL'),
+        type: 'inteligentSL',
       },
       cssClass: 'ux_modal_stop_loss',
     });
