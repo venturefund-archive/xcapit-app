@@ -7,6 +7,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
+import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
+import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
+import { BigNumber, utils } from 'ethers';
+import { BlockchainProviderService } from '../../shared-wallets/services/brockchain-provider/blockchain-provider.service';
 
 @Component({
   selector: 'app-send-detail',
@@ -69,12 +74,14 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
       </form>
 
       <div class="sd__alert">
-        <app-ux-alert-message [type]="this.alertType">
+        <app-ux-alert-message [type]="this.alertType" *ngIf="!this.hasNativeToken">
           <div class="sd__alert__title">
             <ion-text>{{ 'wallets.send.send_detail.alert.title' | translate }}</ion-text>
           </div>
           <div class="sd__alert__text">
-            <ion-text>{{ 'wallets.send.send_detail.alert.text' | translate: { nativeToken: 'ETH' } }}</ion-text>
+            <ion-text>{{
+              'wallets.send.send_detail.alert.text' | translate: { nativeToken: this.nativeToken.value }
+            }}</ion-text>
           </div>
         </app-ux-alert-message>
       </div>
@@ -99,6 +106,10 @@ export class SendDetailPage {
   currency: Coin;
   networks: string[];
   selectedNetwork: string;
+  estimatedGas: BigNumber;
+  hasNativeToken = true;
+  nativeToken: Coin;
+  balanceNativeToken: number;
   amount: number;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
@@ -110,13 +121,48 @@ export class SendDetailPage {
     private route: ActivatedRoute,
     private navController: NavController,
     private formBuilder: FormBuilder,
-    private transactionDataService: TransactionDataService
+    private transactionDataService: TransactionDataService,
+    private walletService: WalletService,
+    private storageService: StorageService,
+    private blockchainProviderService: BlockchainProviderService
   ) {}
 
   ionViewWillEnter() {
     this.getCurrency();
     this.setCurrencyNetworks();
+    this.checkNativeTokenAmount();
+    this.estimateFee();
   }
+
+  getNativeToken() {
+    this.nativeToken = this.coins.find((c) => c.network === this.selectedNetwork && c.native);
+  }
+
+  async checkNativeTokenAmount() {
+    this.getNativeToken();
+    const nativeTokenAddress = await this.storageService.getWalletsAddresses(this.selectedNetwork);
+    this.balanceNativeToken = parseFloat(
+      await this.walletService.balanceOf(nativeTokenAddress, this.nativeToken.value)
+    );
+    this.hasNativeToken = this.balanceNativeToken > 0;
+  }
+
+  async estimateFee() {
+    const fee = await this.blockchainProviderService.estimateFee(
+      this.currency.value,
+      this.form.value.address,
+      this.form.value.amount
+    );
+    // this.estimatedGas = await this.walletTransactionService.estimateGas(this.form.value.address, this.form.value.amount);
+    //this.estimatedGas = fee;
+    console.log(parseFloat(utils.formatUnits(fee)));
+
+    // if (this.estimatedGas.toNumber() > this.balanceNativeToken) {
+    //  this.showModalNotEnoughNativeToken();
+    // }
+  }
+
+  async showModalNotEnoughNativeToken() {}
 
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));

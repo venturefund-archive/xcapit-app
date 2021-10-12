@@ -9,7 +9,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { EthersService } from '../ethers/ethers.service';
-import { Wallet } from 'ethers';
+import { BigNumber, Wallet } from 'ethers';
 export type Amount = string | number;
 
 @Injectable({
