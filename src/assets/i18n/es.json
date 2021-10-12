@@ -208,7 +208,7 @@
     "create_support_ticket_success": {
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
       "textSecondary": "Quédate atento, recibirás la respuesta en tu mail",
-      "namePrimaryAction": "Aceptar"
+      "namePrimaryAction": "Volver al inicio"
     },
     "create_ticket_form": {
       "label_email": "CORREO ELECTRÓNICO",

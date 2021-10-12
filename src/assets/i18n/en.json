@@ -208,7 +208,7 @@
     "create_support_ticket_success": {
       "textPrimary": "¡Thank you for your patience!",
       "textSecondary": "Stay tuned, you will receive the answer in your mail",
-      "namePrimaryAction": "Accept"
+      "namePrimaryAction": "Back to start"
     },
     "create_ticket_form": {
       "label_email": "EMAIL",
