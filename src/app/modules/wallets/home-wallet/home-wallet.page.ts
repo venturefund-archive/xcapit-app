@@ -6,7 +6,6 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-wallet',
@@ -58,30 +57,6 @@ import { finalize } from 'rxjs/operators';
         >
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
-      </div>
-      <div
-        class="wt__transaction ion-padding-start ion-padding-end"
-        *ngIf="this.transactionsExists && this.balances?.length"
-      >
-        <div div class="wt__transaction__title">
-          <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
-            {{ 'wallets.home.wallet_transaction_title' | translate }}
-          </ion-label>
-        </div>
-        <div class="wt__transaction__wallet-transaction-card">
-          <app-wallet-transaction-card [transactions]="this.lastTransaction"></app-wallet-transaction-card>
-        </div>
-        <div class="wt__transaction-history">
-          <ion-button
-            name="Transactions History"
-            id="transaction-history"
-            appTrackClick
-            fill="clear"
-            class="ux-font-lato ux-fsize-14 ux-fweight-semibold"
-            (click)="this.goToTransactionHistory()"
-            >{{ 'wallets.home.go_to_history' | translate }}
-          </ion-button>
-        </div>
       </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
@@ -197,9 +172,5 @@ export class HomeWalletPage implements OnInit {
         this.lastTransaction = res;
       }
     });
-  }
-
-  goToTransactionHistory() {
-    this.navController.navigateForward(['/wallets/transactions']);
   }
 }
