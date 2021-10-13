@@ -2,16 +2,17 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { COINS } from '../../constants/coins';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
 import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
-import { BigNumber, utils } from 'ethers';
+import { BigNumber } from 'ethers';
 import { BlockchainProviderService } from '../../shared-wallets/services/brockchain-provider/blockchain-provider.service';
+import { TranslateService } from '@ngx-translate/core';
+import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 
 @Component({
   selector: 'app-send-detail',
@@ -91,7 +92,7 @@ import { BlockchainProviderService } from '../../shared-wallets/services/brockch
           class="ux_button sd__submit-button__button"
           appTrackClick
           name="Continue"
-          (click)="this.goToSummary()"
+          (click)="this.submitForm()"
           [disabled]="!this.form.valid || !this.selectedNetwork"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
@@ -124,14 +125,16 @@ export class SendDetailPage {
     private transactionDataService: TransactionDataService,
     private walletService: WalletService,
     private storageService: StorageService,
-    private blockchainProviderService: BlockchainProviderService
+    private blockchainProviderService: BlockchainProviderService,
+    private walletTransactionService: WalletTransactionsService,
+    private alertController: AlertController,
+    private translate: TranslateService
   ) {}
 
   ionViewWillEnter() {
     this.getCurrency();
     this.setCurrencyNetworks();
     this.checkNativeTokenAmount();
-    this.estimateFee();
   }
 
   getNativeToken() {
@@ -147,22 +150,35 @@ export class SendDetailPage {
     this.hasNativeToken = this.balanceNativeToken > 0;
   }
 
-  async estimateFee() {
-    const fee = await this.blockchainProviderService.estimateFee(
-      this.currency.value,
-      this.form.value.address,
-      this.form.value.amount
-    );
-    // this.estimatedGas = await this.walletTransactionService.estimateGas(this.form.value.address, this.form.value.amount);
-    //this.estimatedGas = fee;
-    console.log(parseFloat(utils.formatUnits(fee)));
-
-    // if (this.estimatedGas.toNumber() > this.balanceNativeToken) {
-    //  this.showModalNotEnoughNativeToken();
-    // }
+  async canAffordFee() {
+    if (
+      await this.walletTransactionService.canNotAffordFee(
+        this.currency,
+        this.balanceNativeToken,
+        parseFloat(this.form.value.amount),
+        this.form.value.address
+      )
+    ) {
+      this.showAlertNotEnoughNativeToken();
+    } else {
+      this.goToSummary();
+    }
   }
 
-  async showModalNotEnoughNativeToken() {}
+  async showAlertNotEnoughNativeToken() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.title'),
+      message: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.text'),
+      cssClass: 'ux-wallet-error-alert ux-alert',
+      buttons: [
+        {
+          text: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.button'),
+          cssClass: 'uxprimary',
+        },
+      ],
+    });
+    await alert.present();
+  }
 
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
@@ -177,14 +193,18 @@ export class SendDetailPage {
     this.selectedNetwork = network;
   }
 
-  async goToSummary() {
+  async submitForm() {
     if (this.form.valid) {
-      this.transactionDataService.transactionData = {
-        network: this.selectedNetwork,
-        currency: this.currency,
-        ...this.form.value,
-      };
-      await this.navController.navigateForward(['/wallets/send/summary']);
+      await this.canAffordFee();
     }
+  }
+
+  async goToSummary() {
+    this.transactionDataService.transactionData = {
+      network: this.selectedNetwork,
+      currency: this.currency,
+      ...this.form.value,
+    };
+    await this.navController.navigateForward(['/wallets/send/summary']);
   }
 }

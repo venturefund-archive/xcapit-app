@@ -9,7 +9,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { EthersService } from '../ethers/ethers.service';
-import { BigNumber, Wallet } from 'ethers';
+import { utils, Wallet } from 'ethers';
 export type Amount = string | number;
 
 @Injectable({
@@ -213,5 +213,32 @@ export class WalletTransactionsService {
     });
 
     return ordered.reverse();
+  }
+
+  hasNotEnoughTokenForTx(currency: Coin, balanceNativeToken: number, amountToSend: number, fee?: number): boolean {
+    if (fee === undefined) {
+      return balanceNativeToken === 0;
+    }
+
+    if (currency.native) {
+      return parseFloat(utils.formatUnits(fee)) > balanceNativeToken - amountToSend;
+    } else {
+      return parseFloat(utils.formatUnits(fee)) > balanceNativeToken;
+    }
+  }
+
+  async canNotAffordFee(
+    currency: Coin,
+    balanceNativeToken: number,
+    amountToSend: number,
+    destinationAddress: string
+  ): Promise<boolean> {
+    let fee;
+
+    try {
+      fee = await this.blockchainProviderService.estimateFee(currency, destinationAddress, amountToSend);
+    } catch (e) {}
+
+    return this.hasNotEnoughTokenForTx(currency, balanceNativeToken, amountToSend, fee);
   }
 }

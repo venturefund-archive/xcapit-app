@@ -1404,6 +1404,11 @@
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
+        },
+        "alert_not_enough_native_token": {
+          "title": "Error de transacción",
+          "text": "Fondos insuficientes para realizar el pago de las comisiones",
+          "button": "Aceptar"
         }
       },
       "send_success": {

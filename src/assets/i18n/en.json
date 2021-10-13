@@ -1401,6 +1401,11 @@
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
+        },
+        "alert_not_enough_native_token": {
+          "title": "Transaction error",
+          "text": "Insufficient funds to afford transaction fees.",
+          "button": "Ok"
         }
       },
       "send_success": {

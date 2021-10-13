@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ethers } from 'ethers';
+import { BigNumber, ethers, utils } from 'ethers';
 import { COINS } from '../../../constants/coins';
-import { parseEther } from 'ethers/lib/utils';
+import { parseEther, parseUnits } from 'ethers/lib/utils';
+import { Coin } from '../../interfaces/coin.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -46,10 +47,13 @@ export class BlockchainProviderService {
     return new ethers.Contract(contract, abi, provider);
   }
 
-  async estimateFee(currency: string, destinationAddress: string, amountToSend: string) {
-    const provider = await this.getProvider(currency);
-    const estimatedGas = provider.provider.estimateGas({ to: destinationAddress, value: parseEther(amountToSend) });
-    const fee = provider.provider.getFeeData();
+  async estimateFee(currency: Coin, destinationAddress: string, amountToSend: string | number) {
+    const provider = (await this.getProvider(currency.value)).provider;
+    const estimatedGas = await provider.estimateGas({
+      to: destinationAddress,
+      value: parseUnits(amountToSend.toString(), currency.decimals ? currency.decimals : 18),
+    });
+    const fee = await provider.getFeeData();
     return estimatedGas * fee.gasPrice;
   }
 }
