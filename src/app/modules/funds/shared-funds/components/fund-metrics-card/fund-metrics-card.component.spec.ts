@@ -40,9 +40,9 @@ describe('FundMetricsCardComponent', () => {
     component.settings = fundInfoManual;
     fixture.detectChanges();
     const stopLossEl = fixture.debugElement.query(By.css('.fmc__stop_loss .item__value'));
-    expect(stopLossEl.nativeElement.innerHTML).toContain('shared.without_SL_TP.without_stop_loss');
+    expect(stopLossEl.nativeElement.innerHTML).toContain('shared.edit_SL_TP.without_stop_loss');
     const takeProfitEl = fixture.debugElement.query(By.css('.fmc__take_profit .item__value'));
-    expect(takeProfitEl.nativeElement.innerHTML).toContain('shared.without_SL_TP.without_take_profit');
+    expect(takeProfitEl.nativeElement.innerHTML).toContain('shared.edit_SL_TP.without_take_profit');
   });
 
   it('should render manual stop loss code and take_profit code if the stop loss and take profit are different than manual', () => {

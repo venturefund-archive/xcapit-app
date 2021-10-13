@@ -1,36 +1,62 @@
-:host {
-  .akt {
-    &__title {
-      margin-top: 8px;
-    }
+.step_counter {
+  margin-right: 13px;
+}
+.apnf {
+  &__title {
+    padding: 8px 0px;
+  }
+  &__description {
+    padding: 10px 0px;
+  }
+  &__cards {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    &__card {
+      display: flex;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 16px;
+      &__info {
+        display: flex;
+        flex-direction: column;
 
-    &__text_before {
-      margin-top: 16px;
-    }
-
-    &__text_before_2 {
-      margin-top: 16px;
-    }
-
-    &__steps_container {
-      width: 100%;
-      margin-top: 24px;
-
-      &__steps {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 400px;
+        &__title {
+          margin-bottom: 3px;
+        }
+      }
+      &__chevron {
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        color: var(--ion-color-primary);
       }
     }
 
-    &__text_after {
-      margin-top: 24px;
+    &__card:last-child {
+      margin-top: 16px;
     }
-
-    &__text_help {
-      width: 100%;
+  }
+  &__information_card {
+    margin-top: 16px;
+    padding: 15px 15.5px;
+    display: flex;
+    background: var(--ion-color-infolight);
+    &__image {
+      flex-basis: 30%;
       display: flex;
       justify-content: center;
+      align-items: center;
+      padding: 0px 19.5px 0px 4px;
     }
+    &__text {
+      flex-basis: 70%;
+      color: var(--ion-color-infodark);
+    }
+  }
+  &__need_help {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
   }
 }

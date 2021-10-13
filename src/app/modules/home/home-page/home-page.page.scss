@@ -97,7 +97,7 @@
       flex-direction: column;
       justify-content: flex-end;
       align-items: center;
-      padding: 10px 11.5px 19px 11.5px;
+      padding: 10px 5px 19px 5px;
       border-radius: 8px;
 
       .link {
@@ -105,6 +105,10 @@
         text-align: center;
         line-height: 16.8px;
         margin-top: 10px;
+
+        .semibold {
+          font-weight: var(--ux-fweight-extrabold);
+        }
       }
     }
     .strategies {
@@ -118,6 +122,10 @@
         &__description {
           line-height: 12px;
           margin-top: 10px;
+
+          .regular {
+            font-weight: var(--ux-fweight-regular);
+          }
         }
       }
     }
@@ -131,6 +139,9 @@
         &__description {
           line-height: 12px;
           margin-top: 10px;
+          .regular {
+            font-weight: var(--ux-fweight-regular);
+          }
         }
       }
     }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
@@ -14,7 +15,12 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.disclaimer.header' | translate }}</ion-title>
+        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
+          'wallets.recovery_wallet.header' | translate
+        }}</ion-title>
+        <ion-title *ngIf="this.mode !== 'import'" class="ion-text-center">{{
+          'wallets.disclaimer.header' | translate
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -105,6 +111,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
   styleUrls: ['./disclaimer-wallet.page.scss'],
 })
 export class DisclaimerWalletPage implements OnInit {
+  mode: string;
   hasAcceptedDisclaimer: boolean;
   disclaimerForm: FormGroup = this.formBuilder.group({
     localStoredKeysCheckbox: [false, [Validators.requiredTrue]],
@@ -113,6 +120,7 @@ export class DisclaimerWalletPage implements OnInit {
   });
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     public submitButtonService: SubmitButtonService,
     private modalController: ModalController,
@@ -121,15 +129,21 @@ export class DisclaimerWalletPage implements OnInit {
     private storageWalletsService: StorageWalletsService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.mode = this.route.snapshot.paramMap.get('mode');
+  }
 
   handleSubmit() {
     if (this.disclaimerForm.valid) {
       this.acceptToS();
-      this.navController.navigateForward(['wallets/select-coins']);
+      this.navigateByMode();
     } else {
       this.showModalDidNotAccept();
     }
+  }
+  navigateByMode() {
+    const url = this.mode === 'import' ? 'wallets/recovery' : 'wallets/select-coins';
+    this.navController.navigateForward([url]);
   }
 
   async showModalDidNotAccept() {

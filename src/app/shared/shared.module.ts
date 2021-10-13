@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ErrorsFormItemComponent } from './components/errors-form-item/errors-form-item.component';
 import { GooglePlacesDirective } from './directives/google-places.directive';
@@ -9,7 +9,6 @@ import { LanguagePopoverComponent } from './components/language-popover/language
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
 import { TrackClickModule } from './directives/track-click/track-click.module';
 import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
-import { TrackClickUnauthModule } from './directives/track-click-unauth/track-click-unauth.module';
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
 import { UxInputComponent } from './components/ux-input/ux-input.component';
@@ -42,6 +41,13 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
 import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
 import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
+import { UxInputSelectTraductionComponent } from './components/ux-input-select-traduction/ux-input-select-traduction.component';
+import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux-step-progress-bar.component';
+import { InputSelectComponent } from './components/input-select/input-select.component';
+import { SelectModalNewComponent } from './components/select-modal-new/select-modal-new.component';
+import { SelectStyleDirective } from './directives/select-style/select-style.directive';
+import { EmbedVideoComponent } from './components/embed-video/embed-video.component';
+import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -55,7 +61,10 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     NeedHelpComponent,
     ToastAlertComponent,
     ScanQrModalComponent,
+    EmbedVideoComponent,
     // Ux
+    SelectModalNewComponent,
+    UxInputSelectTraductionComponent,
     UxInputComponent,
     UxInputGooglePlacesComponent,
     UxCenterImgComponent,
@@ -81,20 +90,18 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
+    UxStepProgressBarComponent,
+    InputSelectComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
+    SelectStyleDirective,
+    SafeURLPipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    TranslateModule.forChild(),
-    TrackClickModule,
-    TrackClickUnauthModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
+    EmbedVideoComponent,
     ErrorsFormItemComponent,
     CommonModule,
     ReactiveFormsModule,
@@ -103,7 +110,6 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     TranslateModule,
     LanguageButtonComponent,
     TrackClickModule,
-    TrackClickUnauthModule,
     IsSubscribedComponent,
     PercentageDisplayComponent,
     XcapitLogoComponent,
@@ -111,6 +117,8 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     ToastAlertComponent,
     ScanQrModalComponent,
     // Ux
+    SelectModalNewComponent,
+    UxInputSelectTraductionComponent,
     UxInputComponent,
     UxInputGooglePlacesComponent,
     UxCenterImgComponent,
@@ -136,9 +144,13 @@ import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-
     SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
+    UxStepProgressBarComponent,
+    InputSelectComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
+    SelectStyleDirective,
+    SafeURLPipe,
   ],
 })
 export class SharedModule {}

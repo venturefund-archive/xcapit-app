@@ -2,16 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.component';
-
 @Component({
   selector: 'app-ux-input-select',
   template: `
     <div class="uxselect">
       <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
       <ion-item class="uxselect__item">
-        <ion-label *ngIf="this.control.value !== '' && this.keyName !== ''">{{ this.selectedItem }}</ion-label>
         <ion-input
-          [ngClass]="{ uxselect__item__input_transparent: this.control.value !== '' && this.keyName !== '' }"
           mode="md"
           [formControlName]="this.controlName"
           [placeholder]="this.placeholder"
@@ -40,7 +37,6 @@ export class UxInputSelectComponent implements OnInit {
   @Input() data = [];
   @Input() keyName = '';
   @Input() valueName = '';
-  selectedItem = '';
   control: AbstractControl;
 
   constructor(private modalController: ModalController, private form: FormGroupDirective) {}
@@ -77,12 +73,6 @@ export class UxInputSelectComponent implements OnInit {
 
   setSelectedValue(value: any, patch = true) {
     if (patch) this.control.patchValue(value);
-    if (this.keyName !== '' && this.valueName !== '') {
-      this.selectedItem = this.getKeyForSelectedItem(this.control.value);
-    }
-  }
-
-  getKeyForSelectedItem(selectedItem) {
-    return this.data.find((item) => item[this.valueName] === selectedItem)[this.keyName];
+    this.control.patchValue(value);
   }
 }

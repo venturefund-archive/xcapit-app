@@ -10,10 +10,10 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { AuthService } from '../shared-usuarios/services/auth/auth.service';
 import { PasswordChangeFormComponent } from '../shared-usuarios/components/password-change-form/password-change-form.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -46,7 +46,7 @@ describe('PasswordChangePage', () => {
       authServiceSpy = jasmine.createSpyObj('AuthService', ['logout']);
       authServiceSpy.logout.and.returnValue(of({}).toPromise());
       TestBed.configureTestingModule({
-        declarations: [PasswordChangePage, PasswordChangeFormComponent, TrackClickDirective],
+        declarations: [PasswordChangePage, PasswordChangeFormComponent, FakeTrackClickDirective],
         imports: [
           HttpClientTestingModule,
           IonicModule,
@@ -56,7 +56,6 @@ describe('PasswordChangePage', () => {
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
-          TrackClickDirective,
           { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
           { provide: AuthService, useValue: authServiceSpy },
           { provide: NavController, useValue: navControllerSpy },

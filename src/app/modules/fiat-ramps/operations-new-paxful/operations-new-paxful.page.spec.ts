@@ -3,17 +3,16 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Browser } from '@capacitor/core';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { OperationsNewPaxfulPage } from './operations-new-paxful.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const userWallets = {
   aliasDeEstasKey: {
@@ -63,7 +62,7 @@ describe('OperationsNewPaxfulPage', () => {
       browserSpy.open.and.returnValue(Promise.resolve());
 
       TestBed.configureTestingModule({
-        declarations: [OperationsNewPaxfulPage, TrackClickDirective],
+        declarations: [OperationsNewPaxfulPage, FakeTrackClickDirective],
         imports: [
           RouterTestingModule.withRoutes([
             { path: 'apikeys/list', component: DummyComponent },
@@ -76,7 +75,6 @@ describe('OperationsNewPaxfulPage', () => {
           HttpClientTestingModule,
         ],
         providers: [
-          TrackClickDirective,
           { provide: PlatformService, useValue: platformServiceSpy },
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },

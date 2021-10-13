@@ -12,7 +12,7 @@ import { of } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const storageData = {
   valid: {
@@ -73,7 +73,7 @@ describe('SuccessPagePage', () => {
       clipboardServiceSpy.write.and.returnValue(Promise.resolve());
 
       TestBed.configureTestingModule({
-        declarations: [SuccessPagePage, TrackClickDirective],
+        declarations: [SuccessPagePage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           RouterTestingModule.withRoutes([
@@ -84,7 +84,6 @@ describe('SuccessPagePage', () => {
           TranslateModule.forRoot(),
         ],
         providers: [
-          TrackClickDirective,
           { provide: StorageOperationService, useValue: storageOperationServiceMock },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: ClipboardService, useValue: clipboardServiceSpy },

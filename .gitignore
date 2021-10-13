@@ -36,3 +36,5 @@ UserInterfaceState.xcuserstate
 #variables.env.ts
 variables.env
 docker-compose.yml
+android/app/google-services.json
+ios/App/App/GoogleService-Info.plist

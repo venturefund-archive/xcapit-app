@@ -9,12 +9,12 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
 import { ShareService } from 'src/app/shared/services/share/share.service';
 import { FundSummaryInterface } from './fund-summary.interface';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DecimalPipe } from '@angular/common';
 import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 const testData = { link: 'https://test.link' };
 const testSummary: FundSummaryInterface = {
   fund: { nombre_bot: 'Test', currency: 'BTC' },
@@ -46,27 +46,18 @@ describe('FundSummaryCardComponent', () => {
         set: () => Promise.resolve(),
         remove: () => Promise.resolve(),
       };
-      apiSubscriptionsSpy = jasmine.createSpyObj('ApiSubscriptionsService', [
-        'getSubscriptionLink',
-      ]);
-      alertControllerSpy = jasmine.createSpyObj(
-        'AlertController',
-        alertControllerMock
-      );
+      apiSubscriptionsSpy = jasmine.createSpyObj('ApiSubscriptionsService', ['getSubscriptionLink']);
+      alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
       shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
       TestBed.configureTestingModule({
         declarations: [
           FundSummaryCardComponent,
-          TrackClickDirective,
+          FakeTrackClickDirective,
           CurrencyFormatPipe,
           DecimalPipe,
           HideTextPipe,
         ],
-        imports: [
-          IonicModule,
-          TranslateModule.forRoot(),
-          HttpClientTestingModule,
-        ],
+        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           CurrencyFormatPipe,
           DecimalPipe,
@@ -109,27 +100,22 @@ describe('FundSummaryCardComponent', () => {
     expect(shareServiceSpy.share).toHaveBeenCalledTimes(1);
   });
 
-
   it('should call SetTotals on init', () => {
     spyOn(component, 'subscribeOnHideFunds');
-    const spy = spyOn(component, 'setTotals')
+    const spy = spyOn(component, 'setTotals');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call SetCurrency on init', () => {
     spyOn(component, 'subscribeOnHideFunds');
-    const spy = spyOn(component, 'setCurrency')
+    const spy = spyOn(component, 'setCurrency');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-
   it('should call trackEvent on trackService when Share is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Share'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Share');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     apiSubscriptionsSpy.getSubscriptionLink.and.returnValue(of(testData));

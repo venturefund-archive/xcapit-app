@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
@@ -86,7 +86,7 @@ export class UserStatusCardComponent implements OnInit {
     if (this.userStatus.status_name === 'CREATOR' || this.userStatus.status_name === 'COMPLETE') {
       this.newFundUrl = 'apikeys/list';
     } else {
-      this.newFundUrl = 'apikeys/tutorial';
+      this.newFundUrl = 'apikeys/tutorial/exchange';
     }
   }
 

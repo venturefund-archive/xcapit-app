@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AmountInputCardComponent } from './amount-input-card.component';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { of } from 'rxjs';
@@ -19,7 +19,7 @@ describe('AmountInputCardComponent', () => {
       referenceAmount: ['', []],
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getPrices: of({ prices: { LINK: 25.5 } }),
+      getPrices: of({ prices: { LINK: 25.5, BTC: 50000 } }),
     });
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;
@@ -55,5 +55,17 @@ describe('AmountInputCardComponent', () => {
     expect(apiWalletServiceSpy.getPrices).toHaveBeenCalledOnceWith(['LINK'], false);
     expect(spy).toHaveBeenCalledWith({ amount: 20 });
     expect(spy).toHaveBeenCalledWith({ referenceAmount: 510 });
+  });
+
+  it('should call with BTC as base when currency is RBTC', async () => {
+    component.currencyName = 'RBTC';
+    const spy = spyOn(component.form, 'patchValue').and.callThrough();
+    component.ngOnInit();
+    component.form.patchValue({ amount: 20 });
+    await fixture.whenStable();
+
+    expect(apiWalletServiceSpy.getPrices).toHaveBeenCalledOnceWith(['BTC'], false);
+    expect(spy).toHaveBeenCalledWith({ amount: 20 });
+    expect(spy).toHaveBeenCalledWith({ referenceAmount: 1000000 });
   });
 });

@@ -23,7 +23,7 @@ import { finalize } from 'rxjs/operators';
         </div>
         <div class="wt__amount ux-font-num-titulo">
           <ion-text>
-            {{ this.totalBalanceWallet | number: '1.2-6' }}
+            {{ this.totalBalanceWallet | number: '1.2-2' }}
             USD
           </ion-text>
         </div>
@@ -46,7 +46,19 @@ import { finalize } from 'rxjs/operators';
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
       </div>
-
+      <div class="wt__button" *ngIf="!this.walletExist">
+        <ion-button
+          (click)="this.goToRecoveryWallet()"
+          class="ux-font-text-xs"
+          appTrackClick
+          name="Import Wallet"
+          type="button"
+          color="uxsecondary"
+          fill="clear"
+        >
+          {{ 'wallets.home.wallet_recovery' | translate }}
+        </ion-button>
+      </div>
       <div
         class="wt__transaction ion-padding-start ion-padding-end"
         *ngIf="this.transactionsExists && this.balances?.length"
@@ -84,6 +96,7 @@ export class HomeWalletPage implements OnInit {
   transactionsExists: boolean;
   lastTransaction = [];
   userCoins: Coin[];
+  alreadyInitialized = false;
 
   constructor(
     private walletService: WalletService,
@@ -96,7 +109,10 @@ export class HomeWalletPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.encryptedWalletExist();
+    if (!this.alreadyInitialized) {
+      this.alreadyInitialized = true;
+      this.encryptedWalletExist();
+    }
   }
 
   createBalancesStructure(coin: Coin): AssetBalance {
@@ -124,41 +140,45 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
-  async getWalletsBalances() {
-    this.balances = [];
-    this.totalBalanceWallet = 0;
+  goToRecoveryWallet() {
+    this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
+  }
 
+  getWalletsBalances() {
     for (const coin of this.userCoins) {
-      this.walletAddress = this.walletService.addresses[coin.network];
+      const walletAddress = this.walletService.addresses[coin.network];
 
-      if (this.walletAddress) {
+      if (walletAddress) {
         const balance = this.createBalancesStructure(coin);
-        this.walletService.balanceOf(this.walletAddress, coin.value).then((res) => {
-          balance.amount = parseFloat(res);
+        this.walletService
+          .balanceOf(walletAddress, coin.value)
 
-          if (this.allPrices) {
-            const usdPrice = this.getPrice(balance.symbol);
+          .then((res) => {
+            balance.amount = parseFloat(res);
 
-            balance.usdAmount = usdPrice * balance.amount;
-            this.totalBalanceWallet += balance.usdAmount;
-          }
+            if (this.allPrices) {
+              const usdPrice = this.getPrice(balance.symbol);
 
-          this.balances.push(balance);
-
-          this.walletAddress = null;
-        });
+              balance.usdAmount = usdPrice * balance.amount;
+              this.totalBalanceWallet += balance.usdAmount;
+            }
+            this.balances.push(balance);
+          });
       }
     }
   }
 
-  async getAllPrices() {
-    this.userCoins = await this.storageService.getAssestsSelected();
-    await this.storageService.updateAssetsList();
-
-    this.apiWalletService
-      .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
-      .pipe(finalize(() => this.getWalletsBalances()))
-      .subscribe((res) => (this.allPrices = res));
+  getAllPrices() {
+    this.storageService.getAssestsSelected().then((coins) => {
+      this.userCoins = coins;
+      this.storageService.updateAssetsList().then(() => {
+        this.apiWalletService
+          .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
+          .toPromise()
+          .then((res) => (this.allPrices = res))
+          .finally(() => this.getWalletsBalances());
+      });
+    });
   }
 
   private getCoinForPrice(symbol: string): string {
@@ -166,10 +186,6 @@ export class HomeWalletPage implements OnInit {
   }
 
   private getPrice(symbol: string): number {
-    if (symbol === 'USDT') {
-      return 1;
-    }
-
     return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }
 

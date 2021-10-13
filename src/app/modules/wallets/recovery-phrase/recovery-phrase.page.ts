@@ -32,7 +32,7 @@ import { Mnemonic } from '@ethersproject/hdnode';
           <div class="text">
             <ion-text class="ux-font-text-base">{{ 'wallets.recovery_phrase.text4' | translate }}</ion-text>
           </div>
-          <div *ngIf="this.mnemonic">
+          <div class="component" *ngIf="this.mnemonic">
             <app-recovery-phrase-card
               [phrase]="this.mnemonic.phrase.split(' ')"
               [showOrder]="true"
@@ -41,7 +41,14 @@ import { Mnemonic } from '@ethersproject/hdnode';
         </div>
         <div class="ux_footer">
           <div class="next_button">
-            <ion-button class="ux_button" appTrackClick name="Next" size="large" (click)="goToVerifyPhrase()">
+            <ion-button
+              class="ux_button"
+              color="uxsecondary"
+              appTrackClick
+              name="Next"
+              size="large"
+              (click)="goToVerifyPhrase()"
+            >
               {{ 'wallets.recovery_phrase.btn_next' | translate }}
             </ion-button>
           </div>

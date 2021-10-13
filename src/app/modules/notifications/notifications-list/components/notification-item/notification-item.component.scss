@@ -1,52 +1,33 @@
 :host {
-    .ni {
-        &__body {
-            --padding-start: 16px;
-            --padding-end: 0px;
-            --padding-top: 8px;
-            --padding-bottom: 8px;
-            --border-style: none;
-            align-items: end;
-            font-size: 13px;
-
-            &__icon {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 4px;
-                min-height: 48px;
-                min-width: 48px;
-                max-height: 48px;
-                max-width: 48px;
-                border-radius: 8px;
-                background: #00000014;
-                margin-right: 16px;
-            }
-
-            &__date {
-                height: 100%;
-                min-width: 40px;
-                max-width: 40px;
-                text-align: right;
-                font-size: 12px;
-                color: #00000061;
-            }
-
-            &__title {
-                font-weight: 600;
-                padding-bottom: 4px;
-            }
-    
-            &__message {
-                font-weight: 400;
-                color: #0000008A;
-            }
+  .ni {
+    &__body {
+      --border-style: none;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      &__container-icon {
+        height: 100%;
+        margin-right: 16px;
+        img {
+          padding-top: 5px;
+          width: 30px;
         }
+      }
 
-        &__new {
-            --background: #006EFF14;
-        }
-        
+      &__date {
+        height: 100%;
+        min-width: 40px;
+        max-width: 40px;
+        text-align: center;
+      }
+    }
+    hr {
+      width: 100%;
+      height: 1px;
+      background-color: var(--ion-color-uxline);
     }
 
+    &__new {
+      --background: #006eff14;
+    }
+  }
 }

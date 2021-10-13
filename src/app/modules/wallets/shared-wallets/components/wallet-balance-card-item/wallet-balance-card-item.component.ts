@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AssetBalance } from '../../interfaces/asset-balance.interface';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-wallet-balance-card-item',
   template: `
-    <div id="balance-card">
+    <div id="balance-card" (click)="this.goToAssetDetail()">
       <div class="wbci ion-padding">
         <div>
           <ion-img class="wbci__img" [src]="this.balance.icon"></ion-img>
@@ -13,7 +14,7 @@ import { AssetBalance } from '../../interfaces/asset-balance.interface';
           <div class="wbci__content__top">
             <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-bold">{{ this.balance.symbol }}</ion-label>
             <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold"
-              >{{ this.balance.amount }} {{ this.balance.symbol }}</ion-label
+              >{{ this.balance.amount | number: '1.2-6' }} {{ this.balance.symbol }}</ion-label
             >
           </div>
           <div class="wbci__content__bottom">
@@ -21,7 +22,7 @@ import { AssetBalance } from '../../interfaces/asset-balance.interface';
               this.balance.name
             }}</ion-label>
             <ion-label *ngIf="this.hasPrice()" color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
-              / {{ this.balance.usdAmount }} {{ this.balance.usdSymbol }}
+              {{ this.balance.usdAmount | number: '1.2-2' }} {{ this.balance.usdSymbol }}
             </ion-label>
           </div>
         </div>
@@ -34,11 +35,16 @@ import { AssetBalance } from '../../interfaces/asset-balance.interface';
 export class WalletBalanceCardItemComponent implements OnInit {
   @Input() balance: AssetBalance;
   @Input() last: boolean;
-  constructor() {}
+
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
   hasPrice() {
     return this.balance.usdAmount !== undefined && !(this.balance.amount > 0 && this.balance.usdAmount === 0);
+  }
+
+  goToAssetDetail() {
+    this.navController.navigateForward(['wallets/asset-detail/' + this.balance.symbol]);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
@@ -54,18 +54,16 @@ const { Browser } = Plugins;
       </ion-refresher>
       <!-- Content Cards -->
       <div class="ion-padding">
-        <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWalletWaitingList()">
+        <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWallet()">
           <div class="wmw__image">
             <ion-img src="../assets/img/home/want_my_wallet.svg" alt="Girl with coins"></ion-img>
           </div>
           <div class="wmw__content">
             <div class="wmw__content__title">
-              <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-16">{{
-                'home.home_page.want_my_wallet.title' | translate
-              }}</ion-text>
+              <ion-text class="ux-font-header-titulo">{{ 'home.home_page.want_my_wallet.title' | translate }}</ion-text>
             </div>
             <div class="wmw__content__description">
-              <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">{{
+              <ion-text class="ux-font-text-xxs">{{
                 'home.home_page.want_my_wallet.description' | translate
               }}</ion-text>
             </div>
@@ -87,18 +85,16 @@ const { Browser } = Plugins;
             </div>
             <div class="strategies__content">
               <div class="strategies__content__title">
-                <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-16">{{
-                  'home.home_page.strategies.title' | translate
-                }}</ion-text>
+                <ion-text class="ux-font-header-titulo">{{ 'home.home_page.strategies.title' | translate }}</ion-text>
               </div>
               <div class="strategies__content__description">
-                <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-10">{{
+                <ion-text class="ux-font-text-xxs regular">{{
                   'home.home_page.strategies.description' | translate
                 }}</ion-text>
               </div>
             </div>
             <div class="link">
-              <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14">{{
+              <ion-text class="ux-font-text-xs semibold">{{
                 'home.home_page.strategies.link_text' | translate
               }}</ion-text>
             </div>
@@ -109,27 +105,23 @@ const { Browser } = Plugins;
             </div>
             <div class="support__content">
               <div class="support__content__title">
-                <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-16">{{
-                  'home.home_page.support.title' | translate
-                }}</ion-text>
+                <ion-text class="ux-font-header-titulo">{{ 'home.home_page.support.title' | translate }}</ion-text>
               </div>
               <div class="support__content__description">
-                <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-10">{{
+                <ion-text class="ux-font-text-xxs regular">{{
                   'home.home_page.support.description' | translate
                 }}</ion-text>
               </div>
             </div>
             <div class="link">
-              <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-14">{{
-                'home.home_page.support.link_text' | translate
-              }}</ion-text>
+              <ion-text class="ux-font-text-xs semibold">{{ 'home.home_page.support.link_text' | translate }}</ion-text>
             </div>
           </div>
         </div>
       </div>
       <!-- Slider News -->
       <div class="academy ion-padding" *ngIf="this.news">
-        <div class="academy__news__title ux-font-lato ux-fweight-semibold ux-fsize-12">
+        <div class="ux-font-text-xxs">
           <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
         </div>
         <app-slider-news [news]="this.news"></app-slider-news>
@@ -157,11 +149,7 @@ export class HomePage implements OnInit {
     private apiWebFlow: ApiWebflowService,
     private notificationsService: NotificationsService,
     private refreshTimeoutService: RefreshTimeoutService
-  ) {
-    Browser.prefetch({
-      urls: ['https://www.xcapit.com/#lista-espera'],
-    });
-  }
+  ) {}
 
   ngOnInit() {}
 
@@ -224,12 +212,8 @@ export class HomePage implements OnInit {
     });
   }
 
-  async goToWalletWaitingList() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
-      url: 'https://www.xcapit.com/#lista-espera',
-    });
-    // this.navController.navigateForward('/tabs/wallets');
+  async goToWallet() {
+    this.navController.navigateForward('/tabs/wallets');
   }
 
   goToSupportPage() {

@@ -2,10 +2,10 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { FundTimelineComponent } from './fund-timeline.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('FundTimelineComponent', () => {
   let component: FundTimelineComponent;
@@ -17,9 +17,9 @@ describe('FundTimelineComponent', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [FundTimelineComponent, TrackClickDirective],
+        declarations: [FundTimelineComponent, FakeTrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(FundTimelineComponent);

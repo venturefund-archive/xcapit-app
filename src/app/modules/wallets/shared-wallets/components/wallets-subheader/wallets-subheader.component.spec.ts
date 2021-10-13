@@ -2,11 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { WalletsSubheaderComponent } from './wallets-subheader.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('WalletsSubheaderComponent', () => {
   let component: WalletsSubheaderComponent;
@@ -18,9 +18,9 @@ describe('WalletsSubheaderComponent', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [WalletsSubheaderComponent, TrackClickDirective],
+        declarations: [WalletsSubheaderComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 

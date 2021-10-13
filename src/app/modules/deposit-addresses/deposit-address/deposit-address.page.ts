@@ -5,7 +5,7 @@ import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.se
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Plugins } from '@capacitor/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 const { Clipboard } = Plugins;
 

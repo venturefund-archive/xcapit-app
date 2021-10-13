@@ -2,13 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { ApiPaymentsService } from '../../shared-payments/services/api-payments.service';
 import { SelectLicensePage } from './select-license.page';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('SelectLicensePage', () => {
   let component: SelectLicensePage;
@@ -27,7 +27,7 @@ describe('SelectLicensePage', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [SelectLicensePage, TrackClickDirective],
+        declarations: [SelectLicensePage, FakeTrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },

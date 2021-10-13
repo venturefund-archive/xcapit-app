@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import { ActivatedRoute } from '@angular/router';

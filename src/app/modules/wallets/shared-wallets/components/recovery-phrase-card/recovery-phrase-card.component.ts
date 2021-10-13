@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { RecoveryWordComponent } from '../recovery-word/recovery-word.component';
 
 @Component({
   selector: 'app-recovery-phrase-card',
   template: `
-    <ion-card class="ion-padding">
+    <div class="card ion-padding">
       <div class="word" *ngFor="let word of this.phraseCopy; let i = index">
         <app-recovery-word
           [clickable]="this.clickable"
@@ -15,7 +15,7 @@ import { RecoveryWordComponent } from '../recovery-word/recovery-word.component'
         >
         </app-recovery-word>
       </div>
-    </ion-card>
+    </div>
   `,
   styleUrls: ['./recovery-phrase-card.component.scss'],
 })

@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
-import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-address-input-card',
@@ -26,7 +27,7 @@ import { TranslateService } from '@ngx-translate/core';
             <ion-icon name="ux-paste"></ion-icon>
           </ion-button>
           <ion-button
-            *ngIf="this.enableQR"
+            *ngIf="this.enableQR && !this.isPWA"
             name="Scan QR"
             appTrackClick
             fill="clear"
@@ -60,6 +61,7 @@ export class AddressInputCardComponent implements OnInit {
   @Input() title: string;
   @Input() helpText: string;
   @Input() enableQR = true;
+  isPWA = true;
   form: FormGroup;
 
   constructor(
@@ -68,11 +70,17 @@ export class AddressInputCardComponent implements OnInit {
     private modalController: ModalController,
     private toastService: ToastService,
     private translate: TranslateService,
-    private formGroupDirective: FormGroupDirective
+    private formGroupDirective: FormGroupDirective,
+    private platformService: PlatformService
   ) {}
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
+    this.checkIsWebPlatform();
+  }
+
+  checkIsWebPlatform() {
+    this.isPWA = this.platformService.isWeb();
   }
 
   pasteClipboardData() {

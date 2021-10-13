@@ -6,13 +6,7 @@ import { NavController } from '@ionic/angular';
   template: `
     <div class="main">
       <div class="main__close_button">
-        <ion-button
-          fill="clear"
-          appTrackClick="!this.unauth"
-          appTrackClickUnauth="this.unauth"
-          name="Close Success"
-          (click)="this.close()"
-        >
+        <ion-button fill="clear" appTrackClick name="Close Success" (click)="this.close()">
           <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
         </ion-button>
       </div>
@@ -30,8 +24,7 @@ import { NavController } from '@ionic/angular';
           <ion-button
             class="ux_button"
             color="uxsecondary"
-            appTrackClick="!this.unauth"
-            appTrackClickUnauth="this.unauth"
+            appTrackClick
             name="Success Action Primary"
             (click)="this.primaryAction()"
           >
@@ -44,8 +37,7 @@ import { NavController } from '@ionic/angular';
         <div class="main__actions__third" *ngIf="this.data.nameThirdAction">
           <ion-button
             class="ux_button"
-            appTrackClick="!this.unauth"
-            appTrackClickUnauth="this.unauth"
+            appTrackClick
             name="Success Action Third"
             fill="outline"
             (click)="this.thirdAction()"
@@ -56,8 +48,7 @@ import { NavController } from '@ionic/angular';
         <div class="main__actions__secondary" *ngIf="this.data.nameSecondaryAction">
           <ion-button
             class="action_secondary ux_button"
-            appTrackClick="!this.unauth"
-            appTrackClickUnauth="this.unauth"
+            appTrackClick
             fill="clear"
             name="Success Action Secondary"
             (click)="this.secondaryAction()"

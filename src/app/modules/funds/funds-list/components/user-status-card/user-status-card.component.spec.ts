@@ -4,10 +4,10 @@ import { UserStatusCardComponent } from './user-status-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from '../../../../../../testing/dummy.component.spec';
-import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('UserStatusCardComponent', () => {
   let component: UserStatusCardComponent;
@@ -32,7 +32,7 @@ describe('UserStatusCardComponent', () => {
         getHideFunds: () => Promise.resolve(true),
       };
       TestBed.configureTestingModule({
-        declarations: [UserStatusCardComponent, TrackClickDirective, DummyComponent],
+        declarations: [UserStatusCardComponent, FakeTrackClickDirective, DummyComponent],
         imports: [
           IonicModule,
           HttpClientTestingModule,
@@ -44,7 +44,7 @@ describe('UserStatusCardComponent', () => {
             { path: 'notifications/list', component: DummyComponent },
           ]),
         ],
-        providers: [TrackClickDirective, { provide: LocalStorageService, useValue: localStorageServiceMock }],
+        providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(UserStatusCardComponent);
@@ -67,8 +67,8 @@ describe('UserStatusCardComponent', () => {
   });
 
   [
-    ['BEGINNER', 'apikeys/tutorial'],
-    ['EXPLORER', 'apikeys/tutorial'],
+    ['BEGINNER', 'apikeys/tutorial/exchange'],
+    ['EXPLORER', 'apikeys/tutorial/exchange'],
     ['COMPLETE', 'apikeys/list'],
     ['CREATOR', 'apikeys/list'],
   ].forEach(([statusName, expectedUrl]) => {

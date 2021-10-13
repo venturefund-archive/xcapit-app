@@ -4,10 +4,8 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { CurrencyPercentagePipe } from './pipes/currency-percentage/currency-percentage.pipe';
 import { CurrencyTextPipe } from './pipes/currency-text/currency-text.pipe';
 import { FundPerformanceChartComponent } from './components/fund-performance-chart/fund-performance-chart.component';
-import { StateShowNamePipe } from './pipes/state-names/state-names.pipe';
 import { CurrencyAmountValueComponent } from './components/currency-amount-value/currency-amount-value.component';
 import { CommissionNamePipe } from './pipes/commission-name/commission-name.pipe';
-import { CommissionsModalComponent } from './components/commissions-modal/commissions-modal.component';
 import { CommissionsContentComponent } from './components/commissions-content/commissions-content.component';
 import { CustomRangeModalComponent } from './components/custom-range-modal/custom-range-modal.component';
 import { AbsoluteValuePipe } from './pipes/absolute-value/absolute-value.pipe';
@@ -30,18 +28,18 @@ import { InvestmentProductCardComponent } from './components/investment-product-
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { StrategyNamePipe } from './pipes/strategy-name/strategy-name.pipe';
 import { NoApikeysModalComponent } from './components/no-apikeys-modal/no-apikeys-modal.component';
+import { CustomStopLossSettingComponent } from './components/custom-stop-loss-setting/custom-stop-loss-setting.component';
 
 @NgModule({
   declarations: [
     FundPerformanceChartComponent,
     CurrencyPercentagePipe,
     CurrencyTextPipe,
-    StateShowNamePipe,
     CurrencyAmountValueComponent,
     CommissionNamePipe,
-    CommissionsModalComponent,
     CommissionsContentComponent,
     CustomRangeModalComponent,
+    CustomStopLossSettingComponent,
     AbsoluteValuePipe,
     FundCardComponent,
     FundSummaryCardComponent,
@@ -70,13 +68,12 @@ import { NoApikeysModalComponent } from './components/no-apikeys-modal/no-apikey
     FundPerformanceChartComponent,
     CurrencyPercentagePipe,
     CurrencyTextPipe,
-    StateShowNamePipe,
     CurrencyAmountValueComponent,
     CommissionNamePipe,
     NoApikeysModalComponent,
-    CommissionsModalComponent,
     CommissionsContentComponent,
     CustomRangeModalComponent,
+    CustomStopLossSettingComponent,
     AbsoluteValuePipe,
     FundCardComponent,
     FundSummaryCardComponent,

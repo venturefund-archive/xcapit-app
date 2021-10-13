@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, IonSlides, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { VerifyPhrasePage } from './verify-phrase.page';
@@ -14,6 +13,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
 import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { IonSlidesMock } from 'src/testing/spies/ion-slides-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const phrase = ['insecto', 'puerta', 'vestido'];
 const phrase2 = ['piso', 'plato', 'nube'];
@@ -49,10 +49,9 @@ describe('VerifyPhrasePage', () => {
         create: () => {},
       };
       TestBed.configureTestingModule({
-        declarations: [VerifyPhrasePage, TrackClickDirective, RecoveryPhraseCardComponent],
+        declarations: [VerifyPhrasePage, FakeTrackClickDirective, RecoveryPhraseCardComponent],
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
           { provide: WalletService, useValue: walletServiceMock },

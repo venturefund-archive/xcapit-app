@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UrlSerializer } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { PaymentSuccessPage } from './payment-success.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('PaymentsSuccessPage', () => {
   let component: PaymentSuccessPage;
@@ -21,9 +21,9 @@ describe('PaymentsSuccessPage', () => {
       navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
       navControllerSpy.navigateBack.and.returnValue(Promise.resolve());
       TestBed.configureTestingModule({
-        declarations: [PaymentSuccessPage, TrackClickDirective],
+        declarations: [PaymentSuccessPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [UrlSerializer, TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [UrlSerializer, { provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(PaymentSuccessPage);

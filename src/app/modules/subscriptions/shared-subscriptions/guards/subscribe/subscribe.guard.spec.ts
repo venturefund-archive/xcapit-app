@@ -1,9 +1,8 @@
-import { TestBed, async, inject, ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { SubscribeGuard } from './subscribe.guard';
 import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
 import { SubscriptionsService } from '../../services/subscriptions/subscriptions.service';
-import { of } from 'rxjs';
 import { ActivatedRouteSnapshot } from '@angular/router';
 
 describe('SubscribeGuard', () => {

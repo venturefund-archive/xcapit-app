@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
-import { IsSubscribedGuard } from '../subscriptions/shared-subscriptions/guards/is-subscribed/is-subscribed.guard';
 import { IsOwnerGuard } from '../funds/shared-funds/guards/is-owner-guard/is-owner.guard';
 import { BeforeStepDataGuard } from './shared-funds/guards/before-steps-data-guard/before-step-data.guard';
 import { UserStatusGuard } from './shared-funds/guards/user-status-guard/user-status-guard.guard';
@@ -48,11 +47,6 @@ export const routes: Routes = [
         loadChildren: () => import('./fund-success/fund-success.module').then((m) => m.FundSuccessPageModule),
       },
       {
-        path: 'runs/:fundName',
-        canActivate: [IsSubscribedGuard],
-        loadChildren: () => import('./fund-runs/fund-runs.module').then((m) => m.FundRunsPageModule),
-      },
-      {
         path: 'commissions',
         loadChildren: () => import('./commission/commission.module').then((m) => m.CommissionPageModule),
       },
@@ -95,6 +89,13 @@ export const routes: Routes = [
         path: 'fund-investment-info/:strategy',
         loadChildren: () =>
           import('./fund-investment-info/fund-investment-info.module').then((m) => m.FundInvestmentInfoPageModule),
+      },
+      {
+        path: 'inteligent-stop-loss-information',
+        loadChildren: () =>
+          import('./inteligent-stop-loss-information/inteligent-stop-loss-information.module').then(
+            (m) => m.InteligentStopLossInformationPageModule
+          ),
       },
     ],
   },

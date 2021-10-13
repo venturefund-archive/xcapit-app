@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
-import { LoadingService } from '../../../../../shared/services/loading/loading.service';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
@@ -18,39 +18,54 @@ export type Amount = string | number;
 export class WalletTransactionsService {
   constructor(
     private walletEncryptionService: WalletEncryptionService,
-    private loadingService: LoadingService,
     private blockchainProviderService: BlockchainProviderService,
     private storageService: StorageService,
     private http: CustomHttpService,
     private ethersService: EthersService
   ) {}
 
-  async send(password: string, amount: number | string, targetAddress: string, currency: Coin, loading = true) {
-    if (loading) await this.loadingService.show();
+  async send(
+    password: string,
+    amount: number | string,
+    targetAddress: string,
+    currency: Coin
+  ): Promise<TransactionResponse> {
     const providerData = await this.blockchainProviderService.getProvider(currency.value);
-    const wallet = (await this.walletEncryptionService.getDecryptedWallet(password)).connect(providerData.provider);
+    let wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, currency);
+    wallet = wallet.connect(providerData.provider);
+    let transactionResponse: TransactionResponse;
     if (!currency.contract) {
-      await this.transferNativeToken(wallet, targetAddress, amount);
+      transactionResponse = await this.transferNativeToken(wallet, targetAddress, amount);
     } else {
-      await this.transferNoNativeToken(wallet, amount, targetAddress, currency, providerData.abi);
+      transactionResponse = await this.transferNoNativeToken(wallet, amount, targetAddress, currency, providerData.abi);
     }
-    await this.loadingService.dismiss();
+    return transactionResponse;
   }
 
-  private async transferNativeToken(wallet: Wallet, targetAddress: string, amount: Amount) {
-    await wallet.sendTransaction({
+  private async transferNativeToken(
+    wallet: Wallet,
+    targetAddress: string,
+    amount: Amount
+  ): Promise<TransactionResponse> {
+    return await wallet.sendTransaction({
       to: targetAddress,
       value: parseEther(amount.toString()),
     });
   }
 
-  private async transferNoNativeToken(wallet: Wallet, amount: Amount, targetAddress: string, currency: Coin, abi) {
-    await this.ethersService
+  private async transferNoNativeToken(
+    wallet: Wallet,
+    amount: Amount,
+    targetAddress: string,
+    currency: Coin,
+    abi
+  ): Promise<TransactionResponse> {
+    return await this.ethersService
       .newContract(currency.contract, abi, wallet)
       .transfer(targetAddress, parseUnits(amount.toString(), currency.decimals));
   }
 
-  async getAllTransactions(): Promise<any> {
+  async getAllTransactions(asset: string = null): Promise<any> {
     return new Promise<any>(async (resolve) => {
       const addresses = await this.storageService.getWalletsAddresses();
 
@@ -63,6 +78,10 @@ export class WalletTransactionsService {
       // test mainnet address 0x9cBb2b28dF12A6f520Cfd4a97b8C89f89EE10C59 / 0x39F65f7F9418a35b5A8d07f08Ac9484b03d46295
 
       this.getTransactions(addresses.ETH_TEST, urlProvider).subscribe((response) => {
+        if (!!asset) {
+          response = response.filter((tx) => tx.asset === asset);
+        }
+
         resolve(response);
       });
     });

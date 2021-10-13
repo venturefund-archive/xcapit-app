@@ -248,6 +248,11 @@ ion-toast.refresher_toast {
     min-width: 116px;
   }
 
+  ion-button {
+    --ion-color-shade: var(--ion-color-base) !important;
+    --background-focused: var(--ion-color-base) !important;
+  }
+
   // Estilo de la toolbar para el diseño ux
   .ux_toolbar {
     --min-height: 60px;
@@ -280,6 +285,14 @@ ion-toast.refresher_toast {
     }
   }
 
+  .ux_modal_stop_loss {
+    --max-height: 200px;
+    --max-width: 85%;
+    .modal-wrapper {
+      border-radius: 10px;
+    }
+  }
+
   .ux-modal-informative {
     --max-height: 310px;
     --max-width: 85%;
@@ -293,6 +306,27 @@ ion-toast.refresher_toast {
     --max-width: 85%;
 
     .modal-wrapper {
+      background-color: var(--ion-background-colorwhite);
+      border-radius: 8px;
+    }
+  }
+
+  .ux-modal-apikeys-tutorial-no-binance-account {
+    --max-height: 337px;
+    --max-width: 89%;
+
+    .modal-wrapper {
+      background-color: var(--ion-background-colorwhite);
+      border-radius: 8px;
+    }
+  }
+
+  .ux-modal-apikeys-tutorial-no-apikeys {
+    --max-height: 549px;
+    --max-width: 89%;
+
+    .modal-wrapper {
+      margin-top: 76px;
       background-color: var(--ion-background-colorwhite);
       border-radius: 8px;
     }

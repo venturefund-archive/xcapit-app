@@ -23,6 +23,7 @@ import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/sto
         *ngIf="this.profile"
         [opType]="this.opType"
         [stopLoss]="this.stopLoss"
+        [trailingStop]="this.trailingStop"
         [profile]="this.profile"
         (save)="this.handleSubmit($event)"
       ></app-fund-select-stop-loss>
@@ -35,7 +36,7 @@ export class FundStopLossPage implements OnInit {
   fund: any;
   stopLoss: number;
   profile: string;
-
+  trailingStop: number;
   opType: string;
 
   constructor(

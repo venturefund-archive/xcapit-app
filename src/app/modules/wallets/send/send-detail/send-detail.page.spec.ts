@@ -5,13 +5,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from '../../../../../testing/track-click-directive-test.helper';
-import { TrackClickDirective } from '../../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
+import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const coins: Coin[] = [
   {
@@ -20,7 +20,7 @@ const coins: Coin[] = [
     logoRoute: '../../assets/img/coins/BTC.svg',
     last: false,
     value: 'BTC',
-    network: '',
+    network: 'BTC',
     rpc: '',
   },
 ];
@@ -50,7 +50,7 @@ describe('SendDetailPage', () => {
     };
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
-      declarations: [SendDetailPage, TrackClickDirective],
+      declarations: [SendDetailPage, FakeTrackClickDirective],
       imports: [
         IonicModule,
         HttpClientTestingModule,
@@ -59,7 +59,6 @@ describe('SendDetailPage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        TrackClickDirective,
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: NavController, useValue: navControllerSpy },
       ],
@@ -77,13 +76,17 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency on ionViewWillEnter', () => {
+  it('should find currency and networks on ionViewWillEnter', () => {
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.networks).toEqual([coins[0].network]);
+    expect(component.selectedNetwork).toEqual(coins[0].network);
     expect(component.currency).toEqual(coins[0]);
   });
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
+    component.selectedNetwork = 'ERC20';
     fixture.detectChanges();
     expect(component.selectedNetwork).toBe('ERC20');
     const networkCard = fixture.debugElement.query(By.css('app-network-select-card'));
@@ -102,6 +105,7 @@ describe('SendDetailPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
   it('should save transaction data and navigate when Continue Button clicked and form valid', () => {
     component.form.patchValue(formData.valid);
     fixture.detectChanges();

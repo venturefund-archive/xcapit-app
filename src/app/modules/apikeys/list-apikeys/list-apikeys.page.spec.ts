@@ -11,6 +11,7 @@ import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { ListApikeysPage } from './list-apikeys.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('ListApikeysPage', () => {
   let component: ListApikeysPage;
@@ -25,7 +26,7 @@ describe('ListApikeysPage', () => {
       apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeyService', ['getAll']);
 
       TestBed.configureTestingModule({
-        declarations: [ListApikeysPage, TrackClickDirective, DummyComponent],
+        declarations: [ListApikeysPage, FakeTrackClickDirective, DummyComponent],
         imports: [
           RouterTestingModule.withRoutes([
             { path: 'menus/main-menu', component: DummyComponent },

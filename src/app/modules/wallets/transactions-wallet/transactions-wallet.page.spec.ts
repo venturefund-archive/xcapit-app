@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UrlSerializer } from '@angular/router';
@@ -8,7 +8,6 @@ import { Storage } from '@ionic/storage';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { TransactionsWalletPage } from './transactions-wallet.page';
-import { By } from '@angular/platform-browser';
 
 const transaction = [
   {

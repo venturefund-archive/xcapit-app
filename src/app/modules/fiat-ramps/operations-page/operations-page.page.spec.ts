@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const operations = [
   {
@@ -148,7 +148,7 @@ describe('OperationsPagePage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [OperationsPagePage, TrackClickDirective],
+        declarations: [OperationsPagePage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           RouterTestingModule.withRoutes([
@@ -164,7 +164,6 @@ describe('OperationsPagePage', () => {
           TranslateModule.forRoot(),
         ],
         providers: [
-          TrackClickDirective,
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
         ],

@@ -1,6 +1,4 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Pipe, PipeTransform } from '@angular/core';
-import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 
 @Pipe({
   name: 'hideText',

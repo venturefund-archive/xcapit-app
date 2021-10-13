@@ -5,61 +5,43 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController, AlertController } from '@ionic/angular';
-import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
-import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click-unauth/track-click-unauth.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
+import { TrackService } from '../../../shared/services/track/track.service';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { of } from 'rxjs';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
   let fixture: ComponentFixture<RegisterPage>;
   let apiUsuariosMock: any;
-  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<RegisterPage>;
   let activatedRouteMock: any;
   let navControllerSpy: any;
   let alertControllerSpy: any;
+  let trackServiceSpy: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RegisterPage>;
   beforeEach(
     waitForAsync(() => {
-      alertControllerSpy = jasmine.createSpyObj(
-        'AlertController',
-        alertControllerMock
-      );
+      alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
       apiUsuariosMock = {
         crud: {
           create: (data: any) => of(data),
         },
       };
       activatedRouteMock = {};
-      navControllerSpy = jasmine.createSpyObj(
-        'NavController',
-        navControllerMock
-      );
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      trackServiceSpy = jasmine.createSpyObj('TrackService', ['trackSignUp']);
       TestBed.configureTestingModule({
-        declarations: [
-          DummyComponent,
-          RegisterPage,
-          AuthFormComponent,
-          TrackClickUnauthDirective,
-        ],
+        declarations: [DummyComponent, RegisterPage, AuthFormComponent, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          HttpClientTestingModule,
-          TranslateModule.forRoot(),
-          RouterTestingModule.withRoutes([
-            { path: 'users/login', component: DummyComponent },
-            { path: 'users/success-register', component: DummyComponent },
-          ]),
-          ReactiveFormsModule,
-          IonicModule,
-        ],
+        imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
         providers: [
-          TrackClickUnauthDirective,
+          { provide: TrackService, useValue: trackServiceSpy },
           { provide: ApiUsuariosService, useValue: apiUsuariosMock },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: NavController, useValue: navControllerSpy },
@@ -72,10 +54,8 @@ describe('RegisterPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterPage);
     component = fixture.componentInstance;
-    trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(
-      fixture
-    );
     fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -86,6 +66,11 @@ describe('RegisterPage', () => {
     spyOn(window, 'open');
     component.openTOS();
     expect(window.open).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call track sign up on register', () => {
+    component.success({});
+    expect(trackServiceSpy.trackSignUp).toHaveBeenCalledTimes(1);
   });
 
   it('should call success from regiterUser', () => {
@@ -100,26 +85,18 @@ describe('RegisterPage', () => {
       state: { email: response.email },
     });
     component.success(response);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
-      jasmine.any(Array),
-      options
-    );
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(jasmine.any(Array), options);
   });
 
   it('should reset form on success', () => {
-    const spy = spyOn(component.registerForm.form, 'reset').and.returnValue(
-      null
-    );
+    const spy = spyOn(component.registerForm.form, 'reset').and.returnValue(null);
     component.success('test');
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Register button clicked', () => {
-    const el = trackClickUnauthDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Register'
-    );
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Register');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();
     fixture.detectChanges();
@@ -127,11 +104,8 @@ describe('RegisterPage', () => {
   });
 
   it('should call trackEvent on trackService when Go To Login button clicked', () => {
-    const el = trackClickUnauthDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Go To Login'
-    );
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Login');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();
     fixture.detectChanges();
@@ -140,11 +114,8 @@ describe('RegisterPage', () => {
 
   it('should call trackEvent on trackService when Open TOS button clicked', () => {
     spyOn(window, 'open');
-    const el = trackClickUnauthDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Open TOS'
-    );
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Open TOS');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();
     fixture.detectChanges();
@@ -183,15 +154,9 @@ describe('RegisterPage', () => {
         }),
       };
       component.ionViewWillEnter();
-      expect(component.registerForm.form.get('referral_code').value).toEqual(
-        'asfd12'
-      );
-      expect(
-        component.registerForm.form.get('manual_referral').value
-      ).toBeTruthy();
-      expect(component.registerForm.form.get('email').value).toEqual(
-        'test@test.com'
-      );
+      expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
+      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
+      expect(component.registerForm.form.get('email').value).toEqual('test@test.com');
     });
 
     it('should set referral code and a invalid email ionViewWillEnter', () => {
@@ -202,12 +167,8 @@ describe('RegisterPage', () => {
         }),
       };
       component.ionViewWillEnter();
-      expect(component.registerForm.form.get('referral_code').value).toEqual(
-        'asfd12'
-      );
-      expect(
-        component.registerForm.form.get('manual_referral').value
-      ).toBeTruthy();
+      expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
+      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual('');
     });
   });

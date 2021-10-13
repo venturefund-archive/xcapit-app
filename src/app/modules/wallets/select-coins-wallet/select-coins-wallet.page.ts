@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { COINS } from '../constants/coins';
 import { NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-select-coins-wallet',
@@ -12,7 +12,10 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'wallets.select_coin.header' | translate }}</ion-title>
+        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
+          'wallets.recovery_wallet.header' | translate
+        }}</ion-title>
+        <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.select_coin.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -40,15 +43,15 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
                       name="AllToggle"
                       class="sc__toggle"
                       [checked]="this.allChecked"
-                      (click)="toggleAll()"
+                      (click)="toggleAll($event)"
                       mode="ios"
                       slot="end"
                     ></ion-toggle>
                   </ion-item>
                   <div class="list-divider"></div>
                   <app-item-coin
-                    (change)="this.validate()"
-                    [isChecked]="this.isChecked"
+                    (change)="this.validate($event)"
+                    [isChecked]="this.form.value.coin"
                     *ngFor="let coin of coins"
                     [coin]="coin"
                   ></app-item-coin>
@@ -77,6 +80,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 })
 export class SelectCoinsWalletPage implements OnInit {
   coins = COINS;
+  mode: string;
 
   form: FormGroup = this.formBuilder.group({
     ETH: [false],
@@ -89,51 +93,100 @@ export class SelectCoinsWalletPage implements OnInit {
   });
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private navController: NavController,
     private walletService: WalletService
   ) {}
-  isChecked: boolean;
   almostOneChecked = false;
   allChecked = false;
 
+  ionViewWillEnter() {
+    this.mode = this.route.snapshot.paramMap.get('mode');
+  }
+
   ngOnInit() {}
 
-  validate() {
-    this.checkAllToggleState();
-    this.almostOneCheckedState();
+  validate(event) {
+    this.setToggleAllState();
+    this.setContinueButtonState();
+    this.checkIfNativeCoinFromNetworkIsChecked(event);
   }
 
-  isFieldTrue(field) {
-    return this.form.controls[field].value === true;
+  setToggleAllState() {
+    this.allChecked = this.allToggled();
   }
 
-  toggleAll() {
-    this.isChecked = !this.isChecked;
-    this.allChecked = !this.isChecked;
+  setContinueButtonState() {
+    this.almostOneChecked = this.almostOneToggled();
+  }
+  allToggled(): boolean {
+    return Object.values(this.form.value).every((value) => value === true);
   }
 
-  checkAllToggleState() {
-    this.allChecked = Object.values(this.form.value).every((value) => value === true);
+  almostOneToggled() {
+    return Object.values(this.form.value).some((value) => value === true);
   }
 
-  almostOneCheckedState() {
-    this.almostOneChecked = Object.values(this.form.value).some((value) => value === true);
+  toggleAll(event: any) {
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.allToggled() ? this.selectAll(false) : this.selectAll(true);
+    this.setToggleAllState();
+    this.setContinueButtonState();
+  }
+
+  selectAll(select: boolean) {
+    const allCoins = {};
+    Object.keys(this.form.value).forEach((coin) => {
+      allCoins[coin] = select;
+    });
+    this.form.patchValue(allCoins);
+  }
+
+  checkIfNativeCoinFromNetworkIsChecked(event: any) {
+    const toggledCoin = event.detail.value;
+    const isToggledCoinChecking = event.detail.checked;
+    const nativeCoin = this.coins.find((coin) => coin.network === toggledCoin.network && coin.native === true).value;
+
+    if (toggledCoin.native && !isToggledCoinChecking) {
+      this.deselectAllNetworkCoins(toggledCoin.network);
+    }
+    if (!toggledCoin.native && isToggledCoinChecking) {
+      this.checkNativeCoin(nativeCoin);
+    }
+  }
+
+  deselectAllNetworkCoins(network: string) {
+    const allMappedNetworkCoins = {};
+    const allNetworkCoins = this.coins.filter((coin) => coin.network === network);
+    allNetworkCoins.forEach((coin) => {
+      allMappedNetworkCoins[coin.value] = false;
+    });
+    this.form.patchValue(allMappedNetworkCoins);
+  }
+
+  checkNativeCoin(nativeCoin) {
+    this.form.patchValue({ [nativeCoin]: true });
   }
 
   handleSubmit() {
     this.walletService.coins = [];
-
     if (this.almostOneChecked) {
       Object.keys(this.form.value).forEach((key) => {
         if (this.form.value[key]) {
           const coin = this.coins.find((coinRes) => coinRes.value === key);
-
           if (coin) this.walletService.coins.push(coin);
         }
       });
-
-      this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+      if (this.mode === 'import') {
+        this.walletService.create();
+        this.navController.navigateForward(['/wallets/create-password', 'import']);
+      } else {
+        this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+      }
     }
   }
 }

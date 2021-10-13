@@ -2,11 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { PrizeCardComponent } from './prize-card.component';
 import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('PrizeCardComponent', () => {
   let component: PrizeCardComponent;
@@ -19,10 +19,9 @@ describe('PrizeCardComponent', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       TestBed.configureTestingModule({
-        declarations: [PrizeCardComponent, TrackClickDirective],
+        declarations: [PrizeCardComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
         ],
