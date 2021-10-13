@@ -4,6 +4,7 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from '../../../shared/services/submit-button/submit-button.service';
+import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
   selector: 'app-fund-summary',
@@ -28,8 +29,8 @@ import { SubmitButtonService } from '../../../shared/services/submit-button/subm
             >
           </div>
 
-          <div class="fs__amount">
-            <ion-text class="ux-font-num-titulo">$ {{ '898.00' }} {{ this.fund.currencytus }}</ion-text>
+          <div class="fs__amount" *ngIf="this.accountBalance">
+            <ion-text class="ux-font-num-titulo">$ {{ this.accountBalance }} {{ this.fund.currency }}</ion-text>
           </div>
 
           <div class="fs__strategy">
@@ -97,17 +98,22 @@ export class FundSummaryPage implements OnInit {
   stopLossTitle: string;
   stopLoss: string;
   takeProfit: string;
+
   stopLossTypes = {
     trailing: {
       title: '',
       value: '',
     },
   };
+
+  accountBalance: number;
+
   constructor(
     private fundDataStorage: FundDataStorageService,
     private storageApiKeysService: StorageApikeysService,
     private apiFundsService: ApiFundsService,
     private navController: NavController,
+    private apiApiKeysService: ApiApikeysService,
     public submitButtonService: SubmitButtonService
   ) {}
 
@@ -116,6 +122,13 @@ export class FundSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.getFund();
     this.getMode();
+    this.getAccountBalance();
+  }
+
+  private getAccountBalance() {
+    this.apiApiKeysService
+      .getAccountBalance({ api_key_id: this.storageApiKeysService.data.id })
+      .subscribe((res) => (this.accountBalance = res.account_balance));
   }
 
   getMode() {

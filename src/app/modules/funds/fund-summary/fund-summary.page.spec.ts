@@ -12,6 +12,7 @@ import { StopLossTakeProfitSummaryComponent } from './components/stop-loss-take-
 import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 const fund = {
   stop_loss: 10,
@@ -31,6 +32,7 @@ describe('FundSummaryPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageApikeysServiceSpy: jasmine.SpyObj<StorageApikeysService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundSummaryPage>;
+  let apiApiKeysServiceSpy: jasmine.SpyObj<ApiApikeysService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -47,6 +49,9 @@ describe('FundSummaryPage', () => {
         setData: Promise.resolve({}),
         getFund: Promise.resolve(fund),
         clearAll: Promise.resolve({}),
+      });
+      apiApiKeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
+        getAccountBalance: of({ account_balance: 500, currency: 'USD' }),
       });
       apiFundsServiceSpy = jasmine.createSpyObj(
         'ApiFundsService',
@@ -65,6 +70,7 @@ describe('FundSummaryPage', () => {
           { provide: FundDataStorageService, useValue: fundDataStorageServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: StorageApikeysService, useValue: storageApikeysServiceSpy },
+          { provide: ApiApikeysService, useValue: apiApiKeysServiceSpy },
         ],
       }).compileComponents();
 
@@ -92,6 +98,9 @@ describe('FundSummaryPage', () => {
     expect(strategyEl.nativeElement.innerHTML).toContain(
       'funds.fund_summary.strategyfunds.fund_investment.card.profiles.Mary_Index.title'
     );
+
+    const amountEl = fixture.debugElement.query(By.css('.fs__amount ion-text'));
+    expect(amountEl.nativeElement.innerHTML).toContain('500');
   });
 
   it('should get fund and opType new on view will enter', async () => {

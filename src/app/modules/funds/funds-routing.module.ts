@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
-import { IsOwnerGuard } from '../funds/shared-funds/guards/is-owner-guard/is-owner.guard';
+import { IsOwnerGuard } from './shared-funds/guards/is-owner-guard/is-owner.guard';
 import { BeforeStepDataGuard } from './shared-funds/guards/before-steps-data-guard/before-step-data.guard';
 import { UserStatusGuard } from './shared-funds/guards/user-status-guard/user-status-guard.guard';
+import { HasApiKeyIdGuard } from './shared-funds/guards/has-api-key-id/has-api-key-id.guard';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,7 @@ export const routes: Routes = [
       },
       {
         path: 'fund-stop-loss',
+        canActivate: [BeforeStepDataGuard],
         loadChildren: () => import('./fund-stop-loss/fund-stop-loss.module').then((m) => m.FundStopLossPageModule),
       },
       {
@@ -99,6 +101,7 @@ export const routes: Routes = [
       },
       {
         path: 'summary',
+        canActivate: [HasApiKeyIdGuard, BeforeStepDataGuard],
         loadChildren: () => import('./fund-summary/fund-summary.module').then((m) => m.FundSummaryPageModule),
       },
     ],
