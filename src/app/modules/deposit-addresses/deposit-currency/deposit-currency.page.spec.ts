@@ -1,16 +1,16 @@
-import { CUSTOM_ELEMENTS_SCHEMA, forwardRef } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DepositCurrencyPage } from './deposit-currency.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { DummyComponent } from '../../../../testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -32,7 +32,7 @@ describe('DepositCurrencyPage', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [DepositCurrencyPage, TrackClickDirective],
+        declarations: [DepositCurrencyPage, FakeTrackClickDirective],
         imports: [
           HttpClientTestingModule,
           TranslateModule.forRoot(),

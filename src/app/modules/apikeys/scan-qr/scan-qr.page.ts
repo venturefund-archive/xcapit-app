@@ -4,6 +4,7 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
 import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-scanner.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-scan-qr',
@@ -25,28 +26,30 @@ import { QrScannerComponent } from '../shared-apikeys/components/qr-scanner/qr-s
 })
 export class ScanQrPage implements OnInit {
   @ViewChild(QrScannerComponent) qrScanner: QrScannerComponent;
-
+  isTutorialStep = false;
   constructor(
     private storageApiKeysService: StorageApikeysService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private navController: NavController
+    private navController: NavController,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.isTutorialStep = this.route.snapshot.paramMap.get('isTutorialStep') === 'true';
     this.readQRCode();
   }
 
   apiKeysScanned(result: any) {
     if (result.error) {
       this.showErrorToast(result.errorType);
-    } else {
-      if (result.scannedApikeys) {
-        this.storageApiKeysService.updateData({ ...result.scannedApikeys, exchange: 'binance' });
-        this.navController.navigateBack(['/apikeys/register']).then();
-      }
+      this.qrScanner.readQRCode();
+    }
+    if (result.scannedApikeys) {
+      this.storageApiKeysService.updateData({ ...result.scannedApikeys, exchange: 'binance' });
+      this.navigateBackToRegister();
     }
   }
 
@@ -56,11 +59,6 @@ export class ScanQrPage implements OnInit {
 
   stopQRScan() {
     this.qrScanner.stopQRScan();
-  }
-
-  registerManually() {
-    this.stopQRScan();
-    this.navController.navigateBack(['/apikeys/register']).then();
   }
 
   private showErrorToast(errorCode: string) {
@@ -73,10 +71,15 @@ export class ScanQrPage implements OnInit {
   }
 
   stoppedScan() {
-    this.navController.navigateBack(['/apikeys/register']).then();
+    this.navigateBackToRegister();
   }
 
   ionViewDidLeave() {
     this.stopQRScan();
+  }
+
+  navigateBackToRegister() {
+    const url = this.isTutorialStep ? '/apikeys/tutorial/register' : '/apikeys/register';
+    this.navController.navigateBack([url]).then();
   }
 }

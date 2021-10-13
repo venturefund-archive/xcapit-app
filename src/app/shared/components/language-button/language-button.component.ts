@@ -8,7 +8,7 @@ import { LanguagePopoverComponent } from '../language-popover/language-popover.c
     <ion-button
       (click)="this.openLanguagePopover($event)"
       icon-only
-      appTrackClickUnauth
+      appTrackClick
       fill="clear"
       class="language_button"
       name="Open Language Popover"
@@ -16,7 +16,7 @@ import { LanguagePopoverComponent } from '../language-popover/language-popover.c
       <ion-icon name="globe"></ion-icon>
     </ion-button>
   `,
-  styleUrls: ['./language-button.component.scss']
+  styleUrls: ['./language-button.component.scss'],
 })
 export class LanguageButtonComponent implements OnInit {
   constructor(private popoverController: PopoverController) {}
@@ -26,7 +26,7 @@ export class LanguageButtonComponent implements OnInit {
   async openLanguagePopover(ev: any) {
     const popover = await this.popoverController.create({
       component: LanguagePopoverComponent,
-      event: ev
+      event: ev,
     });
     await popover.present();
   }

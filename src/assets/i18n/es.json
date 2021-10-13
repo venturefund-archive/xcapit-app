@@ -25,7 +25,8 @@
       "minlength": "Se requieren más caracteres",
       "maxlength": "Se requieren menos caracteres",
       "not_matching": "Los campos no coinciden",
-      "has_special_character": "No permite caracteres especiales ni espacios"
+      "has_special_character": "No permite caracteres especiales ni espacios",
+      "count_words_match": "La cantidad de palabras es distinta de 12"
     },
     "field_errors": {
       "cellphone": {
@@ -93,9 +94,14 @@
     "app_icon_button_card": {
       "coming_soon": "Proximamente"
     },
-    "without_SL_TP": {
-      "without_stop_loss": "Manual",
+    "edit_SL_TP": {
+      "classic_stop_loss": "Clásico",
+      "inteligent_stop_loss": "Inteligente",
+      "without_stop_loss": "Sin Stop Loss",
       "without_take_profit": "Manual"
+    },
+    "step_counter": {
+      "of": "de"
     }
   },
   "usuarios": {
@@ -202,7 +208,7 @@
     "create_support_ticket_success": {
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
       "textSecondary": "Quédate atento, recibirás la respuesta en tu mail",
-      "namePrimaryAction": "Aceptar"
+      "namePrimaryAction": "Volver al inicio"
     },
     "create_ticket_form": {
       "label_email": "CORREO ELECTRÓNICO",
@@ -317,6 +323,10 @@
           "ninety_days": "90 días",
           "all": "Todo"
         }
+      },
+      "share_funds_details": {
+        "title": "Muestra tus rendimientos",
+        "subtitle": "Descargar"
       },
       "fund_metrics_card": {
         "title": "RESUMEN",
@@ -538,8 +548,22 @@
       "submit_button_edit": "Guardar",
       "edit_custom": "Editar",
       "edit_title": "Modificar Stop Loss",
+      "classic_stop_loss": "Stop loss clásico",
+      "inteligent_stop_loss": "Stop loss inteligente",
+      "without_stop_loss": "Sin stop loss",
+      "title_classicSL": "Escribe el % de stop loss clásico",
+      "message_classicSL": "Dejaremos de invertir si la inversión llega a este porcentaje de pérdida",
+      "title_inteligentSL": "Escribe el % de stop loss inteligente",
+      "message_inteligentSL": "El stop Loss se movera a este porcentaje de distancia del rendimiento del fondo",
       "manual_stop": "Voy a finalizarlo manualmente",
-      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas"
+      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas",
+      "inteligent_stop_loss_info": "¿Qué es un Stop Loss Inteligente?",
+      "inteligent_stop_loss_header": "Tutorial",
+      "inteligent_stop_loss_title": "¿Cómo funciona el stop loss inteligente?",
+      "inteligent_stop_loss_text": "A diferencia de un Stop Loss clásico que se mantiene estático en el porcentaje de pérdida que te dispongas a asumir, el Stop Loss inteligente se actualiza y se mueve a un cierto porcentaje de distancia del rendimiento de la estrategia.",
+      "inteligent_stop_loss_text1": "Esta opción de Stop Loss te permitirá capitalizar mas fácil tus ganancias si la estrategia genera rendimientos positivos pero no llega a finalizar tu fondo por Take Profit.",
+      "inteligent_stop_loss_text2": "Te recomendamos usar un porcentaje entre el 5% y el 20%.",
+      "inteligent_stop_loss_button": "Lo tengo claro"
     },
     "custom_range_component": {
       "cancel_button": "Cancelar",
@@ -1240,7 +1264,9 @@
   "notifications": {
     "notifications_list": {
       "header": "Notificaciones",
-      "error_message": "No hay notificaciones para mostrar"
+      "title": "Aún no tienes notificaciones",
+      "message": "Hagamos que este espacio cobre vida",
+      "link": "Empieza a invertir"
     },
     "notification": {
       "header": "Notificación"
@@ -1265,6 +1291,7 @@
     "home": {
       "available_money": "Dinero disponible en billetera",
       "wallet_balance_title": "ACTIVOS",
+      "wallet_recovery": "Importar una billetera existente",
       "wallet_transaction_title": "RECIENTE",
       "go_to_history": "Ver todas las transacciones",
       "subheader_component": {
@@ -1330,6 +1357,13 @@
       "description": "Generaremos otras 12 palabras para mayor seguridad. Recuerda que tienes que anotarlas y guardarlas en un lugar seguro.",
       "button": "Volver a intentarlo"
     },
+    "recovery_wallet": {
+      "header": "Importar Billetera",
+      "title": "Ingresar frase de recuperación",
+      "subtitle": "Escribe tus palabras separadas por un espacio",
+      "label": "Frase de recuperación",
+      "button": "Importar billetera"
+    },
     "transactions": {
       "header": "Historico transacciones",
       "sended": "Enviado",
@@ -1362,12 +1396,31 @@
         "title": "Datos de la transferencia",
         "amounts_title": "Monto a enviar",
         "send_button": "Enviar",
-        "wrong_password": "Password incorrecto"
+        "wrong_password": "Password incorrecto",
+        "sent_notification": {
+          "title": "¡Tu transferencia fue completada exitosamente!",
+          "body": "¡Tu transferencia a {{address}} fue completada con exito!"
+        }
       },
       "send_success": {
         "textPrimary": "Tu transferencia fue realizada",
         "textSecondary": "En breve estara disponible ",
         "namePrimaryAction": "Ir a mi billetera"
+      },
+      "error_incorrect_password": {
+        "textPrimary": "Al parecer la contraseña es incorrecta",
+        "namePrimaryAction": "Reintentar",
+        "nameSecondaryAction": "Contactar con soporte"
+      },
+      "error_wrong_amount": {
+        "textPrimary": "El monto a enviar es incorrecto",
+        "namePrimaryAction": "Reintentar",
+        "nameSecondaryAction": "Contactar con soporte"
+      },
+      "error_wrong_address": {
+        "textPrimary": "La billetera de destino es incorrecta",
+        "namePrimaryAction": "Reintentar",
+        "nameSecondaryAction": "Contactar con soporte"
       }
     },
     "shared_wallets": {
@@ -1381,6 +1434,19 @@
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
       }
+    },
+    "asset_detail": {
+      "header": "Detalle de activo",
+      "wallet_transaction_title": "TRANSACCIONES"
+    },
+    "error_wallet_recovery": {
+      "title": "Tu frase de recupeación es incorrecta",
+      "description": "Verifica tus palabras y vuelve a intentarlo",
+      "button": "Volver a intentarlo"
+    },
+    "success_wallet_recovery": {
+      "title": "¡Genial! Importamos tu billetera con tu frase de recuperación",
+      "button": "Ir a mi billetera"
     }
   },
   "apikeys": {
@@ -1437,9 +1503,9 @@
     },
     "register_success_beginner": {
       "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
-      "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
+      "textSecondary": "Elige la estrategia que mejor se adapta a ti o empieza a comprar criptomonedas.",
       "textThird": "o también puedes",
-      "namePrimaryAction": "Crear un fondo de inversión",
+      "namePrimaryAction": "Crear mi primera inversión",
       "nameSecondaryAction": "Omitir por ahora",
       "nameThirdAction": "Comprar criptomonedas"
     },
@@ -1461,7 +1527,7 @@
       "link_with_binance": "Vincular con Binance"
     },
     "scan_qr": {
-      "header": "Escanea tus keys",
+      "header": "Escanea tu API Key",
       "register_manually": "Ingresar manualmente",
       "errors": {
         "invalidQR": "El código QR no es válido.",
@@ -1507,14 +1573,13 @@
     },
     "register": {
       "header": "Agregar API key",
-      "label_alias": "Alias",
-      "placeholder_alias": "MisKeysEnBinance",
-      "label_apikey": "Binance API Key",
+      "label_alias": "Ingresar Alias (Puede usar el mismo de binance)",
+      "placeholder_alias": "Ej: MiApiKey",
+      "label_apikey": "Ingresar API Key",
       "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
-      "label_secretkey": "Binance Secret Key",
+      "label_secretkey": "Ingresar Secret Key",
       "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submit": "Agregar",
-      "link_help": "¿Necesitas Ayuda?"
+      "button_submit": "Agregar"
     },
     "edit_modal": {
       "title": "Cambiar Alias",
@@ -1528,6 +1593,65 @@
       "title": "Apunta la cámara al código QR",
       "cancel_label": "Cancelar e ingresar manual",
       "text": "Apunta la cámara a un código QR."
+    },
+    "exchange_information": {
+      "header": "Vincular API Key",
+      "title": "Binance es nuestro Partner y el exchange más grande del mundo",
+      "description": "Cada inversión que hagas en Xcapit necesita conectarse a una API única de Binance. Pero primero paso a paso elige:",
+      "cards": {
+        "have_exchange_account": {
+          "title": "Ya tengo cuenta en Binance",
+          "description": "Si ya tienes cuenta en Binance vamos al siguiente paso."
+        },
+        "dont_have_exchange_account": {
+          "title": "No tengo cuenta en Binance",
+          "description": "Te contamos como crear una cuenta gratis en el exchange mas grande del mundo."
+        }
+      },
+
+      "information_card": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la billetera Spot. No podremos realizar retiros."
+    },
+    "apikey_information": {
+      "header": "Vincular API Key",
+      "title": "Una API key sirve para conectar tu cuenta de Binance con Xcapit",
+      "description": "LA API Key es un código que solo nos permite gestionar sobre tu cuenta. Debes crearlo para que exista.",
+      "cards": {
+        "have_apikey": {
+          "title": "Ya tengo API Key",
+          "description": "Si ya creaste tu API Key con Binance vamos al siguiente paso."
+        },
+        "dont_have_apikey": {
+          "title": "No tengo API Key",
+          "description": "Si nunca creaste una API Key te ayudamos a crear una."
+        }
+      },
+      "tutorial_modal": {
+        "title": "Crear API Key",
+        "text1": "Ingresa a la web de binance desde una computadora.",
+        "text2": "Una vez logueado ingresa a tu perfil de Binance y selecciona “Gestión de API”.",
+        "text3": "Asigna una etiqueta de identificación. Esto es solo un nombre para que reconozcas la API.",
+        "text4": "Tilda el campo “Habilitar spot trading”. Esta accion nos permite operar, si no la tildas no podemos operar.",
+        "text5": "Hace click en “Crear API”",
+        "text6": "Completa la verificación de seguridad.",
+        "text7": "¡Listo!",
+        "button": "Ya tengo API Key"
+      },
+      "what_is_api_key": "¿Qué es una API Key?"
+    },
+    "whats_an_api_key": {
+      "header": "Qué es una API Key",
+      "title": "¿Qué es una API key?",
+      "description": "Una API key es una clave secreta que sirve para vincular tu cuenta de Binance con Xcapit. Al vincular la cuenta sólo nos das permiso para gestionar tus criptomonedas pero nunca retirarlas de tu cuenta, siempre están bajo tu control.",
+      "button": "Ya tengo una API key"
+    },
+    "how_create_binance_account": {
+      "header": "Tutorial",
+      "title": "Cómo crear una cuenta en Binance",
+      "text1": "1. Entra a Binance",
+      "text2": "2. Crea una cuenta con tu correo.",
+      "text3": "3. Verifica tu cuenta para poder utilizarla de manera segura.",
+      "text4": "4. ¡Listo!",
+      "button": "Ya tengo una cuenta en Binance"
     }
   },
   "tabs": {

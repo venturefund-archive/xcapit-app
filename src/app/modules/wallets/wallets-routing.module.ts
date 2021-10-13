@@ -51,7 +51,30 @@ const routes: Routes = [
         loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
       },
       {
+        path: 'recovery',
+        loadChildren: () => import('./recovery-wallet/recovery-wallet.module').then((m) => m.RecoveryWalletPageModule),
         canActivate: [AcceptedToSGuard],
+      },
+      {
+        path: 'recovery',
+        children: [
+          {
+            path: 'error',
+            loadChildren: () =>
+              import('./error-recovery-wallet/error-recovery-wallet.module').then(
+                (m) => m.ErrorRecoveryWalletPageModule
+              ),
+          },
+          {
+            path: 'success',
+            loadChildren: () =>
+              import('./success-recovery-wallet/success-recovery-wallet.module').then(
+                (m) => m.SuccessRecoveryWalletPageModule
+              ),
+          },
+        ],
+      },
+      {
         path: 'transactions',
         loadChildren: () =>
           import('./transactions-wallet/transactions-wallet.module').then((m) => m.TransactionsWalletPageModule),
@@ -76,7 +99,32 @@ const routes: Routes = [
             path: 'success',
             loadChildren: () => import('./send/send-success/send-success.module').then((m) => m.SendSuccessPageModule),
           },
+          {
+            path: 'error/incorrect-password',
+            loadChildren: () =>
+              import('./send/error-incorrect-password-wallet/error-incorrect-password-wallet.module').then(
+                (m) => m.ErrorIncorrectPasswordWalletPageModule
+              ),
+          },
+          {
+            path: 'error/wrong-amount',
+            loadChildren: () =>
+              import('./send/error-wrong-amount-wallet/error-wrong-amount-wallet.module').then(
+                (m) => m.ErrorWrongAmountWalletPageModule
+              ),
+          },
+          {
+            path: 'error/wrong-address',
+            loadChildren: () =>
+              import('./send/error-wrong-address-wallet/error-wrong-address-wallet.module').then(
+                (m) => m.ErrorWrongAddressWalletPageModule
+              ),
+          },
         ],
+      },
+      {
+        path: 'asset-detail/:currency',
+        loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
       },
     ],
   },

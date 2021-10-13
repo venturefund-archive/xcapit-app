@@ -3,25 +3,27 @@ import { IonicModule } from '@ionic/angular';
 import { NeedHelpComponent } from './need-help.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
-import { TrackClickDirective } from '../../directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('NeedHelpComponent', () => {
   let component: NeedHelpComponent;
   let fixture: ComponentFixture<NeedHelpComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NeedHelpComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NeedHelpComponent, TrackClickDirective ],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [NeedHelpComponent, FakeTrackClickDirective],
+        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(NeedHelpComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  }));
+      fixture = TestBed.createComponent(NeedHelpComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -41,10 +43,7 @@ describe('NeedHelpComponent', () => {
 
   it('should call trackEvent on trackService when Go To Help link clicked', () => {
     spyOn(component, 'moreInfo');
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Go To Help'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Help');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -56,10 +55,7 @@ describe('NeedHelpComponent', () => {
     component.whatsAppLink = 'test';
     fixture.detectChanges();
     spyOn(window, 'open');
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'WhatsApp Help'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'WhatsApp Help');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -71,15 +67,11 @@ describe('NeedHelpComponent', () => {
     component.telegramLink = 'test';
     fixture.detectChanges();
     spyOn(window, 'open');
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Telegram Help'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Telegram Help');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
 });

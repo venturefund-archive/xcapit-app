@@ -8,11 +8,11 @@ import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { Storage } from '@ionic/storage';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const dataMock = {
   viewBillData: {},
@@ -46,7 +46,7 @@ describe('UserProfilePage', () => {
       storageSpy.remove.and.returnValue(new Promise((resolve) => {}));
 
       TestBed.configureTestingModule({
-        declarations: [UserProfilePage, TrackClickDirective],
+        declarations: [UserProfilePage, FakeTrackClickDirective],
         imports: [
           HttpClientTestingModule,
           TranslateModule.forRoot(),

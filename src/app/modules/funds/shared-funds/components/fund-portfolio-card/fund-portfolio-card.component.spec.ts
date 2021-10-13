@@ -8,12 +8,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 import { of } from 'rxjs';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { DecimalPipe } from '@angular/common';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testBalance = {
   balance: {
@@ -59,7 +59,13 @@ describe('FundPortfolioCardComponent', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [FundPortfolioCardComponent, TrackClickDirective, CurrencyFormatPipe, DecimalPipe, HideTextPipe],
+        declarations: [
+          FundPortfolioCardComponent,
+          FakeTrackClickDirective,
+          CurrencyFormatPipe,
+          DecimalPipe,
+          HideTextPipe,
+        ],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [

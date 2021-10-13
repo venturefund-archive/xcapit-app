@@ -6,13 +6,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
-import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click-unauth/track-click-unauth.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
-import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { Storage } from '@ionic/storage';
 import { ResendVerificationEmailPage } from './resend-verification-email.page';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const extras = {
   extras: {
@@ -31,7 +31,7 @@ describe('ResendVerificationEmailPage', () => {
   let storageSpy: any;
   let currentNavigation: Navigation;
   let getCurrentNavigationSpy: any;
-  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<ResendVerificationEmailPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ResendVerificationEmailPage>;
 
   beforeEach(
     waitForAsync(() => {
@@ -44,7 +44,7 @@ describe('ResendVerificationEmailPage', () => {
       storageSpy = jasmine.createSpyObj('Storage', ['get', 'set', 'remove']);
       storageSpy.get.and.returnValue(Promise.resolve());
       TestBed.configureTestingModule({
-        declarations: [DummyComponent, ResendVerificationEmailPage, TrackClickUnauthDirective],
+        declarations: [DummyComponent, ResendVerificationEmailPage, FakeTrackClickDirective],
         imports: [
           HttpClientTestingModule,
           IonicModule,
@@ -56,7 +56,6 @@ describe('ResendVerificationEmailPage', () => {
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
-          TrackClickUnauthDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: Storage, useValue: storageSpy },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
@@ -73,7 +72,7 @@ describe('ResendVerificationEmailPage', () => {
 
       fixture = TestBed.createComponent(ResendVerificationEmailPage);
       component = fixture.componentInstance;
-      trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       fixture.detectChanges();
     })
   );
@@ -236,8 +235,8 @@ describe('ResendVerificationEmailPage', () => {
   it('should call trackEvent on trackService when Resend Verification Email button clicked', () => {
     activatedRouteMock.queryParams.next();
     fixture.detectChanges();
-    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Resend Verification Email');
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Resend Verification Email');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();
     fixture.detectChanges();
@@ -248,8 +247,8 @@ describe('ResendVerificationEmailPage', () => {
     activatedRouteMock.queryParams.next();
     component.hideSendTicket = false;
     fixture.detectChanges();
-    const el = trackClickUnauthDirectiveHelper.getByElementByName('ion-button', 'Open Ticket');
-    const directive = trackClickUnauthDirectiveHelper.getDirective(el);
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Open Ticket');
+    const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
     el.nativeElement.click();
     fixture.detectChanges();

@@ -4,11 +4,11 @@ import { By } from '@angular/platform-browser';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 
 import { FundInvestmentInfoPage } from './fund-investment-info.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('FundInvestmentInfoPage', () => {
   let component: FundInvestmentInfoPage;
@@ -27,7 +27,7 @@ describe('FundInvestmentInfoPage', () => {
         }),
       };
       TestBed.configureTestingModule({
-        declarations: [FundInvestmentInfoPage, TrackClickDirective],
+        declarations: [FundInvestmentInfoPage, FakeTrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },

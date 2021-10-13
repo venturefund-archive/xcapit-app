@@ -4,11 +4,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { SuccessPaxfulPage } from './success-paxful.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('SuccessPaxfulPage', () => {
   let component: SuccessPaxfulPage;
@@ -20,7 +20,7 @@ describe('SuccessPaxfulPage', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [SuccessPaxfulPage, TrackClickDirective, DummyComponent],
+        declarations: [SuccessPaxfulPage, FakeTrackClickDirective, DummyComponent],
         imports: [
           RouterTestingModule.withRoutes([
             { path: 'tabs/home', component: DummyComponent },
@@ -31,7 +31,7 @@ describe('SuccessPaxfulPage', () => {
           TranslateModule.forRoot(),
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SuccessPaxfulPage);

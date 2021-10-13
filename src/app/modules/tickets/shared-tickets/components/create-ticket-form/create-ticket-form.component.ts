@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { TicketCategories } from 'src/app/modules/tickets/shared-tickets/enums/ticket-categories.enum';
@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_email' | translate"
           [readonly]="!this.canModifyEmail"
         ></app-ux-input>
-        <app-ux-input-select
+        <app-ux-input-select-traduction
           *ngIf="!this.category"
           controlName="subject"
           type="text"
@@ -26,7 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_subject' | translate"
           [modalTitle]="'tickets.create_ticket_form.placeholder_subject' | translate"
           [data]="this.data"
-        ></app-ux-input-select>
+        ></app-ux-input-select-traduction>
         <app-ux-input
           *ngIf="this.category"
           controlName="subject"
@@ -43,7 +43,7 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_message' | translate"
         ></app-ux-textarea>
         <ion-button
-          appTrackClickUnauth
+          appTrackClick
           class="button"
           name="Submit"
           size="medium"
@@ -56,7 +56,7 @@ import { TranslateService } from '@ngx-translate/core';
       </form>
       <ion-button
         *ngIf="this.isValidationEmail"
-        appTrackClickUnauth
+        appTrackClick
         class="button"
         name="Cancel"
         size="medium"

@@ -2,13 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { RecoveryPhrasePage } from './recovery-phrase.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { Mnemonic } from '@ethersproject/hdnode';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -30,10 +30,9 @@ describe('RecoveryPhrasePage', () => {
         mnemonic: testMnemonic,
       });
       TestBed.configureTestingModule({
-        declarations: [RecoveryPhrasePage, TrackClickDirective],
+        declarations: [RecoveryPhrasePage, FakeTrackClickDirective],
         imports: [IonicModule, HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
-          TrackClickDirective,
           { provide: NavController, useValue: navControllerMock },
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
         ],

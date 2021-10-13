@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
-import { CreateTicketFormComponent } from '../shared-tickets/components/create-ticket-form/create-ticket-form.component';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NavController } from '@ionic/angular';
 

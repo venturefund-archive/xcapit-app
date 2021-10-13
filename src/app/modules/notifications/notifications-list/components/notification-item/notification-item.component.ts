@@ -7,18 +7,29 @@ import * as moment from 'moment';
   template: `
     <div class="ni">
       <ion-item class="ni__body" [ngClass]="{ ni__new: !this.notification.read }">
-        <div class="ni__body__icon"></div>
-
+        <div class="ni__body__container-icon">
+          <img
+            *ngIf="this.notification.type === 'TP'"
+            src="../../assets/img/notifications/Trading up.svg"
+            alt="Trading up"
+          />
+          <img
+            *ngIf="this.notification.type === 'SL'"
+            src="../../assets/img/notifications/Trading down.svg"
+            alt="Trading down"
+          />
+        </div>
         <div style="width: 100%;">
           <ion-label>
-            <div class="ni__body__title">{{ this.notification.title }}</div>
-            <div class="ni__body__message">{{ this.notification.message }}</div>
+            <div class="ni__body__title ux-font-header-titulo">{{ this.notification.title }}</div>
+            <div class="ni__body__message ux-font-text-xs">{{ this.notification.message }}</div>
           </ion-label>
         </div>
-        <div class="ni__body__date">
+        <div class="ni__body__date ux-font-text-xs">
           {{ this.createdTime }}
         </div>
       </ion-item>
+      <hr />
       <!--ion-item-options side="end">
         <ion-item-option color="danger" expandable (click)="this.remove()">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
@@ -57,13 +68,13 @@ export class NotificationItemComponent implements OnInit {
     const actualDate = moment(new Date());
 
     if (actualDate.diff(initialDate, 'days') > 0) {
-      return actualDate.diff(initialDate, 'days') + 'd';
+      return actualDate.diff(initialDate, 'days') + ' d';
     } else if (actualDate.diff(initialDate, 'hours') > 0) {
-      return actualDate.diff(initialDate, 'hours') + 'h';
+      return actualDate.diff(initialDate, 'hours') + ' h';
     } else if (actualDate.diff(initialDate, 'minutes') > 0) {
-      return actualDate.diff(initialDate, 'minutes') + 'm';
+      return actualDate.diff(initialDate, 'minutes') + ' m';
     } else {
-      return actualDate.diff(initialDate, 'seconds') + 's';
+      return actualDate.diff(initialDate, 'seconds') + ' s';
     }
   }
 }

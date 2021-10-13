@@ -4,11 +4,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   selector: 'app-recovery-word',
   template: `
     <ion-button
-      appTrackClick
-      [dataToTrack]="{ description: this.word }"
       name="Recovery Word"
-      class="recovery-word"
       size="small"
+      color="uxprimary"
       [disabled]="!this.isActivated"
       (click)="useValue(this.word)"
     >

@@ -7,14 +7,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
-import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click-unauth/track-click-unauth.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
-import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
-import { AuthFormComponent } from '../../usuarios/shared-usuarios/components/auth-form/auth-form.component';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
-
 import { CreateEmailValidationTicketPage } from './create-email-validation-ticket.page';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -37,7 +35,7 @@ describe('CreateEmailValidationTicketPage', () => {
   let component: CreateEmailValidationTicketPage;
   let fixture: ComponentFixture<CreateEmailValidationTicketPage>;
   let apiTicketsMock: any;
-  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<CreateEmailValidationTicketPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreateEmailValidationTicketPage>;
   let activatedRouteMock: any;
   let navControllerSpy: any;
   let currentNavigation: Navigation;
@@ -55,7 +53,7 @@ describe('CreateEmailValidationTicketPage', () => {
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [DummyComponent, CreateEmailValidationTicketPage, TrackClickUnauthDirective],
+        declarations: [DummyComponent, CreateEmailValidationTicketPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           HttpClientTestingModule,
@@ -71,7 +69,6 @@ describe('CreateEmailValidationTicketPage', () => {
           IonicModule,
         ],
         providers: [
-          TrackClickUnauthDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: ApiTicketsService, useValue: apiTicketsMock },
@@ -87,7 +84,7 @@ describe('CreateEmailValidationTicketPage', () => {
 
       fixture = TestBed.createComponent(CreateEmailValidationTicketPage);
       component = fixture.componentInstance;
-      trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       fixture.detectChanges();
     })
   );

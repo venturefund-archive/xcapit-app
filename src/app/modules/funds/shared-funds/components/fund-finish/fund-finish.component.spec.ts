@@ -8,11 +8,11 @@ import { DummyComponent } from '../../../../../../testing/dummy.component.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('FundFinishPauseCardComponent', () => {
   let component: FundFinishComponent;
@@ -25,57 +25,55 @@ describe('FundFinishPauseCardComponent', () => {
   let toastServiceSpy: any;
   let alertControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    toastServiceSpy = jasmine.createSpyObj('ToastService', [
-      'showToast',
-    ]);
-    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+  beforeEach(
+    waitForAsync(() => {
+      toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
+      alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
 
-    apiFundsServiceMock = {
-      finalizeFundRuns: () => of({})
-    };
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    navControllerSpy.navigateBack.and.returnValue(Promise.resolve(true));
-    navControllerSpy.navigateForward.and.returnValue(Promise.resolve(true));
-    navControllerSpy.navigateRoot.and.returnValue(Promise.resolve(true));
-    TestBed.configureTestingModule({
-      declarations: [FundFinishComponent, TrackClickDirective, DummyComponent],
-      imports: [
-        IonicModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot(),
-        RouterTestingModule.withRoutes([
+      apiFundsServiceMock = {
+        finalizeFundRuns: () => of({}),
+      };
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy.navigateBack.and.returnValue(Promise.resolve(true));
+      navControllerSpy.navigateForward.and.returnValue(Promise.resolve(true));
+      navControllerSpy.navigateRoot.and.returnValue(Promise.resolve(true));
+      TestBed.configureTestingModule({
+        declarations: [FundFinishComponent, FakeTrackClickDirective, DummyComponent],
+        imports: [
+          IonicModule,
+          HttpClientTestingModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([
+            {
+              path: 'tabs/funds',
+              component: DummyComponent,
+            },
+          ]),
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
           {
-            path: 'tabs/funds',
-            component: DummyComponent
-          }
-        ])
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        TrackClickDirective,
-        { provide: NavController, useValue: navControllerSpy },
-        {
-          provide: ApiFundsService,
-          useValue: apiFundsServiceMock
-        },
-        { provide: ToastService, useValue: toastServiceSpy },
-        { provide: AlertController, useValue: alertControllerSpy }
-      ]
-    }).compileComponents();
+            provide: ApiFundsService,
+            useValue: apiFundsServiceMock,
+          },
+          { provide: ToastService, useValue: toastServiceSpy },
+          { provide: AlertController, useValue: alertControllerSpy },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(FundFinishComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    apiFundsService = TestBed.inject(ApiFundsService);
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    toastService = TestBed.inject(ToastService);
-  }));
+      fixture = TestBed.createComponent(FundFinishComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      apiFundsService = TestBed.inject(ApiFundsService);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+      toastService = TestBed.inject(ToastService);
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 
   it('should call finalizeFundRuns when finishFund is called', () => {
     const spy = spyOn(apiFundsService, 'finalizeFundRuns');
@@ -96,10 +94,7 @@ describe('FundFinishPauseCardComponent', () => {
 
   it('should call trackEvent on trackService when Finish Fund button clicked', () => {
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Finish Fund'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Finish Fund');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

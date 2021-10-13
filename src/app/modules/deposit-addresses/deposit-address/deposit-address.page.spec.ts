@@ -9,12 +9,12 @@ import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('DepositAddressPage', () => {
   let component: DepositAddressPage;
@@ -52,7 +52,7 @@ describe('DepositAddressPage', () => {
         }),
       };
       TestBed.configureTestingModule({
-        declarations: [DepositAddressPage, TrackClickDirective, DummyComponent],
+        declarations: [DepositAddressPage, FakeTrackClickDirective, DummyComponent],
         imports: [
           HttpClientTestingModule,
           TranslateModule.forRoot(),

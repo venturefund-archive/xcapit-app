@@ -12,8 +12,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const operation = {
   operation_id: 678,
@@ -61,7 +61,7 @@ describe('OperationsDetailPage', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [OperationsDetailPage, TrackClickDirective, DummyComponent],
+        declarations: [OperationsDetailPage, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           RouterTestingModule.withRoutes([{ path: 'fiat-ramps/operations', component: DummyComponent }]),
@@ -70,7 +70,6 @@ describe('OperationsDetailPage', () => {
           TranslateModule.forRoot(),
         ],
         providers: [
-          TrackClickDirective,
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },

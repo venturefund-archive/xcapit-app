@@ -3,11 +3,13 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
-import { Router } from '@angular/router';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
 import '@codetrix-studio/capacitor-google-auth';
 import { Plugins } from '@capacitor/core';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -32,20 +34,20 @@ import { Plugins } from '@capacitor/core';
         <div class="auth-link-reset-password main__reset_password">
           <ion-button
             class="main__reset_password__button ux_button"
-            appTrackClickUnauth
+            appTrackClick
             name="Reset Password"
             fill="clear"
             size="small"
             type="button"
             color="uxsecondary"
-            [routerLink]="['/users/reset-password']"
+            (click)="this.goToResetPassword()"
           >
             {{ 'usuarios.login.reset_password_link' | translate }}
           </ion-button>
         </div>
         <div class="auth-button">
           <ion-button
-            appTrackClickUnauth
+            appTrackClick
             name="Login"
             expand="block"
             size="large"
@@ -59,26 +61,26 @@ import { Plugins } from '@capacitor/core';
         </div>
         <div class="auth-link main__go_to_register ion-text-center">
           <ion-button
-            appTrackClickUnauth
+            appTrackClick
             name="Go To Register"
             fill="clear"
             size="large"
             expand="block"
             type="button"
             color="uxsecondary"
-            [routerLink]="['/users/register']"
+            (click)="this.goToRegister()"
             class="ux_button"
           >
             {{ 'usuarios.login.register_link' | translate }}
           </ion-button>
         </div>
       </app-auth-form>
-      <!-- <div class="ion-text-center">
+      <div class="ion-text-center">
         <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
-      </div> -->
-      <!-- <div class="google-auth">
+      </div>
+      <div class="google-auth">
         <ion-button
-          appTrackClickUnauth
+          appTrackClick
           name="Google Auth"
           expand="block"
           fill="solid"
@@ -93,7 +95,7 @@ import { Plugins } from '@capacitor/core';
             'usuarios.login.google_auth' | translate
           }}</span>
         </ion-button>
-      </div> -->
+      </div>
     </div>
   `,
   styleUrls: ['./login.page.scss'],
@@ -106,8 +108,10 @@ export class LoginPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
     private subscriptionsService: SubscriptionsService,
-    private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private notificationsService: NotificationsService,
+    private localNotificationsService: LocalNotificationsService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
@@ -128,9 +132,11 @@ export class LoginPage implements OnInit {
     this.apiUsuarios.login(data).subscribe(() => this.success());
   }
 
-  async success() {
+  private async success() {
     this.loadingService.enabled();
     this.loginForm.form.reset();
+    this.notificationsService.getInstance().init();
+    this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
@@ -166,6 +172,14 @@ export class LoginPage implements OnInit {
 
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.status_name);
-    this.router.navigate(url).then(() => this.loadingService.disabled());
+    this.navController.navigateForward(url).then(() => this.loadingService.disabled());
+  }
+
+  async goToResetPassword() {
+    await this.navController.navigateForward(['/users/reset-password']);
+  }
+
+  async goToRegister() {
+    await this.navController.navigateForward(['/users/register']);
   }
 }

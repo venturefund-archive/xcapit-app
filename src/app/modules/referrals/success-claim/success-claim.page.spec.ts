@@ -6,6 +6,7 @@ import { TrackClickDirective } from 'src/app/shared/directives/track-click/track
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { SuccessClaimPage } from './success-claim.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('SuccessClaimPage', () => {
   let component: SuccessClaimPage;
@@ -17,7 +18,7 @@ describe('SuccessClaimPage', () => {
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [SuccessClaimPage, TrackClickDirective],
+        declarations: [SuccessClaimPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [TrackClickDirective, { provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();

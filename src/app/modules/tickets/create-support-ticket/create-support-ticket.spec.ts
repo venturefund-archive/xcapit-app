@@ -6,13 +6,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { TrackClickUnauthDirective } from 'src/app/shared/directives/track-click-unauth/track-click-unauth.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
-import { TrackClickUnauthDirectiveTestHelper } from 'src/testing/track-click-unauth-directive-test.helper';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { CreateSupportTicketPage } from './create-support-ticket.page';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 
 const formData = {
   valid: {
@@ -30,7 +30,7 @@ describe('CreateSupportTicketPage', () => {
   let fixture: ComponentFixture<CreateSupportTicketPage>;
   let apiTicketsMock: any;
   let apiUsuariosServiceSpy: any;
-  let trackClickUnauthDirectiveHelper: TrackClickUnauthDirectiveTestHelper<CreateSupportTicketPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreateSupportTicketPage>;
   let navControllerSpy: any;
 
   beforeEach(
@@ -43,7 +43,7 @@ describe('CreateSupportTicketPage', () => {
       apiUsuariosServiceSpy.getUser.and.returnValue(of(email));
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [DummyComponent, CreateSupportTicketPage, TrackClickUnauthDirective],
+        declarations: [DummyComponent, CreateSupportTicketPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           HttpClientTestingModule,
@@ -58,7 +58,6 @@ describe('CreateSupportTicketPage', () => {
           IonicModule,
         ],
         providers: [
-          TrackClickUnauthDirective,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ApiTicketsService, useValue: apiTicketsMock },
           { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
@@ -67,7 +66,7 @@ describe('CreateSupportTicketPage', () => {
 
       fixture = TestBed.createComponent(CreateSupportTicketPage);
       component = fixture.componentInstance;
-      trackClickUnauthDirectiveHelper = new TrackClickUnauthDirectiveTestHelper(fixture);
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       fixture.detectChanges();
     })
   );

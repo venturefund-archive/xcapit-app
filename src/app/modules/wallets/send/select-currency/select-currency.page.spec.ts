@@ -6,8 +6,8 @@ import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from '../../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const coins: Coin[] = [
   {
@@ -45,9 +45,9 @@ describe('SelectCurrencyPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SelectCurrencyPage, TrackClickDirective, UxListCardComponent],
+      declarations: [SelectCurrencyPage, FakeTrackClickDirective, UxListCardComponent],
       imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-      providers: [TrackClickDirective, { provide: NavController, useValue: navControllerMock }],
+      providers: [{ provide: NavController, useValue: navControllerMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SelectCurrencyPage);

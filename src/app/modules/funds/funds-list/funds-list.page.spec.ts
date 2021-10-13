@@ -7,7 +7,6 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { of, Subscription } from 'rxjs';
 import { IonicModule, NavController } from '@ionic/angular';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
@@ -16,6 +15,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { By } from '@angular/platform-browser';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testStatus = {
   has_own_funds: false,
@@ -73,10 +73,9 @@ describe('FundsListPage', () => {
             },
           ]),
         ],
-        declarations: [FundsListPage, TrackClickDirective, DummyComponent],
+        declarations: [FundsListPage, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
-          TrackClickDirective,
           {
             provide: LogsService,
             useValue: logsServiceMock,

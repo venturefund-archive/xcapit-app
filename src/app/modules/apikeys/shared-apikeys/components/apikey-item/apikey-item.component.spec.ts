@@ -1,10 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  AlertController,
-  IonicModule,
-  ModalController,
-  NavController
-} from '@ionic/angular';
+import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
@@ -12,18 +7,18 @@ import { ApikeyItemComponent } from './apikey-item.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ListApikeysPage } from '../../../list-apikeys/list-apikeys.page';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { RouterTestingModule } from '@angular/router/testing';
 import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';
 import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const apikeys = {
   initial: { id: 1, fundName: 'BTC', alias: 'miAPIKey' },
   apikeyWithFunds: { id: 1, fundName: 'BTC', alias: 'MiKeyBinance' },
-  apikeyWithoutFunds: { id: 2, fundName: null, alias: 'MiKeyBinance' }
+  apikeyWithoutFunds: { id: 2, fundName: null, alias: 'MiKeyBinance' },
 };
 
 describe('ApikeyItemComponent', () => {
@@ -37,35 +32,34 @@ describe('ApikeyItemComponent', () => {
   let navControllerSpy: any;
   let alertController: any;
 
-  beforeEach(waitForAsync(() => {
-    apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
-      delete: of({}),
-      getAll: of({})
-    });
-    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
-    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [ApikeyItemComponent, TrackClickDirective],
-      imports: [
-        RouterTestingModule.withRoutes([
-          { path: 'apikeys/list', component: DummyComponent }
-        ]),
-        IonicModule,
-        TranslateModule.forRoot(),
-        HttpClientTestingModule
-      ],
-      providers: [
-        TrackClickDirective,
-        ListApikeysPage,
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
-        { provide: ModalController, useValue: modalControllerSpy },
-        { provide: AlertController, useValue: alertControllerSpy }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
+        delete: of({}),
+        getAll: of({}),
+      });
+      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+      alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [ApikeyItemComponent, FakeTrackClickDirective],
+        imports: [
+          RouterTestingModule.withRoutes([{ path: 'apikeys/list', component: DummyComponent }]),
+          IonicModule,
+          TranslateModule.forRoot(),
+          HttpClientTestingModule,
+        ],
+        providers: [
+          ListApikeysPage,
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+          { provide: AlertController, useValue: alertControllerSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ApikeyItemComponent);

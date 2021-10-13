@@ -5,10 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
 import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
-import { TrackClickDirective } from '../../../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('WalletPasswordComponent', () => {
   let component: WalletPasswordComponent;
@@ -18,9 +18,9 @@ describe('WalletPasswordComponent', () => {
   beforeEach(() => {
     modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
     TestBed.configureTestingModule({
-      declarations: [WalletPasswordComponent, TrackClickDirective],
+      declarations: [WalletPasswordComponent, FakeTrackClickDirective],
       imports: [IonicModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [TrackClickDirective, { provide: ModalController, useValue: modalControllerSpy }],
+      providers: [{ provide: ModalController, useValue: modalControllerSpy }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

@@ -6,6 +6,7 @@ import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { Plugins } from '@capacitor/core';
+import { TrackService } from '../../../shared/services/track/track.service';
 
 const { Browser } = Plugins;
 @Component({
@@ -39,10 +40,9 @@ const { Browser } = Plugins;
                 fill="clear"
                 size="small"
                 type="button"
-                appTrackClickUnauth
+                appTrackClick
                 name="Open TOS"
                 class="ux-font-text-xs tos-text__button ux_button"
-                routerDirection="back"
                 (click)="openTOS()"
               >
                 {{ 'usuarios.register.link_tos' | translate }}
@@ -55,7 +55,7 @@ const { Browser } = Plugins;
               expand="block"
               size="large"
               type="submit"
-              appTrackClickUnauth
+              appTrackClick
               name="Register"
               class="ux_button"
               color="uxsecondary"
@@ -70,11 +70,9 @@ const { Browser } = Plugins;
               fill="clear"
               size="small"
               type="button"
-              appTrackClickUnauth
+              appTrackClick
               name="Go To Login"
               class="main__back_login__button ux_button"
-              [routerLink]="['/users/login']"
-              routerDirection="back"
             >
               {{ 'usuarios.register.back_login' | translate }}
             </ion-button>
@@ -98,7 +96,8 @@ export class RegisterPage implements OnInit {
     private alertController: AlertController,
     private translate: TranslateService,
     private route: ActivatedRoute,
-    private navController: NavController
+    private navController: NavController,
+    private trackService: TrackService
   ) {
     Browser.prefetch({
       urls: ['https://www.info.xcapit.com/terms'],
@@ -162,6 +161,7 @@ export class RegisterPage implements OnInit {
       const params = { replaceUrl: true, state: { email: response.email } };
       this.navController.navigateForward(['/users/success-register'], params);
     }
+    this.trackService.trackSignUp();
   }
 
   async showWhiteListAlert() {
@@ -195,5 +195,9 @@ export class RegisterPage implements OnInit {
       toolbarColor: '#ff9100',
       url: 'https://www.xcapit.com/waiting-list',
     });
+  }
+
+  async goToLogin() {
+    await this.navController.navigateBack(['/users/login']);
   }
 }

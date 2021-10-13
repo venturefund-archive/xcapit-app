@@ -2,7 +2,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { HomePage } from './home-page.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
@@ -12,6 +11,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { of, Subscription } from 'rxjs';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -36,7 +36,7 @@ describe('HomePage', () => {
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
-        declarations: [HomePage, TrackClickDirective],
+        declarations: [HomePage, FakeTrackClickDirective],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
         providers: [
           {
@@ -79,8 +79,7 @@ describe('HomePage', () => {
   it('should open in app browser when Go to Wallet is clicked', async () => {
     const IWantMyWalletButton = fixture.debugElement.query(By.css("div[name='Go to Wallet']"));
     IWantMyWalletButton.nativeElement.click();
-    expect(window.open).toHaveBeenCalledOnceWith('https://www.xcapit.com/#lista-espera', '_blank');
-    // expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
   });
 
   it('should call trackEvent on trackService when Go to Support Page is clicked', () => {

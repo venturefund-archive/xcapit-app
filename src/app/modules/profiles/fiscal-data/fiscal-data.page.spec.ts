@@ -8,12 +8,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { By } from '@angular/platform-browser';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -47,7 +47,7 @@ describe('FiscalDataPage', () => {
         },
       };
       TestBed.configureTestingModule({
-        declarations: [FiscalDataPage, TrackClickDirective, DummyComponent],
+        declarations: [FiscalDataPage, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           HttpClientTestingModule,
@@ -66,7 +66,6 @@ describe('FiscalDataPage', () => {
           ]),
         ],
         providers: [
-          TrackClickDirective,
           { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
           { provide: NavController, useValue: navControllerSpy },
         ],

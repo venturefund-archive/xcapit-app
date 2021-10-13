@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
-import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
 @Component({

@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
     <ion-content class="ion-padding" *ngIf="this.email">
       <div class="main">
         <div class="main__close_button">
-          <ion-button fill="clear" appTrackClickUnauth name="Close Resend Email" (click)="this.close()">
+          <ion-button fill="clear" appTrackClick name="Close Resend Email" (click)="this.close()">
             <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
           </ion-button>
         </div>
@@ -31,7 +31,7 @@ import { Storage } from '@ionic/storage';
           <div class="main__actions__primary">
             <ion-button
               class="ux_button"
-              appTrackClickUnauth
+              appTrackClick
               name="Resend Verification Email"
               [disabled]="this.disableResendEmail"
               (click)="this.resendEmail()"
@@ -42,13 +42,7 @@ import { Storage } from '@ionic/storage';
             </ion-button>
           </div>
           <div class="main__actions__secondary" *ngIf="!this.hideSendTicket">
-            <ion-button
-              class="ux_button"
-              appTrackClickUnauth
-              fill="clear"
-              name="Open Ticket"
-              (click)="this.openTicket()"
-            >
+            <ion-button class="ux_button" appTrackClick fill="clear" name="Open Ticket" (click)="this.openTicket()">
               {{ 'usuarios.register.resend_verification_email.open_ticket_button' | translate }}
             </ion-button>
           </div>

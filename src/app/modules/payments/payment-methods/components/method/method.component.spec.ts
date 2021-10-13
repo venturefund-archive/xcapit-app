@@ -4,12 +4,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { MethodComponent } from './method.component';
 import { ApiPaymentsService } from '../../../shared-payments/services/api-payments.service';
 import { of } from 'rxjs';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('MethodComponent', () => {
   let component: MethodComponent;
@@ -21,15 +21,15 @@ describe('MethodComponent', () => {
     waitForAsync(() => {
       apiPaymentsServiceSpy = jasmine.createSpyObj('ApiPaymentMethods', ['getPaymentMethods']);
       TestBed.configureTestingModule({
-        declarations: [DummyComponent, MethodComponent, TrackClickDirective],
+        declarations: [DummyComponent, MethodComponent, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [HttpClientTestingModule, TranslateModule.forRoot(), IonicModule, RouterTestingModule],
-        providers: [TrackClickDirective],
+        providers: [],
       }).compileComponents();
 
       fixture = TestBed.createComponent(MethodComponent);
       component = fixture.componentInstance;
-      component.paymentMethod = { link: 'testlink', name: 'test' };
+      component.paymentMethod = { link: 'testlink', name: 'Mercadopago' };
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       apiPaymentsServiceSpy = TestBed.inject(ApiPaymentsService);

@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ResetPasswordPage } from './reset-password.page';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,13 +10,15 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 describe('ResetPasswordPage', () => {
   let component: ResetPasswordPage;
   let fixture: ComponentFixture<ResetPasswordPage>;
   let apiUsuariosServiceSpy: any;
   let navControllerSpy: any;
-
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ResetPasswordPage>;
   beforeEach(
     waitForAsync(() => {
       apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', ['resetPassword', 'sendResetPasswordEmail']);
@@ -32,7 +33,7 @@ describe('ResetPasswordPage', () => {
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([{ path: 'users/success-reset/:isReset', component: DummyComponent }]),
         ],
-        declarations: [ResetPasswordPage, ResetPasswordFormComponent, DummyComponent],
+        declarations: [ResetPasswordPage, ResetPasswordFormComponent, DummyComponent, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -46,6 +47,7 @@ describe('ResetPasswordPage', () => {
     fixture = TestBed.createComponent(ResetPasswordPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -117,5 +119,25 @@ describe('ResetPasswordPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/users/success-reset', true], {
       replaceUrl: true,
     });
+  });
+
+  it('should call trackEvent on trackService when Reset Password Email is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Reset Password Email');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spyClickEvent = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spyClickEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Reset Password Confirm is clicked', () => {
+    component.isReset = true;
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Reset Password Confirm');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spyClickEvent = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 });

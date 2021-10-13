@@ -4,19 +4,18 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { barcodeScannerMock } from 'src/testing/spies/barcode-scanner-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { QrScannerComponent } from './qr-scanner.component';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const QRData = {
-  valid:
-    '{"apiKey":"kLnBhJuI98745Df32CsX09kN","secretKey":"EvHElKo98JyDeHVfJdSwC45J657Ml4","comment":"myapikey"}',
+  valid: '{"apiKey":"kLnBhJuI98745Df32CsX09kN","secretKey":"EvHElKo98JyDeHVfJdSwC45J657Ml4","comment":"myapikey"}',
   formInvalid:
     '{"apiKey":"kLnBhJuI98745Df32CsX09kN","secretKey":"EvHElKo98JyDeHVfJdSwC45J657Ml4","comment":"My Binance API key"}',
   unparseableString: 'Some random string',
-  invalidJson: '{}'
+  invalidJson: '{}',
 };
 
 describe('QrScannerComponent', () => {
@@ -26,18 +25,16 @@ describe('QrScannerComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [QrScannerComponent, TrackClickDirective],
+        declarations: [QrScannerComponent, FakeTrackClickDirective],
         imports: [
-          RouterTestingModule.withRoutes([
-            { path: 'apikeys/register', component: DummyComponent }
-          ]),
+          RouterTestingModule.withRoutes([{ path: 'apikeys/register', component: DummyComponent }]),
           TranslateModule.forRoot(),
           HttpClientTestingModule,
-          IonicModule
+          IonicModule,
         ],
-        providers: [TrackClickDirective],
+        providers: [],
 
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
   );
@@ -84,10 +81,9 @@ describe('QrScannerComponent', () => {
   });
 
   it('should call checkPermission on checkPermission', async () => {
-    const spy = spyOn(
-      component.barcodeScanner,
-      'checkPermission'
-    ).and.returnValue(Promise.resolve(barcodeScannerMock.permission));
+    const spy = spyOn(component.barcodeScanner, 'checkPermission').and.returnValue(
+      Promise.resolve(barcodeScannerMock.permission)
+    );
     await component.checkPermission();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -177,10 +173,7 @@ describe('QrScannerComponent', () => {
   });
 
   it('should call trackEvent on trackService when Cancel Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'Cancel'
-    );
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Cancel');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

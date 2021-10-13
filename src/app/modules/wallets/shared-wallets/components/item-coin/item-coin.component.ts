@@ -8,7 +8,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
       <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
       <ion-label class="ic__label">{{ this.coin.name }}</ion-label>
       <ion-toggle
-        (ionChange)="this.onChange()"
+        (ionChange)="this.onChange($event)"
         [formControlName]="this.coin.value"
         [value]="this.coin"
         [checked]="this.isChecked"
@@ -36,7 +36,7 @@ export class ItemCoinComponent implements OnInit {
 
   ngOnInit() {}
 
-  onChange() {
-    this.change.emit();
+  onChange(event: any) {
+    this.change.emit(event);
   }
 }

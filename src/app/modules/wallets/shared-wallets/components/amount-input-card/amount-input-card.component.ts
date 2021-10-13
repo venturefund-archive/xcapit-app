@@ -1,12 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  ControlContainer,
-  FormBuilder,
-  FormGroup,
-  FormGroupDirective,
-  Validators,
-} from '@angular/forms';
+import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 
 @Component({
@@ -59,9 +52,13 @@ export class AmountInputCardComponent implements OnInit {
 
   private amountChange(value: number) {
     this.loading = true;
-    this.apiWalletService.getPrices([this.currencyName], false).subscribe((res) => {
-      this.form.patchValue({ referenceAmount: value * res.prices[this.currencyName] });
+    this.apiWalletService.getPrices([this.base()], false).subscribe((res) => {
+      this.form.patchValue({ referenceAmount: value * res.prices[this.base()] });
       this.loading = false;
     });
+  }
+
+  private base() {
+    return this.currencyName === 'RBTC' ? 'BTC' : this.currencyName;
   }
 }

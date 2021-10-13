@@ -4,17 +4,17 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RegisterApikeysPage } from './register-apikeys.page';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { of } from 'rxjs';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
+import { By } from '@angular/platform-browser';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const formData = {
   valid: {
@@ -69,8 +69,8 @@ describe('RegisterApikeysPage', () => {
   let fixture: ComponentFixture<RegisterApikeysPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RegisterApikeysPage>;
   let apiApikeysServiceSpy: any;
+  let fakeNavController: FakeNavController;
   let navControllerSpy: any;
-  let navController: any;
   let storageApiKeysServiceMock: any;
   let storageApiKeysService: StorageApikeysService;
   let apiUsuariosServiceSpy: any;
@@ -85,7 +85,8 @@ describe('RegisterApikeysPage', () => {
 
       apiUsuariosServiceSpy.status.and.returnValue(of({}));
 
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController({});
+      navControllerSpy = fakeNavController.createSpy();
 
       storageApiKeysServiceMock = {
         data: undefined,
@@ -93,21 +94,15 @@ describe('RegisterApikeysPage', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [RegisterApikeysPage, TrackClickDirective],
+        declarations: [RegisterApikeysPage, FakeTrackClickDirective],
         imports: [
-          RouterTestingModule.withRoutes([
-            { path: 'apikeys/register', component: DummyComponent },
-            { path: 'apikeys/success-register', component: DummyComponent },
-            { path: 'apikeys/success-register-beginner', component: DummyComponent },
-            { path: 'apikeys/list', component: DummyComponent },
-          ]),
+          RouterTestingModule,
           TranslateModule.forRoot(),
           HttpClientTestingModule,
           IonicModule,
           ReactiveFormsModule,
         ],
         providers: [
-          TrackClickDirective,
           { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           {
@@ -127,7 +122,6 @@ describe('RegisterApikeysPage', () => {
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     apiApikeysServiceSpy = TestBed.inject(ApiApikeysService);
-    navController = TestBed.inject(NavController);
     storageApiKeysService = TestBed.inject(StorageApikeysService);
   });
 
@@ -152,39 +146,8 @@ describe('RegisterApikeysPage', () => {
   it('should call create on submitData', () => {
     spyOn(component, 'getSuccessRoute').and.returnValue('');
     apiApikeysServiceSpy.create.and.returnValue(of({}));
-    navController.navigateForward.and.returnValue(Promise.resolve());
     component.submitData();
     expect(apiApikeysServiceSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call fillForm on apikeysScanned with no errors', () => {
-    const spy = spyOn(component, 'fillForm');
-    component.apikeysScanned(QRScanResult.valid);
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not call fillForm on apikeysScanned with no errors and no results', () => {
-    const spy = spyOn(component, 'fillForm');
-    component.apikeysScanned(QRScanResult.noResult);
-    expect(spy).toHaveBeenCalledTimes(0);
-  });
-
-  it('should call errorInvalidQR on apikeysScanned and invalidQR error', () => {
-    const spy = spyOn(component, 'errorInvalidQR');
-    component.apikeysScanned(QRScanResult.invalidQR);
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call errorNoContentQR on apikeysScanned and noContent error', () => {
-    const spy = spyOn(component, 'errorNoContentQR');
-    component.apikeysScanned(QRScanResult.noContent);
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call errorCameraAccessDenied on apikeysScanned and permissionDenied error', () => {
-    const spy = spyOn(component, 'errorCameraAccessDenied');
-    component.apikeysScanned(QRScanResult.cameraAccessDenied);
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should patchFormValue on ionViewWillEnter and storage data is undefined', () => {
@@ -306,5 +269,21 @@ describe('RegisterApikeysPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to Apikeys Scan with tutorial step when Use QR Button is clicked and is tutorial step', () => {
+    component.inPWA = false;
+    component.isTutorialStep = true;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Use QR"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/apikeys/scan', true]);
+  });
+
+  it('should navigate to Apikeys Scan without tutorial step when Use QR Button is clicked and is not tutorial step', () => {
+    component.inPWA = false;
+    component.isTutorialStep = false;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Use QR"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/apikeys/scan', false]);
   });
 });

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiCommissionsService {
   entity = 'commissions';

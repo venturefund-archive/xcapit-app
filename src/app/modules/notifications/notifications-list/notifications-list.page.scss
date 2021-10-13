@@ -1,0 +1,25 @@
+:host {
+  .container {
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  hr {
+    width: 130px;
+    height: 1px;
+    background-color: var(--ion-color-uxline);
+  }
+  .title {
+    padding-top: 23px;
+    text-align: center;
+  }
+  .message {
+    padding-top: 16px;
+    text-align: center;
+  }
+  .link {
+    padding-top: 16px;
+    text-align: center;
+  }
+}

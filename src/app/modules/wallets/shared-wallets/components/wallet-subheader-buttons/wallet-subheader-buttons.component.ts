@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -51,20 +52,36 @@ import { NavController } from '@ionic/angular';
 })
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() hasTransactions: boolean;
+  @Input() asset: string;
 
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
   goToSend() {
-    this.navController.navigateForward(['wallets/send/select-currency']);
+    if (!this.asset) {
+      return this.navController.navigateForward(['wallets/send/select-currency']);
+    }
+
+    return this.navController.navigateForward(['wallets/send/detail/' + this.asset]);
   }
 
   goToReceive() {
-    this.navController.navigateForward(['wallets/receive']);
+    if (!this.asset) {
+      return this.navController.navigateForward(['wallets/receive']);
+    }
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        asset: this.asset,
+      },
+    };
+
+    return this.navController.navigateForward(['wallets/receive'], navigationExtras);
   }
 
   goToBuy() {
-    this.navController.navigateForward('/fiat-ramps/operations');
+    if (!this.asset) {
+      return this.navController.navigateForward('/fiat-ramps/operations');
+    }
   }
 }
