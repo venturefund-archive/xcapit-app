@@ -37,7 +37,14 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="ux_footer">
           <div class="button">
-            <ion-button class="ux_button" appTrackClick name="Back" size="large" (click)="this.goBack()">
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="Back"
+              size="large"
+              (click)="this.goBack()"
+              color="uxsecondary"
+            >
               {{ 'funds.fund_stop_loss.inteligent_stop_loss_button' | translate }}
             </ion-button>
           </div>

@@ -82,7 +82,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
             class="ux-font-text-xs semibold"
             appTrackClick
             name="Information"
-            color="uxsecondary"
+            color="uxprimary"
             size="large"
             fill="clear"
             (click)="this.goToInformationPage()"
