@@ -75,11 +75,6 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'transactions',
-        loadChildren: () =>
-          import('./transactions-wallet/transactions-wallet.module').then((m) => m.TransactionsWalletPageModule),
-      },
-      {
         path: 'send',
         children: [
           {
