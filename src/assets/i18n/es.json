@@ -543,8 +543,7 @@
       "custom_tp_button": "Elegir otra opción",
       "btc_text": "Bitcoin BTC",
       "usdt_text": "Dólar USDT",
-      "submit_button": "Crear fondo",
-      "submit_button_renew": "Renovar fondo",
+      "submit_button": "Siguiente",
       "submit_button_edit": "Guardar",
       "edit_custom": "Editar",
       "edit_title": "Modificar Stop Loss",
@@ -674,6 +673,23 @@
           "status_active": "Activo"
         }
       }
+    },
+    "fund_summary": {
+      "header": "Crear inversión",
+      "title": "Vas a invertir en: ",
+      "strategy": "Con la estrategia: ",
+      "skip_invest": "Todavia no quiero invertir",
+      "stop_loss_take_profit_summary": {
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss",
+        "trailing_stop_loss": "Stop loss inteligente",
+        "no_stop_loss": "Sin stop loss",
+        "no_take_profit": "Sin take profit",
+        "change_button": "Cambiar"
+      },
+      "submit_button": "Crear fondo",
+      "submit_button_renew": "Renovar fondo",
+      "submit_button_edit": "Guardar"
     }
   },
   "runs": {

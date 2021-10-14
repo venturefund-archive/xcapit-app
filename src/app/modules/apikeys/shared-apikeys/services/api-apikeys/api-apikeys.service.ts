@@ -38,4 +38,8 @@ export class ApiApikeysService {
   checkMinBalance(data: any) {
     return this.http.post(`${environment.apiUrl}/${this.entity}/check_min_balance/`, data);
   }
+
+  getAccountBalance(data: any): Observable<{ account_balance: number; currency: string }> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/account_balance/`, data);
+  }
 }

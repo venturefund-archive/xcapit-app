@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroupDirective } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { NavController } from '@ionic/angular';
-import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 
 @Component({
   selector: 'app-fund-stop-loss',
@@ -39,12 +37,7 @@ export class FundStopLossPage implements OnInit {
   trailingStop: number;
   opType: string;
 
-  constructor(
-    protected fundDataStorage: FundDataStorageService,
-    protected navController: NavController,
-    protected apiFunds: ApiFundsService,
-    private storageApiKeysService: StorageApikeysService
-  ) {}
+  constructor(protected fundDataStorage: FundDataStorageService, protected navController: NavController) {}
 
   ngOnInit() {}
 
@@ -66,40 +59,8 @@ export class FundStopLossPage implements OnInit {
     });
   }
 
-  addApiKeyToFund(fund: any) {
-    fund.api_key_id = this.storageApiKeysService.data.id;
-    return fund;
-  }
-
   async handleSubmit(data: any) {
-    let fund = {
-      ...(await this.fundDataStorage.getFund()),
-      ...data,
-    };
-    fund.risk_level = `${fund.risk_level}`;
-    if (this.opType === 'renew') {
-      this.apiFunds.renewFund(fund).subscribe(() => this.success());
-    } else {
-      fund = this.addApiKeyToFund(fund);
-      this.apiFunds.crud.create(fund).subscribe(
-        () => this.success(),
-        (e) => this.error(e)
-      );
-    }
-  }
-
-  async success() {
-    this.fundDataStorage.clearAll();
-    this.navController
-      .navigateForward(['/funds/fund-success', this.opType === 'renew'], {
-        replaceUrl: true,
-      })
-      .then();
-  }
-
-  async error(e) {
-    if (e.error.error_code === 'funds.create.fundNameExists') {
-      this.navController.navigateBack('/funds/fund-name').then();
-    }
+    await this.fundDataStorage.setData('fundStopLoss', data);
+    await this.navController.navigateForward(['/funds/summary']);
   }
 }
