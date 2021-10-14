@@ -22,8 +22,10 @@ export const environment = {
   walletNetwork: 'testnet',
   ethAlchemyApiUrl: 'https://eth-rinkeby.alchemyapi.io/v2/apikey',
   rskApiUrl: 'https://rsk.node',
+  maticApiUrl: 'https://rpc-mumbai.maticvigil.com/v1/5fc0291a70d1714b3595d5a2fb5ceacec81ab086',
   derivedPaths: {
     ERC20: "m/44'/60'/0'/0/0",
     RSK: "m/44'/37310'/0'/0/0",
+    MATIC: "m/44'/80001'/0'/0/0",
   },
 };
