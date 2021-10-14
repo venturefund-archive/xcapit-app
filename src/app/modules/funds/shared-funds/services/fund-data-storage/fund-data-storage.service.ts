@@ -5,8 +5,6 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root',
 })
 export class FundDataStorageService {
-  // Por cada page (url) indica la key del storage en la cual fijarse si existe para poder acceder a la url.
-  // EJ: Para acceder a fund-stop-loss debe existir la key fundRiskLevel en el storage.
   pageKeys = {
     '/funds/fund-investment': 'fundName',
     '/funds/fund-take-profit': 'fundRiskLevel',
