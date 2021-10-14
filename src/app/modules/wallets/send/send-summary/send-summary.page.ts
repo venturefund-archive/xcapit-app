@@ -3,9 +3,9 @@ import { TransactionDataService } from '../../shared-wallets/services/transactio
 import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
-import { ModalController, NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
@@ -40,7 +40,7 @@ import { LocalNotification } from '@capacitor/core';
           appTrackClick
           name="Send"
           [disabled]="this.submitButtonService.isDisabled | async"
-          (click)="this.beginSend()"
+          (click)="this.canAffordFee()"
           >{{ 'wallets.send.send_summary.send_button' | translate }}</ion-button
         >
       </div>
@@ -59,7 +59,8 @@ export class SendSummaryPage implements OnInit {
     private loadingService: LoadingService,
     private route: ActivatedRoute,
     private localNotificationsService: LocalNotificationsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {}
@@ -72,7 +73,7 @@ export class SendSummaryPage implements OnInit {
   async checkMode() {
     const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
     if (mode) {
-      await this.beginSend();
+      await this.canAffordFee();
     }
   }
 
@@ -101,6 +102,29 @@ export class SendSummaryPage implements OnInit {
       .then((response: TransactionResponse) => this.goToSuccess(response))
       .catch((error) => this.handleSendError(error))
       .finally(() => this.loadingService.dismiss());
+  }
+
+  async canAffordFee() {
+    if (await this.walletTransactionsService.canNotAffordFee(this.summaryData)) {
+      await this.showAlertNotEnoughNativeToken();
+    } else {
+      this.beginSend();
+    }
+  }
+
+  async showAlertNotEnoughNativeToken() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.title'),
+      message: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.text'),
+      cssClass: 'ux-wallet-error-alert ux-alert',
+      buttons: [
+        {
+          text: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.button'),
+          cssClass: 'uxprimary',
+        },
+      ],
+    });
+    await alert.present();
   }
 
   private createNotification(transaction: TransactionReceipt): LocalNotification[] {

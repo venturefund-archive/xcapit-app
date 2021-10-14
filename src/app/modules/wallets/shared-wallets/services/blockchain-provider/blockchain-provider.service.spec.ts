@@ -3,6 +3,7 @@ import { BlockchainProviderService } from './blockchain-provider.service';
 import { BigNumber } from 'ethers';
 import { Coin } from '../../interfaces/coin.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 
 const tokenAbi: any = [
   {
@@ -34,7 +35,16 @@ const testCoins: Coin[] = [
   },
 ];
 
-describe('BlockchainProviderService', () => {
+const testSummaryData: SummaryData = {
+  currency: testCoins[0],
+  address: 'testAddress',
+  amount: 10,
+  referenceAmount: 20,
+  network: 'ERC20',
+  balanceNativeToken: 200,
+};
+
+fdescribe('BlockchainProviderService', () => {
   let service: BlockchainProviderService;
   let providerMock;
   beforeEach(() => {
@@ -115,5 +125,18 @@ describe('BlockchainProviderService', () => {
 
       expect(response).toEqual(data.balance);
     });
+  });
+
+  it('should calculate the fee on estimateFee', async () => {
+    const gas = 2;
+    const gasPrice = 10;
+    const providerSpy = jasmine.createSpyObj('Provider', {
+      estimateGas: BigNumber.from(gas),
+      getGasPrice: BigNumber.from(gasPrice),
+    });
+    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
+    const expectedFee = BigNumber.from(gas * gasPrice);
+    const estimatedFee = await service.estimateFee(testSummaryData);
+    expect(estimatedFee).toEqual(expectedFee);
   });
 });

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
+import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { EthersService } from '../ethers/ethers.service';
 import { utils, Wallet } from 'ethers';
+import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 export type Amount = string | number;
 
 @Injectable({
@@ -215,30 +216,25 @@ export class WalletTransactionsService {
     return ordered.reverse();
   }
 
-  hasNotEnoughTokenForTx(currency: Coin, balanceNativeToken: number, amountToSend: number, fee?: number): boolean {
+  hasNotEnoughNativeTokenForTx(summaryData: SummaryData, fee?: number): boolean {
     if (fee === undefined) {
-      return balanceNativeToken === 0;
+      return summaryData.balanceNativeToken === 0;
     }
 
-    if (currency.native) {
-      return parseFloat(utils.formatUnits(fee)) > balanceNativeToken - amountToSend;
+    if (summaryData.currency.native) {
+      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
     } else {
-      return parseFloat(utils.formatUnits(fee)) > balanceNativeToken;
+      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
     }
   }
 
-  async canNotAffordFee(
-    currency: Coin,
-    balanceNativeToken: number,
-    amountToSend: number,
-    destinationAddress: string
-  ): Promise<boolean> {
+  async canNotAffordFee(summaryData: SummaryData): Promise<boolean> {
     let fee;
 
     try {
-      fee = await this.blockchainProviderService.estimateFee(currency, destinationAddress, amountToSend);
+      fee = await this.blockchainProviderService.estimateFee(summaryData);
     } catch (e) {}
 
-    return this.hasNotEnoughTokenForTx(currency, balanceNativeToken, amountToSend, fee);
+    return this.hasNotEnoughNativeTokenForTx(summaryData, fee);
   }
 }

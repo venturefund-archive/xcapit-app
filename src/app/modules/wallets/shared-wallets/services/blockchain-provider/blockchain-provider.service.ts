@@ -3,6 +3,7 @@ import { BigNumber, ethers, utils } from 'ethers';
 import { COINS } from '../../../constants/coins';
 import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { Coin } from '../../interfaces/coin.interface';
+import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -47,13 +48,16 @@ export class BlockchainProviderService {
     return new ethers.Contract(contract, abi, provider);
   }
 
-  async estimateFee(currency: Coin, destinationAddress: string, amountToSend: string | number) {
-    const provider = (await this.getProvider(currency.value)).provider;
+  async estimateFee(summaryData: SummaryData): Promise<BigNumber> {
+    const provider = (await this.getProvider(summaryData.currency.value)).provider;
     const estimatedGas = await provider.estimateGas({
-      to: destinationAddress,
-      value: parseUnits(amountToSend.toString(), currency.decimals ? currency.decimals : 18),
+      to: summaryData.address,
+      value: parseUnits(
+        summaryData.amount.toString(),
+        summaryData.currency.decimals ? summaryData.currency.decimals : 18
+      ),
     });
-    const fee = await provider.getFeeData();
-    return estimatedGas * fee.gasPrice;
+    const gasPrice = await provider.getGasPrice();
+    return estimatedGas.mul(gasPrice);
   }
 }
