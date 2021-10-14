@@ -188,7 +188,6 @@
   --ux-font-worksans: 'Work Sans';
   --ux-font-gilroy: 'Gilroy';
   --ux-font-lato: 'Lato';
-  --ux-font-symbola: 'Symbola';
 
   /** Weight **/
   --ux-fweight-regular: 400;
@@ -357,13 +356,29 @@
 }
 
 @font-face {
-  font-family: 'Symbola';
+  font-family: 'Work Sans';
+  font-style: normal;
   font-weight: normal;
-  src: url('../assets/fonts/Symbola/Symbola-Emoji.ttf');
+  src: url('../assets/fonts/WorkSans/WorkSans-Regular.ttf');
 }
 
 @font-face {
   font-family: 'Work Sans';
-  font-weight: normal;
-  src: url('../assets/fonts/Worksans/Worksans.otf');
+  font-style: normal;
+  font-weight: 600;
+  src: url('../assets/fonts/WorkSans/WorkSans-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../assets/fonts/WorkSans/WorkSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../assets/fonts/WorkSans/WorkSans-ExtraBold.ttf');
 }

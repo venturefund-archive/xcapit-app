@@ -6,7 +6,6 @@ import { CustomHttpService } from '../../../../../shared/services/custom-http/cu
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
-
 describe('ApiApikeysService', () => {
   let apiApikeysService: ApiApikeysService;
   let crudSpy: any;
@@ -14,22 +13,26 @@ describe('ApiApikeysService', () => {
 
   beforeEach(() => {
     crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
-    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
-      post: of({}),
-      get: of({}),
-      put: of({}),
-      delete: of({})
-    }, {
-      original: jasmine.createSpyObj('original', {
-        patch: of({})
-      })
-    });
+    customHttpServiceSpy = jasmine.createSpyObj(
+      'CustomHttpService',
+      {
+        post: of({}),
+        get: of({}),
+        put: of({}),
+        delete: of({}),
+      },
+      {
+        original: jasmine.createSpyObj('original', {
+          patch: of({}),
+        }),
+      }
+    );
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: CrudService, useValue: crudSpy },
-        { provide: CustomHttpService, useValue: customHttpServiceSpy }
-      ]
+        { provide: CustomHttpService, useValue: customHttpServiceSpy },
+      ],
     });
     apiApikeysService = TestBed.inject(ApiApikeysService);
   });
@@ -65,6 +68,12 @@ describe('ApiApikeysService', () => {
   it('it should call delete on http when delete', () => {
     apiApikeysService.delete(1).subscribe(() => {
       expect(customHttpServiceSpy.delete).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('it should call post on http when get account balance', () => {
+    apiApikeysService.getAccountBalance(1).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 });
