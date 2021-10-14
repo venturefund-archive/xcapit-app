@@ -85,6 +85,11 @@
   --ion-color-uxprimary-matiz: #192853;
   --ion-color-uxprimary-tint: #33426e;
 
+  /** ux primary hover**/
+  --ion-color-uxprimary-hover: #38499f;
+  /** ux secondary hover **/
+  --ion-color-uxsecondary-hover: #b2c610;
+
   /** ux secondary **/
   --ion-color-uxsecondary: #d7eb36;
   --ion-color-uxsecondary-rgb: 215, 235, 54;
@@ -179,7 +184,8 @@
   /** Blanco **/
   --ion-background-colorwhite: #ffffff;
 
-  /** Letras **/
+  /** Fuentes **/
+  --ux-font-worksans: 'Work Sans';
   --ux-font-gilroy: 'Gilroy';
   --ux-font-lato: 'Lato';
   --ux-font-symbola: 'Symbola';
@@ -354,4 +360,10 @@
   font-family: 'Symbola';
   font-weight: normal;
   src: url('../assets/fonts/Symbola/Symbola-Emoji.ttf');
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  font-weight: normal;
+  src: url('../assets/fonts/Worksans/Worksans.otf');
 }
