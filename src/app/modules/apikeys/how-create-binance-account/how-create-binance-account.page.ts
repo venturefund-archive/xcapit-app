@@ -39,6 +39,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="ux_footer">
           <ion-button
+            color="uxsecondary"
             appTrackClick
             name="Have A Binance Account"
             class="ux_button hcba__button"
