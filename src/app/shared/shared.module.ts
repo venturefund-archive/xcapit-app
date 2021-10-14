@@ -46,6 +46,8 @@ import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux
 import { InputSelectComponent } from './components/input-select/input-select.component';
 import { SelectModalNewComponent } from './components/select-modal-new/select-modal-new.component';
 import { SelectStyleDirective } from './directives/select-style/select-style.directive';
+import { EmbedVideoComponent } from './components/embed-video/embed-video.component';
+import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,7 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     NeedHelpComponent,
     ToastAlertComponent,
     ScanQrModalComponent,
+    EmbedVideoComponent,
     // Ux
     SelectModalNewComponent,
     UxInputSelectTraductionComponent,
@@ -93,10 +96,12 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
+    SafeURLPipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
+    EmbedVideoComponent,
     ErrorsFormItemComponent,
     CommonModule,
     ReactiveFormsModule,
@@ -145,6 +150,7 @@ import { SelectStyleDirective } from './directives/select-style/select-style.dir
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
+    SafeURLPipe,
   ],
 })
 export class SharedModule {}

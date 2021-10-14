@@ -75,11 +75,6 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'transactions',
-        loadChildren: () =>
-          import('./transactions-wallet/transactions-wallet.module').then((m) => m.TransactionsWalletPageModule),
-      },
-      {
         path: 'send',
         children: [
           {
@@ -104,6 +99,20 @@ const routes: Routes = [
             loadChildren: () =>
               import('./send/error-incorrect-password-wallet/error-incorrect-password-wallet.module').then(
                 (m) => m.ErrorIncorrectPasswordWalletPageModule
+              ),
+          },
+          {
+            path: 'error/wrong-amount',
+            loadChildren: () =>
+              import('./send/error-wrong-amount-wallet/error-wrong-amount-wallet.module').then(
+                (m) => m.ErrorWrongAmountWalletPageModule
+              ),
+          },
+          {
+            path: 'error/wrong-address',
+            loadChildren: () =>
+              import('./send/error-wrong-address-wallet/error-wrong-address-wallet.module').then(
+                (m) => m.ErrorWrongAddressWalletPageModule
               ),
           },
         ],

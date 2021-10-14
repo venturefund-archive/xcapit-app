@@ -237,15 +237,6 @@ describe('HomeWalletPage', () => {
     expect(transactionElement).toBeNull();
   });
 
-  it('should render app-wallet-transaction-card when walletExist is true and have transactions', () => {
-    component.walletExist = true;
-    component.transactionsExists = true;
-    component.balances = balances;
-    fixture.detectChanges();
-    const transactionElement = fixture.debugElement.query(By.css('.wt__transaction'));
-    expect(transactionElement).not.toBeNull();
-  });
-
   it('should get the last transaction on view will enter', async () => {
     fixture.detectChanges();
     await component.ionViewWillEnter();
@@ -331,26 +322,4 @@ describe('HomeWalletPage', () => {
 
     expect(component.totalBalanceWallet).toBe(expectedBalance);
   }));
-
-  it('should call appTrackEvent and navigate when Transactions History clicked', () => {
-    component.transactionsExists = true;
-    component.balances = [
-      {
-        icon: '',
-        symbol: '',
-        name: 'name',
-        amount: 12,
-        usdAmount: 1,
-        usdSymbol: 'USD',
-      },
-    ];
-    fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Transactions History');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/transactions']);
-  });
 });

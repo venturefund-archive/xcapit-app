@@ -6,7 +6,6 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-wallet',
@@ -23,7 +22,7 @@ import { finalize } from 'rxjs/operators';
         </div>
         <div class="wt__amount ux-font-num-titulo">
           <ion-text>
-            {{ this.totalBalanceWallet | number: '1.2-6' }}
+            {{ this.totalBalanceWallet | number: '1.2-2' }}
             USD
           </ion-text>
         </div>
@@ -59,30 +58,6 @@ import { finalize } from 'rxjs/operators';
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
       </div>
-      <div
-        class="wt__transaction ion-padding-start ion-padding-end"
-        *ngIf="this.transactionsExists && this.balances?.length"
-      >
-        <div div class="wt__transaction__title">
-          <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
-            {{ 'wallets.home.wallet_transaction_title' | translate }}
-          </ion-label>
-        </div>
-        <div class="wt__transaction__wallet-transaction-card">
-          <app-wallet-transaction-card [transactions]="this.lastTransaction"></app-wallet-transaction-card>
-        </div>
-        <div class="wt__transaction-history">
-          <ion-button
-            name="Transactions History"
-            id="transaction-history"
-            appTrackClick
-            fill="clear"
-            class="ux-font-lato ux-fsize-14 ux-fweight-semibold"
-            (click)="this.goToTransactionHistory()"
-            >{{ 'wallets.home.go_to_history' | translate }}
-          </ion-button>
-        </div>
-      </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
@@ -96,6 +71,7 @@ export class HomeWalletPage implements OnInit {
   transactionsExists: boolean;
   lastTransaction = [];
   userCoins: Coin[];
+  alreadyInitialized = false;
 
   constructor(
     private walletService: WalletService,
@@ -108,7 +84,10 @@ export class HomeWalletPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.encryptedWalletExist();
+    if (!this.alreadyInitialized) {
+      this.alreadyInitialized = true;
+      this.encryptedWalletExist();
+    }
   }
 
   createBalancesStructure(coin: Coin): AssetBalance {
@@ -140,41 +119,41 @@ export class HomeWalletPage implements OnInit {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
-  async getWalletsBalances() {
-    this.balances = [];
-    this.totalBalanceWallet = 0;
-
+  getWalletsBalances() {
     for (const coin of this.userCoins) {
-      this.walletAddress = this.walletService.addresses[coin.network];
+      const walletAddress = this.walletService.addresses[coin.network];
 
-      if (this.walletAddress) {
+      if (walletAddress) {
         const balance = this.createBalancesStructure(coin);
-        this.walletService.balanceOf(this.walletAddress, coin.value).then((res) => {
-          balance.amount = parseFloat(res);
+        this.walletService
+          .balanceOf(walletAddress, coin.value)
 
-          if (this.allPrices) {
-            const usdPrice = this.getPrice(balance.symbol);
+          .then((res) => {
+            balance.amount = parseFloat(res);
 
-            balance.usdAmount = usdPrice * balance.amount;
-            this.totalBalanceWallet += balance.usdAmount;
-          }
+            if (this.allPrices) {
+              const usdPrice = this.getPrice(balance.symbol);
 
-          this.balances.push(balance);
-
-          this.walletAddress = null;
-        });
+              balance.usdAmount = usdPrice * balance.amount;
+              this.totalBalanceWallet += balance.usdAmount;
+            }
+            this.balances.push(balance);
+          });
       }
     }
   }
 
-  async getAllPrices() {
-    this.userCoins = await this.storageService.getAssestsSelected();
-    await this.storageService.updateAssetsList();
-
-    this.apiWalletService
-      .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
-      .pipe(finalize(() => this.getWalletsBalances()))
-      .subscribe((res) => (this.allPrices = res));
+  getAllPrices() {
+    this.storageService.getAssestsSelected().then((coins) => {
+      this.userCoins = coins;
+      this.storageService.updateAssetsList().then(() => {
+        this.apiWalletService
+          .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
+          .toPromise()
+          .then((res) => (this.allPrices = res))
+          .finally(() => this.getWalletsBalances());
+      });
+    });
   }
 
   private getCoinForPrice(symbol: string): string {
@@ -193,9 +172,5 @@ export class HomeWalletPage implements OnInit {
         this.lastTransaction = res;
       }
     });
-  }
-
-  goToTransactionHistory() {
-    this.navController.navigateForward(['/wallets/transactions']);
   }
 }

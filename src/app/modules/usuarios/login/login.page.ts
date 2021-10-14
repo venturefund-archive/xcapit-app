@@ -39,7 +39,7 @@ import { NavController } from '@ionic/angular';
             fill="clear"
             size="small"
             type="button"
-            color="uxsecondary"
+            color="uxprimary"
             (click)="this.goToResetPassword()"
           >
             {{ 'usuarios.login.reset_password_link' | translate }}
@@ -53,7 +53,7 @@ import { NavController } from '@ionic/angular';
             size="large"
             type="submit"
             class="main__login_button ux_button"
-            color="uxsecondary"
+            color="uxprimary"
             [disabled]="this.submitButtonService.isDisabled | async"
           >
             {{ 'usuarios.login.login_button_text' | translate }}
@@ -67,7 +67,7 @@ import { NavController } from '@ionic/angular';
             size="large"
             expand="block"
             type="button"
-            color="uxsecondary"
+            color="uxprimary"
             (click)="this.goToRegister()"
             class="ux_button"
           >
