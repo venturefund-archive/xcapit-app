@@ -59,4 +59,18 @@ describe('WalletPasswordComponent', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should call trackEvent on trackService when Close Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should close modal when close button is clicked', async () => {
+    fixture.debugElement.query(By.css("ion-button[name='Close']")).nativeElement.click();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+  });
 });

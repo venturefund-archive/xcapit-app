@@ -74,6 +74,7 @@ import { CustomValidators } from '../../../../shared/validators/custom-validator
           name="Continue"
           (click)="this.goToSummary()"
           [disabled]="!this.form.valid || !this.selectedNetwork"
+          color="uxsecondary"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>
