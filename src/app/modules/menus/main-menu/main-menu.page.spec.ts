@@ -55,7 +55,7 @@ const appPages = [
     id: 5,
     name: 'Support',
     title: 'app.main_menu.help',
-    url: '/tickets/create-support-ticket',
+    url: '/support/support-options',
     icon: 'ux-settings-icon',
     routeDirection: 'forward',
     showInProd: true,
