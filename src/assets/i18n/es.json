@@ -1412,7 +1412,7 @@
         "namePrimaryAction": "Reintentar"
       },
       "error_wrong_amount": {
-        "textPrimary": "El monto a enviar es incorrecto",
+        "textPrimary": "Hubo un problema al completar la transacción",
         "namePrimaryAction": "Reintentar"
       },
       "error_wrong_address": {

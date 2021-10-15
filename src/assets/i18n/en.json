@@ -1409,7 +1409,7 @@
         "namePrimaryAction": "Retry"
       },
       "error_wrong_amount": {
-        "textPrimary": "The amount to send is incorrect",
+        "textPrimary": "There was a problem completing the transaction",
         "namePrimaryAction": "Retry"
       },
       "error_wrong_address": {
