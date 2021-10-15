@@ -1422,18 +1422,15 @@
       },
       "error_incorrect_password": {
         "textPrimary": "Seems like the password is incorrect",
-        "namePrimaryAction": "Retry",
-        "nameSecondaryAction": "Contact support"
+        "namePrimaryAction": "Retry"
       },
       "error_wrong_amount": {
         "textPrimary": "There was a problem completing the transaction",
-        "namePrimaryAction": "Retry",
-        "nameSecondaryAction": "Contact support"
+        "namePrimaryAction": "Retry"
       },
       "error_wrong_address": {
         "textPrimary": "The destination wallet is incorrect",
-        "namePrimaryAction": "Retry",
-        "nameSecondaryAction": "Contact support"
+        "namePrimaryAction": "Retry"
       }
     },
     "shared_wallets": {
