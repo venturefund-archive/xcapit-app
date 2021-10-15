@@ -139,6 +139,7 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-regular);
+    color: var(--ion-color-uxsemidark);
   }
 
   // Texto normal
@@ -146,47 +147,51 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-regular);
+    color: var(--ion-color-uxsemidark);
   }
 
   // Título
   .ux-font-text-lg {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-18);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
+    color: var(--ion-color-uxdark);
   }
 
   // Subtítulos
   .ux-font-subheading {
     font-family: var(--ux-font-lato);
-    font-size: var(--ux-fsize-12);
-    font-weight: var(--ux-fweight-regular);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-semibold);
     color: var(--ion-color-uxsemidark);
     text-transform: uppercase;
   }
 
   .ux-font-text-xl {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-22);
     font-weight: var(--ux-fweight-extrabold);
+    color: var(--ion-color-uxdark);
   }
 
   .ux-font-num-titulo {
-    font-family: var(--ux-font-lato);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-40);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
   }
 
   .ux-font-num-subtitulo {
-    font-family: var(--ux-font-lato);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-17);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
   }
 
   .ux-font-header-titulo,
   .ux_toolbar ion-title {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-16);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
+    color: var(--ion-color-uxdark);
   }
 
   // Header pantallas
@@ -228,7 +233,7 @@ ion-toast.refresher_toast {
   .ux_badge_primary {
     text-transform: uppercase;
     --color: var(--ion-color-uxprimary);
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-worksans);
     font-weight: var(--ux-fweight-extrabold);
     font-size: var(--ux-fsize-10);
   }

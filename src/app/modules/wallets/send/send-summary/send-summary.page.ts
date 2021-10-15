@@ -133,8 +133,10 @@ export class SendSummaryPage implements OnInit {
       error.message.startsWith('bad address checksum')
     ) {
       url = '/wallets/send/error/wrong-address';
-    } else if (error.message.startsWith('insufficient funds')) {
+    } else if (error.message.startsWith('cannot estimate gas') || error.message.startsWith('insufficient funds')) {
       url = '/wallets/send/error/wrong-amount';
+    } else {
+      throw error;
     }
 
     this.navController.navigateForward(url).then();
