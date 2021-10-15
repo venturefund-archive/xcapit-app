@@ -124,21 +124,15 @@ export const SUCCESS_TYPES = {
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.send.error_incorrect_password.textPrimary',
     namePrimaryAction: 'wallets.send.error_incorrect_password.namePrimaryAction',
-    // urlSecondaryAction: '/tickets/create-support-ticket',
-    // nameSecondaryAction: 'wallets.send.error_incorrect_password.nameSecondaryAction',
   },
   error_wallet_wrong_amount: {
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.send.error_wrong_amount.textPrimary',
     namePrimaryAction: 'wallets.send.error_wrong_amount.namePrimaryAction',
-    // urlSecondaryAction: '/tickets/create-support-ticket',
-    // nameSecondaryAction: 'wallets.send.error_wrong_amount.nameSecondaryAction',
   },
   error_wallet_wrong_address: {
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.send.error_wrong_address.textPrimary',
     namePrimaryAction: 'wallets.send.error_wrong_address.namePrimaryAction',
-    // urlSecondaryAction: '/tickets/create-support-ticket',
-    // nameSecondaryAction: 'wallets.send.error_wrong_address.nameSecondaryAction',
   },
 };
