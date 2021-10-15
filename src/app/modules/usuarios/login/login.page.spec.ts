@@ -157,18 +157,18 @@ describe('LoginPage', () => {
     expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
   });
 
-  it('should call trackEvent on trackService when Google Auth button clicked', () => {
-    fixture.detectChanges();
-    component.loginForm.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    expect(component.loginForm.form.valid).toBeTruthy();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+  // it('should call trackEvent on trackService when Google Auth button clicked', () => {
+  //   fixture.detectChanges();
+  //   component.loginForm.form.patchValue(formData.valid);
+  //   fixture.detectChanges();
+  //   expect(component.loginForm.form.valid).toBeTruthy();
+  //   const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
+  //   const directive = trackClickDirectiveHelper.getDirective(el);
+  //   const spy = spyOn(directive, 'clickEvent');
+  //   el.nativeElement.click();
+  //   fixture.detectChanges();
+  //   expect(spy).toHaveBeenCalledTimes(1);
+  // });
 
   it('should call trackEvent on trackService when Login button clicked', () => {
     fixture.detectChanges();
