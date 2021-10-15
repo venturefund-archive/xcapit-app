@@ -89,12 +89,13 @@ export const COINS: Coin[] = [
   },
   {
     id: 7,
-    name: 'Polygon',
+    name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
     last: true,
     value: 'MATIC',
     network: 'MATIC',
     rpc: environment.maticApiUrl,
     decimals: 18,
+    native: true,
   },
 ];
