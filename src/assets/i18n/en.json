@@ -668,6 +668,23 @@
           "status_active": "Active"
         }
       }
+    },
+    "fund_summary": {
+      "header": "Create invest",
+      "title": "You will invest in: ",
+      "strategy": "With strategy: ",
+      "skip_invest": "I don't want to invest yet",
+      "stop_loss_take_profit_summary": {
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss",
+        "trailing_stop_loss": "Smart stop loss",
+        "no_stop_loss": "No stop loss",
+        "no_take_profit": "No take profit",
+        "change_button": "Change"
+      },
+      "submit_button": "Create fund",
+      "submit_button_renew": "Renew fund",
+      "submit_button_edit": "Save"
     }
   },
   "runs": {
