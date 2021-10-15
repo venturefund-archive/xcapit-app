@@ -76,7 +76,7 @@ export const COINS: Coin[] = [
     native: true,
   },
   {
-    id: 6,
+    id: 7,
     name: 'RIF - Rifos',
     logoRoute: 'assets/img/coins/RIF.png',
     last: false,
@@ -88,7 +88,7 @@ export const COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 7,
+    id: 8,
     name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
     last: true,
