@@ -13,6 +13,8 @@ import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/sto
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { CurrencyFormatPipe } from '../shared-funds/pipes/currency-format/currency-format.pipe';
+import { DecimalPipe } from '@angular/common';
 
 const fund = {
   stop_loss: 10,
@@ -63,9 +65,16 @@ describe('FundSummaryPage', () => {
         }
       );
       TestBed.configureTestingModule({
-        declarations: [FundSummaryPage, StrategyNamePipe, StopLossTakeProfitSummaryComponent, FakeTrackClickDirective],
+        declarations: [
+          FundSummaryPage,
+          StrategyNamePipe,
+          StopLossTakeProfitSummaryComponent,
+          FakeTrackClickDirective,
+          CurrencyFormatPipe,
+        ],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
+          DecimalPipe,
           { provide: ApiFundsService, useValue: apiFundsServiceSpy },
           { provide: FundDataStorageService, useValue: fundDataStorageServiceSpy },
           { provide: NavController, useValue: navControllerSpy },

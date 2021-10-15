@@ -10,6 +10,6 @@ export class HasApiKeyIdGuard implements CanActivate {
   constructor(private storageApiKeysService: StorageApikeysService) {}
 
   canActivate(): Observable<boolean | UrlTree> | boolean {
-    return !!this.storageApiKeysService.data.id;
+    return !!this.storageApiKeysService.data && !!this.storageApiKeysService.data.id;
   }
 }
