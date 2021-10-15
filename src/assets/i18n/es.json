@@ -1425,18 +1425,15 @@
       },
       "error_incorrect_password": {
         "textPrimary": "Al parecer la contraseña es incorrecta",
-        "namePrimaryAction": "Reintentar",
-        "nameSecondaryAction": "Contactar con soporte"
+        "namePrimaryAction": "Reintentar"
       },
       "error_wrong_amount": {
         "textPrimary": "Hubo un problema al completar la transacción",
-        "namePrimaryAction": "Reintentar",
-        "nameSecondaryAction": "Contactar con soporte"
+        "namePrimaryAction": "Reintentar"
       },
       "error_wrong_address": {
         "textPrimary": "La billetera de destino es incorrecta",
-        "namePrimaryAction": "Reintentar",
-        "nameSecondaryAction": "Contactar con soporte"
+        "namePrimaryAction": "Reintentar"
       }
     },
     "shared_wallets": {
