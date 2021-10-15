@@ -12,7 +12,7 @@ export interface INotificationObject {
   image: any;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PwaNotificationsService implements INotification {
   messaging: FirebaseMessaging;
@@ -21,14 +21,16 @@ export class PwaNotificationsService implements INotification {
   constructor() {}
 
   init(): void {
-    const firebaseApp = this.importedFirebase.initializeApp(environment.firebase);
+    const firebaseApp = !firebase.apps.length
+      ? this.importedFirebase.initializeApp(environment.firebase)
+      : firebase.app();
     this.messaging = firebaseApp.messaging();
     this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
     this.requestPermission().then();
   }
 
   requestPermission(): Promise<void> {
-    return new Promise<void>(async resolve => {
+    return new Promise<void>(async (resolve) => {
       if (!this.importedFirebase.messaging.isSupported() || !Notification) {
         resolve();
         return;
@@ -44,10 +46,10 @@ export class PwaNotificationsService implements INotification {
   }
 
   pushNotificationReceived(callback: any): void {
-    navigator.serviceWorker.addEventListener('message', message => {
+    navigator.serviceWorker.addEventListener('message', (message) => {
       callback(message);
     });
-    this.messaging.onMessage(message => {
+    this.messaging.onMessage((message) => {
       callback(message);
     });
   }
