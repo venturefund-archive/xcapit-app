@@ -72,12 +72,23 @@ const testCoins = [
     id: 7,
     name: 'RIF - Rifos',
     logoRoute: 'assets/img/coins/RIF.png',
-    last: true,
+    last: false,
     value: 'RIF',
     network: 'RSK',
     rpc: 'http://testrpc.text/',
     contract: '0x19F64674D8A5B4E652319F5e239eFd3bc969A1fE',
     decimals: 18,
+  },
+  {
+    id: 8,
+    name: 'MATIC - Polygon',
+    logoRoute: 'assets/img/coins/MATIC.png',
+    last: true,
+    value: 'MATIC',
+    network: 'MATIC',
+    rpc: 'http://testrpc.text/',
+    decimals: 18,
+    native: true,
   },
 ];
 
@@ -203,11 +214,20 @@ describe('SelectCoinsWalletPage', () => {
   it('should select all tokens when the "select all" toggle is clicked and not all token are selected already', () => {
     fixture.debugElement.query(By.css('ion-toggle[name="AllToggle"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(7);
+    expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(8);
   });
 
   it('should deselect all tokens when the "select all" toggle is clicked and all token are selected', () => {
-    component.form.patchValue({ ETH: true, LINK: true, USDT: true, AAVE: true, UNI: true, RBTC: true, RIF: true });
+    component.form.patchValue({
+      ETH: true,
+      LINK: true,
+      USDT: true,
+      AAVE: true,
+      UNI: true,
+      RBTC: true,
+      RIF: true,
+      MATIC: true,
+    });
     fixture.debugElement.query(By.css('ion-toggle[name="AllToggle"]')).nativeElement.click();
     fixture.detectChanges();
     expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(0);
