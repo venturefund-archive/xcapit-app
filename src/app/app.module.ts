@@ -44,6 +44,7 @@ import { WalletsModule } from './modules/wallets/wallets.module';
 import { HomeModule } from './modules/home/home.module';
 import { TrackService } from './shared/services/track/track.service';
 import { FirebaseLogsService } from './shared/services/firebase-logs/firebase-logs.service';
+import { SupportModule } from './modules/support/support.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -83,6 +84,7 @@ registerLocaleData(localeEn, 'en');
     FiatRampsModule,
     WalletsModule,
     HomeModule,
+    SupportModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

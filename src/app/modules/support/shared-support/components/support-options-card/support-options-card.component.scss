@@ -1,0 +1,43 @@
+:host {
+  .soc {
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+    margin: 16px;
+    width: auto;
+    height: auto;
+
+    &__button {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+
+    &__content {
+      height: auto;
+      display: flex;
+      &__body {
+        &__title {
+          margin-top: 16px;
+          display: flex;
+          align-items: center;
+        }
+        &__description {
+          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      &__icon {
+        margin-right: 18px;
+        margin-left: 18px;
+        display: flex;
+        align-items: center;
+
+        img {
+          max-width: 25px;
+        }
+      }
+    }
+  }
+}

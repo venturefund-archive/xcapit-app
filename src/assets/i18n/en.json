@@ -1958,5 +1958,24 @@
         "coming_soon_alert": "This option will be available soon"
       }
     }
+  },
+  "support": {
+    "header": "Help",
+    "title": "How can we help you?",
+    "support_options": {
+      "title_account": "XCAPIT Account",
+      "description_account": "Create account, configure and deposit money.",
+      "title_wallet": "Wallet",
+      "description_wallet": "Create, import, receive, send and more.",
+      "title_buy": "Buy",
+      "description_buy": "Steps, providers and costs.",
+      "title_investment": "Binance investments",
+      "description_investment": "Types of strategies, terms and profitability.",
+      "title_apikeys": "Binance and API Keys",
+      "description_apikeys": "Create account, connect to binance and manage APY Keys.",
+      "title_security": "Security ",
+      "description_security": "About my data and my capital.",
+      "title_support": "Write to support"
+    }
   }
 }
