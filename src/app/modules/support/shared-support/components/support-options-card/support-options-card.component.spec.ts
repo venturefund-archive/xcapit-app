@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { SUPPORTOPTIONS } from '../../constants/support-options';
 
 import { SupportOptionsCardComponent } from './support-options-card.component';
 
@@ -24,6 +25,7 @@ describe('SupportOptionsCardComponent', () => {
 
       fixture = TestBed.createComponent(SupportOptionsCardComponent);
       component = fixture.componentInstance;
+      component.option = SUPPORTOPTIONS[0];
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })

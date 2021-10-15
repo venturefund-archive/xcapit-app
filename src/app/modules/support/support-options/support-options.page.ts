@@ -20,7 +20,7 @@ import { SUPPORTOPTIONS } from '../shared-support/constants/support-options';
         </div>
         <div class="ux_content">
           <div>
-            <ion-list>
+            <ion-list *ngIf="this.options">
               <app-support-options-card *ngFor="let option of options" [option]="option"> </app-support-options-card>
             </ion-list>
           </div>

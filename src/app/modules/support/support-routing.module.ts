@@ -8,7 +8,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'support-options',
+        path: 'options',
         loadChildren: () =>
           import('../support/support-options/support-options.module').then((m) => m.SupportOptionsPageModule),
       },

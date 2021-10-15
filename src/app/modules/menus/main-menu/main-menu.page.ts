@@ -120,7 +120,7 @@ export class MainMenuPage implements OnInit {
       id: 5,
       name: 'Support',
       title: 'app.main_menu.help',
-      url: '/support/support-options',
+      url: '/support/options',
       icon: 'ux-settings-icon',
       routeDirection: 'forward',
       showInProd: true,
