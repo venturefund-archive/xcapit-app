@@ -56,9 +56,7 @@ export class AppComponent implements OnInit {
       this.languageService.setInitialAppLanguage();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.onLangChange = this.translate.onLangChange.subscribe(() => {
-        this.updateLanguage();
-      });
+      this.setLanguageSubscribe();
     });
   }
 
@@ -71,5 +69,11 @@ export class AppComponent implements OnInit {
   async logout() {
     await this.authService.logout();
     await this.navController.navigateForward(['users/login']);
+  }
+
+  setLanguageSubscribe() {
+    this.onLangChange = this.translate.onLangChange.subscribe(() => {
+      this.updateLanguage();
+    });
   }
 }
