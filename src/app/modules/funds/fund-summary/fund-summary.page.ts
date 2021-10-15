@@ -30,7 +30,13 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
           </div>
 
           <div class="fs__amount" *ngIf="this.accountBalance">
-            <ion-text class="ux-font-num-titulo">$ {{ this.accountBalance }} {{ this.fund.currency }}</ion-text>
+            <ion-text class="ux-font-num-titulo"
+              >$
+              {{
+                this.accountBalance.account_balance
+                  | currencyFormat: { currency: this.accountBalance.currency, formatBTC: '1.2-7', formatUSDT: '1.2-2' }
+              }}</ion-text
+            >
           </div>
 
           <div class="fs__strategy">
@@ -106,7 +112,7 @@ export class FundSummaryPage implements OnInit {
     },
   };
 
-  accountBalance: number;
+  accountBalance: { account_balance: number; currency: string };
 
   constructor(
     private fundDataStorage: FundDataStorageService,
@@ -128,7 +134,7 @@ export class FundSummaryPage implements OnInit {
   private getAccountBalance() {
     this.apiApiKeysService
       .getAccountBalance({ api_key_id: this.storageApiKeysService.data.id })
-      .subscribe((res) => (this.accountBalance = res.account_balance));
+      .subscribe((res) => (this.accountBalance = res));
   }
 
   getMode() {
