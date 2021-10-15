@@ -37,6 +37,7 @@ import { LocalNotification } from '@capacitor/core';
 
       <div class="ss__send_button">
         <ion-button
+          color="uxsecondary"
           appTrackClick
           name="Send"
           [disabled]="this.submitButtonService.isDisabled | async"
