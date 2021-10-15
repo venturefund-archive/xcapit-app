@@ -75,7 +75,7 @@ import { NavController } from '@ionic/angular';
           </ion-button>
         </div>
       </app-auth-form>
-      <div class="ion-text-center">
+      <!-- <div class="ion-text-center">
         <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
       </div>
       <div class="google-auth">
@@ -95,7 +95,7 @@ import { NavController } from '@ionic/angular';
             'usuarios.login.google_auth' | translate
           }}</span>
         </ion-button>
-      </div>
+      </div> -->
     </div>
   `,
   styleUrls: ['./login.page.scss'],
