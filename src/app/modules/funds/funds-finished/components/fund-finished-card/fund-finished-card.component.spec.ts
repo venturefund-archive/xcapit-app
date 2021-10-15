@@ -7,23 +7,33 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FundDataStorageService } from '../../../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { StorageApikeysService } from '../../../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
+import { ApiApikeysService } from '../../../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 
 describe('FundFinishedCardComponent', () => {
   let component: FundFinishedCardComponent;
   let fixture: ComponentFixture<FundFinishedCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundFinishedCardComponent>;
-  let fundDataStorageServiceMock: any;
-  let fundDataStorageService: any;
-  let navControllerSpy: any;
-
+  let fundDataStorageServiceSpy: any;
+  let storageApikeysServiceSpy: jasmine.SpyObj<StorageApikeysService>;
+  let apiApikeysServiceSpy: jasmine.SpyObj<ApiApikeysService>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   beforeEach(
     waitForAsync(() => {
-      fundDataStorageServiceMock = {
-        setData: () => Promise.resolve(),
-      };
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      storageApikeysServiceSpy = jasmine.createSpyObj('StorageApikeysService', { updateData: Promise.resolve() });
+      apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
+        getByFundName: of({ pk: 1, nombre_bot: 'testFundName', alias: 'testAlias' }),
+      });
+      fundDataStorageServiceSpy = jasmine.createSpyObj('FundDataStorageService', {
+        setData: Promise.resolve(),
+      });
 
       TestBed.configureTestingModule({
         declarations: [FundFinishedCardComponent, FakeTrackClickDirective, DummyComponent],
@@ -34,15 +44,16 @@ describe('FundFinishedCardComponent', () => {
           RouterTestingModule.withRoutes([{ path: 'funds/fund-risk', component: DummyComponent }]),
         ],
         providers: [
-          { provide: FundDataStorageService, useValue: fundDataStorageServiceMock },
+          { provide: FundDataStorageService, useValue: fundDataStorageServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: StorageApikeysService, useValue: storageApikeysServiceSpy },
+          { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
         ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(FundFinishedCardComponent);
       component = fixture.componentInstance;
-      component.fund = { nivel_de_riesgo: 'Test' };
-      fundDataStorageService = TestBed.inject(FundDataStorageService);
+      component.fund = { nombre_bot: 'testFundName', nivel_de_riesgo: 'Test' };
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
@@ -53,11 +64,9 @@ describe('FundFinishedCardComponent', () => {
   });
 
   it('should call dataStorageService.setData on click', async () => {
-    const spy = spyOn(fundDataStorageService, 'setData');
-    spy.and.returnValue(Promise.resolve());
     await component.renewFund();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(2);
+    expect(fundDataStorageServiceSpy.setData).toHaveBeenCalledTimes(2);
   });
 
   it('should call trackEvent on trackService when Renovate Fund button clicked', () => {
@@ -67,6 +76,19 @@ describe('FundFinishedCardComponent', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set data and navigate when Renovate Fund button clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="Renovate Fund"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(storageApikeysServiceSpy.updateData).toHaveBeenCalledOnceWith({
+      id: 1,
+      nombre_bot: 'testFundName',
+      alias: 'testAlias',
+    });
+    expect(apiApikeysServiceSpy.getByFundName).toHaveBeenCalledOnceWith('testFundName');
+    expect(fundDataStorageServiceSpy.setData).toHaveBeenCalledTimes(2);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['funds/fund-investment']);
   });
 
   it('should call trackEvent on trackService when Delete Fund button clicked', () => {
