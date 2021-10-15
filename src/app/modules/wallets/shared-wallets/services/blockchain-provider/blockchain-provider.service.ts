@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BigNumber, ethers, utils } from 'ethers';
 import { COINS } from '../../../constants/coins';
-import { parseEther, parseUnits } from 'ethers/lib/utils';
-import { Coin } from '../../interfaces/coin.interface';
+import { parseUnits } from 'ethers/lib/utils';
 import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 
 @Injectable({

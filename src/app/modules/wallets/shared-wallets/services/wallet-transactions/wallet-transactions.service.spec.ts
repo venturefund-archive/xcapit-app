@@ -75,13 +75,29 @@ const testSummaryDatas = {
       network: 'ERC20',
       balanceNativeToken: 0,
     },
+    feeUndefinedWithBalanceGreaterThanZero: {
+      currency: USDT,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 1,
+      network: 'ERC20',
+      balanceNativeToken: 1,
+    },
+    feeUndefinedWithBalanceZero: {
+      currency: USDT,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 1,
+      network: 'ERC20',
+      balanceNativeToken: 0,
+    },
   },
   nativeTokenSend: {
     balanceGreaterThanAmountLessThanFee: {
       currency: ETH,
       address: 'testAddress',
       amount: 1,
-      referenceAmount: 1,
+      referenceAmount: 3000,
       network: 'ERC20',
       balanceNativeToken: 2,
     },
@@ -89,15 +105,15 @@ const testSummaryDatas = {
       currency: ETH,
       address: 'testAddress',
       amount: 1,
-      referenceAmount: 1,
+      referenceAmount: 3000,
       network: 'ERC20',
-      balanceNativeToken: 2,
+      balanceNativeToken: 7,
     },
     balanceZero: {
       currency: ETH,
       address: 'testAddress',
       amount: 1,
-      referenceAmount: 1,
+      referenceAmount: 3000,
       network: 'ERC20',
       balanceNativeToken: 0,
     },
@@ -105,7 +121,7 @@ const testSummaryDatas = {
       currency: ETH,
       address: 'testAddress',
       amount: 2,
-      referenceAmount: 1,
+      referenceAmount: 6000,
       network: 'ERC20',
       balanceNativeToken: 1,
     },
@@ -113,7 +129,7 @@ const testSummaryDatas = {
       currency: ETH,
       address: 'testAddress',
       amount: 10,
-      referenceAmount: 1,
+      referenceAmount: 30000,
       network: 'ERC20',
       balanceNativeToken: 11,
     },
@@ -205,7 +221,7 @@ const testStructure = [
   },
 ];
 
-fdescribe('WalletTransactionsService', () => {
+describe('WalletTransactionsService', () => {
   let service: WalletTransactionsService;
   let blockchainProviderServiceMock: any;
   let storageServiceMock: any;
@@ -230,7 +246,7 @@ fdescribe('WalletTransactionsService', () => {
 
     blockchainProviderServiceMock = {
       getProvider: () => Promise.resolve({ provider: {}, abi: LINK.abi }),
-      estimateFee: (summaryData) => Promise.resolve(BigNumber.from(5)),
+      estimateFee: (summaryData) => Promise.resolve(BigNumber.from('5000000000000000000')),
     };
 
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
@@ -332,51 +348,82 @@ fdescribe('WalletTransactionsService', () => {
     }
   });
 
-  [
-    {
-      summaryData: testSummaryDatas.notNativeTokenSend.balanceGreaterThanFee,
-      testCase: 'greater than fee',
-      expectedResult: false,
-    },
-    {
-      summaryData: testSummaryDatas.notNativeTokenSend.balanceLessThanFee,
-      testCase: 'less than fee',
-      expectedResult: true,
-    },
-    {
-      summaryData: testSummaryDatas.notNativeTokenSend.balanceZero,
-      testCase: 'zero',
-      expectedResult: true,
-    },
-    {
-      summaryData: testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountLessThanFee,
-      testCase: 'greater than the amount but less than the fee',
-      expectedResult: true,
-    },
-    {
-      summaryData: testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountPlusFee,
-      testCase: 'greater than the sum of the amount and the fee',
-      expectedResult: false,
-    },
-    {
-      summaryData: testSummaryDatas.nativeTokenSend.balanceZero,
-      testCase: 'zero',
-      expectedResult: true,
-    },
-    {
-      summaryData: testSummaryDatas.nativeTokenSend.balanceLessThanFeeAndLessThanAmount,
-      testCase: 'less than the fee and less than the amount to send',
-      expectedResult: true,
-    },
-    {
-      summaryData: testSummaryDatas.nativeTokenSend.balanceLessThanAmountPlusFee,
-      testCase: 'is greater than both the fee and the amount but smaller than the sum',
-      expectedResult: true,
-    },
-  ].forEach((t) => {
-    it(`it should return ${t.expectedResult} if native token balance is ${t.testCase} on canNotAffordFee`, async () => {
-      const hasNotEnoughNativeToken = await service.canNotAffordFee(t.summaryData);
-      expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
+  describe('when user sends not native token', () => {
+    [
+      {
+        summaryData: testSummaryDatas.notNativeTokenSend.balanceGreaterThanFee,
+        testCase: 'greater than fee',
+        expectedResult: false,
+      },
+      {
+        summaryData: testSummaryDatas.notNativeTokenSend.balanceLessThanFee,
+        testCase: 'less than fee',
+        expectedResult: true,
+      },
+      {
+        summaryData: testSummaryDatas.notNativeTokenSend.balanceZero,
+        testCase: 'zero',
+        expectedResult: true,
+      },
+    ].forEach((t) => {
+      it(`it should return ${t.expectedResult} if native token balance is ${t.testCase} on canNotAffordFee`, async () => {
+        const hasNotEnoughNativeToken = await service.canNotAffordFee(t.summaryData);
+        expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
+      });
+    });
+
+    [
+      {
+        summaryData: testSummaryDatas.notNativeTokenSend.feeUndefinedWithBalanceGreaterThanZero,
+        testCase: 'greater than zero',
+        expectedResult: false,
+      },
+      {
+        summaryData: testSummaryDatas.notNativeTokenSend.feeUndefinedWithBalanceZero,
+        testCase: 'zero',
+        expectedResult: true,
+      },
+    ].forEach((t) => {
+      it(`it should return ${t.expectedResult} when could not estimate fee if native token balance is ${t.testCase} on canNotAffordFee`, async () => {
+        blockchainProviderServiceMock.estimateFee = () => Promise.reject(new Error());
+        const hasNotEnoughNativeToken = await service.canNotAffordFee(t.summaryData);
+        expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
+      });
+    });
+  });
+
+  describe('when user sends native token', () => {
+    [
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountLessThanFee,
+        testCase: 'greater than the amount but less than the fee',
+        expectedResult: true,
+      },
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountPlusFee,
+        testCase: 'greater than the sum of the amount and the fee',
+        expectedResult: false,
+      },
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceZero,
+        testCase: 'zero',
+        expectedResult: true,
+      },
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceLessThanFeeAndLessThanAmount,
+        testCase: 'less than the fee and less than the amount to send',
+        expectedResult: true,
+      },
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceLessThanAmountPlusFee,
+        testCase: 'is greater than both the fee and the amount but smaller than the sum',
+        expectedResult: true,
+      },
+    ].forEach((t) => {
+      it(`it should return ${t.expectedResult} if native token balance is ${t.testCase} on canNotAffordFee`, async () => {
+        const hasNotEnoughNativeToken = await service.canNotAffordFee(t.summaryData);
+        expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
+      });
     });
   });
 });

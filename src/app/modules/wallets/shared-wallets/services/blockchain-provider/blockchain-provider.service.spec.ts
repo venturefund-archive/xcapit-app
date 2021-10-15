@@ -44,7 +44,7 @@ const testSummaryData: SummaryData = {
   balanceNativeToken: 200,
 };
 
-fdescribe('BlockchainProviderService', () => {
+describe('BlockchainProviderService', () => {
   let service: BlockchainProviderService;
   let providerMock;
   beforeEach(() => {
