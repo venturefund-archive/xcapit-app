@@ -137,8 +137,8 @@ describe('SendSummaryPage', () => {
     );
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
@@ -156,8 +156,8 @@ describe('SendSummaryPage', () => {
     );
     expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/incorrect-password');
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
@@ -171,7 +171,7 @@ describe('SendSummaryPage', () => {
 
   it('should show loader at the start of transaction and dismiss it afterwards', fakeAsync(() => {
     component.summaryData = summaryData;
-    component.canAffordFee();
+    component.beginSend();
     tick(50);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
@@ -181,7 +181,7 @@ describe('SendSummaryPage', () => {
     component.summaryData = summaryData;
     walletTransactionsServiceSpy.send.and.callFake(() => Promise.reject(new Error('invalid password')));
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
-    component.canAffordFee();
+    component.beginSend();
     tick(500);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
@@ -251,5 +251,25 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
     expect(alertSpy.present).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show loader when user clicks on send and close it before asking for password', async () => {
+    const spy = spyOn(component, 'beginSend');
+    walletTransactionsServiceSpy.canNotAffordFee.and.returnValue(Promise.resolve(false));
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show loader when user clicks on send and close it before showing alert', async () => {
+    const spy = spyOn(component, 'showAlertNotEnoughNativeToken');
+    walletTransactionsServiceSpy.canNotAffordFee.and.returnValue(Promise.resolve(true));
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

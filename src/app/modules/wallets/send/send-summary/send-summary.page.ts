@@ -96,6 +96,7 @@ export class SendSummaryPage implements OnInit {
   }
 
   private send(password: string) {
+    this.loadingService.show().then();
     this.walletTransactionsService
       .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
       .then((response: TransactionResponse) => this.goToSuccess(response))
@@ -109,6 +110,7 @@ export class SendSummaryPage implements OnInit {
       await this.loadingService.dismiss();
       await this.showAlertNotEnoughNativeToken();
     } else {
+      await this.loadingService.dismiss();
       this.beginSend();
     }
   }
