@@ -216,25 +216,16 @@ export class WalletTransactionsService {
     return ordered.reverse();
   }
 
-  hasNotEnoughNativeTokenForTx(summaryData: SummaryData, fee?: number): boolean {
-    if (fee === undefined) {
-      return summaryData.balanceNativeToken === 0;
-    }
-
-    if (summaryData.currency.native) {
-      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
-    } else {
-      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
-    }
-  }
-
   async canNotAffordFee(summaryData: SummaryData): Promise<boolean> {
-    let fee;
-
     try {
-      fee = await this.blockchainProviderService.estimateFee(summaryData);
-    } catch (e) {}
+      const rawTx = await this.blockchainProviderService.createRawTxFromSummaryData(summaryData);
+      const fee = await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency);
 
-    return this.hasNotEnoughNativeTokenForTx(summaryData, fee);
+      if (summaryData.currency.native) {
+        return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
+      } else {
+        return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
+      }
+    } catch (e) {}
   }
 }
