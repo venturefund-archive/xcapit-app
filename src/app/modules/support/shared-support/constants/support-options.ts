@@ -3,7 +3,7 @@ export const SUPPORTOPTIONS = [
     title: 'support.support_options.title_account',
     description: 'support.support_options.description_account',
     icon: '../../assets/ux-icons/ux-xcapit-account.svg',
-    route: '',
+    route: '/support/account',
   },
   {
     title: 'support.support_options.title_wallet',
@@ -34,11 +34,5 @@ export const SUPPORTOPTIONS = [
     description: 'support.support_options.description_security',
     icon: '../../assets/ux-icons/ux-trending-up.svg',
     route: '',
-  },
-  {
-    title: 'support.support_options.title_support',
-    description: '',
-    icon: '../../assets/ux-icons/ux-support.svg',
-    route: '/tickets/create-support-ticket',
   },
 ];

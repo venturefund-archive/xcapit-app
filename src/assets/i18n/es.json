@@ -1968,8 +1968,28 @@
       "title_apikeys": "Binance y API Keys",
       "description_apikeys": "Crear cuenta, conectarse a binance y gestión de APY Keys.",
       "title_security": "Seguridad ",
-      "description_security": "Sobre mis datos y mi capital.",
-      "title_support": "Escribir a soporte"
+      "description_security": "Sobre mis datos y mi capital."
+    },
+    "contact_support": {
+      "title": "Escribir a soporte"
+    },
+    "support_account_xcapit": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Cuenta de Xcapit",
+      "question1": "¿Cómo crear una cuenta en Xcapit?",
+      "answer1": "",
+      "question2": "¿Cuál es el riesgo de invertir con Xcapit?",
+      "answer2": "Cada producto de inversión que ofrecemos tiene su métrica correspondiente de riesgo a la cual debes estar seguro o segura que vas a tomarlo, las estrategias de mayor riesgo son himalayas y andes.",
+      "question3": "¿Cómo vincular Xcapit con mi cuenta de Binance?",
+      "answer3": "Para vincular tu cuenta de Xcapit con tu cuenta de Binance puedes seguir esta Guía para vincular con Binance.‍‍ Si necesitas ayuda puedes generar un ticket en este link de Soporte para usuarios.\n",
+      "question4": "¿Puedo hacer trading con la misma cuenta de Binance que tengo vinculada en Xcapit?",
+      "answer4": "Se recomienda tener otra cuenta aparte para hacer trading manual",
+      "question5": "¿Por qué necesito una cuenta en Binance?",
+      "answer5": "Los productos de inversión de Xcapit se ejecutan desde tu cuenta de Binance, para que siempre puedas tener la custodia sobre tu capital.",
+      "question6": "¿Cómo hago para pagar el servicio de Xcapit?",
+      "answer6": "Actualmente en Xcapit contamos con un sistema de cobro de membresías, dependiendo del capital que necesites invertir, hay membresías gratuitas si quieres empezar a probar.",
+      "question7": "¿Cuándo debo pagar el servicio de Xcapit?",
+      "answer7": "En el caso de que decidas empezar con la membresía gratuita, Plan Explorer, comenzarás a pagar solo si decides sobrepasar el límite de 300 dólares en tu inversión. El pago se hace mensualmente y el valor de la membresía depende de cual elijas. ¡En todos los planes pagos tienes 30 días gratis!"
     }
   }
 }
