@@ -517,7 +517,7 @@
       "text_help": "In short terms, the robot is more likely to have performance problems."
     },
     "fund_take_profit": {
-      "header": "Change Stop Loss",
+      "header": "Change Take Profit",
       "title": "When do you want us to stop investing and take the profits?",
       "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
       "take_profit": "Take profit",
