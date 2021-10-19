@@ -7,7 +7,7 @@ import { FakeNavController } from '../../../../../../testing/fakes/nav-controlle
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
 import { TranslateModule } from '@ngx-translate/core';
 
-describe('StopLossTakeProfitSummaryComponent', () => {
+fdescribe('StopLossTakeProfitSummaryComponent', () => {
   let component: StopLossTakeProfitSummaryComponent;
   let fixture: ComponentFixture<StopLossTakeProfitSummaryComponent>;
   let fakeNavController: FakeNavController;

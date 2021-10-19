@@ -3,15 +3,11 @@ export const ABOUT_XCAPIT_OPTIONS = [
     title: 'support.support_account_xcapit.question1',
     answer: 'support.support_account_xcapit.answer1',
     last: false,
-    href: '',
-    link_text: '',
   },
   {
     title: 'support.support_account_xcapit.question2',
     answer: 'support.support_account_xcapit.answer2',
     last: false,
-    href: '',
-    link_text: '',
   },
   {
     title: 'support.support_account_xcapit.question3',
