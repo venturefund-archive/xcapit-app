@@ -1,4 +1,4 @@
-export const SUPPORTOPTIONS = [
+export const SUPPORT_OPTIONS = [
   {
     title: 'support.support_options.title_account',
     description: 'support.support_options.description_account',

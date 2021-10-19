@@ -1,3 +1,7 @@
+.link_text {
+  position: absolute;
+  display: contents;
+}
 #faq {
   ul {
     padding: 0;
@@ -48,17 +52,19 @@
   }
   .title {
     text-align: left;
-    padding: 15px 30px 0 15px;
+    padding: 15px 40px 0 15px;
     text-transform: none;
     display: block;
     margin: 0;
     cursor: pointer;
     transition: 0.2s;
+    font-weight: var(--ux-fweight-bold);
   }
   .answer {
     text-align: left;
     position: relative;
     overflow: hidden;
+    z-index: 2;
     max-height: 250px;
     will-change: max-height;
     contain: layout;

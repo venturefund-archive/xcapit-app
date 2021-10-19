@@ -1,18 +1,24 @@
-export const ABOUTXCAPITOPTIONS = [
+export const ABOUT_XCAPIT_OPTIONS = [
   {
     title: 'support.support_account_xcapit.question1',
     answer: 'support.support_account_xcapit.answer1',
     last: false,
+    href: '',
+    link_text: '',
   },
   {
     title: 'support.support_account_xcapit.question2',
     answer: 'support.support_account_xcapit.answer2',
     last: false,
+    href: '',
+    link_text: '',
   },
   {
     title: 'support.support_account_xcapit.question3',
     answer: 'support.support_account_xcapit.answer3',
     last: false,
+    href: '/apikeys/how-create-binance-account',
+    link_text: 'support.support_account_xcapit.link_text3',
   },
   {
     title: 'support.support_account_xcapit.question4',
@@ -32,6 +38,6 @@ export const ABOUTXCAPITOPTIONS = [
   {
     title: 'support.support_account_xcapit.question7',
     answer: 'support.support_account_xcapit.answer7',
-    last: false,
+    last: true,
   },
 ];

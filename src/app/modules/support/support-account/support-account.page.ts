@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ABOUTXCAPITOPTIONS } from '../shared-support/constants/about-xcapit-account';
+import { ABOUT_XCAPIT_OPTIONS } from '../shared-support/constants/about-xcapit-account';
 
 @Component({
   selector: 'app-support-account',
@@ -20,7 +20,7 @@ import { ABOUTXCAPITOPTIONS } from '../shared-support/constants/about-xcapit-acc
         </div>
         <div class="ux_content">
           <div class="sa__cards_container">
-            <app-desplegable *ngFor="let answer of this.answers" [answer]="answer"></app-desplegable>
+            <app-faq *ngFor="let answer of this.answers" [answer]="answer"></app-faq>
           </div>
           <app-contact-support></app-contact-support>
         </div>
@@ -29,7 +29,7 @@ import { ABOUTXCAPITOPTIONS } from '../shared-support/constants/about-xcapit-acc
   styleUrls: ['./support-account.page.scss'],
 })
 export class SupportAccountPage implements OnInit {
-  answers = ABOUTXCAPITOPTIONS;
+  answers = ABOUT_XCAPIT_OPTIONS;
   constructor() {}
 
   ngOnInit() {}

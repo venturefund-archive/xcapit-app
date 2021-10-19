@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
       <div class="csc__content__body">
         <div class="csc__content__body__title">
           <div class="ux-font-text-lg">
-            <ion-text class="title" color="uxdark"> {{ 'support.contact_support.title' | translate }}</ion-text>
+            <ion-text class="title"> {{ 'support.contact_support.title' | translate }}</ion-text>
           </div>
         </div>
       </div>
