@@ -1971,8 +1971,10 @@
       "title_apikeys": "Binance and API Keys",
       "description_apikeys": "Create account, connect to binance and manage APY Keys.",
       "title_security": "Security ",
-      "description_security": "About my data and my capital.",
-      "title_support": "Write to support"
+      "description_security": "About my data and my capital."
+    },
+    "contact_support": {
+      "title": "Write to support"
     }
   }
 }
