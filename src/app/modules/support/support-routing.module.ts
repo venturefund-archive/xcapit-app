@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('../support/support-options/support-options.module').then((m) => m.SupportOptionsPageModule),
       },
+      {
+        path: 'account',
+        loadChildren: () => import('./support-account/support-account.module').then((m) => m.SupportAccountPageModule),
+      },
     ],
   },
 ];
