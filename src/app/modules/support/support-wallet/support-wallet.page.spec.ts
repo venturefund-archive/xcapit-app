@@ -1,27 +1,29 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-import { SupportOptionsPage } from './support-options.page';
+import { SupportWalletPage } from './support-wallet.page';
 
-describe('SupportOptionsPage', () => {
-  let component: SupportOptionsPage;
-  let fixture: ComponentFixture<SupportOptionsPage>;
+describe('SupportWalletPage', () => {
+  let component: SupportWalletPage;
+  let fixture: ComponentFixture<SupportWalletPage>;
+  let fakeNavController: FakeNavController;
   let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [SupportOptionsPage],
+        declarations: [SupportWalletPage],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(SupportOptionsPage);
+      fixture = TestBed.createComponent(SupportWalletPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })
