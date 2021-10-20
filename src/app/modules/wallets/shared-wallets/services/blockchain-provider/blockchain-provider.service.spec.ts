@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { BlockchainProviderService } from './blockchain-provider.service';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { Coin } from '../../interfaces/coin.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
 
 const tokenAbi: any = [
   {
@@ -20,6 +20,7 @@ const testCoins: Coin[] = [
     value: 'ETH',
     network: 'ERC20',
     rpc: 'http://testrpc.test',
+    native: true,
   },
   {
     id: 2,
@@ -35,14 +36,16 @@ const testCoins: Coin[] = [
   },
 ];
 
-const testSummaryData: SummaryData = {
-  currency: testCoins[0],
-  address: 'testAddress',
-  amount: 10,
-  referenceAmount: 20,
-  network: 'ERC20',
-  balanceNativeToken: 200,
-};
+const testTx: ethers.utils.Deferrable<TransactionRequest>[] = [
+  {
+    to: 'testAddress',
+    value: ethers.utils.parseEther('1'),
+  },
+  {
+    to: 'testAddress',
+    data: 'testData',
+  },
+];
 
 describe('BlockchainProviderService', () => {
   let service: BlockchainProviderService;
@@ -127,7 +130,7 @@ describe('BlockchainProviderService', () => {
     });
   });
 
-  it('should calculate the fee on estimateFee', async () => {
+  it('should calculate the fee for native token on estimateFee', async () => {
     const gas = 2;
     const gasPrice = 10;
     const providerSpy = jasmine.createSpyObj('Provider', {
@@ -136,7 +139,20 @@ describe('BlockchainProviderService', () => {
     });
     spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
     const expectedFee = BigNumber.from(gas * gasPrice);
-    const estimatedFee = await service.estimateFee(testSummaryData);
+    const estimatedFee = await service.estimateFee(testTx[0], testCoins[0]);
+    expect(estimatedFee).toEqual(expectedFee);
+  });
+
+  it('should calculate the fee for not native token on estimateFee', async () => {
+    const gas = 2;
+    const gasPrice = 10;
+    const providerSpy = jasmine.createSpyObj('Provider', {
+      estimateGas: BigNumber.from(gas),
+      getGasPrice: BigNumber.from(gasPrice),
+    });
+    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
+    const expectedFee = BigNumber.from(gas * gasPrice);
+    const estimatedFee = await service.estimateFee(testTx[1], testCoins[0]);
     expect(estimatedFee).toEqual(expectedFee);
   });
 });

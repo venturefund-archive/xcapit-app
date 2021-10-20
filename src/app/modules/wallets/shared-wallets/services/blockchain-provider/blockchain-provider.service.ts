@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BigNumber, Contract, ContractInterface, ethers, utils } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { COINS } from '../../../constants/coins';
-import { parseUnits } from 'ethers/lib/utils';
-import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
-import { Provider, TransactionRequest } from '@ethersproject/abstract-provider';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { Coin } from '../../interfaces/coin.interface';
 import { EthersService } from '../ethers/ethers.service';
+import { StorageService } from '../storage-wallets/storage-wallets.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,7 @@ export class BlockchainProviderService {
   nonce = 18;
   coins = COINS;
 
-  constructor(private ethersService: EthersService) {}
+  constructor(private ethersService: EthersService, private storageService: StorageService) {}
 
   async getFormattedBalanceOf(address: string, coin: string): Promise<string> {
     const params = await this.getProvider(coin);
@@ -50,35 +49,10 @@ export class BlockchainProviderService {
     return new ethers.Contract(contract, abi, provider);
   }
 
-  async estimateFee(rawTx: utils.Deferrable<TransactionRequest>, currency: Coin): Promise<BigNumber> {
-    const provider = (await this.getProvider(currency.value)).provider as Provider;
-    const contract = await this.ethersService.newContract(currency.contract, currency.abi, provider);
-    const tx = await contract.populateTransaction.transfer({ from: rawTx.from, value: rawTx.value });
-    console.log(tx);
-    const estimatedGas = await provider.estimateGas(rawTx);
-    const notNativeEstimatedGas = await provider.estimateGas(tx);
-    const gasPrice = await provider.getGasPrice();
-    console.log('Native estimate: ' + estimatedGas.mul(gasPrice));
-    console.log('Not native estimate: ' + notNativeEstimatedGas.mul(gasPrice));
-    return estimatedGas.mul(gasPrice);
-  }
-
-  async createRawTxFromSummaryData(
-    summaryData: SummaryData,
-    contract?: Contract
-  ): Promise<utils.Deferrable<TransactionRequest>> {
-    const data = {
-      to: summaryData.address,
-      value: parseUnits(
-        summaryData.amount.toString(),
-        summaryData.currency.decimals ? summaryData.currency.decimals : 18
-      ),
-    };
-
-    // if (summaryData.currency.native) {
-    return Promise.resolve(data);
-    // }
-
-    // return contract.populateTransaction.transfer(data);
+  async estimateFee(rawTx: ethers.utils.Deferrable<TransactionRequest>, currency: Coin): Promise<BigNumber> {
+    const provider = await this.getProvider(currency.value);
+    const estimatedGas = await provider.provider.estimateGas(rawTx);
+    const gasPrice = await provider.provider.getGasPrice();
+    return Promise.resolve(estimatedGas.mul(gasPrice));
   }
 }

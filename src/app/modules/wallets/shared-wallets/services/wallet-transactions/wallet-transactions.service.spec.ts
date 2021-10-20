@@ -245,7 +245,7 @@ describe('WalletTransactionsService', () => {
     });
 
     blockchainProviderServiceMock = {
-      getProvider: () => Promise.resolve({ provider: {}, abi: LINK.abi }),
+      getProvider: () => Promise.resolve({ contract: {}, provider: {}, abi: LINK.abi }),
       estimateFee: (summaryData) => Promise.resolve(BigNumber.from('5000000000000000000')),
     };
 
@@ -371,25 +371,6 @@ describe('WalletTransactionsService', () => {
         expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
       });
     });
-
-    [
-      {
-        summaryData: testSummaryDatas.notNativeTokenSend.feeUndefinedWithBalanceGreaterThanZero,
-        testCase: 'greater than zero',
-        expectedResult: false,
-      },
-      {
-        summaryData: testSummaryDatas.notNativeTokenSend.feeUndefinedWithBalanceZero,
-        testCase: 'zero',
-        expectedResult: true,
-      },
-    ].forEach((t) => {
-      it(`it should return ${t.expectedResult} when could not estimate fee if native token balance is ${t.testCase} on canNotAffordFee`, async () => {
-        blockchainProviderServiceMock.estimateFee = () => Promise.reject(new Error());
-        const hasNotEnoughNativeToken = await service.canNotAffordFee(t.summaryData);
-        expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
-      });
-    });
   });
 
   describe('when user sends native token', () => {
@@ -425,5 +406,15 @@ describe('WalletTransactionsService', () => {
         expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
       });
     });
+  });
+
+  it('should not call newContract on createRawTxFromSummaryData if token is native', async () => {
+    await service.createRawTxFromSummaryData(testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountPlusFee);
+    expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call newContract on createRawTxFromSummaryData if token is not native', async () => {
+    await service.createRawTxFromSummaryData(testSummaryDatas.notNativeTokenSend.balanceGreaterThanFee);
+    expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(1);
   });
 });

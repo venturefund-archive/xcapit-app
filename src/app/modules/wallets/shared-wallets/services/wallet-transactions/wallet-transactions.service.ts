@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
-import { TransactionResponse } from '@ethersproject/abstract-provider';
+import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
@@ -218,7 +218,7 @@ export class WalletTransactionsService {
 
   async canNotAffordFee(summaryData: SummaryData): Promise<boolean> {
     try {
-      const rawTx = await this.blockchainProviderService.createRawTxFromSummaryData(summaryData);
+      const rawTx = await this.createRawTxFromSummaryData(summaryData);
       const fee = await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency);
 
       if (summaryData.currency.native) {
@@ -227,5 +227,23 @@ export class WalletTransactionsService {
         return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
       }
     } catch (e) {}
+  }
+
+  async createRawTxFromSummaryData(summaryData: SummaryData): Promise<utils.Deferrable<TransactionRequest>> {
+    const data = {
+      to: summaryData.address,
+      value: parseUnits(
+        summaryData.amount.toString(),
+        summaryData.currency.decimals ? summaryData.currency.decimals : 18
+      ),
+    };
+
+    if (summaryData.currency.native) {
+      return Promise.resolve(data);
+    }
+
+    const provider = await this.blockchainProviderService.getProvider(summaryData.currency.value);
+    const contract = await this.ethersService.newContract(provider.contract, provider.abi, provider.provider);
+    return contract.populateTransaction.transfer(data.to, data.value);
   }
 }
