@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { TrackService, DataToTrackEvent, DataToTrackView } from '../track/track.service';
 import '@capacitor-community/firebase-analytics';
 import { Plugins } from '@capacitor/core';
-import { PlatformService } from '../platform/platform.service';
-import { firebase } from '@firebase/app';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +10,10 @@ import { firebase } from '@firebase/app';
 export class FirebaseLogsService implements TrackService {
   firebaseAnalytics = Plugins.FirebaseAnalytics;
 
-  constructor(private platformService: PlatformService) {}
+  constructor(private firebaseService: FirebaseService) {}
 
   startTracker() {
-    if (this.platformService.isWeb() && !firebase.apps.length) {
-      this.firebaseAnalytics.initializeFirebase(environment.firebase);
-    }
+    this.firebaseService.init();
     this.firebaseAnalytics.setCollectionEnabled({ enabled: true });
   }
 
