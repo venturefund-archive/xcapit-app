@@ -2042,6 +2042,18 @@
       "answer3": "El capital del usuario nunca va a estar en propiedad de Xcapit, el algoritmo trabaja haciendo trading directamente en la Wallet SPOT del usuario a través de la API de BINANCE proporcionada por el usuario al crear un nuevo fondo, y destacamos que XCAPIT no tiene la posibilidad de retirar fondos o transferir desde la billetera de Binance del cliente, además recibimos mentorías constantes de UNICEF sobre blockchain y open source para dar a nuestros usuarios cada dia un mejor servicio y mejores rentabilidades.",
       "question4": "¿Qué pasa si mi cuenta no registra operaciones en un considerable periodo de tiempo?",
       "answer4": "La solución frecuente a este problema es verificar en la sección API Keys dentro de binance, que esté habilitada la casilla  “Habilitar spot y margin trading”, esperar al próximo rebalanceo de cartera y si el problema persiste consultarnos a través del sistema de soporte de la app."
+    },
+    "support_buy": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Compra",
+      "question1": "¿Cómo depositar dinero en mi cuenta de Binance?",
+      "answer1": "<ul><li>Puedes usar nuestra app para adquirir tus activos que van a ser depositados en tu cuenta de binance o bien utilizar el mercado P2P.</li><li>Si necesitas ayuda puedes generar un ticket escribiendo a Soporte.</li></ul>",
+      "question2": "¿Cómo compro en Kripton?",
+      "answer2": "Desde la app, selecciona \"Comprar\", elije el proveedor Kripton",
+      "question3": "¿Cómo compro en Paxful?",
+      "answer3": "Desde la app, selecciona \"Comprar\", elije el proveedor Paxful.",
+      "question4": "¿Por qué no se acredita mi dinero?",
+      "answer4": "<ul><li>Recordá que el dinero adquirido de nuestros proveedores se acreditará en tu billetera SPOT una vez completado el pago de los tokens adquiridos.</li><li>El depósito de los tokens puede llegar a demorar varios minutos, no te preocupes, de todas maneras, si el problema persiste, te invitamos a contarnos tu problema abriendo un ticket de soporte para poder ayudarte de manera más personal y llegar juntos a una solución.</li></ul>"
     }
   }
 }
