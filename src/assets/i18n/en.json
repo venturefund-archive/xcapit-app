@@ -1402,6 +1402,10 @@
         },
         "amount_input": {
           "title": "Amount to send"
+        },
+        "alert": {
+          "title": "Attention",
+          "text": "You have 0 {{nativeToken}} in your account to pay the transaction fees. Buy some {{nativeToken}} or deposit them from another account."
         }
       },
       "send_summary": {
@@ -1413,6 +1417,16 @@
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
+        },
+        "alert_not_enough_native_token": {
+          "title": "Transaction error",
+          "text": "Insufficient funds to afford transaction fees.",
+          "button": "Ok"
+        },
+        "alert_invalid_address": {
+          "title": "Transaction error",
+          "text": "The destiny address is incorrect",
+          "button": "Ok"
         }
       },
       "send_success": {

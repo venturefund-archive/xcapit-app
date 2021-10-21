@@ -1,3 +1,5 @@
+import { ContractInterface } from 'ethers';
+
 export interface Coin {
   id: number;
   name: string;
@@ -7,7 +9,7 @@ export interface Coin {
   network: string;
   rpc: string;
   contract?: string;
-  abi?: JSON;
+  abi?: ContractInterface;
   decimals?: number;
   selected?: boolean;
   native?: boolean;

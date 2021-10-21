@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
 
 @Component({
   selector: 'app-fund-duration',
@@ -42,7 +43,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             </app-ux-range>
           </div>
           <div class="fd__alert">
-            <app-ux-alert-message type="info">
+            <app-ux-alert-message [type]="this.alertType">
               {{ 'funds.fund_duration.text_help' | translate }}
             </app-ux-alert-message>
           </div>
@@ -85,6 +86,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
   styleUrls: ['./fund-duration.page.scss'],
 })
 export class FundDurationPage implements OnInit {
+  alertType = UX_ALERT_TYPES.info;
   form: FormGroup = this.formBuilder.group({
     cantidad_dias: [30, [Validators.required, Validators.min(30)]],
   });
