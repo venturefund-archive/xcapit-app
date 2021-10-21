@@ -1,0 +1,13 @@
+.sb {
+  &__title {
+    margin-left: 16px;
+    margin-bottom: 24px;
+    margin-top: 24px;
+  }
+  &__cards_container {
+    margin-left: 16px;
+    margin-right: 16px;
+    background-color: var(--ion-background-colorwhite);
+    border-radius: 8px;
+  }
+}
