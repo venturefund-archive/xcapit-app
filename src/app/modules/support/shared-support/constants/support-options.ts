@@ -33,6 +33,6 @@ export const SUPPORT_OPTIONS = [
     title: 'support.support_options.title_security',
     description: 'support.support_options.description_security',
     icon: '../../assets/ux-icons/ux-trending-up.svg',
-    route: '',
+    route: '/support/security',
   },
 ];
