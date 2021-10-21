@@ -217,16 +217,14 @@ export class WalletTransactionsService {
   }
 
   async canNotAffordFee(summaryData: SummaryData): Promise<boolean> {
-    try {
-      const rawTx = await this.createRawTxFromSummaryData(summaryData);
-      const fee = await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency);
+    const rawTx = await this.createRawTxFromSummaryData(summaryData);
+    const fee = await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency);
 
-      if (summaryData.currency.native) {
-        return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
-      } else {
-        return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
-      }
-    } catch (e) {}
+    if (summaryData.currency.native) {
+      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
+    } else {
+      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
+    }
   }
 
   async createRawTxFromSummaryData(summaryData: SummaryData): Promise<utils.Deferrable<TransactionRequest>> {

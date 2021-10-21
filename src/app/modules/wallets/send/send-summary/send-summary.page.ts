@@ -106,28 +106,51 @@ export class SendSummaryPage implements OnInit {
 
   async canAffordFee() {
     this.loadingService.show().then();
-    if (await this.walletTransactionsService.canNotAffordFee(this.summaryData)) {
+    let cannotAffordFee;
+
+    try {
+      cannotAffordFee = await this.walletTransactionsService.canNotAffordFee(this.summaryData);
+
       await this.loadingService.dismiss();
-      await this.showAlertNotEnoughNativeToken();
-    } else {
-      await this.loadingService.dismiss();
-      this.beginSend();
+
+      if (cannotAffordFee) {
+        await this.showAlertNotEnoughNativeToken();
+      } else {
+        this.beginSend();
+      }
+    } catch (e) {
+      if (this.isInvalidAddressError(e)) {
+        await this.loadingService.dismiss();
+        await this.showAlertInvalidAddress();
+      } else {
+        throw e;
+      }
     }
   }
 
-  async showAlertNotEnoughNativeToken() {
+  async showAlert(header: string, message: string, buttonText: string) {
     const alert = await this.alertController.create({
-      header: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.title'),
-      message: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.text'),
+      header: this.translate.instant(header),
+      message: this.translate.instant(message),
       cssClass: 'ux-wallet-error-alert ux-alert',
       buttons: [
         {
-          text: this.translate.instant('wallets.send.send_summary.alert_not_enough_native_token.button'),
+          text: this.translate.instant(buttonText),
           cssClass: 'uxprimary',
         },
       ],
     });
     await alert.present();
+  }
+
+  async showAlertNotEnoughNativeToken() {
+    const route = 'wallets.send.send_summary.alert_not_enough_native_token';
+    await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
+  }
+
+  async showAlertInvalidAddress() {
+    const route = 'wallets.send.send_summary.alert_invalid_address';
+    await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
   private createNotification(transaction: TransactionReceipt): LocalNotification[] {
@@ -154,16 +177,21 @@ export class SendSummaryPage implements OnInit {
 
     if (error.message === 'invalid password') {
       url = '/wallets/send/error/incorrect-password';
-    } else if (
-      error.message.startsWith('provided ENS name resolves to null') ||
-      error.message.startsWith('invalid address') ||
-      error.message.startsWith('bad address checksum')
-    ) {
+    } else if (this.isInvalidAddressError(error)) {
       url = '/wallets/send/error/wrong-address';
     } else if (error.message.startsWith('insufficient funds')) {
       url = '/wallets/send/error/wrong-amount';
     }
 
     this.navController.navigateForward(url).then();
+  }
+
+  private isInvalidAddressError(error) {
+    return (
+      error.message.startsWith('provided ENS name resolves to null') ||
+      error.message.startsWith('invalid address') ||
+      error.message.startsWith('bad address checksum') ||
+      error.message.startsWith('resolver or addr is not configured for ENS name')
+    );
   }
 }

@@ -239,6 +239,19 @@ describe('SendSummaryPage', () => {
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
+  it('should show alert if address is incorrect', async () => {
+    component.summaryData = summaryData;
+    walletTransactionsServiceSpy.canNotAffordFee.and.callFake(() =>
+      Promise.reject(new Error('bad address checksum ...'))
+    );
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    navControllerSpy.navigateForward.and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(alertSpy.present).toHaveBeenCalledTimes(1);
+  });
+
   it('should open alert and not send transaction nor redirect user if user cannot afford fees', async () => {
     walletTransactionsServiceSpy.canNotAffordFee.and.returnValue(Promise.resolve(true));
     component.ionViewWillEnter();

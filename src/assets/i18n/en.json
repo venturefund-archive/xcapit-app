@@ -1406,6 +1406,11 @@
           "title": "Transaction error",
           "text": "Insufficient funds to afford transaction fees.",
           "button": "Ok"
+        },
+        "alert_invalid_address": {
+          "title": "Transaction error",
+          "text": "The destiny address is incorrect",
+          "button": "Ok"
         }
       },
       "send_success": {
