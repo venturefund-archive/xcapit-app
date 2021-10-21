@@ -14,7 +14,7 @@ import { SUPPORT_OPTIONS } from '../shared-support/constants/support-options';
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="so__title">
-          <ion-text class="ux-font-text-xl">
+          <ion-text class="ux-font-text-lg">
             {{ 'support.title' | translate }}
           </ion-text>
         </div>

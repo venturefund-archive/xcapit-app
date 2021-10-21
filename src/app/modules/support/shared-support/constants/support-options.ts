@@ -9,7 +9,7 @@ export const SUPPORT_OPTIONS = [
     title: 'support.support_options.title_wallet',
     description: 'support.support_options.description_wallet',
     icon: '../../assets/ux-icons/ux-support-wallet.svg',
-    route: '',
+    route: '/support/wallet',
   },
   {
     title: 'support.support_options.title_buy',
