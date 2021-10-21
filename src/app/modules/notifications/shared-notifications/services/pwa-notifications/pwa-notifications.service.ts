@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { FirebaseMessaging } from '@firebase/messaging-types';
 import { FirebaseNamespace } from '@firebase/app-types';
 import { INotification } from '../notifications/notifications.interface';
+import { FirebaseService } from 'src/app/shared/services/firebase/firebase.service';
 
 export interface INotificationObject {
   title: string;
@@ -18,12 +19,10 @@ export class PwaNotificationsService implements INotification {
   messaging: FirebaseMessaging;
   token: string;
   importedFirebase: FirebaseNamespace = firebase;
-  constructor() {}
+  constructor(private firebaseService: FirebaseService) {}
 
   init(): void {
-    const firebaseApp = !firebase.apps.length
-      ? this.importedFirebase.initializeApp(environment.firebase)
-      : firebase.app();
+    const firebaseApp = this.firebaseService.init();
     this.messaging = firebaseApp.messaging();
     this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
     this.requestPermission().then();

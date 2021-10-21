@@ -5,8 +5,8 @@ describe('FirebaseLogsService', () => {
   let firebaseAnalyticsSpy: any;
   let service: FirebaseLogsService;
   beforeEach(() => {
-    firebaseAnalyticsSpy = jasmine.createSpyObj('FirebaseAnalytics', {
-      initializeFirebase: Promise.resolve(),
+    firebaseAnalyticsSpy = jasmine.createSpyObj('FirebaseService', {
+      init: Promise.resolve(),
       setCollectionEnabled: Promise.resolve(),
       logEvent: Promise.resolve(),
     });
