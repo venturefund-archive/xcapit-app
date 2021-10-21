@@ -1379,8 +1379,8 @@
     },
     "transactions": {
       "header": "Transactions history",
-      "sended": "Sended",
-      "received": "Received",
+      "OUT": "Sent",
+      "IN": "Received",
       "swap": "Swap"
     },
     "send": {

@@ -24,6 +24,7 @@ const testCoins = {
       last: false,
       value: 'coinTest',
       network: 'ERC20',
+      chainId: 42,
       rpc: 'http://testrpc.test',
     },
   ],
@@ -35,6 +36,7 @@ const testCoins = {
       last: false,
       value: 'ETH',
       network: 'ETH',
+      chainId: 42,
       rpc: 'http://testrpc.test',
     },
     {
@@ -44,6 +46,7 @@ const testCoins = {
       last: false,
       value: 'RBTC',
       network: 'RSK',
+      chainId: 31,
       rpc: 'http://testrpc.test',
     },
     {
@@ -53,6 +56,7 @@ const testCoins = {
       last: false,
       value: 'USDT',
       network: 'ETH',
+      chainId: 42,
       rpc: 'http://testrpc.test',
       decimals: 6,
     },

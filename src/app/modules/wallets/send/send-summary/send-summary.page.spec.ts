@@ -34,6 +34,7 @@ const summaryData: SummaryData = {
     last: false,
     value: 'BTC',
     network: '',
+    chainId: 42,
     rpc: '',
   },
   address: 'asdlkfjasd56lfjasdpodlfkj',

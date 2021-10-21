@@ -18,6 +18,7 @@ const testCoins: Coin[] = [
     last: false,
     value: 'ETH',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'http://testrpc.test',
   },
   {
@@ -27,6 +28,7 @@ const testCoins: Coin[] = [
     last: false,
     value: 'USDT',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'http://testrpc.test',
     contract: '0x00000000000000',
     abi: tokenAbi,

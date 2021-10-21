@@ -8,6 +8,8 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { COINS } from '../constants/coins';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { finalize } from 'rxjs/operators';
+import { CovalentTransfer } from '../shared-wallets/models/covalent-transfer/covalent-transfer';
+import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 
 @Component({
   selector: 'app-asset-detail',
@@ -34,32 +36,31 @@ import { finalize } from 'rxjs/operators';
         </app-ux-title>
 
         <div class="wad__asset_amount ion-margin-top">
-          <div class="wad__asset_amount__original" *ngIf="this.balance?.length > 0">
-            {{ this.balance[0].amount | number: '1.2-6' }}
-            <div class="wad__asset_amount__original__symbol">
-              {{ this.balance[0].symbol }}
-            </div>
+          <div class="wad__asset_amount__original" *ngIf="this.balance">
+            <ion-text class="ux-font-num-titulo">
+              {{ this.balance.amount | number: '1.2-6' }} {{ this.balance.symbol }}
+            </ion-text>
           </div>
-          <div class="wad__asset_amount__usd" *ngIf="this.balance?.length > 0">
-            = {{ this.balance[0].usdAmount | number: '1.2-2' }} USD
+          <div class="wad__asset_amount__usd" *ngIf="this.balance?.usdAmount">
+            <ion-text class="ux-font-num-subtitulo"> = {{ this.balance.usdAmount | number: '1.2-2' }} USD </ion-text>
           </div>
         </div>
 
         <div class="ion-margin-top" *ngIf="this.currency">
           <app-wallet-subheader-buttons
-            [hasTransactions]="this.transactionsExists"
+            [hasTransactions]="!!this.transfers.length"
             [asset]="this.currency.value"
           ></app-wallet-subheader-buttons>
         </div>
 
-        <div class="wad__transaction" *ngIf="this.transactionsExists && this.balance?.length > 0">
-          <div div class="wad__transaction__title">
+        <div class="wad__transaction" *ngIf="!!this.transfers.length">
+          <div class="wad__transaction__title">
             <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
               {{ 'wallets.asset_detail.wallet_transaction_title' | translate }}
             </ion-label>
           </div>
           <div class="wad__transaction__wallet-transaction-card">
-            <app-wallet-transaction-card [transactions]="this.allTransactions"></app-wallet-transaction-card>
+            <app-wallet-transaction-card [transactions]="this.transfers"></app-wallet-transaction-card>
           </div>
         </div>
       </div>
@@ -71,10 +72,9 @@ export class AssetDetailPage implements OnInit {
   currency: Coin;
   coins = COINS;
   walletAddress: string = null;
-  balance: Array<AssetBalance> = [];
-  transactionsExists = false;
-  allTransactions = [];
-  usdPrice: any;
+  balance: AssetBalance;
+  transfers: CovalentTransfer[] = [];
+  usdPrice: { prices: any };
 
   constructor(
     private route: ActivatedRoute,
@@ -87,58 +87,54 @@ export class AssetDetailPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.getAllTransactions();
+    this.getCurrency();
+    this.getBalanceStructure(this.currency);
+    this.getTransfers();
+    this.getUsdPrice();
   }
 
-  getBalanceStructure(coin) {
-    return [
-      {
-        icon: coin.logoRoute,
-        symbol: coin.value,
-        name: coin.name,
-        amount: 0,
-        usdAmount: 0,
-        usdSymbol: 'USD',
-      },
-    ];
+  private getBalanceStructure(coin) {
+    this.balance = {
+      icon: coin.logoRoute,
+      symbol: coin.value,
+      name: coin.name,
+      amount: 0,
+      usdAmount: 0,
+      usdSymbol: 'USD',
+    };
   }
 
-  getUsdPrice() {
-    const coin = [];
-    coin.push(this.getCoinForPrice(this.currency.value));
-
+  private getUsdPrice() {
     this.apiWalletService
-      .getPrices(coin)
+      .getPrices([this.getCoinForPrice(this.currency.value)])
       .pipe(finalize(() => this.getAssetBalance()))
       .subscribe((res) => (this.usdPrice = res));
   }
 
-  async getAssetBalance() {
-    this.walletAddress = await this.storageService.getWalletsAddresses(this.currency.network);
-
-    if (this.walletAddress) {
-      this.balance = this.getBalanceStructure(this.currency);
-
-      this.walletService.balanceOf(this.walletAddress, this.currency.value).then(async (balance) => {
-        this.balance[0].amount = parseFloat(balance);
+  private getAssetBalance() {
+    this.storageService.getWalletsAddresses(this.currency.network).then((address) => {
+      this.walletService.balanceOf(address, this.currency.value).then((balance) => {
+        this.balance.amount = parseFloat(balance);
         if (this.usdPrice) {
           const usdAmount = this.getUsdAmount(this.currency.value);
-          this.balance[0].usdAmount = this.balance[0].amount * usdAmount;
+          this.balance.usdAmount = this.balance.amount * usdAmount;
         }
       });
-    }
+    });
   }
 
-  async getAllTransactions() {
+  private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
-    this.walletTransactionsService.getAllTransactions(this.currency.value).then((res) => {
-      if (res.length > 0) {
-        this.transactionsExists = true;
-      }
+  }
 
-      this.allTransactions = res;
-      this.getUsdPrice();
-    });
+  private getTransfers() {
+    this.storageService
+      .getWalletsAddresses()
+      .then((addresses: any) =>
+        this.walletTransactionsService
+          .getTransfers(addresses[this.currency.network], this.currency)
+          .subscribe((res: CovalentTransfersResponse) => (this.transfers = res.value()))
+      );
   }
 
   private getCoinForPrice(symbol: string): string {

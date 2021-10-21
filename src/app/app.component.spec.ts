@@ -88,7 +88,7 @@ describe('AppComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['users/login']);
   });
 
-  fit('should set html lang in the correct language on init', async () => {
+  it('should set html lang in the correct language on init', async () => {
     const spy = spyOn(component, 'setLanguageSubscribe');
     component.ngOnInit();
     await fixture.whenStable();
