@@ -242,6 +242,6 @@ export class WalletTransactionsService {
 
     const provider = await this.blockchainProviderService.getProvider(summaryData.currency.value);
     const contract = await this.ethersService.newContract(provider.contract, provider.abi, provider.provider);
-    return contract.populateTransaction.transfer(data.to, data.value);
+    return await contract.populateTransaction.transfer(data.to, data.value);
   }
 }
