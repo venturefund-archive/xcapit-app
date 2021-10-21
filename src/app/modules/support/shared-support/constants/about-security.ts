@@ -13,8 +13,6 @@ export const ABOUT_SECURITY = [
     title: 'support.support_security.question3',
     answer: 'support.support_security.answer3',
     last: false,
-    href: '/apikeys/how-create-binance-account',
-    link_text: 'support.support_security.link_text3',
   },
   {
     title: 'support.support_security.question4',
