@@ -24,6 +24,13 @@ const routes: Routes = [
         path: 'buy',
         loadChildren: () => import('./support-buy/support-buy.module').then((m) => m.SupportBuyPageModule),
       },
+      {
+        path: 'apikey-binance',
+        loadChildren: () =>
+          import('./support-apikey-binance/support-apikey-binance.module').then(
+            (m) => m.SupportApikeyBinancePageModule
+          ),
+      },
     ],
   },
 ];

@@ -2042,6 +2042,7 @@
       "answer3": "Desde la app, selecciona \"Comprar\", elije el proveedor Paxful.",
       "question4": "¿Por qué no se acredita mi dinero?",
       "answer4": "<ul><li>Recordá que el dinero adquirido de nuestros proveedores se acreditará en tu billetera SPOT una vez completado el pago de los tokens adquiridos.</li><li>El depósito de los tokens puede llegar a demorar varios minutos, no te preocupes, de todas maneras, si el problema persiste, te invitamos a contarnos tu problema abriendo un ticket de soporte para poder ayudarte de manera más personal y llegar juntos a una solución.</li></ul>"
-    }
+    },
+    "support_apikey_binance": {}
   }
 }
