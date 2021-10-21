@@ -2030,18 +2030,6 @@
       "answer17": "Se encuentra en la red de Polygon.",
       "question18": "¿Cómo invierto en mi wallet?",
       "answer18": "Por el momento los productos de inversión descentralizados dentro de la wallet de Xcapit se encuentran en fase de desarrollo. Cuando estén disponibles, serán accesibles de forma sencilla e intuitiva dentro de la app."
-    },
-    "support_buy": {
-      "header": "Ayuda",
-      "title": "Ayuda sobre Compra",
-      "question1": "¿Cómo depositar dinero en mi cuenta de Binance?",
-      "answer1": "<ul><li>Puedes usar nuestra app para adquirir tus activos que van a ser depositados en tu cuenta de binance o bien utilizar el mercado P2P.</li><li>Si necesitas ayuda puedes generar un ticket escribiendo a Soporte.</li></ul>",
-      "question2": "¿Cómo compro en Kripton?",
-      "answer2": "Desde la app, selecciona \"Comprar\", elije el proveedor Kripton",
-      "question3": "¿Cómo compro en Paxful?",
-      "answer3": "Desde la app, selecciona \"Comprar\", elije el proveedor Paxful.",
-      "question4": "¿Por qué no se acredita mi dinero?",
-      "answer4": "<ul><li>Recordá que el dinero adquirido de nuestros proveedores se acreditará en tu billetera SPOT una vez completado el pago de los tokens adquiridos.</li><li>El depósito de los tokens puede llegar a demorar varios minutos, no te preocupes, de todas maneras, si el problema persiste, te invitamos a contarnos tu problema abriendo un ticket de soporte para poder ayudarte de manera más personal y llegar juntos a una solución.</li></ul>"
     }
   }
 }
