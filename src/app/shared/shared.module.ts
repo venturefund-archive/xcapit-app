@@ -50,6 +50,7 @@ import { EmbedVideoComponent } from './components/embed-video/embed-video.compon
 import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
 import { SupportOptionsCardComponent } from '../modules/support/shared-support/components/support-options-card/support-options-card.component';
 import { ContactSupportComponent } from '../modules/support/shared-support/components/contact-support/contact-support.component';
+import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { ContactSupportComponent } from '../modules/support/shared-support/compo
     InputSelectComponent,
     SupportOptionsCardComponent,
     ContactSupportComponent,
+    FaqComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -152,6 +154,7 @@ import { ContactSupportComponent } from '../modules/support/shared-support/compo
     InputSelectComponent,
     SupportOptionsCardComponent,
     ContactSupportComponent,
+    FaqComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

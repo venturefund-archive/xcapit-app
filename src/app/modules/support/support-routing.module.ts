@@ -16,6 +16,10 @@ const routes: Routes = [
         path: 'account',
         loadChildren: () => import('./support-account/support-account.module').then((m) => m.SupportAccountPageModule),
       },
+      {
+        path: 'wallet',
+        loadChildren: () => import('./support-wallet/support-wallet.module').then((m) => m.SupportWalletPageModule),
+      },
     ],
   },
 ];
