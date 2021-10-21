@@ -2031,6 +2031,18 @@
       "question18": "¿Cómo invierto en mi wallet?",
       "answer18": "Por el momento los productos de inversión descentralizados dentro de la wallet de Xcapit se encuentran en fase de desarrollo. Cuando estén disponibles, serán accesibles de forma sencilla e intuitiva dentro de la app."
     },
+    "support_security": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Seguridad",
+      "question1": "¿Cómo se guardan mis datos?",
+      "answer1": "No se guardan datos respectivos a la identidad de los usuarios.",
+      "question2": "¿Cómo se usan mis datos?",
+      "answer2": "Se almacenan datos de experiencias de usuarios para poder llevar a cabo una mejora continua en la satisfacción de uso para los usuarios.",
+      "question3": "¿Mi capital dentro de binance está seguro?",
+      "answer3": "El capital del usuario nunca va a estar en propiedad de Xcapit, el algoritmo trabaja haciendo trading directamente en la Wallet SPOT del usuario a través de la API de BINANCE proporcionada por el usuario al crear un nuevo fondo, y destacamos que XCAPIT no tiene la posibilidad de retirar fondos o transferir desde la billetera de Binance del cliente, además recibimos mentorías constantes de UNICEF sobre blockchain y open source para dar a nuestros usuarios cada dia un mejor servicio y mejores rentabilidades.",
+      "question4": "¿Qué pasa si mi cuenta no registra operaciones en un considerable periodo de tiempo?",
+      "answer4": "La solución frecuente a este problema es verificar en la sección API Keys dentro de binance, que esté habilitada la casilla  “Habilitar spot y margin trading”, esperar al próximo rebalanceo de cartera y si el problema persiste consultarnos a través del sistema de soporte de la app."
+    },
     "support_buy": {
       "header": "Ayuda",
       "title": "Ayuda sobre Compra",
