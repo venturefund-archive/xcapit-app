@@ -27,7 +27,7 @@ export const SUPPORT_OPTIONS = [
     title: 'support.support_options.title_apikeys',
     description: 'support.support_options.description_apikeys',
     icon: '../../assets/ux-icons/ux-apikeys.svg',
-    route: '',
+    route: 'support/apikey-binance',
   },
   {
     title: 'support.support_options.title_security',
