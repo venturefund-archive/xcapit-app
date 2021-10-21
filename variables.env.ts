@@ -19,9 +19,11 @@ export const environment = {
     vapidKey: 'dummy',
   },
   appUrl: 'https://dummy.xcapit.com/',
+  covalentApiUrl: 'https://api.covalenthq.com/v1/',
   walletNetwork: 'testnet',
-  ethAlchemyApiUrl: 'https://eth-rinkeby.alchemyapi.io/v2/apikey',
-  rskApiUrl: 'https://rsk.node',
+  ethAlchemyApiUrl: 'https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN',
+  covalentApiKey: 'ckey_124a59c33c49457082d54ccaa30',
+  rskApiUrl: 'https://public-node.testnet.rsk.co',
   maticApiUrl: 'https://rpc-mumbai.maticvigil.com/v1/5fc0291a70d1714b3595d5a2fb5ceacec81ab086',
   derivedPaths: {
     ERC20: "m/44'/60'/0'/0/0",
