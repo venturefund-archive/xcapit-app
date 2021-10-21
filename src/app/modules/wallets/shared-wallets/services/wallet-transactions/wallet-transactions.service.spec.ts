@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { WalletTransactionsService } from './wallet-transactions.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
-import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
+import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { Storage } from '@ionic/storage';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { of } from 'rxjs';
@@ -13,13 +13,27 @@ import { EthersService } from '../ethers/ethers.service';
 import { FakeEthersService } from '../../../../../../testing/fakes/ethers.fake.spec';
 
 const ETH: Coin = {
-  id: 4,
+  id: 1,
   name: 'ETH - Ethereum',
-  logoRoute: '../../assets/img/coins/ETH.svg',
-  last: true,
+  logoRoute: 'assets/img/coins/ETH.svg',
+  last: false,
   value: 'ETH',
-  network: '',
-  rpc: '',
+  network: 'ERC20',
+  rpc: 'testRpc',
+  native: true,
+};
+
+const USDT: Coin = {
+  id: 3,
+  name: 'USDT - Tether',
+  logoRoute: 'assets/img/coins/USDT.svg',
+  last: false,
+  value: 'USDT',
+  network: 'ERC20',
+  rpc: 'testRPC',
+  contract: 'testContract',
+  abi: null,
+  decimals: 6,
 };
 
 const LINK: Coin = {
@@ -33,6 +47,93 @@ const LINK: Coin = {
   contract: 'testContractAddress',
   decimals: 18,
   abi: JSON.parse(JSON.stringify({ test: 'abi' })),
+};
+
+const testSummaryDatas = {
+  notNativeTokenSend: {
+    balanceLessThanFee: {
+      currency: USDT,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 1,
+      network: 'ERC20',
+      balanceNativeToken: 1,
+    },
+    balanceGreaterThanFee: {
+      currency: USDT,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 1,
+      network: 'ERC20',
+      balanceNativeToken: 6,
+    },
+    balanceZero: {
+      currency: USDT,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 1,
+      network: 'ERC20',
+      balanceNativeToken: 0,
+    },
+    feeUndefinedWithBalanceGreaterThanZero: {
+      currency: USDT,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 1,
+      network: 'ERC20',
+      balanceNativeToken: 1,
+    },
+    feeUndefinedWithBalanceZero: {
+      currency: USDT,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 1,
+      network: 'ERC20',
+      balanceNativeToken: 0,
+    },
+  },
+  nativeTokenSend: {
+    balanceGreaterThanAmountLessThanFee: {
+      currency: ETH,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 3000,
+      network: 'ERC20',
+      balanceNativeToken: 2,
+    },
+    balanceGreaterThanAmountPlusFee: {
+      currency: ETH,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 3000,
+      network: 'ERC20',
+      balanceNativeToken: 7,
+    },
+    balanceZero: {
+      currency: ETH,
+      address: 'testAddress',
+      amount: 1,
+      referenceAmount: 3000,
+      network: 'ERC20',
+      balanceNativeToken: 0,
+    },
+    balanceLessThanFeeAndLessThanAmount: {
+      currency: ETH,
+      address: 'testAddress',
+      amount: 2,
+      referenceAmount: 6000,
+      network: 'ERC20',
+      balanceNativeToken: 1,
+    },
+    balanceLessThanAmountPlusFee: {
+      currency: ETH,
+      address: 'testAddress',
+      amount: 10,
+      referenceAmount: 30000,
+      network: 'ERC20',
+      balanceNativeToken: 11,
+    },
+  },
 };
 
 const testAddresses = { ETH_TEST: 'testAddress' };
@@ -144,7 +245,8 @@ describe('WalletTransactionsService', () => {
     });
 
     blockchainProviderServiceMock = {
-      getProvider: () => Promise.resolve({ provider: {}, abi: LINK.abi }),
+      getProvider: () => Promise.resolve({ contract: {}, provider: {}, abi: LINK.abi }),
+      estimateFee: (summaryData) => Promise.resolve(BigNumber.from('5000000000000000000')),
     };
 
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
@@ -244,5 +346,75 @@ describe('WalletTransactionsService', () => {
     } finally {
       expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
     }
+  });
+
+  describe('when user sends not native token', () => {
+    [
+      {
+        summaryData: testSummaryDatas.notNativeTokenSend.balanceGreaterThanFee,
+        testCase: 'greater than fee',
+        expectedResult: false,
+      },
+      {
+        summaryData: testSummaryDatas.notNativeTokenSend.balanceLessThanFee,
+        testCase: 'less than fee',
+        expectedResult: true,
+      },
+      {
+        summaryData: testSummaryDatas.notNativeTokenSend.balanceZero,
+        testCase: 'zero',
+        expectedResult: true,
+      },
+    ].forEach((t) => {
+      it(`it should return ${t.expectedResult} if native token balance is ${t.testCase} on canNotAffordFee`, async () => {
+        const hasNotEnoughNativeToken = await service.canNotAffordFee(t.summaryData);
+        expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
+      });
+    });
+  });
+
+  describe('when user sends native token', () => {
+    [
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountLessThanFee,
+        testCase: 'greater than the amount but less than the fee',
+        expectedResult: true,
+      },
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountPlusFee,
+        testCase: 'greater than the sum of the amount and the fee',
+        expectedResult: false,
+      },
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceZero,
+        testCase: 'zero',
+        expectedResult: true,
+      },
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceLessThanFeeAndLessThanAmount,
+        testCase: 'less than the fee and less than the amount to send',
+        expectedResult: true,
+      },
+      {
+        summaryData: testSummaryDatas.nativeTokenSend.balanceLessThanAmountPlusFee,
+        testCase: 'is greater than both the fee and the amount but smaller than the sum',
+        expectedResult: true,
+      },
+    ].forEach((t) => {
+      it(`it should return ${t.expectedResult} if native token balance is ${t.testCase} on canNotAffordFee`, async () => {
+        const hasNotEnoughNativeToken = await service.canNotAffordFee(t.summaryData);
+        expect(hasNotEnoughNativeToken).toEqual(t.expectedResult);
+      });
+    });
+  });
+
+  it('should not call newContract on createRawTxFromSummaryData if token is native', async () => {
+    await service.createRawTxFromSummaryData(testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountPlusFee);
+    expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call newContract on createRawTxFromSummaryData if token is not native', async () => {
+    await service.createRawTxFromSummaryData(testSummaryDatas.notNativeTokenSend.balanceGreaterThanFee);
+    expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(1);
   });
 });

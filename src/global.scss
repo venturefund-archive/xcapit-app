@@ -365,6 +365,7 @@ ion-toast.refresher_toast {
       }
     }
   }
+
   //modal alertas
   .ux-alert {
     &.bottom {
@@ -460,6 +461,33 @@ ion-toast.refresher_toast {
 
     .alert-button {
       font-size: var(--ux-fsize-14);
+    }
+  }
+
+  .ux-wallet-error-alert {
+    --max-height: 145px;
+    --max-width: 302px;
+    --ion-font-family: var(--ux-font-lato);
+    --ion-text-color: var(--ion-color-uxdark);
+
+    .alert-head {
+      padding-bottom: 12px;
+    }
+
+    .alert-title {
+      font-weight: var(--ux-fweight-bold);
+      font-size: var(--ux-fsize-18);
+    }
+
+    .alert-message {
+      font-size: var(--ux-fsize-14);
+      font-weight: var(--ux-fweight-regular);
+      padding-bottom: 12px;
+    }
+
+    .alert-button {
+      font-weight: var(--ux-fweight-bold);
+      font-size: var(--ux-fsize-18);
     }
   }
 
