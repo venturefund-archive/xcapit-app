@@ -15,7 +15,7 @@ export const SUPPORT_OPTIONS = [
     title: 'support.support_options.title_buy',
     description: 'support.support_options.description_buy',
     icon: '../../assets/ux-icons/ux-buy.svg',
-    route: '/support/buy',
+    route: '',
   },
   {
     title: 'support.support_options.title_investment',
