@@ -2068,6 +2068,18 @@
       "answer3": "Desde la app, selecciona \"Comprar\", elije el proveedor Paxful.",
       "question4": "¿Por qué no se acredita mi dinero?",
       "answer4": "<ul><li>Recordá que el dinero adquirido de nuestros proveedores se acreditará en tu billetera SPOT una vez completado el pago de los tokens adquiridos.</li><li>El depósito de los tokens puede llegar a demorar varios minutos, no te preocupes, de todas maneras, si el problema persiste, te invitamos a contarnos tu problema abriendo un ticket de soporte para poder ayudarte de manera más personal y llegar juntos a una solución.</li></ul>"
+    },
+    "support_apikey_binance": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Binance y API Keys",
+      "question1": "¿Cómo crear una cuenta en Binance?",
+      "answer1": "Puedes hacerlo desde este link <a href='https://accounts.binance.com/es/register'>Crear cuenta en binance</a>.‍‍",
+      "question2": "¿Cuánto dinero necesito tener en Binance?",
+      "answer2": "Si eres nuevo y quieres empezar a invertir solo necesitas tener un mínimo de $150 dólares para las estrategias Denali y Olympus Mons. Y si te animas a algo más arriesgado, necesitas tener un mínimo de $500 dólares para las estrategias Himalayas y Andes.",
+      "question3": "¿Puedo hacer trading con la misma cuenta de Binance que tengo vinculada en Xcapit?",
+      "answer3": "Se recomienda tener otra cuenta aparte para hacer trading manual.",
+      "question4": "¿Qué hago si mis API Keys se vencieron o están deshabilitada?",
+      "answer4": " Deberás volver a vincular tus API Keys en Binance, para ello te pedimos que: <br><b>1.</b> Hacer clic en el menú “Más” y luego en “Gestión de API Keys”.<br><b>2.</b> Eliminar las API Keys que figuran en la App de Xcapit - Para asegurarte no vincular nuevamente estas API Keys vencidas.<br><b>3.</b> Te dirijas a \"Agregar Apikey\". <br><b>4.</b> Ingresar a tu cuenta de Binance y luego a “Gestión de APIs”. <br><b>5.</b> Generar una nueva API Keys y las copies en Xcapit con el QR o copiando y pegando los códigos. <br><b>6.</b> Es importante que verifiques que la opción “Spot Trading” se encuentre activa. <br><b>7.</b> Vuelvas a crear un fondo de inversión normalmente."
     }
   }
 }
