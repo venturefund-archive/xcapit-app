@@ -23,6 +23,7 @@ const coins: Coin[] = [
     last: false,
     value: 'BTC',
     network: 'BTC',
+    chainId: 42,
     rpc: '',
   },
   {
@@ -32,6 +33,7 @@ const coins: Coin[] = [
     last: false,
     value: 'ETH',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'testRpc',
     native: true,
   },
@@ -42,6 +44,7 @@ const coins: Coin[] = [
     last: false,
     value: 'USDT',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'testRPC',
     contract: 'testContract',
     abi: null,

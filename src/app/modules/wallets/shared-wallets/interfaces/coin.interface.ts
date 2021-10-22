@@ -7,6 +7,7 @@ export interface Coin {
   last: boolean;
   value: string;
   network: string;
+  chainId: number;
   rpc: string;
   contract?: string;
   abi?: ContractInterface;
