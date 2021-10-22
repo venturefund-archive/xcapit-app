@@ -24,6 +24,13 @@ const routes: Routes = [
         path: 'buy',
         loadChildren: () => import('./support-buy/support-buy.module').then((m) => m.SupportBuyPageModule),
       },
+      {
+        path: 'binance-investments',
+        loadChildren: () =>
+          import('./support-binance-investments/support-binance-investments.module').then(
+            (m) => m.SupportBinanceInvestmentsPageModule
+          ),
+      },
     ],
   },
 ];

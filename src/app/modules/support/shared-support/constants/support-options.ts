@@ -21,7 +21,7 @@ export const SUPPORT_OPTIONS = [
     title: 'support.support_options.title_investment',
     description: 'support.support_options.description_investment',
     icon: '../../assets/ux-icons/ux-trending-up.svg',
-    route: '',
+    route: '/support/binance-investments',
   },
   {
     title: 'support.support_options.title_apikeys',

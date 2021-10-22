@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
+import { SupportBinanceInvestmentsPage } from './support-binance-investments.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedSupportModule } from '../shared-support/shared-support.module';
-import { SupportWalletPage } from './support-wallet.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SupportWalletPage,
+    component: SupportBinanceInvestmentsPage,
   },
 ];
+
 @NgModule({
   imports: [SharedSupportModule, RouterModule.forChild(routes)],
-  declarations: [SupportWalletPage],
+  declarations: [SupportBinanceInvestmentsPage],
 })
-export class SupportWalletPageModule {}
+export class SupportBinanceInvestmentsPageModule {}
