@@ -221,14 +221,13 @@
       "cancel_button": "Volver a inicio de sesión"
     },
     "categories": {
-      "my_account": "Mi cuenta",
+      "my_account": "Mi cuenta/Registro",
       "link_binance_account": "Vincular mi cuenta de Binance",
       "buy_crypto": "Comprar criptomonedas",
       "subscription_plans": "Planes de suscripción",
       "investment_strategies": "Estrategias de inversión",
-      "account_security": "Seguridad de mi cuenta",
-      "others": "Otros",
-      "email_validation": "Validación de cuenta"
+      "capital_security": "Seguridad de mi capital",
+      "others": "Otros"
     }
   },
   "funds": {
