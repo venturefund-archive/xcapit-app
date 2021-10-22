@@ -116,8 +116,7 @@ export class AssetDetailPage implements OnInit {
       this.walletService.balanceOf(address, this.currency.value).then((balance) => {
         this.balance.amount = parseFloat(balance);
         if (this.usdPrice) {
-          const usdAmount = this.getUsdAmount(this.currency.value);
-          this.balance.usdAmount = this.balance.amount * usdAmount;
+          this.balance.usdAmount = this.balance.amount * this.getUsdAmount(this.currency.value);
         }
       });
     });

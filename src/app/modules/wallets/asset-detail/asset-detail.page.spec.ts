@@ -78,7 +78,7 @@ describe('AssetDetailPage', () => {
 
       TestBed.configureTestingModule({
         declarations: [AssetDetailPage],
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, RouterTestingModule],
+        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
@@ -111,7 +111,7 @@ describe('AssetDetailPage', () => {
 
   it('should get transfers on view will enter', async () => {
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     expect(component.transfers[0].symbol).toBe('ETH');
     expect(component.transfers[0].type).toBe('OUT');
@@ -125,28 +125,24 @@ describe('AssetDetailPage', () => {
 
   it('should get prices and balances on view will enter', async () => {
     component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const amountEl = fixture.debugElement.query(By.css('.wad__asset_amount__original ion-text'));
-    expect(amountEl.nativeElement.innerText).toContain(20);
-    expect(amountEl.nativeElement.innerText).toContain('ETH');
+    expect(amountEl.nativeElement.innerHTML).toContain(20);
+    expect(amountEl.nativeElement.innerHTML).toContain('ETH');
     const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
-    expect(quoteAmountEl.nativeElement.innerText).toContain('USD');
-    expect(quoteAmountEl.nativeElement.innerText).toContain('60,000.00 USD');
+    expect(quoteAmountEl.nativeElement.innerHTML).toContain('USD');
+    expect(quoteAmountEl.nativeElement.innerHTML).toContain('60,000.00 USD');
   });
 
   it('should get prices and balances on view will enter without prices', async () => {
-    apiWalletServiceSpy.getPrices.and.returnValues(of(null));
+    apiWalletServiceSpy.getPrices.and.returnValues(of({ prices: {} }));
     component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const amountEl = fixture.debugElement.query(By.css('.wad__asset_amount__original ion-text'));
-    expect(amountEl.nativeElement.innerText).toContain(20);
-    expect(amountEl.nativeElement.innerText).toContain('ETH');
+    expect(amountEl.nativeElement.innerHTML).toContain(20);
+    expect(amountEl.nativeElement.innerHTML).toContain('ETH');
     const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
     expect(quoteAmountEl).toBe(null);
   });
