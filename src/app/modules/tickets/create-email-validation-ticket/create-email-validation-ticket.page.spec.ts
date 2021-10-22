@@ -27,9 +27,9 @@ describe('CreateEmailValidationTicketPage', () => {
   let fixture: ComponentFixture<CreateEmailValidationTicketPage>;
   let apiTicketsMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreateEmailValidationTicketPage>;
-  let activatedRouteSpy: any;
-  let navControllerSpy: any;
-  let fakeNavController: any;
+  let activatedRouteMock: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
 
   beforeEach(
     waitForAsync(() => {
@@ -37,12 +37,8 @@ describe('CreateEmailValidationTicketPage', () => {
         crud: jasmine.createSpyObj('CRUD', ['create']),
       };
 
-      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-      activatedRouteSpy.snapshot = {
-        paramMap: convertToParamMap({
-          email: 'test@test.com',
-        }),
-      };
+      activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['params']);
+      activatedRouteMock.snapshot = { paramMap: convertToParamMap({ email: 'test@test.com' }) };
       fakeNavController = new FakeNavController({}, {});
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
@@ -51,7 +47,7 @@ describe('CreateEmailValidationTicketPage', () => {
         imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: ApiTicketsService, useValue: apiTicketsMock },
         ],
       }).compileComponents();
@@ -97,7 +93,7 @@ describe('CreateEmailValidationTicketPage', () => {
   });
 
   it('should be able to modify user email if no user email was available on onit', async () => {
-    activatedRouteSpy.snapshot = {
+    activatedRouteMock.snapshot = {
       paramMap: convertToParamMap({}),
     };
     component.ionViewWillEnter();
