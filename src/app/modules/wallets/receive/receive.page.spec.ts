@@ -18,6 +18,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 const testCurrencies: Coin[] = [
   {
@@ -48,9 +49,13 @@ describe('ReceivePage', () => {
   let toastService: ToastService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReceivePage>;
   let activatedRouteMock: any;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   beforeEach(
     waitForAsync(() => {
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        getAssestsSelected: Promise.resolve(testCurrencies),
+      });
       qrCodeServiceMock = {
         generateQRFromText: () => Promise.resolve('test_qr'),
       };
@@ -90,6 +95,7 @@ describe('ReceivePage', () => {
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
           { provide: PlatformService, useValue: platformServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: StorageService, useValue: storageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -187,5 +193,11 @@ describe('ReceivePage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should retrieve user assets on ionViewWillEnter', async () => {
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
   });
 });
