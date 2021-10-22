@@ -1,0 +1,17 @@
+export type CovalentQuoteCurrency =
+  | 'USD'
+  | 'CAD'
+  | 'EUR'
+  | 'SGD'
+  | 'INR'
+  | 'JPY'
+  | 'VND'
+  | 'CNY'
+  | 'KRW'
+  | 'RUB'
+  | 'TRY'
+  | 'ETH'
+  | 'FTM'
+  | 'AVAX'
+  | 'MATIC'
+  | 'BTC';

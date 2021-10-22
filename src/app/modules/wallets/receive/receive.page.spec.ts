@@ -27,6 +27,7 @@ const testCurrencies: Coin[] = [
     last: true,
     value: 'ETH',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'http://testrpc.test/',
   },
 ];

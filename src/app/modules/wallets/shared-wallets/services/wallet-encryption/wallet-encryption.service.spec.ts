@@ -43,6 +43,7 @@ const testCoins: Coin[] = [
     last: false,
     value: 'ETH',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'http://testrpc.test',
   },
   {
@@ -52,6 +53,7 @@ const testCoins: Coin[] = [
     last: false,
     value: 'USDT',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'http://testrpc.test',
   },
   {
@@ -61,6 +63,7 @@ const testCoins: Coin[] = [
     last: false,
     value: 'RBTC',
     network: 'RSK',
+    chainId: 31,
     rpc: environment.rskApiUrl,
   },
 ];
