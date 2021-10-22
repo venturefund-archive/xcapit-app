@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { COINS } from '../../../constants/coins';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { Coin } from '../../interfaces/coin.interface';
+import { EthersService } from '../ethers/ethers.service';
+import { StorageService } from '../storage-wallets/storage-wallets.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +13,7 @@ export class BlockchainProviderService {
   nonce = 18;
   coins = COINS;
 
-  constructor() {}
+  constructor(private ethersService: EthersService, private storageService: StorageService) {}
 
   async getFormattedBalanceOf(address: string, coin: string): Promise<string> {
     const params = await this.getProvider(coin);
@@ -43,5 +47,12 @@ export class BlockchainProviderService {
 
   createContract(contract, abi, provider) {
     return new ethers.Contract(contract, abi, provider);
+  }
+
+  async estimateFee(rawTx: ethers.utils.Deferrable<TransactionRequest>, currency: Coin): Promise<BigNumber> {
+    const provider = await this.getProvider(currency.value);
+    const estimatedGas = await provider.provider.estimateGas(rawTx);
+    const gasPrice = await provider.provider.getGasPrice();
+    return Promise.resolve(estimatedGas.mul(gasPrice));
   }
 }

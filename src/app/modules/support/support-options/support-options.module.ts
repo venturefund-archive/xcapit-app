@@ -3,6 +3,7 @@ import { SupportOptionsPage } from './support-options.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedSupportModule } from '../shared-support/shared-support.module';
 import { SupportOptionsCardComponent } from '../shared-support/components/support-options-card/support-options-card.component';
+import { ContactSupportComponent } from '../shared-support/components/contact-support/contact-support.component';
 const routes: Routes = [
   {
     path: '',
@@ -11,6 +12,6 @@ const routes: Routes = [
 ];
 @NgModule({
   imports: [SharedSupportModule, RouterModule.forChild(routes)],
-  declarations: [SupportOptionsPage, SupportOptionsCardComponent],
+  declarations: [SupportOptionsPage],
 })
 export class SupportOptionsPageModule {}

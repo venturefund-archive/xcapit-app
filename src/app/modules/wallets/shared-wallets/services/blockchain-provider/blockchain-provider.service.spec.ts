@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { BlockchainProviderService } from './blockchain-provider.service';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { Coin } from '../../interfaces/coin.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
 
 const tokenAbi: any = [
   {
@@ -20,6 +21,7 @@ const testCoins: Coin[] = [
     network: 'ERC20',
     chainId: 42,
     rpc: 'http://testrpc.test',
+    native: true,
   },
   {
     id: 2,
@@ -33,6 +35,17 @@ const testCoins: Coin[] = [
     contract: '0x00000000000000',
     abi: tokenAbi,
     decimals: 6,
+  },
+];
+
+const testTx: ethers.utils.Deferrable<TransactionRequest>[] = [
+  {
+    to: 'testAddress',
+    value: ethers.utils.parseEther('1'),
+  },
+  {
+    to: 'testAddress',
+    data: 'testData',
   },
 ];
 
@@ -117,5 +130,31 @@ describe('BlockchainProviderService', () => {
 
       expect(response).toEqual(data.balance);
     });
+  });
+
+  it('should calculate the fee for native token on estimateFee', async () => {
+    const gas = 2;
+    const gasPrice = 10;
+    const providerSpy = jasmine.createSpyObj('Provider', {
+      estimateGas: BigNumber.from(gas),
+      getGasPrice: BigNumber.from(gasPrice),
+    });
+    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
+    const expectedFee = BigNumber.from(gas * gasPrice);
+    const estimatedFee = await service.estimateFee(testTx[0], testCoins[0]);
+    expect(estimatedFee).toEqual(expectedFee);
+  });
+
+  it('should calculate the fee for not native token on estimateFee', async () => {
+    const gas = 2;
+    const gasPrice = 10;
+    const providerSpy = jasmine.createSpyObj('Provider', {
+      estimateGas: BigNumber.from(gas),
+      getGasPrice: BigNumber.from(gasPrice),
+    });
+    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
+    const expectedFee = BigNumber.from(gas * gasPrice);
+    const estimatedFee = await service.estimateFee(testTx[1], testCoins[0]);
+    expect(estimatedFee).toEqual(expectedFee);
   });
 });

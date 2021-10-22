@@ -1,5 +1,5 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
 import { SendSummaryPage } from './send-summary.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
@@ -11,8 +11,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
-import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
@@ -56,8 +55,12 @@ describe('SendSummaryPage', () => {
   let paramMapSpy: jasmine.SpyObj<any>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
+  let alertControllerSpy: jasmine.SpyObj<AlertController>;
+  let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
 
   beforeEach(() => {
+    alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
+    alertControllerSpy = jasmine.createSpyObj('AlertController', { create: Promise.resolve(alertSpy) });
     paramMapSpy = jasmine.createSpyObj('QueryParams', { get: undefined });
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', null, { snapshot: { paramMap: paramMapSpy } });
     fakeNavController = new FakeNavController();
@@ -70,6 +73,7 @@ describe('SendSummaryPage', () => {
     };
     walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionService', {
       send: Promise.resolve({ wait: () => Promise.resolve({ transactionHash: 'someHash' }) }),
+      canNotAffordFee: Promise.resolve(false),
     });
 
     fakeModalController = new FakeModalController(null, { data: 'testPassword' });
@@ -91,6 +95,7 @@ describe('SendSummaryPage', () => {
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
+        { provide: AlertController, useValue: alertControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -120,7 +125,7 @@ describe('SendSummaryPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should send transaction and navigate on Send Button clicked and password is correct', async () => {
+  it('should send transaction and navigate on Send Button clicked and can afford fees and password is correct', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
@@ -133,8 +138,9 @@ describe('SendSummaryPage', () => {
     );
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
@@ -151,8 +157,9 @@ describe('SendSummaryPage', () => {
     );
     expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/incorrect-password');
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should open modal if redirected from Incorrect Password Page', async () => {
@@ -160,6 +167,7 @@ describe('SendSummaryPage', () => {
     await component.ionViewWillEnter();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should show loader at the start of transaction and dismiss it afterwards', fakeAsync(() => {
@@ -191,6 +199,7 @@ describe('SendSummaryPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-amount');
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to Wrong Address Page if could not resolve ENS', async () => {
@@ -204,6 +213,7 @@ describe('SendSummaryPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to Wrong Address Page if address is invalid', async () => {
@@ -215,6 +225,7 @@ describe('SendSummaryPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to Wrong Address Page if address did not pass checksum', async () => {
@@ -226,5 +237,53 @@ describe('SendSummaryPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
+  });
+
+  it('should show alert if address is incorrect', async () => {
+    component.summaryData = summaryData;
+    walletTransactionsServiceSpy.canNotAffordFee.and.callFake(() =>
+      Promise.reject(new Error('bad address checksum ...'))
+    );
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    navControllerSpy.navigateForward.and.callThrough();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(alertSpy.present).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open alert and not send transaction nor redirect user if user cannot afford fees', async () => {
+    walletTransactionsServiceSpy.canNotAffordFee.and.returnValue(Promise.resolve(true));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(0);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledTimes(0);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(alertSpy.present).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show loader when user clicks on send and close it before asking for password', async () => {
+    const spy = spyOn(component, 'beginSend');
+    walletTransactionsServiceSpy.canNotAffordFee.and.returnValue(Promise.resolve(false));
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show loader when user clicks on send and close it before showing alert', async () => {
+    const spy = spyOn(component, 'showAlertNotEnoughNativeToken');
+    walletTransactionsServiceSpy.canNotAffordFee.and.returnValue(Promise.resolve(true));
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

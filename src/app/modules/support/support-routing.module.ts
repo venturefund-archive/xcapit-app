@@ -12,6 +12,23 @@ const routes: Routes = [
         loadChildren: () =>
           import('../support/support-options/support-options.module').then((m) => m.SupportOptionsPageModule),
       },
+      {
+        path: 'account',
+        loadChildren: () => import('./support-account/support-account.module').then((m) => m.SupportAccountPageModule),
+      },
+      {
+        path: 'wallet',
+        loadChildren: () => import('./support-wallet/support-wallet.module').then((m) => m.SupportWalletPageModule),
+      },
+      {
+        path: 'security',
+        loadChildren: () =>
+          import('./support-security/support-security.module').then((m) => m.SupportSecurityPageModule),
+      },
+      {
+        path: 'buy',
+        loadChildren: () => import('./support-buy/support-buy.module').then((m) => m.SupportBuyPageModule),
+      },
     ],
   },
 ];

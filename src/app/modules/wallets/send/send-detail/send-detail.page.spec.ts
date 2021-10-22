@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
+import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
 
 const coins: Coin[] = [
   {
@@ -23,6 +25,30 @@ const coins: Coin[] = [
     network: 'BTC',
     chainId: 42,
     rpc: '',
+  },
+  {
+    id: 1,
+    name: 'ETH - Ethereum',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    last: false,
+    value: 'ETH',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'testRpc',
+    native: true,
+  },
+  {
+    id: 3,
+    name: 'USDT - Tether',
+    logoRoute: 'assets/img/coins/USDT.svg',
+    last: false,
+    value: 'USDT',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'testRPC',
+    contract: 'testContract',
+    abi: null,
+    decimals: 6,
   },
 ];
 
@@ -40,8 +66,16 @@ describe('SendDetailPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
   let activatedRouteMock: any;
   let navControllerSpy: any;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
   beforeEach(() => {
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletsAddresses: Promise.resolve(['testAddress']),
+    });
+    walletServiceSpy = jasmine.createSpyObj('WalletService', {
+      balanceOf: Promise.resolve('10'),
+    });
     activatedRouteMock = {
       snapshot: {
         paramMap: {
@@ -62,6 +96,8 @@ describe('SendDetailPage', () => {
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -114,5 +150,45 @@ describe('SendDetailPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
+  });
+
+  it('should show card if native token balance is zero when sending native token', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
+    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
+    expect(alertCard).toBeDefined();
+  });
+
+  it('should show card if native token balance is zero when sending not native token', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
+    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
+    expect(alertCard).toBeDefined();
+  });
+
+  it('should not show card if native token balance is greater than zero when sending native token', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
+    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
+    expect(alertCard).toBeDefined();
+  });
+
+  it('should not show card if native token balance is greater than zero when sending not native token', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
+    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
+    expect(alertCard).toBeDefined();
   });
 });

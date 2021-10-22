@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
-import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
+import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
+import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { EthersService } from '../ethers/ethers.service';
-import { Wallet } from 'ethers';
 import { environment } from '../../../../../../environments/environment';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Amount } from '../../types/amount.type';
 import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.type';
 import { CovalentTransfersResponse } from '../../models/covalent-transfers-response/covalent-transfers-response';
+import { utils, Wallet } from 'ethers';
+import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -234,5 +235,34 @@ export class WalletTransactionsService {
     return this.http
       .get(this.getUrl(asset, address, quoteCurrency), { headers: this.authHeaders })
       .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
+  }
+
+  async canNotAffordFee(summaryData: SummaryData): Promise<boolean> {
+    const rawTx = await this.createRawTxFromSummaryData(summaryData);
+    const fee = await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency);
+
+    if (summaryData.currency.native) {
+      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
+    } else {
+      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
+    }
+  }
+
+  async createRawTxFromSummaryData(summaryData: SummaryData): Promise<utils.Deferrable<TransactionRequest>> {
+    const data = {
+      to: summaryData.address,
+      value: parseUnits(
+        summaryData.amount.toString(),
+        summaryData.currency.decimals ? summaryData.currency.decimals : 18
+      ),
+    };
+
+    if (summaryData.currency.native) {
+      return Promise.resolve(data);
+    }
+
+    const provider = await this.blockchainProviderService.getProvider(summaryData.currency.value);
+    const contract = await this.ethersService.newContract(provider.contract, provider.abi, provider.provider);
+    return await contract.populateTransaction.transfer(data.to, data.value);
   }
 }

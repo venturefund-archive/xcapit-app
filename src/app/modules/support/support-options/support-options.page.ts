@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SUPPORTOPTIONS } from '../shared-support/constants/support-options';
+import { SUPPORT_OPTIONS } from '../shared-support/constants/support-options';
 
 @Component({
   selector: 'app-support-options',
@@ -14,7 +14,7 @@ import { SUPPORTOPTIONS } from '../shared-support/constants/support-options';
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="so__title">
-          <ion-text class="ux-font-text-xl">
+          <ion-text class="ux-font-text-lg">
             {{ 'support.title' | translate }}
           </ion-text>
         </div>
@@ -22,6 +22,7 @@ import { SUPPORTOPTIONS } from '../shared-support/constants/support-options';
           <div>
             <ion-list *ngIf="this.options">
               <app-support-options-card *ngFor="let option of options" [option]="option"> </app-support-options-card>
+              <app-contact-support></app-contact-support>
             </ion-list>
           </div>
         </div>
@@ -30,7 +31,7 @@ import { SUPPORTOPTIONS } from '../shared-support/constants/support-options';
   styleUrls: ['./support-options.page.scss'],
 })
 export class SupportOptionsPage implements OnInit {
-  options = SUPPORTOPTIONS;
+  options = SUPPORT_OPTIONS;
   constructor() {}
 
   ngOnInit() {}

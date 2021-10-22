@@ -1,19 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
-
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SupportOptionsPage } from './support-options.page';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SupportOptionsPage', () => {
   let component: SupportOptionsPage;
   let fixture: ComponentFixture<SupportOptionsPage>;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController({});
+      navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
         declarations: [SupportOptionsPage],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],

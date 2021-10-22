@@ -1,21 +1,21 @@
-export const SUPPORTOPTIONS = [
+export const SUPPORT_OPTIONS = [
   {
     title: 'support.support_options.title_account',
     description: 'support.support_options.description_account',
     icon: '../../assets/ux-icons/ux-xcapit-account.svg',
-    route: '',
+    route: '/support/account',
   },
   {
     title: 'support.support_options.title_wallet',
     description: 'support.support_options.description_wallet',
     icon: '../../assets/ux-icons/ux-support-wallet.svg',
-    route: '',
+    route: '/support/wallet',
   },
   {
     title: 'support.support_options.title_buy',
     description: 'support.support_options.description_buy',
     icon: '../../assets/ux-icons/ux-buy.svg',
-    route: '',
+    route: '/support/buy',
   },
   {
     title: 'support.support_options.title_investment',
@@ -33,12 +33,6 @@ export const SUPPORTOPTIONS = [
     title: 'support.support_options.title_security',
     description: 'support.support_options.description_security',
     icon: '../../assets/ux-icons/ux-trending-up.svg',
-    route: '',
-  },
-  {
-    title: 'support.support_options.title_support',
-    description: '',
-    icon: '../../assets/ux-icons/ux-support.svg',
-    route: '/tickets/create-support-ticket',
+    route: '/support/security',
   },
 ];

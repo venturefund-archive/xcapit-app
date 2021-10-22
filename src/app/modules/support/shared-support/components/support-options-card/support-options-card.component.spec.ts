@@ -1,14 +1,13 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { SUPPORTOPTIONS } from '../../constants/support-options';
+import { SUPPORT_OPTIONS } from '../../constants/support-options';
 
 import { SupportOptionsCardComponent } from './support-options-card.component';
-import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SupportOptionsCardComponent', () => {
   let component: SupportOptionsCardComponent;
@@ -30,7 +29,7 @@ describe('SupportOptionsCardComponent', () => {
 
       fixture = TestBed.createComponent(SupportOptionsCardComponent);
       component = fixture.componentInstance;
-      component.option = SUPPORTOPTIONS[0];
+      component.option = SUPPORT_OPTIONS[0];
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })

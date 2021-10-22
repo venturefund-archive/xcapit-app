@@ -6,6 +6,10 @@ import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
+import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
+import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { BigNumber } from 'ethers';
 
 @Component({
   selector: 'app-send-detail',
@@ -67,12 +71,25 @@ import { CustomValidators } from '../../../../shared/validators/custom-validator
         </div>
       </form>
 
+      <div class="sd__alert">
+        <app-ux-alert-message [type]="this.alertType" *ngIf="!this.hasNativeToken">
+          <div class="sd__alert__title">
+            <ion-text>{{ 'wallets.send.send_detail.alert.title' | translate }}</ion-text>
+          </div>
+          <div class="sd__alert__text">
+            <ion-text>{{
+              'wallets.send.send_detail.alert.text' | translate: { nativeToken: this.nativeToken.value }
+            }}</ion-text>
+          </div>
+        </app-ux-alert-message>
+      </div>
+
       <div class="sd__submit-button">
         <ion-button
           class="ux_button sd__submit-button__button"
           appTrackClick
           name="Continue"
-          (click)="this.goToSummary()"
+          (click)="this.submitForm()"
           [disabled]="!this.form.valid || !this.selectedNetwork"
           color="uxsecondary"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
@@ -83,10 +100,15 @@ import { CustomValidators } from '../../../../shared/validators/custom-validator
   styleUrls: ['./send-detail.page.scss'],
 })
 export class SendDetailPage {
+  alertType = UX_ALERT_TYPES.warning;
   coins = COINS;
   currency: Coin;
   networks: string[];
   selectedNetwork: string;
+  estimatedGas: BigNumber;
+  hasNativeToken = true;
+  nativeToken: Coin;
+  balanceNativeToken: number;
   amount: number;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
@@ -98,12 +120,28 @@ export class SendDetailPage {
     private route: ActivatedRoute,
     private navController: NavController,
     private formBuilder: FormBuilder,
-    private transactionDataService: TransactionDataService
+    private transactionDataService: TransactionDataService,
+    private walletService: WalletService,
+    private storageService: StorageService
   ) {}
 
   ionViewWillEnter() {
     this.getCurrency();
     this.setCurrencyNetworks();
+    this.checkNativeTokenAmount();
+  }
+
+  getNativeToken() {
+    this.nativeToken = this.coins.find((c) => c.network === this.selectedNetwork && c.native);
+  }
+
+  async checkNativeTokenAmount() {
+    this.getNativeToken();
+    const nativeTokenAddress = await this.storageService.getWalletsAddresses(this.selectedNetwork);
+    this.balanceNativeToken = parseFloat(
+      await this.walletService.balanceOf(nativeTokenAddress, this.nativeToken.value)
+    );
+    this.hasNativeToken = this.balanceNativeToken > 0;
   }
 
   private getCurrency() {
@@ -119,14 +157,19 @@ export class SendDetailPage {
     this.selectedNetwork = network;
   }
 
-  async goToSummary() {
+  async submitForm() {
     if (this.form.valid) {
-      this.transactionDataService.transactionData = {
-        network: this.selectedNetwork,
-        currency: this.currency,
-        ...this.form.value,
-      };
-      await this.navController.navigateForward(['/wallets/send/summary']);
+      await this.goToSummary();
     }
+  }
+
+  async goToSummary() {
+    this.transactionDataService.transactionData = {
+      network: this.selectedNetwork,
+      currency: this.currency,
+      ...this.form.value,
+      balanceNativeToken: this.balanceNativeToken,
+    };
+    await this.navController.navigateForward(['/wallets/send/summary']);
   }
 }

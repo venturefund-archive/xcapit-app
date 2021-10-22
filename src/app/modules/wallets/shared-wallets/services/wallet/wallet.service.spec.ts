@@ -4,7 +4,7 @@ import { Mnemonic } from 'ethers/lib/utils';
 import { COINS } from '../../../constants/coins';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from './wallet.service';
-import { BlockchainProviderService } from '../brockchain-provider/blockchain-provider.service';
+import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',

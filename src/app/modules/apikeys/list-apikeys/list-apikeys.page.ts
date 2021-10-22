@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { LINKS } from '../../../config/static-links';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
+import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
 
 @Component({
   selector: 'app-list-apikeys',
@@ -52,7 +53,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
             </div>
           </div>
           <div class="nr__security-info-alert">
-            <app-ux-alert-message type="info">{{
+            <app-ux-alert-message [type]="this.alertType">{{
               'apikeys.list_apikeys.security_info_alert' | translate
             }}</app-ux-alert-message>
           </div>
@@ -82,6 +83,7 @@ import { StorageApikeysService } from '../shared-apikeys/services/storage-apikey
   styleUrls: ['./list-apikeys.page.scss'],
 })
 export class ListApikeysPage implements OnInit {
+  alertType = UX_ALERT_TYPES.info;
   apikeys: any = [];
   showImage = false;
   loading = true;

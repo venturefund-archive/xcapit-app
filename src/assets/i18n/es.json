@@ -1405,6 +1405,10 @@
         },
         "amount_input": {
           "title": "Monto a enviar"
+        },
+        "alert": {
+          "title": "Atención",
+          "text": "Tiene 0 {{nativeToken}} en su cuenta para pagar las comisiones de transacción. Compre algunos {{nativeToken}} o deposítelos desde otra cuenta."
         }
       },
       "send_summary": {
@@ -1416,6 +1420,16 @@
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
+        },
+        "alert_not_enough_native_token": {
+          "title": "Error de transacción",
+          "text": "Fondos insuficientes para realizar el pago de las comisiones",
+          "button": "Aceptar"
+        },
+        "alert_invalid_address": {
+          "title": "Error de transacción",
+          "text": "La dirección de destino no es correcta",
+          "button": "Aceptar"
         }
       },
       "send_success": {
@@ -1968,8 +1982,92 @@
       "title_apikeys": "Binance y API Keys",
       "description_apikeys": "Crear cuenta, conectarse a binance y gestión de APY Keys.",
       "title_security": "Seguridad ",
-      "description_security": "Sobre mis datos y mi capital.",
-      "title_support": "Escribir a soporte"
+      "description_security": "Sobre mis datos y mi capital."
+    },
+    "contact_support": {
+      "title": "Escribir a soporte"
+    },
+    "support_account_xcapit": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Cuenta de Xcapit",
+      "question1": "¿Cómo crear una cuenta en Xcapit?",
+      "answer1": "Pues, ¡es muy fácil! Puedes crear la cuenta desde la app o tocando el botón \"Crear cuenta\" en nuestro sitio web",
+      "question2": "¿Cuál es el riesgo de invertir con Xcapit?",
+      "answer2": "Cada producto de inversión que ofrecemos tiene su métrica correspondiente de riesgo a la cual debes estar seguro o segura que vas a tomarlo, las estrategias de mayor riesgo son himalayas y andes.",
+      "question3": "¿Cómo vincular Xcapit con mi cuenta de Binance?",
+      "answer3": "<ul><li>Para vincular tu cuenta de Xcapit con tu cuenta de Binance puedes seguir esta guía <a href='/apikeys/how-create-binance-account'>¿Cómo crear una cuenta de binance?</a>.‍‍</li><li>Si necesitas ayuda puedes generar un ticket en este link de Soporte para usuarios.</li></ul>",
+      "question4": "¿Puedo hacer trading con la misma cuenta de Binance que tengo vinculada en Xcapit?",
+      "answer4": "Se recomienda tener otra cuenta aparte para hacer trading manual",
+      "question5": "¿Por qué necesito una cuenta en Binance?",
+      "answer5": "Los productos de inversión de Xcapit se ejecutan desde tu cuenta de Binance, para que siempre puedas tener la custodia sobre tu capital.",
+      "question6": "¿Cómo hago para pagar el servicio de Xcapit?",
+      "answer6": "Actualmente en Xcapit contamos con un sistema de cobro de membresías, dependiendo del capital que necesites invertir, hay membresías gratuitas si quieres empezar a probar.",
+      "question7": "¿Cuándo debo pagar el servicio de Xcapit?",
+      "answer7": "En el caso de que decidas empezar con la membresía gratuita, Plan Explorer, comenzarás a pagar solo si decides sobrepasar el límite de 300 dólares en tu inversión. El pago se hace mensualmente y el valor de la membresía depende de cual elijas. ¡En todos los planes pagos tienes 30 días gratis!"
+    },
+    "support_wallet": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Wallet",
+      "question1": "¿Qué es una wallet?",
+      "answer1": "Una wallet o billetera digital es un contenedor y medio para transferir tus criptomonedas de manera segura y anónima, con la posibilidad de adherirse a protocolos de inversión non-custodial descentralizados.",
+      "question2": "¿Por qué usar la wallet de Xcapit?",
+      "answer2": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Puedes acceder a productos de inversión descentralizados de manera sencilla y dentro de la app. </li><li>Acceso al intercambio de tus NFTs favoritos. </li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
+      "question3": "¿Cómo creo una wallet?",
+      "answer3": "<b>1.</b> Descargar la app.<br><b>2.</b> Generar wallet.<br><b>3.</b> Conseguir lápiz y papel.<br><b>4.</b> Guardar la frase de recuperación en un lugar seguro.",
+      "question4": "¿Cómo importar una wallet?",
+      "answer4": "<b>1.</b> Dentro de la app, se accede a la opción: \"Importar wallet\".<br> <b>2.</b> Ingresar las 12 palabras de la wallet que se desea importar.<br> <b>3.</b> Seleccionar los tokens a visualizar.<br> <b>4.</b> Crear nueva contraseña para la firma de transacciones con la nueva wallet.",
+      "question5": "¿Qué es la frase de recuperación?",
+      "answer5": "<ul><li>La frase de recuperación está compuesta por 12 palabras que necesitarás para acceder a la billetera posteriormente.</li><li>Si pierdes la frase de recuperación no podrás acceder a la billetera.</li></ul>",
+      "question6": "¿Por qué necesito una clave además de mis 12 palabras?",
+      "answer6": "<ul><li>Para tener un medio más práctico para loguearte en la app, si pierdes esta contraseña, podrás recuperarla con las 12 palabras.</li><li>La contraseña es para validar toda operación que demande la transferencia de dinero de la wallet.</li></ul>",
+      "question7": "¿Dónde guardo mis palabras de seguridad?",
+      "answer7": "Solo anotalas en un lugar seguro, donde nadie más que vos pueda tener acceso.",
+      "question8": "¿Qué pasa si pierdo mi clave?",
+      "answer8": "Podrás restablecerla con tus 12 palabras de seguridad.",
+      "question9": "¿Qué pasa si pierdo mis 12 palabras de seguridad?",
+      "answer9": "Es MUY importante que no se pierdan, ya que es el único medio para acceder a tu billetera digital, es lo que te da la tranquilidad de que nadie más que vos va a tener acceso a tus ahorros.",
+      "question10": "¿Qué costo tienen las transacciones a otra billetera?",
+      "answer10": "<ul><li>El costo de transferencia va a depender de la moneda transferida y a través de qué red se esté transfiriendo.</li><li>Los tokens que se van a poder alojar, recibir y transferir son todos los de la red de ethereum, polygon y RSK.</li><li>Polygon y RSK son las redes con menor costo de transacción.</li></ul>",
+      "question11": "¿Por qué me aparece un mensaje de fondo insuficiente para realizar el pago de comisiones si yo tengo cripto?",
+      "answer11": "<ul><li>Porque el pago de las Fee de las transacciones se hacen en la moneda nativa de la red.</li><li>A través de swap de la billetera de Xcapit vas a poder adquirir los tokens nativos para pagar las Fee o Comisiones.</li></ul>",
+      "question12": "¿Cuánto tiempo demora en acreditarse una transferencia?",
+      "answer12": "De la misma manera que el costo de la transferencia, el tiempo va a depender de la blockchain de la misma.",
+      "question13": "¿Cómo recibo una transferencia en mi Wallet (Billetera o cartera inteligente)?",
+      "answer13": "<b>1.</b> Buscar en la billetera el token que necesitan transferir. <br> <b>2.</b> Copiar la dirección de depósito correspondiente al mismo. <br> <b>3.</b> Enviar la dirección a la persona que te va a transferir.",
+      "question14": "¿Cómo transferir mi dinero?",
+      "answer14": "<b>1.</b> Debes seleccionar el token que desea transferir.<br> <b>2.</b> Pegar en el campo de dirección, la dirección a la cual quiere enviar los mismos. Para transferir, necesitas la dirección de depósito específica del destinatario para el token que deseas transferir. <br> <b>3.</b> Ingresar el monto que quieres transferir. <br> <b>4.</b> Verificar que los datos sean correctos.",
+      "question15": "¿Dónde veo mi NFT?",
+      "answer15": "Dentro de la wallet de Xcapit vas a poder acceder a la sección de NFTs donde podrás contenerlo de por vida.",
+      "question16": "¿Cómo transfiero mi NFT?",
+      "answer16": "Se transfiere de la misma manera que un token, a través de una red específica (Polygon o RC721).",
+      "question17": "¿En qué red está alojado el Smart Contract de mi NFT o \"Contrato inteligente\"?",
+      "answer17": "Se encuentra en la red de Polygon.",
+      "question18": "¿Cómo invierto en mi wallet?",
+      "answer18": "Por el momento los productos de inversión descentralizados dentro de la wallet de Xcapit se encuentran en fase de desarrollo. Cuando estén disponibles, serán accesibles de forma sencilla e intuitiva dentro de la app."
+    },
+    "support_security": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Seguridad",
+      "question1": "¿Cómo se guardan mis datos?",
+      "answer1": "No se guardan datos respectivos a la identidad de los usuarios.",
+      "question2": "¿Cómo se usan mis datos?",
+      "answer2": "Se almacenan datos de experiencias de usuarios para poder llevar a cabo una mejora continua en la satisfacción de uso para los usuarios.",
+      "question3": "¿Mi capital dentro de binance está seguro?",
+      "answer3": "El capital del usuario nunca va a estar en propiedad de Xcapit, el algoritmo trabaja haciendo trading directamente en la Wallet SPOT del usuario a través de la API de BINANCE proporcionada por el usuario al crear un nuevo fondo, y destacamos que XCAPIT no tiene la posibilidad de retirar fondos o transferir desde la billetera de Binance del cliente, además recibimos mentorías constantes de UNICEF sobre blockchain y open source para dar a nuestros usuarios cada dia un mejor servicio y mejores rentabilidades.",
+      "question4": "¿Qué pasa si mi cuenta no registra operaciones en un considerable periodo de tiempo?",
+      "answer4": "La solución frecuente a este problema es verificar en la sección API Keys dentro de binance, que esté habilitada la casilla  “Habilitar spot y margin trading”, esperar al próximo rebalanceo de cartera y si el problema persiste consultarnos a través del sistema de soporte de la app."
+    },
+    "support_buy": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Compra",
+      "question1": "¿Cómo depositar dinero en mi cuenta de Binance?",
+      "answer1": "<ul><li>Puedes usar nuestra app para adquirir tus activos que van a ser depositados en tu cuenta de binance o bien utilizar el mercado P2P.</li><li>Si necesitas ayuda puedes generar un ticket escribiendo a Soporte.</li></ul>",
+      "question2": "¿Cómo compro en Kripton?",
+      "answer2": "Desde la app, selecciona \"Comprar\", elije el proveedor Kripton",
+      "question3": "¿Cómo compro en Paxful?",
+      "answer3": "Desde la app, selecciona \"Comprar\", elije el proveedor Paxful.",
+      "question4": "¿Por qué no se acredita mi dinero?",
+      "answer4": "<ul><li>Recordá que el dinero adquirido de nuestros proveedores se acreditará en tu billetera SPOT una vez completado el pago de los tokens adquiridos.</li><li>El depósito de los tokens puede llegar a demorar varios minutos, no te preocupes, de todas maneras, si el problema persiste, te invitamos a contarnos tu problema abriendo un ticket de soporte para poder ayudarte de manera más personal y llegar juntos a una solución.</li></ul>"
     }
   }
 }
