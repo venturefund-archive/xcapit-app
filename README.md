@@ -1,147 +1,87 @@
-### Note: La app ya se encuentra con la rama nueva-arquitectura-estado mergeada a dev.
+# Xcapit Smart Wallet
 
-# Instrucciones para correr la App y setear assets según brand (wcs/xcapit), si no se desea setear una brand se ejecuta con los scripts mencionados [aquí](#instrucciones).
+Xcapit Smart Wallet is an Ethereum, RSK and Polygon wallet app that offers an easy way to enter the blockchain world, learn about finance, define and track savings goals and invest to achieve them.
 
-Nota: para generar los iconos y las splash  correspondientes a la PWA se utilizó [pwa-asset-generator](https://github.com/onderceylan/pwa-asset-generator). Para las nativas (android, ios) [cordova-res](https://github.com/ionic-team/cordova-res) (aunque todavía no se automatizó el seteo de estas últimas).
+## Getting Started
 
-Para correr la App ejecutar
+### Installation
 
-```bash
-npm run start:wcs
-```
-```bash
-npm run start:xcapit
-```
+Clone the repo and open the directory:
 
-o
-
-```bash
-yarn start:wcs
-```
-```bash
-yarn start:xcapit
+```sh
+git clone https://gitlab.com/xcapit-foss/app xcapit-smart-wallet
+cd xcapit-smart-wallet
 ```
 
-Para crear un build para producción
+Ensure you have [Node](https://nodejs.org/) and [Yarn](https://yarnpkg.com/) installed, then install and start Smart Wallet:
 
-```bash
-npm run build:prod:wcs
-```
-```bash
-npm run build:prod:xcapit
-```
-
-o
-
-```bash
-yarn build:prod:wcs
-```
-```bash
-yarn build:prod:xcapit
-```
-
-Para crear un build de una PWA para producción
-
-```bash
-npm run build:prod:pwa:wcs
-```
-```bash
-npm run build:prod:pwa:xcapit
-```
-
-o
-
-```bash
-yarn build:prod:pwa:wcs
-```
-```bash
-yarn build:prod:pwa:xcapit
-```
-
-# Instrucciones para update de dependencias
-
-Para hacer update de dependencias, bajar lo último del repo (branch dev) y en el directorio de la App ejecutar:
-
-```bash
-rm -rf node_modules
-```
-
-por último ejecutar:
-
-```bash
-npm i
-```
-
-o
-
-```bash
+```sh
 yarn install
-```
-
-# <a id="instrucciones"></a> Instrucciones para correr la App
-
-* Versión de node: v11.6.0
-* Versión de npm: 6.5.0-next.0
-* Versión de yarn: 1.16.0 (no es estrictamente necesario)
-* Versión de ionic/cli: v5.0.0
-
-Si ya estan instalados los paquetes listados arriba se procede a instalar las dependencias de la App.
-
-Para instalar las dependencias, en el directorio de la App ejecutar:
-
-```bash
-npm i
-```
-
-o
-
-```bash
-yarn install
-```
-
-Para correr la App ejecutar
-
-```bash
 npm start
 ```
 
-o
+Visit [`localhost:8100`](http://localhost:8100/) to view the app.
 
-```bash
-yarn start
+## Unit & E2E Tests (Karma & Protractor)
+
+To run the tests, run:
+
+```
+ npm run test
 ```
 
-Una vez que la App esta corriendo se debería abrir una pestaña en el navegador por defecto con la url localhost:8100/users/login
+## Testing on Real Devices
 
-Se debe modificar la url a localhost:8100/users/register esto es porque la App tiene como ruta de inicio predeterminada el login, después se puede definir de manera dinámica la ruta de inicio, si es login o registro, de acuerdo a que acciones tome el usuario (si ya se registro, etc.).
+It's recommended that all final testing be done on a real device – both to assess performance and to enable features that are unavailable to the emulator (e.g. a device camera).
 
-# Instrucciones generar una PWA para producción
+### Android
 
-```bash
-npm build --prod --serviceWorker=true
+Follow the [Capacitor Android Environment Setup Guide](https://capacitorjs.com/docs/getting-started/environment-setup#android-development) to set up your development environment.
+
+When your development environment is ready, run the `build:prod:xcapit:android` package script.
+
+```sh
+npm run build:prod:xcapit:android
 ```
 
-o
+### iOS
 
-```bash
-yarn build --prod --serviceWorker=true
+Follow the [Capacitor iOS Environment Setup Guide](https://capacitorjs.com/docs/getting-started/environment-setup#ios-development) to set up your development environment.
+
+When your development environment is ready, run the `build:prod:xcapit:ios` package script.
+
+```sh
+npm run build:prod:xcapit:ios
 ```
 
-# Instrucciones para generar docker para preproducción
-Pararse en rama release/vx.x.x 
+## Configuration
 
-Hacer merge de dev
+For configuration settings you could see and change the next files.
 
-Buildear el docker
-
-```bash
-docker build -t app_user:vx.x.x .
+```sh
+./variables.env.ts
+./src/environments/environment.ts
+./src/environments/environment.prod.ts
 ```
 
-Levantar el docker
+## Docker
 
-```bash
-docker run --restart always --name app_user -d -p 4200:4200 app_user:vx.x.x
+You can run Xcapit Smart Wallet with [Docker](https://www.docker.com/) by running the following commands.
+
+```sh
+cp docker-compose.yml.example docker-compose.yml
+docker-compose up -d
 ```
 
-Nota: Para hacer el run con el nombre app_user hay que renombrar/eliminar el docker anterior.
+## Related Services
+
+Xcapit Smart Wallet depends on backend services for authentication, notifications, blockchain information and others features.
+Related to blockchain information, you can configure yours RPCs urls and the [Covalent](https://www.covalenthq.com/) credentials in the [configuration files](#configuration).
+
+The Xcapit backend services for authentication and notifications will be available in [gitlab.com/xcapit-foss](https://gitlab.com/xcapit-foss) soon.
+
+### Schema
+
+The next schema represent Xcapit Smart Wallet interacion with backend services.
+
+![smart wallet services relation](https://gitlab.com/xcapit-foss/documentation/-/raw/main/static/img/smart_wallet/XcapitSmartWallet_services_interaction.jpeg)
