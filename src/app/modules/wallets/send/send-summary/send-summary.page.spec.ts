@@ -127,7 +127,8 @@ describe('SendSummaryPage', () => {
   it('should send transaction and navigate on Send Button clicked and can afford fees and password is correct', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    const button = fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement;
+    button.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       'testPassword',
@@ -135,6 +136,7 @@ describe('SendSummaryPage', () => {
       'asdlkfjasd56lfjasdpodlfkj',
       summaryData.currency
     );
+    expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
@@ -154,6 +156,7 @@ describe('SendSummaryPage', () => {
       'asdlkfjasd56lfjasdpodlfkj',
       summaryData.currency
     );
+    expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/incorrect-password');
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
@@ -197,6 +200,7 @@ describe('SendSummaryPage', () => {
     navControllerSpy.navigateForward.and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
+    expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-amount');
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
@@ -211,6 +215,7 @@ describe('SendSummaryPage', () => {
     navControllerSpy.navigateForward.and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
+    expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
@@ -223,6 +228,7 @@ describe('SendSummaryPage', () => {
     navControllerSpy.navigateForward.and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
+    expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
@@ -235,6 +241,7 @@ describe('SendSummaryPage', () => {
     navControllerSpy.navigateForward.and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
+    expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
@@ -249,6 +256,7 @@ describe('SendSummaryPage', () => {
     navControllerSpy.navigateForward.and.callThrough();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
+    expect(component.isSending).toBeFalse();
     expect(alertSpy.present).toHaveBeenCalledTimes(1);
   });
 
@@ -284,5 +292,14 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should disable button when send transaction starts', async () => {
+    spyOn(component, 'beginSend');
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.isSending).toBeTrue();
   });
 });
