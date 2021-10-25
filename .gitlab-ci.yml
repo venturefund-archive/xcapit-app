@@ -16,7 +16,7 @@ variables:
   HADOLINT_REPO: hadolint/hadolint
   HADOLINT_TAG: v2.0.0-alpine
   SRC_DIR: '.' 
-  NODE_VERSION: 14-alpine
+  NODE_VERSION: "14"
 
 cache:
   paths:
@@ -29,7 +29,7 @@ cache:
 ### Syntax check
 .syntax-check: &syntax-check
   stage: syntax
-  image: node:${NODE_VERSION}
+  image: node:${NODE_VERSION}-alpine
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
@@ -42,7 +42,7 @@ cache:
 ### NodeJS test
 .nodejs-test: &nodejs-test
   stage: test
-  image: ubuntu:20.04
+  image: node:${NODE_VERSION}
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
