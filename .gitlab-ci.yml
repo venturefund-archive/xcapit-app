@@ -60,7 +60,6 @@ cache:
   - export DISPLAY=:99
   - npm install --silent --unsafe-perm -g @angular/cli@1.1.2
   - npm install --silent yarn
-  - node ./node_modules/.bin/webdriver-manager update
   - yarn install
   - export CHROME_BIN=/usr/bin/google-chrome
  script:
