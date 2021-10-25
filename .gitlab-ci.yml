@@ -42,13 +42,14 @@ cache:
 ### NodeJS test
 .nodejs-test: &nodejs-test
   stage: test
-  image: node:${NODE_VERSION}
+  image: ubuntu:20.04
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
   variables:
     CI: 'true'
   before_script:
+    - 
     - cd ${SRC_DIR}
     - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list
     - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -102,7 +103,7 @@ syntax_checking:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
 ### pytest
-NodeJS Test:
+test:
   <<: *nodejs-test
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
