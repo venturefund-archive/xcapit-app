@@ -1,26 +1,26 @@
 ---
 stages:
-  - syntax
-  - test
-  - build
-  - release
-  - docker-build
+ - syntax
+ - test
+ - build
+ - release
+ - docker-build
 
 image: docker:19.03.1
 services:
-  - docker:19.03.1-dind
+ - docker:19.03.1-dind
 
 variables:
-  DOCKER_HOST: tcp://docker:2375
-  DOCKER_TLS_CERTDIR: ''
-  HADOLINT_REPO: hadolint/hadolint
-  HADOLINT_TAG: v2.0.0-alpine
-  SRC_DIR: '.' 
-  NODE_VERSION: "14"
+ DOCKER_HOST: tcp://docker:2375
+ DOCKER_TLS_CERTDIR: ''
+ HADOLINT_REPO: hadolint/hadolint
+ HADOLINT_TAG: v2.0.0-alpine
+ SRC_DIR: '.' 
+ NODE_VERSION: "14"
 
 cache:
-  paths:
-    - node_modules/
+ paths:
+  - node_modules/
 
 ###########################################################################
 ###########################################################################
@@ -28,61 +28,62 @@ cache:
 
 ### Syntax check
 .syntax-check: &syntax-check
-  stage: syntax
-  image: node:${NODE_VERSION}-alpine
-  cache:
-    untracked: true
-    key: ${CI_COMMIT_REF_SLUG}
-  before_script:
-    - cd ${SRC_DIR}
-  script:
-    - node --check *.js
-  allow_failure: true
+ stage: syntax
+ image: node:${NODE_VERSION}-alpine
+ cache:
+  untracked: true
+  key: ${CI_COMMIT_REF_SLUG}
+ before_script:
+  - cd ${SRC_DIR}
+ script:
+  - node --check *.js
+ allow_failure: true
 
 ### NodeJS test
 .nodejs-test: &nodejs-test
-  stage: test
-  image: node:${NODE_VERSION}
-  cache:
-    untracked: true
-    key: ${CI_COMMIT_REF_SLUG}
-  variables:
-    CI: 'true'
-  before_script:
-    - 
-    - cd ${SRC_DIR}
-    - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list
-    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-    - apt-get -qq update -y
-    - apt-get -qq install -y google-chrome-stable xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps default-jre
-    - Xvfb :0 -ac -screen 0 1024x768x24 &
-    - export DISPLAY=:99
-    - npm install --silent --unsafe-perm -g @angular/cli@1.1.2
-    - npm install --silent yarn
-    - node ./node_modules/.bin/webdriver-manager update
-    - yarn install
-    - export CHROME_BIN=/usr/bin/google-chrome
-  script:
-    - ng test --karma-config karma-pipeline.conf.js
+ stage: test
+ image: node:${NODE_VERSION}
+ cache:
+  untracked: true
+  key: ${CI_COMMIT_REF_SLUG}
+ variables:
+  CI: 'true'
+ before_script:
+  - cd ${SRC_DIR}
+  - apt-get update -y
+  - apt-get -qq install --no-install-recommends -y xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps default-jre fonts-liberation xdg-utils
+  - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list
+  - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+  - apt-get update -y
+  - apt-get -qq install --no-install-recommends -y google-chrome-stable
+  - Xvfb :0 -ac -screen 0 1024x768x24 &
+  - export DISPLAY=:99
+  - npm install --silent --unsafe-perm -g @angular/cli@1.1.2
+  - npm install --silent yarn
+  - node ./node_modules/.bin/webdriver-manager update
+  - yarn install
+  - export CHROME_BIN=/usr/bin/google-chrome
+ script:
+  - ng test --karma-config karma-pipeline.conf.js
 
 ### Docker lint
 .docker-lint: &docker-lint
-  stage: syntax
-  image: '${HADOLINT_REPO}:${HADOLINT_TAG}'
-  before_script:
-    - hadolint --version
-    - cd ${SRC_DIR}
-  script:
-    - hadolint --ignore DL3018 --ignore DL3006 --ignore DL3003 --ignore DL3013 --ignore DL3007 --ignore DL3002 --ignore DL3008 --ignore DL3042 --ignore DL3016 Dockerfile
+ stage: syntax
+ image: '${HADOLINT_REPO}:${HADOLINT_TAG}'
+ before_script:
+  - hadolint --version
+  - cd ${SRC_DIR}
+ script:
+  - hadolint --ignore DL3018 --ignore DL3006 --ignore DL3003 --ignore DL3013 --ignore DL3007 --ignore DL3002 --ignore DL3008 --ignore DL3042 --ignore DL3016 Dockerfile
 
 ### Semantic release
 .semantic-release: &semantic-release
-  stage: release
-  image: node:13
-  before_script:
-    - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D 
-    - npm cache clean --force 
-    - npm cache verify
+ stage: release
+ image: node:13
+ before_script:
+  - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D 
+  - npm cache clean --force 
+  - npm cache verify
 
 ###########################################################################
 ###########################################################################
@@ -90,38 +91,38 @@ cache:
 
 # # Test
 docker_lint:
-  <<: *docker-lint
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+ <<: *docker-lint
+ rules:
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
 ### Syntax check
 syntax_checking:
-  <<: *syntax-check
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+ <<: *syntax-check
+ rules:
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
 ### pytest
 test:
-  <<: *nodejs-test
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+ <<: *nodejs-test
+ rules:
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
 # # Release
 release_master:
-  <<: *semantic-release
-  only:
-    refs:
-      - master
-  script:
-    - npx semantic-release -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git"
+ <<: *semantic-release
+ only:
+  refs:
+   - master
+ script:
+  - npx semantic-release -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git"
 
 release_develop:
-  <<: *semantic-release
-  only:
-    refs:
-      - develop
-  script:
-    - npx semantic-release --tag-format ${CI_COMMIT_BRANCH}-\${version} -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git"
+ <<: *semantic-release
+ only:
+  refs:
+   - develop
+ script:
+  - npx semantic-release --tag-format ${CI_COMMIT_BRANCH}-\${version} -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git"
