@@ -46,64 +46,70 @@ describe('ApiUsuariosService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should be call post on http when resetPassword', () => {
+  it('should call post on http when resetPassword', () => {
     service.resetPassword({}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call post on http when sendResetPasswordEmail', () => {
+  it('should call post on http when sendResetPasswordEmail', () => {
     service.sendResetPasswordEmail({}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call post on http when login', () => {
+  it('should call post on http when login', () => {
     service.login({}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
       expect(authServiceSpy.handleLoginResponse).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call post on http when loginWithGoogle', () => {
+  it('should call post on http when loginWithGoogle', () => {
     service.loginWithGoogle('').subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call post on http when sendEmailValidation', () => {
+  it('should call post on http when sendEmailValidation', () => {
     service.sendEmailValidation('').subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call post on http when sendEmailValidationByEmail', () => {
+  it('should call post on http when sendEmailValidationByEmail', () => {
     service.sendEmailValidationByEmail('').subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call post on http when emailValidation', () => {
+  it('should call post on http when emailValidation', () => {
     service.emailValidation('', '').subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call post on http when changePassword', () => {
+  it('should call post on http when changePassword', () => {
     service.changePassword({}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call get on http when getUser', () => {
+  it('should call get on http when getUser', () => {
     service.getUser().subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should be call get on http when status', () => {
+  it('should call get on http when status', () => {
     service.status().subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call put on http when set language', () => {
+    service.setLanguage('es').subscribe(() => {
+      expect(customHttpServiceSpy.put).toHaveBeenCalledTimes(1);
     });
   });
 });
