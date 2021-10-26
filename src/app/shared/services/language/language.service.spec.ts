@@ -3,17 +3,17 @@ import { TestBed } from '@angular/core/testing';
 import { LanguageService } from './language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
-import { ApiUsuariosService } from '../../../modules/usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { of } from 'rxjs';
+import { ApiProfilesService } from '../../../modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
 
 describe('LanguageService', () => {
   let translateServiceSpy: any;
   let storageSpy: any;
   let service: LanguageService;
-  let apiUsuariosServiceSpy: jasmine.SpyObj<ApiUsuariosService>;
+  let apiProfilesServiceSpy: jasmine.SpyObj<ApiProfilesService>;
 
   beforeEach(() => {
-    apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', {
+    apiProfilesServiceSpy = jasmine.createSpyObj('ApiProfilesService', {
       setLanguage: of({}),
     });
     translateServiceSpy = jasmine.createSpyObj('TranslateService', ['setDefaultLang', 'use']);
@@ -23,7 +23,7 @@ describe('LanguageService', () => {
       providers: [
         { provide: TranslateService, useValue: translateServiceSpy },
         { provide: Storage, useValue: storageSpy },
-        { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+        { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },
       ],
     });
     service = TestBed.inject(LanguageService);
@@ -45,7 +45,7 @@ describe('LanguageService', () => {
   });
 
   it('should call setDefaultLang on translate and get on Storage when setInitialAppLanguage', () => {
-    storageSpy.get.and.returnValue(new Promise(() => null));
+    storageSpy.get.and.resolveTo(() => null);
     service.setInitialAppLanguage();
     expect(translateServiceSpy.setDefaultLang).toHaveBeenCalledTimes(1);
     expect(storageSpy.get).toHaveBeenCalledTimes(1);
@@ -53,6 +53,6 @@ describe('LanguageService', () => {
 
   it('should set language through api when set language', () => {
     service.setLanguage('es');
-    expect(apiUsuariosServiceSpy.setLanguage).toHaveBeenCalledOnceWith('es');
+    expect(apiProfilesServiceSpy.setLanguage).toHaveBeenCalledOnceWith('es');
   });
 });
