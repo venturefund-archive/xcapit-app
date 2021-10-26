@@ -72,6 +72,7 @@ const { Browser } = Plugins;
               type="button"
               appTrackClick
               name="Go To Login"
+              (click)="this.goToLogin()"
               class="main__back_login__button ux_button"
             >
               {{ 'usuarios.register.back_login' | translate }}
