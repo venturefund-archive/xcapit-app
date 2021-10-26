@@ -17,6 +17,7 @@ const coins: Coin[] = [
     last: false,
     value: 'BTC',
     network: '',
+    chainId: 42,
     rpc: '',
   },
   {
@@ -26,6 +27,7 @@ const coins: Coin[] = [
     last: false,
     value: 'USDT',
     network: '',
+    chainId: 42,
     rpc: '',
   },
 ];

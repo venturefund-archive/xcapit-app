@@ -220,14 +220,13 @@
       "submit_button": "Send"
     },
     "categories": {
-      "my_account": "My account",
+      "my_account": "My account/Registration",
       "link_binance_account": "Link my binance account",
       "buy_crypto": "Buy Crypto",
       "subscription_plans": "Subscription Plans",
       "investment_strategies": "Investment strategies",
-      "account_security": "Account Security",
-      "others": "Others",
-      "email_validation": "Account Validation"
+      "capital_security": "Capital Security",
+      "others": "Others"
     }
   },
   "funds": {
@@ -1379,8 +1378,8 @@
     },
     "transactions": {
       "header": "Transactions history",
-      "sended": "Sended",
-      "received": "Received",
+      "OUT": "Sent",
+      "IN": "Received",
       "swap": "Swap"
     },
     "send": {

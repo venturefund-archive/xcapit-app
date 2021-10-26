@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
-import { TicketCategories } from 'src/app/modules/tickets/shared-tickets/enums/ticket-categories.enum';
+import { TICKET_CATEGORIES } from 'src/app/modules/tickets/shared-tickets/constants/ticket-categories';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -18,24 +18,29 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_email' | translate"
           [readonly]="!this.canModifyEmail"
         ></app-ux-input>
-        <app-ux-input-select-traduction
+        <app-input-select
           *ngIf="!this.category"
-          controlName="subject"
-          type="text"
           [label]="'tickets.create_ticket_form.label_subject' | translate"
-          [placeholder]="'tickets.create_ticket_form.placeholder_subject' | translate"
           [modalTitle]="'tickets.create_ticket_form.placeholder_subject' | translate"
-          [data]="this.data"
-        ></app-ux-input-select-traduction>
-        <app-ux-input
-          *ngIf="this.category"
-          controlName="subject"
-          type="text"
-          inputmode="text"
-          [label]="'tickets.create_ticket_form.label_subject' | translate"
           [placeholder]="'tickets.create_ticket_form.placeholder_subject' | translate"
-          [readonly]="this.category"
-        ></app-ux-input>
+          controlName="subject"
+          [data]="this.ticketCategories"
+          key="value"
+          valueKey="value"
+          [translated]="true"
+        ></app-input-select>
+        <app-input-select
+          *ngIf="this.category"
+          [label]="'tickets.create_ticket_form.label_subject' | translate"
+          [modalTitle]="'tickets.create_ticket_form.placeholder_subject' | translate"
+          [placeholder]="'tickets.create_ticket_form.placeholder_subject' | translate"
+          controlName="subject"
+          [data]="this.filteredTicketCategories"
+          key="value"
+          valueKey="value"
+          [translated]="true"
+          disabled="true"
+        ></app-input-select>
         <app-ux-textarea
           controlName="message"
           inputmode="text"
@@ -74,7 +79,6 @@ export class CreateTicketFormComponent implements OnInit {
   form: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     subject: ['', [Validators.required]],
-    category_code: ['', [Validators.required]],
     message: ['', [Validators.required, Validators.maxLength(2000)]],
   });
   isValidationEmail = false;
@@ -86,7 +90,8 @@ export class CreateTicketFormComponent implements OnInit {
   @Output()
   send = new EventEmitter<any>();
 
-  data = Object.values(TicketCategories).map((key) => this.translateCategoryCode(key));
+  ticketCategories = TICKET_CATEGORIES;
+  filteredTicketCategories: typeof TICKET_CATEGORIES;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -96,30 +101,25 @@ export class CreateTicketFormComponent implements OnInit {
 
   ngOnInit() {
     this.form.patchValue({ email: this.userEmail });
-
     if (this.category) {
-      const subjectValue = this.data.find((value) => value === this.category);
-      this.form.patchValue({ subject: subjectValue });
+      const filteredCategories = TICKET_CATEGORIES.filter((category) => category.name === this.category);
+      this.filteredTicketCategories = filteredCategories;
+      this.form.patchValue({ subject: filteredCategories[0] });
     }
   }
   handleSubmit() {
-    this.setCategoryCode();
     if (this.form.valid) {
-      this.send.emit(this.form.value);
+      const parsedValues = this.getParsedValues(this.form.value);
+      this.send.emit(parsedValues);
     } else {
       this.form.markAllAsTouched();
     }
   }
 
-  setCategoryCode() {
-    const subject = this.form.value.subject;
-    const categoryCode = Object.keys(TicketCategories).find(
-      (catItem) => this.translateCategoryCode(TicketCategories[catItem]) === subject
-    );
-    this.form.patchValue({ category_code: categoryCode });
-  }
-
-  translateCategoryCode(value) {
-    return this.translate.instant(`tickets.categories.${value}`);
+  getParsedValues(formValues) {
+    const valuesCopy = Object.assign({}, formValues);
+    valuesCopy.category_code = valuesCopy.subject.name;
+    valuesCopy.subject = this.translate.instant(valuesCopy.subject.value);
+    return valuesCopy;
   }
 }

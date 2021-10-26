@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
-import { TranslateService } from '@ngx-translate/core';
-
 @Component({
   selector: 'app-create-ticket',
   template: `
     <ion-content class="ion-padding-horizontal ion-padding-bottom">
       <div class="header">
+        <div class="close_button">
+          <ion-button fill="clear" appTrackClick name="Close" (click)="this.close()">
+            <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
+          </ion-button>
+        </div>
         <div class="header__title">
           <ion-text class="ux-font-text-xl">
             {{ 'tickets.create.title' | translate }}
@@ -27,7 +29,7 @@ import { TranslateService } from '@ngx-translate/core';
           [userEmail]="this.userEmail"
           [emailInput]="true"
           [canModifyEmail]="this.canModifyEmail"
-          [category]="this.validationCategory"
+          category="Mi cuenta/Registro"
           (send)="this.handleSubmit($event)"
         ></app-create-ticket-form>
       </div>
@@ -38,32 +40,26 @@ import { TranslateService } from '@ngx-translate/core';
 export class CreateEmailValidationTicketPage implements OnInit {
   canModifyEmail = true;
   userEmail = '';
-  validationCategory = '';
   constructor(
-    public submitButtonService: SubmitButtonService,
     private apiTicketsService: ApiTicketsService,
     private navController: NavController,
-    private route: ActivatedRoute,
-    private router: Router,
-    private translate: TranslateService
-  ) {
-    this.route.queryParams.subscribe((params) => {
-      const extras = this.router.getCurrentNavigation().extras;
-      if (extras.state && extras.state.email) {
-        this.userEmail = extras.state.email;
-        this.canModifyEmail = false;
-      }
-    });
-  }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.validationCategory = this.translate.instant(`tickets.categories.email_validation`);
+    this.userEmail = this.route.snapshot.paramMap.get('email');
+    if (this.userEmail) {
+      this.canModifyEmail = false;
+    }
   }
 
   handleSubmit(data: any) {
-    this.apiTicketsService.crud.create(data).subscribe(() => this.success());
+    this.apiTicketsService.crud.create(data).subscribe(
+      () => this.success(),
+      () => {}
+    );
   }
 
   async success() {

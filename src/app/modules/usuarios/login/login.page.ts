@@ -53,7 +53,7 @@ import { NavController } from '@ionic/angular';
             size="large"
             type="submit"
             class="main__login_button ux_button"
-            color="uxprimary"
+            color="uxsecondary"
             [disabled]="this.submitButtonService.isDisabled | async"
           >
             {{ 'usuarios.login.login_button_text' | translate }}

@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { AssetDetailPage } from './asset-detail.page';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { By } from '@angular/platform-browser';
@@ -11,102 +10,75 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
 import { of } from 'rxjs';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
-import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
-const testCoin = {
-  test: [
-    {
-      id: 2,
-      name: 'ETH - Ethereum',
-      logoRoute: '../../assets/img/coins/ETH.svg',
-      last: false,
-      value: 'ETH',
-      network: 'ERC20',
-      rpc: 'http://testrpc.test',
-    },
-  ],
+const nativeTransfersResponse = {
+  data: {
+    address: 'testAddress',
+    quote_currency: 'USD',
+    items: [
+      {
+        from_address: 'testFromAddress',
+        to_address: 'testToAddress',
+        value: '10000000000000000',
+        value_quote: 30,
+      },
+      {
+        from_address: 'testFromAddress',
+        to_address: 'testAddress',
+        value: '10000000000000000',
+        value_quote: 30,
+      },
+    ],
+  },
 };
 
-const balances: Array<AssetBalance> = [
-  {
-    icon: 'assets/img/coins/ETH.svg',
-    symbol: 'ETH',
-    name: 'ETH - Ethereum',
-    amount: 20,
-    usdAmount: 3000,
-    usdSymbol: 'USD',
-  },
-];
-
-const transaction = [
-  {
-    icon: 'assets/img/wallet-transactions/received.svg',
-    type: 'received',
-    asset: 'ETH',
-    from: '0x00000000000000000000000000',
-    to: '0x00000000000000000000000001',
-    value: '0.2',
-    hash: '0x000000000000000000000000000000000000000000001',
-    blockNumber: '0x00000001',
-    erc721: false,
-    rawContract: false,
-    swap: {
-      currencyIn: '',
-      currencyOut: '',
-      amountIn: null,
-      amountOut: null,
-    },
-  },
-];
+const nativeAsset: Coin = {
+  id: 2,
+  name: 'ETH - Ethereum',
+  logoRoute: '../../assets/img/coins/ETH.svg',
+  last: false,
+  value: 'ETH',
+  network: 'ERC20',
+  chainId: 42,
+  rpc: 'http://testrpc.test',
+};
 
 describe('AssetDetailPage', () => {
   let component: AssetDetailPage;
   let fixture: ComponentFixture<AssetDetailPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let walletService: WalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let storageService: StorageService;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let apiWalletService: ApiWalletService;
   let activatedRouteMock: any;
-
+  let fakeNavController: FakeNavController;
   beforeEach(
     waitForAsync(() => {
-      activatedRouteMock = {
-        snapshot: {
-          paramMap: {
-            get: () => 'ETH',
-          },
-        },
-      };
-
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getPrices: of({ prices: { ETH: 3000 } }),
-      });
+      activatedRouteMock = { snapshot: { paramMap: { get: () => 'ETH' } } };
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getPrices: of({ prices: { ETH: 3000 } }) });
       walletServiceSpy = jasmine.createSpyObj(
         'WalletService',
-        {
-          balanceOf: Promise.resolve('20'),
-        },
-        {
-          addresses: { ERC20: 'testAddress' },
-        }
+        { balanceOf: Promise.resolve('20') },
+        { addresses: { ERC20: 'testAddress' } }
       );
       walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionsService', {
-        getAllTransactions: Promise.resolve(transaction),
+        getTransfers: of(new CovalentTransfersResponse(nativeTransfersResponse, nativeAsset)),
       });
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getWalletsAddresses: Promise.resolve('testAddressEth'),
+        getWalletsAddresses: Promise.resolve('testAddress'),
       });
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
 
       TestBed.configureTestingModule({
         declarations: [AssetDetailPage],
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, RouterTestingModule],
+        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
@@ -120,13 +92,8 @@ describe('AssetDetailPage', () => {
 
       fixture = TestBed.createComponent(AssetDetailPage);
       component = fixture.componentInstance;
-      component.currency = testCoin.test[0];
-      component.coins = testCoin.test;
-      component.usdPrice = undefined;
+      component.coins = [nativeAsset];
       fixture.detectChanges();
-      walletService = TestBed.inject(WalletService);
-      apiWalletService = TestBed.inject(ApiWalletService);
-      storageService = TestBed.inject(StorageService);
     })
   );
 
@@ -134,48 +101,49 @@ describe('AssetDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getAllTransactions on view will enter', async () => {
-    const spy = spyOn(component, 'getAllTransactions');
+  it('should get currency on view will enter', async () => {
+    expect(component.currency).toBeFalsy();
     component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should render app-wallet-transaction-card when transactionsExists is true', () => {
-    component.transactionsExists = true;
-    component.balance = balances;
-    fixture.detectChanges();
-    const transactionElement = fixture.debugElement.query(By.css('.wad__transaction__wallet-transaction-card'));
-    expect(transactionElement).not.toBeNull();
-  });
-
-  it('should not render app-wallet-transaction-card when transactionsExists is false', () => {
-    component.transactionsExists = false;
-    component.balance = balances;
-    fixture.detectChanges();
-    const transactionElement = fixture.debugElement.query(By.css('.wad__transaction__wallet-transaction-card'));
-    expect(transactionElement).toBeNull();
-  });
-
-  it('should get all the transactions on view will enter', async () => {
-    fixture.detectChanges();
-    await component.ionViewWillEnter();
     await fixture.whenStable();
-
-    expect(component.transactionsExists).toBe(true);
-    expect(component.allTransactions).toEqual(transaction);
+    fixture.detectChanges();
+    expect(component.currency).toEqual(nativeAsset);
   });
 
-  it('should show the total balance in USD on getWalletsBalances', async () => {
-    (Object.getOwnPropertyDescriptor(walletService, 'addresses').get as jasmine.Spy).and.returnValue({
-      ETH: 'testAddressEth',
-    });
-    component.currency = testCoin.test[0];
-    component.usdPrice = { prices: { ETH: 3000 } };
-    const expectedBalance = 60000;
+  it('should get transfers on view will enter', async () => {
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    expect(component.transfers[0].symbol).toBe('ETH');
+    expect(component.transfers[0].type).toBe('OUT');
+    expect(component.transfers[0].amount).toBe(0.01);
+    expect(component.transfers[1].symbol).toBe('ETH');
+    expect(component.transfers[1].type).toBe('IN');
+    expect(component.transfers[1].amount).toBe(0.01);
+    const transfersEl = fixture.debugElement.query(By.css('app-wallet-transaction-card'));
+    expect(transfersEl).not.toBe(null);
+  });
 
-    await component.getAssetBalance();
-    await fixture.whenStable();
+  it('should get prices and balances on view will enter', async () => {
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const amountEl = fixture.debugElement.query(By.css('.wad__asset_amount__original ion-text'));
+    expect(amountEl.nativeElement.innerHTML).toContain(20);
+    expect(amountEl.nativeElement.innerHTML).toContain('ETH');
+    const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
+    expect(quoteAmountEl.nativeElement.innerHTML).toContain('USD');
+    expect(quoteAmountEl.nativeElement.innerHTML).toContain('60,000.00 USD');
+  });
 
-    expect(component.balance[0].usdAmount).toBe(expectedBalance);
+  it('should get prices and balances on view will enter without prices', async () => {
+    apiWalletServiceSpy.getPrices.and.returnValues(of({ prices: {} }));
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const amountEl = fixture.debugElement.query(By.css('.wad__asset_amount__original ion-text'));
+    expect(amountEl.nativeElement.innerHTML).toContain(20);
+    expect(amountEl.nativeElement.innerHTML).toContain('ETH');
+    const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
+    expect(quoteAmountEl).toBe(null);
   });
 });

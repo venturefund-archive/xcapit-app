@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { ActivatedRoute } from '@angular/router';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-receive',
@@ -95,7 +96,7 @@ export class ReceivePage {
     currency: ['', Validators.required],
   });
   isNativePlatform: boolean;
-  currencies: Coin[] = COINS;
+  currencies: Coin[];
   address: string;
   addressQr: string;
   selectedCurrency: Coin;
@@ -110,10 +111,12 @@ export class ReceivePage {
     private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
     private route: ActivatedRoute,
-    private platformService: PlatformService
+    private platformService: PlatformService,
+    private storageService: StorageService
   ) {}
 
   ionViewWillEnter() {
+    this.getUserAssets();
     this.checkUrlParams();
     this.subscribeToFormChanges();
     this.checkPlatform();
@@ -180,5 +183,11 @@ export class ReceivePage {
 
   generateAddressQR() {
     this.qrCodeService.generateQRFromText(this.address).then((qr) => (this.addressQr = qr));
+  }
+
+  getUserAssets() {
+    this.storageService.getAssestsSelected().then((coins) => {
+      this.currencies = coins;
+    });
   }
 }
