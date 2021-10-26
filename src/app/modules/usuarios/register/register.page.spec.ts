@@ -15,6 +15,7 @@ import { TrackService } from '../../../shared/services/track/track.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -92,6 +93,11 @@ describe('RegisterPage', () => {
     const spy = spyOn(component.registerForm.form, 'reset').and.returnValue(null);
     component.success('test');
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should go to login form when go to login button is clicked', () => {
+    fixture.debugElement.query(By.css('ion-button[name="Go To Login"]')).nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login']);
   });
 
   it('should call trackEvent on trackService when Register button clicked', () => {
