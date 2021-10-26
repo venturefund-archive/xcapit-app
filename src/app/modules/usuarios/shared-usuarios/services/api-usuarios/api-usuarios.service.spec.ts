@@ -106,10 +106,4 @@ describe('ApiUsuariosService', () => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
-
-  it('should call put on http when set language', () => {
-    service.setLanguage('es').subscribe(() => {
-      expect(customHttpServiceSpy.put).toHaveBeenCalledTimes(1);
-    });
-  });
 });
