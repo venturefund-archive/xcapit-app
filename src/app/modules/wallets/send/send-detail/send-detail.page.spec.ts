@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,6 +25,7 @@ const coins: Coin[] = [
     network: 'BTC',
     chainId: 42,
     rpc: '',
+    native: true,
   },
   {
     id: 1,
@@ -105,6 +106,7 @@ describe('SendDetailPage', () => {
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
     component.coins = coins;
+    component.hasNativeToken = true;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -113,17 +115,22 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency and networks on ionViewWillEnter', () => {
+  it('should find currency and networks on ionViewWillEnter', fakeAsync(() => {
     component.ionViewWillEnter();
+    tick(150);
     fixture.detectChanges();
     expect(component.networks).toEqual([coins[0].network]);
     expect(component.selectedNetwork).toEqual(coins[0].network);
+    expect(component.nativeToken).toEqual(coins[0]);
+    expect(component.balanceNativeToken).toEqual(10);
+    expect(component.hasNativeToken).toBeTrue();
     expect(component.currency).toEqual(coins[0]);
-  });
+  }));
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
     component.selectedNetwork = 'ERC20';
+    component.nativeToken = coins[1];
     fixture.detectChanges();
     expect(component.selectedNetwork).toBe('ERC20');
     const networkCard = fixture.debugElement.query(By.css('app-network-select-card'));
@@ -152,43 +159,43 @@ describe('SendDetailPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   });
 
-  it('should show card if native token balance is zero when sending native token', async () => {
+  it('should show card if native token balance is zero when sending native token', fakeAsync(() => {
     activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    tick(150);
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
-  });
+  }));
 
-  it('should show card if native token balance is zero when sending not native token', async () => {
+  it('should show card if native token balance is zero when sending not native token', fakeAsync(() => {
     activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    tick(150);
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
-  });
+  }));
 
-  it('should not show card if native token balance is greater than zero when sending native token', async () => {
+  it('should not show card if native token balance is greater than zero when sending native token', fakeAsync(() => {
     activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    tick(150);
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
-  });
+  }));
 
-  it('should not show card if native token balance is greater than zero when sending not native token', async () => {
+  it('should not show card if native token balance is greater than zero when sending not native token', fakeAsync(() => {
     activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    tick(150);
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
-  });
+  }));
 });
