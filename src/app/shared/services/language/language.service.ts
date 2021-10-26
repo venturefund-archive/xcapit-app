@@ -39,10 +39,10 @@ export class LanguageService {
     this.translate.use(lng);
     this.selected = lng;
     this.storage.set(LNG_KEY, lng);
-    this.setNotificationsLanguage(lng);
+    this.setUserLanguage(lng);
   }
 
-  private setNotificationsLanguage(language: string) {
+  private setUserLanguage(language: string) {
     this.apiUsuariosService.setLanguage(language).subscribe();
   }
 }
