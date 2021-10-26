@@ -22,7 +22,13 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="main__actions">
           <div class="main__actions__primary">
-            <ion-button appTrackClick class="ux_button" name="My Operations" (click)="this.goToMyOperations()">
+            <ion-button
+              appTrackClick
+              color="uxsecondary"
+              class="ux_button"
+              name="My Operations"
+              (click)="this.goToMyOperations()"
+            >
               {{ 'fiat_ramps.paxful_success.namePrimaryAction' | translate }}
             </ion-button>
           </div>
