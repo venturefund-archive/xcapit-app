@@ -72,7 +72,7 @@ import { BigNumber } from 'ethers';
       </form>
 
       <div class="sd__alert">
-        <app-ux-alert-message [type]="this.alertType" *ngIf="!this.hasNativeToken">
+        <app-ux-alert-message [type]="this.alertType" *ngIf="!(this.balanceNativeToken > 0)">
           <div class="sd__alert__title">
             <ion-text>{{ 'wallets.send.send_detail.alert.title' | translate }}</ion-text>
           </div>
@@ -106,7 +106,6 @@ export class SendDetailPage {
   networks: string[];
   selectedNetwork: string;
   estimatedGas: BigNumber;
-  hasNativeToken = true;
   nativeToken: Coin;
   balanceNativeToken: number;
   amount: number;
@@ -135,13 +134,13 @@ export class SendDetailPage {
     this.nativeToken = this.coins.find((c) => c.network === this.selectedNetwork && c.native);
   }
 
-  async checkNativeTokenAmount() {
+  checkNativeTokenAmount() {
     this.getNativeToken();
-    const nativeTokenAddress = await this.storageService.getWalletsAddresses(this.selectedNetwork);
-    this.balanceNativeToken = parseFloat(
-      await this.walletService.balanceOf(nativeTokenAddress, this.nativeToken.value)
-    );
-    this.hasNativeToken = this.balanceNativeToken > 0;
+    this.storageService.getWalletsAddresses(this.selectedNetwork).then((nativeTokenAddress) => {
+      this.walletService.balanceOf(nativeTokenAddress, this.nativeToken.value).then((balance) => {
+        this.balanceNativeToken = parseFloat(balance);
+      });
+    });
   }
 
   private getCurrency() {

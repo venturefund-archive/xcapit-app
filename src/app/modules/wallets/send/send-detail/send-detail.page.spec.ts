@@ -106,7 +106,7 @@ describe('SendDetailPage', () => {
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
     component.coins = coins;
-    component.hasNativeToken = true;
+    component.balanceNativeToken = 1;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -115,17 +115,17 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency and networks on ionViewWillEnter', fakeAsync(() => {
+  it('should find currency and networks on ionViewWillEnter', async () => {
     component.ionViewWillEnter();
-    tick(150);
+    await fixture.whenStable();
+    await fixture.whenStable();
     fixture.detectChanges();
     expect(component.networks).toEqual([coins[0].network]);
     expect(component.selectedNetwork).toEqual(coins[0].network);
     expect(component.nativeToken).toEqual(coins[0]);
     expect(component.balanceNativeToken).toEqual(10);
-    expect(component.hasNativeToken).toBeTrue();
     expect(component.currency).toEqual(coins[0]);
-  }));
+  });
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
@@ -159,43 +159,43 @@ describe('SendDetailPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   });
 
-  it('should show card if native token balance is zero when sending native token', fakeAsync(() => {
+  it('should show card if native token balance is zero when sending native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
     component.ionViewWillEnter();
-    tick(150);
+    await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
-  }));
+  });
 
-  it('should show card if native token balance is zero when sending not native token', fakeAsync(() => {
+  it('should show card if native token balance is zero when sending not native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
     component.ionViewWillEnter();
-    tick(150);
+    await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
-  }));
+  });
 
-  it('should not show card if native token balance is greater than zero when sending native token', fakeAsync(() => {
+  it('should not show card if native token balance is greater than zero when sending native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
     component.ionViewWillEnter();
-    tick(150);
+    await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
-  }));
+  });
 
-  it('should not show card if native token balance is greater than zero when sending not native token', fakeAsync(() => {
+  it('should not show card if native token balance is greater than zero when sending not native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
     component.ionViewWillEnter();
-    tick(150);
+    await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
-  }));
+  });
 });
