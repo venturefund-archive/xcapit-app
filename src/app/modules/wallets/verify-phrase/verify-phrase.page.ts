@@ -53,6 +53,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
         </div>
         <div class="create_button">
           <ion-button
+            color="uxsecondary"
             *ngIf="this.activated"
             class="ux_button"
             appTrackClick
