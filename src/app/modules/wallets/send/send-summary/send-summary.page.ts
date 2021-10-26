@@ -40,7 +40,7 @@ import { LocalNotification } from '@capacitor/core';
           color="uxsecondary"
           appTrackClick
           name="Send"
-          [disabled]="this.submitButtonService.isDisabled | async"
+          [disabled]="(this.submitButtonService.isDisabled | async) || this.isSending"
           (click)="this.canAffordFee()"
           >{{ 'wallets.send.send_summary.send_button' | translate }}</ion-button
         >
@@ -51,6 +51,7 @@ import { LocalNotification } from '@capacitor/core';
 export class SendSummaryPage implements OnInit {
   summaryData: SummaryData;
   action: string;
+  isSending: boolean;
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
@@ -67,8 +68,9 @@ export class SendSummaryPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.checkMode();
+    this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
+    this.checkMode();
   }
 
   async checkMode() {
@@ -102,10 +104,14 @@ export class SendSummaryPage implements OnInit {
       .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
       .then((response: TransactionResponse) => this.goToSuccess(response))
       .catch((error) => this.handleSendError(error))
-      .finally(() => this.loadingService.dismiss());
+      .finally(() => {
+        this.loadingService.dismiss();
+        this.isSending = false;
+      });
   }
 
   async canAffordFee() {
+    this.isSending = true;
     this.loadingService.show().then();
     let cannotAffordFee;
 
@@ -120,6 +126,7 @@ export class SendSummaryPage implements OnInit {
         this.beginSend();
       }
     } catch (e) {
+      this.isSending = false;
       if (this.isInvalidAddressError(e)) {
         await this.loadingService.dismiss();
         await this.showAlertInvalidAddress();
