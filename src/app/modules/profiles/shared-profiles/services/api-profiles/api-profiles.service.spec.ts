@@ -4,6 +4,7 @@ import { ApiProfilesService } from './api-profiles.service';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from '../../../../../shared/services/custom-http/custom-http.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 describe('ApiProfilesService', () => {
   let crudSpy: any;
@@ -18,7 +19,7 @@ describe('ApiProfilesService', () => {
 
   beforeEach(() => {
     crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
-    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', ['get', 'put']);
+    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', { get: of({}), put: of({}) });
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -42,5 +43,11 @@ describe('ApiProfilesService', () => {
   it('should call CustomHttpService put when updatePersonalData', () => {
     service.updatePersonalData(testPersonalData);
     expect(customHttpServiceSpy.put).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call put on http when set language', () => {
+    service.setLanguage('es').subscribe(() => {
+      expect(customHttpServiceSpy.put).toHaveBeenCalledTimes(1);
+    });
   });
 });
