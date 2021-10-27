@@ -106,7 +106,7 @@ describe('SendDetailPage', () => {
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
     component.coins = coins;
-    component.balanceNativeToken = 1;
+    component.balanceNativeToken = '1';
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -122,7 +122,7 @@ describe('SendDetailPage', () => {
     expect(component.networks).toEqual([coins[0].network]);
     expect(component.selectedNetwork).toEqual(coins[0].network);
     expect(component.nativeToken).toEqual(coins[0]);
-    expect(component.balanceNativeToken).toEqual(10);
+    expect(component.balanceNativeToken).toEqual('10');
     expect(component.currency).toEqual(coins[0]);
   }));
 
