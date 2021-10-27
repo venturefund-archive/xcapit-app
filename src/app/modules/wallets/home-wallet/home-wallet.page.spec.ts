@@ -14,6 +14,7 @@ import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interfa
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const testCoins = {
   test: [
@@ -135,7 +136,7 @@ describe('HomeWalletPage', () => {
       });
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
+        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
@@ -326,4 +327,22 @@ describe('HomeWalletPage', () => {
 
     expect(component.totalBalanceWallet).toBe(expectedBalance);
   }));
+
+  it('should render selected tab', async () => {
+    component.walletExist = true;
+    component.transactionsExists = true;
+    component.balances = balances;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    expect(fixture.debugElement.query(By.css('.wt__balance'))).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('.wt__nfts'))).not.toBeTruthy();
+    component.segmentsForm.patchValue({ tab: 'nft' });
+    fixture.debugElement.query(By.css('ion-segment-button[value="nft"]')).nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    expect(fixture.debugElement.query(By.css('.wt__balance'))).not.toBeTruthy();
+    expect(fixture.debugElement.query(By.css('.wt__nfts'))).toBeTruthy();
+  });
 });
