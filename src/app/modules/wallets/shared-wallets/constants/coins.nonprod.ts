@@ -1,4 +1,4 @@
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { Coin } from '../interfaces/coin.interface';
 import { environment } from 'src/environments/environment';
 import aaveAbi from './assets-abi/aave-abi.json';
 import linkAbi from './assets-abi/link-abi.json';
@@ -6,7 +6,7 @@ import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
 import rifAbi from './assets-abi/rif-abi.json';
 
-export const COINS: Coin[] = [
+export const NONPROD_COINS: Coin[] = [
   {
     id: 1,
     name: 'ETH - Ethereum',
@@ -14,7 +14,7 @@ export const COINS: Coin[] = [
     last: false,
     value: 'ETH',
     network: 'ERC20',
-    chainId: 1,
+    chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
     native: true,
   },
@@ -25,9 +25,9 @@ export const COINS: Coin[] = [
     last: false,
     value: 'LINK',
     network: 'ERC20',
-    chainId: 1,
+    chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
-    contract: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
+    contract: '0xa36085f69e2889c224210f603d836748e7dc0088',
     abi: linkAbi,
     decimals: 18,
   },
@@ -38,9 +38,9 @@ export const COINS: Coin[] = [
     last: false,
     value: 'USDT',
     network: 'ERC20',
-    chainId: 1,
+    chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
-    contract: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+    contract: '0x07de306ff27a2b630b1141956844eb1552b956b5',
     abi: usdtAbi,
     decimals: 6,
   },
@@ -51,9 +51,9 @@ export const COINS: Coin[] = [
     last: false,
     value: 'AAVE',
     network: 'ERC20',
-    chainId: 1,
+    chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
-    contract: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
+    contract: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
     abi: aaveAbi,
     decimals: 18,
   },
@@ -64,9 +64,9 @@ export const COINS: Coin[] = [
     last: false,
     value: 'UNI',
     network: 'ERC20',
-    chainId: 1,
+    chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
-    contract: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
+    contract: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
     abi: uniAbi,
     decimals: 18,
   },
@@ -77,7 +77,7 @@ export const COINS: Coin[] = [
     last: false,
     value: 'RBTC',
     network: 'RSK',
-    chainId: 30,
+    chainId: 31,
     rpc: environment.rskApiUrl,
     native: true,
   },
@@ -88,9 +88,9 @@ export const COINS: Coin[] = [
     last: false,
     value: 'RIF',
     network: 'RSK',
-    chainId: 30,
+    chainId: 31,
     rpc: environment.rskApiUrl,
-    contract: '0x2aCc95758f8b5F583470bA265Eb685a8f45fC9D5',
+    contract: '0x19F64674D8A5B4E652319F5e239eFd3bc969A1fE',
     abi: rifAbi,
     decimals: 18,
   },
@@ -101,7 +101,7 @@ export const COINS: Coin[] = [
     last: true,
     value: 'MATIC',
     network: 'MATIC',
-    chainId: 137,
+    chainId: 80001,
     rpc: environment.maticApiUrl,
     decimals: 18,
     native: true,
