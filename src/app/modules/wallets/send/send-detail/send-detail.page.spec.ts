@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -61,7 +61,7 @@ const formData = {
   },
 };
 
-describe('SendDetailPage', () => {
+fdescribe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
@@ -115,17 +115,16 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency and networks on ionViewWillEnter', async () => {
+  it('should find currency and networks on ionViewWillEnter', fakeAsync(() => {
     component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenStable();
+    tick();
     fixture.detectChanges();
     expect(component.networks).toEqual([coins[0].network]);
     expect(component.selectedNetwork).toEqual(coins[0].network);
     expect(component.nativeToken).toEqual(coins[0]);
     expect(component.balanceNativeToken).toEqual(10);
     expect(component.currency).toEqual(coins[0]);
-  });
+  }));
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
