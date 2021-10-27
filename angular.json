@@ -57,6 +57,30 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "variables.env.ts"
+                },
+                {
+                  "replace": "src/app/modules/wallets/constants/coins.ts",
+                  "with": "src/app/modules/wallets/constants/coins.prod.ts"
+                },
+                {
+                  "replace": "src/app/modules/wallets/constants/assets-abi/aave-abi.json",
+                  "with": "src/app/modules/wallets/constants/assets-abi-prod/aave-abi-prod.json"
+                },
+                {
+                  "replace": "src/app/modules/wallets/constants/assets-abi/link-abi.json",
+                  "with": "src/app/modules/wallets/constants/assets-abi-prod/link-abi-prod.json"
+                },
+                {
+                  "replace": "src/app/modules/wallets/constants/assets-abi/rif-abi.json",
+                  "with": "src/app/modules/wallets/constants/assets-abi-prod/rif-abi-prod.json"
+                },
+                {
+                  "replace": "src/app/modules/wallets/constants/assets-abi/uni-abi.json",
+                  "with": "src/app/modules/wallets/constants/assets-abi-prod/uni-abi-prod.json"
+                },
+                {
+                  "replace": "src/app/modules/wallets/constants/assets-abi/usdt-abi.json",
+                  "with": "src/app/modules/wallets/constants/assets-abi-prod/usdt-abi-prod.json"
                 }
               ],
               "optimization": true,
