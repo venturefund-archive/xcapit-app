@@ -6,6 +6,7 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home-wallet',
@@ -35,12 +36,33 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
         <app-wallet-subheader-buttons [hasTransactions]="this.transactionsExists"></app-wallet-subheader-buttons>
       </div>
 
-      <div class="wt__balance ion-padding-start ion-padding-end" *ngIf="this.walletExist && this.balances?.length">
-        <div div class="wt__balance__title">
-          <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
-            {{ 'wallets.home.wallet_balance_title' | translate }}
-          </ion-label>
-        </div>
+      <div class="wt__segments ion-padding-start ion-padding-end">
+        <form [formGroup]="this.segmentsForm">
+          <ion-segment mode="md" class="ux-segment" formControlName="tab">
+            <ion-segment-button value="assets">
+              <ion-label color="uxprimary" class="ux-font-header-titulo">{{
+                'wallets.home.tab_assets' | translate
+              }}</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="nft">
+              <ion-label color="uxprimary" class="ux-font-header-titulo">{{
+                'wallets.home.tab_nfts' | translate
+              }}</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </form>
+      </div>
+
+      <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
+        <ion-badge class="badge ux_badge_coming">{{
+          'referrals.new_referral_page.points_card.coming_badge' | translate
+        }}</ion-badge>
+      </div>
+
+      <div
+        class="wt__balance ion-padding-start ion-padding-end"
+        *ngIf="this.walletExist && this.balances?.length && this.segmentsForm.value.tab === 'assets'"
+      >
         <div class="wt__balance__wallet-balance-card">
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
@@ -72,13 +94,17 @@ export class HomeWalletPage implements OnInit {
   lastTransaction = [];
   userCoins: Coin[];
   alreadyInitialized = false;
+  segmentsForm: FormGroup = this.formBuilder.group({
+    tab: ['assets', [Validators.required]],
+  });
 
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
     private storageService: StorageService,
     private walletTransactionsService: WalletTransactionsService,
-    private navController: NavController
+    private navController: NavController,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {}
@@ -166,7 +192,7 @@ export class HomeWalletPage implements OnInit {
 
   async getLastTransactions() {
     this.walletTransactionsService.getLastTransaction().then((res) => {
-      this.transactionsExists = !!(res.length > 0);
+      this.transactionsExists = res.length > 0;
 
       if (this.transactionsExists) {
         this.lastTransaction = res;

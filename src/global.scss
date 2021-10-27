@@ -316,6 +316,14 @@ ion-toast.refresher_toast {
     }
   }
 
+  ion-segment.ux-segment {
+    ion-segment-button {
+      text-transform: none;
+      --indicator-height: 4px;
+      --indicator-color: var(--ion-color-uxsecondary);
+    }
+  }
+
   .ux-modal-apikeys-tutorial-no-binance-account {
     --max-height: 337px;
     --max-width: 89%;

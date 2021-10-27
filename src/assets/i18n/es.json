@@ -1305,7 +1305,8 @@
     },
     "home": {
       "available_money": "Tus activos",
-      "wallet_balance_title": "Monedas",
+      "tab_assets": "Monedas",
+      "tab_nfts": "NFTs",
       "wallet_recovery": "Importar una wallet existente",
       "wallet_transaction_title": "RECIENTE",
       "go_to_history": "Ver todas las transacciones",
