@@ -12,8 +12,6 @@ export const ABOUT_BINANCE = [
   {
     title: 'support.support_binance.question3',
     answer: 'support.support_binance.answer3',
-    link: 'http://bit.ly/X-Tutorial02',
-    text_link: 'support.support_binance.link_answer',
     last: false,
   },
   {

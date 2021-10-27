@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -29,5 +30,26 @@ describe('FaqComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should change state when input is clicked', () => {
+    component.showFirst = false;
+    fixture.debugElement.query(By.css('input[name="Faq"]')).nativeElement.click();
+    expect(component.showFirst).toBeTruthy();
+  });
+
+  it('should open the link in the app when link is clicked', () => {
+    component.faq.title = 'support.support_binance.question3';
+    component.faq.answer = "Test: <a href='http://test'>Haz click aquí</a>";
+    spyOn(component, 'handleAnchorClick').and.callThrough();
+    spyOn(component, 'openInfo').and.callThrough();
+    fixture.detectChanges();
+    component.ngAfterViewInit();
+    const anchor = fixture.debugElement.query(By.css('a'));
+    const link = anchor.nativeElement.getAttribute('href');
+    anchor.nativeElement.click();
+    expect(component.handleAnchorClick).toHaveBeenCalledTimes(1);
+    expect(component.openInfo).toHaveBeenCalledTimes(1);
+    expect(link).toEqual('http://test');
   });
 });
