@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,6 +25,7 @@ const coins: Coin[] = [
     network: 'BTC',
     chainId: 42,
     rpc: '',
+    native: true,
   },
   {
     id: 1,
@@ -60,7 +61,7 @@ const formData = {
   },
 };
 
-describe('SendDetailPage', () => {
+fdescribe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
@@ -105,6 +106,7 @@ describe('SendDetailPage', () => {
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
     component.coins = coins;
+    component.balanceNativeToken = 1;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -113,17 +115,21 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency and networks on ionViewWillEnter', () => {
+  it('should find currency and networks on ionViewWillEnter', fakeAsync(() => {
     component.ionViewWillEnter();
+    tick();
     fixture.detectChanges();
     expect(component.networks).toEqual([coins[0].network]);
     expect(component.selectedNetwork).toEqual(coins[0].network);
+    expect(component.nativeToken).toEqual(coins[0]);
+    expect(component.balanceNativeToken).toEqual(10);
     expect(component.currency).toEqual(coins[0]);
-  });
+  }));
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
     component.selectedNetwork = 'ERC20';
+    component.nativeToken = coins[1];
     fixture.detectChanges();
     expect(component.selectedNetwork).toBe('ERC20');
     const networkCard = fixture.debugElement.query(By.css('app-network-select-card'));
