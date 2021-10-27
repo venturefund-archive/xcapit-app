@@ -73,10 +73,10 @@ export class SendSummaryPage implements OnInit {
     this.checkMode();
   }
 
-  async checkMode() {
+  checkMode() {
     const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
     if (mode) {
-      await this.canAffordFee();
+      this.canAffordFee().then();
     }
   }
 
@@ -99,20 +99,21 @@ export class SendSummaryPage implements OnInit {
   }
 
   private send(password: string) {
-    this.loadingService.show().then();
-    this.walletTransactionsService
-      .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
-      .then((response: TransactionResponse) => this.goToSuccess(response))
-      .catch((error) => this.handleSendError(error))
-      .finally(() => {
-        this.loadingService.dismiss();
-        this.isSending = false;
-      });
+    this.loadingService.show().then(() => {
+      this.walletTransactionsService
+        .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
+        .then((response: TransactionResponse) => this.goToSuccess(response))
+        .catch((error) => this.handleSendError(error))
+        .finally(() => {
+          this.loadingService.dismiss();
+          this.isSending = false;
+        });
+    });
   }
 
   async canAffordFee() {
     this.isSending = true;
-    this.loadingService.show().then();
+    await this.loadingService.show();
     let cannotAffordFee;
 
     try {
