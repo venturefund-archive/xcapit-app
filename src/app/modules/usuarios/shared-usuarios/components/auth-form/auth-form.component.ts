@@ -18,6 +18,8 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           label="Email"
           [placeholder]="'usuarios.login.email_placeholder_label' | translate"
           [errors]="this.emailErrors"
+          aria-label="email"
+          tabindex="0"
         ></app-ux-input>
 
         <app-ux-input
@@ -26,6 +28,8 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           inputmode="password"
           [label]="'usuarios.login.password_label' | translate"
           [errors]="this.passwordErrors"
+          aria-label="password"
+          tabindex="1"
         ></app-ux-input>
 
         <ng-content select=".auth-link-reset-password"></ng-content>
