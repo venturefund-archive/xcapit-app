@@ -20,9 +20,7 @@ export class WalletEncryptionService {
     private walletService: WalletService,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService
-  ) {
-    this.coins = this.apiWalletService.getCoins();
-  }
+  ) {}
 
   encryptWallet(password: string): Promise<any> {
     const wallets = this.walletService.createdWallets;
@@ -67,6 +65,7 @@ export class WalletEncryptionService {
   }
 
   selectedAssetsStructure() {
+    this.coins = this.apiWalletService.getCoins();
     const userCoins = this.walletService.coins;
     this.selectedCoins = {};
 

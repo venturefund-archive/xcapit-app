@@ -14,7 +14,6 @@ import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
-import { NONPROD_COINS } from '../../shared-wallets/constants/coins.nonprod';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 
 const coins: Coin[] = [

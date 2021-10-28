@@ -89,8 +89,7 @@ describe('StorageWalletsService', () => {
 
 describe('StorageService', () => {
   let service: StorageService;
-  let appStorageServiceSpy: any;
-
+  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(() => {
