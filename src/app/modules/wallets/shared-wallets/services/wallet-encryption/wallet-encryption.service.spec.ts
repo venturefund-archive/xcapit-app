@@ -4,6 +4,8 @@ import { WalletEncryptionService } from './wallet-encryption.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { environment } from '../../../../../../environments/environment';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
+import { NONPROD_COINS } from '../../constants/coins.nonprod';
 
 const storageWallet = {
   alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
@@ -78,10 +80,11 @@ describe('WalletEncryptionService', () => {
   let service: WalletEncryptionService;
   let storageSpy: any;
   let storageService: StorageService;
-  let walletServiceSpy;
-  storageSpy = jasmine.createSpyObj('StorageService', ['saveWalletToStorage', 'getWalletFromStorage']);
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(() => {
+    storageSpy = jasmine.createSpyObj('StorageService', ['saveWalletToStorage', 'getWalletFromStorage']);
     jasmine.setDefaultSpyStrategy((and) => and.callThrough());
     walletServiceSpy = jasmine.createSpyObj(
       'WalletService',
@@ -91,11 +94,15 @@ describe('WalletEncryptionService', () => {
         coins: testCoins,
       }
     );
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: NONPROD_COINS,
+    });
     jasmine.setDefaultSpyStrategy((and) => and.stub());
     TestBed.configureTestingModule({
       providers: [
         { provide: StorageService, useValue: storageSpy },
         { provide: WalletService, useValue: walletServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
     });
     service = TestBed.inject(WalletEncryptionService);

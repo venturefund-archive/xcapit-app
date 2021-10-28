@@ -3,6 +3,8 @@ import { StorageWalletsService, StorageService } from './storage-wallets.service
 import { Storage } from '@ionic/storage';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { Coin } from '../../interfaces/coin.interface';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
+import { NONPROD_COINS } from '../../constants/coins.nonprod';
 
 const testCoins: Coin[] = [
   {
@@ -40,10 +42,11 @@ const testWallet = {
 
 describe('StorageWalletsService', () => {
   let service: StorageWalletsService;
-  let storageSpy: any;
-  storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
+  let storageSpy: jasmine.SpyObj<Storage>;
 
   beforeEach(() => {
+    storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
+
     TestBed.configureTestingModule({
       providers: [{ provide: Storage, useValue: storageSpy }],
     });
@@ -87,11 +90,19 @@ describe('StorageWalletsService', () => {
 describe('StorageService', () => {
   let service: StorageService;
   let appStorageServiceSpy: any;
-  appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', ['get', 'set']);
+
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(() => {
+    appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', ['get', 'set']);
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: NONPROD_COINS,
+    });
     TestBed.configureTestingModule({
-      providers: [{ provide: AppStorageService, useValue: appStorageServiceSpy }],
+      providers: [
+        { provide: AppStorageService, useValue: appStorageServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+      ],
     });
     service = TestBed.inject(StorageService);
     service.allCoins = testCoins;
