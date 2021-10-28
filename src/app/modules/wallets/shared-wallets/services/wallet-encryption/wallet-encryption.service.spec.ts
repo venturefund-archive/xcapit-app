@@ -95,7 +95,7 @@ describe('WalletEncryptionService', () => {
       }
     );
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoins: NONPROD_COINS,
+      getCoins: testCoins,
     });
     jasmine.setDefaultSpyStrategy((and) => and.stub());
     TestBed.configureTestingModule({
