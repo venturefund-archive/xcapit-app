@@ -36,7 +36,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         <app-wallet-subheader-buttons [hasTransactions]="this.transactionsExists"></app-wallet-subheader-buttons>
       </div>
 
-      <div class="wt__segments ion-padding-start ion-padding-end">
+      <div class="wt__segments ion-padding-start ion-padding-end" *ngIf="this.walletExist">
         <form [formGroup]="this.segmentsForm">
           <ion-segment mode="md" class="ux-segment" formControlName="tab">
             <ion-segment-button value="assets">
