@@ -35,11 +35,11 @@ export class FaqComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
     this.anchors.forEach((anchor) => {
-      anchor.addEventListener('click', this.handleAnchorClick);
+      anchor.addEventListener('click', this.handleAnchorClick.bind(this));
     });
   }
 
-  handleAnchorClick = (event: Event) => {
+  handleAnchorClick(event: Event) {
     if (
       this.faq.title === 'support.support_binance.question3' ||
       this.faq.title === 'support.support_binance.question8' ||
@@ -50,7 +50,7 @@ export class FaqComponent implements AfterViewInit {
       const anchor = event.target as HTMLAnchorElement;
       this.openInfo(anchor.getAttribute('href'));
     }
-  };
+  }
 
   async openInfo(link) {
     await Browser.open({

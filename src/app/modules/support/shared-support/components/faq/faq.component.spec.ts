@@ -42,7 +42,7 @@ describe('FaqComponent', () => {
     component.faq.title = 'support.support_binance.question3';
     component.faq.answer = "Test: <a href='http://test'>Haz click aquí</a>";
     spyOn(component, 'handleAnchorClick').and.callThrough();
-    spyOn(component, 'openInfo').and.callThrough();
+    spyOn(component, 'openInfo');
     fixture.detectChanges();
     component.ngAfterViewInit();
     const anchor = fixture.debugElement.query(By.css('a'));
