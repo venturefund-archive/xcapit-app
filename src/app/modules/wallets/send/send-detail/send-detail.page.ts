@@ -107,7 +107,7 @@ export class SendDetailPage {
   selectedNetwork: string;
   estimatedGas: BigNumber;
   nativeToken: Coin;
-  balanceNativeToken: string;
+  balanceNativeToken: number;
   amount: number;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
@@ -138,7 +138,7 @@ export class SendDetailPage {
     this.getNativeToken();
     this.storageService.getWalletsAddresses(this.selectedNetwork).then((nativeTokenAddress) => {
       this.walletService.balanceOf(nativeTokenAddress, this.nativeToken.value).then((balance) => {
-        this.balanceNativeToken = balance;
+        this.balanceNativeToken = parseFloat(balance);
       });
     });
   }

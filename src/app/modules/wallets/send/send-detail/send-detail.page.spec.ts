@@ -106,7 +106,7 @@ describe('SendDetailPage', () => {
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
     component.coins = coins;
-    component.balanceNativeToken = '1';
+    component.balanceNativeToken = 1;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -122,7 +122,7 @@ describe('SendDetailPage', () => {
     expect(component.networks).toEqual([coins[0].network]);
     expect(component.selectedNetwork).toEqual(coins[0].network);
     expect(component.nativeToken).toEqual(coins[0]);
-    expect(component.balanceNativeToken).toEqual('10');
+    expect(component.balanceNativeToken).toEqual(10);
     expect(component.currency).toEqual(coins[0]);
   }));
 
@@ -160,7 +160,7 @@ describe('SendDetailPage', () => {
 
   it('should show card if native token balance is zero when sending native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
-    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
+    walletServiceSpy.balanceOf.and.resolveTo('0');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -170,7 +170,7 @@ describe('SendDetailPage', () => {
 
   it('should show card if native token balance is zero when sending not native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
-    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
+    walletServiceSpy.balanceOf.and.resolveTo('0');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -180,7 +180,7 @@ describe('SendDetailPage', () => {
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
-    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
+    walletServiceSpy.balanceOf.and.resolveTo('1');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -190,7 +190,7 @@ describe('SendDetailPage', () => {
 
   it('should not show card if native token balance is greater than zero when sending not native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
-    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
+    walletServiceSpy.balanceOf.and.resolveTo('1');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
