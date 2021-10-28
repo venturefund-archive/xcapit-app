@@ -4,8 +4,8 @@ import { WalletService } from '../wallet/wallet.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
-import { COINS } from '../../../constants/coins';
 import { Coin } from '../../interfaces/coin.interface';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +14,13 @@ export class WalletEncryptionService {
   private ethWallet: any = null;
   private walletsAddresses = {};
   private selectedCoins = {};
-  coins = COINS;
+  coins: Coin[];
 
-  constructor(private walletService: WalletService, private storageService: StorageService) {}
+  constructor(
+    private walletService: WalletService,
+    private storageService: StorageService,
+    private apiWalletService: ApiWalletService
+  ) {}
 
   encryptWallet(password: string): Promise<any> {
     const wallets = this.walletService.createdWallets;
@@ -61,6 +65,7 @@ export class WalletEncryptionService {
   }
 
   selectedAssetsStructure() {
+    this.coins = this.apiWalletService.getCoins();
     const userCoins = this.walletService.coins;
     this.selectedCoins = {};
 

@@ -14,6 +14,7 @@ import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
+import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 
 const coins: Coin[] = [
   {
@@ -69,6 +70,7 @@ describe('SendDetailPage', () => {
   let navControllerSpy: any;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -84,6 +86,9 @@ describe('SendDetailPage', () => {
         },
       },
     };
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coins,
+    });
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
@@ -99,6 +104,7 @@ describe('SendDetailPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletService, useValue: walletServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

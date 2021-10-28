@@ -5,7 +5,6 @@ import { WalletTransactionsService } from '../shared-wallets/services/wallet-tra
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { COINS } from '../constants/coins';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { finalize } from 'rxjs/operators';
 import { CovalentTransfer } from '../shared-wallets/models/covalent-transfer/covalent-transfer';
@@ -70,7 +69,7 @@ import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-tra
 })
 export class AssetDetailPage implements OnInit {
   currency: Coin;
-  coins = COINS;
+  coins: Coin[];
   walletAddress: string = null;
   balance: AssetBalance;
   transfers: CovalentTransfer[] = [];
@@ -87,6 +86,7 @@ export class AssetDetailPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.coins = this.apiWalletService.getCoins();
     this.getCurrency();
     this.getBalanceStructure(this.currency);
     this.getTransfers();

@@ -61,7 +61,10 @@ describe('AssetDetailPage', () => {
   beforeEach(
     waitForAsync(() => {
       activatedRouteMock = { snapshot: { paramMap: { get: () => 'ETH' } } };
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getPrices: of({ prices: { ETH: 3000 } }) });
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getPrices: of({ prices: { ETH: 3000 } }),
+        getCoins: [nativeAsset],
+      });
       walletServiceSpy = jasmine.createSpyObj(
         'WalletService',
         { balanceOf: Promise.resolve('20') },
