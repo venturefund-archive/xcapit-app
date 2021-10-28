@@ -71,8 +71,8 @@ import { BigNumber } from 'ethers';
         </div>
       </form>
 
-      <div class="sd__alert">
-        <app-ux-alert-message [type]="this.alertType" *ngIf="this.balanceNativeToken && !(this.balanceNativeToken > 0)">
+      <div class="sd__alert" *ngIf="!!this.nativeToken && this.balanceNativeToken === 0">
+        <app-ux-alert-message [type]="this.alertType">
           <div class="sd__alert__title">
             <ion-text>{{ 'wallets.send.send_detail.alert.title' | translate }}</ion-text>
           </div>
