@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { COINS } from '../../constants/coins';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,6 +9,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
 import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { BigNumber } from 'ethers';
+import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-send-detail',
@@ -101,7 +101,7 @@ import { BigNumber } from 'ethers';
 })
 export class SendDetailPage {
   alertType = UX_ALERT_TYPES.warning;
-  coins = COINS;
+  coins: Coin[];
   currency: Coin;
   networks: string[];
   selectedNetwork: string;
@@ -121,10 +121,12 @@ export class SendDetailPage {
     private formBuilder: FormBuilder,
     private transactionDataService: TransactionDataService,
     private walletService: WalletService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   ionViewWillEnter() {
+    this.coins = this.apiWalletService.getCoins();
     this.getCurrency();
     this.setCurrencyNetworks();
     this.checkNativeTokenAmount();

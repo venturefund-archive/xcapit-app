@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ethers, Wallet } from 'ethers';
 import { Mnemonic } from 'ethers/lib/utils';
-import { COINS } from '../../../constants/coins';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from './wallet.service';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
+import { NONPROD_COINS } from '../../constants/coins.nonprod';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -13,7 +13,7 @@ const testMnemonic: Mnemonic = {
 };
 
 const testCoins = {
-  valid: [COINS[0]],
+  valid: [NONPROD_COINS[0]],
   invalid: [],
   undefined: null,
 };
