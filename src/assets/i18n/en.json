@@ -1302,7 +1302,8 @@
     },
     "home": {
       "available_money": "Available money in wallet",
-      "wallet_balance_title": "ASSETS",
+      "tab_assets": "Assets",
+      "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
