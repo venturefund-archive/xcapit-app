@@ -11,7 +11,7 @@ const { Browser } = Plugins;
           <input (click)="this.changeState()" type="checkbox" name="Faq" checked />
           <ion-icon name="chevron-up-outline" *ngIf="showFirst"></ion-icon>
           <ion-icon name="chevron-down-outline" *ngIf="!showFirst"></ion-icon>
-          <ion-text class="ux-font-header-titulo title">{{ this.faq.title | translate }}</ion-text>
+          <ion-text class="ux-font-header-titulo title" name="Title">{{ this.faq.title | translate }}</ion-text>
           <ion-text class="ux-font-text-base answer" name="Answer" [innerHTML]="this.faq.answer | translate">
           </ion-text>
         </li>
