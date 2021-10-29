@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
+import { Plugins } from '@capacitor/core';
+const { Browser } = Plugins;
 
 @Component({
   selector: 'app-faq',
@@ -6,12 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
     <div id="faq">
       <ul>
         <li>
-          <input (click)="this.changeState()" type="checkbox" checked />
+          <input (click)="this.changeState()" type="checkbox" name="Faq" checked />
           <ion-icon name="chevron-up-outline" *ngIf="showFirst"></ion-icon>
           <ion-icon name="chevron-down-outline" *ngIf="!showFirst"></ion-icon>
-          <ion-text class="ux-font-header-titulo title">{{ this.faq.title | translate }}</ion-text>
-          <ion-text class="ux-font-text-base answer" [innerHTML]="this.faq.answer | translate">
-            <!-- <a class="link_text" [href]="this.faq.href">{{ this.faq.link_text | translate }}</a> -->
+          <ion-text class="ux-font-header-titulo title" name="Title">{{ this.faq.title | translate }}</ion-text>
+          <ion-text class="ux-font-text-base answer" name="Answer" [innerHTML]="this.faq.answer | translate">
           </ion-text>
         </li>
       </ul>
@@ -20,14 +21,41 @@ import { Component, Input, OnInit } from '@angular/core';
   `,
   styleUrls: ['./faq.component.scss'],
 })
-export class FaqComponent implements OnInit {
+export class FaqComponent implements AfterViewInit {
   @Input() faq;
   showFirst = false;
-  constructor() {}
-
-  ngOnInit() {}
+  browser = Browser;
+  anchors;
+  constructor(private elementRef: ElementRef) {}
 
   changeState() {
     this.showFirst = !this.showFirst;
+  }
+
+  ngAfterViewInit() {
+    this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
+    this.anchors.forEach((anchor) => {
+      anchor.addEventListener('click', this.handleAnchorClick.bind(this));
+    });
+  }
+
+  handleAnchorClick(event: Event) {
+    if (
+      this.faq.title === 'support.support_binance.question3' ||
+      this.faq.title === 'support.support_binance.question8' ||
+      this.faq.title === 'support.support_binance.question12' ||
+      this.faq.title === 'support.support_apikey_binance.question1'
+    ) {
+      event.preventDefault();
+      const anchor = event.target as HTMLAnchorElement;
+      this.openInfo(anchor.getAttribute('href'));
+    }
+  }
+
+  async openInfo(link) {
+    await Browser.open({
+      toolbarColor: '#1c2d5e',
+      url: link,
+    });
   }
 }
