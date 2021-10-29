@@ -3,18 +3,28 @@ import { of } from 'rxjs';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { ApiWalletService } from './api-wallet.service';
-
+const wallets = [
+  {
+    network: 'ERC20',
+    address: 'testERC20Address',
+  },
+  {
+    network: 'RSK',
+    address: 'testRSKAddress',
+  },
+];
 describe('ApiWalletService', () => {
   let service: ApiWalletService;
   let crudSpy;
-  let customHttpServiceSpy;
+  let customHttpServiceSpy: jasmine.SpyObj<CustomHttpService>;
 
   beforeEach(() => {
     crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
-    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', ['post', 'get', 'put']);
-    customHttpServiceSpy.put.and.returnValue(of({}));
-    customHttpServiceSpy.get.and.returnValue(of({}));
-    customHttpServiceSpy.post.and.returnValue(of({}));
+    customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
+      post: of({}),
+      get: of({}),
+      put: of({}),
+    });
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -34,9 +44,16 @@ describe('ApiWalletService', () => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), { bases: [] }, null, true);
     });
   });
+
   it('should call post on getPrices with coins and loading false', () => {
     service.getPrices([], false).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), { bases: [] }, null, false);
+    });
+  });
+
+  it('should call post on getPrices with coins and loading false', () => {
+    service.saveWalletAddresses(wallets).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), wallets);
     });
   });
 });
