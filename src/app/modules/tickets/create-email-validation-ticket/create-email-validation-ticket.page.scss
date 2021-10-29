@@ -1,26 +1,21 @@
 :host {
   .header {
     margin-top: 24px;
+    position: relative;
     &__text {
       margin-top: 16px;
     }
   }
 
-  .main {
-    padding-top: 8px;
-    margin-top: 8px;
-
-    .button {
-      margin-top: 16px;
-      display: flex;
-      flex-direction: column;
-      font-family: var(--ux-font-lato);
-      font-size: 16px;
+  .close_button {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    padding: 0px;
+    margin: 0px;
+    &__icon {
+      width: 24px;
+      height: 24px;
     }
-  }
-
-  .container {
-    height: 100%;
-    width: 100%;
   }
 }

@@ -89,7 +89,13 @@ const { Browser } = Plugins;
 
         <div class="main__actions">
           <div class="main__actions__primary">
-            <ion-button class="ux_button" appTrackClick name="Add Voucher" (click)="this.addVoucher()">
+            <ion-button
+              color="uxsecondary"
+              class="ux_button"
+              appTrackClick
+              name="Add Voucher"
+              (click)="this.addVoucher()"
+            >
               {{ 'fiat_ramps.fiat_success.buttonText' | translate }}
             </ion-button>
           </div>

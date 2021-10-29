@@ -13,17 +13,18 @@ describe('SupportOptionsCardComponent', () => {
   let component: SupportOptionsCardComponent;
   let fixture: ComponentFixture<SupportOptionsCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SupportOptionsCardComponent>;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
 
   beforeEach(
     waitForAsync(() => {
-      fakeNavController = new FakeNavController({});
+      fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
         declarations: [SupportOptionsCardComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SupportOptionsCardComponent);

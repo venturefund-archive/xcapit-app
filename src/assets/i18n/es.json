@@ -221,14 +221,13 @@
       "cancel_button": "Volver a inicio de sesión"
     },
     "categories": {
-      "my_account": "Mi cuenta",
+      "my_account": "Mi cuenta/Registro",
       "link_binance_account": "Vincular mi cuenta de Binance",
       "buy_crypto": "Comprar criptomonedas",
       "subscription_plans": "Planes de suscripción",
       "investment_strategies": "Estrategias de inversión",
-      "account_security": "Seguridad de mi cuenta",
-      "others": "Otros",
-      "email_validation": "Validación de cuenta"
+      "capital_security": "Seguridad de mi capital",
+      "others": "Otros"
     }
   },
   "funds": {
@@ -467,14 +466,14 @@
             "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT(Tether).",
             "more_info": "Leer más sobre Himalayas",
             "strategie_type": "Indice",
-            "info_description": "Himalayas es un índice de inversión con un riesgo alto.\n Un índice es la cotización promedio de un grupo de activos. Estas activos (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu billetera…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
+            "info_description": "Himalayas es un índice de inversión con un riesgo alto.\n Un índice es la cotización promedio de un grupo de activos. Estas activos (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu wallet…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
           },
           "Mary_index": {
             "title": "Andes",
             "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT. (Theter)",
             "more_info": "Leer más sobre Andes",
             "strategie_type": "Indice",
-            "info_description": "Andes es un índice de inversión con un riesgo medio-alto.\n Un índice es la cotización promedio de un grupo de activos. Estos activos (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu billetera…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos del mercado. En resumen, esta estrategia apuesta a diversificar."
+            "info_description": "Andes es un índice de inversión con un riesgo medio-alto.\n Un índice es la cotización promedio de un grupo de activos. Estos activos (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu wallet…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos del mercado. En resumen, esta estrategia apuesta a diversificar."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -736,7 +735,7 @@
     },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
-      "textSecondary": "Ahora necesitamos que vincules tu “billetera virtual de criptomonedas“(Exchange) para que comencemos a gestionarlas.",
+      "textSecondary": "Ahora necesitamos que vincules tu “wallet virtual de criptomonedas“(Exchange) para que comencemos a gestionarlas.",
       "namePrimaryAction": "Comenzar a vincular con Binance",
       "nameSecondaryAction": "Omitir por ahora"
     },
@@ -1294,9 +1293,9 @@
   },
   "wallets": {
     "disclaimer": {
-      "header": "Crear Billetera",
-      "title": "¡Empecemos con tu billetera!",
-      "description": "Antes de crear tu billetera, verifica los permisos esenciales para comenzar",
+      "header": "Crear wallet",
+      "title": "¡Empecemos!",
+      "description": "Antes de crear tu wallet, verifica los permisos esenciales para comenzar",
       "local_stored_keys_checkbox": "Entiendo que mis fondos se mantienen de forma segura en este dispositivo, no por una empresa.",
       "recovery_phrase_checkbox": "Entiendo que si esta aplicación se mueve a otro dispositivo o se elimina, mis fondos solo se pueden recuperar con la frase de recuperación.",
       "terms_of_use_checkbox": "He leído, comprendido y acepto los términos de uso.",
@@ -1305,14 +1304,15 @@
       "error_did_not_accept": "Debes marcar todas las opciones para continuar."
     },
     "home": {
-      "available_money": "Dinero disponible en billetera",
-      "wallet_balance_title": "ACTIVOS",
-      "wallet_recovery": "Importar una billetera existente",
+      "available_money": "Tus activos",
+      "tab_assets": "Monedas",
+      "tab_nfts": "NFTs",
+      "wallet_recovery": "Importar una wallet existente",
       "wallet_transaction_title": "RECIENTE",
       "go_to_history": "Ver todas las transacciones",
       "subheader_component": {
-        "title_without_wallet": "Todavía no creaste tu billetera.",
-        "create_wallet_button": "Crear Billetera"
+        "title_without_wallet": "Todavía no creaste tu wallet.",
+        "create_wallet_button": "Crear wallet"
       },
       "subheader_buttons_component": {
         "send_card": "Enviar",
@@ -1323,42 +1323,42 @@
       }
     },
     "select_coin": {
-      "header": "Crear Billetera",
-      "title": "Selecciona los activos",
-      "subtitle": "Elige los activos que quieres visualizar en tu billetera",
+      "header": "Crear wallet",
+      "title": "Elige tus activos",
+      "subtitle": "Elige los activos que quieres visualizar en tu wallet",
       "select_all": "Seleccionar todas las monedas"
     },
     "success_creation": {
-      "title": "¡Genial! creamos tu billetera y tu frase de recuperación está verificada",
+      "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",
       "subtitle": "Guardala en un lugar seguro, en lo posible, sin conexión a internet",
-      "success_button": "Ir a mi billetera"
+      "success_button": "Ir a mi wallet"
     },
     "recovery_phrase": {
-      "header": "Crear Billetera",
+      "header": "Crear wallet",
       "title": "Frase de recuperación",
-      "text1": "Estas son las 12 palabras que conforman tu billetera.",
-      "text2": "Siempre que tengas las 12 palabras vas a poder recuperar tu billetera y todos los fondos.",
+      "text1": "Estas son las 12 palabras que conforman tu wallet.",
+      "text2": "Siempre que tengas las 12 palabras vas a poder recuperar tu wallet y todos los fondos.",
       "text3": "Si pierdas las palabras no vas a poder hacerlo.",
       "text4": "Escribe cuidadosamente cada palabra en el orden que aparecen y guardalas en un lugar seguro (archivo de texto, pendrive, a mano en un papel, etc).",
       "btn_next": "Siguiente"
     },
     "verify_phrase": {
-      "header": "Crear Billetera",
+      "header": "Crear wallet",
       "title": "Verifica tu frase",
       "text1": "Toca las palabras en el orden correspondiente",
       "btn_create": "Siguiente"
     },
     "create_password": {
-      "header": "Crear Billetera",
+      "header": "Crear wallet",
       "title": "Crear una contraseña",
-      "description": "La contraseña sirve para hacer tu billetera más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu billetera con las 12 palabras.",
+      "description": "La contraseña sirve para hacer tu wallet más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu wallet con las 12 palabras.",
       "password": "Contraseña",
       "repeat_password": "Confirmar contraseña",
-      "finish_button": "Finalizar y crear billetera"
+      "finish_button": "Finalizar y crear wallet"
     },
     "receive": {
       "header": "Recibir",
-      "title": "Datos de tu billetera",
+      "title": "Datos de tu wallet",
       "currency_select": "Moneda",
       "currency_select_modal_title": "Seleccionar moneda",
       "currency_select_placeholder": "Moneda",
@@ -1374,16 +1374,16 @@
       "button": "Volver a intentarlo"
     },
     "recovery_wallet": {
-      "header": "Importar Billetera",
+      "header": "Importar wallet",
       "title": "Ingresar frase de recuperación",
       "subtitle": "Escribe tus palabras separadas por un espacio",
       "label": "Frase de recuperación",
-      "button": "Importar billetera"
+      "button": "Importar wallet"
     },
     "transactions": {
       "header": "Historico transacciones",
-      "sended": "Enviado",
-      "received": "Recibido",
+      "OUT": "Enviado",
+      "IN": "Recibido",
       "swap": "Swap"
     },
     "send": {
@@ -1396,15 +1396,19 @@
         "title": "Datos de la transferencia",
         "network_select": {
           "title": "Red",
-          "disclaimer": "Asegúrese que la billetera de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
+          "disclaimer": "Asegúrese que la wallet de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
         },
         "continue_button": "Continuar",
         "address_input": {
-          "title": "Billetera destino",
+          "title": "Wallet destino",
           "help_text": "{{currency}} direccion o alias"
         },
         "amount_input": {
           "title": "Monto a enviar"
+        },
+        "alert": {
+          "title": "Atención",
+          "text": "Tiene 0 {{nativeToken}} en su cuenta para pagar las comisiones de transacción. Compre algunos {{nativeToken}} o deposítelos desde otra cuenta."
         }
       },
       "send_summary": {
@@ -1416,12 +1420,22 @@
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
+        },
+        "alert_not_enough_native_token": {
+          "title": "Error de transacción",
+          "text": "Fondos insuficientes para realizar el pago de las comisiones",
+          "button": "Aceptar"
+        },
+        "alert_invalid_address": {
+          "title": "Error de transacción",
+          "text": "La dirección de destino no es correcta",
+          "button": "Aceptar"
         }
       },
       "send_success": {
         "textPrimary": "Tu transferencia fue realizada",
         "textSecondary": "En breve estara disponible ",
-        "namePrimaryAction": "Ir a mi billetera"
+        "namePrimaryAction": "Ir a mi wallet"
       },
       "error_incorrect_password": {
         "textPrimary": "Al parecer la contraseña es incorrecta",
@@ -1432,7 +1446,7 @@
         "namePrimaryAction": "Reintentar"
       },
       "error_wrong_address": {
-        "textPrimary": "La billetera de destino es incorrecta",
+        "textPrimary": "La wallet de destino es incorrecta",
         "namePrimaryAction": "Reintentar"
       }
     },
@@ -1443,7 +1457,7 @@
       },
       "wallet_password": {
         "title": "Ingrese la contraseña",
-        "disclaimer": "Por seguridad necesitamos que ingreses la contraseña de tu billetera para completar la transacción",
+        "disclaimer": "Por seguridad necesitamos que ingreses la contraseña de tu wallet para completar la transacción",
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
       }
@@ -1458,8 +1472,8 @@
       "button": "Volver a intentarlo"
     },
     "success_wallet_recovery": {
-      "title": "¡Genial! Importamos tu billetera con tu frase de recuperación",
-      "button": "Ir a mi billetera"
+      "title": "¡Genial! Importamos tu wallet con tu frase de recuperación",
+      "button": "Ir a mi wallet"
     }
   },
   "apikeys": {
@@ -1505,7 +1519,7 @@
       "header": "Gestión de API Keys",
       "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas.",
       "add_api_key": "Agrega una API key",
-      "security_info_alert": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la billetera Spot. No podremos realizar retiros."
+      "security_info_alert": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la wallet Spot. No podremos realizar retiros."
     },
     "linked_apikeys": {
       "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
@@ -1622,7 +1636,7 @@
         }
       },
 
-      "information_card": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la billetera Spot. No podremos realizar retiros."
+      "information_card": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la wallet Spot. No podremos realizar retiros."
     },
     "apikey_information": {
       "header": "Vincular API Key",
@@ -1672,7 +1686,7 @@
     "refer": "Referir",
     "new_fund": "Inversiones",
     "menu": "Más",
-    "wallet": "Billetera"
+    "wallet": "Wallet"
   },
   "deposit_addresses": {
     "deposit_currency": {
@@ -1718,7 +1732,7 @@
       "subtitle": "Paxful te permitirá comprar unicamente BTC. Te redirigiremos a su página para que realices la compra P2P. Asegurate de comprender los siguientes puntos antes de hacer una transacción:",
       "recordatory_1": "Entiendo que desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se responsabiliza por precios incorrectos en los valores o divisas definidas de aquí en más, ni de prejuicios que puedan surgir con la interacción con el proveedor. ",
       "recordatory_2": "Entiendo que el vendedor establece su propio BTC precio basado en la velocidad, privacidad y conveniencia. Las tasas pueden variar dependiendo de la forma de pago.",
-      "recordatory_3": "Entiendo que habrá una tarifa de red para realizar el envio de los BTC a mi billetera de Binance. Se recomienda añadir a tu compra como max 0.0566USD para cubir la tarifa de red de lo contrario la compra permanecerá en tu monedero de Paxful. ",
+      "recordatory_3": "Entiendo que habrá una tarifa de red para realizar el envio de los BTC a mi wallet de Binance. Se recomienda añadir a tu compra como max 0.0566USD para cubir la tarifa de red de lo contrario la compra permanecerá en tu monedero de Paxful. ",
       "recordatory_4": "Recuerda que si tienes inversiones activas, tu compra será automáticamene parte de esa inversión. ",
       "button": "Seleccionar mi dirección de recepción",
       "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
@@ -1868,7 +1882,7 @@
     "paxful": {
       "header": "Comprar",
       "title": "Comprar BTC con Paxful",
-      "text": "La dirección de recepción es aquella API KEY que has cargado de tu billetera de Binance. Las compras que realice se verán reflejadas en la siguiente dirección de Binance.",
+      "text": "La dirección de recepción es aquella API KEY que has cargado de tu wallet de Binance. Las compras que realice se verán reflejadas en la siguiente dirección de Binance.",
       "label-wallet": "Selecciona tu dirección de recepción:",
       "placeholder-wallet": "Dirección de recepción",
       "recordatory_title": "Recuerda",
@@ -1931,8 +1945,8 @@
   "home": {
     "home_page": {
       "want_my_wallet": {
-        "title": "¡Quiero mi billetera!",
-        "description": "Con la billetera tu tienes el poder, puedes invertir de forma simple, sin esfuerzo y con un click. "
+        "title": "¡Quiero mi wallet!",
+        "description": "Con la wallet tu tienes el poder, puedes invertir de forma simple, sin esfuerzo y con un click. "
       },
       "strategies": {
         "title": "Estrategias",
@@ -1945,7 +1959,7 @@
         "link_text": "Escribinos"
       },
       "subheader_component": {
-        "wallet": "Billetera",
+        "wallet": "Wallet",
         "buy_card": "Compra",
         "investments": "Inversiones",
         "objectives": "Objetivos",
@@ -1995,7 +2009,7 @@
       "header": "Ayuda",
       "title": "Ayuda sobre Wallet",
       "question1": "¿Qué es una wallet?",
-      "answer1": "Una wallet o billetera digital es un contenedor y medio para transferir tus criptomonedas de manera segura y anónima, con la posibilidad de adherirse a protocolos de inversión non-custodial descentralizados.",
+      "answer1": "Una wallet o wallet digital es un contenedor y medio para transferir tus criptomonedas de manera segura y anónima, con la posibilidad de adherirse a protocolos de inversión non-custodial descentralizados.",
       "question2": "¿Por qué usar la wallet de Xcapit?",
       "answer2": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Puedes acceder a productos de inversión descentralizados de manera sencilla y dentro de la app. </li><li>Acceso al intercambio de tus NFTs favoritos. </li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
       "question3": "¿Cómo creo una wallet?",
@@ -2003,7 +2017,7 @@
       "question4": "¿Cómo importar una wallet?",
       "answer4": "<b>1.</b> Dentro de la app, se accede a la opción: \"Importar wallet\".<br> <b>2.</b> Ingresar las 12 palabras de la wallet que se desea importar.<br> <b>3.</b> Seleccionar los tokens a visualizar.<br> <b>4.</b> Crear nueva contraseña para la firma de transacciones con la nueva wallet.",
       "question5": "¿Qué es la frase de recuperación?",
-      "answer5": "<ul><li>La frase de recuperación está compuesta por 12 palabras que necesitarás para acceder a la billetera posteriormente.</li><li>Si pierdes la frase de recuperación no podrás acceder a la billetera.</li></ul>",
+      "answer5": "<ul><li>La frase de recuperación está compuesta por 12 palabras que necesitarás para acceder a la wallet posteriormente.</li><li>Si pierdes la frase de recuperación no podrás acceder a la wallet.</li></ul>",
       "question6": "¿Por qué necesito una clave además de mis 12 palabras?",
       "answer6": "<ul><li>Para tener un medio más práctico para loguearte en la app, si pierdes esta contraseña, podrás recuperarla con las 12 palabras.</li><li>La contraseña es para validar toda operación que demande la transferencia de dinero de la wallet.</li></ul>",
       "question7": "¿Dónde guardo mis palabras de seguridad?",
@@ -2011,15 +2025,15 @@
       "question8": "¿Qué pasa si pierdo mi clave?",
       "answer8": "Podrás restablecerla con tus 12 palabras de seguridad.",
       "question9": "¿Qué pasa si pierdo mis 12 palabras de seguridad?",
-      "answer9": "Es MUY importante que no se pierdan, ya que es el único medio para acceder a tu billetera digital, es lo que te da la tranquilidad de que nadie más que vos va a tener acceso a tus ahorros.",
-      "question10": "¿Qué costo tienen las transacciones a otra billetera?",
+      "answer9": "Es MUY importante que no se pierdan, ya que es el único medio para acceder a tu wallet digital, es lo que te da la tranquilidad de que nadie más que vos va a tener acceso a tus ahorros.",
+      "question10": "¿Qué costo tienen las transacciones a otra wallet?",
       "answer10": "<ul><li>El costo de transferencia va a depender de la moneda transferida y a través de qué red se esté transfiriendo.</li><li>Los tokens que se van a poder alojar, recibir y transferir son todos los de la red de ethereum, polygon y RSK.</li><li>Polygon y RSK son las redes con menor costo de transacción.</li></ul>",
       "question11": "¿Por qué me aparece un mensaje de fondo insuficiente para realizar el pago de comisiones si yo tengo cripto?",
-      "answer11": "<ul><li>Porque el pago de las Fee de las transacciones se hacen en la moneda nativa de la red.</li><li>A través de swap de la billetera de Xcapit vas a poder adquirir los tokens nativos para pagar las Fee o Comisiones.</li></ul>",
+      "answer11": "<ul><li>Porque el pago de las Fee de las transacciones se hacen en la moneda nativa de la red.</li><li>A través de swap de la wallet de Xcapit vas a poder adquirir los tokens nativos para pagar las Fee o Comisiones.</li></ul>",
       "question12": "¿Cuánto tiempo demora en acreditarse una transferencia?",
       "answer12": "De la misma manera que el costo de la transferencia, el tiempo va a depender de la blockchain de la misma.",
-      "question13": "¿Cómo recibo una transferencia en mi Wallet (Billetera o cartera inteligente)?",
-      "answer13": "<b>1.</b> Buscar en la billetera el token que necesitan transferir. <br> <b>2.</b> Copiar la dirección de depósito correspondiente al mismo. <br> <b>3.</b> Enviar la dirección a la persona que te va a transferir.",
+      "question13": "¿Cómo recibo una transferencia en mi Wallet?",
+      "answer13": "<b>1.</b> Buscar en la wallet el token que necesitan transferir. <br> <b>2.</b> Copiar la dirección de depósito correspondiente al mismo. <br> <b>3.</b> Enviar la dirección a la persona que te va a transferir.",
       "question14": "¿Cómo transferir mi dinero?",
       "answer14": "<b>1.</b> Debes seleccionar el token que desea transferir.<br> <b>2.</b> Pegar en el campo de dirección, la dirección a la cual quiere enviar los mismos. Para transferir, necesitas la dirección de depósito específica del destinatario para el token que deseas transferir. <br> <b>3.</b> Ingresar el monto que quieres transferir. <br> <b>4.</b> Verificar que los datos sean correctos.",
       "question15": "¿Dónde veo mi NFT?",
@@ -2030,6 +2044,18 @@
       "answer17": "Se encuentra en la red de Polygon.",
       "question18": "¿Cómo invierto en mi wallet?",
       "answer18": "Por el momento los productos de inversión descentralizados dentro de la wallet de Xcapit se encuentran en fase de desarrollo. Cuando estén disponibles, serán accesibles de forma sencilla e intuitiva dentro de la app."
+    },
+    "support_security": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Seguridad",
+      "question1": "¿Cómo se guardan mis datos?",
+      "answer1": "No se guardan datos respectivos a la identidad de los usuarios.",
+      "question2": "¿Cómo se usan mis datos?",
+      "answer2": "Se almacenan datos de experiencias de usuarios para poder llevar a cabo una mejora continua en la satisfacción de uso para los usuarios.",
+      "question3": "¿Mi capital dentro de binance está seguro?",
+      "answer3": "El capital del usuario nunca va a estar en propiedad de Xcapit, el algoritmo trabaja haciendo trading directamente en la Billetera SPOT del usuario a través de la API de BINANCE proporcionada por el usuario al crear un nuevo fondo, y destacamos que XCAPIT no tiene la posibilidad de retirar fondos o transferir desde la billetera de Binance del cliente, además recibimos mentorías constantes de UNICEF sobre blockchain y open source para dar a nuestros usuarios cada dia un mejor servicio y mejores rentabilidades.",
+      "question4": "¿Qué pasa si mi cuenta no registra operaciones en un considerable periodo de tiempo?",
+      "answer4": "La solución frecuente a este problema es verificar en la sección API Keys dentro de binance, que esté habilitada la casilla  “Habilitar spot y margin trading”, esperar al próximo rebalanceo de cartera y si el problema persiste consultarnos a través del sistema de soporte de la app."
     },
     "support_buy": {
       "header": "Ayuda",
@@ -2072,6 +2098,18 @@
       "answer12": "Todos nuestros productos de inversión operan sobre criptomonedas, y son de renta variable. También puedes suscribirte y ver desde la app los fondos públicos de la empresa en tiempo real con los siguientes enlaces:<ul><li><a href='http://bit.ly/XcapitOlympusMons'>Olympus Mons</a></li><li><a href='http://bit.ly/XcapitDenali'>Denali</a></li><li><a href='http://bit.ly/XcapitHimalayas'>Himalayas</a></li><li><a href='http://bit.ly/XcapitAndes'>Andes</a></li>",
       "question13": "Si agrego o quito capital de mi fondo, ¿me afecta al rendimiento mostrado, ya sea ganancia o pérdida respectivamente?",
       "answer13": "Los ingresos o egresos de dinero no afectan los parámetros de rendimiento del algoritmo. Ya que es independiente al capital del inversor. Lo que sí, si se agrega el capital, en las próximas operaciones también lo utilizará"
+    },
+    "support_apikey_binance": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Binance y API Keys",
+      "question1": "¿Cómo crear una cuenta en Binance?",
+      "answer1": "Puedes hacerlo desde este link <a href='https://accounts.binance.com/es/register'>Crear cuenta en binance</a>.‍‍",
+      "question2": "¿Cuánto dinero necesito tener en Binance?",
+      "answer2": "Si eres nuevo y quieres empezar a invertir solo necesitas tener un mínimo de $150 dólares para las estrategias Denali y Olympus Mons. Y si te animas a algo más arriesgado, necesitas tener un mínimo de $500 dólares para las estrategias Himalayas y Andes.",
+      "question3": "¿Puedo hacer trading con la misma cuenta de Binance que tengo vinculada en Xcapit?",
+      "answer3": "Se recomienda tener otra cuenta aparte para hacer trading manual.",
+      "question4": "¿Qué hago si mis API Keys se vencieron o están deshabilitada?",
+      "answer4": " Deberás volver a vincular tus API Keys en Binance, para ello te pedimos que: <br><b>1.</b> Hacer clic en el menú “Más” y luego en “Gestión de API Keys”.<br><b>2.</b> Eliminar las API Keys que figuran en la App de Xcapit - Para asegurarte no vincular nuevamente estas API Keys vencidas.<br><b>3.</b> Te dirijas a \"Agregar Apikey\". <br><b>4.</b> Ingresar a tu cuenta de Binance y luego a “Gestión de APIs”. <br><b>5.</b> Generar una nueva API Keys y las copies en Xcapit con el QR o copiando y pegando los códigos. <br><b>6.</b> Es importante que verifiques que la opción “Spot Trading” se encuentre activa. <br><b>7.</b> Vuelvas a crear un fondo de inversión normalmente."
     }
   }
 }

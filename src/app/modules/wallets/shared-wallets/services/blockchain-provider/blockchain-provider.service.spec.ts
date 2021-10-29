@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { BlockchainProviderService } from './blockchain-provider.service';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { Coin } from '../../interfaces/coin.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
 
 const tokenAbi: any = [
   {
@@ -18,7 +20,9 @@ const testCoins: Coin[] = [
     last: false,
     value: 'ETH',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'http://testrpc.test',
+    native: true,
   },
   {
     id: 2,
@@ -27,6 +31,7 @@ const testCoins: Coin[] = [
     last: false,
     value: 'USDT',
     network: 'ERC20',
+    chainId: 42,
     rpc: 'http://testrpc.test',
     contract: '0x00000000000000',
     abi: tokenAbi,
@@ -34,20 +39,35 @@ const testCoins: Coin[] = [
   },
 ];
 
+const testTx: ethers.utils.Deferrable<TransactionRequest>[] = [
+  {
+    to: 'testAddress',
+    value: ethers.utils.parseEther('1'),
+  },
+  {
+    to: 'testAddress',
+    data: 'testData',
+  },
+];
+
 describe('BlockchainProviderService', () => {
   let service: BlockchainProviderService;
   let providerMock;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   beforeEach(() => {
     providerMock = {
       getBalance: (): Promise<BigNumber> => Promise.resolve(BigNumber.from('0xfffffffffffffff')),
       balanceOf: (): Promise<BigNumber> => Promise.resolve(BigNumber.from('0x000000000000F4240')),
     };
+
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: testCoins,
+    });
     TestBed.configureTestingModule({
-      providers: [],
+      providers: [{ provide: ApiWalletService, useValue: apiWalletServiceSpy }],
       imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(BlockchainProviderService);
-    service.coins = testCoins;
   });
 
   it('should be created', () => {
@@ -115,5 +135,31 @@ describe('BlockchainProviderService', () => {
 
       expect(response).toEqual(data.balance);
     });
+  });
+
+  it('should calculate the fee for native token on estimateFee', async () => {
+    const gas = 2;
+    const gasPrice = 10;
+    const providerSpy = jasmine.createSpyObj('Provider', {
+      estimateGas: BigNumber.from(gas),
+      getGasPrice: BigNumber.from(gasPrice),
+    });
+    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
+    const expectedFee = BigNumber.from(gas * gasPrice);
+    const estimatedFee = await service.estimateFee(testTx[0], testCoins[0]);
+    expect(estimatedFee).toEqual(expectedFee);
+  });
+
+  it('should calculate the fee for not native token on estimateFee', async () => {
+    const gas = 2;
+    const gasPrice = 10;
+    const providerSpy = jasmine.createSpyObj('Provider', {
+      estimateGas: BigNumber.from(gas),
+      getGasPrice: BigNumber.from(gasPrice),
+    });
+    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
+    const expectedFee = BigNumber.from(gas * gasPrice);
+    const estimatedFee = await service.estimateFee(testTx[1], testCoins[0]);
+    expect(estimatedFee).toEqual(expectedFee);
   });
 });

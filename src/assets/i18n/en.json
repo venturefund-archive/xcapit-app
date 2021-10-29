@@ -220,14 +220,13 @@
       "submit_button": "Send"
     },
     "categories": {
-      "my_account": "My account",
+      "my_account": "My account/Registration",
       "link_binance_account": "Link my binance account",
       "buy_crypto": "Buy Crypto",
       "subscription_plans": "Subscription Plans",
       "investment_strategies": "Investment strategies",
-      "account_security": "Account Security",
-      "others": "Others",
-      "email_validation": "Account Validation"
+      "capital_security": "Capital Security",
+      "others": "Others"
     }
   },
   "funds": {
@@ -518,8 +517,8 @@
     },
     "fund_take_profit": {
       "header": "Change Take Profit",
-      "title": "When do you want us to stop investing and take the profits?",
-      "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
+      "title": "Set benefit limits",
+      "text_before": "When do you want us to stop investing? Your investment will be finalized when it reaches this profit percentage.",
       "take_profit": "Take profit",
       "most_chosen": "Most chosen",
       "custom_tp_button": "Choose another option",
@@ -1303,7 +1302,8 @@
     },
     "home": {
       "available_money": "Available money in wallet",
-      "wallet_balance_title": "ASSETS",
+      "tab_assets": "Assets",
+      "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
@@ -1379,8 +1379,8 @@
     },
     "transactions": {
       "header": "Transactions history",
-      "sended": "Sended",
-      "received": "Received",
+      "OUT": "Sent",
+      "IN": "Received",
       "swap": "Swap"
     },
     "send": {
@@ -1402,6 +1402,10 @@
         },
         "amount_input": {
           "title": "Amount to send"
+        },
+        "alert": {
+          "title": "Attention",
+          "text": "You have 0 {{nativeToken}} in your account to pay the transaction fees. Buy some {{nativeToken}} or deposit them from another account."
         }
       },
       "send_summary": {
@@ -1413,6 +1417,16 @@
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
+        },
+        "alert_not_enough_native_token": {
+          "title": "Transaction error",
+          "text": "Insufficient funds to afford transaction fees.",
+          "button": "Ok"
+        },
+        "alert_invalid_address": {
+          "title": "Transaction error",
+          "text": "The destiny address is incorrect",
+          "button": "Ok"
         }
       },
       "send_success": {
