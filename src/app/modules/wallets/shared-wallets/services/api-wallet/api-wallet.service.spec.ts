@@ -51,7 +51,7 @@ describe('ApiWalletService', () => {
     });
   });
 
-  it('should call post on getPrices with coins and loading false', () => {
+  it('should call post on saveWalletAddresses', () => {
     service.saveWalletAddresses(wallets).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), wallets);
     });
