@@ -109,7 +109,7 @@ export const NONPROD_COINS: Coin[] = [
     native: true,
   },
   {
-    id: 8,
+    id: 9,
     name: 'SOV - Sovryn',
     logoRoute: 'assets/img/coins/SOV.png',
     last: true,

@@ -5,6 +5,7 @@ import linkAbi from './assets-abi-prod/link-abi-prod.json';
 import uniAbi from './assets-abi-prod/uni-abi-prod.json';
 import usdtAbi from './assets-abi-prod/usdt-abi-prod.json';
 import rifAbi from './assets-abi-prod/rif-abi-prod.json';
+import sovAbi from './assets-abi-prod/sov-abi-prod.json';
 
 export const PROD_COINS: Coin[] = [
   {
@@ -98,12 +99,25 @@ export const PROD_COINS: Coin[] = [
     id: 8,
     name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
-    last: true,
+    last: false,
     value: 'MATIC',
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
     decimals: 18,
     native: true,
+  },
+  {
+    id: 9,
+    name: 'SOV - Sovryn',
+    logoRoute: 'assets/img/coins/SOV.png',
+    last: true,
+    value: 'SOV',
+    network: 'RSK',
+    chainId: 31,
+    rpc: environment.rskApiUrl,
+    contract: '0x6a9A07972D07E58f0daF5122D11e069288A375fB',
+    abi: sovAbi,
+    decimals: 18,
   },
 ];
