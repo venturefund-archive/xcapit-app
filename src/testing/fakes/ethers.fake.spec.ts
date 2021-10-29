@@ -16,6 +16,9 @@ export class FakeEthersService implements Fake {
 
   modifyReturns(transferResponse): void {
     this.spy.newContract.and.returnValue({
+      populateTransaction: {
+        transfer: () => Promise.resolve(transferResponse),
+      },
       transfer: () => Promise.resolve(transferResponse),
     });
   }

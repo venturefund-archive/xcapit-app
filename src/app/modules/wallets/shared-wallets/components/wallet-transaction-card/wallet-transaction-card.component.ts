@@ -16,7 +16,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./wallet-transaction-card.component.scss'],
 })
 export class WalletTransactionCardComponent implements OnInit {
-  @Input() transactions;
+  @Input() transactions: any[];
 
   constructor() {}
 

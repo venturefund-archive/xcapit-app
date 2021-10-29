@@ -4,11 +4,11 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'app-xcapit-logo',
   template: `
     <div class="text-center" *ngIf="whiteLogo">
-      <img src="../../assets/img/logo-xcapit.svg" alt="Logo xcapit" />
+      <img src="../../assets/img/logo-xcapit.svg" alt="Xcapit" />
     </div>
 
     <div class="text-center" *ngIf="!whiteLogo">
-      <img src="../../assets/img/logo-xcapit-2.svg" alt="Logo xcapit" />
+      <img src="../../assets/img/logo-xcapit-2.svg" alt="Xcapit" />
     </div>
   `,
   styleUrls: ['./xcapit-logo.component.scss'],

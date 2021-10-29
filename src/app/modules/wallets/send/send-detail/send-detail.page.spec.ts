@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,6 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
+import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
+import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 
 const coins: Coin[] = [
   {
@@ -21,7 +24,33 @@ const coins: Coin[] = [
     last: false,
     value: 'BTC',
     network: 'BTC',
+    chainId: 42,
     rpc: '',
+    native: true,
+  },
+  {
+    id: 1,
+    name: 'ETH - Ethereum',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    last: false,
+    value: 'ETH',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'testRpc',
+    native: true,
+  },
+  {
+    id: 3,
+    name: 'USDT - Tether',
+    logoRoute: 'assets/img/coins/USDT.svg',
+    last: false,
+    value: 'USDT',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'testRPC',
+    contract: 'testContract',
+    abi: null,
+    decimals: 6,
   },
 ];
 
@@ -39,8 +68,17 @@ describe('SendDetailPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
   let activatedRouteMock: any;
   let navControllerSpy: any;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(() => {
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletsAddresses: Promise.resolve(['testAddress']),
+    });
+    walletServiceSpy = jasmine.createSpyObj('WalletService', {
+      balanceOf: Promise.resolve('10'),
+    });
     activatedRouteMock = {
       snapshot: {
         paramMap: {
@@ -48,6 +86,9 @@ describe('SendDetailPage', () => {
         },
       },
     };
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coins,
+    });
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
@@ -61,6 +102,9 @@ describe('SendDetailPage', () => {
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -68,6 +112,7 @@ describe('SendDetailPage', () => {
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
     component.coins = coins;
+    component.balanceNativeToken = 1;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -76,17 +121,21 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency and networks on ionViewWillEnter', () => {
+  it('should find currency and networks on ionViewWillEnter', fakeAsync(() => {
     component.ionViewWillEnter();
+    tick();
     fixture.detectChanges();
     expect(component.networks).toEqual([coins[0].network]);
     expect(component.selectedNetwork).toEqual(coins[0].network);
+    expect(component.nativeToken).toEqual(coins[0]);
+    expect(component.balanceNativeToken).toEqual(10);
     expect(component.currency).toEqual(coins[0]);
-  });
+  }));
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
     component.selectedNetwork = 'ERC20';
+    component.nativeToken = coins[1];
     fixture.detectChanges();
     expect(component.selectedNetwork).toBe('ERC20');
     const networkCard = fixture.debugElement.query(By.css('app-network-select-card'));
@@ -113,5 +162,45 @@ describe('SendDetailPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
+  });
+
+  it('should show card if native token balance is zero when sending native token', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
+    walletServiceSpy.balanceOf.and.resolveTo('0');
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
+    expect(alertCard).toBeDefined();
+  });
+
+  it('should show card if native token balance is zero when sending not native token', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
+    walletServiceSpy.balanceOf.and.resolveTo('0');
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
+    expect(alertCard).toBeDefined();
+  });
+
+  it('should not show card if native token balance is greater than zero when sending native token', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
+    walletServiceSpy.balanceOf.and.resolveTo('1');
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
+    expect(alertCard).toBeDefined();
+  });
+
+  it('should not show card if native token balance is greater than zero when sending not native token', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
+    walletServiceSpy.balanceOf.and.resolveTo('1');
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
+    expect(alertCard).toBeDefined();
   });
 });

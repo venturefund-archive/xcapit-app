@@ -1,10 +1,9 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-
 import { SupportOptionsPage } from './support-options.page';
 const options = [
   {
@@ -30,7 +29,7 @@ const options = [
 describe('SupportOptionsPage', () => {
   let component: SupportOptionsPage;
   let fixture: ComponentFixture<SupportOptionsPage>;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
 
   beforeEach(

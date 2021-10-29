@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UX_ALERT_TYPES } from './ux-alert-types';
 
 @Component({
   selector: 'app-ux-alert-message',
   template: `
-    <div class="am ux-font-text-xs" [ngClass]="this.type">
+    <div class="am ux-font-text-xs" [ngClass]="this.type.cssClass">
       <div class="am__icon">
-        <ion-icon [name]="this.iconName"></ion-icon>
+        <ion-icon [name]="this.type.uxIcon"></ion-icon>
       </div>
       <div class="am__message">
         <ng-content></ng-content>
@@ -17,16 +18,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class UxAlertMessageComponent implements OnInit {
   constructor() {}
   iconName: string;
-  @Input()
-  type = 'info';
+  @Input() type = UX_ALERT_TYPES.info;
 
-  ngOnInit() {
-    this.setIconName();
-  }
-
-  setIconName() {
-    if (this.type === 'info') {
-      this.iconName = 'ux-warning-circle';
-    }
-  }
+  ngOnInit() {}
 }
