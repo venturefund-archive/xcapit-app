@@ -9,14 +9,14 @@ import { ABOUT_APIKEY_BINANCE } from '../shared-support/constants/about-apikey-b
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/support/options"></ion-back-button>
         </ion-buttons>
-        <ion-title> {{ 'support.support_buy.header' | translate }}</ion-title>
+        <ion-title> {{ 'support.support_apikey_binance.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="sab__title">
           <ion-text class="ux-font-text-lg">
-            {{ 'support.support_buy.title' | translate }}
+            {{ 'support.support_apikey_binance.title' | translate }}
           </ion-text>
         </div>
         <div class="ux_content">
