@@ -32,4 +32,8 @@ export class ApiWalletService {
   getCoins() {
     return this.env === 'PRODUCCION' ? PROD_COINS : NONPROD_COINS;
   }
+
+  saveWalletAddresses(wallets: { network: string; address: string }[]): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/`, wallets);
+  }
 }

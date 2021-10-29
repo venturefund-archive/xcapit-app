@@ -9,6 +9,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { ActivatedRoute } from '@angular/router';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-create-password',
@@ -110,7 +111,8 @@ export class CreatePasswordPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   ionViewWillEnter() {
@@ -121,19 +123,30 @@ export class CreatePasswordPage implements OnInit {
 
   handleSubmit() {
     if (this.createPasswordForm.valid) {
-      this.loadingService.show();
-      const password = this.createPasswordForm.value.password;
-      this.walletEncryptionService.encryptWallet(password).then((res) => {
-        this.loadingService.dismiss();
-        this.navigateByMode();
-      });
+      this.loadingService
+        .show()
+        .then(() => this.walletEncryptionService.encryptWallet(this.createPasswordForm.value.password))
+        .then(() => this.walletEncryptionService.getEncryptedWallet())
+        .then((encryptedWallet) => this.formattedWallets(encryptedWallet))
+        .then((wallets) => this.apiWalletService.saveWalletAddresses(wallets).toPromise())
+        .then(() => this.loadingService.dismiss())
+        .then(() => this.navigateByMode());
     } else {
       this.createPasswordForm.markAllAsTouched();
     }
   }
 
+  formattedWallets(encryptedWallet: any): Promise<any> {
+    return Promise.resolve(
+      Object.keys(encryptedWallet.addresses).map((network) => ({
+        network,
+        address: encryptedWallet.addresses[network],
+      }))
+    );
+  }
+
   navigateByMode() {
     const url = this.mode === 'import' ? '/wallets/recovery/success' : '/wallets/success-creation';
-    this.navController.navigateForward([url]);
+    return this.navController.navigateForward([url]);
   }
 }
