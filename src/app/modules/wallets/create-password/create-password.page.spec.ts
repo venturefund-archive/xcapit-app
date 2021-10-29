@@ -1,20 +1,26 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { CreatePasswordPage } from './create-password.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { LoadingService } from '../../../shared/services/loading/loading.service';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
+import { of } from 'rxjs';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
 describe('CreatePasswordPage', () => {
   let component: CreatePasswordPage;
   let fixture: ComponentFixture<CreatePasswordPage>;
-  let walletEncryptionServiceMock;
+  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let activatedRouteMock: any;
-  let navController: NavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   const formData = {
     valid: {
@@ -28,10 +34,17 @@ describe('CreatePasswordPage', () => {
   };
 
   beforeEach(() => {
-    walletEncryptionServiceMock = {
-      encryptWallet: (password) => true,
-    };
-    activatedRouteMock = {};
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      saveWalletAddresses: of({}),
+    });
+    loadingServiceSpy = jasmine.createSpyObj('LoadingService', { show: Promise.resolve(), dismiss: Promise.resolve() });
+    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+      encryptWallet: Promise.resolve(true),
+      getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address', RSK: 'testRSKAddress' } }),
+    });
+    activatedRouteMock = { snapshot: { paramMap: { get: () => 'import' } } };
 
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage],
@@ -39,8 +52,10 @@ describe('CreatePasswordPage', () => {
       providers: [
         UrlSerializer,
         { provide: ActivatedRoute, useValue: activatedRouteMock },
-        { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
-        { provide: NavController, useValue: navControllerMock },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: LoadingService, useValue: loadingServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -48,7 +63,6 @@ describe('CreatePasswordPage', () => {
     fixture = TestBed.createComponent(CreatePasswordPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    navController = TestBed.inject(NavController);
   });
 
   it('should create', () => {
@@ -57,6 +71,7 @@ describe('CreatePasswordPage', () => {
 
   it('should call handleSubmit on submit event, valid form', () => {
     component.createPasswordForm.patchValue(formData.valid);
+    component.ionViewWillEnter();
     const spy = spyOn(component, 'handleSubmit');
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
@@ -66,16 +81,16 @@ describe('CreatePasswordPage', () => {
   it('should call encryptWallet on encrypt, valid form', async () => {
     component.createPasswordForm.patchValue(formData.valid);
     fixture.detectChanges();
-    const spy = await spyOn(walletEncryptionServiceMock, 'encryptWallet').and.returnValue(Promise.resolve(true));
     component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(1);
+    await fixture.whenStable();
+    expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call encryptWallet on encrypt, no valid form', () => {
-    const spy = spyOn(walletEncryptionServiceMock, 'encryptWallet').and.returnValue(Promise.resolve(true));
+  it('should not call encryptWallet on encrypt, no valid form', async () => {
     component.createPasswordForm.patchValue(formData.invalid);
     fixture.detectChanges();
     component.handleSubmit();
-    expect(spy).toHaveBeenCalledTimes(0);
+    await fixture.whenStable();
+    expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(0);
   });
 });
