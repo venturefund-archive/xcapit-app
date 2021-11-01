@@ -117,7 +117,7 @@ export const NONPROD_COINS: Coin[] = [
     network: 'RSK',
     chainId: 31,
     rpc: environment.rskApiUrl,
-    contract: '0x6a9A07972D07E58f0daF5122D11e069288A375fB',
+    contract: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
     abi: sovAbi,
     decimals: 18,
   },
