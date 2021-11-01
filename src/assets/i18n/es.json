@@ -1304,6 +1304,13 @@
       "submit_button": "Confirmar y aceptar",
       "error_did_not_accept": "Debes marcar todas las opciones para continuar."
     },
+    "recovery-phrase-information": {
+      "header": "Frase de recuperación",
+      "text1": "Xcapit nunca te pedirá que compartas tu frase de recuperación.",
+      "text2": "La frase de recuperación es la llave maestra de tus fondos. Nunca la compartas con nadie más.",
+      "text3": "Si pierdes tu frase de recuperación, ni siquiera Xcapit podrá recuperar tus fondos.",
+      "button-text": "Continuar"
+    },
     "home": {
       "available_money": "Tus activos",
       "wallet_balance_title": "Monedas",

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { WalletPasswordSmallComponent } from '../shared-wallets/components/wallet-password-small/wallet-password-small.component';
 
 @Component({
   selector: 'app-recovery-phrase-information',
@@ -51,7 +53,7 @@ import { Component, OnInit } from '@angular/core';
             (click)="this.continue()"
             appTrackClick
           >
-            {{ 'wallets.recovery-phrase-informaction.button-text' | translate }}
+            {{ 'wallets.recovery-phrase-information.button-text' | translate }}
           </ion-button>
         </div>
       </div>
@@ -60,9 +62,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recovery-phrase-information.page.scss'],
 })
 export class RecoveryPhraseInformationPage implements OnInit {
-  constructor() {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
 
-  continue() {}
+  async continue() {
+    const modal = await this.modalController.create({
+      component: WalletPasswordSmallComponent,
+      cssClass: 'ux-routeroutlet-modal full-screen-modal',
+      swipeToClose: false,
+    });
+
+    await modal.present();
+  }
 }

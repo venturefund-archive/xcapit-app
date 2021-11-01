@@ -1301,6 +1301,13 @@
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."
     },
+    "recovery-phrase-information": {
+      "header": "Recovery phrase",
+      "text1": "Xcapit will never ask you to share your recovery phrase.",
+      "text2": "The recovery phrase is the master key to your funds. Never share it with anybody.",
+      "text3": "If you lose your recovery phrase, not even Xcapit will be able to recover your funds.",
+      "button-text": "Continue"
+    },
     "home": {
       "available_money": "Available money in wallet",
       "wallet_balance_title": "ASSETS",

@@ -1,23 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
-
+import { IonicModule, ModalController } from '@ionic/angular';
 import { RecoveryPhraseInformationPage } from './recovery-phrase-information.page';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { By } from '@angular/platform-browser';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DummyComponent } from '../../../../testing/dummy.component.spec';
 
 describe('RecoveryPhraseInformationPage', () => {
   let component: RecoveryPhraseInformationPage;
   let fixture: ComponentFixture<RecoveryPhraseInformationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RecoveryPhraseInformationPage>;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
-  let fakeNavController: FakeNavController;
-  let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
@@ -26,19 +23,15 @@ describe('RecoveryPhraseInformationPage', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
 
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-
-      walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {});
       TestBed.configureTestingModule({
-        declarations: [RecoveryPhraseInformationPage],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [
-          TranslateService,
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
+        declarations: [RecoveryPhraseInformationPage, FakeTrackClickDirective],
+        imports: [
+          RouterTestingModule.withRoutes([{ path: 'wallets/recovery/read', component: DummyComponent }]),
+          IonicModule.forRoot(),
+          TranslateModule.forRoot(),
+          HttpClientTestingModule,
         ],
+        providers: [TranslateService, { provide: ModalController, useValue: modalControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
