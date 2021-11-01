@@ -281,6 +281,14 @@ ion-toast.refresher_toast {
     line-height: 9.6px;
   }
 
+  .ux_badge_native {
+    border-radius: 4px;
+    --background: var(--ion-color-infolight);
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    line-height: 9.6px;
+  }
+
   // Clase para que el modal no sea en pantalla completa, sino un alert
   .ux_modal_crm {
     --max-height: 195px;
