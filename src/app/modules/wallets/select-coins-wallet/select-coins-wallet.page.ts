@@ -136,6 +136,7 @@ export class SelectCoinsWalletPage implements OnInit {
   getAllSuites() {
     return Object.keys(this.form.value);
   }
+
   getAllCoinsBySuite(suite) {
     return Object.keys(this.form.value[suite]);
   }
