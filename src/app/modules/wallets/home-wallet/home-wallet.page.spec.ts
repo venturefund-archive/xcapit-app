@@ -96,7 +96,7 @@ const transaction = [
   },
 ];
 
-describe('HomeWalletPage', () => {
+fdescribe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
@@ -116,6 +116,8 @@ describe('HomeWalletPage', () => {
       navControllerSpy = fakeNavController.createSpy();
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getPrices: of({ prices: { ETH: 3000, BTC: 50000, USDT: 1 } }),
+        getNFTStatus: of({ status: 'claimed' }),
+        createNFTRequest: of({}),
       });
       walletServiceSpy = jasmine.createSpyObj(
         'WalletService',
@@ -344,5 +346,20 @@ describe('HomeWalletPage', () => {
     await fixture.whenRenderingDone();
     expect(fixture.debugElement.query(By.css('.wt__balance'))).not.toBeTruthy();
     expect(fixture.debugElement.query(By.css('.wt__nfts'))).toBeTruthy();
+  });
+
+  it('should request the nft and update the nft status to claimed when claim event is received', () => {
+    component.segmentsForm.patchValue({ tab: 'nft' });
+    component.nftStatus = 'unclaimed';
+    fixture.detectChanges();
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getPrices: of({ prices: { ETH: 3000, BTC: 50000, USDT: 1 } }),
+      getNFTStatus: of({ status: 'claimed' }),
+      createNFTRequest: of({}),
+    });
+    const claimNFTCardComponent = fixture.debugElement.query(By.css('app-claim-nft-card'));
+    claimNFTCardComponent.triggerEventHandler('nftRequest', null);
+    fixture.detectChanges();
+    expect(component.nftStatus).toEqual('claimed');
   });
 });

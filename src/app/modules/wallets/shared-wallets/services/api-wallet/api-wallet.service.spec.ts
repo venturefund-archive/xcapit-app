@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { componentOnReady } from '@ionic/core';
 import { of } from 'rxjs';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
+import { NONPROD_COINS } from '../../constants/coins.nonprod';
+import { PROD_COINS } from '../../constants/coins.prod';
 import { ApiWalletService } from './api-wallet.service';
 
 describe('ApiWalletService', () => {
@@ -34,9 +37,34 @@ describe('ApiWalletService', () => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), { bases: [] }, null, true);
     });
   });
+
   it('should call post on getPrices with coins and loading false', () => {
     service.getPrices([], false).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), { bases: [] }, null, false);
+    });
+  });
+
+  it('should return prod coins when environment is production', () => {
+    service.env = 'PRODUCCION';
+    const coins = service.getCoins();
+    expect(coins).toEqual(PROD_COINS);
+  });
+
+  it('should return nonprod coins when environment is not production', () => {
+    service.env = 'PREPROD';
+    const coins = service.getCoins();
+    expect(coins).toEqual(NONPROD_COINS);
+  });
+
+  it('should call get on getNFTStatus with loading false', () => {
+    service.getNFTStatus().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledWith(jasmine.any(String), undefined, undefined, false);
+    });
+  });
+
+  it('should call post on createNFTRequest with loading false', () => {
+    service.createNFTRequest().subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), undefined, undefined, false);
     });
   });
 });
