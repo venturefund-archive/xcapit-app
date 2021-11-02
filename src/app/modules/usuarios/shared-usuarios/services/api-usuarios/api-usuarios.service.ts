@@ -71,8 +71,4 @@ export class ApiUsuariosService {
   status(loading = true): Observable<any> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/status`, undefined, undefined, loading);
   }
-
-  setLanguage(language: string, loading = true): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/${this.entity}/language/`, { language }, undefined, loading);
-  }
 }

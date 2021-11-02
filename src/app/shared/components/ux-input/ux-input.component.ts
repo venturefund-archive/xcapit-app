@@ -24,6 +24,7 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
           [hidden]="!(this.control && this.control.invalid && this.control.touched)"
           name="ux-error"
           color="uxsecondary"
+          aria-hidden="“true”"
         ></ion-icon>
         <button
           [hidden]="!this.passwordType"

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
-import { COINS } from '../../../constants/coins';
+import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { Coin } from '../../interfaces/coin.interface';
 
 @Component({

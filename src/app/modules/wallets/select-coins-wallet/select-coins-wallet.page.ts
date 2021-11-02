@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { COINS } from '../constants/coins';
 import { NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { CommissionPageModule } from '../../funds/commission/commission.module';
-
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -66,7 +64,7 @@ import { CommissionPageModule } from '../../funds/commission/commission.module';
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
-  coins = COINS;
+  coins: Coin[];
   mode: string;
   ethCoins: Coin[];
   rskCoins: Coin[];
@@ -93,13 +91,15 @@ export class SelectCoinsWalletPage implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private navController: NavController,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private apiWalletService: ApiWalletService
   ) {}
   almostOneChecked = false;
   allChecked = false;
 
   ionViewWillEnter() {
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.coins = this.apiWalletService.getCoins();
     this.ethCoins = this.coins.filter((coin) => coin.network === 'ERC20');
     this.rskCoins = this.coins.filter((coin) => coin.network === 'RSK');
     this.polygonCoins = this.coins.filter((coin) => coin.network === 'MATIC');
@@ -123,21 +123,31 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   handleSubmit() {
-    console.log(this.form.value);
     this.walletService.coins = [];
-    if (this.almostOneChecked) {
-      Object.keys(this.form.value).forEach((key) => {
-        if (this.form.value[key]) {
+    this.setUserCoins();
+    if (this.mode === 'import') {
+      this.walletService.create();
+      this.navController.navigateForward(['/wallets/create-password', 'import']);
+    } else {
+      this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+    }
+  }
+
+  getAllSuites() {
+    return Object.keys(this.form.value);
+  }
+  getAllCoinsBySuite(suite) {
+    return Object.keys(this.form.value[suite]);
+  }
+
+  setUserCoins() {
+    this.getAllSuites().forEach((suite) => {
+      this.getAllCoinsBySuite(suite).forEach((key) => {
+        if (this.form.value[suite][key]) {
           const coin = this.coins.find((coinRes) => coinRes.value === key);
           if (coin) this.walletService.coins.push(coin);
         }
       });
-      if (this.mode === 'import') {
-        this.walletService.create();
-        this.navController.navigateForward(['/wallets/create-password', 'import']);
-      } else {
-        this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
-      }
-    }
+    });
   }
 }

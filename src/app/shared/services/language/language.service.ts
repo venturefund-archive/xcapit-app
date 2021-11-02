@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { CONFIG } from 'src/app/config/app-constants.config';
-import { ApiUsuariosService } from '../../../modules/usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { ApiProfilesService } from '../../../modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
 
 const LNG_KEY = 'SELECTED_LANGUAGE';
 
@@ -15,7 +15,7 @@ export class LanguageService {
   constructor(
     private translate: TranslateService,
     private storage: Storage,
-    private apiUsuariosService: ApiUsuariosService
+    private apiProfilesService: ApiProfilesService
   ) {}
 
   setInitialAppLanguage() {
@@ -43,6 +43,6 @@ export class LanguageService {
   }
 
   private setUserLanguage(language: string) {
-    this.apiUsuariosService.setLanguage(language).subscribe();
+    this.apiProfilesService.setLanguage(language).subscribe();
   }
 }

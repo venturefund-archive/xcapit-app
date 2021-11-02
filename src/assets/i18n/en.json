@@ -517,8 +517,8 @@
     },
     "fund_take_profit": {
       "header": "Change Take Profit",
-      "title": "When do you want us to stop investing and take the profits?",
-      "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
+      "title": "Set benefit limits",
+      "text_before": "When do you want us to stop investing? Your investment will be finalized when it reaches this profit percentage.",
       "take_profit": "Take profit",
       "most_chosen": "Most chosen",
       "custom_tp_button": "Choose another option",
@@ -1302,7 +1302,8 @@
     },
     "home": {
       "available_money": "Available money in wallet",
-      "wallet_balance_title": "ASSETS",
+      "tab_assets": "Assets",
+      "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",

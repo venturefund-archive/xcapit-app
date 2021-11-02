@@ -4,6 +4,7 @@ import { BigNumber, ethers } from 'ethers';
 import { Coin } from '../../interfaces/coin.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
 
 const tokenAbi: any = [
   {
@@ -52,17 +53,21 @@ const testTx: ethers.utils.Deferrable<TransactionRequest>[] = [
 describe('BlockchainProviderService', () => {
   let service: BlockchainProviderService;
   let providerMock;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   beforeEach(() => {
     providerMock = {
       getBalance: (): Promise<BigNumber> => Promise.resolve(BigNumber.from('0xfffffffffffffff')),
       balanceOf: (): Promise<BigNumber> => Promise.resolve(BigNumber.from('0x000000000000F4240')),
     };
+
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: testCoins,
+    });
     TestBed.configureTestingModule({
-      providers: [],
+      providers: [{ provide: ApiWalletService, useValue: apiWalletServiceSpy }],
       imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(BlockchainProviderService);
-    service.coins = testCoins;
   });
 
   it('should be created', () => {

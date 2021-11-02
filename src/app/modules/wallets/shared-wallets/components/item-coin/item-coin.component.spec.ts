@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { COINS } from '../../../constants/coins';
-
 import { ItemCoinComponent } from './item-coin.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { NONPROD_COINS } from '../../constants/coins.nonprod';
 
 const testCoin = {
   id: 1,
@@ -47,8 +46,8 @@ describe('ItemCoinComponent', () => {
 
       fixture = TestBed.createComponent(ItemCoinComponent);
       component = fixture.componentInstance;
-      component.coin = COINS[0];
       component.suite = 'ETH';
+      component.coin = NONPROD_COINS[0];
       fixture.detectChanges();
     })
   );

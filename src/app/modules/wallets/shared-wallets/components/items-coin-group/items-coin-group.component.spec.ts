@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 
@@ -166,7 +166,6 @@ describe('ItemsCoinGroupComponent', () => {
       .triggerEventHandler('change', { detail: { checked: true, value: testCoins[0] } });
     fixture.detectChanges();
     expect(component.form.value.ETH.ETH).toBeTrue();
-    console.log(component.form.value);
     expect(Object.values(component.form.value.ETH).filter((value) => value === true).length).toEqual(1);
   });
 
