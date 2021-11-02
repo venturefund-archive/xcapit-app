@@ -148,7 +148,7 @@ describe('ItemsCoinGroupComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  /** FUNCA */
+
   it('should select native token of the network (ETH) when LINK is selected', async () => {
     component.form.patchValue({ ETH: { LINK: true } });
     fixture.debugElement
