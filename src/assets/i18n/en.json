@@ -1464,6 +1464,12 @@
         "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
         "submit_button_text": "Accept",
         "input_label": "Password"
+      },
+      "wallet_password_small": {
+        "title": "For security",
+        "label": "Password",
+        "disclaimer": "The password has to have at least 6 characters, it must contain numbers and letters, at least one uppercase letter and one lowercase letter",
+        "button_text": "Accept"
       }
     },
     "asset_detail": {

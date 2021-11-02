@@ -1467,6 +1467,12 @@
         "disclaimer": "Por seguridad necesitamos que ingreses la contraseña de tu wallet para completar la transacción",
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
+      },
+      "wallet_password_small": {
+        "title": "Por seguridad",
+        "label": "Contraseña",
+        "disclaimer": "La contraseña tiene que tener al menos 6 caracteres, debe contener números y letras, al menos una letra mayúscula y una minúscula",
+        "button_text": "Aceptar"
       }
     },
     "asset_detail": {

@@ -22,22 +22,40 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
           <div class="rpi__list">
             <ion-list class="rpi__list__list">
               <ion-item class="rpi__list__list__item" lines="none">
-                <ion-icon class="rpi__list__list__item__icon" name="ux-hand" color="uxprimary"></ion-icon>
-                <ion-text class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
+                <ion-icon
+                  size="medium"
+                  class="rpi__list__list__item__icon"
+                  name="ux-hand"
+                  color="uxprimary"
+                  slot="start"
+                ></ion-icon>
+                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
                   {{ 'wallets.recovery-phrase-information.text1' | translate }}
-                </ion-text>
+                </ion-label>
               </ion-item>
               <ion-item class="rpi__list__list__item" lines="none">
-                <ion-icon class="rpi__list__list__item__icon" name="ux-key-outline" color="uxprimary"></ion-icon>
-                <ion-text class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
+                <ion-icon
+                  size="medium"
+                  class="rpi__list__list__item__icon"
+                  name="ux-key-outline"
+                  color="uxprimary"
+                  slot="start"
+                ></ion-icon>
+                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
                   {{ 'wallets.recovery-phrase-information.text2' | translate }}
-                </ion-text>
+                </ion-label>
               </ion-item>
               <ion-item class="rpi__list__list__item" lines="none">
-                <ion-icon class="rpi__list__list__item__icon" name="ux-info-circle-alt" color="uxprimary"></ion-icon>
-                <ion-text class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
+                <ion-icon
+                  size="medium"
+                  class="rpi__list__list__item__icon"
+                  name="ux-info-circle-alt"
+                  color="uxprimary"
+                  slot="start"
+                ></ion-icon>
+                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
                   {{ 'wallets.recovery-phrase-information.text3' | translate }}
-                </ion-text>
+                </ion-label>
               </ion-item>
             </ion-list>
           </div>
@@ -69,7 +87,7 @@ export class RecoveryPhraseInformationPage implements OnInit {
   async continue() {
     const modal = await this.modalController.create({
       component: WalletPasswordSmallComponent,
-      cssClass: 'ux-routeroutlet-modal full-screen-modal',
+      cssClass: 'recovery-phrase-password-modal ux-routeroutlet-modal',
       swipeToClose: false,
     });
 
