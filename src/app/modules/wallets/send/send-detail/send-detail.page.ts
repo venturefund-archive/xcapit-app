@@ -108,6 +108,7 @@ export class SendDetailPage {
   estimatedGas: BigNumber;
   nativeToken: Coin;
   balanceNativeToken: number;
+  balance: number;
   amount: number;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
@@ -129,18 +130,21 @@ export class SendDetailPage {
     this.coins = this.apiWalletService.getCoins();
     this.getCurrency();
     this.setCurrencyNetworks();
-    this.checkNativeTokenAmount();
+    this.checkTokensAmounts();
   }
 
   getNativeToken() {
     this.nativeToken = this.coins.find((c) => c.network === this.selectedNetwork && c.native);
   }
 
-  checkNativeTokenAmount() {
+  checkTokensAmounts() {
     this.getNativeToken();
     this.storageService.getWalletsAddresses(this.selectedNetwork).then((nativeTokenAddress) => {
       this.walletService.balanceOf(nativeTokenAddress, this.nativeToken.value).then((balance) => {
         this.balanceNativeToken = parseFloat(balance);
+      });
+      this.walletService.balanceOf(nativeTokenAddress, this.currency.value).then((balance) => {
+        this.balance = parseFloat(balance);
       });
     });
   }
@@ -170,6 +174,7 @@ export class SendDetailPage {
       currency: this.currency,
       ...this.form.value,
       balanceNativeToken: this.balanceNativeToken,
+      balance: this.balance,
     };
     await this.navController.navigateForward(['/wallets/send/summary']);
   }

@@ -100,14 +100,20 @@ export class SendSummaryPage implements OnInit {
 
   private send(password: string) {
     this.loadingService.show().then(() => {
-      this.walletTransactionsService
-        .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
-        .then((response: TransactionResponse) => this.goToSuccess(response))
-        .catch((error) => this.handleSendError(error))
-        .finally(() => {
-          this.loadingService.dismiss();
-          this.isSending = false;
-        });
+      if (this.summaryData.balance >= this.summaryData.amount) {
+        this.walletTransactionsService
+          .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
+          .then((response: TransactionResponse) => this.goToSuccess(response))
+          .catch((error) => this.handleSendError(error))
+          .finally(() => {
+            this.loadingService.dismiss();
+            this.isSending = false;
+          });
+      } else {
+        this.loadingService.dismiss();
+        this.isSending = false;
+        this.navController.navigateForward(['/wallets/send/error/wrong-amount']);
+      }
     });
   }
 
@@ -194,7 +200,7 @@ export class SendSummaryPage implements OnInit {
       throw error;
     }
 
-    this.navController.navigateForward(url).then();
+    this.navController.navigateForward([url]).then();
   }
 
   private isInvalidAddressError(error) {
