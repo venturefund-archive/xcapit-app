@@ -123,6 +123,10 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'nft-detail',
+    loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
+  },
 ];
 
 @NgModule({
