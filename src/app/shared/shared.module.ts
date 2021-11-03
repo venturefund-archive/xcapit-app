@@ -64,6 +64,7 @@ import { FaqComponent } from '../modules/support/shared-support/components/faq/f
     ToastAlertComponent,
     ScanQrModalComponent,
     EmbedVideoComponent,
+
     // Ux
     SelectModalNewComponent,
     UxInputComponent,

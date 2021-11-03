@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { NftDetailPage } from './nft-detail.page';
+import { ItemInputCopyComponent } from './item-input-copy.component';
 
-describe('NftDetailPage', () => {
-  let component: NftDetailPage;
-  let fixture: ComponentFixture<NftDetailPage>;
+describe('ItemInputCopyComponent', () => {
+  let component: ItemInputCopyComponent;
+  let fixture: ComponentFixture<ItemInputCopyComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [NftDetailPage],
+        declarations: [ItemInputCopyComponent],
         imports: [IonicModule.forRoot()],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(NftDetailPage);
+      fixture = TestBed.createComponent(ItemInputCopyComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })

@@ -1368,6 +1368,13 @@
       "disclaimer_body": "Enviar otras monedas o tokens a esta dirección distintas a {{currency}} puede resultar en la pérdida de su depósito.",
       "share_title": "Direccion de wallet"
     },
+    "nft_detail": {
+      "label1": "Creado Por",
+      "label2": "Chain Info",
+      "label_input1": "Contact Address",
+      "label_input2": "Token ID",
+      "label_input3": "Blockchain"
+    },
     "failed_mnemonic": {
       "title": "Tu frase de recuperación es incorrecta",
       "description": "Generaremos otras 12 palabras para mayor seguridad. Recuerda que tienes que anotarlas y guardarlas en un lugar seguro.",

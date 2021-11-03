@@ -1,0 +1,49 @@
+.ux_input_copy_container {
+  padding-top: 16px;
+  background-color: white;
+  &__label {
+    color: var(--ion-color-uxprimary);
+  }
+  ion-input {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    --background: white;
+  }
+
+  ion-item::part(native) {
+    //WRITE ALL YOUR CSS RULES HERE
+    padding-left: 13px;
+    /** and lots more **/
+  }
+
+  &__image {
+    margin-right: 8px;
+  }
+  &__item {
+    margin-top: 8px;
+    height: 100%;
+    border: 1px solid;
+    border-color: var(--ion-color-semi);
+    box-sizing: border-box;
+    border-radius: 4px;
+    --background: white;
+    --inner-border-width: 0;
+    --highlight-background: #ffffff;
+    color: var(--ion-color-uxdark);
+
+    &.item-has-focus {
+      border: 1px solid var(--ion-color-uxsecondary);
+      --background: #ffffff;
+    }
+
+    &__copy_icon {
+      background: transparent;
+      ion-icon {
+        font-size: 22px;
+        color: #00000061;
+      }
+      outline: none !important;
+    }
+  }
+}
