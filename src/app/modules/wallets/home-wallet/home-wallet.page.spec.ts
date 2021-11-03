@@ -96,7 +96,7 @@ const transaction = [
   },
 ];
 
-fdescribe('HomeWalletPage', () => {
+describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
