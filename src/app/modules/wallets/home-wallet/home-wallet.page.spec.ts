@@ -344,6 +344,10 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
+    expect(fixture.debugElement.query(By.css('ion-segment-button[value="nft"]>ion-label.active_tab'))).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('ion-segment-button[value="assets"]>ion-label.active_tab'))
+    ).not.toBeTruthy();
     expect(fixture.debugElement.query(By.css('.wt__balance'))).not.toBeTruthy();
     expect(fixture.debugElement.query(By.css('.wt__nfts'))).toBeTruthy();
   });
