@@ -13,12 +13,6 @@
       color: white;
       font-weight: var(--ux-fweight-semibold);
     }
-    &__nfts {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 16px;
-    }
 
     &__amount {
       display: flex;
@@ -64,5 +58,11 @@
       flex-direction: column;
       justify-content: center;
     }
+  }
+  .segment-content {
+    border: 0.5px solid;
+    border-color: var(--ion-color-uxmedium);
+    box-shadow: 0px 2px 8px rgba(74, 117, 247, 0.05);
+    border-radius: 8px 0px 8px 8px;
   }
 }
