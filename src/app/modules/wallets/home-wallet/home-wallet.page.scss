@@ -9,6 +9,14 @@
   }
 
   .wt {
+    &__segments {
+      ion-label:not(.active_tab) {
+        color: var(--ion-color-uxsemidark);
+      }
+      ion-label.active_tab {
+        color: var(--ion-color-uxprimary);
+      }
+    }
     &__title {
       color: white;
       font-weight: var(--ux-fweight-semibold);

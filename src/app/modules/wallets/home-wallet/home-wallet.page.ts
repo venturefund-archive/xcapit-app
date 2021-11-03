@@ -40,14 +40,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         <form [formGroup]="this.segmentsForm">
           <ion-segment mode="md" class="ux-segment" formControlName="tab">
             <ion-segment-button value="assets">
-              <ion-label color="uxprimary" class="ux-font-header-titulo">{{
-                'wallets.home.tab_assets' | translate
-              }}</ion-label>
+              <ion-label
+                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'assets' }"
+                class="ux-font-header-titulo"
+                >{{ 'wallets.home.tab_assets' | translate }}</ion-label
+              >
             </ion-segment-button>
             <ion-segment-button value="nft">
-              <ion-label color="uxprimary" class="ux-font-header-titulo">{{
-                'wallets.home.tab_nfts' | translate
-              }}</ion-label>
+              <ion-label
+                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'nft' }"
+                class="ux-font-header-titulo"
+                >{{ 'wallets.home.tab_nfts' | translate }}</ion-label
+              >
             </ion-segment-button>
           </ion-segment>
         </form>
