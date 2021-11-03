@@ -91,6 +91,7 @@ export class SelectCoinsWalletPage implements OnInit {
     RBTC: [false],
     RIF: [false],
     MATIC: [false],
+    SOV: [false],
   });
 
   constructor(

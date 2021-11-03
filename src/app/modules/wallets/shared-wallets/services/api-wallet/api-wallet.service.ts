@@ -41,4 +41,8 @@ export class ApiWalletService {
   getNFTStatus() {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_nft_status`, undefined, undefined, false);
   }
+
+  saveWalletAddresses(wallets: { network: string; address: string }[]): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/`, wallets);
+  }
 }
