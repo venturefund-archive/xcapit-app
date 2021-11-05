@@ -1459,6 +1459,14 @@
         "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
         "submit_button_text": "Accept",
         "input_label": "Password"
+      },
+      "claim_nft_card": {
+        "base": "Here you can see your NFTs",
+        "title": "Your NTF is waiting for you!",
+        "subtitle": "Claim your NTF of the Commemoration of the Independence of Mexico",
+        "note": "*You will only receive it if you are on the waiting list.",
+        "button_claim": "Claim",
+        "button_claimed": "Requested"
       }
     },
     "asset_detail": {

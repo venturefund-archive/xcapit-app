@@ -7,6 +7,7 @@ import { WalletTransactionsService } from '../shared-wallets/services/wallet-tra
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgModuleFactory } from '@angular/core/src/r3_symbols';
 
 @Component({
   selector: 'app-home-wallet',
@@ -40,30 +41,37 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         <form [formGroup]="this.segmentsForm">
           <ion-segment mode="md" class="ux-segment" formControlName="tab">
             <ion-segment-button value="assets">
-              <ion-label color="uxprimary" class="ux-font-header-titulo">{{
-                'wallets.home.tab_assets' | translate
-              }}</ion-label>
+              <ion-label
+                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'assets' }"
+                class="ux-font-header-titulo"
+                >{{ 'wallets.home.tab_assets' | translate }}</ion-label
+              >
             </ion-segment-button>
             <ion-segment-button value="nft">
-              <ion-label color="uxprimary" class="ux-font-header-titulo">{{
-                'wallets.home.tab_nfts' | translate
-              }}</ion-label>
+              <ion-label
+                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'nft' }"
+                class="ux-font-header-titulo"
+                >{{ 'wallets.home.tab_nfts' | translate }}</ion-label
+              >
             </ion-segment-button>
           </ion-segment>
         </form>
       </div>
 
       <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
-        <ion-badge class="badge ux_badge_coming">{{
-          'referrals.new_referral_page.points_card.coming_badge' | translate
-        }}</ion-badge>
+        <div class="wt__nfts__content segment-content">
+          <app-claim-nft-card
+            [nftStatus]="this.nftStatus"
+            (nftRequest)="this.createNFTRequest()"
+            *ngIf="this.nftStatus !== 'delivered'"
+          ></app-claim-nft-card>
+        </div>
       </div>
-
       <div
         class="wt__balance ion-padding-start ion-padding-end"
         *ngIf="this.walletExist && this.balances?.length && this.segmentsForm.value.tab === 'assets'"
       >
-        <div class="wt__balance__wallet-balance-card">
+        <div class="wt__balance__wallet-balance-card segment-content">
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
       </div>
@@ -97,6 +105,7 @@ export class HomeWalletPage implements OnInit {
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
+  nftStatus = 'unclaimed';
 
   constructor(
     private walletService: WalletService,
@@ -114,6 +123,15 @@ export class HomeWalletPage implements OnInit {
       this.alreadyInitialized = true;
       this.encryptedWalletExist();
     }
+    this.getNFTStatus();
+  }
+
+  getNFTStatus() {
+    this.apiWalletService.getNFTStatus().subscribe((res) => (this.nftStatus = res.status));
+  }
+
+  createNFTRequest() {
+    this.apiWalletService.createNFTRequest().subscribe(() => this.getNFTStatus());
   }
 
   createBalancesStructure(coin: Coin): AssetBalance {

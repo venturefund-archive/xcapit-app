@@ -81,6 +81,7 @@ export class SelectCoinsWalletPage implements OnInit {
     RSK: this.formBuilder.group({
       RBTC: [false],
       RIF: [false],
+      SOV: [false],
     }),
     POLYGON: this.formBuilder.group({
       MATIC: [false],

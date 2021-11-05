@@ -13,7 +13,7 @@ describe('ErrorHandlerService', () => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
-      providers: [{ provide: ToastService, useValue: toastServiceSpy }]
+      providers: [{ provide: ToastService, useValue: toastServiceSpy }],
     });
     service = TestBed.inject(ErrorHandlerService);
     toastService = TestBed.inject(ToastService);
@@ -26,13 +26,13 @@ describe('ErrorHandlerService', () => {
   it('should call showToast ToastService from error, status null', () => {
     const response = new HttpErrorResponse({ status: 401, error: {} });
     service.handle(response);
-    expect(toastService.showToast).toHaveBeenCalledTimes(1);
+    expect(toastService.showToast).toHaveBeenCalledTimes(0);
   });
 
   it('should call showToast ToastService from error, status 401', () => {
     const response = new HttpErrorResponse({
       status: 401,
-      error: { error_code: 'funds.exmapleError' }
+      error: { error_code: 'funds.exmapleError' },
     });
     service.handle(response);
     expect(toastService.showToast).toHaveBeenCalledTimes(1);

@@ -39,6 +39,26 @@ const summaryData: SummaryData = {
   address: 'asdlkfjasd56lfjasdpodlfkj',
   amount: 1,
   referenceAmount: 50000,
+  balance: 2,
+};
+
+const summaryDataNotEnoughBalance: SummaryData = {
+  network: 'ERC20',
+  currency: {
+    id: 2,
+    name: 'USDT - Tether USDT',
+    logoRoute: '../../assets/img/coins/BTC.svg',
+    last: false,
+    value: 'USDT',
+    network: '',
+    chainId: 42,
+    rpc: '',
+  },
+  address: 'asdlkfjasd56lfjasdpodlfkj',
+  amount: 1,
+  referenceAmount: 50000,
+  balanceNativeToken: 2,
+  balance: 0.5,
 };
 
 describe('SendSummaryPage', () => {
@@ -155,7 +175,7 @@ describe('SendSummaryPage', () => {
     );
     expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/incorrect-password');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/incorrect-password']);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
@@ -187,8 +207,7 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   }));
 
-  it('should redirect to Wrong Amount Page if amount is bigger than the amount in wallet', async () => {
-    component.summaryData = summaryData;
+  it('should redirect to Wrong Amount Page if not enough funds for transaction cost', async () => {
     walletTransactionsServiceSpy.send.and.rejectWith(
       new Error('insufficient funds for intrinsic transaction cost ...')
     );
@@ -197,48 +216,55 @@ describe('SendSummaryPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-amount');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-amount']);
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
+  });
+
+  it('should redirect to Wrong Amount Page if amount is bigger than the amount in wallet', async () => {
+    transactionDataServiceMock.transactionData = summaryDataNotEnoughBalance;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.isSending).toBeFalse();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-amount']);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to Wrong Address Page if could not resolve ENS', async () => {
-    component.summaryData = summaryData;
     walletTransactionsServiceSpy.send.and.rejectWith(new Error('provided ENS name resolves to null ...'));
     await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-address']);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to Wrong Address Page if address is invalid', async () => {
-    component.summaryData = summaryData;
     walletTransactionsServiceSpy.send.and.rejectWith(new Error('invalid address ...'));
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-address']);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to Wrong Address Page if address did not pass checksum', async () => {
-    component.summaryData = summaryData;
     walletTransactionsServiceSpy.send.and.rejectWith(new Error('bad address checksum ...'));
     await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/send/error/wrong-address');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-address']);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should show alert if address is incorrect', async () => {
-    component.summaryData = summaryData;
     walletTransactionsServiceSpy.canNotAffordFee.and.rejectWith(new Error('bad address checksum ...'));
     component.ionViewWillEnter();
     fixture.detectChanges();

@@ -7,4 +7,5 @@ export interface SummaryData {
   currency: Coin;
   network: string;
   balanceNativeToken?: number;
+  balance?: number;
 }
