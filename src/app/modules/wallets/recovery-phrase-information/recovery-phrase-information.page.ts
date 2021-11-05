@@ -8,7 +8,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/select-currency"></ion-back-button>
+          <ion-back-button defaultHref="/menus/main-menu"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.recovery_phrase_information.header' | translate }}</ion-title>
       </ion-toolbar>

@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/select-currency"></ion-back-button>
+          <ion-back-button defaultHref="/wallets/recovery/info"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.recovery_phrase_read.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -39,7 +39,7 @@ import { TranslateService } from '@ngx-translate/core';
         <div class="rpr__footer ux_footer">
           <ion-button
             class="ux_button"
-            name="Continue"
+            name="Copy"
             type="button"
             fill="{{ this.buttonFill }}"
             color="{{ this.buttonColor }}"
@@ -75,11 +75,6 @@ export class RecoveryPhraseReadPage implements OnInit {
     this.buttonFill = 'outline';
     this.buttonText = 'wallets.recovery_phrase_read.button_text';
     this.mnemonic = this.walletMnemonicService.mnemonic;
-    this.mnemonic = {
-      path: '',
-      locale: 'en',
-      phrase: 'napkin wisdom endorse field wave float prepare syrup trumpet stable rally tail',
-    };
   }
 
   copyToClipboard() {

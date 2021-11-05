@@ -64,7 +64,7 @@ const appPages = [
     id: 6,
     name: 'RecoveryPhrase',
     title: 'app.main_menu.recovery_phrase',
-    url: '/wallet/recovery/info',
+    url: '/wallets/recovery/info',
     icon: 'ux-lock',
     routeDirection: 'forward',
     showInProd: true,

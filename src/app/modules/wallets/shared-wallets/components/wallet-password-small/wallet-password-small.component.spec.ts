@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
-
 import { WalletPasswordSmallComponent } from './wallet-password-small.component';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
 import { By } from '@angular/platform-browser';
@@ -13,6 +12,9 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from '../../services/wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../../services/wallet-mnemonic/wallet-mnemonic.service';
+import { Mnemonic } from '@ethersproject/hdnode';
+
+const testMnemonic: Mnemonic = { locale: 'en', path: '', phrase: 'test mnemonic phrase' };
 
 describe('WalletPasswordSmallComponent', () => {
   let component: WalletPasswordSmallComponent;
@@ -25,26 +27,21 @@ describe('WalletPasswordSmallComponent', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
-  let translateSpy: jasmine.SpyObj<TranslateService>;
 
   beforeEach(
     waitForAsync(() => {
       alertControllerSpy = jasmine.createSpyObj('AlertController', {
-        create: Promise.resolve(),
-      });
-
-      translateSpy = jasmine.createSpyObj('TranslateService', {
-        instant: null,
+        create: Promise.resolve(jasmine.createSpyObj('Alert', { present: Promise.resolve() })),
       });
 
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getDecryptedWallet: Promise.resolve({}),
+        getDecryptedWallet: Promise.resolve(jasmine.createSpyObj('Wallet', { _mnemonic: testMnemonic })),
       });
 
       walletMnemonicServiceSpy = jasmine.createSpyObj(
         'WalletMnemonicService',
         {
-          getMnemonic: Promise.resolve({ locale: 'en', path: '', phrase: 'test mnemonic phrase' }),
+          getMnemonic: testMnemonic,
         },
         {
           mnemonic: undefined,
@@ -61,11 +58,12 @@ describe('WalletPasswordSmallComponent', () => {
         declarations: [WalletPasswordSmallComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
+          TranslateService,
           { provide: ModalController, useValue: modalControllerSpy },
-          { provide: NavController, useValue: fakeNavController },
+          { provide: NavController, useValue: navControllerSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+          { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
           { provide: AlertController, useValue: alertControllerSpy },
-          { provide: TranslateService, useValue: translateSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -91,7 +89,7 @@ describe('WalletPasswordSmallComponent', () => {
   });
 
   it('should show error when user password is incorrect', async () => {
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith('Error');
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
     component.form.patchValue({ password: 'testPassword' });
     fixture.debugElement.query(By.css("ion-button[name='Confirm Password']")).nativeElement.click();
     await fixture.whenStable();

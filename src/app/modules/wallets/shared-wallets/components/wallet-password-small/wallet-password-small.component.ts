@@ -83,12 +83,12 @@ export class WalletPasswordSmallComponent implements OnInit {
       await this.loadingService.show();
       this.walletEncryptionService
         .getDecryptedWallet(this.form.value.password)
-        .then(async (wallet) => {
-          await this.walletMnemonicService.getMnemonic(wallet);
-          await this.modalController.dismiss();
-          await this.navController.navigateForward(['wallets/recovery/read']);
+        .then((wallet) => {
+          this.walletMnemonicService.getMnemonic(wallet);
+          this.modalController.dismiss();
+          this.navController.navigateForward(['wallets/recovery/read']);
         })
-        .catch(async (error) => {
+        .catch((error) => {
           if (error.message === 'invalid password') {
             this.showAlert();
           }
