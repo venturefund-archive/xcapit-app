@@ -204,27 +204,11 @@ describe('SelectCoinsWalletPage', () => {
     expect(nextButton.attributes['ng-reflect-disabled']).toEqual('true');
   });
 
-  it('should almostOneChecked be true when some form values its true', () => {
-    component.almostOneChecked = false;
-    component.form.patchValue({
-      ETH: {
-        AAVE: false,
-        ETH: true,
-        LINK: false,
-        UNI: true,
-        USDT: false,
-      },
-      POLYGON: {
-        MATIC: false,
-      },
-      RSK: {
-        RBTC: false,
-        RIF: false,
-      },
-    });
-    component.ngOnInit();
+  it('should activate the Next button when at least one token is selected', () => {
+    component.form.patchValue({ ETH: { LINK: true } });
     fixture.detectChanges();
-    expect(component.almostOneChecked).toBeTruthy();
+    const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
+    expect(nextButton.attributes['ng-reflect-disabled']).toEqual('false');
   });
 
   it('should navigate to recovery phrase page on submit button clicked , valid form and mode empty', () => {
@@ -236,7 +220,7 @@ describe('SelectCoinsWalletPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-first/recovery-phrase']);
   });
 
-  it('should navigate to recovery phrase page on submit button clicked , valid form, mode import and almostOneChecked = true', () => {
+  it('should navigate to recovery phrase page on submit button clicked having at least one asset selected, and importing the wallet', () => {
     component.mode = 'import';
     component.almostOneChecked = true;
     const spy = spyOn(walletService, 'create');
@@ -245,5 +229,20 @@ describe('SelectCoinsWalletPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password', 'import']);
+  });
+
+  it('should not navigate to recovery phrase page on submit button clicked  dont having at least one asset selected', () => {
+    component.almostOneChecked = false;
+    fixture.detectChanges();
+    component.handleSubmit();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set coins in wallet service on handleSubmit and valid form', () => {
+    component.coins = testCoins;
+    component.form.patchValue({ ETH: { ETH: true } });
+    fixture.detectChanges();
+    component.handleSubmit();
+    expect(walletService.coins).toEqual([testCoins[0]]);
   });
 });

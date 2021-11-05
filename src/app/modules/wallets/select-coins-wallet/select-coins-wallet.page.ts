@@ -123,13 +123,15 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   handleSubmit() {
-    this.walletService.coins = [];
-    this.setUserCoins();
-    if (this.mode === 'import') {
-      this.walletService.create();
-      this.navController.navigateForward(['/wallets/create-password', 'import']);
-    } else {
-      this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+    if (this.almostOneChecked) {
+      this.walletService.coins = [];
+      this.setUserCoins();
+      if (this.mode === 'import') {
+        this.walletService.create();
+        this.navController.navigateForward(['/wallets/create-password', 'import']);
+      } else {
+        this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+      }
     }
   }
 
