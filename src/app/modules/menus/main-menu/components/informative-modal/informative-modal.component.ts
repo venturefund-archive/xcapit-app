@@ -20,11 +20,10 @@ import { ModalController, NavController } from '@ionic/angular';
     <div class="im__content__buttons">
       <div class="im__content__button__back">
         <ion-button
-          class="ux-font-text-xs"
+          class="ux-link-xs"
           appTrackClick
           name="close"
           fill="clear"
-          color="uxsecondary"
           size="small"
           slot="end"
           (click)="this.close()"
@@ -34,10 +33,10 @@ import { ModalController, NavController } from '@ionic/angular';
       </div>
       <div class="im__content__button__add">
         <ion-button
+          class="ux-link-xs"
           appTrackClick
           name="addApiKey"
           fill="clear"
-          color="uxsecondary"
           size="small"
           slot="end"
           (click)="this.addApiKey()"

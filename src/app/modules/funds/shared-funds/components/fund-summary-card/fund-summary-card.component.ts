@@ -123,7 +123,7 @@ export class FundSummaryCardComponent implements OnInit {
         {
           text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_exit_button'),
           role: 'cancel',
-          cssClass: 'secondary',
+          cssClass: 'ux-link-xs',
         },
         {
           text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_share_button'),
