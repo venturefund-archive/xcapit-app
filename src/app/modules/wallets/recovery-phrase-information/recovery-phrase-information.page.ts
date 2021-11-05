@@ -10,7 +10,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/select-currency"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'wallets.recovery-phrase-information.header' | translate }}</ion-title>
+        <ion-title>{{ 'wallets.recovery_phrase_information.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="rpi ion-padding-start ion-padding-end">
@@ -30,7 +30,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
                   slot="start"
                 ></ion-icon>
                 <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
-                  {{ 'wallets.recovery-phrase-information.text1' | translate }}
+                  {{ 'wallets.recovery_phrase_information.text1' | translate }}
                 </ion-label>
               </ion-item>
               <ion-item class="rpi__list__list__item" lines="none">
@@ -42,7 +42,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
                   slot="start"
                 ></ion-icon>
                 <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
-                  {{ 'wallets.recovery-phrase-information.text2' | translate }}
+                  {{ 'wallets.recovery_phrase_information.text2' | translate }}
                 </ion-label>
               </ion-item>
               <ion-item class="rpi__list__list__item" lines="none">
@@ -54,7 +54,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
                   slot="start"
                 ></ion-icon>
                 <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
-                  {{ 'wallets.recovery-phrase-information.text3' | translate }}
+                  {{ 'wallets.recovery_phrase_information.text3' | translate }}
                 </ion-label>
               </ion-item>
             </ion-list>
@@ -71,7 +71,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
             (click)="this.continue()"
             appTrackClick
           >
-            {{ 'wallets.recovery-phrase-information.button-text' | translate }}
+            {{ 'wallets.recovery_phrase_information.button_text' | translate }}
           </ion-button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
 
 import { WalletPasswordSmallComponent } from './wallet-password-small.component';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
@@ -9,7 +9,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from '../../services/wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../../services/wallet-mnemonic/wallet-mnemonic.service';
@@ -24,9 +24,19 @@ describe('WalletPasswordSmallComponent', () => {
   let fakeNavController: FakeNavController;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
+  let alertControllerSpy: jasmine.SpyObj<AlertController>;
+  let translateSpy: jasmine.SpyObj<TranslateService>;
 
   beforeEach(
     waitForAsync(() => {
+      alertControllerSpy = jasmine.createSpyObj('AlertController', {
+        create: Promise.resolve(),
+      });
+
+      translateSpy = jasmine.createSpyObj('TranslateService', {
+        instant: null,
+      });
+
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
         getDecryptedWallet: Promise.resolve({}),
       });
@@ -54,6 +64,8 @@ describe('WalletPasswordSmallComponent', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: NavController, useValue: fakeNavController },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+          { provide: AlertController, useValue: alertControllerSpy },
+          { provide: TranslateService, useValue: translateSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -86,6 +98,7 @@ describe('WalletPasswordSmallComponent', () => {
     expect(modalControllerSpy.dismiss).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
     expect(walletMnemonicServiceSpy.getMnemonic).not.toHaveBeenCalled();
+    expect(alertControllerSpy.create).toHaveBeenCalled();
   });
 
   it('should call trackEvent on trackService when Accept Button clicked', () => {

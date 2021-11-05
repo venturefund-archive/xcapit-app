@@ -6,6 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     <ion-button
       name="Recovery Word"
       size="small"
+      class="word"
       color="uxprimary"
       [disabled]="!this.isActivated"
       (click)="useValue(this.word)"

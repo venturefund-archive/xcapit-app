@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { WalletEncryptionService } from '../../services/wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../../services/wallet-mnemonic/wallet-mnemonic.service';
+import { LoadingService } from '../../../../../shared/services/loading/loading.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-wallet-password-small',
@@ -68,13 +70,17 @@ export class WalletPasswordSmallComponent implements OnInit {
     private navController: NavController,
     private modalController: ModalController,
     private walletEncryptionService: WalletEncryptionService,
-    private walletMnemonicService: WalletMnemonicService
+    private walletMnemonicService: WalletMnemonicService,
+    private loadingService: LoadingService,
+    private alertController: AlertController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {}
 
   async handleSubmit() {
     if (this.form.valid) {
+      await this.loadingService.show();
       this.walletEncryptionService
         .getDecryptedWallet(this.form.value.password)
         .then(async (wallet) => {
@@ -82,13 +88,33 @@ export class WalletPasswordSmallComponent implements OnInit {
           await this.modalController.dismiss();
           await this.navController.navigateForward(['wallets/recovery/read']);
         })
-        .catch((error) => {
-          // TODO: Show invalid password error
+        .catch(async (error) => {
+          if (error.message === 'invalid password') {
+            this.showAlert();
+          }
+        })
+        .finally(async () => {
+          await this.loadingService.dismiss();
         });
     }
   }
 
   close() {
     this.modalController.dismiss();
+  }
+
+  private async showAlert() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('wallets.shared_wallets.wallet_password_small.alert.header'),
+      message: this.translate.instant('wallets.shared_wallets.wallet_password_small.alert.title'),
+      cssClass: 'ux-wallet-error-alert ux-alert',
+      buttons: [
+        {
+          text: this.translate.instant('wallets.shared_wallets.wallet_password_small.alert.button_text'),
+          cssClass: 'uxprimary',
+        },
+      ],
+    });
+    await alert.present();
   }
 }

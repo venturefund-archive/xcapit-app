@@ -1304,12 +1304,21 @@
       "submit_button": "Confirmar y aceptar",
       "error_did_not_accept": "Debes marcar todas las opciones para continuar."
     },
-    "recovery-phrase-information": {
+    "recovery_phrase_information": {
       "header": "Frase de recuperación",
       "text1": "Xcapit nunca te pedirá que compartas tu frase de recuperación.",
       "text2": "La frase de recuperación es la llave maestra de tus fondos. Nunca la compartas con nadie más.",
       "text3": "Si pierdes tu frase de recuperación, ni siquiera Xcapit podrá recuperar tus fondos.",
-      "button-text": "Continuar"
+      "button_text": "Continuar"
+    },
+    "recovery_phrase_read": {
+      "header": "Frase de recuperación",
+      "title": "Frase de recuperación",
+      "text": "Es muy importante que guardes tus 12 palabras en el orden que aparecen y en un lugar seguro.",
+      "button_text": "Copiar",
+      "button_text_coppied": "Copiado",
+      "coppied_text": "Se copió la frase de recuperación al portapapeles",
+      "copy_error_text": "No se puedo copiar la frase de recuperación al portapapeles"
     },
     "home": {
       "available_money": "Tus activos",
