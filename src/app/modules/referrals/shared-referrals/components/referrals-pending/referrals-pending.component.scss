@@ -1,0 +1,28 @@
+:host {
+  .rp {
+    &__title {
+      border-bottom: #eeeeee solid 1px;
+    }
+
+    &__summary {
+      margin-top: 24px;
+      &__second-order {
+        margin-top: 16px;
+      }
+    }
+
+    &__claim {
+      margin-top: 24px;
+      ion-button {
+        width: 100%;
+      }
+    }
+
+    &__total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+    }
+  }
+}

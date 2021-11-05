@@ -82,7 +82,7 @@ const appPages = [
     id: 8,
     name: 'Referrals',
     title: 'app.main_menu.referrals',
-    url: '/referrals/list',
+    url: '/referrals/summary',
     icon: 'ux-referrals-icon',
     routeDirection: 'root',
     showInProd: true,

@@ -1274,6 +1274,37 @@
     },
     "referral_form": {
       "email": "Email"
+    },
+    "referrals_summary": {
+      "header": "Referidos"
+    },
+    "referrals_share": {
+      "title": "¡Refiere y gana!",
+      "first_order_referrals_title": "Suma referidos primarios",
+      "first_order_referrals_text": "Por cada amigo que se registre usando tu link recibirás el valor de ${{amount}} USD.",
+      "second_order_referrals_title": "Suma referidos secundarios",
+      "second_order_referrals_text": "Si a su vez, tu amigo refiere a otras personas, recibiras ${{amount}} USD por cada una de ellas.",
+      "share": "Compartir mi Link",
+      "copy": "Copiar mi link",
+      "copied": "Copiado",
+      "tos": "Ver terminos y condiciones"
+    },
+    "referrals_pending": {
+      "title": "Pendientes",
+      "first_order_title": "Primarios a wallet Xcapit",
+      "first_order_subtitle": "{{quantity}} Recomendados",
+      "second_order_title": "Secundarios a wallet Xcapit",
+      "second_order_subtitle": "{{quantity}} Recomendados",
+      "total_title": "Total recompensa",
+      "claim_button": "Reclamar",
+      "disclaimer": "Las recompensas se acreditan en MATIC (Polygon). Podras reclamarlas a partir del 1/12/2021."
+    },
+    "referrals_history": {
+      "title": "Historial",
+      "first_order_title": "Primarios a cuenta Xcapit",
+      "first_order_subtitle": "{{quantity}} Recomendados",
+      "second_order_title": "Secundarios a cuenta Xcapit",
+      "second_order_subtitle": "{{quantity}} Recomendados"
     }
   },
   "notifications": {

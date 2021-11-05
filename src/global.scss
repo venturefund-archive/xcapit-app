@@ -180,6 +180,12 @@ ion-toast.refresher_toast {
     font-weight: var(--ux-fweight-semibold);
   }
 
+  .ux-font-num-titulo-xs {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
+  }
+
   .ux-font-num-subtitulo {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-17);
@@ -594,5 +600,12 @@ ion-toast.refresher_toast {
   .picker-toolbar-button > button {
     color: var(--ion-color-uxprimary);
     font-weight: var(--ux-fweight-bold);
+  }
+
+  .ux-card {
+    --ion-background-color: var(--ion-color-uxlight);
+    background: var(--ion-color-uxlight);
+    border-radius: 8px;
+    border: 0.5px solid #b0b6c7;
   }
 }

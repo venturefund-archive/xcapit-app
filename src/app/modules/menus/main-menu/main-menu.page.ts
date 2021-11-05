@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { AuthService } from '../../usuarios/shared-usuarios/services/auth/auth.service';
-
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { UxSelectModalComponent } from '../../../shared/components/ux-select-modal/ux-select-modal.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -147,7 +146,7 @@ export class MainMenuPage implements OnInit {
       id: 8,
       name: 'Referrals',
       title: 'app.main_menu.referrals',
-      url: '/referrals/list',
+      url: '/referrals/summary',
       icon: 'ux-referrals-icon',
       routeDirection: 'root',
       showInProd: true,
