@@ -6,6 +6,8 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgModuleFactory } from '@angular/core/src/r3_symbols';
 
 @Component({
   selector: 'app-home-wallet',
@@ -35,13 +37,41 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
         <app-wallet-subheader-buttons [hasTransactions]="this.transactionsExists"></app-wallet-subheader-buttons>
       </div>
 
-      <div class="wt__balance ion-padding-start ion-padding-end" *ngIf="this.walletExist && this.balances?.length">
-        <div div class="wt__balance__title">
-          <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
-            {{ 'wallets.home.wallet_balance_title' | translate }}
-          </ion-label>
+      <div class="wt__segments ion-padding-start ion-padding-end" *ngIf="this.walletExist">
+        <form [formGroup]="this.segmentsForm">
+          <ion-segment mode="md" class="ux-segment" formControlName="tab">
+            <ion-segment-button value="assets">
+              <ion-label
+                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'assets' }"
+                class="ux-font-header-titulo"
+                >{{ 'wallets.home.tab_assets' | translate }}</ion-label
+              >
+            </ion-segment-button>
+            <ion-segment-button value="nft">
+              <ion-label
+                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'nft' }"
+                class="ux-font-header-titulo"
+                >{{ 'wallets.home.tab_nfts' | translate }}</ion-label
+              >
+            </ion-segment-button>
+          </ion-segment>
+        </form>
+      </div>
+
+      <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
+        <div class="wt__nfts__content segment-content">
+          <app-claim-nft-card
+            [nftStatus]="this.nftStatus"
+            (nftRequest)="this.createNFTRequest()"
+            *ngIf="this.nftStatus !== 'delivered'"
+          ></app-claim-nft-card>
         </div>
-        <div class="wt__balance__wallet-balance-card">
+      </div>
+      <div
+        class="wt__balance ion-padding-start ion-padding-end"
+        *ngIf="this.walletExist && this.balances?.length && this.segmentsForm.value.tab === 'assets'"
+      >
+        <div class="wt__balance__wallet-balance-card segment-content">
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
       </div>
@@ -72,13 +102,18 @@ export class HomeWalletPage implements OnInit {
   lastTransaction = [];
   userCoins: Coin[];
   alreadyInitialized = false;
+  segmentsForm: FormGroup = this.formBuilder.group({
+    tab: ['assets', [Validators.required]],
+  });
+  nftStatus = 'unclaimed';
 
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
     private storageService: StorageService,
     private walletTransactionsService: WalletTransactionsService,
-    private navController: NavController
+    private navController: NavController,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {}
@@ -88,6 +123,15 @@ export class HomeWalletPage implements OnInit {
       this.alreadyInitialized = true;
       this.encryptedWalletExist();
     }
+    this.getNFTStatus();
+  }
+
+  getNFTStatus() {
+    this.apiWalletService.getNFTStatus().subscribe((res) => (this.nftStatus = res.status));
+  }
+
+  createNFTRequest() {
+    this.apiWalletService.createNFTRequest().subscribe(() => this.getNFTStatus());
   }
 
   createBalancesStructure(coin: Coin): AssetBalance {
@@ -166,7 +210,7 @@ export class HomeWalletPage implements OnInit {
 
   async getLastTransactions() {
     this.walletTransactionsService.getLastTransaction().then((res) => {
-      this.transactionsExists = !!(res.length > 0);
+      this.transactionsExists = res.length > 0;
 
       if (this.transactionsExists) {
         this.lastTransaction = res;

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import { COINS } from '../../../constants/coins';
 import * as moment from 'moment';
-
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
+import { Coin } from '../../interfaces/coin.interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -34,8 +34,8 @@ export class StorageWalletsService {
 })
 export class StorageService {
   allCoins = [];
-
-  constructor(private appStorageService: AppStorageService) {}
+  coins: Coin[];
+  constructor(private appStorageService: AppStorageService, private apiWalletService: ApiWalletService) {}
 
   async getWalletFromStorage() {
     return await this.appStorageService.get('enc_wallet');
@@ -56,9 +56,10 @@ export class StorageService {
   }
 
   async getAssestsSelected() {
+    this.coins = this.apiWalletService.getCoins();
     const wallets = await this.getWalletFromStorage();
     let userCoins = [];
-    this.allCoins = COINS;
+    this.allCoins = this.coins;
 
     if (!!wallets && !!wallets.assets) {
       userCoins = this.allCoins.filter((coin) => wallets.assets[coin.value]);
@@ -80,12 +81,13 @@ export class StorageService {
   }
 
   async updateAssetsList() {
+    this.coins = this.apiWalletService.getCoins();
     const wallets = await this.getWalletFromStorage();
     let updated = false;
 
     if (!!wallets) {
       if (!!wallets.assets) {
-        for (const coin of COINS) {
+        for (const coin of this.coins) {
           if (wallets.assets[coin.value] === undefined) {
             wallets.assets[coin.value] = true;
             updated = true;
@@ -94,7 +96,7 @@ export class StorageService {
       } else {
         const selectedCoins = {};
 
-        for (const coin of COINS) {
+        for (const coin of this.coins) {
           selectedCoins[coin.value] = true;
         }
 

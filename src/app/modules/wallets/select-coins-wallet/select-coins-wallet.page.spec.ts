@@ -89,13 +89,25 @@ const testCoins = [
     id: 8,
     name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
-    last: true,
+    last: false,
     value: 'MATIC',
     network: 'MATIC',
     chainId: 80001,
     rpc: 'http://testrpc.text/',
     decimals: 18,
     native: true,
+  },
+  {
+    id: 9,
+    name: 'SOV - Sovryn',
+    logoRoute: 'assets/img/coins/SOV.png',
+    last: true,
+    value: 'SOV',
+    network: 'RSK',
+    chainId: 31,
+    rpc: 'http://testrpc.text/',
+    contract: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
+    decimals: 18,
   },
 ];
 
@@ -221,7 +233,7 @@ describe('SelectCoinsWalletPage', () => {
   it('should select all tokens when the "select all" toggle is clicked and not all token are selected already', () => {
     fixture.debugElement.query(By.css('ion-toggle[name="AllToggle"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(8);
+    expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(9);
   });
 
   it('should deselect all tokens when the "select all" toggle is clicked and all token are selected', () => {
@@ -234,6 +246,7 @@ describe('SelectCoinsWalletPage', () => {
       RBTC: true,
       RIF: true,
       MATIC: true,
+      SOV: true,
     });
     fixture.debugElement.query(By.css('ion-toggle[name="AllToggle"]')).nativeElement.click();
     fixture.detectChanges();

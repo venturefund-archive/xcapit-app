@@ -15,6 +15,7 @@ import { WalletPasswordComponent } from './components/wallet-password/wallet-pas
 import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
 import { WalletPasswordSmallComponent } from './components/wallet-password-small/wallet-password-small.component';
 
+import { ClaimNftCardComponent } from './components/claim-nft-card/claim-nft-card.component';
 @NgModule({
   declarations: [
     RecoveryPhraseCardComponent,
@@ -30,6 +31,7 @@ import { WalletPasswordSmallComponent } from './components/wallet-password-small
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
+    ClaimNftCardComponent,
     WalletPasswordSmallComponent,
   ],
   imports: [SharedModule],
@@ -48,6 +50,7 @@ import { WalletPasswordSmallComponent } from './components/wallet-password-small
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
+    ClaimNftCardComponent,
     WalletPasswordSmallComponent,
   ],
 })

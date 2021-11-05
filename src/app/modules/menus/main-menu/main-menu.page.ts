@@ -32,7 +32,7 @@ import { environment } from 'src/environments/environment';
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
           >
-            <ion-icon *ngIf="p.icon" class="icons" slot="start" [name]="p.icon"></ion-icon>
+            <ion-icon *ngIf="p.icon" class="icons" slot="start" [name]="p.icon"> aria-hidden= “true” </ion-icon>
             <ion-label>
               {{ p.title | translate }}
             </ion-label>
@@ -49,7 +49,7 @@ import { environment } from 'src/environments/environment';
           }"
           (click)="this.changeLanguage()"
         >
-          <ion-icon slot="start" class="icons" name="ux-lenguage-icon"></ion-icon>
+          <ion-icon slot="start" class="icons" name="ux-lenguage-icon"> </ion-icon>
           <ion-label>
             {{ 'app.main_menu.change_language' | translate }}
           </ion-label>

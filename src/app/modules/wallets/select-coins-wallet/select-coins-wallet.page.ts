@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { COINS } from '../constants/coins';
 import { NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -79,7 +79,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
-  coins = COINS;
+  coins: Coin[];
   mode: string;
 
   form: FormGroup = this.formBuilder.group({
@@ -91,19 +91,22 @@ export class SelectCoinsWalletPage implements OnInit {
     RBTC: [false],
     RIF: [false],
     MATIC: [false],
+    SOV: [false],
   });
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private navController: NavController,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private apiWalletService: ApiWalletService
   ) {}
   almostOneChecked = false;
   allChecked = false;
 
   ionViewWillEnter() {
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.coins = this.apiWalletService.getCoins();
   }
 
   ngOnInit() {}

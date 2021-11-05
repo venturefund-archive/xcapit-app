@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { COINS } from '../constants/coins';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QRCodeService } from '../../../shared/services/qr-code/qr-code.service';
 import { ShareService } from '../../../shared/services/share/share.service';
@@ -11,7 +9,8 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
 import { ActivatedRoute } from '@angular/router';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
-
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 @Component({
   selector: 'app-receive',
   template: `
@@ -100,8 +99,8 @@ export class ReceivePage {
   address: string;
   addressQr: string;
   selectedCurrency: Coin;
-  defaultAsset = COINS.find((coin) => coin.value === 'ETH');
-
+  coins: Coin[];
+  defaultAsset: Coin;
   constructor(
     private formBuilder: FormBuilder,
     private qrCodeService: QRCodeService,
@@ -112,14 +111,21 @@ export class ReceivePage {
     private walletEncryptionService: WalletEncryptionService,
     private route: ActivatedRoute,
     private platformService: PlatformService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   ionViewWillEnter() {
+    this.coins = this.apiWalletService.getCoins();
+    this.setDefaultAsset();
     this.getUserAssets();
     this.checkUrlParams();
     this.subscribeToFormChanges();
     this.checkPlatform();
+  }
+
+  setDefaultAsset() {
+    this.defaultAsset = this.coins.find((coin) => coin.value === 'ETH');
   }
 
   checkPlatform() {
@@ -129,7 +135,7 @@ export class ReceivePage {
   checkUrlParams() {
     this.route.queryParams.subscribe((params) => {
       if (params.asset) {
-        this.defaultAsset = COINS.find((coin) => coin.value === params.asset);
+        this.defaultAsset = this.coins.find((coin) => coin.value === params.asset);
       }
     });
   }
@@ -148,7 +154,7 @@ export class ReceivePage {
 
   getAddress(currency: Coin) {
     this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      const network = COINS.find((coin) => coin === currency).network;
+      const network = this.coins.find((coin) => coin === currency).network;
       this.address = wallet.addresses[network];
       this.generateAddressQR();
     });

@@ -30,6 +30,13 @@ const routes: Routes = [
         loadChildren: () => import('./support-buy/support-buy.module').then((m) => m.SupportBuyPageModule),
       },
       {
+        path: 'binance-investments',
+        loadChildren: () =>
+          import('./support-binance-investments/support-binance-investments.module').then(
+            (m) => m.SupportBinanceInvestmentsPageModule
+          ),
+      },
+      {
         path: 'apikey-binance',
         loadChildren: () =>
           import('./support-apikey-binance/support-apikey-binance.module').then(

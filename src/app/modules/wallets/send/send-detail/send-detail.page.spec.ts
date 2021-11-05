@@ -14,6 +14,7 @@ import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
+import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 
 const coins: Coin[] = [
   {
@@ -69,6 +70,7 @@ describe('SendDetailPage', () => {
   let navControllerSpy: any;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -84,6 +86,9 @@ describe('SendDetailPage', () => {
         },
       },
     };
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coins,
+    });
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
@@ -99,6 +104,7 @@ describe('SendDetailPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletService, useValue: walletServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -106,7 +112,7 @@ describe('SendDetailPage', () => {
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
     component.coins = coins;
-    component.balanceNativeToken = '1';
+    component.balanceNativeToken = 1;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -122,7 +128,7 @@ describe('SendDetailPage', () => {
     expect(component.networks).toEqual([coins[0].network]);
     expect(component.selectedNetwork).toEqual(coins[0].network);
     expect(component.nativeToken).toEqual(coins[0]);
-    expect(component.balanceNativeToken).toEqual('10');
+    expect(component.balanceNativeToken).toEqual(10);
     expect(component.currency).toEqual(coins[0]);
   }));
 
@@ -160,7 +166,7 @@ describe('SendDetailPage', () => {
 
   it('should show card if native token balance is zero when sending native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
-    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
+    walletServiceSpy.balanceOf.and.resolveTo('0');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -170,7 +176,7 @@ describe('SendDetailPage', () => {
 
   it('should show card if native token balance is zero when sending not native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
-    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0'));
+    walletServiceSpy.balanceOf.and.resolveTo('0');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -180,7 +186,7 @@ describe('SendDetailPage', () => {
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
-    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
+    walletServiceSpy.balanceOf.and.resolveTo('1');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -190,7 +196,7 @@ describe('SendDetailPage', () => {
 
   it('should not show card if native token balance is greater than zero when sending not native token', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
-    walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('1'));
+    walletServiceSpy.balanceOf.and.resolveTo('1');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();

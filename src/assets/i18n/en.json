@@ -7,7 +7,6 @@
       "deposit_address": "Deposit address",
       "logout": "Log Out",
       "commissions": "Commissions",
-      "recovery_phrase": "Recovery phrase",
       "help": "Support",
       "password_change": "Password Change",
       "referrals": "Referrals",
@@ -518,8 +517,8 @@
     },
     "fund_take_profit": {
       "header": "Change Take Profit",
-      "title": "When do you want us to stop investing and take the profits?",
-      "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
+      "title": "Set benefit limits",
+      "text_before": "When do you want us to stop investing? Your investment will be finalized when it reaches this profit percentage.",
       "take_profit": "Take profit",
       "most_chosen": "Most chosen",
       "custom_tp_button": "Choose another option",
@@ -1319,7 +1318,8 @@
     },
     "home": {
       "available_money": "Available money in wallet",
-      "wallet_balance_title": "ASSETS",
+      "tab_assets": "Assets",
+      "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
@@ -1479,6 +1479,14 @@
         "label": "Password",
         "disclaimer": "The password has to have at least 6 characters, it must contain numbers and letters, at least one uppercase letter and one lowercase letter",
         "button_text": "Accept"
+      },
+      "claim_nft_card": {
+        "base": "Here you can see your NFTs",
+        "title": "Your NTF is waiting for you!",
+        "subtitle": "Claim your NTF of the Commemoration of the Independence of Mexico",
+        "note": "*You will only receive it if you are on the waiting list.",
+        "button_claim": "Claim",
+        "button_claimed": "Requested"
       }
     },
     "asset_detail": {

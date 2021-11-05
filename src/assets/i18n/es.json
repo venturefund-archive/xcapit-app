@@ -1322,7 +1322,8 @@
     },
     "home": {
       "available_money": "Tus activos",
-      "wallet_balance_title": "Monedas",
+      "tab_assets": "Monedas",
+      "tab_nfts": "NFTs",
       "wallet_recovery": "Importar una wallet existente",
       "wallet_transaction_title": "RECIENTE",
       "go_to_history": "Ver todas las transacciones",
@@ -1476,6 +1477,14 @@
         "disclaimer": "Por seguridad necesitamos que ingreses la contraseña de tu wallet para completar la transacción",
         "submit_button_text": "Aceptar",
         "input_label": "Contraseña"
+      },
+      "claim_nft_card": {
+        "base": "Aqui podras ver tus NFTs",
+        "title": "¡Tu NTF te espera!",
+        "subtitle": "Reclama tu NTF de la Conmemoración a la independencia de Mexico",
+        "note": "*Solo lo recibiras si te anotaste en la lista de espera.",
+        "button_claim": "Reclamar",
+        "button_claimed": "Reclamado"
       },
       "wallet_password_small": {
         "title": "Por seguridad",
