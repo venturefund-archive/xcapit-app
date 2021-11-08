@@ -1,0 +1,39 @@
+:host {
+  .rs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__img {
+      align-self: center;
+      margin-top: 32px;
+    }
+
+    &__title {
+      align-self: center;
+      margin-top: 16px;
+    }
+
+    &__first-order {
+      align-self: flex-start;
+      margin-top: 16px;
+    }
+
+    &__second-order {
+      align-self: flex-start;
+      margin-top: 16px;
+    }
+
+    &__buttons {
+      margin-top: 24px;
+      ion-button {
+        width: 100%;
+        margin-top: 8px;
+      }
+    }
+    &__tos {
+      align-self: center;
+      margin-top: 24px;
+    }
+  }
+}
