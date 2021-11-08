@@ -1339,7 +1339,9 @@
       "header": "Create Wallet",
       "title": "Select assets",
       "subtitle": "Choose the assets you want to view in your wallet",
-      "select_all": "Select all currencies"
+      "suite": "Suite",
+      "recordatory": "Remember that to operate on each network you must have its native currency.",
+      "native": "NATIVE"
     },
     "success_creation": {
       "title": "Nice! your wallet is now created and your recovery phrase is verified",
