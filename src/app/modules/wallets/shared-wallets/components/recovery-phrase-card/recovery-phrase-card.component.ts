@@ -9,7 +9,7 @@ import { RecoveryWordComponent } from '../recovery-word/recovery-word.component'
         <app-recovery-word
           [clickable]="this.clickable"
           [showOrder]="this.showOrder"
-          [indice]="i"
+          [index]="i"
           [word]="word"
           (useButtonClicked)="this.useValue($event)"
         >
