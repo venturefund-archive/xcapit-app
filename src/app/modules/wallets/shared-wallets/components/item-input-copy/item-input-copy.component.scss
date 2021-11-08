@@ -1,4 +1,4 @@
-.ux_input_copy_container {
+.ic {
   padding-top: 16px;
   background-color: white;
   &__label {
@@ -12,9 +12,7 @@
   }
 
   ion-item::part(native) {
-    //WRITE ALL YOUR CSS RULES HERE
     padding-left: 13px;
-    /** and lots more **/
   }
 
   &__image {
@@ -37,9 +35,15 @@
       --background: #ffffff;
     }
 
+    ion-button::part(native) {
+      background-color: transparent !important;
+      --background-activated: transparent;
+    }
+
     &__copy_icon {
       background: transparent;
       ion-icon {
+        background: transparent;
         font-size: 22px;
         color: #00000061;
       }

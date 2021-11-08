@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-nft-detail',
@@ -8,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'Detalle de NFT' | translate }}</ion-title>
+        <ion-title>{{ 'wallets.nft_detail.title' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="content ion-padding">
@@ -67,7 +66,7 @@ export class NftDetailPage implements OnInit {
     id: 1,
     nftName: 'Financial Freedom Mexico',
     nftDescription: 'Mexico celebrates 200 years of independence and Gustavo Abascal interprets freedom',
-    nftImage: 'assets/img/prueba/shrek.jpg',
+    nftImage: 'assets/img/prueba/noimage.jpg',
     logoCreator: 'assets/img/prueba/xcapit.png',
     nameCreator: 'Xcapit',
     contactAddress: '0x042841842502d3EAF1946FSADASWQEFVDVCASDWQEQWE',
@@ -75,7 +74,7 @@ export class NftDetailPage implements OnInit {
     blockchain: 'Polygon',
   };
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor() {}
 
   ngOnInit() {}
 }
