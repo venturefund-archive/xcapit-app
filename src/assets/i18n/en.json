@@ -1300,6 +1300,22 @@
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."
     },
+    "recovery_phrase_information": {
+      "header": "Recovery phrase",
+      "text1": "Xcapit will never ask you to share your recovery phrase.",
+      "text2": "The recovery phrase is the master key to your funds. Never share it with anybody.",
+      "text3": "If you lose your recovery phrase, not even Xcapit will be able to recover your funds.",
+      "button_text": "Continue"
+    },
+    "recovery_phrase_read": {
+      "header": "Recovery phrase",
+      "title": "Recovery phrase",
+      "text": "It's very important that you save your 12 words in a safe place and in the order that are shown.",
+      "button_text": "Copy",
+      "button_text_coppied": "Coppied",
+      "coppied_text": "The recovery phrase was copied to the clipboard",
+      "copy_error_text": "The recovery phrase could not be coppied to the clipboard"
+    },
     "home": {
       "available_money": "Available money in wallet",
       "tab_assets": "Assets",
@@ -1459,6 +1475,12 @@
         "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
         "submit_button_text": "Accept",
         "input_label": "Password"
+      },
+      "wallet_password_small": {
+        "title": "For security",
+        "label": "Password",
+        "disclaimer": "The password has to have at least 6 characters, it must contain numbers and letters, at least one uppercase letter and one lowercase letter",
+        "button_text": "Accept"
       },
       "claim_nft_card": {
         "base": "Here you can see your NFTs",
