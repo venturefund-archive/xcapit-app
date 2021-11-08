@@ -1,0 +1,30 @@
+:host {
+  .rpr {
+    --ion-background-color: var(--ion-color-uxprimary-contrast);
+    background: var(--ion-color-uxprimary-contrast);
+
+    &__title {
+      margin-top: 24px;
+      ion-text {
+        color: var(--ion-color-uxprimary);
+      }
+    }
+
+    &__text {
+      margin-top: 16px;
+      ion-text {
+        color: var(--ion-color-uxdark);
+      }
+    }
+
+    &__phrase-card {
+      margin-top: 16px;
+    }
+
+    &__footer {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+  }
+}
