@@ -9,7 +9,6 @@ import { FakeModalController } from '../../../../testing/fakes/modal-controller.
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DummyComponent } from '../../../../testing/dummy.component.spec';
 
 describe('RecoveryPhraseInformationPage', () => {
   let component: RecoveryPhraseInformationPage;
@@ -25,12 +24,7 @@ describe('RecoveryPhraseInformationPage', () => {
 
       TestBed.configureTestingModule({
         declarations: [RecoveryPhraseInformationPage, FakeTrackClickDirective],
-        imports: [
-          RouterTestingModule.withRoutes([{ path: 'wallets/recovery/read', component: DummyComponent }]),
-          IonicModule.forRoot(),
-          TranslateModule.forRoot(),
-          HttpClientTestingModule,
-        ],
+        imports: [RouterTestingModule, IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [TranslateService, { provide: ModalController, useValue: modalControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

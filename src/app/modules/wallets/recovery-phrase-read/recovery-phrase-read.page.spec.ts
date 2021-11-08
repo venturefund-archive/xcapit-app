@@ -9,7 +9,6 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DummyComponent } from '../../../../testing/dummy.component.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -36,12 +35,7 @@ describe('RecoveryPhraseReadPage', () => {
 
       TestBed.configureTestingModule({
         declarations: [RecoveryPhraseReadPage, FakeTrackClickDirective],
-        imports: [
-          RouterTestingModule.withRoutes([{ path: 'wallets/recovery/info', component: DummyComponent }]),
-          IonicModule.forRoot(),
-          TranslateModule.forRoot(),
-          HttpClientTestingModule,
-        ],
+        imports: [RouterTestingModule, IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           TranslateService,
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
