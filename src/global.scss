@@ -170,7 +170,7 @@ ion-toast.refresher_toast {
   .ux-font-text-xl {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-22);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
     color: var(--ion-color-uxdark);
   }
 
@@ -188,8 +188,20 @@ ion-toast.refresher_toast {
 
   .ux-font-num-subtitulo {
     font-family: var(--ux-font-worksans);
-    font-size: var(--ux-fsize-17);
+    font-size: var(--ux-fsize-12);
     font-weight: var(--ux-fweight-semibold);
+  }
+
+  .ux-font-currency-title {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-24);
+    font-weight: var(--ux-fweight-semibold);
+  }
+
+  .ux-font-titulo-xs {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
   }
 
   .ux-font-header-titulo,
