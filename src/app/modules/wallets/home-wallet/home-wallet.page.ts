@@ -6,6 +6,8 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NftService } from '../shared-wallets/services/nft-service/nft.service';
+import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 
 @Component({
   selector: 'app-home-wallet',
@@ -62,7 +64,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
             [nftStatus]="this.nftStatus"
             (nftRequest)="this.createNFTRequest()"
             *ngIf="this.nftStatus !== 'delivered'"
-          ></app-claim-nft-card>
+          >
+          </app-claim-nft-card>
+        </div>
+        <div *ngIf="this.nftStatus === 'delivered' && this.NFTMetadata">
+          <app-nft-card [data]="this.NFTMetadata"></app-nft-card>
         </div>
       </div>
       <div
@@ -97,6 +103,8 @@ export class HomeWalletPage implements OnInit {
   allPrices: any;
   userCoins: Coin[];
   alreadyInitialized = false;
+  NFTMetadata: NFTMetadata;
+
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
@@ -107,7 +115,8 @@ export class HomeWalletPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private storageService: StorageService,
     private navController: NavController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private nftService: NftService
   ) {}
 
   ngOnInit() {}
@@ -118,6 +127,7 @@ export class HomeWalletPage implements OnInit {
       this.encryptedWalletExist();
     }
     this.getNFTStatus();
+    this.getNFTInfo();
   }
 
   getNFTStatus() {
@@ -126,6 +136,10 @@ export class HomeWalletPage implements OnInit {
 
   createNFTRequest() {
     this.apiWalletService.createNFTRequest().subscribe(() => this.getNFTStatus());
+  }
+
+  getNFTInfo() {
+    this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => (this.NFTMetadata = metadata));
   }
 
   createBalancesStructure(coin: Coin): AssetBalance {
