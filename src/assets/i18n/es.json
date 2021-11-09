@@ -1522,7 +1522,12 @@
         "title": "Por seguridad",
         "label": "Contraseña",
         "disclaimer": "La contraseña tiene que tener al menos 6 caracteres, debe contener números y letras, al menos una letra mayúscula y una minúscula",
-        "button_text": "Aceptar"
+        "button_text": "Aceptar",
+        "alert": {
+          "header": "Error",
+          "title": "La contraseña ingresada no es correcta.",
+          "button_text": "Reintentar"
+        }
       }
     },
     "asset_detail": {
