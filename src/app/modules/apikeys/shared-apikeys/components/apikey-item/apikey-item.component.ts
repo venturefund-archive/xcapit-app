@@ -54,7 +54,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           *ngIf="!this.fundName"
           appTrackClick
           name="Manage"
-          color="uxsecundary"
+          color="uxsecondary"
           fill="clear"
           size="small"
           class="cib__footer__more_info ux-font-text-xxs"
