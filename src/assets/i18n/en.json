@@ -1361,8 +1361,7 @@
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy or Sell",
-        "performance_card": "Obtain performance",
-        "title_without_transactions": "Start receiving or buying."
+        "performance_card": "Obtain performance"
       }
     },
     "select_coin": {
