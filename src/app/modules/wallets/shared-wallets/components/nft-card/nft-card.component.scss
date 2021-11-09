@@ -1,0 +1,23 @@
+:host {
+  .nv {
+    background-color: var(--ion-color-uxlight);
+    display: flex;
+    align-items: center;
+    border-radius: 8px 0px 8px 8px;
+    border: 0.5px solid var(--ion-color-uxline);
+    &__img {
+      height: 56px;
+      width: 56px;
+      border-radius: 8px;
+    }
+    &__content {
+      display: flex;
+      flex-direction: column;
+      margin-left: 16px;
+
+      .title {
+        margin-bottom: 2px;
+      }
+    }
+  }
+}

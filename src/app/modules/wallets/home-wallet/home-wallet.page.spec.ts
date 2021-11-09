@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
@@ -15,6 +15,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 
 const testCoins = {
   test: [
@@ -109,6 +110,7 @@ describe('HomeWalletPage', () => {
   let storageService: StorageService;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let apiWalletService: ApiWalletService;
+  let nftServiceSpy: jasmine.SpyObj<NftService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -136,6 +138,20 @@ describe('HomeWalletPage', () => {
         getAssestsSelected: Promise.resolve(testCoins.test),
         updateAssetsList: Promise.resolve(true),
       });
+      nftServiceSpy = jasmine.createSpyObj('NftService', {
+        getNFTMetadata: Promise.resolve({
+          description: 'Test',
+          name: 'testName',
+          image: 'testImage',
+          attributes: [
+            {
+              trait_type: 'Art',
+              value: 'Paint',
+            },
+          ],
+        }),
+      });
+
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -145,6 +161,7 @@ describe('HomeWalletPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
+          { provide: NftService, useValue: nftServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -294,6 +311,7 @@ describe('HomeWalletPage', () => {
     tick(350);
 
     expect(component.totalBalanceWallet).toBe(expectedBalance);
+    flush();
   }));
 
   it('should show the equivalent of each coin balance in USD on getWalletsBalances', async () => {
@@ -365,5 +383,19 @@ describe('HomeWalletPage', () => {
     claimNFTCardComponent.triggerEventHandler('nftRequest', null);
     fixture.detectChanges();
     expect(component.nftStatus).toEqual('claimed');
+  });
+
+  it('should render nfts metadata properly when user have nft', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    component.segmentsForm.patchValue({ tab: 'nft' });
+    component.nftStatus = 'delivered';
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const nftEl = fixture.debugElement.query(By.css('app-nft-card'));
+    expect(nftEl).toBeTruthy();
   });
 });
