@@ -46,10 +46,7 @@ import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-tra
         </div>
 
         <div class="ion-margin-top" *ngIf="this.currency">
-          <app-wallet-subheader-buttons
-            [hasTransactions]="!!this.transfers.length"
-            [asset]="this.currency.value"
-          ></app-wallet-subheader-buttons>
+          <app-wallet-subheader-buttons [asset]="this.currency.value"></app-wallet-subheader-buttons>
         </div>
 
         <div class="wad__transaction" *ngIf="!!this.transfers.length">
