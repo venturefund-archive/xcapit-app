@@ -180,15 +180,13 @@ describe('VerifyPhrasePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/failed-mnemonic']);
   });
 
-  it('shouldnt erase word if the slide clicked is on the right than last word added', async () => {
+  it('should not show button of the slide that is on the right than last word added', async () => {
     ['duck', 'chicken', 'cow'].forEach((word) => {
       fixture.debugElement.query(By.css('app-recovery-phrase-card')).triggerEventHandler('useButtonClicked', word);
     });
     fixture.detectChanges();
     const slideRightToFilledSlide = fixture.debugElement.query(By.css('ion-button.input-word[id="3"]'));
-    slideRightToFilledSlide.nativeElement.click();
-
-    expect(component.verificationPhrase).toEqual(['duck', 'chicken', 'cow']);
+    expect(slideRightToFilledSlide).toBeNull();
   });
 
   it('shouldnt erase word if the slide clicked is on the left than last word added', async () => {
