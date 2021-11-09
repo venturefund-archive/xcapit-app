@@ -72,6 +72,18 @@ const routes: Routes = [
                 (m) => m.SuccessRecoveryWalletPageModule
               ),
           },
+          {
+            path: 'info',
+            loadChildren: () =>
+              import('./recovery-phrase-information/recovery-phrase-information.module').then(
+                (m) => m.RecoveryPhraseInformationPageModule
+              ),
+          },
+          {
+            path: 'read',
+            loadChildren: () =>
+              import('./recovery-phrase-read/recovery-phrase-read.module').then((m) => m.RecoveryPhraseReadPageModule),
+          },
         ],
       },
       {

@@ -113,14 +113,39 @@ const testCoins = [
 
 const formData = {
   valid: {
-    ETH: true,
-    RBTC: false,
+    ETH: {
+      AAVE: false,
+      ETH: true,
+      LINK: false,
+      UNI: true,
+      USDT: false,
+    },
+    POLYGON: {
+      MATIC: false,
+    },
+    RSK: {
+      RBTC: false,
+      RIF: false,
+    },
   },
   invalid: {
-    ETH: false,
-    RBTC: false,
+    ETH: {
+      AAVE: false,
+      ETH: false,
+      LINK: false,
+      UNI: false,
+      USDT: false,
+    },
+    POLYGON: {
+      MATIC: false,
+    },
+    RSK: {
+      RBTC: false,
+      RIF: false,
+    },
   },
 };
+
 describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
@@ -186,88 +211,40 @@ describe('SelectCoinsWalletPage', () => {
     expect(component.mode).toEqual('import');
   });
 
-  it('should select native token of the network (ETH) when LINK is selected', async () => {
-    component.form.patchValue({ LINK: true });
-    fixture.debugElement
-      .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[1] } });
-    fixture.detectChanges();
-    expect(component.form.value.ETH).toBeTrue();
-  });
-
-  it('should only select the token itself when a native token is selected', async () => {
-    component.form.patchValue({ ETH: true });
-    fixture.debugElement
-      .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[0] } });
-    fixture.detectChanges();
-    expect(component.form.value.ETH).toBeTrue();
-    expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(1);
-  });
-
-  it('should deselect all tokens of the same network when a native token is deselected', () => {
-    component.form.patchValue({ LINK: true, USDT: true });
-    fixture.debugElement
-      .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: false, value: testCoins[0] } });
-    fixture.detectChanges();
-    expect(component.form.value.LINK).toBeFalse();
-    expect(component.form.value.USDT).toBeFalse();
-  });
-
-  it('should activate the Next button when at least one token is selected', () => {
-    component.form.patchValue({ LINK: true });
-    fixture.debugElement
-      .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[1] } });
-    fixture.detectChanges();
-    const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
-    expect(nextButton.attributes['ng-reflect-disabled']).toEqual('false');
-  });
-
   it('should not activate the Next button when no token is selected', () => {
     const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
     expect(nextButton.attributes['ng-reflect-disabled']).toEqual('true');
   });
 
-  it('should select all tokens when the "select all" toggle is clicked and not all token are selected already', () => {
-    fixture.debugElement.query(By.css('ion-toggle[name="AllToggle"]')).nativeElement.click();
+  it('should activate the Next button when at least one token is selected', () => {
+    component.form.patchValue({ ETH: { LINK: true } });
     fixture.detectChanges();
-    expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(9);
+    const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
+    expect(nextButton.attributes['ng-reflect-disabled']).toEqual('false');
   });
 
-  it('should deselect all tokens when the "select all" toggle is clicked and all token are selected', () => {
-    component.form.patchValue({
-      ETH: true,
-      LINK: true,
-      USDT: true,
-      AAVE: true,
-      UNI: true,
-      RBTC: true,
-      RIF: true,
-      MATIC: true,
-      SOV: true,
-    });
-    fixture.debugElement.query(By.css('ion-toggle[name="AllToggle"]')).nativeElement.click();
-    fixture.detectChanges();
-    expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(0);
-  });
-
-  it('should navigate to recovery phrase page on submit button clicked and valid form', () => {
+  it('should navigate to recovery phrase page on submit button clicked , valid form and mode empty', () => {
+    component.mode = '';
+    component.almostOneChecked = true;
+    fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
     component.form.patchValue(formData.valid);
-    fixture.debugElement
-      .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[0] } });
     fixture.detectChanges();
-    component.handleSubmit();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-first/recovery-phrase']);
   });
 
-  it('should not navigate to recovery phrase page on submit button clicked and invalid form', () => {
-    component.form.patchValue(formData.invalid);
-    fixture.debugElement
-      .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: false, value: testCoins[0] } });
+  it('should navigate to recovery phrase page on submit button clicked having at least one asset selected, and importing the wallet', () => {
+    component.mode = 'import';
+    component.almostOneChecked = true;
+    const spy = spyOn(walletService, 'create');
+    component.form.patchValue(formData.valid);
+    fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password', 'import']);
+  });
+
+  it('should not navigate to recovery phrase page on submit button clicked  dont having at least one asset selected', () => {
+    component.almostOneChecked = false;
     fixture.detectChanges();
     component.handleSubmit();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
@@ -275,22 +252,9 @@ describe('SelectCoinsWalletPage', () => {
 
   it('should set coins in wallet service on handleSubmit and valid form', () => {
     component.coins = testCoins;
-    component.form.patchValue({ ETH: true, RBTC: false, AAVE: true });
-    fixture.debugElement
-      .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[0] } });
+    component.form.patchValue({ ETH: { ETH: true } });
     fixture.detectChanges();
     component.handleSubmit();
     expect(walletService.coins).toEqual([testCoins[0]]);
-  });
-
-  it('should navigate [/wallets/create-password, import] and create when almostOneChecked = true, and mode = import', () => {
-    const spy = spyOn(walletService, 'create');
-    component.almostOneChecked = true;
-    component.mode = 'import';
-    component.handleSubmit();
-
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password', 'import']);
   });
 });

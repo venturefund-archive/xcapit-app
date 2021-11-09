@@ -3,7 +3,6 @@ import { NavController } from '@ionic/angular';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -30,12 +29,12 @@ import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface
           </ion-text>
         </div>
       </div>
-      <div class="wt__subheader" *ngIf="this.walletExist === false && !this.transactionsExists">
+      <div class="wt__subheader" *ngIf="!this.walletExist">
         <app-wallets-subheader></app-wallets-subheader>
       </div>
 
-      <div class="wt__overlap_buttons" *ngIf="this.walletExist === true && this.transactionsExists !== undefined">
-        <app-wallet-subheader-buttons [hasTransactions]="this.transactionsExists"></app-wallet-subheader-buttons>
+      <div class="wt__overlap_buttons" *ngIf="this.walletExist">
+        <app-wallet-subheader-buttons></app-wallet-subheader-buttons>
       </div>
 
       <div class="wt__segments ion-padding-start ion-padding-end" *ngIf="this.walletExist">
@@ -98,13 +97,10 @@ import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
-  transactions: Array<any>;
   totalBalanceWallet = 0;
   walletAddress = null;
   balances: Array<AssetBalance> = [];
   allPrices: any;
-  transactionsExists: boolean;
-  lastTransaction = [];
   userCoins: Coin[];
   alreadyInitialized = false;
   NFTMetadata: NFTMetadata;
@@ -118,7 +114,6 @@ export class HomeWalletPage implements OnInit {
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
     private storageService: StorageService,
-    private walletTransactionsService: WalletTransactionsService,
     private navController: NavController,
     private formBuilder: FormBuilder,
     private nftService: NftService
@@ -167,7 +162,6 @@ export class HomeWalletPage implements OnInit {
       if (res) {
         this.balances = [];
         this.getAllPrices();
-        this.getLastTransactions();
       }
     });
   }
@@ -219,15 +213,5 @@ export class HomeWalletPage implements OnInit {
 
   private getPrice(symbol: string): number {
     return this.allPrices.prices[this.getCoinForPrice(symbol)];
-  }
-
-  async getLastTransactions() {
-    this.walletTransactionsService.getLastTransaction().then((res) => {
-      this.transactionsExists = res.length > 0;
-
-      if (this.transactionsExists) {
-        this.lastTransaction = res;
-      }
-    });
   }
 }

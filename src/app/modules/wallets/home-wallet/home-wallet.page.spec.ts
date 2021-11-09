@@ -9,7 +9,6 @@ import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { of } from 'rxjs';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
@@ -76,40 +75,15 @@ const balances: Array<AssetBalance> = [
   },
 ];
 
-const transaction = [
-  {
-    icon: 'assets/img/wallet-transactions/received.svg',
-    type: 'received',
-    asset: 'ETH',
-    from: '0x00000000000000000000000000',
-    to: '0x00000000000000000000000001',
-    value: '0.2',
-    hash: '0x000000000000000000000000000000000000000000001',
-    blockNumber: '0x00000001',
-    erc721: false,
-    rawContract: false,
-    swap: {
-      currencyIn: '',
-      currencyOut: '',
-      amountIn: null,
-      amountOut: null,
-    },
-  },
-];
-
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let walletService: WalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
-  let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let storageService: StorageService;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let apiWalletService: ApiWalletService;
   let nftServiceSpy: jasmine.SpyObj<NftService>;
 
   beforeEach(
@@ -131,9 +105,6 @@ describe('HomeWalletPage', () => {
           addresses: { ERC20: 'testAddress' },
         }
       );
-      walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionsService', {
-        getLastTransaction: Promise.resolve(transaction),
-      });
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getAssestsSelected: Promise.resolve(testCoins.test),
         updateAssetsList: Promise.resolve(true),
@@ -159,7 +130,6 @@ describe('HomeWalletPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: NftService, useValue: nftServiceSpy },
         ],
@@ -172,9 +142,6 @@ describe('HomeWalletPage', () => {
       component.allPrices = undefined;
       component.userCoins = testCoins.test;
       fixture.detectChanges();
-      walletService = TestBed.inject(WalletService);
-      apiWalletService = TestBed.inject(ApiWalletService);
-      storageService = TestBed.inject(StorageService);
     })
   );
 
@@ -204,7 +171,6 @@ describe('HomeWalletPage', () => {
 
   it('should render app-wallets-buttons-subheader when walletExist is true', () => {
     component.walletExist = true;
-    component.transactionsExists = false;
     fixture.detectChanges();
     const subheader = fixture.debugElement.query(By.css('.wt__overlap_buttons'));
     expect(subheader).not.toBeNull();
@@ -212,33 +178,21 @@ describe('HomeWalletPage', () => {
 
   it('should not render app-wallets-buttons-subheader when walletExist is false', () => {
     component.walletExist = false;
-    component.transactionsExists = undefined;
     fixture.detectChanges();
     const subheader = fixture.debugElement.query(By.css('.wt__overlap_buttons'));
     expect(subheader).toBeNull();
   });
 
-  it('should render app-wallet-balance-card when walletExist is true and have transactions and balance', () => {
+  it('should render app-wallet-balance-card when walletExist and there are balances', () => {
     component.walletExist = true;
-    component.transactionsExists = true;
     component.balances = balances;
     fixture.detectChanges();
     const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
     expect(balanceElement).not.toBeNull();
   });
 
-  it('should render app-wallet-balance-card when walletExist is true and dont have transactions', () => {
+  it('should not render app-wallet-balance-card when walletExist is true but there are not balances', () => {
     component.walletExist = true;
-    component.transactionsExists = false;
-    component.balances = balances;
-    fixture.detectChanges();
-    const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
-    expect(balanceElement).not.toBeNull();
-  });
-
-  it('should not render app-wallet-balance-card when walletExist is true and have transactions but nor balances', () => {
-    component.walletExist = true;
-    component.transactionsExists = false;
     component.balances = [];
     fixture.detectChanges();
     const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
@@ -253,25 +207,8 @@ describe('HomeWalletPage', () => {
     expect(balanceElement).toBeNull();
   });
 
-  it('should not render app-wallet-transaction-card when walletExist is true and dont have transactions', () => {
-    component.walletExist = true;
-    component.transactionsExists = false;
-    fixture.detectChanges();
-    const transactionElement = fixture.debugElement.query(By.css('.wt__transaction'));
-    expect(transactionElement).toBeNull();
-  });
-
-  it('should get the last transaction on view will enter', async () => {
-    fixture.detectChanges();
-    await component.ionViewWillEnter();
-    await fixture.whenStable();
-    expect(component.walletExist).toBe(true);
-    expect(component.transactionsExists).toBe(true);
-    expect(component.lastTransaction).toEqual(transaction);
-  });
-
   it('should show the total balance in USD on getWalletsBalances', async () => {
-    (Object.getOwnPropertyDescriptor(walletService, 'addresses').get as jasmine.Spy).and.returnValue({
+    (Object.getOwnPropertyDescriptor(walletServiceSpy, 'addresses').get as jasmine.Spy).and.returnValue({
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
@@ -301,7 +238,7 @@ describe('HomeWalletPage', () => {
 
   it('should show the total balance in USD on ionViewWillEnter', fakeAsync(() => {
     storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));
-    (Object.getOwnPropertyDescriptor(walletService, 'addresses').get as jasmine.Spy).and.returnValue({
+    (Object.getOwnPropertyDescriptor(walletServiceSpy, 'addresses').get as jasmine.Spy).and.returnValue({
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
@@ -316,7 +253,7 @@ describe('HomeWalletPage', () => {
 
   it('should show the equivalent of each coin balance in USD on getWalletsBalances', async () => {
     component.userCoins = testCoins.usdBalanceTest;
-    (Object.getOwnPropertyDescriptor(walletService, 'addresses').get as jasmine.Spy).and.returnValue({
+    (Object.getOwnPropertyDescriptor(walletServiceSpy, 'addresses').get as jasmine.Spy).and.returnValue({
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
@@ -335,7 +272,7 @@ describe('HomeWalletPage', () => {
 
   it('should not sum USD balances if coin price was not found on ionViewWillEnter', fakeAsync(() => {
     storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));
-    (Object.getOwnPropertyDescriptor(walletService, 'addresses').get as jasmine.Spy).and.returnValue({
+    (Object.getOwnPropertyDescriptor(walletServiceSpy, 'addresses').get as jasmine.Spy).and.returnValue({
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
@@ -350,7 +287,6 @@ describe('HomeWalletPage', () => {
 
   it('should render selected tab', async () => {
     component.walletExist = true;
-    component.transactionsExists = true;
     component.balances = balances;
     fixture.detectChanges();
     await fixture.whenStable();
