@@ -86,6 +86,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
       </div>
+      <app-start-investing></app-start-investing>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })

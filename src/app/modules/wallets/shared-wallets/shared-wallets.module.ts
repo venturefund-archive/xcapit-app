@@ -17,6 +17,7 @@ import { ItemsCoinGroupComponent } from './components/items-coin-group/items-coi
 import { ItemCoinComponent } from './components/item-coin/item-coin.component';
 import { ClaimNftCardComponent } from './components/claim-nft-card/claim-nft-card.component';
 import { WalletPasswordSmallComponent } from './components/wallet-password-small/wallet-password-small.component';
+import { StartInvestingComponent } from './components/start-investing/start-investing.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { WalletPasswordSmallComponent } from './components/wallet-password-small
     ItemCoinComponent,
     ClaimNftCardComponent,
     WalletPasswordSmallComponent,
+    StartInvestingComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -58,6 +60,7 @@ import { WalletPasswordSmallComponent } from './components/wallet-password-small
     ItemCoinComponent,
     ClaimNftCardComponent,
     WalletPasswordSmallComponent,
+    StartInvestingComponent,
   ],
 })
 export class SharedWalletsModule {}

@@ -174,6 +174,15 @@ ion-toast.refresher_toast {
     color: var(--ion-color-uxdark);
   }
 
+  .ux-font-link-xl {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-16);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-uxdark);
+    line-height: 18.77px;
+    color: var(--ion-color-info);
+  }
+
   .ux-font-num-titulo {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-40);
