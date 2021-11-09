@@ -2111,7 +2111,17 @@
       "question17": "¿En qué red está alojado el Smart Contract de mi NFT o \"Contrato inteligente\"?",
       "answer17": "Se encuentra en la red de Polygon.",
       "question18": "¿Cómo invierto en mi wallet?",
-      "answer18": "Por el momento los productos de inversión descentralizados dentro de la wallet de Xcapit se encuentran en fase de desarrollo. Cuando estén disponibles, serán accesibles de forma sencilla e intuitiva dentro de la app."
+      "answer18": "Por el momento los productos de inversión descentralizados dentro de la wallet de Xcapit se encuentran en fase de desarrollo. Cuando estén disponibles, serán accesibles de forma sencilla e intuitiva dentro de la app.",
+      "question19": "¿Dónde puedo visualizar los términos y condiciones de Wallet?",
+      "answer19": "Puedes visualizarlos en este link: <a href='(URL a los términos y condiciones)'>Términos y Condiciones</a><ul></li> <li>Cualquier consulta referida a Términos y Condiciones puedes escribir a soporte a través de la App o en su defecto a Legales@xcapit.com</li></ul>",
+      "question20": "¿Cómo puedo reclamar mi NFT “Financial Freedom México”?",
+      "answer20": "Desde el Home de Wallet, en la solapa NFT, encontrarás un botón de “Reclamar” para ello, es importante que crees tu Wallet con el mismo e-mail con el que ingresaste a la Waiting List para recibir el NFT.",
+      "question21": "¿Cuándo recibiré mi NFT  “Financial Freedom México”?",
+      "answer21": "Una vez hayas “Reclamado” tu NFT desde la Aplicación, verificaremos que tu e-mail se encuentre en la Waiting list y, de ser así, lo estaremos enviando a tu Wallet, recibirás una notificación en cuanto lo recibas.",
+      "question22": "¿Cómo puedo visualizar mi NFT “Financial Freedom México”?",
+      "answer22": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo.",
+      "question23": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
+      "answer23": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento."
     },
     "support_security": {
       "header": "Ayuda",
