@@ -81,9 +81,9 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
           <div class="button">
             <ion-button
               appTrackClick
+              class="ux-link-xs"
               name="Terms of Use"
               type="button"
-              color="uxsecondary"
               size="small"
               fill="clear"
               (click)="this.showTermsOfUse()"

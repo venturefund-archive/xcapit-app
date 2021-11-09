@@ -67,12 +67,11 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
 
             <div class="fs__content_slide__button_back">
               <ion-button
-                class="ux_button"
+                class="ux-link-xl"
                 appTrackClick
                 name="Ion Slide Back Button S2"
                 fill="clear"
                 type="button"
-                color="uxsecondary"
                 (click)="this.slideBack()"
               >
                 {{ 'tutorials.first_steps.step2.back_button' | translate }}
@@ -113,12 +112,11 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
             </div>
             <div class="fs__content_slide__button_back">
               <ion-button
-                class="ux_button"
+                class="ux-link-xl"
                 appTrackClick
                 name="Ion Slide Back Button S3"
                 fill="clear"
                 type="button"
-                color="uxsecondary"
                 (click)="this.slideBack()"
               >
                 {{ 'tutorials.first_steps.step3.back_button' | translate }}

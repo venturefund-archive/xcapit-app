@@ -61,7 +61,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           (click)="this.useApiKey(this.id)"
         >
           {{ 'apikeys.card_apikeys.action' | translate }}
-          <ion-icon slot="end" name="ux-forward"></ion-icon>
+          <ion-icon slot="end" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
         <ion-text *ngIf="this.fundName" class="cib__footer__used_key">
           {{ 'apikeys.card_apikeys.used_apikey' | translate }}
