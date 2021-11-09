@@ -5,9 +5,9 @@ import { NavigationExtras } from '@angular/router';
 @Component({
   selector: 'app-wallet-subheader-buttons',
   template: `
-    <div class="wsub">
-      <div class="wsub__card-buttons">
-        <div class="wsub__card-buttons__send-card card" *ngIf="this.hasTransactions">
+    <div class="wsb">
+      <div class="wsb__card-buttons">
+        <div class="wsb__card-buttons__send-card card">
           <app-icon-button-card
             (click)="this.goToSend()"
             appTrackClick
@@ -16,7 +16,7 @@ import { NavigationExtras } from '@angular/router';
             icon="ux-wallet"
           ></app-icon-button-card>
         </div>
-        <div class="wsub__card-buttons__receive-card card">
+        <div class="wsb__card-buttons__receive-card card">
           <app-icon-button-card
             (click)="this.goToReceive()"
             appTrackClick
@@ -25,7 +25,7 @@ import { NavigationExtras } from '@angular/router';
             icon="ux-money-flow"
           ></app-icon-button-card>
         </div>
-        <div class="wsub__card-buttons__buy-card card">
+        <div class="wsb__card-buttons__buy-card card">
           <app-icon-button-card
             (click)="this.goToBuy()"
             appTrackClick
@@ -34,7 +34,7 @@ import { NavigationExtras } from '@angular/router';
             icon="ux-buy-sell"
           ></app-icon-button-card>
         </div>
-        <div class="wsub__card-buttons__performance card" *ngIf="this.hasTransactions">
+        <div class="wsb__card-buttons__performance card">
           <app-icon-button-card
             appTrackClick
             name="Go to Performance"
@@ -43,15 +43,11 @@ import { NavigationExtras } from '@angular/router';
           ></app-icon-button-card>
         </div>
       </div>
-      <div class="wsub__message" *ngIf="!this.hasTransactions">
-        {{ 'wallets.home.subheader_buttons_component.title_without_transactions' | translate }}
-      </div>
     </div>
   `,
   styleUrls: ['./wallet-subheader-buttons.component.scss'],
 })
 export class WalletSubheaderButtonsComponent implements OnInit {
-  @Input() hasTransactions: boolean;
   @Input() asset: string;
 
   constructor(private navController: NavController) {}

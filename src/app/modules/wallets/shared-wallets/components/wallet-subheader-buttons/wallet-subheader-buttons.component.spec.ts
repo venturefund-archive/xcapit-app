@@ -3,21 +3,22 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { WalletSubheaderButtonsComponent } from './wallet-subheader-buttons.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
   let fixture: ComponentFixture<WalletSubheaderButtonsComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletSubheaderButtonsComponent>;
-  let navControllerSpy: any;
-
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
         declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
@@ -36,50 +37,19 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render send card when hasTransactions is true', () => {
-    component.hasTransactions = true;
+  it('should render send card', () => {
     fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('.wsub__card-buttons__send-card'));
+    const div = fixture.debugElement.query(By.css('.wsb__card-buttons__send-card'));
     expect(div).not.toBeNull();
   });
 
-  it('should not render send card when hasTransactions is false', () => {
-    component.hasTransactions = false;
+  it('should render performance card', () => {
     fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('.wsub__card-buttons__send-card'));
-    expect(div).toBeNull();
-  });
-
-  it('should render performance card when hasTransactions is true', () => {
-    component.hasTransactions = true;
-    fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('.wsub__card-buttons__performance'));
+    const div = fixture.debugElement.query(By.css('.wsb__card-buttons__performance'));
     expect(div).not.toBeNull();
-  });
-
-  it('should not render performance card when hasTransactions is false', () => {
-    component.hasTransactions = false;
-    fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('.wsub__card-buttons__performance'));
-    expect(div).toBeNull();
-  });
-
-  it('should render the message when hasTransactions is false', () => {
-    component.hasTransactions = false;
-    fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('.wsub__message'));
-    expect(div).not.toBeNull();
-  });
-
-  it('should not render the message when hasTransactions is true', () => {
-    component.hasTransactions = true;
-    fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('.wsub__message'));
-    expect(div).toBeNull();
   });
 
   it('should call trackEvent on trackService when Go to Send Button clicked', () => {
-    component.hasTransactions = true;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -108,7 +78,6 @@ describe('WalletSubheaderButtonsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Go to Performance Button clicked', () => {
-    component.hasTransactions = true;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Performance');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -119,7 +88,6 @@ describe('WalletSubheaderButtonsComponent', () => {
   });
 
   it('should navigate to Send page when Go to Send is clicked from HomeWalletPage', () => {
-    component.hasTransactions = true;
     component.asset = '';
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
@@ -129,7 +97,6 @@ describe('WalletSubheaderButtonsComponent', () => {
   });
 
   it('should navigate to Send page of an specific asset when Go to Send is clicked from AssetDetailPage', () => {
-    component.hasTransactions = true;
     component.asset = 'USDT';
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
