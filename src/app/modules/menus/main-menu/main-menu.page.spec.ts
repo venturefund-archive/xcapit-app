@@ -62,6 +62,15 @@ const appPages = [
   },
   {
     id: 6,
+    name: 'RecoveryPhrase',
+    title: 'app.main_menu.recovery_phrase',
+    url: '/wallets/recovery/info',
+    icon: 'ux-lock',
+    routeDirection: 'forward',
+    showInProd: true,
+  },
+  {
+    id: 7,
     name: 'BuyCrypto',
     title: 'fiat_ramps.operations_list.header',
     url: '/fiat-ramps/operations',
@@ -70,7 +79,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 7,
+    id: 8,
     name: 'PasswordChange',
     title: 'app.main_menu.password_change',
     url: '/users/password-change',
@@ -79,16 +88,16 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 8,
+    id: 9,
     name: 'Referrals',
     title: 'app.main_menu.referrals',
-    url: '/referrals/list',
+    url: '/referrals/summary',
     icon: 'ux-referrals-icon',
     routeDirection: 'root',
     showInProd: true,
   },
   {
-    id: 9,
+    id: 10,
     name: 'Notifications',
     title: 'app.main_menu.notifications',
     url: '/notifications/list',
@@ -97,7 +106,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 10,
+    id: 11,
     name: 'ApiKeysList',
     title: 'app.main_menu.api_keys_managment',
     url: '/apikeys/list',
@@ -106,7 +115,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 11,
+    id: 12,
     name: 'Payments',
     title: 'app.main_menu.payment',
     url: '/payment/select-license',
@@ -200,7 +209,7 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(13);
+    expect(elms.length).toBe(14);
   });
 
   it('should show menu-item when "env" is PREPROD', () => {
@@ -208,7 +217,7 @@ describe('MainMenuPage', () => {
     component.env = 'PREPROD';
     fixture.detectChanges();
     const items = fixture.debugElement.queryAll(By.css('.menu-item'));
-    expect(items.length).toBe(13);
+    expect(items.length).toBe(14);
   });
 
   it('should show menu-item when "showInProd" is true and "env" is "PRODUCCION"', () => {
@@ -216,7 +225,7 @@ describe('MainMenuPage', () => {
     component.env = 'PRODUCCION';
     fixture.detectChanges();
     const items = fixture.debugElement.queryAll(By.css('.menu-item'));
-    expect(items.length).toBe(12);
+    expect(items.length).toBe(13);
   });
 
   it('should open modal when buyCrypto is clicked and there are no apikeys neither fiat-ramps operations', async () => {

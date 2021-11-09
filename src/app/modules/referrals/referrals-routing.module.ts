@@ -12,6 +12,11 @@ const routes: Routes = [
         loadChildren: () => import('./referrals-list/referrals-list.module').then((m) => m.ReferralsListPageModule),
       },
       {
+        path: 'summary',
+        loadChildren: () =>
+          import('./referrals-summary/referrals-summary.module').then((m) => m.ReferralsSummaryPageModule),
+      },
+      {
         path: 'info',
         loadChildren: () => import('./referrals-info/referrals-info.module').then((m) => m.ReferralsInfoPageModule),
       },
