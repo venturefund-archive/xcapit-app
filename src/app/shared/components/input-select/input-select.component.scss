@@ -18,13 +18,13 @@
         --min-height: 48px;
         padding-left: 0;
         height: 100%;
-        border: 1px solid #606c8e;
+        border: 1px solid var(--ion-color-uxsemidark);
         border-radius: 12px;
-        --background: #ffffff;
+        --background: var(--ion-color-uxlight);
         --inner-border-width: 0;
         --highlight-background: none;
         font-weight: 400;
-        color: #000000de;
+        color: var(--ion-color-primary);
         font-size: 14px;
         font-family: var(--ux-font-lato);
 
