@@ -36,12 +36,9 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             {{ 'funds.funds_list.user_status.action_button' | translate }}
           </ion-button>
           <div class="user-status__link_strategies">
-            <ion-text
-              (click)="this.goToStrategies()"
-              class="ux-font-lato ux-fweight-regular ux-fsize-14"
-              color="uxsecondary"
-              >{{ 'funds.funds_list.user_status.link_strategies_button' | translate }}</ion-text
-            >
+            <ion-text (click)="this.goToStrategies()" class="ux-link-xs" color="uxsecondary">{{
+              'funds.funds_list.user_status.link_strategies_button' | translate
+            }}</ion-text>
           </div>
         </div>
       </div>

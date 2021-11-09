@@ -142,6 +142,19 @@ ion-toast.refresher_toast {
     color: var(--ion-color-uxsemidark);
   }
 
+  .ux-link-xs {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-info);
+  }
+
+  .ux-link-xl {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-16);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-info);
+  }
   // Texto normal
   .ux-font-text-base {
     font-family: var(--ux-font-lato);
@@ -630,7 +643,9 @@ ion-toast.refresher_toast {
   }
   .picker-toolbar-cancel > button,
   .picker-toolbar-button > button {
-    color: var(--ion-color-uxprimary);
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-16);
+    color: var(--ion-color-info);
     font-weight: var(--ux-fweight-bold);
   }
 
