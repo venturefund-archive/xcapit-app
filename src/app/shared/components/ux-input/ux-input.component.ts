@@ -1,12 +1,16 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { ClipboardService } from '../../services/clipboard/clipboard.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-ux-input',
   template: `
     <div class="ux_input_container">
-      <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
+      <ion-label class="ux-font-input-label">{{ this.label | translate }}</ion-label>
       <ion-item class="ux_input_container__item ux-font-text-xs">
+        <img class="ux_input_container__item__image" [src]="this.blockchainImage" />
         <ion-input
           #inputRegister
           [ngClass]="{ 'google-place-input': this.type === 'google-places' }"
@@ -35,6 +39,18 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
         >
           <ion-icon [name]="this.typeSetted === 'text' ? 'eye' : 'eye-off'"></ion-icon>
         </button>
+        <ion-button
+          appTrackClick
+          name="Copy"
+          [disabled]="!this.control.value"
+          [hidden]="!this.copyType"
+          item-end
+          type="button"
+          class="ux_input_container__item__copy_icon"
+          (click)="this.copyToClipboard()"
+        >
+          <img src="assets/img/prueba/copy.svg" />
+        </ion-button>
       </ion-item>
       <app-errors-form-item
         class="ux_input_container__item__errors"
@@ -60,6 +76,9 @@ export class UxInputComponent implements OnInit {
   @Input() placeholder: string;
   @Input() maxlength: any;
   @Input() readonly = false;
+  @Input() copyType = false;
+  @Input() blockchainImage = '';
+
   typeSetted: string;
   passwordType: boolean;
   @ViewChild('inputRegister', { read: ElementRef, static: true })
@@ -67,12 +86,30 @@ export class UxInputComponent implements OnInit {
 
   control: AbstractControl;
 
-  constructor(private form: FormGroupDirective) {}
+  constructor(
+    private form: FormGroupDirective,
+    private clipboardService: ClipboardService,
+    private toastService: ToastService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.typeSetted = this.type === 'google-places' ? 'text' : this.type;
     this.passwordType = this.typeSetted === 'password';
     this.control = this.form.control.get(this.controlName);
+  }
+
+  copyToClipboard() {
+    console.log(this.control.value);
+    this.clipboardService.write({ url: this.control.value }).then(() => {
+      this.showToast('shared.services.copy.toast_success');
+    });
+  }
+
+  private showToast(text: string) {
+    this.toastService.showToast({
+      message: this.translate.instant(text),
+    });
   }
 
   togglePasswordMode() {

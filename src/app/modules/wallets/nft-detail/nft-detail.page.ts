@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-nft-detail',
@@ -41,19 +42,30 @@ import { Component, OnInit } from '@angular/core';
               {{ 'wallets.nft_detail.label2' | translate }}
             </ion-text>
             <div>
-              <app-item-input-copy
-                label="wallets.nft_detail.label_input1"
-                [dataInput]="this.testNft.contactAddress"
-              ></app-item-input-copy>
-              <app-item-input-copy
-                label="wallets.nft_detail.label_input2"
-                [dataInput]="this.testNft.tokenId"
-              ></app-item-input-copy>
-              <app-item-input-copy
-                [typeBlockchain]="true"
-                label="wallets.nft_detail.label_input3"
-                [dataInput]="this.testNft.blockchain"
-              ></app-item-input-copy>
+              <form [formGroup]="this.form" class="ux_main">
+                <app-ux-input
+                  label="wallets.nft_detail.label_input1"
+                  controlName="contact_address"
+                  [readonly]="true"
+                  [copyType]="true"
+                  inputmode="text"
+                ></app-ux-input>
+                <app-ux-input
+                  label="wallets.nft_detail.label_input2"
+                  controlName="token_id"
+                  [readonly]="true"
+                  [copyType]="true"
+                  inputmode="text"
+                ></app-ux-input>
+                <app-ux-input
+                  label="wallets.nft_detail.label_input3"
+                  blockchainImage="assets/img/prueba/polygon.svg"
+                  controlName="blockchain"
+                  [readonly]="true"
+                  [copyType]="false"
+                  inputmode="text"
+                ></app-ux-input>
+              </form>
             </div>
           </div>
         </div>
@@ -74,7 +86,23 @@ export class NftDetailPage implements OnInit {
     blockchain: 'Polygon',
   };
 
-  constructor() {}
+  form: FormGroup = this.formBuilder.group({
+    contact_address: [''],
+    token_id: [''],
+    blockchain: [''],
+  });
 
-  ngOnInit() {}
+  constructor(private formBuilder: FormBuilder) {}
+
+  ngOnInit() {
+    this.setFormValue();
+  }
+
+  setFormValue() {
+    this.form.patchValue({
+      contact_address: this.testNft.contactAddress,
+      token_id: this.testNft.tokenId,
+      blockchain: this.testNft.blockchain,
+    });
+  }
 }
