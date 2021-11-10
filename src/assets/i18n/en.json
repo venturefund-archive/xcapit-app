@@ -1412,6 +1412,14 @@
       "disclaimer_body": "Sending other coins or tokens to this address other than {{currency}} may result in the loss of your deposit.",
       "share_title": "Wallet address"
     },
+    "nft_detail": {
+      "title": "NFT Detail",
+      "label1": "Created By",
+      "label2": "Chain Info",
+      "label_input1": "Contact Address",
+      "label_input2": "Token ID",
+      "label_input3": "Blockchain"
+    },
     "failed_mnemonic": {
       "title": "Your recovery phrase is wrong",
       "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",

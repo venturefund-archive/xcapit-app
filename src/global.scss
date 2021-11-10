@@ -163,6 +163,14 @@ ion-toast.refresher_toast {
     color: var(--ion-color-uxsemidark);
   }
 
+  //Título XS
+  .ux-font-title-xs {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-uxsemidark);
+  }
+
   // Título
   .ux-font-text-lg {
     font-family: var(--ux-font-worksans);
