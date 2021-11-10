@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
-import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
@@ -119,19 +118,11 @@ const { Browser } = Plugins;
           </div>
         </div>
       </div>
-      <!-- Slider News -->
-      <div class="academy ion-padding" *ngIf="this.news">
-        <div class="ux-font-text-lg">
-          <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
-        </div>
-        <app-slider-news [news]="this.news"></app-slider-news>
-      </div>
     </ion-content>
   `,
   styleUrls: ['./home-page.page.scss'],
 })
 export class HomePage implements OnInit {
-  news: Array<any>;
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
@@ -146,7 +137,6 @@ export class HomePage implements OnInit {
 
   constructor(
     private navController: NavController,
-    private apiWebFlow: ApiWebflowService,
     private notificationsService: NotificationsService,
     private refreshTimeoutService: RefreshTimeoutService
   ) {}
@@ -156,7 +146,6 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
-    this.getNews();
   }
 
   ionViewDidLeave() {
@@ -198,18 +187,11 @@ export class HomePage implements OnInit {
 
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
-      await this.getNews();
       this.refreshTimeoutService.lock();
       event.target.complete();
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
-  }
-
-  getNews() {
-    this.apiWebFlow.getNews().subscribe((res) => {
-      this.news = res;
-    });
   }
 
   async goToWallet() {

@@ -139,7 +139,7 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-regular);
-    color: var(--ion-color-uxsemidark);
+    color: var(--ion-color-uxprimary);
   }
 
   .ux-link-xs {
@@ -183,8 +183,8 @@ ion-toast.refresher_toast {
   .ux-font-text-xl {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-22);
-    font-weight: var(--ux-fweight-extrabold);
-    color: var(--ion-color-uxdark);
+    font-weight: var(--ux-fweight-semibold);
+    color: var(--ion-color-uxprimary);
   }
 
   .ux-font-num-titulo {
@@ -193,10 +193,28 @@ ion-toast.refresher_toast {
     font-weight: var(--ux-fweight-semibold);
   }
 
+  .ux-font-num-titulo-xs {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
+  }
+
   .ux-font-num-subtitulo {
     font-family: var(--ux-font-worksans);
-    font-size: var(--ux-fsize-17);
+    font-size: var(--ux-fsize-12);
     font-weight: var(--ux-fweight-semibold);
+  }
+
+  .ux-font-currency-title {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-24);
+    font-weight: var(--ux-fweight-semibold);
+  }
+
+  .ux-font-titulo-xs {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
   }
 
   .ux-font-header-titulo,
@@ -217,7 +235,7 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-regular);
-    color: var(--ion-color-uxsemidark);
+    color: var(--ion-color-uxprimary);
   }
 
   .ux-font-form-errors {
@@ -289,6 +307,14 @@ ion-toast.refresher_toast {
     border-radius: 3px;
     height: 21px;
     --background: rgba(187, 107, 217, 0.4);
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    line-height: 9.6px;
+  }
+
+  .ux_badge_native {
+    border-radius: 4px;
+    --background: var(--ion-color-infolight);
     --padding-top: 6px;
     --padding-bottom: 6px;
     line-height: 9.6px;
@@ -370,6 +396,18 @@ ion-toast.refresher_toast {
   .full-screen-modal {
     .modal-wrapper {
       margin-top: 120px;
+
+      .ion-page {
+        padding-bottom: 60px;
+      }
+    }
+  }
+
+  .recovery-phrase-password-modal {
+    .modal-wrapper {
+      margin-top: 330px;
+      --height: 350px;
+      background-color: var(--ion-background-colorwhite);
 
       .ion-page {
         padding-bottom: 60px;
@@ -609,5 +647,12 @@ ion-toast.refresher_toast {
     font-size: var(--ux-fsize-16);
     color: var(--ion-color-info);
     font-weight: var(--ux-fweight-bold);
+  }
+
+  .ux-card {
+    --ion-background-color: var(--ion-color-uxlight);
+    background: var(--ion-color-uxlight);
+    border-radius: 8px;
+    border: 0.5px solid #b0b6c7;
   }
 }

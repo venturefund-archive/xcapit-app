@@ -7,6 +7,7 @@
       "deposit_address": "Dirección de depósito",
       "logout": "Cerrar Sesión",
       "commissions": "Comisiones",
+      "recovery_phrase": "Frase de recuperación",
       "help": "Soporte",
       "password_change": "Cambio de Password",
       "referrals": "Referidos",
@@ -132,9 +133,8 @@
       "referral_code_text": "Código de Referido",
       "manual_referral": "Ingresar código de referido",
       "referral_code_label": "Código de referido",
-      "have_an_account": "¿Ya tienes una cuenta?",
-      "back_login": "Inicia sesión",
-      "accept_tos": "Acepto los",
+      "back_login": "¿Ya tienes cuenta? Ingresa a Xcapit",
+      "accept_tos": "Acepto",
       "link_tos": "Términos y condiciones",
       "waiting_list_alert": {
         "alert_header": "¿Quieres probar la App?",
@@ -1274,6 +1274,37 @@
     },
     "referral_form": {
       "email": "Email"
+    },
+    "referrals_summary": {
+      "header": "Referidos"
+    },
+    "referrals_share": {
+      "title": "¡Refiere y gana!",
+      "first_order_referrals_title": "Suma referidos primarios",
+      "first_order_referrals_text": "Por cada amigo que se registre usando tu link recibirás el valor de ${{amount}} USD.",
+      "second_order_referrals_title": "Suma referidos secundarios",
+      "second_order_referrals_text": "Si a su vez, tu amigo refiere a otras personas, recibiras ${{amount}} USD por cada una de ellas.",
+      "share": "Compartir mi Link",
+      "copy": "Copiar mi link",
+      "copied": "Copiado",
+      "tos": "Ver terminos y condiciones"
+    },
+    "referrals_pending": {
+      "title": "Pendientes",
+      "first_order_title": "Primarios a wallet Xcapit",
+      "first_order_subtitle": "{{quantity}} Recomendados",
+      "second_order_title": "Secundarios a wallet Xcapit",
+      "second_order_subtitle": "{{quantity}} Recomendados",
+      "total_title": "Total recompensa",
+      "claim_button": "Reclamar",
+      "disclaimer": "Las recompensas se acreditan en MATIC (Polygon). Podras reclamarlas a partir del 1/12/2021."
+    },
+    "referrals_history": {
+      "title": "Historial",
+      "first_order_title": "Primarios a cuenta Xcapit",
+      "first_order_subtitle": "{{quantity}} Recomendados",
+      "second_order_title": "Secundarios a cuenta Xcapit",
+      "second_order_subtitle": "{{quantity}} Recomendados"
     }
   },
   "notifications": {
@@ -1303,10 +1334,26 @@
       "submit_button": "Confirmar y aceptar",
       "error_did_not_accept": "Debes marcar todas las opciones para continuar."
     },
+    "recovery_phrase_information": {
+      "header": "Frase de recuperación",
+      "text1": "Xcapit nunca te pedirá que compartas tu frase de recuperación.",
+      "text2": "La frase de recuperación es la llave maestra de tus fondos. Nunca la compartas con nadie más.",
+      "text3": "Si pierdes tu frase de recuperación, ni siquiera Xcapit podrá recuperar tus fondos.",
+      "button_text": "Continuar"
+    },
+    "recovery_phrase_read": {
+      "header": "Frase de recuperación",
+      "title": "Frase de recuperación",
+      "text": "Es muy importante que guardes tus 12 palabras en el orden que aparecen y en un lugar seguro.",
+      "button_text": "Copiar",
+      "button_text_coppied": "Copiado",
+      "coppied_text": "Se copió la frase de recuperación al portapapeles",
+      "copy_error_text": "No se puedo copiar la frase de recuperación al portapapeles"
+    },
     "home": {
       "available_money": "Tus activos",
       "tab_assets": "Monedas",
-      "tab_nfts": "NFTs",
+      "tab_nfts": "NFT",
       "wallet_recovery": "Importar una wallet existente",
       "wallet_transaction_title": "RECIENTE",
       "go_to_history": "Ver todas las transacciones",
@@ -1318,15 +1365,16 @@
         "send_card": "Enviar",
         "receive_card": "Recibir",
         "buy_card": "Comprar",
-        "performance_card": "Obtener rendimiento",
-        "title_without_transactions": "Empieza recibiendo o comprando."
+        "performance_card": "Obtener rendimiento"
       }
     },
     "select_coin": {
       "header": "Crear wallet",
-      "title": "Elige tus activos",
+      "title": "Selecciona los activos",
       "subtitle": "Elige los activos que quieres visualizar en tu wallet",
-      "select_all": "Seleccionar todas las monedas"
+      "suite": "Suite ",
+      "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
+      "native": "NATIVA"
     },
     "success_creation": {
       "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",
@@ -1462,12 +1510,23 @@
         "input_label": "Contraseña"
       },
       "claim_nft_card": {
-        "base": "Aqui podras ver tus NFTs",
+        "base": "Aquí podrás ver tus NFT",
         "title": "¡Tu NTF te espera!",
         "subtitle": "Reclama tu NTF de la Conmemoración a la independencia de Mexico",
         "note": "*Solo lo recibiras si te anotaste en la lista de espera.",
         "button_claim": "Reclamar",
         "button_claimed": "Reclamado"
+      },
+      "wallet_password_small": {
+        "title": "Por seguridad",
+        "label": "Contraseña",
+        "disclaimer": "La contraseña tiene que tener al menos 6 caracteres, debe contener números y letras, al menos una letra mayúscula y una minúscula",
+        "button_text": "Aceptar",
+        "alert": {
+          "header": "Error",
+          "title": "La contraseña ingresada no es correcta.",
+          "button_text": "Reintentar"
+        }
       }
     },
     "asset_detail": {
@@ -2019,7 +2078,7 @@
       "question1": "¿Qué es una wallet?",
       "answer1": "Una wallet o wallet digital es un contenedor y medio para transferir tus criptomonedas de manera segura y anónima, con la posibilidad de adherirse a protocolos de inversión non-custodial descentralizados.",
       "question2": "¿Por qué usar la wallet de Xcapit?",
-      "answer2": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Puedes acceder a productos de inversión descentralizados de manera sencilla y dentro de la app. </li><li>Acceso al intercambio de tus NFTs favoritos. </li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
+      "answer2": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Puedes acceder a productos de inversión descentralizados de manera sencilla y dentro de la app. </li><li>Acceso al intercambio de tus NFT favoritos. </li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
       "question3": "¿Cómo creo una wallet?",
       "answer3": "<b>1.</b> Descargar la app.<br><b>2.</b> Generar wallet.<br><b>3.</b> Conseguir lápiz y papel.<br><b>4.</b> Guardar la frase de recuperación en un lugar seguro.",
       "question4": "¿Cómo importar una wallet?",
@@ -2045,7 +2104,7 @@
       "question14": "¿Cómo transferir mi dinero?",
       "answer14": "<b>1.</b> Debes seleccionar el token que desea transferir.<br> <b>2.</b> Pegar en el campo de dirección, la dirección a la cual quiere enviar los mismos. Para transferir, necesitas la dirección de depósito específica del destinatario para el token que deseas transferir. <br> <b>3.</b> Ingresar el monto que quieres transferir. <br> <b>4.</b> Verificar que los datos sean correctos.",
       "question15": "¿Dónde veo mi NFT?",
-      "answer15": "Dentro de la wallet de Xcapit vas a poder acceder a la sección de NFTs donde podrás contenerlo de por vida.",
+      "answer15": "Dentro de la wallet de Xcapit vas a poder acceder a la sección de NFT donde podrás contenerlo de por vida.",
       "question16": "¿Cómo transfiero mi NFT?",
       "answer16": "Se transfiere de la misma manera que un token, a través de una red específica (Polygon o RC721).",
       "question17": "¿En qué red está alojado el Smart Contract de mi NFT o \"Contrato inteligente\"?",

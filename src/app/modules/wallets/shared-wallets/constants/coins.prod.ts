@@ -91,7 +91,7 @@ export const PROD_COINS: Coin[] = [
     network: 'RSK',
     chainId: 30,
     rpc: environment.rskApiUrl,
-    contract: '0x2aCc95758f8b5F583470bA265Eb685a8f45fC9D5',
+    contract: '0x2acc95758f8b5f583470ba265eb685a8f45fc9d5',
     abi: rifAbi,
     decimals: 18,
   },

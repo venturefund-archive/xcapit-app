@@ -1,0 +1,14 @@
+:host {
+  .rh {
+    padding-bottom: 24px;
+    &__title {
+      border-bottom: #eeeeee solid 1px;
+    }
+    &__summary {
+      margin-top: 24px;
+      &__second-order {
+        margin-top: 16px;
+      }
+    }
+  }
+}
