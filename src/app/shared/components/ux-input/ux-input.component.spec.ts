@@ -11,7 +11,7 @@ import { ClipboardService } from '../../services/clipboard/clipboard.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { By } from '@angular/platform-browser';
 
-fdescribe('UxInputComponent', () => {
+describe('UxInputComponent', () => {
   let component: UxInputComponent;
   let fixture: ComponentFixture<UxInputComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxInputComponent>;
