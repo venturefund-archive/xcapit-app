@@ -47,9 +47,8 @@
         background: transparent;
         ion-icon {
           font-size: 22px;
-          color: #00000061;
+          color: var(--ion-color-info);
         }
-        outline: none !important;
       }
       &__copy_icon {
         background: transparent;

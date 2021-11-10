@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { runInThisContext } from 'vm';
+import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
+import { NFT } from '../shared-wallets/interfaces/nft.interface';
+import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 
 @Component({
   selector: 'app-nft-detail',
@@ -15,14 +19,14 @@ import { FormBuilder, FormGroup } from '@angular/forms';
       <div class="nd ux_main">
         <div class="ux_content">
           <div>
-            <img class="nd__image" [src]="this.testNft.nftImage" alt="" />
+            <img class="nd__image" [src]="this.NFTMetadata?.image" alt="" />
           </div>
           <div class="nd__title_and_subtitle">
             <ion-text class="nd__title ux-font-text-lg">
-              {{ this.testNft.nftName }}
+              {{ this.NFTMetadata?.name }}
             </ion-text>
             <ion-text class="nd__subtitle ux-font-text-base">
-              {{ this.testNft.nftDescription }}
+              {{ this.NFTMetadata?.description }}
             </ion-text>
           </div>
           <div class="nd__creator">
@@ -30,9 +34,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
               {{ 'wallets.nft_detail.label1' | translate }}
             </ion-text>
             <div class="nd__creator__logo_and_name">
-              <img class="nd__creator__image" [src]="this.testNft.logoCreator" alt="" />
+              <img class="nd__creator__image" src="assets/img/prueba/xcapit.png" alt="" />
               <ion-text class="nd__creator__name ux-font-text-xs">
-                {{ this.testNft.nameCreator }}
+                {{ 'Xcapit' }}
               </ion-text>
             </div>
           </div>
@@ -45,21 +49,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
               <form [formGroup]="this.form" class="ux_main">
                 <app-ux-input
                   label="wallets.nft_detail.label_input1"
-                  controlName="contact_address"
+                  controlName="contractAddress"
                   [readonly]="true"
                   [copyType]="true"
                   inputmode="text"
                 ></app-ux-input>
                 <app-ux-input
                   label="wallets.nft_detail.label_input2"
-                  controlName="token_id"
+                  controlName="tokenID"
                   [readonly]="true"
                   [copyType]="true"
                   inputmode="text"
                 ></app-ux-input>
                 <app-ux-input
                   label="wallets.nft_detail.label_input3"
-                  blockchainImage="assets/img/prueba/polygon.svg"
+                  leftIcon="assets/img/prueba/polygon.svg"
                   controlName="blockchain"
                   [readonly]="true"
                   [copyType]="false"
@@ -73,36 +77,40 @@ import { FormBuilder, FormGroup } from '@angular/forms';
     </ion-content>`,
   styleUrls: ['./nft-detail.page.scss'],
 })
-export class NftDetailPage implements OnInit {
-  testNft = {
-    id: 1,
-    nftName: 'Financial Freedom Mexico',
-    nftDescription: 'Mexico celebrates 200 years of independence and Gustavo Abascal interprets freedom',
-    nftImage: 'assets/img/prueba/noimage.jpg',
-    logoCreator: 'assets/img/prueba/xcapit.png',
-    nameCreator: 'Xcapit',
-    contactAddress: '0x042841842502d3EAF1946FSADASWQEFVDVCASDWQEQWE',
-    tokenId: '2768',
-    blockchain: 'Polygon',
-  };
+export class NftDetailPage {
+  NFTMetadata: NFTMetadata;
+  NFT: NFT;
 
   form: FormGroup = this.formBuilder.group({
-    contact_address: [''],
-    token_id: [''],
+    contractAddress: [''],
+    tokenID: [''],
     blockchain: [''],
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private nftService: NftService) {}
 
-  ngOnInit() {
-    this.setFormValue();
+  ionViewWillEnter() {
+    this.getNFTInfo();
+    this.getContractAddress();
+  }
+
+  getNFTInfo() {
+    this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => {
+      this.NFTMetadata = metadata;
+      this.setFormValue();
+      this.form.markAllAsTouched();
+    });
+  }
+
+  getContractAddress() {
+    this.NFT = this.nftService.getNFTMexico();
   }
 
   setFormValue() {
     this.form.patchValue({
-      contact_address: this.testNft.contactAddress,
-      token_id: this.testNft.tokenId,
-      blockchain: this.testNft.blockchain,
+      contractAddress: this.NFT.contractAddress,
+      tokenID: this.NFTMetadata.tokenID,
+      blockchain: 'Polygon',
     });
   }
 }

@@ -1,0 +1,36 @@
+:host {
+  .list {
+    margin: 0px;
+  }
+  .ux_rg {
+    padding: 0px !important;
+  }
+  .container {
+    border-radius: 8px;
+    border: 0.5px solid #b0b6c7;
+    box-shadow: 0px 2px 8px rgba(28, 45, 94, 0.05);
+    padding: 4px;
+  }
+  .icg {
+    &__radio_text {
+      font-size: 12px;
+    }
+
+    &__img {
+      padding-right: 14px;
+      height: 33px;
+    }
+    &__toggle {
+      --background-checked: var(--ion-color-uxsecondary);
+      --background: var(--ion-color-uxline);
+      height: 22px;
+      width: 42px;
+      --handle-width: 17.66px;
+      --handle-height: 17.66px;
+    }
+    &__label {
+      font-weight: var(--ux-fweight-bold);
+      color: var(--ion-color-dark);
+    }
+  }
+}

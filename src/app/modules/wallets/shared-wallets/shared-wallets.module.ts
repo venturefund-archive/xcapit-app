@@ -13,6 +13,10 @@ import { AmountInputCardComponent } from './components/amount-input-card/amount-
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
 import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
+import { ItemsCoinGroupComponent } from './components/items-coin-group/items-coin-group.component';
+import { ItemCoinComponent } from './components/item-coin/item-coin.component';
+import { ClaimNftCardComponent } from './components/claim-nft-card/claim-nft-card.component';
+import { WalletPasswordSmallComponent } from './components/wallet-password-small/wallet-password-small.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,10 @@ import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-b
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
+    ItemsCoinGroupComponent,
+    ItemCoinComponent,
+    ClaimNftCardComponent,
+    WalletPasswordSmallComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -46,6 +54,10 @@ import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-b
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
+    ItemsCoinGroupComponent,
+    ItemCoinComponent,
+    ClaimNftCardComponent,
+    WalletPasswordSmallComponent,
   ],
 })
 export class SharedWalletsModule {}

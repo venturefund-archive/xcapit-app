@@ -10,7 +10,7 @@ import { ToastService } from '../../services/toast/toast.service';
     <div class="ux_input_container">
       <ion-label class="ux-font-input-label">{{ this.label | translate }}</ion-label>
       <ion-item class="ux_input_container__item ux-font-text-xs">
-        <img class="ux_input_container__item__image" [src]="this.blockchainImage" />
+        <img class="ux_input_container__item__image" [src]="this.leftIcon" />
         <ion-input
           #inputRegister
           [ngClass]="{ 'google-place-input': this.type === 'google-places' }"
@@ -37,7 +37,7 @@ import { ToastService } from '../../services/toast/toast.service';
           class="ux_input_container__item__eye_icon"
           (click)="this.togglePasswordMode()"
         >
-          <ion-icon [name]="this.typeSetted === 'text' ? 'eye' : 'eye-off'"></ion-icon>
+          <ion-icon [name]="this.typeSetted === 'text' ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
         </button>
         <ion-button
           appTrackClick
@@ -77,7 +77,7 @@ export class UxInputComponent implements OnInit {
   @Input() maxlength: any;
   @Input() readonly = false;
   @Input() copyType = false;
-  @Input() blockchainImage = '';
+  @Input() leftIcon = '';
 
   typeSetted: string;
   passwordType: boolean;
@@ -87,7 +87,7 @@ export class UxInputComponent implements OnInit {
   control: AbstractControl;
 
   constructor(
-    private form: FormGroupDirective,
+    private formGroupDirective: FormGroupDirective,
     private clipboardService: ClipboardService,
     private toastService: ToastService,
     private translate: TranslateService
@@ -96,11 +96,10 @@ export class UxInputComponent implements OnInit {
   ngOnInit() {
     this.typeSetted = this.type === 'google-places' ? 'text' : this.type;
     this.passwordType = this.typeSetted === 'password';
-    this.control = this.form.control.get(this.controlName);
+    this.control = this.formGroupDirective.form.get(this.controlName);
   }
 
   copyToClipboard() {
-    console.log(this.control.value);
     this.clipboardService.write({ url: this.control.value }).then(() => {
       this.showToast('shared.services.copy.toast_success');
     });
@@ -113,15 +112,10 @@ export class UxInputComponent implements OnInit {
   }
 
   togglePasswordMode() {
-    // cambiar tipo input
     this.typeSetted = this.typeSetted === 'text' ? 'password' : 'text';
-    // obtener el input
     const nativeEl = this.input.nativeElement.querySelector('input');
-    // obtener el indice de la posición del texto actual en el input
     const inputSelection = nativeEl.selectionStart;
-    // ejecuto el focus al input
     nativeEl.focus();
-    // espero un milisegundo y actualizo la posición del indice del texto
     setTimeout(() => {
       nativeEl.setSelectionRange(inputSelection, inputSelection);
     }, 1);

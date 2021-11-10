@@ -7,6 +7,7 @@
       "deposit_address": "Deposit address",
       "logout": "Log Out",
       "commissions": "Commissions",
+      "recovery_phrase": "Recovery phrase",
       "help": "Support",
       "password_change": "Password Change",
       "referrals": "Referrals",
@@ -132,9 +133,8 @@
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
       "referral_code_label": "Referral code",
-      "have_an_account": "Already have an account?",
-      "back_login": "Sign in",
-      "accept_tos": "I agree the",
+      "back_login": "Already have account? Sign in to Xcapit",
+      "accept_tos": "I agree",
       "link_tos": "Terms and conditions",
       "waiting_list_alert": {
         "alert_header": "Do you want to try the App?",
@@ -1255,7 +1255,6 @@
       "info_description3": "Within the app, in your referral panel, click Request a reward. We will contact you to coordinate the payment.",
       "info_description4": "Within the app in your referral panel you will see the list of active guests and a counter of the money you have earned."
     },
-
     "referrals_list": {
       "header": "Referrals",
       "new_button": "New",
@@ -1271,6 +1270,37 @@
     },
     "referral_form": {
       "email": "Email"
+    },
+    "referrals_summary": {
+      "header": "Referidos"
+    },
+    "referrals_share": {
+      "title": "Refer and Win!",
+      "first_order_referrals_title": "Add primary referrals",
+      "first_order_referrals_text": "For each friend who signs up using your link you will receive the value of ${{amount}} USD.",
+      "second_order_referrals_title": "Add secondary referrals",
+      "second_order_referrals_text": "If in turn, your friend refers other people, you will receive ${{amount}} USD for each of them.",
+      "share": "Share my link",
+      "copy": "Copy my link",
+      "copied": "Copied",
+      "tos": "See terms and conditions"
+    },
+    "referrals_pending": {
+      "title": "Pending",
+      "first_order_title": "Primary to Xcapit wallet",
+      "first_order_subtitle": "{{quantity}} Recommended",
+      "second_order_title": "Secondary to Xcapit wallet",
+      "second_order_subtitle": "{{quantity}} Recommended",
+      "total_title": "Total reward",
+      "claim_button": "Claim",
+      "disclaimer": "Rewards are credited to MATIC (Polygon). You will be able to claim them from 2021/12/01."
+    },
+    "referrals_history": {
+      "title": "History",
+      "first_order_title": "Primary to Xcapit wallet",
+      "first_order_subtitle": "{{quantity}} Recommended",
+      "second_order_title": "Secondary to Xcapit wallet",
+      "second_order_subtitle": "{{quantity}} Recommended"
     }
   },
   "notifications": {
@@ -1300,10 +1330,26 @@
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."
     },
+    "recovery_phrase_information": {
+      "header": "Recovery phrase",
+      "text1": "Xcapit will never ask you to share your recovery phrase.",
+      "text2": "The recovery phrase is the master key to your funds. Never share it with anybody.",
+      "text3": "If you lose your recovery phrase, not even Xcapit will be able to recover your funds.",
+      "button_text": "Continue"
+    },
+    "recovery_phrase_read": {
+      "header": "Recovery phrase",
+      "title": "Recovery phrase",
+      "text": "It's very important that you save your 12 words in a safe place and in the order that are shown.",
+      "button_text": "Copy",
+      "button_text_coppied": "Coppied",
+      "coppied_text": "The recovery phrase was copied to the clipboard",
+      "copy_error_text": "The recovery phrase could not be coppied to the clipboard"
+    },
     "home": {
       "available_money": "Available money in wallet",
       "tab_assets": "Assets",
-      "tab_nfts": "NFTs",
+      "tab_nfts": "NFT",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
@@ -1315,15 +1361,16 @@
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy or Sell",
-        "performance_card": "Obtain performance",
-        "title_without_transactions": "Start receiving or buying."
+        "performance_card": "Obtain performance"
       }
     },
     "select_coin": {
       "header": "Create Wallet",
       "title": "Select assets",
       "subtitle": "Choose the assets you want to view in your wallet",
-      "select_all": "Select all currencies"
+      "suite": "Suite",
+      "recordatory": "Remember that to operate on each network you must have its native currency.",
+      "native": "NATIVE"
     },
     "success_creation": {
       "title": "Nice! your wallet is now created and your recovery phrase is verified",
@@ -1465,6 +1512,25 @@
         "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
         "submit_button_text": "Accept",
         "input_label": "Password"
+      },
+      "wallet_password_small": {
+        "title": "For security",
+        "label": "Password",
+        "disclaimer": "The password has to have at least 6 characters, it must contain numbers and letters, at least one uppercase letter and one lowercase letter",
+        "button_text": "Accept",
+        "alert": {
+          "header": "Error",
+          "title": "The password is not correct.",
+          "button_text": "Retry"
+        }
+      },
+      "claim_nft_card": {
+        "base": "Here you can see your NFTs",
+        "title": "Your NTF is waiting for you!",
+        "subtitle": "Claim your NTF of the Commemoration of the Independence of Mexico",
+        "note": "*You will only receive it if you are on the waiting list.",
+        "button_claim": "Claim",
+        "button_claimed": "Requested"
       }
     },
     "asset_detail": {

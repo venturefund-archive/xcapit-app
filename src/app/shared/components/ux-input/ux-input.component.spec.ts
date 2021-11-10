@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UxInputComponent } from './ux-input.component';
-import { FormGroupDirective } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,28 +11,29 @@ import { ClipboardService } from '../../services/clipboard/clipboard.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { By } from '@angular/platform-browser';
 
-describe('UxInputComponent', () => {
+fdescribe('UxInputComponent', () => {
   let component: UxInputComponent;
   let fixture: ComponentFixture<UxInputComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxInputComponent>;
   let clipboardServiceSpy: any;
   let toastServiceSpy: any;
-  let formGroupDirectiveSpy: any;
+  let formGroupDirectiveMock: any;
+  let controlContainerMock: any;
   beforeEach(
     waitForAsync(() => {
       toastServiceSpy = jasmine.createSpyObj('ToastService', { showToast: Promise.resolve() });
       clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
-      formGroupDirectiveSpy = jasmine.createSpyObj(
-        'FormGroupDirective',
-        {},
-        { control: { get: () => ({ value: 'test' }) } }
-      );
+      controlContainerMock = new FormGroup({
+        testControl: new FormControl(),
+      });
+      formGroupDirectiveMock = new FormGroupDirective([], []);
+      formGroupDirectiveMock.form = controlContainerMock;
       TestBed.configureTestingModule({
         declarations: [UxInputComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
-          { provide: FormGroupDirective, useValue: formGroupDirectiveSpy },
+          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
           { provide: ClipboardService, useValue: clipboardServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
         ],
@@ -44,6 +45,7 @@ describe('UxInputComponent', () => {
     fixture = TestBed.createComponent(UxInputComponent);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     component = fixture.componentInstance;
+    component.controlName = 'testControl';
 
     fixture.detectChanges();
   });
@@ -59,6 +61,7 @@ describe('UxInputComponent', () => {
   });
 
   it('should call write with dataInput when copyToClipboard is called', async () => {
+    component.control.patchValue('test');
     const expectedArg = { url: 'test' };
     fixture.detectChanges();
     component.copyToClipboard();
@@ -81,5 +84,13 @@ describe('UxInputComponent', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should disable Copy button when input is empty', () => {
+    component.copyType = true;
+    component.control.patchValue('');
+    fixture.detectChanges();
+    const nextButton = fixture.debugElement.query(By.css('ion-button[name="Copy"]'));
+    expect(nextButton.properties.disabled).toBeTruthy();
   });
 });
