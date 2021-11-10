@@ -17,11 +17,11 @@ const { Browser } = Plugins;
         <div class="app_header_register">
           <div class="app_header_register__content">
             <div class="app_header_register__content__app_xcapit_logo">
-              <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
+              <app-xcapit-logo></app-xcapit-logo>
             </div>
           </div>
         </div>
-        <div class="register_title">
+        <div class="ux-font-text-xl register_title">
           <app-ux-title>
             {{ 'usuarios.register.card_header' | translate }}
           </app-ux-title>
@@ -42,7 +42,7 @@ const { Browser } = Plugins;
                 type="button"
                 appTrackClick
                 name="Open TOS"
-                class="ux-font-text-xs tos-text__button ux_button"
+                class="ux-link-xl tos-text__button"
                 (click)="openTOS()"
               >
                 {{ 'usuarios.register.link_tos' | translate }}
@@ -64,16 +64,14 @@ const { Browser } = Plugins;
               {{ 'usuarios.register.submit_button' | translate }}
             </ion-button>
           </div>
-          <div class="ux-font-text-xs auth-link ion-text-right ion-padding-top">
-            {{ 'usuarios.register.have_an_account' | translate }}
+          <div class="ux-link-xl auth-link">
             <ion-button
               fill="clear"
-              size="small"
               type="button"
               appTrackClick
               name="Go To Login"
               (click)="this.goToLogin()"
-              class="main__back_login__button ux_button"
+              class="ux-link-xl main__back_login__button"
             >
               {{ 'usuarios.register.back_login' | translate }}
             </ion-button>

@@ -133,9 +133,8 @@
       "referral_code_text": "Código de Referido",
       "manual_referral": "Ingresar código de referido",
       "referral_code_label": "Código de referido",
-      "have_an_account": "¿Ya tienes una cuenta?",
-      "back_login": "Inicia sesión",
-      "accept_tos": "Acepto los",
+      "back_login": "¿Ya tienes cuenta? Ingresa a Xcapit",
+      "accept_tos": "Acepto",
       "link_tos": "Términos y condiciones",
       "waiting_list_alert": {
         "alert_header": "¿Quieres probar la App?",
