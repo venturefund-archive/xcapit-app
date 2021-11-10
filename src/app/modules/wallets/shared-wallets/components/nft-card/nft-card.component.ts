@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-nft-card',
   template: `
-    <div (click)="this.goToDetail()">
+    <div name="Go To Detail" (click)="this.goToDetail()">
       <div class="nv ion-padding">
         <img class="nv__img" [src]="this.data?.image" />
         <div class="nv__content">
@@ -17,9 +18,11 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class NftCardComponent implements OnInit {
   @Input() data;
-  constructor() {}
+  constructor(private navContrller: NavController) {}
 
   ngOnInit() {}
 
-  goToDetail() {}
+  goToDetail() {
+    this.navContrller.navigateForward(['/wallets/nft-detail']);
+  }
 }

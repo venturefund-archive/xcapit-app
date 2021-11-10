@@ -59,7 +59,7 @@ import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface
       </div>
 
       <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
-        <div class="wt__nfts__content segment-content">
+        <div class="wt__nfts__content">
           <app-claim-nft-card
             [nftStatus]="this.nftStatus"
             (nftRequest)="this.createNFTRequest()"
