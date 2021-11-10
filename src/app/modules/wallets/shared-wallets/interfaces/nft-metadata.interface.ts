@@ -5,4 +5,5 @@ export interface NFTMetadata {
   name: string;
   image: string;
   attributes: NFTAttribute[];
+  tokenID: number;
 }

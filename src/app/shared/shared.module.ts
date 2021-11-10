@@ -65,6 +65,7 @@ import { NftCardComponent } from '../modules/wallets/shared-wallets/components/n
     ToastAlertComponent,
     ScanQrModalComponent,
     EmbedVideoComponent,
+
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
