@@ -1,6 +1,6 @@
 {
-  "appId": "com.xcapit.app",
-  "appName": "xcapit",
+  "appId": "com.xcapit.iosapp",
+  "appName": "Xcapit",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "www",
