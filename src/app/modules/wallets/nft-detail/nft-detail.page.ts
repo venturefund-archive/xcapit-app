@@ -48,21 +48,21 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
             <div>
               <form [formGroup]="this.form" class="ux_main">
                 <app-ux-input
-                  label="wallets.nft_detail.label_input1"
+                  [label]="'wallets.nft_detail.label_input1' | translate"
                   controlName="contractAddress"
                   [readonly]="true"
                   [copyType]="true"
                   inputmode="text"
                 ></app-ux-input>
                 <app-ux-input
-                  label="wallets.nft_detail.label_input2"
+                  [label]="'wallets.nft_detail.label_input2' | translate"
                   controlName="tokenID"
                   [readonly]="true"
                   [copyType]="true"
                   inputmode="text"
                 ></app-ux-input>
                 <app-ux-input
-                  label="wallets.nft_detail.label_input3"
+                  [label]="'wallets.nft_detail.label_input3' | translate"
                   leftIcon="assets/img/prueba/polygon.svg"
                   controlName="blockchain"
                   [readonly]="true"

@@ -8,7 +8,7 @@ import { ToastService } from '../../services/toast/toast.service';
   selector: 'app-ux-input',
   template: `
     <div class="ux_input_container">
-      <ion-label class="ux-font-input-label">{{ this.label | translate }}</ion-label>
+      <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
       <ion-item class="ux_input_container__item ux-font-text-xs">
         <img class="ux_input_container__item__image" [src]="this.leftIcon" />
         <ion-input
