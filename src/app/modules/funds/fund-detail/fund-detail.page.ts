@@ -51,7 +51,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <!-- Fund Performance Chart Card -->
       <div class="fd__fund-performance-chart-card" *ngIf="this.isChart">
         <div class="fd__fund-performance-chart-card__title">
-          <ion-text class="ux-font-subheading">
+          <ion-text class="ux-font-text-lg">
             {{ 'funds.fund_detail.performance_chart_card.title' | translate }}
           </ion-text>
         </div>
@@ -79,7 +79,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <!-- Fund Metrics Card -->
       <div class="fd__fund-metrics-card">
         <div class="fd__fund-metrics-card__title">
-          <ion-text class="ux-font-subheading">
+          <ion-text class="ux-font-text-lg">
             {{ 'funds.fund_detail.fund_metrics_card.title' | translate }}
           </ion-text>
         </div>
@@ -94,7 +94,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <!-- Fund Portfolio Card -->
       <div class="fd__fund-portfolio-card">
         <div class="fd__fund-portfolio-card__title">
-          <ion-text class="ux-font-subheading">
+          <ion-text class="ux-font-text-lg">
             {{ 'funds.fund_detail.fund_portfolio_card.title' | translate }}
           </ion-text>
         </div>
@@ -110,7 +110,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
       <!-- Fund Timeline Card -->
       <div class="fd__fund-operations-history-card" *ngIf="this.fundTimeline">
         <div class="fd__fund-operations-history-card__title">
-          <ion-text class="ux-font-subheading">
+          <ion-text class="ux-font-text-lg">
             {{ 'funds.fund_detail.operations_history_card.title' | translate }}
           </ion-text>
         </div>
