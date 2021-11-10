@@ -1,17 +1,21 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
+import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { NftCardComponent } from './nft-card.component';
 
 describe('NftCardComponent', () => {
   let component: NftCardComponent;
   let fixture: ComponentFixture<NftCardComponent>;
+  let navControllerSpy: any;
 
   beforeEach(
     waitForAsync(() => {
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [NftCardComponent],
         imports: [IonicModule.forRoot()],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(NftCardComponent);
@@ -37,5 +41,11 @@ describe('NftCardComponent', () => {
     expect(imageEl.attributes.src).toEqual(component.data.image);
     expect(titleEl.nativeElement.innerHTML).toContain(component.data.name);
     expect(descriptionEl.nativeElement.innerHTML).toContain(component.data.description);
+  });
+
+  it('should navigate when goToDetail is called', async () => {
+    const goToDetailEl = fixture.debugElement.query(By.css("div[name='Go To Detail']"));
+    goToDetailEl.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/nft-detail']);
   });
 });
