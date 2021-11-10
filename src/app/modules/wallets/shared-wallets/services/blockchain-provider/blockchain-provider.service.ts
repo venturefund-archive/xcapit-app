@@ -56,8 +56,13 @@ export class BlockchainProviderService {
 
   async estimateFee(rawTx: ethers.utils.Deferrable<TransactionRequest>, currency: Coin): Promise<BigNumber> {
     const provider = await this.getProvider(currency.value);
-    const estimatedGas = await provider.provider.estimateGas(rawTx);
     const gasPrice = await provider.provider.getGasPrice();
-    return Promise.resolve(estimatedGas.mul(gasPrice));
+
+    try {
+      const estimatedGas = await provider.provider.estimateGas(rawTx);
+      return Promise.resolve(estimatedGas.mul(gasPrice));
+    } catch (e) {
+      return Promise.resolve(BigNumber.from(0));
+    }
   }
 }
