@@ -121,7 +121,7 @@ const { Browser } = Plugins;
       </div>
       <!-- Slider News -->
       <div class="academy ion-padding" *ngIf="this.news">
-        <div class="ux-font-text-xxs">
+        <div class="ux-font-text-lg">
           <ion-label color="uxsemidark">{{ 'funds.funds_list.news_title' | translate }}</ion-label>
         </div>
         <app-slider-news [news]="this.news"></app-slider-news>
