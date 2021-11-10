@@ -25,10 +25,10 @@
     &__button {
       float: right;
       height: auto;
-      font-size: var(--ux-fsize-14);
       min-width: 0px;
       margin: 0;
       --padding-start: 0.35em;
+      text-decoration: underline var(--ion-color-info);
 
       .button-native {
         padding-right: 0 !important;
@@ -48,17 +48,7 @@
       justify-content: center;
 
       &__app_xcapit_logo {
-        align-self: flex-start;
-        margin-left: 16px;
         margin-top: 48px;
-        width: 30%;
-        max-width: 400px;
-        min-width: 100px;
-
-        img {
-          width: 100%;
-          max-width: 200px;
-        }
       }
     }
   }
@@ -69,6 +59,8 @@
   }
 
   .auth-link {
+    text-decoration: underline var(--ion-color-info);
+    margin-top: 57px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,11 +68,7 @@
 
   .main {
     &__back_login__button {
-      float: right;
-      height: auto;
-      font-size: var(--ux-fsize-14);
-      min-width: 0px;
-      margin: 0;
+      text-decoration: underline var(--ion-color-info);
       .button-native {
         padding-right: 0 !important;
       }

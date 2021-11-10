@@ -133,9 +133,8 @@
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
       "referral_code_label": "Referral code",
-      "have_an_account": "Already have an account?",
-      "back_login": "Sign in",
-      "accept_tos": "I agree the",
+      "back_login": "Already have account? Sign in to Xcapit",
+      "accept_tos": "I agree",
       "link_tos": "Terms and conditions",
       "waiting_list_alert": {
         "alert_header": "Do you want to try the App?",
