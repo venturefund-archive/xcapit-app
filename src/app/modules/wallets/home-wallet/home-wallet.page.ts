@@ -122,10 +122,7 @@ export class HomeWalletPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    if (!this.alreadyInitialized) {
-      this.alreadyInitialized = true;
-      this.encryptedWalletExist();
-    }
+    this.encryptedWalletExist();
     this.getNFTStatus();
     this.getNFTInfo();
   }
@@ -159,7 +156,8 @@ export class HomeWalletPage implements OnInit {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
 
-      if (res) {
+      if (!this.alreadyInitialized && res) {
+        this.alreadyInitialized = true;
         this.balances = [];
         this.getAllPrices();
       }
@@ -202,7 +200,10 @@ export class HomeWalletPage implements OnInit {
           .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
           .toPromise()
           .then((res) => (this.allPrices = res))
-          .finally(() => this.getWalletsBalances());
+          .finally(async () => {
+            this.getWalletsBalances();
+            this.alreadyInitialized = false;
+          });
       });
     });
   }
