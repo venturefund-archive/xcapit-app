@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ComingSoonPage } from './coming-soon.page';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedWalletsModule } from '../shared-wallets/shared-wallets.module';
+import { SharedWalletsModule } from '../../shared-wallets/shared-wallets.module';
 
 const routes: Routes = [
   {

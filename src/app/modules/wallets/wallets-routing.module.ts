@@ -134,8 +134,14 @@ const routes: Routes = [
         loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
       },
       {
-        path: 'coming-soon',
-        loadChildren: () => import('./coming-soon/coming-soon.module').then((m) => m.ComingSoonPageModule),
+        path: 'investments',
+        children: [
+          {
+            path: 'coming-soon',
+            loadChildren: () =>
+              import('./investments/coming-soon/coming-soon.module').then((m) => m.ComingSoonPageModule),
+          },
+        ],
       },
     ],
   },

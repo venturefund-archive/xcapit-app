@@ -5,12 +5,16 @@
     box-shadow: none;
     background-position-x: calc(100% + 8px);
     height: 116px;
-    border: 1px solid var(--ion-color-uxprimary);
+    border: 1px solid var(--ion-color-uxmedium);
 
     &__title {
+      width: 80%;
     }
 
     &__link {
+      ion-button {
+        margin-left: 0;
+      }
     }
   }
 }

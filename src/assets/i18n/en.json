@@ -1495,6 +1495,10 @@
       }
     },
     "shared_wallets": {
+      "start_investing_card": {
+        "title": "Invest your cryptos now and get daily profit",
+        "text": "Start investing"
+      },
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "scan_unauthorized": "You have no permission to scan"

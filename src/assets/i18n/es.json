@@ -1500,6 +1500,10 @@
       }
     },
     "shared_wallets": {
+      "start_investing_card": {
+        "title": "Invierte tus cripto ahora y obtén ganancias diarias",
+        "text": "Comenzar a invertir"
+      },
       "address_input_card": {
         "scan_error": "Error al escanear el código QR",
         "scan_unauthorized": "No tienes permiso para escanear"
