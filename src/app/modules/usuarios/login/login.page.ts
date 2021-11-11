@@ -10,6 +10,7 @@ import { Plugins } from '@capacitor/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
@@ -98,6 +99,7 @@ import { NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
   googleAuthPlugin: any = Plugins.GoogleAuth;
+  alreadyOnboarded: boolean;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -106,10 +108,15 @@ export class LoginPage implements OnInit {
     private loadingService: LoadingService,
     private notificationsService: NotificationsService,
     private localNotificationsService: LocalNotificationsService,
-    private navController: NavController
+    private navController: NavController,
+    private storage: Storage
   ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.storage.get('FINISHED_ONBOARDING').then((res) => (this.alreadyOnboarded = res));
+  }
 
   async googleSingUp() {
     let googleUser;
@@ -157,7 +164,7 @@ export class LoginPage implements OnInit {
         break;
       }
       case UserStatus.BEGINNER: {
-        url = ['tutorials/first-steps'];
+        url = this.alreadyOnboarded ? ['tabs/home'] : ['tutorials/first-steps'];
         break;
       }
       default: {

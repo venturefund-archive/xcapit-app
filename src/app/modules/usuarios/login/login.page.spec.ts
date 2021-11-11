@@ -15,6 +15,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-d
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { Storage } from '@ionic/storage';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 
 describe('LoginPage', () => {
@@ -29,6 +30,7 @@ describe('LoginPage', () => {
   let notificationsServiceSpy: any;
   let pwaNotificationServiceSpy: any;
   let localNotificationServiceSpy: any;
+  let storageSpy: jasmine.SpyObj<Storage>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   const formData = {
     valid: {
@@ -60,6 +62,10 @@ describe('LoginPage', () => {
         signIn: Promise.resolve({ authentication: { idToken: '' } }),
       });
 
+      storageSpy = jasmine.createSpyObj('Storage', {
+        get: Promise.resolve(true),
+      });
+
       pwaNotificationServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
       notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
         getInstance: pwaNotificationServiceSpy,
@@ -75,6 +81,7 @@ describe('LoginPage', () => {
           { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
           { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
+          { provide: Storage, useValue: storageSpy },
           { provide: LoadingService, useValue: loadingServiceSpy },
         ],
       }).compileComponents();
@@ -116,22 +123,29 @@ describe('LoginPage', () => {
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   }));
 
-  it('should redirect to fund list when status is COMPLETE', () => {
+  it('should redirect to gome when status is COMPLETE', () => {
     const url = component.getUrlByStatus('COMPLETE');
     expect(url).toEqual(['tabs/home']);
   });
 
-  it('should redirect to fund list when status is CREATOR', () => {
+  it('should redirect to home when status is CREATOR', () => {
     const url = component.getUrlByStatus('CREATOR');
     expect(url).toEqual(['tabs/home']);
   });
 
-  it('should redirect to fund list when status is EXPLORER', () => {
+  it('should redirect to home when status is EXPLORER', () => {
     const url = component.getUrlByStatus('EXPLORER');
     expect(url).toEqual(['tabs/home']);
   });
 
-  it('should redirect to first steps when status is BEGINNER', () => {
+  it('should redirect to first steps when status is BEGINNER and the user is not already onboarded', () => {
+    component.alreadyOnboarded = false;
+    fixture.detectChanges();
+    const url = component.getUrlByStatus('BEGINNER');
+    expect(url).toEqual(['tutorials/first-steps']);
+  });
+
+  it('should redirect to home when status is BEGINNER and user is already onboarded', () => {
     const url = component.getUrlByStatus('BEGINNER');
     expect(url).toEqual(['tutorials/first-steps']);
   });
