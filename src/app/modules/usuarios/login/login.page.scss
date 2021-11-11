@@ -14,10 +14,12 @@
       display: flex;
       justify-content: center;
       margin-top: 24px;
+      text-decoration: underline var(--ion-color-info);
     }
 
     &__go_to_register {
       margin-top: 24px;
+      text-decoration: underline var(--ion-color-info);
     }
   }
 

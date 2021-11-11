@@ -44,26 +44,26 @@ import { NavController } from '@ionic/angular';
         <div class="auth-link main__go_to_register ion-text-center">
           <ion-button
             appTrackClick
-            class="ux-font-text-ls"
             name="Go To Register"
             fill="clear"
             size="large"
             expand="block"
             type="button"
             (click)="this.goToRegister()"
-            class="ux_button"
+            class="ux-link-xl"
           >
             {{ 'usuarios.login.register_link' | translate }}
           </ion-button>
         </div>
         <div class="auth-link-reset-password main__reset_password">
           <ion-button
-            class="main__reset_password__button ux_button ux-link-xs"
+            class="main__reset_password__button ux-link-xs"
             appTrackClick
             name="Reset Password"
             fill="clear"
             size="small"
             type="button"
+            color="info"
             (click)="this.goToResetPassword()"
           >
             {{ 'usuarios.login.reset_password_link' | translate }}
