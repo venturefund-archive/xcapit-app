@@ -114,12 +114,11 @@
       "ok_text": "Email Verificado correctamente!"
     },
     "login": {
-      "email_placeholder_label": "email@ejemplo.com",
       "password_label": "Contraseña",
-      "register_link": "Crear nueva cuenta",
+      "register_link": "¿No tienes cuenta? Crea una",
       "reset_password_link": "Olvidé mi contraseña",
-      "login_button_text": "Iniciar sesión",
-      "title": "Iniciar sesión",
+      "login_button_text": "Ingresar",
+      "title": "Ingresar",
       "google_auth": "Ingresa con Google",
       "or_text": "o"
     },
