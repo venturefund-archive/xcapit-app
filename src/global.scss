@@ -413,13 +413,9 @@ ion-toast.refresher_toast {
 
   .recovery-phrase-password-modal {
     .modal-wrapper {
-      margin-top: 330px;
-      --height: 350px;
-      background-color: var(--ion-background-colorwhite);
-
-      .ion-page {
-        padding-bottom: 60px;
-      }
+      position: absolute;
+      height: 330px !important;
+      top: calc(100% - (330px));
     }
   }
 
