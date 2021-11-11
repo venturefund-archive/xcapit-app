@@ -116,6 +116,7 @@ export class CreatePasswordPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
   }
 
