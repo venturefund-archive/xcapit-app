@@ -127,7 +127,6 @@ export class HomeWalletPage implements OnInit {
       this.encryptedWalletExist();
     }
     this.getNFTStatus();
-    this.getNFTInfo();
   }
 
   getNFTStatus() {
@@ -162,6 +161,7 @@ export class HomeWalletPage implements OnInit {
       if (res) {
         this.balances = [];
         this.getAllPrices();
+        this.getNFTInfo();
       }
     });
   }
