@@ -82,11 +82,10 @@ import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
           (click)="this.goToRecoveryWallet()"
-          class="ux-font-text-xs"
+          class="ux-font-text-ls"
           appTrackClick
           name="Import Wallet"
           type="button"
-          color="uxsecondary"
           fill="clear"
         >
           {{ 'wallets.home.wallet_recovery' | translate }}
