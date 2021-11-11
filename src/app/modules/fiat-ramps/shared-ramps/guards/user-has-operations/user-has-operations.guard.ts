@@ -6,21 +6,16 @@ import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserHasOperationsGuard implements CanActivate {
-  constructor(
-    private fiatRamps: FiatRampsService,
-    private navController: NavController
-  ) {}
+  constructor(private fiatRamps: FiatRampsService, private navController: NavController) {}
 
   canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | boolean {
     return this.fiatRamps.userHasOperations().pipe(
-      map(res => {
+      map((res) => {
         if (!res.user_has_operations) {
-          this.navController.navigateForward(['/fiat-ramps/select-provider'], {
-            replaceUrl: true
-          });
+          this.navController.navigateForward(['/fiat-ramps/select-provider']);
         }
         return res.user_has_operations;
       })
