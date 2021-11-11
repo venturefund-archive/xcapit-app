@@ -16,7 +16,6 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           type="email"
           inputmode="email"
           label="Email"
-          [placeholder]="'usuarios.login.email_placeholder_label' | translate"
           [errors]="this.emailErrors"
           aria-label="email"
           tabindex="0"
@@ -31,8 +30,6 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           aria-label="password"
           tabindex="1"
         ></app-ux-input>
-
-        <ng-content select=".auth-link-reset-password"></ng-content>
 
         <app-ux-checkbox
           *ngIf="!this.isLogin"
@@ -57,6 +54,8 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
         </ion-item>
 
         <ng-content select=".auth-button"></ng-content>
+
+        <ng-content select=".auth-link-reset-password"></ng-content>
 
         <ng-content select=".auth-link"></ng-content>
       </form>
