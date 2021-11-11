@@ -78,11 +78,10 @@ import { NgModuleFactory } from '@angular/core/src/r3_symbols';
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
           (click)="this.goToRecoveryWallet()"
-          class="ux-font-text-xs"
+          class="ux-font-text-ls"
           appTrackClick
           name="Import Wallet"
           type="button"
-          color="uxsecondary"
           fill="clear"
         >
           {{ 'wallets.home.wallet_recovery' | translate }}
