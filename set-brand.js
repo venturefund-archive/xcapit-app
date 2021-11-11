@@ -25,12 +25,12 @@ const brands = {
     manifest: {
       name: 'xcapit',
       shortName: 'xcapit',
-      themeColor: '#393a3e',
-      backgroundColor: '#fef6e9',
+      themeColor: '#1c2d5e',
+      backgroundColor: '#1c2d5e',
     },
     index: {
       title: 'xcapit',
-      themeColor: '#393a3e',
+      themeColor: '#1c2d5e',
     },
     capacitorConfig: {
       appId: 'com.xcapit.app',
