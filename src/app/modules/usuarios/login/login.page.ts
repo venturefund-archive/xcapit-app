@@ -128,17 +128,20 @@ export class LoginPage implements OnInit {
   }
 
   loginUser(data: any) {
-    this.apiUsuarios.login(data).subscribe(() => this.success());
+    this.loadingService.show().then(() => {
+      this.apiUsuarios.login(data).subscribe(() => this.success());
+    });
   }
 
   private async success() {
-    this.loadingService.enabled();
     this.loginForm.form.reset();
     this.notificationsService.getInstance().init();
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
+    } else {
+      await this.loadingService.dismiss();
     }
   }
 
@@ -171,7 +174,7 @@ export class LoginPage implements OnInit {
 
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.status_name);
-    this.navController.navigateForward(url).then(() => this.loadingService.disabled());
+    this.navController.navigateForward(url).then(() => this.loadingService.dismiss());
   }
 
   async goToResetPassword() {
