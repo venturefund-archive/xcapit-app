@@ -964,22 +964,19 @@
     },
     "first_steps": {
       "step1": {
-        "primary_text": "Bienvenido a Xcapit",
-        "secondary_text": "Tu cuenta digital para todas tus necesidades en criptomonedas.",
-        "next_button": "Siguiente"
+        "primary_text": "¡Te damos la bienvenida!",
+        "secondary_text": "Con la Wallet de Xcapit solo tu tienes el control en todo momento sabrás donde esta tu dinero y cuanta ganacia te genera"
       },
       "step2": {
-        "primary_text": "Ya eres parte del futuro",
-        "secondary_text": "Elige entre múltiples opciones para invertir en simples pasos.",
-        "next_button": "Siguiente",
-        "back_button": "Anterior"
+        "primary_text": "Un viaje largo empieza con un  primer paso",
+        "secondary_text": "Planifica y cumple tus metas.\nTe ayudamos a establecer tus objetivos y conseguir la mejor manera de lograrlos de formar simple y segura"
       },
       "step3": {
-        "primary_text": "Tu dinero, tu custodia",
-        "secondary_text": "Trabajamos con Binance, el exchange de criptomonedas más seguro del mundo. Nuestros algoritmos operan sobre tu cuenta, y sólo tu tienes acceso de retiros de capital.",
-        "back_button": "Anterior",
-        "config_button": "Comenzar"
-      }
+        "primary_text": "La competencia es contigo mismo",
+        "secondary_text": "¡Aprende finanzas jugando! Mejora tu educación financiera, aprende jugando y recibe insentivos en base a tu crecimiento y evolución"
+      },
+      "skip_button": "Saltar",
+      "finish_button": "Comenzar"
     }
   },
   "subscriptions": {

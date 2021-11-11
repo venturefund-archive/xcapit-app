@@ -6,15 +6,12 @@ import { SharedTutorialsModule } from '../shared-tutorials/shared-tutorials.modu
 const routes: Routes = [
   {
     path: '',
-    component: FirstStepsPage
-  }
+    component: FirstStepsPage,
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    SharedTutorialsModule
-  ],
-  declarations: [FirstStepsPage]
+  imports: [RouterModule.forChild(routes), SharedTutorialsModule],
+  declarations: [FirstStepsPage],
 })
-export class   FirstStepsPageModule {}
+export class FirstStepsPageModule {}
