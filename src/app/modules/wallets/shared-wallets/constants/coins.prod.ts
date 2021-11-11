@@ -6,15 +6,15 @@ import uniAbi from './assets-abi-prod/uni-abi-prod.json';
 import usdtAbi from './assets-abi-prod/usdt-abi-prod.json';
 import rifAbi from './assets-abi-prod/rif-abi-prod.json';
 import sovAbi from './assets-abi-prod/sov-abi-prod.json';
-import bnbAbi from './assets-abi-prod/bnb-abi.json';
-import lunaAbi from './assets-abi-prod/luna-abi.json';
-import axsAbi from './assets-abi-prod/axs-abi.json';
-import manaAbi from './assets-abi-prod/mana-abi.json';
-import sushiAbi from './assets-abi-prod/sushi-abi.json';
-import compoundAbi from './assets-abi-prod/compound-abi.json';
-import zilliqaAbi from './assets-abi-prod/zilliqa-abi.json';
-import enjAbi from './assets-abi-prod/enj-abi.json';
-import batAbi from './assets-abi-prod/bat-abi.json';
+import bnbAbi from './assets-abi-prod/bnb-abi-prod.json';
+import lunaAbi from './assets-abi-prod/luna-abi-prod.json';
+import axsAbi from './assets-abi-prod/axs-abi-prod.json';
+import manaAbi from './assets-abi-prod/mana-abi-prod.json';
+import sushiAbi from './assets-abi-prod/sushi-abi-prod.json';
+import compoundAbi from './assets-abi-prod/compound-abi-prod.json';
+import zilliqaAbi from './assets-abi-prod/zilliqa-abi-prod.json';
+import enjAbi from './assets-abi-prod/enj-abi-prod.json';
+import batAbi from './assets-abi-prod/bat-abi-prod.json';
 
 export const PROD_COINS: Coin[] = [
   {
