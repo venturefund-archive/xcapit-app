@@ -41,18 +41,8 @@ const appPages = [
     routeDirection: 'forward',
     showInProd: true,
   },
-
   {
     id: 4,
-    name: 'DepositAddress',
-    title: 'app.main_menu.deposit_address',
-    url: '/deposits/currency',
-    icon: 'ux-book-icon',
-    routeDirection: 'forward',
-    showInProd: true,
-  },
-  {
-    id: 5,
     name: 'Support',
     title: 'app.main_menu.help',
     url: '/support/options',
@@ -61,7 +51,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 6,
+    id: 5,
     name: 'RecoveryPhrase',
     title: 'app.main_menu.recovery_phrase',
     url: '/wallets/recovery/info',
@@ -70,7 +60,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 7,
+    id: 6,
     name: 'BuyCrypto',
     title: 'fiat_ramps.operations_list.header',
     url: '/fiat-ramps/operations',
@@ -79,7 +69,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 8,
+    id: 7,
     name: 'PasswordChange',
     title: 'app.main_menu.password_change',
     url: '/users/password-change',
@@ -88,7 +78,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 9,
+    id: 8,
     name: 'Referrals',
     title: 'app.main_menu.referrals',
     url: '/referrals/summary',
@@ -97,7 +87,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 10,
+    id: 9,
     name: 'Notifications',
     title: 'app.main_menu.notifications',
     url: '/notifications/list',
@@ -106,7 +96,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 11,
+    id: 10,
     name: 'ApiKeysList',
     title: 'app.main_menu.api_keys_managment',
     url: '/apikeys/list',
@@ -115,7 +105,7 @@ const appPages = [
     showInProd: true,
   },
   {
-    id: 12,
+    id: 11,
     name: 'Payments',
     title: 'app.main_menu.payment',
     url: '/payment/select-license',
@@ -209,7 +199,7 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(14);
+    expect(elms.length).toBe(13);
   });
 
   it('should show menu-item when "env" is PREPROD', () => {
@@ -217,7 +207,7 @@ describe('MainMenuPage', () => {
     component.env = 'PREPROD';
     fixture.detectChanges();
     const items = fixture.debugElement.queryAll(By.css('.menu-item'));
-    expect(items.length).toBe(14);
+    expect(items.length).toBe(13);
   });
 
   it('should show menu-item when "showInProd" is true and "env" is "PRODUCCION"', () => {
@@ -225,7 +215,7 @@ describe('MainMenuPage', () => {
     component.env = 'PRODUCCION';
     fixture.detectChanges();
     const items = fixture.debugElement.queryAll(By.css('.menu-item'));
-    expect(items.length).toBe(13);
+    expect(items.length).toBe(12);
   });
 
   it('should open modal when buyCrypto is clicked and there are no apikeys neither fiat-ramps operations', async () => {
