@@ -33,8 +33,4 @@ export class SupportWalletPage implements OnInit {
   constructor() {}
 
   ngOnInit() {}
-
-  goToWalletInfo() {
-    console.log('hahahaahaahah');
-  }
 }
