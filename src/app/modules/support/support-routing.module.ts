@@ -43,6 +43,24 @@ const routes: Routes = [
             (m) => m.SupportApikeyBinancePageModule
           ),
       },
+      {
+        path: 'wallet-info',
+        loadChildren: () =>
+          import('./wallet-terms-options/wallet-terms-options.module').then((m) => m.WalletTermsOptionsPageModule),
+      },
+      {
+        path: 'wallet-info',
+        children: [
+          {
+            path: 'terms',
+            loadChildren: () => import('./wallet-terms/wallet-terms.module').then((m) => m.WalletTermsPageModule),
+          },
+          {
+            path: 'privacy',
+            loadChildren: () => import('./wallet-privacy/wallet-privacy.module').then((m) => m.WalletPrivacyPageModule),
+          },
+        ],
+      },
     ],
   },
 ];

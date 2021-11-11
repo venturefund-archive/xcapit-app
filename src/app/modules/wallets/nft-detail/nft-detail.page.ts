@@ -34,7 +34,7 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
               {{ 'wallets.nft_detail.label1' | translate }}
             </ion-text>
             <div class="nd__creator__logo_and_name">
-              <img class="nd__creator__image" src="assets/img/prueba/xcapit.png" alt="" />
+              <img class="nd__creator__image" src="assets/img/nft-detail/xcapit.png" alt="" />
               <ion-text class="nd__creator__name ux-font-text-xs">
                 {{ 'Xcapit' }}
               </ion-text>
@@ -63,7 +63,7 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
                 ></app-ux-input>
                 <app-ux-input
                   [label]="'wallets.nft_detail.label_input3' | translate"
-                  leftIcon="assets/img/prueba/polygon.svg"
+                  leftIcon="assets/img/nft-detail/polygon.svg"
                   controlName="blockchain"
                   [readonly]="true"
                   [copyType]="false"
