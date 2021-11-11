@@ -114,9 +114,8 @@
       "ok_text": "Email Verificado correctamente!"
     },
     "login": {
-      "email_placeholder_label": "email@example.com",
       "password_label": "Password",
-      "register_link": "Create new account",
+      "register_link": "Do not have an account? Create one",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
       "title": "Login",
