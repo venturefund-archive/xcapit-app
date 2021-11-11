@@ -17,7 +17,7 @@ import { LocalNotificationsService } from '../../notifications/shared-notificati
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 
-fdescribe('LoginPage', () => {
+describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let apiUsuariosSpy: any;
