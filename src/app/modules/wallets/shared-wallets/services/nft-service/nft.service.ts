@@ -65,9 +65,19 @@ export class NftService {
       .then((formattedList) => {
         if (formattedList.length > 0) {
           return contract.tokenURI(formattedList[0]).then((metadataURL) => {
-            return this.getMetadata(metadataURL).toPromise();
+            return this.getMetadata(metadataURL)
+              .toPromise()
+              .then((metadata) => {
+                return this.NFTMetadataResponse(metadata, formattedList[0]);
+              });
           });
         }
       });
+  }
+
+  private NFTMetadataResponse(metadata: any, tokenID: number) {
+    const res = metadata;
+    res.tokenID = tokenID;
+    return Promise.resolve(res);
   }
 }

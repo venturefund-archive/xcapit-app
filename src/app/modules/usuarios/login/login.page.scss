@@ -1,52 +1,30 @@
 :host {
   justify-content: flex-start !important;
-
-  .app_header_trama {
-    height: calc(100vh - 63%);
-    width: 100%;
-    flex: none;
-
-    &__content {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      &__app_language_button {
-        position: absolute;
-        top: 38px;
-        right: 16px;
-      }
-
-      &__app_xcapit_logo {
-        align-self: flex-start;
-        margin-left: 16px;
-        margin-top: 48px;
-        width: 30%;
-        max-width: 400px;
-        min-width: 100px;
-      }
-    }
+  .xcapit-logo {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+    height: 56px;
   }
 
   .main {
     margin-top: 8px;
     overflow: auto;
     &__reset_password__button {
-      float: right;
-      height: auto;
-      .button-native {
-        padding-right: 0 !important;
-      }
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+      text-decoration: underline var(--ion-color-info);
     }
 
     &__go_to_register {
-      margin-top: 8px;
+      margin-top: 24px;
+      text-decoration: underline var(--ion-color-info);
     }
   }
 
   .auth-button {
-    margin-top: 63px;
+    margin-top: 24px;
   }
 
   .login_title {

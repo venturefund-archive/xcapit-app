@@ -22,7 +22,7 @@ import { NavController } from '@ionic/angular';
             <app-ux-title>{{ 'funds.fund_name.title' | translate }}</app-ux-title>
           </div>
           <div class="fn__text_before">
-            <app-ux-text class="text">
+            <app-ux-text class="ux-font-header-titulo">
               {{ 'funds.fund_name.text_before' | translate }}
             </app-ux-text>
           </div>

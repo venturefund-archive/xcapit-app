@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { ClipboardService } from '../../services/clipboard/clipboard.service';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-ux-input',
@@ -7,6 +10,7 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
     <div class="ux_input_container">
       <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
       <ion-item class="ux_input_container__item ux-font-text-xs">
+        <img class="ux_input_container__item__image" [src]="this.leftIcon" />
         <ion-input
           #inputRegister
           [ngClass]="{ 'google-place-input': this.type === 'google-places' }"
@@ -33,8 +37,20 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
           class="ux_input_container__item__eye_icon"
           (click)="this.togglePasswordMode()"
         >
-          <ion-icon [name]="this.typeSetted === 'text' ? 'eye' : 'eye-off'"></ion-icon>
+          <ion-icon [name]="this.typeSetted === 'text' ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
         </button>
+        <ion-button
+          appTrackClick
+          name="Copy"
+          [disabled]="!this.control.value"
+          [hidden]="!this.copyType"
+          item-end
+          type="button"
+          class="ux_input_container__item__copy_icon"
+          (click)="this.copyToClipboard()"
+        >
+          <img src="assets/img/prueba/copy.svg" />
+        </ion-button>
       </ion-item>
       <app-errors-form-item
         class="ux_input_container__item__errors"
@@ -60,6 +76,9 @@ export class UxInputComponent implements OnInit {
   @Input() placeholder: string;
   @Input() maxlength: any;
   @Input() readonly = false;
+  @Input() copyType = false;
+  @Input() leftIcon = '';
+
   typeSetted: string;
   passwordType: boolean;
   @ViewChild('inputRegister', { read: ElementRef, static: true })
@@ -67,24 +86,36 @@ export class UxInputComponent implements OnInit {
 
   control: AbstractControl;
 
-  constructor(private form: FormGroupDirective) {}
+  constructor(
+    private formGroupDirective: FormGroupDirective,
+    private clipboardService: ClipboardService,
+    private toastService: ToastService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.typeSetted = this.type === 'google-places' ? 'text' : this.type;
     this.passwordType = this.typeSetted === 'password';
-    this.control = this.form.control.get(this.controlName);
+    this.control = this.formGroupDirective.form.get(this.controlName);
+  }
+
+  copyToClipboard() {
+    this.clipboardService.write({ url: this.control.value }).then(() => {
+      this.showToast('shared.services.copy.toast_success');
+    });
+  }
+
+  private showToast(text: string) {
+    this.toastService.showToast({
+      message: this.translate.instant(text),
+    });
   }
 
   togglePasswordMode() {
-    // cambiar tipo input
     this.typeSetted = this.typeSetted === 'text' ? 'password' : 'text';
-    // obtener el input
     const nativeEl = this.input.nativeElement.querySelector('input');
-    // obtener el indice de la posición del texto actual en el input
     const inputSelection = nativeEl.selectionStart;
-    // ejecuto el focus al input
     nativeEl.focus();
-    // espero un milisegundo y actualizo la posición del indice del texto
     setTimeout(() => {
       nativeEl.setSelectionRange(inputSelection, inputSelection);
     }, 1);

@@ -162,4 +162,15 @@ describe('BlockchainProviderService', () => {
     const estimatedFee = await service.estimateFee(testTx[1], testCoins[0]);
     expect(estimatedFee).toEqual(expectedFee);
   });
+
+  it('should retun zero fee when estimateGas fails to calculate the fee for tokens', async () => {
+    const gasPrice = 10;
+    const providerSpy = jasmine.createSpyObj('Provider', {
+      estimateGas: Promise.reject(),
+      getGasPrice: BigNumber.from(gasPrice),
+    });
+    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
+    const estimatedFee = await service.estimateFee(testTx[1], testCoins[1]);
+    expect(estimatedFee).toEqual(BigNumber.from(0));
+  });
 });

@@ -15,6 +15,7 @@ import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NftService } from '../shared-wallets/services/nft-service/nft.service';
+import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 
 const testCoins = {
   test: [
@@ -81,10 +82,11 @@ describe('HomeWalletPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let nftServiceSpy: jasmine.SpyObj<NftService>;
+  let fakeWalletService: FakeWalletService;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -95,16 +97,8 @@ describe('HomeWalletPage', () => {
         getNFTStatus: of({ status: 'claimed' }),
         createNFTRequest: of({}),
       });
-      walletServiceSpy = jasmine.createSpyObj(
-        'WalletService',
-        {
-          walletExist: Promise.resolve(true),
-          balanceOf: Promise.resolve('20'),
-        },
-        {
-          addresses: { ERC20: 'testAddress' },
-        }
-      );
+      fakeWalletService = new FakeWalletService(Promise.resolve(true), Promise.resolve('20'), { ERC20: 'testAddress' });
+      walletServiceSpy = fakeWalletService.createSpy();
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getAssestsSelected: Promise.resolve(testCoins.test),
         updateAssetsList: Promise.resolve(true),
@@ -208,7 +202,7 @@ describe('HomeWalletPage', () => {
   });
 
   it('should show the total balance in USD on getWalletsBalances', async () => {
-    (Object.getOwnPropertyDescriptor(walletServiceSpy, 'addresses').get as jasmine.Spy).and.returnValue({
+    fakeWalletService.modifyAttributes({
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
@@ -238,7 +232,7 @@ describe('HomeWalletPage', () => {
 
   it('should show the total balance in USD on ionViewWillEnter', fakeAsync(() => {
     storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));
-    (Object.getOwnPropertyDescriptor(walletServiceSpy, 'addresses').get as jasmine.Spy).and.returnValue({
+    fakeWalletService.modifyAttributes({
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
@@ -253,7 +247,7 @@ describe('HomeWalletPage', () => {
 
   it('should show the equivalent of each coin balance in USD on getWalletsBalances', async () => {
     component.userCoins = testCoins.usdBalanceTest;
-    (Object.getOwnPropertyDescriptor(walletServiceSpy, 'addresses').get as jasmine.Spy).and.returnValue({
+    fakeWalletService.modifyAttributes({
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
@@ -272,7 +266,7 @@ describe('HomeWalletPage', () => {
 
   it('should not sum USD balances if coin price was not found on ionViewWillEnter', fakeAsync(() => {
     storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));
-    (Object.getOwnPropertyDescriptor(walletServiceSpy, 'addresses').get as jasmine.Spy).and.returnValue({
+    fakeWalletService.modifyAttributes({
       ETH: 'testAddressEth',
       RSK: 'testAddressRsk',
     });
@@ -321,7 +315,7 @@ describe('HomeWalletPage', () => {
     expect(component.nftStatus).toEqual('claimed');
   });
 
-  it('should render nfts metadata properly when user have nft', async () => {
+  it('should render nft card when user have wallet and nft on it', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -333,5 +327,20 @@ describe('HomeWalletPage', () => {
     await fixture.whenRenderingDone();
     const nftEl = fixture.debugElement.query(By.css('app-nft-card'));
     expect(nftEl).toBeTruthy();
+  });
+
+  it('should not render nft card when user doesnt have wallet', async () => {
+    fakeWalletService.modifyReturns(Promise.resolve(false), Promise.resolve('20'));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    component.segmentsForm.patchValue({ tab: 'nft' });
+    component.nftStatus = 'delivered';
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const nftEl = fixture.debugElement.query(By.css('app-nft-card'));
+    expect(nftEl).toBeFalsy();
   });
 });

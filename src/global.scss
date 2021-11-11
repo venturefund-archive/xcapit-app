@@ -139,7 +139,7 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-regular);
-    color: var(--ion-color-uxsemidark);
+    color: var(--ion-color-uxprimary);
   }
 
   .ux-link-xs {
@@ -160,6 +160,14 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-regular);
+    color: var(--ion-color-uxsemidark);
+  }
+
+  //Título XS
+  .ux-font-title-xs {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
     color: var(--ion-color-uxsemidark);
   }
 
@@ -184,7 +192,7 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-22);
     font-weight: var(--ux-fweight-semibold);
-    color: var(--ion-color-uxdark);
+    color: var(--ion-color-uxprimary);
   }
 
   .ux-font-num-titulo {
@@ -405,13 +413,9 @@ ion-toast.refresher_toast {
 
   .recovery-phrase-password-modal {
     .modal-wrapper {
-      margin-top: 330px;
-      --height: 350px;
-      background-color: var(--ion-background-colorwhite);
-
-      .ion-page {
-        padding-bottom: 60px;
-      }
+      position: absolute;
+      height: 330px !important;
+      top: calc(100% - (330px));
     }
   }
 

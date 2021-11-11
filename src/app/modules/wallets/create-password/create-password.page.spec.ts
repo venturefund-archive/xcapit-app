@@ -39,7 +39,11 @@ describe('CreatePasswordPage', () => {
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       saveWalletAddresses: of({}),
     });
-    loadingServiceSpy = jasmine.createSpyObj('LoadingService', { show: Promise.resolve(), dismiss: Promise.resolve() });
+    loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
+      show: Promise.resolve(),
+      dismiss: Promise.resolve(),
+      enabled: null,
+    });
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       encryptWallet: Promise.resolve(true),
       getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address', RSK: 'testRSKAddress' } }),
