@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         <ion-text class="ux-font-text-xs">{{ this.actualStep }} de {{ this.sliderLength }}</ion-text>
       </div>
       <div class="step__content_slide__text">
-        <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
+        <app-xcapit-logo></app-xcapit-logo>
         <ion-text class="step__content_slide__text__primary_text ux-font-text-xl">
           {{ this.title }}
         </ion-text>
