@@ -91,6 +91,7 @@ import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
       </div>
+      <app-start-investing></app-start-investing>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })

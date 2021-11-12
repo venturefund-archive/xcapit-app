@@ -19,7 +19,17 @@ const routes: Routes = [
       },
       {
         path: 'wallets',
-        loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),
+          },
+          {
+            path: 'investments',
+            loadChildren: () =>
+              import('../wallets/investments/coming-soon/coming-soon.module').then((m) => m.ComingSoonPageModule),
+          },
+        ],
       },
       {
         path: '',
