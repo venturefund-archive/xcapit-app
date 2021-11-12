@@ -11,9 +11,11 @@
   .wt {
     &__segments {
       ion-label:not(.active_tab) {
+        font-size: var(--ux-fsize-20);
         color: var(--ion-color-uxsemidark);
       }
       ion-label.active_tab {
+        font-size: var(--ux-fsize-20);
         color: var(--ion-color-uxprimary);
       }
     }
