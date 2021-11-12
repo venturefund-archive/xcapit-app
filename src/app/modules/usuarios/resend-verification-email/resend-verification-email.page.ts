@@ -30,6 +30,7 @@ import { Storage } from '@ionic/storage';
         <div class="main__actions">
           <div class="main__actions__primary">
             <ion-button
+              class="ux-link-xs"
               class="ux_button"
               appTrackClick
               name="Resend Verification Email"
@@ -42,7 +43,7 @@ import { Storage } from '@ionic/storage';
             </ion-button>
           </div>
           <div class="main__actions__secondary" *ngIf="!this.hideSendTicket">
-            <ion-button class="ux_button" appTrackClick fill="clear" name="Open Ticket" (click)="this.openTicket()">
+            <ion-button class="ux-link-xl" appTrackClick fill="clear" name="Open Ticket" (click)="this.openTicket()">
               {{ 'usuarios.register.resend_verification_email.open_ticket_button' | translate }}
             </ion-button>
           </div>

@@ -19,11 +19,15 @@ export const environment = {
     vapidKey: 'dummy',
   },
   appUrl: 'https://dummy.xcapit.com/',
+  covalentApiUrl: 'https://covalent.url',
   walletNetwork: 'testnet',
-  ethAlchemyApiUrl: 'https://eth-rinkeby.alchemyapi.io/v2/apikey',
+  ethAlchemyApiUrl: 'alchemy.url',
+  covalentApiKey: 'test.key',
   rskApiUrl: 'https://rsk.node',
+  maticApiUrl: 'https://matic.url',
   derivedPaths: {
     ERC20: "m/44'/60'/0'/0/0",
     RSK: "m/44'/37310'/0'/0/0",
+    MATIC: "m/44'/80001'/0'/0/0",
   },
 };

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { AuthService } from '../../usuarios/shared-usuarios/services/auth/auth.service';
-
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { UxSelectModalComponent } from '../../../shared/components/ux-select-modal/ux-select-modal.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,6 +8,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
 import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 import { environment } from 'src/environments/environment';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -32,7 +32,7 @@ import { environment } from 'src/environments/environment';
             appTrackClick
             [dataToTrack]="{ eventLabel: p.url, description: 'sideMenu' }"
           >
-            <ion-icon *ngIf="p.icon" class="icons" slot="start" [name]="p.icon"></ion-icon>
+            <ion-icon *ngIf="p.icon" class="icons" slot="start" [name]="p.icon"> aria-hidden= “true” </ion-icon>
             <ion-label>
               {{ p.title | translate }}
             </ion-label>
@@ -49,7 +49,7 @@ import { environment } from 'src/environments/environment';
           }"
           (click)="this.changeLanguage()"
         >
-          <ion-icon slot="start" class="icons" name="ux-lenguage-icon"></ion-icon>
+          <ion-icon slot="start" class="icons" name="ux-lenguage-icon"> </ion-icon>
           <ion-label>
             {{ 'app.main_menu.change_language' | translate }}
           </ion-label>
@@ -106,22 +106,22 @@ export class MainMenuPage implements OnInit {
       routeDirection: 'forward',
       showInProd: true,
     },
-
     {
       id: 4,
-      name: 'DepositAddress',
-      title: 'app.main_menu.deposit_address',
-      url: '/deposits/currency',
-      icon: 'ux-book-icon',
+      name: 'Support',
+      title: 'app.main_menu.help',
+      url: '/support/options',
+      icon: 'ux-settings-icon',
       routeDirection: 'forward',
       showInProd: true,
     },
     {
       id: 5,
-      name: 'Support',
-      title: 'app.main_menu.help',
-      url: '/tickets/create-support-ticket',
-      icon: 'ux-settings-icon',
+      name: 'RecoveryPhrase',
+      title: 'app.main_menu.recovery_phrase',
+      url: '/wallets/recovery/info',
+      icon: 'ux-lock',
+      elementClick: 'recoveryPhrase',
       routeDirection: 'forward',
       showInProd: true,
     },
@@ -147,7 +147,7 @@ export class MainMenuPage implements OnInit {
       id: 8,
       name: 'Referrals',
       title: 'app.main_menu.referrals',
-      url: '/referrals/list',
+      url: '/referrals/summary',
       icon: 'ux-referrals-icon',
       routeDirection: 'root',
       showInProd: true,
@@ -188,7 +188,8 @@ export class MainMenuPage implements OnInit {
     private translate: TranslateService,
     private modalController: ModalController,
     private apiFiatRampsService: FiatRampsService,
-    public navController: NavController
+    public navController: NavController,
+    private walletService: WalletService
   ) {}
 
   ngOnInit() {
@@ -255,14 +256,14 @@ export class MainMenuPage implements OnInit {
   }
 
   async clickAction(item) {
-    if (item.elementClick === 'buyCrypto') {
-      this.hasApiKeysOrOperations() ? this.navigateToURL(item.url) : await this.openModal();
+    let url = item.url;
+    if (item.elementClick === 'buyCrypto' && !this.hasApiKeysOrOperations()) {
+      await this.openModal();
       return;
     }
-    this.navigateToURL(item.url);
-  }
-
-  navigateToURL(url) {
+    if (item.elementClick === 'recoveryPhrase' && !(await this.walletService.walletExist())) {
+      url = '/wallets/recovery/info-no-wallet';
+    }
     this.navController.navigateForward(url);
   }
 }

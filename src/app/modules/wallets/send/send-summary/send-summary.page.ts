@@ -3,9 +3,9 @@ import { TransactionDataService } from '../../shared-wallets/services/transactio
 import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
-import { ModalController, NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
@@ -37,10 +37,11 @@ import { LocalNotification } from '@capacitor/core';
 
       <div class="ss__send_button">
         <ion-button
+          color="uxsecondary"
           appTrackClick
           name="Send"
-          [disabled]="this.submitButtonService.isDisabled | async"
-          (click)="this.beginSend()"
+          [disabled]="(this.submitButtonService.isDisabled | async) || this.isSending"
+          (click)="this.canAffordFee()"
           >{{ 'wallets.send.send_summary.send_button' | translate }}</ion-button
         >
       </div>
@@ -50,6 +51,7 @@ import { LocalNotification } from '@capacitor/core';
 export class SendSummaryPage implements OnInit {
   summaryData: SummaryData;
   action: string;
+  isSending: boolean;
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
@@ -59,20 +61,22 @@ export class SendSummaryPage implements OnInit {
     private loadingService: LoadingService,
     private route: ActivatedRoute,
     private localNotificationsService: LocalNotificationsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.checkMode();
+    this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
+    this.checkMode();
   }
 
-  async checkMode() {
+  checkMode() {
     const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
     if (mode) {
-      await this.beginSend();
+      this.canAffordFee().then();
     }
   }
 
@@ -95,12 +99,73 @@ export class SendSummaryPage implements OnInit {
   }
 
   private send(password: string) {
-    this.loadingService.show().then();
-    this.walletTransactionsService
-      .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
-      .then((response: TransactionResponse) => this.goToSuccess(response))
-      .catch((error) => this.handleSendError(error))
-      .finally(() => this.loadingService.dismiss());
+    this.loadingService.show().then(() => {
+      if (this.summaryData.balance >= this.summaryData.amount) {
+        this.walletTransactionsService
+          .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
+          .then((response: TransactionResponse) => this.goToSuccess(response))
+          .catch((error) => this.handleSendError(error))
+          .finally(() => {
+            this.loadingService.dismiss();
+            this.isSending = false;
+          });
+      } else {
+        this.loadingService.dismiss();
+        this.isSending = false;
+        this.navController.navigateForward(['/wallets/send/error/wrong-amount']);
+      }
+    });
+  }
+
+  async canAffordFee() {
+    this.isSending = true;
+    await this.loadingService.show();
+    let cannotAffordFee;
+
+    try {
+      cannotAffordFee = await this.walletTransactionsService.canNotAffordFee(this.summaryData);
+
+      await this.loadingService.dismiss();
+
+      if (cannotAffordFee) {
+        await this.showAlertNotEnoughNativeToken();
+      } else {
+        this.beginSend();
+      }
+    } catch (e) {
+      this.isSending = false;
+      if (this.isInvalidAddressError(e)) {
+        await this.loadingService.dismiss();
+        await this.showAlertInvalidAddress();
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  async showAlert(header: string, message: string, buttonText: string) {
+    const alert = await this.alertController.create({
+      header: this.translate.instant(header),
+      message: this.translate.instant(message),
+      cssClass: 'ux-wallet-error-alert ux-alert',
+      buttons: [
+        {
+          text: this.translate.instant(buttonText),
+          cssClass: 'uxprimary',
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async showAlertNotEnoughNativeToken() {
+    const route = 'wallets.send.send_summary.alert_not_enough_native_token';
+    await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
+  }
+
+  async showAlertInvalidAddress() {
+    const route = 'wallets.send.send_summary.alert_invalid_address';
+    await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
   private createNotification(transaction: TransactionReceipt): LocalNotification[] {
@@ -127,16 +192,23 @@ export class SendSummaryPage implements OnInit {
 
     if (error.message === 'invalid password') {
       url = '/wallets/send/error/incorrect-password';
-    } else if (
-      error.message.startsWith('provided ENS name resolves to null') ||
-      error.message.startsWith('invalid address') ||
-      error.message.startsWith('bad address checksum')
-    ) {
+    } else if (this.isInvalidAddressError(error)) {
       url = '/wallets/send/error/wrong-address';
-    } else if (error.message.startsWith('insufficient funds')) {
+    } else if (error.message.startsWith('cannot estimate gas') || error.message.startsWith('insufficient funds')) {
       url = '/wallets/send/error/wrong-amount';
+    } else {
+      throw error;
     }
 
-    this.navController.navigateForward(url).then();
+    this.navController.navigateForward([url]).then();
+  }
+
+  private isInvalidAddressError(error) {
+    return (
+      error.message.startsWith('provided ENS name resolves to null') ||
+      error.message.startsWith('invalid address') ||
+      error.message.startsWith('bad address checksum') ||
+      error.message.startsWith('resolver or addr is not configured for ENS name')
+    );
   }
 }

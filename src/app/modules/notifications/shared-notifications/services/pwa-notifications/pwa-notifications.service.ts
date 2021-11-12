@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { FirebaseMessaging } from '@firebase/messaging-types';
 import { FirebaseNamespace } from '@firebase/app-types';
 import { INotification } from '../notifications/notifications.interface';
+import { FirebaseService } from 'src/app/shared/services/firebase/firebase.service';
 
 export interface INotificationObject {
   title: string;
@@ -12,23 +13,23 @@ export interface INotificationObject {
   image: any;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PwaNotificationsService implements INotification {
   messaging: FirebaseMessaging;
   token: string;
   importedFirebase: FirebaseNamespace = firebase;
-  constructor() {}
+  constructor(private firebaseService: FirebaseService) {}
 
   init(): void {
-    const firebaseApp = this.importedFirebase.initializeApp(environment.firebase);
+    const firebaseApp = this.firebaseService.init();
     this.messaging = firebaseApp.messaging();
     this.messaging.usePublicVapidKey(environment.firebase.vapidKey);
     this.requestPermission().then();
   }
 
   requestPermission(): Promise<void> {
-    return new Promise<void>(async resolve => {
+    return new Promise<void>(async (resolve) => {
       if (!this.importedFirebase.messaging.isSupported() || !Notification) {
         resolve();
         return;
@@ -44,10 +45,10 @@ export class PwaNotificationsService implements INotification {
   }
 
   pushNotificationReceived(callback: any): void {
-    navigator.serviceWorker.addEventListener('message', message => {
+    navigator.serviceWorker.addEventListener('message', (message) => {
       callback(message);
     });
-    this.messaging.onMessage(message => {
+    this.messaging.onMessage((message) => {
       callback(message);
     });
   }

@@ -81,9 +81,9 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
           <div class="button">
             <ion-button
               appTrackClick
+              class="ux-link-xs"
               name="Terms of Use"
               type="button"
-              color="uxsecondary"
               size="small"
               fill="clear"
               (click)="this.showTermsOfUse()"
@@ -159,7 +159,9 @@ export class DisclaimerWalletPage implements OnInit {
     await modal.present();
   }
 
-  showTermsOfUse() {}
+  showTermsOfUse() {
+    this.navController.navigateForward(['/support/wallet-info']);
+  }
 
   acceptToS() {
     this.storageWalletsService.acceptToS();

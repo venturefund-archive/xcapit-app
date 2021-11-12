@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -8,6 +8,8 @@ import { LanguageService } from './shared/services/language/language.service';
 import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
+import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,8 @@ import { UpdateService } from './shared/services/update/update.service';
   `,
 })
 export class AppComponent implements OnInit {
+  onLangChange: Subscription = undefined;
+
   constructor(
     private authService: AuthService,
     private platform: Platform,
@@ -30,7 +34,9 @@ export class AppComponent implements OnInit {
     private loadingService: LoadingService,
     private languageService: LanguageService,
     private trackService: TrackService,
-    private updateService: UpdateService
+    private updateService: UpdateService,
+    private translate: TranslateService,
+    private el: ElementRef
   ) {}
 
   ngOnInit() {
@@ -50,11 +56,24 @@ export class AppComponent implements OnInit {
       this.languageService.setInitialAppLanguage();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.setLanguageSubscribe();
     });
+  }
+
+  updateLanguage(): void {
+    const lang = document.createAttribute('lang');
+    lang.value = this.translate.currentLang;
+    this.el.nativeElement.parentElement.parentElement.attributes.setNamedItem(lang);
   }
 
   async logout() {
     await this.authService.logout();
     await this.navController.navigateForward(['users/login']);
+  }
+
+  setLanguageSubscribe() {
+    this.onLangChange = this.translate.onLangChange.subscribe(() => {
+      this.updateLanguage();
+    });
   }
 }

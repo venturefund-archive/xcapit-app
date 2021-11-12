@@ -1,6 +1,7 @@
 :host {
   img {
-    width: 100%;
+    display: flex;
+    align-content: center;
     max-width: 200px;
   }
 }

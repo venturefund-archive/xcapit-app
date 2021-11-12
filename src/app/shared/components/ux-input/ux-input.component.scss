@@ -2,16 +2,30 @@
   .ux_input_container {
     padding-top: 16px;
 
+    ion-item::part(native) {
+      padding-left: 13px;
+    }
+
+    ion-input {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
     &__item {
+      margin-top: 8px;
       height: 100%;
-      border: 1.5px solid #0000000a;
-      border-radius: 7px;
+      border: 1px solid;
+      border-color: var(--ion-color-semi);
+      box-sizing: border-box;
+      border-radius: 4px;
       --background: #0000000a;
       --inner-border-width: 0;
       --highlight-background: none;
+      color: var(--ion-color-uxdark);
 
       &.item-has-focus {
-        border: 1.5px solid var(--ion-color-uxsecondary);
+        border: 1.5px solid var(--ion-color-uxprimary);
         --background: #ffffff;
       }
 
@@ -20,9 +34,26 @@
         height: 20px;
       }
 
+      &__image {
+        margin-right: 8px;
+      }
+
+      ion-button::part(native) {
+        background-color: transparent !important;
+        --background-activated: transparent;
+      }
+
       &__eye_icon {
         background: transparent;
         ion-icon {
+          font-size: 22px;
+          color: var(--ion-color-info);
+        }
+      }
+      &__copy_icon {
+        background: transparent;
+        ion-icon {
+          background: transparent;
           font-size: 22px;
           color: #00000061;
         }

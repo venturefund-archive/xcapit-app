@@ -24,12 +24,14 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
           <ion-slide class="slide" *ngFor="let word of this.phrase; let i = index">
             <ion-card>
               <div class="div-input">
+                <div class="hidden-input" *ngIf="!this.verificationPhrase[i]"></div>
                 <ion-button
                   class="input-word"
                   [id]="i"
                   [ngClass]="{ active: this.verificationPhrase[i] }"
                   size="small"
                   fill="clear"
+                  *ngIf="this.verificationPhrase[i]"
                   (click)="this.deleteWord(i)"
                   >{{ this.verificationPhrase[i] }}
                   <ion-icon name="close" slot="end"></ion-icon>
@@ -53,6 +55,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
         </div>
         <div class="create_button">
           <ion-button
+            color="uxsecondary"
             *ngIf="this.activated"
             class="ux_button"
             appTrackClick

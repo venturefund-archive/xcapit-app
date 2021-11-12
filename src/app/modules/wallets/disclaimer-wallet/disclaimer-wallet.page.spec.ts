@@ -13,6 +13,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
 
 import { DisclaimerWalletPage } from './disclaimer-wallet.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { By } from '@angular/platform-browser';
 
 describe('DisclaimerWalletPage', () => {
   let component: DisclaimerWalletPage;
@@ -78,6 +79,11 @@ describe('DisclaimerWalletPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to Wallet Terms when Terms of Use is clicked', () => {
+    fixture.debugElement.query(By.css('ion-button[name="Terms of Use"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/wallet-info']);
   });
 
   it('should call trackEvent on trackService when Submit Button clicked', () => {

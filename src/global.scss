@@ -139,54 +139,102 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-regular);
+    color: var(--ion-color-uxprimary);
   }
 
+  .ux-link-xs {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-info);
+  }
+
+  .ux-link-xl {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-16);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-info);
+    line-height: 18.77px;
+  }
   // Texto normal
   .ux-font-text-base {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-regular);
+    color: var(--ion-color-uxsemidark);
+    line-height: 24px;
+  }
+
+  //Título XS
+  .ux-font-title-xs {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-uxsemidark);
   }
 
   // Título
   .ux-font-text-lg {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-18);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
+    color: var(--ion-color-uxprimary);
+    line-height: 24px;
   }
 
   // Subtítulos
   .ux-font-subheading {
     font-family: var(--ux-font-lato);
-    font-size: var(--ux-fsize-12);
-    font-weight: var(--ux-fweight-regular);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-semibold);
     color: var(--ion-color-uxsemidark);
     text-transform: uppercase;
   }
 
   .ux-font-text-xl {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-22);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
+    color: var(--ion-color-uxprimary);
+    line-height: 25.81px;
   }
 
   .ux-font-num-titulo {
-    font-family: var(--ux-font-lato);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-40);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
+  }
+
+  .ux-font-num-titulo-xs {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
   }
 
   .ux-font-num-subtitulo {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-12);
+    font-weight: var(--ux-fweight-semibold);
+  }
+
+  .ux-font-currency-title {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-24);
+    font-weight: var(--ux-fweight-semibold);
+  }
+
+  .ux-font-titulo-xs {
     font-family: var(--ux-font-lato);
-    font-size: var(--ux-fsize-17);
-    font-weight: var(--ux-fweight-extrabold);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
   }
 
   .ux-font-header-titulo,
   .ux_toolbar ion-title {
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-16);
-    font-weight: var(--ux-fweight-extrabold);
+    font-weight: var(--ux-fweight-semibold);
+    color: var(--ion-color-uxdark);
   }
 
   // Header pantallas
@@ -199,7 +247,7 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-regular);
-    color: var(--ion-color-uxsemidark);
+    color: var(--ion-color-uxprimary);
   }
 
   .ux-font-form-errors {
@@ -228,7 +276,7 @@ ion-toast.refresher_toast {
   .ux_badge_primary {
     text-transform: uppercase;
     --color: var(--ion-color-uxprimary);
-    font-family: var(--ux-font-gilroy);
+    font-family: var(--ux-font-worksans);
     font-weight: var(--ux-fweight-extrabold);
     font-size: var(--ux-fsize-10);
   }
@@ -276,6 +324,14 @@ ion-toast.refresher_toast {
     line-height: 9.6px;
   }
 
+  .ux_badge_native {
+    border-radius: 4px;
+    --background: var(--ion-color-infolight);
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    line-height: 9.6px;
+  }
+
   // Clase para que el modal no sea en pantalla completa, sino un alert
   .ux_modal_crm {
     --max-height: 195px;
@@ -308,6 +364,15 @@ ion-toast.refresher_toast {
     .modal-wrapper {
       background-color: var(--ion-background-colorwhite);
       border-radius: 8px;
+    }
+  }
+
+  ion-segment.ux-segment {
+    ion-segment-button {
+      text-transform: none;
+      max-width: none;
+      --indicator-height: 4px;
+      --indicator-color: var(--ion-color-uxsecondary);
     }
   }
 
@@ -350,6 +415,14 @@ ion-toast.refresher_toast {
     }
   }
 
+  .recovery-phrase-password-modal {
+    .modal-wrapper {
+      position: absolute;
+      height: 330px !important;
+      top: calc(100% - (330px));
+    }
+  }
+
   // Portfolio Modal swippeable
   .generic-modal {
     .modal-wrapper {
@@ -360,6 +433,7 @@ ion-toast.refresher_toast {
       }
     }
   }
+
   //modal alertas
   .ux-alert {
     &.bottom {
@@ -458,6 +532,33 @@ ion-toast.refresher_toast {
     }
   }
 
+  .ux-wallet-error-alert {
+    --max-height: 145px;
+    --max-width: 302px;
+    --ion-font-family: var(--ux-font-lato);
+    --ion-text-color: var(--ion-color-uxdark);
+
+    .alert-head {
+      padding-bottom: 12px;
+    }
+
+    .alert-title {
+      font-weight: var(--ux-fweight-bold);
+      font-size: var(--ux-fsize-18);
+    }
+
+    .alert-message {
+      font-size: var(--ux-fsize-14);
+      font-weight: var(--ux-fweight-regular);
+      padding-bottom: 12px;
+    }
+
+    .alert-button {
+      font-weight: var(--ux-fweight-bold);
+      font-size: var(--ux-fsize-18);
+    }
+  }
+
   // Share Chart Modal swippeable
   .share-chart-modal {
     .modal-wrapper {
@@ -550,7 +651,16 @@ ion-toast.refresher_toast {
   }
   .picker-toolbar-cancel > button,
   .picker-toolbar-button > button {
-    color: var(--ion-color-uxprimary);
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-16);
+    color: var(--ion-color-info);
     font-weight: var(--ux-fweight-bold);
+  }
+
+  .ux-card {
+    --ion-background-color: var(--ion-color-uxlight);
+    background: var(--ion-color-uxlight);
+    border-radius: 8px;
+    border: 0.5px solid #b0b6c7;
   }
 }

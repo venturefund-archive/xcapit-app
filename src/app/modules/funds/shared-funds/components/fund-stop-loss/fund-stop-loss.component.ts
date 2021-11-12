@@ -5,6 +5,7 @@ import { ApiFundsService } from 'src/app/modules/funds/shared-funds/services/api
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/custom-stop-loss-setting.component';
+import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
 
 @Component({
   selector: 'app-fund-select-stop-loss',
@@ -71,7 +72,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
           </app-ux-radio-group>
         </div>
         <div class="info-alert">
-          <app-ux-alert-message type="info" *ngIf="this.isIndexProfile">{{
+          <app-ux-alert-message [type]="this.alertType" *ngIf="this.isIndexProfile">{{
             'funds.fund_stop_loss.alert_manual_option' | translate
           }}</app-ux-alert-message>
         </div>
@@ -82,7 +83,7 @@ import { CustomStopLossSettingComponent } from '../custom-stop-loss-setting/cust
             class="ux-font-text-xs semibold"
             appTrackClick
             name="Information"
-            color="uxsecondary"
+            color="uxprimary"
             size="large"
             fill="clear"
             (click)="this.goToInformationPage()"
@@ -112,6 +113,7 @@ export class FundStopLossComponent implements OnInit {
   @Input() trailingStop?: number;
   @Input() profile: string;
   @Output() save = new EventEmitter<any>();
+  alertType = UX_ALERT_TYPES.info;
   customSL: boolean;
   mostChosenSL: number;
   selected: string;
@@ -124,7 +126,7 @@ export class FundStopLossComponent implements OnInit {
 
   opTypeLabels = {
     submitButton: {
-      renew: 'funds.fund_stop_loss.submit_button_renew',
+      renew: 'funds.fund_stop_loss.submit_button',
       new: 'funds.fund_stop_loss.submit_button',
       edit: 'funds.fund_stop_loss.submit_button_edit',
     },

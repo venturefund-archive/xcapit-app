@@ -5,7 +5,6 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { HomePage } from './home-page.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
-import { ApiWebflowService } from 'src/app/shared/services/api-webflow/api-webflow.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
@@ -18,8 +17,6 @@ describe('HomePage', () => {
   let fixture: ComponentFixture<HomePage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomePage>;
   let navControllerSpy: any;
-  let apiWebflowService: ApiWebflowService;
-  let apiWebflowServiceMock: any;
   let notificationsService: NotificationsService;
   let notificationsServiceMock: any;
   let windowSpy: any;
@@ -27,10 +24,6 @@ describe('HomePage', () => {
   beforeEach(
     waitForAsync(() => {
       windowSpy = spyOn(window, 'open');
-
-      apiWebflowServiceMock = {
-        getNews: () => of(['test new']),
-      };
       notificationsServiceMock = {
         getCountNotifications: () => of({ count: 5 }),
       };
@@ -44,10 +37,6 @@ describe('HomePage', () => {
             useValue: navControllerSpy,
           },
           {
-            provide: ApiWebflowService,
-            useValue: apiWebflowServiceMock,
-          },
-          {
             provide: NotificationsService,
             useValue: notificationsServiceMock,
           },
@@ -58,7 +47,6 @@ describe('HomePage', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      apiWebflowService = TestBed.inject(ApiWebflowService);
       notificationsService = TestBed.inject(NotificationsService);
     })
   );
@@ -111,20 +99,6 @@ describe('HomePage', () => {
     const button = fixture.debugElement.query(By.css("ion-button[name='Show Notifications']"));
     button.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/notifications/list');
-  });
-
-  it('should call getNews on doRefresh', async () => {
-    const spyNews = spyOn(apiWebflowService, 'getNews');
-    spyNews.and.returnValue(of([]));
-    await component.doRefresh({ target: { complete: () => null } });
-    expect(spyNews).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call getNews, createNotificationTimer and initQtyNotifications on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
-
-    expect(component.news).toEqual(['test new']);
-    expect(component.unreadNotifications).toEqual(5);
   });
 
   it('should unsubscribe timerSubscription, notificationQtySubscription on ionViewDidLeave', () => {

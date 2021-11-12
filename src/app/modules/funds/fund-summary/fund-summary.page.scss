@@ -1,0 +1,26 @@
+:host {
+  .fs {
+    &__title {
+      margin-top: 24px;
+    }
+
+    &__amount {
+      margin-top: 16px;
+    }
+
+    &__strategy {
+      margin-top: 16px;
+    }
+
+    &__tp-sl {
+      margin-top: 24px;
+    }
+
+    &__buttons {
+      margin-top: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

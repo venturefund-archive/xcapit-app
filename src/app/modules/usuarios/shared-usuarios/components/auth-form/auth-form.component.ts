@@ -16,8 +16,9 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           type="email"
           inputmode="email"
           label="Email"
-          [placeholder]="'usuarios.login.email_placeholder_label' | translate"
           [errors]="this.emailErrors"
+          aria-label="email"
+          tabindex="0"
         ></app-ux-input>
 
         <app-ux-input
@@ -26,21 +27,19 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           inputmode="password"
           [label]="'usuarios.login.password_label' | translate"
           [errors]="this.passwordErrors"
+          aria-label="password"
+          tabindex="1"
         ></app-ux-input>
 
-        <ng-content select=".auth-link-reset-password"></ng-content>
-
         <app-ux-checkbox
-          class="ux-font-text-xs"
           *ngIf="!this.isLogin"
-          class="normal"
           [label]="'usuarios.register.manual_referral' | translate"
           controlName="manual_referral"
-          color="uxsecondary"
           slot="start"
         ></app-ux-checkbox>
 
         <app-ux-input
+          class="ux-font-text-xs"
           *ngIf="this.showReferralCode"
           controlName="referral_code"
           type="text"
@@ -51,16 +50,12 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
         <ion-item class="tos_item" *ngIf="!this.isLogin">
           <ng-content select=".tos-text"></ng-content>
 
-          <app-ux-checkbox
-            *ngIf="!this.isLogin"
-            class="small"
-            controlName="tos"
-            color="uxsecondary"
-            slot="start"
-          ></app-ux-checkbox>
+          <app-ux-checkbox *ngIf="!this.isLogin" class="small" controlName="tos" slot="start"></app-ux-checkbox>
         </ion-item>
 
         <ng-content select=".auth-button"></ng-content>
+
+        <ng-content select=".auth-link-reset-password"></ng-content>
 
         <ng-content select=".auth-link"></ng-content>
       </form>

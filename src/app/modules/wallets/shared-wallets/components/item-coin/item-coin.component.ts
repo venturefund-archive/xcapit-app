@@ -4,20 +4,27 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 @Component({
   selector: 'app-item-coin',
   template: `
-    <ion-item>
-      <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
-      <ion-label class="ic__label">{{ this.coin.name }}</ion-label>
-      <ion-toggle
-        (ionChange)="this.onChange($event)"
-        [formControlName]="this.coin.value"
-        [value]="this.coin"
-        [checked]="this.isChecked"
-        class="ic__toggle"
-        mode="ios"
-        slot="end"
-      ></ion-toggle>
-    </ion-item>
-    <div *ngIf="this.coin.last == false" class="list-divider"></div>
+    <div [formGroupName]="this.suite">
+      <ion-item>
+        <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
+        <div>
+          <ion-label class="ic__label">{{ this.coin.name }}</ion-label>
+          <ion-badge *ngIf="this.coin.native" class="ic__badge ux_badge_native" slot="end">{{
+            'wallets.select_coin.native' | translate
+          }}</ion-badge>
+        </div>
+        <ion-toggle
+          (ionChange)="this.onChange($event)"
+          [formControlName]="this.coin.value"
+          [value]="this.coin"
+          [checked]="this.isChecked"
+          class="ic__toggle"
+          mode="ios"
+          slot="end"
+        ></ion-toggle>
+      </ion-item>
+      <div *ngIf="this.coin.last == false" class="list-divider"></div>
+    </div>
   `,
   styleUrls: ['./item-coin.component.scss'],
   viewProviders: [
@@ -30,6 +37,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 export class ItemCoinComponent implements OnInit {
   @Input() coin: any;
   @Input() isChecked: boolean;
+  @Input() suite = '';
   @Output() change: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}

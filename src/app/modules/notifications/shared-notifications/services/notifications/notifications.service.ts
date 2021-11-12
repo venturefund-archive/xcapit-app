@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CapacitorNotificationsService } from '../capacitor-notifications/capacitor-notifications.service';
 import { INotification } from './notifications.interface';
-import { PwaNotificationsService } from '../pwa-notifications/pwa-notifications.service';
 import { Capacitor } from '@capacitor/core';
 import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
+import { NullNotificationsService } from '../null-notifications/null-notifications.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +15,12 @@ export class NotificationsService {
 
   constructor(
     private capacitorNotificationsService: CapacitorNotificationsService,
-    private pwaNotificationsService: PwaNotificationsService,
+    private nullNotificationsService: NullNotificationsService,
     private http: CustomHttpService
   ) {}
 
   getInstance(): INotification {
-    return Capacitor.platform !== 'web' ? this.capacitorNotificationsService : this.pwaNotificationsService;
+    return Capacitor.platform !== 'web' ? this.capacitorNotificationsService : this.nullNotificationsService;
   }
 
   getNotifications(): Observable<any> {

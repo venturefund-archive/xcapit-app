@@ -17,6 +17,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedWalletsModule],
-  declarations: [SelectCoinsWalletPage, ItemCoinComponent],
+  declarations: [SelectCoinsWalletPage],
 })
 export class SelectCoinsWalletPageModule {}
