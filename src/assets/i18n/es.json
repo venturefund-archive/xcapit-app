@@ -1340,6 +1340,15 @@
       "text3": "Si pierdes tu frase de recuperación, ni siquiera Xcapit podrá recuperar tus fondos.",
       "button_text": "Continuar"
     },
+    "recovery_phrase_information_no_wallet": {
+      "header": "Frase de recuperación",
+      "text1": "Aún no tienes frase de recuperación.",
+      "text2": "Crea o importa tu wallet para poder visualizarla.",
+      "text3": "Siempre que tengas tu frase de 12 palabras vas a poder recuperar tu wallet y todos tus activos.",
+      "button_import": "Importar Wallet",
+      "button_create": "Crear Wallet",
+      "button_faq": "¿Qué es la frase de recuperación?"
+    },
     "recovery_phrase_read": {
       "header": "Frase de recuperación",
       "title": "Frase de recuperación",

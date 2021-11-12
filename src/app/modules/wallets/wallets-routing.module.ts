@@ -85,7 +85,7 @@ const routes: Routes = [
               import('./recovery-phrase-read/recovery-phrase-read.module').then((m) => m.RecoveryPhraseReadPageModule),
           },
           {
-            path: 'recovery-phrase-no-wallet',
+            path: 'info-no-wallet',
             loadChildren: () =>
               import('./recovery-phrase-no-wallet/recovery-phrase-no-wallet.module').then(
                 (m) => m.RecoveryPhraseNoWalletPageModule
