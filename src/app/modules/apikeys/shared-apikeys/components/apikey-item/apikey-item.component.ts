@@ -54,14 +54,13 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           *ngIf="!this.fundName"
           appTrackClick
           name="Manage"
-          color="uxsecondary"
           fill="clear"
           size="small"
-          class="cib__footer__more_info ux-font-text-xxs"
+          class="cib__footer__more_info ux-link-xs"
           (click)="this.useApiKey(this.id)"
         >
           {{ 'apikeys.card_apikeys.action' | translate }}
-          <ion-icon slot="end" name="ux-forward" class="ux-link-xl"></ion-icon>
+          <ion-icon slot="end" name="ux-forward" class="ux-link-xs"></ion-icon>
         </ion-button>
         <ion-text *ngIf="this.fundName" class="cib__footer__used_key">
           {{ 'apikeys.card_apikeys.used_apikey' | translate }}
