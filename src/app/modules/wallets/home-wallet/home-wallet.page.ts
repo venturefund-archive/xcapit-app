@@ -130,7 +130,9 @@ export class HomeWalletPage implements OnInit {
   }
 
   createNFTRequest() {
-    this.apiWalletService.createNFTRequest().subscribe(() => this.getNFTStatus());
+    this.apiWalletService.createNFTRequest().subscribe(() => {
+      this.nftStatus = 'claimed';
+    });
   }
 
   getNFTInfo() {
