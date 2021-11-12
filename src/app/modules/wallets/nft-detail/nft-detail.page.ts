@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { runInThisContext } from 'vm';
+import { Navigation, Router } from '@angular/router';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { NFT } from '../shared-wallets/interfaces/nft.interface';
 import { NftService } from '../shared-wallets/services/nft-service/nft.service';
@@ -80,26 +80,32 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 export class NftDetailPage {
   NFTMetadata: NFTMetadata;
   NFT: NFT;
-
+  nav: Navigation;
   form: FormGroup = this.formBuilder.group({
     contractAddress: [''],
     tokenID: [''],
     blockchain: [''],
   });
 
-  constructor(private formBuilder: FormBuilder, private nftService: NftService) {}
+  constructor(private formBuilder: FormBuilder, private nftService: NftService, private router: Router) {
+    this.nav = this.router.getCurrentNavigation();
+  }
 
   ionViewWillEnter() {
-    this.getNFTInfo();
     this.getContractAddress();
+    this.getNFTInfo();
   }
 
   getNFTInfo() {
-    this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => {
-      this.NFTMetadata = metadata;
+    if (this.nav.extras && this.nav.extras.state && this.nav.extras.state.nftMetadata) {
+      this.NFTMetadata = this.nav.extras.state.nftMetadata as NFTMetadata;
       this.setFormValue();
-      this.form.markAllAsTouched();
-    });
+    } else {
+      this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => {
+        this.NFTMetadata = metadata;
+        this.setFormValue();
+      });
+    }
   }
 
   getContractAddress() {
@@ -112,5 +118,6 @@ export class NftDetailPage {
       tokenID: this.NFTMetadata.tokenID,
       blockchain: 'Polygon',
     });
+    this.form.markAllAsTouched();
   }
 }
