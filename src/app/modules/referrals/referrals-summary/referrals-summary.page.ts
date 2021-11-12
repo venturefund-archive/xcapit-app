@@ -42,7 +42,6 @@ export class ReferralsSummaryPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    // this.getReferralInfo();
     this.getReferralLink();
   }
 
