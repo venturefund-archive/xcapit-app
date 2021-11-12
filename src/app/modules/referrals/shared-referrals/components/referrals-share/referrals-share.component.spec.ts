@@ -7,6 +7,7 @@ import { ShareService } from '../../../../../shared/services/share/share.service
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { By } from '@angular/platform-browser';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 describe('ReferralsShareComponent', () => {
   let component: ReferralsShareComponent;
@@ -14,8 +15,12 @@ describe('ReferralsShareComponent', () => {
   let shareServiceSpy: jasmine.SpyObj<ShareService>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralsShareComponent>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   beforeEach(
     waitForAsync(() => {
+      platformServiceSpy = jasmine.createSpyObj('PlatformServiceSpy', {
+        isNative: true,
+      });
       shareServiceSpy = jasmine.createSpyObj('ShareService', {
         share: Promise.resolve(),
       });
@@ -28,6 +33,7 @@ describe('ReferralsShareComponent', () => {
         providers: [
           { provide: ShareService, useValue: shareServiceSpy },
           { provide: ClipboardService, useValue: clipboardServiceSpy },
+          { provide: PlatformService, useValue: platformServiceSpy },
         ],
       }).compileComponents();
 
@@ -42,6 +48,16 @@ describe('ReferralsShareComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should not render share when is no native platform', async () => {
+    platformServiceSpy.isNative.and.returnValue(false);
+    component.ngOnInit();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const el = fixture.debugElement.query(By.css('ion-button[name="Share"]'));
+    expect(el).toBeNull();
+  });
+
   it('should call share when Share button clicked', async () => {
     component.link = 'test_link';
     fixture.detectChanges();
@@ -53,7 +69,7 @@ describe('ReferralsShareComponent', () => {
     expect(shareServiceSpy.share).toHaveBeenCalledOnceWith({ url: 'test_link' }, '');
   });
 
-  it('should call share when Copy button clicked', async () => {
+  it('should call copy when Copy button clicked', async () => {
     component.link = 'test_link';
     fixture.detectChanges();
     await fixture.whenRenderingDone();
@@ -65,6 +81,7 @@ describe('ReferralsShareComponent', () => {
   });
 
   it('should call trackEvent on trackService when Share button clicked', () => {
+    fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Share');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

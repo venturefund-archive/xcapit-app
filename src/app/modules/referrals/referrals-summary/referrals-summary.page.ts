@@ -16,17 +16,17 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
       </ion-toolbar>
     </ion-header>
     <ion-content class="rs ion-padding ion-padding">
-      <div class="rs__referrals-share" *ngIf="this.referrals && this.referralLink">
+      <div class="rs__referrals-share" *ngIf="this.referralLink">
         <app-referrals-share
-          [firstOrderReward]="this.referrals.first_order.reward"
-          [secondOrderReward]="this.referrals.second_order.reward"
+          [firstOrderReward]="1"
+          [secondOrderReward]="0.5"
           [link]="this.referralLink"
         ></app-referrals-share>
       </div>
-      <div class="rs__referrals-pending" *ngIf="this.referrals">
+      <div class="rs__referrals-pending" *ngIf="false">
         <app-referrals-pending [referrals]="this.referrals"></app-referrals-pending>
       </div>
-      <div class="rs__referrals-history" *ngIf="this.referrals">
+      <div class="rs__referrals-history" *ngIf="false">
         <app-referrals-history [referrals]="this.referrals"></app-referrals-history>
       </div>
     </ion-content>
@@ -42,7 +42,6 @@ export class ReferralsSummaryPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.getReferralInfo();
     this.getReferralLink();
   }
 

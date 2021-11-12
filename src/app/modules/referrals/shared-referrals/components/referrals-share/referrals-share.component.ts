@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-referrals-share',
@@ -36,6 +37,7 @@ import { ClipboardService } from '../../../../../shared/services/clipboard/clipb
 
       <div class="rs__buttons">
         <ion-button
+          *ngIf="this.isNative"
           class="ux_button ux-font-button"
           color="uxsecondary"
           (click)="this.share()"
@@ -69,10 +71,17 @@ export class ReferralsShareComponent implements OnInit {
   @Output() copied: EventEmitter<void> = new EventEmitter<void>();
   @Output() shared: EventEmitter<void> = new EventEmitter<void>();
   wasCopied = false;
+  isNative = false;
 
-  constructor(private shareService: ShareService, private clipboardService: ClipboardService) {}
+  constructor(
+    private shareService: ShareService,
+    private clipboardService: ClipboardService,
+    private platformService: PlatformService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isNative = this.platformService.isNative();
+  }
 
   share() {
     this.shareService.share({ url: this.link }, '').then(() => this.shared.emit());
