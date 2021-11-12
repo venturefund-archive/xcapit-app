@@ -31,8 +31,7 @@ export class FundsFinishedPage implements OnInit {
   constructor(private apiFundsService: ApiFundsService, private fundDataStorage: FundDataStorageService) {}
 
   ionViewDidEnter() {
-    // this.getFundsToRenew();
-    this.funds = [{ nombre_bot: 'Myfund', currency: 'USDT', ganancia: 50, perdida: 12, nivel_de_riesgo: 'pro_USDT' }];
+    this.getFundsToRenew();
   }
 
   getFundsToRenew() {
