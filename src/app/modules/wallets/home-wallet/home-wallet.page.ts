@@ -191,7 +191,6 @@ export class HomeWalletPage implements OnInit {
 
       if (!this.alreadyInitialized && res) {
         this.alreadyInitialized = true;
-        this.balances = [];
         this.getAllPrices();
         this.getNFTInfo();
       }
@@ -203,25 +202,24 @@ export class HomeWalletPage implements OnInit {
   }
 
   getWalletsBalances() {
+    this.balances = [];
+    this.totalBalanceWallet = 0;
     for (const coin of this.userCoins) {
       const walletAddress = this.walletService.addresses[coin.network];
 
       if (walletAddress) {
         const balance = this.createBalancesStructure(coin);
-        this.walletService
-          .balanceOf(walletAddress, coin.value)
+        this.walletService.balanceOf(walletAddress, coin.value).then((res) => {
+          balance.amount = parseFloat(res);
 
-          .then((res) => {
-            balance.amount = parseFloat(res);
+          if (this.allPrices) {
+            const usdPrice = this.getPrice(balance.symbol);
 
-            if (this.allPrices) {
-              const usdPrice = this.getPrice(balance.symbol);
-
-              balance.usdAmount = usdPrice * balance.amount;
-              this.totalBalanceWallet += balance.usdAmount;
-            }
-            this.balances.push(balance);
-          });
+            balance.usdAmount = usdPrice * balance.amount;
+            this.totalBalanceWallet += balance.usdAmount;
+          }
+          this.balances.push(balance);
+        });
       }
     }
   }
