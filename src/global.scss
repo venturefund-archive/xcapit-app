@@ -154,6 +154,7 @@ ion-toast.refresher_toast {
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-bold);
     color: var(--ion-color-info);
+    line-height: 18.77px;
   }
   // Texto normal
   .ux-font-text-base {
@@ -177,7 +178,8 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-18);
     font-weight: var(--ux-fweight-semibold);
-    color: var(--ion-color-uxdark);
+    color: var(--ion-color-uxprimary);
+    line-height: 24px;
   }
 
   // Subtítulos
@@ -195,15 +197,6 @@ ion-toast.refresher_toast {
     font-weight: var(--ux-fweight-semibold);
     color: var(--ion-color-uxprimary);
     line-height: 25.81px;
-  }
-
-  .ux-font-link-xl {
-    font-family: var(--ux-font-worksans);
-    font-size: var(--ux-fsize-16);
-    font-weight: var(--ux-fweight-bold);
-    line-height: 18.77px;
-    color: var(--ion-color-info);
-    text-decoration: underline;
   }
 
   .ux-font-num-titulo {

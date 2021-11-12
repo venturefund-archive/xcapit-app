@@ -14,7 +14,7 @@ import { NavController } from '@ionic/angular';
         <div class="si__link">
           <ion-button
             fill="clear"
-            class="ux-font-link-xl ion-no-padding"
+            class="ux-link-xl ion-no-padding"
             name="Start Investing Button"
             appTrackClick
             (click)="this.goToStartInvestingPage()"
