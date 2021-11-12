@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-referrals-share',
@@ -58,7 +59,7 @@ import { PlatformService } from '../../../../../shared/services/platform/platfor
       </div>
 
       <div class="rs__tos">
-        <a>{{ 'referrals.referrals_share.tos' | translate }}</a>
+        <a (click)="this.goToToS()">{{ 'referrals.referrals_share.tos' | translate }}</a>
       </div>
     </div>
   `,
@@ -76,7 +77,8 @@ export class ReferralsShareComponent implements OnInit {
   constructor(
     private shareService: ShareService,
     private clipboardService: ClipboardService,
-    private platformService: PlatformService
+    private platformService: PlatformService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
@@ -92,5 +94,9 @@ export class ReferralsShareComponent implements OnInit {
       this.wasCopied = true;
       this.copied.emit();
     });
+  }
+
+  goToToS() {
+    this.navController.navigateForward('/referrals/tos');
   }
 }
