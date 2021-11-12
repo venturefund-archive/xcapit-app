@@ -127,6 +127,7 @@ export class FundSummaryCardComponent implements OnInit {
         },
         {
           text: this.translate.instant('funds.fund_detail.fund_summary_card.alert_share_button'),
+          cssClass: 'ux-link-xs',
           handler: (_) => this.shareSubscriptionLink(),
         },
       ],
