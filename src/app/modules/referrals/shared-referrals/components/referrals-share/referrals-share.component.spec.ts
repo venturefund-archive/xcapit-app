@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { ReferralsShareComponent } from './referrals-share.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
@@ -8,6 +8,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-c
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { By } from '@angular/platform-browser';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 
 describe('ReferralsShareComponent', () => {
   let component: ReferralsShareComponent;
@@ -16,8 +17,12 @@ describe('ReferralsShareComponent', () => {
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralsShareComponent>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   beforeEach(
     waitForAsync(() => {
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       platformServiceSpy = jasmine.createSpyObj('PlatformServiceSpy', {
         isNative: true,
       });
@@ -34,6 +39,7 @@ describe('ReferralsShareComponent', () => {
           { provide: ShareService, useValue: shareServiceSpy },
           { provide: ClipboardService, useValue: clipboardServiceSpy },
           { provide: PlatformService, useValue: platformServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
         ],
       }).compileComponents();
 
@@ -97,5 +103,11 @@ describe('ReferralsShareComponent', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should naviagate to ToS on button click', () => {
+    const el = fixture.debugElement.query(By.css('.rs__tos a'));
+    el.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/referrals/tos');
   });
 });
