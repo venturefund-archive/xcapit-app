@@ -6,6 +6,8 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NftService } from '../shared-wallets/services/nft-service/nft.service';
+import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 
 @Component({
   selector: 'app-home-wallet',
@@ -57,12 +59,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
       </div>
 
       <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
-        <div class="wt__nfts__content segment-content">
+        <div class="wt__nfts__content">
           <app-claim-nft-card
             [nftStatus]="this.nftStatus"
             (nftRequest)="this.createNFTRequest()"
             *ngIf="this.nftStatus !== 'delivered'"
-          ></app-claim-nft-card>
+          >
+          </app-claim-nft-card>
+        </div>
+        <div *ngIf="this.nftStatus === 'delivered' && this.NFTMetadata">
+          <app-nft-card [data]="this.NFTMetadata"></app-nft-card>
         </div>
       </div>
       <div
@@ -76,11 +82,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
           (click)="this.goToRecoveryWallet()"
-          class="ux-font-text-xs"
+          class="ux-font-text-ls"
           appTrackClick
           name="Import Wallet"
           type="button"
-          color="uxsecondary"
           fill="clear"
         >
           {{ 'wallets.home.wallet_recovery' | translate }}
@@ -98,6 +103,8 @@ export class HomeWalletPage implements OnInit {
   allPrices: any;
   userCoins: Coin[];
   alreadyInitialized = false;
+  NFTMetadata: NFTMetadata;
+
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
@@ -108,16 +115,14 @@ export class HomeWalletPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private storageService: StorageService,
     private navController: NavController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private nftService: NftService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    if (!this.alreadyInitialized) {
-      this.alreadyInitialized = true;
-      this.encryptedWalletExist();
-    }
+    this.encryptedWalletExist();
     this.getNFTStatus();
   }
 
@@ -126,7 +131,13 @@ export class HomeWalletPage implements OnInit {
   }
 
   createNFTRequest() {
-    this.apiWalletService.createNFTRequest().subscribe(() => this.getNFTStatus());
+    this.apiWalletService.createNFTRequest().subscribe(() => {
+      this.nftStatus = 'claimed';
+    });
+  }
+
+  getNFTInfo() {
+    this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => (this.NFTMetadata = metadata));
   }
 
   createBalancesStructure(coin: Coin): AssetBalance {
@@ -146,9 +157,11 @@ export class HomeWalletPage implements OnInit {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
 
-      if (res) {
+      if (!this.alreadyInitialized && res) {
+        this.alreadyInitialized = true;
         this.balances = [];
         this.getAllPrices();
+        this.getNFTInfo();
       }
     });
   }
@@ -189,7 +202,10 @@ export class HomeWalletPage implements OnInit {
           .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
           .toPromise()
           .then((res) => (this.allPrices = res))
-          .finally(() => this.getWalletsBalances());
+          .finally(async () => {
+            this.getWalletsBalances();
+            this.alreadyInitialized = false;
+          });
       });
     });
   }

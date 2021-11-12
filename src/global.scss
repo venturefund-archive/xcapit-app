@@ -139,9 +139,22 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-lato);
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-regular);
-    color: var(--ion-color-uxsemidark);
+    color: var(--ion-color-uxprimary);
   }
 
+  .ux-link-xs {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-info);
+  }
+
+  .ux-link-xl {
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-16);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-info);
+  }
   // Texto normal
   .ux-font-text-base {
     font-family: var(--ux-font-lato);
@@ -149,6 +162,14 @@ ion-toast.refresher_toast {
     font-weight: var(--ux-fweight-regular);
     color: var(--ion-color-uxsemidark);
     line-height: 24px;
+  }
+
+  //Título XS
+  .ux-font-title-xs {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-bold);
+    color: var(--ion-color-uxsemidark);
   }
 
   // Título
@@ -172,7 +193,7 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-22);
     font-weight: var(--ux-fweight-semibold);
-    color: var(--ion-color-uxdark);
+    color: var(--ion-color-uxprimary);
     line-height: 25.81px;
   }
 
@@ -180,7 +201,6 @@ ion-toast.refresher_toast {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-bold);
-    color: var(--ion-color-uxdark);
     line-height: 18.77px;
     color: var(--ion-color-info);
     text-decoration: underline;
@@ -404,13 +424,9 @@ ion-toast.refresher_toast {
 
   .recovery-phrase-password-modal {
     .modal-wrapper {
-      margin-top: 330px;
-      --height: 350px;
-      background-color: var(--ion-background-colorwhite);
-
-      .ion-page {
-        padding-bottom: 60px;
-      }
+      position: absolute;
+      height: 330px !important;
+      top: calc(100% - (330px));
     }
   }
 
@@ -642,7 +658,9 @@ ion-toast.refresher_toast {
   }
   .picker-toolbar-cancel > button,
   .picker-toolbar-button > button {
-    color: var(--ion-color-uxprimary);
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-16);
+    color: var(--ion-color-info);
     font-weight: var(--ux-fweight-bold);
   }
 

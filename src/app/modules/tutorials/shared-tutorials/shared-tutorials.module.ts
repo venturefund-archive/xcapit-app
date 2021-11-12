@@ -1,18 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { UxSlideStepShowComponent } from '../first-steps/ux-slide-step-show/ux-slide-step-show.component';
+import { StepComponent } from './components/step/step.component';
 
 @NgModule({
-  declarations: [
-    UxSlideStepShowComponent
-  ],
+  declarations: [StepComponent],
   imports: [SharedModule],
-  entryComponents: [
-
-  ],
-  exports: [
-    SharedModule,
-    UxSlideStepShowComponent
-  ]
+  entryComponents: [],
+  exports: [SharedModule, StepComponent],
 })
 export class SharedTutorialsModule {}

@@ -122,7 +122,8 @@ describe('ReceivePage', () => {
     const spy = spyOn(component, 'checkUrlParams');
     activatedRouteMock.queryParams.next();
     await component.ionViewWillEnter();
-    expect(component.defaultAsset.value).toEqual(testCurrencies[0].value);
+    await fixture.whenStable();
+    expect(component.form.value.currency).toEqual(testCurrencies[0]);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -130,6 +131,7 @@ describe('ReceivePage', () => {
     const spy = spyOn(qrCodeService, 'generateQRFromText').and.callThrough();
     await component.ionViewWillEnter();
     await fixture.whenStable();
+    await fixture.whenRenderingDone();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith('test_address');
     expect(component.addressQr).toBeTruthy();

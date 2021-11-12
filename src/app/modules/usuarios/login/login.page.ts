@@ -10,19 +10,16 @@ import { Plugins } from '@capacitor/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
   template: `
-    <div class="app_header_trama">
-      <app-ux-header-login>
-        <div class="app_header_trama__content">
-          <div class="app_header_trama__content__app_xcapit_logo">
-            <app-xcapit-logo></app-xcapit-logo>
-          </div>
-        </div>
-      </app-ux-header-login>
-    </div>
+    <ion-header>
+      <div class="xcapit-logo">
+        <app-xcapit-logo></app-xcapit-logo>
+      </div>
+    </ion-header>
     <div class="login_title">
       <app-ux-title>
         {{ 'usuarios.login.title' | translate }}
@@ -31,20 +28,6 @@ import { NavController } from '@ionic/angular';
 
     <div class="main ion-padding-horizontal ion-padding-bottom">
       <app-auth-form [isLogin]="true" (send)="this.loginUser($event)">
-        <div class="auth-link-reset-password main__reset_password">
-          <ion-button
-            class="main__reset_password__button ux_button"
-            appTrackClick
-            name="Reset Password"
-            fill="clear"
-            size="small"
-            type="button"
-            color="uxprimary"
-            (click)="this.goToResetPassword()"
-          >
-            {{ 'usuarios.login.reset_password_link' | translate }}
-          </ion-button>
-        </div>
         <div class="auth-button">
           <ion-button
             appTrackClick
@@ -67,18 +50,31 @@ import { NavController } from '@ionic/angular';
             size="large"
             expand="block"
             type="button"
-            color="uxprimary"
             (click)="this.goToRegister()"
-            class="ux_button"
+            class="ux-link-xl"
           >
             {{ 'usuarios.login.register_link' | translate }}
           </ion-button>
         </div>
+        <div class="auth-link-reset-password main__reset_password">
+          <ion-button
+            class="main__reset_password__button ux-link-xs"
+            appTrackClick
+            name="Reset Password"
+            fill="clear"
+            size="small"
+            type="button"
+            color="info"
+            (click)="this.goToResetPassword()"
+          >
+            {{ 'usuarios.login.reset_password_link' | translate }}
+          </ion-button>
+        </div>
       </app-auth-form>
-      <div class="ion-text-center">
+      <!-- <div class="ion-text-center">
         <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
-      </div>
-      <div class="google-auth">
+      </div> -->
+      <!-- <div class="google-auth">
         <ion-button
           appTrackClick
           name="Google Auth"
@@ -95,7 +91,7 @@ import { NavController } from '@ionic/angular';
             'usuarios.login.google_auth' | translate
           }}</span>
         </ion-button>
-      </div>
+      </div> -->
     </div>
   `,
   styleUrls: ['./login.page.scss'],
@@ -103,6 +99,7 @@ import { NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
   googleAuthPlugin: any = Plugins.GoogleAuth;
+  alreadyOnboarded: boolean;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -111,10 +108,15 @@ export class LoginPage implements OnInit {
     private loadingService: LoadingService,
     private notificationsService: NotificationsService,
     private localNotificationsService: LocalNotificationsService,
-    private navController: NavController
+    private navController: NavController,
+    private storage: Storage
   ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.storage.get('FINISHED_ONBOARDING').then((res) => (this.alreadyOnboarded = res));
+  }
 
   async googleSingUp() {
     let googleUser;
@@ -129,17 +131,20 @@ export class LoginPage implements OnInit {
   }
 
   loginUser(data: any) {
-    this.apiUsuarios.login(data).subscribe(() => this.success());
+    this.loadingService.show().then(() => {
+      this.apiUsuarios.login(data).subscribe(() => this.success());
+    });
   }
 
   private async success() {
-    this.loadingService.enabled();
     this.loginForm.form.reset();
     this.notificationsService.getInstance().init();
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
+    } else {
+      await this.loadingService.dismiss();
     }
   }
 
@@ -159,7 +164,7 @@ export class LoginPage implements OnInit {
         break;
       }
       case UserStatus.BEGINNER: {
-        url = ['tutorials/first-steps'];
+        url = this.alreadyOnboarded ? ['tabs/home'] : ['tutorials/first-steps'];
         break;
       }
       default: {
@@ -172,7 +177,7 @@ export class LoginPage implements OnInit {
 
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.status_name);
-    this.navController.navigateForward(url).then(() => this.loadingService.disabled());
+    this.navController.navigateForward(url).then(() => this.loadingService.dismiss());
   }
 
   async goToResetPassword() {

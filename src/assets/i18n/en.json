@@ -7,6 +7,7 @@
       "deposit_address": "Deposit address",
       "logout": "Log Out",
       "commissions": "Commissions",
+      "recovery_phrase": "Recovery phrase",
       "help": "Support",
       "password_change": "Password Change",
       "referrals": "Referrals",
@@ -113,9 +114,8 @@
       "ok_text": "Email Verificado correctamente!"
     },
     "login": {
-      "email_placeholder_label": "email@example.com",
       "password_label": "Password",
-      "register_link": "Create new account",
+      "register_link": "Do not have an account? Create one",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
       "title": "Login",
@@ -132,9 +132,8 @@
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
       "referral_code_label": "Referral code",
-      "have_an_account": "Already have an account?",
-      "back_login": "Sign in",
-      "accept_tos": "I agree the",
+      "back_login": "Already have account? Sign in to Xcapit",
+      "accept_tos": "I agree",
       "link_tos": "Terms and conditions",
       "waiting_list_alert": {
         "alert_header": "Do you want to try the App?",
@@ -959,22 +958,19 @@
     },
     "first_steps": {
       "step1": {
-        "primary_text": "Welcome to Xcapit",
-        "secondary_text": "Your digital account for all your cryptocurrency needs.",
-        "next_button": "Next"
+        "primary_text": "We welcome you!",
+        "secondary_text": "With Xcapit Wallet only you are in control at all times, you will know where your money is and how much profit it generates."
       },
       "step2": {
-        "primary_text": "You are already part of the future",
-        "secondary_text": "Choose from multiple options to invest in simple steps.",
-        "next_button": "Next",
-        "back_button": "Back"
+        "primary_text": "A long journey begins with a first step",
+        "secondary_text": "Plan and achieve your goals.\nWe help you set your objectives and find the best way to achieve them simply and safely."
       },
       "step3": {
-        "primary_text": "Your money, your custody",
-        "secondary_text": "We work with Binance, the most secure cryptocurrency exchange in the world. Our algorithms operate on your account, and only you have access to capital withdrawals.",
-        "back_button": "Back",
-        "config_button": "Start"
-      }
+        "primary_text": "The competition is with you",
+        "secondary_text": "Learn finance by playing! Improve your financial education, learn by playing and receive incentives based on your growth and evolution."
+      },
+      "skip_button": "Skip",
+      "finish_button": "Begin"
     }
   },
   "subscriptions": {
@@ -1349,7 +1345,7 @@
     "home": {
       "available_money": "Available money in wallet",
       "tab_assets": "Assets",
-      "tab_nfts": "NFTs",
+      "tab_nfts": "NFT",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
@@ -1411,6 +1407,14 @@
       "disclaimer_header": "Send only {{currency}} to this deposit address.",
       "disclaimer_body": "Sending other coins or tokens to this address other than {{currency}} may result in the loss of your deposit.",
       "share_title": "Wallet address"
+    },
+    "nft_detail": {
+      "title": "NFT Detail",
+      "label1": "Created By",
+      "label2": "Chain Info",
+      "label_input1": "Contact Address",
+      "label_input2": "Token ID",
+      "label_input3": "Blockchain"
     },
     "failed_mnemonic": {
       "title": "Your recovery phrase is wrong",
@@ -1522,7 +1526,12 @@
         "title": "For security",
         "label": "Password",
         "disclaimer": "The password has to have at least 6 characters, it must contain numbers and letters, at least one uppercase letter and one lowercase letter",
-        "button_text": "Accept"
+        "button_text": "Accept",
+        "alert": {
+          "header": "Error",
+          "title": "The password is not correct.",
+          "button_text": "Retry"
+        }
       },
       "claim_nft_card": {
         "base": "Here you can see your NFTs",

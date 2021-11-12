@@ -133,6 +133,10 @@ const routes: Routes = [
         path: 'asset-detail/:currency',
         loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
       },
+      {
+        path: 'nft-detail',
+        loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
+      },
     ],
   },
 ];

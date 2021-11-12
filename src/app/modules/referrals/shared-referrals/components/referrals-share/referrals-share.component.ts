@@ -30,7 +30,7 @@ import { ClipboardService } from '../../../../../shared/services/clipboard/clipb
         >
         <br />
         <ion-text class="ux-font-text-base">
-          {{ 'referrals.referrals_share.first_order_referrals_text' | translate: { amount: this.secondOrderReward } }}
+          {{ 'referrals.referrals_share.second_order_referrals_text' | translate: { amount: this.secondOrderReward } }}
         </ion-text>
       </div>
 
