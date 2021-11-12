@@ -49,7 +49,7 @@ import { ToastService } from '../../services/toast/toast.service';
           class="ux_input_container__item__copy_icon"
           (click)="this.copyToClipboard()"
         >
-          <img src="assets/img/prueba/copy.svg" />
+          <img src="assets/img/nft-detail/copy.svg" />
         </ion-button>
       </ion-item>
       <app-errors-form-item
