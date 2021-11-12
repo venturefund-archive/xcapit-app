@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MainMenuPage } from './main-menu.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
@@ -12,6 +12,8 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 const appPages = [
   {
@@ -56,6 +58,7 @@ const appPages = [
     title: 'app.main_menu.recovery_phrase',
     url: '/wallets/recovery/info',
     icon: 'ux-lock',
+    elementClick: 'recoveryPhrase',
     routeDirection: 'forward',
     showInProd: true,
   },
@@ -127,7 +130,8 @@ describe('MainMenuPage', () => {
   let modalControllerMock: any;
   let onDidDismissSpy: any;
   let fakeNavController: FakeNavController;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -162,6 +166,7 @@ describe('MainMenuPage', () => {
         dismiss: Promise.resolve(),
       };
       modalControllerMock.create.and.callThrough();
+      walletServiceSpy = jasmine.createSpyObj('WalletService', { walletExist: Promise.resolve(true) });
       TestBed.configureTestingModule({
         declarations: [FakeTrackClickDirective, MainMenuPage],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -172,8 +177,9 @@ describe('MainMenuPage', () => {
           { provide: ApiApikeysService, useValue: apiApiKeysServiceSpy },
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: WalletService, useValue: walletServiceSpy },
         ],
-        imports: [TranslateModule.forRoot()],
+        imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       }).compileComponents();
     })
   );
@@ -234,10 +240,11 @@ describe('MainMenuPage', () => {
       fiatRampsServiceSpy.userHasOperations.and.returnValue(of({ user_has_operations: true }));
       apiApiKeysServiceSpy.getAll.and.returnValue(of([]));
       component.ionViewWillEnter();
-
+      fixture.detectChanges();
+      await fixture.whenStable();
       const button = fixture.debugElement.query(By.css(`ion-item#${item.name}`));
       button.nativeElement.click();
-
+      await fixture.whenStable();
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(`${item.url}`);
     });
   });
@@ -248,5 +255,14 @@ describe('MainMenuPage', () => {
     await fixture.whenStable();
 
     expect(languageServiceSpy.setLanguage).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to "/wallets/recovery/info-no-wallet" when recoveryPhrase is clicked and there is not wallet', async () => {
+    walletServiceSpy.walletExist.and.resolveTo(false);
+    const button = fixture.debugElement.query(By.css(`ion-item#RecoveryPhrase`));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/recovery/info-no-wallet');
   });
 });

@@ -8,6 +8,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
 import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 import { environment } from 'src/environments/environment';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -120,6 +121,7 @@ export class MainMenuPage implements OnInit {
       title: 'app.main_menu.recovery_phrase',
       url: '/wallets/recovery/info',
       icon: 'ux-lock',
+      elementClick: 'recoveryPhrase',
       routeDirection: 'forward',
       showInProd: true,
     },
@@ -186,7 +188,8 @@ export class MainMenuPage implements OnInit {
     private translate: TranslateService,
     private modalController: ModalController,
     private apiFiatRampsService: FiatRampsService,
-    public navController: NavController
+    public navController: NavController,
+    private walletService: WalletService
   ) {}
 
   ngOnInit() {
@@ -253,14 +256,14 @@ export class MainMenuPage implements OnInit {
   }
 
   async clickAction(item) {
-    if (item.elementClick === 'buyCrypto') {
-      this.hasApiKeysOrOperations() ? this.navigateToURL(item.url) : await this.openModal();
+    let url = item.url;
+    if (item.elementClick === 'buyCrypto' && !this.hasApiKeysOrOperations()) {
+      await this.openModal();
       return;
     }
-    this.navigateToURL(item.url);
-  }
-
-  navigateToURL(url) {
+    if (item.elementClick === 'recoveryPhrase' && !(await this.walletService.walletExist())) {
+      url = '/wallets/recovery/info-no-wallet';
+    }
     this.navController.navigateForward(url);
   }
 }
