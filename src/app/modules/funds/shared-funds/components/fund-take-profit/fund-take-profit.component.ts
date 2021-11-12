@@ -91,10 +91,11 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
           </div>
           <div class="ftp__next_button">
             <ion-button
-              class="ux-link-xs"
+              class="ux_button"
               appTrackClick
               name="Save Fund Take Profit"
               type="submit"
+              color="uxsecondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >
