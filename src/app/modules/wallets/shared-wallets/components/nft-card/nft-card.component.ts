@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { NFTMetadata } from '../../interfaces/nft-metadata.interface';
 
 @Component({
   selector: 'app-nft-card',
@@ -17,12 +19,17 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./nft-card.component.scss'],
 })
 export class NftCardComponent implements OnInit {
-  @Input() data;
+  @Input() data: NFTMetadata;
   constructor(private navContrller: NavController) {}
 
   ngOnInit() {}
 
   goToDetail() {
-    this.navContrller.navigateForward(['/wallets/nft-detail']);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        nftMetadata: this.data,
+      },
+    };
+    this.navContrller.navigateForward(['/wallets/nft-detail'], navigationExtras);
   }
 }
