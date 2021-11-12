@@ -159,7 +159,9 @@ export class DisclaimerWalletPage implements OnInit {
     await modal.present();
   }
 
-  showTermsOfUse() {}
+  showTermsOfUse() {
+    this.navController.navigateForward(['/support/wallet-info']);
+  }
 
   acceptToS() {
     this.storageWalletsService.acceptToS();
