@@ -66,7 +66,7 @@ import { ApiApikeysService } from '../../../../apikeys/shared-apikeys/services/a
               fill="clear"
               size="small"
               (click)="this.renewFund()"
-              class="renovate-fund ux-font-text-xxs"
+              class="renovate-fund ux-link-xs"
             >
               {{ 'funds.funds_finished.fund_finished_card.renovate' | translate }}
             </ion-button>

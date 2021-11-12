@@ -28,19 +28,16 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 export class FundsFinishedPage implements OnInit {
   funds: any[] = [];
 
-  constructor(
-    private apiFundsService: ApiFundsService,
-    private fundDataStorage: FundDataStorageService
-  ) { }
+  constructor(private apiFundsService: ApiFundsService, private fundDataStorage: FundDataStorageService) {}
 
   ionViewDidEnter() {
     this.getFundsToRenew();
   }
 
   getFundsToRenew() {
-    this.apiFundsService.getFundsToRenew().subscribe(data => {
+    this.apiFundsService.getFundsToRenew().subscribe((data) => {
       this.funds = data;
-    })
+    });
   }
 
   ngOnInit() {
@@ -52,7 +49,7 @@ export class FundsFinishedPage implements OnInit {
   }
 
   removeElement(fund) {
-    const index = this.funds.findIndex(item => item.nombre_bot === fund.nombre_bot);
+    const index = this.funds.findIndex((item) => item.nombre_bot === fund.nombre_bot);
     if (index >= 0) {
       this.funds.splice(index, 1);
     }
