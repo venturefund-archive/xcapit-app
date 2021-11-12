@@ -95,6 +95,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
               appTrackClick
               name="Save Fund Take Profit"
               type="submit"
+              color="uxsecondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >
