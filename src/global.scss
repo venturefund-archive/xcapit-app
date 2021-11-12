@@ -148,6 +148,7 @@ ion-toast.refresher_toast {
     font-size: var(--ux-fsize-16);
     font-weight: var(--ux-fweight-regular);
     color: var(--ion-color-uxsemidark);
+    line-height: 24px;
   }
 
   // Título
@@ -172,6 +173,7 @@ ion-toast.refresher_toast {
     font-size: var(--ux-fsize-22);
     font-weight: var(--ux-fweight-semibold);
     color: var(--ion-color-uxdark);
+    line-height: 25.81px;
   }
 
   .ux-font-link-xl {
@@ -182,7 +184,6 @@ ion-toast.refresher_toast {
     line-height: 18.77px;
     color: var(--ion-color-info);
     text-decoration: underline;
-    line-height: 24px;
   }
 
   .ux-font-num-titulo {

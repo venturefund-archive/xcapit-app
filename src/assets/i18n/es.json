@@ -1499,7 +1499,16 @@
         "namePrimaryAction": "Reintentar"
       }
     },
+    "investments": {
+      "coming_soon": {
+        "header": "Inversión"
+      }
+    },
     "shared_wallets": {
+      "coming_soon_card": {
+        "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
+        "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
+      },
       "start_investing_card": {
         "title": "Invierte tus cripto ahora y obtén ganancias diarias",
         "text": "Comenzar a invertir"

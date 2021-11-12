@@ -1494,7 +1494,16 @@
         "namePrimaryAction": "Retry"
       }
     },
+    "investments": {
+      "coming_soon": {
+        "header": "Investment"
+      }
+    },
     "shared_wallets": {
+      "coming_soon_card": {
+        "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
+        "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
+      },
       "start_investing_card": {
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
