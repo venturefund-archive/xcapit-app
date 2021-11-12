@@ -1358,6 +1358,15 @@
       "text3": "If you lose your recovery phrase, not even Xcapit will be able to recover your funds.",
       "button_text": "Continue"
     },
+    "recovery_phrase_information_no_wallet": {
+      "header": "Recovery phrase",
+      "text1": "You still do not have a recovery phrase.",
+      "text2": "Create or import your wallet to be able to view it.",
+      "text3": "As long as you have your 12 word phrase you will be able to recover your wallet and all your assets.",
+      "button_import": "Import Wallet",
+      "button_create": "Create Wallet",
+      "button_faq": "What is the recovery phrase?"
+    },
     "recovery_phrase_read": {
       "header": "Recovery phrase",
       "title": "Recovery phrase",

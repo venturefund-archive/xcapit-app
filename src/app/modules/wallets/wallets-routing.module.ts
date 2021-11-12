@@ -84,6 +84,13 @@ const routes: Routes = [
             loadChildren: () =>
               import('./recovery-phrase-read/recovery-phrase-read.module').then((m) => m.RecoveryPhraseReadPageModule),
           },
+          {
+            path: 'info-no-wallet',
+            loadChildren: () =>
+              import('./recovery-phrase-no-wallet/recovery-phrase-no-wallet.module').then(
+                (m) => m.RecoveryPhraseNoWalletPageModule
+              ),
+          },
         ],
       },
       {
