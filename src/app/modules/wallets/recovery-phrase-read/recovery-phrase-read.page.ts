@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/recovery/info"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'wallets.recovery_phrase_read.header' | translate }}</ion-title>
+        <ion-title class="ux-font-text-lg">{{ 'wallets.recovery_phrase_read.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="rpr ion-padding-start ion-padding-end">
