@@ -133,16 +133,6 @@ const routes: Routes = [
         path: 'asset-detail/:currency',
         loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
       },
-      {
-        path: 'investments',
-        children: [
-          {
-            path: 'coming-soon',
-            loadChildren: () =>
-              import('./investments/coming-soon/coming-soon.module').then((m) => m.ComingSoonPageModule),
-          },
-        ],
-      },
     ],
   },
 ];
