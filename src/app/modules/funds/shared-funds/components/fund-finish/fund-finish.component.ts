@@ -56,11 +56,12 @@ export class FundFinishComponent implements OnInit {
         {
           text: this.translate.instant('funds.fund_finish_pause_fund_card.alert_cancel_button'),
           role: 'cancel',
-          cssClass: 'secondary',
+          cssClass: 'ux-link-xs',
           handler: (_) => this.enabledButton(),
         },
         {
           text: this.translate.instant('funds.fund_finish_pause_fund_card.alert_finish_button'),
+          cssClass: 'ux-link-xs',
           handler: (_) => this.finishFund(),
         },
       ],
