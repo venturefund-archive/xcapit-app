@@ -1,0 +1,21 @@
+:host {
+  .rt {
+    ion-text {
+      display: block;
+    }
+    &__title {
+      margin-top: 24px;
+    }
+
+    &__subtitle {
+      margin-top: 24px;
+    }
+
+    &__paragraph {
+      &.first {
+        margin-top: 24px;
+      }
+      white-space: pre-wrap;
+    }
+  }
+}

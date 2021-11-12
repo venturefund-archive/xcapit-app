@@ -15,7 +15,7 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
         <ion-title class="ion-text-center">{{ 'referrals.referrals_summary.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="rs ion-padding ion-padding">
+    <ion-content class="rs ion-padding">
       <div class="rs__referrals-share" *ngIf="this.referralLink">
         <app-referrals-share
           [firstOrderReward]="1"
