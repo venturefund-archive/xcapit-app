@@ -56,6 +56,6 @@ describe('ReferralsSummaryPage', () => {
   it('should get referrals count on init', async () => {
     component.ionViewWillEnter();
     await fixture.whenStable();
-    expect(component.referrals).toBeTruthy();
+    expect(component.referrals).toBeFalsy();
   });
 });
