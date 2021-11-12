@@ -97,12 +97,11 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
         <div class="wt__balance__wallet-balance-card segment-content">
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
-        <app-start-investing></app-start-investing>
       </div>
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
           (click)="this.goToRecoveryWallet()"
-          class="ux-font-text-ls"
+          class="ux-link-xs"
           appTrackClick
           name="Import Wallet"
           type="button"
@@ -111,6 +110,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
       </div>
+      <app-start-investing></app-start-investing>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })

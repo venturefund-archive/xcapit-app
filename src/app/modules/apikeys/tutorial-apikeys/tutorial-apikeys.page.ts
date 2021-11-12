@@ -65,7 +65,7 @@ import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apik
         <div class="apnf__need_help ux_footer">
           <ion-button
             name="Need Help"
-            class="ux-link-xl"
+            class="ux-link-xs"
             (click)="this.howToCreateAPIKey()"
             appTrackClick
             fill="clear"
