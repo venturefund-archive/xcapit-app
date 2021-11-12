@@ -8,6 +8,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
+import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -16,6 +17,24 @@ import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface
     </ion-header>
 
     <ion-content>
+      <ion-refresher (ionRefresh)="refresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
+        <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="true" pullingIcon="false">
+          <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
+          <ion-text
+            class="ux-font-lato ux-fweight-regular ux-fsize-10"
+            color="uxsemidark"
+            *ngIf="!(this.isRefreshAvailable$ | async)"
+          >
+            {{
+              'funds.funds_list.refresh_time'
+                | translate
+                  : {
+                      seconds: (this.refreshRemainingTime$ | async)
+                    }
+            }}
+          </ion-text>
+        </ion-refresher-content>
+      </ion-refresher>
       <div class="wt__subheader__value">
         <div class="wt__title ux-font-text-base">
           <ion-text>
@@ -104,6 +123,8 @@ export class HomeWalletPage implements OnInit {
   userCoins: Coin[];
   alreadyInitialized = false;
   NFTMetadata: NFTMetadata;
+  isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
+  refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
 
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
@@ -116,7 +137,8 @@ export class HomeWalletPage implements OnInit {
     private storageService: StorageService,
     private navController: NavController,
     private formBuilder: FormBuilder,
-    private nftService: NftService
+    private nftService: NftService,
+    private refreshTimeoutService: RefreshTimeoutService
   ) {}
 
   ngOnInit() {}
@@ -124,6 +146,18 @@ export class HomeWalletPage implements OnInit {
   ionViewWillEnter() {
     this.encryptedWalletExist();
     this.getNFTStatus();
+  }
+
+  async refresh(event: any) {
+    if (this.refreshTimeoutService.isAvailable()) {
+      this.uninitializedWallet();
+      this.getNFTStatus();
+      await this.encryptedWalletExist();
+      this.refreshTimeoutService.lock();
+      event.target.complete();
+    } else {
+      setTimeout(() => event.target.complete(), 1000);
+    }
   }
 
   getNFTStatus() {
@@ -141,7 +175,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   createBalancesStructure(coin: Coin): AssetBalance {
-    const balance: AssetBalance = {
+    return {
       icon: coin.logoRoute,
       symbol: coin.value,
       name: coin.name,
@@ -149,8 +183,6 @@ export class HomeWalletPage implements OnInit {
       usdAmount: 0,
       usdSymbol: 'USD',
     };
-
-    return balance;
   }
 
   async encryptedWalletExist() {
@@ -204,10 +236,14 @@ export class HomeWalletPage implements OnInit {
           .then((res) => (this.allPrices = res))
           .finally(async () => {
             this.getWalletsBalances();
-            this.alreadyInitialized = false;
+            this.uninitializedWallet();
           });
       });
     });
+  }
+
+  private uninitializedWallet() {
+    this.alreadyInitialized = false;
   }
 
   private getCoinForPrice(symbol: string): string {
