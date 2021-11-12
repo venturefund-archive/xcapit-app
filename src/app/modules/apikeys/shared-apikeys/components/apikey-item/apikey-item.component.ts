@@ -53,14 +53,15 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
         <ion-button
           *ngIf="!this.fundName"
           appTrackClick
+          class="ux-link-xl"
           name="Manage"
           fill="clear"
           size="small"
-          class="cib__footer__more_info ux-link-xs"
+          class="cib__footer__more_info ux-font-text-xxs"
           (click)="this.useApiKey(this.id)"
         >
           {{ 'apikeys.card_apikeys.action' | translate }}
-          <ion-icon slot="end" name="ux-forward" class="ux-link-xs"></ion-icon>
+          <ion-icon slot="end" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
         <ion-text *ngIf="this.fundName" class="cib__footer__used_key">
           {{ 'apikeys.card_apikeys.used_apikey' | translate }}
@@ -123,10 +124,11 @@ export class ApikeyItemComponent implements OnInit {
         {
           text: this.translate.instant('apikeys.card_apikeys.confirmation_alert.cancel_button'),
           role: 'cancel',
-          cssClass: 'secondary',
+          cssClass: 'ux-link-xs',
         },
         {
           text: this.translate.instant('apikeys.card_apikeys.confirmation_alert.confirm_button'),
+          cssClass: 'ux-link-xs',
           handler: (_) => this.remove(id),
         },
       ],

@@ -8,8 +8,8 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/funds/fund-investment"></ion-back-button>
+        <ion-buttons slot="start" class="ux-link-xs">
+          <ion-back-button defaultHref="/funds/fund-investment" class="ux-link-xs"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center"> {{ 'funds.fund_take_profit.header' | translate }}</ion-title>
       </ion-toolbar>

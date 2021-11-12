@@ -32,12 +32,8 @@
         }
       }
       &__right {
-        .share-button {
-          height: 100%;
-          display: flex;
-          .renovate-fund {
-            align-self: center;
-          }
+        ion-button.renovate-fund {
+          font-weight: var(--ux-fweight-semibold);
         }
       }
     }
