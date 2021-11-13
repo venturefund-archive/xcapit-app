@@ -35,7 +35,7 @@ import { NavController } from '@ionic/angular';
           <div class="ftl__content__item__content" *ngIf="this.run.estado === 'finalizado'">
             <div class="ftl__content__item__content__info">
               <div>
-                <ion-label color="uxsecondary" class="ux-font-text-xs semibold">
+                <ion-label color="uxprimary" class="ux-font-text-xs semibold">
                   {{ this.run.fecha_inicio | date: 'dd/MM/yyyy' }}
                 </ion-label>
               </div>

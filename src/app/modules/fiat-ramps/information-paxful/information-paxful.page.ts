@@ -37,7 +37,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 class="medium"
                 ngClass="checkbox"
                 controlName="responsibilityAccepted"
-                color="uxcombination"
                 slot="start"
               ></app-ux-checkbox>
             </div>
@@ -53,7 +52,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 class="medium"
                 ngClass="checkbox"
                 controlName="providerAccepted"
-                color="uxcombination"
                 slot="start"
               ></app-ux-checkbox>
             </div>
@@ -69,7 +67,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 class="medium"
                 ngClass="checkbox"
                 controlName="rateAccepted"
-                color="uxcombination"
                 slot="start"
               ></app-ux-checkbox>
             </div>
@@ -85,7 +82,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
                 class="medium"
                 ngClass="checkbox"
                 controlName="investmentAccepted"
-                color="uxcombination"
                 slot="start"
               ></app-ux-checkbox>
             </div>

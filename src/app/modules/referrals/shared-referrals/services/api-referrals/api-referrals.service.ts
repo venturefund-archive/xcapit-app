@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { finalize } from 'rxjs/operators';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { ReferralsCount } from '../../interfaces/referrals-info.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +38,9 @@ export class ApiReferralsService {
     return this.http
       .get(`${environment.apiUrl}/${this.entity}/count`, {})
       .pipe(finalize(() => this.loadingService.enabled()));
+  }
+
+  getUserReferralsInfo(): Observable<ReferralsCount> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/user_referrals`);
   }
 }

@@ -78,20 +78,25 @@
   /** xcapit custom colors **/
 
   /** ux primary **/
-  --ion-color-uxprimary: #ff8006;
-  --ion-color-uxprimary-rgb: 255, 145, 0;
+  --ion-color-uxprimary: #1c2d5e;
+  --ion-color-uxprimary-rgb: 28, 45, 94;
   --ion-color-uxprimary-contrast: #ffffff;
   --ion-color-uxprimary-contrast-rgb: 255, 255, 255;
-  --ion-color-uxprimary-shade: #e08000;
-  --ion-color-uxprimary-tint: #ff9c1a;
+  --ion-color-uxprimary-matiz: #192853;
+  --ion-color-uxprimary-tint: #33426e;
+
+  /** ux primary hover**/
+  --ion-color-uxprimary-hover: #38499f;
+  /** ux secondary hover **/
+  --ion-color-uxsecondary-hover: #b2c610;
 
   /** ux secondary **/
-  --ion-color-uxsecondary: #006eff;
-  --ion-color-uxsecondary-rgb: 0, 110, 255;
-  --ion-color-uxsecondary-contrast: #ffffff;
-  --ion-color-uxsecondary-contrast-rgb: 255, 255, 255;
-  --ion-color-uxsecondary-shade: #0061e0;
-  --ion-color-uxsecondary-tint: #1a7dff;
+  --ion-color-uxsecondary: #d7eb36;
+  --ion-color-uxsecondary-rgb: 215, 235, 54;
+  --ion-color-uxsecondary-contrast: #1c2d5e;
+  --ion-color-uxsecondary-contrast-rgb: 255, 87, 51;
+  --ion-color-uxsecondary-matiz: #bdcf30;
+  --ion-color-uxsecondary-tint: #dbed4a;
 
   /** ux danger **/
   --ion-color-uxdanger: #ef170e;
@@ -110,28 +115,28 @@
   --ion-color-uxsuccess-tint: #37e072;
 
   /** ux medium (Neutro-50)**/
-  --ion-color-uxmedium: #929292;
-  --ion-color-uxmedium-rgb: 0, 0, 0, 0.3803921568627451;
-  --ion-color-uxmedium-contrast: #ffffff;
-  --ion-color-uxmedium-contrast-rgb: 255, 255, 255;
-  --ion-color-uxmedium-shade: #676767;
-  --ion-color-uxmedium-tint: #838383;
+  --ion-color-uxmedium: #b0b6c7;
+  --ion-color-uxmedium-rgb: 176, 182, 199;
+  --ion-color-uxmedium-contrast: #000000;
+  --ion-color-uxmedium-contrast-rgb: 0, 0, 0;
+  --ion-color-uxmedium-shade: #9ba0af;
+  --ion-color-uxmedium-tint: #b8bdcd;
 
-  /** ux semidark (Neutro-90) **/
-  --ion-color-uxsemidark: #333333;
-  --ion-color-uxsemidark-rgb: 0, 0, 0, 0.54;
-  --ion-color-uxsemidark-contrast: #0000008a;
+  /** ux semidark (Neutro-80) **/
+  --ion-color-uxsemidark: #606c8e;
+  --ion-color-uxsemidark-rgb: 96, 108, 142;
+  --ion-color-uxsemidark-contrast: #ffffff;
   --ion-color-uxsemidark-contrast-rgb: 255, 255, 255;
-  --ion-color-uxsemidark-shade: #0000008a;
-  --ion-color-uxsemidark-tint: #0000008a;
+  --ion-color-uxsemidark-shade: #545f7d;
+  --ion-color-uxsemidark-tint: #707b99;
 
-  /** ux dark (Black) **/
-  --ion-color-uxdark: #000000de;
-  --ion-color-uxdark-rgb: 0, 0, 0, 0.8705882352941177;
-  --ion-color-uxdark-contrast: #000000de;
+  /** ux dark (Neutro-90) **/
+  --ion-color-uxdark: #263238;
+  --ion-color-uxdark-rgb: 38, 50, 56;
+  --ion-color-uxdark-contrast: #ffffff;
   --ion-color-uxdark-contrast-rgb: 255, 255, 255;
-  --ion-color-uxdark-shade: #000000de;
-  --ion-color-uxdark-tint: #000000de;
+  --ion-color-uxdark-shade: #212c31;
+  --ion-color-uxdark-tint: #3c474c;
 
   /** ux light **/
   --ion-color-uxlight: #ffffff;
@@ -149,41 +154,51 @@
   --ion-color-uxcombination-shade: #65b168;
   --ion-color-uxcombination-tint: #65b168;
 
-  /** ux neutro-30 **/
-  --ion-color-uxline: #bababa;
+  /** ux neutro-50 **/
+  --ion-color-uxline: #b0b6c7;
+
+  /** Gray 1 **/
+  --ion-color-gray1: #333333;
 
   /** alerts color **/
   /** warning **/
-  --ion-color-warninglight: #fffbeb;
-  --ion-color-warning: #fbbf24;
-  --ion-color-warningdark: #bc5b11;
+  --ion-color-warninglight: #feecaa;
+  --ion-color-warning: #fccf2b;
+  --ion-color-warningdark: #654f01;
 
   /** success **/
-  --ion-color-successlight: #ecfdf5;
-  --ion-color-success: #059669;
-  --ion-color-successdark: #065f46;
+  --ion-color-successlight: #dcefe4;
+  --ion-color-success: #27ae60;
+  --ion-color-successdark: #13532e;
 
-  /** danger **/
-  --ion-color-dangerlight: #fef2f2;
-  --ion-color-danger: #ff5656;
-  --ion-color-dangerdark: #c91c1c;
+  /** error **/
+  --ion-color-dangerlight: #f9e7e7;
+  --ion-color-danger: #cf4646;
+  --ion-color-dangerdark: #9d0606;
 
   /** info **/
-  --ion-color-infolight: #eff6ff;
-  --ion-color-info: #3b82f6;
-  --ion-color-infodark: #1e40af;
+  --ion-color-infolight: #e1e9fe;
+  --ion-color-info: #4a75f7;
+  --ion-color-infodark: #001966;
 
+  /** Fondos **/
+  /** Neutro-10 **/
+  --ion-background-color: #f5f5f5;
+  /** Blanco **/
+  --ion-background-colorwhite: #ffffff;
+
+  /** Fuentes **/
+  --ux-font-worksans: 'Work Sans';
   --ux-font-gilroy: 'Gilroy';
   --ux-font-lato: 'Lato';
-  --ux-font-symbola: 'Symbola';
 
-  // Weight
+  /** Weight **/
   --ux-fweight-regular: 400;
   --ux-fweight-semibold: 600;
   --ux-fweight-bold: 700;
   --ux-fweight-extrabold: 800;
 
-  // Size
+  /** Size **/
   --ux-fsize-8: 8px;
   --ux-fsize-10: 10px;
   --ux-fsize-11: 11px;
@@ -200,8 +215,6 @@
 
   --ion-font-family: var(--ux-font-lato);
   --ion-text-color: var(--ion-color-uxdark);
-  --ion-background-color: #f5f5f5;
-  --ion-background-colorwhite: #ffffff;
 }
 
 .ion-color-uxprimary {
@@ -346,7 +359,29 @@
 }
 
 @font-face {
-  font-family: 'Symbola';
+  font-family: 'Work Sans';
+  font-style: normal;
   font-weight: normal;
-  src: url('../assets/fonts/Symbola/Symbola-Emoji.ttf');
+  src: url('../assets/fonts/WorkSans/WorkSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../assets/fonts/WorkSans/WorkSans-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../assets/fonts/WorkSans/WorkSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../assets/fonts/WorkSans/WorkSans-ExtraBold.ttf');
 }

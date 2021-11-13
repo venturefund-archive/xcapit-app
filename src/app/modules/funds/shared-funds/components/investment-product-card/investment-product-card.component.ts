@@ -32,7 +32,7 @@ import { NavController } from '@ionic/angular';
             <ion-text
               (click)="this.moreInfo()"
               class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-              color="uxsecondary"
+              color="uxprimary"
               >{{ this.productData?.more_info | translate }}</ion-text
             >
           </div>

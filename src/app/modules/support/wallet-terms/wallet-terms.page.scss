@@ -1,0 +1,32 @@
+.wt {
+  &__title {
+    color: var(--ion-color-uxprimary);
+    display: flex;
+    margin-bottom: 16px;
+  }
+  &__cards_container {
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    background-color: var(--ion-background-colorwhite);
+    border-radius: 8px;
+  }
+
+  &__description {
+    color: var(--ion-color-uxdark);
+    margin-top: 30px;
+    white-space: pre-wrap;
+  }
+  &__content {
+    display: block;
+  }
+  &__info {
+    margin-top: 16px;
+    width: 95%;
+    height: auto;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 16px;
+  }
+}

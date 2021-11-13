@@ -54,9 +54,7 @@ describe('UserHasOperationsGuard', () => {
     const canActivateResult = getObservable(userHasOperationsGuard.canActivate(activatedRouteSnapshotMock));
     canActivateResult.subscribe((res) => {
       expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/select-provider'], {
-        replaceUrl: true,
-      });
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/select-provider']);
     });
   });
 });

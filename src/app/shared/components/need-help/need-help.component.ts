@@ -34,7 +34,7 @@ const { Browser } = Plugins;
         <ion-button
           name="Go To Help"
           (click)="this.moreInfo()"
-          class="need-help__link__text ux-font-text-xs"
+          class="need-help__link__text ux-link-xs"
           appTrackClick
           fill="clear"
           size="small"

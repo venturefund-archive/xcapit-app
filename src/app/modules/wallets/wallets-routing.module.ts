@@ -72,12 +72,26 @@ const routes: Routes = [
                 (m) => m.SuccessRecoveryWalletPageModule
               ),
           },
+          {
+            path: 'info',
+            loadChildren: () =>
+              import('./recovery-phrase-information/recovery-phrase-information.module').then(
+                (m) => m.RecoveryPhraseInformationPageModule
+              ),
+          },
+          {
+            path: 'read',
+            loadChildren: () =>
+              import('./recovery-phrase-read/recovery-phrase-read.module').then((m) => m.RecoveryPhraseReadPageModule),
+          },
+          {
+            path: 'info-no-wallet',
+            loadChildren: () =>
+              import('./recovery-phrase-no-wallet/recovery-phrase-no-wallet.module').then(
+                (m) => m.RecoveryPhraseNoWalletPageModule
+              ),
+          },
         ],
-      },
-      {
-        path: 'transactions',
-        loadChildren: () =>
-          import('./transactions-wallet/transactions-wallet.module').then((m) => m.TransactionsWalletPageModule),
       },
       {
         path: 'send',
@@ -125,6 +139,10 @@ const routes: Routes = [
       {
         path: 'asset-detail/:currency',
         loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
+      },
+      {
+        path: 'nft-detail',
+        loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
       },
     ],
   },

@@ -1,9 +1,9 @@
 import { EthersService } from './ethers.service';
 import { ContractInterface, ethers } from 'ethers';
 import { Coin } from '../../interfaces/coin.interface';
-import { COINS } from '../../../constants/coins';
+import { NONPROD_COINS } from '../../constants/coins.nonprod';
 
-const LINK: Coin = COINS.find((coin) => coin.value === 'LINK');
+const LINK: Coin = NONPROD_COINS.find((coin) => coin.value === 'LINK');
 
 describe('EthersService', () => {
   let service: EthersService;

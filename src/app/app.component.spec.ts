@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
 import { NavController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -86,5 +86,12 @@ describe('AppComponent', () => {
     await component.logout();
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['users/login']);
+  });
+
+  it('should set html lang in the correct language on init', async () => {
+    const spy = spyOn(component, 'setLanguageSubscribe');
+    component.ngOnInit();
+    await fixture.whenStable();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

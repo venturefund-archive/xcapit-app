@@ -6,10 +6,9 @@ import { environment } from '../../../../../../environments/environment';
 import { CustomHttpService } from '../../../../../shared/services/custom-http/custom-http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiProfilesService {
-
   crud: CRUD;
 
   entity = 'profiles';
@@ -19,21 +18,19 @@ export class ApiProfilesService {
   }
 
   updatePersonalData(personalData: any): Observable<any> {
-    return this.http.put(
-      `${environment.apiUrl}/${this.entity}/personal_data`,
-      personalData
-    );
+    return this.http.put(`${environment.apiUrl}/${this.entity}/personal_data`, personalData);
   }
 
-  profileValid(
-    validationType: string = '',
-    loading = true
-  ): Observable<any> {
+  profileValid(validationType: string = '', loading = true): Observable<any> {
     return this.http.get(
       `${environment.apiUrl}/${this.entity}/valid`,
       { params: { validation_type: validationType } },
       undefined,
       loading
     );
+  }
+
+  setLanguage(language: string, loading = true): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/${this.entity}/language/`, { language }, undefined, loading);
   }
 }

@@ -41,13 +41,16 @@ import { UxListCardComponent } from './components/ux-list-card/ux-list-card.comp
 import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
 import { UxInputUnderlinedComponent } from './components/ux-input-underlined/ux-input-underlined.component';
-import { UxInputSelectTraductionComponent } from './components/ux-input-select-traduction/ux-input-select-traduction.component';
 import { UxStepProgressBarComponent } from './components/ux-step-progress-bar/ux-step-progress-bar.component';
 import { InputSelectComponent } from './components/input-select/input-select.component';
 import { SelectModalNewComponent } from './components/select-modal-new/select-modal-new.component';
 import { SelectStyleDirective } from './directives/select-style/select-style.directive';
 import { EmbedVideoComponent } from './components/embed-video/embed-video.component';
 import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
+import { SupportOptionsCardComponent } from '../modules/support/shared-support/components/support-options-card/support-options-card.component';
+import { ContactSupportComponent } from '../modules/support/shared-support/components/contact-support/contact-support.component';
+import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
+import { NftCardComponent } from '../modules/wallets/shared-wallets/components/nft-card/nft-card.component';
 
 @NgModule({
   declarations: [
@@ -62,9 +65,9 @@ import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
     ToastAlertComponent,
     ScanQrModalComponent,
     EmbedVideoComponent,
+
     // Ux
     SelectModalNewComponent,
-    UxInputSelectTraductionComponent,
     UxInputComponent,
     UxInputGooglePlacesComponent,
     UxCenterImgComponent,
@@ -92,6 +95,10 @@ import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
     InputSelectComponent,
+    SupportOptionsCardComponent,
+    ContactSupportComponent,
+    FaqComponent,
+    NftCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -118,7 +125,6 @@ import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
     ScanQrModalComponent,
     // Ux
     SelectModalNewComponent,
-    UxInputSelectTraductionComponent,
     UxInputComponent,
     UxInputGooglePlacesComponent,
     UxCenterImgComponent,
@@ -146,6 +152,10 @@ import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
     InputSelectComponent,
+    SupportOptionsCardComponent,
+    ContactSupportComponent,
+    FaqComponent,
+    NftCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

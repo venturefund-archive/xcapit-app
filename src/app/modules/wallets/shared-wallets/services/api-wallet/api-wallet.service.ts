@@ -4,7 +4,9 @@ import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
-
+import { PROD_COINS } from '../../constants/coins.prod';
+import { NONPROD_COINS } from '../../constants/coins.nonprod';
+import { Coin } from '../../interfaces/coin.interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +14,7 @@ export class ApiWalletService {
   crud: CRUD;
 
   entity = 'wallet';
-
+  env = environment.environment;
   constructor(private crudService: CrudService, private http: CustomHttpService) {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
@@ -26,5 +28,21 @@ export class ApiWalletService {
       null,
       loading
     );
+  }
+
+  getCoins(): Coin[] {
+    return this.env === 'PRODUCCION' ? PROD_COINS : NONPROD_COINS;
+  }
+
+  createNFTRequest() {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/create_nft_request/`, undefined, undefined, false);
+  }
+
+  getNFTStatus() {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/get_nft_status`, undefined, undefined, false);
+  }
+
+  saveWalletAddresses(wallets: { network: string; address: string }[]): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/`, wallets);
   }
 }

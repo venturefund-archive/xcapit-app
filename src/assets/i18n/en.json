@@ -7,6 +7,7 @@
       "deposit_address": "Deposit address",
       "logout": "Log Out",
       "commissions": "Commissions",
+      "recovery_phrase": "Recovery phrase",
       "help": "Support",
       "password_change": "Password Change",
       "referrals": "Referrals",
@@ -113,9 +114,8 @@
       "ok_text": "Email Verificado correctamente!"
     },
     "login": {
-      "email_placeholder_label": "email@example.com",
       "password_label": "Password",
-      "register_link": "Create new account",
+      "register_link": "Do not have an account? Create one",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
       "title": "Login",
@@ -132,9 +132,8 @@
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
       "referral_code_label": "Referral code",
-      "have_an_account": "Already have an account?",
-      "back_login": "Sign in",
-      "accept_tos": "I agree the",
+      "back_login": "Already have account? Sign in to Xcapit",
+      "accept_tos": "I agree",
       "link_tos": "Terms and conditions",
       "waiting_list_alert": {
         "alert_header": "Do you want to try the App?",
@@ -220,14 +219,13 @@
       "submit_button": "Send"
     },
     "categories": {
-      "my_account": "My account",
+      "my_account": "My account/Registration",
       "link_binance_account": "Link my binance account",
       "buy_crypto": "Buy Crypto",
       "subscription_plans": "Subscription Plans",
       "investment_strategies": "Investment strategies",
-      "account_security": "Account Security",
-      "others": "Others",
-      "email_validation": "Account Validation"
+      "capital_security": "Capital Security",
+      "others": "Others"
     }
   },
   "funds": {
@@ -517,9 +515,9 @@
       "text_help": "In short terms, the robot is more likely to have performance problems."
     },
     "fund_take_profit": {
-      "header": "Change Stop Loss",
-      "title": "When do you want us to stop investing and take the profits?",
-      "text_before": "In case your investment generates profits we need you to decide until what percentage we will continue to invest.",
+      "header": "Change Take Profit",
+      "title": "Set benefit limits",
+      "text_before": "When do you want us to stop investing? Your investment will be finalized when it reaches this profit percentage.",
       "take_profit": "Take profit",
       "most_chosen": "Most chosen",
       "custom_tp_button": "Choose another option",
@@ -538,8 +536,7 @@
       "stop_loss": "Stop loss",
       "most_chosen": "Most chosen",
       "custom_tp_button": "Choose another option",
-      "submit_button": "Create fund",
-      "submit_button_renew": "Renew fund",
+      "submit_button": "Next",
       "submit_button_edit": "Save",
       "edit_custom": "Edit",
       "edit_title": "Change Stop Loss",
@@ -669,6 +666,23 @@
           "status_active": "Active"
         }
       }
+    },
+    "fund_summary": {
+      "header": "Create invest",
+      "title": "You will invest in: ",
+      "strategy": "With strategy: ",
+      "skip_invest": "I don't want to invest yet",
+      "stop_loss_take_profit_summary": {
+        "take_profit": "Take profit",
+        "stop_loss": "Stop loss",
+        "trailing_stop_loss": "Smart stop loss",
+        "no_stop_loss": "No stop loss",
+        "no_take_profit": "No take profit",
+        "change_button": "Change"
+      },
+      "submit_button": "Create fund",
+      "submit_button_renew": "Renew fund",
+      "submit_button_edit": "Save"
     }
   },
   "runs": {
@@ -944,22 +958,19 @@
     },
     "first_steps": {
       "step1": {
-        "primary_text": "Welcome to Xcapit",
-        "secondary_text": "Your digital account for all your cryptocurrency needs.",
-        "next_button": "Next"
+        "primary_text": "We welcome you!",
+        "secondary_text": "With Xcapit Wallet only you are in control at all times, you will know where your money is and how much profit it generates."
       },
       "step2": {
-        "primary_text": "You are already part of the future",
-        "secondary_text": "Choose from multiple options to invest in simple steps.",
-        "next_button": "Next",
-        "back_button": "Back"
+        "primary_text": "A long journey begins with a first step",
+        "secondary_text": "Plan and achieve your goals.\nWe help you set your objectives and find the best way to achieve them simply and safely."
       },
       "step3": {
-        "primary_text": "Your money, your custody",
-        "secondary_text": "We work with Binance, the most secure cryptocurrency exchange in the world. Our algorithms operate on your account, and only you have access to capital withdrawals.",
-        "back_button": "Back",
-        "config_button": "Start"
-      }
+        "primary_text": "The competition is with you",
+        "secondary_text": "Learn finance by playing! Improve your financial education, learn by playing and receive incentives based on your growth and evolution."
+      },
+      "skip_button": "Skip",
+      "finish_button": "Begin"
     }
   },
   "subscriptions": {
@@ -1240,7 +1251,6 @@
       "info_description3": "Within the app, in your referral panel, click Request a reward. We will contact you to coordinate the payment.",
       "info_description4": "Within the app in your referral panel you will see the list of active guests and a counter of the money you have earned."
     },
-
     "referrals_list": {
       "header": "Referrals",
       "new_button": "New",
@@ -1256,6 +1266,62 @@
     },
     "referral_form": {
       "email": "Email"
+    },
+    "referrals_summary": {
+      "header": "Referidos"
+    },
+    "referrals_share": {
+      "title": "Refer and Win!",
+      "first_order_referrals_title": "Add primary referrals",
+      "first_order_referrals_text": "For each friend who signs up using your link you will receive the value of ${{amount}} USD.",
+      "second_order_referrals_title": "Add secondary referrals",
+      "second_order_referrals_text": "If in turn, your friend refers other people, you will receive ${{amount}} USD for each of them.",
+      "share": "Share my link",
+      "copy": "Copy my link",
+      "copied": "Copied",
+      "tos": "See terms and conditions"
+    },
+    "referrals_pending": {
+      "title": "Pending",
+      "first_order_title": "Primary to Xcapit wallet",
+      "first_order_subtitle": "{{quantity}} Recommended",
+      "second_order_title": "Secondary to Xcapit wallet",
+      "second_order_subtitle": "{{quantity}} Recommended",
+      "total_title": "Total reward",
+      "claim_button": "Claim",
+      "disclaimer": "Rewards are credited to MATIC (Polygon). You will be able to claim them from 2021/12/01."
+    },
+    "referrals_history": {
+      "title": "History",
+      "first_order_title": "Primary to Xcapit wallet",
+      "first_order_subtitle": "{{quantity}} Recommended",
+      "second_order_title": "Secondary to Xcapit wallet",
+      "second_order_subtitle": "{{quantity}} Recommended"
+    },
+    "referrals_tos": {
+      "header": "Referrals",
+      "title": "Bases y condiciones programa de referidos",
+      "paragraph": "Crypyolab s.a.s  (en adelante, la “Empresa” o “Xcapit”) lanza el programa de referidos (en adelante, el “Programa de referidos”), cuyo alcance y requisitos está sujeto a las siguientes bases y condiciones (en adelante las “Bases\"). \nEstas bases forman parte de los términos y condiciones generales de la plataforma, disponibles en <a class='ux-link-xl' href='/support/wallet-info'>https://app.xcapit.com/support/wallet-info</a>, que son obligatorios y de carácter vinculante y el participante declara conocer y aceptar. En caso de eventuales discrepancias o conflictos entre ambos documentos, prevalecerán los términos y condiciones generales.\n",
+      "subtitle_1": "1. Requisitos para participar en el programa de referidos",
+      "paragraph_1": "Los usuarios participantes del programa de referidos deberán ser (i) Personas físicas; (ii) Mayores de 18 años.\n",
+      "subtitle_2": "2. La empresa",
+      "paragraph_2": "Todos los términos relacionados a la ejecución del programa de referidos están exclusivamente a cargo de la empresa, quien será el único responsable de la mecánica, control, pruebas, etc. de todo el proceso descrito en las bases. En caso de que la empresa detecte o considere que un referente, en el marco del programa de referidos, cometió o comete actos fraudulentos en detrimento de la empresa y/o terceros, la empresa se reserva el derecho de cerrar inmediatamente la cuenta de dicho referente. El email asociado al referente mencionado permanecerá bloqueado, por lo que no podrá crearse una cuenta con dicha dirección de email. La información asociada a ese email permanecerá almacenada según lo establecido en la política de privacidad, disponible en https://www.xcapit.com/terminos.\n",
+      "subtitle_3": "3. Vigencia",
+      "paragraph_3": "El programa de referidos tendrá una vigencia desde el 12 de noviembre de 2021 y finaliza el día 31 de diciembre de 2021.\n",
+      "subtitle_4": "4. Procedimiento para participar del programa de referidos",
+      "paragraph_4": "4.a. El referente deberá descargar la app de Xcapit, registrarse con un mail, validar la cuenta y crear su wallet. al momento de crear la misma, el referente tendrá la opción de “copiar” el link para referir. (el “link”).\n4.b. El referente podrá enviar el link: a través de whatsapp, correo electrónico, twitter, facebook, linkedin y cualquier otro canal que este considere.\n4.c. A medida que más y más contactos referidos se descarguen la app de Xcapit y creen  la wallet, podrá ganar recompensas más emocionantes. Para constituir una referencia válida, sus contactos deben: 1) Registrarse en los servicios de la empresa con una dirección de correo electrónico válida y crear la wallet de xcapit, durante el período del concurso; cada recomendación válida que ud. haga le hará sumar 1 punto.\n4.d. No hay límite para la cantidad de referencias que puede hacer por día durante el período del concurso.\n4.e.Al referente se le asignará, un punto por cada referido que, a través del link del referente,descargue la app y cree la wallet de xcapit. el punto obtenido por cada referido que se registre no es transferible de ningún modo, ni por ningún motivo, ni negociable, y corresponde únicamente al email del referente que cumplió con el procedimiento establecido en la presente cláusula 4.\n",
+      "subtitle_5": "5. Tipo de referidos",
+      "paragraph_5": "Los referidos pueden ser:  (i) Primarios: son aquellos referidos directos, es decir, que se registraron en la app. y crearon la wallet de xcapit con el link que el referente envío. por cada referido primario, ud. sumará 1 punto. (ii) Secundarios: Son aquellos que se registraron en la app. y crearon la wallet de xcapit, utilizando el link de sus referidos primarios. Por cada referido secundario, ud. sumará 0,5 puntos.\n",
+      "subtitle_6": "6. Recompensas",
+      "paragraph_6": "Esta sección solo se aplica a las partes recomendadas que califican para una recompensa. La empresa notificará a los referentes la cantidad de puntos obtenidos a través de pantalla de referidos que podrán visualizar desde la app. Cada punto equivale a 1 usd, y la misma se pagará en Matic. Dicha recompensa se podrá reclamar a partir de la fecha de finalización del programa de referidos (cláusula nº 3). Recibir una recompensa de cualquier tipo depende del cumplimiento de todos los requisitos y el cumplimiento de estas reglas. En el caso de que un destinatario de la recompensa sea descalificado por cualquier motivo, la empresa no está obligada a proporcionar una recompensa alternativa ni a extender el período del concurso de ninguna manera.\n",
+      "subtitle_7": "7. Exclusión de responsabilidad. Indemnidad",
+      "paragraph_7": "Como condición para participar en el programa de referidos, cada referente acepta que la empresa no será responsable por ningún daño directo ni indirecto que pudiere sufrir el referente y/o el referido y/o cualquier tercero con motivo y/u ocasión de la participación en el programa de referidos, y/o el uso, destino o finalidad del beneficio, renunciando la empresa a cualquier tipo de responsabilidad contractual y/o extracontractual frente al referente y/o el referido y/o cualesquier tercero, lo que es aceptado incondicionalmente por cada referente. la empresa renuncia a cualquier tipo de responsabilidad por cualquier omisión, inexactitud o error que pudiese sufrir esa plataforma con relación al programa de referidos.\n",
+      "subtitle_8": "8. Modificación a las bases",
+      "paragraph_8": "Como condición para participar en el programa de referidos, cada referente acepta que la empresa no será responsable por ningún daño directo ni indirecto qLa empresa podrá modificar cualquiera de las cláusulas de estas bases en cualquier momento, sin previo aviso. el mismo hecho de participar en el programa de referidos implica el conocimiento y la aceptación plena de las bases y sus eventuales modificaciones, como así también los términos y condiciones generales del uso del sitio disponibles en /support/wallet-info/terms. Las decisiones de la empresa sobre todos y cada uno de los aspectos del programa de referidos, incluyendo decisiones por cualquier cuestión no prevista en las bases, serán definitivas e irrecurribles. La empresa se reserva el derecho de poner término o modificar al programa de referidos en caso de existir fraudes, dificultades técnicas o cualquier otro factor fuera de control de la empresa que pudiera comprometer la integridad del programa de referidos.\n",
+      "subtitle_9": "9. Privacidad e información enviada",
+      "paragraph_9": "Como condición para participar en el programa, usted da su consentimiento para que la empresa obtenga y entregue su nombre, dirección y otra información a terceros con el fin de administrar este programa y cumplir con las leyes, regulaciones y reglas aplicables. cualquier información que proporcione al patrocinador puede usarse para comunicarse con usted en relación con este programa. La información enviada será tratada de acuerdo con la política de privacidad de la empresa.\n",
+      "subtitle_10": "10. Ley aplicable",
+      "paragraph_10": "Estas bases y el programa de referidos se gobiernan por las leyes de la república argentina. cualquier controversia derivada del presente acuerdo, su existencia, validez, interpretación, alcance o cumplimiento, será sometida a los tribunales competentes con sede en la ciudad autónoma de buenos aires.\n"
     }
   },
   "notifications": {
@@ -1285,9 +1351,35 @@
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."
     },
+    "recovery_phrase_information": {
+      "header": "Recovery phrase",
+      "text1": "Xcapit will never ask you to share your recovery phrase.",
+      "text2": "The recovery phrase is the master key to your funds. Never share it with anybody.",
+      "text3": "If you lose your recovery phrase, not even Xcapit will be able to recover your funds.",
+      "button_text": "Continue"
+    },
+    "recovery_phrase_information_no_wallet": {
+      "header": "Recovery phrase",
+      "text1": "You still do not have a recovery phrase.",
+      "text2": "Create or import your wallet to be able to view it.",
+      "text3": "As long as you have your 12 word phrase you will be able to recover your wallet and all your assets.",
+      "button_import": "Import Wallet",
+      "button_create": "Create Wallet",
+      "button_faq": "What is the recovery phrase?"
+    },
+    "recovery_phrase_read": {
+      "header": "Recovery phrase",
+      "title": "Recovery phrase",
+      "text": "It's very important that you save your 12 words in a safe place and in the order that are shown.",
+      "button_text": "Copy",
+      "button_text_coppied": "Coppied",
+      "coppied_text": "The recovery phrase was copied to the clipboard",
+      "copy_error_text": "The recovery phrase could not be coppied to the clipboard"
+    },
     "home": {
       "available_money": "Available money in wallet",
-      "wallet_balance_title": "ASSETS",
+      "tab_assets": "Assets",
+      "tab_nfts": "NFT",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
       "go_to_history": "View all transactions",
@@ -1299,15 +1391,16 @@
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy or Sell",
-        "performance_card": "Obtain performance",
-        "title_without_transactions": "Start receiving or buying."
+        "performance_card": "Obtain performance"
       }
     },
     "select_coin": {
       "header": "Create Wallet",
       "title": "Select assets",
       "subtitle": "Choose the assets you want to view in your wallet",
-      "select_all": "Select all currencies"
+      "suite": "Suite",
+      "recordatory": "Remember that to operate on each network you must have its native currency.",
+      "native": "NATIVE"
     },
     "success_creation": {
       "title": "Nice! your wallet is now created and your recovery phrase is verified",
@@ -1349,6 +1442,14 @@
       "disclaimer_body": "Sending other coins or tokens to this address other than {{currency}} may result in the loss of your deposit.",
       "share_title": "Wallet address"
     },
+    "nft_detail": {
+      "title": "NFT Detail",
+      "label1": "Created By",
+      "label2": "Chain Info",
+      "label_input1": "Contact Address",
+      "label_input2": "Token ID",
+      "label_input3": "Blockchain"
+    },
     "failed_mnemonic": {
       "title": "Your recovery phrase is wrong",
       "description": "We will generate another 12 words for greater security. Remember that you have to write them down and keep them in a safe place.",
@@ -1363,8 +1464,8 @@
     },
     "transactions": {
       "header": "Transactions history",
-      "sended": "Sended",
-      "received": "Received",
+      "OUT": "Sent",
+      "IN": "Received",
       "swap": "Swap"
     },
     "send": {
@@ -1386,6 +1487,10 @@
         },
         "amount_input": {
           "title": "Amount to send"
+        },
+        "alert": {
+          "title": "Attention",
+          "text": "You have 0 {{nativeToken}} in your account to pay the transaction fees. Buy some {{nativeToken}} or deposit them from another account."
         }
       },
       "send_summary": {
@@ -1397,6 +1502,16 @@
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
+        },
+        "alert_not_enough_native_token": {
+          "title": "Transaction error",
+          "text": "Insufficient funds to afford transaction fees.",
+          "button": "Ok"
+        },
+        "alert_invalid_address": {
+          "title": "Transaction error",
+          "text": "The destiny address is incorrect",
+          "button": "Ok"
         }
       },
       "send_success": {
@@ -1406,21 +1521,31 @@
       },
       "error_incorrect_password": {
         "textPrimary": "Seems like the password is incorrect",
-        "namePrimaryAction": "Retry",
-        "nameSecondaryAction": "Contact support"
+        "namePrimaryAction": "Retry"
       },
       "error_wrong_amount": {
-        "textPrimary": "The amount to send is incorrect",
-        "namePrimaryAction": "Retry",
-        "nameSecondaryAction": "Contact support"
+        "textPrimary": "There was a problem completing the transaction",
+        "namePrimaryAction": "Retry"
       },
       "error_wrong_address": {
         "textPrimary": "The destination wallet is incorrect",
-        "namePrimaryAction": "Retry",
-        "nameSecondaryAction": "Contact support"
+        "namePrimaryAction": "Retry"
+      }
+    },
+    "investments": {
+      "coming_soon": {
+        "header": "Investment"
       }
     },
     "shared_wallets": {
+      "coming_soon_card": {
+        "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
+        "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
+      },
+      "start_investing_card": {
+        "title": "Invest your cryptos now and get daily profit",
+        "text": "Start investing"
+      },
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "scan_unauthorized": "You have no permission to scan"
@@ -1430,6 +1555,25 @@
         "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
         "submit_button_text": "Accept",
         "input_label": "Password"
+      },
+      "wallet_password_small": {
+        "title": "For security",
+        "label": "Password",
+        "disclaimer": "The password has to have at least 6 characters, it must contain numbers and letters, at least one uppercase letter and one lowercase letter",
+        "button_text": "Accept",
+        "alert": {
+          "header": "Error",
+          "title": "The password is not correct.",
+          "button_text": "Retry"
+        }
+      },
+      "claim_nft_card": {
+        "base": "Here you can see your NFTs",
+        "title": "Your NTF is waiting for you!",
+        "subtitle": "Claim your NTF of the Commemoration of the Independence of Mexico",
+        "note": "*You will only receive it if you are on the waiting list.",
+        "button_claim": "Claim",
+        "button_claimed": "Requested"
       }
     },
     "asset_detail": {
@@ -1941,6 +2085,27 @@
         "objectives": "Objectives",
         "coming_soon_alert": "This option will be available soon"
       }
+    }
+  },
+  "support": {
+    "header": "Help",
+    "title": "How can we help you?",
+    "support_options": {
+      "title_account": "XCAPIT Account",
+      "description_account": "Create account, configure and deposit money.",
+      "title_wallet": "Wallet",
+      "description_wallet": "Create, import, receive, send and more.",
+      "title_buy": "Buy",
+      "description_buy": "Steps, providers and costs.",
+      "title_investment": "Binance investments",
+      "description_investment": "Types of strategies, terms and profitability.",
+      "title_apikeys": "Binance and API Keys",
+      "description_apikeys": "Create account, connect to binance and manage APY Keys.",
+      "title_security": "Security ",
+      "description_security": "About my data and my capital."
+    },
+    "contact_support": {
+      "title": "Write to support"
     }
   }
 }

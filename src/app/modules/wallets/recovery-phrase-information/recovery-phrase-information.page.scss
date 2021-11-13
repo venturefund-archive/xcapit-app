@@ -1,0 +1,38 @@
+:host {
+  .rpi {
+    --ion-background-color: var(--ion-color-uxprimary-contrast);
+    background: var(--ion-color-uxprimary-contrast);
+    &__img_container {
+      margin-top: 36px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      &__img {
+        width: 58%;
+        max-width: 300px;
+      }
+    }
+
+    &__list {
+      margin-top: 18px;
+      &__list {
+        &__item {
+          --padding-start: 0;
+          margin-top: 16px;
+
+          &__text {
+            color: var(--ion-color-uxdark);
+          }
+        }
+      }
+    }
+
+    &__footer {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+  }
+}

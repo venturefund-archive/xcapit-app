@@ -54,11 +54,10 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
                   <ion-item [hidden]="this.customTP">
                     <div class="ftp__input__custom_tp_button">
                       <ion-button
-                        class="ux_button"
+                        class="ux-link-xs"
                         appTrackClick
                         name="Create Custom Take Profit"
                         type="button"
-                        color="uxsecondary"
                         fill="clear"
                         expand="block"
                         (click)="this.openCustomTP()"
@@ -79,11 +78,10 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
         <div class="ftp__buttons" *ngIf="this.opType !== 'edit'">
           <div class="ftp__back_button">
             <ion-button
-              class="ux_button"
+              class="ux-link-xs"
               appTrackClick
               name="Back"
               type="button"
-              color="uxsecondary"
               size="large"
               fill="clear"
               (click)="this.goBack()"
