@@ -12,14 +12,14 @@ const pwaNotificationMock = { data: {} };
 pwaNotificationMock.data[FIREBASE_OBJ_KEY] = {
   notification: {
     title: 'pwa title',
-    body: 'pwa notification...'
-  }
+    body: 'pwa notification...',
+  },
 };
 const capacitorNotificationMock = {
   id: '1',
   body: 'capacitor notification...',
   data: {},
-  title: 'capacitor title'
+  title: 'capacitor title',
 };
 
 describe('NotificationsHelperService', () => {
@@ -33,15 +33,12 @@ describe('NotificationsHelperService', () => {
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        TranslateModule.forRoot()
-      ],
+      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
       providers: [
         { provide: NotificationsStorageService, useValue: notificationsStorageSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: ToastService, useValue: toastServiceSpy }
-      ]
+        { provide: ToastService, useValue: toastServiceSpy },
+      ],
     });
   });
 

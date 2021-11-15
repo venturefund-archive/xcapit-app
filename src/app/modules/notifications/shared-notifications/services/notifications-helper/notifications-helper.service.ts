@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 export const FIREBASE_OBJ_KEY = 'firebase-messaging-msg-data';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationsHelperService {
   constructor(
@@ -28,39 +28,24 @@ export class NotificationsHelperService {
   }
 
   isPWANotification(notification: any): boolean {
-    return (
-      notification && notification.data && notification.data[FIREBASE_OBJ_KEY]
-    );
+    return notification && notification.data && notification.data[FIREBASE_OBJ_KEY];
   }
 
   isCapacitorNotification(notification: any): boolean {
-    return (
-      notification &&
-      notification.body &&
-      notification.data &&
-      notification.id &&
-      notification.title
-    );
+    return notification && notification.body && notification.data && notification.id && notification.title;
   }
 
   showToast() {
     this.toast.showToast({
       position: 'top',
-      message: this.translate.instant(
-        'notifications.notifications_helper.message'
-      ),
+      message: this.translate.instant('notifications.notifications_helper.message'),
       buttons: [
         { icon: 'close', side: 'start' },
         {
-          text: this.translate.instant(
-            'notifications.notifications_helper.view_button'
-          ),
+          text: this.translate.instant('notifications.notifications_helper.view_button'),
           side: 'end',
-          handler: () => {
-            this.navController.navigateForward(['/notifications/view/1']);
-          }
-        }
-      ]
+        },
+      ],
     });
   }
 }
