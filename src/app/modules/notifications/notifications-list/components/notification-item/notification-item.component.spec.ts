@@ -5,15 +5,13 @@ import { NotificationItemComponent } from './notification-item.component';
 import { NotificationPipe } from '../../../shared-notifications/pipes/notification/notification.pipe';
 import * as moment from 'moment';
 
-function get_notification(date) {
-  return {
-    id: '1',
-    body: 'capacitor notification...',
-    data: {},
-    title: 'capacitor title',
-    internalDate: date,
-  };
-}
+const capacitorNotificationMock = {
+  id: '1',
+  body: 'capacitor notification...',
+  data: {},
+  title: 'capacitor title',
+  internalDate: new Date(),
+};
 
 describe('NotificationItemComponent', () => {
   let component: NotificationItemComponent;
@@ -31,7 +29,7 @@ describe('NotificationItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationItemComponent);
     component = fixture.componentInstance;
-    component.notification = get_notification(new Date());
+    component.notification = capacitorNotificationMock;
     fixture.detectChanges();
   });
 
