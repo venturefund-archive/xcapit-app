@@ -195,10 +195,7 @@ export class HomePage implements OnInit {
   }
 
   async goToWallet() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
-      url: 'https://www.xcapit.com/#lista-espera',
-    });
+    this.navController.navigateForward('/tabs/wallets');
   }
 
   goToSupportPage() {
