@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-start-investing',
   template: `
-    <ion-card class="si" name="Start Investing Card">
+    <ion-card class="si ion-no-margin" name="Start Investing Card">
       <div class="ion-padding">
         <div class="si__title">
           <ion-text class="ux-font-text-lg">
