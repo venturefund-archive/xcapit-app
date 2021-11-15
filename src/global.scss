@@ -276,7 +276,7 @@ ion-toast.refresher_toast {
   .ux-font-badge-primary,
   .ux_badge_primary {
     text-transform: uppercase;
-    --color: var(--ion-color-uxprimary);
+    --color: var(--ion-color-warningdark);
     font-family: var(--ux-font-worksans);
     font-weight: var(--ux-fweight-extrabold);
     font-size: var(--ux-fsize-10);
@@ -311,7 +311,7 @@ ion-toast.refresher_toast {
   .ux_badge_primary {
     border-radius: 4px;
     height: 21px;
-    --background: #ff910033;
+    --background: var(--ion-color-warninglight);
     --padding-top: 6px;
   }
 
