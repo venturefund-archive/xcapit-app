@@ -1,12 +1,12 @@
 :host {
   --light-grey-background-color: #c4c4c4;
-  --light-green-background-color: var(--ion-color-uxsecondary);
+  --light-blue-background-color: var(--ion-color-info);
   .progress_bar {
     width: 100%;
     height: 9px;
     background: var(--light-grey-background-color);
     &__progress {
-      background: var(--light-green-background-color);
+      background: var(--light-blue-background-color);
       border-radius: 0px 7px 7px 0px;
       height: inherit;
       width: 40%;
