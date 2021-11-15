@@ -1562,8 +1562,8 @@
       },
       "claim_nft_card": {
         "base": "Aquí podrás ver tus NFT",
-        "title": "¡Tu NTF te espera!",
-        "subtitle": "Reclama tu NTF de la Conmemoración a la independencia de Mexico",
+        "title": "¡Tu NFT te espera!",
+        "subtitle": "Reclama tu NFT de la Conmemoración a la independencia de Mexico",
         "note": "*Solo lo recibiras si te anotaste en la lista de espera.",
         "button_claim": "Reclamar",
         "button_claimed": "Reclamado"
