@@ -18,6 +18,11 @@
         min-width: 40px;
         max-width: 40px;
         text-align: center;
+        color: var(--ion-color-uxsemidark);
+      }
+
+      &__message {
+        color: var(--ion-color-uxsemidark);
       }
     }
     hr {
