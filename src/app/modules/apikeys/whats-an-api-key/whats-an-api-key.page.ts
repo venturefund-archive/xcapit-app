@@ -27,7 +27,13 @@ import { NavController } from '@ionic/angular';
           </div>
         </div>
         <div class="ux_footer">
-          <ion-button appTrackClick name="Done" class="ux_button waak__button" (click)="this.goToRegisterAPIKey()">
+          <ion-button
+            appTrackClick
+            name="Done"
+            color="uxsecondary"
+            class="ux_button waak__button"
+            (click)="this.goToRegisterAPIKey()"
+          >
             {{ 'apikeys.whats_an_api_key.button' | translate }}
           </ion-button>
         </div>
