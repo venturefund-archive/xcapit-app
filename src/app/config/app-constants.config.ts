@@ -59,6 +59,11 @@ export const CONFIG = {
       text: 'config.form_errors.count_words_match',
       rules: [],
     },
+    {
+      name: 'min',
+      text: 'config.form_errors.min',
+      rules: [],
+    },
   ],
   fieldErrors: {
     cellphone: [

@@ -58,7 +58,7 @@ export class CustomStopLossSettingComponent implements OnInit {
   valueSL: number;
   typeModal;
   form: FormGroup = this.formBuilder.group({
-    valueSL: [25, [Validators.required, Validators.min(1), Validators.pattern('[0-9][^.a-zA-Z]*$')]],
+    valueSL: [25, [Validators.required, Validators.pattern('[0-9][^.a-zA-Z]*$'), Validators.min(3)]],
   });
 
   types = {
