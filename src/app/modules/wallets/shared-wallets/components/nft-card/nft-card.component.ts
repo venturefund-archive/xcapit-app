@@ -10,7 +10,7 @@ import { NFTMetadata } from '../../interfaces/nft-metadata.interface';
       <div class="nv ion-padding">
         <img class="nv__img" [src]="this.data?.image" />
         <div class="nv__content">
-          <ion-text class="ux-font-titulos-xs title" color="uxprimary">{{ this.data?.name }}</ion-text>
+          <ion-text class="ux-font-titulo-xs title" color="uxprimary">{{ this.data?.name }}</ion-text>
           <ion-text class="ux-font-text-xs subtitle">{{ 'XcapitMexico' }}</ion-text>
         </div>
       </div>
