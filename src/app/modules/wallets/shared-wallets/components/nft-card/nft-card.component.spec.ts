@@ -56,7 +56,7 @@ describe('NftCardComponent', () => {
   it('should render properly of nft card', () => {
     fixture.detectChanges();
     const imageEl = fixture.debugElement.query(By.css('img.nv__img'));
-    const titleEl = fixture.debugElement.query(By.css('ion-text.ux-font-titulos-xs'));
+    const titleEl = fixture.debugElement.query(By.css('ion-text.ux-font-titulo-xs'));
     const descriptionEl = fixture.debugElement.query(By.css('ion-text.ux-font-text-xs'));
     expect(imageEl.attributes.src).toEqual(component.data.image);
     expect(titleEl.nativeElement.innerHTML).toContain(component.data.name);
