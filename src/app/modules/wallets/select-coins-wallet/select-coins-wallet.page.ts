@@ -82,7 +82,7 @@ export class SelectCoinsWalletPage implements OnInit {
       AXS: [false],
       MANA: [false],
       SUSHI: [false],
-      COMPOUND: [false],
+      COMP: [false],
       ZIL: [false],
       ENJ: [false],
       BAT: [false],
