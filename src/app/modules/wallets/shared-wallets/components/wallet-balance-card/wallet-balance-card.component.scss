@@ -1,9 +1,6 @@
 :host {
   width: 100%;
   .wbc {
-    &__list {
-      background-color: var(--ion-color-uxlight);
-      border-radius: 8px;
-    }
+    background-color: var(--ion-color-uxlight);
   }
 }

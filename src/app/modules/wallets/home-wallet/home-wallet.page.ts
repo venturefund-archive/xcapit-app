@@ -78,7 +78,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       </div>
 
       <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
-        <div class="wt__nfts__content">
+        <div class="wt__nfts__content segment-content last-selected">
           <app-claim-nft-card
             [nftStatus]="this.nftStatus"
             (nftRequest)="this.createNFTRequest()"
@@ -94,7 +94,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
         class="wt__balance ion-padding-start ion-padding-end"
         *ngIf="this.walletExist && this.balances?.length && this.segmentsForm.value.tab === 'assets'"
       >
-        <div class="wt__balance__wallet-balance-card segment-content">
+        <div class="wt__balance__wallet-balance-card segment-content first-selected">
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
         <app-start-investing></app-start-investing>
