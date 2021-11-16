@@ -30,7 +30,7 @@ import { Storage } from '@ionic/storage';
         <div class="main__actions">
           <div class="main__actions__primary">
             <ion-button
-              class="ux-link-xs"
+              color="uxsecondary"
               class="ux_button"
               appTrackClick
               name="Resend Verification Email"
