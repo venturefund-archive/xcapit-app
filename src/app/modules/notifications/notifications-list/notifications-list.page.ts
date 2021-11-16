@@ -20,8 +20,6 @@ import { NavController } from '@ionic/angular';
         <app-notification-item
           *ngFor="let notification of notifications"
           [notification]="notification"
-          (clickRemove)="this.removeNotification($event)"
-          (clickNotification)="this.showNotification($event)"
         ></app-notification-item>
         <div *ngIf="!notifications.length">
           <div class="container">
@@ -56,25 +54,18 @@ export class NotificationsListPage implements OnInit {
 
   constructor(
     private notificationsStorage: NotificationsStorageService,
-    private navController: NavController,
     private notificationsService: NotificationsService
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.notifications$ = this.notificationsStorage.notifications;
     this.getNotifications();
   }
 
   ionViewWillLeave() {
     this.markAsRead();
-  }
-
-  removeNotification(notificationId: any) {
-    this.notificationsStorage.remove(notificationId);
-  }
-
-  showNotification(notificationId: any) {
-    this.navController.navigateForward([`/notifications/view/${notificationId}`]);
   }
 
   async getNotifications() {

@@ -10,23 +10,14 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () =>
-          import('./notifications-list/notifications-list.module').then(
-            m => m.NotificationsListPageModule
-          )
+          import('./notifications-list/notifications-list.module').then((m) => m.NotificationsListPageModule),
       },
-      {
-        path: 'view',
-        loadChildren: () =>
-          import('./notification/notification.module').then(
-            m => m.NotificationPageModule
-          )
-      }
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class NotificationsRoutingModule {}
