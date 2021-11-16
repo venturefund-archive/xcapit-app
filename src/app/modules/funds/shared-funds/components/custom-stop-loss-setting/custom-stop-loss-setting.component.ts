@@ -37,7 +37,6 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             appTrackClick
             name="Confirm"
             type="submit"
-            color="uxsecondary"
             fill="clear"
             [disabled]="this.submitButtonService.isDisabled | async"
           >

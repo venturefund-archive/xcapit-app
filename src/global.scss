@@ -142,6 +142,10 @@ ion-toast.refresher_toast {
     color: var(--ion-color-uxprimary);
   }
 
+  .underline {
+    text-decoration: underline;
+  }
+
   .ux-link-xs {
     font-family: var(--ux-font-worksans);
     font-size: var(--ux-fsize-14);
