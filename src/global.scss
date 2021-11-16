@@ -442,6 +442,14 @@ ion-toast.refresher_toast {
     }
   }
 
+  // Information toast
+  .ux-toast-info {
+    --background: var(--ion-color-infolight);
+    --color: var(--ion-color-infodark);
+    --button-color: var(--ion-color-infodark);
+    --border-radius: 6px;
+  }
+
   //modal alertas
   .ux-alert {
     &.bottom {

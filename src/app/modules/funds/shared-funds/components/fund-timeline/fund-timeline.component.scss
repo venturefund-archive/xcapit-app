@@ -75,12 +75,12 @@
           &__dot-container {
             &__dot {
               width: 7.5px;
-              background: #21dd62;
+              background: var(--ion-color-info);
             }
           }
           &__line-container {
             &__line {
-              background-color: #21dd62;
+              background: var(--ion-color-info);
             }
           }
         }
