@@ -150,7 +150,7 @@ export const PROD_COINS: Coin[] = [
     name: 'COMPOUND',
     logoRoute: 'assets/img/coins/COMPOUND.png',
     last: false,
-    value: 'COMPOUND',
+    value: 'COMP',
     network: 'ERC20',
     chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
