@@ -31,8 +31,8 @@
       margin-top: 16px;
       flex-direction: column;
 
-      .semibold {
-        font-weight: var(--ux-fweight-semibold);
+      .link {
+        text-decoration: underline;
       }
     }
   }
