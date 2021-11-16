@@ -12,15 +12,15 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { of } from 'rxjs';
 import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 
-describe('WalletSubheaderButtonsComponent', () => {
+fdescribe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
   let fixture: ComponentFixture<WalletSubheaderButtonsComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletSubheaderButtonsComponent>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let modalControllerSpy: any;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
-  let apiApiKeysServiceSpy;
+  let apiApiKeysServiceSpy: jasmine.SpyObj<ApiApikeysService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -28,7 +28,9 @@ describe('WalletSubheaderButtonsComponent', () => {
       navControllerSpy = fakeNavController.createSpy();
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
-      apiApiKeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', ['getAll']);
+      apiApiKeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
+        getAll: of([{ id: 799, alias: 'testKeys', nombre_bot: 'TestName' }]),
+      });
       TestBed.configureTestingModule({
         declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
@@ -42,7 +44,6 @@ describe('WalletSubheaderButtonsComponent', () => {
 
       fixture = TestBed.createComponent(WalletSubheaderButtonsComponent);
       component = fixture.componentInstance;
-      apiApiKeysServiceSpy.getAll.and.returnValue(of([{ id: 799, alias: 'testKeys', nombre_bot: 'TestName' }]));
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
