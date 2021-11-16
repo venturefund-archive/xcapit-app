@@ -80,7 +80,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
       <div class="ux_footer">
         <div class="fsl__buttons">
           <ion-button
-            class="ux-link-xs link"
+            class="ux-link-xs underline"
             appTrackClick
             name="Information"
             size="large"
