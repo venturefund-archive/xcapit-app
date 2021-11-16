@@ -48,13 +48,14 @@
 
   ion-checkbox {
     --border-radius: 15%;
-    --border-width: 1px;
+    --border-width: 2px;
     --border-style: solid;
-    --border-color: #00000029;
+    --border-color: var(--ion-color-infoligt);
     --background: #fff;
     --size: 18px;
     --checkmark-width: 2px;
     margin-right: 12px;
+    color: var(--ion-color-info);
   }
 
   ion-item {
