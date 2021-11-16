@@ -13,7 +13,6 @@ const { Browser } = Plugins;
           (click)="openWhatsAppLink()"
           *ngIf="this.whatsAppLink"
           fill="clear"
-          color="uxsecondary"
           appTrackClick
           name="WhatsApp Help"
         >
@@ -23,7 +22,6 @@ const { Browser } = Plugins;
           (click)="openTelegramLink()"
           *ngIf="this.telegramLink"
           fill="clear"
-          color="uxsecondary"
           appTrackClick
           name="Telegram Help"
         >
