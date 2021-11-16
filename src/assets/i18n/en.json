@@ -1570,8 +1570,8 @@
       },
       "claim_nft_card": {
         "base": "Here you can see your NFTs",
-        "title": "Your NTF is waiting for you!",
-        "subtitle": "Claim your NTF of the Commemoration of the Independence of Mexico",
+        "title": "Your NFT is waiting for you!",
+        "subtitle": "Claim your NFT of the Commemoration of the Independence of Mexico",
         "note": "*You will only receive it if you are on the waiting list.",
         "button_claim": "Claim",
         "button_claimed": "Requested"
