@@ -89,7 +89,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   async goToBuy() {
-    if (!this.asset && this.apikeys.length > 0) {
+    if (this.apikeys.length > 0) {
       this.navController.navigateForward('/fiat-ramps/operations');
     } else {
       await this.openNoApiKeysModal();
