@@ -63,7 +63,7 @@ cache:
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
-    - ng test --karma-config karma-pipeline.conf.js
+    - npm test-ci
 
 ### Docker lint
 .docker-lint: &docker-lint
