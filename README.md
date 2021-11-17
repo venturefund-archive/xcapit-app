@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/gitlab/xcapit-foss/app/badge.svg?branch=feature/add-coveralls)](https://coveralls.io/gitlab/xcapit-foss/app?branch=feature/add-coveralls)
+
 # Xcapit Smart Wallet
 
 Xcapit Smart Wallet is an Ethereum, RSK and Polygon wallet app that offers an easy way to enter the blockchain world, learn about finance, define and track savings goals and invest to achieve them.
