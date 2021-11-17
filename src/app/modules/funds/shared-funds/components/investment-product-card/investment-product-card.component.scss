@@ -1,4 +1,8 @@
 .ipc {
+  &__mincapital {
+    color: var(--ion-color-uxlight);
+  }
+
   .title_container {
     flex-basis: 82%;
     display: flex;
