@@ -63,7 +63,7 @@ cache:
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
-    - npm test-ci
+    - npm run test-ci
 
 ### Docker lint
 .docker-lint: &docker-lint
