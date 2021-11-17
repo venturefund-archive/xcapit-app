@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/gitlab/xcapit-foss/app/badge.svg?branch=feature/add-coveralls)](https://coveralls.io/gitlab/xcapit-foss/app?branch=feature/add-coveralls)
+[![Coverage Status](https://coveralls.io/repos/gitlab/xcapit-foss/app/badge.svg?branch=develop)](https://coveralls.io/gitlab/xcapit-foss/app?branch=develop)
 
 # Xcapit Smart Wallet
 
