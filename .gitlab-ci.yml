@@ -51,6 +51,8 @@ cache:
     key: ${CI_COMMIT_REF_SLUG}
   variables:
     CI: 'true'
+    COVERALLS_REPO_TOKEN: $COVERALLS_REPO_TOKEN
+
   before_script:
     - cd ${SRC_DIR}
     - apt-get update -y
@@ -66,7 +68,7 @@ cache:
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
-    - ng test --karma-config karma-pipeline.conf.js
+    - npm run test-ci
 
 ### Docker lint
 .docker-lint: &docker-lint
