@@ -5,6 +5,13 @@
     "align": {
       "options": ["parameters", "statements"]
     },
+    "ban": [
+      true,
+      { "name": ["describe", "only"], "message": "don't focus tests" },
+      { "name": "fdescribe", "message": "don't focus tests" },
+      { "name": ["it", "only"], "message": "don't focus tests" },
+      { "name": "fit", "message": "don't focus tests" }
+    ],
     "array-type": false,
     "arrow-parens": false,
     "arrow-return-shorthand": true,
