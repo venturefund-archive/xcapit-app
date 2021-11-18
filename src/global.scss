@@ -67,6 +67,10 @@ ion-toast.refresher_toast {
     font-weight: 400;
   }
 
+  .ux-fweight-medium {
+    font-weight: 500;
+  }
+
   .ux-fweight-semibold {
     font-weight: 600;
   }
@@ -272,9 +276,9 @@ ion-toast.refresher_toast {
   .ux-font-button,
   .ux_button {
     text-transform: none;
-    font-family: var(--ux-font-lato);
-    font-weight: var(--ux-fweight-semibold);
-    font-size: var(--ux-fsize-15);
+    font-family: var(--ux-font-worksans);
+    font-weight: var(--ux-fweight-medium);
+    font-size: var(--ux-fsize-16);
   }
 
   .ux-font-button-small {
