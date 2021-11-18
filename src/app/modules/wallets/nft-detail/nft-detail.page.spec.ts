@@ -15,7 +15,7 @@ import { NftDetailPage } from './nft-detail.page';
 const NFTMetadata = {
   description: 'Test',
   name: 'testName',
-  image: 'testImage',
+  image: 'assets/test_image.svg',
   tokenID: 1234,
   attributes: [
     {
