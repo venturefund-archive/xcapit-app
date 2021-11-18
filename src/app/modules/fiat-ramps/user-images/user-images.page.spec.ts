@@ -18,15 +18,15 @@ const formData = {
   valid: {
     front_document: {
       type: 'front_document',
-      image: 'imageb64',
+      image: 'assets/test_image.svg',
     },
     back_document: {
       type: 'back_document',
-      image: 'imageb64',
+      image: 'assets/test_image.svg',
     },
     billing: {
       type: 'billing',
-      image: 'imageb64',
+      image: 'assets/test_image.svg',
     },
   },
   invalid: {
