@@ -66,19 +66,17 @@
     &__footer {
       height: 44px;
       display: flex;
-      justify-content: flex-end;
       justify-content: space-between;
       &__left {
         display: flex;
-        flex-direction: column;
         justify-content: flex-end;
-        align-items: flex-start;
+        align-items: center;
       }
       &__right {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        align-items: flex-end;
+        align-items: center;
       }
       &__view_fund {
         font-weight: VAR(--ux-fweight-semibold);
@@ -94,8 +92,6 @@
       }
       &__finalized-label {
         color: var(--ion-color-uxdanger);
-        margin: auto;
-        margin-left: 15px;
       }
     }
   }

@@ -587,7 +587,11 @@
       "minutes": "{{value}} minuto{{s}}",
       "seconds": "{{value}} segundo{{s}}",
       "finalized": "Finalizado",
-      "renovate": "Renovar"
+      "renovate": "Renovar",
+      "unsubscribe_toast": "Desuscripción exitosa",
+      "unsubscribe_alert_ok": "Desuscribir",
+      "unsubscribe_alert_cancel": "Cancelar",
+      "unsubscribe_alert_title": "¿Desuscribirme a este fondo?"
     },
     "change_currency_modal": {
       "submit_button": "Aceptar",
