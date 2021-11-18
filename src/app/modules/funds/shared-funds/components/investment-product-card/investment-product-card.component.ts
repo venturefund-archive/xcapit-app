@@ -14,9 +14,7 @@ import { NavController } from '@ionic/angular';
             <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxdark">{{
               this.productData?.strategie_type | translate
             }}</ion-text>
-            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-16" color="uxdark">{{
-              this.productData?.title
-            }}</ion-text>
+            <ion-text class="ux-font-header-titulo">{{ this.productData?.title }}</ion-text>
           </div>
           <div class="ipc__content__title_and_image__image_container">
             <img [src]="this.productData?.image" alt="Strategie image" />
@@ -47,10 +45,10 @@ import { NavController } from '@ionic/angular';
           </div>
           <div class="ipc__footer__capital__number">
             <ion-label>
-              <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-18" color="uxlight"
+              <ion-text class="ipc__mincapital ux-font-text-lg" color="uxlight"
                 >{{ this.productData?.min_capital }}
               </ion-text>
-              <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxlight">{{
+              <ion-text class="ux-font-num-subtitulo" color="uxlight">{{
                 'funds.fund_investment.card.currency' | translate
               }}</ion-text>
             </ion-label>
