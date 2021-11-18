@@ -47,7 +47,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="main__actions__secondary" *ngIf="this.data.nameSecondaryAction">
           <ion-button
-            class="action_secondary ux_button"
+            class="action_secondary ux-link-xl underline"
             appTrackClick
             fill="clear"
             name="Success Action Secondary"
