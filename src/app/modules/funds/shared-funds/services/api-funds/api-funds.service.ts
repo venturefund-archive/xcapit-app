@@ -21,6 +21,10 @@ export class ApiFundsService {
     return this.http.get(`${environment.apiUrl}/${this.entity}/subscribed_funds`);
   }
 
+  unsubscribe(fundName: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/unsubscribe/`, { fund_name: fundName });
+  }
+
   getPercentageEvolution(
     fundName: string,
     run: string = '',

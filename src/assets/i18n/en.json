@@ -582,7 +582,11 @@
       "minutes": "{{value}} minute{{s}}",
       "seconds": "{{value}} second{{s}}",
       "finalized": "Finalized",
-      "renovate": "Renovate"
+      "renovate": "Renovate",
+      "unsubscribe_toast": "Successful unsubscription",
+      "unsubscribe_alert_ok": "Unsubscribe",
+      "unsubscribe_alert_cancel": "Cancel",
+      "unsubscribe_alert_title": "¿Unsubscribe to fund?"
     },
     "change_currency_modal": {
       "submit_button": "Ok",

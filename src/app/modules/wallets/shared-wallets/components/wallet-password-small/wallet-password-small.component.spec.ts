@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordSmallComponent } from './wallet-password-small.component';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
@@ -68,7 +68,6 @@ describe('WalletPasswordSmallComponent', () => {
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
       fixture = TestBed.createComponent(WalletPasswordSmallComponent);
-
       component = fixture.componentInstance;
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
@@ -91,7 +90,8 @@ describe('WalletPasswordSmallComponent', () => {
   it('should show error when user password is incorrect', async () => {
     walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
     component.form.patchValue({ password: 'testPassword' });
-    fixture.debugElement.query(By.css("ion-button[name='Confirm Password']")).nativeElement.click();
+    const buttonEl = fixture.debugElement.query(By.css("ion-button[name='Confirm Password']"));
+    buttonEl.nativeElement.click();
     await fixture.whenStable();
     expect(modalControllerSpy.dismiss).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();

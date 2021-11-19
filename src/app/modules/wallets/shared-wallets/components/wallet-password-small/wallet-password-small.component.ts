@@ -26,7 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
           <ion-icon name="close-outline"></ion-icon>
         </ion-button>
       </div>
-      <form class="wps__form" [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
+      <form class="wps__form" [formGroup]="this.form">
         <div class="wps__form__input">
           <app-ux-input
             [label]="'wallets.shared_wallets.wallet_password_small.label' | translate"
@@ -50,6 +50,7 @@ import { TranslateService } from '@ngx-translate/core';
             appTrackClick
             name="Confirm Password"
             type="submit"
+            (click)="this.handleSubmit()"
             [disabled]="!this.form.valid"
           >
             {{ 'wallets.shared_wallets.wallet_password_small.button_text' | translate }}
