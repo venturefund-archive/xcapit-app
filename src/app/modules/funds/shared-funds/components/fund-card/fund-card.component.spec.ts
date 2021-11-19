@@ -1,5 +1,5 @@
-import { CurrencyFormatPipe } from './../../pipes/currency-format/currency-format.pipe';
-import { waitForAsync, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { CurrencyFormatPipe } from '../../pipes/currency-format/currency-format.pipe';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule, NavController } from '@ionic/angular';
 import { FundCardComponent } from './fund-card.component';
 import { TranslateModule } from '@ngx-translate/core';
