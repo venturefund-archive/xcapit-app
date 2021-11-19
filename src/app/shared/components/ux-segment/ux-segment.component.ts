@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   template: `
     <div class="us">
       <ion-button
-        class="us__button"
+        class="us__button ux-font-text-xs"
         name="Select Segment"
         size="small"
         appTrackClick
