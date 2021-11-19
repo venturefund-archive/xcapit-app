@@ -49,7 +49,7 @@ describe('FundCardComponent', () => {
       apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', { unsubscribe: of({}) });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      toastServiceSpy = jasmine.createSpyObj('ToastService', { showToast: Promise.resolve() });
+      toastServiceSpy = jasmine.createSpyObj('ToastService', { showSuccessToast: Promise.resolve() });
       alertControllerSpy = jasmine.createSpyObj('AlertController', {
         create: Promise.resolve({ present: () => Promise.resolve() }),
       });
@@ -168,7 +168,7 @@ describe('FundCardComponent', () => {
       buttonEl.nativeElement.click();
       component.unsubscribe();
       expect(apiFundsServiceSpy.unsubscribe).toHaveBeenCalledOnceWith('Test');
-      expect(toastServiceSpy.showToast).toHaveBeenCalledTimes(1);
+      expect(toastServiceSpy.showSuccessToast).toHaveBeenCalledTimes(1);
     });
 
     it('should call trackEvent on trackService when Renovate Fund is clicked', () => {

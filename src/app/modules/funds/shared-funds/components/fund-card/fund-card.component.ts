@@ -238,6 +238,6 @@ export class FundCardComponent implements OnInit {
   }
 
   showSuccessToast() {
-    return this.toastService.showToast({ message: this.translate.instant('funds.fund_card.unsubscribe_toast') });
+    return this.toastService.showSuccessToast({ message: this.translate.instant('funds.fund_card.unsubscribe_toast') });
   }
 }
