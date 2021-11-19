@@ -145,6 +145,7 @@ export class ApikeyItemComponent implements OnInit {
 
   private showToast(text: string) {
     this.toastService.showToast({
+      cssClass: 'ux-toast-info',
       message: this.translate.instant(text),
     });
   }
