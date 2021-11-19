@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { BigNumber } from '@ethersproject/bignumber';
 import { of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
@@ -22,7 +23,7 @@ describe('NftService', () => {
       }),
     });
     contractMock = {
-      walletOfOwner: (address: string) => Promise.resolve([{ _hex: '0x01', _isBigNumber: true }]),
+      walletOfOwner: (address: string) => Promise.resolve([BigNumber.from('0x01')]),
       tokenURI: (id: number) => Promise.resolve('testURL'),
     };
     blockchainProviderServiceMock = {
