@@ -198,7 +198,7 @@ describe('ApiFundsService', () => {
 
   it('should call post on http when unsubscribe', () => {
     service.unsubscribe('testFundName').subscribe(() => {
-      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+      expect(customHttpServiceSpy.delete).toHaveBeenCalledTimes(1);
     });
   });
 });
