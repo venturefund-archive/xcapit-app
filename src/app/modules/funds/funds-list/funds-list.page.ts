@@ -88,7 +88,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
           </div>
           <app-ux-loading-block minSize="50px" *ngIf="!this.notOwnerFundBalances"></app-ux-loading-block>
           <div class="fl__funds__card" *ngFor="let nofb of notOwnerFundBalances">
-            <app-fund-card [fund]="nofb"></app-fund-card>
+            <app-fund-card [fund]="nofb" [owner]="false"></app-fund-card>
           </div>
         </div>
       </div>
