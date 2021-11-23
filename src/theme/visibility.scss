@@ -1,18 +1,3 @@
-// Con estas clases dentro del ion-content se logra el sticky footer
-.ux_main {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.ux_content {
-  flex: 1 0 auto;
-}
-
-.ux_footer {
-  flex-shrink: 0;
-}
-
 .hidden {
   --ion-background-color: transparent;
   background-color: transparent;
