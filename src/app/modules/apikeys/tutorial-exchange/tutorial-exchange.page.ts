@@ -73,7 +73,7 @@ import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apik
           </div>
         </div>
         <div class="aei__need_help ux_footer">
-          <ion-button name="Need Help" (click)="this.needHelp()" appTrackClick fill="clear" size="small">{{
+          <ion-button name="Need Help" class="ux-link-xs" (click)="this.needHelp()" appTrackClick fill="clear">{{
             'shared.need_help.text_help_link' | translate
           }}</ion-button>
         </div>

@@ -16,7 +16,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
     </ion-header>
     <ion-content class="sc ion-padding">
       <div class="sc__title">
-        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24">
+        <ion-text class="ux-font-text-lg">
           {{ 'wallets.send.select_currency.title' | translate }}
         </ion-text>
       </div>

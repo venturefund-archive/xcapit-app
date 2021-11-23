@@ -26,7 +26,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
               <div class="div-input">
                 <div class="hidden-input" *ngIf="!this.verificationPhrase[i]"></div>
                 <ion-button
-                  class="input-word"
+                  class="input-word ux-font-text-xxs"
                   [id]="i"
                   [ngClass]="{ active: this.verificationPhrase[i] }"
                   size="small"

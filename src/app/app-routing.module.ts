@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/users/login' }
-];
+const routes: Routes = [{ path: '', pathMatch: 'full', redirectTo: '/users/login' }];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

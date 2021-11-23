@@ -13,12 +13,12 @@ import { ApiTicketsService } from '../shared-tickets/services/api-tickets.servic
           </ion-button>
         </div>
         <div class="header__title">
-          <ion-text class="ux-font-text-xl">
+          <ion-text class="ux-font-text-lg">
             {{ 'tickets.create.title' | translate }}
           </ion-text>
         </div>
         <div class="header__text">
-          <ion-text class="ux-font-text-xl">
+          <ion-text class="ux-font-text-xs">
             {{ 'tickets.create.text' | translate }}
           </ion-text>
         </div>

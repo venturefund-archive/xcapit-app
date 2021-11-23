@@ -1,0 +1,38 @@
+// Loading
+.ux-loading {
+  --background: transparent;
+  --backdrop-opacity: 0.6;
+  backdrop-filter: blur(8px);
+  ion-backdrop {
+    background-color: white;
+  }
+  .loading-wrapper {
+    background-image: url('../assets/img/loading/loading-spinner.svg');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-width: 90px;
+    min-height: 90px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+  }
+  @-moz-keyframes spin {
+    100% {
+      -moz-transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @keyframes spin {
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+}
