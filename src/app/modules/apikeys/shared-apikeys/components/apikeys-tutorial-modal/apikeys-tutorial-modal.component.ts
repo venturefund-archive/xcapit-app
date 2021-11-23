@@ -5,11 +5,11 @@ import { ModalController } from '@ionic/angular';
   selector: 'app-apikeys-tutorial-modal',
   template: `
     <div class="ion-padding atm">
-      <ion-button name="Close" appTrackClick size="small" fill="clear atm__close" (click)="this.close()">
-        <img src="assets/ux-icons/ux-close.svg" alt="Close" />
+      <ion-button name="Close" class="atm__close" appTrackClick color="uxprimary" fill="clear" (click)="this.close()">
+        <ion-icon name="ux-close" alt="Close"></ion-icon>
       </ion-button>
       <div class="atm__title">
-        <ion-text class="ux-font-num-subtitulo" color="ux_dark">
+        <ion-text class="ux-font-text-lg" color="ux_dark">
           {{ this.title | translate }}
         </ion-text>
       </div>
