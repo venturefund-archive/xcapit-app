@@ -80,10 +80,16 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.form.value.currency.value } }}
+          {{
+            'wallets.receive.disclaimer_header'
+              | translate: { currency: this.form.value.currency.value, network: this.network }
+          }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.form.value.currency.value } }}
+          {{
+            'wallets.receive.disclaimer_body'
+              | translate: { currency: this.form.value.currency.value, network: this.network }
+          }}
         </ion-text>
       </div>
     </ion-content>
@@ -97,6 +103,7 @@ export class ReceivePage {
   isNativePlatform: boolean;
   currencies: Coin[];
   address: string;
+  network: string;
   addressQr: string;
   coins: Coin[];
   constructor(
@@ -135,14 +142,14 @@ export class ReceivePage {
 
   subscribeToFormChanges() {
     this.form.get('currency').valueChanges.subscribe((value) => {
-      this.getAddress(value);
+      this.getCoinData(value);
     });
   }
 
-  getAddress(currency: Coin) {
+  getCoinData(currency: Coin) {
     this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      const network = this.coins.find((coin) => coin.value === currency.value).network;
-      this.address = wallet.addresses[network];
+      this.network = this.coins.find((coin) => coin.value === currency.value).network;
+      this.address = wallet.addresses[this.network];
       this.generateAddressQR();
     });
   }
