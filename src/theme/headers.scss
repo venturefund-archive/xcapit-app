@@ -1,0 +1,16 @@
+// Header pantallas
+.ux_toolbar ion-title {
+  font-family: var(--ux-font-worksans);
+  font-size: var(--ux-fsize-16);
+  font-weight: var(--ux-fweight-semibold);
+  color: var(--ion-color-uxdark);
+}
+.ux_toolbar ion-title {
+  color: var(--ion-color-uxlight);
+  text-align: center;
+}
+
+// Estilo de la toolbar para el diseño ux
+.ux_toolbar {
+  --min-height: 60px;
+}
