@@ -17,6 +17,8 @@ export const environment = {
     messagingSenderId: '1059796815977',
     appId: 'dummy',
     vapidKey: 'dummy',
+    measurementId: 'dummy',
+    authDomain: 'dummy',
   },
   appUrl: 'https://dummy.xcapit.com/',
   covalentApiUrl: 'https://covalent.url',
