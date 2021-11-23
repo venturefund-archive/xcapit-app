@@ -157,6 +157,7 @@ ion-toast.refresher_toast {
     font-size: var(--ux-fsize-14);
     font-weight: var(--ux-fweight-bold);
     color: var(--ion-color-info);
+    line-height: 16.42px;
   }
 
   .ux-link-xl {
@@ -166,6 +167,7 @@ ion-toast.refresher_toast {
     color: var(--ion-color-info);
     line-height: 18.77px;
   }
+
   // Texto normal
   .ux-font-text-base {
     font-family: var(--ux-font-lato);
@@ -279,8 +281,9 @@ ion-toast.refresher_toast {
   .ux_button {
     text-transform: none;
     font-family: var(--ux-font-worksans);
-    font-weight: var(--ux-fweight-medium);
+    font-weight: var(--ux-fweight-semibold);
     font-size: var(--ux-fsize-16);
+    line-height: 18.77px;
   }
 
   .ux-font-button-small {
