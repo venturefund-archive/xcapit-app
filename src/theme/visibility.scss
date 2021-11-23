@@ -1,0 +1,12 @@
+.hidden {
+  --ion-background-color: transparent;
+  background-color: transparent;
+}
+
+.hidden-visibility {
+  visibility: hidden !important;
+}
+
+.transparent-background {
+  --ion-background-color: transparent !important;
+}
