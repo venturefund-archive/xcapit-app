@@ -19,9 +19,9 @@ export abstract class UpdateService {
     NO_REQUIRED: '',
   };
 
-  protected abstract async getActualVersion();
+  protected abstract getActualVersion();
 
-  protected abstract async update();
+  protected abstract update();
 
   protected async showRecommendedAlert() {
     const alert = await this.alertController.create({
