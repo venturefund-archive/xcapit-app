@@ -5,7 +5,7 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
   template: `
     <div class="ux_datetime_container">
       <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
-      <ion-item class="ux_datetime_container__item">
+      <ion-item class="ux_datetime_container__item ux-font-text-xs">
         <ion-datetime
           [formControlName]="this.controlName"
           [displayFormat]="this.displayFormat"
