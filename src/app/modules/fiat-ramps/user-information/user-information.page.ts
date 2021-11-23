@@ -30,7 +30,7 @@ import * as moment from 'moment';
       </div>
 
       <app-ux-text class="ion-padding-top ion-margin-top">
-        <div class="ion-margin-top ion-margin-bottom" style="font-size: 16px;">
+        <div class="ion-margin-top ion-margin-bottom ux-font-text-xs" color="uxprimary">
           {{ 'fiat_ramps.register.description' | translate }}
         </div>
       </app-ux-text>

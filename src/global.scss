@@ -682,6 +682,12 @@ ion-toast.refresher_toast {
     color: var(--ion-color-info);
     font-weight: var(--ux-fweight-bold);
   }
+  .picker-opt {
+    font-family: var(--ux-font-lato);
+    font-size: var(--ux-fsize-16);
+    font-weight: var(--ux-fweight-regular);
+    color: var(--ion-color-uxsemidark);
+  }
 
   .ux-card {
     --ion-background-color: var(--ion-color-uxlight);
