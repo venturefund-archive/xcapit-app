@@ -21,6 +21,8 @@
   font-size: var(--ux-fsize-14);
   font-weight: var(--ux-fweight-bold);
   color: var(--ion-color-info);
+  text-decoration: underline;
+  line-height: 16.42px;
 }
 
 .ux-link-xl {
@@ -28,6 +30,7 @@
   font-size: var(--ux-fsize-16);
   font-weight: var(--ux-fweight-bold);
   color: var(--ion-color-info);
+  text-decoration: underline;
   line-height: 18.77px;
 }
 // Texto normal
