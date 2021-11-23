@@ -32,3 +32,55 @@
     }
   }
 }
+
+.ux-alert-small-text {
+  --ion-font-family: var(--ux-font-lato);
+  --ion-text-color: var(--ion-color-uxdark);
+
+  .alert-head {
+    padding-bottom: 16px;
+  }
+
+  .alert-title {
+    font-weight: var(--ux-fweight-bold);
+    font-size: var(--ux-fsize-15);
+  }
+
+  .alert-message {
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-regular);
+    padding-bottom: 8px;
+  }
+
+  .alert-button {
+    font-size: var(--ux-fsize-14);
+  }
+}
+
+//Alerta error wallet
+.ux-wallet-error-alert {
+  --max-height: 145px;
+  --max-width: 302px;
+  --ion-font-family: var(--ux-font-lato);
+  --ion-text-color: var(--ion-color-uxdark);
+
+  .alert-head {
+    padding-bottom: 12px;
+  }
+
+  .alert-title {
+    font-weight: var(--ux-fweight-bold);
+    font-size: var(--ux-fsize-18);
+  }
+
+  .alert-message {
+    font-size: var(--ux-fsize-14);
+    font-weight: var(--ux-fweight-regular);
+    padding-bottom: 12px;
+  }
+
+  .alert-button {
+    font-weight: var(--ux-fweight-bold);
+    font-size: var(--ux-fsize-18);
+  }
+}

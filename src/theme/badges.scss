@@ -1,0 +1,45 @@
+//Badge Principal
+.ux-font-badge-primary,
+.ux_badge_primary {
+  text-transform: uppercase;
+  --color: var(--ion-color-warningdark);
+  font-family: var(--ux-font-worksans);
+  font-weight: var(--ux-fweight-extrabold);
+  font-size: var(--ux-fsize-10);
+}
+
+//Badge Proximamente
+.ux-font-badge-coming,
+.ux_badge_coming {
+  font-family: var(--ux-font-lato);
+  font-weight: var(--ux-fweight-semibold);
+  font-size: var(--ux-fsize-12);
+  --color: rgb(114, 62, 163);
+}
+
+//Badge Proximamente - Violeta
+.ux_badge_coming {
+  border-radius: 3px;
+  height: 21px;
+  --background: rgba(187, 107, 217, 0.4);
+  --padding-top: 6px;
+  --padding-bottom: 6px;
+  line-height: 9.6px;
+}
+
+// Badge color naranja para la opcion mas seleccionada
+.ux_badge_primary {
+  border-radius: 4px;
+  height: 21px;
+  --background: var(--ion-color-warninglight);
+  --padding-top: 6px;
+}
+
+//Badge Coin Nativa
+.ux_badge_native {
+  border-radius: 4px;
+  --background: var(--ion-color-infolight);
+  --padding-top: 6px;
+  --padding-bottom: 6px;
+  line-height: 9.6px;
+}
