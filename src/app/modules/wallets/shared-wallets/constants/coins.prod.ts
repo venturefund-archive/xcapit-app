@@ -6,7 +6,6 @@ import uniAbi from './assets-abi-prod/uni-abi-prod.json';
 import usdtAbi from './assets-abi-prod/usdt-abi-prod.json';
 import rifAbi from './assets-abi-prod/rif-abi-prod.json';
 import sovAbi from './assets-abi-prod/sov-abi-prod.json';
-import bnbAbi from './assets-abi-prod/bnb-abi-prod.json';
 import lunaAbi from './assets-abi-prod/luna-abi-prod.json';
 import axsAbi from './assets-abi-prod/axs-abi-prod.json';
 import manaAbi from './assets-abi-prod/mana-abi-prod.json';
@@ -82,19 +81,6 @@ export const PROD_COINS: Coin[] = [
   },
   {
     id: 6,
-    name: 'BNB',
-    logoRoute: 'assets/img/coins/BNB.svg',
-    last: false,
-    value: 'BNB',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: environment.ethAlchemyApiUrl,
-    contract: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
-    abi: bnbAbi,
-    decimals: 18,
-  },
-  {
-    id: 7,
     name: 'LUNA',
     logoRoute: 'assets/img/coins/LUNA.png',
     last: false,
@@ -107,7 +93,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 8,
+    id: 7,
     name: 'AXS - Axie Infinity Shard',
     logoRoute: 'assets/img/coins/AXS.png',
     last: false,
@@ -120,7 +106,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 9,
+    id: 8,
     name: 'MANA - Decentraland',
     logoRoute: 'assets/img/coins/MANA.png',
     last: false,
@@ -133,7 +119,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 10,
+    id: 9,
     name: 'SUSHI',
     logoRoute: 'assets/img/coins/SUSHI.png',
     last: false,
@@ -146,11 +132,11 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 11,
+    id: 10,
     name: 'COMPOUND',
     logoRoute: 'assets/img/coins/COMPOUND.png',
     last: false,
-    value: 'COMPOUND',
+    value: 'COMP',
     network: 'ERC20',
     chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
@@ -159,7 +145,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 12,
+    id: 11,
     name: 'ZIL - Zilliqa',
     logoRoute: 'assets/img/coins/ZILLIQA.png',
     last: false,
@@ -172,7 +158,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 13,
+    id: 12,
     name: 'ENJ - EnjinCoin',
     logoRoute: 'assets/img/coins/ENJ.png',
     last: false,
@@ -185,7 +171,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 14,
+    id: 13,
     name: 'BAT',
     logoRoute: 'assets/img/coins/BAT.png',
     last: true,
@@ -198,7 +184,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 15,
+    id: 14,
     name: 'RBTC - Smart Bitcoin',
     logoRoute: 'assets/img/coins/RBTC.png',
     last: false,
@@ -209,7 +195,7 @@ export const PROD_COINS: Coin[] = [
     native: true,
   },
   {
-    id: 16,
+    id: 15,
     name: 'RIF - Rifos',
     logoRoute: 'assets/img/coins/RIF.png',
     last: false,
@@ -222,7 +208,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 17,
+    id: 16,
     name: 'SOV - Sovryn',
     logoRoute: 'assets/img/coins/SOV.png',
     last: true,
@@ -235,7 +221,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 18,
+    id: 17,
     name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
     last: false,
