@@ -2,7 +2,7 @@
   .ux_rg {
     padding-top: 16px;
 
-    --background: var(--ion-color-uxlight);
+    --background: var(--ion-color-infolight);
 
     ion-item,
     ion-label,
@@ -40,8 +40,12 @@
     }
 
     ion-radio {
-      --color-checked: var(--ion-color-uxsecondary);
-      --color: #00000029;
+      --color-checked: var(--ion-color-info);
+      --color: var(--ion-color-info);
+    }
+    ion-radio-disabled {
+      --color-checked: var(--ion-color-infolight);
+      --color: var(--ion-color-infolight);
     }
   }
 }
