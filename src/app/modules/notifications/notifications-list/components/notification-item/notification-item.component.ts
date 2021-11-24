@@ -6,7 +6,7 @@ import * as moment from 'moment';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="ni">
-      <ion-item class="ni__body" [ngClass]="{ ni__new: !this.notification.read }">
+      <ion-item class="ni__body">
         <div class="ni__body__container-icon">
           <img *ngIf="this.notification.type === 'TP'" src="assets/img/notifications/Trading up.svg" />
           <img *ngIf="this.notification.type === 'SL'" src="assets/img/notifications/Trading down.svg" />
