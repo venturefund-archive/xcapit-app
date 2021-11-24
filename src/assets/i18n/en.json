@@ -458,6 +458,14 @@
             "strategie_type": "Trading",
             "info_description": "Olympus mons is an investment strategy with a low risk, which makes it ideal for people who are just starting out or who want to ensure controlled growth of their investment. Its objective is to generate returns in Bitcoins. It works by applying different strategies on each crypto that it operates."
           },
+          "metaverse_index": {
+            "title": "Metaverse",
+            "description": "This index is designed to capture trends in entertainment, sports, and business moving into a virtual environment.",
+            "more_info": "Read more about Metaverso",
+            "strategie_type": "Index",
+            "info_description": "",
+            "new_badge": "New"
+          },
           "DeFi_index": {
             "title": "Himalayas",
             "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether).",
