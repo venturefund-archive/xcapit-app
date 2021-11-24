@@ -11,11 +11,11 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
 import { StrategyNamePipe } from '../../pipes/strategy-name/strategy-name.pipe';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 import { of } from 'rxjs';
-import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 import { HideTextPipe } from '../../../../../shared/pipes/hide-text/hide-text.pipe';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
+import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 
 const activeFund = {
   fund_name: 'Test',
@@ -40,13 +40,13 @@ describe('FundCardComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
-  let apiFundsServiceSpy: jasmine.SpyObj<ApiFundsService>;
+  let apiSubscriptionsServiceSpy: jasmine.SpyObj<ApiSubscriptionsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   beforeEach(
     waitForAsync(() => {
       localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', {}, { hideFunds: of(true) });
-      apiFundsServiceSpy = jasmine.createSpyObj('ApiFundsService', { unsubscribe: of({}) });
+      apiSubscriptionsServiceSpy = jasmine.createSpyObj('ApiSubscriptionsService', { unsubscribeToFund: of({}) });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       toastServiceSpy = jasmine.createSpyObj('ToastService', { showSuccessToast: Promise.resolve() });
@@ -69,7 +69,7 @@ describe('FundCardComponent', () => {
           DecimalPipe,
           { provide: NavController, useValue: navControllerSpy },
           { provide: LocalStorageService, useValue: localStorageServiceSpy },
-          { provide: ApiFundsService, useValue: apiFundsServiceSpy },
+          { provide: ApiSubscriptionsService, useValue: apiSubscriptionsServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: AlertController, useValue: alertControllerSpy },
         ],
@@ -130,7 +130,7 @@ describe('FundCardComponent', () => {
       const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Unsubscribe"'));
       buttonEl.nativeElement.click();
       component.unsubscribe();
-      expect(apiFundsServiceSpy.unsubscribe).toHaveBeenCalledOnceWith('Test');
+      expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledOnceWith('Test');
     });
 
     it('should navigate to detail when View Fund button is clicked', async () => {
@@ -159,7 +159,7 @@ describe('FundCardComponent', () => {
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['funds/funds-finished']);
     });
 
-    it('should call unsubscribe when Unsubscribe button is clicked and not owner', async () => {
+    it('should call showSuccessToast when unsubscribe process has finished  ', async () => {
       component.owner = false;
       component.ngOnInit();
       fixture.detectChanges();
@@ -167,7 +167,7 @@ describe('FundCardComponent', () => {
       const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Unsubscribe"'));
       buttonEl.nativeElement.click();
       component.unsubscribe();
-      expect(apiFundsServiceSpy.unsubscribe).toHaveBeenCalledOnceWith('Test');
+      expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledOnceWith('Test');
       expect(toastServiceSpy.showSuccessToast).toHaveBeenCalledTimes(1);
     });
 
