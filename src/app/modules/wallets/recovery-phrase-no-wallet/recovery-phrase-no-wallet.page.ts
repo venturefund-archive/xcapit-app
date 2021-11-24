@@ -42,7 +42,7 @@ import { NavController } from '@ionic/angular';
                 {{ 'wallets.recovery_phrase_information_no_wallet.button_create' | translate }}
               </ion-button>
               <ion-button
-                class="ux_button_outlined"
+                class="ux-button-outlined"
                 name="Go To Import Wallet"
                 type="button"
                 expand="block"
