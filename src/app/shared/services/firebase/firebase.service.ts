@@ -14,16 +14,13 @@ export class FirebaseService {
   importedFirebase: FirebaseNamespace = firebase;
   constructor(private platformService: PlatformService) {}
 
-  init() {
-    let firebaseApp: FirebaseApp;
+  init(): FirebaseApp {
     if (this.platformService.isWeb() && !this.importedFirebase.apps.length) {
       this.firebaseAnalytics.initializeFirebase(environment.firebase);
     }
 
-    firebaseApp = !this.importedFirebase.apps.length
+    return !this.importedFirebase.apps.length
       ? this.importedFirebase.initializeApp(environment.firebase)
       : this.importedFirebase.app();
-
-    return firebaseApp;
   }
 }

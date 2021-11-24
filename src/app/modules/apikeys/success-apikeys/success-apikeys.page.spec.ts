@@ -6,23 +6,24 @@ import { SuccessApikeysPage } from './success-apikeys.page';
 describe('SuccessApikeysPage', () => {
   let component: SuccessApikeysPage;
   let fixture: ComponentFixture<SuccessApikeysPage>;
+  let activatedRouteSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    let activatedRouteSpy: any;
+  beforeEach(
+    waitForAsync(() => {
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+      activatedRouteSpy.snapshot = {
+        paramMap: convertToParamMap({
+          isRenew: 'true',
+        }),
+      };
 
-    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        isRenew: 'true',
-      }),
-    };
-
-    TestBed.configureTestingModule({
-      declarations: [SuccessApikeysPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: ActivatedRoute, useValue: activatedRouteSpy }],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [SuccessApikeysPage],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [{ provide: ActivatedRoute, useValue: activatedRouteSpy }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuccessApikeysPage);

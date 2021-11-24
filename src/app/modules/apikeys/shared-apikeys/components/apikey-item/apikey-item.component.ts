@@ -53,11 +53,10 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
         <ion-button
           *ngIf="!this.fundName"
           appTrackClick
-          class="ux-link-xl"
+          class="cib__footer__more_info ux-font-text-xxs ux-link-xl"
           name="Manage"
           fill="clear"
           size="small"
-          class="cib__footer__more_info ux-font-text-xxs"
           (click)="this.useApiKey(this.id)"
         >
           {{ 'apikeys.card_apikeys.action' | translate }}

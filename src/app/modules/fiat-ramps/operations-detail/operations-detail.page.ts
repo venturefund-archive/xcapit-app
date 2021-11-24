@@ -119,14 +119,13 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
         <div *ngIf="this.provider.alias !== 'paxful'">
           <div *ngIf="!this.hasVoucher">
             <ion-button
-              class="ux_button"
+              class="dp__pic-button ux_button"
               appTrackClick
               name="Upload Voucher"
               type="button"
               color="uxsecondary"
               size="large"
               (click)="this.addPhoto()"
-              class="dp__pic-button"
             >
               <div class="dp__pic-button__button-content" *ngIf="!this.comprobante">
                 <ion-icon class="receipt-outline" slot="end" name="receipt-outline"></ion-icon>

@@ -7,25 +7,23 @@ import { SuccessResetPasswordPage } from './success-reset-password.page';
 describe('SuccessResetPasswordPage', () => {
   let component: SuccessResetPasswordPage;
   let fixture: ComponentFixture<SuccessResetPasswordPage>;
+  let activatedRouteSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    let activatedRouteSpy: any;
-
-    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        isReset: 'false'
-      })
-    };
-    TestBed.configureTestingModule({
-      declarations: [ SuccessResetPasswordPage ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+      activatedRouteSpy.snapshot = {
+        paramMap: convertToParamMap({
+          isReset: 'false',
+        }),
+      };
+      TestBed.configureTestingModule({
+        declarations: [SuccessResetPasswordPage],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [{ provide: ActivatedRoute, useValue: activatedRouteSpy }],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuccessResetPasswordPage);
