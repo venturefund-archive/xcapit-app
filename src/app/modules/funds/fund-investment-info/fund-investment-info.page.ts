@@ -59,7 +59,7 @@ export class FundInvestmentInfoPage implements OnInit {
       description: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.info_description',
     },
     Olympus: {
-      name: 'Olympus Moon',
+      name: 'Olympus Mons',
       description: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.info_description',
     },
     Andes: { name: 'Andes', description: 'funds.fund_investment.card.profiles.Mary_index.info_description' },
