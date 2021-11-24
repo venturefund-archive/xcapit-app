@@ -84,7 +84,7 @@ export class WalletTransactionsService {
       // test mainnet address 0x9cBb2b28dF12A6f520Cfd4a97b8C89f89EE10C59 / 0x39F65f7F9418a35b5A8d07f08Ac9484b03d46295
 
       this.getTransactions(addresses.ETH_TEST, urlProvider).subscribe((response) => {
-        if (!!asset) {
+        if (asset) {
           response = response.filter((tx) => tx.asset === asset);
         }
 
@@ -154,7 +154,7 @@ export class WalletTransactionsService {
     const res = [];
 
     for (const tx of response) {
-      if (!!tx.asset) {
+      if (tx.asset) {
         const txRes = {
           icon:
             action === 'received'

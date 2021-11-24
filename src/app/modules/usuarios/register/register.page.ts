@@ -152,8 +152,8 @@ export class RegisterPage implements OnInit {
   }
 
   async success(response) {
-    // tslint:disable-next-line:no-non-null-assertion
     if (!Object.keys(response).length!) {
+      // eslint-disable-line @typescript-eslint/no-non-null-assertion
       this.showWhiteListAlert();
     } else {
       this.registerForm.form.reset();
