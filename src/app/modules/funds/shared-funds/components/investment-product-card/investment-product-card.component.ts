@@ -104,7 +104,7 @@ export class InvestmentProductCardComponent implements OnInit {
     currency: '',
     image: '',
     strategie_type: '',
-    new_strategy: '',
+    new_strategy: false,
   };
 
   productType = {

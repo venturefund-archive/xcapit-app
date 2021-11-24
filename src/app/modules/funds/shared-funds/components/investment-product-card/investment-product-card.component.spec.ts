@@ -9,6 +9,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { By } from '@angular/platform-browser';
 
 const testProduct = {
   profile: 'volume_profile_strategies_USDT',
@@ -19,6 +20,7 @@ const testProduct = {
   risk: 2,
   currency: 'USDT',
 };
+
 describe('InvestmentProductCardComponent', () => {
   let component: InvestmentProductCardComponent;
   let fixture: ComponentFixture<InvestmentProductCardComponent>;
@@ -63,5 +65,19 @@ describe('InvestmentProductCardComponent', () => {
       'funds/fund-investment-info',
       component.productData.title,
     ]);
+  });
+
+  it('should show new badge when strategy is new', () => {
+    component.productData.new_strategy = true;
+    fixture.detectChanges();
+    const newBadge = fixture.debugElement.query(By.css('ion-badge.ux_badge_new_strategy'));
+    expect(newBadge.properties.hidden).toBeFalse();
+  });
+
+  it('should disable new badge when strategy Isn’t new ', () => {
+    component.productData.new_strategy = false;
+    fixture.detectChanges();
+    const newBadge = fixture.debugElement.query(By.css('ion-badge.ux_badge_new_strategy'));
+    expect(newBadge).toBeNull();
   });
 });
