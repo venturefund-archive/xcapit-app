@@ -12,10 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-email-validation',
   template: `
     <ion-content class="ion-padding">
-      <div
-        *ngIf="!this.isValidEmail && !this.isValidating"
-        class="ion-text-center"
-      >
+      <div *ngIf="!this.isValidEmail && !this.isValidating" class="ion-text-center">
         <h3>
           {{ 'usuarios.email_validation.error_title' | translate }}
         </h3>
@@ -35,20 +32,14 @@ import { TranslateService } from '@ngx-translate/core';
           </ion-button>
         </div>
         <div class="ion-text-left ion-padding-top">
-          <ion-button
-            fill="clear"
-            size="small"
-            type="button"
-            routerDirection="back"
-            [routerLink]="['/users/register']"
-          >
+          <ion-button fill="clear" size="small" type="button" routerDirection="back" [routerLink]="['/users/register']">
             {{ 'usuarios.email_validation.register_link' | translate }}
           </ion-button>
         </div>
       </div>
     </ion-content>
   `,
-  styleUrls: ['./email-validation.page.scss']
+  styleUrls: ['./email-validation.page.scss'],
 })
 export class EmailValidationPage implements OnInit, OnDestroy {
   emailValidationSubscription: Subscription;
@@ -75,7 +66,7 @@ export class EmailValidationPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (!!this.emailValidationSubscription) {
+    if (this.emailValidationSubscription) {
       this.emailValidationSubscription.unsubscribe();
     }
   }
@@ -83,20 +74,16 @@ export class EmailValidationPage implements OnInit, OnDestroy {
   emailValidation() {
     this.emailValidationSubscription = this.route.params
       .pipe(
-        filter(
-          (params: Params) => params.emailValidationToken && params.uidb64
-        ),
+        filter((params: Params) => params.emailValidationToken && params.uidb64),
         tap((params: Params) => {
           this.emailValidationToken = params.emailValidationToken;
           this.uidb64 = params.uidb64;
         }),
-        switchMap(() =>
-          this.apiUsuario.emailValidation(this.emailValidationToken, this.uidb64)
-        )
+        switchMap(() => this.apiUsuario.emailValidation(this.emailValidationToken, this.uidb64))
       )
       .subscribe({
-        next: data => this.handleEmailValidationResponse(data),
-        error: () => (this.isValidating = false)
+        next: (data) => this.handleEmailValidationResponse(data),
+        error: () => (this.isValidating = false),
       });
   }
 
@@ -104,40 +91,34 @@ export class EmailValidationPage implements OnInit, OnDestroy {
     this.isValidating = false;
     this.isValidEmail = data.isValid;
     if (this.isValidEmail) {
-      this.navController
-        .navigateForward(['/users/login'], { replaceUrl: true })
-        .then(() =>
-          this.toastService.showToast({
-            message: this.translate.instant('usuarios.email_validation.ok_text')
-          })
-        );
+      this.navController.navigateForward(['/users/login'], { replaceUrl: true }).then(() =>
+        this.toastService.showToast({
+          message: this.translate.instant('usuarios.email_validation.ok_text'),
+        })
+      );
     }
   }
 
   sendEmailValidation() {
     if (this.emailValidationToken && this.uidb64 && !this.isValidEmail) {
-      this.apiUsuario
-        .sendEmailValidation(this.uidb64)
-        .subscribe({
-          next: data => this.success(data),
-          error: e => this.error(e)
-        });
+      this.apiUsuario.sendEmailValidation(this.uidb64).subscribe({
+        next: (data) => this.success(data),
+        error: (e) => this.error(e),
+      });
     }
-}
+  }
 
   async success(res) {
     this.toastService.showToast({
-      message: this.translate.instant('usuarios.register.success_text')
-    })
+      message: this.translate.instant('usuarios.register.success_text'),
+    });
   }
 
   async error(e) {
-    this.navController
-      .navigateForward(['/users/login'], { replaceUrl: true })
-      .then(() =>
-        this.toastService.showToast({
-          message: this.translate.instant(e.error_code)
-        })
-      );
+    this.navController.navigateForward(['/users/login'], { replaceUrl: true }).then(() =>
+      this.toastService.showToast({
+        message: this.translate.instant(e.error_code),
+      })
+    );
   }
 }

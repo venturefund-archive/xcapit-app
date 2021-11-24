@@ -57,7 +57,7 @@ export class WalletService {
   async walletExist(): Promise<boolean> {
     const wallets = await this.appStorageService.get('enc_wallet');
 
-    if (!!wallets) {
+    if (wallets) {
       this.addresses = wallets.addresses;
     }
 

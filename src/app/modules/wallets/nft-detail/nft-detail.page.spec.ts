@@ -44,10 +44,9 @@ describe('NftDetailPage', () => {
   let nftServiceSpy: jasmine.SpyObj<NftService>;
   let routeSpy: jasmine.SpyObj<Router>;
 
-  routeSpy = jasmine.createSpyObj('Router', ['getCurrentNavigation']);
-
   beforeEach(
     waitForAsync(() => {
+      routeSpy = jasmine.createSpyObj('Router', ['getCurrentNavigation']);
       nftServiceSpy = jasmine.createSpyObj('NftService', {
         getNFTMetadata: Promise.resolve(NFTMetadata),
         getNFTMexico: NFT_DATA_NONPROD,

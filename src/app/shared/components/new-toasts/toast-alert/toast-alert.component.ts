@@ -48,7 +48,7 @@ import { ModalController } from '@ionic/angular';
       <div *ngIf="this.typeAlert === this.types.items_error" class="ux-font-text-xs pcc_content__items">
         <ul class="text" style="list-style-type:disc">
           <li>{{ this.types.items_error.item1 }}</li>
-          <li [hidden]="this.types.items_error.item2 == null">{{ this.types.items_error.item2 }}</li>
+          <li [hidden]="this.types.items_error.item2 === null">{{ this.types.items_error.item2 }}</li>
         </ul>
       </div>
     </div>

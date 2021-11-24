@@ -153,7 +153,7 @@ describe('ItemsCoinGroupComponent', () => {
     component.form.patchValue({ ETH: { LINK: true } });
     fixture.debugElement
       .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[1] } });
+      .triggerEventHandler('changed', { detail: { checked: true, value: testCoins[1] } });
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.form.value.ETH.ETH).toBeTrue();
@@ -163,7 +163,7 @@ describe('ItemsCoinGroupComponent', () => {
     component.form.patchValue({ ETH: { ETH: true } });
     fixture.debugElement
       .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[0] } });
+      .triggerEventHandler('changed', { detail: { checked: true, value: testCoins[0] } });
     fixture.detectChanges();
     expect(component.form.value.ETH.ETH).toBeTrue();
     expect(Object.values(component.form.value.ETH).filter((value) => value === true).length).toEqual(1);
@@ -173,7 +173,7 @@ describe('ItemsCoinGroupComponent', () => {
     component.form.patchValue({ ETH: { LINK: true, USDT: true } });
     fixture.debugElement
       .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: false, value: testCoins[0] } });
+      .triggerEventHandler('changed', { detail: { checked: false, value: testCoins[0] } });
     fixture.detectChanges();
     expect(component.form.value.ETH.LINK).toBeFalse();
     expect(component.form.value.ETH.USDT).toBeFalse();

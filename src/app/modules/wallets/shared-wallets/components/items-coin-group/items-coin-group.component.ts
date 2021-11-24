@@ -25,7 +25,7 @@ import { Coin } from '../../interfaces/coin.interface';
             <div class="list-divider"></div>
             <app-item-coin
               [suite]="this.suite"
-              (change)="this.validate($event)"
+              (changed)="this.validate($event)"
               [isChecked]="this.form.value.coin"
               *ngFor="let coin of coins"
               [coin]="coin"

@@ -7,25 +7,23 @@ import { FundSuccessPage } from './fund-success.page';
 describe('FundSuccessPage', () => {
   let component: FundSuccessPage;
   let fixture: ComponentFixture<FundSuccessPage>;
+  let activatedRouteSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    let activatedRouteSpy: any;
-
-    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        type: 'new'
-      })
-    };
-    TestBed.configureTestingModule({
-      declarations: [ FundSuccessPage ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+      activatedRouteSpy.snapshot = {
+        paramMap: convertToParamMap({
+          type: 'new',
+        }),
+      };
+      TestBed.configureTestingModule({
+        declarations: [FundSuccessPage],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [{ provide: ActivatedRoute, useValue: activatedRouteSpy }],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundSuccessPage);

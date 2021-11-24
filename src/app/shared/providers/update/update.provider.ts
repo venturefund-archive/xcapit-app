@@ -7,7 +7,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { LoadingService } from '../../services/loading/loading.service';
 import { updateServiceFactory } from '../../factories/update/update.factory';
 
-export let updateServiceProvider = {
+export const updateServiceProvider = {
   provide: UpdateService,
   useFactory: updateServiceFactory,
   deps: [PlatformService, AlertController, TranslateService, HttpClient, SwUpdate, LoadingService],

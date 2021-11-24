@@ -27,14 +27,13 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         <!-- agregar foto dni frente -->
 
         <ion-button
-          class="ux_button"
+          class="ux_button ri__pic-button"
           appTrackClick
           name="Next"
           type="button"
           color="uxsecondary"
           size="large"
           (click)="this.addPhoto('front_document')"
-          class="ri__pic-button"
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['front_document'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
@@ -51,14 +50,13 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         <!-- agregar foto dni dorso -->
 
         <ion-button
-          class="ux_button"
+          class="ri__pic-button ux_button"
           appTrackClick
           name="Next"
           type="button"
           color="uxsecondary"
           size="large"
           (click)="this.addPhoto('back_document')"
-          class="ri__pic-button"
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['back_document'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
@@ -75,14 +73,13 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         <!-- agregar foto selfie -->
 
         <ion-button
-          class="ux_button"
+          class="ri__pic-button ux_button"
           appTrackClick
           name="Next"
           type="button"
           color="uxsecondary"
           size="large"
           (click)="this.addPhoto('billing')"
-          class="ri__pic-button"
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['billing'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
