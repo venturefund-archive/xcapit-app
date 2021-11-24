@@ -3,6 +3,15 @@
     color: var(--ion-color-uxlight);
   }
 
+  &__badge {
+    margin-left: 8px;
+    align-items: center;
+    justify-content: center;
+    color: var(--ion-color-uxlight);
+    font-family: var(--ux-font-worksans);
+    font-size: var(--ux-fsize-10);
+  }
+
   .title_container {
     flex-basis: 82%;
     display: flex;
@@ -13,6 +22,9 @@
     border-radius: 15px 15px 0px 0px;
     padding: 16px 16px 12px 16px;
     background-size: cover !important;
+    &__title_and_badge {
+      display: inline-flex;
+    }
     &__title_and_image {
       display: flex;
       justify-content: space-between;

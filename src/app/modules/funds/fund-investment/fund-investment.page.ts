@@ -68,6 +68,13 @@ export class FundInvestmentPage implements OnInit {
       currency: 'USDT',
     },
     {
+      profile: 'metaverse_index',
+      min_capital: '500',
+      link_info: '',
+      risk: 5,
+      currency: 'USDT',
+    },
+    {
       profile: 'Mary_index',
       min_capital: '500',
       link_info: 'https://bit.ly/factsheet-strategy3',
