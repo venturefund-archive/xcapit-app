@@ -88,7 +88,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
           </div>
           <app-ux-loading-block minSize="50px" *ngIf="!this.notOwnerFundBalances"></app-ux-loading-block>
           <div class="fl__funds__card" *ngFor="let nofb of notOwnerFundBalances">
-            <app-fund-card [fund]="nofb" [owner]="false"></app-fund-card>
+            <app-fund-card (deletedFund)="this.deleteFund($event)" [fund]="nofb" [owner]="false"></app-fund-card>
           </div>
         </div>
       </div>
@@ -210,5 +210,10 @@ export class FundsListPage implements OnInit {
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
+  }
+
+  deleteFund(name) {
+    const toDeleteFund = this.notOwnerFundBalances.findIndex((item) => item.fund_name === name);
+    this.notOwnerFundBalances.splice(toDeleteFund, 1);
   }
 }

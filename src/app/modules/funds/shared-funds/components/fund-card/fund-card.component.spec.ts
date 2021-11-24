@@ -131,6 +131,7 @@ describe('FundCardComponent', () => {
       buttonEl.nativeElement.click();
       component.unsubscribe();
       expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledOnceWith('Test');
+      expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledTimes(1);
     });
 
     it('should navigate to detail when View Fund button is clicked', async () => {
@@ -178,6 +179,13 @@ describe('FundCardComponent', () => {
       el.nativeElement.click();
       fixture.detectChanges();
       expect(spyClickEvent).toHaveBeenCalledTimes(1);
+    });
+
+    it('should emit event on deleteFund when success unsubscribe', () => {
+      const spy = spyOn(component.deletedFund, 'emit');
+      component.deleteFund('test');
+      expect(spy).toHaveBeenCalledOnceWith('test');
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   });
 });

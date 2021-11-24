@@ -1,9 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
-import { ApiFundsService } from '../../services/api-funds/api-funds.service';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 
@@ -167,6 +166,7 @@ export class FundCardComponent implements OnInit {
   @Input() fund: any;
   @Input() hideFundText: boolean;
   @Input() owner = true;
+  @Output() deletedFund: EventEmitter<string> = new EventEmitter<string>();
   createdTime: any[];
 
   constructor(
@@ -234,10 +234,17 @@ export class FundCardComponent implements OnInit {
   }
 
   unsubscribe() {
-    this.apiSubscriptionsService.unsubscribeToFund(this.fund.fund_name).subscribe(() => this.showSuccessToast());
+    this.apiSubscriptionsService.unsubscribeToFund(this.fund.fund_name).subscribe(() => {
+      this.showSuccessToast();
+      this.deleteFund(this.fund.fund_name);
+    });
   }
 
   showSuccessToast() {
     return this.toastService.showSuccessToast({ message: this.translate.instant('funds.fund_card.unsubscribe_toast') });
+  }
+
+  deleteFund(name: string) {
+    this.deletedFund.emit(name);
   }
 }
