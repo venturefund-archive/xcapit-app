@@ -14,3 +14,10 @@
 ion-picker {
   touch-action: none;
 }
+
+.picker-opt {
+  font-family: var(--ux-font-lato);
+  font-size: var(--ux-fsize-16);
+  font-weight: var(--ux-fweight-regular);
+  color: var(--ion-color-uxsemidark);
+}

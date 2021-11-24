@@ -56,7 +56,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
             </ion-label>
           </ion-item>
           <div class="container" *ngFor="let op of this.operationsList; let last = last">
-            <ion-item class="table-header ux-font-text-xxs regular" (click)="viewOperationDetail(op)">
+            <ion-item class="table-header ux-font-text-xxs" (click)="viewOperationDetail(op)">
               <ion-text class="ux-fweight-semibold ux-fsize-10">
                 {{ op.currency_in }} → {{ op.currency_out }}
               </ion-text>

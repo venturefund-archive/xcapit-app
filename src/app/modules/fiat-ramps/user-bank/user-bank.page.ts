@@ -19,7 +19,7 @@ import { NavController } from '@ionic/angular';
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
         <div class="ux_content">
           <div>
-            <ion-text class="text-info ux-font-text-xs">
+            <ion-text class="ux-font-text-xs">
               {{ 'fiat_ramps.register.description_bank' | translate }}
             </ion-text>
           </div>

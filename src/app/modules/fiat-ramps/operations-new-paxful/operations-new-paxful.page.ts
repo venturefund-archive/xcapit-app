@@ -54,9 +54,15 @@ const { Browser } = Plugins;
         </div>
         <div class="ux_footer">
           <div class="need-help">
-            <ion-button name="Help-paxful" (click)="this.openInfo()" appTrackClick fill="clear" size="small">{{
-              'shared.need_help.text_help_link' | translate
-            }}</ion-button>
+            <ion-button
+              class="ux-link-xs underline"
+              name="Help-paxful"
+              (click)="this.openInfo()"
+              appTrackClick
+              fill="clear"
+              size="small"
+              >{{ 'shared.need_help.text_help_link' | translate }}</ion-button
+            >
           </div>
           <div class="button-next">
             <ion-button
