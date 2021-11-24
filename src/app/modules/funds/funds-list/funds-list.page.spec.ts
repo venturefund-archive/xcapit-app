@@ -163,4 +163,11 @@ describe('FundsListPage', () => {
     button.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/notifications/list');
   });
+
+  it('should deleteFund when unsubscribe ', () => {
+    component.notOwnerFundBalances = [{ fund_name: 'test' }];
+    fixture.detectChanges();
+    component.deleteFund('test');
+    expect(component.notOwnerFundBalances.length).toBe(0);
+  });
 });
