@@ -32,17 +32,6 @@ import { NavController } from '@ionic/angular';
             <div class="buttons">
               <ion-button
                 class="ux_button"
-                name="Go To Import Wallet"
-                type="button"
-                color="uxsecondary"
-                expand="block"
-                (click)="this.goToImportWallet()"
-                appTrackClick
-              >
-                {{ 'wallets.recovery_phrase_information_no_wallet.button_import' | translate }}
-              </ion-button>
-              <ion-button
-                class="ux_button"
                 name="Go To Create Wallet"
                 type="button"
                 color="uxsecondary"
@@ -51,6 +40,16 @@ import { NavController } from '@ionic/angular';
                 appTrackClick
               >
                 {{ 'wallets.recovery_phrase_information_no_wallet.button_create' | translate }}
+              </ion-button>
+              <ion-button
+                class="ux_button_outlined"
+                name="Go To Import Wallet"
+                type="button"
+                expand="block"
+                (click)="this.goToImportWallet()"
+                appTrackClick
+              >
+                {{ 'wallets.recovery_phrase_information_no_wallet.button_import' | translate }}
               </ion-button>
             </div>
           </div>

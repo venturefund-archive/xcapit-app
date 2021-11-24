@@ -30,3 +30,25 @@ ion-button {
 ion-back-button {
   --margin-start: 7px;
 }
+
+//Boton outlined
+.ux_button_outlined {
+  height: 48px;
+  min-width: 116px;
+  text-transform: none;
+  font-family: var(--ux-font-worksans);
+  font-weight: var(--ux-fweight-semibold);
+  font-size: var(--ux-fsize-16);
+  line-height: 18.77px;
+  --background: var(--ion-color-uxlight);
+  --background-activated: var(--ion-color-uxlight);
+  color: var(--ion-color-info);
+  border: 1.5px solid var(--ion-color-info);
+  border-radius: 7px;
+}
+
+.ux_button_outlined:hover {
+  --background-hover: var(--ion-color-uxlight);
+  color: var(--ion-color-infodark);
+  border: 1.5px solid var(--ion-color-infodark);
+}
