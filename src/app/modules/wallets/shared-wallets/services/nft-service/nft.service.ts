@@ -53,7 +53,7 @@ export class NftService {
   getNFTMetadata() {
     const contract = this.createContract();
     return contract.walletOfOwner(this.getUserWalletAddress()).then((nftList) => {
-      if (nftList) {
+      if (nftList.length) {
         return contract.tokenURI(nftList[0]).then((metadataURL) => {
           return this.getMetadata(metadataURL)
             .toPromise()
