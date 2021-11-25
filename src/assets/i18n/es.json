@@ -1562,11 +1562,13 @@
       },
       "claim_nft_card": {
         "base": "Aquí podrás ver tus NFT",
-        "title": "¡Tu NFT te espera!",
-        "subtitle": "Reclama tu NFT de la Conmemoración a la independencia de Mexico",
-        "note": "*Solo lo recibiras si te anotaste en la lista de espera.",
+        "unclaimed_title": "¡Tu NFT te espera!",
+        "unclaimed_subtitle": "Reclama tu NFT de la Conmemoración a la independencia de Mexico",
+        "unclaimed_note": "*Solo lo recibiras si te anotaste en la lista de espera.",
         "button_claim": "Reclamar",
-        "button_claimed": "Reclamado"
+        "claimed_title": "¡Tu NFT está en camino!",
+        "claimed_subtitle": "A partir del 6 de diciembre, entregaremos los NFT de forma progresiva.*",
+        "claimed_note": "*Serán entregados según el orden en que fueron reclamados."
       },
       "wallet_password_small": {
         "title": "Por seguridad",
