@@ -1574,11 +1574,13 @@
       },
       "claim_nft_card": {
         "base": "Here you can see your NFTs",
-        "title": "Your NFT is waiting for you!",
-        "subtitle": "Claim your NFT of the Commemoration of the Independence of Mexico",
-        "note": "*You will only receive it if you are on the waiting list.",
+        "unclaimed_title": "Your NFT is waiting for you!",
+        "unclaimed_subtitle": "Claim your NFT of the Commemoration of the Independence of Mexico",
+        "unclaimed_note": "*You will only receive it if you are on the waiting list.",
         "button_claim": "Claim",
-        "button_claimed": "Requested"
+        "claimed_title": "¡Your NFT is on the way!",
+        "claimed_subtitle": "Starting December 6, we will deliver the NFTs progressively.*",
+        "claimed_note": "*They will be delivered according to the order in which they were claimed."
       }
     },
     "asset_detail": {
