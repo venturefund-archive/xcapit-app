@@ -87,7 +87,7 @@
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/gitlab": "^7.0.4",
-    "@semantic-release/release-notes-generator": "^10.0.2",
+    "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/chart.js": "^2.8.7",
     "@types/googlemaps": "^3.37.7",
     "@types/jasmine": "^3.5.12",
