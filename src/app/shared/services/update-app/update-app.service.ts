@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { UpdateService } from '../update/update.service';
-import { Plugins } from '@capacitor/core';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Plugins } from '@capacitor/core';
+import { App } from '@capacitor/app';
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateAppService extends UpdateService {
-  device = Plugins.Device;
+  app = App;
   nativeMarket = Plugins.NativeMarket;
 
   constructor(alertController: AlertController, translate: TranslateService, http: HttpClient) {
@@ -17,11 +17,11 @@ export class UpdateAppService extends UpdateService {
   }
 
   async getActualVersion(): Promise<any> {
-    return await this.device.getInfo().then((res) => res.appVersion);
+    return await this.app.getInfo().then((res) => res.version);
   }
 
   protected async update(): Promise<any> {
-    const { appId } = await this.device.getInfo();
-    this.nativeMarket.openStoreListing({ appId });
+    const { id } = await this.app.getInfo();
+    this.nativeMarket.openStoreListing({ appId: id });
   }
 }
