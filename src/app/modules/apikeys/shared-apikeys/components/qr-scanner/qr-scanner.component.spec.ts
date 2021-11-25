@@ -33,7 +33,6 @@ describe('QrScannerComponent', () => {
           IonicModule,
         ],
         providers: [],
-
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
