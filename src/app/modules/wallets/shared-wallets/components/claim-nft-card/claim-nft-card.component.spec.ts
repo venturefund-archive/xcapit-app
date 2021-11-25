@@ -7,7 +7,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 
 import { ClaimNftCardComponent } from './claim-nft-card.component';
 
-fdescribe('ClaimNftCardComponent', () => {
+describe('ClaimNftCardComponent', () => {
   let component: ClaimNftCardComponent;
   let fixture: ComponentFixture<ClaimNftCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ClaimNftCardComponent>;
