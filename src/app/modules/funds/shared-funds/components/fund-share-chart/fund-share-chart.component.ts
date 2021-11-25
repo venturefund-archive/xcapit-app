@@ -5,8 +5,8 @@ import { ShareService } from 'src/app/shared/services/share/share.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { Plugins, FilesystemDirectory } from '@capacitor/core';
-import { Capacitor } from '@capacitor/core';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-fund-share-chart',
@@ -64,14 +64,15 @@ import { Capacitor } from '@capacitor/core';
 })
 export class FundShareChartComponent implements OnInit {
   screenshot: any;
-  fileSystem = Plugins.Filesystem;
+  fileSystem = Filesystem;
 
   constructor(
     private modalController: ModalController,
     private shareService: ShareService,
     private translate: TranslateService,
     private toastService: ToastService,
-    private fileOpener: FileOpener
+    private fileOpener: FileOpener,
+    private platformService: PlatformService
   ) {}
 
   ngOnInit() {}
@@ -93,7 +94,7 @@ export class FundShareChartComponent implements OnInit {
   }
 
   downloadChart() {
-    if (Capacitor.isNative) {
+    if (this.platformService.isNative()) {
       this.nativeDownload();
     } else {
       this.pwaDownload();
@@ -106,7 +107,7 @@ export class FundShareChartComponent implements OnInit {
       .writeFile({
         path: fileName,
         data: this.screenshot, // your data to write (ex. base64)
-        directory: FilesystemDirectory.Documents,
+        directory: Directory.Documents,
       })
       .then((savedFile) => {
         this.showToast('funds.fund_share_chart.toast_image_downloaded');
