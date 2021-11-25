@@ -5,10 +5,9 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
-import { Plugins } from '@capacitor/core';
 import { TrackService } from '../../../shared/services/track/track.service';
+import { Browser } from '@capacitor/browser';
 
-const { Browser } = Plugins;
 @Component({
   selector: 'app-register',
   template: `
@@ -97,11 +96,7 @@ export class RegisterPage implements OnInit {
     private route: ActivatedRoute,
     private navController: NavController,
     private trackService: TrackService
-  ) {
-    Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/terms'],
-    });
-  }
+  ) {}
 
   ngOnInit() {}
 

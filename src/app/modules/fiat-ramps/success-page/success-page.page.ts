@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { NavController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
-
-const { Browser } = Plugins;
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-success-page',
@@ -119,11 +117,7 @@ export class SuccessPagePage implements OnInit {
     private clipboardService: ClipboardService,
     private toastService: ToastService,
     private translate: TranslateService
-  ) {
-    Browser.prefetch({
-      urls: [this.telegramApp],
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.storageOperationService.data.subscribe((data) => (this.operationData = data));

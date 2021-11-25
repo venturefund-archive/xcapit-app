@@ -35,12 +35,6 @@ describe('NeedHelpComponent', () => {
     expect(window.open).toHaveBeenCalledTimes(1);
   });
 
-  it('should prefetch browser when ngOnInit is called', () => {
-    const prefetchSpy = spyOn(component, 'prefetchInfoPage');
-    component.ngOnInit();
-    expect(prefetchSpy).toHaveBeenCalledTimes(1);
-  });
-
   it('should call trackEvent on trackService when Go To Help link clicked', () => {
     spyOn(component, 'moreInfo');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Help');

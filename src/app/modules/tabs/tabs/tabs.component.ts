@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import { MenuController, NavController, IonTabs } from '@ionic/angular';
 
-const { Browser } = Plugins;
 @Component({
   selector: 'app-tabs',
   template: `
@@ -33,7 +31,6 @@ const { Browser } = Plugins;
   styleUrls: ['./tabs.component.scss'],
 })
 export class TabsComponent {
-  private openMenu = false;
   private activeTab?: HTMLElement;
 
   constructor(private menu: MenuController, private navController: NavController) {}
@@ -65,7 +62,6 @@ export class TabsComponent {
   }
 
   showMenu() {
-    // this.menu.toggle();
     this.navController.navigateForward('menus/main-menu');
   }
 

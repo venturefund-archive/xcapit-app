@@ -10,7 +10,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalNotification } from '@capacitor/core';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-send-summary',
@@ -168,7 +168,7 @@ export class SendSummaryPage implements OnInit {
     await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
-  private createNotification(transaction: TransactionReceipt): LocalNotification[] {
+  private createNotification(transaction: TransactionReceipt): LocalNotificationSchema[] {
     return [
       {
         id: 1,
@@ -184,7 +184,7 @@ export class SendSummaryPage implements OnInit {
     response
       .wait()
       .then((transaction: TransactionReceipt) => this.createNotification(transaction))
-      .then((notification: LocalNotification[]) => this.localNotificationsService.send(notification));
+      .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification));
   }
 
   private handleSendError(error) {

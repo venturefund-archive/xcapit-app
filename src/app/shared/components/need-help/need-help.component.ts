@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
+import { Browser } from '@capacitor/browser';
 import { LINKS } from '../../../config/static-links';
-
-const { Browser } = Plugins;
 
 @Component({
   selector: 'app-need-help',
@@ -51,15 +49,7 @@ export class NeedHelpComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
-    this.prefetchInfoPage();
-  }
-
-  prefetchInfoPage() {
-    Browser.prefetch({
-      urls: [this.links.generalHelp],
-    }).then();
-  }
+  ngOnInit() {}
 
   async moreInfo() {
     await Browser.open({

@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import { ApiPaymentsService } from 'src/app/modules/payments/shared-payments/services/api-payments.service';
+import { Browser } from '@capacitor/browser';
 
-const { Browser } = Plugins;
 @Component({
   selector: 'app-method',
   template: `

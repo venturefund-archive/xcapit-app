@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-
-const { Browser } = Plugins;
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-slider-news',
