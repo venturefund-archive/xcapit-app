@@ -65,6 +65,8 @@ export class ClaimNftCardComponent implements OnInit {
   }
 
   createNFTRequest() {
-    this.nftRequest.emit();
+    if (this.nftStatus === 'unclaimed') {
+      this.nftRequest.emit();
+    }
   }
 }
