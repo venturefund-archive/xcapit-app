@@ -17,7 +17,7 @@ import { NavController } from '@ionic/angular';
             <div class="ipc__content__title_and_badge">
               <ion-text class="ux-font-header-titulo">{{ this.productData?.title }}</ion-text>
               <ion-badge *ngIf="this.productData?.new_strategy" class=" ipc__badge ux_badge_new_strategy">{{
-                'Nuevo' | translate
+                'funds.fund_investment.card.new_badge' | translate
               }}</ion-badge>
             </div>
           </div>

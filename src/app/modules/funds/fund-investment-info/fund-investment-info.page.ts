@@ -68,6 +68,10 @@ export class FundInvestmentInfoPage implements OnInit {
       name: 'Metaverso',
       description: 'funds.fund_investment.card.profiles.metaverse_index.info_description',
     },
+    Metaverse: {
+      name: 'Metaverse',
+      description: 'funds.fund_investment.card.profiles.metaverse_index.info_description',
+    },
   };
 
   constructor(private route: ActivatedRoute, private navController: NavController) {

@@ -446,6 +446,7 @@
         "min_capital_label": "Inversión mínima",
         "invest_button": "Invertir",
         "last_year_revenue": "90 días",
+        "new_badge": "Nuevo",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
@@ -463,11 +464,10 @@
           },
           "metaverse_index": {
             "title": "Metaverso",
-            "description": "Este índice está diseñado para capturar las tendencia de los entretenimientos, el deportes y los negocios que se mueven a un ambiente virtual.",
+            "description": "Fondo que sigue a índice diseñado para capturar las tendencias de los entretenimientos, el deporte y los negocios qué se mueven en la red de Ethereum.",
             "more_info": "Leer más sobre Metaverso",
             "strategie_type": "Indice",
-            "info_description": "Metaverso es un índice de inversión con un riesgo alto.\n Un índice es la cotización promedio de un grupo de activos.",
-            "new_badge": "Nuevo"
+            "info_description": "Metaverso es un índice de inversión con un riesgo alto.\n En particular, el índice metaverso trata de capturar las tendencia de los protocolos orientados al entretenimientos, el deportes y los negocios qué se mueven en la red de Ethereum. La forma de hacerlo es considerar tanto el tamaño del protocolo (en términos de capitalización) y como la cantidad de usuarios con los qué cuenta ( billeteras en la red Ethereum con tokens del protocolo). El rebalanceo de la billetera de inversión se realiza una vez al mes, en el qué además se añaden o eliminan tokens del índice según criterios definidos."
           },
           "DeFi_index": {
             "title": "Himalayas",

@@ -443,6 +443,7 @@
         "min_capital_label": "Minimum investment",
         "invest_button": "Invest",
         "last_year_revenue": "90 days",
+        "new_badge": "New",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
@@ -460,11 +461,10 @@
           },
           "metaverse_index": {
             "title": "Metaverse",
-            "description": "This index is designed to capture trends in entertainment, sports, and business moving into a virtual environment.",
+            "description": "An index tracking fund designed to capture trends in entertainment, sports and business moving on the Ethereum network.",
             "more_info": "Read more about Metaverso",
             "strategie_type": "Index",
-            "info_description": "Metaverso is an investment index with a high risk. \n An index is the average price of a group of assets.",
-            "new_badge": "New"
+            "info_description": "Metaverse is an investment index with a high risk. \n In particular, the metaverse index tries to capture the trends of entertainment, sports and business oriented protocols that move on the Ethereum network. The way to do it is to consider both the size of the protocol (in terms of capitalization) and the number of users with whom it counts (wallets on the Ethereum network with protocol tokens). The rebalancing of the investment wallet is carried out once a month, in which also add or remove tokens from the index according to defined criteria."
           },
           "DeFi_index": {
             "title": "Himalayas",
