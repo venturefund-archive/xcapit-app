@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Plugins, ClipboardWrite, ClipboardReadResult } from '@capacitor/core';
+import { ReadResult, WriteOptions } from '@capacitor/clipboard';
+import { Clipboard } from '@capacitor/clipboard';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClipboardService {
-  clipboard = Plugins.Clipboard;
+  clipboard = Clipboard;
 
   constructor() {}
 
-  public write(data: ClipboardWrite): Promise<void> {
+  public write(data: WriteOptions): Promise<void> {
     return this.clipboard.write(data);
   }
 
-  public read(): Promise<ClipboardReadResult> {
+  public read(): Promise<ReadResult> {
     return this.clipboard.read();
   }
 }

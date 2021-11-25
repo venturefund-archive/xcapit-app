@@ -1,10 +1,11 @@
 import { TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ShareOptions, ClipboardWrite } from '@capacitor/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ShareService } from './share.service';
 import { ClipboardService } from '../clipboard/clipboard.service';
 import { ToastService } from '../toast/toast.service';
+import { WriteOptions } from '@capacitor/clipboard';
+import { ShareOptions } from '@capacitor/share';
 
 describe('ShareService', () => {
   const data = {
@@ -18,7 +19,7 @@ describe('ShareService', () => {
     string: 'testext testurl',
     label: 'testitle',
     url: 'testurl',
-  } as ClipboardWrite;
+  } as WriteOptions;
 
   let shareMock: any;
   let service: ShareService;
