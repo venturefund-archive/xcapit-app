@@ -7,7 +7,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 
 import { ClaimNftCardComponent } from './claim-nft-card.component';
 
-describe('ClaimNftCardComponent', () => {
+fdescribe('ClaimNftCardComponent', () => {
   let component: ClaimNftCardComponent;
   let fixture: ComponentFixture<ClaimNftCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ClaimNftCardComponent>;
@@ -46,17 +46,25 @@ describe('ClaimNftCardComponent', () => {
     const noteEl = fixture.debugElement.query(By.css('ion-text.cnc__claim__note'));
     const claimButtonEl = fixture.debugElement.query(By.css('ion-button.cnc__claim__button-claim'));
     expect(closeButtonEl).toBeTruthy();
-    expect(titleEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.title');
-    expect(subtitleEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.subtitle');
-    expect(noteEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.note');
+    expect(titleEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.unclaimed_title');
+    expect(subtitleEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.unclaimed_subtitle');
+    expect(noteEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.unclaimed_note');
     expect(claimButtonEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.button_claim');
   });
 
-  it('should render properly the claimed button when the nft status is claimed', () => {
+  it('should render properly the claim page on init and the nft status is claimed', () => {
     component.nftStatus = 'claimed';
     fixture.detectChanges();
-    const claimButtonEl = fixture.debugElement.query(By.css('ion-button.cnc__claim__button-claimed'));
-    expect(claimButtonEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.button_claimed');
+    const closeButtonEl = fixture.debugElement.query(By.css('ion-button.close_claim'));
+    const titleEl = fixture.debugElement.query(By.css('ion-text.cnc__claim__title'));
+    const subtitleEl = fixture.debugElement.query(By.css('ion-text.cnc__claim__subtitle'));
+    const noteEl = fixture.debugElement.query(By.css('ion-text.cnc__claim__note'));
+    const claimButtonEl = fixture.debugElement.query(By.css('ion-button.cnc__claim__button-claim'));
+    expect(claimButtonEl).toBeNull();
+    expect(closeButtonEl).toBeTruthy();
+    expect(titleEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.claimed_title');
+    expect(subtitleEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.claimed_subtitle');
+    expect(noteEl.nativeElement.innerHTML).toContain('wallets.shared_wallets.claim_nft_card.claimed_note');
   });
 
   it('should emit nftRequest event to parent when Claim button is clicked', () => {
