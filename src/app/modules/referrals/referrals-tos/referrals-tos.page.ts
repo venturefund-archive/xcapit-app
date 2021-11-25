@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
+import { AfterViewInit, Component, ElementRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-referrals-tos',
