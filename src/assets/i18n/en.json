@@ -443,6 +443,7 @@
         "min_capital_label": "Minimum investment",
         "invest_button": "Invest",
         "last_year_revenue": "90 days",
+        "new_badge": "New",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
@@ -457,6 +458,13 @@
             "more_info": "Read more about Olympus Mons",
             "strategie_type": "Trading",
             "info_description": "Olympus mons is an investment strategy with a low risk, which makes it ideal for people who are just starting out or who want to ensure controlled growth of their investment. Its objective is to generate returns in Bitcoins. It works by applying different strategies on each crypto that it operates."
+          },
+          "oasis_index": {
+            "title": "Oasis",
+            "description": "A metaverse index tracker fund designed to capture entertainment, sports and new business trends moving across the virtual world.",
+            "more_info": "Read more about Oasis",
+            "strategie_type": "Index",
+            "info_description": "Oasis is a fund that tracks the metaverse index built by Xcapit. This fund is high risk, as it works with the newest and fastest growing projects in recent months. In particular, the metaverse index tries to capture the trends of protocols oriented to entertainment, sports and new businesses moving on the Ethereum network. The way to do this is to consider both the size of the protocol (in terms of capitalization) and the number of users it has (wallets on the Ethereum network with protocol tokens). Once a month, the investment wallet is rebalanced in which tokens are also added or removed from the index to optimize its results."
           },
           "DeFi_index": {
             "title": "Himalayas",
