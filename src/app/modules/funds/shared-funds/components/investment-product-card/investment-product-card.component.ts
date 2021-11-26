@@ -127,12 +127,12 @@ export class InvestmentProductCardComponent implements OnInit {
       new_strategy: false,
     },
 
-    metaverse_index: {
-      title: 'funds.fund_investment.card.profiles.metaverse_index.title',
-      description: 'funds.fund_investment.card.profiles.metaverse_index.description',
-      more_info: 'funds.fund_investment.card.profiles.metaverse_index.more_info',
-      image: 'assets/img/investment-products/metaverse.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.metaverse_index.strategie_type',
+    oasis_index: {
+      title: 'funds.fund_investment.card.profiles.oasis_index.title',
+      description: 'funds.fund_investment.card.profiles.oasis_index.description',
+      more_info: 'funds.fund_investment.card.profiles.oasis_index.more_info',
+      image: 'assets/img/investment-products/oasis.svg',
+      strategie_type: 'funds.fund_investment.card.profiles.oasis_index.strategie_type',
       style: 'light-blue-style',
       new_strategy: true,
     },

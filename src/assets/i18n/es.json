@@ -462,12 +462,12 @@
             "strategie_type": "Trading",
             "info_description": "Olympus mons es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en Bitcoins. Trabaja aplicando diferentes estrategias sobre cada cripto que opera."
           },
-          "metaverse_index": {
-            "title": "Metaverso",
-            "description": "Fondo que sigue a índice diseñado para capturar las tendencias de los entretenimientos, el deporte y los negocios qué se mueven en la red de Ethereum.",
-            "more_info": "Leer más sobre Metaverso",
+          "oasis_index": {
+            "title": "Oasis",
+            "description": "Fondo que sigue al índice metaverso, diseñado para capturar las tendencias de entretenimientos, deportes y nuevos negocios que se mueven en el mundo virtual.",
+            "more_info": "Leer más sobre Oasis",
             "strategie_type": "Indice",
-            "info_description": "Metaverso es un índice de inversión con un riesgo alto.\n En particular, el índice metaverso trata de capturar las tendencia de los protocolos orientados al entretenimientos, el deportes y los negocios qué se mueven en la red de Ethereum. La forma de hacerlo es considerar tanto el tamaño del protocolo (en términos de capitalización) y como la cantidad de usuarios con los qué cuenta ( billeteras en la red Ethereum con tokens del protocolo). El rebalanceo de la billetera de inversión se realiza una vez al mes, en el qué además se añaden o eliminan tokens del índice según criterios definidos."
+            "info_description": "Oasis es un fondo que sigue al índice metaverso construido por Xcapit. Este fondo es de riesgo alto, ya que trabaja con los proyectos más novedosos y de mayor crecimiento en los últimos meses. En particular, el índice metaverso trata de capturar las tendencias de los protocolos orientados a el entretenimiento, los deportes y los nuevos negocios que se mueven en la red de Ethereum. La forma de hacerlo es considerar tanto el tamaño del protocolo (en términos de capitalización) y la cantidad de usuarios con los que cuenta (billeteras en la red Ethereum con tokens del protocolo). Una vez por mes, se realiza el rebalanceo de la billetera de inversión en el que además se añaden o eliminan tokens del índice para optimizar sus resultados."
           },
           "DeFi_index": {
             "title": "Himalayas",
