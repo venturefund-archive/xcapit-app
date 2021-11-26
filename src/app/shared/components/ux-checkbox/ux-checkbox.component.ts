@@ -5,8 +5,8 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
   selector: 'app-ux-checkbox',
   template: `
     <div class="ux_checkbox_container">
-      <ion-item class="ux_checkbox_container__item">
-        <ion-label *ngIf="this.label" class="ux-font-text-xs ux_checkbox_container__item__label {{ this.class }}">
+      <ion-item class="ux-font-text-xs ux_checkbox_container__item">
+        <ion-label *ngIf="this.label" class="ux_checkbox_container__item__label {{ this.class }}">
           {{ this.label }}
         </ion-label>
         <ion-checkbox [formControlName]="this.controlName" [color]="this.color" [slot]="this.slot"></ion-checkbox>
