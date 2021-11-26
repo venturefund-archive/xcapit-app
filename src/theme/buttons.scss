@@ -52,3 +52,17 @@ ion-back-button {
   color: var(--ion-color-infodark);
   border: 1.5px solid var(--ion-color-infodark);
 }
+
+//Class 'text button' for modals
+.text-button-primary,
+.text-button-secondary {
+  font-family: var(--ux-font-worksans);
+  font-weight: var(--ux-fweight-semibold);
+  font-size: var(--ux-fsize-16);
+}
+.text-button-primary {
+  color: var(--ion-color-info);
+}
+.text-button-secondary {
+  color: var(--ion-color-uxsemidark);
+}

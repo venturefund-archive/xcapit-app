@@ -37,6 +37,7 @@ import { LocalNotification } from '@capacitor/core';
 
       <div class="ss__send_button">
         <ion-button
+          class="ux_button"
           color="uxsecondary"
           appTrackClick
           name="Send"
@@ -147,11 +148,11 @@ export class SendSummaryPage implements OnInit {
     const alert = await this.alertController.create({
       header: this.translate.instant(header),
       message: this.translate.instant(message),
-      cssClass: 'ux-wallet-error-alert ux-alert',
+      cssClass: 'ux-alert-confirm',
       buttons: [
         {
           text: this.translate.instant(buttonText),
-          cssClass: 'uxprimary',
+          cssClass: 'primary-button',
         },
       ],
     });
