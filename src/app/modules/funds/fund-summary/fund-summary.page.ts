@@ -70,7 +70,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
             <ion-button
               appTrackClick
               name="Skip Invest"
-              class="ux_button ux-font-button"
+              class="ux_button ux-link-xl"
               fill="clear"
               size="small"
               (click)="this.skipInvest()"

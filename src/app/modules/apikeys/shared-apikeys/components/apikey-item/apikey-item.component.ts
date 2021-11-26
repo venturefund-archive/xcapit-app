@@ -12,7 +12,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
     <div class="cib ">
       <div class="cib__main">
         <div class="cib__main__content ion-padding">
-          <div class="cib__main__content__title ux-font-text-base">
+          <div class="cib__main__content__title ux-font-text-lg">
             <ion-text>{{ this.alias }}</ion-text>
             <ion-button
               appTrackClick
