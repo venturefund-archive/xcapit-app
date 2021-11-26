@@ -13,7 +13,7 @@ import { AlertController, NavController } from '@ionic/angular';
           appTrackClick
           name="Finish Fund"
           (click)="this.showFinishFundAlert()"
-          class="ux-button ffp__content__finish-button"
+          class="ux_button ffp__content__finish-button"
           color="uxsecondary"
           [disabled]="disabledButton"
         >
