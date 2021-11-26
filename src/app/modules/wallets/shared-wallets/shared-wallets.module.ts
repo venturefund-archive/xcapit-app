@@ -15,7 +15,7 @@ import { WalletPasswordComponent } from './components/wallet-password/wallet-pas
 import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
 import { ItemsCoinGroupComponent } from './components/items-coin-group/items-coin-group.component';
 import { ItemCoinComponent } from './components/item-coin/item-coin.component';
-import { ClaimNftCardComponent } from './components/claim-nft-card/claim-nft-card.component';
+import { NftCardComponent } from './components/nft-card/nft-card.component';
 import { WalletPasswordSmallComponent } from './components/wallet-password-small/wallet-password-small.component';
 import { StartInvestingComponent } from './components/start-investing/start-investing.component';
 import { ComingSoonInvestmentsComponent } from './components/coming-soon-investments/coming-soon-investments.component';
@@ -37,7 +37,7 @@ import { ComingSoonInvestmentsComponent } from './components/coming-soon-investm
     WalletSubheaderButtonsComponent,
     ItemsCoinGroupComponent,
     ItemCoinComponent,
-    ClaimNftCardComponent,
+    NftCardComponent,
     WalletPasswordSmallComponent,
     StartInvestingComponent,
     ComingSoonInvestmentsComponent,
@@ -60,7 +60,7 @@ import { ComingSoonInvestmentsComponent } from './components/coming-soon-investm
     WalletSubheaderButtonsComponent,
     ItemsCoinGroupComponent,
     ItemCoinComponent,
-    ClaimNftCardComponent,
+    NftCardComponent,
     WalletPasswordSmallComponent,
     StartInvestingComponent,
     ComingSoonInvestmentsComponent,
