@@ -14,7 +14,6 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 
 const testCoins = {
@@ -84,7 +83,6 @@ describe('HomeWalletPage', () => {
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let nftServiceSpy: jasmine.SpyObj<NftService>;
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
@@ -103,19 +101,6 @@ describe('HomeWalletPage', () => {
         getAssestsSelected: Promise.resolve(testCoins.test),
         updateAssetsList: Promise.resolve(true),
       });
-      nftServiceSpy = jasmine.createSpyObj('NftService', {
-        getNFTMetadata: Promise.resolve({
-          description: 'Test',
-          name: 'testName',
-          image: 'testImage',
-          attributes: [
-            {
-              trait_type: 'Art',
-              value: 'Paint',
-            },
-          ],
-        }),
-      });
 
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
@@ -125,7 +110,6 @@ describe('HomeWalletPage', () => {
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
-          { provide: NftService, useValue: nftServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -303,13 +287,14 @@ describe('HomeWalletPage', () => {
   it('should request the nft and update the nft status to claimed when claim event is received', () => {
     component.segmentsForm.patchValue({ tab: 'nft' });
     component.nftStatus = 'unclaimed';
+    component.walletExist = true;
     fixture.detectChanges();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getPrices: of({ prices: { ETH: 3000, BTC: 50000, USDT: 1 } }),
       getNFTStatus: of({ status: 'claimed' }),
       createNFTRequest: of({}),
     });
-    const claimNFTCardComponent = fixture.debugElement.query(By.css('app-claim-nft-card'));
+    const claimNFTCardComponent = fixture.debugElement.query(By.css('app-nft-card'));
     claimNFTCardComponent.triggerEventHandler('nftRequest', null);
     fixture.detectChanges();
     expect(component.nftStatus).toEqual('claimed');

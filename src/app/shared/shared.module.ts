@@ -50,7 +50,6 @@ import { SafeURLPipe } from './pipes/safe-url/safe-url.pipe';
 import { SupportOptionsCardComponent } from '../modules/support/shared-support/components/support-options-card/support-options-card.component';
 import { ContactSupportComponent } from '../modules/support/shared-support/components/contact-support/contact-support.component';
 import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
-import { NftCardComponent } from '../modules/wallets/shared-wallets/components/nft-card/nft-card.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +97,6 @@ import { NftCardComponent } from '../modules/wallets/shared-wallets/components/n
     SupportOptionsCardComponent,
     ContactSupportComponent,
     FaqComponent,
-    NftCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -155,7 +153,6 @@ import { NftCardComponent } from '../modules/wallets/shared-wallets/components/n
     SupportOptionsCardComponent,
     ContactSupportComponent,
     FaqComponent,
-    NftCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
