@@ -24,7 +24,7 @@ import { LocalNotification } from '@capacitor/core';
     </ion-header>
     <ion-content class="ss ion-padding">
       <div class="ss__title">
-        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24">
+        <ion-text class="ux-font-text-lg">
           {{ 'wallets.send.send_summary.title' | translate }}
         </ion-text>
       </div>
