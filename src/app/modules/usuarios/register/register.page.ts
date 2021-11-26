@@ -6,7 +6,7 @@ import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrackService } from '../../../shared/services/track/track.service';
-import { Browser } from '@capacitor/browser';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-register',
@@ -95,7 +95,8 @@ export class RegisterPage implements OnInit {
     private translate: TranslateService,
     private route: ActivatedRoute,
     private navController: NavController,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {}
@@ -178,15 +179,13 @@ export class RegisterPage implements OnInit {
   }
 
   async openTOS() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
+    await this.browserService.open({
       url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
     });
   }
 
   async openWaitingList() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
+    await this.browserService.open({
       url: 'https://www.xcapit.com/waiting-list',
     });
   }

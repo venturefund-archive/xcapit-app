@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Browser } from '@capacitor/browser';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-success-page',
@@ -116,7 +116,8 @@ export class SuccessPagePage implements OnInit {
     private navController: NavController,
     private clipboardService: ClipboardService,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {
@@ -125,8 +126,7 @@ export class SuccessPagePage implements OnInit {
   }
 
   async launchChat() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
+    await this.browserService.open({
       url: this.telegramApp,
     });
   }

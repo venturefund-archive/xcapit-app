@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApiPaymentsService } from 'src/app/modules/payments/shared-payments/services/api-payments.service';
-import { Browser } from '@capacitor/browser';
+import { BrowserService } from '../../../../../shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-method',
@@ -58,7 +58,7 @@ export class MethodComponent implements OnInit {
   @Input() planID: any;
   paymentImage = '';
 
-  constructor(private apiPayment: ApiPaymentsService) {}
+  constructor(private apiPayment: ApiPaymentsService, private browserService: BrowserService) {}
 
   ngOnInit() {
     this.getPaymentImage();
@@ -68,8 +68,7 @@ export class MethodComponent implements OnInit {
     if (this.paymentMethod?.status === 'active') {
       this.apiPayment.getPaymentLink({ plan_id: planID, payment_method_id: methodID }).subscribe((res) => {
         if (res.link) {
-          Browser.open({
-            toolbarColor: '#ff9100',
+          this.browserService.open({
             url: res.link,
           });
         }
