@@ -1,17 +1,19 @@
+//Alert confirm with two buttons 'text button'
 .ux-alert-confirm {
   .alert-wrapper {
     .alert-head {
       h2 {
+        font-family: var(--ux-font-worksans);
         color: var(--ion-color-uxprimary);
-        font-weight: var(--ux-font-worksans);
-        font-size: var(--ux-fsize-20);
+        font-weight: var(--ux-fweight-semibold);
+        font-size: var(--ux-fsize-22);
       }
     }
     .alert-message {
       font-family: var(--ux-font-lato);
       font-size: var(--ux-fsize-16);
       font-weight: var(--ux-fweight-regular);
-      color: var(--ion-color-uxsemidark);
+      color: var(--ion-color-uxdark);
     }
     .alert-button-group {
       .alert-button {
@@ -20,14 +22,14 @@
       .primary-button,
       .secondary-button {
         font-family: var(--ux-font-worksans);
-        font-size: var(--ux-fsize-14);
-        font-weight: var(--ux-fweight-bold);
+        font-size: var(--ux-fsize-16);
+        font-weight: var(--ux-fweight-semibold);
       }
       .primary-button {
         color: var(--ion-color-info);
       }
       .secondary-button {
-        color: var(--ion-color-uxsemidark);
+        color: var(--ion-color-uxdark);
       }
     }
   }
