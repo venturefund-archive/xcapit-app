@@ -36,6 +36,9 @@ export class ToastService {
 
   private optionsFor(type: ToastType): ToastOptions {
     const options: ToastOptions = Object.assign({}, this.defaultOptions);
+    if (options.buttons.length === 2) {
+      options.buttons.pop();
+    }
     options.buttons.push({
       role: 'cancel',
       icon: this.iconNames[type],
