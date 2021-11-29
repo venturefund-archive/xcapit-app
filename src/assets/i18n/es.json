@@ -2310,7 +2310,8 @@
       "answer4": " Deberás volver a vincular tus API Keys en Binance, para ello te pedimos que: <br><b>1.</b> Hacer clic en el menú “Más” y luego en “Gestión de API Keys”.<br><b>2.</b> Eliminar las API Keys que figuran en la App de Xcapit - Para asegurarte no vincular nuevamente estas API Keys vencidas.<br><b>3.</b> Te dirijas a \"Agregar Apikey\". <br><b>4.</b> Ingresar a tu cuenta de Binance y luego a “Gestión de APIs”. <br><b>5.</b> Generar una nueva API Keys y las copies en Xcapit con el QR o copiando y pegando los códigos. <br><b>6.</b> Es importante que verifiques que la opción “Spot Trading” se encuentre activa. <br><b>7.</b> Vuelvas a crear un fondo de inversión normalmente."
     }
   },
-  "wealth-managements": {
+  "wealth_managements": {
+    "header": "Perfil de inversionista",
     "title": "Obtén recomendaciones de inversión",
     "subtitle": "Realiza el test de perfil de inversionista, o escógelo manualmente y descubre que inversiones son indicadas para ti.",
     "investor-test": {

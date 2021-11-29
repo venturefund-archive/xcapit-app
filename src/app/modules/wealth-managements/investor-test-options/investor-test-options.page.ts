@@ -8,7 +8,7 @@ import { INVESTOR_TEST_OPTIONS } from '../shared-wealth-managements/constants/te
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'wallets.nft_detail.title' | translate }}</ion-title>
+        <ion-title>{{ 'wealth_managements.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="content ion-padding">
@@ -19,10 +19,10 @@ import { INVESTOR_TEST_OPTIONS } from '../shared-wealth-managements/constants/te
           </div>
           <div class="ito__title_and_subtitle">
             <ion-text class="ito__title ux-font-text-lg">
-              {{ 'wealth-managements.title' | translate }}
+              {{ 'wealth_managements.title' | translate }}
             </ion-text>
             <ion-text class="ito__subtitle ux-font-text-base">
-              {{ 'wealth-managements.subtitle' | translate }}
+              {{ 'wealth_managements.subtitle' | translate }}
             </ion-text>
           </div>
           <div class="ito__options">

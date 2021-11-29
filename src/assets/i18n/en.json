@@ -2123,7 +2123,8 @@
       "title": "Write to support"
     }
   },
-  "wealth-managements": {
+  "wealth_managements": {
+    "header": "Investor Profile",
     "title": "Get investment recommendations",
     "subtitle": "Take the investor profile test, or choose it manually and discover which investments are right for you.",
     "investor-test": {
