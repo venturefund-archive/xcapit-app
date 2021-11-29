@@ -208,7 +208,7 @@
   },
   "cli": {
     "analytics": false,
-    "defaultCollection": "@angular-eslint/schematics",
+    "defaultCollection": "@ionic/angular-toolkit",
     "packageManager": "yarn"
   },
   "schematics": {
