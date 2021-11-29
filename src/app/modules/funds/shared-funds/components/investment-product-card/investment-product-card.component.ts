@@ -12,7 +12,7 @@ import { NavController } from '@ionic/angular';
         <div class="ipc__content__title_and_image">
           <div class="title_container">
             <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxdark">{{
-              this.productData?.strategie_type | translate
+              this.productData?.strategy_type | translate
             }}</ion-text>
             <div class="ipc__content__title_and_badge">
               <ion-text class="ux-font-header-titulo">{{ this.productData?.title }}</ion-text>
@@ -85,7 +85,6 @@ export class InvestmentProductCardComponent implements OnInit {
   @Input() product: InvestmentProductInterface;
   @Output() save = new EventEmitter<any>();
   apikeys: any = [];
-  strategie: any;
 
   productData = {
     title: '',
@@ -103,7 +102,7 @@ export class InvestmentProductCardComponent implements OnInit {
     more_info: '',
     currency: '',
     image: '',
-    strategie_type: '',
+    strategy_type: '',
     new_strategy: false,
   };
 
@@ -113,7 +112,7 @@ export class InvestmentProductCardComponent implements OnInit {
       description: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.description',
       more_info: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.more_info',
       image: 'assets/img/investment-products/denali.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.strategy_type',
       style: 'green-style',
       new_strategy: false,
     },
@@ -122,17 +121,17 @@ export class InvestmentProductCardComponent implements OnInit {
       description: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.description',
       more_info: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.more_info',
       image: 'assets/img/investment-products/olimpusMoon.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.strategy_type',
       style: 'orange-style',
       new_strategy: false,
     },
 
-    oasis_index: {
-      title: 'funds.fund_investment.card.profiles.oasis_index.title',
-      description: 'funds.fund_investment.card.profiles.oasis_index.description',
-      more_info: 'funds.fund_investment.card.profiles.oasis_index.more_info',
+    Metaverse_index: {
+      title: 'funds.fund_investment.card.profiles.Metaverse_index.title',
+      description: 'funds.fund_investment.card.profiles.Metaverse_index.description',
+      more_info: 'funds.fund_investment.card.profiles.Metaverse_index.more_info',
       image: 'assets/img/investment-products/oasis.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.oasis_index.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.Metaverse_index.strategy_type',
       style: 'light-blue-style',
       new_strategy: true,
     },
@@ -142,7 +141,7 @@ export class InvestmentProductCardComponent implements OnInit {
       description: 'funds.fund_investment.card.profiles.DeFi_index.description',
       more_info: 'funds.fund_investment.card.profiles.DeFi_index.more_info',
       image: 'assets/img/investment-products/himalayas.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.DeFi_index.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.DeFi_index.strategy_type',
       style: 'light-blue-style',
       new_strategy: false,
     },
@@ -151,7 +150,7 @@ export class InvestmentProductCardComponent implements OnInit {
       description: 'funds.fund_investment.card.profiles.Mary_index.description',
       more_info: 'funds.fund_investment.card.profiles.Mary_index.more_info',
       image: 'assets/img/investment-products/andes.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.Mary_index.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.Mary_index.strategy_type',
       style: 'purple-style',
       new_strategy: false,
     },
