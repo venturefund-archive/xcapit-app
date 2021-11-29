@@ -2122,5 +2122,15 @@
     "contact_support": {
       "title": "Write to support"
     }
+  },
+  "wealth-managements": {
+    "title": "Get investment recommendations",
+    "subtitle": "Take the investor profile test, or choose it manually and discover which investments are right for you.",
+    "investor-test": {
+      "title1": "Take the test",
+      "description1": "Know your investor profile by doing this test.",
+      "title2": "Choose manually",
+      "description2": "If you already know your investor profile, select it manually."
+    }
   }
 }
