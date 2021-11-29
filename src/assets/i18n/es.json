@@ -2314,7 +2314,7 @@
     "header": "Perfil de inversionista",
     "title": "Obtén recomendaciones de inversión",
     "subtitle": "Realiza el test de perfil de inversionista, o escógelo manualmente y descubre que inversiones son indicadas para ti.",
-    "investor-test": {
+    "investor_test": {
       "title1": "Tomar el test",
       "description1": "Conoce tu perfil de inversionista haciendo este test.",
       "title2": "Escoger manualmente",

@@ -8,13 +8,13 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { InvestorTestOptionsPage } from './investor-test-options.page';
 const options = [
   {
-    title: 'wealth-managements.investor-test.title1',
-    description: 'wealth-managements.investor-test.description1',
+    title: 'wealth_managements.investor_test.title1',
+    description: 'wealth_managements.investor_test.description1',
     route: '',
   },
   {
-    title: 'wealth-managements.investor-test.title2',
-    description: 'wealth-managements.investor-test.description2',
+    title: 'wealth_managements.investor_test.title2',
+    description: 'wealth_managements.investor_test.description2',
     route: '',
   },
 ];
