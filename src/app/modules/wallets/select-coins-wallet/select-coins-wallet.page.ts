@@ -152,8 +152,7 @@ export class SelectCoinsWalletPage implements OnInit {
           this.navController.navigateForward(['/wallets/create-password', 'import']);
           break;
         case 'edit':
-          const changedAssets = this.getChangedAssets();
-          await this.storageService.toggleAssets(changedAssets);
+          await this.storageService.toggleAssets(this.getChangedAssets());
           this.navController.navigateForward(['/tabs/wallets']);
           break;
         default:
@@ -211,7 +210,7 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   private getChangedAssets(): string[] {
-    let changedAssets = [];
+    const changedAssets = [];
 
     this.getAllSuites().forEach((suite) => {
       this.getAllCoinsBySuite(suite).forEach((key) => {

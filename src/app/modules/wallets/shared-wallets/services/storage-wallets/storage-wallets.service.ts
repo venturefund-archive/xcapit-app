@@ -83,7 +83,7 @@ export class StorageService {
   async toggleAssets(assets: string[]): Promise<any> {
     const wallets = await this.getWalletFromStorage();
 
-    if (!!wallets) {
+    if (wallets) {
       assets.forEach((asset) => {
         wallets.assets[asset] = !wallets.assets[asset];
       });
