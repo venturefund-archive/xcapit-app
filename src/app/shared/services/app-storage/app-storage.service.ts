@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@capacitor/storage';
+import { MigrateResult, Storage } from '@capacitor/storage';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +7,9 @@ import { Storage } from '@capacitor/storage';
 export class AppStorageService {
   storage = Storage;
 
-  constructor() {}
+  constructor() {
+    this.storage.migrate().then();
+  }
 
   static securedJSONParse(value: any) {
     let fixedValue;
