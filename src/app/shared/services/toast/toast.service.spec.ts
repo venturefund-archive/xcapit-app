@@ -74,4 +74,11 @@ describe('ToastService', () => {
     service.showInfoToast({});
     expect(toastControllerSpy.create).toHaveBeenCalledOnceWith(infoOptions);
   });
+
+  it('should create toast with only one icon', () => {
+    service.showSuccessToast({});
+    service.showSuccessToast({});
+    expect(toastControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(toastControllerSpy.create).toHaveBeenCalledWith(successOptions);
+  });
 });
