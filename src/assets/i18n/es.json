@@ -452,35 +452,35 @@
             "title": "Denali",
             "description": "Permite que nuestro algoritmo haga trading por ti. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a USDT (Theter).",
             "more_info": "Leer más sobre Denali",
-            "strategie_type": "Trading",
+            "strategy_type": "Trading",
             "info_description": "Denali es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en dólares (Tether o USDT). Trabaja aplicando diferentes estrategias sobre cada cripto que opera. En resumen, usa dólares para generar más dólares. Su rendimiento anual ronda le 17%"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
             "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a BTC (Bitcoin).",
             "more_info": "Leer más sobre Olympus Mons",
-            "strategie_type": "Trading",
+            "strategy_type": "Trading",
             "info_description": "Olympus mons es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en Bitcoins. Trabaja aplicando diferentes estrategias sobre cada cripto que opera."
           },
-          "oasis_index": {
+          "Metaverse_index": {
             "title": "Oasis",
             "description": "Fondo que sigue al índice metaverso, diseñado para capturar las tendencias de entretenimientos, deportes y nuevos negocios que se mueven en el mundo virtual.",
             "more_info": "Leer más sobre Oasis",
-            "strategie_type": "Indice",
+            "strategy_type": "Indice",
             "info_description": "Oasis es un fondo que sigue al índice metaverso construido por Xcapit. Este fondo es de riesgo alto, ya que trabaja con los proyectos más novedosos y de mayor crecimiento en los últimos meses. En particular, el índice metaverso trata de capturar las tendencias de los protocolos orientados a el entretenimiento, los deportes y los nuevos negocios que se mueven en la red de Ethereum. La forma de hacerlo es considerar tanto el tamaño del protocolo (en términos de capitalización) y la cantidad de usuarios con los que cuenta (billeteras en la red Ethereum con tokens del protocolo). Una vez por mes, se realiza el rebalanceo de la billetera de inversión en el que además se añaden o eliminan tokens del índice para optimizar sus resultados."
           },
           "DeFi_index": {
             "title": "Himalayas",
             "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT(Tether).",
             "more_info": "Leer más sobre Himalayas",
-            "strategie_type": "Indice",
+            "strategy_type": "Indice",
             "info_description": "Himalayas es un índice de inversión con un riesgo alto.\n Un índice es la cotización promedio de un grupo de activos. Estas activos (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu wallet…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
           },
           "Mary_index": {
             "title": "Andes",
             "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT. (Theter)",
             "more_info": "Leer más sobre Andes",
-            "strategie_type": "Indice",
+            "strategy_type": "Indice",
             "info_description": "Andes es un índice de inversión con un riesgo medio-alto.\n Un índice es la cotización promedio de un grupo de activos. Estos activos (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu wallet…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos del mercado. En resumen, esta estrategia apuesta a diversificar."
           },
           "classic_BTC": {
