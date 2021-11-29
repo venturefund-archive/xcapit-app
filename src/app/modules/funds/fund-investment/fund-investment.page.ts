@@ -68,7 +68,7 @@ export class FundInvestmentPage implements OnInit {
       currency: 'USDT',
     },
     {
-      profile: 'oasis_index',
+      profile: 'Metaverse_index',
       min_capital: '500',
       link_info: '',
       risk: 5,

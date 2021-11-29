@@ -66,7 +66,7 @@ export class FundInvestmentInfoPage implements OnInit {
     Himalayas: { name: 'Himalayas', description: 'funds.fund_investment.card.profiles.DeFi_index.info_description' },
     Oasis: {
       name: 'Oasis',
-      description: 'funds.fund_investment.card.profiles.oasis_index.info_description',
+      description: 'funds.fund_investment.card.profiles.Metaverse_index.info_description',
     },
   };
 
