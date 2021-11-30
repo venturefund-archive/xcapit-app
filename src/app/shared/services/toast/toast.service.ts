@@ -30,7 +30,7 @@ export class ToastService {
   constructor(private toastController: ToastController) {}
 
   async showToast(options: ToastOptions): Promise<any> {
-    const toast = await this.toastController.create(options);
+    const toast = await this.toastController.create({ ...this.defaultOptions, ...options });
     return toast.present();
   }
 

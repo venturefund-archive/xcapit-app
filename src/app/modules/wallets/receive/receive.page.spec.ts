@@ -66,7 +66,7 @@ describe('ReceivePage', () => {
         share: () => Promise.resolve(),
       };
       toastServiceMock = {
-        showToast: () => Promise.resolve(),
+        showInfoToast: () => Promise.resolve(),
       };
       walletEncryptionServiceMock = {
         getEncryptedWallet: () => Promise.resolve({ addresses: { ERC20: 'test_address' } }),
@@ -139,7 +139,7 @@ describe('ReceivePage', () => {
   });
 
   it('should copy address when click in copy button', async () => {
-    const spyToast = spyOn(toastService, 'showToast').and.callThrough();
+    const spyToast = spyOn(toastService, 'showInfoToast').and.callThrough();
     const spy = spyOn(clipboardService, 'write').and.callThrough();
     const button = fixture.debugElement.query(By.css('#copy-address-button'));
     await button.nativeElement.click();

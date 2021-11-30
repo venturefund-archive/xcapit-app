@@ -156,7 +156,7 @@ export class ReceivePage {
   }
 
   private showToast(text: string) {
-    this.toastService.showToast({
+    this.toastService.showInfoToast({
       message: this.translate.instant(text),
     });
   }
