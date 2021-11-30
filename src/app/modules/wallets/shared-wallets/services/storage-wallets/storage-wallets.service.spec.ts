@@ -159,8 +159,9 @@ describe('StorageService', () => {
 
   it('should not change assets in wallet that are selected on toggleAssets if wallet does not exist', async () => {
     spyOn(service, 'getWalletFromStorage').and.returnValue(Promise.resolve());
-    spyOn(service, 'saveWalletToStorage');
+    const spy = spyOn(service, 'saveWalletToStorage');
     const result = await service.toggleAssets(testToggleAssets);
     expect(result).toBeFalse();
+    expect(spy).not.toHaveBeenCalled();
   });
 });
