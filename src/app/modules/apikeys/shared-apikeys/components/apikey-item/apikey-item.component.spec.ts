@@ -6,7 +6,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
 import { ApikeyItemComponent } from './apikey-item.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ListApikeysPage } from '../../../list-apikeys/list-apikeys.page';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -39,7 +39,10 @@ describe('ApikeyItemComponent', () => {
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      toastServiceSpy = jasmine.createSpyObj('ToastController', { showToast: Promise.resolve() });
+      toastServiceSpy = jasmine.createSpyObj('ToastController', {
+        showSuccessToast: Promise.resolve(),
+        showErrorToast: Promise.resolve(),
+      });
       apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
         delete: of({}),
         getAll: of({}),
@@ -115,6 +118,14 @@ describe('ApikeyItemComponent', () => {
     apiApikeysService.delete.and.returnValue(of({}));
     component.remove(component.id);
     expect(apiApikeysService.delete).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show error toast when an error occurred', () => {
+    fixture.detectChanges();
+    apiApikeysService.delete.and.returnValue(throwError({}));
+    component.remove(component.id);
+    expect(apiApikeysService.delete).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   });
 
   it('should emit event on Manage button click', () => {
