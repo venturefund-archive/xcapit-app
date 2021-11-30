@@ -43,6 +43,15 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
           ></app-input-select>
         </form>
       </div>
+      <div class="wr__network-select-card" *ngIf="this.networks">
+        <app-network-select-card
+          (networkChanged)="this.selectedNetworkChanged($event)"
+          [title]="'wallets.send.send_detail.network_select.title' | translate"
+          [networks]="this.networks"
+          selectorStyle="receive"
+          [selectedNetwork]="this.selectedNetwork"
+        ></app-network-select-card>
+      </div>
       <div class="wr__remaining-time-text">
         <ion-text color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-12">{{
           'wallets.receive.average_time' | translate
@@ -92,6 +101,8 @@ export class ReceivePage {
   form: FormGroup = this.formBuilder.group({
     currency: ['', Validators.required],
   });
+  selectedNetwork: string;
+  networks: string[];
   isNativePlatform: boolean;
   currencies: Coin[];
   address: string;
@@ -133,6 +144,7 @@ export class ReceivePage {
 
   subscribeToFormChanges() {
     this.form.get('currency').valueChanges.subscribe((value) => {
+      this.setCurrencyNetworks(value);
       this.getAddress(value);
     });
   }
@@ -143,6 +155,15 @@ export class ReceivePage {
       this.address = wallet.addresses[network];
       this.generateAddressQR();
     });
+  }
+
+  private setCurrencyNetworks(value) {
+    this.networks = [value.network];
+    this.selectedNetworkChanged(this.networks[0]);
+  }
+
+  selectedNetworkChanged(network) {
+    this.selectedNetwork = network;
   }
 
   async copyAddress() {
