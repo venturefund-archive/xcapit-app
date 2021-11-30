@@ -63,6 +63,18 @@ const testSelectedTokens = [
     contract: '0x19F64674D8A5B4E652319F5e239eFd3bc969A1fE',
     decimals: 18,
   },
+  {
+    id: 8,
+    name: 'MATIC - Polygon',
+    logoRoute: 'assets/img/coins/MATIC.png',
+    last: false,
+    value: 'MATIC',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: 'http://testrpc.text/',
+    decimals: 18,
+    native: true,
+  },
 ];
 
 const testCoins = [
@@ -231,7 +243,7 @@ const formData = {
       BAT: false,
     },
     POLYGON: {
-      MATIC: false,
+      MATIC: true,
     },
     RSK: {
       RBTC: true,
@@ -371,32 +383,63 @@ describe('SelectCoinsWalletPage', () => {
     component.almostOneChecked = true;
     component.ionViewWillEnter();
     fixture.detectChanges();
-    const text = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
-    console.log(text);
-    expect(text).toEqual(' deposit_addresses.deposit_currency.next_button_edit ');
+    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
+    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
+    expect(buttonText).toEqual(' wallets.select_coin.submit_edit ');
+    expect(headerText).toEqual('wallets.select_coin.header_edit');
   });
 
-  it('should get tokens from wallet when enter on Edit mode', () => {
-    // TODO: Fix this test
+  it('should change text on Submit button and Header on Import mode', () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.almostOneChecked = true;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
+    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
+    expect(buttonText).toEqual(' deposit_addresses.deposit_currency.next_button ');
+    expect(headerText).toEqual('wallets.recovery_wallet.header');
+  });
+
+  it('should have normal text if mode is undefined', () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: null,
+      }),
+    };
+    component.almostOneChecked = true;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
+    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
+    expect(buttonText).toEqual(' deposit_addresses.deposit_currency.next_button ');
+    expect(headerText).toEqual('wallets.select_coin.header');
+  });
+
+  it('should get tokens from wallet when enter on Edit mode', async () => {
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
         mode: 'edit',
       }),
     };
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     expect(component.form.value).toEqual(formData.editTokensOriginal);
   });
 
   it('should update tokens and navigate back to Wallet Home when Submit button clicked on Edit mode', async () => {
-    // TODO: Fix this test
-    const changedTokens = ['USDT', 'UNI', 'RBTC', 'RIF'];
+    const changedTokens = ['USDT', 'UNI', 'RBTC', 'RIF', 'MATIC'];
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
         mode: 'edit',
       }),
     };
     component.ionViewWillEnter();
+    await fixture.whenStable();
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
     await component.handleSubmit();

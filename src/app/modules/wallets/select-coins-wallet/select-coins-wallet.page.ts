@@ -13,10 +13,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
-          'wallets.recovery_wallet.header' | translate
-        }}</ion-title>
-        <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.select_coin.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -56,7 +53,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
               type="submit"
               size="large"
             >
-              {{ 'deposit_addresses.deposit_currency.next_button' + (this.mode === 'edit' ? '_edit' : '') | translate }}
+              {{ this.submitButtonText | translate }}
             </ion-button>
           </div>
         </div>
@@ -65,6 +62,8 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
+  private headerText: string;
+  private submitButtonText: string;
   coins: Coin[];
   mode: string;
   ethCoins: Coin[];
@@ -112,8 +111,8 @@ export class SelectCoinsWalletPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
-    // TODO: Missing language files
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.updateTexts();
     this.coins = this.apiWalletService.getCoins();
     this.ethCoins = this.coins.filter((coin) => coin.network === 'ERC20');
     this.rskCoins = this.coins.filter((coin) => coin.network === 'RSK');
@@ -221,5 +220,22 @@ export class SelectCoinsWalletPage implements OnInit {
     });
 
     return changedAssets;
+  }
+
+  private updateTexts() {
+    switch (this.mode) {
+      case 'edit':
+        this.headerText = 'wallets.select_coin.header_edit';
+        this.submitButtonText = 'wallets.select_coin.submit_edit';
+        return;
+      case 'import':
+        this.headerText = 'wallets.recovery_wallet.header';
+        this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
+        return;
+      default:
+        this.headerText = 'wallets.select_coin.header';
+        this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
+        return;
+    }
   }
 }
