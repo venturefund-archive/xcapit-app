@@ -27,7 +27,7 @@ describe('FundFinishPauseCardComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
+      toastServiceSpy = jasmine.createSpyObj('ToastService', ['showSuccessToast']);
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
 
       apiFundsServiceMock = {
@@ -89,7 +89,7 @@ describe('FundFinishPauseCardComponent', () => {
 
   it('should call toastService.showToast when showToast is called', () => {
     component.showToast();
-    expect(toastServiceSpy.showToast).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showSuccessToast).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Finish Fund button clicked', () => {
