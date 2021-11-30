@@ -48,6 +48,8 @@ export class ItemsCoinGroupComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formGroup.form;
+
+    this.setToggleAllState();
   }
 
   validate(event) {
