@@ -1413,11 +1413,13 @@
     },
     "select_coin": {
       "header": "Crear wallet",
+      "header_edit": "Editar activos",
       "title": "Selecciona los activos",
       "subtitle": "Elige los activos que quieres visualizar en tu wallet",
       "suite": "Suite ",
       "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
-      "native": "NATIVA"
+      "native": "NATIVA",
+      "submit_edit": "Guardar cambios"
     },
     "success_creation": {
       "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",

@@ -13,6 +13,69 @@ import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+
+const testSelectedTokens = [
+  {
+    id: 1,
+    name: 'ETH - Ethereum',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    last: false,
+    value: 'ETH',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'http://testrpc.test/',
+    native: true,
+  },
+  {
+    id: 3,
+    name: 'USDT - Tether',
+    logoRoute: 'assets/img/coins/USDT.svg',
+    last: false,
+    value: 'USDT',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'http://testrpc.text/',
+    contract: '0x3B00Ef435fA4FcFF5C209a37d1f3dcff37c705aD',
+    decimals: 6,
+  },
+  {
+    id: 6,
+    name: 'RBTC - Smart Bitcoin',
+    logoRoute: 'assets/img/coins/RBTC.png',
+    last: false,
+    value: 'RBTC',
+    network: 'RSK',
+    chainId: 31,
+    rpc: 'http://testrpc.text/',
+    native: true,
+  },
+  {
+    id: 7,
+    name: 'RIF - Rifos',
+    logoRoute: 'assets/img/coins/RIF.png',
+    last: false,
+    value: 'RIF',
+    network: 'RSK',
+    chainId: 31,
+    rpc: 'http://testrpc.text/',
+    contract: '0x19F64674D8A5B4E652319F5e239eFd3bc969A1fE',
+    decimals: 18,
+  },
+  {
+    id: 8,
+    name: 'MATIC - Polygon',
+    logoRoute: 'assets/img/coins/MATIC.png',
+    last: false,
+    value: 'MATIC',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: 'http://testrpc.text/',
+    decimals: 18,
+    native: true,
+  },
+];
 
 const testCoins = [
   {
@@ -162,6 +225,32 @@ const formData = {
       RIF: false,
     },
   },
+  editTokensOriginal: {
+    ETH: {
+      AAVE: false,
+      ETH: true,
+      LINK: false,
+      UNI: false,
+      USDT: true,
+      BNB: false,
+      LUNA: false,
+      AXS: false,
+      MANA: false,
+      SUSHI: false,
+      COMP: false,
+      ZIL: false,
+      ENJ: false,
+      BAT: false,
+    },
+    POLYGON: {
+      MATIC: true,
+    },
+    RSK: {
+      RBTC: true,
+      RIF: true,
+      SOV: false,
+    },
+  },
 };
 
 describe('SelectCoinsWalletPage', () => {
@@ -173,9 +262,16 @@ describe('SelectCoinsWalletPage', () => {
   let walletService: WalletService;
   let walletServiceMock: any;
   let fakeNavController: FakeNavController;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   beforeEach(
     waitForAsync(() => {
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        toggleAssets: null,
+        getAssestsSelected: Promise.resolve(testSelectedTokens),
+      });
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: testCoins });
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
       walletServiceMock = {
         coins: [],
@@ -191,6 +287,8 @@ describe('SelectCoinsWalletPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceMock },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: StorageService, useValue: storageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -274,5 +372,78 @@ describe('SelectCoinsWalletPage', () => {
     fixture.detectChanges();
     component.handleSubmit();
     expect(walletService.coins).toEqual([testCoins[0]]);
+  });
+
+  it('should change text on Submit button and Header on Edit mode', () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'edit',
+      }),
+    };
+    component.almostOneChecked = true;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
+    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
+    expect(buttonText).toEqual(' wallets.select_coin.submit_edit ');
+    expect(headerText).toEqual('wallets.select_coin.header_edit');
+  });
+
+  it('should change text on Submit button and Header on Import mode', () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.almostOneChecked = true;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
+    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
+    expect(buttonText).toEqual(' deposit_addresses.deposit_currency.next_button ');
+    expect(headerText).toEqual('wallets.recovery_wallet.header');
+  });
+
+  it('should have normal text if mode is undefined', () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: null,
+      }),
+    };
+    component.almostOneChecked = true;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
+    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
+    expect(buttonText).toEqual(' deposit_addresses.deposit_currency.next_button ');
+    expect(headerText).toEqual('wallets.select_coin.header');
+  });
+
+  it('should get tokens from wallet when enter on Edit mode', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'edit',
+      }),
+    };
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.form.value).toEqual(formData.editTokensOriginal);
+  });
+
+  it('should update tokens and navigate back to Wallet Home when Submit button clicked on Edit mode', async () => {
+    const changedTokens = ['USDT', 'UNI', 'RBTC', 'RIF', 'MATIC'];
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'edit',
+      }),
+    };
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    await component.handleSubmit();
+    expect(storageServiceSpy.toggleAssets).toHaveBeenCalledOnceWith(changedTokens);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
   });
 });

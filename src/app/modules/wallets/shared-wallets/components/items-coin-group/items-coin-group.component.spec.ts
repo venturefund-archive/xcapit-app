@@ -191,4 +191,10 @@ describe('ItemsCoinGroupComponent', () => {
     fixture.detectChanges();
     expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(0);
   });
+
+  it('should check if all tokens were selected on ngOnInit', () => {
+    const spy = spyOn(component, 'setToggleAllState');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });
