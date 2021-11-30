@@ -11,7 +11,7 @@ import { Coin } from '../../interfaces/coin.interface';
           <div class="container">
             <ion-item>
               <ion-label class="icg__label ux-font-text-xs"
-                >{{ 'wallets.select_coin.suite' | translate }}{{ this.suite }}</ion-label
+                >{{ 'wallets.select_coin.suite' | translate }} {{ this.suite }}</ion-label
               >
               <ion-toggle
                 name="AllToggle"

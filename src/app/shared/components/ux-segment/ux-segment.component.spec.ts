@@ -30,7 +30,7 @@ describe('UxSegmentComponent', () => {
   });
 
   it('should select first on init', () => {
-    expect(component.selected).toBe('OneSegment');
+    expect(component.selectedNetwork).toBe('OneSegment');
   });
 
   it('should render segment buttons', async () => {
@@ -42,12 +42,21 @@ describe('UxSegmentComponent', () => {
     expect(buttons[1].nativeElement.innerHTML).toContain('TwoSegment');
   });
 
+  it('should render segment buttons with correct selected network', async () => {
+    component.selectedNetwork = 'OneSegment';
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const buttons = fixture.debugElement.queryAll(By.css('ion-button.selected'));
+    expect(buttons.length).toBe(1);
+    expect(buttons[0].nativeElement.innerHTML).toContain('OneSegment');
+  });
+
   it('should emit event and save selected on click', () => {
     const spy = spyOn(component.clickEvent, 'emit');
     const button = fixture.debugElement.query(By.css('ion-button'));
     button.nativeElement.click();
     fixture.detectChanges();
-    expect(component.selected).toBe('OneSegment');
+    expect(component.selectedNetwork).toBe('OneSegment');
     expect(spy).toHaveBeenCalledWith('OneSegment');
   });
 

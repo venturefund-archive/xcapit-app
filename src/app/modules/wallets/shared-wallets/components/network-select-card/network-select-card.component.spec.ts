@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { NetworkSelectCardComponent } from './network-select-card.component';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { SelectStyleDirective } from 'src/app/shared/directives/select-style/select-style.directive';
 
 describe('NetworkSelectCardComponent', () => {
   let component: NetworkSelectCardComponent;
@@ -10,7 +11,7 @@ describe('NetworkSelectCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NetworkSelectCardComponent],
+      declarations: [NetworkSelectCardComponent, SelectStyleDirective],
       imports: [IonicModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
