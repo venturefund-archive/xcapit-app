@@ -194,7 +194,7 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   private initializeFormData() {
-    this.originalFormData = this.form.value;
+    this.originalFormData = Object.assign({}, this.form.value);
   }
 
   private getSuiteFromNetwork(network: string): string {
