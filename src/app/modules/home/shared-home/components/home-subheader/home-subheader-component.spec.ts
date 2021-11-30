@@ -83,10 +83,10 @@ describe('HomeSubheaderComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to tabs/funds operations when Go to Investments is clicked', () => {
+  it('should navigate to tabs/investments/binance operations when Go to Investments is clicked', () => {
     const button = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Investments']"));
     button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/funds');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/investments/binance');
   });
 
   it('should call trackEvent on trackService when Go to Investments Button clicked', () => {

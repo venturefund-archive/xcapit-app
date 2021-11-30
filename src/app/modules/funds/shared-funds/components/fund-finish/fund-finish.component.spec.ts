@@ -45,7 +45,7 @@ describe('FundFinishPauseCardComponent', () => {
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([
             {
-              path: 'tabs/funds',
+              path: 'tabs/investments/binance',
               component: DummyComponent,
             },
           ]),
