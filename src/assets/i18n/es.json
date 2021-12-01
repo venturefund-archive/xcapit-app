@@ -2321,6 +2321,11 @@
       "description1": "Conoce tu perfil de inversionista haciendo este test.",
       "title2": "Escoger manualmente",
       "description2": "Si ya conoces tu perfil de inversionista, selecciónalo manualmente."
+    },
+    "success": {
+      "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es ",
+      "namePrimaryAction": "Ver sugerencias de inversión",
+      "nameSecondaryAction": "Volver al incio"
     }
   }
 }
