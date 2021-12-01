@@ -14,7 +14,7 @@ import { NavController } from '@ionic/angular';
         <img src="../../../../assets/img/wealth_management/success.svg" />
       </div>
       <div class="main__primary_text ux-font-text-xl">
-        <ion-text>{{ 'wealth_managements.success.textPrimary' | translate }} {{ this.testResult }}</ion-text>
+        <ion-text>{{ 'wealth_managements.success.textPrimary' | translate: { testResult: this.testResult } }}</ion-text>
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">

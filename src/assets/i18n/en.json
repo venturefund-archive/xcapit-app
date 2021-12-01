@@ -2136,7 +2136,7 @@
       "description2": "If you already know your investor profile, select it manually."
     },
     "success": {
-      "textPrimary": "Congratulations! Your investor profile is",
+      "textPrimary": "Congratulations! Your investor profile is {{testResult}}",
       "namePrimaryAction": "See investment tips",
       "nameSecondaryAction": "Back to home"
     }
