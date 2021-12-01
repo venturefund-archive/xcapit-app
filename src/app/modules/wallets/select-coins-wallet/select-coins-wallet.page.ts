@@ -62,8 +62,8 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
-  private headerText: string;
-  private submitButtonText: string;
+  headerText: string;
+  submitButtonText: string;
   coins: Coin[];
   mode: string;
   ethCoins: Coin[];
