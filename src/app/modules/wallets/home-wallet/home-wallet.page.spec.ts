@@ -66,10 +66,53 @@ const testCoins = {
 
 const balances: Array<AssetBalance> = [
   {
+    icon: 'assets/img/coins/LINK.svg',
+    symbol: 'LINK',
+    name: 'LINK - Chainlink',
+    amount: 0.005,
+    usdAmount: 3000,
+    usdSymbol: 'USD',
+  },
+  {
     icon: 'assets/img/coins/ETH.svg',
     symbol: 'ETH',
     name: 'ETH - Ethereum',
     amount: 1,
+    usdAmount: 3000,
+    usdSymbol: 'USD',
+  },
+  {
+    icon: 'assets/img/coins/USDT.svg',
+    symbol: 'USDT',
+    name: 'USDT - Tether',
+    amount: 2,
+    usdAmount: 3000,
+    usdSymbol: 'USD',
+  },
+];
+
+const OrderedBalances: Array<AssetBalance> = [
+  {
+    icon: 'assets/img/coins/USDT.svg',
+    symbol: 'USDT',
+    name: 'USDT - Tether',
+    amount: 2,
+    usdAmount: 3000,
+    usdSymbol: 'USD',
+  },
+  {
+    icon: 'assets/img/coins/ETH.svg',
+    symbol: 'ETH',
+    name: 'ETH - Ethereum',
+    amount: 1,
+    usdAmount: 3000,
+    usdSymbol: 'USD',
+  },
+  {
+    icon: 'assets/img/coins/LINK.svg',
+    symbol: 'LINK',
+    name: 'LINK - Chainlink',
+    amount: 0.005,
     usdAmount: 3000,
     usdSymbol: 'USD',
   },
@@ -145,6 +188,13 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     const subheader = fixture.debugElement.query(By.css('.wt__subheader'));
     expect(subheader).toBeNull();
+  });
+
+  it('should order balances by amount', () => {
+    component.balances = balances;
+    fixture.detectChanges();
+    component.orderBalancesByAmount();
+    expect(balances).toEqual(OrderedBalances);
   });
 
   it('should render app-wallets-buttons-subheader when walletExist is true', () => {

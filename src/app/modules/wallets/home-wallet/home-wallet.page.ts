@@ -205,9 +205,16 @@ export class HomeWalletPage implements OnInit {
             this.totalBalanceWallet += balance.usdAmount;
           }
           this.balances.push(balance);
+          this.orderBalancesByAmount();
         });
       }
     }
+  }
+
+  orderBalancesByAmount() {
+    this.balances.sort((a, b) => {
+      return b.amount - a.amount;
+    });
   }
 
   getAllPrices() {
