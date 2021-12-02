@@ -453,14 +453,14 @@
             "description": "Permite que nuestro algoritmo haga trading por ti. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a USDT (Theter).",
             "more_info": "Leer más sobre Denali",
             "strategy_type": "Trading",
-            "info_description": "Denali es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en dólares (Tether o USDT). Trabaja aplicando diferentes estrategias sobre cada cripto que opera. En resumen, usa dólares para generar más dólares. Su rendimiento anual ronda le 17%"
+            "info_description": "Denali es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en dólares (Tether o USDT). Trabaja aplicando diferentes estrategias sobre cada cripto que opera. Su rendimiento anual ronda le 17%"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
             "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a BTC (Bitcoin).",
             "more_info": "Leer más sobre Olympus Mons",
             "strategy_type": "Trading",
-            "info_description": "Olympus mons es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en Bitcoins. Trabaja aplicando diferentes estrategias sobre cada cripto que opera."
+            "info_description": "Olympus Mons es para aquellas personas a quienes les interesa acumular más Bitcoins ya que consideran que es la moneda del futuro. No importa si el Bitcoin cae o sube de valor respecto al dólar, lo que Olympus buscará es aumentar la cantidad de Bitcoins en tu portafolio."
           },
           "Metaverse_index": {
             "title": "Oasis",
@@ -471,17 +471,17 @@
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT(Tether).",
+            "description": "Invierte en los proyectos con mayor capital bloqueado de finanzas descentralizadas cubriendo un 80% del mercado. Cuando finalice tu inversión se convertirá a USDT (Thether)",
             "more_info": "Leer más sobre Himalayas",
             "strategy_type": "Indice",
-            "info_description": "Himalayas es un índice de inversión con un riesgo alto.\n Un índice es la cotización promedio de un grupo de activos. Estas activos (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu wallet…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
+            "info_description": "Himalayas se comporta como un índice de inversión y se rebalancea una vez al mes. Un índice es un agregado de varios instrumentos financieros ponderados de alguna forma que refleja un resumen del mercado en su totalidad. En el caso de Himalayas, los pesos de cada activo dependen del tamaño de cada proyecto respecto al mercado total medido a través de la cantidad de capital bloqueado. La cantidad de activos dentro del índice puede variar y depende de la concentración del mercado. Si el 80% del mercado está muy concentrado en pocos activos el índice tendrá pocos componentes, pero si el mercado está muy distribuido el índice tendrá muchos componentes. \n Himalayas apunta a reflejar el comportamiento del ecosistema DeFi: un sistema descentralizado que se apalanca en instrumentos financieros de la vida real pero sin los intermediarios del sistema financiero tradicional que le agregan costosas tasas y comisiones."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT. (Theter)",
+            "description": "Invierte en los proyectos cripto tradicionales con mayor capitalización cubriendo un 80% del mercado. Cuando finalice tu inversión se convertirá a USDT (Thether)",
             "more_info": "Leer más sobre Andes",
             "strategy_type": "Indice",
-            "info_description": "Andes es un índice de inversión con un riesgo medio-alto.\n Un índice es la cotización promedio de un grupo de activos. Estos activos (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu wallet…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos del mercado. En resumen, esta estrategia apuesta a diversificar."
+            "info_description": "Andes se comporta como un índice de inversión que refleja el comportamiento del ecosistema cripto tradicional y se rebalancea una vez al mes. \n Un índice es un agregado de varios instrumentos financieros ponderados de alguna forma que refleja un resumen del mercado en su totalidad. En el caso de Andes, los pesos de cada activo dependen del tamaño de cada proyecto respecto al mercado total medido a través de su capitalización. La cantidad de activos dentro del índice puede variar y depende de la concentración del mercado. Si el 80% del mercado está muy concentrado en pocos activos el índice tendrá pocos componentes, pero si el mercado está muy distribuido el índice tendrá muchos componentes."
           },
           "classic_BTC": {
             "title": "Classic"
