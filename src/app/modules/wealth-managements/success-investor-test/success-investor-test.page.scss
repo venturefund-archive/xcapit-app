@@ -1,0 +1,51 @@
+:host {
+  ion-content {
+    --ion-backgroud-color: white;
+    --background: white;
+  }
+
+  .main {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &__close_button {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 0px;
+      margin: 0px;
+      width: 24px;
+      height: 24px;
+
+      &__icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &__ux_success_image {
+      max-width: 100%;
+      margin: 0px;
+    }
+
+    &__primary_text {
+      margin-top: 36px;
+      text-align: center;
+    }
+
+    &__actions {
+      padding-left: 13px;
+      padding-right: 13px;
+      width: 100%;
+      margin-top: 24px;
+      text-align: center;
+      ion-button {
+        width: auto;
+      }
+    }
+  }
+}

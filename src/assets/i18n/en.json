@@ -2134,6 +2134,11 @@
       "description1": "Know your investor profile by doing this test.",
       "title2": "Choose manually",
       "description2": "If you already know your investor profile, select it manually."
+    },
+    "success": {
+      "textPrimary": "Congratulations! Your investor profile is {{testResult}}",
+      "namePrimaryAction": "See investment tips",
+      "nameSecondaryAction": "Back to home"
     }
   }
 }
