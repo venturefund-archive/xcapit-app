@@ -457,7 +457,7 @@
             "description": "Generate more Bitcoins with your cryptos. We operate all of your crypto and when your investment is finished it will be converted to BTC (Bitcoin).",
             "more_info": "Read more about Olympus Mons",
             "strategy_type": "Trading",
-            "info_description": "Olympus mons is an investment strategy with a low risk, which makes it ideal for people who are just starting out or who want to ensure controlled growth of their investment. Its objective is to generate returns in Bitcoins. It works by applying different strategies on each crypto that it operates."
+            "info_description": "Olympus Mons is for those people who are interested in accumulating more Bitcoins as they consider it to be the currency of the future. It does not matter if Bitcoin falls or rises in value against the dollar, what Olympus will seek is to increase the amount of Bitcoins in your portfolio."
           },
           "Metaverse_index": {
             "title": "Oasis",
@@ -468,17 +468,17 @@
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether).",
+            "description": "Invest in the projects with the highest blocked capital in decentralized finance, covering 80% of the market. When your investment is finished it will be converted to USDT (Thether)",
             "more_info": "Read more about Himalayas",
             "strategy_type": "Index",
-            "info_description": "Himalayas is a high risk investment index.\n An index is the average price of a group of assets. These assets (in the Himalayas) are the 5 cryptocurrencies with the most blocked capital (amount of money invested within a crypto). Himalayas works on the DeFi ecosystem (a decentralized system that is leveraged on real-life financial instruments - such as loans, credits, interest, and the ease of creating markets). In simple words, Himalayas selects the most promising cryptocurrencies within DeFi and updates your portfolio… (portfolio = the coins you have in your wallet…) once a month. In short, this strategy is committed to diversifying within DeFi)."
+            "info_description": "Himalayas behaves like an investment index and is rebalanced once a month. \n An index is an aggregate of several financial instruments weighted in some way that reflects a summary of the market as a whole. In the case of the Himalayas, the weights of each asset depend on the size of each project with respect to the total market measured through the amount of locked capital. The amount of assets within the index can vary and is dependent on market concentration. If 80% of the market is highly concentrated in few assets the index will have few components, but if the market is highly distributed the index will have many components. Himalayas aims to reflect the behavior of the DeFi ecosystem: a decentralized system that is leveraged on real-life financial instruments but without the intermediaries of the traditional financial system that add expensive fees and commissions."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invest in the 5 cryptocurrencies with the largest market capitalization. When your investment is finished, it will be converted into USDT. (Theter)",
+            "description": "Invest in traditional crypto projects with the highest capitalization, covering 80% of the market. When your investment is finished it will be converted to USDT (Thether)",
             "more_info": "Read more about Andes",
             "strategy_type": "Index",
-            "info_description": "Andes is an investment index with a medium-high risk.\n An index is the average price of a group of assets. These assets (in Andes) are the 5 most important cryptocurrencies (representing 77% of the entire market). Basically, you build an investment portfolio ... (portfolio = the coins you have in your wallet ...) and update it once a month to make sure you have the best 5 assets on the market. In short, this strategy is committed to diversifying."
+            "info_description": "Andes behaves like an investment index that reflects the behavior of the traditional crypto ecosystem and is rebalanced once a month. An index is an aggregate of several financial instruments weighted in some way that reflects a summary of the market as a whole. In the case of Andes, the weights of each asset depend on the size of each project with respect to the total market measured through its capitalization. The amount of assets within the index can vary and is dependent on market concentration. If 80% of the market is highly concentrated in few assets the index will have few components, but if the market is highly distributed the index will have many components."
           },
           "classic_BTC": {
             "title": "Classic"
