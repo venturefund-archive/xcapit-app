@@ -74,8 +74,7 @@ export class FundFinishComponent implements OnInit {
   }
 
   async showToast() {
-    await this.toastService.showToast({
-      cssClass: 'ux-toast-info',
+    await this.toastService.showInfoToast({
       message: this.translate.instant('funds.fund_finish_pause_fund_card.fund_finished'),
     });
   }
