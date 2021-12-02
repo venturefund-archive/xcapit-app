@@ -213,7 +213,7 @@ export class HomeWalletPage implements OnInit {
 
   orderBalancesByAmount() {
     this.balances.sort((a, b) => {
-      return b.amount - a.amount;
+      return b.usdAmount - a.usdAmount;
     });
   }
 

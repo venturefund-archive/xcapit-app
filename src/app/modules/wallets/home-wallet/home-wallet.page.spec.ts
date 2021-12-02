@@ -70,7 +70,7 @@ const balances: Array<AssetBalance> = [
     symbol: 'LINK',
     name: 'LINK - Chainlink',
     amount: 0.005,
-    usdAmount: 3000,
+    usdAmount: 120,
     usdSymbol: 'USD',
   },
   {
@@ -78,7 +78,7 @@ const balances: Array<AssetBalance> = [
     symbol: 'ETH',
     name: 'ETH - Ethereum',
     amount: 1,
-    usdAmount: 3000,
+    usdAmount: 2000,
     usdSymbol: 'USD',
   },
   {
@@ -105,7 +105,7 @@ const OrderedBalances: Array<AssetBalance> = [
     symbol: 'ETH',
     name: 'ETH - Ethereum',
     amount: 1,
-    usdAmount: 3000,
+    usdAmount: 2000,
     usdSymbol: 'USD',
   },
   {
@@ -113,7 +113,7 @@ const OrderedBalances: Array<AssetBalance> = [
     symbol: 'LINK',
     name: 'LINK - Chainlink',
     amount: 0.005,
-    usdAmount: 3000,
+    usdAmount: 120,
     usdSymbol: 'USD',
   },
 ];
@@ -287,8 +287,8 @@ describe('HomeWalletPage', () => {
     });
     component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
 
-    const expectedBalanceRBTC = 1000000;
-    const expectedBalanceETH = 60000;
+    const expectedBalanceRBTC = 60000;
+    const expectedBalanceETH = 1000000;
     const expectedBalanceUSDT = 20;
 
     await component.getWalletsBalances();
