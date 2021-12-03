@@ -2127,8 +2127,8 @@
   },
   "wealth_managements": {
     "header": "Investor Profile",
-    "title": "Get investment recommendations",
-    "subtitle": "Take the investor profile test, or choose it manually and discover which investments are right for you.",
+    "title": "What type of investor are you?",
+    "subtitle": "Take the investor profile test, or choose it manually and discover which investments might be right for you.",
     "investor_test": {
       "title1": "Take the test",
       "description1": "Know your investor profile by doing this test.",
@@ -2137,7 +2137,7 @@
     },
     "success": {
       "textPrimary": "Congratulations! Your investor profile is {{testResult}}",
-      "namePrimaryAction": "See investment tips",
+      "namePrimaryAction": "Go to my investor profile",
       "nameSecondaryAction": "Back to home"
     }
   }
