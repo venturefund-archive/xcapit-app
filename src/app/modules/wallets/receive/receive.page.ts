@@ -108,6 +108,7 @@ export class ReceivePage {
   address: string;
   addressQr: string;
   coins: Coin[];
+  queryParamAsset: string;
   constructor(
     private formBuilder: FormBuilder,
     private qrCodeService: QRCodeService,
@@ -124,22 +125,14 @@ export class ReceivePage {
 
   ionViewWillEnter() {
     this.coins = this.apiWalletService.getCoins();
+    this.queryParamAsset = this.route.snapshot.queryParamMap.get('asset');
     this.checkPlatform();
     this.subscribeToFormChanges();
     this.getUserAssets();
-    this.checkUrlParams();
   }
 
   checkPlatform() {
     this.isNativePlatform = this.platformService.isNative();
-  }
-
-  checkUrlParams() {
-    this.route.queryParams.subscribe((params) => {
-      if (params.asset) {
-        this.form.patchValue({ currency: this.coins.find((coin) => coin.value === params.asset) });
-      }
-    });
   }
 
   subscribeToFormChanges() {
@@ -200,7 +193,11 @@ export class ReceivePage {
   getUserAssets() {
     this.storageService.getAssestsSelected().then((coins) => {
       this.currencies = coins;
-      this.form.patchValue({ currency: this.currencies[0] });
+      if (this.queryParamAsset) {
+        this.form.patchValue({ currency: this.currencies.find((coin) => coin.value === this.queryParamAsset) });
+      } else {
+        this.form.patchValue({ currency: this.currencies[0] });
+      }
     });
   }
 }
