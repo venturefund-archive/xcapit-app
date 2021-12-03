@@ -2314,8 +2314,8 @@
   },
   "wealth_managements": {
     "header": "Perfil de inversionista",
-    "title": "Obtén recomendaciones de inversión",
-    "subtitle": "Realiza el test de perfil de inversionista, o escógelo manualmente y descubre que inversiones son indicadas para ti.",
+    "title": "¿Qué tipo de inversionista eres?",
+    "subtitle": "Realiza el test de perfil de inversionista, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
     "investor_test": {
       "title1": "Tomar el test",
       "description1": "Conoce tu perfil de inversionista haciendo este test.",
@@ -2324,7 +2324,7 @@
     },
     "success": {
       "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es {{testResult}} ",
-      "namePrimaryAction": "Ver sugerencias de inversión",
+      "namePrimaryAction": "Ir a mi perfil de inversionista",
       "nameSecondaryAction": "Volver al incio"
     }
   }
