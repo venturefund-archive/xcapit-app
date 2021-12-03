@@ -17,7 +17,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 const testCurrencies: Coin[] = [
@@ -27,6 +27,16 @@ const testCurrencies: Coin[] = [
     logoRoute: 'assets/img/coins/ETH.svg',
     last: true,
     value: 'ETH',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'http://testrpc.test/',
+  },
+  {
+    id: 2,
+    name: 'USDT - Tether',
+    logoRoute: 'assets/img/coins/USDT.svg',
+    last: false,
+    value: 'USDT',
     network: 'ERC20',
     chainId: 42,
     rpc: 'http://testrpc.test/',
@@ -75,16 +85,15 @@ describe('ReceivePage', () => {
         isNative: true,
       });
       activatedRouteMock = {
-        queryParams: new Subject(),
+        queryParams: of({}),
       };
-
       TestBed.configureTestingModule({
         declarations: [ReceivePage, FakeTrackClickDirective],
         imports: [
           IonicModule,
           ReactiveFormsModule,
           HttpClientTestingModule,
-          RouterTestingModule.withRoutes([]),
+          RouterTestingModule,
           TranslateModule.forRoot(),
         ],
         providers: [
@@ -116,15 +125,6 @@ describe('ReceivePage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should use default assets value when route parameter is empty', async () => {
-    const spy = spyOn(component, 'checkUrlParams');
-    activatedRouteMock.queryParams.next();
-    await component.ionViewWillEnter();
-    await fixture.whenStable();
-    expect(component.form.value.currency).toEqual(testCurrencies[0]);
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should generate QR with address on enter page', async () => {
@@ -197,9 +197,21 @@ describe('ReceivePage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should retrieve user assets on ionViewWillEnter', async () => {
+  it('should retrieve user assets on ionViewWillEnter when route parameter is empty', async () => {
+    fixture.detectChanges();
     component.ionViewWillEnter();
     await fixture.whenStable();
     expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
+    expect(component.form.value.currency).toEqual(testCurrencies[0]);
+  });
+
+  it('should retrieve user selected asset on ionViewWillEnter when route parameter is not empty', async () => {
+    activatedRouteMock.queryParams = of({ asset: 'USDT' });
+    fixture.detectChanges();
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
+    expect(component.form.value.currency).toEqual(testCurrencies[1]);
   });
 });

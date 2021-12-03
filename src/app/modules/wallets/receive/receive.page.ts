@@ -126,20 +126,11 @@ export class ReceivePage {
     this.coins = this.apiWalletService.getCoins();
     this.checkPlatform();
     this.subscribeToFormChanges();
-    this.getUserAssets();
-    this.checkUrlParams();
+    this.getCorrectUserAssets();
   }
 
   checkPlatform() {
     this.isNativePlatform = this.platformService.isNative();
-  }
-
-  checkUrlParams() {
-    this.route.queryParams.subscribe((params) => {
-      if (params.asset) {
-        this.form.patchValue({ currency: this.coins.find((coin) => coin.value === params.asset) });
-      }
-    });
   }
 
   subscribeToFormChanges() {
@@ -197,10 +188,16 @@ export class ReceivePage {
     this.qrCodeService.generateQRFromText(this.address).then((qr) => (this.addressQr = qr));
   }
 
-  getUserAssets() {
+  getCorrectUserAssets() {
     this.storageService.getAssestsSelected().then((coins) => {
       this.currencies = coins;
-      this.form.patchValue({ currency: this.currencies[0] });
+      this.route.queryParams.subscribe((params) => {
+        if (params.asset) {
+          this.form.patchValue({ currency: this.currencies.find((coin) => coin.value === params.asset) });
+        } else {
+          this.form.patchValue({ currency: this.currencies[0] });
+        }
+      });
     });
   }
 }
