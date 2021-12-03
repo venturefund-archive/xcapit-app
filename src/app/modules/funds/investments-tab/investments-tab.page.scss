@@ -13,6 +13,10 @@
       &__card {
         padding: 16px 14.5px 22px;
 
+        &__options {
+          margin-top: 16px;
+        }
+
         &__img {
           display: flex;
           justify-content: center;
@@ -21,7 +25,6 @@
         &__text {
           color: var(--ion-color-uxprimary);
           padding-top: 16px;
-          padding-bottom: 8px;
         }
       }
     }
@@ -30,6 +33,7 @@
       display: flex;
       justify-content: center;
       margin-top: 24px;
+      padding-bottom: 16px;
 
       ion-button {
         height: 16.42px;

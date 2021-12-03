@@ -5,9 +5,6 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
-        </ion-buttons>
         <ion-title class="ion-text-center">{{ 'funds.investments_tab.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -24,10 +21,12 @@ import { Component, OnInit } from '@angular/core';
               <ion-text class="it__card_container__card__text ux-font-header-titulo">
                 {{ 'funds.investments_tab.text' | translate }}
               </ion-text>
-              <app-investments-tab-card
-                [optionName]="option"
-                *ngFor="let option of this.optionNames"
-              ></app-investments-tab-card>
+              <div class="it__card_container__card__options">
+                <app-investments-tab-card
+                  [optionName]="option"
+                  *ngFor="let option of this.optionNames"
+                ></app-investments-tab-card>
+              </div>
             </ion-card>
           </div>
           <div class="it__button_container">

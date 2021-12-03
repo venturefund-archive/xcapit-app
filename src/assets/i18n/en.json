@@ -230,6 +230,19 @@
     }
   },
   "funds": {
+    "investments_tab": {
+      "header": "Investments",
+      "text": "Earn money daily by investing your criptocurrencies",
+      "how_investments_work_button": "How do investments work?",
+      "defi": {
+        "title": "Defi Investments",
+        "text": "Use your Xcapit Wallet to deposit Tokens and subscribe to Defi investment products generating daily yields easily."
+      },
+      "binance": {
+        "title": "Binance Investments",
+        "text": "Connect our smart Trading and Indexes Bot to your Binance Wallet generating yields every day."
+      }
+    },
     "fund_balance": {
       "header": "Fund Balance",
       "main_title": "{{fundName}} - Period: {{period}}",
