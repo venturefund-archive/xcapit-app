@@ -19,8 +19,20 @@
         }
 
         &__text {
+          color: var(--ion-color-uxprimary);
           padding-top: 16px;
+          padding-bottom: 8px;
         }
+      }
+    }
+
+    &__button_container {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+
+      ion-button {
+        height: 16.42px;
       }
     }
   }

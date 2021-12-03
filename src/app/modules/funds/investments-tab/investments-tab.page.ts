@@ -31,7 +31,14 @@ import { Component, OnInit } from '@angular/core';
             </ion-card>
           </div>
           <div class="it__button_container">
-            <ion-button>
+            <ion-button
+              appTrackClick
+              class="ux-link-xs ion-no-margin ion-no-padding"
+              name="How Investments Work"
+              fill="clear"
+              size="small"
+              (click)="this.navigateToFAQ()"
+            >
               {{ 'funds.investments_tab.how_investments_work_button' | translate }}
             </ion-button>
           </div>
@@ -46,4 +53,6 @@ export class InvestmentsTabPage implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  navigateToFAQ() {}
 }
