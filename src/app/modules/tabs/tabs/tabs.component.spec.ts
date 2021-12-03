@@ -66,8 +66,8 @@ describe('TabsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Tab New Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab New Fund');
+  it('should call trackEvent on trackService when Tab Investments button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Investments');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -83,4 +83,7 @@ describe('TabsComponent', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  // TODO: Complete tests
+  it('should navigate to Investments Tab when Tab Investments clicked');
 });

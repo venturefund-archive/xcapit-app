@@ -35,9 +35,9 @@ import { NavController } from '@ionic/angular';
 })
 export class InvestmentsTabCardComponent implements OnInit {
   @Input() optionName: string;
-  private title: string;
-  private text: string;
-  private navigationRoute: string;
+  title: string;
+  text: string;
+  navigationRoute: string;
 
   constructor(private navController: NavController) {}
 
