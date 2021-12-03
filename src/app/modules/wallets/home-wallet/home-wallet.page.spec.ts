@@ -93,27 +93,27 @@ const balances: Array<AssetBalance> = [
 
 const OrderedBalances: Array<AssetBalance> = [
   {
-    icon: 'assets/img/coins/USDT.svg',
-    symbol: 'USDT',
-    name: 'USDT - Tether',
-    amount: 2,
-    usdAmount: 3000,
+    icon: '../../assets/img/coins/RBTC.png',
+    symbol: 'RBTC',
+    name: 'RBTC - Smart Bitcoin',
+    amount: 20,
+    usdAmount: 1000000,
     usdSymbol: 'USD',
   },
   {
-    icon: 'assets/img/coins/ETH.svg',
+    icon: '../../assets/img/coins/ETH.svg',
     symbol: 'ETH',
     name: 'ETH - Ethereum',
-    amount: 1,
-    usdAmount: 2000,
+    amount: 20,
+    usdAmount: 60000,
     usdSymbol: 'USD',
   },
   {
-    icon: 'assets/img/coins/LINK.svg',
-    symbol: 'LINK',
-    name: 'LINK - Chainlink',
-    amount: 0.005,
-    usdAmount: 120,
+    icon: '../../assets/img/coins/USDT.svg',
+    symbol: 'USDT',
+    name: 'USDT - Tether',
+    amount: 20,
+    usdAmount: 20,
     usdSymbol: 'USD',
   },
 ];
@@ -190,11 +190,16 @@ describe('HomeWalletPage', () => {
     expect(subheader).toBeNull();
   });
 
-  it('should order balances by amount', () => {
-    component.balances = balances;
+  it('should order balances by amount', async () => {
+    fakeWalletService.modifyAttributes({
+      ETH: 'testAddressEth',
+      RSK: 'testAddressRsk',
+    });
+    component.userCoins = testCoins.usdBalanceTest;
+    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
     fixture.detectChanges();
-    component.orderBalancesByAmount();
-    expect(balances).toEqual(OrderedBalances);
+    await component.getWalletsBalances();
+    expect(component.balances).toEqual(OrderedBalances);
   });
 
   it('should render app-wallets-buttons-subheader when walletExist is true', () => {
@@ -287,14 +292,13 @@ describe('HomeWalletPage', () => {
     });
     component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
 
-    const expectedBalanceRBTC = 60000;
-    const expectedBalanceETH = 1000000;
+    const expectedBalanceRBTC = 1000000;
+    const expectedBalanceETH = 60000;
     const expectedBalanceUSDT = 20;
 
     await component.getWalletsBalances();
-
-    expect(component.balances[0].usdAmount).toBe(expectedBalanceETH);
-    expect(component.balances[1].usdAmount).toBe(expectedBalanceRBTC);
+    expect(component.balances[0].usdAmount).toBe(expectedBalanceRBTC);
+    expect(component.balances[1].usdAmount).toBe(expectedBalanceETH);
     expect(component.balances[2].usdAmount).toBe(expectedBalanceUSDT);
   });
 
