@@ -16,8 +16,7 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 const testCurrencies: Coin[] = [
@@ -84,8 +83,9 @@ describe('ReceivePage', () => {
       platformServiceSpy = jasmine.createSpyObj('PlatformService', {
         isNative: true,
       });
-      activatedRouteMock = {
-        queryParams: of({}),
+      activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['get']);
+      activatedRouteMock.snapshot = {
+        queryParamMap: convertToParamMap({}),
       };
       TestBed.configureTestingModule({
         declarations: [ReceivePage, FakeTrackClickDirective],
@@ -198,7 +198,6 @@ describe('ReceivePage', () => {
   });
 
   it('should retrieve user assets on ionViewWillEnter when route parameter is empty', async () => {
-    fixture.detectChanges();
     component.ionViewWillEnter();
     await fixture.whenStable();
     expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
@@ -206,7 +205,11 @@ describe('ReceivePage', () => {
   });
 
   it('should retrieve user selected asset on ionViewWillEnter when route parameter is not empty', async () => {
-    activatedRouteMock.queryParams = of({ asset: 'USDT' });
+    activatedRouteMock.snapshot = {
+      queryParamMap: convertToParamMap({
+        asset: 'USDT',
+      }),
+    };
     fixture.detectChanges();
     await component.ionViewWillEnter();
     await fixture.whenStable();
