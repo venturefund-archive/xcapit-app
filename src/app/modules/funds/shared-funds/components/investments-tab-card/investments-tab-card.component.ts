@@ -47,5 +47,7 @@ export class InvestmentsTabCardComponent implements OnInit {
     this.navigationRoute = `/tabs/investments/${this.optionName}`;
   }
 
-  navigateToOption() {}
+  navigateToOption() {
+    this.navController.navigateForward([this.navigationRoute]);
+  }
 }

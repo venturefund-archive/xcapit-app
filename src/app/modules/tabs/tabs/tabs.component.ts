@@ -66,7 +66,7 @@ export class TabsComponent {
 
   showMenu() {
     // this.menu.toggle();
-    this.navController.navigateForward('menus/main-menu');
+    this.navController.navigateForward(['/menus/main-menu']);
   }
 
   goToInvestments() {
@@ -74,6 +74,6 @@ export class TabsComponent {
   }
 
   async goToWallet() {
-    this.navController.navigateForward('/tabs/wallets');
+    this.navController.navigateForward(['/tabs/wallets']);
   }
 }

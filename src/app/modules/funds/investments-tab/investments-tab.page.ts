@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-investments-tab',
@@ -49,9 +50,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvestmentsTabPage implements OnInit {
   optionNames: string[] = ['defi', 'binance'];
-  constructor() {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
-  navigateToFAQ() {}
+  navigateToFAQ() {
+    this.navController.navigateForward(['/support/options']);
+  }
 }
