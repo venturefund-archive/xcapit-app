@@ -1461,7 +1461,7 @@
       "title": "NFT Detail",
       "label1": "Created By",
       "label2": "Chain Info",
-      "label_input1": "Contact Address",
+      "label_input1": "Contract Address",
       "label_input2": "Token ID",
       "label_input3": "Blockchain"
     },
