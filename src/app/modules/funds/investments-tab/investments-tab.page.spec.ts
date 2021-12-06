@@ -8,7 +8,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { InvestmentsTabPage } from './investments-tab.page';
 
-fdescribe('InvestmentsTabPage', () => {
+describe('InvestmentsTabPage', () => {
   let component: InvestmentsTabPage;
   let fixture: ComponentFixture<InvestmentsTabPage>;
   let fakeNavController: FakeNavController;

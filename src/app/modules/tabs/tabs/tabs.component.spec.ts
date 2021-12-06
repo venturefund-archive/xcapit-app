@@ -11,7 +11,7 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
 
-fdescribe('TabsComponent', () => {
+describe('TabsComponent', () => {
   let component: TabsComponent;
   let fixture: ComponentFixture<TabsComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TabsComponent>;
