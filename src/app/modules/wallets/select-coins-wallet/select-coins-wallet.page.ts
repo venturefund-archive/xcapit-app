@@ -77,7 +77,6 @@ export class SelectCoinsWalletPage implements OnInit {
       USDT: [false],
       AAVE: [false],
       UNI: [false],
-      BNB: [false],
       LUNA: [false],
       AXS: [false],
       MANA: [false],
