@@ -5,6 +5,7 @@ import { InformativeModalComponent } from 'src/app/modules/menus/main-menu/compo
 import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -60,7 +61,8 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     private navController: NavController,
     private modalController: ModalController,
     private apiApikeysService: ApiApikeysService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -97,17 +99,9 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   async goToPerformance() {
-    const modal = await this.modalController.create({
-      component: ToastAlertComponent,
-      cssClass: 'ux-alert',
-      showBackdrop: false,
-      componentProps: {
-        title: this.translate.instant('home.home_page.subheader_component.coming_soon_alert'),
-        type: 'information',
-        detailsEnabled: false,
-      },
+    this.toastService.showInfoToast({
+      message: this.translate.instant(this.translate.instant('home.home_page.subheader_component.coming_soon_alert')),
     });
-    await modal.present();
   }
 
   getAllApiKeys() {
