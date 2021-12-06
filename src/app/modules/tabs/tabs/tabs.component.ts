@@ -18,7 +18,7 @@ const { Browser } = Plugins;
           <ion-label class="label ux-font-text-xs">{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="wallets" (click)="this.goToWallet()" appTrackClick name="Tab Wallet">
+        <ion-tab-button (click)="this.goToWallet()" appTrackClick name="Tab Wallet">
           <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
           <ion-label class="label ux-font-text-xs">{{ 'tabs.wallet' | translate }}</ion-label>
         </ion-tab-button>
