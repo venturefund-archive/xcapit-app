@@ -48,7 +48,7 @@ export class StorageService {
   async getWalletsAddresses(network: string = null) {
     const wallets = await this.getWalletFromStorage();
 
-    if (!!network) {
+    if (network) {
       return wallets.addresses[network];
     }
 
@@ -80,13 +80,27 @@ export class StorageService {
     return false;
   }
 
+  async toggleAssets(assets: string[]): Promise<any> {
+    const wallets = await this.getWalletFromStorage();
+
+    if (wallets) {
+      assets.forEach((asset) => {
+        wallets.assets[asset] = !wallets.assets[asset];
+      });
+
+      return await this.saveWalletToStorage(wallets);
+    }
+
+    return false;
+  }
+
   async updateAssetsList() {
     this.coins = this.apiWalletService.getCoins();
     const wallets = await this.getWalletFromStorage();
     let updated = false;
 
-    if (!!wallets) {
-      if (!!wallets.assets) {
+    if (wallets) {
+      if (wallets.assets) {
         for (const coin of this.coins) {
           if (wallets.assets[coin.value] === undefined) {
             wallets.assets[coin.value] = true;
@@ -104,7 +118,7 @@ export class StorageService {
         updated = true;
       }
 
-      if (!!updated) {
+      if (updated) {
         wallets.updatedAt = moment().utc().format();
         return await this.saveWalletToStorage(wallets);
       } else {

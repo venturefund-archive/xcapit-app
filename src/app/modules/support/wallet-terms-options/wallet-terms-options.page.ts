@@ -6,7 +6,7 @@ import { WALLET_TERMS_OPTIONS } from '../shared-support/constants/wallet-terms-o
   template: ` <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="tabs/home"></ion-back-button>
+          <ion-back-button defaultHref="/support/options"></ion-back-button>
         </ion-buttons>
         <ion-title> {{ 'support.wallet-terms-options.title' | translate }}</ion-title>
       </ion-toolbar>

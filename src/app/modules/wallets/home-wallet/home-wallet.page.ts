@@ -6,7 +6,6 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 
@@ -20,11 +19,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       <ion-refresher (ionRefresh)="refresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
         <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="true" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-          <ion-text
-            class="ux-font-lato ux-fweight-regular ux-fsize-10"
-            color="uxsemidark"
-            *ngIf="!(this.isRefreshAvailable$ | async)"
-          >
+          <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
               'funds.funds_list.refresh_time'
                 | translate
@@ -78,25 +73,23 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       </div>
 
       <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
-        <div class="wt__nfts__content">
-          <app-claim-nft-card
+        <div class="wt__nfts__content segment-content last-selected">
+          <app-nft-card
             [nftStatus]="this.nftStatus"
             (nftRequest)="this.createNFTRequest()"
-            *ngIf="this.nftStatus !== 'delivered'"
+            *ngIf="this.walletExist && this.nftStatus"
           >
-          </app-claim-nft-card>
-        </div>
-        <div *ngIf="this.nftStatus === 'delivered' && this.NFTMetadata">
-          <app-nft-card [data]="this.NFTMetadata"></app-nft-card>
+          </app-nft-card>
         </div>
       </div>
       <div
         class="wt__balance ion-padding-start ion-padding-end"
         *ngIf="this.walletExist && this.balances?.length && this.segmentsForm.value.tab === 'assets'"
       >
-        <div class="wt__balance__wallet-balance-card segment-content">
+        <div class="wt__balance__wallet-balance-card segment-content first-selected">
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
+        <app-start-investing></app-start-investing>
       </div>
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
@@ -110,7 +103,6 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
       </div>
-      <app-start-investing></app-start-investing>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
@@ -129,7 +121,7 @@ export class HomeWalletPage implements OnInit {
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
-  nftStatus = 'unclaimed';
+  nftStatus = '';
 
   constructor(
     private walletService: WalletService,
@@ -137,7 +129,6 @@ export class HomeWalletPage implements OnInit {
     private storageService: StorageService,
     private navController: NavController,
     private formBuilder: FormBuilder,
-    private nftService: NftService,
     private refreshTimeoutService: RefreshTimeoutService
   ) {}
 
@@ -170,10 +161,6 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
-  getNFTInfo() {
-    this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => (this.NFTMetadata = metadata));
-  }
-
   createBalancesStructure(coin: Coin): AssetBalance {
     return {
       icon: coin.logoRoute,
@@ -192,7 +179,6 @@ export class HomeWalletPage implements OnInit {
       if (!this.alreadyInitialized && res) {
         this.alreadyInitialized = true;
         this.getAllPrices();
-        this.getNFTInfo();
       }
     });
   }
@@ -219,9 +205,16 @@ export class HomeWalletPage implements OnInit {
             this.totalBalanceWallet += balance.usdAmount;
           }
           this.balances.push(balance);
+          this.orderBalancesByAmount();
         });
       }
     }
+  }
+
+  orderBalancesByAmount() {
+    this.balances.sort((a, b) => {
+      return b.usdAmount - a.usdAmount;
+    });
   }
 
   getAllPrices() {

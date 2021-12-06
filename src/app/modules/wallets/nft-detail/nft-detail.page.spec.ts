@@ -15,7 +15,7 @@ import { NftDetailPage } from './nft-detail.page';
 const NFTMetadata = {
   description: 'Test',
   name: 'testName',
-  image: 'testImage',
+  image: 'assets/test_image.svg',
   tokenID: 1234,
   attributes: [
     {
@@ -44,10 +44,9 @@ describe('NftDetailPage', () => {
   let nftServiceSpy: jasmine.SpyObj<NftService>;
   let routeSpy: jasmine.SpyObj<Router>;
 
-  routeSpy = jasmine.createSpyObj('Router', ['getCurrentNavigation']);
-
   beforeEach(
     waitForAsync(() => {
+      routeSpy = jasmine.createSpyObj('Router', ['getCurrentNavigation']);
       nftServiceSpy = jasmine.createSpyObj('NftService', {
         getNFTMetadata: Promise.resolve(NFTMetadata),
         getNFTMexico: NFT_DATA_NONPROD,

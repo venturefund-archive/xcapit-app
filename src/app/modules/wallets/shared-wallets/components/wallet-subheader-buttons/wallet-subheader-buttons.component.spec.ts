@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { WalletSubheaderButtonsComponent } from './wallet-subheader-buttons.component';
@@ -8,6 +8,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { of } from 'rxjs';
+import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -15,14 +19,32 @@ describe('WalletSubheaderButtonsComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletSubheaderButtonsComponent>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
+  let apiApiKeysServiceSpy: jasmine.SpyObj<ApiApikeysService>;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
+
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+      apiApiKeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
+        getAll: of([{ id: 799, alias: 'testKeys', nombre_bot: 'TestName' }]),
+      });
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showInfoToast: Promise.resolve(),
+      });
       TestBed.configureTestingModule({
         declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+          { provide: ApiApikeysService, useValue: apiApiKeysServiceSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
@@ -105,7 +127,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/send/detail/USDT']);
   });
 
-  it('should navigate to buy page when Go to Buy is clicked', () => {
+  it('should navigate to buy page when Go to Buy is clicked and there is apikeys', () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Buy');
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
@@ -129,5 +151,18 @@ describe('WalletSubheaderButtonsComponent', () => {
       ['wallets/receive'],
       Object({ queryParams: Object({ asset: 'LINK' }) })
     );
+  });
+
+  it('should show a toast when Go to Performance button is clicked', async () => {
+    const performanceButtonEl = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Performance']"));
+    performanceButtonEl.nativeElement.click();
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open modal when Go to Buy button is clicked and there are not apikeys', async () => {
+    apiApiKeysServiceSpy.getAll.and.returnValue(of([]));
+    component.ngOnInit();
+    fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']")).nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

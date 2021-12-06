@@ -18,7 +18,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
         </ion-title>
         <ion-buttons slot="end">
           <ion-button
-            class="new-operation ion-padding-end"
+            class="ux-font-text-xs new-operation ion-padding-end"
             appTrackClick
             name="New Operation"
             (click)="this.checkEmptyApiKeys()"
@@ -56,10 +56,8 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
             </ion-label>
           </ion-item>
           <div class="container" *ngFor="let op of this.operationsList; let last = last">
-            <ion-item class="table-header ux-font-text-xxs regular" (click)="viewOperationDetail(op)">
-              <ion-text class="ux-fweight-semibold ux-fsize-10">
-                {{ op.currency_in }} → {{ op.currency_out }}
-              </ion-text>
+            <ion-item class="table-header ux-font-text-xxs" (click)="viewOperationDetail(op)">
+              <ion-text class="ux-font-lato ux-fsize-10"> {{ op.currency_in }} → {{ op.currency_out }} </ion-text>
               <ion-text class="ux-fweight-semibold" *ngIf="op.operation_type === 'cash-in'">
                 {{ op.amount_in | currency }}
               </ion-text>

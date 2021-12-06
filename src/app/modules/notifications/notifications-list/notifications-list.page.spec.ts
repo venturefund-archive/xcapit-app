@@ -18,40 +18,36 @@ describe('NotificationsListPage', () => {
   let notificationsServiceMock: any;
   let navControllerSpy: any;
 
-  beforeEach(waitForAsync(() => {
-    notificationsServiceMock = {
-      getNotifications: () => of([]),
-      markAsRead: () => of(null)
-    };
-    notificationsStorageSpy = jasmine.createSpyObj(
-      'NotificationsStorageService',
-      ['remove']
-    );
-    notificationsStorageSpy.notifications = new ReplaySubject<any[]>(1);
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    TestBed.configureTestingModule({
-      declarations: [NotificationsListPage],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-      ],
-      providers: [
-        {
-          provide: NotificationsStorageService,
-          useValue: notificationsStorageSpy
-        },
-        {
-          provide: NavController,
-          useValue: navControllerSpy
-        },
-        {
-          provide: NotificationsService,
-          useValue: notificationsServiceMock
-        }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      notificationsServiceMock = {
+        getNotifications: () => of([]),
+        markAsRead: () => of(null),
+      };
+      notificationsStorageSpy = jasmine.createSpyObj('NotificationsStorageService', ['remove']);
+      notificationsStorageSpy.notifications = new ReplaySubject<any[]>(1);
+      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      TestBed.configureTestingModule({
+        declarations: [NotificationsListPage],
+        imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+        providers: [
+          {
+            provide: NotificationsStorageService,
+            useValue: notificationsStorageSpy,
+          },
+          {
+            provide: NavController,
+            useValue: navControllerSpy,
+          },
+          {
+            provide: NotificationsService,
+            useValue: notificationsServiceMock,
+          },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationsListPage);
@@ -64,40 +60,22 @@ describe('NotificationsListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set notifications$ on ngOnInit', () => {
-    component.ngOnInit();
+  it('should set notifications$ on init', () => {
+    component.ionViewWillEnter();
     expect(component.notifications$).toBeTruthy();
   });
 
-  it('should call getNotifications on ngOnInit', () => {
+  it('should call get notifications on init', () => {
     const spy = spyOn(notificationsService, 'getNotifications');
     spy.and.returnValue(of([]));
-    component.ngOnInit();
+    component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call remove on notificationsStorageService when removeNotification is called', () => {
-    component.removeNotification(1);
-    expect(notificationsStorageSpy.remove).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call navigateForward on navController when showNotification is called', () => {
-    component.showNotification(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call navigateForward with "/notifications/view/${id}" on navController when showNotification is called', () => {
-    const notificationId = 5;
-    component.showNotification(notificationId);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([
-      `/notifications/view/${notificationId}`
-    ]);
-  });
-
-  it('should call markAsRead on ionViewWillLeave', () => {
+  it('should mark all notifications as readed on ionViewWillLeave', () => {
     const spy = spyOn(notificationsService, 'markAsRead');
     spy.and.returnValue(of(null));
     component.ionViewWillLeave();
     expect(spy).toHaveBeenCalledTimes(1);
-  })
+  });
 });

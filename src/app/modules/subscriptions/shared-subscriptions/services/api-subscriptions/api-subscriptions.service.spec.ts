@@ -10,9 +10,7 @@ describe('ApiSubscriptionsService', () => {
   beforeEach(() => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', ['get', 'post', 'delete']);
     TestBed.configureTestingModule({
-      providers: [
-        { provide: CustomHttpService, useValue: customHttpServiceSpy }
-      ]
+      providers: [{ provide: CustomHttpService, useValue: customHttpServiceSpy }],
     });
     apiSubscriptionsService = TestBed.inject(ApiSubscriptionsService);
   });

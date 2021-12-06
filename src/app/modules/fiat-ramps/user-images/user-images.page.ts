@@ -18,7 +18,7 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 
     <ion-content class="ion-padding ri">
       <app-ux-text class="ion-padding-top ion-margin-top">
-        <div class="ux-font-text-base  ion-margin-top ion-margin-bottom" style="font-size: 16px;">
+        <div class="ux-font-text-xs  ion-margin-top ion-margin-bottom">
           {{ 'fiat_ramps.register.description_images' | translate }}
         </div>
       </app-ux-text>
@@ -27,21 +27,20 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         <!-- agregar foto dni frente -->
 
         <ion-button
-          class="ux_button"
+          class="ux_button ri__pic-button"
           appTrackClick
           name="Next"
           type="button"
           color="uxsecondary"
           size="large"
           (click)="this.addPhoto('front_document')"
-          class="ri__pic-button"
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['front_document'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
               <img src="../../assets/img/dni_frente.svg" alt="DNI Frente" />
             </div>
             <!--ion-icon class="image-outline" slot="end" name="image-outline"></ion-icon-->
-            <span>{{ 'fiat_ramps.register.doc_front' | translate }}</span>
+            <span class="ux-font-text-base">{{ 'fiat_ramps.register.doc_front' | translate }}</span>
           </div>
           <div class="ri__pic-button__picture" *ngIf="this.form.controls['front_document'].value.image">
             <img [src]="this.form.controls['front_document'].value.image" alt="" />
@@ -51,21 +50,20 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         <!-- agregar foto dni dorso -->
 
         <ion-button
-          class="ux_button"
+          class="ri__pic-button ux_button"
           appTrackClick
           name="Next"
           type="button"
           color="uxsecondary"
           size="large"
           (click)="this.addPhoto('back_document')"
-          class="ri__pic-button"
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['back_document'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
               <img src="../../assets/img/dni_dorso.svg" alt="DNI Frente" />
             </div>
             <!--ion-icon class="image-outline" slot="end" name="image-outline"></ion-icon-->
-            <span>{{ 'fiat_ramps.register.doc_back' | translate }}</span>
+            <span class="ux-font-text-base">{{ 'fiat_ramps.register.doc_back' | translate }}</span>
           </div>
           <div class="ri__pic-button__picture" *ngIf="this.form.controls['back_document'].value.image">
             <img [src]="this.form.controls['back_document'].value.image" alt="" />
@@ -75,21 +73,20 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
         <!-- agregar foto selfie -->
 
         <ion-button
-          class="ux_button"
+          class="ri__pic-button ux_button"
           appTrackClick
           name="Next"
           type="button"
           color="uxsecondary"
           size="large"
           (click)="this.addPhoto('billing')"
-          class="ri__pic-button"
         >
           <div class="ri__pic-button__button-content" *ngIf="!this.form.controls['billing'].value.image">
             <div class="ri__pic-button__button-content__icon_files">
               <img src="../../assets/img/dni_selfie.svg" alt="DNI Frente" />
             </div>
             <!--ion-icon class="image-outline" slot="end" name="image-outline"></ion-icon-->
-            <span>{{ 'fiat_ramps.register.selfie' | translate }}</span>
+            <span class="ux-font-text-base">{{ 'fiat_ramps.register.selfie' | translate }}</span>
           </div>
           <div class="ri__pic-button__picture" *ngIf="this.form.controls['billing'].value.image">
             <img [src]="this.form.controls['billing'].value.image" alt="" />

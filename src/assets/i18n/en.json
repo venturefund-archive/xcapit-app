@@ -27,7 +27,8 @@
       "maxlength": "Fewer characters required ",
       "not_matching": "The fields do not match ",
       "has_special_character": "Special characters and spaces are not allowed",
-      "count_words_match": "The number of words is different from 12"
+      "count_words_match": "The number of words is different from 12",
+      "min": "The value is too small"
     },
     "field_errors": {
       "cellphone": {
@@ -442,34 +443,42 @@
         "min_capital_label": "Minimum investment",
         "invest_button": "Invest",
         "last_year_revenue": "90 days",
+        "new_badge": "New",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
             "description": "Let our algorithm trade for you. We operate all of your crypto and when your investment is finished it will be converted to USDT (Theter).",
             "more_info": "Read more about Denali",
-            "strategie_type": "Trading",
+            "strategy_type": "Trading",
             "info_description": "Denali is a low risk investment strategy, which makes it ideal for people who are just starting out or who want to ensure the controlled growth of their investment. Its objective is to generate returns in dollars (Tether or USDT). It works by applying different strategies on each crypto that it operates. In short, use dollars to generate more dollars. Its annual yield is around 17%"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
             "description": "Generate more Bitcoins with your cryptos. We operate all of your crypto and when your investment is finished it will be converted to BTC (Bitcoin).",
             "more_info": "Read more about Olympus Mons",
-            "strategie_type": "Trading",
-            "info_description": "Olympus mons is an investment strategy with a low risk, which makes it ideal for people who are just starting out or who want to ensure controlled growth of their investment. Its objective is to generate returns in Bitcoins. It works by applying different strategies on each crypto that it operates."
+            "strategy_type": "Trading",
+            "info_description": "Olympus Mons is for those people who are interested in accumulating more Bitcoins as they consider it to be the currency of the future. It does not matter if Bitcoin falls or rises in value against the dollar, what Olympus will seek is to increase the amount of Bitcoins in your portfolio."
+          },
+          "Metaverse_index": {
+            "title": "Oasis",
+            "description": "A metaverse index tracker fund designed to capture entertainment, sports and new business trends moving across the virtual world.",
+            "more_info": "Read more about Oasis",
+            "strategy_type": "Index",
+            "info_description": "Oasis is a fund that tracks the metaverse index built by Xcapit. This fund is high risk, as it works with the newest and fastest growing projects in recent months. In particular, the metaverse index tries to capture the trends of protocols oriented to entertainment, sports and new businesses moving on the Ethereum network. The way to do this is to consider both the size of the protocol (in terms of capitalization) and the number of users it has (wallets on the Ethereum network with protocol tokens). Once a month, the investment wallet is rebalanced in which tokens are also added or removed from the index to optimize its results."
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invest in the 5 projects with the highest market capitalization of decentralized finance. When your investment is finished it will be converted to USDT (Tether).",
+            "description": "Invest in the projects with the highest blocked capital in decentralized finance, covering 80% of the market. When your investment is finished it will be converted to USDT (Thether)",
             "more_info": "Read more about Himalayas",
-            "strategie_type": "Index",
-            "info_description": "Himalayas is a high risk investment index.\n An index is the average price of a group of assets. These assets (in the Himalayas) are the 5 cryptocurrencies with the most blocked capital (amount of money invested within a crypto). Himalayas works on the DeFi ecosystem (a decentralized system that is leveraged on real-life financial instruments - such as loans, credits, interest, and the ease of creating markets). In simple words, Himalayas selects the most promising cryptocurrencies within DeFi and updates your portfolio… (portfolio = the coins you have in your wallet…) once a month. In short, this strategy is committed to diversifying within DeFi)."
+            "strategy_type": "Index",
+            "info_description": "Himalayas behaves like an investment index and is rebalanced once a month. \n An index is an aggregate of several financial instruments weighted in some way that reflects a summary of the market as a whole. In the case of the Himalayas, the weights of each asset depend on the size of each project with respect to the total market measured through the amount of locked capital. The amount of assets within the index can vary and is dependent on market concentration. If 80% of the market is highly concentrated in few assets the index will have few components, but if the market is highly distributed the index will have many components. Himalayas aims to reflect the behavior of the DeFi ecosystem: a decentralized system that is leveraged on real-life financial instruments but without the intermediaries of the traditional financial system that add expensive fees and commissions."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invest in the 5 cryptocurrencies with the largest market capitalization. When your investment is finished, it will be converted into USDT. (Theter)",
+            "description": "Invest in traditional crypto projects with the highest capitalization, covering 80% of the market. When your investment is finished it will be converted to USDT (Thether)",
             "more_info": "Read more about Andes",
-            "strategie_type": "Index",
-            "info_description": "Andes is an investment index with a medium-high risk.\n An index is the average price of a group of assets. These assets (in Andes) are the 5 most important cryptocurrencies (representing 77% of the entire market). Basically, you build an investment portfolio ... (portfolio = the coins you have in your wallet ...) and update it once a month to make sure you have the best 5 assets on the market. In short, this strategy is committed to diversifying."
+            "strategy_type": "Index",
+            "info_description": "Andes behaves like an investment index that reflects the behavior of the traditional crypto ecosystem and is rebalanced once a month. An index is an aggregate of several financial instruments weighted in some way that reflects a summary of the market as a whole. In the case of Andes, the weights of each asset depend on the size of each project with respect to the total market measured through its capitalization. The amount of assets within the index can vary and is dependent on market concentration. If 80% of the market is highly concentrated in few assets the index will have few components, but if the market is highly distributed the index will have many components."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -581,7 +590,11 @@
       "minutes": "{{value}} minute{{s}}",
       "seconds": "{{value}} second{{s}}",
       "finalized": "Finalized",
-      "renovate": "Renovate"
+      "renovate": "Renovate",
+      "unsubscribe_toast": "Successful unsubscription",
+      "unsubscribe_alert_ok": "Unsubscribe",
+      "unsubscribe_alert_cancel": "Cancel",
+      "unsubscribe_alert_title": "¿Unsubscribe to fund?"
     },
     "change_currency_modal": {
       "submit_button": "Ok",
@@ -1317,7 +1330,7 @@
       "subtitle_7": "7. Exclusión de responsabilidad. Indemnidad",
       "paragraph_7": "Como condición para participar en el programa de referidos, cada referente acepta que la empresa no será responsable por ningún daño directo ni indirecto que pudiere sufrir el referente y/o el referido y/o cualquier tercero con motivo y/u ocasión de la participación en el programa de referidos, y/o el uso, destino o finalidad del beneficio, renunciando la empresa a cualquier tipo de responsabilidad contractual y/o extracontractual frente al referente y/o el referido y/o cualesquier tercero, lo que es aceptado incondicionalmente por cada referente. la empresa renuncia a cualquier tipo de responsabilidad por cualquier omisión, inexactitud o error que pudiese sufrir esa plataforma con relación al programa de referidos.\n",
       "subtitle_8": "8. Modificación a las bases",
-      "paragraph_8": "Como condición para participar en el programa de referidos, cada referente acepta que la empresa no será responsable por ningún daño directo ni indirecto qLa empresa podrá modificar cualquiera de las cláusulas de estas bases en cualquier momento, sin previo aviso. el mismo hecho de participar en el programa de referidos implica el conocimiento y la aceptación plena de las bases y sus eventuales modificaciones, como así también los términos y condiciones generales del uso del sitio disponibles en /support/wallet-info/terms. Las decisiones de la empresa sobre todos y cada uno de los aspectos del programa de referidos, incluyendo decisiones por cualquier cuestión no prevista en las bases, serán definitivas e irrecurribles. La empresa se reserva el derecho de poner término o modificar al programa de referidos en caso de existir fraudes, dificultades técnicas o cualquier otro factor fuera de control de la empresa que pudiera comprometer la integridad del programa de referidos.\n",
+      "paragraph_8": "La empresa podrá modificar cualquiera de las cláusulas de estas bases en cualquier momento, sin previo aviso. El mismo hecho de participar en el programa de referidos implica el conocimiento y la aceptación plena de las bases y sus eventuales modificaciones, como así también los términos y condiciones generales del uso del sitio disponibles en /support/wallet-info/terms. Las decisiones de la empresa sobre todos y cada uno de los aspectos del programa de referidos, incluyendo decisiones por cualquier cuestión no prevista en las bases, serán definitivas e irrecurribles. La empresa se reserva el derecho de poner término o modificar al programa de referidos en caso de existir fraudes, dificultades técnicas o cualquier otro factor fuera de control de la empresa que pudiera comprometer la integridad del programa de referidos.",
       "subtitle_9": "9. Privacidad e información enviada",
       "paragraph_9": "Como condición para participar en el programa, usted da su consentimiento para que la empresa obtenga y entregue su nombre, dirección y otra información a terceros con el fin de administrar este programa y cumplir con las leyes, regulaciones y reglas aplicables. cualquier información que proporcione al patrocinador puede usarse para comunicarse con usted en relación con este programa. La información enviada será tratada de acuerdo con la política de privacidad de la empresa.\n",
       "subtitle_10": "10. Ley aplicable",
@@ -1396,11 +1409,13 @@
     },
     "select_coin": {
       "header": "Create Wallet",
+      "header_edit": "Edit assets",
       "title": "Select assets",
       "subtitle": "Choose the assets you want to view in your wallet",
       "suite": "Suite",
       "recordatory": "Remember that to operate on each network you must have its native currency.",
-      "native": "NATIVE"
+      "native": "NATIVE",
+      "submit_edit": "Save changes"
     },
     "success_creation": {
       "title": "Nice! your wallet is now created and your recovery phrase is verified",
@@ -1446,7 +1461,7 @@
       "title": "NFT Detail",
       "label1": "Created By",
       "label2": "Chain Info",
-      "label_input1": "Contact Address",
+      "label_input1": "Contract Address",
       "label_input2": "Token ID",
       "label_input3": "Blockchain"
     },
@@ -2108,6 +2123,22 @@
     },
     "contact_support": {
       "title": "Write to support"
+    }
+  },
+  "wealth_managements": {
+    "header": "Investor Profile",
+    "title": "What type of investor are you?",
+    "subtitle": "Take the investor profile test, or choose it manually and discover which investments might be right for you.",
+    "investor_test": {
+      "title1": "Take the test",
+      "description1": "Know your investor profile by doing this test.",
+      "title2": "Choose manually",
+      "description2": "If you already know your investor profile, select it manually."
+    },
+    "success": {
+      "textPrimary": "Congratulations! Your investor profile is {{testResult}}",
+      "namePrimaryAction": "Go to my investor profile",
+      "nameSecondaryAction": "Back to home"
     }
   }
 }

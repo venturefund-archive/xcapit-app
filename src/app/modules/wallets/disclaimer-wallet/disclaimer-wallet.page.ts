@@ -37,41 +37,33 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
           <div name="Disclaimer Form Checkboxes" class="checkbox_card">
             <ion-item class="ion-no-padding ion-no-margin checkbox">
               <div class="ux_checkbox_container">
-                <ion-item class="ux-font-text-xs ux_checkbox_container__item">
+                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.local_stored_keys_checkbox' | translate }}
                   </ion-label>
-                  <ion-checkbox
-                    formControlName="localStoredKeysCheckbox"
-                    color="uxsecondary"
-                    slot="start"
-                  ></ion-checkbox>
+                  <ion-checkbox formControlName="localStoredKeysCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
 
             <ion-item class="ion-no-padding ion-no-margin checkbox">
               <div class="ux_checkbox_container">
-                <ion-item class="ux-font-text-xs ux_checkbox_container__item">
+                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.recovery_phrase_checkbox' | translate }}
                   </ion-label>
-                  <ion-checkbox
-                    formControlName="recoveryPhraseCheckbox"
-                    color="uxsecondary"
-                    slot="start"
-                  ></ion-checkbox>
+                  <ion-checkbox formControlName="recoveryPhraseCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
 
             <ion-item class="ion-no-padding ion-no-margin checkbox last">
               <div class="ux_checkbox_container">
-                <ion-item class="ux-font-text-xs ux_checkbox_container__item">
+                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.terms_of_use_checkbox' | translate }}
                   </ion-label>
-                  <ion-checkbox formControlName="termsOfUseCheckbox" color="uxsecondary" slot="start"></ion-checkbox>
+                  <ion-checkbox formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
@@ -81,7 +73,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
           <div class="button">
             <ion-button
               appTrackClick
-              class="ux-link-xs"
+              class="ux-link-xs underline"
               name="Terms of Use"
               type="button"
               size="small"

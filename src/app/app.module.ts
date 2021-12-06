@@ -45,6 +45,7 @@ import { HomeModule } from './modules/home/home.module';
 import { TrackService } from './shared/services/track/track.service';
 import { FirebaseLogsService } from './shared/services/firebase-logs/firebase-logs.service';
 import { SupportModule } from './modules/support/support.module';
+import { WealthManagementsModule } from './modules/wealth-managements/wealth-managements.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -85,6 +86,7 @@ registerLocaleData(localeEn, 'en');
     WalletsModule,
     HomeModule,
     SupportModule,
+    WealthManagementsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

@@ -34,7 +34,7 @@ export class SubscribePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (!!this.subscribeToFundSubscription) {
+    if (this.subscribeToFundSubscription) {
       this.subscribeToFundSubscription.unsubscribe();
     }
   }
@@ -72,7 +72,7 @@ export class SubscribePage implements OnInit, OnDestroy {
         replaceUrl: true,
       })
       .then(() =>
-        this.toastService.showToast({
+        this.toastService.showInfoToast({
           message: this.translate.instant(message),
         })
       );

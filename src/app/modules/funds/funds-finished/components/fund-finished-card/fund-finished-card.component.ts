@@ -123,6 +123,7 @@ export class FundFinishedCardComponent implements OnInit {
 
   async showToast() {
     await this.toastService.showToast({
+      cssClass: 'ux-toast-info',
       message: this.translate.instant('funds.funds_finished.fund_finished_card.fund_deleted'),
     });
   }

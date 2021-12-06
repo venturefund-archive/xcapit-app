@@ -31,7 +31,10 @@ describe('RecoveryPhraseReadPage', () => {
     waitForAsync(() => {
       walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {}, { mnemonic: testMnemonic });
       clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
-      toastServiceSpy = jasmine.createSpyObj('ToastService', { showToast: Promise.resolve() });
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showInfoToast: Promise.resolve(),
+        showErrorToast: Promise.resolve(),
+      });
 
       TestBed.configureTestingModule({
         declarations: [RecoveryPhraseReadPage, FakeTrackClickDirective],
@@ -66,7 +69,7 @@ describe('RecoveryPhraseReadPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Copy"]')).nativeElement.click();
     await fixture.whenStable();
     expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
-    expect(toastServiceSpy.showToast).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
     expect(component.buttonColor).toEqual('uxsecondary');
     expect(component.buttonFill).toEqual('solid');
   });
@@ -77,7 +80,7 @@ describe('RecoveryPhraseReadPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Copy"]')).nativeElement.click();
     await fixture.whenStable();
     expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
-    expect(toastServiceSpy.showToast).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
     expect(component.buttonColor).toEqual('uxprimary');
     expect(component.buttonFill).toEqual('outline');
   });

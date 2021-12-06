@@ -13,7 +13,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
     <div class="aic ion-padding">
       <div class="aic__header">
         <div class="aic__header__title">
-          <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14">{{ this.title }}</ion-text>
+          <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
         </div>
         <div class="aic__header__buttons">
           <ion-button

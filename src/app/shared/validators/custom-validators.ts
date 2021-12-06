@@ -22,8 +22,8 @@ export class CustomValidators {
     control: AbstractControl,
     pass: string = 'password',
     rPass: string = 'repeat_password'
-  ) {
-    CustomValidators.fieldsMatchValidator(control, pass, rPass, CustomValidatorErrors.noPasswordMatch);
+  ): ValidationErrors | null {
+    return CustomValidators.fieldsMatchValidator(control, pass, rPass, CustomValidatorErrors.noPasswordMatch);
   }
 
   static fieldsMatchValidator(
@@ -31,11 +31,12 @@ export class CustomValidators {
     controlName1: string,
     controlName2: string,
     error: ValidationErrors
-  ) {
+  ): ValidationErrors | null {
     const field1: string = control.get(controlName1).value;
     const field2: string = control.get(controlName2).value;
     if (field1 !== field2) {
       control.get(controlName2).setErrors(error);
+      return error;
     } else {
       control.get(controlName2).setErrors(null);
     }

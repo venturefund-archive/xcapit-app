@@ -34,7 +34,7 @@ describe('ShareService', () => {
       write: () => Promise.resolve({}),
     };
     toastServiceMock = {
-      showToast: () => Promise.resolve(),
+      showInfoToast: () => Promise.resolve(),
     };
 
     TestBed.configureTestingModule({
@@ -61,7 +61,7 @@ describe('ShareService', () => {
   it('should not call clipboardService write on share success', () => {
     const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.resolve({}));
     spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
-    spyOn(toastService, 'showToast').and.returnValue(Promise.resolve());
+    spyOn(toastService, 'showInfoToast').and.returnValue(Promise.resolve());
 
     service.share(data, 'Copied');
     expect(spy).toHaveBeenCalledTimes(1);
@@ -70,7 +70,7 @@ describe('ShareService', () => {
   it('should call clipboardService write on share error', fakeAsync(() => {
     const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.reject({}));
     const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
-    const spyToast = spyOn(toastService, 'showToast').and.returnValue(Promise.resolve());
+    const spyToast = spyOn(toastService, 'showInfoToast').and.returnValue(Promise.resolve());
     service.share(data, 'Copied');
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
@@ -81,7 +81,7 @@ describe('ShareService', () => {
   it('should call clipboardService write on share error and not url data', fakeAsync(() => {
     const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.reject({}));
     const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
-    const spyToast = spyOn(toastService, 'showToast').and.returnValue(Promise.resolve());
+    const spyToast = spyOn(toastService, 'showInfoToast').and.returnValue(Promise.resolve());
     delete data.url;
     service.share(data, 'Copied');
     tick();

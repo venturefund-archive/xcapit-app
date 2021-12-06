@@ -83,8 +83,10 @@ const { Browser } = Plugins;
           </div>
         </ion-item>
 
-        <div class="main__small_text ux-font-text-base">
-          <ion-text>{{ 'fiat_ramps.fiat_success.info_email' | translate }}</ion-text>
+        <div class="main__small_text">
+          <ion-text class="ux-font-text-xxs" color="uxprimary">{{
+            'fiat_ramps.fiat_success.info_email' | translate
+          }}</ion-text>
         </div>
 
         <div class="main__actions">

@@ -23,7 +23,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
           slot="end"
         ></ion-toggle>
       </ion-item>
-      <div *ngIf="this.coin.last == false" class="list-divider"></div>
+      <div *ngIf="this.coin.last === false" class="list-divider"></div>
     </div>
   `,
   styleUrls: ['./item-coin.component.scss'],
@@ -38,13 +38,13 @@ export class ItemCoinComponent implements OnInit {
   @Input() coin: any;
   @Input() isChecked: boolean;
   @Input() suite = '';
-  @Output() change: EventEmitter<void> = new EventEmitter<void>();
+  @Output() changed: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
 
   ngOnInit() {}
 
   onChange(event: any) {
-    this.change.emit(event);
+    this.changed.emit(event);
   }
 }

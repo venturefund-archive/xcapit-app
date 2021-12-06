@@ -6,18 +6,11 @@ import * as moment from 'moment';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="ni">
-      <ion-item class="ni__body" [ngClass]="{ ni__new: !this.notification.read }">
+      <ion-item class="ni__body">
         <div class="ni__body__container-icon">
-          <img
-            *ngIf="this.notification.type === 'TP'"
-            src="../../assets/img/notifications/Trading up.svg"
-            alt="Trading up"
-          />
-          <img
-            *ngIf="this.notification.type === 'SL'"
-            src="../../assets/img/notifications/Trading down.svg"
-            alt="Trading down"
-          />
+          <img *ngIf="this.notification.type === 'TP'" src="assets/img/notifications/Trading up.svg" />
+          <img *ngIf="this.notification.type === 'SL'" src="assets/img/notifications/Trading down.svg" />
+          <img *ngIf="this.notification.type === 'reward'" src="assets/img/notifications/reward-icon.svg" />
         </div>
         <div style="width: 100%;">
           <ion-label>
@@ -30,37 +23,17 @@ import * as moment from 'moment';
         </div>
       </ion-item>
       <hr />
-      <!--ion-item-options side="end">
-        <ion-item-option color="danger" expandable (click)="this.remove()">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-item-option>
-      </ion-item-options-->
     </div>
   `,
   styleUrls: ['./notification-item.component.scss'],
 })
 export class NotificationItemComponent implements OnInit {
-  @Input()
-  notification: any;
-
-  @Output()
-  clickRemove = new EventEmitter<any>();
-
-  @Output()
-  clickNotification = new EventEmitter<any>();
+  @Input() notification: any;
 
   createdTime: any;
 
   ngOnInit() {
     this.createdTime = this.getCreatedTime(this.notification.created);
-  }
-
-  remove() {
-    this.clickRemove.emit(this.notification.id);
-  }
-
-  notificationClicked() {
-    this.clickNotification.emit(this.notification.id);
   }
 
   getCreatedTime(date) {

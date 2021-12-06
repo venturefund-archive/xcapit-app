@@ -1,0 +1,13 @@
+//Card para referidos
+.ux-card {
+  --ion-background-color: var(--ion-color-uxlight);
+  background: var(--ion-color-uxlight);
+  border-radius: 8px;
+  border: 0.5px solid #b0b6c7;
+}
+
+//Stepper
+.stepper-card {
+  margin-top: -4rem;
+  box-shadow: none;
+}

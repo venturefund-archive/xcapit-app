@@ -1,20 +1,10 @@
 :host {
-    background: var(--ion-color-uxlight);
+  background: var(--ion-color-uxlight);
   .crm {
-      background: var(--ion-color-uxlight);
+    background: var(--ion-color-uxlight);
     &__buttons {
-        display: flex;
-        justify-content: flex-end;
-
-        &__cancel {
-            color: #00000061;
-            min-width: 0;
-        }
-
-        &__confirm {
-            min-width: 0;
-        }
+      display: flex;
+      justify-content: flex-end;
     }
-
   }
 }

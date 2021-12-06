@@ -29,7 +29,7 @@ export class ShareService {
   }
 
   private showToast(message) {
-    this.toastService.showToast({
+    this.toastService.showInfoToast({
       message,
     });
   }

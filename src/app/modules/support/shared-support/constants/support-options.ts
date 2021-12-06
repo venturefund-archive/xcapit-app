@@ -1,11 +1,5 @@
 export const SUPPORT_OPTIONS = [
   {
-    title: 'support.support_options.title_account',
-    description: 'support.support_options.description_account',
-    icon: '../../assets/ux-icons/ux-xcapit-account.svg',
-    route: '/support/account',
-  },
-  {
     title: 'support.support_options.title_wallet',
     description: 'support.support_options.description_wallet',
     icon: '../../assets/ux-icons/ux-support-wallet.svg',
@@ -16,6 +10,12 @@ export const SUPPORT_OPTIONS = [
     description: 'support.support_options.description_buy',
     icon: '../../assets/ux-icons/ux-buy.svg',
     route: '/support/buy',
+  },
+  {
+    title: 'support.support_options.title_account',
+    description: 'support.support_options.description_account',
+    icon: '../../assets/ux-icons/ux-xcapit-account.svg',
+    route: '/support/account',
   },
   {
     title: 'support.support_options.title_investment',

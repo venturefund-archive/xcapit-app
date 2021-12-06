@@ -66,7 +66,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
                   doneText="{{ this.datepicker.doneText }}"
                   (ionChange)="this.changeDate($event, 'until')"
                   [min]="this.queryOptions.since"
-                  [max]="this.get_max_date_for_selection()"
+                  [max]="this.maxDate"
                   (click)="$event.stopPropagation(); $event.preventDefault()"
                 ></ion-datetime>
               </div>
@@ -146,6 +146,7 @@ export class FundOperationsPage implements OnInit {
   };
   storageSince = '';
   storageUntil = '';
+  maxDate = '';
 
   constructor(
     private apiFunds: ApiFundsService,
@@ -223,6 +224,7 @@ export class FundOperationsPage implements OnInit {
       this.queryOptions.until = dateValue;
     }
     this.getOperationsHistory(this.getQueryParams());
+    this.get_max_date_for_selection();
   }
 
   date_to_utc(date) {
@@ -230,7 +232,7 @@ export class FundOperationsPage implements OnInit {
   }
 
   get_max_date_for_selection() {
-    return moment().utc().format();
+    this.maxDate = moment().utc().format();
   }
 
   viewOrderDetail(id) {

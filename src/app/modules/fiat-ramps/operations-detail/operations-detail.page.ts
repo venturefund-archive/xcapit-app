@@ -119,18 +119,17 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
         <div *ngIf="this.provider.alias !== 'paxful'">
           <div *ngIf="!this.hasVoucher">
             <ion-button
-              class="ux_button"
+              class="dp__pic-button ux_button"
               appTrackClick
               name="Upload Voucher"
               type="button"
               color="uxsecondary"
               size="large"
               (click)="this.addPhoto()"
-              class="dp__pic-button"
             >
               <div class="dp__pic-button__button-content" *ngIf="!this.comprobante">
                 <ion-icon class="receipt-outline" slot="end" name="receipt-outline"></ion-icon>
-                <span> {{ 'fiat_ramps.operation_detail.voucher' | translate }} </span>
+                <span class="ux-font-text-base"> {{ 'fiat_ramps.operation_detail.voucher' | translate }} </span>
               </div>
               <div class="dp__pic-button__picture" *ngIf="this.comprobante">
                 <img [src]="this.comprobante.dataUrl" alt="" />
@@ -140,7 +139,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
           <div *ngIf="this.hasVoucher" class="dp__voucher">
             <app-ux-center-img></app-ux-center-img>
-            <span>{{ 'fiat_ramps.operation_detail.has_voucher' | translate }}</span>
+            <span class="ux-font-text-base">{{ 'fiat_ramps.operation_detail.has_voucher' | translate }}</span>
           </div>
 
           <div class="updload_voucher" *ngIf="this.comprobante && !this.hasVoucher">

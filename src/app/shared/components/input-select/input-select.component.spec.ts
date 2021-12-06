@@ -9,8 +9,8 @@ import { SelectStyleDirective } from '../../directives/select-style/select-style
 
 import { InputSelectComponent } from './input-select.component';
 const data = [
-  { key: 'test', value: 'testValue', image: 'test.png', icon: 'icon.png' },
-  { key: 'test2', value: 'testValue2', image: 'test.png', icon: 'icon.png' },
+  { key: 'test', value: 'testValue', image: 'assets/test_image.svg', icon: 'icon.png' },
+  { key: 'test2', value: 'testValue2', image: 'assets/test_image.svg', icon: 'icon.png' },
 ];
 describe('InputSelectComponent', () => {
   let component: InputSelectComponent;
@@ -73,7 +73,7 @@ describe('InputSelectComponent', () => {
     const labelEl = fixture.debugElement.query(By.css('ion-label.uxselect__label'));
     expect(labelEl.nativeElement.innerHTML).toContain('testValue');
     const imageEl = fixture.debugElement.query(By.css('img.uxselect__item__logo'));
-    expect(imageEl.attributes.src).toBe('test.png');
+    expect(imageEl.attributes.src).toBe('assets/test_image.svg');
     const iconEl = fixture.debugElement.query(By.css('ion-icon.uxselect__item__logo'));
     expect(iconEl.attributes['ng-reflect-name']).toBe('icon.png');
   });

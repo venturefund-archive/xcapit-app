@@ -1,19 +1,20 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
+import { AlertController, IonicModule, ModalController, NavController, ToastController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 import { ApikeyItemComponent } from './apikey-item.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ListApikeysPage } from '../../../list-apikeys/list-apikeys.page';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { RouterTestingModule } from '@angular/router/testing';
 import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';
 import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
+import { ToastService } from '../../../../../shared/services/toast/toast.service';
 
 const apikeys = {
   initial: { id: 1, fundName: 'BTC', alias: 'miAPIKey' },
@@ -29,18 +30,25 @@ describe('ApikeyItemComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ApikeyItemComponent>;
   let modalControllerSpy;
   let alertControllerSpy;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
   let alertController: any;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   beforeEach(
     waitForAsync(() => {
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      toastServiceSpy = jasmine.createSpyObj('ToastController', {
+        showSuccessToast: Promise.resolve(),
+        showErrorToast: Promise.resolve(),
+      });
       apiApikeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
         delete: of({}),
         getAll: of({}),
       });
       modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [ApikeyItemComponent, FakeTrackClickDirective],
         imports: [
@@ -55,6 +63,7 @@ describe('ApikeyItemComponent', () => {
           { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -109,6 +118,14 @@ describe('ApikeyItemComponent', () => {
     apiApikeysService.delete.and.returnValue(of({}));
     component.remove(component.id);
     expect(apiApikeysService.delete).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show error toast when an error occurred', () => {
+    fixture.detectChanges();
+    apiApikeysService.delete.and.returnValue(throwError({}));
+    component.remove(component.id);
+    expect(apiApikeysService.delete).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   });
 
   it('should emit event on Manage button click', () => {

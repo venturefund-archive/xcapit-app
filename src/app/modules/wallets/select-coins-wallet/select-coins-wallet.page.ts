@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ActivatedRoute } from '@angular/router';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -12,10 +13,7 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
-          'wallets.recovery_wallet.header' | translate
-        }}</ion-title>
-        <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.select_coin.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -55,7 +53,7 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
               type="submit"
               size="large"
             >
-              {{ 'deposit_addresses.deposit_currency.next_button' | translate }}
+              {{ this.submitButtonText | translate }}
             </ion-button>
           </div>
         </div>
@@ -64,6 +62,8 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
+  headerText: string;
+  submitButtonText: string;
   coins: Coin[];
   mode: string;
   ethCoins: Coin[];
@@ -96,22 +96,30 @@ export class SelectCoinsWalletPage implements OnInit {
     }),
   });
 
+  almostOneChecked = false;
+  allChecked = false;
+  originalFormData: any;
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private navController: NavController,
     private walletService: WalletService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private storageService: StorageService
   ) {}
-  almostOneChecked = false;
-  allChecked = false;
 
   ionViewWillEnter() {
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.updateTexts();
     this.coins = this.apiWalletService.getCoins();
     this.ethCoins = this.coins.filter((coin) => coin.network === 'ERC20');
     this.rskCoins = this.coins.filter((coin) => coin.network === 'RSK');
     this.polygonCoins = this.coins.filter((coin) => coin.network === 'MATIC');
+
+    if (this.mode === 'edit') {
+      this.getUserCoins();
+    }
   }
 
   ngOnInit() {
@@ -131,15 +139,23 @@ export class SelectCoinsWalletPage implements OnInit {
     return suites.map((suite) => this.almostOneToggledInSuite(suite)).some(Boolean);
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     if (this.almostOneChecked) {
       this.walletService.coins = [];
       this.setUserCoins();
-      if (this.mode === 'import') {
-        this.walletService.create();
-        this.navController.navigateForward(['/wallets/create-password', 'import']);
-      } else {
-        this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+
+      switch (this.mode) {
+        case 'import':
+          this.walletService.create();
+          this.navController.navigateForward(['/wallets/create-password', 'import']);
+          break;
+        case 'edit':
+          await this.storageService.toggleAssets(this.getChangedAssets());
+          this.navController.navigateForward(['/tabs/wallets']);
+          break;
+        default:
+          this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+          break;
       }
     }
   }
@@ -161,5 +177,64 @@ export class SelectCoinsWalletPage implements OnInit {
         }
       });
     });
+  }
+
+  getUserCoins() {
+    this.initializeFormData();
+
+    this.storageService.getAssestsSelected().then((coins) => {
+      coins.forEach((coin) => {
+        const suite = this.getSuiteFromNetwork(coin.network);
+        this.originalFormData[suite][coin.value] = true;
+      });
+
+      this.form.patchValue(this.originalFormData);
+    });
+  }
+
+  private initializeFormData() {
+    this.originalFormData = Object.assign({}, this.form.value);
+  }
+
+  private getSuiteFromNetwork(network: string): string {
+    switch (network) {
+      case 'ERC20':
+        return 'ETH';
+      case 'MATIC':
+        return 'POLYGON';
+      default:
+        return network;
+    }
+  }
+
+  private getChangedAssets(): string[] {
+    const changedAssets = [];
+
+    this.getAllSuites().forEach((suite) => {
+      this.getAllCoinsBySuite(suite).forEach((key) => {
+        if (this.form.value[suite][key] !== this.originalFormData[suite][key]) {
+          changedAssets.push(key);
+        }
+      });
+    });
+
+    return changedAssets;
+  }
+
+  private updateTexts() {
+    switch (this.mode) {
+      case 'edit':
+        this.headerText = 'wallets.select_coin.header_edit';
+        this.submitButtonText = 'wallets.select_coin.submit_edit';
+        return;
+      case 'import':
+        this.headerText = 'wallets.recovery_wallet.header';
+        this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
+        return;
+      default:
+        this.headerText = 'wallets.select_coin.header';
+        this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
+        return;
+    }
   }
 }

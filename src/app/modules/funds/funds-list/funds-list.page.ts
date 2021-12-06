@@ -48,7 +48,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
       <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
         <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="false" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-          <ion-text class="ux-font-text-xs" color="uxmedium" *ngIf="!(this.isRefreshAvailable$ | async)">
+          <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
               'funds.funds_list.refresh_time'
                 | translate
@@ -88,7 +88,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
           </div>
           <app-ux-loading-block minSize="50px" *ngIf="!this.notOwnerFundBalances"></app-ux-loading-block>
           <div class="fl__funds__card" *ngFor="let nofb of notOwnerFundBalances">
-            <app-fund-card [fund]="nofb"></app-fund-card>
+            <app-fund-card (deletedFund)="this.deleteFund($event)" [fund]="nofb" [owner]="false"></app-fund-card>
           </div>
         </div>
       </div>
@@ -210,5 +210,10 @@ export class FundsListPage implements OnInit {
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
+  }
+
+  deleteFund(name) {
+    const toDeleteFund = this.notOwnerFundBalances.findIndex((item) => item.fund_name === name);
+    this.notOwnerFundBalances.splice(toDeleteFund, 1);
   }
 }

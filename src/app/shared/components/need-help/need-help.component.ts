@@ -13,7 +13,6 @@ const { Browser } = Plugins;
           (click)="openWhatsAppLink()"
           *ngIf="this.whatsAppLink"
           fill="clear"
-          color="uxsecondary"
           appTrackClick
           name="WhatsApp Help"
         >
@@ -23,7 +22,6 @@ const { Browser } = Plugins;
           (click)="openTelegramLink()"
           *ngIf="this.telegramLink"
           fill="clear"
-          color="uxsecondary"
           appTrackClick
           name="Telegram Help"
         >
@@ -34,7 +32,7 @@ const { Browser } = Plugins;
         <ion-button
           name="Go To Help"
           (click)="this.moreInfo()"
-          class="need-help__link__text ux-link-xs"
+          class="link ux-link-xs"
           appTrackClick
           fill="clear"
           size="small"

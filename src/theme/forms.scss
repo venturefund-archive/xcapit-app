@@ -1,0 +1,13 @@
+//Form Typography
+.ux-font-form-errors {
+  font-family: var(--ux-font-lato);
+  font-size: var(--ux-fsize-12);
+  font-weight: var(--ux-fweight-regular);
+  color: var(--ion-color-uxdanger);
+}
+.ux-font-input-label {
+  font-family: var(--ux-font-lato);
+  font-size: var(--ux-fsize-14);
+  font-weight: var(--ux-fweight-regular);
+  color: var(--ion-color-uxprimary);
+}

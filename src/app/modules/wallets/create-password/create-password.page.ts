@@ -33,12 +33,10 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
       <form [formGroup]="this.createPasswordForm" class="ux_main" (ngSubmit)="this.handleSubmit()">
         <div class="ux_content">
           <div>
-            <ion-text name="Title" class="ux-font-gilroy ux-fsize-22 ux-fweight-bold">{{
-              'wallets.create_password.title' | translate
-            }}</ion-text>
+            <ion-text name="Title" class="ux-font-text-lg">{{ 'wallets.create_password.title' | translate }}</ion-text>
           </div>
           <div class="description ion-margin-top">
-            <ion-text name="Description" class="ux-font-lato ux-fsize-14 ux-fweight-normal">{{
+            <ion-text name="Description" class="ux-font-text-base">{{
               'wallets.create_password.description' | translate
             }}</ion-text>
           </div>

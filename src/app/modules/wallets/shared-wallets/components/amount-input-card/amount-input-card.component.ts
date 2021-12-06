@@ -16,7 +16,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
           debounce="1000"
           type="number"
         ></app-ux-input-underlined>
-        <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-15">=</ion-text>
+        <ion-text class="ux-font-text-xs">=</ion-text>
         <app-ux-input-underlined
           [labelRight]="this.referenceCurrencyName"
           controlName="referenceAmount"

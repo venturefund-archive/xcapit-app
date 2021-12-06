@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BigNumber } from '@ethersproject/bignumber';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { NFT_DATA_NONPROD } from '../../constants/nft-data-nonprod';
@@ -41,14 +42,6 @@ export class NftService {
     );
   }
 
-  private formatNftList(NFTList) {
-    const formattedList = [];
-    NFTList.forEach((data) => {
-      formattedList.push(parseInt(data._hex.replace('0x0', ''), 10));
-    });
-    return Promise.resolve(formattedList);
-  }
-
   private getMetadata(metadataURL) {
     return this.http.get(metadataURL, undefined, undefined, false);
   }
@@ -59,25 +52,20 @@ export class NftService {
 
   getNFTMetadata() {
     const contract = this.createContract();
-    return contract
-      .walletOfOwner(this.getUserWalletAddress())
-      .then((nftList) => this.formatNftList(nftList))
-      .then((formattedList) => {
-        if (formattedList.length > 0) {
-          return contract.tokenURI(formattedList[0]).then((metadataURL) => {
-            return this.getMetadata(metadataURL)
-              .toPromise()
-              .then((metadata) => {
-                return this.NFTMetadataResponse(metadata, formattedList[0]);
-              });
-          });
-        }
-      });
+    return contract.walletOfOwner(this.getUserWalletAddress()).then((nftList) => {
+      if (nftList.length) {
+        return contract.tokenURI(nftList[0]).then((metadataURL) => {
+          return this.getMetadata(metadataURL)
+            .toPromise()
+            .then((metadata) => {
+              return this.NFTMetadataResponse(metadata, nftList[0]);
+            });
+        });
+      }
+    });
   }
 
   private NFTMetadataResponse(metadata: any, tokenID: number) {
-    const res = metadata;
-    res.tokenID = tokenID;
-    return Promise.resolve(res);
+    return Promise.resolve(Object.assign(metadata, { tokenID }));
   }
 }
