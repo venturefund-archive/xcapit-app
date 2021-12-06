@@ -13,7 +13,7 @@ import { of } from 'rxjs';
 import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
-fdescribe('WalletSubheaderButtonsComponent', () => {
+describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
   let fixture: ComponentFixture<WalletSubheaderButtonsComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletSubheaderButtonsComponent>;
