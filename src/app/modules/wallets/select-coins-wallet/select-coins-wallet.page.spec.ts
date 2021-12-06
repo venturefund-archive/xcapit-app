@@ -182,7 +182,6 @@ const formData = {
       LINK: false,
       UNI: true,
       USDT: false,
-      BNB: false,
       LUNA: false,
       AXS: false,
       MANA: false,
