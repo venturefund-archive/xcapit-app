@@ -46,13 +46,13 @@ import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-m
 })
 export class FundInvestmentPage implements OnInit {
   investmentsProducts = [
-    {
-      profile: 'Metaverse_index',
-      min_capital: '500',
-      link_info: '',
-      risk: 5,
-      currency: 'USDT',
-    },
+    // {
+    //   profile: 'Metaverse_index',
+    //   min_capital: '500',
+    //   link_info: '',
+    //   risk: 5,
+    //   currency: 'USDT',
+    // },
     {
       profile: 'volume_profile_strategies_USDT',
       min_capital: '150',
