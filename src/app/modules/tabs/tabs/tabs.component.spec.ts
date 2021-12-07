@@ -7,19 +7,22 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { NavController } from '@ionic/angular';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { By } from '@angular/platform-browser';
 
 describe('TabsComponent', () => {
   let component: TabsComponent;
   let fixture: ComponentFixture<TabsComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TabsComponent>;
-  let navControllerSpy: any;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let windowSpy: any;
   beforeEach(
     waitForAsync(() => {
       windowSpy = spyOn(window, 'open');
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
         declarations: [TabsComponent, FakeTrackClickDirective, DummyComponent],
         imports: [
@@ -66,8 +69,8 @@ describe('TabsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Tab New Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab New Fund');
+  it('should call trackEvent on trackService when Tab Investments button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Investments');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -82,5 +85,20 @@ describe('TabsComponent', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to Investments Tab when Tab Investments clicked', () => {
+    fixture.debugElement.query(By.css('ion-tab-button[name="Tab Investments"]')).nativeElement.click();
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments']);
+  });
+
+  it('should navigate to Wallet Tab when Tab Wallet clicked', () => {
+    fixture.debugElement.query(By.css('ion-tab-button[name="Tab Wallet"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
+  });
+
+  it('should navigate to Menu Page when Tab Menu clicked', () => {
+    fixture.debugElement.query(By.css('ion-tab-button[name="Tab Menu"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/menus/main-menu']);
   });
 });
