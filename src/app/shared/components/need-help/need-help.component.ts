@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import { LINKS } from '../../../config/static-links';
-
-const { Browser } = Plugins;
+import { BrowserService } from '../../services/browser/browser.service';
 
 @Component({
   selector: 'app-need-help',
@@ -49,29 +47,19 @@ export class NeedHelpComponent implements OnInit {
   @Input() telegramLink: string;
   links = LINKS;
 
-  constructor() {}
+  constructor(private browserService: BrowserService) {}
 
-  ngOnInit() {
-    this.prefetchInfoPage();
-  }
-
-  prefetchInfoPage() {
-    Browser.prefetch({
-      urls: [this.links.generalHelp],
-    }).then();
-  }
+  ngOnInit() {}
 
   async moreInfo() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
+    await this.browserService.open({
       url: this.links.generalHelp,
     });
   }
 
   async openWhatsAppLink() {
     if (this.whatsAppLink) {
-      await Browser.open({
-        toolbarColor: '#ff9100',
+      await this.browserService.open({
         url: this.whatsAppLink,
       });
     }
@@ -79,8 +67,7 @@ export class NeedHelpComponent implements OnInit {
 
   async openTelegramLink() {
     if (this.telegramLink) {
-      await Browser.open({
-        toolbarColor: '#ff9100',
+      await this.browserService.open({
         url: this.telegramLink,
       });
     }

@@ -10,21 +10,24 @@ import { MethodComponent } from './method.component';
 import { ApiPaymentsService } from '../../../shared-payments/services/api-payments.service';
 import { of } from 'rxjs';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { BrowserService } from '../../../../../shared/services/browser/browser.service';
 
 describe('MethodComponent', () => {
   let component: MethodComponent;
   let fixture: ComponentFixture<MethodComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MethodComponent>;
   let apiPaymentsServiceSpy: any;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   beforeEach(
     waitForAsync(() => {
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       apiPaymentsServiceSpy = jasmine.createSpyObj('ApiPaymentMethods', ['getPaymentMethods']);
       TestBed.configureTestingModule({
         declarations: [DummyComponent, MethodComponent, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [HttpClientTestingModule, TranslateModule.forRoot(), IonicModule, RouterTestingModule],
-        providers: [],
+        providers: [{ provide: BrowserService, useValue: browserServiceSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(MethodComponent);
@@ -44,10 +47,9 @@ describe('MethodComponent', () => {
     const spyPaymentsService = spyOn(apiPaymentsServiceSpy, 'getPaymentLink');
     spyPaymentsService.and.returnValue(of({ link: 'http://google.com.ar' }));
     component.paymentMethod.status = 'active';
-    const spy = spyOn(window, 'open');
     fixture.detectChanges();
     component.openLink('1', '2');
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'http://google.com.ar' });
   });
 
   it('should not call window.open when openLink is called and status is not active', () => {
