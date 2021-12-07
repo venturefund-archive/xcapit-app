@@ -92,7 +92,7 @@ export class MainMenuPage implements OnInit {
       id: 2,
       name: 'Funds',
       title: 'app.main_menu.funds',
-      url: '/tabs/funds',
+      url: '/tabs/investments/binance',
       icon: 'ux-myfund-icon',
       routeDirection: 'root',
       showInProd: true,

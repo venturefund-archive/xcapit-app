@@ -95,7 +95,7 @@ export class HomeSubheaderComponent implements OnInit {
   }
 
   goToInvestments() {
-    this.navController.navigateForward('/tabs/funds');
+    this.navController.navigateForward('/tabs/investments');
   }
 
   async goToObjectives() {
