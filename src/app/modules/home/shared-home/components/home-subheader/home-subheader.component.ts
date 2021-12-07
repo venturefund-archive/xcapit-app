@@ -22,7 +22,7 @@ const { Browser } = Plugins;
               icon="ux-wallet"
             ></app-icon-button-card>
           </div>
-          <div class="hsub__card-buttons__buy-card card">
+          <!-- <div class="hsub__card-buttons__buy-card card">
             <app-icon-button-card
               (click)="this.goToBuy()"
               appTrackClick
@@ -30,7 +30,7 @@ const { Browser } = Plugins;
               [text]="'home.home_page.subheader_component.buy_card' | translate"
               icon="ux-money-flow"
             ></app-icon-button-card>
-          </div>
+          </div> -->
           <div class="hsub__card-buttons__investments card">
             <app-icon-button-card
               (click)="this.goToInvestments()"
