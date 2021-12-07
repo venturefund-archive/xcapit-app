@@ -4,7 +4,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
-import { Browser } from '@capacitor/browser';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-operations-new-paxful',
@@ -86,14 +86,14 @@ export class OperationsNewPaxfulPage implements OnInit {
     wallet: ['', [Validators.required]],
   });
   walletAddressSelect: any[];
-  browser = Browser;
   links = LINKS;
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {}
@@ -125,8 +125,7 @@ export class OperationsNewPaxfulPage implements OnInit {
   }
 
   async openInfo() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
+    await this.browserService.open({
       url: this.links.infoPaxful,
     });
   }
@@ -146,7 +145,7 @@ export class OperationsNewPaxfulPage implements OnInit {
   async openPaxfulLink(apikeyId: number) {
     this.fiatRampsService.getLink(apikeyId).subscribe(async (response) => {
       this.success().then(() => {
-        this.browser.open(response);
+        this.browserService.open(response);
       });
     });
   }
