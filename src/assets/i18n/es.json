@@ -1470,8 +1470,8 @@
       "currency_select_placeholder": "Moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
       "share": "Compartir",
-      "disclaimer_header": "Envíe solo {{currency}} ({{network}}) a esta direción de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens a esta dirección distintas a {{currency}} ({{network}}) puede resultar en la pérdida de su depósito.",
+      "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
+      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
       "share_title": "Direccion de wallet"
     },
     "nft_detail": {
