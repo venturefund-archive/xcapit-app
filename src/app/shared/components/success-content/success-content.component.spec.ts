@@ -21,15 +21,15 @@ describe('SuccessContentComponent', () => {
   let actionThirdButton: any;
 
   const testData = {
-    urlClose: '/tabs/funds',
+    urlClose: '/tabs/investments/binance',
     textPrimary: 'test.test.textPrimary',
     textSecondary: 'test.test.textSecondary',
     textThird: 'test.test.textThird',
     urlPrimaryAction: '/apikeys/new',
     namePrimaryAction: 'test.test.namePrimaryAction',
-    urlSecondaryAction: '/tabs/funds',
+    urlSecondaryAction: '/tabs/investments/binance',
     nameSecondaryAction: 'test.test.nameSecondaryAction',
-    urlThirdAction: '/tabs/funds',
+    urlThirdAction: '/tabs/investments/binance',
     nameThirdAction: 'test.test.nameThirdAction',
   };
   beforeEach(

@@ -15,7 +15,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
     <ion-header>
       <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>
         <div>
           <ion-title class="fd__header-title">{{ 'funds.fund_detail.header' | translate }}</ion-title>

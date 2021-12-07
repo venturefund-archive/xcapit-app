@@ -148,22 +148,6 @@ describe('FundsListPage', () => {
     expect(localStorageService.toggleHideFunds).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Show Notifications button clicked', () => {
-    spyOn(component, 'showNotifications');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Show Notifications');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to notifications list when Show Notifications is clicked', () => {
-    const button = fixture.debugElement.query(By.css("ion-button[name='Show Notifications']"));
-    button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/notifications/list');
-  });
-
   it('should deleteFund when unsubscribe ', () => {
     component.notOwnerFundBalances = [{ fund_name: 'test' }];
     fixture.detectChanges();

@@ -33,6 +33,6 @@ export class StartInvestingComponent implements OnInit {
   ngOnInit() {}
 
   goToStartInvestingPage() {
-    this.navController.navigateForward(['tabs/wallets/investments']);
+    this.navController.navigateForward(['tabs/investments/defi']);
   }
 }
