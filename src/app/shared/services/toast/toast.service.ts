@@ -30,12 +30,15 @@ export class ToastService {
   constructor(private toastController: ToastController) {}
 
   async showToast(options: ToastOptions): Promise<any> {
-    const toast = await this.toastController.create(options);
+    const toast = await this.toastController.create({ ...this.defaultOptions, ...options });
     return toast.present();
   }
 
   private optionsFor(type: ToastType): ToastOptions {
     const options: ToastOptions = Object.assign({}, this.defaultOptions);
+    if (options.buttons.length === 2) {
+      options.buttons.pop();
+    }
     options.buttons.push({
       role: 'cancel',
       icon: this.iconNames[type],

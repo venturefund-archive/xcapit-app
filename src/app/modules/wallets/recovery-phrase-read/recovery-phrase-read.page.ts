@@ -83,16 +83,22 @@ export class RecoveryPhraseReadPage implements OnInit {
         this.buttonColor = 'uxsecondary';
         this.buttonFill = 'solid';
         this.buttonText = 'wallets.recovery_phrase_read.button_text_coppied';
-        this.showToast('wallets.recovery_phrase_read.coppied_text');
+        this.showInfoToast('wallets.recovery_phrase_read.coppied_text');
       },
       () => {
-        this.showToast('wallets.recovery_phrase_read.copy_error_text');
+        this.showErrorToast('wallets.recovery_phrase_read.copy_error_text');
       }
     );
   }
 
-  private showToast(text: string) {
-    this.toastService.showToast({
+  private showInfoToast(text: string) {
+    this.toastService.showInfoToast({
+      message: this.translate.instant(text),
+    });
+  }
+
+  private showErrorToast(text: string) {
+    this.toastService.showErrorToast({
       message: this.translate.instant(text),
     });
   }

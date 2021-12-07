@@ -50,6 +50,8 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
                     network: this.selectedNetwork
                   }
           "
+          selectorStyle="classic"
+          [selectedNetwork]="this.selectedNetwork"
         ></app-network-select-card>
       </div>
 
@@ -155,7 +157,8 @@ export class SendDetailPage {
 
   private setCurrencyNetworks() {
     this.networks = [this.currency.network];
-    this.selectedNetwork = this.currency.network;
+
+    this.selectedNetworkChanged(this.networks[0]);
   }
 
   selectedNetworkChanged(network) {

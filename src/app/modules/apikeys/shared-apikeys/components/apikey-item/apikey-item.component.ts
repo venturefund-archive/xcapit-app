@@ -12,7 +12,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
     <div class="cib ">
       <div class="cib__main">
         <div class="cib__main__content ion-padding">
-          <div class="cib__main__content__title ux-font-text-base">
+          <div class="cib__main__content__title ux-font-text-lg">
             <ion-text>{{ this.alias }}</ion-text>
             <ion-button
               appTrackClick
@@ -142,20 +142,25 @@ export class ApikeyItemComponent implements OnInit {
     );
   }
 
-  private showToast(text: string) {
-    this.toastService.showToast({
-      cssClass: 'ux-toast-info',
+  private showSuccessToast(text: string) {
+    this.toastService.showSuccessToast({
+      message: this.translate.instant(text),
+    });
+  }
+
+  private showErrorToast(text: string) {
+    this.toastService.showErrorToast({
       message: this.translate.instant(text),
     });
   }
 
   success(id: number) {
     this.deletedKey.emit(id);
-    this.showToast('apikeys.card_apikeys.success_toast');
+    this.showSuccessToast('apikeys.card_apikeys.success_toast');
   }
 
   error() {
-    this.showToast('errorCodes.remove.error');
+    this.showErrorToast('errorCodes.remove.error');
   }
 
   useApiKey(id: number) {

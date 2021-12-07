@@ -6,7 +6,6 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 
@@ -75,15 +74,12 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 
       <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
         <div class="wt__nfts__content segment-content last-selected">
-          <app-claim-nft-card
+          <app-nft-card
             [nftStatus]="this.nftStatus"
             (nftRequest)="this.createNFTRequest()"
-            *ngIf="this.nftStatus !== 'delivered'"
+            *ngIf="this.walletExist && this.nftStatus"
           >
-          </app-claim-nft-card>
-        </div>
-        <div *ngIf="this.nftStatus === 'delivered' && this.NFTMetadata">
-          <app-nft-card [data]="this.NFTMetadata"></app-nft-card>
+          </app-nft-card>
         </div>
       </div>
       <div
@@ -125,7 +121,7 @@ export class HomeWalletPage implements OnInit {
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
-  nftStatus = 'unclaimed';
+  nftStatus = '';
 
   constructor(
     private walletService: WalletService,
@@ -133,7 +129,6 @@ export class HomeWalletPage implements OnInit {
     private storageService: StorageService,
     private navController: NavController,
     private formBuilder: FormBuilder,
-    private nftService: NftService,
     private refreshTimeoutService: RefreshTimeoutService
   ) {}
 
@@ -166,10 +161,6 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
-  getNFTInfo() {
-    this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => (this.NFTMetadata = metadata));
-  }
-
   createBalancesStructure(coin: Coin): AssetBalance {
     return {
       icon: coin.logoRoute,
@@ -188,7 +179,6 @@ export class HomeWalletPage implements OnInit {
       if (!this.alreadyInitialized && res) {
         this.alreadyInitialized = true;
         this.getAllPrices();
-        this.getNFTInfo();
       }
     });
   }
@@ -215,9 +205,16 @@ export class HomeWalletPage implements OnInit {
             this.totalBalanceWallet += balance.usdAmount;
           }
           this.balances.push(balance);
+          this.orderBalancesByAmount();
         });
       }
     }
+  }
+
+  orderBalancesByAmount() {
+    this.balances.sort((a, b) => {
+      return b.usdAmount - a.usdAmount;
+    });
   }
 
   getAllPrices() {

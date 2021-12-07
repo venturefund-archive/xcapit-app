@@ -46,13 +46,13 @@ import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-m
 })
 export class FundInvestmentPage implements OnInit {
   investmentsProducts = [
-    {
-      profile: 'volume_profile_strategies_BTC',
-      min_capital: '150',
-      link_info: 'https://bit.ly/factsheet-strategy2',
-      risk: 3,
-      currency: 'BTC',
-    },
+    // {
+    //   profile: 'Metaverse_index',
+    //   min_capital: '500',
+    //   link_info: '',
+    //   risk: 5,
+    //   currency: 'USDT',
+    // },
     {
       profile: 'volume_profile_strategies_USDT',
       min_capital: '150',
@@ -66,6 +66,13 @@ export class FundInvestmentPage implements OnInit {
       link_info: 'https://bit.ly/factsheet-strategy4',
       risk: 5,
       currency: 'USDT',
+    },
+    {
+      profile: 'volume_profile_strategies_BTC',
+      min_capital: '150',
+      link_info: 'https://bit.ly/factsheet-strategy2',
+      risk: 3,
+      currency: 'BTC',
     },
     {
       profile: 'Mary_index',

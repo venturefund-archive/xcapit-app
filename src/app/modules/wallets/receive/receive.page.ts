@@ -43,6 +43,15 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
           ></app-input-select>
         </form>
       </div>
+      <div class="wr__network-select-card" *ngIf="this.networks">
+        <app-network-select-card
+          (networkChanged)="this.selectedNetworkChanged($event)"
+          [title]="'wallets.send.send_detail.network_select.title' | translate"
+          [networks]="this.networks"
+          selectorStyle="receive"
+          [selectedNetwork]="this.selectedNetwork"
+        ></app-network-select-card>
+      </div>
       <div class="wr__remaining-time-text">
         <ion-text color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-12">{{
           'wallets.receive.average_time' | translate
@@ -78,10 +87,16 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.form.value.currency.value } }}
+          {{
+            'wallets.receive.disclaimer_header'
+              | translate: { currency: this.form.value.currency.value, network: this.selectedNetwork }
+          }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.form.value.currency.value } }}
+          {{
+            'wallets.receive.disclaimer_body'
+              | translate: { currency: this.form.value.currency.value, network: this.selectedNetwork }
+          }}
         </ion-text>
       </div>
     </ion-content>
@@ -92,11 +107,14 @@ export class ReceivePage {
   form: FormGroup = this.formBuilder.group({
     currency: ['', Validators.required],
   });
+  selectedNetwork: string;
+  networks: string[];
   isNativePlatform: boolean;
   currencies: Coin[];
   address: string;
   addressQr: string;
   coins: Coin[];
+  queryParamAsset: string;
   constructor(
     private formBuilder: FormBuilder,
     private qrCodeService: QRCodeService,
@@ -113,26 +131,19 @@ export class ReceivePage {
 
   ionViewWillEnter() {
     this.coins = this.apiWalletService.getCoins();
+    this.queryParamAsset = this.route.snapshot.queryParamMap.get('asset');
     this.checkPlatform();
     this.subscribeToFormChanges();
     this.getUserAssets();
-    this.checkUrlParams();
   }
 
   checkPlatform() {
     this.isNativePlatform = this.platformService.isNative();
   }
 
-  checkUrlParams() {
-    this.route.queryParams.subscribe((params) => {
-      if (params.asset) {
-        this.form.patchValue({ currency: this.coins.find((coin) => coin.value === params.asset) });
-      }
-    });
-  }
-
   subscribeToFormChanges() {
     this.form.get('currency').valueChanges.subscribe((value) => {
+      this.setCurrencyNetworks(value);
       this.getAddress(value);
     });
   }
@@ -143,6 +154,15 @@ export class ReceivePage {
       this.address = wallet.addresses[network];
       this.generateAddressQR();
     });
+  }
+
+  private setCurrencyNetworks(value) {
+    this.networks = [value.network];
+    this.selectedNetworkChanged(this.networks[0]);
+  }
+
+  selectedNetworkChanged(network) {
+    this.selectedNetwork = network;
   }
 
   async copyAddress() {
@@ -156,7 +176,7 @@ export class ReceivePage {
   }
 
   private showToast(text: string) {
-    this.toastService.showToast({
+    this.toastService.showInfoToast({
       message: this.translate.instant(text),
     });
   }
@@ -179,7 +199,11 @@ export class ReceivePage {
   getUserAssets() {
     this.storageService.getAssestsSelected().then((coins) => {
       this.currencies = coins;
-      this.form.patchValue({ currency: this.currencies[0] });
+      if (this.queryParamAsset) {
+        this.form.patchValue({ currency: this.currencies.find((coin) => coin.value === this.queryParamAsset) });
+      } else {
+        this.form.patchValue({ currency: this.currencies[0] });
+      }
     });
   }
 }

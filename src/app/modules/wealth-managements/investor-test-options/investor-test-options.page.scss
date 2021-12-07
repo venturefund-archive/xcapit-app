@@ -1,0 +1,47 @@
+:host {
+  ion-content {
+    --background: var(--ion-background-colorwhite);
+  }
+
+  .ito {
+    margin: 8px;
+    height: auto;
+    background-color: var(--ion-background-colorwhite);
+    border: 0.5px solid var(--ion-color-uxline);
+    box-sizing: border-box;
+    border-radius: 8px;
+
+    &__contain_image {
+      max-width: 100%;
+      margin: 0px;
+      align-items: center;
+      text-align: center;
+    }
+
+    &__title_and_subtitle {
+      display: grid;
+    }
+    &__title {
+      color: var(--ion-color-uxprimary);
+      padding-left: 16px;
+      padding-top: 16px;
+    }
+    &__subtitle {
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      color: var(--ion-color-uxprimary);
+      line-height: 24px;
+    }
+
+    &__options {
+      margin-top: 8px;
+      margin-bottom: 22px;
+    }
+
+    &__toolbar {
+      border-radius: 0px 0px 8px 8px;
+    }
+  }
+}

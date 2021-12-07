@@ -27,7 +27,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="ux_content">
-          <div *ngIf="!showImage">
+          <div *ngIf="!this.showImage">
             <ion-list>
               <app-apikey-item
                 *ngFor="let apikey of this.apikeys"
@@ -42,7 +42,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
             </ion-list>
           </div>
 
-          <div *ngIf="showImage">
+          <div *ngIf="this.showImage">
             <div class="nr__image-container">
               <img class="nr__image-container__image" src="assets/img/apikeys/no-apikey.svg" alt="no-apikey" />
             </div>

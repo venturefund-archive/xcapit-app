@@ -5,16 +5,6 @@
     &__buttons {
       display: flex;
       justify-content: flex-end;
-
-      &__cancel {
-        color: var(--ion-color-info);
-        min-width: 0;
-      }
-
-      &__confirm {
-        color: var(--ion-color-info);
-        min-width: 0;
-      }
     }
   }
 }

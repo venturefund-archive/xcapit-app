@@ -11,6 +11,7 @@ import { FakeNavController } from '../../../../../../testing/fakes/nav-controlle
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { of } from 'rxjs';
 import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -21,6 +22,7 @@ describe('WalletSubheaderButtonsComponent', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let apiApiKeysServiceSpy: jasmine.SpyObj<ApiApikeysService>;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -31,6 +33,9 @@ describe('WalletSubheaderButtonsComponent', () => {
       apiApiKeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', {
         getAll: of([{ id: 799, alias: 'testKeys', nombre_bot: 'TestName' }]),
       });
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showInfoToast: Promise.resolve(),
+      });
       TestBed.configureTestingModule({
         declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
@@ -38,6 +43,7 @@ describe('WalletSubheaderButtonsComponent', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: ApiApikeysService, useValue: apiApiKeysServiceSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -147,10 +153,10 @@ describe('WalletSubheaderButtonsComponent', () => {
     );
   });
 
-  it('should call ModalController create when Go to Performance button is clicked', async () => {
+  it('should show a toast when Go to Performance button is clicked', async () => {
     const performanceButtonEl = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Performance']"));
     performanceButtonEl.nativeElement.click();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
   });
 
   it('should open modal when Go to Buy button is clicked and there are not apikeys', async () => {

@@ -10,10 +10,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         size="small"
         appTrackClick
         [dataToTrack]="{ description: item }"
-        color="uxprimary"
+        color="uxsecondary"
         *ngFor="let item of this.data"
         (click)="this.selectItem(item)"
-        [ngClass]="{ selected: item === this.selected, 'not-selected': item !== this.selected }"
+        [ngClass]="{ selected: item === this.selectedNetwork, 'not-selected': item !== this.selectedNetwork }"
         >{{ item }}</ion-button
       >
     </div>
@@ -23,14 +23,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class UxSegmentComponent implements OnInit {
   @Input() data: string[];
   @Output() clickEvent: EventEmitter<string> = new EventEmitter<string>();
-  selected: string;
+  @Input() selectedNetwork: string;
   constructor() {}
 
   selectItem(item) {
     this.clickEvent.emit(item);
-    this.selected = item;
+    this.selectedNetwork = item;
   }
+
   ngOnInit() {
-    this.selected = this.data[0];
+    this.selectedNetwork = this.data[0];
   }
 }
