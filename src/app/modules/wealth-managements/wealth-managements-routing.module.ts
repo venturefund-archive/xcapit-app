@@ -17,6 +17,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./success-investor-test/success-investor-test.module').then((m) => m.SuccessInvestorTestPageModule),
       },
+      {
+        path: 'investor-test',
+        loadChildren: () =>
+          import('./investor-test-question/investor-test-question.module').then(
+            (m) => m.InvestorTestQuestionPageModule
+          ),
+      },
     ],
   },
 ];
