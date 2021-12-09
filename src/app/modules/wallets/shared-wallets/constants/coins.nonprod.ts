@@ -6,7 +6,6 @@ import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
 import rifAbi from './assets-abi/rif-abi.json';
 import sovAbi from './assets-abi/sov-abi.json';
-import wbnbAbi from './assets-abi/wbnb-abi.json';
 
 export const NONPROD_COINS: Coin[] = [
   {
