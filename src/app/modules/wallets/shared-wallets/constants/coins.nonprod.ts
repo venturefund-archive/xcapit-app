@@ -6,6 +6,7 @@ import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
 import rifAbi from './assets-abi/rif-abi.json';
 import sovAbi from './assets-abi/sov-abi.json';
+import wbnbAbi from './assets-abi/wbnb-abi.json';
 
 export const NONPROD_COINS: Coin[] = [
   {
@@ -112,7 +113,7 @@ export const NONPROD_COINS: Coin[] = [
     id: 9,
     name: 'SOV - Sovryn',
     logoRoute: 'assets/img/coins/SOV.png',
-    last: true,
+    last: false,
     value: 'SOV',
     network: 'RSK',
     chainId: 31,
@@ -120,5 +121,17 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
     abi: sovAbi,
     decimals: 18,
+  },
+  {
+    id: 10,
+    name: 'BNB - Binance Coin',
+    logoRoute: 'assets/img/coins/BNB.svg',
+    last: true,
+    value: 'BNB',
+    network: 'BSC_BEP20',
+    chainId: 97,
+    rpc: environment.bscApiUrl,
+    decimals: 18,
+    native: true,
   },
 ];
