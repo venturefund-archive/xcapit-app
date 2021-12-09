@@ -126,15 +126,15 @@ export class InvestmentProductCardComponent implements OnInit {
       new_strategy: false,
     },
 
-    // Metaverse_index: {
-    //   title: 'funds.fund_investment.card.profiles.Metaverse_index.title',
-    //   description: 'funds.fund_investment.card.profiles.Metaverse_index.description',
-    //   more_info: 'funds.fund_investment.card.profiles.Metaverse_index.more_info',
-    //   image: 'assets/img/investment-products/oasis.svg',
-    //   strategy_type: 'funds.fund_investment.card.profiles.Metaverse_index.strategy_type',
-    //   style: 'light-blue-style',
-    //   new_strategy: true,
-    // },
+    Metaverse_index: {
+      title: 'funds.fund_investment.card.profiles.Metaverse_index.title',
+      description: 'funds.fund_investment.card.profiles.Metaverse_index.description',
+      more_info: 'funds.fund_investment.card.profiles.Metaverse_index.more_info',
+      image: 'assets/img/investment-products/oasis.svg',
+      strategy_type: 'funds.fund_investment.card.profiles.Metaverse_index.strategy_type',
+      style: 'light-blue-style',
+      new_strategy: true,
+    },
 
     DeFi_index: {
       title: 'funds.fund_investment.card.profiles.DeFi_index.title',
