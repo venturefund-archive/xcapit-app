@@ -507,6 +507,7 @@
         "title": "Necesitás USD${{minBalance}} en tu cuenta de Binance para comenzar a invertir.",
         "message": "Comprar cripto en Xcapit",
         "cancel_text": "Cancelar",
+        "accept_text": "Aceptar",
         "ok_text": "Comprar"
       },
       "no_apikeys_modal": {
