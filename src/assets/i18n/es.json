@@ -2326,6 +2326,21 @@
       "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es {{testResult}} ",
       "namePrimaryAction": "Ir a mi perfil de inversionista",
       "nameSecondaryAction": "Volver al incio"
+    },
+    "about_investor_profile": {
+      "button_select": "Este es mi perfil",
+      "conservative_profile": {
+        "title": "Perfil Conservador",
+        "subtitle": "Te caracterizas por ser poco tolerante al riesgo y valorar la seguridad. Por lo tanto, prefieres instrumentos de inversión que te den certeza de que no perderás parte o todo el dinero que invertirás.  No te importa que las ganancias (rendimiento) obtenidas sean bajas."
+      },
+      "moderated_profile": {
+        "title": "Perfil Moderado",
+        "subtitle": "Eres una persona cautelosa con tus decisiones, pero estas dispuesta a tolerar un riesgo moderado para aumentar tus ganancias. Procuras mantener un balance entre rentabilidad y seguridad."
+      },
+      "aggressive_profile": {
+        "title": "Perfil Agresivo",
+        "subtitle": "Buscas los mayores rendimientos posibles, por lo que estas dispuesto a asumir el riesgo que sea necesario. No es recomendable mantener esta actitud de riesgo cuando no cuentas con la suficiente solvencia, o si se tienes compromisos familiares importantes."
+      }
     }
   }
 }
