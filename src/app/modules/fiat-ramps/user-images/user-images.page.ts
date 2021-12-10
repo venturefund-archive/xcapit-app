@@ -3,8 +3,8 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
-import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
-
+import { Filesystem } from '@capacitor/filesystem';
+import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
 @Component({
   selector: 'app-user-images',
   template: `
@@ -128,8 +128,6 @@ export class UserImagesPage implements OnInit {
   }
 
   async addPhoto(pic) {
-    const { Filesystem, Camera } = Plugins;
-
     const filePermissions = await Filesystem.requestPermissions();
     const cameraPermissions = await Camera.requestPermissions();
 

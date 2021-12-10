@@ -43,6 +43,11 @@ import { TranslateService } from '@ngx-translate/core';
             suite="POLYGON"
             [coins]="this.polygonCoins"
           ></app-items-coin-group>
+          <app-items-coin-group
+            *ngIf="this.bep20Coins"
+            suite="BSC_BEP20"
+            [coins]="this.bep20Coins"
+          ></app-items-coin-group>
         </div>
         <div class="ux_footer">
           <div class="sc__next_button">
@@ -71,6 +76,7 @@ export class SelectCoinsWalletPage implements OnInit {
   ethCoins: Coin[];
   rskCoins: Coin[];
   polygonCoins: Coin[];
+  bep20Coins: Coin[];
 
   form: FormGroup = this.formBuilder.group({
     ETH: this.formBuilder.group({
@@ -79,7 +85,6 @@ export class SelectCoinsWalletPage implements OnInit {
       USDT: [false],
       AAVE: [false],
       UNI: [false],
-      BNB: [false],
       LUNA: [false],
       AXS: [false],
       MANA: [false],
@@ -96,6 +101,9 @@ export class SelectCoinsWalletPage implements OnInit {
     }),
     POLYGON: this.formBuilder.group({
       MATIC: [false],
+    }),
+    BSC_BEP20: this.formBuilder.group({
+      BNB: [false],
     }),
   });
 
@@ -120,6 +128,7 @@ export class SelectCoinsWalletPage implements OnInit {
     this.ethCoins = this.coins.filter((coin) => coin.network === 'ERC20');
     this.rskCoins = this.coins.filter((coin) => coin.network === 'RSK');
     this.polygonCoins = this.coins.filter((coin) => coin.network === 'MATIC');
+    this.bep20Coins = this.coins.filter((coin) => coin.network === 'BSC_BEP20');
 
     if (this.mode === 'edit') {
       this.getUserCoins();

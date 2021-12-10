@@ -13,19 +13,10 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-buttons slot="end" *ngIf="true">
-          <ion-button appTrackClick name="Show Notifications" (click)="this.showNotifications()">
-            <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
-            <div class="notificationQty" *ngIf="this.unreadNotifications > 0">
-              {{ this.unreadNotifications }}
-            </div>
-          </ion-button>
+        <ion-title class="ion-text-center">{{ 'funds.investments_tab.header' | translate }}</ion-title>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
         </ion-buttons>
-        <div class="header">
-          <div class="header__logo ion-text-center">
-            <app-xcapit-logo></app-xcapit-logo>
-          </div>
-        </div>
       </ion-toolbar>
     </ion-header>
 

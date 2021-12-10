@@ -87,10 +87,16 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
       </div>
       <div class="wr__disclaimer">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_header' | translate: { currency: this.form.value.currency.value } }}
+          {{
+            'wallets.receive.disclaimer_header'
+              | translate: { currency: this.form.value.currency.value, network: this.selectedNetwork }
+          }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{ 'wallets.receive.disclaimer_body' | translate: { currency: this.form.value.currency.value } }}
+          {{
+            'wallets.receive.disclaimer_body'
+              | translate: { currency: this.form.value.currency.value, network: this.selectedNetwork }
+          }}
         </ion-text>
       </div>
     </ion-content>

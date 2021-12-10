@@ -70,7 +70,7 @@ export class FundFinishComponent implements OnInit {
   }
 
   successFinish() {
-    this.navController.navigateBack(['/tabs/funds']).then(() => this.showToast());
+    this.navController.navigateBack(['/tabs/investments/binance']).then(() => this.showToast());
   }
 
   async showToast() {

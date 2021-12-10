@@ -8,7 +8,7 @@ import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apik
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'apikeys.exchange_information.header' | translate }}</ion-title>
         <ion-label class="step_counter" slot="end">1 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
