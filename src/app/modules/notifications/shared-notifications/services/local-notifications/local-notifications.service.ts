@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { LocalNotification, Plugins } from '@capacitor/core';
+import { LocalNotifications, LocalNotificationSchema } from '@capacitor/local-notifications';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalNotificationsService {
-  private readonly localNotifications = Plugins.LocalNotifications;
+  private readonly localNotifications = LocalNotifications;
 
   constructor() {}
 
   init(): void {
-    this.localNotifications.requestPermission().then((result) => {
-      if (result.granted) {
+    this.localNotifications.requestPermissions().then((result) => {
+      if (result.display == 'granted') {
         this.addListeners();
       } else {
         console.log('Notifications permission not granted');
@@ -20,16 +20,16 @@ export class LocalNotificationsService {
   }
 
   addListeners() {
-    this.localNotifications.addListener('localNotificationReceived', (notification: LocalNotification) =>
+    this.localNotifications.addListener('localNotificationReceived', (notification: LocalNotificationSchema) =>
       this.localNotificationReceived(notification)
     );
   }
 
-  private localNotificationReceived(notification: LocalNotification) {
+  private localNotificationReceived(notification: LocalNotificationSchema) {
     console.log('NOTIFICATION RECEIVED', notification);
   }
 
-  async send(notifications: LocalNotification[]) {
+  async send(notifications: LocalNotificationSchema[]) {
     await this.localNotifications.schedule({ notifications });
   }
 }

@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-
-const { Browser } = Plugins;
+import { BrowserService } from '../../services/browser/browser.service';
 
 @Component({
   selector: 'app-slider-news',
@@ -31,11 +29,11 @@ export class SliderNewsCardComponent implements OnInit {
     slidesPerView: 1.25,
     spaceBetween: 10,
   };
-  constructor() {}
+  constructor(private browserService: BrowserService) {}
 
   ngOnInit() {}
 
   async goToWeb(slug) {
-    await Browser.open({ toolbarColor: '#ff9100', url: `https://www.xcapit.com/xcapit-academy/${slug}` });
+    await this.browserService.open({ url: `https://www.xcapit.com/xcapit-academy/${slug}` });
   }
 }

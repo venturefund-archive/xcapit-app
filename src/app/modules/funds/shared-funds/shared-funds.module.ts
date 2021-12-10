@@ -29,6 +29,7 @@ import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { StrategyNamePipe } from './pipes/strategy-name/strategy-name.pipe';
 import { NoApikeysModalComponent } from './components/no-apikeys-modal/no-apikeys-modal.component';
 import { CustomStopLossSettingComponent } from './components/custom-stop-loss-setting/custom-stop-loss-setting.component';
+import { InvestmentsTabCardComponent } from './components/investments-tab-card/investments-tab-card.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { CustomStopLossSettingComponent } from './components/custom-stop-loss-se
     HideTextPipe,
     StrategyNamePipe,
     NoApikeysModalComponent,
+    InvestmentsTabCardComponent,
   ],
   providers: [DatePipe, DecimalPipe, HideTextPipe],
   imports: [SharedModule],
@@ -93,6 +95,7 @@ import { CustomStopLossSettingComponent } from './components/custom-stop-loss-se
     CurrencyFormatPipe,
     HideTextPipe,
     StrategyNamePipe,
+    InvestmentsTabCardComponent,
   ],
   entryComponents: [CustomRangeModalComponent, FundBalanceDetailComponent],
 })

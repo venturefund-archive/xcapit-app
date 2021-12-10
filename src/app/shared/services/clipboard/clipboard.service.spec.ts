@@ -4,6 +4,10 @@ describe('ClipboardService', () => {
   let service: ClipboardService;
   beforeEach(() => {
     service = new ClipboardService();
+    service.clipboard = jasmine.createSpyObj('Clipboard', {
+      write: Promise.resolve(),
+      read: Promise.resolve({ type: 'test', value: 'testResult' }),
+    });
   });
 
   it('should be created', () => {
@@ -11,16 +15,12 @@ describe('ClipboardService', () => {
   });
 
   it('should call capacitor write on write', async () => {
-    const spy = spyOn(service.clipboard, 'write').and.resolveTo();
     await service.write({});
-    expect(spy).toHaveBeenCalledWith({});
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(service.clipboard.write).toHaveBeenCalledOnceWith({});
   });
 
   it('should call capacitor read on read', async () => {
-    const spy = spyOn(service.clipboard, 'read').and.resolveTo({ type: 'test', value: 'testResult' });
     const result = await service.read();
-    expect(spy).toHaveBeenCalledTimes(1);
     expect(result.value).toBe('testResult');
   });
 });

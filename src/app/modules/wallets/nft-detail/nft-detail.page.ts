@@ -10,7 +10,7 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
   template: ` <ion-header>
       <ion-toolbar color="uxprimary" class="nd__toolbar ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.nft_detail.title' | translate }}</ion-title>
       </ion-toolbar>

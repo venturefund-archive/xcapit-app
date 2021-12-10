@@ -172,6 +172,18 @@ const testCoins = [
     contract: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
     decimals: 18,
   },
+  {
+    id: 10,
+    name: 'BNB - Binance Coin',
+    logoRoute: 'assets/img/coins/BNB.svg',
+    last: true,
+    value: 'BNB',
+    network: 'BSC_BEP20',
+    chainId: 97,
+    rpc: 'http://testrpc.text/',
+    decimals: 18,
+    native: true,
+  },
 ];
 
 const formData = {
@@ -182,7 +194,6 @@ const formData = {
       LINK: false,
       UNI: true,
       USDT: false,
-      BNB: false,
       LUNA: false,
       AXS: false,
       MANA: false,
@@ -207,7 +218,6 @@ const formData = {
       LINK: false,
       UNI: false,
       USDT: false,
-      BNB: false,
       LUNA: false,
       AXS: false,
       MANA: false,
@@ -232,7 +242,6 @@ const formData = {
       LINK: false,
       UNI: false,
       USDT: true,
-      BNB: false,
       LUNA: false,
       AXS: false,
       MANA: false,
@@ -249,6 +258,9 @@ const formData = {
       RBTC: true,
       RIF: true,
       SOV: false,
+    },
+    BSC_BEP20: {
+      BNB: false,
     },
   },
 };

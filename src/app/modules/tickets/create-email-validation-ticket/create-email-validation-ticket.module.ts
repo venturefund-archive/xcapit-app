@@ -6,7 +6,7 @@ import { SharedTicketsModule } from '../shared-tickets/shared-tickets.module';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':email',
     component: CreateEmailValidationTicketPage,
   },
 ];

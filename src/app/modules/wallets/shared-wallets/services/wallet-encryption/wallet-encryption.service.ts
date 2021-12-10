@@ -29,6 +29,7 @@ export class WalletEncryptionService {
     wallets.forEach((wallet) => {
       if (wallet.mnemonic.path === derivedPaths.ERC20) {
         this.ethWallet = wallet;
+        this.walletsAddresses['BSC_BEP20'] = wallet.address;
       }
 
       const key = Object.keys(derivedPaths).filter((keyName) => derivedPaths[keyName] === wallet.mnemonic.path);

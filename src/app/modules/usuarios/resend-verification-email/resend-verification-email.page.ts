@@ -67,25 +67,23 @@ export class ResendVerificationEmailPage implements OnInit {
   email: string;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private apiUsuariosService: ApiUsuariosService,
     private navController: NavController,
     private storage: Storage
-  ) {
-    this.route.queryParams.subscribe((params) => {
-      const extras = this.router.getCurrentNavigation()?.extras;
-      if (extras?.state && extras?.state.email) {
-        this.email = extras.state.email;
-        this.updateStorage();
-        this.resendEmail();
-      } else {
-        this.checkStorage();
-      }
-    });
-  }
+  ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.email = this.route.snapshot.paramMap.get('email');
+    if (this.email) {
+      this.updateStorage();
+      this.resendEmail();
+    } else {
+      this.checkStorage();
+    }
+  }
 
   async checkStorage() {
     this.storage.get('email').then(async (email) => {
@@ -152,8 +150,8 @@ export class ResendVerificationEmailPage implements OnInit {
 
   openTicket() {
     this.clearStorage();
-    const params = { state: { email: this.email } };
-    this.navController.navigateForward(['/tickets/create'], params);
+
+    this.navController.navigateForward(['/tickets/create', this.email]);
   }
 
   canShowCreateTicket() {

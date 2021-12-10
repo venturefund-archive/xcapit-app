@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { NavController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
-
-const { Browser } = Plugins;
+import { BrowserService } from '../../../shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-success-page',
@@ -64,7 +62,7 @@ const { Browser } = Plugins;
               'fiat_ramps.fiat_success.concept' | translate
             }}</ion-col>
             <ion-col class="main__bank_info__content__right ion-no-padding">
-              <span>No se sabe, nadie lo sabe</span>
+              <span>Kriptobroker</span>
             </ion-col>
           </ion-item>
         </ion-list>
@@ -118,12 +116,9 @@ export class SuccessPagePage implements OnInit {
     private navController: NavController,
     private clipboardService: ClipboardService,
     private toastService: ToastService,
-    private translate: TranslateService
-  ) {
-    Browser.prefetch({
-      urls: [this.telegramApp],
-    });
-  }
+    private translate: TranslateService,
+    private browserService: BrowserService
+  ) {}
 
   ngOnInit() {
     this.storageOperationService.data.subscribe((data) => (this.operationData = data));
@@ -131,8 +126,7 @@ export class SuccessPagePage implements OnInit {
   }
 
   async launchChat() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
+    await this.browserService.open({
       url: this.telegramApp,
     });
   }

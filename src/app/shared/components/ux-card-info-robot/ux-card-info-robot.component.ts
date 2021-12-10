@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
+import { BrowserService } from '../../services/browser/browser.service';
 
-const { Browser } = Plugins;
 @Component({
   selector: 'app-ux-card-info-robot',
   template: `
@@ -23,15 +21,11 @@ const { Browser } = Plugins;
   styleUrls: ['./ux-card-info-robot.component.scss'],
 })
 export class UxCardInfoRobotComponent implements OnInit {
-  constructor(private navController: NavController) {
-    Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/'],
-    });
-  }
+  constructor(private browserService: BrowserService) {}
 
   ngOnInit() {}
 
   async moreInfo() {
-    await Browser.open({ toolbarColor: '#ff9100', url: 'https://www.info.xcapit.com/' });
+    await this.browserService.open({ url: 'https://www.info.xcapit.com/' });
   }
 }
