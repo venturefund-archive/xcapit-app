@@ -188,7 +188,7 @@ export class MainMenuPage implements OnInit {
     private translate: TranslateService,
     private modalController: ModalController,
     private apiFiatRampsService: FiatRampsService,
-    public navController: NavController,
+    private navController: NavController,
     private walletService: WalletService
   ) {}
 

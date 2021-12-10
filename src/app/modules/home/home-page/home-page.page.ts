@@ -20,10 +20,9 @@ import { Plugins } from '@capacitor/core';
           </ion-button>
         </ion-buttons>
         <div class="header">
-          <div class="header__logo ion-text-center">
-            <app-xcapit-logo></app-xcapit-logo>
-          </div>
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
+        <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
 

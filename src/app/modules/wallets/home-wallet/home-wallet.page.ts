@@ -12,7 +12,12 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 @Component({
   selector: 'app-home-wallet',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar"> </ion-toolbar>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <div class="header">
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
+        </div>
+        <app-avatar-profile></app-avatar-profile>
+      </ion-toolbar>
     </ion-header>
 
     <ion-content>

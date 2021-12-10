@@ -17,7 +17,7 @@ const { Browser } = Plugins;
         <div class="app_header_register">
           <div class="app_header_register__content">
             <div class="app_header_register__content__app_xcapit_logo">
-              <app-xcapit-logo></app-xcapit-logo>
+              <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
             </div>
           </div>
         </div>

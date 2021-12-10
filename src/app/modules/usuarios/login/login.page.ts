@@ -17,7 +17,7 @@ import { Storage } from '@ionic/storage';
   template: `
     <ion-header>
       <div class="xcapit-logo">
-        <app-xcapit-logo></app-xcapit-logo>
+        <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
       </div>
     </ion-header>
     <div class="login_title">

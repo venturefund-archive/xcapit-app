@@ -51,6 +51,7 @@ import { SupportOptionsCardComponent } from '../modules/support/shared-support/c
 import { ContactSupportComponent } from '../modules/support/shared-support/components/contact-support/contact-support.component';
 import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
 import { TestOptionItemComponent } from '../modules/wealth-managements/shared-wealth-managements/components/test-option-item/test-option-item.component';
+import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { TestOptionItemComponent } from '../modules/wealth-managements/shared-we
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
+    AvatarProfileComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -156,6 +158,7 @@ import { TestOptionItemComponent } from '../modules/wealth-managements/shared-we
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
+    AvatarProfileComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
