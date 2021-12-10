@@ -78,15 +78,6 @@ describe('TabsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Tab Menu button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Menu');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('should navigate to Investments Tab when Tab Investments clicked', () => {
     fixture.debugElement.query(By.css('ion-tab-button[name="Tab Investments"]')).nativeElement.click();
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments']);
@@ -95,10 +86,5 @@ describe('TabsComponent', () => {
   it('should navigate to Wallet Tab when Tab Wallet clicked', () => {
     fixture.debugElement.query(By.css('ion-tab-button[name="Tab Wallet"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
-  });
-
-  it('should navigate to Menu Page when Tab Menu clicked', () => {
-    fixture.debugElement.query(By.css('ion-tab-button[name="Tab Menu"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/menus/main-menu']);
   });
 });
