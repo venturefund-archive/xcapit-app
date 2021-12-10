@@ -29,7 +29,6 @@ export class WalletService {
       Object.values(derivedPaths).forEach((path) => {
         this.createdWallets.push(this.createForDerivedPath(path));
       });
-
       return this.createdWallets;
     }
   }

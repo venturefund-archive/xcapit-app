@@ -232,4 +232,16 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
     native: true,
   },
+  {
+    id: 18,
+    name: 'BNB - Binance Coin',
+    logoRoute: 'assets/img/coins/BNB.svg',
+    last: true,
+    value: 'BNB',
+    network: 'BSC_BEP20',
+    chainId: 56,
+    rpc: environment.bscApiUrl,
+    decimals: 18,
+    native: true,
+  },
 ];
