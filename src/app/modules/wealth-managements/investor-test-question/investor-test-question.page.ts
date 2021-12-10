@@ -46,10 +46,6 @@ export class InvestorTestQuestionPage implements OnInit {
   }
 
   get progress(): string {
-    if (this.currentQuestionNumber > this.totalNumberOfQuestions || this.currentQuestionNumber < 1) {
-      return '';
-    }
-
     return `${(this.currentQuestionNumber / this.totalNumberOfQuestions) * 100}%`;
   }
 
@@ -65,6 +61,14 @@ export class InvestorTestQuestionPage implements OnInit {
     return `wealth_management.investor_test.${this.isLastQuestion ? 'submit_button' : 'next_button'}`;
   }
 
+  get isValidQuestionNumber(): boolean {
+    return (
+      !Number.isNaN(this.currentQuestionNumber) &&
+      this.currentQuestionNumber <= this.totalNumberOfQuestions &&
+      this.currentQuestionNumber >= 1
+    );
+  }
+
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
@@ -72,9 +76,11 @@ export class InvestorTestQuestionPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    this.investorTestService.loadQuestions();
     this.currentQuestionNumber = parseInt(this.route.snapshot.paramMap.get('question'));
 
-    if (!Number.isNaN(this.currentQuestionNumber)) {
+    // TODO: Check if user is skipping questions
+    if (this.isValidQuestionNumber) {
       this.loadQuestionAndAnswers();
     } else {
       this.navController.navigateRoot(['/wealth-management/investor-test/1']);

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { timingSafeEqual } from 'crypto';
 import { Observable } from 'rxjs';
 import { ApiWealthManagementsService } from '../api-wealth-managements/api-wealth-managements.service';
 
@@ -21,6 +22,14 @@ export class InvestorTestService {
     return this.hasLoadedQuestions && !!this.answers && this.answers.size === Object.keys(this.questions).length;
   }
 
+  get numberOfQuestionsAnswered(): number {
+    if (!this.answers) {
+      return 0;
+    }
+
+    return this.answers.size;
+  }
+
   get totalScore(): number {
     let partialScore = 0;
 
@@ -40,14 +49,10 @@ export class InvestorTestService {
   constructor(private apiWealthManagementsService: ApiWealthManagementsService) {}
 
   getQuestionByKey(key: string): any {
-    this.loadQuestions();
-
     return this.questions[key];
   }
 
   getQuestionKeyByNumber(n: number): any {
-    this.loadQuestions();
-
     if (n > Object.keys(this.questions).length) {
       return;
     }
@@ -63,7 +68,7 @@ export class InvestorTestService {
     return this.answers.get(questionKey);
   }
 
-  private loadQuestions() {
+  loadQuestions() {
     if (!this.hasLoadedQuestions) {
       this.apiWealthManagementsService.getInvestorTestQuestions().subscribe((questions) => {
         this.questions = questions;
@@ -72,26 +77,20 @@ export class InvestorTestService {
   }
 
   setAnswer(questionKey: string, answerKey: string) {
-    if (this.keysAreValid(questionKey, answerKey) && this.hasAnsweredPreviousQuestion(questionKey)) {
-      this.answers.set(questionKey, answerKey);
+    if (!this.hasAnsweredAtLeastOneQuestion) {
+      this.answers = new Map<string, string>();
     }
+
+    this.answers.set(questionKey, answerKey);
   }
 
-  private keysAreValid(questionKey: string, answerKey: string): boolean {
-    return this.hasLoadedQuestions && !!this.questions[questionKey] && !!this.questions[questionKey].options[answerKey];
-  }
-
-  private hasAnsweredPreviousQuestion(questionKey: string): boolean {
-    const keys = Object.keys(this.questions);
-    const i = keys.indexOf(questionKey);
-    return i === 0 ? true : !!this.answers.get(keys[i - 1]);
+  hasAnsweredQuestion(questionNumber: number): boolean {
+    return !!this.answers.get(this.getQuestionKeyByNumber(questionNumber));
   }
 
   saveAnswers(): Observable<any> {
-    if (!this.hasAnsweredAllQuestions) {
-      return;
+    if (this.hasAnsweredAllQuestions) {
+      return this.apiWealthManagementsService.saveInvestorTestScore(null, this.totalScore);
     }
-
-    return this.apiWealthManagementsService.saveInvestorTestScore(null, this.totalScore);
   }
 }

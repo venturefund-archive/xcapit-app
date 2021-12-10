@@ -46,7 +46,7 @@ const testQuestions = {
   },
 };
 
-describe('InvestorTestService', () => {
+fdescribe('InvestorTestService', () => {
   let service: InvestorTestService;
   let apiWealthManagementsServiceSpy: jasmine.SpyObj<ApiWealthManagementsService>;
 
@@ -59,6 +59,8 @@ describe('InvestorTestService', () => {
       providers: [{ provide: ApiWealthManagementsService, useValue: apiWealthManagementsServiceSpy }],
     });
     service = TestBed.inject(InvestorTestService);
+
+    service.questions = testQuestions;
   });
 
   it('should be created', () => {
@@ -88,7 +90,6 @@ describe('InvestorTestService', () => {
   });
 
   it('should return true when questions has two questions on hasLoadedQuestions getter', () => {
-    service.questions = testQuestions;
     expect(service.hasLoadedQuestions).toBeTrue();
   });
 
@@ -113,25 +114,20 @@ describe('InvestorTestService', () => {
     expect(service.hasAnsweredAtLeastOneQuestion).toBeTrue();
   });
 
-  it('should call getQuestions, save them and return Pregunta1 when questions have not been loaded on getQuestionByKey', () => {
-    service.questions = undefined;
-    const question = service.getQuestionByKey('Pregunta1');
-    expect(apiWealthManagementsServiceSpy.getInvestorTestQuestions).toHaveBeenCalledTimes(1);
-    expect(service.questions).toEqual(testQuestions);
-    expect(question).toEqual(testQuestions.Pregunta1);
-  });
-
   it('should return Pregunta4 when asking for 4th question on getQuestionByNumber', () => {
+    service.loadQuestions();
     const question = service.getQuestionKeyByNumber(4);
     expect(question).toEqual('Pregunta4');
   });
 
   it('should return Pregunta1 when asking for 2nd question on getQuestionByNumber', () => {
+    service.loadQuestions();
     const question = service.getQuestionKeyByNumber(2);
     expect(question).toEqual('Pregunta1');
   });
 
   it('should return undefined when question does not exist on getQuestionByNumber', () => {
+    service.loadQuestions();
     const question = service.getQuestionKeyByNumber(10);
     expect(question).toBeUndefined();
   });
@@ -145,7 +141,6 @@ describe('InvestorTestService', () => {
 
   it('should return undefined when answers have not been defined on getAnswerKeyByQuestionKey', () => {
     service.answers = undefined;
-    service.questions = testQuestions;
     const answerKey = service.getAnswerKeyByQuestionKey('Pregunta2');
     expect(answerKey).toBeUndefined();
   });
@@ -153,7 +148,6 @@ describe('InvestorTestService', () => {
   it('should return opcion1 when answers contains one answer on getAnswerKeyByQuestionKey', () => {
     service.answers = new Map();
     service.answers.set('Pregunta2', 'opcion1');
-    service.questions = testQuestions;
     const answerKey = service.getAnswerKeyByQuestionKey('Pregunta2');
     expect(answerKey).toEqual('opcion1');
   });
@@ -161,69 +155,57 @@ describe('InvestorTestService', () => {
   it('should return undefined when user has not answered that question on getAnswerKeyByQuestionKey', () => {
     service.answers = new Map();
     service.answers.set('Pregunta2', 'opcion1');
-    service.questions = testQuestions;
     const answerKey = service.getAnswerKeyByQuestionKey('Pregunta1');
     expect(answerKey).toBeUndefined();
   });
 
-  it('should add element to map if question exists on setAnswer', () => {
-    service.questions = testQuestions;
+  it('should add element to map on setAnswer', () => {
     service.answers = new Map();
+    service.answers.set('Pregunta2', 'opcion1');
+    service.setAnswer('Pregunta1', 'opcion2');
+    expect(service.answers.size).toEqual(2);
+  });
+
+  it('should add element to map if map empty on setAnswer', () => {
+    service.answers = new Map();
+    service.setAnswer('Pregunta1', 'opcion2');
+    expect(service.answers.size).toEqual(1);
+  });
+
+  it('should create map and add element if answers is undefined on setAnswer', () => {
     service.setAnswer('Pregunta2', 'opcion1');
     expect(service.answers.size).toEqual(1);
   });
 
-  it('should not add element to map if question does not exists on setAnswer', () => {
-    service.questions = testQuestions;
+  it('should change answer if same answer is set on setAnswer', () => {
     service.answers = new Map();
-    service.setAnswer('Pregunta10', 'opcion1');
-    expect(service.answers.size).toEqual(0);
-  });
-
-  it('should not add element to map if answer does not exists on setAnswer', () => {
-    service.questions = testQuestions;
-    service.answers = new Map();
-    service.setAnswer('Pregunta2', 'opcion5');
-    expect(service.answers.size).toEqual(0);
-  });
-
-  it('should not add element to map if has not responded previous questions on setAnswer', () => {
-    service.questions = testQuestions;
-    service.answers = new Map();
-    service.setAnswer('Pregunta1', 'opcion3');
-    expect(service.answers.size).toEqual(0);
-  });
-
-  it('should not add element to map if questions is undefined on setAnswer', () => {
-    service.questions = undefined;
-    service.answers = new Map();
-    service.setAnswer('Pregunta2', 'opcion5');
-    expect(service.answers.size).toEqual(0);
+    service.answers.set('Pregunta2', 'opcion1');
+    service.setAnswer('Pregunta2', 'opcion2');
+    expect(service.answers.size).toEqual(1);
+    expect(service.answers.get('Pregunta2')).toEqual('opcion2');
   });
 
   it('should return true if user has answered all questions on get hasAnsweredAllQuestions', () => {
     service.questions = { Pregunta2: testQuestions.Pregunta2 };
     service.answers = new Map();
-    service.setAnswer('Pregunta2', 'opcion1');
+    service.answers.set('Pregunta2', 'opcion1');
     expect(service.hasAnsweredAllQuestions).toBeTrue();
   });
 
   it('should return false if user has answered one question on get hasAnsweredAllQuestions', () => {
-    service.questions = testQuestions;
     service.answers = new Map();
-    service.setAnswer('Pregunta2', 'opcion1');
+    service.answers.set('Pregunta2', 'opcion1');
     expect(service.hasAnsweredAllQuestions).toBeFalse();
   });
 
   it('should return false if questions are not loaded on get hasAnsweredAllQuestions', () => {
     service.questions = undefined;
     service.answers = new Map();
-    service.setAnswer('Pregunta2', 'opcion1');
+    service.answers.set('Pregunta2', 'opcion1');
     expect(service.hasAnsweredAllQuestions).toBeFalse();
   });
 
   it('should return false if answers is undefined on get hasAnsweredAllQuestions', () => {
-    service.questions = testQuestions;
     service.answers = undefined;
     expect(service.hasAnsweredAllQuestions).toBeFalse();
   });
@@ -246,7 +228,6 @@ describe('InvestorTestService', () => {
   });
 
   it('should return total score if has answered 2 questions on get totalScore', () => {
-    service.questions = testQuestions;
     service.answers = new Map();
     service.answers.set('Pregunta2', 'opcion3');
     service.answers.set('Pregunta1', 'opcion1');
@@ -254,7 +235,34 @@ describe('InvestorTestService', () => {
   });
 
   it('should return the number of questions on get totalNumberOfQuestions', () => {
-    service.questions = testQuestions;
     expect(service.totalNumberOfQuestions).toEqual(Object.keys(testQuestions).length);
+  });
+
+  it('should return true if there is an answer for question on hasAnsweredQuestion', () => {
+    service.answers = new Map();
+    service.answers.set('Pregunta2', 'opcion3');
+    expect(service.hasAnsweredQuestion(1)).toBeTrue();
+  });
+
+  it('should return false if there is no answer for question on hasAnsweredQuestion', () => {
+    service.answers = new Map();
+    service.answers.set('Pregunta2', 'opcion3');
+    expect(service.hasAnsweredQuestion(2)).toBeFalse();
+  });
+
+  it('should return 2 if 2 questions answered on get numberOfQuestionsAnswered', () => {
+    service.answers = new Map();
+    service.answers.set('Pregunta2', 'opcion3');
+    service.answers.set('Pregunta1', 'opcion2');
+    expect(service.numberOfQuestionsAnswered).toEqual(2);
+  });
+
+  it('should return 0 if 0 questions answered on get numberOfQuestionsAnswered', () => {
+    service.answers = new Map();
+    expect(service.numberOfQuestionsAnswered).toEqual(0);
+  });
+
+  it('should return 0 if answers is undefined numberOfQuestionsAnswered', () => {
+    expect(service.numberOfQuestionsAnswered).toEqual(0);
   });
 });

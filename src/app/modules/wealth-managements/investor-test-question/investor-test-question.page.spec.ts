@@ -51,7 +51,7 @@ const testQuestions = {
   },
 };
 
-fdescribe('InvestorTestQuestionPage', () => {
+describe('InvestorTestQuestionPage', () => {
   let component: InvestorTestQuestionPage;
   let fixture: ComponentFixture<InvestorTestQuestionPage>;
   let fakeNavController: FakeNavController;
@@ -77,6 +77,7 @@ fdescribe('InvestorTestQuestionPage', () => {
         {
           getQuestionKeyByNumber: 'Pregunta2',
           getQuestionByKey: testQuestions.Pregunta2,
+          loadQuestions: undefined,
         },
         {
           questions: testQuestions,
@@ -116,18 +117,6 @@ fdescribe('InvestorTestQuestionPage', () => {
     component.currentQuestionNumber = 4;
     spyOnProperty(component, 'totalNumberOfQuestions').and.returnValue(4);
     expect(component.progress).toEqual('100%');
-  });
-
-  it('should return empty string when user is on question 5 out of 4 on progress getter', () => {
-    component.currentQuestionNumber = 5;
-    spyOnProperty(component, 'totalNumberOfQuestions').and.returnValue(4);
-    expect(component.progress).toEqual('');
-  });
-
-  it('should return empty string when user is on question 0 out of 4 on progress getter', () => {
-    component.currentQuestionNumber = 0;
-    spyOnProperty(component, 'totalNumberOfQuestions').and.returnValue(4);
-    expect(component.progress).toEqual('');
   });
 
   it('should return true when user is on question 4 out of 4 on isLastQuestion getter', () => {
@@ -179,6 +168,30 @@ fdescribe('InvestorTestQuestionPage', () => {
     component.ionViewWillEnter();
     expect(component.currentQuestionNumber).toEqual(NaN);
     expect(component.currentQuestionKey).toEqual(undefined);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
+  });
+
+  it('should redirect to first question if question is greater than total questions on ionViewWillEnter', () => {
+    activatedRouteMock.snapshot.paramMap.get = (question) => 6;
+    component.ionViewWillEnter();
+    expect(component.currentQuestionNumber).toEqual(6);
+    expect(component.currentQuestionKey).toEqual(undefined);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
+  });
+
+  it('should redirect to first question if question is less than total questions on ionViewWillEnter', () => {
+    activatedRouteMock.snapshot.paramMap.get = (question) => '0';
+    component.ionViewWillEnter();
+    expect(component.currentQuestionNumber).toEqual(0);
+    expect(component.currentQuestionKey).toEqual(undefined);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
+  });
+
+  it('should redirect to first question if user is trying to skip questions on ionViewWillEnter', () => {
+    activatedRouteMock.snapshot.paramMap.get = (question) => '2';
+    component.ionViewWillEnter();
+    expect(component.currentQuestionNumber).toEqual(2);
+    expect(component.currentQuestionKey).toEqual('Pregunta1');
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
