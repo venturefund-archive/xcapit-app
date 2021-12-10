@@ -4,6 +4,7 @@ import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recovery-phrase-card/recovery-phrase-card.component';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 @Component({
   selector: 'app-verify-phrase',
   template: `
@@ -73,6 +74,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
 export class VerifyPhrasePage {
   @ViewChild(IonSlides) slides: IonSlides;
   @ViewChild(RecoveryPhraseCardComponent) recoveryPhraseComponent: RecoveryPhraseCardComponent;
+  path = 'wallets/waiting-creation';
   options = {
     slidesPerView: 2,
     spaceBetween: -30,
@@ -88,7 +90,8 @@ export class VerifyPhrasePage {
   constructor(
     private navController: NavController,
     private walletMnemonicService: WalletMnemonicService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private loadingService: LoadingService
   ) {}
 
   ionViewWillEnter() {
@@ -144,8 +147,10 @@ export class VerifyPhrasePage {
 
   createWallet() {
     if (this.validPhrase()) {
-      this.walletService.create();
-      this.navController.navigateForward(['/wallets/create-password']);
+      this.loadingService
+        .showWaitingPage(this.path)
+        .then(() => this.walletService.create())
+        .then(() => this.navController.navigateForward(['/wallets/create-password']));
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }

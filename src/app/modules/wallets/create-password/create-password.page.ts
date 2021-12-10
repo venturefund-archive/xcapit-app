@@ -102,7 +102,7 @@ export class CreatePasswordPage implements OnInit {
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
-
+  path = 'wallets/waiting-creation';
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -123,7 +123,7 @@ export class CreatePasswordPage implements OnInit {
   handleSubmit() {
     if (this.createPasswordForm.valid) {
       this.loadingService
-        .show()
+        .showWaitingPage(this.path)
         .then(() => this.walletEncryptionService.encryptWallet(this.createPasswordForm.value.password))
         .then(() => this.walletEncryptionService.getEncryptedWallet())
         .then((encryptedWallet) => this.formattedWallets(encryptedWallet))

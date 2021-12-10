@@ -1449,6 +1449,11 @@
       "repeat_password": "Confirmar contraseña",
       "finish_button": "Finalizar y crear wallet"
     },
+
+    "waiting_creation": {
+      "title": "¡Tiempo!",
+      "subtitle": "Estamos creando tu libertad financiera"
+    },
     "receive": {
       "header": "Recibir",
       "title": "Datos de tu wallet",

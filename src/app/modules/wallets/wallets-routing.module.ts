@@ -144,6 +144,11 @@ const routes: Routes = [
         path: 'nft-detail',
         loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
       },
+      {
+        path: 'waiting-creation',
+        loadChildren: () =>
+          import('./waiting-creation/waiting-creation.module').then((m) => m.WaitingCreationPageModule),
+      },
     ],
   },
 ];

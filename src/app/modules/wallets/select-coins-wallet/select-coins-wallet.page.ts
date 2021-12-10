@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -100,14 +101,15 @@ export class SelectCoinsWalletPage implements OnInit {
   almostOneChecked = false;
   allChecked = false;
   originalFormData: any;
-
+  path = 'wallets/waiting-creation';
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private navController: NavController,
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private loadingService: LoadingService
   ) {}
 
   ionViewWillEnter() {
@@ -147,8 +149,10 @@ export class SelectCoinsWalletPage implements OnInit {
 
       switch (this.mode) {
         case 'import':
-          this.walletService.create();
-          this.navController.navigateForward(['/wallets/create-password', 'import']);
+          this.loadingService
+            .showWaitingPage(this.path)
+            .then(() => this.walletService.create())
+            .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']));
           break;
         case 'edit':
           await this.storageService.toggleAssets(this.getChangedAssets());

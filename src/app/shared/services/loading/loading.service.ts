@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CONFIG } from 'src/app/config/app-constants.config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoadingService {
   private message: string;
@@ -19,8 +19,13 @@ export class LoadingService {
 
   constructor(
     private loadingController: LoadingController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private navController: NavController
   ) {}
+
+  async showWaitingPage(path) {
+    this.navController.navigateForward([path]);
+  }
 
   async show(options: LoadingOptions = {}) {
     options.cssClass = 'ux-loading';
