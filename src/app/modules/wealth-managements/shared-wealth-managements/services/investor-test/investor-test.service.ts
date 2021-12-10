@@ -33,6 +33,10 @@ export class InvestorTestService {
     return partialScore;
   }
 
+  get totalNumberOfQuestions(): number {
+    return Object.keys(this.questions).length;
+  }
+
   constructor(private apiWealthManagementsService: ApiWealthManagementsService) {}
 
   getQuestionByKey(key: string): any {
@@ -41,16 +45,14 @@ export class InvestorTestService {
     return this.questions[key];
   }
 
-  getQuestionByNumber(n: number): any {
+  getQuestionKeyByNumber(n: number): any {
     this.loadQuestions();
 
     if (n > Object.keys(this.questions).length) {
       return;
     }
 
-    const questionKey = Object.keys(this.questions)[n - 1];
-
-    return this.questions[questionKey];
+    return Object.keys(this.questions)[n - 1];
   }
 
   getAnswerKeyByQuestionKey(questionKey: string): string {

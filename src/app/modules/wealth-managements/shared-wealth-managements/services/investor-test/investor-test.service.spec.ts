@@ -46,7 +46,7 @@ const testQuestions = {
   },
 };
 
-fdescribe('InvestorTestService', () => {
+describe('InvestorTestService', () => {
   let service: InvestorTestService;
   let apiWealthManagementsServiceSpy: jasmine.SpyObj<ApiWealthManagementsService>;
 
@@ -122,17 +122,17 @@ fdescribe('InvestorTestService', () => {
   });
 
   it('should return Pregunta4 when asking for 4th question on getQuestionByNumber', () => {
-    const question = service.getQuestionByNumber(4);
-    expect(question).toEqual(testQuestions.Pregunta4);
+    const question = service.getQuestionKeyByNumber(4);
+    expect(question).toEqual('Pregunta4');
   });
 
   it('should return Pregunta1 when asking for 2nd question on getQuestionByNumber', () => {
-    const question = service.getQuestionByNumber(2);
-    expect(question).toEqual(testQuestions.Pregunta1);
+    const question = service.getQuestionKeyByNumber(2);
+    expect(question).toEqual('Pregunta1');
   });
 
   it('should return undefined when question does not exist on getQuestionByNumber', () => {
-    const question = service.getQuestionByNumber(10);
+    const question = service.getQuestionKeyByNumber(10);
     expect(question).toBeUndefined();
   });
 
@@ -251,5 +251,10 @@ fdescribe('InvestorTestService', () => {
     service.answers.set('Pregunta2', 'opcion3');
     service.answers.set('Pregunta1', 'opcion1');
     expect(service.totalScore).toEqual(4);
+  });
+
+  it('should return the number of questions on get totalNumberOfQuestions', () => {
+    service.questions = testQuestions;
+    expect(service.totalNumberOfQuestions).toEqual(Object.keys(testQuestions).length);
   });
 });

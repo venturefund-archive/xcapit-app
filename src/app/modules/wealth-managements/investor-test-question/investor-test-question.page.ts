@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { InvestorTestService } from '../shared-wealth-managements/services/investor-test/investor-test.service';
 
 @Component({
   selector: 'app-investor-test-question',
@@ -11,21 +12,25 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/wealth-management/investor-test-options"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wealth_management.investor_test.header' | translate }}</ion-title>
-        <ion-label class="step_counter" slot="end"
+        <ion-label class="step_counter" slot="end" *ngIf="this.investorTestService.hasLoadedQuestions"
           >{{ this.currentQuestionNumber }} {{ 'shared.step_counter.of' | translate }}
           {{ this.totalNumberOfQuestions }}</ion-label
         >
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="it">
-        <app-ux-step-progress-bar [progress]="this.progress"> </app-ux-step-progress-bar>
+      <div class="it" *ngIf="this.investorTestService.hasLoadedQuestions && !!this.question">
+        <app-ux-step-progress-bar [progress]="this.progress"></app-ux-step-progress-bar>
         <div class="it__question">
-          <ion-text> </ion-text>
+          <ion-text name="Question">{{ this.question.text }}</ion-text>
         </div>
-        <div class="it__answers"></div>
+        <div class="it__answers">
+          <div class="it__answers__option" *ngFor="let answer of this.answers">
+            <ion-text name="Option">{{ answer.text }}</ion-text>
+          </div>
+        </div>
         <div class="it__next_button">
-          <ion-button> </ion-button>
+          <ion-button name="Submit">{{ this.buttonText | translate }}</ion-button>
         </div>
       </div>
     </ion-content>
@@ -36,8 +41,9 @@ export class InvestorTestQuestionPage implements OnInit {
   question: any;
   currentQuestionKey: string;
   currentQuestionNumber: number;
-  //this.selectMode = this.route.snapshot.paramMap.get('mode') === 'select';
-  totalNumberOfQuestions: number;
+  get totalNumberOfQuestions(): number {
+    return this.investorTestService.totalNumberOfQuestions;
+  }
 
   get progress(): string {
     if (this.currentQuestionNumber > this.totalNumberOfQuestions || this.currentQuestionNumber < 1) {
@@ -51,10 +57,28 @@ export class InvestorTestQuestionPage implements OnInit {
     return this.currentQuestionNumber === this.totalNumberOfQuestions;
   }
 
-  constructor(private navController: NavController, private route: ActivatedRoute) {}
+  get answers(): any {
+    return Object.values(this.question.options);
+  }
+
+  get buttonText(): string {
+    return `wealth_management.investor_test.${this.isLastQuestion ? 'submit_button' : 'next_button'}`;
+  }
+
+  constructor(
+    private navController: NavController,
+    private route: ActivatedRoute,
+    public investorTestService: InvestorTestService
+  ) {}
 
   ionViewWillEnter() {
-    this.currentQuestionKey = this.route.snapshot.paramMap.get('question');
+    this.currentQuestionNumber = parseInt(this.route.snapshot.paramMap.get('question'));
+
+    if (!Number.isNaN(this.currentQuestionNumber)) {
+      this.loadQuestionAndAnswers();
+    } else {
+      this.navController.navigateRoot(['/wealth-management/investor-test/1']);
+    }
   }
 
   ngOnInit() {}
@@ -67,7 +91,8 @@ export class InvestorTestQuestionPage implements OnInit {
     this.currentQuestionNumber--;
   }
 
-  loadQuestion(question: number) {}
-
-  loadAnswer(question: string) {}
+  loadQuestionAndAnswers() {
+    this.currentQuestionKey = this.investorTestService.getQuestionKeyByNumber(this.currentQuestionNumber);
+    this.question = this.investorTestService.getQuestionByKey(this.currentQuestionKey);
+  }
 }
