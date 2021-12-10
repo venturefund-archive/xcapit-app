@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,6 +15,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { LoadingService } from '../../../shared/services/loading/loading.service';
+import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 
 const testSelectedTokens = [
   {
@@ -271,26 +273,26 @@ describe('SelectCoinsWalletPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
   let activatedRouteSpy: any;
   let navControllerSpy: any;
-  let walletService: WalletService;
-  let walletServiceMock: any;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let fakeNavController: FakeNavController;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let fakeLoadingService: FakeLoadingService;
   beforeEach(
     waitForAsync(() => {
+      fakeLoadingService = new FakeLoadingService();
+      loadingServiceSpy = fakeLoadingService.createSpy();
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         toggleAssets: null,
         getAssestsSelected: Promise.resolve(testSelectedTokens),
       });
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: testCoins });
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-      walletServiceMock = {
-        coins: [],
-        create: () => {},
-      };
+      walletServiceSpy = jasmine.createSpyObj('WalletService', { create: Promise.resolve({}) }, { coins: [] });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+
       TestBed.configureTestingModule({
         declarations: [SelectCoinsWalletPage, FakeTrackClickDirective, ItemCoinComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
@@ -298,9 +300,10 @@ describe('SelectCoinsWalletPage', () => {
           TrackClickDirective,
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletService, useValue: walletServiceMock },
+          { provide: WalletService, useValue: walletServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
+          { provide: LoadingService, useValue: loadingServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -313,7 +316,6 @@ describe('SelectCoinsWalletPage', () => {
     component.coins = testCoins;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    walletService = TestBed.inject(WalletService);
   });
 
   it('should create', () => {
@@ -360,16 +362,19 @@ describe('SelectCoinsWalletPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-first/recovery-phrase']);
   });
 
-  it('should navigate to recovery phrase page on submit button clicked having at least one asset selected, and importing the wallet', () => {
+  it('should navigate to recovery phrase page on submit button clicked having at least one asset selected, and importing the wallet', fakeAsync(() => {
     component.mode = 'import';
     component.almostOneChecked = true;
-    const spy = spyOn(walletService, 'create');
     component.form.patchValue(formData.valid);
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+    tick();
+    expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password', 'import']);
-  });
+    expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
+  }));
 
   it('should not navigate to recovery phrase page on submit button clicked  dont having at least one asset selected', () => {
     component.almostOneChecked = false;
@@ -383,7 +388,7 @@ describe('SelectCoinsWalletPage', () => {
     component.form.patchValue({ ETH: { ETH: true } });
     fixture.detectChanges();
     component.handleSubmit();
-    expect(walletService.coins).toEqual([testCoins[0]]);
+    expect(walletServiceSpy.coins).toEqual([testCoins[0]]);
   });
 
   it('should change text on Submit button and Header on Edit mode', () => {

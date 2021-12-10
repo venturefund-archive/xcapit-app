@@ -5,13 +5,19 @@ import { AlertController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { LoadingService } from '../loading/loading.service';
+import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 
 describe('UpdatePWAService', () => {
   let service: UpdatePWAService;
   let alertControllerSpy: any;
   let swUpdateSpy: any;
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let fakeLoadingService: FakeLoadingService;
 
   beforeEach(() => {
+    fakeLoadingService = new FakeLoadingService();
+    loadingServiceSpy = fakeLoadingService.createSpy();
     alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
     swUpdateSpy = jasmine.createSpyObj('SwUpdate', ['update']);
     TestBed.configureTestingModule({
@@ -19,6 +25,7 @@ describe('UpdatePWAService', () => {
       providers: [
         { provide: AlertController, useValue: alertControllerSpy },
         { provide: SwUpdate, useValue: swUpdateSpy },
+        { provide: LoadingService, useValue: loadingServiceSpy },
       ],
     });
     service = TestBed.inject(UpdatePWAService);
