@@ -26,13 +26,11 @@ export class WalletService {
       if (this.mnemonicExists() && this.selectedCoins()) {
         this.createdWallets = [];
         const derivedPaths = environment.derivedPaths;
-
         Object.values(derivedPaths).forEach((path) => {
           this.createdWallets.push(this.createForDerivedPath(path));
         });
-
-        resolve(this.createdWallets);
       }
+      resolve(this.createdWallets);
     });
   }
 
