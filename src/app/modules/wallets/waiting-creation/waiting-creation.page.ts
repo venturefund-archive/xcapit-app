@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-waiting-creation',
@@ -19,7 +20,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WaitingCreationPage implements OnInit {
   imagePath = 'waiting.svg';
-  constructor() {}
+  data;
+  mode: string;
+  constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.mode = this.route.snapshot.paramMap.get('mode');
+    switch (this.mode) {
+      case 'verify':
+        break;
+      case 'creating':
+        break;
+    }
+  }
 }
