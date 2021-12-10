@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController, ModalController, NavController } from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CONFIG } from 'src/app/config/app-constants.config';
+import { LoadingModalComponent } from '../../components/loading-modal/loading-modal.component';
 
+export interface LoadingModalOptions {
+  title: string;
+  subtitle: string;
+  image: string;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -20,11 +26,19 @@ export class LoadingService {
   constructor(
     private loadingController: LoadingController,
     private translate: TranslateService,
-    private navController: NavController
+    private modalController: ModalController
   ) {}
 
-  async showWaitingPage(path) {
-    this.navController.navigateForward([path]);
+  async showModal(options: LoadingModalOptions) {
+    const modal = await this.modalController.create({
+      component: LoadingModalComponent,
+      componentProps: options,
+    });
+    await modal.present();
+  }
+
+  async dismissModal() {
+    await this.modalController.dismiss();
   }
 
   async show(options: LoadingOptions = {}) {

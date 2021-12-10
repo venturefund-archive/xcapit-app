@@ -11,6 +11,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { of } from 'rxjs';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 
 describe('CreatePasswordPage', () => {
   let component: CreatePasswordPage;
@@ -20,6 +21,7 @@ describe('CreatePasswordPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let fakeLoadingService: FakeLoadingService;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   const formData = {
@@ -34,22 +36,18 @@ describe('CreatePasswordPage', () => {
   };
 
   beforeEach(() => {
+    fakeLoadingService = new FakeLoadingService();
+    loadingServiceSpy = fakeLoadingService.createSpy();
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       saveWalletAddresses: of({}),
-    });
-    loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
-      show: Promise.resolve(),
-      dismiss: Promise.resolve(),
-      enabled: null,
     });
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       encryptWallet: Promise.resolve(true),
       getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address', RSK: 'testRSKAddress' } }),
     });
     activatedRouteMock = { snapshot: { paramMap: { get: () => 'import' } } };
-
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage],
       imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],

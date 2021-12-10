@@ -7,6 +7,7 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -101,7 +102,6 @@ export class SelectCoinsWalletPage implements OnInit {
   almostOneChecked = false;
   allChecked = false;
   originalFormData: any;
-  path = 'wallets/waiting-creation';
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -109,7 +109,8 @@ export class SelectCoinsWalletPage implements OnInit {
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
     private storageService: StorageService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private translate: TranslateService
   ) {}
 
   ionViewWillEnter() {
@@ -150,9 +151,10 @@ export class SelectCoinsWalletPage implements OnInit {
       switch (this.mode) {
         case 'import':
           this.loadingService
-            .showWaitingPage(this.path)
+            .showModal(this.modalOptions())
             .then(() => this.walletService.create())
-            .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']));
+            .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']))
+            .then(() => this.loadingService.dismissModal());
           break;
         case 'edit':
           await this.storageService.toggleAssets(this.getChangedAssets());
@@ -163,6 +165,14 @@ export class SelectCoinsWalletPage implements OnInit {
           break;
       }
     }
+  }
+
+  private modalOptions() {
+    return {
+      title: this.translate.instant('wallets.verify_phrase.loading.title'),
+      subtitle: this.translate.instant('wallets.verify_phrase.loading.subtitle'),
+      image: 'assets/img/verify-phrase/map.svg',
+    };
   }
 
   getAllSuites() {
