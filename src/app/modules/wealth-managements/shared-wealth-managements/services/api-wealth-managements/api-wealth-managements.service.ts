@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class ApiWealthManagementsService {
   constructor() {}
 
-  getQuestions(): Observable<any> {
+  getInvestorTestQuestions(): Observable<any> {
     return new Observable((o) => {
       o.next({
         Pregunta1: {
@@ -29,4 +29,10 @@ export class ApiWealthManagementsService {
       });
     });
   }
+
+  saveInvestorTestScore(user, totalScore: number): Observable<any> {
+    return;
+  }
+
+  getInvestorProfile(user) {}
 }

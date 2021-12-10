@@ -19,7 +19,7 @@ import { NavController } from '@ionic/angular';
     </ion-header>
     <ion-content class="ion-padding">
       <div class="it">
-        <app-ux-step-progress-bar [progress]="'' + this.progress * 100 + '%'"> </app-ux-step-progress-bar>
+        <app-ux-step-progress-bar [progress]="this.progress"> </app-ux-step-progress-bar>
         <div class="it__question">
           <ion-text> </ion-text>
         </div>
@@ -33,20 +33,33 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./investor-test-question.page.scss'],
 })
 export class InvestorTestQuestionPage implements OnInit {
-  progress: number;
-  questions: any;
+  question: any;
+  currentQuestionKey: string;
   currentQuestionNumber: number;
   //this.selectMode = this.route.snapshot.paramMap.get('mode') === 'select';
-  currentQuestionKey: string;
   totalNumberOfQuestions: number;
 
+  get progress(): string {
+    if (this.currentQuestionNumber > this.totalNumberOfQuestions || this.currentQuestionNumber < 1) {
+      return '';
+    }
+
+    return `${(this.currentQuestionNumber / this.totalNumberOfQuestions) * 100}%`;
+  }
+
+  get isLastQuestion(): boolean {
+    return this.currentQuestionNumber === this.totalNumberOfQuestions;
+  }
+
   constructor(private navController: NavController, private route: ActivatedRoute) {}
+
+  ionViewWillEnter() {
+    this.currentQuestionKey = this.route.snapshot.paramMap.get('question');
+  }
 
   ngOnInit() {}
 
   calculateNumberOfQuestions() {}
-
-  updateProgress() {}
 
   goToNextQuestion() {}
 
@@ -54,5 +67,7 @@ export class InvestorTestQuestionPage implements OnInit {
     this.currentQuestionNumber--;
   }
 
-  loadQuestion(n: number) {}
+  loadQuestion(question: number) {}
+
+  loadAnswer(question: string) {}
 }
