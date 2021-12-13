@@ -9,7 +9,10 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wealth-management/investor-test-options"></ion-back-button>
+          <ion-back-button
+            defaultHref="/wealth-management/investor-test-options"
+            (click)="this.goToPreviousQuestion()"
+          ></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wealth_management.investor_test.header' | translate }}</ion-title>
         <ion-label class="step_counter" slot="end" *ngIf="this.investorTestService.hasLoadedQuestions"
@@ -30,7 +33,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
           </div>
         </div>
         <div class="it__next_button">
-          <ion-button name="Submit">{{ this.buttonText | translate }}</ion-button>
+          <ion-button name="Submit" (click)="this.goToNextQuestion()">{{ this.buttonText | translate }}</ion-button>
         </div>
       </div>
     </ion-content>
@@ -38,9 +41,11 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
   styleUrls: ['./investor-test-question.page.scss'],
 })
 export class InvestorTestQuestionPage implements OnInit {
+  private baseRoute = '/wealth-management/investor-test';
   question: any;
   currentQuestionKey: string;
   currentQuestionNumber: number;
+
   get totalNumberOfQuestions(): number {
     return this.investorTestService.totalNumberOfQuestions;
   }
@@ -51,6 +56,10 @@ export class InvestorTestQuestionPage implements OnInit {
 
   get isLastQuestion(): boolean {
     return this.currentQuestionNumber === this.totalNumberOfQuestions;
+  }
+
+  get isFirstQuestion(): boolean {
+    return this.currentQuestionNumber === 1;
   }
 
   get answers(): any {
@@ -69,6 +78,10 @@ export class InvestorTestQuestionPage implements OnInit {
     );
   }
 
+  get isUserSkippingQuestions(): boolean {
+    return !(this.isFirstQuestion || this.investorTestService.hasAnsweredQuestion(this.currentQuestionNumber - 1));
+  }
+
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
@@ -79,26 +92,32 @@ export class InvestorTestQuestionPage implements OnInit {
     this.investorTestService.loadQuestions();
     this.currentQuestionNumber = parseInt(this.route.snapshot.paramMap.get('question'));
 
-    // TODO: Check if user is skipping questions
-    if (this.isValidQuestionNumber) {
+    if (this.isValidQuestionNumber && !this.isUserSkippingQuestions) {
       this.loadQuestionAndAnswers();
     } else {
-      this.navController.navigateRoot(['/wealth-management/investor-test/1']);
+      this.navController.navigateRoot([`${this.baseRoute}/1`]);
     }
   }
 
   ngOnInit() {}
 
-  calculateNumberOfQuestions() {}
-
-  goToNextQuestion() {}
+  goToNextQuestion() {
+    this.investorTestService.setAnswer(this.currentQuestionKey, 'opcion1');
+    this.navController.navigateForward([`${this.baseRoute}/${this.currentQuestionNumber + 1}`]);
+  }
 
   goToPreviousQuestion() {
-    this.currentQuestionNumber--;
+    if (this.isFirstQuestion) {
+      this.investorTestService.cancel();
+    }
   }
 
   loadQuestionAndAnswers() {
     this.currentQuestionKey = this.investorTestService.getQuestionKeyByNumber(this.currentQuestionNumber);
     this.question = this.investorTestService.getQuestionByKey(this.currentQuestionKey);
+
+    if (this.investorTestService.hasAnsweredQuestion(this.currentQuestionNumber)) {
+      console.log(this.investorTestService.getAnswerKeyByQuestionKey(this.currentQuestionKey));
+    }
   }
 }

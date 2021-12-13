@@ -85,12 +85,16 @@ export class InvestorTestService {
   }
 
   hasAnsweredQuestion(questionNumber: number): boolean {
-    return !!this.answers.get(this.getQuestionKeyByNumber(questionNumber));
+    return !!this.answers && !!this.answers.get(this.getQuestionKeyByNumber(questionNumber));
   }
 
   saveAnswers(): Observable<any> {
     if (this.hasAnsweredAllQuestions) {
       return this.apiWealthManagementsService.saveInvestorTestScore(null, this.totalScore);
     }
+  }
+
+  cancel() {
+    this.answers = new Map();
   }
 }
