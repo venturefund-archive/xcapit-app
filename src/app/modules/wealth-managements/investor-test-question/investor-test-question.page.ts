@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { InvestorTestService } from '../shared-wealth-managements/services/investor-test/investor-test.service';
 
 @Component({
@@ -24,17 +26,21 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
     <ion-content class="ion-padding">
       <div class="it" *ngIf="this.investorTestService.hasLoadedQuestions && !!this.question">
         <app-ux-step-progress-bar [progress]="this.progress"></app-ux-step-progress-bar>
-        <div class="it__question">
-          <ion-text name="Question">{{ this.question.text }}</ion-text>
-        </div>
-        <div class="it__answers">
-          <div class="it__answers__option" *ngFor="let answer of this.answers">
-            <ion-text name="Option">{{ answer.text }}</ion-text>
+        <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
+          <div class="it__question">
+            <ion-text name="Question" class="ux-font-text-base">{{ this.question.text }}</ion-text>
           </div>
-        </div>
-        <div class="it__next_button">
-          <ion-button name="Submit" (click)="this.goToNextQuestion()">{{ this.buttonText | translate }}</ion-button>
-        </div>
+          <div class="it__answers">
+            <app-ux-radio-item-group
+              [labels]="this.answersLabels"
+              [values]="this.answersKeys"
+              [controlName]="'answer'"
+            ></app-ux-radio-item-group>
+          </div>
+          <div class="it__next_button">
+            <ion-button name="Submit" type="submit">{{ this.buttonText | translate }}</ion-button>
+          </div>
+        </form>
       </div>
     </ion-content>
   `,
@@ -45,6 +51,9 @@ export class InvestorTestQuestionPage implements OnInit {
   question: any;
   currentQuestionKey: string;
   currentQuestionNumber: number;
+  form: FormGroup = this.formBuilder.group({
+    answer: ['', [Validators.required]],
+  });
 
   get totalNumberOfQuestions(): number {
     return this.investorTestService.totalNumberOfQuestions;
@@ -62,8 +71,17 @@ export class InvestorTestQuestionPage implements OnInit {
     return this.currentQuestionNumber === 1;
   }
 
+  // TODO: this aren't properties
   get answers(): any {
     return Object.values(this.question.options);
+  }
+
+  get answersKeys(): any {
+    return Object.keys(this.question.options);
+  }
+
+  get answersLabels(): any {
+    return Object.values(this.question.options).map((a: any) => a.text);
   }
 
   get buttonText(): string {
@@ -85,7 +103,9 @@ export class InvestorTestQuestionPage implements OnInit {
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
-    public investorTestService: InvestorTestService
+    public investorTestService: InvestorTestService,
+    public submitButtonService: SubmitButtonService,
+    private formBuilder: FormBuilder
   ) {}
 
   ionViewWillEnter() {
@@ -102,7 +122,6 @@ export class InvestorTestQuestionPage implements OnInit {
   ngOnInit() {}
 
   goToNextQuestion() {
-    this.investorTestService.setAnswer(this.currentQuestionKey, 'opcion1');
     this.navController.navigateForward([`${this.baseRoute}/${this.currentQuestionNumber + 1}`]);
   }
 
@@ -112,12 +131,29 @@ export class InvestorTestQuestionPage implements OnInit {
     }
   }
 
+  handleSubmit() {
+    this.investorTestService.setAnswer(this.currentQuestionKey, this.form.value.answer);
+
+    if (this.isLastQuestion) {
+      this.investorTestService.saveAnswers().subscribe(() => {
+        this.goToSuccessPage();
+      });
+    } else {
+      this.goToNextQuestion();
+    }
+  }
+
+  goToSuccessPage() {
+    this.navController.navigateForward(['/wealth-management/success-investor-test']);
+  }
+
   loadQuestionAndAnswers() {
     this.currentQuestionKey = this.investorTestService.getQuestionKeyByNumber(this.currentQuestionNumber);
     this.question = this.investorTestService.getQuestionByKey(this.currentQuestionKey);
 
     if (this.investorTestService.hasAnsweredQuestion(this.currentQuestionNumber)) {
-      console.log(this.investorTestService.getAnswerKeyByQuestionKey(this.currentQuestionKey));
+      const answer = this.investorTestService.getAnswerKeyByQuestionKey(this.currentQuestionKey);
+      this.form.patchValue({ answer });
     }
   }
 }

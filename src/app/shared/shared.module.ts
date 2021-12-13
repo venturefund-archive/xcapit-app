@@ -51,6 +51,8 @@ import { SupportOptionsCardComponent } from '../modules/support/shared-support/c
 import { ContactSupportComponent } from '../modules/support/shared-support/components/contact-support/contact-support.component';
 import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
 import { TestOptionItemComponent } from '../modules/wealth-managements/shared-wealth-managements/components/test-option-item/test-option-item.component';
+import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.component';
+import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,8 @@ import { TestOptionItemComponent } from '../modules/wealth-managements/shared-we
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
+    UxRadioItemComponent,
+    UxRadioItemGroupComponent,
     InputSelectComponent,
     SupportOptionsCardComponent,
     ContactSupportComponent,
@@ -151,6 +155,8 @@ import { TestOptionItemComponent } from '../modules/wealth-managements/shared-we
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
+    UxRadioItemComponent,
+    UxRadioItemGroupComponent,
     InputSelectComponent,
     SupportOptionsCardComponent,
     ContactSupportComponent,

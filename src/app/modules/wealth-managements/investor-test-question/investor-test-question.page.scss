@@ -1,3 +1,28 @@
+:host {
+  .it {
+    margin-top: 8px;
+
+    &__question {
+      margin-top: 16px;
+
+      ion-text {
+        color: var(--ion-color-uxdark);
+      }
+    }
+
+    &__answers {
+      &__option {
+        &__item {
+          ion-text {
+            color: var(--ion-color-uxdark);
+          }
+          display: flex;
+        }
+      }
+    }
+  }
+}
+
 .step_counter {
   margin-right: 13px;
 }

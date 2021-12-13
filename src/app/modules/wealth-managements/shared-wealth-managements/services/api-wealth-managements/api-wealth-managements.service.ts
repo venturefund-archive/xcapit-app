@@ -31,7 +31,9 @@ export class ApiWealthManagementsService {
   }
 
   saveInvestorTestScore(user, totalScore: number): Observable<any> {
-    return;
+    return new Observable((o) => {
+      o.next();
+    });
   }
 
   getInvestorProfile(user) {}
