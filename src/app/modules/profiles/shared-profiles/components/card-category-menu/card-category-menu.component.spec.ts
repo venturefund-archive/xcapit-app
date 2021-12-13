@@ -11,7 +11,7 @@ import { CardCategoryMenuComponent } from './card-category-menu.component';
 
 const itemMenu = {
   category_title: 'profiles.user_profile_menu.category_help',
-  icon: '../../assets/ux-icons/ux-support.svg',
+  icon: 'assets/ux-icons/ux-support.svg',
   items: [
     {
       name: 'Faq',

@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const itemMenu = [
   {
@@ -84,8 +85,8 @@ describe('UserProfileMenuPage', () => {
   let authServiceSpy: any;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let modalControllerSpy: any;
-  let onDidDismissSpy: any;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let languageServiceSpy: any;
 
   beforeEach(
@@ -101,28 +102,15 @@ describe('UserProfileMenuPage', () => {
         isLoggedIn: new ReplaySubject<boolean>(1),
         logout: () => null,
       };
-      modalControllerSpy = {
-        create: jasmine.createSpy('create', () =>
-          Promise.resolve({
-            present: () => Promise.resolve(),
-            onDidDismiss: onDidDismissSpy,
-            dismiss: () => Promise.resolve(),
-          })
-        ),
-        dismiss: Promise.resolve(),
-      };
-      modalControllerSpy.create.and.callThrough();
-      onDidDismissSpy = jasmine
-        .createSpy('onDidDismiss', () => Promise.resolve({ data: 'en', role: 'selected' }))
-        .and.callThrough();
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+
       languageServiceSpy = jasmine.createSpyObj('LanguageService', [
         'setInitialAppLanguage',
         'getLanguages',
         'setLanguage',
       ]);
-      languageServiceSpy.setInitialAppLanguage.and.returnValue(null);
-      languageServiceSpy.setInitialAppLanguage.and.returnValue('es');
-      languageServiceSpy.setLanguage.and.returnValue(Promise.resolve());
+
       TestBed.configureTestingModule({
         declarations: [UserProfileMenuPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -174,6 +162,7 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should set language when Change Language button is clicked', async () => {
+    fakeModalController.modifyReturns(null, { role: 'selected', data: 'es' });
     const button = fixture.debugElement.query(By.css('ion-button[name="Change Language"]'));
     button.nativeElement.click();
     await fixture.whenStable();

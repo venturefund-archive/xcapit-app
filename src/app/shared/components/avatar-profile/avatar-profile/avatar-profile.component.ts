@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-avatar-profile',
   template: `
-    <ion-buttons slot="start" *ngIf="true">
+    <ion-buttons slot="start">
       <ion-button class="button-profile" fill="clear" appTrackClick name="Profile" (click)="this.goToProfileMenu()">
         <img src="assets/img/user-profile/avatar-profile.svg" />
       </ion-button>

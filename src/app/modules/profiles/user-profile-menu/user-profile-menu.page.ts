@@ -69,7 +69,6 @@ import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api
 })
 export class UserProfileMenuPage implements OnInit {
   data: any;
-  userStatus: any;
   itemMenu = ITEM_MENU;
 
   constructor(
