@@ -52,6 +52,7 @@ import { ContactSupportComponent } from '../modules/support/shared-support/compo
 import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
 import { TestOptionItemComponent } from '../modules/wealth-managements/shared-wealth-managements/components/test-option-item/test-option-item.component';
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
+import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { AvatarProfileComponent } from './components/avatar-profile/avatar-profi
     ToastAlertComponent,
     ScanQrModalComponent,
     EmbedVideoComponent,
-
+    LoadingModalComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -125,6 +126,7 @@ import { AvatarProfileComponent } from './components/avatar-profile/avatar-profi
     NeedHelpComponent,
     ToastAlertComponent,
     ScanQrModalComponent,
+    LoadingModalComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,

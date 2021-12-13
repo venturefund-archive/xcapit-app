@@ -10,6 +10,7 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-password',
@@ -102,7 +103,6 @@ export class CreatePasswordPage implements OnInit {
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
-
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -110,7 +110,8 @@ export class CreatePasswordPage implements OnInit {
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
     private loadingService: LoadingService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private translate: TranslateService
   ) {}
 
   ionViewWillEnter() {
@@ -123,16 +124,25 @@ export class CreatePasswordPage implements OnInit {
   handleSubmit() {
     if (this.createPasswordForm.valid) {
       this.loadingService
-        .show()
+        .showModal(this.modalOptions())
         .then(() => this.walletEncryptionService.encryptWallet(this.createPasswordForm.value.password))
         .then(() => this.walletEncryptionService.getEncryptedWallet())
         .then((encryptedWallet) => this.formattedWallets(encryptedWallet))
         .then((wallets) => this.apiWalletService.saveWalletAddresses(wallets).toPromise())
         .then(() => this.loadingService.dismiss())
-        .then(() => this.navigateByMode());
+        .then(() => this.navigateByMode())
+        .then(() => this.loadingService.dismissModal());
     } else {
       this.createPasswordForm.markAllAsTouched();
     }
+  }
+
+  private modalOptions() {
+    return {
+      title: this.translate.instant('wallets.create_password.loading.title'),
+      subtitle: this.translate.instant('wallets.create_password.loading.subtitle'),
+      image: 'assets/img/create-password/building.svg',
+    };
   }
 
   formattedWallets(encryptedWallet: any): Promise<any> {

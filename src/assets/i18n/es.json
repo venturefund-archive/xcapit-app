@@ -1449,7 +1449,11 @@
       "suite": "Suite ",
       "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
       "native": "NATIVA",
-      "submit_edit": "Guardar cambios"
+      "submit_edit": "Guardar cambios",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos verificando tu frase"
+      }
     },
     "success_creation": {
       "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",
@@ -1469,7 +1473,11 @@
       "header": "Crear wallet",
       "title": "Verifica tu frase",
       "text1": "Toca las palabras en el orden correspondiente",
-      "btn_create": "Siguiente"
+      "btn_create": "Siguiente",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos verificando tu frase"
+      }
     },
     "create_password": {
       "header": "Crear wallet",
@@ -1477,7 +1485,11 @@
       "description": "La contraseña sirve para hacer tu wallet más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu wallet con las 12 palabras.",
       "password": "Contraseña",
       "repeat_password": "Confirmar contraseña",
-      "finish_button": "Finalizar y crear wallet"
+      "finish_button": "Finalizar y crear wallet",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos creando tu wallet"
+      }
     },
     "receive": {
       "header": "Recibir",
