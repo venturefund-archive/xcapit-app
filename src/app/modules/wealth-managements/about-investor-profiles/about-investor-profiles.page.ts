@@ -1,40 +1,21 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { initializeApp } from 'firebase';
+import { TranslateService } from '@ngx-translate/core';
 import Swiper, { SwiperOptions, Navigation } from 'swiper';
-
+import { InvestorProfileService } from '../shared-wealth-managements/services/investor-profile/investor-profile.service';
+Swiper.use([Navigation]);
 @Component({
   selector: 'app-about-investor-profiles',
-
   template: `
     <ion-content [scrollY]="false">
-      <swiper
-        [config]="config"
-        (slideNextTransitionStart)="this.slideNext()"
-        (slidePrevTransitionStart)="this.slidePrev()"
-      >
-        <ng-template swiperSlide>
+      <swiper [config]="config">
+        <ng-template class="template" swiperSlide *ngFor="let profile of this.investorProfiles; let i = index">
           <app-investor-profile-step
-            [actualStep]="this.actualStep"
-            [title]="'wealth_managements.about_investor_profile.conservative_profile.title' | translate"
-            [subtitle]="'wealth_managements.about_investor_profile.conservative_profile.subtitle' | translate"
-            imagePath="assets/img/investor-test/conservador.svg"
-          ></app-investor-profile-step>
-        </ng-template>
-        <ng-template swiperSlide>
-          <app-investor-profile-step
-            [actualStep]="this.actualStep"
-            [title]="'wealth_managements.about_investor_profile.moderated_profile.title' | translate"
-            [subtitle]="'wealth_managements.about_investor_profile.moderated_profile.subtitle' | translate"
-            imagePath="assets/img/investor-test/moderado.svg"
-          ></app-investor-profile-step
-        ></ng-template>
-        <ng-template swiperSlide>
-          <app-investor-profile-step
-            [actualStep]="this.actualStep"
-            [title]="'wealth_managements.about_investor_profile.aggressive_profile.title' | translate"
-            [subtitle]="'wealth_managements.about_investor_profile.aggressive_profile.subtitle' | translate"
-            imagePath="assets/img/investor-test/agresivo.svg"
+            [actualStep]="i + 1"
+            [id]="profile.id"
+            [title]="profile.title"
+            [subtitle]="profile.subtitle"
+            [imagePath]="profile.imagePath"
+            (setProfileEvent)="this.setProfile($event)"
           ></app-investor-profile-step>
         </ng-template>
       </swiper>
@@ -46,40 +27,33 @@ export class AboutInvestorProfilesPage implements OnInit {
   public config: SwiperOptions = {
     navigation: true,
   };
-  actualStep: number;
-  step;
 
-  constructor() {}
+  investorProfiles = [
+    {
+      id: 1,
+      title: this.translate.instant('wealth_managements.about_investor_profile.conservative_profile.title'),
+      subtitle: this.translate.instant('wealth_managements.about_investor_profile.conservative_profile.subtitle'),
+      imagePath: 'assets/img/investor-test/conservative.svg',
+    },
+    {
+      id: 2,
+      title: this.translate.instant('wealth_managements.about_investor_profile.moderated_profile.title'),
+      subtitle: this.translate.instant('wealth_managements.about_investor_profile.moderated_profile.subtitle'),
+      imagePath: 'assets/img/investor-test/moderated.svg',
+    },
+    {
+      id: 3,
+      title: this.translate.instant('wealth_managements.about_investor_profile.aggressive_profile.title'),
+      subtitle: this.translate.instant('wealth_managements.about_investor_profile.aggressive_profile.subtitle'),
+      imagePath: 'assets/img/investor-test/aggressive.svg',
+    },
+  ];
 
-  ngOnInit() {
-    this.setInitialStep();
-    Swiper.use([Navigation]);
-  }
+  constructor(private translate: TranslateService, private investorProfileService: InvestorProfileService) {}
 
-  ionViewWillEnter() {}
+  ngOnInit() {}
 
-  setInitialStep() {
-    this.actualStep = 0;
-    this.step = 0;
-    console.log(this.actualStep);
-  }
-
-  async slidePrev() {
-    console.log('hacia atras');
-    this.step = (await this.step) - 1;
-    console.log(this.step);
-    this.setActualStep(this.step);
-  }
-
-  async slideNext() {
-    console.log('hacia adelante');
-    this.step = (await this.step) + 1;
-    console.log(this.step);
-    this.setActualStep(this.step);
-  }
-
-  async setActualStep(step) {
-    console.log('asdsa');
-    this.actualStep = await step;
+  setProfile(value) {
+    this.investorProfileService.setProfile(value);
   }
 }

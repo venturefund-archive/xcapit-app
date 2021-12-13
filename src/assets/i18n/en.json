@@ -2139,6 +2139,21 @@
       "textPrimary": "Congratulations! Your investor profile is {{testResult}}",
       "namePrimaryAction": "Go to my investor profile",
       "nameSecondaryAction": "Back to home"
+    },
+    "about_investor_profile": {
+      "button_select": "This is my profile",
+      "conservative_profile": {
+        "title": "Conservative Profile",
+        "subtitle": "You characterize yourself for being little risk-tolerant and valuing safety. Therefore, you prefer investment instruments that give you the certainty that you will not lose part or all of the money that you will invest. You do not care that the gains (performance) obtained are low."
+      },
+      "moderated_profile": {
+        "title": "Moderate Profile",
+        "subtitle": "You are a cautious person with your decisions, but you are willing to tolerate a moderate risk to increase your profits. You try to maintain a balance between profitability and security."
+      },
+      "aggressive_profile": {
+        "title": "Aggressive Profile",
+        "subtitle": "You seek the highest possible returns, so you are willing to take whatever risk is necessary. It is not advisable to maintain this risk attitude when you do not have sufficient solvency, or if you have important family commitments."
+      }
     }
   }
 }

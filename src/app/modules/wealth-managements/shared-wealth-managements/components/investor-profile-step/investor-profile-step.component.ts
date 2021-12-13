@@ -29,7 +29,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
             type="submit"
             color="uxsecondary"
             size="large"
-            (click)="this.navigate()"
+            (click)="this.selectProfile(this.id)"
           >
             {{ 'wealth_managements.about_investor_profile.button_select' | translate }}
           </ion-button>
@@ -43,14 +43,16 @@ export class InvestorProfileStepComponent implements OnInit {
   @Input() actualStep: number;
   @Input() sliderLength = 3;
   @Input() imagePath: string;
+  @Input() id: number;
   @Input() title: string;
   @Input() subtitle: string;
-  @Output() slideBackEvent: EventEmitter<void> = new EventEmitter<void>();
-  @Output() slideNextEvent: EventEmitter<void> = new EventEmitter<void>();
-  @Output() finishEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() setProfileEvent: EventEmitter<number> = new EventEmitter<number>();
+
   constructor() {}
 
   ngOnInit() {}
 
-  navigate() {}
+  selectProfile(id: number) {
+    this.setProfileEvent.emit(id);
+  }
 }
