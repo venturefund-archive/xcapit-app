@@ -17,6 +17,10 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
         </ion-buttons>
+        <div class="header">
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
+        </div>
+        <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
 

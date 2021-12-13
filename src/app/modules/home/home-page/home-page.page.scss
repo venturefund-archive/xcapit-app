@@ -2,15 +2,6 @@
   .ux_toolbar {
     --border-width: 0;
   }
-
-  .avatar {
-    width: 24px;
-    height: 24px;
-    margin-top: 4px;
-    margin-left: 5px;
-    border: 2px solid white;
-  }
-
   .refresher {
     align-items: center;
     margin-top: 12px;
@@ -25,12 +16,6 @@
     position: absolute;
     top: 0px;
     left: 0px;
-
-    &__logo {
-      padding-top: 10px;
-      max-height: 60px;
-      width: 100px;
-    }
   }
 
   .notificationQty {
