@@ -26,7 +26,7 @@ const fakeInvestorProfiles = [
   },
 ];
 
-fdescribe('AboutInvestorProfilesPage', () => {
+describe('AboutInvestorProfilesPage', () => {
   let component: AboutInvestorProfilesPage;
   let fixture: ComponentFixture<AboutInvestorProfilesPage>;
   let investorProfileServiceSpy: jasmine.SpyObj<InvestorProfileService>;
