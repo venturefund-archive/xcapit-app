@@ -4,8 +4,6 @@ import { TabsComponent } from './tabs.component';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { NavController } from '@ionic/angular';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -17,23 +15,13 @@ describe('TabsComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TabsComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let windowSpy: any;
   beforeEach(
     waitForAsync(() => {
-      windowSpy = spyOn(window, 'open');
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [TabsComponent, FakeTrackClickDirective, DummyComponent],
-        imports: [
-          HttpClientTestingModule,
-          TranslateModule.forRoot(),
-          RouterTestingModule.withRoutes([
-            { path: 'apikeys/tutorial', component: DummyComponent },
-            { path: 'menus/main-menu', component: DummyComponent },
-            { path: 'tabs/wallets', component: DummyComponent },
-          ]),
-        ],
+        declarations: [TabsComponent, FakeTrackClickDirective],
+        imports: [HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

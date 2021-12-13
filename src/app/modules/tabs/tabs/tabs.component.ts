@@ -76,10 +76,6 @@ export class TabsComponent {
     }
   }
 
-  showMenu() {
-    this.navController.navigateForward(['/menus/main-menu']);
-  }
-
   goToInvestments() {
     this.navController.navigateRoot(['/tabs/investments']);
   }
