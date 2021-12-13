@@ -1,15 +1,16 @@
 .button-next {
   display: flex;
   flex-direction: column;
-  margin-top: 25px;
-  margin-bottom: 16px;
+  margin-top: auto;
+  margin-bottom: 8px;
 }
 
 .investor_step {
   &__content_slide {
     margin: auto;
-    width: 85vw;
-    height: 95vh;
+    width: 85%;
+    max-height: 95vh;
+    min-height: 85vh;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -23,26 +24,24 @@
       margin-top: 16px;
       text-align: center;
       width: auto;
-      img {
-        width: 196px;
-        height: 196px;
-      }
+      height: 166px;
     }
 
     &__text {
       display: flex;
       flex-direction: column;
       text-align: start;
-      margin-top: 22px;
+
       &__primary_text {
-        padding: 0px 44px;
+        margin-top: 8px;
+        padding: 0px 30px;
         color: var(--ion-color-uxdark);
       }
 
       &__secondary_text {
         color: var(--ion-color-uxdark);
-        margin-top: 16px;
-        padding: 0px 44px;
+        margin-top: auto;
+        padding: 0px 30px;
       }
     }
 

@@ -6,6 +6,14 @@ Swiper.use([Navigation]);
 @Component({
   selector: 'app-about-investor-profiles',
   template: `
+    <ion-header>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/wealth-management/investor-test-options"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ 'wealth_managements.about_investor_profile.header' | translate }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
     <ion-content [scrollY]="false">
       <swiper [config]="config">
         <ng-template class="template" swiperSlide *ngFor="let profile of this.investorProfiles; let i = index">

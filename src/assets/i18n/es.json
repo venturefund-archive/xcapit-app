@@ -2328,6 +2328,7 @@
       "nameSecondaryAction": "Volver al incio"
     },
     "about_investor_profile": {
+      "header": "Perfil de inversionista",
       "button_select": "Este es mi perfil",
       "conservative_profile": {
         "title": "Perfil Conservador",

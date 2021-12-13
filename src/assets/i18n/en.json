@@ -2141,6 +2141,7 @@
       "nameSecondaryAction": "Back to home"
     },
     "about_investor_profile": {
+      "header": "Investor Profile",
       "button_select": "This is my profile",
       "conservative_profile": {
         "title": "Conservative Profile",
