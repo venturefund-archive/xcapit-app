@@ -758,6 +758,23 @@
       "country": "País",
       "country_placeholder": "Elije un país"
     },
+    "user_profile_menu": {
+      "header": "Mi perfil",
+      "category_help": "Ayuda",
+      "faq_help": "Preguntas frecuentes",
+      "support_help": "Hablar con soporte",
+      "category_security_account": "Seguridad cuenta Xcapit",
+      "change_pass": "Cambiar contraseña",
+      "category_security_wallet": "Seguridad wallet Xcapit",
+      "security_phrase": "Frase de seguridad",
+      "category_binance_investment": "Inversiones Binance",
+      "funds": "Fondos",
+      "finished_funds": "Fondos Finalizados",
+      "manage_apikey": "Gestión de API Keys",
+      "category_preferences": "Preferencias",
+      "language": "Idioma",
+      "logout": "Cerrar Sesión"
+    },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
       "textSecondary": "Ahora necesitamos que vincules tu “wallet virtual de criptomonedas“(Exchange) para que comencemos a gestionarlas.",

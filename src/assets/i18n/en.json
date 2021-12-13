@@ -753,6 +753,25 @@
       "country": "Country",
       "country_placeholder": "Select a country"
     },
+
+    "user_profile_menu": {
+      "header": "My Profile",
+      "category_help": "Help",
+      "faq_help": "Frecuently questions",
+      "support_help": "Talk to support",
+      "category_security_account": "Security Xcapit account",
+      "change_pass": "Password Change",
+      "category_security_wallet": "Security Xcapit wallet",
+      "security_phrase": "Security phrase",
+      "category_binance_investment": "Binance investments",
+      "funds": "Funds",
+      "finished_funds": "Finished funds",
+      "manage_apikey": "Manage API Keys",
+      "category_preferences": "Preferences",
+      "language": "Language",
+      "logout": "Log Out"
+    },
+
     "success_profile": {
       "textPrimary": "¡You have setted up your account!",
       "textSecondary": "Now we need you to link your Exchange (Binance) to see your capital.",
