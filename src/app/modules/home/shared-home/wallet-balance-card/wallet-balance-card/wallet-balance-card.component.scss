@@ -1,0 +1,34 @@
+:host {
+  .wbc {
+    background-color: var(--ion-color-info);
+    border-radius: 8px;
+    border: 0.5px solid var(--ion-color-uxmedium);
+
+    &__content {
+      display: flex;
+      &__body {
+        margin-top: 21.5px;
+        margin-left: 16px;
+        &__title {
+          color: var(--ion-color-uxlight);
+          margin-bottom: 4px;
+        }
+
+        &__subtitle {
+          color: var(--ion-color-uxlight);
+          margin-bottom: 21.5px;
+        }
+      }
+    }
+
+    &__arrow {
+      position: relative;
+      flex-basis: 5%;
+      display: flex;
+      justify-content: center;
+      align-self: center;
+      color: #006eff;
+      z-index: 2;
+    }
+  }
+}

@@ -27,10 +27,6 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
     </ion-header>
 
     <ion-content>
-      <div class="toolbar_extend"></div>
-      <div class="overlap_buttons">
-        <app-home-subheader></app-home-subheader>
-      </div>
       <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
         <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="false" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
@@ -47,24 +43,9 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       </ion-refresher>
       <!-- Content Cards -->
       <div class="ion-padding">
-        <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWallet()">
-          <div class="wmw__image">
-            <ion-img src="../assets/img/home/want_my_wallet.svg" alt="Girl with coins"></ion-img>
-          </div>
-          <div class="wmw__content">
-            <div class="wmw__content__title">
-              <ion-text class="ux-font-header-titulo">{{ 'home.home_page.want_my_wallet.title' | translate }}</ion-text>
-            </div>
-            <div class="wmw__content__description">
-              <ion-text class="ux-font-text-xxs">{{
-                'home.home_page.want_my_wallet.description' | translate
-              }}</ion-text>
-            </div>
-          </div>
-          <div class="wmw__arrow">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
-          </div>
-        </div>
+        <!-- <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWallet()"> -->
+        <app-wallet-balance-card></app-wallet-balance-card>
+        <!-- </div> -->
 
         <div class="two_cards">
           <div
