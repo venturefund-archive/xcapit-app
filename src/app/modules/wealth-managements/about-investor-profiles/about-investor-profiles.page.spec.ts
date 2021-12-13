@@ -1,9 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SwiperModule } from 'swiper/angular';
 import { InvestorProfileStepStubComponent } from '../shared-wealth-managements/components/investor-profile-step/investor-profile-step-stub.component.spec';
 import { InvestorProfileService } from '../shared-wealth-managements/services/investor-profile/investor-profile.service';
@@ -25,19 +26,26 @@ const fakeInvestorProfiles = [
   },
 ];
 
-describe('AboutInvestorProfilesPage', () => {
+fdescribe('AboutInvestorProfilesPage', () => {
   let component: AboutInvestorProfilesPage;
   let fixture: ComponentFixture<AboutInvestorProfilesPage>;
   let investorProfileServiceSpy: jasmine.SpyObj<InvestorProfileService>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: any;
   beforeEach(
     waitForAsync(() => {
+      fakeNavController = new FakeNavController({});
+      navControllerSpy = fakeNavController.createSpy();
       investorProfileServiceSpy = jasmine.createSpyObj('investorProfileService', {
         setProfile: of({}),
       });
       TestBed.configureTestingModule({
         declarations: [AboutInvestorProfilesPage, InvestorProfileStepStubComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), SwiperModule],
-        providers: [{ provide: InvestorProfileService, useValue: investorProfileServiceSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: InvestorProfileService, useValue: investorProfileServiceSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(AboutInvestorProfilesPage);

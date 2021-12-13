@@ -42,7 +42,7 @@ describe('StartInvestingComponent', () => {
 
   it('should go to Coming Soon Page when user clicks Start Investing Button', () => {
     fixture.debugElement.query(By.css('ion-button[name="Start Investing Button"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/wallets/investments']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments/defi']);
   });
 
   it('should call trackEvent on trackService when Start Investing Button clicked', () => {

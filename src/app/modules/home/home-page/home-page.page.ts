@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
-import { Plugins } from '@capacitor/core';
 
 @Component({
   selector: 'app-home',

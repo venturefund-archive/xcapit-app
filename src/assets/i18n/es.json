@@ -231,6 +231,19 @@
     }
   },
   "funds": {
+    "investments_tab": {
+      "header": "Inversiones",
+      "text": "Gana a diario invirtiendo tus criptomonedas",
+      "how_investments_work_button": "¿Cómo funcionan las inversiones?",
+      "defi": {
+        "title": "Inversiones Defi",
+        "text": "Utiliza tu Wallet de Xcapit para depositar Tokens y suscribirte a productos de inversión Defi generando rendimientos diarios de forma sencilla."
+      },
+      "binance": {
+        "title": "Inversiones con Binance",
+        "text": "Conecta nuestro Bot inteligente de Trading e Índices a tu Wallet de Binance para generar rendimientos todos los días."
+      }
+    },
     "fund_balance": {
       "header": "Balance del Fondo",
       "main_title": "{{fundName}} - Período: {{period}}",
@@ -1419,7 +1432,11 @@
       "suite": "Suite ",
       "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
       "native": "NATIVA",
-      "submit_edit": "Guardar cambios"
+      "submit_edit": "Guardar cambios",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos verificando tu frase"
+      }
     },
     "success_creation": {
       "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",
@@ -1439,7 +1456,11 @@
       "header": "Crear wallet",
       "title": "Verifica tu frase",
       "text1": "Toca las palabras en el orden correspondiente",
-      "btn_create": "Siguiente"
+      "btn_create": "Siguiente",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos verificando tu frase"
+      }
     },
     "create_password": {
       "header": "Crear wallet",
@@ -1447,7 +1468,11 @@
       "description": "La contraseña sirve para hacer tu wallet más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu wallet con las 12 palabras.",
       "password": "Contraseña",
       "repeat_password": "Confirmar contraseña",
-      "finish_button": "Finalizar y crear wallet"
+      "finish_button": "Finalizar y crear wallet",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos creando tu wallet"
+      }
     },
     "receive": {
       "header": "Recibir",
@@ -1457,8 +1482,8 @@
       "currency_select_placeholder": "Moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
       "share": "Compartir",
-      "disclaimer_header": "Envíe solo {{currency}} a esta direción de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens a esta dirección distintas a {{currency}} puede resultar en la pérdida de su depósito.",
+      "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
+      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
       "share_title": "Direccion de wallet"
     },
     "nft_detail": {

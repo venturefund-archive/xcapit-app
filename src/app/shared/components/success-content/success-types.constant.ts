@@ -19,14 +19,14 @@ export const SUCCESS_TYPES = {
     urlClose: '/tabs/home',
     textPrimary: 'apikeys.success_apikeys_edition.textPrimary',
     textSecondary: 'apikeys.success_apikeys_edition.textSecondary',
-    urlPrimaryAction: '/tabs/funds',
+    urlPrimaryAction: '/tabs/investments/binance',
     namePrimaryAction: 'apikeys.success_apikeys_edition.namePrimaryAction',
   },
   fund: {
-    urlClose: '/tabs/funds',
+    urlClose: '/tabs/investments/binance',
     textPrimary: 'funds.fund_success.textPrimary',
     textSecondary: 'funds.fund_success.textSecondary',
-    urlPrimaryAction: '/tabs/funds',
+    urlPrimaryAction: '/tabs/investments/binance',
     namePrimaryAction: 'funds.fund_success.namePrimaryAction',
   },
   email_reset_password: {
@@ -52,10 +52,10 @@ export const SUCCESS_TYPES = {
     nameSecondaryAction: 'usuarios.register.resend_email_button',
   },
   fund_renew: {
-    urlClose: '/tabs/funds',
+    urlClose: '/tabs/investments/binance',
     textPrimary: 'funds.fund_success_renew.textPrimary',
     textSecondary: 'funds.fund_success_renew.textSecondary',
-    urlPrimaryAction: '/tabs/funds',
+    urlPrimaryAction: '/tabs/investments/binance',
     namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction',
   },
   apikeys_register_success_begginer: {

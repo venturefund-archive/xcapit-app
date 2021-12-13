@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 import { DOCUMENT } from '@angular/common';
+import { BarcodeScanner, SupportedFormat } from '@capacitor-community/barcode-scanner';
 
 @Component({
   selector: 'app-scan-qr-modal',
@@ -47,7 +47,7 @@ import { DOCUMENT } from '@angular/common';
 export class ScanQrModalComponent implements OnInit {
   title: string;
   cancelText: string;
-  barcodeScanner = Plugins.BarcodeScanner;
+  barcodeScanner = BarcodeScanner;
 
   constructor(
     private modalController: ModalController,
@@ -93,7 +93,7 @@ export class ScanQrModalComponent implements OnInit {
   async scan() {
     if (await this.authorized()) {
       await this.hideBackground();
-      const result = await this.barcodeScanner.startScan({ targetedFormats: ['QR_CODE'] });
+      const result = await this.barcodeScanner.startScan({ targetedFormats: [SupportedFormat.QR_CODE] });
       await this.showBackground();
       await this.modalController.dismiss(this.contentOf(result), this.roleOf(result));
     } else {
