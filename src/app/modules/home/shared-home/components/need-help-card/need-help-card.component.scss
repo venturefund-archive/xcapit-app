@@ -1,0 +1,29 @@
+.nhc {
+  margin-top: 8px;
+  background-color: var(--ion-color-info);
+  border-radius: 8px;
+  border: 0.5px solid var(--ion-color-uxmedium);
+  max-height: 329px;
+  &__content {
+    display: flex;
+
+    width: 100%;
+    &__body {
+      align-self: center;
+      width: 100%;
+      margin-left: 16px;
+      &__title {
+        color: var(--ion-color-uxlight);
+        margin-bottom: 4px;
+      }
+
+      &__subtitle {
+        color: var(--ion-color-uxlight);
+      }
+    }
+  }
+
+  img {
+    border-radius: 8px;
+  }
+}

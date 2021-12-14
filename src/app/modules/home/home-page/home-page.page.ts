@@ -110,6 +110,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
             </div>
           </div>
         </div>
+        <app-need-help-card></app-need-help-card>
       </div>
     </ion-content>
   `,
