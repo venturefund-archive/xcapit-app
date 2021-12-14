@@ -253,6 +253,7 @@ export const PROD_COINS: Coin[] = [
     network: 'BSC_BEP20',
     chainId: 97,
     rpc: environment.bscApiUrl,
+    contract: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
     decimals: 18,
   },
   {

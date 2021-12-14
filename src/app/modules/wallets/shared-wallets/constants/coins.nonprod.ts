@@ -142,7 +142,7 @@ export const NONPROD_COINS: Coin[] = [
     network: 'BSC_BEP20',
     chainId: 97,
     rpc: environment.bscApiUrl,
-    contract: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
+    contract: '0xF9f93cF501BFaDB6494589Cb4b4C15dE49E85D0e',
     decimals: 18,
   },
   {
@@ -166,7 +166,7 @@ export const NONPROD_COINS: Coin[] = [
     network: 'BSC_BEP20',
     chainId: 97,
     rpc: environment.bscApiUrl,
-    contract: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+    contract: '0x78867BbEeF44f2326bF8DDd1941a4439382EF2A7',
     decimals: 18,
   },
   {
