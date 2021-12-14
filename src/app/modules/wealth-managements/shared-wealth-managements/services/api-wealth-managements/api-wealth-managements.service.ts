@@ -87,7 +87,7 @@ export class ApiWealthManagementsService {
 
   getInvestorProfile(): Observable<any> {
     return new Observable((o) => {
-      o.next();
+      o.next({ profile: 'wealth_managements.profiles.conservative' });
     });
   }
 }

@@ -2157,6 +2157,11 @@
       "header": "Investor test",
       "next_button": "Continue",
       "submit_button": "Finish and send test"
+    },
+    "profiles": {
+      "conservative": "Conservative",
+      "medium": "Medium",
+      "risky": "Risky"
     }
   }
 }

@@ -2344,6 +2344,11 @@
       "header": "Test de inversionista",
       "next_button": "Continuar",
       "submit_button": "Finalizar y enviar test"
+    },
+    "profiles": {
+      "conservative": "Conservador",
+      "medium": "Medio",
+      "risky": "Riesgoso"
     }
   }
 }
