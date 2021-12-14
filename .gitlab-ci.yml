@@ -32,6 +32,8 @@ cache:
 ### Syntax check
 .syntax-check: &syntax-check
   stage: syntax
+  tags:
+    - foss
   image: node:${NODE_VERSION}-alpine
   cache:
     untracked: true
@@ -45,6 +47,8 @@ cache:
 ### NodeJS test
 .nodejs-test: &nodejs-test
   stage: test
+  tags:
+    - foss
   image: node:${NODE_VERSION}
   cache:
     untracked: true
@@ -73,6 +77,8 @@ cache:
 ### Docker lint
 .docker-lint: &docker-lint
   stage: syntax
+  tags:
+    - foss
   image: '${HADOLINT_REPO}:${HADOLINT_TAG}'
   before_script:
     - hadolint --version
@@ -83,6 +89,8 @@ cache:
 ### Semantic release
 .semantic-release: &semantic-release
   stage: release
+  tags:
+    - foss
   image: node:${NODE_VERSION}
   before_script:
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D
