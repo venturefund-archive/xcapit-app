@@ -263,6 +263,10 @@ const formData = {
     },
     BSC_BEP20: {
       BNB: false,
+      CAKE: false,
+      ADA: false,
+      BUSD: false,
+      AVAX: false,
     },
   },
 };
