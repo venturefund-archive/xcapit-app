@@ -104,6 +104,10 @@ export class SelectCoinsWalletPage implements OnInit {
     }),
     BSC_BEP20: this.formBuilder.group({
       BNB: [false],
+      CAKE: [false],
+      ADA: [false],
+      BUSD: [false],
+      AVAX: [false],
     }),
   });
 
