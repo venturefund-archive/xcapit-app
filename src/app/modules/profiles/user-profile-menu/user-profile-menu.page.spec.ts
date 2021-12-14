@@ -60,7 +60,7 @@ const itemMenu = [
       {
         name: 'Funds',
         text: 'profiles.user_profile_menu.funds',
-        route: '/tabs/funds',
+        route: '/tabs/investments',
       },
       {
         name: 'FinishedFunds',
