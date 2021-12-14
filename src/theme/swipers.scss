@@ -1,0 +1,28 @@
+@import '~swiper/scss';
+@import '~swiper/scss/navigation';
+
+.swiper-button-next {
+  background-image: url(../assets/img/investor-test/next.svg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+  width: 34px;
+  margin-right: 6px;
+}
+
+.swiper-button-next::after {
+  display: none;
+}
+
+.swiper-button-prev {
+  background-image: url(../assets/img/investor-test/back.svg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  width: 34px;
+  margin-left: 6px;
+  background-position: center;
+}
+
+.swiper-button-prev::after {
+  display: none;
+}
