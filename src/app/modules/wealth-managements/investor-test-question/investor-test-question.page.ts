@@ -16,7 +16,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
             (click)="this.goToPreviousQuestion()"
           ></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'wealth_management.investor_test.header' | translate }}</ion-title>
+        <ion-title>{{ 'wealth_managements.investor_test.header' | translate }}</ion-title>
         <ion-label class="step_counter" slot="end" *ngIf="this.investorTestService.hasLoadedQuestions"
           >{{ this.currentQuestionNumber }} {{ 'shared.step_counter.of' | translate }}
           {{ this.totalNumberOfQuestions }}</ion-label
@@ -37,8 +37,16 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
               [controlName]="'answer'"
             ></app-ux-radio-item-group>
           </div>
-          <div class="it__next_button">
-            <ion-button name="Submit" type="submit">{{ this.buttonText | translate }}</ion-button>
+          <div class="it__submit_button">
+            <ion-button
+              appTrackClick
+              name="Submit"
+              class="ux_button"
+              type="submit"
+              color="uxsecondary"
+              [disabled]="this.submitButtonService.isDisabled && !this.form.valid"
+              >{{ this.buttonText | translate }}</ion-button
+            >
           </div>
         </form>
       </div>
@@ -71,7 +79,6 @@ export class InvestorTestQuestionPage implements OnInit {
     return this.currentQuestionNumber === 1;
   }
 
-  // TODO: this aren't properties
   get answers(): any {
     return Object.values(this.question.options);
   }
@@ -85,7 +92,7 @@ export class InvestorTestQuestionPage implements OnInit {
   }
 
   get buttonText(): string {
-    return `wealth_management.investor_test.${this.isLastQuestion ? 'submit_button' : 'next_button'}`;
+    return `wealth_managements.investor_test.${this.isLastQuestion ? 'submit_button' : 'next_button'}`;
   }
 
   get isValidQuestionNumber(): boolean {

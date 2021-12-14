@@ -2329,7 +2329,7 @@
     "header": "Perfil de inversionista",
     "title": "¿Qué tipo de inversionista eres?",
     "subtitle": "Realiza el test de perfil de inversionista, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
-    "investor_test": {
+    "investor_test_options": {
       "title1": "Tomar el test",
       "description1": "Conoce tu perfil de inversionista haciendo este test.",
       "title2": "Escoger manualmente",
@@ -2339,6 +2339,11 @@
       "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es {{testResult}} ",
       "namePrimaryAction": "Ir a mi perfil de inversionista",
       "nameSecondaryAction": "Volver al incio"
+    },
+    "investor_test": {
+      "header": "Test de inversionista",
+      "next_button": "Continuar",
+      "submit_button": "Finalizar y enviar test"
     }
   }
 }

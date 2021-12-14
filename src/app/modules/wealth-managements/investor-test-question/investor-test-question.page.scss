@@ -11,13 +11,15 @@
     }
 
     &__answers {
-      &__option {
-        &__item {
-          ion-text {
-            color: var(--ion-color-uxdark);
-          }
-          display: flex;
-        }
+      margin-top: 20px;
+    }
+
+    &__submit_button {
+      width: 100%;
+      margin-top: 20px;
+
+      ion-button {
+        width: 100%;
       }
     }
   }

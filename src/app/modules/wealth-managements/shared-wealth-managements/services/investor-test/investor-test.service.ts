@@ -56,7 +56,7 @@ export class InvestorTestService {
       return;
     }
 
-    return Object.keys(this.questions)[n - 1];
+    return Object.keys(this.questions).sort()[n - 1];
   }
 
   getAnswerKeyByQuestionKey(questionKey: string): string {
@@ -89,7 +89,7 @@ export class InvestorTestService {
 
   saveAnswers(): Observable<any> {
     if (this.hasAnsweredAllQuestions) {
-      return this.apiWealthManagementsService.saveInvestorTestScore(null, this.totalScore);
+      return this.apiWealthManagementsService.saveInvestorTestScore(this.totalScore);
     }
   }
 
