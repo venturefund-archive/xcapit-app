@@ -2141,6 +2141,10 @@
         "investments": "Inversiones",
         "objectives": "Objetivos",
         "coming_soon_alert": "Esta opción estará disponible pronto"
+      },
+      "need_help_card": {
+        "title": "¿Necesitas ayuda?",
+        "subtitle": "Ver preguntas frecuentes"
       }
     }
   },
