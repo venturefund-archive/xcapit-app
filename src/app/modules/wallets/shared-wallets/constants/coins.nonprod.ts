@@ -180,5 +180,5 @@ export const NONPROD_COINS: Coin[] = [
     rpc: environment.bscApiUrl,
     contract: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
     decimals: 18,
-  }, // sinceramente no entiendo por que no anda esta porongaaaaaaaaaaaaa
+  },
 ];
