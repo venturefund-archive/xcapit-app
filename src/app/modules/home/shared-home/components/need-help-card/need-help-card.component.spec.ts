@@ -35,13 +35,17 @@ describe('NeedHelpCardComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['support/options']);
   });
 
-  it('should render properly', () => {
+  it('should render card title properly', () => {
     const cardTitleEl = fixture.debugElement.query(By.css('.nhc__content__body__title'));
     expect(cardTitleEl.nativeElement.innerHTML).toContain('home.home_page.need_help_card.title');
+  });
 
+  it('should render card subtitle properly', () => {
     const cardSubtitleEl = fixture.debugElement.query(By.css('.nhc__content__body__subtitle'));
     expect(cardSubtitleEl.nativeElement.innerHTML).toContain('home.home_page.need_help_card.subtitle');
+  });
 
+  it('should render card image properly', () => {
     const cardImageEl = fixture.debugElement.query(By.css('.nhc__content__img'));
     expect(cardImageEl.attributes['src']).toBe('/assets/img/home/need-help.png');
   });
