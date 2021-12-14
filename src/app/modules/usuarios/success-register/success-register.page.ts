@@ -20,14 +20,13 @@ export class SuccessRegisterPage implements OnInit {
   data: any;
   email: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private navController: NavController
-  ) {
-    this.route.queryParams.subscribe((params) => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.email = this.router.getCurrentNavigation().extras.state.email;
+  constructor(private route: ActivatedRoute, private router: Router, private navController: NavController) {
+    this.route.queryParams.subscribe(() => {
+      const navigationState = this.router.getCurrentNavigation().extras;
+      if (navigationState) {
+        this.email = navigationState.state.email;
+      } else {
+        this.navController.navigateBack(['/users/register', this.email]);
       }
     });
   }
@@ -37,10 +36,6 @@ export class SuccessRegisterPage implements OnInit {
   }
 
   resendVerificationEmail() {
-    const params = { state: { email: this.email } };
-    this.navController.navigateForward(
-      ['/users/resend-verification-email'],
-      params
-    );
+    this.navController.navigateForward(['/users/resend-verification-email', this.email]);
   }
 }
