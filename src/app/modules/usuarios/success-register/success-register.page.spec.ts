@@ -31,10 +31,7 @@ describe('SuccessRegisterPage', () => {
 
       TestBed.configureTestingModule({
         declarations: [SuccessRegisterPage, DummyComponent],
-        imports: [
-          IonicModule,
-          RouterTestingModule.withRoutes([{ path: 'users/resend-verify-email', component: DummyComponent }]),
-        ],
+        imports: [IonicModule, RouterTestingModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteMock },
@@ -67,10 +64,10 @@ describe('SuccessRegisterPage', () => {
   it('should pass the user email on resendVerificationEmail', () => {
     activatedRouteMock.queryParams.next();
     component.resendVerificationEmail();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
-      jasmine.any(Array),
-      jasmine.objectContaining(extras.extras)
-    );
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([
+      '/users/resend-verification-email',
+      'test@test.com',
+    ]);
   });
 
   it('should get the user email when created', () => {
