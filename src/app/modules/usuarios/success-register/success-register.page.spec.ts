@@ -2,17 +2,15 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { SuccessRegisterPage } from './success-register.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
+import { By } from '@angular/platform-browser';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeRouter } from 'src/testing/fakes/router.fake.spec';
 
 const extras = {
-  extras: {
-    state: {
-      email: 'test@test.com',
-    },
+  state: {
+    email: 'test@test.com',
   },
 };
 
@@ -20,31 +18,32 @@ describe('SuccessRegisterPage', () => {
   let component: SuccessRegisterPage;
   let fixture: ComponentFixture<SuccessRegisterPage>;
   let activatedRouteMock: any;
-  let navControllerSpy: any;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeRouter: FakeRouter;
+  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(
     waitForAsync(() => {
       activatedRouteMock = {
         queryParams: new Subject(),
       };
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController({}, {});
+      navControllerSpy = fakeNavController.createSpy();
+
+      fakeRouter = new FakeRouter(extras);
+      routerSpy = fakeRouter.createSpy();
 
       TestBed.configureTestingModule({
-        declarations: [SuccessRegisterPage, DummyComponent],
-        imports: [IonicModule, RouterTestingModule],
+        declarations: [SuccessRegisterPage],
+        imports: [IonicModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: Router, useValue: routerSpy },
         ],
       }).compileComponents();
-
-      const router = TestBed.inject(Router);
-      const currentNavigation = router.getCurrentNavigation();
-      spyOn(router, 'getCurrentNavigation').and.returnValue({
-        ...currentNavigation,
-        ...extras,
-      });
 
       fixture = TestBed.createComponent(SuccessRegisterPage);
       component = fixture.componentInstance;
@@ -56,22 +55,23 @@ describe('SuccessRegisterPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call navigateForward on resendVerificationEmail', () => {
-    component.resendVerificationEmail();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-  });
-
-  it('should pass the user email on resendVerificationEmail', () => {
+  it('should navigate to resend verification email when "I didnt received the email" is clicked', () => {
     activatedRouteMock.queryParams.next();
-    component.resendVerificationEmail();
+    fixture.debugElement.query(By.css('app-success-content')).triggerEventHandler('secondaryActionEvent', null);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([
       '/users/resend-verification-email',
       'test@test.com',
     ]);
   });
 
+  it('should navigate back to register when there is no email to resend', () => {
+    fakeRouter.modifyReturns();
+    activatedRouteMock.queryParams.next();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
+  });
+
   it('should get the user email when created', () => {
     activatedRouteMock.queryParams.next();
-    expect(component.email).toEqual(extras.extras.state.email);
+    expect(component.email).toEqual(extras.state.email);
   });
 });
