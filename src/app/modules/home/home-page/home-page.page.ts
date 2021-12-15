@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
-import { Plugins } from '@capacitor/core';
 
 @Component({
   selector: 'app-home',
@@ -20,10 +19,9 @@ import { Plugins } from '@capacitor/core';
           </ion-button>
         </ion-buttons>
         <div class="header">
-          <div class="header__logo ion-text-center">
-            <app-xcapit-logo></app-xcapit-logo>
-          </div>
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
+        <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
 
@@ -112,6 +110,7 @@ import { Plugins } from '@capacitor/core';
             </div>
           </div>
         </div>
+        <app-need-help-card></app-need-help-card>
       </div>
     </ion-content>
   `,

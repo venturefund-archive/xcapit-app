@@ -21,17 +21,17 @@ export class WalletService {
     private appStorageService: AppStorageService
   ) {}
 
-  create(): ethers.Wallet[] {
-    if (this.mnemonicExists() && this.selectedCoins()) {
-      this.createdWallets = [];
-      const derivedPaths = environment.derivedPaths;
-
-      Object.values(derivedPaths).forEach((path) => {
-        this.createdWallets.push(this.createForDerivedPath(path));
-      });
-
-      return this.createdWallets;
-    }
+  create(): Promise<ethers.Wallet[]> {
+    return new Promise((resolve) => {
+      if (this.mnemonicExists() && this.selectedCoins()) {
+        this.createdWallets = [];
+        const derivedPaths = environment.derivedPaths;
+        Object.values(derivedPaths).forEach((path) => {
+          this.createdWallets.push(this.createForDerivedPath(path));
+        });
+      }
+      resolve(this.createdWallets);
+    });
   }
 
   private createForDerivedPath(derivedPath: string) {

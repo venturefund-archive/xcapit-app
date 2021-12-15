@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { InformativeModalComponent } from 'src/app/modules/menus/main-menu/components/informative-modal/informative-modal.component';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 
-const { Browser } = Plugins;
 @Component({
   selector: 'app-home-subheader',
   template: `

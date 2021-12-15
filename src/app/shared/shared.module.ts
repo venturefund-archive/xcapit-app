@@ -53,6 +53,9 @@ import { FaqComponent } from '../modules/support/shared-support/components/faq/f
 import { TestOptionItemComponent } from '../modules/wealth-managements/shared-wealth-managements/components/test-option-item/test-option-item.component';
 import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.component';
 import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
+import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
+import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
+import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,8 @@ import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-r
     ToastAlertComponent,
     ScanQrModalComponent,
     EmbedVideoComponent,
-
+    LoadingModalComponent,
+    NeedHelpCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -103,6 +107,7 @@ import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-r
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
+    AvatarProfileComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -127,6 +132,8 @@ import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-r
     NeedHelpComponent,
     ToastAlertComponent,
     ScanQrModalComponent,
+    LoadingModalComponent,
+    NeedHelpCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -162,6 +169,7 @@ import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-r
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
+    AvatarProfileComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

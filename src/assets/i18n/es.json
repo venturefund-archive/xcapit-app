@@ -758,6 +758,23 @@
       "country": "País",
       "country_placeholder": "Elije un país"
     },
+    "user_profile_menu": {
+      "header": "Mi perfil",
+      "category_help": "Ayuda",
+      "faq_help": "Preguntas frecuentes",
+      "support_help": "Hablar con soporte",
+      "category_security_account": "Seguridad cuenta Xcapit",
+      "change_pass": "Cambiar contraseña",
+      "category_security_wallet": "Seguridad wallet Xcapit",
+      "security_phrase": "Frase de seguridad",
+      "category_binance_investment": "Inversiones Binance",
+      "funds": "Fondos",
+      "finished_funds": "Fondos Finalizados",
+      "manage_apikey": "Gestión de API Keys",
+      "category_preferences": "Preferencias",
+      "language": "Idioma",
+      "logout": "Cerrar Sesión"
+    },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
       "textSecondary": "Ahora necesitamos que vincules tu “wallet virtual de criptomonedas“(Exchange) para que comencemos a gestionarlas.",
@@ -1432,7 +1449,11 @@
       "suite": "Suite ",
       "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
       "native": "NATIVA",
-      "submit_edit": "Guardar cambios"
+      "submit_edit": "Guardar cambios",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos verificando tu frase"
+      }
     },
     "success_creation": {
       "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",
@@ -1452,7 +1473,11 @@
       "header": "Crear wallet",
       "title": "Verifica tu frase",
       "text1": "Toca las palabras en el orden correspondiente",
-      "btn_create": "Siguiente"
+      "btn_create": "Siguiente",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos verificando tu frase"
+      }
     },
     "create_password": {
       "header": "Crear wallet",
@@ -1460,7 +1485,11 @@
       "description": "La contraseña sirve para hacer tu wallet más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu wallet con las 12 palabras.",
       "password": "Contraseña",
       "repeat_password": "Confirmar contraseña",
-      "finish_button": "Finalizar y crear wallet"
+      "finish_button": "Finalizar y crear wallet",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos creando tu wallet"
+      }
     },
     "receive": {
       "header": "Recibir",
@@ -1470,8 +1499,8 @@
       "currency_select_placeholder": "Moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
       "share": "Compartir",
-      "disclaimer_header": "Envíe solo {{currency}} ({{network}}) a esta direción de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens a esta dirección distintas a {{currency}} ({{network}}) puede resultar en la pérdida de su depósito.",
+      "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
+      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
       "share_title": "Direccion de wallet"
     },
     "nft_detail": {
@@ -2112,6 +2141,10 @@
         "investments": "Inversiones",
         "objectives": "Objetivos",
         "coming_soon_alert": "Esta opción estará disponible pronto"
+      },
+      "need_help_card": {
+        "title": "¿Necesitas ayuda?",
+        "subtitle": "Ver preguntas frecuentes"
       }
     }
   },
@@ -2349,6 +2382,22 @@
       "conservative": "Conservador",
       "medium": "Medio",
       "risky": "Riesgoso"
+    },
+    "about_investor_profile": {
+      "header": "Perfil de inversionista",
+      "button_select": "Este es mi perfil",
+      "conservative_profile": {
+        "title": "Perfil Conservador",
+        "subtitle": "Te caracterizas por ser poco tolerante al riesgo y valorar la seguridad. Por lo tanto, prefieres instrumentos de inversión que te den certeza de que no perderás parte o todo el dinero que invertirás.  No te importa que las ganancias (rendimiento) obtenidas sean bajas."
+      },
+      "moderated_profile": {
+        "title": "Perfil Moderado",
+        "subtitle": "Eres una persona cautelosa con tus decisiones, pero estas dispuesta a tolerar un riesgo moderado para aumentar tus ganancias. Procuras mantener un balance entre rentabilidad y seguridad."
+      },
+      "aggressive_profile": {
+        "title": "Perfil Agresivo",
+        "subtitle": "Buscas los mayores rendimientos posibles, por lo que estas dispuesto a asumir el riesgo que sea necesario. No es recomendable mantener esta actitud de riesgo cuando no cuentas con la suficiente solvencia, o si se tienes compromisos familiares importantes."
+      }
     }
   }
 }

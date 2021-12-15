@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -41,6 +43,11 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
             suite="POLYGON"
             [coins]="this.polygonCoins"
           ></app-items-coin-group>
+          <app-items-coin-group
+            *ngIf="this.bep20Coins"
+            suite="BSC_BEP20"
+            [coins]="this.bep20Coins"
+          ></app-items-coin-group>
         </div>
         <div class="ux_footer">
           <div class="sc__next_button">
@@ -69,6 +76,7 @@ export class SelectCoinsWalletPage implements OnInit {
   ethCoins: Coin[];
   rskCoins: Coin[];
   polygonCoins: Coin[];
+  bep20Coins: Coin[];
 
   form: FormGroup = this.formBuilder.group({
     ETH: this.formBuilder.group({
@@ -94,19 +102,27 @@ export class SelectCoinsWalletPage implements OnInit {
     POLYGON: this.formBuilder.group({
       MATIC: [false],
     }),
+    BSC_BEP20: this.formBuilder.group({
+      BNB: [false],
+      CAKE: [false],
+      ADA: [false],
+      BUSD: [false],
+      AVAX: [false],
+    }),
   });
 
   almostOneChecked = false;
   allChecked = false;
   originalFormData: any;
-
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private navController: NavController,
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private loadingService: LoadingService,
+    private translate: TranslateService
   ) {}
 
   ionViewWillEnter() {
@@ -116,6 +132,7 @@ export class SelectCoinsWalletPage implements OnInit {
     this.ethCoins = this.coins.filter((coin) => coin.network === 'ERC20');
     this.rskCoins = this.coins.filter((coin) => coin.network === 'RSK');
     this.polygonCoins = this.coins.filter((coin) => coin.network === 'MATIC');
+    this.bep20Coins = this.coins.filter((coin) => coin.network === 'BSC_BEP20');
 
     if (this.mode === 'edit') {
       this.getUserCoins();
@@ -146,8 +163,11 @@ export class SelectCoinsWalletPage implements OnInit {
 
       switch (this.mode) {
         case 'import':
-          this.walletService.create();
-          this.navController.navigateForward(['/wallets/create-password', 'import']);
+          this.loadingService
+            .showModal(this.modalOptions())
+            .then(() => this.walletService.create())
+            .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']))
+            .then(() => this.loadingService.dismissModal());
           break;
         case 'edit':
           await this.storageService.toggleAssets(this.getChangedAssets());
@@ -158,6 +178,14 @@ export class SelectCoinsWalletPage implements OnInit {
           break;
       }
     }
+  }
+
+  private modalOptions() {
+    return {
+      title: this.translate.instant('wallets.verify_phrase.loading.title'),
+      subtitle: this.translate.instant('wallets.verify_phrase.loading.subtitle'),
+      image: 'assets/img/verify-phrase/map.svg',
+    };
   }
 
   getAllSuites() {

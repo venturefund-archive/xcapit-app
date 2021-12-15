@@ -4,7 +4,12 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-investments-tab-card',
   template: `
-    <ion-card class="itc ux-card-new ion-no-margin ion-padding">
+    <ion-card
+      class="itc ux-card-new ion-no-margin ion-padding"
+      appTrackClick
+      name="Navigate to Option"
+      (click)="this.navigateToOption()"
+    >
       <div class="itc__text_col">
         <div class="itc__text_col__title_ct">
           <ion-text class="itc__text_col__title_ct__title ux-font-text-lg">
@@ -18,14 +23,7 @@ import { NavController } from '@ionic/angular';
         </div>
       </div>
       <div class="itc__button_col">
-        <ion-button
-          appTrackClick
-          name="Navigate to Option"
-          class="itc__button_col__button ion-no-padding ion-no-margin"
-          fill="clear"
-          size="small"
-          (click)="this.navigateToOption()"
-        >
+        <ion-button class="itc__button_col__button ion-no-padding ion-no-margin" fill="clear" size="small">
           <ion-icon class="itc__button_col__button__icon" name="ux-forward"></ion-icon>
         </ion-button>
       </div>

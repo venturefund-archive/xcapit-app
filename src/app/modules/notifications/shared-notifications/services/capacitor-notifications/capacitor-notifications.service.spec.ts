@@ -11,7 +11,7 @@ describe('CapacitorNotificationsService', () => {
 
   beforeEach(() => {
     apiDevicesServiceMock = {};
-    pushNotificationsSpy = jasmine.createSpyObj('PushNotifications', ['requestPermission', 'register', 'addListener']);
+    pushNotificationsSpy = jasmine.createSpyObj('PushNotifications', ['requestPermissions', 'register', 'addListener']);
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
       isNative: false,
     });
@@ -33,13 +33,13 @@ describe('CapacitorNotificationsService', () => {
   });
 
   it('should call register on init when permission granted', async () => {
-    pushNotificationsSpy.requestPermission.and.returnValue(Promise.resolve({ granted: true }));
+    pushNotificationsSpy.requestPermissions.and.returnValue(Promise.resolve({ receive: 'granted' }));
     await service.init();
     expect(pushNotificationsSpy.register).toHaveBeenCalledTimes(1);
   });
 
   it('should not call register on init when permission is not granted', async () => {
-    pushNotificationsSpy.requestPermission.and.returnValue(Promise.resolve({ granted: false }));
+    pushNotificationsSpy.requestPermissions.and.returnValue(Promise.resolve({ receive: 'not granted' }));
     await service.init();
     expect(pushNotificationsSpy.register).not.toHaveBeenCalled();
   });

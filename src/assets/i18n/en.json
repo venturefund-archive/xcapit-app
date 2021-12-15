@@ -753,6 +753,25 @@
       "country": "Country",
       "country_placeholder": "Select a country"
     },
+
+    "user_profile_menu": {
+      "header": "My Profile",
+      "category_help": "Help",
+      "faq_help": "Frecuently questions",
+      "support_help": "Talk to support",
+      "category_security_account": "Security Xcapit account",
+      "change_pass": "Password Change",
+      "category_security_wallet": "Security Xcapit wallet",
+      "security_phrase": "Security phrase",
+      "category_binance_investment": "Binance investments",
+      "funds": "Funds",
+      "finished_funds": "Finished funds",
+      "manage_apikey": "Manage API Keys",
+      "category_preferences": "Preferences",
+      "language": "Language",
+      "logout": "Log Out"
+    },
+
     "success_profile": {
       "textPrimary": "¡You have setted up your account!",
       "textSecondary": "Now we need you to link your Exchange (Binance) to see your capital.",
@@ -1428,7 +1447,11 @@
       "suite": "Suite",
       "recordatory": "Remember that to operate on each network you must have its native currency.",
       "native": "NATIVE",
-      "submit_edit": "Save changes"
+      "submit_edit": "Save changes",
+      "loading": {
+        "title": "Time!",
+        "subtitle": "We are verifying your phrase"
+      }
     },
     "success_creation": {
       "title": "Nice! your wallet is now created and your recovery phrase is verified",
@@ -1448,7 +1471,11 @@
       "header": "Create Wallet",
       "title": "Check your phrase",
       "text1": "Tap the words in the corresponding order",
-      "btn_create": "Next"
+      "btn_create": "Next",
+      "loading": {
+        "title": "Time!",
+        "subtitle": "We are verifying your phrase"
+      }
     },
     "create_password": {
       "header": "Create Wallet",
@@ -1456,7 +1483,11 @@
       "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
       "password": "Password",
       "repeat_password": "Confirm Password",
-      "finish_button": "Finish and create wallet"
+      "finish_button": "Finish and create wallet",
+      "loading": {
+        "title": "Time!",
+        "subtitle": "We are building your wallet"
+      }
     },
     "receive": {
       "header": "Receive",
@@ -1466,8 +1497,8 @@
       "currency_select_placeholder": "Currency",
       "average_time": "Average receive time: 3 min.",
       "share": "Share",
-      "disclaimer_header": "Send only {{currency}} ({{network}}) to this deposit address.",
-      "disclaimer_body": "Sending other coins or tokens to this address other than {{currency}} ({{network}}) may result in the loss of your deposit.",
+      "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
+      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
       "share_title": "Wallet address"
     },
     "nft_detail": {
@@ -2114,6 +2145,10 @@
         "investments": "Investments",
         "objectives": "Objectives",
         "coming_soon_alert": "This option will be available soon"
+      },
+      "need_help_card": {
+        "title": "Need help?",
+        "subtitle": "See frequently asked questions"
       }
     }
   },
@@ -2162,6 +2197,22 @@
       "conservative": "Conservative",
       "medium": "Medium",
       "risky": "Risky"
+    },
+    "about_investor_profile": {
+      "header": "Investor Profile",
+      "button_select": "This is my profile",
+      "conservative_profile": {
+        "title": "Conservative Profile",
+        "subtitle": "You characterize yourself for being little risk-tolerant and valuing safety. Therefore, you prefer investment instruments that give you the certainty that you will not lose part or all of the money that you will invest. You do not care that the gains (performance) obtained are low."
+      },
+      "moderated_profile": {
+        "title": "Moderate Profile",
+        "subtitle": "You are a cautious person with your decisions, but you are willing to tolerate a moderate risk to increase your profits. You try to maintain a balance between profitability and security."
+      },
+      "aggressive_profile": {
+        "title": "Aggressive Profile",
+        "subtitle": "You seek the highest possible returns, so you are willing to take whatever risk is necessary. It is not advisable to maintain this risk attitude when you do not have sufficient solvency, or if you have important family commitments."
+      }
     }
   }
 }

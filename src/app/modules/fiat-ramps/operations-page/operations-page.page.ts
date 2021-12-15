@@ -17,12 +17,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
           {{ 'fiat_ramps.operations_list.header' | translate }}
         </ion-title>
         <ion-buttons slot="end">
-          <ion-button
-            class="ux-font-text-xs new-operation ion-padding-end"
-            appTrackClick
-            name="New Operation"
-            (click)="this.checkEmptyApiKeys()"
-          >
+          <ion-button class="ux-font-text-xs" appTrackClick name="New Operation" (click)="this.checkEmptyApiKeys()">
             {{ 'fiat_ramps.operations_list.new' | translate }}
           </ion-button>
         </ion-buttons>

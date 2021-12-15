@@ -1,0 +1,25 @@
+:host {
+  .user-data {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-mail {
+    margin-left: 16px;
+  }
+  .ux-card {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  .card-title {
+    display: flex;
+    align-content: center;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-left: 16px;
+
+    &__text {
+      margin-left: 12px;
+    }
+  }
+}

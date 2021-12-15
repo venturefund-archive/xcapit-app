@@ -5,19 +5,18 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
-import '@codetrix-studio/capacitor-google-auth';
-import { Plugins } from '@capacitor/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 @Component({
   selector: 'app-login',
   template: `
     <ion-header>
       <div class="xcapit-logo">
-        <app-xcapit-logo></app-xcapit-logo>
+        <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
       </div>
     </ion-header>
     <div class="login_title">
@@ -98,7 +97,7 @@ import { Storage } from '@ionic/storage';
 })
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
-  googleAuthPlugin: any = Plugins.GoogleAuth;
+  googleAuthPlugin: any = GoogleAuth;
   alreadyOnboarded: boolean;
 
   constructor(

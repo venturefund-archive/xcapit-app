@@ -8,33 +8,35 @@ import { ModalController } from '@ionic/angular';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { Capacitor } from '@capacitor/core';
-import { FileWriteResult } from '@capacitor/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { WriteFileResult } from '@capacitor/filesystem';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 describe('FundShareChartComponent', () => {
   let component: FundShareChartComponent;
   let fixture: ComponentFixture<FundShareChartComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundShareChartComponent>;
   let modalControllerSpy: any;
-  let capacitorSpy: any;
   let fileOpenerMock: any;
   let fileOpener: any;
   let fileSystemMock: any;
   let toastServiceMock: any;
   let toastService: any;
   let shareServiceSpy: any;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
 
   const resultFileWrite = {
     uri: 'download/test.png',
-  } as FileWriteResult;
+  } as WriteFileResult;
 
   beforeEach(() => {
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: true,
+    });
     shareServiceSpy = jasmine.createSpyObj('ShareService', ['share']);
     modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
-    capacitorSpy = jasmine.createSpyObj('Capacitor', ['isNative']);
     fileOpenerMock = {
       showOpenWithDialog: () => Promise.resolve({}),
     };
@@ -51,7 +53,7 @@ describe('FundShareChartComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: Capacitor, useValue: capacitorSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
         { provide: FileOpener, useValue: fileOpenerMock },
         { provide: ShareService, useValue: shareServiceSpy },
         { provide: ToastService, useValue: toastServiceMock },
@@ -86,14 +88,13 @@ describe('FundShareChartComponent', () => {
   });
 
   it('should call nativeDownload on downloadChart if isNative true', () => {
-    Capacitor.isNative = true;
     const spy = spyOn(component, 'nativeDownload');
     component.downloadChart();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call pwaDownload on downloadChart if isNative false', () => {
-    Capacitor.isNative = false;
+    platformServiceSpy.isNative.and.returnValue(false);
     const spy = spyOn(component, 'pwaDownload');
     component.downloadChart();
     expect(spy).toHaveBeenCalledTimes(1);

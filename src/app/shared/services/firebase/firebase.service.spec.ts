@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FirebaseAnalyticsWeb } from '@capacitor-community/firebase-analytics';
 import { FirebaseNamespace } from '@firebase/app-types';
-import { of } from 'rxjs';
 import { PlatformService } from '../platform/platform.service';
 import { FirebaseService } from './firebase.service';
 

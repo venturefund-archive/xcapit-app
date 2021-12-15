@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-const { Browser } = Plugins;
+import { BrowserService } from '../../../../../shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-faq',
@@ -24,9 +23,8 @@ const { Browser } = Plugins;
 export class FaqComponent implements AfterViewInit {
   @Input() faq;
   showFirst = false;
-  browser = Browser;
   anchors;
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef, private browserService: BrowserService) {}
 
   changeState() {
     this.showFirst = !this.showFirst;
@@ -53,8 +51,7 @@ export class FaqComponent implements AfterViewInit {
   }
 
   async openInfo(link) {
-    await Browser.open({
-      toolbarColor: '#1c2d5e',
+    await this.browserService.open({
       url: link,
     });
   }
