@@ -53,6 +53,7 @@ import { FaqComponent } from '../modules/support/shared-support/components/faq/f
 import { TestOptionItemComponent } from '../modules/wealth-managements/shared-wealth-managements/components/test-option-item/test-option-item.component';
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
+import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { LoadingModalComponent } from './components/loading-modal/loading-modal.
     ScanQrModalComponent,
     EmbedVideoComponent,
     LoadingModalComponent,
+    NeedHelpCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -127,6 +129,7 @@ import { LoadingModalComponent } from './components/loading-modal/loading-modal.
     ToastAlertComponent,
     ScanQrModalComponent,
     LoadingModalComponent,
+    NeedHelpCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
