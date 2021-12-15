@@ -112,6 +112,31 @@ export const ABOUT_WALLET = [
   {
     title: 'support.support_wallet.question23',
     answer: 'support.support_wallet.answer23',
+    last: false,
+  },
+  {
+    title: 'support.support_wallet.question24',
+    answer: 'support.support_wallet.answer24',
+    last: false,
+  },
+  {
+    title: 'support.support_wallet.question25',
+    answer: 'support.support_wallet.answer25',
+    last: false,
+  },
+  {
+    title: 'support.support_wallet.question26',
+    answer: 'support.support_wallet.answer26',
+    last: false,
+  },
+  {
+    title: 'support.support_wallet.question27',
+    answer: 'support.support_wallet.answer27',
+    last: false,
+  },
+  {
+    title: 'support.support_wallet.question28',
+    answer: 'support.support_wallet.answer28',
     last: true,
   },
 ];
