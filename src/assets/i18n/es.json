@@ -2239,7 +2239,9 @@
       "question6": "¿Cómo hago para pagar el servicio de Xcapit?",
       "answer6": "Actualmente en Xcapit contamos con un sistema de cobro de membresías, dependiendo del capital que necesites invertir, hay membresías gratuitas si quieres empezar a probar.",
       "question7": "¿Cuándo debo pagar el servicio de Xcapit?",
-      "answer7": "En el caso de que decidas empezar con la membresía gratuita, Plan Explorer, comenzarás a pagar solo si decides sobrepasar el límite de 300 dólares en tu inversión. El pago se hace mensualmente y el valor de la membresía depende de cual elijas. ¡En todos los planes pagos tienes 30 días gratis!"
+      "answer7": "En el caso de que decidas empezar con la membresía gratuita, Plan Explorer, comenzarás a pagar solo si decides sobrepasar el límite de 300 dólares en tu inversión. El pago se hace mensualmente y el valor de la membresía depende de cual elijas. ¡En todos los planes pagos tienes 30 días gratis!",
+      "question8": "¿Puedo usar Xcapit desde cualquier parte del mundo?",
+      "answer8": "Por el momento está disponible únicamente en Argentina, Brasil, Colombia, México y España."
     },
     "support_wallet": {
       "header": "Ayuda",
@@ -2289,7 +2291,17 @@
       "question22": "¿Cómo puedo visualizar mi NFT “Financial Freedom México”?",
       "answer22": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo.",
       "question23": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
-      "answer23": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento."
+      "answer23": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento.",
+      "question24": "¿Puedo hacer dos wallets con la misma cuenta?",
+      "answer24": "Hola! Sí, se puede crear dos wallets distintas con la misma cuenta. Desde la opción crear o importar. Ten en cuenta que si te anotaste para recibir tu NFT de regalo el mismo se depositara en la última wallet creada.",
+      "question25": "Creé una wallet desde el navegador y después instalé la app y ahora tengo dos seeds ¿Qué hago?",
+      "answer25": "Hola! Lo que debés hacer para mantener la wallet que creaste inicialmente desde el navegador es importarla desde la App. No crear una nueva.",
+      "question26": "Ya reclamé mi NFT de regalo ¿Cuándo lo tendré disponible?",
+      "answer26": "Hola! Antes que nada gracias por participar de la acción. El proceso no es automático, a partir del 6 de diciembre comenzaremos a entregarlos. Te avisaremos mediante notificación cuando suceda.",
+      "question27": "Creé mi Wallet pero en mi PC, ¿esto es un problema para recibir el NFT Freedom Mexico?",
+      "answer27": "Hola! Podés hacerlo sin problema desde la PC, solo tené en cuenta que si creas tu wallet por primera vez desde la pc y luego queres pasar a la app. móvil debés importar la wallet usando la frase de recuperación. De lo contrario se te crearán dos wallets y el NFT se depositará en la última wallet creada.",
+      "question28": "¿Todavía puedo obtener mi NFT Freedom México?",
+      "answer28": "Hola! Ya nos quedamos sin NFTs. Estos eran para las primeras 16.921 personas que se registren y ya alcanzamos ese número. No te preocupes, próximamente haremos más acciones del estilo para quienes no llegaron a participar."
     },
     "support_security": {
       "header": "Ayuda",
