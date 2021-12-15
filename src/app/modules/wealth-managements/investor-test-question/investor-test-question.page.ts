@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
+import {
+  Answer,
+  Question,
+} from '../shared-wealth-managements/services/api-wealth-managements/api-wealth-managements.service';
 import { InvestorTestService } from '../shared-wealth-managements/services/investor-test/investor-test.service';
 
 @Component({
@@ -33,7 +37,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
           <div class="it__answers">
             <app-ux-radio-item-group
               [labels]="this.answersLabels"
-              [values]="this.answersKeys"
+              [values]="this.question.options"
               [controlName]="'answer'"
             ></app-ux-radio-item-group>
           </div>
@@ -56,8 +60,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
 })
 export class InvestorTestQuestionPage implements OnInit {
   private baseRoute = '/wealth-management/investor-test';
-  question: any;
-  currentQuestionKey: string;
+  question: Question;
   currentQuestionNumber: number;
   form: FormGroup = this.formBuilder.group({
     answer: ['', [Validators.required]],
@@ -79,16 +82,16 @@ export class InvestorTestQuestionPage implements OnInit {
     return this.currentQuestionNumber === 1;
   }
 
-  get answers(): any {
-    return Object.values(this.question.options);
+  get answers(): Answer[] {
+    return this.question.options;
   }
 
-  get answersKeys(): any {
-    return Object.keys(this.question.options);
+  get answersKeys(): number[] {
+    return this.question.options.map((a: Answer, i: number) => i);
   }
 
-  get answersLabels(): any {
-    return Object.values(this.question.options).map((a: any) => a.text);
+  get answersLabels(): string[] {
+    return this.question.options.map((a: Answer) => a.text);
   }
 
   get buttonText(): string {
@@ -139,7 +142,7 @@ export class InvestorTestQuestionPage implements OnInit {
   }
 
   handleSubmit() {
-    this.investorTestService.setAnswer(this.currentQuestionKey, this.form.value.answer);
+    this.investorTestService.setAnswer(this.question, this.form.value.answer);
 
     if (this.isLastQuestion) {
       this.investorTestService.saveAnswers().subscribe(() => {
@@ -155,11 +158,10 @@ export class InvestorTestQuestionPage implements OnInit {
   }
 
   loadQuestionAndAnswers() {
-    this.currentQuestionKey = this.investorTestService.getQuestionKeyByNumber(this.currentQuestionNumber);
-    this.question = this.investorTestService.getQuestionByKey(this.currentQuestionKey);
+    this.question = this.investorTestService.getQuestionByNumber(this.currentQuestionNumber);
 
     if (this.investorTestService.hasAnsweredQuestion(this.currentQuestionNumber)) {
-      const answer = this.investorTestService.getAnswerKeyByQuestionKey(this.currentQuestionKey);
+      const answer = this.investorTestService.getAnswerByQuestion(this.question);
       this.form.patchValue({ answer });
     }
   }

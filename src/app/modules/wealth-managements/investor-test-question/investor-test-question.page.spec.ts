@@ -9,51 +9,57 @@ import { of } from 'rxjs';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { Question } from '../shared-wealth-managements/services/api-wealth-managements/api-wealth-managements.service';
 import { InvestorTestService } from '../shared-wealth-managements/services/investor-test/investor-test.service';
 
 import { InvestorTestQuestionPage } from './investor-test-question.page';
 
-const testQuestions = {
-  Pregunta2: {
+const testQuestions: Question[] = [
+  {
     text: 'Que tan arriesgado sos?',
-    options: {
-      opcion1: { text: 'Me asustan las cachorros', points: 1 },
-      opcion2: { text: 'Mas o menos', points: 2 },
-      opcion3: { text: 'Me tiro a la pileta sin agua', points: 3 },
-    },
+    order: 0,
+    options: [
+      { text: 'Me asustan las cachorros', points: 1 },
+      { text: 'Mas o menos', points: 2 },
+      { text: 'Me tiro a la pileta sin agua', points: 3 },
+    ],
   },
-  Pregunta1: {
+  {
     text: 'blablabla',
-    options: {
-      opcion1: { text: 'blablabla', points: 1 },
-      opcion2: { text: 'blablabla', points: 2 },
-      opcion3: { text: 'blablabla', points: 3 },
-    },
+    order: 1,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+      { text: 'blablabla', points: 3 },
+    ],
   },
-  Pregunta3: {
+  {
     text: 'blablabla',
-    options: {
-      opcion1: { text: 'blablabla', points: 1 },
-      opcion2: { text: 'blablabla', points: 2 },
-      opcion3: { text: 'blablabla', points: 3 },
-    },
+    order: 2,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+      { text: 'blablabla', points: 3 },
+    ],
   },
-  Pregunta4: {
+  {
     text: 'blablabla',
-    options: {
-      opcion1: { text: 'blablabla', points: 1 },
-      opcion2: { text: 'blablabla', points: 2 },
-    },
+    order: 3,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+    ],
   },
-  Pregunta5: {
+  {
     text: 'blablabla',
-    options: {
-      opcion1: { text: 'blablabla', points: 1 },
-      opcion2: { text: 'blablabla', points: 2 },
-      opcion3: { text: 'blablabla', points: 3 },
-    },
+    order: 4,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+      { text: 'blablabla', points: 3 },
+    ],
   },
-};
+];
 
 describe('InvestorTestQuestionPage', () => {
   let component: InvestorTestQuestionPage;
@@ -80,9 +86,8 @@ describe('InvestorTestQuestionPage', () => {
       investorTestServiceSpy = jasmine.createSpyObj(
         'InvestorTestService',
         {
-          getQuestionKeyByNumber: 'Pregunta1',
-          getQuestionByKey: testQuestions.Pregunta1,
-          getAnswerKeyByQuestionKey: 'opcion2',
+          getQuestionByNumber: testQuestions[0],
+          getAnswerByQuestion: testQuestions[0].options[0],
           setAnswer: undefined,
           loadQuestions: undefined,
           hasAnsweredQuestion: false,
@@ -91,7 +96,7 @@ describe('InvestorTestQuestionPage', () => {
         },
         {
           questions: testQuestions,
-          totalNumberOfQuestions: Object.keys(testQuestions).length,
+          totalNumberOfQuestions: testQuestions.length,
           hasLoadedQuestions: true,
         }
       );
@@ -154,39 +159,35 @@ describe('InvestorTestQuestionPage', () => {
     expect(component.isLastQuestion).toBeFalse();
   });
 
-  it('should get question number and key and show question with answers on ionViewWillEnter', () => {
+  it('should get question number and show question with answers on ionViewWillEnter', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     const question = fixture.debugElement.query(By.css('ion-text[name="Question"]')).nativeElement.innerHTML;
     expect(component.currentQuestionNumber).toEqual(1);
-    expect(component.currentQuestionKey).toEqual('Pregunta1');
-    expect(component.question).toEqual(testQuestions.Pregunta1);
-    expect(question).toEqual(testQuestions.Pregunta1.text);
-    expect(Object.keys(component.answers).length).toEqual(Object.keys(testQuestions.Pregunta1.options).length);
-    expect(component.answersKeys).toEqual(Object.keys(testQuestions.Pregunta1.options));
+    expect(component.question).toEqual(testQuestions[0]);
+    expect(question).toEqual(testQuestions[0].text);
+    expect(component.answers.length).toEqual(testQuestions[0].options.length);
+    expect(component.answersKeys).toEqual([0, 1, 2]);
   });
 
-  it('should get question number and key and show question with answers when previous question has been answered on ionViewWillEnter', () => {
+  it('should get question number and show question with answers when previous question has been answered on ionViewWillEnter', () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
-    investorTestServiceSpy.getQuestionKeyByNumber.and.returnValue('Pregunta2');
-    investorTestServiceSpy.getQuestionByKey.and.returnValue(testQuestions.Pregunta2);
+    investorTestServiceSpy.getQuestionByNumber.and.returnValue(testQuestions[1]);
     activatedRouteMock.snapshot.paramMap.get = (question) => '2';
     component.ionViewWillEnter();
     fixture.detectChanges();
     const question = fixture.debugElement.query(By.css('ion-text[name="Question"]')).nativeElement.innerHTML;
     expect(component.currentQuestionNumber).toEqual(2);
-    expect(component.currentQuestionKey).toEqual('Pregunta2');
-    expect(component.question).toEqual(testQuestions.Pregunta2);
-    expect(question).toEqual(testQuestions.Pregunta2.text);
-    expect(Object.keys(component.answers).length).toEqual(Object.keys(testQuestions.Pregunta2.options).length);
-    expect(component.answersKeys).toEqual(Object.keys(testQuestions.Pregunta2.options));
+    expect(component.question).toEqual(testQuestions[1]);
+    expect(question).toEqual(testQuestions[1].text);
+    expect(component.answers.length).toEqual(testQuestions[1].options.length);
+    expect(component.answersKeys).toEqual([0, 1, 2]);
   });
 
   it('should redirect to first question if question is invalid on ionViewWillEnter', () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => 'test';
     component.ionViewWillEnter();
     expect(component.currentQuestionNumber).toEqual(NaN);
-    expect(component.currentQuestionKey).toEqual(undefined);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
@@ -194,7 +195,6 @@ describe('InvestorTestQuestionPage', () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => undefined;
     component.ionViewWillEnter();
     expect(component.currentQuestionNumber).toEqual(NaN);
-    expect(component.currentQuestionKey).toEqual(undefined);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
@@ -202,7 +202,6 @@ describe('InvestorTestQuestionPage', () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => 6;
     component.ionViewWillEnter();
     expect(component.currentQuestionNumber).toEqual(6);
-    expect(component.currentQuestionKey).toEqual(undefined);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
@@ -210,7 +209,6 @@ describe('InvestorTestQuestionPage', () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => '0';
     component.ionViewWillEnter();
     expect(component.currentQuestionNumber).toEqual(0);
-    expect(component.currentQuestionKey).toEqual(undefined);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
@@ -218,7 +216,6 @@ describe('InvestorTestQuestionPage', () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => '2';
     component.ionViewWillEnter();
     expect(component.currentQuestionNumber).toEqual(2);
-    expect(component.currentQuestionKey).toEqual(undefined);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
@@ -232,7 +229,7 @@ describe('InvestorTestQuestionPage', () => {
   });
 
   it('should show submit button text when is not last question', () => {
-    activatedRouteMock.snapshot.paramMap.get = (question) => Object.keys(testQuestions).length.toString();
+    activatedRouteMock.snapshot.paramMap.get = (question) => testQuestions.length.toString();
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -252,7 +249,7 @@ describe('InvestorTestQuestionPage', () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => '1';
     component.ionViewWillEnter();
     fixture.detectChanges();
-    expect(component.form.value).toEqual({ answer: 'opcion2' });
+    expect(component.form.value).toEqual({ answer: testQuestions[0].options[0] });
   });
 
   it('should not load answer if question has not already been answered', () => {
@@ -294,8 +291,7 @@ describe('InvestorTestQuestionPage', () => {
 
   it('should send user score on last question and navigate to Success Page when Submit Button clicked', () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
-    investorTestServiceSpy.getQuestionKeyByNumber.and.returnValue('Pregunta5');
-    investorTestServiceSpy.getQuestionByKey.and.returnValue(testQuestions.Pregunta5);
+    investorTestServiceSpy.getQuestionByNumber.and.returnValue(testQuestions[4]);
     activatedRouteMock.snapshot.paramMap.get = (question) => '5';
     component.ionViewWillEnter();
     component.form.patchValue({ answer: 'opcion1' });

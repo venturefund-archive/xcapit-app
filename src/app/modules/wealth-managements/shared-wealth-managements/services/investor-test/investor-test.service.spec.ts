@@ -1,50 +1,79 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { ApiWealthManagementsService } from '../api-wealth-managements/api-wealth-managements.service';
-
+import {
+  Answer,
+  ApiWealthManagementsService,
+  Question,
+} from '../api-wealth-managements/api-wealth-managements.service';
 import { InvestorTestService } from './investor-test.service';
 
-const testQuestions = {
-  Pregunta2: {
+const testQuestions: Question[] = [
+  {
     text: 'Que tan arriesgado sos?',
-    options: {
-      opcion1: { text: 'Me asustan las cachorros', points: 1 },
-      opcion2: { text: 'Mas o menos', points: 2 },
-      opcion3: { text: 'Me tiro a la pileta sin agua', points: 3 },
-    },
+    order: 0,
+    options: [
+      { text: 'Me asustan las cachorros', points: 1 },
+      { text: 'Mas o menos', points: 2 },
+      { text: 'Me tiro a la pileta sin agua', points: 3 },
+    ],
   },
-  Pregunta1: {
+  {
     text: 'blablabla',
-    options: {
-      opcion1: { text: 'blablabla', points: 1 },
-      opcion2: { text: 'blablabla', points: 2 },
-      opcion3: { text: 'blablabla', points: 3 },
-    },
+    order: 1,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+      { text: 'blablabla', points: 3 },
+    ],
   },
-  Pregunta3: {
+];
+
+const testQuestionsUnsorted: Question[] = [
+  {
     text: 'blablabla',
-    options: {
-      opcion1: { text: 'blablabla', points: 1 },
-      opcion2: { text: 'blablabla', points: 2 },
-      opcion3: { text: 'blablabla', points: 3 },
-    },
+    order: 3,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+    ],
   },
-  Pregunta4: {
+  {
+    text: 'Que tan arriesgado sos?',
+    order: 1,
+    options: [
+      { text: 'Me asustan las cachorros', points: 1 },
+      { text: 'Mas o menos', points: 2 },
+      { text: 'Me tiro a la pileta sin agua', points: 3 },
+    ],
+  },
+  {
     text: 'blablabla',
-    options: {
-      opcion1: { text: 'blablabla', points: 1 },
-      opcion2: { text: 'blablabla', points: 2 },
-    },
+    order: 0,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+      { text: 'blablabla', points: 3 },
+    ],
   },
-  Pregunta5: {
+  {
     text: 'blablabla',
-    options: {
-      opcion1: { text: 'blablabla', points: 1 },
-      opcion2: { text: 'blablabla', points: 2 },
-      opcion3: { text: 'blablabla', points: 3 },
-    },
+    order: 2,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+      { text: 'blablabla', points: 3 },
+    ],
   },
-};
+  {
+    text: 'blablabla',
+    order: 4,
+    options: [
+      { text: 'blablabla', points: 1 },
+      { text: 'blablabla', points: 2 },
+      { text: 'blablabla', points: 3 },
+    ],
+  },
+];
 
 describe('InvestorTestService', () => {
   let service: InvestorTestService;
@@ -77,15 +106,8 @@ describe('InvestorTestService', () => {
     expect(service.hasLoadedQuestions).toBeFalse();
   });
 
-  it('should return false when questions is empty object on hasLoadedQuestions getter', () => {
-    service.questions = {};
-    expect(service.hasLoadedQuestions).toBeFalse();
-  });
-
   it('should return true when questions has one question on hasLoadedQuestions getter', () => {
-    service.questions = {
-      Pregunta1: testQuestions.Pregunta1,
-    };
+    service.questions = [testQuestions[0]];
     expect(service.hasLoadedQuestions).toBeTrue();
   });
 
@@ -104,104 +126,111 @@ describe('InvestorTestService', () => {
   });
 
   it('should return false when answers is empty Map on hasAnsweredQuestion getter', () => {
-    service.answers = new Map<string, string>();
+    service.answers = new Map<Question, Answer>();
     expect(service.hasAnsweredAtLeastOneQuestion).toBeFalse();
   });
 
   it('should return true when answers has one answers on hasAnsweredQuestion getter', () => {
-    service.answers = new Map<string, string>();
-    service.answers.set('Pregunta2', 'opcion1');
+    service.answers = new Map<Question, Answer>();
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
     expect(service.hasAnsweredAtLeastOneQuestion).toBeTrue();
   });
 
-  it('should return Pregunta4 when asking for 4th question on getQuestionByNumber', () => {
-    service.loadQuestions();
-    const question = service.getQuestionKeyByNumber(4);
-    expect(question).toEqual('Pregunta4');
+  it('should return 4th question when asking for 4th question on getQuestionByNumber', () => {
+    service.questions = Object.assign([], testQuestionsUnsorted);
+    const question = service.getQuestionByNumber(4);
+    expect(question.order).toEqual(3);
   });
 
-  it('should return Pregunta1 when asking for 1st question on getQuestionByNumber', () => {
+  it('should return first question when asking for 1st question on getQuestionByNumber', () => {
     service.loadQuestions();
-    const question = service.getQuestionKeyByNumber(1);
-    expect(question).toEqual('Pregunta1');
+    const question = service.getQuestionByNumber(1);
+    expect(question.order).toEqual(0);
   });
 
   it('should return undefined when question does not exist on getQuestionByNumber', () => {
     service.loadQuestions();
-    const question = service.getQuestionKeyByNumber(10);
+    const question = service.getQuestionByNumber(10);
     expect(question).toBeUndefined();
   });
 
-  it('should return undefined when questions have not been loaded on getAnswerKeyByQuestionKey', () => {
+  it('should return undefined when questions have not been loaded on getAnswerByQuestion', () => {
     service.answers = undefined;
     service.questions = undefined;
-    const answerKey = service.getAnswerKeyByQuestionKey('Pregunta1');
-    expect(answerKey).toBeUndefined();
+    const answer = service.getAnswerByQuestion(testQuestions[0]);
+    expect(answer).toBeUndefined();
   });
 
-  it('should return undefined when answers have not been defined on getAnswerKeyByQuestionKey', () => {
+  it('should sort array on getQuestionByNumber', () => {
+    service.questions = Object.assign([], testQuestionsUnsorted);
+    service.getQuestionByNumber(1);
+    const order = service.questions.map((q) => q.order);
+    expect(order).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  it('should return undefined when answers have not been defined on getAnswerByQuestion', () => {
     service.answers = undefined;
-    const answerKey = service.getAnswerKeyByQuestionKey('Pregunta1');
-    expect(answerKey).toBeUndefined();
+    const answer = service.getAnswerByQuestion(testQuestions[0]);
+    expect(answer).toBeUndefined();
   });
 
-  it('should return opcion1 when answers contains one answer on getAnswerKeyByQuestionKey', () => {
+  it('should return opcion1 when answers contains one answer on getAnswerByQuestion', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion1');
-    const answerKey = service.getAnswerKeyByQuestionKey('Pregunta1');
-    expect(answerKey).toEqual('opcion1');
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
+    const answer = service.getAnswerByQuestion(testQuestions[0]);
+    expect(answer).toEqual(testQuestions[0].options[0]);
   });
 
-  it('should return undefined when user has not answered that question on getAnswerKeyByQuestionKey', () => {
+  it('should return undefined when user has not answered that question on getAnswerByQuestion', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion1');
-    const answerKey = service.getAnswerKeyByQuestionKey('Pregunta2');
-    expect(answerKey).toBeUndefined();
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
+    const answer = service.getAnswerByQuestion(testQuestions[1]);
+    expect(answer).toBeUndefined();
   });
 
   it('should add element to map on setAnswer', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion1');
-    service.setAnswer('Pregunta2', 'opcion2');
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
+    service.setAnswer(testQuestions[1], testQuestions[1].options[1]);
     expect(service.answers.size).toEqual(2);
   });
 
   it('should add element to map if map empty on setAnswer', () => {
     service.answers = new Map();
-    service.setAnswer('Pregunta1', 'opcion2');
+    service.setAnswer(testQuestions[0], testQuestions[0].options[1]);
     expect(service.answers.size).toEqual(1);
   });
 
   it('should create map and add element if answers is undefined on setAnswer', () => {
-    service.setAnswer('Pregunta1', 'opcion1');
+    service.setAnswer(testQuestions[0], testQuestions[0].options[1]);
     expect(service.answers.size).toEqual(1);
   });
 
   it('should change answer if same answer is set on setAnswer', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion1');
-    service.setAnswer('Pregunta1', 'opcion2');
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
+    service.setAnswer(testQuestions[0], testQuestions[0].options[1]);
     expect(service.answers.size).toEqual(1);
-    expect(service.answers.get('Pregunta1')).toEqual('opcion2');
+    expect(service.answers.get(testQuestions[0])).toEqual(testQuestions[0].options[1]);
   });
 
   it('should return true if user has answered all questions on get hasAnsweredAllQuestions', () => {
-    service.questions = { Pregunta1: testQuestions.Pregunta1 };
+    service.questions = [testQuestions[0]];
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion1');
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
     expect(service.hasAnsweredAllQuestions).toBeTrue();
   });
 
   it('should return false if user has answered one question on get hasAnsweredAllQuestions', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion1');
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
     expect(service.hasAnsweredAllQuestions).toBeFalse();
   });
 
   it('should return false if questions are not loaded on get hasAnsweredAllQuestions', () => {
     service.questions = undefined;
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion1');
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
     expect(service.hasAnsweredAllQuestions).toBeFalse();
   });
 
@@ -229,31 +258,27 @@ describe('InvestorTestService', () => {
 
   it('should return total score if has answered 2 questions on get totalScore', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion3');
-    service.answers.set('Pregunta2', 'opcion1');
+    service.answers.set(testQuestions[0], testQuestions[0].options[0]);
+    service.answers.set(testQuestions[1], testQuestions[1].options[2]);
     expect(service.totalScore).toEqual(4);
-  });
-
-  it('should return the number of questions on get totalNumberOfQuestions', () => {
-    expect(service.totalNumberOfQuestions).toEqual(Object.keys(testQuestions).length);
   });
 
   it('should return true if there is an answer for question on hasAnsweredQuestion', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion3');
+    service.answers.set(testQuestions[0], testQuestions[0].options[2]);
     expect(service.hasAnsweredQuestion(1)).toBeTrue();
   });
 
   it('should return false if there is no answer for question on hasAnsweredQuestion', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion3');
+    service.answers.set(testQuestions[0], testQuestions[0].options[2]);
     expect(service.hasAnsweredQuestion(2)).toBeFalse();
   });
 
   it('should return 2 if 2 questions answered on get numberOfQuestionsAnswered', () => {
     service.answers = new Map();
-    service.answers.set('Pregunta1', 'opcion3');
-    service.answers.set('Pregunta2', 'opcion2');
+    service.answers.set(testQuestions[0], testQuestions[0].options[1]);
+    service.answers.set(testQuestions[1], testQuestions[1].options[2]);
     expect(service.numberOfQuestionsAnswered).toEqual(2);
   });
 

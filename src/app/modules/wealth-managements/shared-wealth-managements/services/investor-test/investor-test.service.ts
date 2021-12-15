@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiWealthManagementsService } from '../api-wealth-managements/api-wealth-managements.service';
+import {
+  Answer,
+  ApiWealthManagementsService,
+  Question,
+} from '../api-wealth-managements/api-wealth-managements.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvestorTestService {
-  answers: Map<string, string>;
-  questions: any;
+  answers: Map<Question, Answer>;
+  questions: Question[];
 
   get hasLoadedQuestions(): boolean {
-    return !!this.questions && Object.keys(this.questions).length !== 0;
+    return !!this.questions && this.questions.length !== 0;
   }
 
   get hasAnsweredAtLeastOneQuestion(): boolean {
@@ -18,7 +22,7 @@ export class InvestorTestService {
   }
 
   get hasAnsweredAllQuestions(): boolean {
-    return this.hasLoadedQuestions && !!this.answers && this.answers.size === Object.keys(this.questions).length;
+    return this.hasLoadedQuestions && !!this.answers && this.answers.size === this.questions.length;
   }
 
   get numberOfQuestionsAnswered(): number {
@@ -34,7 +38,7 @@ export class InvestorTestService {
 
     if (this.hasAnsweredAtLeastOneQuestion) {
       this.answers.forEach((answer, question) => {
-        partialScore += this.questions[question].options[answer].points;
+        partialScore += answer.points;
       });
     }
 
@@ -42,29 +46,25 @@ export class InvestorTestService {
   }
 
   get totalNumberOfQuestions(): number {
-    return Object.keys(this.questions).length;
+    return this.questions.length;
   }
 
   constructor(private apiWealthManagementsService: ApiWealthManagementsService) {}
 
-  getQuestionByKey(key: string): any {
-    return this.questions[key];
-  }
-
-  getQuestionKeyByNumber(n: number): any {
-    if (n > Object.keys(this.questions).length) {
+  getQuestionByNumber(n: number): Question {
+    if (n > this.questions.length) {
       return;
     }
 
-    return Object.keys(this.questions).sort()[n - 1];
+    return this.questions.sort((a, b) => a.order - b.order)[n - 1];
   }
 
-  getAnswerKeyByQuestionKey(questionKey: string): string {
+  getAnswerByQuestion(question: Question): Answer {
     if (!this.hasLoadedQuestions || !this.hasAnsweredAtLeastOneQuestion) {
       return;
     }
 
-    return this.answers.get(questionKey);
+    return this.answers.get(question);
   }
 
   loadQuestions() {
@@ -75,16 +75,16 @@ export class InvestorTestService {
     }
   }
 
-  setAnswer(questionKey: string, answerKey: string) {
+  setAnswer(question: Question, answer: Answer) {
     if (!this.hasAnsweredAtLeastOneQuestion) {
-      this.answers = new Map<string, string>();
+      this.answers = new Map<Question, Answer>();
     }
 
-    this.answers.set(questionKey, answerKey);
+    this.answers.set(question, answer);
   }
 
   hasAnsweredQuestion(questionNumber: number): boolean {
-    return !!this.answers && !!this.answers.get(this.getQuestionKeyByNumber(questionNumber));
+    return !!this.answers && !!this.answers.get(this.getQuestionByNumber(questionNumber));
   }
 
   saveAnswers(): Observable<any> {
