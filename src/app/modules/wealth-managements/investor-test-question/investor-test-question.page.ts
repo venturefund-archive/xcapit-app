@@ -86,10 +86,6 @@ export class InvestorTestQuestionPage implements OnInit {
     return this.question.options;
   }
 
-  get answersKeys(): number[] {
-    return this.question.options.map((a: Answer, i: number) => i);
-  }
-
   get answersLabels(): string[] {
     return this.question.options.map((a: Answer) => a.text);
   }

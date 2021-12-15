@@ -167,7 +167,6 @@ describe('InvestorTestQuestionPage', () => {
     expect(component.question).toEqual(testQuestions[0]);
     expect(question).toEqual(testQuestions[0].text);
     expect(component.answers.length).toEqual(testQuestions[0].options.length);
-    expect(component.answersKeys).toEqual([0, 1, 2]);
   });
 
   it('should get question number and show question with answers when previous question has been answered on ionViewWillEnter', () => {
@@ -181,7 +180,6 @@ describe('InvestorTestQuestionPage', () => {
     expect(component.question).toEqual(testQuestions[1]);
     expect(question).toEqual(testQuestions[1].text);
     expect(component.answers.length).toEqual(testQuestions[1].options.length);
-    expect(component.answersKeys).toEqual([0, 1, 2]);
   });
 
   it('should redirect to first question if question is invalid on ionViewWillEnter', () => {
