@@ -34,6 +34,7 @@ cache:
   stage: syntax
   tags:
     - foss
+    - gitlab-org
   image: node:${NODE_VERSION}-alpine
   cache:
     untracked: true
@@ -49,6 +50,7 @@ cache:
   stage: test
   tags:
     - foss
+    - gitlab-org
   image: node:${NODE_VERSION}
   cache:
     untracked: true
@@ -79,6 +81,7 @@ cache:
   stage: syntax
   tags:
     - foss
+    - gitlab-org
   image: '${HADOLINT_REPO}:${HADOLINT_TAG}'
   before_script:
     - hadolint --version
@@ -91,6 +94,7 @@ cache:
   stage: release
   tags:
     - foss
+    - gitlab-org
   image: node:${NODE_VERSION}
   before_script:
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D
