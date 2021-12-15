@@ -1,0 +1,69 @@
+:host {
+  .wbc {
+    position: relative;
+    display: flex;
+    background-color: var(--ion-color-info);
+    border-radius: 8px;
+    border: 0.5px solid var(--ion-color-uxmedium);
+    width: 100%;
+
+    &__content {
+      display: flex;
+      width: 100%;
+      &__body {
+        margin-left: 16px;
+        align-self: center;
+        width: 100%;
+        &__title {
+          color: var(--ion-color-uxlight);
+          margin-bottom: 4px;
+        }
+
+        &__subtitle {
+          color: var(--ion-color-uxlight);
+        }
+      }
+    }
+
+    &__img {
+      position: relative;
+    }
+
+    &__arrow {
+      color: var(--ion-color-uxlight);
+      align-self: center;
+      margin-right: 8px;
+      position: absolute;
+      right: 0;
+      font-size: 22px;
+    }
+
+    &__content_balance {
+      position: relative;
+      margin-left: 20px;
+      width: 100%;
+      &__body {
+        display: flex;
+        width: 100%;
+        &__balance {
+          color: var(--ion-color-uxlight);
+          margin-left: 20px;
+          margin-top: 20px;
+        }
+        &__description {
+          color: var(--ion-color-uxlight);
+          margin-bottom: 20px;
+        }
+        &__eye-button {
+          margin-top: 24px;
+          margin-left: 10px;
+          color: var(--ion-color-uxlight);
+          ion-icon {
+            position: relative;
+            z-index: 2;
+          }
+        }
+      }
+    }
+  }
+}

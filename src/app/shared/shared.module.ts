@@ -52,7 +52,8 @@ import { ContactSupportComponent } from '../modules/support/shared-support/compo
 import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
 import { TestOptionItemComponent } from '../modules/wealth-managements/shared-wealth-managements/components/test-option-item/test-option-item.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
-import { WalletBalanceCardComponent } from '../modules/home/shared-home/wallet-balance-card/wallet-balance-card/wallet-balance-card.component';
+import { WalletBalanceCardHomeComponent } from '../modules/home/shared-home/wallet-balance-card-home/wallet-balance-card-home/wallet-balance-card-home.component';
+import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
 
 @NgModule({
   declarations: [
@@ -101,12 +102,14 @@ import { WalletBalanceCardComponent } from '../modules/home/shared-home/wallet-b
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
-    WalletBalanceCardComponent,
+    WalletBalanceCardHomeComponent,
+
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
     SafeURLPipe,
+    HideTextPipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -160,12 +163,13 @@ import { WalletBalanceCardComponent } from '../modules/home/shared-home/wallet-b
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
-    WalletBalanceCardComponent,
+    WalletBalanceCardHomeComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
     SafeURLPipe,
+    HideTextPipe,
   ],
 })
 export class SharedModule {}
