@@ -20,7 +20,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
       <div class="wbc__content_balance" *ngIf="this.walletExist">
         <div class="wbc__content_balance__body">
           <img src="assets/ux-icons/ux-wallet-circle.svg" />
-          <div class="ux-font-text-xl wbc__content_balance__body__balance" *ngIf="this.totalBalanceWallet">
+          <div class="ux-font-text-xl wbc__content_balance__body__balance">
             {{ this.totalBalanceWallet | number: '1.2-2' | hideText: this.hideFundText }}
             USD
             <div class="ux-font-text-xxs wbc__content_balance__body__description">{{ 'En tu Wallet' }}</div>

@@ -16,7 +16,6 @@ export class WalletBalanceService {
   balances: Array<AssetBalance> = [];
   allPrices: any;
   userCoins: Coin[];
-  alreadyInitialized = false;
 
   constructor(
     private walletService: WalletService,
@@ -35,53 +34,34 @@ export class WalletBalanceService {
     };
   }
 
-  // async encryptedWalletExist() {
-  //   this.walletService.walletExist().then((res) => {
-  //     this.walletExist = res;
+  async getWalletsBalances() {
+    await this.getAllPrices();
 
-  //     if (!this.alreadyInitialized && res) {
-  //       this.alreadyInitialized = true;
-  //       this.getAllPrices();
-  //     }
-  //   });
-  // }
+    this.balances = [];
 
-  getWalletsBalances() {
-    return this.getAllPrices().then(() => {
-      this.balances = [];
+    for (const coin of this.userCoins) {
+      const walletAddress = this.walletService.addresses[coin.network];
+      if (walletAddress) {
+        const balance = this.createBalancesStructure(coin);
+        const raw_balance = await this.walletService.balanceOf(walletAddress, coin.value);
+        balance.amount = parseFloat(raw_balance);
 
-      for (const coin of this.userCoins) {
-        const walletAddress = this.walletService.addresses[coin.network];
-
-        if (walletAddress) {
-          const balance = this.createBalancesStructure(coin);
-          this.walletService.balanceOf(walletAddress, coin.value).then((res) => {
-            balance.amount = parseFloat(res);
-
-            if (this.allPrices) {
-              const usdPrice = this.getPrice(balance.symbol);
-
-              balance.usdAmount = usdPrice * balance.amount;
-              this.totalBalanceWallet += balance.usdAmount;
-            }
-            this.balances.push(balance);
-            this.orderBalancesByAmount();
-            this.getUsdTotalBalance();
-          });
+        if (this.allPrices) {
+          const usdPrice = this.getPrice(balance.symbol);
+          balance.usdAmount = usdPrice * balance.amount;
         }
+        this.balances.push(balance);
       }
-      return Promise.resolve(this.balances);
-    });
+    }
+    this.orderBalancesByAmount();
   }
 
-  getUsdTotalBalance() {
-    return this.getWalletsBalances().then(() => {
-      const sumUSDAmounts = function (total, currentBalance) {
-        return total + currentBalance.usdAmount;
-      };
-      const totalBalance = this.balances.reduce(sumUSDAmounts, 0);
-      return Promise.resolve(totalBalance);
-    });
+  async getUsdTotalBalance() {
+    await this.getWalletsBalances();
+    const sumUSDAmounts = function (total, currentBalance) {
+      return total + currentBalance.usdAmount;
+    };
+    return this.balances.reduce(sumUSDAmounts, 0);
   }
 
   orderBalancesByAmount() {
@@ -103,10 +83,6 @@ export class WalletBalanceService {
           });
       });
     });
-  }
-
-  private uninitializedWallet() {
-    this.alreadyInitialized = false;
   }
 
   private getCoinForPrice(symbol: string): string {
