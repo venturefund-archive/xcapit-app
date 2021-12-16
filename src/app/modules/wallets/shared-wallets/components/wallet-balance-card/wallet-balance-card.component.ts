@@ -11,7 +11,6 @@ import { NavController } from '@ionic/angular';
           appTrackClick
           name="Edit Tokens"
           class="ion-no-margin"
-          slot="end"
           fill="clear"
           size="small"
           (click)="this.goToSelectCoins()"
