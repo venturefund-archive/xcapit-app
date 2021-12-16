@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { AssetBalance } from 'src/app/modules/wallets/shared-wallets/interfaces/asset-balance.interface';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
@@ -7,7 +8,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
 @Component({
   selector: 'app-wallet-balance-card-home',
   template: `
-    <div class="wbc" (click)="this.goToHomeWallet()">
+    <div class="wbc">
       <div class="wbc__content" *ngIf="!this.walletExist">
         <div class="wbc__content__body">
           <div class="ux-font-text-lg wbc__content__body__title">{{ '¡Quiero mi Wallet!' }}</div>
@@ -21,7 +22,11 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
         <div class="wbc__content_balance__body">
           <img src="assets/ux-icons/ux-wallet-circle.svg" />
           <div class="ux-font-text-xl wbc__content_balance__body__balance">
-            {{ this.totalBalanceWallet | number: '1.2-2' | hideText: this.hideFundText }}
+            {{
+              (this.totalBalanceWallet ? this.totalBalanceWallet : '0.00')
+                | number: '1.2-2'
+                | hideText: this.hideFundText
+            }}
             USD
             <div class="ux-font-text-xxs wbc__content_balance__body__description">{{ 'En tu Wallet' }}</div>
           </div>
@@ -31,13 +36,16 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           </a>
         </div>
       </div>
-      <ion-icon class="wbc__arrow" name="chevron-forward-outline"></ion-icon>
+      <div class="wbc__arrow" (click)="this.goToHomeWallet()">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
     </div>
   `,
   styleUrls: ['./wallet-balance-card-home.component.scss'],
 })
 export class WalletBalanceCardHomeComponent implements OnInit {
   totalBalanceWallet: number;
+  balances: Array<AssetBalance> = [];
   walletExist: boolean;
   hideFundText: boolean;
 
@@ -68,11 +76,18 @@ export class WalletBalanceCardHomeComponent implements OnInit {
   existWallet() {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
-      this.getWalletBalance();
+      this.getCoinsBalance();
     });
   }
 
-  getWalletBalance() {
+  getCoinsBalance() {
+    this.walletBalance.getWalletsBalances().then((res) => {
+      this.balances = res;
+      this.getTotalBalance();
+    });
+  }
+
+  getTotalBalance() {
     this.walletBalance.getUsdTotalBalance().then((res) => (this.totalBalanceWallet = res));
   }
 }

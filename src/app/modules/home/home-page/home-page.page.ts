@@ -43,10 +43,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       </ion-refresher>
       <!-- Content Cards -->
       <div class="ion-padding">
-        <!-- <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWallet()"> -->
         <app-wallet-balance-card-home></app-wallet-balance-card-home>
-        <!-- </div> -->
-
         <div class="two_cards">
           <div
             class="strategies vertical-card"

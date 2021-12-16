@@ -54,10 +54,10 @@ export class WalletBalanceService {
       }
     }
     this.orderBalancesByAmount();
+    return this.balances;
   }
 
   async getUsdTotalBalance() {
-    await this.getWalletsBalances();
     const sumUSDAmounts = function (total, currentBalance) {
       return total + currentBalance.usdAmount;
     };
