@@ -19,7 +19,12 @@ import { TranslateService } from '@ngx-translate/core';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
+      <form
+        [formGroup]="this.form"
+        (ngSubmit)="this.handleSubmit()"
+        class="ux_main"
+        *ngIf="!!this.form && this.userCoinsLoaded"
+      >
         <div class="sc__content ux_content">
           <app-ux-title class="ion-padding-top ion-margin-top ">
             <div class="sc__title ux-font-text-lg ion-margin-top">
@@ -77,39 +82,8 @@ export class SelectCoinsWalletPage implements OnInit {
   rskCoins: Coin[];
   polygonCoins: Coin[];
   bep20Coins: Coin[];
-
-  form: FormGroup = this.formBuilder.group({
-    ETH: this.formBuilder.group({
-      ETH: [false],
-      LINK: [false],
-      USDT: [false],
-      AAVE: [false],
-      UNI: [false],
-      LUNA: [false],
-      AXS: [false],
-      MANA: [false],
-      SUSHI: [false],
-      COMP: [false],
-      ZIL: [false],
-      ENJ: [false],
-      BAT: [false],
-    }),
-    RSK: this.formBuilder.group({
-      RBTC: [false],
-      RIF: [false],
-      SOV: [false],
-    }),
-    POLYGON: this.formBuilder.group({
-      MATIC: [false],
-    }),
-    BSC_BEP20: this.formBuilder.group({
-      BNB: [false],
-      CAKE: [false],
-      ADA: [false],
-      BUSD: [false],
-      AVAX: [false],
-    }),
-  });
+  userCoinsLoaded: boolean;
+  form: FormGroup;
 
   almostOneChecked = false;
   allChecked = false;
@@ -126,6 +100,7 @@ export class SelectCoinsWalletPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    this.userCoinsLoaded = false;
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.updateTexts();
     this.coins = this.apiWalletService.getCoins();
@@ -134,13 +109,33 @@ export class SelectCoinsWalletPage implements OnInit {
     this.polygonCoins = this.coins.filter((coin) => coin.network === 'MATIC');
     this.bep20Coins = this.coins.filter((coin) => coin.network === 'BSC_BEP20');
 
+    this.createForm();
+
     if (this.mode === 'edit') {
       this.getUserCoins();
     }
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  createForm() {
+    this.form = this.formBuilder.group({
+      ETH: this.createFormGroup(this.ethCoins),
+      RSK: this.createFormGroup(this.rskCoins),
+      POLYGON: this.createFormGroup(this.polygonCoins),
+      BSC_BEP20: this.createFormGroup(this.bep20Coins),
+    });
+
     this.form.valueChanges.subscribe(() => this.setContinueButtonState());
+  }
+
+  createFormGroup(suite: Coin[]): FormGroup {
+    const formGroup = {};
+    suite.forEach((c) => {
+      formGroup[c.value] = [false];
+    });
+
+    return this.formBuilder.group(formGroup);
   }
 
   almostOneToggledInSuite(suite) {
@@ -217,6 +212,7 @@ export class SelectCoinsWalletPage implements OnInit {
       });
 
       this.form.patchValue(this.originalFormData);
+      this.userCoinsLoaded = true;
     });
   }
 
@@ -256,10 +252,12 @@ export class SelectCoinsWalletPage implements OnInit {
         this.submitButtonText = 'wallets.select_coin.submit_edit';
         return;
       case 'import':
+        this.userCoinsLoaded = true;
         this.headerText = 'wallets.recovery_wallet.header';
         this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
         return;
       default:
+        this.userCoinsLoaded = true;
         this.headerText = 'wallets.select_coin.header';
         this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
         return;
