@@ -57,6 +57,7 @@ import { AvatarProfileComponent } from './components/avatar-profile/avatar-profi
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
+import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { InvestorTestCardsComponent } from '../modules/home/shared-home/componen
     FaqComponent,
     TestOptionItemComponent,
     AvatarProfileComponent,
+    NetworkSelectCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -137,6 +139,7 @@ import { InvestorTestCardsComponent } from '../modules/home/shared-home/componen
     LoadingModalComponent,
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
+    NetworkSelectCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
