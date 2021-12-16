@@ -239,19 +239,10 @@ const formData = {
   },
   editTokensOriginal: {
     ETH: {
-      AAVE: false,
       ETH: true,
       LINK: false,
       UNI: false,
       USDT: true,
-      LUNA: false,
-      AXS: false,
-      MANA: false,
-      SUSHI: false,
-      COMP: false,
-      ZIL: false,
-      ENJ: false,
-      BAT: false,
     },
     POLYGON: {
       MATIC: true,
@@ -263,10 +254,25 @@ const formData = {
     },
     BSC_BEP20: {
       BNB: false,
-      CAKE: false,
-      ADA: false,
-      BUSD: false,
-      AVAX: false,
+    },
+  },
+  startForm: {
+    ETH: {
+      ETH: false,
+      LINK: false,
+      UNI: false,
+      USDT: false,
+    },
+    POLYGON: {
+      MATIC: false,
+    },
+    RSK: {
+      RBTC: false,
+      RIF: false,
+      SOV: false,
+    },
+    BSC_BEP20: {
+      BNB: false,
     },
   },
 };
@@ -317,7 +323,12 @@ describe('SelectCoinsWalletPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectCoinsWalletPage);
     component = fixture.componentInstance;
-    component.coins = testCoins;
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: '',
+      }),
+    };
+    component.ionViewWillEnter();
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -395,7 +406,7 @@ describe('SelectCoinsWalletPage', () => {
     expect(walletServiceSpy.coins).toEqual([testCoins[0]]);
   });
 
-  it('should change text on Submit button and Header on Edit mode', () => {
+  it('should change text on Submit button and Header on Edit mode', async () => {
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
         mode: 'edit',
@@ -403,6 +414,7 @@ describe('SelectCoinsWalletPage', () => {
     };
     component.almostOneChecked = true;
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
     const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
@@ -466,5 +478,9 @@ describe('SelectCoinsWalletPage', () => {
     await component.handleSubmit();
     expect(storageServiceSpy.toggleAssets).toHaveBeenCalledOnceWith(changedTokens);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
+  });
+
+  it('should create form with coins on ionViewWillEnter', async () => {
+    expect(component.form.value).toEqual(formData.startForm);
   });
 });
