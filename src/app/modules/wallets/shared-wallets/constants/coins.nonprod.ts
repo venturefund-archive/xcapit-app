@@ -6,6 +6,9 @@ import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
 import rifAbi from './assets-abi/rif-abi.json';
 import sovAbi from './assets-abi/sov-abi.json';
+import busdAbi from './assets-abi/busd-abi.json';
+import cakeAbi from './assets-abi/cake-abi.json';
+import adaAbi from './assets-abi/ada-abi.json';
 
 export const NONPROD_COINS: Coin[] = [
   {
@@ -143,6 +146,7 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 97,
     rpc: environment.bscApiUrl,
     contract: '0xF9f93cF501BFaDB6494589Cb4b4C15dE49E85D0e',
+    abi: cakeAbi,
     decimals: 18,
   },
   {
@@ -155,6 +159,7 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 97,
     rpc: environment.bscApiUrl,
     contract: '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47',
+    abi: adaAbi,
     decimals: 18,
   },
   {
@@ -167,18 +172,7 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 97,
     rpc: environment.bscApiUrl,
     contract: '0x78867BbEeF44f2326bF8DDd1941a4439382EF2A7',
-    decimals: 18,
-  },
-  {
-    id: 14,
-    name: 'AVAX - Avalanche Token',
-    logoRoute: 'assets/img/coins/AVAX.png',
-    last: true,
-    value: 'AVAX',
-    network: 'BSC_BEP20',
-    chainId: 97,
-    rpc: environment.bscApiUrl,
-    contract: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
+    abi: busdAbi,
     decimals: 18,
   },
 ];
