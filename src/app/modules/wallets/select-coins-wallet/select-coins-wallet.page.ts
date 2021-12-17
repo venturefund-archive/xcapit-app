@@ -41,17 +41,10 @@ import { TranslateService } from '@ngx-translate/core';
               {{ 'wallets.select_coin.recordatory' | translate }}
             </div>
           </app-ux-text>
-          <app-items-coin-group *ngIf="this.ethCoins" suite="ETH" [coins]="this.ethCoins"></app-items-coin-group>
-          <app-items-coin-group *ngIf="this.rskCoins" suite="RSK" [coins]="this.rskCoins"></app-items-coin-group>
           <app-items-coin-group
-            *ngIf="this.polygonCoins"
-            suite="POLYGON"
-            [coins]="this.polygonCoins"
-          ></app-items-coin-group>
-          <app-items-coin-group
-            *ngIf="this.bep20Coins"
-            suite="BSC_BEP20"
-            [coins]="this.bep20Coins"
+            [suite]="network"
+            [coins]="this.getCoinsFromNetwork(network)"
+            *ngFor="let network of this.networks"
           ></app-items-coin-group>
         </div>
         <div class="ux_footer">
@@ -76,14 +69,13 @@ import { TranslateService } from '@ngx-translate/core';
 export class SelectCoinsWalletPage implements OnInit {
   headerText: string;
   submitButtonText: string;
-  coins: Coin[];
   mode: string;
-  ethCoins: Coin[];
-  rskCoins: Coin[];
-  polygonCoins: Coin[];
-  bep20Coins: Coin[];
   userCoinsLoaded: boolean;
   form: FormGroup;
+
+  get networks(): string[] {
+    return this.apiWalletService.getNetworks();
+  }
 
   almostOneChecked = false;
   allChecked = false;
@@ -103,12 +95,6 @@ export class SelectCoinsWalletPage implements OnInit {
     this.userCoinsLoaded = false;
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.updateTexts();
-    this.coins = this.apiWalletService.getCoins();
-    this.ethCoins = this.coins.filter((coin) => coin.network === 'ERC20');
-    this.rskCoins = this.coins.filter((coin) => coin.network === 'RSK');
-    this.polygonCoins = this.coins.filter((coin) => coin.network === 'MATIC');
-    this.bep20Coins = this.coins.filter((coin) => coin.network === 'BSC_BEP20');
-
     this.createForm();
 
     if (this.mode === 'edit') {
@@ -119,17 +105,22 @@ export class SelectCoinsWalletPage implements OnInit {
   ngOnInit() {}
 
   createForm() {
-    this.form = this.formBuilder.group({
-      ETH: this.createFormGroup(this.ethCoins),
-      RSK: this.createFormGroup(this.rskCoins),
-      POLYGON: this.createFormGroup(this.polygonCoins),
-      BSC_BEP20: this.createFormGroup(this.bep20Coins),
+    const formGroup = {};
+
+    this.networks.forEach((network) => {
+      formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
     });
+
+    this.form = this.formBuilder.group(formGroup);
 
     this.form.valueChanges.subscribe(() => this.setContinueButtonState());
   }
 
-  createFormGroup(suite: Coin[]): FormGroup {
+  getCoinsFromNetwork(network: string) {
+    return this.apiWalletService.getCoinsFromNetwork(network);
+  }
+
+  createSuiteFormGroup(suite: Coin[]): FormGroup {
     const formGroup = {};
     suite.forEach((c) => {
       formGroup[c.value] = [false];
@@ -183,19 +174,19 @@ export class SelectCoinsWalletPage implements OnInit {
     };
   }
 
-  getAllSuites() {
+  getSuiteFormGroupKeys(): string[] {
     return Object.keys(this.form.value);
   }
 
-  getAllCoinsBySuite(suite) {
-    return Object.keys(this.form.value[suite]);
+  getCoinFormGroupKeys(network: string): string[] {
+    return Object.keys(this.form.value[network]);
   }
 
   setUserCoins() {
-    this.getAllSuites().forEach((suite) => {
-      this.getAllCoinsBySuite(suite).forEach((key) => {
-        if (this.form.value[suite][key]) {
-          const coin = this.coins.find((coinRes) => coinRes.value === key);
+    this.getSuiteFormGroupKeys().forEach((network) => {
+      this.getCoinFormGroupKeys(network).forEach((coinKey) => {
+        if (this.form.value[network][coinKey]) {
+          const coin = this.apiWalletService.getCoin(coinKey, network);
           if (coin) this.walletService.coins.push(coin);
         }
       });
@@ -207,8 +198,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
     this.storageService.getAssestsSelected().then((coins) => {
       coins.forEach((coin) => {
-        const suite = this.getSuiteFromNetwork(coin.network);
-        this.originalFormData[suite][coin.value] = true;
+        this.originalFormData[coin.network][coin.value] = true;
       });
 
       this.form.patchValue(this.originalFormData);
@@ -220,22 +210,11 @@ export class SelectCoinsWalletPage implements OnInit {
     this.originalFormData = Object.assign({}, this.form.value);
   }
 
-  private getSuiteFromNetwork(network: string): string {
-    switch (network) {
-      case 'ERC20':
-        return 'ETH';
-      case 'MATIC':
-        return 'POLYGON';
-      default:
-        return network;
-    }
-  }
-
   private getChangedAssets(): string[] {
     const changedAssets = [];
 
-    this.getAllSuites().forEach((suite) => {
-      this.getAllCoinsBySuite(suite).forEach((key) => {
+    this.getSuiteFormGroupKeys().forEach((suite) => {
+      this.getCoinFormGroupKeys(suite).forEach((key) => {
         if (this.form.value[suite][key] !== this.originalFormData[suite][key]) {
           changedAssets.push(key);
         }
