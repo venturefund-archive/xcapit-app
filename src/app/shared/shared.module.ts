@@ -54,6 +54,7 @@ import { TestOptionItemComponent } from '../modules/wealth-managements/shared-we
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
+import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { NeedHelpCardComponent } from '../modules/home/shared-home/components/ne
     EmbedVideoComponent,
     LoadingModalComponent,
     NeedHelpCardComponent,
+    InvestorTestCardsComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -130,6 +132,7 @@ import { NeedHelpCardComponent } from '../modules/home/shared-home/components/ne
     ScanQrModalComponent,
     LoadingModalComponent,
     NeedHelpCardComponent,
+    InvestorTestCardsComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
