@@ -1,0 +1,71 @@
+.badge {
+  --background: var(--ion-color-successlight);
+  color: var(--ion-color-successdark);
+  margin-left: 16px;
+}
+.investor_cards {
+  display: flex;
+  margin-top: 16px;
+
+  .vertical-card {
+    flex-basis: 50%;
+    background: var(--ion-color-uxlight);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    padding: 10px 5px 19px 5px;
+    border-radius: 8px;
+    border: 0.5px solid var(--ion-color-uxline);
+    box-sizing: border-box;
+    .link {
+      text-align: left;
+      line-height: 16.8px;
+      margin-top: 8px;
+
+      .semibold {
+        font-weight: var(--ux-fweight-extrabold);
+      }
+
+      ion-icon {
+        margin-left: 8px;
+      }
+    }
+  }
+  .take_test_card {
+    margin-right: 11px;
+    &__title {
+      text-align: start;
+      margin-left: 16px;
+      margin-top: 8px;
+      line-height: 19.6px;
+      white-space: pre-wrap;
+    }
+    &__image {
+      margin-left: 16px;
+    }
+  }
+
+  .manual_test_card {
+    margin-right: 11px;
+    display: flex;
+    &__content {
+      width: 95%;
+      &__title {
+        width: 78%;
+        padding-right: 11px;
+        margin-right: 2px;
+        text-align: start;
+        margin-left: 16px;
+        margin-top: 8px;
+        line-height: 19.6px;
+        ion-text {
+          white-space: pre-wrap;
+        }
+      }
+    }
+    &__image {
+      margin-left: 16px;
+    }
+  }
+}

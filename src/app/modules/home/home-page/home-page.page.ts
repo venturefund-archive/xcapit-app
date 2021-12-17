@@ -111,6 +111,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           </div>
         </div>
         <app-need-help-card></app-need-help-card>
+        <app-investor-test-cards></app-investor-test-cards>
       </div>
     </ion-content>
   `,
@@ -120,7 +121,6 @@ export class HomePage implements OnInit {
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
-
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
 
