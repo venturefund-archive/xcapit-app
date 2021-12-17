@@ -2149,6 +2149,13 @@
       "need_help_card": {
         "title": "Need help?",
         "subtitle": "See frequently asked questions"
+      },
+      "test_investor_cards": {
+        "badge_text": "Coming soon",
+        "title1": "Discover your knowledge in finance",
+        "link1": "Take test",
+        "title2": "Do you know what type of investor you are?",
+        "link2": "Find out"
       }
     }
   },

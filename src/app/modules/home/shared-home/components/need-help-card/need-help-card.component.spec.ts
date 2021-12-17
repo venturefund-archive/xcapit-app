@@ -2,17 +2,19 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { NeedHelpCardComponent } from './need-help-card.component';
 
 describe('NeedHelpCardComponent', () => {
   let component: NeedHelpCardComponent;
   let fixture: ComponentFixture<NeedHelpCardComponent>;
-  let navControllerSpy: any;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
         declarations: [NeedHelpCardComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
