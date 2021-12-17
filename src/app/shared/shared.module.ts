@@ -51,6 +51,8 @@ import { SupportOptionsCardComponent } from '../modules/support/shared-support/c
 import { ContactSupportComponent } from '../modules/support/shared-support/components/contact-support/contact-support.component';
 import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
 import { TestOptionItemComponent } from '../modules/wealth-managements/shared-wealth-managements/components/test-option-item/test-option-item.component';
+import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.component';
+import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
@@ -98,6 +100,8 @@ import { NeedHelpCardComponent } from '../modules/home/shared-home/components/ne
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
+    UxRadioItemComponent,
+    UxRadioItemGroupComponent,
     InputSelectComponent,
     SupportOptionsCardComponent,
     ContactSupportComponent,
@@ -158,6 +162,8 @@ import { NeedHelpCardComponent } from '../modules/home/shared-home/components/ne
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
+    UxRadioItemComponent,
+    UxRadioItemGroupComponent,
     InputSelectComponent,
     SupportOptionsCardComponent,
     ContactSupportComponent,

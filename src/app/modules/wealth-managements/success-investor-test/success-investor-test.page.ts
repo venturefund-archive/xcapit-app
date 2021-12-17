@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { ApiWealthManagementsService } from '../shared-wealth-managements/services/api-wealth-managements/api-wealth-managements.service';
 
 @Component({
   selector: 'app-success-investor-test',
@@ -40,10 +42,20 @@ import { NavController } from '@ionic/angular';
 })
 export class SuccessInvestorTestPage implements OnInit {
   data: any;
-  testResult = 'Moderado';
-  constructor(private navController: NavController) {}
+  testResult: any;
+  constructor(
+    private navController: NavController,
+    private apiWealthManagementsService: ApiWealthManagementsService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.apiWealthManagementsService.getInvestorProfile().subscribe((profile) => {
+      this.testResult = this.translateService.instant(profile.profile);
+    });
+  }
 
   continue() {
     this.navController.navigateForward(['']);

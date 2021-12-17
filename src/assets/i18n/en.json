@@ -2177,7 +2177,7 @@
     "header": "Investor Profile",
     "title": "What type of investor are you?",
     "subtitle": "Take the investor profile test, or choose it manually and discover which investments might be right for you.",
-    "investor_test": {
+    "investor_test_options": {
       "title1": "Take the test",
       "description1": "Know your investor profile by doing this test.",
       "title2": "Choose manually",
@@ -2187,6 +2187,16 @@
       "textPrimary": "Congratulations! Your investor profile is {{testResult}}",
       "namePrimaryAction": "Go to my investor profile",
       "nameSecondaryAction": "Back to home"
+    },
+    "investor_test": {
+      "header": "Investor test",
+      "next_button": "Continue",
+      "submit_button": "Finish and send test"
+    },
+    "profiles": {
+      "conservative": "Conservative",
+      "medium": "Medium",
+      "risky": "Risky"
     },
     "about_investor_profile": {
       "header": "Investor Profile",
