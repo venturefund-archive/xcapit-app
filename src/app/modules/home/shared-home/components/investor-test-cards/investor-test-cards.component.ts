@@ -51,7 +51,6 @@ import { NavController } from '@ionic/angular';
 export class InvestorTestCardsComponent implements OnInit {
   comingSoon = true;
   constructor(private navController: NavController) {}
-  @Input()
   ngOnInit() {}
 
   goToInvestorTest() {
