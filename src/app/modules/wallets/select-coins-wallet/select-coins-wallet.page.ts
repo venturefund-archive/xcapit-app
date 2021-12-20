@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
@@ -8,6 +8,7 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { TranslateService } from '@ngx-translate/core';
+import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -88,7 +89,8 @@ export class SelectCoinsWalletPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private storageService: StorageService,
     private loadingService: LoadingService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private modalController: ModalController
   ) {}
 
   ionViewWillEnter() {
@@ -149,21 +151,44 @@ export class SelectCoinsWalletPage implements OnInit {
 
       switch (this.mode) {
         case 'import':
-          this.loadingService
-            .showModal(this.modalOptions())
-            .then(() => this.walletService.create())
-            .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']))
-            .then(() => this.loadingService.dismissModal());
+          this.importWallet();
           break;
         case 'edit':
-          await this.storageService.toggleAssets(this.getChangedAssets());
-          this.navController.navigateForward(['/tabs/wallets']);
+          this.editTokens();
           break;
         default:
-          this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+          this.createWallet();
           break;
       }
     }
+  }
+
+  private importWallet() {
+    this.loadingService
+      .showModal(this.modalOptions())
+      .then(() => this.walletService.create())
+      .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']))
+      .then(() => this.loadingService.dismissModal());
+  }
+
+  private async editTokens() {
+    if (!this.walletService.isUpdated()) {
+      this.updateWallet();
+    }
+    await this.storageService.toggleAssets(this.getChangedAssets());
+    this.navController.navigateForward(['/tabs/wallets']);
+  }
+
+  private async updateWallet() {
+    // TODO: Prompt modal and get password (in this page)
+    // TODO: Decrypt wallet and get mnemonic (WalletEncryptionService)
+    // TODO: Decrypt (WalletEncryptionService)
+    // TODO: Update mnemonic in WalletMnemonicService (WalletEncryptionService -> WalletService -> WalletMnemonicService)
+    // TODO: Update wallet and save in storage (WalletService -> StorageService)
+  }
+
+  private createWallet() {
+    this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
   }
 
   private modalOptions() {

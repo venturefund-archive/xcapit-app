@@ -5,6 +5,7 @@ import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.servic
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { environment } from 'src/environments/environment';
+import { StorageService } from '../storage-wallets/storage-wallets.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class WalletService {
   constructor(
     private walletMnemonicService: WalletMnemonicService,
     private blockchainProviderService: BlockchainProviderService,
-    private appStorageService: AppStorageService
+    private storageService: StorageService
   ) {}
 
   create(): Promise<ethers.Wallet[]> {
@@ -55,7 +56,7 @@ export class WalletService {
   }
 
   async walletExist(): Promise<boolean> {
-    const wallets = await this.appStorageService.get('enc_wallet');
+    const wallets = await this.storageService.getWalletFromStorage();
 
     if (wallets) {
       this.addresses = wallets.addresses;
@@ -63,4 +64,10 @@ export class WalletService {
 
     return !!wallets;
   }
+
+  isUpdated(): boolean {
+    return true;
+  }
+
+  getMnemonic() {}
 }

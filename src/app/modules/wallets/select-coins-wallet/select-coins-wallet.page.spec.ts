@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
@@ -18,6 +18,7 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const testSelectedTokens = [
   {
@@ -286,7 +287,7 @@ const testSuites = {
   BSC_BEP20: testBSC_BEP20Coins,
 };
 
-describe('SelectCoinsWalletPage', () => {
+fdescribe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
@@ -298,8 +299,13 @@ describe('SelectCoinsWalletPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let fakeLoadingService: FakeLoadingService;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
   beforeEach(
     waitForAsync(() => {
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+
       fakeLoadingService = new FakeLoadingService();
       loadingServiceSpy = fakeLoadingService.createSpy();
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -314,7 +320,14 @@ describe('SelectCoinsWalletPage', () => {
       });
       apiWalletServiceSpy.getCoinsFromNetwork.and.callFake((network) => testSuites[network]);
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
-      walletServiceSpy = jasmine.createSpyObj('WalletService', { create: Promise.resolve({}) }, { coins: [] });
+      walletServiceSpy = jasmine.createSpyObj(
+        'WalletService',
+        {
+          create: Promise.resolve({}),
+          isUpdated: Promise.resolve(true),
+        },
+        { coins: [] }
+      );
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
@@ -329,6 +342,7 @@ describe('SelectCoinsWalletPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: LoadingService, useValue: loadingServiceSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -496,5 +510,48 @@ describe('SelectCoinsWalletPage', () => {
 
   it('should create form with coins on ionViewWillEnter', async () => {
     expect(component.form.value).toEqual(formData.startForm);
+  });
+
+  it('should check if wallet is updated when Submit button clicked on Edit mode', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'edit',
+      }),
+    };
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    await component.handleSubmit();
+    expect(walletServiceSpy.isUpdated).toHaveBeenCalledTimes(1);
+  });
+
+  it('should request password and update wallet if wallet outdated when Submit button clicked on Edit mode', async () => {
+    walletServiceSpy.isUpdated.and.returnValue(false);
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'edit',
+      }),
+    };
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    await component.handleSubmit();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not request password and update wallet if wallet is up to daterequest password and update when Submit button clicked on Edit mode', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'edit',
+      }),
+    };
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    await component.handleSubmit();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 });
