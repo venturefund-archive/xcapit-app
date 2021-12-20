@@ -32,20 +32,12 @@ describe('FundSummaryPage', () => {
   let fundDataStorageServiceSpy: jasmine.SpyObj<FundDataStorageService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let storageApikeysServiceSpy: jasmine.SpyObj<StorageApikeysService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundSummaryPage>;
   let apiApiKeysServiceSpy: jasmine.SpyObj<ApiApikeysService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      storageApikeysServiceSpy = jasmine.createSpyObj(
-        'StorageApikeysService',
-        {},
-        {
-          data: { id: 1, alias: '', nombre_bot: '' },
-        }
-      );
       fundDataStorageServiceSpy = jasmine.createSpyObj('FundDataStorageService', {
         getData: Promise.resolve({}),
         setData: Promise.resolve({}),
@@ -78,7 +70,6 @@ describe('FundSummaryPage', () => {
           { provide: ApiFundsService, useValue: apiFundsServiceSpy },
           { provide: FundDataStorageService, useValue: fundDataStorageServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
-          { provide: StorageApikeysService, useValue: storageApikeysServiceSpy },
           { provide: ApiApikeysService, useValue: apiApiKeysServiceSpy },
         ],
       }).compileComponents();
