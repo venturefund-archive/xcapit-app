@@ -160,8 +160,8 @@ describe('HomeWalletPage', () => {
       fixture = TestBed.createComponent(HomeWalletPage);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
-      component.allPrices = undefined;
-      component.userCoins = testCoins.test;
+      // component.allPrices = undefined;
+      // component.userCoins = testCoins.test;
       fixture.detectChanges();
     })
   );
@@ -190,17 +190,17 @@ describe('HomeWalletPage', () => {
     expect(subheader).toBeNull();
   });
 
-  it('should order balances by amount', async () => {
-    fakeWalletService.modifyAttributes({
-      ETH: 'testAddressEth',
-      RSK: 'testAddressRsk',
-    });
-    component.userCoins = testCoins.usdBalanceTest;
-    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
-    fixture.detectChanges();
-    await component.getWalletsBalances();
-    expect(component.balances).toEqual(OrderedBalances);
-  });
+  // it('should order balances by amount', async () => {
+  //   fakeWalletService.modifyAttributes({
+  //     ETH: 'testAddressEth',
+  //     RSK: 'testAddressRsk',
+  //   });
+  //   component.userCoins = testCoins.usdBalanceTest;
+  //   component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
+  //   fixture.detectChanges();
+  //   await component.getWalletsBalances();
+  //   expect(component.balances).toEqual(OrderedBalances);
+  // });
 
   it('should render app-wallets-buttons-subheader when walletExist is true', () => {
     component.walletExist = true;
@@ -240,19 +240,19 @@ describe('HomeWalletPage', () => {
     expect(balanceElement).toBeNull();
   });
 
-  it('should show the total balance in USD on getWalletsBalances', async () => {
-    fakeWalletService.modifyAttributes({
-      ETH: 'testAddressEth',
-      RSK: 'testAddressRsk',
-    });
-    component.userCoins = testCoins.usdBalanceTest;
-    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
-    const expectedBalance = 1060020;
+  // it('should show the total balance in USD on getWalletsBalances', async () => {
+  //   fakeWalletService.modifyAttributes({
+  //     ETH: 'testAddressEth',
+  //     RSK: 'testAddressRsk',
+  //   });
+  //   component.userCoins = testCoins.usdBalanceTest;
+  //   component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
+  //   const expectedBalance = 1060020;
 
-    await component.getWalletsBalances();
+  //   await component.getWalletsBalances();
 
-    expect(component.totalBalanceWallet).toBe(expectedBalance);
-  });
+  //   expect(component.totalBalanceWallet).toBe(expectedBalance);
+  // });
 
   it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Import Wallet');
@@ -284,23 +284,23 @@ describe('HomeWalletPage', () => {
     flush();
   }));
 
-  it('should show the equivalent of each coin balance in USD on getWalletsBalances', async () => {
-    component.userCoins = testCoins.usdBalanceTest;
-    fakeWalletService.modifyAttributes({
-      ETH: 'testAddressEth',
-      RSK: 'testAddressRsk',
-    });
-    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
+  // it('should show the equivalent of each coin balance in USD on getWalletsBalances', async () => {
+  //   component.userCoins = testCoins.usdBalanceTest;
+  //   fakeWalletService.modifyAttributes({
+  //     ETH: 'testAddressEth',
+  //     RSK: 'testAddressRsk',
+  //   });
+  //   component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
 
-    const expectedBalanceRBTC = 1000000;
-    const expectedBalanceETH = 60000;
-    const expectedBalanceUSDT = 20;
+  //   const expectedBalanceRBTC = 1000000;
+  //   const expectedBalanceETH = 60000;
+  //   const expectedBalanceUSDT = 20;
 
-    await component.getWalletsBalances();
-    expect(component.balances[0].usdAmount).toBe(expectedBalanceRBTC);
-    expect(component.balances[1].usdAmount).toBe(expectedBalanceETH);
-    expect(component.balances[2].usdAmount).toBe(expectedBalanceUSDT);
-  });
+  //   await component.getWalletsBalances();
+  //   expect(component.balances[0].usdAmount).toBe(expectedBalanceRBTC);
+  //   expect(component.balances[1].usdAmount).toBe(expectedBalanceETH);
+  //   expect(component.balances[2].usdAmount).toBe(expectedBalanceUSDT);
+  // });
 
   it('should not sum USD balances if coin price was not found on ionViewWillEnter', fakeAsync(() => {
     storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));

@@ -36,7 +36,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           </a>
         </div>
       </div>
-      <div class="wbc__arrow" (click)="this.goToHomeWallet()">
+      <div class="wbc__arrow" name="Go To Home Wallet" (click)="this.goToHomeWallet()" appTrackClick>
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </div>
     </div>

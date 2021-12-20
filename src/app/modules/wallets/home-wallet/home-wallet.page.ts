@@ -160,12 +160,10 @@ export class HomeWalletPage implements OnInit {
   }
 
   async encryptedWalletExist() {
-    console.log('asd', this.alreadyInitialized);
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
 
       if (!this.alreadyInitialized && res) {
-        console.log('entro');
         this.alreadyInitialized = true;
         this.getCoinsBalance();
       }

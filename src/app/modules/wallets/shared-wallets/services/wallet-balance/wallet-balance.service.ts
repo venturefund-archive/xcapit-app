@@ -36,7 +36,6 @@ export class WalletBalanceService {
 
   async getWalletsBalances() {
     await this.getAllPrices();
-
     this.balances = [];
 
     for (const coin of this.userCoins) {
@@ -54,6 +53,7 @@ export class WalletBalanceService {
       }
     }
     this.orderBalancesByAmount();
+    console.log('balances service', this.balances);
     return this.balances;
   }
 
