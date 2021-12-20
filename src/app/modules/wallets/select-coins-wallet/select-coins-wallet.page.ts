@@ -42,7 +42,7 @@ import { TranslateService } from '@ngx-translate/core';
             </div>
           </app-ux-text>
           <app-items-coin-group
-            [suite]="network"
+            [network]="network"
             [coins]="this.getCoinsFromNetwork(network)"
             *ngFor="let network of this.networks"
           ></app-items-coin-group>
