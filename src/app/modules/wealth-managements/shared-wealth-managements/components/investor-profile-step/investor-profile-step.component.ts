@@ -13,10 +13,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         </div>
         <div class="investor_step__content_slide__text">
           <ion-text class="investor_step__content_slide__text__primary_text ux-font-text-lg">
-            {{ this.title }}
+            {{ this.title | translate }}
           </ion-text>
           <ion-text class="investor_step__content_slide__text__secondary_text ux-font-text-base">
-            {{ this.subtitle }}
+            {{ this.subtitle | translate }}
           </ion-text>
         </div>
       </div>
