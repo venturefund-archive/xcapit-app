@@ -17,6 +17,7 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
 
 const testSelectedTokens = [
   {
@@ -79,7 +80,7 @@ const testSelectedTokens = [
   },
 ];
 
-const testCoins = [
+const testERC20Coins: Coin[] = [
   {
     id: 1,
     name: 'ETH - Ethereum',
@@ -127,6 +128,9 @@ const testCoins = [
     contract: '0xf2e3c830C6220795C6e101492BD1b98fb122AC01',
     decimals: 18,
   },
+];
+
+const testRSKCoins: Coin[] = [
   {
     id: 6,
     name: 'RBTC - Smart Bitcoin',
@@ -151,18 +155,6 @@ const testCoins = [
     decimals: 18,
   },
   {
-    id: 8,
-    name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.png',
-    last: false,
-    value: 'MATIC',
-    network: 'MATIC',
-    chainId: 80001,
-    rpc: 'http://testrpc.text/',
-    decimals: 18,
-    native: true,
-  },
-  {
     id: 9,
     name: 'SOV - Sovryn',
     logoRoute: 'assets/img/coins/SOV.png',
@@ -174,6 +166,24 @@ const testCoins = [
     contract: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
     decimals: 18,
   },
+];
+
+const testMATICCoins: Coin[] = [
+  {
+    id: 8,
+    name: 'MATIC - Polygon',
+    logoRoute: 'assets/img/coins/MATIC.png',
+    last: false,
+    value: 'MATIC',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: 'http://testrpc.text/',
+    decimals: 18,
+    native: true,
+  },
+];
+
+const testBSC_BEP20Coins: Coin[] = [
   {
     id: 10,
     name: 'BNB - Binance Coin',
@@ -188,63 +198,55 @@ const testCoins = [
   },
 ];
 
+const testCoins: Coin[] = [...testERC20Coins, ...testRSKCoins, ...testBSC_BEP20Coins, ...testMATICCoins];
+
 const formData = {
   valid: {
-    ETH: {
-      AAVE: false,
+    ERC20: {
       ETH: true,
-      LINK: false,
       UNI: true,
+      LINK: false,
       USDT: false,
-      LUNA: false,
-      AXS: false,
-      MANA: false,
-      SUSHI: false,
-      COMP: false,
-      ZIL: false,
-      ENJ: false,
-      BAT: false,
     },
-    POLYGON: {
+    MATIC: {
       MATIC: false,
     },
     RSK: {
       RBTC: false,
       RIF: false,
+      SOV: false,
+    },
+    BSC_BEP20: {
+      BNB: false,
     },
   },
   invalid: {
-    ETH: {
-      AAVE: false,
+    ERC20: {
       ETH: false,
-      LINK: false,
       UNI: false,
       USDT: false,
-      LUNA: false,
-      AXS: false,
-      MANA: false,
-      SUSHI: false,
-      COMP: false,
-      ZIL: false,
-      ENJ: false,
-      BAT: false,
+      LINK: false,
     },
-    POLYGON: {
+    MATIC: {
       MATIC: false,
     },
     RSK: {
       RBTC: false,
       RIF: false,
+      SOV: false,
+    },
+    BSC_BEP20: {
+      BNB: false,
     },
   },
   editTokensOriginal: {
-    ETH: {
+    ERC20: {
       ETH: true,
-      LINK: false,
       UNI: false,
       USDT: true,
+      LINK: false,
     },
-    POLYGON: {
+    MATIC: {
       MATIC: true,
     },
     RSK: {
@@ -257,13 +259,13 @@ const formData = {
     },
   },
   startForm: {
-    ETH: {
+    ERC20: {
       ETH: false,
       LINK: false,
       UNI: false,
       USDT: false,
     },
-    POLYGON: {
+    MATIC: {
       MATIC: false,
     },
     RSK: {
@@ -275,6 +277,13 @@ const formData = {
       BNB: false,
     },
   },
+};
+
+const testSuites = {
+  ERC20: testERC20Coins,
+  MATIC: testMATICCoins,
+  RSK: testRSKCoins,
+  BSC_BEP20: testBSC_BEP20Coins,
 };
 
 describe('SelectCoinsWalletPage', () => {
@@ -297,7 +306,13 @@ describe('SelectCoinsWalletPage', () => {
         toggleAssets: null,
         getAssestsSelected: Promise.resolve(testSelectedTokens),
       });
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: testCoins });
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getCoins: testCoins,
+        getNetworks: ['ERC20', 'RSK', 'MATIC', 'BSC_BEP20'],
+        getCoinsFromNetwork: undefined,
+        getCoin: testCoins[0],
+      });
+      apiWalletServiceSpy.getCoinsFromNetwork.and.callFake((network) => testSuites[network]);
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
       walletServiceSpy = jasmine.createSpyObj('WalletService', { create: Promise.resolve({}) }, { coins: [] });
       fakeNavController = new FakeNavController();
@@ -362,7 +377,7 @@ describe('SelectCoinsWalletPage', () => {
   });
 
   it('should activate the Next button when at least one token is selected', () => {
-    component.form.patchValue({ ETH: { LINK: true } });
+    component.form.patchValue(formData.valid);
     fixture.detectChanges();
     const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
     expect(nextButton.attributes['ng-reflect-disabled']).toEqual('false');
@@ -399,11 +414,10 @@ describe('SelectCoinsWalletPage', () => {
   });
 
   it('should set coins in wallet service on handleSubmit and valid form', () => {
-    component.coins = testCoins;
-    component.form.patchValue({ ETH: { ETH: true } });
+    component.form.patchValue(formData.valid);
     fixture.detectChanges();
     component.handleSubmit();
-    expect(walletServiceSpy.coins).toEqual([testCoins[0]]);
+    expect(walletServiceSpy.coins.length).toEqual(2);
   });
 
   it('should change text on Submit button and Header on Edit mode', async () => {
