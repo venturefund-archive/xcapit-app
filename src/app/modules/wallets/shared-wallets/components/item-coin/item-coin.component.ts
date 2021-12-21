@@ -4,7 +4,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 @Component({
   selector: 'app-item-coin',
   template: `
-    <div [formGroupName]="this.suite">
+    <div [formGroupName]="this.network">
       <ion-item>
         <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
         <div>
@@ -37,7 +37,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 export class ItemCoinComponent implements OnInit {
   @Input() coin: any;
   @Input() isChecked: boolean;
-  @Input() suite = '';
+  @Input() network = '';
   @Output() changed: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
