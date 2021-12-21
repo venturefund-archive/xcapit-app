@@ -9,41 +9,34 @@ const routes: Routes = [
       {
         path: 'user',
         canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./user-profile/user-profile.module').then(
-            m => m.UserProfilePageModule
-          )
+        loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfilePageModule),
       },
       {
         path: 'personal-data',
         canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./personal-data/personal-data.module').then(
-            m => m.PersonalDataPageModule
-          )
+        loadChildren: () => import('./personal-data/personal-data.module').then((m) => m.PersonalDataPageModule),
       },
       {
         path: 'fiscal-data',
         canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./fiscal-data/fiscal-data.module').then(
-            m => m.FiscalDataPageModule
-          )
+        loadChildren: () => import('./fiscal-data/fiscal-data.module').then((m) => m.FiscalDataPageModule),
       },
       {
         path: 'success',
         canActivate: [AuthGuard],
+        loadChildren: () => import('./success-profile/success-profile.module').then((m) => m.SuccessProfilePageModule),
+      },
+      {
+        path: 'menu',
         loadChildren: () =>
-          import('./success-profile/success-profile.module').then(
-            m => m.SuccessProfilePageModule
-          )
-      }
-    ]
-  }
+          import('./user-profile-menu/user-profile-menu.module').then((m) => m.UserProfileMenuPageModule),
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class ProfilesRoutingModule {}

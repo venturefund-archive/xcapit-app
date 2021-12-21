@@ -12,7 +12,7 @@ export class BeforeStepDataGuard implements CanActivate {
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     const can = await this.fundDataStorage.canActivatePage(state.url);
     if (!can) {
-      this.navController.navigateRoot(['funds/fund-name']);
+      this.navController.navigateRoot(['/apikeys/list']);
     }
     return can;
   }

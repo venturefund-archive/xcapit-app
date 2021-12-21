@@ -32,6 +32,11 @@ export const ABOUT_XCAPIT_OPTIONS = [
   {
     title: 'support.support_account_xcapit.question7',
     answer: 'support.support_account_xcapit.answer7',
+    last: false,
+  },
+  {
+    title: 'support.support_account_xcapit.question8',
+    answer: 'support.support_account_xcapit.answer8',
     last: true,
   },
 ];

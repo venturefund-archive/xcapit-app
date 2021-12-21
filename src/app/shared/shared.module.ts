@@ -51,9 +51,14 @@ import { SupportOptionsCardComponent } from '../modules/support/shared-support/c
 import { ContactSupportComponent } from '../modules/support/shared-support/components/contact-support/contact-support.component';
 import { FaqComponent } from '../modules/support/shared-support/components/faq/faq.component';
 import { TestOptionItemComponent } from '../modules/wealth-managements/shared-wealth-managements/components/test-option-item/test-option-item.component';
+import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.component';
+import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
+import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
-import { WalletBalanceCardHomeComponent } from '../modules/home/shared-home/wallet-balance-card-home/wallet-balance-card-home/wallet-balance-card-home.component';
+import { WalletBalanceCardHomeComponent } from '../modules/home/shared-home/components/wallet-balance-card-home/wallet-balance-card-home/wallet-balance-card-home.component';
 import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
+import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
+import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +74,8 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
     ScanQrModalComponent,
     EmbedVideoComponent,
     LoadingModalComponent,
+    NeedHelpCardComponent,
+    InvestorTestCardsComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -97,13 +104,15 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
+    UxRadioItemComponent,
+    UxRadioItemGroupComponent,
     InputSelectComponent,
     SupportOptionsCardComponent,
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
     WalletBalanceCardHomeComponent,
-
+    AvatarProfileComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -130,6 +139,8 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
     ToastAlertComponent,
     ScanQrModalComponent,
     LoadingModalComponent,
+    NeedHelpCardComponent,
+    InvestorTestCardsComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -158,12 +169,15 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
+    UxRadioItemComponent,
+    UxRadioItemGroupComponent,
     InputSelectComponent,
     SupportOptionsCardComponent,
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
     WalletBalanceCardHomeComponent,
+    AvatarProfileComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

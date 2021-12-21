@@ -13,10 +13,12 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-title class="ion-text-center">{{ 'funds.investments_tab.header' | translate }}</ion-title>
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
         </ion-buttons>
+        <div class="header">
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
+        </div>
       </ion-toolbar>
     </ion-header>
 

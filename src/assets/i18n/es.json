@@ -758,6 +758,23 @@
       "country": "País",
       "country_placeholder": "Elije un país"
     },
+    "user_profile_menu": {
+      "header": "Mi perfil",
+      "category_help": "Ayuda",
+      "faq_help": "Preguntas frecuentes",
+      "support_help": "Hablar con soporte",
+      "category_security_account": "Seguridad cuenta Xcapit",
+      "change_pass": "Cambiar contraseña",
+      "category_security_wallet": "Seguridad wallet Xcapit",
+      "security_phrase": "Frase de seguridad",
+      "category_binance_investment": "Inversiones Binance",
+      "funds": "Fondos",
+      "finished_funds": "Fondos Finalizados",
+      "manage_apikey": "Gestión de API Keys",
+      "category_preferences": "Preferencias",
+      "language": "Idioma",
+      "logout": "Cerrar Sesión"
+    },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
       "textSecondary": "Ahora necesitamos que vincules tu “wallet virtual de criptomonedas“(Exchange) para que comencemos a gestionarlas.",
@@ -989,7 +1006,7 @@
     "first_steps": {
       "step1": {
         "primary_text": "¡Te damos la bienvenida!",
-        "secondary_text": "Con la Wallet de Xcapit solo tu tienes el control en todo momento sabrás donde esta tu dinero y cuanta ganacia te genera"
+        "secondary_text": "Con la Wallet de Xcapit solo tu tienes el control en todo momento sabrás donde esta tu dinero y cuanta ganancia te genera"
       },
       "step2": {
         "primary_text": "Un viaje largo empieza con un  primer paso",
@@ -997,7 +1014,7 @@
       },
       "step3": {
         "primary_text": "La competencia es contigo mismo",
-        "secondary_text": "¡Aprende finanzas jugando! Mejora tu educación financiera, aprende jugando y recibe insentivos en base a tu crecimiento y evolución"
+        "secondary_text": "¡Aprende finanzas jugando! Mejora tu educación financiera, aprende jugando y recibe incentivos en base a tu crecimiento y evolución"
       },
       "skip_button": "Saltar",
       "finish_button": "Comenzar"
@@ -1429,7 +1446,7 @@
       "header_edit": "Editar activos",
       "title": "Selecciona los activos",
       "subtitle": "Elige los activos que quieres visualizar en tu wallet",
-      "suite": "Suite ",
+      "suite": "Suite {{suiteName}}",
       "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
       "native": "NATIVA",
       "submit_edit": "Guardar cambios",
@@ -2125,6 +2142,22 @@
         "investments": "Inversiones",
         "objectives": "Objetivos",
         "coming_soon_alert": "Esta opción estará disponible pronto"
+      },
+      "need_help_card": {
+        "title": "¿Necesitas ayuda?",
+        "subtitle": "Ver preguntas frecuentes"
+      },
+      "test_investor_cards": {
+        "badge_text": "Próximamente",
+        "title1": "Descubre tus conocimientos en finanzas",
+        "link1": "Hacer test",
+        "title2": "¿Sabes qué tipo de inversionista eres?",
+        "link2": "Descúbrelo"
+      }
+    },
+    "shared": {
+      "buy_crypto_card": {
+        "title": "Compra cripto al mejor precio"
       }
     }
   },
@@ -2219,7 +2252,9 @@
       "question6": "¿Cómo hago para pagar el servicio de Xcapit?",
       "answer6": "Actualmente en Xcapit contamos con un sistema de cobro de membresías, dependiendo del capital que necesites invertir, hay membresías gratuitas si quieres empezar a probar.",
       "question7": "¿Cuándo debo pagar el servicio de Xcapit?",
-      "answer7": "En el caso de que decidas empezar con la membresía gratuita, Plan Explorer, comenzarás a pagar solo si decides sobrepasar el límite de 300 dólares en tu inversión. El pago se hace mensualmente y el valor de la membresía depende de cual elijas. ¡En todos los planes pagos tienes 30 días gratis!"
+      "answer7": "En el caso de que decidas empezar con la membresía gratuita, Plan Explorer, comenzarás a pagar solo si decides sobrepasar el límite de 300 dólares en tu inversión. El pago se hace mensualmente y el valor de la membresía depende de cual elijas. ¡En todos los planes pagos tienes 30 días gratis!",
+      "question8": "¿Puedo usar Xcapit desde cualquier parte del mundo?",
+      "answer8": "Por el momento está disponible únicamente en Argentina, Brasil, Colombia, México y España."
     },
     "support_wallet": {
       "header": "Ayuda",
@@ -2269,7 +2304,17 @@
       "question22": "¿Cómo puedo visualizar mi NFT “Financial Freedom México”?",
       "answer22": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo.",
       "question23": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
-      "answer23": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento."
+      "answer23": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento.",
+      "question24": "¿Puedo hacer dos wallets con la misma cuenta?",
+      "answer24": "Hola! Sí, se puede crear dos wallets distintas con la misma cuenta. Desde la opción crear o importar. Ten en cuenta que si te anotaste para recibir tu NFT de regalo el mismo se depositara en la última wallet creada.",
+      "question25": "Creé una wallet desde el navegador y después instalé la app y ahora tengo dos seeds ¿Qué hago?",
+      "answer25": "Hola! Lo que debés hacer para mantener la wallet que creaste inicialmente desde el navegador es importarla desde la App. No crear una nueva.",
+      "question26": "Ya reclamé mi NFT de regalo ¿Cuándo lo tendré disponible?",
+      "answer26": "Hola! Antes que nada gracias por participar de la acción. El proceso no es automático, a partir del 6 de diciembre comenzaremos a entregarlos. Te avisaremos mediante notificación cuando suceda.",
+      "question27": "Creé mi Wallet pero en mi PC, ¿esto es un problema para recibir el NFT Freedom Mexico?",
+      "answer27": "Hola! Podés hacerlo sin problema desde la PC, solo tené en cuenta que si creas tu wallet por primera vez desde la pc y luego queres pasar a la app. móvil debés importar la wallet usando la frase de recuperación. De lo contrario se te crearán dos wallets y el NFT se depositará en la última wallet creada.",
+      "question28": "¿Todavía puedo obtener mi NFT Freedom México?",
+      "answer28": "Hola! Ya nos quedamos sin NFTs. Estos eran para las primeras 16.921 personas que se registren y ya alcanzamos ese número. No te preocupes, próximamente haremos más acciones del estilo para quienes no llegaron a participar."
     },
     "support_security": {
       "header": "Ayuda",
@@ -2342,7 +2387,7 @@
     "header": "Perfil de inversionista",
     "title": "¿Qué tipo de inversionista eres?",
     "subtitle": "Realiza el test de perfil de inversionista, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
-    "investor_test": {
+    "investor_test_options": {
       "title1": "Tomar el test",
       "description1": "Conoce tu perfil de inversionista haciendo este test.",
       "title2": "Escoger manualmente",
@@ -2352,6 +2397,32 @@
       "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es {{testResult}} ",
       "namePrimaryAction": "Ir a mi perfil de inversionista",
       "nameSecondaryAction": "Volver al incio"
+    },
+    "investor_test": {
+      "header": "Test de inversionista",
+      "next_button": "Continuar",
+      "submit_button": "Finalizar y enviar test"
+    },
+    "profiles": {
+      "conservative": "Conservador",
+      "medium": "Medio",
+      "risky": "Riesgoso"
+    },
+    "about_investor_profile": {
+      "header": "Perfil de inversionista",
+      "button_select": "Este es mi perfil",
+      "conservative_profile": {
+        "title": "Perfil Conservador",
+        "subtitle": "Te caracterizas por ser poco tolerante al riesgo y valorar la seguridad. Por lo tanto, prefieres instrumentos de inversión que te den certeza de que no perderás parte o todo el dinero que invertirás.  No te importa que las ganancias (rendimiento) obtenidas sean bajas."
+      },
+      "moderated_profile": {
+        "title": "Perfil Moderado",
+        "subtitle": "Eres una persona cautelosa con tus decisiones, pero estas dispuesta a tolerar un riesgo moderado para aumentar tus ganancias. Procuras mantener un balance entre rentabilidad y seguridad."
+      },
+      "aggressive_profile": {
+        "title": "Perfil Agresivo",
+        "subtitle": "Buscas los mayores rendimientos posibles, por lo que estas dispuesto a asumir el riesgo que sea necesario. No es recomendable mantener esta actitud de riesgo cuando no cuentas con la suficiente solvencia, o si se tienes compromisos familiares importantes."
+      }
     }
   }
 }

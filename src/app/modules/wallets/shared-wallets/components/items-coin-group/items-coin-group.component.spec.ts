@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { SuitePipe } from '../../pipes/suite.pipe';
 
 import { ItemsCoinGroupComponent } from './items-coin-group.component';
 const testCoins = [
@@ -131,7 +132,7 @@ describe('ItemsCoinGroupComponent', () => {
       formGroupDirectiveMock = new FormGroupDirective([], []);
       formGroupDirectiveMock.form = controlContainerMock;
       TestBed.configureTestingModule({
-        declarations: [ItemsCoinGroupComponent],
+        declarations: [ItemsCoinGroupComponent, SuitePipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [TrackClickDirective, { provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -140,7 +141,7 @@ describe('ItemsCoinGroupComponent', () => {
       fixture = TestBed.createComponent(ItemsCoinGroupComponent);
       component = fixture.componentInstance;
       component.coins = testCoins;
-      component.suite = 'ETH';
+      component.network = 'ETH';
       fixture.detectChanges();
     })
   );

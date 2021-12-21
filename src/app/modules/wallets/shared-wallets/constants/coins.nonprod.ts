@@ -6,6 +6,9 @@ import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
 import rifAbi from './assets-abi/rif-abi.json';
 import sovAbi from './assets-abi/sov-abi.json';
+import busdAbi from './assets-abi/busd-abi.json';
+import cakeAbi from './assets-abi/cake-abi.json';
+import adaAbi from './assets-abi/ada-abi.json';
 
 export const NONPROD_COINS: Coin[] = [
   {
@@ -125,12 +128,51 @@ export const NONPROD_COINS: Coin[] = [
     id: 10,
     name: 'BNB - Binance Coin',
     logoRoute: 'assets/img/coins/BNB.svg',
-    last: true,
+    last: false,
     value: 'BNB',
     network: 'BSC_BEP20',
     chainId: 97,
     rpc: environment.bscApiUrl,
     decimals: 18,
     native: true,
+  },
+  {
+    id: 11,
+    name: 'CAKE - Pancake Swap',
+    logoRoute: 'assets/img/coins/PANCAKE.png',
+    last: false,
+    value: 'CAKE',
+    network: 'BSC_BEP20',
+    chainId: 97,
+    rpc: environment.bscApiUrl,
+    contract: '0xF9f93cF501BFaDB6494589Cb4b4C15dE49E85D0e',
+    abi: cakeAbi,
+    decimals: 18,
+  },
+  {
+    id: 12,
+    name: 'ADA - Cardano Token',
+    logoRoute: 'assets/img/coins/ADA.png',
+    last: false,
+    value: 'ADA',
+    network: 'BSC_BEP20',
+    chainId: 97,
+    rpc: environment.bscApiUrl,
+    contract: '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47',
+    abi: adaAbi,
+    decimals: 18,
+  },
+  {
+    id: 13,
+    name: 'BUSD - Binance USD',
+    logoRoute: 'assets/img/coins/BUSD.png',
+    last: false,
+    value: 'BUSD',
+    network: 'BSC_BEP20',
+    chainId: 97,
+    rpc: environment.bscApiUrl,
+    contract: '0x78867BbEeF44f2326bF8DDd1941a4439382EF2A7',
+    abi: busdAbi,
+    decimals: 18,
   },
 ];

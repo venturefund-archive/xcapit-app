@@ -2,7 +2,7 @@
 .ux_modal_crm {
   --max-height: 195px;
   --max-width: 85%;
-  .modal-wrapper {
+  &::part(content) {
     border-radius: 4px;
   }
 }
@@ -11,7 +11,7 @@
 .ux_modal_stop_loss {
   --max-height: 200px;
   --max-width: 85%;
-  .modal-wrapper {
+  &::part(content) {
     border-radius: 10px;
   }
 }
@@ -20,7 +20,7 @@
 .ux-modal-informative {
   --max-height: 310px;
   --max-width: 85%;
-  .modal-wrapper {
+  &::part(content) {
     border-radius: 16px;
   }
 }
@@ -30,7 +30,7 @@
   --max-height: 378px;
   --max-width: 85%;
 
-  .modal-wrapper {
+  &::part(content) {
     background-color: var(--ion-background-colorwhite);
     border-radius: 8px;
   }
@@ -41,7 +41,7 @@
   --max-height: 549px;
   --max-width: 89%;
 
-  .modal-wrapper {
+  &::part(content) {
     margin-top: 76px;
     background-color: var(--ion-background-colorwhite);
     border-radius: 8px;
@@ -53,7 +53,7 @@
   --max-height: 337px;
   --max-width: 89%;
 
-  .modal-wrapper {
+  &::part(content) {
     background-color: var(--ion-background-colorwhite);
     border-radius: 8px;
   }
@@ -61,7 +61,7 @@
 
 // Modal como swippeable
 .ux-routeroutlet-modal {
-  .modal-wrapper {
+  &::part(content) {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
@@ -69,7 +69,7 @@
 
 //Modal Pantalla Completa
 .full-screen-modal {
-  .modal-wrapper {
+  &::part(content) {
     margin-top: 120px;
 
     .ion-page {
@@ -80,7 +80,7 @@
 
 //Modal Contraseña Wallet
 .recovery-phrase-password-modal {
-  .modal-wrapper {
+  &::part(content) {
     position: absolute;
     height: 330px !important;
     top: calc(100% - (330px));
@@ -89,7 +89,7 @@
 
 // Portfolio Modal swippeable
 .generic-modal {
-  .modal-wrapper {
+  &::part(content) {
     margin-top: 46vh;
 
     .ion-page {
@@ -112,7 +112,7 @@
     align-items: flex-end;
   }
 
-  .modal-wrapper {
+  &::part(content) {
     border-radius: 6px;
     position: absolute;
     bottom: 79px;
@@ -138,7 +138,7 @@
   --max-height: 52px;
   --max-width: 344px;
   --background: white;
-  .modal-wrapper {
+  &::part(content) {
     width: 100%;
     height: 100%;
     border-radius: 6px;
@@ -151,7 +151,7 @@
   --max-height: 120px;
   --max-width: 344px;
   --background: white;
-  .modal-wrapper {
+  &::part(content) {
     border-radius: 6px;
     position: absolute;
     bottom: 8.5%;
@@ -162,7 +162,7 @@
   --max-height: 85px;
   --max-width: 344px;
   --background: white;
-  .modal-wrapper {
+  &::part(content) {
     border-radius: 6px;
     position: absolute;
     bottom: 8.5%;
@@ -173,7 +173,7 @@
   --max-height: 144px;
   --max-width: 340px;
   --background: white;
-  .modal-wrapper {
+  &::part(content) {
     border-radius: 6px;
     position: absolute;
     bottom: 8.5%;
@@ -182,7 +182,7 @@
 
 // Share Chart Modal swippeable
 .share-chart-modal {
-  .modal-wrapper {
+  &::part(content) {
     margin-top: 35vh;
 
     .ion-page {
@@ -193,7 +193,7 @@
 
 // Apikeys Modal swippeable
 .apikeys-modal {
-  .modal-wrapper {
+  ion-modal::part(content) {
     margin-top: calc(100vh - 240px);
     height: 256px;
   }

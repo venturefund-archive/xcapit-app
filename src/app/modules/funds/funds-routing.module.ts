@@ -4,7 +4,6 @@ import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 import { IsOwnerGuard } from './shared-funds/guards/is-owner-guard/is-owner.guard';
 import { BeforeStepDataGuard } from './shared-funds/guards/before-steps-data-guard/before-step-data.guard';
 import { UserStatusGuard } from './shared-funds/guards/user-status-guard/user-status-guard.guard';
-import { HasApiKeyIdGuard } from './shared-funds/guards/has-api-key-id/has-api-key-id.guard';
 
 export const routes: Routes = [
   {
@@ -22,10 +21,12 @@ export const routes: Routes = [
       },
       {
         path: 'fund-name',
+        canActivate: [BeforeStepDataGuard],
         loadChildren: () => import('./fund-name/fund-name.module').then((m) => m.FundNamePageModule),
       },
       {
         path: 'fund-investment',
+        canActivate: [BeforeStepDataGuard],
         loadChildren: () => import('./fund-investment/fund-investment.module').then((m) => m.FundInvestmentPageModule),
       },
       {
@@ -101,7 +102,7 @@ export const routes: Routes = [
       },
       {
         path: 'summary',
-        canActivate: [HasApiKeyIdGuard, BeforeStepDataGuard],
+        canActivate: [BeforeStepDataGuard],
         loadChildren: () => import('./fund-summary/fund-summary.module').then((m) => m.FundSummaryPageModule),
       },
     ],

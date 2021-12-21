@@ -19,10 +19,9 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           </ion-button>
         </ion-buttons>
         <div class="header">
-          <div class="header__logo ion-text-center">
-            <app-xcapit-logo></app-xcapit-logo>
-          </div>
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
+        <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
 
@@ -44,6 +43,11 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       <!-- Content Cards -->
       <div class="ion-padding">
         <app-wallet-balance-card-home></app-wallet-balance-card-home>
+
+        <div class="buy-crypto-card">
+          <app-buy-crypto-card (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
+        </div>
+
         <div class="two_cards">
           <div
             class="strategies vertical-card"
@@ -89,6 +93,8 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
             </div>
           </div>
         </div>
+        <app-need-help-card></app-need-help-card>
+        <app-investor-test-cards></app-investor-test-cards>
       </div>
     </ion-content>
   `,
@@ -98,7 +104,6 @@ export class HomePage implements OnInit {
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
-
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
 
@@ -176,5 +181,9 @@ export class HomePage implements OnInit {
 
   goToStrategies() {
     this.navController.navigateForward('/funds/fund-investment/show');
+  }
+
+  goToBuyCrypto() {
+    this.navController.navigateForward('/fiat-ramps/operations');
   }
 }
