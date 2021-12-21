@@ -115,7 +115,6 @@ export class FundInvestmentPage implements OnInit {
   getAllApiKeys() {
     this.apiApiKeysService.getAll().subscribe((data) => {
       this.apikeys = data;
-      console.log(this.apikeys);
     });
   }
 
