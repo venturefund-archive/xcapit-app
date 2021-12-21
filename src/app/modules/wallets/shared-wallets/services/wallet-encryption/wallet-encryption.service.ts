@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
+import { Mnemonic } from 'ethers/lib/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -94,5 +95,23 @@ export class WalletEncryptionService {
 
   async encryptedWalletExist(): Promise<boolean> {
     return !!(await this.storageService.getWalletFromStorage());
+  }
+
+  async updateWalletNetworks(password: string, changedAssets: string[]): Promise<void> {
+    const encryptedWallet = await this.getEncryptedWallet();
+    const wallet = Wallet.fromEncryptedJsonSync(encryptedWallet.wallet, password);
+    this.walletService.getMnemonic(wallet);
+
+    const newNetworks = this.apiWalletService
+      .getNetworks()
+      .filter((network) => !Object.keys(encryptedWallet.addresses).includes(network));
+
+    newNetworks.forEach((network) => {
+      encryptedWallet.addresses[network] = this.walletService.createForDerivedPath(
+        environment.derivedPaths[network]
+      ).address;
+    });
+
+    this.storageService.saveWalletToStorage(encryptedWallet);
   }
 }

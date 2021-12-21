@@ -8,7 +8,8 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { TranslateService } from '@ngx-translate/core';
-import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
+import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -90,7 +91,9 @@ export class SelectCoinsWalletPage implements OnInit {
     private storageService: StorageService,
     private loadingService: LoadingService,
     private translate: TranslateService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private walletEncryptionService: WalletEncryptionService,
+    private walletMnemonicService: WalletMnemonicService
   ) {}
 
   ionViewWillEnter() {
@@ -172,19 +175,19 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   private async editTokens() {
-    if (!this.walletService.isUpdated()) {
-      this.updateWallet();
+    const changedAssets = this.getChangedAssets();
+    if (this.walletService.isUpdated()) {
+      await this.storageService.toggleAssets(changedAssets);
+    } else {
+      const password = await this.promptUserForWalletPassword();
+      await this.walletEncryptionService.updateWalletNetworks(password, changedAssets);
     }
-    await this.storageService.toggleAssets(this.getChangedAssets());
+
     this.navController.navigateForward(['/tabs/wallets']);
   }
 
-  private async updateWallet() {
-    // TODO: Prompt modal and get password (in this page)
-    // TODO: Decrypt wallet and get mnemonic (WalletEncryptionService)
-    // TODO: Decrypt (WalletEncryptionService)
-    // TODO: Update mnemonic in WalletMnemonicService (WalletEncryptionService -> WalletService -> WalletMnemonicService)
-    // TODO: Update wallet and save in storage (WalletService -> StorageService)
+  async promptUserForWalletPassword() {
+    return '';
   }
 
   private createWallet() {

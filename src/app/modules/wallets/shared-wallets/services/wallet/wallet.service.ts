@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Coin } from '../../interfaces/coin.interface';
-import { ethers } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { environment } from 'src/environments/environment';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 
@@ -35,7 +34,7 @@ export class WalletService {
     });
   }
 
-  private createForDerivedPath(derivedPath: string) {
+  createForDerivedPath(derivedPath: string) {
     return ethers.Wallet.fromMnemonic(this.walletMnemonicService.mnemonic.phrase, derivedPath, this.wordList());
   }
 
@@ -65,9 +64,11 @@ export class WalletService {
     return !!wallets;
   }
 
-  isUpdated(): boolean {
-    return true;
+  getMnemonic(decryptedWallet: Wallet) {
+    this.walletMnemonicService.getMnemonic(decryptedWallet);
   }
 
-  getMnemonic() {}
+  isUpdated() {
+    return false;
+  }
 }
