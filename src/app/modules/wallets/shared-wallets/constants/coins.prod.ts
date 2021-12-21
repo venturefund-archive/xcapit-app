@@ -14,6 +14,7 @@ import compoundAbi from './assets-abi-prod/compound-abi-prod.json';
 import zilliqaAbi from './assets-abi-prod/zilliqa-abi-prod.json';
 import enjAbi from './assets-abi-prod/enj-abi-prod.json';
 import batAbi from './assets-abi-prod/bat-abi-prod.json';
+import sandAbi from './assets-abi/sand-abi-prod.json';
 
 export const PROD_COINS: Coin[] = [
   {
@@ -284,12 +285,48 @@ export const PROD_COINS: Coin[] = [
     id: 22,
     name: 'AVAX - Avalanche Token',
     logoRoute: 'assets/img/coins/AVAX.png',
-    last: true,
+    last: false,
     value: 'AVAX',
     network: 'BSC_BEP20',
     chainId: 56,
     rpc: environment.bscApiUrl,
     contract: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
+    decimals: 18,
+  },
+  {
+    id: 23,
+    name: 'SAND - SAND Token',
+    logoRoute: 'assets/img/coins/SAND.png',
+    last: false,
+    value: 'SAND',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    contract: '0xc6d54d2f624bc83815b49d9c2203b1330b841ca0',
+    decimals: 18,
+  },
+  {
+    id: 24,
+    name: 'USDC - USD Coin',
+    logoRoute: 'assets/img/coins/USDC.png',
+    last: false,
+    value: 'USDC',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+    decimals: 18,
+  },
+  {
+    id: 25,
+    name: 'CRV - Curve',
+    logoRoute: 'assets/img/coins/CRV.png',
+    last: true,
+    value: 'CRV',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    contract: '0x172370d5cd63279efa6d502dab29171933a610af',
     decimals: 18,
   },
 ];
