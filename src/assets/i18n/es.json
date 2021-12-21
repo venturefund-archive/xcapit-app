@@ -2153,6 +2153,11 @@
         "title2": "¿Sabes qué tipo de inversionista eres?",
         "link2": "Descúbrelo"
       }
+    },
+    "shared": {
+      "buy_crypto_card": {
+        "title": "Compra cripto al mejor precio"
+      }
     }
   },
   "support": {

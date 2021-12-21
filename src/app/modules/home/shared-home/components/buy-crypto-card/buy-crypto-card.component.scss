@@ -4,9 +4,7 @@
     cursor: pointer;
     background: var(--ion-color-info);
     border-radius: 8px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--ion-color-uxline);
+    border: 1px solid var(--ion-color-uxline);
     display: flex;
     align-items: center;
     justify-content: space-between;
