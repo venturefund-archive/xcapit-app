@@ -67,7 +67,7 @@ import { ManualSLTP } from '../shared-funds/constants/manual-stop-loss-take-prof
                     {{ 'shared.edit_SL_TP.without_take_profit' | translate }}
                   </h3>
                 </ion-label>
-                <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
+                <ion-icon slot="end" color="info" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
               </ion-item>
               <div class="list-divider"></div>
               <ion-item (click)="this.editStopLoss()" class="fs__stop_loss">
@@ -91,7 +91,7 @@ import { ManualSLTP } from '../shared-funds/constants/manual-stop-loss-take-prof
                     {{ 'shared.edit_SL_TP.classic_stop_loss' | translate }}
                   </h3>
                 </ion-label>
-                <ion-icon slot="end" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
+                <ion-icon slot="end" color="info" name="ux-forward" class="fs__fund-modify__list__icon"></ion-icon>
               </ion-item>
             </ion-list>
           </app-ux-list-inverted>

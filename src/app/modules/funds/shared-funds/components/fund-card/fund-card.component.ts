@@ -123,7 +123,7 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
             (click)="this.actionFund()"
           >
             {{ 'funds.fund_card.view_fund' | translate }}
-            <ion-icon slot="end" name="ux-forward"></ion-icon>
+            <ion-icon slot="end" color="info" name="ux-forward"></ion-icon>
           </ion-button>
         </div>
       </div>
@@ -154,7 +154,7 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
             [disabled]="!this.fund.end_balance"
           >
             {{ 'funds.fund_card.renovate' | translate }}
-            <ion-icon slot="end" name="ux-forward"></ion-icon>
+            <ion-icon slot="end" color="info" name="ux-forward"></ion-icon>
           </ion-button>
         </div>
       </div>

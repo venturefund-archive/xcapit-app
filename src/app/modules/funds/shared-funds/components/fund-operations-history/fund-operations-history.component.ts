@@ -12,7 +12,7 @@ import { Component, OnInit, Input } from '@angular/core';
               {{ o.fecha_inicio | localizedDate: 'longDate' }}
             </div>
             <div class="button">
-              <ion-icon name="ux-forward"></ion-icon>
+              <ion-icon color="info" name="ux-forward"></ion-icon>
             </div>
           </div>
         </ion-list>
