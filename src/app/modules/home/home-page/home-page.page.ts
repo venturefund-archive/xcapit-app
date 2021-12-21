@@ -65,6 +65,10 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           </div>
         </div>
 
+        <div class="buy-crypto-card">
+          <app-buy-crypto-card (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
+        </div>
+
         <div class="two_cards">
           <div
             class="strategies vertical-card"
@@ -198,5 +202,9 @@ export class HomePage implements OnInit {
 
   goToStrategies() {
     this.navController.navigateForward('/funds/fund-investment/show');
+  }
+
+  goToBuyCrypto() {
+    this.navController.navigateForward('/fiat-ramps/operations');
   }
 }

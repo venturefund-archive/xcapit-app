@@ -66,7 +66,7 @@ import { Currency } from '../../enums/currency.enum';
               class="ux-font-button-small fsc__footer__right__button"
             >
               {{ 'funds.fund_detail.fund_summary_card.invite' | translate }}
-              <ion-icon slot="end" name="ux-forward"></ion-icon>
+              <ion-icon slot="end" color="info" name="ux-forward"></ion-icon>
             </ion-button>
           </div>
         </div>

@@ -1,0 +1,29 @@
+:host {
+  .bcc {
+    box-shadow: 0 2px 8px rgba(28, 45, 94, 0.05);
+    cursor: pointer;
+    background: var(--ion-color-info);
+    border-radius: 8px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--ion-color-uxline);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &__image {
+      img {
+        margin-bottom: -3px;
+      }
+      padding-left: 8px;
+    }
+    &__text {
+      padding-left: 8px;
+      ion-text {
+        color: var(--ion-background-colorwhite);
+      }
+    }
+    &__arrow {
+      padding-right: 16px;
+    }
+  }
+}

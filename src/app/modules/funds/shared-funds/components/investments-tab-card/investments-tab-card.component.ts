@@ -24,7 +24,7 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="itc__button_col">
         <ion-button class="itc__button_col__button ion-no-padding ion-no-margin" fill="clear" size="small">
-          <ion-icon class="itc__button_col__button__icon" name="ux-forward"></ion-icon>
+          <ion-icon class="itc__button_col__button__icon" color="info" name="ux-forward"></ion-icon>
         </ion-button>
       </div>
     </ion-card>
