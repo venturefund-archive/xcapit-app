@@ -11,9 +11,11 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
     <div class="wbc">
       <div class="wbc__content" *ngIf="!this.walletExist">
         <div class="wbc__content__body">
-          <div class="ux-font-text-lg wbc__content__body__title">{{ '¡Quiero mi Wallet!' }}</div>
+          <div class="ux-font-text-lg wbc__content__body__title">
+            {{ 'home.home_page.want_my_wallet.title' | translate }}
+          </div>
           <div class="ux-font-text-xxs wbc__content__body__subtitle">
-            {{ 'Crea tu wallet y comienza a tener el control de tus finanzas.' }}
+            {{ 'home.home_page.want_my_wallet.subtitle' | translate }}
           </div>
         </div>
         <img src="/assets/img/wallets/Coins.svg" />
@@ -28,7 +30,9 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
                 | hideText: this.hideFundText
             }}
             USD
-            <div class="ux-font-text-xxs wbc__content_balance__body__description">{{ 'En tu Wallet' }}</div>
+            <div class="ux-font-text-xxs wbc__content_balance__body__description">
+              {{ 'home.home_page.want_my_wallet.description' | translate }}
+            </div>
           </div>
           <a class="wbc__content_balance__body__eye-button" (click)="this.hideText()">
             <ion-icon class="eye-button" [hidden]="!this.hideFundText" name="eye-off-outline"></ion-icon>
@@ -76,7 +80,9 @@ export class WalletBalanceCardHomeComponent implements OnInit {
   existWallet() {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
-      this.getCoinsBalance();
+      if (this.walletExist) {
+        this.getCoinsBalance();
+      }
     });
   }
 

@@ -2108,7 +2108,8 @@
     "home_page": {
       "want_my_wallet": {
         "title": "I want my wallet!",
-        "description": "With the wallet you have the power, you can invest simply, effortlessly and with a click."
+        "subtitle": "Create your wallet and start taking control of your finances.",
+        "description": "In your wallet"
       },
       "strategies": {
         "title": "Strategies",

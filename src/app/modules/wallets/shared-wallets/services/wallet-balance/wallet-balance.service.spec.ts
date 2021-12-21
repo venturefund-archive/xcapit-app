@@ -7,84 +7,43 @@ import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletService } from '../wallet/wallet.service';
 import { WalletBalanceService } from './wallet-balance.service';
 
-const balancesTest: Array<AssetBalance> = [
+const testUserCoins = [
   {
-    icon: 'assets/img/coins/LINK.svg',
-    symbol: 'LINK',
-    name: 'LINK - Chainlink',
-    amount: 0.005,
-    usdAmount: 120,
-    usdSymbol: 'USD',
-  },
-  {
-    icon: 'assets/img/coins/ETH.svg',
-    symbol: 'ETH',
+    id: 2,
     name: 'ETH - Ethereum',
-    amount: 1,
-    usdAmount: 2000,
-    usdSymbol: 'USD',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    last: false,
+    value: 'ETH',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'http://testrpc.test',
   },
   {
-    icon: 'assets/img/coins/USDT.svg',
-    symbol: 'USDT',
+    id: 6,
+    name: 'RBTC - Smart Bitcoin',
+    logoRoute: 'assets/img/coins/RBTC.png',
+    last: false,
+    value: 'RBTC',
+    network: 'RSK',
+    chainId: 31,
+    rpc: 'http://testrpc.test',
+  },
+  {
+    id: 3,
     name: 'USDT - Tether',
-    amount: 2,
-    usdAmount: 3000,
-    usdSymbol: 'USD',
+    logoRoute: 'assets/img/coins/USDT.svg',
+    last: false,
+    value: 'USDT',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'http://testrpc.test',
+    decimals: 6,
   },
 ];
 
-const testCoins = {
-  test: [
-    {
-      id: 1,
-      name: 'coinTest',
-      logoRoute: '../../assets/img/coins/ETH.svg',
-      last: false,
-      value: 'coinTest',
-      network: 'ERC20',
-      chainId: 42,
-      rpc: 'http://testrpc.test',
-    },
-  ],
-  usdBalanceTest: [
-    {
-      id: 2,
-      name: 'ETH - Ethereum',
-      logoRoute: '../../assets/img/coins/ETH.svg',
-      last: false,
-      value: 'ETH',
-      network: 'ETH',
-      chainId: 42,
-      rpc: 'http://testrpc.test',
-    },
-    {
-      id: 6,
-      name: 'RBTC - Smart Bitcoin',
-      logoRoute: '../../assets/img/coins/RBTC.png',
-      last: false,
-      value: 'RBTC',
-      network: 'RSK',
-      chainId: 31,
-      rpc: 'http://testrpc.test',
-    },
-    {
-      id: 3,
-      name: 'USDT - Tether',
-      logoRoute: '../../assets/img/coins/USDT.svg',
-      last: false,
-      value: 'USDT',
-      network: 'ETH',
-      chainId: 42,
-      rpc: 'http://testrpc.test',
-      decimals: 6,
-    },
-  ],
-};
-
 const OrderedBalances: Array<AssetBalance> = [
   {
-    icon: '../../assets/img/coins/RBTC.png',
+    icon: 'assets/img/coins/RBTC.png',
     symbol: 'RBTC',
     name: 'RBTC - Smart Bitcoin',
     amount: 20,
@@ -92,7 +51,7 @@ const OrderedBalances: Array<AssetBalance> = [
     usdSymbol: 'USD',
   },
   {
-    icon: '../../assets/img/coins/ETH.svg',
+    icon: 'assets/img/coins/ETH.svg',
     symbol: 'ETH',
     name: 'ETH - Ethereum',
     amount: 20,
@@ -100,7 +59,7 @@ const OrderedBalances: Array<AssetBalance> = [
     usdSymbol: 'USD',
   },
   {
-    icon: '../../assets/img/coins/USDT.svg',
+    icon: 'assets/img/coins/USDT.svg',
     symbol: 'USDT',
     name: 'USDT - Tether',
     amount: 20,
@@ -109,6 +68,32 @@ const OrderedBalances: Array<AssetBalance> = [
   },
 ];
 
+const balancesWithoutUsdAmount: Array<AssetBalance> = [
+  {
+    icon: 'assets/img/coins/ETH.svg',
+    symbol: 'ETH',
+    name: 'ETH - Ethereum',
+    amount: 20,
+    usdAmount: 0,
+    usdSymbol: 'USD',
+  },
+  {
+    icon: 'assets/img/coins/RBTC.png',
+    symbol: 'RBTC',
+    name: 'RBTC - Smart Bitcoin',
+    amount: 20,
+    usdAmount: 0,
+    usdSymbol: 'USD',
+  },
+  {
+    icon: 'assets/img/coins/USDT.svg',
+    symbol: 'USDT',
+    name: 'USDT - Tether',
+    amount: 20,
+    usdAmount: 0,
+    usdSymbol: 'USD',
+  },
+];
 describe('WalletBalanceService', () => {
   let service: WalletBalanceService;
   let fakeWalletService: FakeWalletService;
@@ -117,17 +102,21 @@ describe('WalletBalanceService', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   beforeEach(() => {
-    fakeWalletService = new FakeWalletService(Promise.resolve(true), Promise.resolve('20'), { ERC20: 'testAddress' });
+    fakeWalletService = new FakeWalletService(Promise.resolve(true), Promise.resolve('20'), {
+      ERC20: 'testAddress',
+      RSK: 'testAddressRSK',
+    });
     walletServiceSpy = fakeWalletService.createSpy();
+
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getPrices: of({ prices: { ETH: 3000, BTC: 50000, USDT: 1 } }),
-      getNFTStatus: of({ status: 'claimed' }),
-      createNFTRequest: of({}),
     });
+
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve(testCoins.test),
+      getAssestsSelected: Promise.resolve(testUserCoins),
       updateAssetsList: Promise.resolve(true),
     });
+
     TestBed.configureTestingModule({
       providers: [
         { provide: WalletService, useValue: walletServiceSpy },
@@ -143,19 +132,26 @@ describe('WalletBalanceService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get coins balance', async () => {});
+  it('should return ordered balances of user selected coins', async () => {
+    const balances = await service.getWalletsBalances();
+    expect(balances).toEqual(OrderedBalances);
+  });
 
-  it('should get total balance', async () => {});
+  it('should return total balance in USDT', async () => {
+    await service.getWalletsBalances();
+    const totalBalance = await service.getUsdTotalBalance();
+    expect(totalBalance).toEqual(1060020);
+  });
 
-  // it('should order balances by amount', async () => {
-  //   fakeWalletService.modifyAttributes({
-  //     ETH: 'testAddressEth',
-  //     RSK: 'testAddressRsk',
-  //   });
-  //   component.userCoins = testCoins.usdBalanceTest;
-  //   component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
-  //   fixture.detectChanges();
-  //   await component.getWalletsBalances();
-  //   expect(component.balances).toEqual(OrderedBalances);
-  // });
+  it('should return balances without USD amount when prices not exist', async () => {
+    apiWalletServiceSpy.getPrices.and.returnValues(of());
+    const balances = await service.getWalletsBalances();
+    expect(balances).toEqual(balancesWithoutUsdAmount);
+  });
+
+  it('should not return balances when wallet address not exist', async () => {
+    fakeWalletService.modifyAttributes({});
+    const balances = await service.getWalletsBalances();
+    expect(balances).toEqual([]);
+  });
 });

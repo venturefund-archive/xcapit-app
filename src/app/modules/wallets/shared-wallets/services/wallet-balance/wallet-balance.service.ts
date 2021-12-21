@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { resolve } from 'path';
 import { AssetBalance } from '../../interfaces/asset-balance.interface';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
@@ -23,7 +22,7 @@ export class WalletBalanceService {
     private storageService: StorageService
   ) {}
 
-  createBalancesStructure(coin: Coin): AssetBalance {
+  private createBalancesStructure(coin: Coin): AssetBalance {
     return {
       icon: coin.logoRoute,
       symbol: coin.value,
@@ -53,7 +52,6 @@ export class WalletBalanceService {
       }
     }
     this.orderBalancesByAmount();
-    console.log('balances service', this.balances);
     return this.balances;
   }
 
@@ -64,13 +62,13 @@ export class WalletBalanceService {
     return this.balances.reduce(sumUSDAmounts, 0);
   }
 
-  orderBalancesByAmount() {
+  private orderBalancesByAmount() {
     this.balances.sort((a, b) => {
       return b.usdAmount - a.usdAmount;
     });
   }
 
-  getAllPrices() {
+  private getAllPrices() {
     return this.storageService.getAssestsSelected().then((coins) => {
       this.userCoins = coins;
       return this.storageService.updateAssetsList().then(() => {
