@@ -14,7 +14,9 @@ import compoundAbi from './assets-abi-prod/compound-abi-prod.json';
 import zilliqaAbi from './assets-abi-prod/zilliqa-abi-prod.json';
 import enjAbi from './assets-abi-prod/enj-abi-prod.json';
 import batAbi from './assets-abi-prod/bat-abi-prod.json';
-import sandAbi from './assets-abi/sand-abi-prod.json';
+import sandAbi from './assets-abi-prod/sand-abi-prod.json';
+import usdcAbi from './assets-abi-prod/usdc-abi-prod.json';
+import crvAbi from './assets-abi-prod/crv-abi-prod.json';
 
 export const PROD_COINS: Coin[] = [
   {
@@ -302,7 +304,8 @@ export const PROD_COINS: Coin[] = [
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
-    contract: '0xc6d54d2f624bc83815b49d9c2203b1330b841ca0',
+    contract: '0xBbba073C31bF03b8ACf7c28EF0738DeCF3695683',
+    abi: sandAbi,
     decimals: 18,
   },
   {
@@ -315,6 +318,7 @@ export const PROD_COINS: Coin[] = [
     chainId: 137,
     rpc: environment.maticApiUrl,
     contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+    abi: usdcAbi,
     decimals: 18,
   },
   {
@@ -326,6 +330,7 @@ export const PROD_COINS: Coin[] = [
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
+    abi: crvAbi,
     contract: '0x172370d5cd63279efa6d502dab29171933a610af',
     decimals: 18,
   },
