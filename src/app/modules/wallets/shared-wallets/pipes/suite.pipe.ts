@@ -1,19 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { SUITE_NAMES } from '../constants/suites-names';
 
 @Pipe({
   name: 'suite',
 })
 export class SuitePipe implements PipeTransform {
   transform(value: string): string {
-    switch (value) {
-      case 'ERC20':
-        return 'Ethereum';
-      case 'BSC_BEP20':
-        return 'Binance Smart Chain';
-      case 'MATIC':
-        return 'Polygon';
-      default:
-        return value;
+    if (SUITE_NAMES.hasOwnProperty(value)) {
+      return SUITE_NAMES[value];
     }
+
+    return value;
   }
 }
