@@ -10,8 +10,8 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
-import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { By } from '@angular/platform-browser';
+import { FundDataStorageService } from '../../funds/shared-funds/services/fund-data-storage/fund-data-storage.service';
 
 const apiKeys = [
   { nombre_bot: 'test', id: 1, alias: 'testAlias' },
@@ -28,12 +28,12 @@ describe('ListApikeysPage', () => {
   let fakeNavController: FakeNavController;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
-  let storageApikeysService: jasmine.SpyObj<StorageApikeysService>;
   let snapshotSpy: jasmine.SpyObj<any>;
+  let fundDataStorageServiceSpy: jasmine.SpyObj<FundDataStorageService>;
 
   beforeEach(
     waitForAsync(() => {
-      storageApikeysService = jasmine.createSpyObj('StorageApikeysService', { updateData: null });
+      fundDataStorageServiceSpy = jasmine.createSpyObj('FundDataStorageService', { setData: Promise.resolve() });
       platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
@@ -55,10 +55,10 @@ describe('ListApikeysPage', () => {
         imports: [TranslateModule.forRoot(), IonicModule.forRoot()],
         providers: [
           { provide: ApiApikeysService, useValue: apiApikeysServiceSpy },
-          { provide: StorageApikeysService, useValue: storageApikeysService },
           { provide: PlatformService, useValue: platformServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: FundDataStorageService, useValue: fundDataStorageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -111,7 +111,7 @@ describe('ListApikeysPage', () => {
     apiKeyItemEl.triggerEventHandler('useButtonClicked', 2);
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(storageApikeysService.updateData).toHaveBeenCalledOnceWith({ nombre_bot: '', id: 2, alias: '' });
+    expect(fundDataStorageServiceSpy.setData).toHaveBeenCalledOnceWith('apiKeyId', { api_key_id: 2 });
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/funds/fund-name']);
   });
 

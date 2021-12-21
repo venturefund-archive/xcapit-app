@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
 import { NavController } from '@ionic/angular';
@@ -116,7 +115,6 @@ export class FundSummaryPage implements OnInit {
 
   constructor(
     private fundDataStorage: FundDataStorageService,
-    private storageApiKeysService: StorageApikeysService,
     private apiFundsService: ApiFundsService,
     private navController: NavController,
     private apiApiKeysService: ApiApikeysService,
@@ -132,9 +130,9 @@ export class FundSummaryPage implements OnInit {
   }
 
   private getAccountBalance() {
-    this.apiApiKeysService
-      .getAccountBalance({ api_key_id: this.storageApiKeysService.data.id })
-      .subscribe((res) => (this.accountBalance = res));
+    this.fundDataStorage.getData('apiKeyId').then((apiKeyId) => {
+      this.apiApiKeysService.getAccountBalance(apiKeyId).subscribe((res) => (this.accountBalance = res));
+    });
   }
 
   getMode() {
@@ -149,16 +147,10 @@ export class FundSummaryPage implements OnInit {
     });
   }
 
-  addApiKeyToFund(fund: any) {
-    fund.api_key_id = this.storageApiKeysService.data.id;
-    return fund;
-  }
-
   handleSubmit() {
     if (this.opType === 'renew') {
       this.apiFundsService.renewFund(this.fund).subscribe(() => this.success());
     } else {
-      this.fund = this.addApiKeyToFund(this.fund);
       this.apiFundsService.crud.create(this.fund).subscribe(
         () => this.success(),
         (e) => this.error(e)
