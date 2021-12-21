@@ -2157,6 +2157,11 @@
         "title2": "Do you know what type of investor you are?",
         "link2": "Find out"
       }
+    },
+    "shared": {
+      "buy_crypto_card": {
+        "title": "Buy crypto at best price"
+      }
     }
   },
   "support": {

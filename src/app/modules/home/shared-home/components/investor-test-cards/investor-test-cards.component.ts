@@ -14,7 +14,7 @@ import { NavController } from '@ionic/angular';
       <div class="link">
         <ion-button *ngIf="!this.comingSoon" appTrackClick class="ux-link-xl" name="Manage" fill="clear" size="small">
           {{ 'home.home_page.test_investor_cards.link1' | translate }}
-          <ion-icon slot="end" name="ux-forward" class=" ux-link-xl"></ion-icon>
+          <ion-icon slot="end" color="info" name="ux-forward" class=" ux-link-xl"></ion-icon>
         </ion-button>
         <ion-badge *ngIf="this.comingSoon" class="badge ux_badge_coming">{{
           'home.home_page.test_investor_cards.badge_text' | translate
@@ -38,7 +38,7 @@ import { NavController } from '@ionic/angular';
       <div class="link">
         <ion-button *ngIf="!this.comingSoon" appTrackClick class="ux-link-xl" name="Manage" fill="clear" size="small">
           {{ 'home.home_page.test_investor_cards.link2' | translate }}
-          <ion-icon slot="end" name="ux-forward" class=" ux-link-xl"></ion-icon>
+          <ion-icon slot="end" color="info" name="ux-forward" class=" ux-link-xl"></ion-icon>
         </ion-button>
         <ion-badge *ngIf="this.comingSoon" class="badge ux_badge_coming" slot="end">{{
           'home.home_page.test_investor_cards.badge_text' | translate

@@ -15,7 +15,7 @@ import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-
       <div class="pcc__content__right">
         <ion-button name="Send Email" (click)="this.sendEmail()" appTrackClick fill="clear" size="small"
           >{{ 'referrals.new_referral_page.prize_card.prize_button' | translate }}
-          <ion-icon class="pcc__content__right__icon" slot="end" name="ux-forward"></ion-icon>
+          <ion-icon class="pcc__content__right__icon" slot="end" color="info" name="ux-forward"></ion-icon>
         </ion-button>
       </div>
     </div>
