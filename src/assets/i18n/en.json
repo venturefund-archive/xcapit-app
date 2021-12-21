@@ -1444,7 +1444,7 @@
       "header_edit": "Edit assets",
       "title": "Select assets",
       "subtitle": "Choose the assets you want to view in your wallet",
-      "suite": "Suite",
+      "suite": "Suite {{suiteName}}",
       "recordatory": "Remember that to operate on each network you must have its native currency.",
       "native": "NATIVE",
       "submit_edit": "Save changes",

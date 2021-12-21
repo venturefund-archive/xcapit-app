@@ -19,6 +19,7 @@ import { NftCardComponent } from './components/nft-card/nft-card.component';
 import { WalletPasswordSmallComponent } from './components/wallet-password-small/wallet-password-small.component';
 import { StartInvestingComponent } from './components/start-investing/start-investing.component';
 import { ComingSoonInvestmentsComponent } from './components/coming-soon-investments/coming-soon-investments.component';
+import { SuitePipe } from './pipes/suite.pipe';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ComingSoonInvestmentsComponent } from './components/coming-soon-investm
     WalletPasswordSmallComponent,
     StartInvestingComponent,
     ComingSoonInvestmentsComponent,
+    SuitePipe,
   ],
   imports: [SharedModule],
   exports: [
