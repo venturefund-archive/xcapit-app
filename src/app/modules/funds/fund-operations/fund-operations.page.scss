@@ -1,4 +1,27 @@
 :host {
+  .fdr {
+    display: flex;
+    justify-content: space-around;
+
+    &__right {
+      ion-label {
+        margin-left: 28px;
+      }
+    }
+    &__left {
+      ion-label {
+        margin-left: 28px;
+      }
+    }
+
+    background: var(--ion-color-uxlight);
+    border-radius: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    ion-item {
+      --background: var(--ion-color-uxlight);
+    }
+  }
   .foh {
     &__header-title {
       margin-top: -10px;
