@@ -24,46 +24,60 @@ import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-item>
-        <ion-input [value]="this.displayDates.since"></ion-input>
-        <ion-button fill="clear" id="since-datetime">
-          <ion-icon icon="calendar"></ion-icon>
-        </ion-button>
-        <ion-popover trigger="since-datetime" show-backdrop="false">
-          <ng-template>
-            <ion-datetime
-              id="datetime-since"
-              #sinceDatetime
-              presentation="date"
-              (ionChange)="this.formatAndChangeDate($event, 'since')"
-              [max]="this.queryOptions.until"
-              [cancelText]="this.datepicker.cancelText"
-              [doneText]="this.datepicker.doneText"
-            ></ion-datetime>
-          </ng-template>
-        </ion-popover>
-      </ion-item>
-      <ion-item>
-        <ion-input [value]="this.displayDates.until"></ion-input>
-        <ion-button fill="clear" id="until-datetime">
-          <ion-icon icon="calendar"></ion-icon>
-        </ion-button>
-        <ion-popover trigger="until-datetime" show-backdrop="false">
-          <ng-template>
-            <ion-datetime
-              id="datetime-until"
-              #untilDatetime
-              presentation="date"
-              showDefaultButtons="true"
-              (ionChange)="this.formatAndChangeDate($event, 'until')"
-              [min]="this.queryOptions.since"
-              [max]="this.maxDate"
-              [cancelText]="this.datepicker.cancelText"
-              [doneText]="this.datepicker.doneText"
-            ></ion-datetime>
-          </ng-template>
-        </ion-popover>
-      </ion-item>
+      <div class="fdr">
+        <div class="fdr__left">
+          <ion-label class="ux-font-text-xxs regular">{{
+            'funds.fund_operations.since_date_range' | translate
+          }}</ion-label>
+          <ion-item lines="none">
+            <ion-button fill="clear" id="since-datetime">
+              <ion-icon color="uxprimary" icon="calendar"></ion-icon>
+            </ion-button>
+            <ion-input class="ux-font-text-xxs regular" [value]="this.displayDates.since"></ion-input>
+            <ion-popover mode="md" side="bottom" trigger="since-datetime" show-backdrop="false">
+              <ng-template>
+                <ion-datetime
+                  id="datetime-since"
+                  #sinceDatetime
+                  color="uxprimary"
+                  presentation="date"
+                  (ionChange)="this.formatAndChangeDate($event, 'since')"
+                  [max]="this.queryOptions.until"
+                  [cancelText]="this.datepicker.cancelText"
+                  [doneText]="this.datepicker.doneText"
+                ></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
+        </div>
+        <div class="fdr__right">
+          <ion-label class="ux-font-text-xxs regular">{{
+            'funds.fund_operations.until_date_range' | translate
+          }}</ion-label>
+          <ion-item lines="none">
+            <ion-button fill="clear" id="until-datetime">
+              <ion-icon color="uxprimary" icon="calendar"></ion-icon>
+            </ion-button>
+            <ion-input class="ux-font-text-xxs regular" [value]="this.displayDates.until"></ion-input>
+            <ion-popover mode="md" side="bottom" trigger="until-datetime" show-backdrop="false">
+              <ng-template>
+                <ion-datetime
+                  id="datetime-until"
+                  #untilDatetime
+                  presentation="date"
+                  color="uxprimary"
+                  showDefaultButtons="true"
+                  (ionChange)="this.formatAndChangeDate($event, 'until')"
+                  [min]="this.queryOptions.since"
+                  [max]="this.maxDate"
+                  [cancelText]="this.datepicker.cancelText"
+                  [doneText]="this.datepicker.doneText"
+                ></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
+        </div>
+      </div>
       <div class="fol">
         <app-ux-list-inverted>
           <ion-list>

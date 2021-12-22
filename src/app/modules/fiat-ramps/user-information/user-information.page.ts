@@ -65,12 +65,18 @@ import * as moment from 'moment';
           ></app-ux-input-select>
 
           <!-- fecha de nacimiento -->
-          <app-ux-datetime
+          <app-ux-input
+            placeholder="DD-MM-YYYY"
+            [label]="'fiat_ramps.register.dob' | translate"
+            controlName="nacimiento"
+          >
+          </app-ux-input>
+          <!-- <app-ux-datetime
             controlName="nacimiento"
             [label]="'fiat_ramps.register.dob' | translate"
             [placeholder]="'fiat_ramps.register.dob' | translate"
             [max]="this.maxDate"
-          ></app-ux-datetime>
+          ></app-ux-datetime> -->
 
           <!-- Género -->
           <app-input-select
