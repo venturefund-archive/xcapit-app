@@ -2123,7 +2123,8 @@
     "home_page": {
       "want_my_wallet": {
         "title": "¡Quiero mi wallet!",
-        "description": "Con la wallet tu tienes el poder, puedes invertir de forma simple, sin esfuerzo y con un click. "
+        "subtitle": "Crea tu wallet y comienza a tener el control de tus finanzas.",
+        "description": "En tu wallet"
       },
       "strategies": {
         "title": "Estrategias",
