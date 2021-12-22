@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Wallet } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import { WalletService } from '../wallet/wallet.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import * as moment from 'moment';
@@ -12,7 +12,7 @@ import { Mnemonic } from 'ethers/lib/utils';
   providedIn: 'root',
 })
 export class WalletEncryptionService {
-  private ethWallet: any = null;
+  private ethWallet: Wallet = null;
   private walletsAddresses = {};
   private selectedCoins = {};
   coins: Coin[];
@@ -41,8 +41,8 @@ export class WalletEncryptionService {
     return this.saveEncryptedWallet(password);
   }
 
-  private saveEncryptedWallet(password: string): Promise<any> {
-    return new Promise<any>(async (resolve) => {
+  private saveEncryptedWallet(password: string): Promise<boolean> {
+    return new Promise<boolean>(async (resolve) => {
       this.ethWallet.encrypt(password).then(async (wallet) => {
         const structure = this.storageStructure(wallet);
         await this.storageService.saveWalletToStorage(structure);
@@ -95,23 +95,5 @@ export class WalletEncryptionService {
 
   async encryptedWalletExist(): Promise<boolean> {
     return !!(await this.storageService.getWalletFromStorage());
-  }
-
-  async updateWalletNetworks(password: string, changedAssets: string[]): Promise<void> {
-    const encryptedWallet = await this.getEncryptedWallet();
-    const wallet = Wallet.fromEncryptedJsonSync(encryptedWallet.wallet, password);
-    this.walletService.getMnemonic(wallet);
-
-    const newNetworks = this.apiWalletService
-      .getNetworks()
-      .filter((network) => !Object.keys(encryptedWallet.addresses).includes(network));
-
-    newNetworks.forEach((network) => {
-      encryptedWallet.addresses[network] = this.walletService.createForDerivedPath(
-        environment.derivedPaths[network]
-      ).address;
-    });
-
-    this.storageService.saveWalletToStorage(encryptedWallet);
   }
 }

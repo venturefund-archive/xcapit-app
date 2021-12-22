@@ -10,6 +10,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
+import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -92,8 +93,7 @@ export class SelectCoinsWalletPage implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalController: ModalController,
-    private walletEncryptionService: WalletEncryptionService,
-    private walletMnemonicService: WalletMnemonicService
+    private walletMaintenanceService: WalletMaintenanceService
   ) {}
 
   ionViewWillEnter() {
@@ -176,18 +176,20 @@ export class SelectCoinsWalletPage implements OnInit {
 
   private async editTokens() {
     const changedAssets = this.getChangedAssets();
-    if (this.walletService.isUpdated()) {
-      await this.storageService.toggleAssets(changedAssets);
+
+    if (this.walletMaintenanceService.isUpdated()) {
+      await this.walletMaintenanceService.toggleAssets(changedAssets);
     } else {
-      const password = await this.promptUserForWalletPassword();
-      await this.walletEncryptionService.updateWalletNetworks(password, changedAssets);
+      this.walletMaintenanceService.password = await this.promptUserForWalletPassword();
+      await this.walletMaintenanceService.updateWalletNetworks(changedAssets);
     }
 
+    this.walletMaintenanceService.saveWalletToStorage();
     this.navController.navigateForward(['/tabs/wallets']);
   }
 
-  async promptUserForWalletPassword() {
-    return '';
+  async promptUserForWalletPassword(): Promise<string> {
+    return Promise.resolve('');
   }
 
   private createWallet() {

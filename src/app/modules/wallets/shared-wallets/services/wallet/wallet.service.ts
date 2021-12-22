@@ -63,12 +63,4 @@ export class WalletService {
 
     return !!wallets;
   }
-
-  getMnemonic(decryptedWallet: Wallet) {
-    this.walletMnemonicService.getMnemonic(decryptedWallet);
-  }
-
-  isUpdated() {
-    return false;
-  }
 }

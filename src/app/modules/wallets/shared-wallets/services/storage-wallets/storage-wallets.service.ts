@@ -80,20 +80,6 @@ export class StorageService {
     return false;
   }
 
-  async toggleAssets(assets: string[]): Promise<any> {
-    const wallets = await this.getWalletFromStorage();
-
-    if (wallets) {
-      assets.forEach((asset) => {
-        wallets.assets[asset] = !wallets.assets[asset];
-      });
-
-      return await this.saveWalletToStorage(wallets);
-    }
-
-    return false;
-  }
-
   async updateAssetsList() {
     this.coins = this.apiWalletService.getCoins();
     const wallets = await this.getWalletFromStorage();
