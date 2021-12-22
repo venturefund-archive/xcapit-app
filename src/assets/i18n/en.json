@@ -1454,9 +1454,9 @@
       }
     },
     "success_creation": {
-      "title": "Nice! your wallet is now created and your recovery phrase is verified",
-      "subtitle": "Keep it in a safe place, if possible, without an internet connection",
-      "success_button": "Go to my wallet"
+      "title": "Nice!",
+      "subtitle": "You verified your recovery phrase and created your wallet",
+      "success_button": "Go to wallet"
     },
     "recovery_phrase": {
       "header": "Create Wallet",
@@ -1648,7 +1648,7 @@
     },
     "success_wallet_recovery": {
       "title": "Brilliant! We import your wallet with your recovery phrase",
-      "button": "Go to my wallet"
+      "button": "Go to wallet"
     }
   },
   "apikeys": {
