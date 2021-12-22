@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -114,10 +113,8 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
   totalBalanceWallet = 0;
-  walletAddress = null;
   balances: Array<AssetBalance> = [];
-  allPrices: any;
-  userCoins: Coin[];
+  nftStatus = '';
   alreadyInitialized = false;
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
@@ -126,15 +123,14 @@ export class HomeWalletPage implements OnInit {
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
-  nftStatus = '';
 
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private storageService: StorageService,
     private navController: NavController,
     private formBuilder: FormBuilder,
-    private refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService,
+    private walletBalance: WalletBalanceService
   ) {}
 
   ngOnInit() {}
@@ -166,87 +162,34 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
-  createBalancesStructure(coin: Coin): AssetBalance {
-    return {
-      icon: coin.logoRoute,
-      symbol: coin.value,
-      name: coin.name,
-      amount: 0,
-      usdAmount: 0,
-      usdSymbol: 'USD',
-    };
-  }
-
   async encryptedWalletExist() {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
 
       if (!this.alreadyInitialized && res) {
         this.alreadyInitialized = true;
-        this.getAllPrices();
+        this.getCoinsBalance();
       }
     });
+  }
+
+  getCoinsBalance() {
+    this.walletBalance.getWalletsBalances().then((res) => {
+      this.balances = res;
+      this.getTotalBalance();
+      this.uninitializedWallet();
+    });
+  }
+
+  getTotalBalance() {
+    this.walletBalance.getUsdTotalBalance().then((res) => (this.totalBalanceWallet = res));
   }
 
   goToRecoveryWallet() {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
-  getWalletsBalances() {
-    this.balances = [];
-    this.totalBalanceWallet = 0;
-    for (const coin of this.userCoins) {
-      const walletAddress = this.walletService.addresses[coin.network];
-
-      if (walletAddress) {
-        const balance = this.createBalancesStructure(coin);
-        this.walletService.balanceOf(walletAddress, coin.value).then((res) => {
-          balance.amount = parseFloat(res);
-
-          if (this.allPrices) {
-            const usdPrice = this.getPrice(balance.symbol);
-
-            balance.usdAmount = usdPrice * balance.amount;
-            this.totalBalanceWallet += balance.usdAmount;
-          }
-          this.balances.push(balance);
-          this.orderBalancesByAmount();
-        });
-      }
-    }
-  }
-
-  orderBalancesByAmount() {
-    this.balances.sort((a, b) => {
-      return b.usdAmount - a.usdAmount;
-    });
-  }
-
-  getAllPrices() {
-    this.storageService.getAssestsSelected().then((coins) => {
-      this.userCoins = coins;
-      this.storageService.updateAssetsList().then(() => {
-        this.apiWalletService
-          .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
-          .toPromise()
-          .then((res) => (this.allPrices = res))
-          .finally(async () => {
-            this.getWalletsBalances();
-            this.uninitializedWallet();
-          });
-      });
-    });
-  }
-
   private uninitializedWallet() {
     this.alreadyInitialized = false;
-  }
-
-  private getCoinForPrice(symbol: string): string {
-    return symbol === 'RBTC' ? 'BTC' : symbol;
-  }
-
-  private getPrice(symbol: string): number {
-    return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }
 }
