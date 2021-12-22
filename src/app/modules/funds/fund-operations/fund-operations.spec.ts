@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { By } from '@angular/platform-browser';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
-import { NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 
 describe('FundOperationsPage', () => {
   let component: FundOperationsPage;
@@ -75,9 +75,8 @@ describe('FundOperationsPage', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       TestBed.configureTestingModule({
         declarations: [FundOperationsPage],
-        imports: [HttpClientTestingModule, TranslateModule.forRoot(), RouterTestingModule],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
-          TranslateService,
           { provide: ApiFundsService, useValue: apiFundsServiceSpy },
           { provide: Storage, useValue: storageSpy },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
@@ -142,15 +141,13 @@ describe('FundOperationsPage', () => {
   });
 
   it('should set since when date changes', async () => {
-    const sinceEl = fixture.debugElement.query(By.css('#datetime-since'));
-    sinceEl.triggerEventHandler('ionChange', { detail: { value: '2020-01-01T03:00:00Z' } });
+    component.formatAndChangeDate({ detail: { value: '2020-01-01T03:00:00Z' } }, 'since');
     await fixture.whenStable();
     expect(component.queryOptions.since).toBe('2020-01-01T03:00:00Z');
   });
 
   it('should set until when date changes', async () => {
-    const sinceEl = fixture.debugElement.query(By.css('#datetime-until'));
-    sinceEl.triggerEventHandler('ionChange', { detail: { value: '2020-01-01T03:00:00Z' } });
+    component.formatAndChangeDate({ detail: { value: '2020-01-01T03:00:00Z' } }, 'until');
     await fixture.whenStable();
     expect(component.queryOptions.until).toBe('2020-01-01T03:00:00Z');
   });

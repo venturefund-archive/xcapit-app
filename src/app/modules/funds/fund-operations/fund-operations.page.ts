@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.service';
-import { IonInfiniteScroll, NavController } from '@ionic/angular';
+import { IonDatetime, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
 
 @Component({
   selector: 'app-fund-operations-history',
@@ -23,57 +24,46 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div>
-        <app-ux-date-range>
-          <div class="foc">
-            <div class="foc__date">
-              <div class="foc__date__label">
-                <ion-label color="uxsemidark" class="ux-font-text-xxs regular">
-                  <ion-text> {{ 'funds.fund_operations.since_date_range' | translate }}: </ion-text>
-                </ion-label>
-              </div>
-              <div class="foc__date__datetime-section" (click)="since_datetime.open()">
-                <ion-icon [name]="'ux-calendar'"></ion-icon>
-                <ion-datetime
-                  id="datetime-since"
-                  #since_datetime
-                  class="ux-font-text-xxs regular"
-                  value="{{ this.queryOptions.since }}"
-                  display-format="YYYY-MM-DD"
-                  cancelText="{{ this.datepicker.cancelText }}"
-                  doneText="{{ this.datepicker.doneText }}"
-                  (ionChange)="this.changeDate($event, 'since')"
-                  [max]="this.queryOptions.until"
-                  (click)="$event.stopPropagation(); $event.preventDefault()"
-                ></ion-datetime>
-              </div>
-            </div>
-            <div class="foc__date">
-              <div class="foc__date__label">
-                <ion-label color="uxsemidark" class="ux-font-text-xxs regular">
-                  {{ 'funds.fund_operations.until_date_range' | translate }}:
-                </ion-label>
-              </div>
-              <div class="foc__date__datetime-section" (click)="until_datetime.open()">
-                <ion-icon [name]="'ux-calendar'"></ion-icon>
-                <ion-datetime
-                  id="datetime-until"
-                  #until_datetime
-                  class="ux-font-text-xxs regular"
-                  value="{{ this.queryOptions.until }}"
-                  display-format="YYYY-MM-DD"
-                  cancelText="{{ this.datepicker.cancelText }}"
-                  doneText="{{ this.datepicker.doneText }}"
-                  (ionChange)="this.changeDate($event, 'until')"
-                  [min]="this.queryOptions.since"
-                  [max]="this.maxDate"
-                  (click)="$event.stopPropagation(); $event.preventDefault()"
-                ></ion-datetime>
-              </div>
-            </div>
-          </div>
-        </app-ux-date-range>
-      </div>
+      <ion-item>
+        <ion-input [value]="this.displayDates.since"></ion-input>
+        <ion-button fill="clear" id="since-datetime">
+          <ion-icon icon="calendar"></ion-icon>
+        </ion-button>
+        <ion-popover trigger="since-datetime" show-backdrop="false">
+          <ng-template>
+            <ion-datetime
+              id="datetime-since"
+              #sinceDatetime
+              presentation="date"
+              (ionChange)="this.formatAndChangeDate($event, 'since')"
+              [max]="this.queryOptions.until"
+              [cancelText]="this.datepicker.cancelText"
+              [doneText]="this.datepicker.doneText"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
+      <ion-item>
+        <ion-input [value]="this.displayDates.until"></ion-input>
+        <ion-button fill="clear" id="until-datetime">
+          <ion-icon icon="calendar"></ion-icon>
+        </ion-button>
+        <ion-popover trigger="until-datetime" show-backdrop="false">
+          <ng-template>
+            <ion-datetime
+              id="datetime-until"
+              #untilDatetime
+              presentation="date"
+              showDefaultButtons="true"
+              (ionChange)="this.formatAndChangeDate($event, 'until')"
+              [min]="this.queryOptions.since"
+              [max]="this.maxDate"
+              [cancelText]="this.datepicker.cancelText"
+              [doneText]="this.datepicker.doneText"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
       <div class="fol">
         <app-ux-list-inverted>
           <ion-list>
@@ -135,6 +125,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 export class FundOperationsPage implements OnInit {
   @ViewChild(IonInfiniteScroll, { static: true })
   infiniteScroll: IonInfiniteScroll;
+  displayDates = { since: '', until: '' };
   orders: any[];
   queryOptions = { ordering: '-creation_datetime', since: '', until: '' };
   paginationOptions = { cursor: '' };
@@ -171,17 +162,30 @@ export class FundOperationsPage implements OnInit {
     await this.loadingService.dismiss();
   }
 
+  formatDate(value) {
+    return format(parseISO(value), 'yyyy-MM-dd');
+  }
+
+  formatAndChangeDate(event, type) {
+    this.changeDate(event, type);
+    this.displayDates[type] = event.detail.value;
+  }
+
   setInitialDatePicker() {
     if (this.storageSince) {
       this.queryOptions.since = this.storageSince;
+      this.displayDates.since = this.formatDate(this.storageSince);
     } else {
-      this.queryOptions.since = moment().subtract(7, 'd').startOf('day').utc().format();
+      this.queryOptions.since = subDays(new Date(), 7).toISOString();
+      this.displayDates.since = this.formatDate(this.queryOptions.since);
     }
 
     if (this.storageUntil) {
       this.queryOptions.until = this.storageUntil;
+      this.displayDates.until = this.formatDate(this.storageUntil);
     } else {
-      this.queryOptions.until = moment().endOf('day').utc().format();
+      this.queryOptions.until = endOfDay(new Date()).toISOString();
+      this.displayDates.until = this.formatDate(this.queryOptions.until);
     }
 
     this.datepicker.cancelText = this.translate.instant('funds.fund_operations.cancel_datepicker_text');
@@ -216,13 +220,7 @@ export class FundOperationsPage implements OnInit {
   }
 
   async changeDate(event, type) {
-    const dateValue = this.date_to_utc(event.detail.value);
-    if (type === 'since') {
-      this.queryOptions.since = dateValue;
-    }
-    if (type === 'until') {
-      this.queryOptions.until = dateValue;
-    }
+    this.queryOptions[type] = event.detail.value;
     this.getOperationsHistory(this.getQueryParams());
     this.get_max_date_for_selection();
   }
@@ -240,8 +238,8 @@ export class FundOperationsPage implements OnInit {
     this.navController.navigateForward(['funds/fund-operations-detail', order.id]);
   }
 
-  async setDatesInStorage(since?, until?) {
-    if (since) {
+  async setDatesInStorage() {
+    if (this.queryOptions.since) {
       await this.loadingService.show();
       this.storageSince = this.queryOptions.since;
       await this.storage.set(CONFIG.operationHistoryDates.since, this.queryOptions.since).then(() => {
@@ -249,7 +247,7 @@ export class FundOperationsPage implements OnInit {
       });
     }
 
-    if (until) {
+    if (this.queryOptions.until) {
       await this.loadingService.show();
       this.storageUntil = this.queryOptions.until;
       await this.storage.set(CONFIG.operationHistoryDates.until, this.queryOptions.until).then(() => {
@@ -261,6 +259,6 @@ export class FundOperationsPage implements OnInit {
   ngOnInit() {}
 
   async ionViewWillLeave() {
-    await this.setDatesInStorage(this.queryOptions.since, this.queryOptions.until);
+    await this.setDatesInStorage();
   }
 }
