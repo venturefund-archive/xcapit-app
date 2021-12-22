@@ -9,9 +9,6 @@ import { WalletService } from '../wallet/wallet.service';
   providedIn: 'root',
 })
 export class WalletBalanceService {
-  walletExist: boolean;
-  totalBalanceWallet = 0;
-  walletAddress = null;
   balances: Array<AssetBalance> = [];
   allPrices: any;
   userCoins: Coin[];

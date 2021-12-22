@@ -55,7 +55,7 @@ import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.c
 import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
-import { WalletBalanceCardHomeComponent } from '../modules/home/shared-home/components/wallet-balance-card-home/wallet-balance-card-home/wallet-balance-card-home.component';
+import { WalletBalanceCardHomeComponent } from '../modules/home/shared-home/components/wallet-balance-card-home/wallet-balance-card-home.component';
 import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
