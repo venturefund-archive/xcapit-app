@@ -1,11 +1,10 @@
 .badge {
   --background: var(--ion-color-successlight);
   color: var(--ion-color-successdark);
-  margin-left: 16px;
 }
 .investor_cards {
   display: flex;
-  margin-top: 16px;
+  margin-top: 8px;
 
   .vertical-card {
     flex-basis: 50%;
@@ -33,7 +32,7 @@
     }
   }
   .take_test_card {
-    margin-right: 11px;
+    margin-right: 8px;
     &__title {
       text-align: start;
       margin-left: 16px;
@@ -47,7 +46,6 @@
   }
 
   .manual_test_card {
-    margin-right: 11px;
     display: flex;
     &__content {
       width: 95%;
