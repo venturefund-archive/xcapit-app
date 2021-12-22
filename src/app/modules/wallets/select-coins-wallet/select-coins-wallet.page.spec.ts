@@ -117,7 +117,7 @@ const testERC20Coins: Coin[] = [
     decimals: 6,
   },
   {
-    id: 5,
+    id: 4,
     name: 'UNI - Uniswap',
     logoRoute: 'assets/img/coins/UNI.svg',
     last: false,
@@ -132,7 +132,7 @@ const testERC20Coins: Coin[] = [
 
 const testRSKCoins: Coin[] = [
   {
-    id: 6,
+    id: 5,
     name: 'RBTC - Smart Bitcoin',
     logoRoute: 'assets/img/coins/RBTC.png',
     last: false,
@@ -143,7 +143,7 @@ const testRSKCoins: Coin[] = [
     native: true,
   },
   {
-    id: 7,
+    id: 6,
     name: 'RIF - Rifos',
     logoRoute: 'assets/img/coins/RIF.png',
     last: false,
@@ -155,7 +155,7 @@ const testRSKCoins: Coin[] = [
     decimals: 18,
   },
   {
-    id: 9,
+    id: 7,
     name: 'SOV - Sovryn',
     logoRoute: 'assets/img/coins/SOV.png',
     last: true,
@@ -181,11 +181,47 @@ const testMATICCoins: Coin[] = [
     decimals: 18,
     native: true,
   },
+  {
+    id: 9,
+    name: 'USDC - USD Coin',
+    logoRoute: 'assets/img/coins/USDC.png',
+    last: false,
+    value: 'USDC',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: 'http://testrpc.text/',
+    contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+    decimals: 18,
+  },
+  {
+    id: 10,
+    name: 'CRV - Curve',
+    logoRoute: 'assets/img/coins/CRV.png',
+    last: false,
+    value: 'CRV',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: 'http://testrpc.text/',
+    contract: '0x172370d5cd63279efa6d502dab29171933a610af',
+    decimals: 18,
+  },
+  {
+    id: 11,
+    name: 'SAND - SAND Token',
+    logoRoute: 'assets/img/coins/SAND.png',
+    last: false,
+    value: 'SAND',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: 'http://testrpc.text/',
+    contract: '0xc6d54d2f624bc83815b49d9c2203b1330b841ca0',
+    decimals: 18,
+  },
 ];
 
 const testBSC_BEP20Coins: Coin[] = [
   {
-    id: 10,
+    id: 12,
     name: 'BNB - Binance Coin',
     logoRoute: 'assets/img/coins/BNB.svg',
     last: true,
@@ -248,6 +284,9 @@ const formData = {
     },
     MATIC: {
       MATIC: true,
+      USDC: false,
+      CRV: false,
+      SAND: false,
     },
     RSK: {
       RBTC: true,
@@ -267,6 +306,9 @@ const formData = {
     },
     MATIC: {
       MATIC: false,
+      USDC: false,
+      CRV: false,
+      SAND: false,
     },
     RSK: {
       RBTC: false,
