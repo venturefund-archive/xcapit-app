@@ -42,59 +42,18 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       </ion-refresher>
       <!-- Content Cards -->
       <div class="ion-padding">
-        <app-wallet-balance-card-home></app-wallet-balance-card-home>
-
+        <div class="wallet-balance-card-home">
+          <app-wallet-balance-card-home></app-wallet-balance-card-home>
+        </div>
         <div class="buy-crypto-card">
           <app-buy-crypto-card (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
         </div>
-
-        <div class="two_cards">
-          <div
-            class="strategies vertical-card"
-            appTrackClick
-            name="Go to Strategies Cards"
-            (click)="this.goToStrategies()"
-          >
-            <div class="strategies__image">
-              <ion-img src="../assets/img/home/girl_with_screen.svg"></ion-img>
-            </div>
-            <div class="strategies__content">
-              <div class="strategies__content__title">
-                <ion-text class="ux-font-header-titulo">{{ 'home.home_page.strategies.title' | translate }}</ion-text>
-              </div>
-              <div class="strategies__content__description">
-                <ion-text class="ux-font-text-xxs regular">{{
-                  'home.home_page.strategies.description' | translate
-                }}</ion-text>
-              </div>
-            </div>
-            <div class="link">
-              <ion-text class="ux-font-text-xs semibold">{{
-                'home.home_page.strategies.link_text' | translate
-              }}</ion-text>
-            </div>
-          </div>
-          <div class="support vertical-card" appTrackClick name="Go to Support Page" (click)="this.goToSupportPage()">
-            <div class="support__image">
-              <ion-img src="../assets/img/home/high_five.svg"></ion-img>
-            </div>
-            <div class="support__content">
-              <div class="support__content__title">
-                <ion-text class="ux-font-header-titulo">{{ 'home.home_page.support.title' | translate }}</ion-text>
-              </div>
-              <div class="support__content__description">
-                <ion-text class="ux-font-text-xxs regular">{{
-                  'home.home_page.support.description' | translate
-                }}</ion-text>
-              </div>
-            </div>
-            <div class="link">
-              <ion-text class="ux-font-text-xs semibold">{{ 'home.home_page.support.link_text' | translate }}</ion-text>
-            </div>
-          </div>
+        <div class="investor-test-card">
+          <app-investor-test-cards></app-investor-test-cards>
         </div>
-        <app-need-help-card></app-need-help-card>
-        <app-investor-test-cards></app-investor-test-cards>
+        <div class="need-help-card">
+          <app-need-help-card></app-need-help-card>
+        </div>
       </div>
     </ion-content>
   `,
@@ -169,18 +128,6 @@ export class HomePage implements OnInit {
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
-  }
-
-  async goToWallet() {
-    this.navController.navigateForward('/tabs/wallets');
-  }
-
-  goToSupportPage() {
-    this.navController.navigateForward('/tickets/create-support-ticket');
-  }
-
-  goToStrategies() {
-    this.navController.navigateForward('/funds/fund-investment/show');
   }
 
   goToBuyCrypto() {
