@@ -1456,9 +1456,9 @@
       }
     },
     "success_creation": {
-      "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",
-      "subtitle": "Guardala en un lugar seguro, en lo posible, sin conexión a internet",
-      "success_button": "Ir a mi wallet"
+      "title": "¡Genial!",
+      "subtitle": "Verificaste tu frase de recuperación y creaste tu wallet",
+      "success_button": "Ir a wallet"
     },
     "recovery_phrase": {
       "header": "Crear wallet",
@@ -1650,7 +1650,7 @@
     },
     "success_wallet_recovery": {
       "title": "¡Genial! Importamos tu wallet con tu frase de recuperación",
-      "button": "Ir a mi wallet"
+      "button": "Ir a wallet"
     }
   },
   "apikeys": {
