@@ -20,7 +20,6 @@ const testCoins = {
 };
 
 const testWallet: Wallet = { address: 'testAddress' } as Wallet;
-const testCreatedWallets: Wallet[] = [testWallet];
 
 describe('WalletService', () => {
   let service: WalletService;

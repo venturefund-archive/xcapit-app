@@ -14,11 +14,11 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 const testSelectedTokens = [
   {
@@ -287,7 +287,8 @@ const testSuites = {
   BSC_BEP20: testBSC_BEP20Coins,
 };
 
-describe('SelectCoinsWalletPage', () => {
+// TODO: Check coverage to see if there are missing tests
+fdescribe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
@@ -296,22 +297,24 @@ describe('SelectCoinsWalletPage', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let fakeNavController: FakeNavController;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let fakeLoadingService: FakeLoadingService;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
+
   beforeEach(
     waitForAsync(() => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
+      fakeModalController.modifyReturns(null, { data: 'testPassword' });
+
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
 
       fakeLoadingService = new FakeLoadingService();
       loadingServiceSpy = fakeLoadingService.createSpy();
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        toggleAssets: null,
-        getAssestsSelected: Promise.resolve(testSelectedTokens),
-      });
+
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoins: testCoins,
         getNetworks: ['ERC20', 'RSK', 'MATIC', 'BSC_BEP20'],
@@ -319,18 +322,24 @@ describe('SelectCoinsWalletPage', () => {
         getCoin: testCoins[0],
       });
       apiWalletServiceSpy.getCoinsFromNetwork.and.callFake((network) => testSuites[network]);
+
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
+
       walletServiceSpy = jasmine.createSpyObj(
         'WalletService',
         {
           create: Promise.resolve({}),
-          isUpdated: Promise.resolve(true),
         },
         { coins: [] }
       );
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
 
+      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
+        getUserAssets: Promise.resolve(testSelectedTokens),
+        isUpdated: true,
+        toggleAssets: undefined,
+        saveWalletToStorage: Promise.resolve(),
+        updateWalletNetworks: Promise.resolve(),
+      });
       TestBed.configureTestingModule({
         declarations: [SelectCoinsWalletPage, FakeTrackClickDirective, ItemCoinComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
@@ -340,7 +349,7 @@ describe('SelectCoinsWalletPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: StorageService, useValue: storageServiceSpy },
+          { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
           { provide: LoadingService, useValue: loadingServiceSpy },
           { provide: ModalController, useValue: modalControllerSpy },
         ],
@@ -352,13 +361,6 @@ describe('SelectCoinsWalletPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectCoinsWalletPage);
     component = fixture.componentInstance;
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        mode: '',
-      }),
-    };
-    component.ionViewWillEnter();
-    fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -367,6 +369,9 @@ describe('SelectCoinsWalletPage', () => {
   });
 
   it('should call trackEvent on trackService when Next Button clicked', () => {
+    component.userCoinsLoaded = true;
+    component.createForm();
+    fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -375,183 +380,250 @@ describe('SelectCoinsWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should set mode on ionViewWillEnter when mode exists', () => {
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        mode: 'import',
-      }),
-    };
-    component.ionViewWillEnter();
-    expect(component.mode).toEqual('import');
-  });
-
-  it('should not activate the Next button when no token is selected', () => {
+  it('should not activate the Next button when no token is selected', async () => {
+    component.userCoinsLoaded = true;
+    component.txInProgress = false;
+    component.createForm();
+    fixture.detectChanges();
+    component.form.patchValue(formData.startForm);
+    await fixture.whenStable();
+    fixture.detectChanges();
     const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
     expect(nextButton.attributes['ng-reflect-disabled']).toEqual('true');
   });
 
-  it('should activate the Next button when at least one token is selected', () => {
+  it('should activate the Next button when at least one token is selected', async () => {
+    component.userCoinsLoaded = true;
+    component.txInProgress = false;
+    component.createForm();
+    fixture.detectChanges();
     component.form.patchValue(formData.valid);
+    await fixture.whenStable();
     fixture.detectChanges();
     const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
     expect(nextButton.attributes['ng-reflect-disabled']).toEqual('false');
   });
 
-  it('should navigate to recovery phrase page on submit button clicked , valid form and mode empty', () => {
-    component.mode = '';
-    component.almostOneChecked = true;
-    fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-    component.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-first/recovery-phrase']);
+  [
+    {
+      mode: {
+        text: 'Create',
+        value: '',
+      },
+      onSubmit: {
+        navigateTo: {
+          route: ['/wallets/create-first/recovery-phrase'],
+          pageName: 'Recovery Phrase page',
+        },
+        originalFormData: undefined,
+      },
+      changeTexts: {
+        header: 'wallets.select_coin.header',
+        submitButton: ' deposit_addresses.deposit_currency.next_button ',
+      },
+    },
+    {
+      mode: {
+        text: 'Import',
+        value: 'import',
+      },
+      onSubmit: {
+        navigateTo: {
+          route: ['/wallets/create-password', 'import'],
+          pageName: 'Create Password page',
+        },
+        originalFormData: undefined,
+      },
+      changeTexts: {
+        header: 'wallets.recovery_wallet.header',
+        submitButton: ' deposit_addresses.deposit_currency.next_button ',
+      },
+    },
+    {
+      mode: {
+        text: 'Edit',
+        value: 'edit',
+      },
+      onSubmit: {
+        navigateTo: {
+          route: ['/tabs/wallets'],
+          pageName: 'Wallet Home page',
+        },
+        originalFormData: formData.editTokensOriginal,
+      },
+      changeTexts: {
+        header: 'wallets.select_coin.header_edit',
+        submitButton: ' wallets.select_coin.submit_edit ',
+      },
+      requiresUpdate: [
+        {
+          isUpdated: false,
+          text: 'Wallet requires update',
+          editTokens: {
+            text: 'call updateWalletNetworks and not call toggleAssets',
+            callsToToggleAssets: 0,
+            callsToUpdateWalletNetworks: 1,
+          },
+        },
+        {
+          isUpdated: true,
+          text: 'Wallet is updated',
+          editTokens: {
+            text: 'call toggleAssets and not call updateWalletNetworks',
+            callsToToggleAssets: 1,
+            callsToUpdateWalletNetworks: 0,
+          },
+        },
+      ],
+    },
+  ].forEach((testCase) => {
+    describe(`${testCase.mode.text} Mode`, () => {
+      beforeEach(() => {
+        activatedRouteSpy.snapshot = {
+          paramMap: convertToParamMap({
+            mode: testCase.mode.value,
+          }),
+        };
+        component.mode = testCase.mode.value;
+      });
+
+      it('should set mode on ionViewWillEnter when mode exists', () => {
+        component.ionViewWillEnter();
+        expect(component.mode).toEqual(testCase.mode.value);
+      });
+
+      it('should set coins in wallet service on handleSubmit and valid form', () => {
+        component.almostOneChecked = true;
+        component.userCoinsLoaded = true;
+        spyOn(component, 'editTokens').and.returnValue(Promise.resolve());
+        spyOn(component, 'importWallet').and.returnValue(undefined);
+        spyOn(component, 'createWallet').and.returnValue(undefined);
+        component.createForm();
+        component.form.patchValue(formData.valid);
+        fixture.detectChanges();
+        fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+        expect(walletServiceSpy.coins.length).toEqual(2);
+      });
+
+      it('should change texts on header and Submit button', async () => {
+        component.ionViewWillEnter();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
+        const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
+        expect(buttonText).toEqual(testCase.changeTexts.submitButton);
+        expect(headerText).toEqual(testCase.changeTexts.header);
+      });
+
+      it(`should get tokens from wallet on ionViewWillEnter`, async () => {
+        component.ionViewWillEnter();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        if (testCase.mode.value === 'edit') {
+          expect(component.form.value).toEqual(formData.editTokensOriginal);
+        } else {
+          expect(component.form.value).toEqual(formData.startForm);
+        }
+        expect(component.userCoinsLoaded).toBeTrue();
+      });
+
+      if (testCase.mode.value === 'edit') {
+        testCase.requiresUpdate.forEach((testCaseEdit) => {
+          describe(testCaseEdit.text, () => {
+            beforeEach(() => {
+              walletMaintenanceServiceSpy.isUpdated.and.returnValue(testCaseEdit.isUpdated);
+              component.almostOneChecked = true;
+              component.userCoinsLoaded = true;
+              component.createForm();
+              component.form.patchValue(formData.valid);
+              component.originalFormData = testCase.onSubmit.originalFormData;
+              fixture.detectChanges();
+            });
+
+            it(`should show loader, ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
+              testCase.onSubmit.navigateTo.pageName
+            } on form submit`, fakeAsync(() => {
+              fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+              fixture.detectChanges();
+              tick();
+              expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(testCase.onSubmit.navigateTo.route);
+              expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+              expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+            }));
+
+            it('should save wallet in storage on form submit', fakeAsync(() => {
+              fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+              fixture.detectChanges();
+              tick();
+              expect(walletMaintenanceServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(1);
+            }));
+
+            it(`should ${testCaseEdit.editTokens.text} on form submit`, fakeAsync(() => {
+              fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+              fixture.detectChanges();
+              tick();
+              expect(walletMaintenanceServiceSpy.toggleAssets).toHaveBeenCalledTimes(
+                testCaseEdit.editTokens.callsToToggleAssets
+              );
+              expect(walletMaintenanceServiceSpy.updateWalletNetworks).toHaveBeenCalledTimes(
+                testCaseEdit.editTokens.callsToUpdateWalletNetworks
+              );
+            }));
+
+            if (!testCaseEdit.isUpdated) {
+              it('should ask user for password on form submit', fakeAsync(() => {
+                fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+                fixture.detectChanges();
+                tick();
+                expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+                expect(walletMaintenanceServiceSpy.password).toEqual('testPassword');
+              }));
+            }
+          });
+        });
+      } else {
+        it(`should show loader, ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
+          testCase.onSubmit.navigateTo.pageName
+        } on form submit`, fakeAsync(() => {
+          component.almostOneChecked = true;
+          component.userCoinsLoaded = true;
+          component.createForm();
+          component.form.patchValue(formData.valid);
+          component.originalFormData = testCase.onSubmit.originalFormData;
+          fixture.detectChanges();
+          fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+          fixture.detectChanges();
+          tick();
+          expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(testCase.onSubmit.navigateTo.route);
+          if (testCase.mode.value === 'import') {
+            expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
+            expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
+            expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
+          }
+        }));
+
+        it(`should not show loader, not ${testCase.mode.text.toLowerCase()} wallet and not navigate to ${
+          testCase.onSubmit.navigateTo.pageName
+        } on invalid form submit`, fakeAsync(() => {
+          component.almostOneChecked = false;
+          component.userCoinsLoaded = true;
+          component.createForm();
+          fixture.detectChanges();
+          fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+          fixture.detectChanges();
+          tick();
+          expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
+          if (testCase.mode.value === 'import') {
+            expect(walletServiceSpy.create).toHaveBeenCalledTimes(0);
+            expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(0);
+            expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(0);
+          }
+        }));
+      }
+    });
   });
 
-  it('should navigate to recovery phrase page on submit button clicked having at least one asset selected, and importing the wallet', fakeAsync(() => {
-    component.mode = 'import';
-    component.almostOneChecked = true;
-    component.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-    fixture.detectChanges();
-    tick();
-    expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password', 'import']);
-    expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
-  }));
+  // it('should create form dinamically on ionViewWillEnter', () => {
 
-  it('should not navigate to recovery phrase page on submit button clicked  dont having at least one asset selected', () => {
-    component.almostOneChecked = false;
-    fixture.detectChanges();
-    component.handleSubmit();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
-  });
-
-  it('should set coins in wallet service on handleSubmit and valid form', () => {
-    component.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    component.handleSubmit();
-    expect(walletServiceSpy.coins.length).toEqual(2);
-  });
-
-  it('should change text on Submit button and Header on Edit mode', async () => {
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        mode: 'edit',
-      }),
-    };
-    component.almostOneChecked = true;
-    component.ionViewWillEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
-    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
-    expect(buttonText).toEqual(' wallets.select_coin.submit_edit ');
-    expect(headerText).toEqual('wallets.select_coin.header_edit');
-  });
-
-  it('should change text on Submit button and Header on Import mode', () => {
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        mode: 'import',
-      }),
-    };
-    component.almostOneChecked = true;
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
-    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
-    expect(buttonText).toEqual(' deposit_addresses.deposit_currency.next_button ');
-    expect(headerText).toEqual('wallets.recovery_wallet.header');
-  });
-
-  it('should have normal text if mode is undefined', () => {
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        mode: null,
-      }),
-    };
-    component.almostOneChecked = true;
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
-    const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
-    expect(buttonText).toEqual(' deposit_addresses.deposit_currency.next_button ');
-    expect(headerText).toEqual('wallets.select_coin.header');
-  });
-
-  it('should get tokens from wallet when enter on Edit mode', async () => {
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        mode: 'edit',
-      }),
-    };
-    component.ionViewWillEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    expect(component.form.value).toEqual(formData.editTokensOriginal);
-  });
-
-  // it('should update tokens and navigate back to Wallet Home when Submit button clicked on Edit mode', async () => {
-  //   const changedTokens = ['USDT', 'UNI', 'RBTC', 'RIF', 'MATIC'];
-  //   activatedRouteSpy.snapshot = {
-  //     paramMap: convertToParamMap({
-  //       mode: 'edit',
-  //     }),
-  //   };
-  //   component.ionViewWillEnter();
-  //   await fixture.whenStable();
-  //   component.form.patchValue(formData.valid);
-  //   fixture.detectChanges();
-  //   await component.handleSubmit();
-  //   expect(storageServiceSpy.toggleAssets).toHaveBeenCalledOnceWith(changedTokens);
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
   // });
-
-  // it('should create form with coins on ionViewWillEnter', async () => {
-  //   expect(component.form.value).toEqual(formData.startForm);
-  // });
-
-  // it('should check if wallet is updated when Submit button clicked on Edit mode', async () => {
-  //   activatedRouteSpy.snapshot = {
-  //     paramMap: convertToParamMap({
-  //       mode: 'edit',
-  //     }),
-  //   };
-  //   component.ionViewWillEnter();
-  //   await fixture.whenStable();
-  //   component.form.patchValue(formData.valid);
-  //   fixture.detectChanges();
-  //   await component.handleSubmit();
-  //   expect(walletServiceSpy.isUpdated).toHaveBeenCalledTimes(1);
-  // });
-
-  // it('should request password and update wallet if wallet outdated when Submit button clicked on Edit mode', async () => {
-  //   walletServiceSpy.isUpdated.and.returnValue(false);
-  //   activatedRouteSpy.snapshot = {
-  //     paramMap: convertToParamMap({
-  //       mode: 'edit',
-  //     }),
-  //   };
-  //   component.ionViewWillEnter();
-  //   await fixture.whenStable();
-  //   component.form.patchValue(formData.valid);
-  //   fixture.detectChanges();
-  //   await component.handleSubmit();
-  //   expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  // });
-
-  it('should not request password and update wallet if wallet is up to daterequest password and update when Submit button clicked on Edit mode', async () => {
-    activatedRouteSpy.snapshot = {
-      paramMap: convertToParamMap({
-        mode: 'edit',
-      }),
-    };
-    component.ionViewWillEnter();
-    await fixture.whenStable();
-    component.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    await component.handleSubmit();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
-  });
 });

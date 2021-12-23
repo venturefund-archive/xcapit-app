@@ -4,13 +4,11 @@ import { ModalController, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { TranslateService } from '@ngx-translate/core';
-import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -53,7 +51,7 @@ import { WalletMaintenanceService } from '../shared-wallets/services/wallet-main
         <div class="ux_footer">
           <div class="sc__next_button">
             <ion-button
-              [disabled]="!this.almostOneChecked"
+              [disabled]="!this.almostOneChecked || this.txInProgress"
               color="uxsecondary"
               class="ux_button"
               appTrackClick
@@ -74,6 +72,7 @@ export class SelectCoinsWalletPage implements OnInit {
   submitButtonText: string;
   mode: string;
   userCoinsLoaded: boolean;
+  txInProgress: boolean;
   form: FormGroup;
 
   get networks(): string[] {
@@ -89,7 +88,6 @@ export class SelectCoinsWalletPage implements OnInit {
     private navController: NavController,
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private storageService: StorageService,
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalController: ModalController,
@@ -97,6 +95,7 @@ export class SelectCoinsWalletPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    this.txInProgress = false;
     this.userCoinsLoaded = false;
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.updateTexts();
@@ -149,6 +148,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
   async handleSubmit() {
     if (this.almostOneChecked) {
+      this.txInProgress = true;
       this.walletService.coins = [];
       this.setUserCoins();
 
@@ -163,10 +163,11 @@ export class SelectCoinsWalletPage implements OnInit {
           this.createWallet();
           break;
       }
+      this.txInProgress = false;
     }
   }
 
-  private importWallet() {
+  importWallet() {
     this.loadingService
       .showModal(this.modalOptions())
       .then(() => this.walletService.create())
@@ -174,25 +175,28 @@ export class SelectCoinsWalletPage implements OnInit {
       .then(() => this.loadingService.dismissModal());
   }
 
-  private async editTokens() {
+  async editTokens() {
     const changedAssets = this.getChangedAssets();
 
     if (this.walletMaintenanceService.isUpdated()) {
+      await this.loadingService.show();
       await this.walletMaintenanceService.toggleAssets(changedAssets);
     } else {
-      this.walletMaintenanceService.password = await this.promptUserForWalletPassword();
+      this.walletMaintenanceService.password = await this.askForPassword();
+      if (!this.walletMaintenanceService.password) {
+        return;
+      }
+
+      await this.loadingService.show();
       await this.walletMaintenanceService.updateWalletNetworks(changedAssets);
     }
 
-    this.walletMaintenanceService.saveWalletToStorage();
+    await this.walletMaintenanceService.saveWalletToStorage();
+    await this.loadingService.dismiss();
     this.navController.navigateForward(['/tabs/wallets']);
   }
 
-  async promptUserForWalletPassword(): Promise<string> {
-    return Promise.resolve('');
-  }
-
-  private createWallet() {
+  createWallet() {
     this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
   }
 
@@ -202,6 +206,16 @@ export class SelectCoinsWalletPage implements OnInit {
       subtitle: this.translate.instant('wallets.verify_phrase.loading.subtitle'),
       image: 'assets/img/verify-phrase/map.svg',
     };
+  }
+
+  async askForPassword(): Promise<string> {
+    const modal = await this.modalController.create({
+      component: WalletPasswordComponent,
+      cssClass: 'ux-routeroutlet-modal full-screen-modal',
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    return data;
   }
 
   getSuiteFormGroupKeys(): string[] {
@@ -226,7 +240,7 @@ export class SelectCoinsWalletPage implements OnInit {
   getUserCoins() {
     this.initializeFormData();
 
-    this.storageService.getAssestsSelected().then((coins) => {
+    this.walletMaintenanceService.getUserAssets().then((coins) => {
       coins.forEach((coin) => {
         this.originalFormData[coin.network][coin.value] = true;
       });
@@ -243,12 +257,10 @@ export class SelectCoinsWalletPage implements OnInit {
   private getChangedAssets(): string[] {
     const changedAssets = [];
 
-    this.getSuiteFormGroupKeys().forEach((suite) => {
-      this.getCoinFormGroupKeys(suite).forEach((key) => {
-        if (this.form.value[suite][key] !== this.originalFormData[suite][key]) {
-          changedAssets.push(key);
-        }
-      });
+    this.walletService.coins.forEach((coin) => {
+      if (this.form.value[coin.network][coin.value] !== this.originalFormData[coin.network][coin.value]) {
+        changedAssets.push(coin.value);
+      }
     });
 
     return changedAssets;

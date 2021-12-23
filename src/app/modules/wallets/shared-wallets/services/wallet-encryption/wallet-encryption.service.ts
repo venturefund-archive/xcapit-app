@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
-import { Mnemonic } from 'ethers/lib/utils';
 
 @Injectable({
   providedIn: 'root',

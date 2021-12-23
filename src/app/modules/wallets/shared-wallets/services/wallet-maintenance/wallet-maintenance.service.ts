@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Wallet } from 'ethers';
 import moment from 'moment';
 import { environment } from 'variables.env';
+import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
@@ -77,15 +78,15 @@ export class WalletMaintenanceService {
     });
   }
 
-  async saveWalletToStorage() {
+  async saveWalletToStorage(): Promise<void> {
     await this.storageService.saveWalletToStorage(this.encryptedWallet);
     this._wallet = undefined;
     this.encryptedWallet = undefined;
   }
 
-  async getUserAssets() {
+  async getUserAssets(): Promise<Coin[]> {
     await this.getEncryptedWalletFromStorage();
     const coins = this.apiWalletService.getCoins();
-    return coins.filter((coin) => this.encryptedWallet.assets[coin.value]);
+    return coins.filter((coin) => !!this.encryptedWallet.assets[coin.value]);
   }
 }

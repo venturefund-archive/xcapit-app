@@ -89,7 +89,7 @@ export class StorageService {
       if (wallets.assets) {
         for (const coin of this.coins) {
           if (wallets.assets[coin.value] === undefined) {
-            wallets.assets[coin.value] = true;
+            wallets.assets[coin.value] = false;
             updated = true;
           }
         }

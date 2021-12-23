@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Coin } from '../../interfaces/coin.interface';
-import { ethers, Wallet } from 'ethers';
+import { ethers } from 'ethers';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { environment } from 'src/environments/environment';
