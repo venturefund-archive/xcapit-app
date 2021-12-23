@@ -2212,6 +2212,7 @@
       "risky": "Risky"
     },
     "about_investor_profile": {
+      "of": "of",
       "header": "Investor Profile",
       "button_select": "This is my profile",
       "conservative_profile": {
