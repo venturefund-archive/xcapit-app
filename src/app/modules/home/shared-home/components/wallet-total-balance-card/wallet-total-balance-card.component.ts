@@ -6,7 +6,7 @@ import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/w
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
-  selector: 'app-wallet-balance-card-home',
+  selector: 'app-wallet-total-balance-card',
   template: `
     <div class="wbc">
       <div class="wbc__content" *ngIf="!this.walletExist">
@@ -45,9 +45,9 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
       </div>
     </div>
   `,
-  styleUrls: ['./wallet-balance-card-home.component.scss'],
+  styleUrls: ['./wallet-total-balance-card.component.scss'],
 })
-export class WalletBalanceCardHomeComponent implements OnInit {
+export class WalletTotalBalanceCardComponent implements OnInit {
   totalBalanceWallet: number;
   balances: Array<AssetBalance> = [];
   walletExist: boolean;
