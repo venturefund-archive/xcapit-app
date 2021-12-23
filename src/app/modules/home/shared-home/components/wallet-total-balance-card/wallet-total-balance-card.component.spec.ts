@@ -13,7 +13,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { WalletBalanceCardHomeComponent } from './wallet-balance-card-home.component';
+import { WalletTotalBalanceCardComponent } from './wallet-total-balance-card.component';
 
 const balances: Array<AssetBalance> = [
   {
@@ -42,10 +42,10 @@ const balances: Array<AssetBalance> = [
   },
 ];
 
-describe('WalletBalanceCardHomeComponent', () => {
-  let component: WalletBalanceCardHomeComponent;
-  let fixture: ComponentFixture<WalletBalanceCardHomeComponent>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletBalanceCardHomeComponent>;
+describe('WalletTotalBalanceCardComponent', () => {
+  let component: WalletTotalBalanceCardComponent;
+  let fixture: ComponentFixture<WalletTotalBalanceCardComponent>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletTotalBalanceCardComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let localStorageService: LocalStorageService;
@@ -73,7 +73,7 @@ describe('WalletBalanceCardHomeComponent', () => {
         getUsdTotalBalance: Promise.resolve(5120),
       });
       TestBed.configureTestingModule({
-        declarations: [WalletBalanceCardHomeComponent, HideTextPipe, FakeTrackClickDirective],
+        declarations: [WalletTotalBalanceCardComponent, HideTextPipe, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), IonicModule.forRoot(), HttpClientTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -83,7 +83,7 @@ describe('WalletBalanceCardHomeComponent', () => {
         ],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(WalletBalanceCardHomeComponent);
+      fixture = TestBed.createComponent(WalletTotalBalanceCardComponent);
       component = fixture.componentInstance;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       localStorageService = TestBed.inject(LocalStorageService);
