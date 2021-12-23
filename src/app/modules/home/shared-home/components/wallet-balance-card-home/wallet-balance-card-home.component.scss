@@ -6,6 +6,7 @@
     border-radius: 8px;
     border: 0.5px solid var(--ion-color-uxmedium);
     width: 100%;
+    margin-bottom: 8px;
 
     &__content {
       display: flex;
@@ -37,9 +38,9 @@
       align-items: center;
       color: var(--ion-color-uxlight);
       position: absolute;
-      font-size: 22px;
+      font-size: 23px;
       ion-icon {
-        margin-right: 10px;
+        margin-right: 12px;
       }
     }
 

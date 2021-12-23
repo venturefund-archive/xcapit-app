@@ -16,7 +16,7 @@ import { NavController } from '@ionic/angular';
           {{ 'home.home_page.test_investor_cards.link1' | translate }}
           <ion-icon slot="end" color="info" name="ux-forward" class=" ux-link-xl"></ion-icon>
         </ion-button>
-        <ion-badge *ngIf="this.comingSoon" class="badge ux_badge_coming">{{
+        <ion-badge *ngIf="this.comingSoon" class="badge ux_badge_coming ux-font-num-subtitulo">{{
           'home.home_page.test_investor_cards.badge_text' | translate
         }}</ion-badge>
       </div>
@@ -40,7 +40,7 @@ import { NavController } from '@ionic/angular';
           {{ 'home.home_page.test_investor_cards.link2' | translate }}
           <ion-icon slot="end" color="info" name="ux-forward" class=" ux-link-xl"></ion-icon>
         </ion-button>
-        <ion-badge *ngIf="this.comingSoon" class="badge ux_badge_coming" slot="end">{{
+        <ion-badge *ngIf="this.comingSoon" class="badge ux_badge_coming ux-font-num-subtitulo" slot="end">{{
           'home.home_page.test_investor_cards.badge_text' | translate
         }}</ion-badge>
       </div>
