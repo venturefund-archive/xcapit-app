@@ -19,6 +19,36 @@ import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec'
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+const testDynamicFormValue = {
+  test: {
+    TNC: false,
+    TC: false,
+  },
+};
+
+const testCoinsForDynamicForm: Coin[] = [
+  {
+    id: 1,
+    name: 'TNC - Test Native Coin',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    last: false,
+    value: 'TNC',
+    network: 'test',
+    chainId: 400,
+    rpc: 'http://testrpc.test/',
+    native: true,
+  },
+  {
+    id: 2,
+    name: 'TC - Test Coin',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    last: false,
+    value: 'TC',
+    network: 'test',
+    chainId: 400,
+    rpc: 'http://testrpc.test/',
+  },
+];
 
 const testSelectedTokens = [
   {
@@ -287,7 +317,7 @@ const testSuites = {
   BSC_BEP20: testBSC_BEP20Coins,
 };
 
-describe('SelectCoinsWalletPage', () => {
+fdescribe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
@@ -414,7 +444,6 @@ describe('SelectCoinsWalletPage', () => {
           route: ['/wallets/create-first/recovery-phrase'],
           pageName: 'Recovery Phrase page',
         },
-        originalFormData: undefined,
       },
       changeTexts: {
         header: 'wallets.select_coin.header',
@@ -431,7 +460,6 @@ describe('SelectCoinsWalletPage', () => {
           route: ['/wallets/create-password', 'import'],
           pageName: 'Create Password page',
         },
-        originalFormData: undefined,
       },
       changeTexts: {
         header: 'wallets.recovery_wallet.header',
@@ -448,7 +476,6 @@ describe('SelectCoinsWalletPage', () => {
           route: ['/tabs/wallets'],
           pageName: 'Wallet Home page',
         },
-        originalFormData: formData.editTokensOriginal,
       },
       changeTexts: {
         header: 'wallets.select_coin.header_edit',
@@ -614,7 +641,7 @@ describe('SelectCoinsWalletPage', () => {
           component.userCoinsLoaded = true;
           component.createForm();
           component.form.patchValue(formData.valid);
-          component.originalFormData = testCase.onSubmit.originalFormData;
+          component.originalFormData = undefined;
           fixture.detectChanges();
           fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
           fixture.detectChanges();
@@ -648,7 +675,10 @@ describe('SelectCoinsWalletPage', () => {
     });
   });
 
-  // it('should create form dinamically on ionViewWillEnter', () => {
-
-  // });
+  it('should create form dinamically on ionViewWillEnter', () => {
+    apiWalletServiceSpy.getNetworks.and.returnValue(['test']);
+    apiWalletServiceSpy.getCoinsFromNetwork.and.returnValue(testCoinsForDynamicForm);
+    component.createForm();
+    expect(component.form.value).toEqual(testDynamicFormValue);
+  });
 });
