@@ -27,6 +27,7 @@ import {
   TEST_RSK_COINS,
 } from '../shared-wallets/constants/coins.test';
 import { SELECT_COINS_FORM_DATA } from './form-data.spec';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 const modeTestsData = [
   {
@@ -156,9 +157,14 @@ describe('SelectCoinsWalletPage', () => {
   let fakeLoadingService: FakeLoadingService;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   beforeEach(
     waitForAsync(() => {
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showErrorToast: Promise.resolve(),
+      });
+
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       fakeModalController.modifyReturns(null, { data: 'testPassword' });
@@ -187,13 +193,19 @@ describe('SelectCoinsWalletPage', () => {
         { coins: JSON.parse(JSON.stringify(testSelectedTokens)) }
       );
 
-      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
-        getUserAssets: Promise.resolve(testSelectedTokens),
-        isUpdated: true,
-        toggleAssets: undefined,
-        saveWalletToStorage: Promise.resolve(),
-        updateWalletNetworks: Promise.resolve(),
-      });
+      walletMaintenanceServiceSpy = jasmine.createSpyObj(
+        'WalletMaintenanceService',
+        {
+          getUserAssets: Promise.resolve(testSelectedTokens),
+          isUpdated: true,
+          toggleAssets: undefined,
+          saveWalletToStorage: Promise.resolve(),
+          updateWalletNetworks: Promise.resolve(),
+        },
+        {
+          password: 'testPassword',
+        }
+      );
       TestBed.configureTestingModule({
         declarations: [SelectCoinsWalletPage, FakeTrackClickDirective, ItemCoinComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
@@ -206,6 +218,7 @@ describe('SelectCoinsWalletPage', () => {
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
           { provide: LoadingService, useValue: loadingServiceSpy },
           { provide: ModalController, useValue: modalControllerSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -381,8 +394,29 @@ describe('SelectCoinsWalletPage', () => {
                 expect(walletMaintenanceServiceSpy.password).toEqual('testPassword');
               }));
 
+              it('should show toast if password is incorrect on form submit', fakeAsync(() => {
+                const spy = spyOn(component, 'showInvalidPasswordToast');
+                walletMaintenanceServiceSpy.updateWalletNetworks.and.throwError('invalid password');
+                fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+                fixture.detectChanges();
+                tick();
+                expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+                expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+                expect(spy).toHaveBeenCalledTimes(1);
+              }));
+
+              it('should restart edit process if password is incorrect', async () => {
+                const spy = spyOn(component, 'editTokens');
+                await component.showInvalidPasswordToast();
+                expect(spy).toHaveBeenCalledTimes(1);
+                expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
+              });
+
               it('should cancel submit if user closed password modal on form submit', fakeAsync(() => {
                 fakeModalController.modifyReturns(null, { data: undefined });
+                (
+                  Object.getOwnPropertyDescriptor(walletMaintenanceServiceSpy, 'password').get as jasmine.Spy
+                ).and.returnValue(undefined);
                 fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
                 fixture.detectChanges();
                 tick();

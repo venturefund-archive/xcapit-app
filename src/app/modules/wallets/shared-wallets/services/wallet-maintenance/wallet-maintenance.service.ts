@@ -82,6 +82,8 @@ export class WalletMaintenanceService {
     await this.storageService.saveWalletToStorage(this.encryptedWallet);
     this._wallet = undefined;
     this.encryptedWallet = undefined;
+    this.newNetworks = undefined;
+    this.password = undefined;
   }
 
   async getUserAssets(): Promise<Coin[]> {

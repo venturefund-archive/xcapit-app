@@ -9,6 +9,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 import { TranslateService } from '@ngx-translate/core';
 import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -91,7 +92,8 @@ export class SelectCoinsWalletPage implements OnInit {
     private loadingService: LoadingService,
     private translate: TranslateService,
     private modalController: ModalController,
-    private walletMaintenanceService: WalletMaintenanceService
+    private walletMaintenanceService: WalletMaintenanceService,
+    private toastService: ToastService
   ) {}
 
   ionViewWillEnter() {
@@ -183,17 +185,34 @@ export class SelectCoinsWalletPage implements OnInit {
       await this.walletMaintenanceService.toggleAssets(changedAssets);
     } else {
       this.walletMaintenanceService.password = await this.askForPassword();
+
       if (!this.walletMaintenanceService.password) {
         return;
       }
 
       await this.loadingService.show();
-      await this.walletMaintenanceService.updateWalletNetworks(changedAssets);
+      try {
+        await this.walletMaintenanceService.updateWalletNetworks(changedAssets);
+      } catch (error) {
+        if (error.message.startsWith('invalid password')) {
+          await this.loadingService.dismiss();
+          this.showInvalidPasswordToast();
+          return;
+        }
+      }
     }
 
     await this.walletMaintenanceService.saveWalletToStorage();
     await this.loadingService.dismiss();
     this.navController.navigateForward(['/tabs/wallets']);
+  }
+
+  async showInvalidPasswordToast() {
+    await this.toastService.showErrorToast({
+      message: this.translate.instant('wallets.send.error_incorrect_password.textPrimary'),
+    });
+    this.txInProgress = true;
+    await this.editTokens();
   }
 
   createWallet() {

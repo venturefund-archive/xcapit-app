@@ -174,6 +174,8 @@ describe('WalletMaintenanceService', () => {
     await service.saveWalletToStorage();
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith({ test: 'test' });
     expect(service.encryptedWallet).toBeUndefined();
+    expect(service.newNetworks).toBeUndefined();
+    expect(service.password).toBeUndefined();
   });
 
   it('should change assets in wallet that are selected on toggleAssets', () => {
