@@ -70,7 +70,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           class="fpc__footer__details-button ux-font-button-small"
         >
           {{ 'funds.fund_detail.fund_portfolio_card.view_detail' | translate }}
-          <ion-icon slot="end" name="ux-forward"></ion-icon>
+          <ion-icon slot="end" color="info" name="ux-forward"></ion-icon>
         </ion-button>
       </div>
     </div>

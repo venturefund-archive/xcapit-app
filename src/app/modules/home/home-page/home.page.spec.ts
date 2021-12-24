@@ -55,36 +55,6 @@ describe('HomePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Go to Wallet is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('div', 'Go to Wallet');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spyClickEvent = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spyClickEvent).toHaveBeenCalledTimes(1);
-  });
-
-  it('should open in app browser when Go to Wallet is clicked', async () => {
-    const IWantMyWalletButton = fixture.debugElement.query(By.css("div[name='Go to Wallet']"));
-    IWantMyWalletButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
-  });
-
-  it('should call trackEvent on trackService when Go to Support Page is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('div', 'Go to Support Page');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spyClickEvent = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spyClickEvent).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to create-support-ticket when Go to Support Page is clicked', () => {
-    const button = fixture.debugElement.query(By.css("div[name='Go to Support Page']"));
-    button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tickets/create-support-ticket');
-  });
-
   it('should call trackEvent on trackService when Show Notifications button clicked', () => {
     spyOn(component, 'showNotifications');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Show Notifications');

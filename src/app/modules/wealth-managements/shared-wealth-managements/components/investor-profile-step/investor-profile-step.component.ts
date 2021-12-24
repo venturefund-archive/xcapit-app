@@ -6,17 +6,20 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     <div class="investor_step__content_slide ux_main">
       <div class="ux_content">
         <div class="investor_step__content_slide__slide_step_show">
-          <ion-text class="ux-font-text-xs">{{ this.actualStep }} de {{ this.sliderLength }}</ion-text>
+          <ion-text class="ux-font-text-xs"
+            >{{ this.actualStep }} {{ 'wealth_managements.about_investor_profile.of' | translate }}
+            {{ this.sliderLength }}</ion-text
+          >
         </div>
         <div class="investor_step__content_slide__image text-center">
           <img [src]="this.imagePath" alt="" />
         </div>
         <div class="investor_step__content_slide__text">
           <ion-text class="investor_step__content_slide__text__primary_text ux-font-text-lg">
-            {{ this.title }}
+            {{ this.title | translate }}
           </ion-text>
           <ion-text class="investor_step__content_slide__text__secondary_text ux-font-text-base">
-            {{ this.subtitle }}
+            {{ this.subtitle | translate }}
           </ion-text>
         </div>
       </div>

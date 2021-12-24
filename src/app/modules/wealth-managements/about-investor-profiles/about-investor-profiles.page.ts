@@ -39,20 +39,20 @@ export class AboutInvestorProfilesPage implements OnInit {
   investorProfiles = [
     {
       id: 1,
-      title: this.translate.instant('wealth_managements.about_investor_profile.conservative_profile.title'),
-      subtitle: this.translate.instant('wealth_managements.about_investor_profile.conservative_profile.subtitle'),
+      title: 'wealth_managements.about_investor_profile.conservative_profile.title',
+      subtitle: 'wealth_managements.about_investor_profile.conservative_profile.subtitle',
       imagePath: 'assets/img/investor-test/conservative.svg',
     },
     {
       id: 2,
-      title: this.translate.instant('wealth_managements.about_investor_profile.moderated_profile.title'),
-      subtitle: this.translate.instant('wealth_managements.about_investor_profile.moderated_profile.subtitle'),
+      title: 'wealth_managements.about_investor_profile.moderated_profile.title',
+      subtitle: 'wealth_managements.about_investor_profile.moderated_profile.subtitle',
       imagePath: 'assets/img/investor-test/moderated.svg',
     },
     {
       id: 3,
-      title: this.translate.instant('wealth_managements.about_investor_profile.aggressive_profile.title'),
-      subtitle: this.translate.instant('wealth_managements.about_investor_profile.aggressive_profile.subtitle'),
+      title: 'wealth_managements.about_investor_profile.aggressive_profile.title',
+      subtitle: 'wealth_managements.about_investor_profile.aggressive_profile.subtitle',
       imagePath: 'assets/img/investor-test/aggressive.svg',
     },
   ];

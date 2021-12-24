@@ -1446,7 +1446,7 @@
       "header_edit": "Editar activos",
       "title": "Selecciona los activos",
       "subtitle": "Elige los activos que quieres visualizar en tu wallet",
-      "suite": "Suite ",
+      "suite": "Suite {{suiteName}}",
       "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
       "native": "NATIVA",
       "submit_edit": "Guardar cambios",
@@ -1456,9 +1456,9 @@
       }
     },
     "success_creation": {
-      "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",
-      "subtitle": "Guardala en un lugar seguro, en lo posible, sin conexión a internet",
-      "success_button": "Ir a mi wallet"
+      "title": "¡Genial!",
+      "subtitle": "Verificaste tu frase de recuperación y creaste tu wallet",
+      "success_button": "Ir a wallet"
     },
     "recovery_phrase": {
       "header": "Crear wallet",
@@ -1650,7 +1650,7 @@
     },
     "success_wallet_recovery": {
       "title": "¡Genial! Importamos tu wallet con tu frase de recuperación",
-      "button": "Ir a mi wallet"
+      "button": "Ir a wallet"
     }
   },
   "apikeys": {
@@ -2123,7 +2123,8 @@
     "home_page": {
       "want_my_wallet": {
         "title": "¡Quiero mi wallet!",
-        "description": "Con la wallet tu tienes el poder, puedes invertir de forma simple, sin esfuerzo y con un click. "
+        "subtitle": "Crea tu wallet y comienza a tener el control de tus finanzas.",
+        "description": "En tu wallet"
       },
       "strategies": {
         "title": "Estrategias",
@@ -2152,6 +2153,11 @@
         "link1": "Hacer test",
         "title2": "¿Sabes qué tipo de inversionista eres?",
         "link2": "Descúbrelo"
+      }
+    },
+    "shared": {
+      "buy_crypto_card": {
+        "title": "Compra cripto al mejor precio"
       }
     }
   },
@@ -2403,6 +2409,7 @@
       "risky": "Riesgoso"
     },
     "about_investor_profile": {
+      "of": "de",
       "header": "Perfil de inversionista",
       "button_select": "Este es mi perfil",
       "conservative_profile": {

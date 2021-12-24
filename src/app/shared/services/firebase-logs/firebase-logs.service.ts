@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { TrackService, DataToTrackEvent, DataToTrackView } from '../track/track.service';
 import '@capacitor-community/firebase-analytics';
 import { FirebaseService } from '../firebase/firebase.service';
-import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
-
+import { Plugins } from '@capacitor/core';
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseLogsService implements TrackService {
-  firebaseAnalytics = FirebaseAnalytics;
+  firebaseAnalytics = Plugins.FirebaseAnalytics;
 
   constructor(private firebaseService: FirebaseService) {}
 
