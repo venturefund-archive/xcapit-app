@@ -287,8 +287,7 @@ const testSuites = {
   BSC_BEP20: testBSC_BEP20Coins,
 };
 
-// TODO: Check coverage to see if there are missing tests
-fdescribe('SelectCoinsWalletPage', () => {
+describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
@@ -330,7 +329,7 @@ fdescribe('SelectCoinsWalletPage', () => {
         {
           create: Promise.resolve({}),
         },
-        { coins: [] }
+        { coins: JSON.parse(JSON.stringify(testSelectedTokens)) }
       );
 
       walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
@@ -493,6 +492,7 @@ fdescribe('SelectCoinsWalletPage', () => {
       });
 
       it('should set coins in wallet service on handleSubmit and valid form', () => {
+        (Object.getOwnPropertyDescriptor(walletServiceSpy, 'coins').get as jasmine.Spy).and.returnValue([]);
         component.almostOneChecked = true;
         component.userCoinsLoaded = true;
         spyOn(component, 'editTokens').and.returnValue(Promise.resolve());
@@ -528,6 +528,14 @@ fdescribe('SelectCoinsWalletPage', () => {
       });
 
       if (testCase.mode.value === 'edit') {
+        it('should get user coins on ionViewWillEnter', async () => {
+          component.ionViewWillEnter();
+          await fixture.whenStable();
+          expect(component.userCoinsLoaded).toBeTrue();
+          expect(component.originalFormData).toEqual(formData.editTokensOriginal);
+          expect(component.form.value).toEqual(formData.editTokensOriginal);
+        });
+
         testCase.requiresUpdate.forEach((testCaseEdit) => {
           describe(testCaseEdit.text, () => {
             beforeEach(() => {
@@ -535,14 +543,18 @@ fdescribe('SelectCoinsWalletPage', () => {
               component.almostOneChecked = true;
               component.userCoinsLoaded = true;
               component.createForm();
-              component.form.patchValue(formData.valid);
-              component.originalFormData = testCase.onSubmit.originalFormData;
+              component.originalFormData = Object.assign({}, component.form.value);
+              component.originalFormData = formData.editTokensOriginal;
+              component.form.patchValue(formData.editTokensOriginal);
+              component.userCoinsLoaded = true;
               fixture.detectChanges();
             });
 
             it(`should show loader, ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
               testCase.onSubmit.navigateTo.pageName
             } on form submit`, fakeAsync(() => {
+              component.form.patchValue(formData.valid);
+              fixture.detectChanges();
               fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
               fixture.detectChanges();
               tick();
@@ -577,6 +589,19 @@ fdescribe('SelectCoinsWalletPage', () => {
                 tick();
                 expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
                 expect(walletMaintenanceServiceSpy.password).toEqual('testPassword');
+              }));
+
+              it('should cancel submit if user closed password modal on form submit', fakeAsync(() => {
+                fakeModalController.modifyReturns(null, { data: undefined });
+                fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+                fixture.detectChanges();
+                tick();
+                expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+                expect(loadingServiceSpy.show).toHaveBeenCalledTimes(0);
+                expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(0);
+                expect(walletMaintenanceServiceSpy.updateWalletNetworks).toHaveBeenCalledTimes(0);
+                expect(walletMaintenanceServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(0);
+                expect(walletMaintenanceServiceSpy.password).toEqual(undefined);
               }));
             }
           });
