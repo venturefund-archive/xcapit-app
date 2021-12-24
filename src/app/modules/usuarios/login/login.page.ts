@@ -55,42 +55,40 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
             {{ 'usuarios.login.register_link' | translate }}
           </ion-button>
         </div>
-        <div class="auth-link-reset-password main__reset_password">
-          <ion-button
-            class="main__reset_password__button ux-link-xs"
-            appTrackClick
-            name="Reset Password"
-            fill="clear"
-            size="small"
-            type="button"
-            color="info"
-            (click)="this.goToResetPassword()"
-          >
-            {{ 'usuarios.login.reset_password_link' | translate }}
-          </ion-button>
-        </div>
       </app-auth-form>
-      <!-- <div class="ion-text-center">
+      <div class="ion-text-center">
         <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
-      </div> -->
-      <!-- <div class="google-auth">
+      </div>
+      <div class="google-auth">
         <ion-button
           appTrackClick
           name="Google Auth"
           expand="block"
-          fill="solid"
+          fill="clear"
           size="large"
           type="button"
-          class="ux_button google-auth__button"
+          class="ux_button google-auth__button color"
           [disabled]="this.submitButtonService.isDisabled | async"
           (click)="this.googleSingUp()"
         >
-          <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google Logo" />
-          <span class="google-auth__button__text ux-font-text-base">{{
-            'usuarios.login.google_auth' | translate
-          }}</span>
+          <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
+          <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
         </ion-button>
-      </div> -->
+      </div>
+      <div class="auth-link-reset-password main__reset_password">
+        <ion-button
+          class="main__reset_password__button ux-link-xs"
+          appTrackClick
+          name="Reset Password"
+          fill="clear"
+          size="small"
+          type="button"
+          color="info"
+          (click)="this.goToResetPassword()"
+        >
+          {{ 'usuarios.login.reset_password_link' | translate }}
+        </ion-button>
+      </div>
     </div>
   `,
   styleUrls: ['./login.page.scss'],
