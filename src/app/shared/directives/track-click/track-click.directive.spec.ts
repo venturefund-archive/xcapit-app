@@ -8,22 +8,10 @@ import { By } from '@angular/platform-browser';
 @Component({
   template: `
     <div>
-      <button
-        appTrackClick
-        [dataToTrack]="{ eventLabel: 'Copy Deposit Address' }"
-        type="button"
-      >
-        Button
-      </button>
-      <button
-        appTrackClick
-        name="button2"
-        type="button"
-      >
-        Button
-      </button>
+      <button appTrackClick [dataToTrack]="{ eventLabel: 'Copy Deposit Address' }" type="button">Button</button>
+      <button appTrackClick name="button2" type="button">Button</button>
     </div>
-  `
+  `,
 })
 class TestComponent {}
 
@@ -44,8 +32,8 @@ describe('TrackClickDirective', () => {
       providers: [
         TrackClickDirective,
         { provide: TrackService, useValue: trackServiceSpy },
-        { provide: ElementRef, useValue: elementRefMock }
-      ]
+        { provide: ElementRef, useValue: elementRefMock },
+      ],
     });
 
     directive = TestBed.inject(TrackClickDirective);

@@ -4,12 +4,13 @@ import { environment } from 'src/environments/environment';
 import { PlatformService } from '../platform/platform.service';
 import { FirebaseApp } from '@firebase/app-types';
 import { FirebaseNamespace } from '@firebase/app-types';
-import { Plugins } from '@capacitor/core';
+import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
+
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  firebaseAnalytics = Plugins.FirebaseAnalytics;
+  firebaseAnalytics = FirebaseAnalytics;
   importedFirebase: FirebaseNamespace = firebase;
   constructor(private platformService: PlatformService) {}
 
