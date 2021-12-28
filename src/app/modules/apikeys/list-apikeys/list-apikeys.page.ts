@@ -5,8 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { LINKS } from '../../../config/static-links';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
-import { StorageApikeysService } from '../shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
+import { FundDataStorageService } from '../../funds/shared-funds/services/fund-data-storage/fund-data-storage.service';
 
 @Component({
   selector: 'app-list-apikeys',
@@ -14,7 +14,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
           <ion-button appTrackClick name="Register New Key More" class="add-button" (click)="this.addApiKey()">
@@ -27,7 +27,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
     <ion-content class="ion-padding-top">
       <div class="ux_main">
         <div class="ux_content">
-          <div *ngIf="!showImage">
+          <div *ngIf="!this.showImage">
             <ion-list>
               <app-apikey-item
                 *ngFor="let apikey of this.apikeys"
@@ -42,7 +42,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
             </ion-list>
           </div>
 
-          <div *ngIf="showImage">
+          <div *ngIf="this.showImage">
             <div class="nr__image-container">
               <img class="nr__image-container__image" src="assets/img/apikeys/no-apikey.svg" alt="no-apikey" />
             </div>
@@ -95,7 +95,7 @@ export class ListApikeysPage implements OnInit {
     private navController: NavController,
     private route: ActivatedRoute,
     private platformService: PlatformService,
-    private storageApiKeysService: StorageApikeysService
+    private fundDataStorageService: FundDataStorageService
   ) {}
 
   ngOnInit() {}
@@ -136,9 +136,10 @@ export class ListApikeysPage implements OnInit {
       });
   }
 
-  useKey(id: number) {
-    this.storageApiKeysService.updateData(this.apikeys.find((key) => key.id === id));
-    this.navController.navigateForward(['/funds/fund-name']).then();
+  useKey(apiKeyId: number) {
+    this.fundDataStorageService
+      .setData('apiKeyId', { api_key_id: apiKeyId })
+      .then(() => this.navController.navigateForward(['/funds/fund-name']));
   }
 
   deleteKey(id: number) {

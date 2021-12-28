@@ -1,0 +1,30 @@
+:host {
+  .it {
+    margin-top: 8px;
+
+    &__question {
+      margin-top: 16px;
+
+      ion-text {
+        color: var(--ion-color-uxdark);
+      }
+    }
+
+    &__answers {
+      margin-top: 20px;
+    }
+
+    &__submit_button {
+      width: 100%;
+      margin-top: 20px;
+
+      ion-button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.step_counter {
+  margin-right: 13px;
+}

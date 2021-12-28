@@ -4,7 +4,6 @@ import { ApiFundsService } from '../../../shared-funds/services/api-funds/api-fu
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
-import { StorageApikeysService } from '../../../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { ApiApikeysService } from '../../../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
@@ -88,7 +87,6 @@ export class FundFinishedCardComponent implements OnInit {
     private toastService: ToastService,
     private translate: TranslateService,
     private navController: NavController,
-    private storageApikeysService: StorageApikeysService,
     private apiApikeysService: ApiApikeysService
   ) {}
 
@@ -98,7 +96,7 @@ export class FundFinishedCardComponent implements OnInit {
 
   async renewFund() {
     const apiKeys = await this.apiApikeysService.getByFundName(this.fund.nombre_bot).toPromise();
-    this.storageApikeysService.updateData({ id: apiKeys.pk, nombre_bot: apiKeys.nombre_bot, alias: apiKeys.alias });
+    await this.fundDataStorage.setData('apiKeyId', { api_key_id: apiKeys.pk });
     await this.fundDataStorage.setData('fundName', { fund_name: this.fund.nombre_bot });
     await this.fundDataStorage.setData('fundRenew', true);
     await this.navController.navigateForward(['funds/fund-investment']);
@@ -123,6 +121,7 @@ export class FundFinishedCardComponent implements OnInit {
 
   async showToast() {
     await this.toastService.showToast({
+      cssClass: 'ux-toast-info',
       message: this.translate.instant('funds.funds_finished.fund_finished_card.fund_deleted'),
     });
   }

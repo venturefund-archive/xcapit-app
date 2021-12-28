@@ -208,22 +208,23 @@ export class OperationDetailPage implements OnInit {
     const gas = ethers.BigNumber.from(estimatedGas);
     this.totalFeeAmount = ethers.utils.formatEther(gasPrice.mul(gas).toString());
 
-    if (!!amount) {
+    if (amount) {
       this.totalAmount = ethers.utils.formatEther(ethers.BigNumber.from(amount));
     }
   }
 
   public async checkRequestInfo(request) {
     switch (request.method) {
-      case 'eth_sendTransaction':
+      case 'eth_sendTransaction': {
         this.isSignRequest = false;
         this.isApproval = await this.walletConnectService.checkIsApproval(request);
-        const gasLim = !!request.params[0].gas ? request.params[0].gas : '70000';
+        const gasLimit = !request.params[0].gas ? '70000' : request.params[0].gas;
 
-        this.getTotalAmount(gasLim, request.params[0].value);
+        this.getTotalAmount(gasLimit, request.params[0].value);
 
         break;
-      case 'personal_sign':
+      }
+      case 'personal_sign': {
         try {
           this.message = ethers.utils.toUtf8String(request.params[0]);
         } catch (e) {
@@ -231,7 +232,8 @@ export class OperationDetailPage implements OnInit {
         }
 
         break;
-      case 'eth_sign':
+      }
+      case 'eth_sign': {
         try {
           this.message = ethers.utils.toUtf8String(request.params[1]);
         } catch (e) {
@@ -239,23 +241,21 @@ export class OperationDetailPage implements OnInit {
         }
 
         break;
+      }
       case 'eth_signTypedData':
       case 'eth_signTypedData_v1':
       case 'eth_signTypedData_v3':
-      case 'eth_signTypedData_v4':
-        const res = this.formatTypedData(request.params[1]);
-        document.getElementById('message').appendChild(res);
+      case 'eth_signTypedData_v4': {
+        const jsonData = JSON.parse(request.params[1]);
+        delete jsonData.types;
+        const finalRes = this.htmlFormatParse(jsonData);
+        document.getElementById('message').appendChild(finalRes);
+
         break;
+      }
       default:
         this.message = '';
     }
-  }
-
-  formatTypedData(data) {
-    const jsonData = JSON.parse(data);
-    delete jsonData.types;
-
-    return this.htmlFormatParse(jsonData);
   }
 
   htmlFormatParse(obj, child = false) {
@@ -282,7 +282,7 @@ export class OperationDetailPage implements OnInit {
     const html = document.createElement('div');
     const title = document.createElement('span');
 
-    if (!!child) {
+    if (child) {
       html.style.marginLeft = '16px';
     }
 
@@ -290,7 +290,7 @@ export class OperationDetailPage implements OnInit {
     title.appendChild(document.createTextNode(key + ': '));
     html.appendChild(title);
 
-    if (!!value) {
+    if (value) {
       const content = document.createElement('span');
       content.appendChild(document.createTextNode(value));
       html.appendChild(content);

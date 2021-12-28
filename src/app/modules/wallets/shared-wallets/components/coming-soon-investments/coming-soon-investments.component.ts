@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-coming-soon-investments',
   template: `
-    <ion-card class="cs ion-no-margin ion-padding" name="Coming Soon Wallet Card">
+    <ion-card class="cs ux-card-new ion-no-margin ion-padding" name="Coming Soon Wallet Card">
       <div class="cs__img">
         <img src="assets/img/wallets/coming-soon.svg" alt="Coming Soon" />
       </div>

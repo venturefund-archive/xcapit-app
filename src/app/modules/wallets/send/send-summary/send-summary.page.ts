@@ -10,7 +10,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalNotification } from '@capacitor/core';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-send-summary',
@@ -24,7 +24,7 @@ import { LocalNotification } from '@capacitor/core';
     </ion-header>
     <ion-content class="ss ion-padding">
       <div class="ss__title">
-        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24">
+        <ion-text class="ux-font-text-lg">
           {{ 'wallets.send.send_summary.title' | translate }}
         </ion-text>
       </div>
@@ -37,6 +37,7 @@ import { LocalNotification } from '@capacitor/core';
 
       <div class="ss__send_button">
         <ion-button
+          class="ux_button"
           color="uxsecondary"
           appTrackClick
           name="Send"
@@ -147,11 +148,11 @@ export class SendSummaryPage implements OnInit {
     const alert = await this.alertController.create({
       header: this.translate.instant(header),
       message: this.translate.instant(message),
-      cssClass: 'ux-wallet-error-alert ux-alert',
+      cssClass: 'ux-alert-confirm',
       buttons: [
         {
           text: this.translate.instant(buttonText),
-          cssClass: 'uxprimary',
+          cssClass: 'primary-button',
         },
       ],
     });
@@ -168,7 +169,7 @@ export class SendSummaryPage implements OnInit {
     await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
-  private createNotification(transaction: TransactionReceipt): LocalNotification[] {
+  private createNotification(transaction: TransactionReceipt): LocalNotificationSchema[] {
     return [
       {
         id: 1,
@@ -184,7 +185,7 @@ export class SendSummaryPage implements OnInit {
     response
       .wait()
       .then((transaction: TransactionReceipt) => this.createNotification(transaction))
-      .then((notification: LocalNotification[]) => this.localNotificationsService.send(notification));
+      .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification));
   }
 
   private handleSendError(error) {

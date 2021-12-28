@@ -5,7 +5,6 @@ import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { environment } from '../../../../../../environments/environment';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
-import { NONPROD_COINS } from '../../constants/coins.nonprod';
 
 const storageWallet = {
   alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',

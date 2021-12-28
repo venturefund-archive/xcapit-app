@@ -1,0 +1,200 @@
+// Clase para que el modal no sea en pantalla completa, sino un alert
+.ux_modal_crm {
+  --max-height: 195px;
+  --max-width: 85%;
+  &::part(content) {
+    border-radius: 4px;
+  }
+}
+
+//Modal editar stop loss
+.ux_modal_stop_loss {
+  --max-height: 200px;
+  --max-width: 85%;
+  &::part(content) {
+    border-radius: 10px;
+  }
+}
+
+//Modal Informativo
+.ux-modal-informative {
+  --max-height: 310px;
+  --max-width: 85%;
+  &::part(content) {
+    border-radius: 16px;
+  }
+}
+
+//Modal no tienes apikeys
+.ux-modal-no-apikeys {
+  --max-height: 378px;
+  --max-width: 85%;
+
+  &::part(content) {
+    background-color: var(--ion-background-colorwhite);
+    border-radius: 8px;
+  }
+}
+
+//Modal no tienes apikeys (tutorial)
+.ux-modal-apikeys-tutorial-no-apikeys {
+  --max-height: 549px;
+  --max-width: 89%;
+
+  &::part(content) {
+    margin-top: 76px;
+    background-color: var(--ion-background-colorwhite);
+    border-radius: 8px;
+  }
+}
+
+//Modal no tienes cuenta de binance
+.ux-modal-apikeys-tutorial-no-binance-account {
+  --max-height: 337px;
+  --max-width: 89%;
+
+  &::part(content) {
+    background-color: var(--ion-background-colorwhite);
+    border-radius: 8px;
+  }
+}
+
+// Modal como swippeable
+.ux-routeroutlet-modal {
+  &::part(content) {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+}
+
+//Modal Pantalla Completa
+.full-screen-modal {
+  &::part(content) {
+    margin-top: 120px;
+
+    .ion-page {
+      padding-bottom: 60px;
+    }
+  }
+}
+
+//Modal Contraseña Wallet
+.recovery-phrase-password-modal {
+  &::part(content) {
+    position: absolute;
+    height: 330px !important;
+    top: calc(100% - (330px));
+  }
+}
+
+// Portfolio Modal swippeable
+.generic-modal {
+  &::part(content) {
+    margin-top: 46vh;
+
+    .ion-page {
+      padding-bottom: calc(46vh / 2);
+    }
+  }
+}
+
+// Information toast
+.ux-toast-info {
+  --background: var(--ion-color-infolight);
+  --color: var(--ion-color-infodark);
+  --button-color: var(--ion-color-infodark);
+  --border-radius: 6px;
+}
+
+//modal alertas
+.ux-alert {
+  &.bottom {
+    align-items: flex-end;
+  }
+
+  &::part(content) {
+    border-radius: 6px;
+    position: absolute;
+    bottom: 79px;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.18);
+  }
+  --height: auto;
+  --max-width: 344px;
+
+  .ion-page {
+    position: relative;
+    display: block;
+    contain: content;
+
+    .inner-content {
+      max-height: 80vh;
+      overflow: auto;
+      // padding: 10px;
+    }
+  }
+}
+//modal alertas success
+.ux-alert-success {
+  --max-height: 52px;
+  --max-width: 344px;
+  --background: white;
+  &::part(content) {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    position: absolute;
+    bottom: 8.5%;
+  }
+}
+//modal alerta atention
+.ux-alert-atention {
+  --max-height: 120px;
+  --max-width: 344px;
+  --background: white;
+  &::part(content) {
+    border-radius: 6px;
+    position: absolute;
+    bottom: 8.5%;
+  }
+}
+//modal alerta information
+.ux-alert-information {
+  --max-height: 85px;
+  --max-width: 344px;
+  --background: white;
+  &::part(content) {
+    border-radius: 6px;
+    position: absolute;
+    bottom: 8.5%;
+  }
+}
+//modal alerta items
+.ux-alert-items-error {
+  --max-height: 144px;
+  --max-width: 340px;
+  --background: white;
+  &::part(content) {
+    border-radius: 6px;
+    position: absolute;
+    bottom: 8.5%;
+  }
+}
+
+// Share Chart Modal swippeable
+.share-chart-modal {
+  &::part(content) {
+    margin-top: 35vh;
+
+    .ion-page {
+      padding-bottom: calc(35vh / 2);
+    }
+  }
+}
+
+// Apikeys Modal swippeable
+.apikeys-modal {
+  ion-modal::part(content) {
+    margin-top: calc(100vh - 240px);
+    height: 256px;
+  }
+}

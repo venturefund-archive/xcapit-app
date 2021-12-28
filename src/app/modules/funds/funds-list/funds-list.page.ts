@@ -13,18 +13,11 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
-        <ion-buttons slot="end" *ngIf="true">
-          <ion-button appTrackClick name="Show Notifications" (click)="this.showNotifications()">
-            <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
-            <div class="notificationQty" *ngIf="this.unreadNotifications > 0">
-              {{ this.unreadNotifications }}
-            </div>
-          </ion-button>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
         </ion-buttons>
         <div class="header">
-          <div class="header__logo ion-text-center">
-            <app-xcapit-logo></app-xcapit-logo>
-          </div>
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
       </ion-toolbar>
     </ion-header>
@@ -48,7 +41,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
       <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
         <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="false" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-          <ion-text class="ux-font-text-xs" color="uxmedium" *ngIf="!(this.isRefreshAvailable$ | async)">
+          <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
               'funds.funds_list.refresh_time'
                 | translate
@@ -88,7 +81,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage/loca
           </div>
           <app-ux-loading-block minSize="50px" *ngIf="!this.notOwnerFundBalances"></app-ux-loading-block>
           <div class="fl__funds__card" *ngFor="let nofb of notOwnerFundBalances">
-            <app-fund-card [fund]="nofb"></app-fund-card>
+            <app-fund-card (deletedFund)="this.deleteFund($event)" [fund]="nofb" [owner]="false"></app-fund-card>
           </div>
         </div>
       </div>
@@ -210,5 +203,10 @@ export class FundsListPage implements OnInit {
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
+  }
+
+  deleteFund(name) {
+    const toDeleteFund = this.notOwnerFundBalances.findIndex((item) => item.fund_name === name);
+    this.notOwnerFundBalances.splice(toDeleteFund, 1);
   }
 }

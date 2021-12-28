@@ -1,87 +1,15 @@
+[![Coverage Status](https://coveralls.io/repos/gitlab/xcapit-foss/app/badge.svg?branch=develop)](https://coveralls.io/gitlab/xcapit-foss/app?branch=develop)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e37e8361fef04cb0af42e95ec0fce366)](https://www.codacy.com/gl/xcapit-foss/app/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=xcapit-foss/app&utm_campaign=Badge_Grade)
+
 # Xcapit Smart Wallet
 
 Xcapit Smart Wallet is an Ethereum, RSK and Polygon wallet app that offers an easy way to enter the blockchain world, learn about finance, define and track savings goals and invest to achieve them.
 
+## Community
+
+- [Project Charter](https://xcapit-foss.gitlab.io/documentation/docs/project_charter)
+- [Code of Conduct](https://gitlab.com/xcapit-foss/app/-/blob/develop/CODE_OF_CONDUCT.md)
+
 ## Getting Started
 
-### Installation
-
-Clone the repo and open the directory:
-
-```sh
-git clone https://gitlab.com/xcapit-foss/app xcapit-smart-wallet
-cd xcapit-smart-wallet
-```
-
-Ensure you have [Node](https://nodejs.org/) and [Yarn](https://yarnpkg.com/) installed, then install and start Smart Wallet:
-
-```sh
-yarn install
-npm start
-```
-
-Visit [`localhost:8100`](http://localhost:8100/) to view the app.
-
-## Unit & E2E Tests (Karma & Protractor)
-
-To run the tests, run:
-
-```
- npm run test
-```
-
-## Testing on Real Devices
-
-It's recommended that all final testing be done on a real device – both to assess performance and to enable features that are unavailable to the emulator (e.g. a device camera).
-
-### Android
-
-Follow the [Capacitor Android Environment Setup Guide](https://capacitorjs.com/docs/getting-started/environment-setup#android-development) to set up your development environment.
-
-When your development environment is ready, run the `build:prod:xcapit:android` package script.
-
-```sh
-npm run build:prod:xcapit:android
-```
-
-### iOS
-
-Follow the [Capacitor iOS Environment Setup Guide](https://capacitorjs.com/docs/getting-started/environment-setup#ios-development) to set up your development environment.
-
-When your development environment is ready, run the `build:prod:xcapit:ios` package script.
-
-```sh
-npm run build:prod:xcapit:ios
-```
-
-## Configuration
-
-For configuration settings you could see and change the next files.
-
-```sh
-./variables.env.ts
-./src/environments/environment.ts
-./src/environments/environment.prod.ts
-```
-
-## Docker
-
-You can run Xcapit Smart Wallet with [Docker](https://www.docker.com/) by running the following commands.
-
-```sh
-cp docker-compose.yml.example docker-compose.yml
-docker-compose up -d
-```
-
-## Related Services
-
-Xcapit Smart Wallet depends on backend services for authentication, notifications, blockchain information and others features.
-Related to blockchain information, you can configure yours RPCs urls and the [Covalent](https://www.covalenthq.com/) credentials in the [configuration files](#configuration).
-
-The Xcapit backend services for authentication and notifications will be available in [gitlab.com/xcapit-foss](https://gitlab.com/xcapit-foss) soon.
-
-### Schema
-
-The next schema represent Xcapit Smart Wallet interacion with backend services.
-
-![smart wallet services relation](https://gitlab.com/xcapit-foss/documentation/-/raw/main/static/img/smart_wallet/XcapitSmartWallet_services_interaction.jpeg)
+[Getting started](https://xcapit-foss.gitlab.io/documentation/docs/app-wallet/getting_started/)

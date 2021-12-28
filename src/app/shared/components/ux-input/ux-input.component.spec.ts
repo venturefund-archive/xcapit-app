@@ -21,7 +21,7 @@ describe('UxInputComponent', () => {
   let controlContainerMock: any;
   beforeEach(
     waitForAsync(() => {
-      toastServiceSpy = jasmine.createSpyObj('ToastService', { showToast: Promise.resolve() });
+      toastServiceSpy = jasmine.createSpyObj('ToastService', { showInfoToast: Promise.resolve() });
       clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
       controlContainerMock = new FormGroup({
         testControl: new FormControl(),
@@ -74,7 +74,7 @@ describe('UxInputComponent', () => {
     fixture.detectChanges();
     component.copyToClipboard();
     await fixture.whenStable();
-    expect(toastServiceSpy.showToast).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Copy button is clicked', () => {

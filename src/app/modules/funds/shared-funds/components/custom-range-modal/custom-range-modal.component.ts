@@ -22,7 +22,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         </div>
         <div class="crm__buttons">
           <ion-button
-            class="ux_button crm__buttons__cancel"
+            class="text-button-secondary"
             appTrackClick
             name="Cancel"
             type="button"
@@ -32,13 +32,12 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             {{ 'funds.custom_range_component.cancel_button' | translate }}
           </ion-button>
           <ion-button
-            [disabled]="!this.form.valid"
-            class="ux_button"
+            class="text-button-primary"
             appTrackClick
             name="Confirm"
             type="submit"
             fill="clear"
-            [disabled]="this.submitButtonService.isDisabled | async"
+            [disabled]="!this.form.valid || (this.submitButtonService.isDisabled | async)"
           >
             {{ 'funds.custom_range_component.confirm_button' | translate }}
           </ion-button>

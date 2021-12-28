@@ -232,6 +232,19 @@
     }
   },
   "funds": {
+    "investments_tab": {
+      "header": "Inversiones",
+      "text": "Gana a diario invirtiendo tus criptomonedas",
+      "how_investments_work_button": "¿Cómo funcionan las inversiones?",
+      "defi": {
+        "title": "Inversiones Defi",
+        "text": "Utiliza tu Wallet de Xcapit para depositar Tokens y suscribirte a productos de inversión Defi generando rendimientos diarios de forma sencilla."
+      },
+      "binance": {
+        "title": "Inversiones con Binance",
+        "text": "Conecta nuestro Bot inteligente de Trading e Índices a tu Wallet de Binance para generar rendimientos todos los días."
+      }
+    },
     "fund_balance": {
       "header": "Balance del Fondo",
       "main_title": "{{fundName}} - Período: {{period}}",
@@ -447,34 +460,42 @@
         "min_capital_label": "Inversión mínima",
         "invest_button": "Invertir",
         "last_year_revenue": "90 días",
+        "new_badge": "Nuevo",
         "profiles": {
           "volume_profile_strategies_USDT": {
             "title": "Denali",
             "description": "Permite que nuestro algoritmo haga trading por ti. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a USDT (Theter).",
             "more_info": "Leer más sobre Denali",
-            "strategie_type": "Trading",
-            "info_description": "Denali es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en dólares (Tether o USDT). Trabaja aplicando diferentes estrategias sobre cada cripto que opera. En resumen, usa dólares para generar más dólares. Su rendimiento anual ronda le 17%"
+            "strategy_type": "Trading",
+            "info_description": "Denali es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en dólares (Tether o USDT). Trabaja aplicando diferentes estrategias sobre cada cripto que opera. Su rendimiento anual ronda le 17%"
           },
           "volume_profile_strategies_BTC": {
             "title": "Olympus Mons",
             "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a BTC (Bitcoin).",
             "more_info": "Leer más sobre Olympus Mons",
-            "strategie_type": "Trading",
-            "info_description": "Olympus mons es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en Bitcoins. Trabaja aplicando diferentes estrategias sobre cada cripto que opera."
+            "strategy_type": "Trading",
+            "info_description": "Olympus Mons es para aquellas personas a quienes les interesa acumular más Bitcoins ya que consideran que es la moneda del futuro. No importa si el Bitcoin cae o sube de valor respecto al dólar, lo que Olympus buscará es aumentar la cantidad de Bitcoins en tu portafolio."
+          },
+          "Metaverse_index": {
+            "title": "Oasis",
+            "description": "Fondo que sigue al índice metaverso, diseñado para capturar las tendencias de entretenimientos, deportes y nuevos negocios que se mueven en el mundo virtual.",
+            "more_info": "Leer más sobre Oasis",
+            "strategy_type": "Indice",
+            "info_description": "Oasis es un fondo que sigue al índice metaverso construido por Xcapit. Este fondo es de riesgo alto, ya que trabaja con los proyectos más novedosos y de mayor crecimiento en los últimos meses. En particular, el índice metaverso trata de capturar las tendencias de los protocolos orientados a el entretenimiento, los deportes y los nuevos negocios que se mueven en la red de Ethereum. La forma de hacerlo es considerar tanto el tamaño del protocolo (en términos de capitalización) y la cantidad de usuarios con los que cuenta (billeteras en la red Ethereum con tokens del protocolo). Una vez por mes, se realiza el rebalanceo de la billetera de inversión en el que además se añaden o eliminan tokens del índice para optimizar sus resultados."
           },
           "DeFi_index": {
             "title": "Himalayas",
-            "description": "Invierte en los 5 proyectos con mayor capitalización de mercado de finanzas descentralizadas. Cuando finalice tu inversión se convertirá a USDT(Tether).",
+            "description": "Invierte en los proyectos con mayor capital bloqueado de finanzas descentralizadas cubriendo un 80% del mercado. Cuando finalice tu inversión se convertirá a USDT (Thether)",
             "more_info": "Leer más sobre Himalayas",
-            "strategie_type": "Indice",
-            "info_description": "Himalayas es un índice de inversión con un riesgo alto.\n Un índice es la cotización promedio de un grupo de activos. Estas activos (en Himalayas) son las 5 criptomonedas con más capital bloqueado (cantidad de dinero invertido dentro de una cripto). Himalayas trabaja sobre el ecosistema DeFi (un sistema descentralizado que se apalanca en instrumentos financieros de la vida real -como préstamos, créditos, intereses y la facilidad de crear mercados). En palabras simples, Himalayas selecciona las criptomonedas más prometedoras dentro de DeFi y actualiza tu portfolio… (portfolio = las monedas que tenés en tu wallet…) una vez al mes. En resumen, esta estrategia apuesta a diversificar dentro de DeFi)."
+            "strategy_type": "Indice",
+            "info_description": "Himalayas se comporta como un índice de inversión y se rebalancea una vez al mes. Un índice es un agregado de varios instrumentos financieros ponderados de alguna forma que refleja un resumen del mercado en su totalidad. En el caso de Himalayas, los pesos de cada activo dependen del tamaño de cada proyecto respecto al mercado total medido a través de la cantidad de capital bloqueado. La cantidad de activos dentro del índice puede variar y depende de la concentración del mercado. Si el 80% del mercado está muy concentrado en pocos activos el índice tendrá pocos componentes, pero si el mercado está muy distribuido el índice tendrá muchos componentes. \n Himalayas apunta a reflejar el comportamiento del ecosistema DeFi: un sistema descentralizado que se apalanca en instrumentos financieros de la vida real pero sin los intermediarios del sistema financiero tradicional que le agregan costosas tasas y comisiones."
           },
           "Mary_index": {
             "title": "Andes",
-            "description": "Invierte en las 5 criptomonedas con mayor capitalización de mercado. Cuando finalice tu inversión se convertirá en USDT. (Theter)",
+            "description": "Invierte en los proyectos cripto tradicionales con mayor capitalización cubriendo un 80% del mercado. Cuando finalice tu inversión se convertirá a USDT (Thether)",
             "more_info": "Leer más sobre Andes",
-            "strategie_type": "Indice",
-            "info_description": "Andes es un índice de inversión con un riesgo medio-alto.\n Un índice es la cotización promedio de un grupo de activos. Estos activos (en Andes) son las 5 criptomonedas más importantes (que representan el 77% del mercado entero). Básicamente te arma un portfolio de inversión… (portfolio = las monedas que tenés en tu wallet…) y lo actualiza una vez al mes para asegurarte de tener los mejores 5 activos del mercado. En resumen, esta estrategia apuesta a diversificar."
+            "strategy_type": "Indice",
+            "info_description": "Andes se comporta como un índice de inversión que refleja el comportamiento del ecosistema cripto tradicional y se rebalancea una vez al mes. \n Un índice es un agregado de varios instrumentos financieros ponderados de alguna forma que refleja un resumen del mercado en su totalidad. En el caso de Andes, los pesos de cada activo dependen del tamaño de cada proyecto respecto al mercado total medido a través de su capitalización. La cantidad de activos dentro del índice puede variar y depende de la concentración del mercado. Si el 80% del mercado está muy concentrado en pocos activos el índice tendrá pocos componentes, pero si el mercado está muy distribuido el índice tendrá muchos componentes."
           },
           "classic_BTC": {
             "title": "Classic"
@@ -588,7 +609,11 @@
       "minutes": "{{value}} minuto{{s}}",
       "seconds": "{{value}} segundo{{s}}",
       "finalized": "Finalizado",
-      "renovate": "Renovar"
+      "renovate": "Renovar",
+      "unsubscribe_toast": "Desuscripción exitosa",
+      "unsubscribe_alert_ok": "Desuscribir",
+      "unsubscribe_alert_cancel": "Cancelar",
+      "unsubscribe_alert_title": "¿Desuscribirme a este fondo?"
     },
     "change_currency_modal": {
       "submit_button": "Aceptar",
@@ -733,6 +758,23 @@
       "success_text": "Datos guardados!",
       "country": "País",
       "country_placeholder": "Elije un país"
+    },
+    "user_profile_menu": {
+      "header": "Mi perfil",
+      "category_help": "Ayuda",
+      "faq_help": "Preguntas frecuentes",
+      "support_help": "Hablar con soporte",
+      "category_security_account": "Seguridad cuenta Xcapit",
+      "change_pass": "Cambiar contraseña",
+      "category_security_wallet": "Seguridad wallet Xcapit",
+      "security_phrase": "Frase de seguridad",
+      "category_binance_investment": "Inversiones Binance",
+      "funds": "Fondos",
+      "finished_funds": "Fondos Finalizados",
+      "manage_apikey": "Gestión de API Keys",
+      "category_preferences": "Preferencias",
+      "language": "Idioma",
+      "logout": "Cerrar Sesión"
     },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
@@ -965,7 +1007,7 @@
     "first_steps": {
       "step1": {
         "primary_text": "¡Te damos la bienvenida!",
-        "secondary_text": "Con la Wallet de Xcapit solo tu tienes el control en todo momento sabrás donde esta tu dinero y cuanta ganacia te genera"
+        "secondary_text": "Con la Wallet de Xcapit solo tu tienes el control en todo momento sabrás donde esta tu dinero y cuanta ganancia te genera"
       },
       "step2": {
         "primary_text": "Un viaje largo empieza con un  primer paso",
@@ -973,7 +1015,7 @@
       },
       "step3": {
         "primary_text": "La competencia es contigo mismo",
-        "secondary_text": "¡Aprende finanzas jugando! Mejora tu educación financiera, aprende jugando y recibe insentivos en base a tu crecimiento y evolución"
+        "secondary_text": "¡Aprende finanzas jugando! Mejora tu educación financiera, aprende jugando y recibe incentivos en base a tu crecimiento y evolución"
       },
       "skip_button": "Saltar",
       "finish_button": "Comenzar"
@@ -1402,16 +1444,22 @@
     },
     "select_coin": {
       "header": "Crear wallet",
+      "header_edit": "Editar activos",
       "title": "Selecciona los activos",
       "subtitle": "Elige los activos que quieres visualizar en tu wallet",
-      "suite": "Suite ",
+      "suite": "Suite {{suiteName}}",
       "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
-      "native": "NATIVA"
+      "native": "NATIVA",
+      "submit_edit": "Guardar cambios",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos verificando tu frase"
+      }
     },
     "success_creation": {
-      "title": "¡Genial! creamos tu wallet y tu frase de recuperación está verificada",
-      "subtitle": "Guardala en un lugar seguro, en lo posible, sin conexión a internet",
-      "success_button": "Ir a mi wallet"
+      "title": "¡Genial!",
+      "subtitle": "Verificaste tu frase de recuperación y creaste tu wallet",
+      "success_button": "Ir a wallet"
     },
     "recovery_phrase": {
       "header": "Crear wallet",
@@ -1426,7 +1474,11 @@
       "header": "Crear wallet",
       "title": "Verifica tu frase",
       "text1": "Toca las palabras en el orden correspondiente",
-      "btn_create": "Siguiente"
+      "btn_create": "Siguiente",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos verificando tu frase"
+      }
     },
     "create_password": {
       "header": "Crear wallet",
@@ -1434,7 +1486,11 @@
       "description": "La contraseña sirve para hacer tu wallet más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu wallet con las 12 palabras.",
       "password": "Contraseña",
       "repeat_password": "Confirmar contraseña",
-      "finish_button": "Finalizar y crear wallet"
+      "finish_button": "Finalizar y crear wallet",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos creando tu wallet"
+      }
     },
     "receive": {
       "header": "Recibir",
@@ -1444,15 +1500,15 @@
       "currency_select_placeholder": "Moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
       "share": "Compartir",
-      "disclaimer_header": "Envíe solo {{currency}} a esta direción de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens a esta dirección distintas a {{currency}} puede resultar en la pérdida de su depósito.",
+      "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
+      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
       "share_title": "Direccion de wallet"
     },
     "nft_detail": {
       "title": "Detalle de NFT",
       "label1": "Creado Por",
       "label2": "Chain Info",
-      "label_input1": "Contact Address",
+      "label_input1": "Dirección del Contrato",
       "label_input2": "Token ID",
       "label_input3": "Blockchain"
     },
@@ -1564,11 +1620,13 @@
       },
       "claim_nft_card": {
         "base": "Aquí podrás ver tus NFT",
-        "title": "¡Tu NFT te espera!",
-        "subtitle": "Reclama tu NFT de la Conmemoración a la independencia de Mexico",
-        "note": "*Solo lo recibiras si te anotaste en la lista de espera.",
+        "unclaimed_title": "¡Tu NFT te espera!",
+        "unclaimed_subtitle": "Reclama tu NFT de la Conmemoración a la independencia de Mexico",
+        "unclaimed_note": "*Solo lo recibiras si te anotaste en la lista de espera.",
         "button_claim": "Reclamar",
-        "button_claimed": "Reclamado"
+        "claimed_title": "¡Tu NFT está en camino!",
+        "claimed_subtitle": "A partir del 6 de diciembre, entregaremos los NFT de forma progresiva.*",
+        "claimed_note": "*Serán entregados según el orden en que fueron reclamados."
       },
       "wallet_password_small": {
         "title": "Por seguridad",
@@ -1593,7 +1651,7 @@
     },
     "success_wallet_recovery": {
       "title": "¡Genial! Importamos tu wallet con tu frase de recuperación",
-      "button": "Ir a mi wallet"
+      "button": "Ir a wallet"
     },
     "wallet_connect": {
       "header": "WalletConnect",
@@ -2148,7 +2206,8 @@
     "home_page": {
       "want_my_wallet": {
         "title": "¡Quiero mi wallet!",
-        "description": "Con la wallet tu tienes el poder, puedes invertir de forma simple, sin esfuerzo y con un click. "
+        "subtitle": "Crea tu wallet y comienza a tener el control de tus finanzas.",
+        "description": "En tu wallet"
       },
       "strategies": {
         "title": "Estrategias",
@@ -2166,6 +2225,22 @@
         "investments": "Inversiones",
         "objectives": "Objetivos",
         "coming_soon_alert": "Esta opción estará disponible pronto"
+      },
+      "need_help_card": {
+        "title": "¿Necesitas ayuda?",
+        "subtitle": "Ver preguntas frecuentes"
+      },
+      "test_investor_cards": {
+        "badge_text": "Próximamente",
+        "title1": "Descubre tus conocimientos en finanzas",
+        "link1": "Hacer test",
+        "title2": "¿Sabes qué tipo de inversionista eres?",
+        "link2": "Descúbrelo"
+      }
+    },
+    "shared": {
+      "buy_crypto_card": {
+        "title": "Compra cripto al mejor precio"
       }
     }
   },
@@ -2182,11 +2257,11 @@
       "title": "Términos y condiciones Xcapit",
       "subtitle": "<b>Por favor lea este acuerdo de términos y condiciones (los \"términos de uso\" o \"términos de servicio\") detenidamente ya que es un acuerdo vinculante entre usted y Cryptolab s.a.s en adelante Xcapit</b>, con domicilio en calle Rio Negro Nº 350, de la ciudad de Córdoba, provincia de Córdoba de la Republica Argentina, RESPECTO A SU ACCESO Y USO DEL SITIO WEB <a class='ux-link-xl' href='https://xcapit.com/'>https://xcapit.com/</a> (EL \"SITIO WEB\") LA APP Y LA WALLET DE XCAPIT.  Al usar el Sitio, y al hacer clic en aceptar estos Término de uso, usted (1) acepta y está de acuerdo con estos Términos y cualquier término adicional, reglas y condiciones de participación emitidas por Xcapit y (2) consiente la recopilación, uso, divulgación y otro manejo de la información como se describe en nuestra Política de privacidad. Si no está de acuerdo con estos Términos, Ud. no podrá acceder ni utilizar los Servicios proporcionados por Xcapit. <b>Xcapit es una plataforma no-custodial y no tiene acceso a su llave privada, no es un intermediario y de ninguna manera es su agente, asesor o custodio. Xcapit no tiene una relación fiduciaria u obligación con usted con respecto a cualquier otra decisión o actividades que usted afecta al utilizar su billetera o nuestros servicios. Xcapit no se hace responsable de cualquier actividad que realice al usar su billetera.</b>",
       "question1": "1- Registro",
-      "answer1": "Para poder utilizar nuestros servicios, Ud. deberá registrarse con un correo electrónico, dicho correo será asociado a su dirección de Wallet. Tenga en cuenta que al crear su billetera se le asignará una frase mnemotécnica, esta frase se almacena en el dispositivo (no en nuestros servidores) encriptada con una contraseña provista por el usuario al momento de la creación de la Wallet. Xcapit no tiene funcionalidad de respaldo de clave, esto significa que la única forma que va tener usted de recuperar su Wallet es con la frase mnemotécnica ( conformada por 12 palabras). Por su seguridad, Usted será responsable de mantener la confidencialidad y custodia de su clave privada y almacén de claves y será totalmente responsable de todas y cada una de las actividades que ocurran en su cuenta. Usted acepta notificarnos inmediatamente de cualquier uso no autorizado de su contraseña, cuenta o cualquier otra violación de seguridad. No seremos responsables de ninguna pérdida o daño que surja de su incumplimiento de este párrafo. Cuando crea una billetera, se le recomienda encarecidamente que tome precauciones para evitar la pérdida de acceso y / o control sobre su billetera.",
+      "answer1": "Para poder utilizar nuestros servicios, Ud. deberá crear una cuenta válida, para ello, debe registrarse con un correo electrónico y una contraseña en la App de Xcapit. A través de la App, Ud. podrá crear su Wallet (\"Xcapit Wallet\") y la dirección de la misma será asociada a su correo electrónico. Tenga en cuenta que al crear su billetera se le asignará una frase mnemotécnica, esta frase se almacena en el dispositivo (no en nuestros servidores) encriptada con una contraseña provista por el usuario al momento de la creación de la Wallet. Xcapit no tiene funcionalidad de respaldo de clave, esto significa que la única forma que va tener usted de recuperar su Wallet es con la frase mnemotécnica (conformada por 12 palabras). Por su seguridad, Usted será responsable de mantener la confidencialidad y custodia de su clave privada y almacén de claves y será totalmente responsable de todas y cada una de las actividades que ocurran en su cuenta. Usted acepta notificarnos inmediatamente de cualquier uso no autorizado de su contraseña, cuenta o cualquier otra violación de seguridad. No seremos responsables de ninguna pérdida o daño que surja de su incumplimiento de este párrafo. Cuando crea una billetera, se le recomienda encarecidamente que tome precauciones para evitar la pérdida de acceso y/o control sobre su billetera.",
       "question2": "2- Pago y tarifas",
       "answer2": "Xcapit Wallet actualmente no cobra ninguna tarifa por ninguno de sus Servicios. Sin embargo, nos reservamos el derecho a hacerlo en el futuro y, en tal caso, las tarifas aplicables se mostrarán antes de que utilice cualquier servicio al que se aplique una tarifa. Actas. Una vez que se hayan enviado los detalles de la transacción a través de los Servicios, no podemos ayudarlo a cancelar o modificar su transacción. Xcapit Wallet no tiene control sobre ninguna cadena de bloques basada en Ethereum y no tiene la capacidad de facilitar ninguna solicitud de cancelación o modificación. Debe asegurarse de tener un saldo adecuado en su billetera y / o gas para completar las transacciones antes de iniciar una transacción. Usted reconoce y acepta que no seremos responsables por transacciones fallidas debido a fondos insuficientes o gas asociado con su cuenta Xcapit Wallet. Impuestos. Es su responsabilidad determinar qué impuestos, si los hay, se aplican a las transacciones para las que ha enviado los detalles de la transacción a través de los Servicios, y es su responsabilidad informar y remitir el impuesto correcto a la autoridad fiscal correspondiente. Usted acepta que no somos responsables de determinar si los impuestos se aplican a sus transacciones basadas en Ethereum o de cobrar, informar, retener o remitir cualquier impuesto que surja de cualquier transacción relacionada con la moneda virtual.",
       "question3": "3- Los servicios de blockchain",
-      "answer3": "Xcapit Wallet le permite iniciar y administrar transacciones de criptoactivos en la red Ethereum, RSK y Polygon. Negociar o comerciar con criptoactivos es intrínsecamente riesgoso, ya que los precios de las criptomonedas pueden cambiar rápidamente. No podemos garantizar que el valor de los criptoactivos que compre no disminuirá. Por lo tanto, si compra o vende cualquier criptoactivo a través de Xcapit Wallet es bajo su propio riesgo. La finalización de las transacciones que inicie a través de Xcapit Wallet también depende de la disponibilidad y el funcionamiento de la red Ethereum, RSK y Polygon. Los errores o bifurcaciones en la red Ethereum, RSK y Polygon, pueden hacer que las transacciones que inicie a través de la Wallet de Xcapit fallen. Esto puede significar que la transacción que originalmente tenía la intención de realizar ya no estará disponible. Desafortunadamente, debido a la naturaleza descentralizada de la red Ethereum,RSK y Polygon, no hay un solo punto de falla, por lo que ni nosotros ni ninguna parte en particular seremos responsables ante usted por los errores o pérdidas que sufra como resultado.Xcapit Wallet es un software que (a) genera direcciones de Wallet y claves privadas cifradas que puede utilizar para enviar y recibir Ethereum y tokens relacionados con seguridad criptográfica (la \"Moneda virtual.\"); (b) facilita el envío de datos de transacciones de Moneda Virtual a cadenas de bloques basadas en Ethereum,RSK y Polygon. La clave privada está conectada a la dirección de Wallet y, en conjunto, se pueden utilizar para autorizar la transferencia de Moneda Virtual hacia y desde esa dirección de Wallet. Usted es el único responsable de mantener la seguridad de su clave privada. Debe mantener segura la dirección de Wallet y la información de acceso a la clave privada. El no hacerlo puede resultar en la pérdida de control de la Moneda Virtual asociada con la Cartera.<b> Xcapit Wallet no puede ayudar con la recuperación de la contraseña. Xcapit Wallet almacena su dirección de Wallet pero no recibe ni almacena su contraseña de Wallet, clave privada cifrada, clave privada no cifrada o frase mnemotécnica (de respaldo) asociada con su Wallet.</b> Por lo tanto, no podemos ayudarlo con la recuperación de la contraseña de Wallet. No podemos generar una nueva contraseña para su Billetera si no recuerda su contraseña original. Si no ha guardado de forma segura una copia de seguridad de cualquier dirección de Wallet y pares de claves privadas mantenidos en su Wallet, acepta y reconoce que cualquier Moneda virtual que haya asociado con dicha dirección de Wallet será inaccesible si no tiene su contraseña de Wallet. Todas las transacciones de moneda virtual propuestas deben confirmarse y registrarse en la cadena de bloques pública asociada de la moneda virtual. Dichas redes son redes descentralizadas, de igual a igual, respaldadas por terceros independientes, de los que no somos propietarios, no controlamos ni operamos. No tenemos control sobre las redes Ethereum, RSK y Polygon y, por lo tanto, no podemos asegurarnos de que los detalles de la transacción que envíe a través de nuestros Servicios sean confirmados y procesados. Al utilizar Xcapit Wallet, usted reconoce y acepta que los detalles de la transacción que envía pueden no ser completados, o pueden retrasarse sustancialmente, por Ethereum Networks. Xcapit Wallet no almacena ni transmite moneda virtual. No almacenamos, enviamos ni recibimos Moneda Virtual. Cualquier transferencia que ocurra en cualquier Moneda Virtual ocurre en las cadenas de bloques basadas en Ethereum, RSK y Polygon y no en una red de nuestra propiedad. Exactitud de la información proporcionada por el usuario. Usted declara y garantiza que cualquier información que proporcione a través de los Servicios es precisa y completa. Acepta y reconoce que no somos responsables de los errores u omisiones que cometa en relación con cualquier transacción de moneda virtual iniciada a través de los Servicios. Le recomendamos encarecidamente que revise los detalles de su transacción detenidamente antes de intentar transferir una moneda virtual.",
+      "answer3": "Xcapit Wallet le permite iniciar y administrar transacciones de criptoactivos en la red Ethereum, RSK y Polygon. Negociar o comerciar con criptoactivos es intrínsecamente riesgoso, ya que los precios de las criptomonedas pueden cambiar rápidamente. No podemos garantizar que el valor de los criptoactivos que compre no disminuirá. Por lo tanto, si compra o vende cualquier criptoactivo a través de Xcapit Wallet es bajo su propio riesgo. La finalización de las transacciones que inicie a través de Xcapit Wallet también depende de la disponibilidad y el funcionamiento de la red Ethereum, RSK y Polygon. Los errores o bifurcaciones en la red Ethereum, RSK y Polygon, pueden hacer que las transacciones que inicie a través de la Wallet de Xcapit fallen. Esto puede significar que la transacción que originalmente tenía la intención de realizar ya no estará disponible. Desafortunadamente, debido a la naturaleza descentralizada de la red Ethereum, RSK y Polygon, no hay un solo punto de falla, por lo que ni nosotros ni ninguna parte en particular seremos responsables ante usted por los errores o pérdidas que sufra como resultado. Xcapit Wallet es un software que (a) genera direcciones de Wallet y claves privadas cifradas que puede utilizar para enviar y recibir Ethereum y tokens relacionados con seguridad criptográfica (la \"Moneda virtual\"); (b) facilita el envío de datos de transacciones de Moneda Virtual a cadenas de bloques basadas en Ethereum, RSK y Polygon. La clave privada está conectada a la dirección de Wallet y, en conjunto, se pueden utilizar para autorizar la transferencia de Moneda Virtual hacia y desde esa dirección de Wallet. Usted es el único responsable de mantener la seguridad de su clave privada. Debe mantener segura la dirección de Wallet y la información de acceso a la clave privada. El no hacerlo puede resultar en la pérdida de control de la Moneda Virtual asociada con la Cartera.<b> Xcapit Wallet no puede ayudar con la recuperación de la contraseña. Xcapit Wallet almacena su dirección de Wallet pero no recibe ni almacena su contraseña de Wallet, clave privada cifrada, clave privada no cifrada o frase mnemotécnica (de respaldo) asociada con su Wallet.</b> Por lo tanto, no podemos ayudarlo con la recuperación de la contraseña de Wallet. No podemos generar una nueva contraseña para su Billetera si no recuerda su contraseña original. Si no ha guardado de forma segura una copia de seguridad de cualquier dirección de Wallet y pares de claves privadas mantenidos en su Wallet, acepta y reconoce que cualquier Moneda virtual que haya asociado con dicha dirección de Wallet será inaccesible si no tiene su contraseña de Wallet. Todas las transacciones de moneda virtual propuestas deben confirmarse y registrarse en la cadena de bloques pública asociada de la moneda virtual. Dichas redes son redes descentralizadas, de igual a igual, respaldadas por terceros independientes, de los que no somos propietarios, no controlamos ni operamos. No tenemos control sobre las redes Ethereum, RSK y Polygon y, por lo tanto, no podemos asegurarnos de que los detalles de la transacción que envíe a través de nuestros Servicios sean confirmados y procesados. Al utilizar Xcapit Wallet, usted reconoce y acepta que los detalles de la transacción que envía pueden no ser completados, o pueden retrasarse sustancialmente, por Ethereum Networks. Xcapit Wallet no almacena ni transmite moneda virtual. No almacenamos, enviamos ni recibimos Moneda Virtual. Cualquier transferencia que ocurra en cualquier Moneda Virtual ocurre en las cadenas de bloques basadas en Ethereum, RSK y Polygon y no en una red de nuestra propiedad. Exactitud de la información proporcionada por el usuario. Usted declara y garantiza que cualquier información que proporcione a través de los Servicios es precisa y completa. Acepta y reconoce que no somos responsables de los errores u omisiones que cometa en relación con cualquier transacción de moneda virtual iniciada a través de los Servicios. Le recomendamos encarecidamente que revise los detalles de su transacción detenidamente antes de intentar transferir una moneda virtual.",
       "question4": "4- Sus responsabilidades",
       "answer4": "Excepto en la medida en que lo cause nuestro incumplimiento de este Acuerdo, (a) usted es responsable de todas las actividades que ocurran en su Cuenta, independientemente de si las actividades están autorizadas por usted o realizadas por usted, sus empleados o un tercero (incluido su contratistas, agentes o usuarios finales) y (b) nosotros y nuestros afiliados no somos responsables del acceso no autorizado a su Cuenta. 4.1 Su uso. Se asegurará de que su uso de los servicios no viole ninguna ley aplicable. 4.2 Su seguridad y respaldo. Usted es responsable de configurar y usar correctamente los Servicios y de tomar las medidas adecuadas para asegurar, proteger y hacer copias de seguridad de sus Cuentas y Su Contenido de una manera que proporcione la seguridad y protección adecuadas, lo que podría incluir el uso de cifrado.",
       "question5": "5- Servicios y contenido de terceros",
@@ -2219,7 +2294,7 @@
       "question4": "4- Plazo de conservación de sus datos",
       "answer4": "Conservaremos su información personal en nuestros sistemas solo durante el tiempo que sea necesario para proporcionarle los productos y servicios que ha solicitado, incluso con el fin de satisfacer cualquier requisito legal, reglamentario, fiscal, contable o de informes. Podemos retener sus datos personales durante un período más largo en caso de una queja o si creemos razonablemente que existe una perspectiva de litigio con respecto a nuestra relación con usted. En algunas circunstancias, puede solicitarnos que eliminemos sus datos: consulte \"Sus derechos\" a continuación para obtener más información. En algunas circunstancias, podemos anonimizar sus datos personales (para que ya no puedan asociarse con usted) con fines de investigación o estadísticos, en cuyo caso podemos utilizar esta información de forma indefinida sin previo aviso.",
       "question5": "5- Seguridad",
-      "answer5": "Xcapit se toma muy en serio la protección de su información. Hemos implementado medidas de seguridad físicas, electrónicas y administrativas apropiadas para evitar que sus datos personales se pierdan, utilicen o se alteren, divulguen o accedan de manera no autorizada.<b>En tal sentido, todos sus datos serán almacenados en una base de datos de titularidad de Xcapit que se encuentra inscripta en el Registro Nacional de Protección de Datos Personales.</b> Para garantizar la seguridad de los datos personales que Ud. proporcione a Xcapit, se aplicarán los mismos criterios y el mismo grado de diligencia que Xcapit aplica para resguardar su propia información. Además, limitamos el acceso a sus datos personales a aquellos empleados, agentes, contratistas y otros terceros que tengan una necesidad comercial de conocerlos. Solo procesarán sus datos personales siguiendo nuestras instrucciones y están sujetos a un deber de confidencialidad. Hemos implementado procedimientos para hacer frente a cualquier sospecha de violación de datos personales y le notificaremos a usted y a cualquier regulador aplicable de una violación cuando estemos legalmente obligados a hacerlo.",
+      "answer5": "Xcapit se toma muy en serio la protección de su información. Hemos implementado medidas de seguridad físicas, electrónicas y administrativas apropiadas para evitar que sus datos personales se pierdan, utilicen o se alteren, divulguen o accedan de manera no autorizada.<b> En tal sentido, todos sus datos serán almacenados en una base de datos de titularidad de Xcapit que se encuentra inscripta en el Registro Nacional de Protección de Datos Personales.</b> Para garantizar la seguridad de los datos personales que Ud. proporcione a Xcapit, se aplicarán los mismos criterios y el mismo grado de diligencia que Xcapit aplica para resguardar su propia información. Además, limitamos el acceso a sus datos personales a aquellos empleados, agentes, contratistas y otros terceros que tengan una necesidad comercial de conocerlos. Solo procesarán sus datos personales siguiendo nuestras instrucciones y están sujetos a un deber de confidencialidad. Hemos implementado procedimientos para hacer frente a cualquier sospecha de violación de datos personales y le notificaremos a usted y a cualquier regulador aplicable de una violación cuando estemos legalmente obligados a hacerlo.",
       "question6": "6- Transferencia internacional de datos",
       "answer6": "Tenga en cuenta que algunos de nuestros proveedores de servicios pueden tener su sede fuera del territorio Argentino. Estos proveedores de servicios pueden trabajar para nosotros o para uno de nuestros proveedores y pueden participar, entre otras cosas, en el cumplimiento de su solicitud de información, productos y servicios. Cuando transferimos sus datos a un proveedor de servicios, buscamos asegurarnos de que existan las salvaguardias adecuadas para garantizar que sus datos personales se mantengan de forma segura y que se respeten sus derechos como sujeto de datos. Las transferencias de datos personales se realizan:<ol type=\"a\"><li>A un país reconocido como proveedor de un nivel adecuado de protección;</li><li>A un país que no ofrece la protección adecuada, pero cuya transferencia se ha regido por cláusulas contractuales que garantizan la implementación de otras soluciones de transferencia transfronteriza para brindar la protección adecuada.</li></ol> Al enviar su información personal, acepta esta transferencia, almacenamiento o procesamiento. Si desea obtener más información sobre el mecanismo a través del cual se transfieren sus datos personales, comuníquese con <a class='ux-link-xl' href='mailto:legal@xcapit.com'>legal@xcapit.com</a>.",
       "question7": "7- Derechos del usuario",
@@ -2233,7 +2308,7 @@
       "title_wallet": "Wallet",
       "description_wallet": "Crear, importar, recibir, enviar y más.",
       "title_buy": "Compra",
-      "description_buy": "Pasos, provedores y costos.",
+      "description_buy": "Pasos, proveedores y costos.",
       "title_investment": "Inversiones en Binance",
       "description_investment": "Tipos de estrategias, plazos y rentabilidad.",
       "title_apikeys": "Binance y API Keys",
@@ -2260,7 +2335,9 @@
       "question6": "¿Cómo hago para pagar el servicio de Xcapit?",
       "answer6": "Actualmente en Xcapit contamos con un sistema de cobro de membresías, dependiendo del capital que necesites invertir, hay membresías gratuitas si quieres empezar a probar.",
       "question7": "¿Cuándo debo pagar el servicio de Xcapit?",
-      "answer7": "En el caso de que decidas empezar con la membresía gratuita, Plan Explorer, comenzarás a pagar solo si decides sobrepasar el límite de 300 dólares en tu inversión. El pago se hace mensualmente y el valor de la membresía depende de cual elijas. ¡En todos los planes pagos tienes 30 días gratis!"
+      "answer7": "En el caso de que decidas empezar con la membresía gratuita, Plan Explorer, comenzarás a pagar solo si decides sobrepasar el límite de 300 dólares en tu inversión. El pago se hace mensualmente y el valor de la membresía depende de cual elijas. ¡En todos los planes pagos tienes 30 días gratis!",
+      "question8": "¿Puedo usar Xcapit desde cualquier parte del mundo?",
+      "answer8": "Por el momento está disponible únicamente en Argentina, Brasil, Colombia, México y España."
     },
     "support_wallet": {
       "header": "Ayuda",
@@ -2310,7 +2387,17 @@
       "question22": "¿Cómo puedo visualizar mi NFT “Financial Freedom México”?",
       "answer22": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo.",
       "question23": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
-      "answer23": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento."
+      "answer23": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento.",
+      "question24": "¿Puedo hacer dos wallets con la misma cuenta?",
+      "answer24": "Hola! Sí, se puede crear dos wallets distintas con la misma cuenta. Desde la opción crear o importar. Ten en cuenta que si te anotaste para recibir tu NFT de regalo el mismo se depositara en la última wallet creada.",
+      "question25": "Creé una wallet desde el navegador y después instalé la app y ahora tengo dos seeds ¿Qué hago?",
+      "answer25": "Hola! Lo que debés hacer para mantener la wallet que creaste inicialmente desde el navegador es importarla desde la App. No crear una nueva.",
+      "question26": "Ya reclamé mi NFT de regalo ¿Cuándo lo tendré disponible?",
+      "answer26": "Hola! Antes que nada gracias por participar de la acción. El proceso no es automático, a partir del 6 de diciembre comenzaremos a entregarlos. Te avisaremos mediante notificación cuando suceda.",
+      "question27": "Creé mi Wallet pero en mi PC, ¿esto es un problema para recibir el NFT Freedom Mexico?",
+      "answer27": "Hola! Podés hacerlo sin problema desde la PC, solo tené en cuenta que si creas tu wallet por primera vez desde la pc y luego queres pasar a la app. móvil debés importar la wallet usando la frase de recuperación. De lo contrario se te crearán dos wallets y el NFT se depositará en la última wallet creada.",
+      "question28": "¿Todavía puedo obtener mi NFT Freedom México?",
+      "answer28": "Hola! Ya nos quedamos sin NFTs. Estos eran para las primeras 16.921 personas que se registren y ya alcanzamos ese número. No te preocupes, próximamente haremos más acciones del estilo para quienes no llegaron a participar."
     },
     "support_security": {
       "header": "Ayuda",
@@ -2377,6 +2464,49 @@
       "answer3": "Se recomienda tener otra cuenta aparte para hacer trading manual.",
       "question4": "¿Qué hago si mis API Keys se vencieron o están deshabilitada?",
       "answer4": " Deberás volver a vincular tus API Keys en Binance, para ello te pedimos que: <br><b>1.</b> Hacer clic en el menú “Más” y luego en “Gestión de API Keys”.<br><b>2.</b> Eliminar las API Keys que figuran en la App de Xcapit - Para asegurarte no vincular nuevamente estas API Keys vencidas.<br><b>3.</b> Te dirijas a \"Agregar Apikey\". <br><b>4.</b> Ingresar a tu cuenta de Binance y luego a “Gestión de APIs”. <br><b>5.</b> Generar una nueva API Keys y las copies en Xcapit con el QR o copiando y pegando los códigos. <br><b>6.</b> Es importante que verifiques que la opción “Spot Trading” se encuentre activa. <br><b>7.</b> Vuelvas a crear un fondo de inversión normalmente."
+    }
+  },
+  "wealth_managements": {
+    "header": "Perfil de inversionista",
+    "title": "¿Qué tipo de inversionista eres?",
+    "subtitle": "Realiza el test de perfil de inversionista, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
+    "investor_test_options": {
+      "title1": "Tomar el test",
+      "description1": "Conoce tu perfil de inversionista haciendo este test.",
+      "title2": "Escoger manualmente",
+      "description2": "Si ya conoces tu perfil de inversionista, selecciónalo manualmente."
+    },
+    "success": {
+      "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es {{testResult}} ",
+      "namePrimaryAction": "Ir a mi perfil de inversionista",
+      "nameSecondaryAction": "Volver al incio"
+    },
+    "investor_test": {
+      "header": "Test de inversionista",
+      "next_button": "Continuar",
+      "submit_button": "Finalizar y enviar test"
+    },
+    "profiles": {
+      "conservative": "Conservador",
+      "medium": "Medio",
+      "risky": "Riesgoso"
+    },
+    "about_investor_profile": {
+      "of": "de",
+      "header": "Perfil de inversionista",
+      "button_select": "Este es mi perfil",
+      "conservative_profile": {
+        "title": "Perfil Conservador",
+        "subtitle": "Te caracterizas por ser poco tolerante al riesgo y valorar la seguridad. Por lo tanto, prefieres instrumentos de inversión que te den certeza de que no perderás parte o todo el dinero que invertirás.  No te importa que las ganancias (rendimiento) obtenidas sean bajas."
+      },
+      "moderated_profile": {
+        "title": "Perfil Moderado",
+        "subtitle": "Eres una persona cautelosa con tus decisiones, pero estas dispuesta a tolerar un riesgo moderado para aumentar tus ganancias. Procuras mantener un balance entre rentabilidad y seguridad."
+      },
+      "aggressive_profile": {
+        "title": "Perfil Agresivo",
+        "subtitle": "Buscas los mayores rendimientos posibles, por lo que estas dispuesto a asumir el riesgo que sea necesario. No es recomendable mantener esta actitud de riesgo cuando no cuentas con la suficiente solvencia, o si se tienes compromisos familiares importantes."
+      }
     }
   }
 }

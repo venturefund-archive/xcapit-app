@@ -327,12 +327,8 @@ describe('WalletTransactionsService', () => {
 
   it('should not send if password was invalid', async () => {
     walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.throwError('invalid password');
-    try {
-      await service.send('wrongPassword', '20', 'testAddress', ETH);
-    } catch (error) {
-    } finally {
-      expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
-    }
+    await expectAsync(service.send('wrongPassword', '20', 'testAddress', ETH)).toBeRejected();
+    expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
   });
 
   describe('when user sends not native token', () => {

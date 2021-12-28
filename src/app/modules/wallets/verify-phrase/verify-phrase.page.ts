@@ -4,6 +4,8 @@ import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recovery-phrase-card/recovery-phrase-card.component';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-verify-phrase',
   template: `
@@ -26,7 +28,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
               <div class="div-input">
                 <div class="hidden-input" *ngIf="!this.verificationPhrase[i]"></div>
                 <ion-button
-                  class="input-word"
+                  class="input-word ux-font-text-xxs"
                   [id]="i"
                   [ngClass]="{ active: this.verificationPhrase[i] }"
                   size="small"
@@ -88,7 +90,9 @@ export class VerifyPhrasePage {
   constructor(
     private navController: NavController,
     private walletMnemonicService: WalletMnemonicService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private loadingService: LoadingService,
+    private translate: TranslateService
   ) {}
 
   ionViewWillEnter() {
@@ -144,11 +148,22 @@ export class VerifyPhrasePage {
 
   createWallet() {
     if (this.validPhrase()) {
-      this.walletService.create();
-      this.navController.navigateForward(['/wallets/create-password']);
+      this.loadingService
+        .showModal(this.modalOptions())
+        .then(() => this.walletService.create())
+        .then(() => this.navController.navigateForward(['/wallets/create-password']))
+        .then(() => this.loadingService.dismissModal());
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
+  }
+
+  private modalOptions() {
+    return {
+      title: this.translate.instant('wallets.verify_phrase.loading.title'),
+      subtitle: this.translate.instant('wallets.verify_phrase.loading.subtitle'),
+      image: 'assets/img/verify-phrase/map.svg',
+    };
   }
 
   getActiveIndex() {

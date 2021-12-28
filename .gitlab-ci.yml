@@ -1,4 +1,7 @@
 ---
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 stages:
   - syntax
   - test
@@ -29,6 +32,9 @@ cache:
 ### Syntax check
 .syntax-check: &syntax-check
   stage: syntax
+  # tags:
+  #   - foss
+  #   - gitlab-org
   image: node:${NODE_VERSION}-alpine
   cache:
     untracked: true
@@ -42,12 +48,17 @@ cache:
 ### NodeJS test
 .nodejs-test: &nodejs-test
   stage: test
+  # tags:
+  #   - foss
+  #   - gitlab-org
   image: node:${NODE_VERSION}
   cache:
     untracked: true
     key: ${CI_COMMIT_REF_SLUG}
   variables:
     CI: 'true'
+    COVERALLS_REPO_TOKEN: $COVERALLS_REPO_TOKEN
+
   before_script:
     - cd ${SRC_DIR}
     - apt-get update -y
@@ -63,11 +74,14 @@ cache:
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
   script:
-    - ng test --karma-config karma-pipeline.conf.js
+    - npm run test-ci
 
 ### Docker lint
 .docker-lint: &docker-lint
   stage: syntax
+  # tags:
+  #   - foss
+  #   - gitlab-org
   image: '${HADOLINT_REPO}:${HADOLINT_TAG}'
   before_script:
     - hadolint --version
@@ -78,6 +92,9 @@ cache:
 ### Semantic release
 .semantic-release: &semantic-release
   stage: release
+  # tags:
+  #   - foss
+  #   - gitlab-org
   image: node:${NODE_VERSION}
   before_script:
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D
@@ -102,12 +119,21 @@ syntax_checking:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
+code_quality:
+  stage: test
+  artifacts:
+    paths: [gl-code-quality-report.json]
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+
 ### pytest
 test:
   <<: *nodejs-test
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
 
 # # Release
 release_master:

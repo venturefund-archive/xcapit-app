@@ -12,7 +12,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
     <div class="cib ">
       <div class="cib__main">
         <div class="cib__main__content ion-padding">
-          <div class="cib__main__content__title ux-font-text-base">
+          <div class="cib__main__content__title ux-font-text-lg">
             <ion-text>{{ this.alias }}</ion-text>
             <ion-button
               appTrackClick
@@ -53,15 +53,14 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
         <ion-button
           *ngIf="!this.fundName"
           appTrackClick
-          class="ux-link-xl"
+          class="cib__footer__more_info ux-font-text-xxs ux-link-xl"
           name="Manage"
           fill="clear"
           size="small"
-          class="cib__footer__more_info ux-font-text-xxs"
           (click)="this.useApiKey(this.id)"
         >
           {{ 'apikeys.card_apikeys.action' | translate }}
-          <ion-icon slot="end" name="ux-forward" class="ux-link-xl"></ion-icon>
+          <ion-icon slot="end" color="info" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
         <ion-text *ngIf="this.fundName" class="cib__footer__used_key">
           {{ 'apikeys.card_apikeys.used_apikey' | translate }}
@@ -143,19 +142,25 @@ export class ApikeyItemComponent implements OnInit {
     );
   }
 
-  private showToast(text: string) {
-    this.toastService.showToast({
+  private showSuccessToast(text: string) {
+    this.toastService.showSuccessToast({
+      message: this.translate.instant(text),
+    });
+  }
+
+  private showErrorToast(text: string) {
+    this.toastService.showErrorToast({
       message: this.translate.instant(text),
     });
   }
 
   success(id: number) {
     this.deletedKey.emit(id);
-    this.showToast('apikeys.card_apikeys.success_toast');
+    this.showSuccessToast('apikeys.card_apikeys.success_toast');
   }
 
   error() {
-    this.showToast('errorCodes.remove.error');
+    this.showErrorToast('errorCodes.remove.error');
   }
 
   useApiKey(id: number) {

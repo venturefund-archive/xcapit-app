@@ -2,29 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 
 @Component({
   selector: 'app-home-wallet',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar"> </ion-toolbar>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <div class="header">
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
+        </div>
+        <app-avatar-profile></app-avatar-profile>
+      </ion-toolbar>
     </ion-header>
 
     <ion-content>
       <ion-refresher (ionRefresh)="refresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
         <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="true" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-          <ion-text
-            class="ux-font-lato ux-fweight-regular ux-fsize-10"
-            color="uxsemidark"
-            *ngIf="!(this.isRefreshAvailable$ | async)"
-          >
+          <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
               'funds.funds_list.refresh_time'
                 | translate
@@ -78,23 +77,20 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       </div>
 
       <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
-        <div class="wt__nfts__content">
-          <app-claim-nft-card
+        <div class="wt__nfts__content segment-content last-selected">
+          <app-nft-card
             [nftStatus]="this.nftStatus"
             (nftRequest)="this.createNFTRequest()"
-            *ngIf="this.nftStatus !== 'delivered'"
+            *ngIf="this.walletExist && this.nftStatus"
           >
-          </app-claim-nft-card>
-        </div>
-        <div *ngIf="this.nftStatus === 'delivered' && this.NFTMetadata">
-          <app-nft-card [data]="this.NFTMetadata"></app-nft-card>
+          </app-nft-card>
         </div>
       </div>
       <div
         class="wt__balance ion-padding-start ion-padding-end"
         *ngIf="this.walletExist && this.balances?.length && this.segmentsForm.value.tab === 'assets'"
       >
-        <div class="wt__balance__wallet-balance-card segment-content">
+        <div class="wt__balance__wallet-balance-card segment-content first-selected">
           <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
         </div>
         <app-start-investing></app-start-investing>
@@ -117,10 +113,8 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
   totalBalanceWallet = 0;
-  walletAddress = null;
   balances: Array<AssetBalance> = [];
-  allPrices: any;
-  userCoins: Coin[];
+  nftStatus = '';
   alreadyInitialized = false;
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
@@ -129,16 +123,14 @@ export class HomeWalletPage implements OnInit {
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
-  nftStatus = 'unclaimed';
 
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private storageService: StorageService,
     private navController: NavController,
     private formBuilder: FormBuilder,
-    private nftService: NftService,
-    private refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService,
+    private walletBalance: WalletBalanceService
   ) {}
 
   ngOnInit() {}
@@ -170,85 +162,34 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
-  getNFTInfo() {
-    this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => (this.NFTMetadata = metadata));
-  }
-
-  createBalancesStructure(coin: Coin): AssetBalance {
-    return {
-      icon: coin.logoRoute,
-      symbol: coin.value,
-      name: coin.name,
-      amount: 0,
-      usdAmount: 0,
-      usdSymbol: 'USD',
-    };
-  }
-
   async encryptedWalletExist() {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
 
       if (!this.alreadyInitialized && res) {
         this.alreadyInitialized = true;
-        this.getAllPrices();
-        this.getNFTInfo();
+        this.getCoinsBalance();
       }
     });
+  }
+
+  getCoinsBalance() {
+    this.walletBalance.getWalletsBalances().then((res) => {
+      this.balances = res;
+      this.getTotalBalance();
+      this.uninitializedWallet();
+    });
+  }
+
+  getTotalBalance() {
+    this.walletBalance.getUsdTotalBalance().then((res) => (this.totalBalanceWallet = res));
   }
 
   goToRecoveryWallet() {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
-  getWalletsBalances() {
-    this.balances = [];
-    this.totalBalanceWallet = 0;
-    for (const coin of this.userCoins) {
-      const walletAddress = this.walletService.addresses[coin.network];
-
-      if (walletAddress) {
-        const balance = this.createBalancesStructure(coin);
-        this.walletService.balanceOf(walletAddress, coin.value).then((res) => {
-          balance.amount = parseFloat(res);
-
-          if (this.allPrices) {
-            const usdPrice = this.getPrice(balance.symbol);
-
-            balance.usdAmount = usdPrice * balance.amount;
-            this.totalBalanceWallet += balance.usdAmount;
-          }
-          this.balances.push(balance);
-        });
-      }
-    }
-  }
-
-  getAllPrices() {
-    this.storageService.getAssestsSelected().then((coins) => {
-      this.userCoins = coins;
-      this.storageService.updateAssetsList().then(() => {
-        this.apiWalletService
-          .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
-          .toPromise()
-          .then((res) => (this.allPrices = res))
-          .finally(async () => {
-            this.getWalletsBalances();
-            this.uninitializedWallet();
-          });
-      });
-    });
-  }
-
   private uninitializedWallet() {
     this.alreadyInitialized = false;
-  }
-
-  private getCoinForPrice(symbol: string): string {
-    return symbol === 'RBTC' ? 'BTC' : symbol;
-  }
-
-  private getPrice(symbol: string): number {
-    return this.allPrices.prices[this.getCoinForPrice(symbol)];
   }
 }

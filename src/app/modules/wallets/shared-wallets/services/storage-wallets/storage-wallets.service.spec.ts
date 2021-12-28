@@ -29,17 +29,6 @@ const testCoins: Coin[] = [
   },
 ];
 
-const testWallet = {
-  addresses: {
-    ETH: 'testAddress',
-  },
-  assets: {
-    ETH: true,
-    USDT: true,
-  },
-  updatedAt: '2021-08-23T18:46:47Z',
-};
-
 describe('StorageWalletsService', () => {
   let service: StorageWalletsService;
   let storageSpy: jasmine.SpyObj<Storage>;
@@ -91,11 +80,22 @@ describe('StorageService', () => {
   let service: StorageService;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let testWalletStub: jasmine.SpyObj<any>;
 
   beforeEach(() => {
     appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', ['get', 'set']);
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: NONPROD_COINS,
+    });
+    testWalletStub = jasmine.createSpyObj('storageWallet', [], {
+      addresses: {
+        ETH: 'testAddress',
+      },
+      assets: {
+        ETH: true,
+        USDT: true,
+      },
+      updatedAt: '2021-08-23T18:46:47Z',
     });
     TestBed.configureTestingModule({
       providers: [
@@ -112,8 +112,8 @@ describe('StorageService', () => {
   });
 
   it('should save the wallet in the localstorage on saveWalletToStorage', async () => {
-    await service.saveWalletToStorage(testWallet);
-    expect(appStorageServiceSpy.set).toHaveBeenCalledWith('enc_wallet', testWallet);
+    await service.saveWalletToStorage(testWalletStub);
+    expect(appStorageServiceSpy.set).toHaveBeenCalledWith('enc_wallet', testWalletStub);
   });
 
   it('should get the wallet from the localstorage on getWalletFromStorage', async () => {
@@ -122,14 +122,14 @@ describe('StorageService', () => {
   });
 
   it('should return the wallet addresses from localstorage on getWalletsAddresses', async () => {
-    spyOn(service, 'getWalletFromStorage').and.returnValue(Promise.resolve(testWallet));
+    spyOn(service, 'getWalletFromStorage').and.returnValue(Promise.resolve(testWalletStub));
     const addresses = await service.getWalletsAddresses();
 
-    expect(addresses).toEqual(testWallet.addresses);
+    expect(addresses).toEqual(testWalletStub.addresses);
   });
 
   it('should return the selected assets by the user from localstorage on getAssestsSelected', async () => {
-    spyOn(service, 'getWalletFromStorage').and.returnValue(Promise.resolve(testWallet));
+    spyOn(service, 'getWalletFromStorage').and.returnValue(Promise.resolve(testWalletStub));
     const assetsSelected = await service.getAssestsSelected();
 
     expect(assetsSelected[0].value).toEqual(testCoins[0].value);

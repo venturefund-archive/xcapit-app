@@ -93,7 +93,7 @@ export class MainMenuPage implements OnInit {
       id: 2,
       name: 'Funds',
       title: 'app.main_menu.funds',
-      url: '/tabs/funds',
+      url: '/tabs/investments/binance',
       icon: 'ux-myfund-icon',
       routeDirection: 'root',
       showInProd: true,
@@ -280,7 +280,7 @@ export class MainMenuPage implements OnInit {
       if (!(await this.walletService.walletExist())) {
         url = 'tabs/wallets';
       } else {
-        if (!!this.walletConnectService.connected) {
+        if (this.walletConnectService.connected) {
           url = 'wallets/wallet-connect/connection-detail';
         }
       }

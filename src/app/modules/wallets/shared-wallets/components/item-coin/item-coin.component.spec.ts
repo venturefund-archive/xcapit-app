@@ -46,7 +46,7 @@ describe('ItemCoinComponent', () => {
 
       fixture = TestBed.createComponent(ItemCoinComponent);
       component = fixture.componentInstance;
-      component.suite = 'ETH';
+      component.network = 'ETH';
       component.coin = NONPROD_COINS[0];
       fixture.detectChanges();
     })
@@ -57,7 +57,7 @@ describe('ItemCoinComponent', () => {
   });
 
   it('should emit event on change', () => {
-    const spy = spyOn(component.change, 'emit');
+    const spy = spyOn(component.changed, 'emit');
     const targetEl = fixture.debugElement.query(By.css('ion-toggle')).nativeElement;
     const customEvent = new CustomEvent('ionChange', { detail: { checked: true, value: testCoin } });
     targetEl.dispatchEvent(customEvent);

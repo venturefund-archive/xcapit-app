@@ -1,0 +1,68 @@
+.ux-font-button,
+.ux_button {
+  text-transform: none;
+  font-family: var(--ux-font-worksans);
+  font-weight: var(--ux-fweight-semibold);
+  font-size: var(--ux-fsize-16);
+  line-height: 18.77px;
+}
+
+.ux-font-button-small {
+  text-transform: none;
+  font-family: var(--ux-font-lato);
+  font-weight: var(--ux-fweight-semibold);
+  font-size: var(--ux-fsize-12);
+}
+
+// Estilo de la toolbar para botones ux
+.ux_button {
+  --border-radius: 7px;
+  height: 48px;
+  min-width: 116px;
+}
+
+ion-button {
+  --ion-color-shade: var(--ion-color-base) !important;
+  --background-focused: var(--ion-color-base) !important;
+}
+
+// Fix para back button
+ion-back-button {
+  --margin-start: 7px;
+}
+
+//Button outlined
+.ux-button-outlined {
+  height: 48px;
+  min-width: 116px;
+  text-transform: none;
+  font-family: var(--ux-font-worksans);
+  font-weight: var(--ux-fweight-semibold);
+  font-size: var(--ux-fsize-16);
+  line-height: 18.77px;
+  --background: var(--ion-color-uxlight);
+  --background-activated: var(--ion-color-uxlight);
+  color: var(--ion-color-info);
+  border: 1.5px solid var(--ion-color-info);
+  border-radius: 7px;
+}
+
+.ux-button-outlined:hover {
+  --background-hover: var(--ion-color-uxlight);
+  color: var(--ion-color-infodark);
+  border: 1.5px solid var(--ion-color-infodark);
+}
+
+//Class 'text button' for modals
+.text-button-primary,
+.text-button-secondary {
+  font-family: var(--ux-font-worksans);
+  font-weight: var(--ux-fweight-semibold);
+  font-size: var(--ux-fsize-16);
+}
+.text-button-primary {
+  color: var(--ion-color-info);
+}
+.text-button-secondary {
+  color: var(--ion-color-uxsemidark);
+}

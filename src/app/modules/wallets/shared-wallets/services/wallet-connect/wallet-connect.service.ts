@@ -68,11 +68,7 @@ export class WalletConnectService {
       if (isConnected) return;
     }
 
-    try {
-      await this.appStorageService.remove('walletconnect');
-    } catch (error) {
-      throw error;
-    }
+    await this.appStorageService.remove('walletconnect');
   }
 
   public async ping() {
@@ -89,19 +85,15 @@ export class WalletConnectService {
   }
 
   public async initWalletConnect(uri): Promise<void> {
-    try {
-      this.walletConnector = new WalletConnect({
-        uri,
-      });
+    this.walletConnector = new WalletConnect({
+      uri,
+    });
 
-      if (!this.walletConnector.connected) {
-        await this.walletConnector.createSession();
-      }
-
-      await this.subscribeToEvents();
-    } catch (error) {
-      throw error;
+    if (!this.walletConnector.connected) {
+      await this.walletConnector.createSession();
     }
+
+    await this.subscribeToEvents();
   }
 
   public checkDappStatus(): Promise<any> {
@@ -127,7 +119,7 @@ export class WalletConnectService {
   }
 
   public async setAccountInfo(wallet) {
-    if (!!wallet) {
+    if (wallet) {
       this.address = wallet.address;
       this.activeChainId = wallet.chainId;
       this.providerSymbol = wallet.symbol;
@@ -202,14 +194,10 @@ export class WalletConnectService {
 
       this.walletConnector.off('disconnect');
 
-      try {
-        this.peerMeta = null;
-        this.connected = false;
-        await this.walletConnector.killSession();
-        this.walletConnector = null;
-      } catch (error) {
-        throw error;
-      }
+      this.peerMeta = null;
+      this.connected = false;
+      await this.walletConnector.killSession();
+      this.walletConnector = null;
     }
   }
 
@@ -224,14 +212,10 @@ export class WalletConnectService {
 
   public async rejectRequest(requestId): Promise<void> {
     if (this.walletConnector) {
-      try {
-        this.walletConnector.rejectRequest({
-          id: requestId,
-          error: { message: 'Failed or Rejected Request' },
-        });
-      } catch (error) {
-        throw error;
-      }
+      this.walletConnector.rejectRequest({
+        id: requestId,
+        error: { message: 'Failed or Rejected Request' },
+      });
     }
   }
 
@@ -261,7 +245,7 @@ export class WalletConnectService {
           addressRequested = request.params[0].from;
 
           if (address.toLowerCase() === addressRequested.toLowerCase()) {
-            const gasLim = !!request.params[0].gas ? request.params[0].gas : '70000';
+            const gasLim = request.params[0].gas ? request.params[0].gas : '70000';
 
             const data = {
               from: request.params[0].from,

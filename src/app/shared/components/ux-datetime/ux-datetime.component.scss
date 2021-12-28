@@ -10,11 +10,6 @@
       --inner-border-width: 0;
       --highlight-background: none;
 
-      font-weight: 400;
-      color: #000000de;
-      font-size: 14px;
-      font-family: var(--ux-font-lato);
-
       &.item-has-focus {
         border: 1.5px solid var(--ion-color-uxsecondary);
         --background: #ffffff;

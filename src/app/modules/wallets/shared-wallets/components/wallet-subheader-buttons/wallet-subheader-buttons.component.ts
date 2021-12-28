@@ -1,6 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
+import { InformativeModalComponent } from 'src/app/modules/menus/main-menu/components/informative-modal/informative-modal.component';
+import { ApiApikeysService } from 'src/app/modules/apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -36,6 +41,7 @@ import { NavigationExtras } from '@angular/router';
         </div>
         <div class="wsb__card-buttons__performance card">
           <app-icon-button-card
+            (click)="this.goToPerformance()"
             appTrackClick
             name="Go to Performance"
             [text]="'wallets.home.subheader_buttons_component.performance_card' | translate"
@@ -49,10 +55,19 @@ import { NavigationExtras } from '@angular/router';
 })
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
+  apikeys: any = [];
 
-  constructor(private navController: NavController) {}
+  constructor(
+    private navController: NavController,
+    private modalController: ModalController,
+    private apiApikeysService: ApiApikeysService,
+    private translate: TranslateService,
+    private toastService: ToastService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAllApiKeys();
+  }
 
   goToSend() {
     if (!this.asset) {
@@ -75,9 +90,32 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     return this.navController.navigateForward(['wallets/receive'], navigationExtras);
   }
 
-  goToBuy() {
-    if (!this.asset) {
-      return this.navController.navigateForward('/fiat-ramps/operations');
+  async goToBuy() {
+    if (this.apikeys.length > 0) {
+      this.navController.navigateForward('/fiat-ramps/operations');
+    } else {
+      await this.openNoApiKeysModal();
     }
+  }
+
+  async goToPerformance() {
+    this.toastService.showInfoToast({
+      message: this.translate.instant(this.translate.instant('home.home_page.subheader_component.coming_soon_alert')),
+    });
+  }
+
+  getAllApiKeys() {
+    this.apiApikeysService.getAll().subscribe((data) => {
+      this.apikeys = data;
+    });
+  }
+
+  async openNoApiKeysModal() {
+    const modal = await this.modalController.create({
+      component: InformativeModalComponent,
+      cssClass: 'ux-modal-informative',
+      swipeToClose: false,
+    });
+    await modal.present();
   }
 }

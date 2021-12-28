@@ -10,9 +10,9 @@ import { Coin } from '../../interfaces/coin.interface';
         <ion-radio-group>
           <div class="container">
             <ion-item>
-              <ion-label class="icg__label ux-font-text-xs"
-                >{{ 'wallets.select_coin.suite' | translate }}{{ this.suite }}</ion-label
-              >
+              <ion-label class="icg__label ux-font-text-xs">{{
+                'wallets.select_coin.suite' | translate: { suiteName: (this.network | suite) }
+              }}</ion-label>
               <ion-toggle
                 name="AllToggle"
                 class="icg__toggle"
@@ -24,8 +24,8 @@ import { Coin } from '../../interfaces/coin.interface';
             </ion-item>
             <div class="list-divider"></div>
             <app-item-coin
-              [suite]="this.suite"
-              (change)="this.validate($event)"
+              [network]="this.network"
+              (changed)="this.validate($event)"
               [isChecked]="this.form.value.coin"
               *ngFor="let coin of coins"
               [coin]="coin"
@@ -40,7 +40,7 @@ import { Coin } from '../../interfaces/coin.interface';
 export class ItemsCoinGroupComponent implements OnInit {
   mode: string;
   @Input() coins: Coin[];
-  @Input() suite: string;
+  @Input() network: string;
   form: FormGroup;
 
   constructor(private formGroup: FormGroupDirective) {}
@@ -48,6 +48,8 @@ export class ItemsCoinGroupComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formGroup.form;
+
+    this.setToggleAllState();
   }
 
   validate(event) {
@@ -60,7 +62,7 @@ export class ItemsCoinGroupComponent implements OnInit {
   }
 
   allToggled(): boolean {
-    return Object.values(this.form.value[this.suite]).every(Boolean);
+    return Object.values(this.form.value[this.network]).every(Boolean);
   }
 
   toggleAll(event: any) {
@@ -73,10 +75,10 @@ export class ItemsCoinGroupComponent implements OnInit {
 
   selectAll(select: boolean) {
     const allCoins = {};
-    Object.keys(this.form.value[this.suite]).forEach((coin) => {
+    Object.keys(this.form.value[this.network]).forEach((coin) => {
       allCoins[coin] = select;
     });
-    this.form.patchValue({ [this.suite]: allCoins });
+    this.form.patchValue({ [this.network]: allCoins });
   }
 
   checkIfNativeCoinFromNetworkIsChecked(event: any) {
@@ -98,10 +100,10 @@ export class ItemsCoinGroupComponent implements OnInit {
     allNetworkCoins.forEach((coin) => {
       allMappedNetworkCoins[coin.value] = false;
     });
-    this.form.patchValue({ [this.suite]: allMappedNetworkCoins });
+    this.form.patchValue({ [this.network]: allMappedNetworkCoins });
   }
 
   checkNativeCoin(nativeCoin) {
-    this.form.patchValue({ [this.suite]: { [nativeCoin]: true } });
+    this.form.patchValue({ [this.network]: { [nativeCoin]: true } });
   }
 }

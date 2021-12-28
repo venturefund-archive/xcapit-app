@@ -30,7 +30,7 @@ import * as moment from 'moment';
       </div>
 
       <app-ux-text class="ion-padding-top ion-margin-top">
-        <div class="ion-margin-top ion-margin-bottom" style="font-size: 16px;">
+        <div class="ion-margin-top ion-margin-bottom ux-font-text-xs" color="uxprimary">
           {{ 'fiat_ramps.register.description' | translate }}
         </div>
       </app-ux-text>
@@ -65,12 +65,12 @@ import * as moment from 'moment';
           ></app-ux-input-select>
 
           <!-- fecha de nacimiento -->
-          <app-ux-datetime
-            controlName="nacimiento"
+          <app-ux-input
+            placeholder="DD-MM-YYYY"
             [label]="'fiat_ramps.register.dob' | translate"
-            [placeholder]="'fiat_ramps.register.dob' | translate"
-            [max]="this.maxDate"
-          ></app-ux-datetime>
+            controlName="nacimiento"
+          >
+          </app-ux-input>
 
           <!-- Género -->
           <app-input-select

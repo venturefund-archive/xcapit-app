@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
+import { SuitePipe } from '../../pipes/suite.pipe';
 
 import { ItemsCoinGroupComponent } from './items-coin-group.component';
 const testCoins = [
@@ -131,7 +132,7 @@ describe('ItemsCoinGroupComponent', () => {
       formGroupDirectiveMock = new FormGroupDirective([], []);
       formGroupDirectiveMock.form = controlContainerMock;
       TestBed.configureTestingModule({
-        declarations: [ItemsCoinGroupComponent],
+        declarations: [ItemsCoinGroupComponent, SuitePipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [TrackClickDirective, { provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -140,7 +141,7 @@ describe('ItemsCoinGroupComponent', () => {
       fixture = TestBed.createComponent(ItemsCoinGroupComponent);
       component = fixture.componentInstance;
       component.coins = testCoins;
-      component.suite = 'ETH';
+      component.network = 'ETH';
       fixture.detectChanges();
     })
   );
@@ -153,7 +154,7 @@ describe('ItemsCoinGroupComponent', () => {
     component.form.patchValue({ ETH: { LINK: true } });
     fixture.debugElement
       .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[1] } });
+      .triggerEventHandler('changed', { detail: { checked: true, value: testCoins[1] } });
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.form.value.ETH.ETH).toBeTrue();
@@ -163,7 +164,7 @@ describe('ItemsCoinGroupComponent', () => {
     component.form.patchValue({ ETH: { ETH: true } });
     fixture.debugElement
       .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: true, value: testCoins[0] } });
+      .triggerEventHandler('changed', { detail: { checked: true, value: testCoins[0] } });
     fixture.detectChanges();
     expect(component.form.value.ETH.ETH).toBeTrue();
     expect(Object.values(component.form.value.ETH).filter((value) => value === true).length).toEqual(1);
@@ -173,7 +174,7 @@ describe('ItemsCoinGroupComponent', () => {
     component.form.patchValue({ ETH: { LINK: true, USDT: true } });
     fixture.debugElement
       .queryAll(By.css('app-item-coin'))[0]
-      .triggerEventHandler('change', { detail: { checked: false, value: testCoins[0] } });
+      .triggerEventHandler('changed', { detail: { checked: false, value: testCoins[0] } });
     fixture.detectChanges();
     expect(component.form.value.ETH.LINK).toBeFalse();
     expect(component.form.value.ETH.USDT).toBeFalse();
@@ -190,5 +191,11 @@ describe('ItemsCoinGroupComponent', () => {
     fixture.debugElement.query(By.css('ion-toggle[name="AllToggle"]')).nativeElement.click();
     fixture.detectChanges();
     expect(Object.values(component.form.value).filter((value) => value === true).length).toEqual(0);
+  });
+
+  it('should check if all tokens were selected on ngOnInit', () => {
+    const spy = spyOn(component, 'setToggleAllState');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

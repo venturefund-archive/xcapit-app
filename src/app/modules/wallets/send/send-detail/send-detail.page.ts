@@ -24,7 +24,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
     </ion-header>
     <ion-content class="sd ion-padding-start ion-padding-end">
       <div class="sd__title">
-        <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-24">
+        <ion-text class="ux-font-text-lg">
           {{ 'wallets.send.send_detail.title' | translate }}
         </ion-text>
       </div>
@@ -50,6 +50,8 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
                     network: this.selectedNetwork
                   }
           "
+          selectorStyle="classic"
+          [selectedNetwork]="this.selectedNetwork"
         ></app-network-select-card>
       </div>
 
@@ -155,7 +157,8 @@ export class SendDetailPage {
 
   private setCurrencyNetworks() {
     this.networks = [this.currency.network];
-    this.selectedNetwork = this.currency.network;
+
+    this.selectedNetworkChanged(this.networks[0]);
   }
 
   selectedNetworkChanged(network) {

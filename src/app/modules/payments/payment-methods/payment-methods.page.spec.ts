@@ -14,12 +14,12 @@ describe('PaymentMethodsPage', () => {
   let fixture: ComponentFixture<PaymentMethodsPage>;
   let navControllerSpy: any;
   let apiPaymentsServiceSpy: any;
+  let activatedRouteSpy: any;
 
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       apiPaymentsServiceSpy = jasmine.createSpyObj('ApiPaymentMethods', ['getPaymentMethods']);
-      let activatedRouteSpy: any;
 
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
       activatedRouteSpy.snapshot = {

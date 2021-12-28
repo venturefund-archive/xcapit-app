@@ -1,0 +1,29 @@
+.ux-toast {
+  &.success {
+    --background: #dcefe4;
+    --color: #13532e;
+    --button-color: #13532e;
+  }
+  &.error {
+    --background: #f9e7e7;
+    --color: #9d0606;
+    --button-color: #9d0606;
+  }
+  &.warning {
+    --background: #feecaa;
+    --color: #654f01;
+    --button-color: #654f01;
+  }
+  &.info {
+    --background: #e1e9fe;
+    --color: #001966;
+    --button-color: #001966;
+  }
+  font-family: var(--ux-font-lato);
+  font-size: var(--ux-fsize-14);
+  font-weight: var(--ux-fweight-bold);
+}
+
+ion-toast.refresher_toast {
+  top: 86%;
+}

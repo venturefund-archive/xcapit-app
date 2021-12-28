@@ -138,7 +138,7 @@ export class NewConnectionPage implements OnInit {
   ngOnInit() {}
 
   isConnected() {
-    if (!!this.walletConnectService.connected) {
+    if (this.walletConnectService.connected) {
       this.navController.navigateRoot(['wallets/wallet-connect/connection-detail']);
     } else {
       this.setWalletsInfo();
@@ -217,7 +217,7 @@ export class NewConnectionPage implements OnInit {
       await this.walletConnectService.initWalletConnect(this.form.value.uri);
       const response = await this.walletConnectService.checkDappStatus();
 
-      if (!!response) {
+      if (response) {
         this.navController.navigateForward(['/wallets/wallet-connect/connection-detail']);
       }
     } catch (error) {
@@ -241,28 +241,16 @@ export class NewConnectionPage implements OnInit {
   }
 
   public async approveSession(): Promise<void> {
-    try {
-      await this.walletConnectService.approveSession();
-      this.connected = true;
-    } catch (error) {
-      throw error;
-    }
+    await this.walletConnectService.approveSession();
+    this.connected = true;
   }
 
   public async disconnectSession(): Promise<void> {
-    try {
-      await this.walletConnectService.killSession();
-      this.connected = false;
-    } catch (error) {
-      throw error;
-    }
+    await this.walletConnectService.killSession();
+    this.connected = false;
   }
 
   public async killSession() {
-    try {
-      await this.walletConnectService.killSession();
-    } catch (error) {
-      throw error;
-    }
+    await this.walletConnectService.killSession();
   }
 }

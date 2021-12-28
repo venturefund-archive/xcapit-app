@@ -13,7 +13,7 @@ import { AlertController, NavController } from '@ionic/angular';
           appTrackClick
           name="Finish Fund"
           (click)="this.showFinishFundAlert()"
-          class="ux-button ffp__content__finish-button"
+          class="ux_button ffp__content__finish-button"
           color="uxsecondary"
           [disabled]="disabledButton"
         >
@@ -70,11 +70,11 @@ export class FundFinishComponent implements OnInit {
   }
 
   successFinish() {
-    this.navController.navigateBack(['/tabs/funds']).then(() => this.showToast());
+    this.navController.navigateBack(['/tabs/investments/binance']).then(() => this.showToast());
   }
 
   async showToast() {
-    await this.toastService.showToast({
+    await this.toastService.showSuccessToast({
       message: this.translate.instant('funds.fund_finish_pause_fund_card.fund_finished'),
     });
   }

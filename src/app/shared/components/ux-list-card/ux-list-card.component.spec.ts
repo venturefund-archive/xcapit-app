@@ -7,8 +7,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
 const exampleData = [
-  { label: 'test-label1', icon: 'icon1' },
-  { label: 'test-label2', icon: 'icon2' },
+  { label: 'test-label1', icon: 'assets/test_image.svg' },
+  { label: 'test-label2', icon: 'assets/test_image.svg' },
 ];
 
 describe('UxListCardComponent', () => {
@@ -41,7 +41,7 @@ describe('UxListCardComponent', () => {
     const items = fixture.debugElement.queryAll(By.css('ion-item'));
 
     for (const item of items) {
-      expect(item.children[0].nativeElement.src).toContain('icon');
+      expect(item.children[0].nativeElement.src).toContain('assets/test_image.svg');
       expect(item.children[1].nativeElement.innerText).toContain('test-label');
     }
   });

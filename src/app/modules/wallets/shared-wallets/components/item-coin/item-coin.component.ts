@@ -4,7 +4,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 @Component({
   selector: 'app-item-coin',
   template: `
-    <div [formGroupName]="this.suite">
+    <div [formGroupName]="this.network">
       <ion-item>
         <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
         <div>
@@ -23,7 +23,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
           slot="end"
         ></ion-toggle>
       </ion-item>
-      <div *ngIf="this.coin.last == false" class="list-divider"></div>
+      <div *ngIf="this.coin.last === false" class="list-divider"></div>
     </div>
   `,
   styleUrls: ['./item-coin.component.scss'],
@@ -37,14 +37,14 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 export class ItemCoinComponent implements OnInit {
   @Input() coin: any;
   @Input() isChecked: boolean;
-  @Input() suite = '';
-  @Output() change: EventEmitter<void> = new EventEmitter<void>();
+  @Input() network = '';
+  @Output() changed: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
 
   ngOnInit() {}
 
   onChange(event: any) {
-    this.change.emit(event);
+    this.changed.emit(event);
   }
 }

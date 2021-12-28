@@ -5,13 +5,11 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
   template: `
     <div class="ux_datetime_container">
       <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
-      <ion-item class="ux_datetime_container__item">
+      <ion-item class="ux_datetime_container__item ux-font-text-xs">
         <ion-datetime
           [formControlName]="this.controlName"
-          [displayFormat]="this.displayFormat"
           [cancelText]="'funds.fund_operations.cancel_datepicker_text' | translate"
           [doneText]="'funds.fund_operations.done_datepicker_text' | translate"
-          [placeholder]="this.placeholder"
           [readonly]="this.readonly"
           [max]="this.max"
         ></ion-datetime>

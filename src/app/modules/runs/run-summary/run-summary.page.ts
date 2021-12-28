@@ -9,7 +9,7 @@ import { ApiRunsService } from '../shared-runs/services/api-runs/api-runs.servic
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'runs.run_summary.header' | translate }}
@@ -100,7 +100,7 @@ export class RunSummaryPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (!!this.runStatusSubscription) {
+    if (this.runStatusSubscription) {
       this.runStatusSubscription.unsubscribe();
     }
   }

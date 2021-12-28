@@ -1,0 +1,21 @@
+//Card para referidos
+.ux-card {
+  --ion-background-color: var(--ion-color-uxlight);
+  background: var(--ion-color-uxlight);
+  border-radius: 8px;
+  border: 0.5px solid var(--ion-color-uxmedium);
+}
+
+// Card del nuevo brandbook
+.ux-card-new {
+  --background: var(--ion-background-colorwhite);
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid var(--ion-color-uxmedium);
+}
+
+//Stepper
+.stepper-card {
+  margin-top: -4rem;
+  box-shadow: none;
+}

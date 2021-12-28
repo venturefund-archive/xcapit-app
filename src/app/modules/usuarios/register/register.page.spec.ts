@@ -9,25 +9,29 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { TrackService } from '../../../shared/services/track/track.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
   let fixture: ComponentFixture<RegisterPage>;
   let apiUsuariosMock: any;
   let activatedRouteMock: any;
-  let navControllerSpy: any;
-  let alertControllerSpy: any;
-  let trackServiceSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+  let alertControllerSpy: jasmine.SpyObj<AlertController>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RegisterPage>;
   beforeEach(
     waitForAsync(() => {
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
       apiUsuariosMock = {
         crud: {
@@ -35,7 +39,8 @@ describe('RegisterPage', () => {
         },
       };
       activatedRouteMock = {};
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       trackServiceSpy = jasmine.createSpyObj('TrackService', ['trackSignUp']);
       TestBed.configureTestingModule({
         declarations: [DummyComponent, RegisterPage, AuthFormComponent, FakeTrackClickDirective],
@@ -47,6 +52,7 @@ describe('RegisterPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteMock },
           { provide: NavController, useValue: navControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
         ],
       }).compileComponents();
     })
@@ -63,10 +69,11 @@ describe('RegisterPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call window.open when openTOS is called', () => {
-    spyOn(window, 'open');
+  it('should open browser when openTOS is called', () => {
     component.openTOS();
-    expect(window.open).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({
+      url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
+    });
   });
 
   it('should call track sign up on register', () => {
@@ -119,7 +126,6 @@ describe('RegisterPage', () => {
   });
 
   it('should call trackEvent on trackService when Open TOS button clicked', () => {
-    spyOn(window, 'open');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Open TOS');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent').and.returnValue(null);
@@ -141,10 +147,9 @@ describe('RegisterPage', () => {
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call window.open when openWaitingList is called', () => {
-    spyOn(window, 'open');
+  it('should open browser when openWaitingList is called', () => {
     component.openWaitingList();
-    expect(window.open).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://www.xcapit.com/waiting-list' });
   });
 
   describe('with referral code', () => {

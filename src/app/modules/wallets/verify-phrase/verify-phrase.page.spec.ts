@@ -4,7 +4,6 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { IonicModule, IonSlides, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-
 import { VerifyPhrasePage } from './verify-phrase.page';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { Mnemonic } from '@ethersproject/hdnode';
@@ -14,8 +13,24 @@ import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { IonSlidesMock } from 'src/testing/spies/ion-slides-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { LoadingService } from '../../../shared/services/loading/loading.service';
+import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 
 const phrase = ['insecto', 'puerta', 'vestido'];
+const phrase_1 = [
+  'test',
+  'phrase',
+  'other',
+  'word',
+  'number',
+  'another',
+  'rooster',
+  'keyboard',
+  'confort',
+  'destroy',
+  'jingle',
+  'july',
+];
 const phrase2 = ['piso', 'plato', 'nube'];
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -27,16 +42,17 @@ describe('VerifyPhrasePage', () => {
   let component: VerifyPhrasePage;
   let fixture: ComponentFixture<VerifyPhrasePage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<VerifyPhrasePage>;
-  let navController: NavController;
   let walletMnemonicServiceSpy;
-  let walletServiceMock;
-  let walletService: WalletService;
-  let navControllerSpy: any;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let fakeLoadingService: FakeLoadingService;
   beforeEach(
     waitForAsync(() => {
-      fakeNavController = new FakeNavController(Promise.resolve());
+      fakeLoadingService = new FakeLoadingService();
+      loadingServiceSpy = fakeLoadingService.createSpy();
+      fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       walletMnemonicServiceSpy = jasmine.createSpyObj(
         'WalletMnemonicService',
@@ -45,40 +61,24 @@ describe('VerifyPhrasePage', () => {
         },
         { mnemonic: testMnemonic }
       );
-      walletServiceMock = {
-        create: () => {},
-      };
+      walletServiceSpy = jasmine.createSpyObj('WalletService', { create: Promise.resolve({}) });
       TestBed.configureTestingModule({
         declarations: [VerifyPhrasePage, FakeTrackClickDirective, RecoveryPhraseCardComponent],
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
-          { provide: WalletService, useValue: walletServiceMock },
+          { provide: WalletService, useValue: walletServiceSpy },
           { provide: IonSlides, useValue: IonSlidesMock },
+          { provide: LoadingService, useValue: loadingServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
       fixture = TestBed.createComponent(VerifyPhrasePage);
       component = fixture.componentInstance;
-      component.phrase = [
-        'test',
-        'phrase',
-        'other',
-        'word',
-        'number',
-        'another',
-        'rooster',
-        'keyboard',
-        'confort',
-        'destroy',
-        'jingle',
-        'july',
-      ];
+      component.phrase = phrase_1;
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      navController = TestBed.inject(NavController);
-      walletService = TestBed.inject(WalletService);
     })
   );
 
@@ -148,25 +148,24 @@ describe('VerifyPhrasePage', () => {
     });
   }));
 
-  it('should create wallet and navigate to create password when Create Wallet button is clicked and the phrases match', () => {
-    const spy = spyOn(walletService, 'create');
+  it('should create wallet and navigate to create password when Create Wallet button is clicked and the phrases match', async () => {
     component.verificationPhrase = phrase;
     component.phrase = phrase;
     component.activated = true;
     fixture.detectChanges();
     fixture.debugElement.query(By.css("ion-button[name='Create Wallet']")).nativeElement.click();
+    await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password']);
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should not create wallet on createWallet if arrays are different', () => {
-    const spy = spyOn(walletService, 'create');
     component.verificationPhrase = phrase;
     component.phrase = phrase2;
     component.activated = true;
     fixture.detectChanges();
     fixture.debugElement.query(By.css("ion-button[name='Create Wallet']")).nativeElement.click();
-    expect(spy).toHaveBeenCalledTimes(0);
+    expect(walletServiceSpy.create).toHaveBeenCalledTimes(0);
   });
 
   it('should redirect to failed mnemonic page when verification phrase is wrong', async () => {

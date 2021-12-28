@@ -14,22 +14,27 @@ const routes: Routes = [
         loadChildren: () => import('../home/home-page/home-page.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'funds',
-        loadChildren: () => import('../funds/funds-list/funds-list.module').then((m) => m.FundsListPageModule),
-      },
-      {
-        path: 'wallets',
+        path: 'investments',
         children: [
           {
             path: '',
-            loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),
+            loadChildren: () =>
+              import('../funds/investments-tab/investments-tab.module').then((m) => m.InvestmentsTabPageModule),
           },
           {
-            path: 'investments',
+            path: 'binance',
+            loadChildren: () => import('../funds/funds-list/funds-list.module').then((m) => m.FundsListPageModule),
+          },
+          {
+            path: 'defi',
             loadChildren: () =>
               import('../wallets/investments/coming-soon/coming-soon.module').then((m) => m.ComingSoonPageModule),
           },
         ],
+      },
+      {
+        path: 'wallets',
+        loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),
       },
       {
         path: '',

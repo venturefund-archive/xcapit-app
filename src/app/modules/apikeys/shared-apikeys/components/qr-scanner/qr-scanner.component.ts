@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
+import { BarcodeScanner, SupportedFormat } from '@capacitor-community/barcode-scanner';
 
 @Component({
   selector: 'app-qr-scanner',
@@ -51,7 +51,7 @@ export class QrScannerComponent implements OnInit {
   scannedApikeys: any;
   scanningQR = false;
   error: boolean;
-  barcodeScanner = Plugins.BarcodeScanner;
+  barcodeScanner = BarcodeScanner;
 
   constructor(private platform: Platform) {}
 
@@ -128,7 +128,7 @@ export class QrScannerComponent implements OnInit {
     this.hideBackground();
 
     const result = await this.barcodeScanner.startScan({
-      targetedFormats: ['QR_CODE'],
+      targetedFormats: [SupportedFormat.QR_CODE],
     });
 
     this.showBackground();

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ToastService } from '../toast/toast.service';
 import { ClipboardService } from '../clipboard/clipboard.service';
-import { Plugins, ShareOptions, ClipboardWrite } from '@capacitor/core';
+import { Share, ShareOptions } from '@capacitor/share';
+import { WriteOptions } from '@capacitor/clipboard';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShareService {
-  sharePlugin = Plugins.Share;
+  sharePlugin = Share;
   constructor(private toastService: ToastService, private clipboardService: ClipboardService) {}
   /**
    * Funcion que comparte segun la plataforma, si no puede lo copia al clipboard
@@ -22,14 +23,14 @@ export class ShareService {
           string: data.text.concat(data.url || ''),
           label: data.title,
           url: data.url,
-        } as ClipboardWrite;
+        } as WriteOptions;
         this.clipboardService.write(clipboardData).then(() => this.showToast(copiedMessage));
       }
     );
   }
 
   private showToast(message) {
-    this.toastService.showToast({
+    this.toastService.showInfoToast({
       message,
     });
   }

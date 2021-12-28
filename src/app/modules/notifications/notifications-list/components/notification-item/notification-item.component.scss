@@ -8,7 +8,6 @@
         height: 100%;
         margin-right: 16px;
         img {
-          padding-top: 5px;
           width: 30px;
         }
       }
@@ -29,10 +28,6 @@
       width: 100%;
       height: 1px;
       background-color: var(--ion-color-uxline);
-    }
-
-    &__new {
-      --background: #006eff14;
     }
   }
 }

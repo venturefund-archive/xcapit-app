@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ABOUT_XCAPIT_OPTIONS } from '../../constants/about-xcapit-account';
 import { FaqComponent } from './faq.component';
+import { BrowserService } from '../../../../../shared/services/browser/browser.service';
 
 const faqs = {
   about_xcapit_account: {
@@ -37,15 +38,20 @@ describe('FaqComponent', () => {
   let component: FaqComponent;
   let fixture: ComponentFixture<FaqComponent>;
   let fakeNavController: FakeNavController;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       TestBed.configureTestingModule({
         declarations: [FaqComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(FaqComponent);
@@ -68,16 +74,12 @@ describe('FaqComponent', () => {
   it('should open the link in the app when link is clicked', () => {
     component.faq.title = faqs.link.title;
     component.faq.answer = faqs.link.answer;
-    const spyBrowser = spyOn(component.browser, 'open');
     fixture.detectChanges();
     component.ngAfterViewInit();
     const anchor = fixture.debugElement.query(By.css('a'));
     const link = anchor.nativeElement.getAttribute('href');
     anchor.nativeElement.click();
-    expect(spyBrowser).toHaveBeenCalledWith({
-      toolbarColor: '#1c2d5e',
-      url: 'http://test',
-    });
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'http://test' });
     expect(link).toEqual('http://test');
   });
 

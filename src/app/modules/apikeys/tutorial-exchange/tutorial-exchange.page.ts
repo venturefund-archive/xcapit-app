@@ -8,7 +8,7 @@ import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apik
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'apikeys.exchange_information.header' | translate }}</ion-title>
         <ion-label class="step_counter" slot="end">1 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
@@ -73,7 +73,7 @@ import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apik
           </div>
         </div>
         <div class="aei__need_help ux_footer">
-          <ion-button name="Need Help" (click)="this.needHelp()" appTrackClick fill="clear" size="small">{{
+          <ion-button name="Need Help" class="ux-link-xs" (click)="this.needHelp()" appTrackClick fill="clear">{{
             'shared.need_help.text_help_link' | translate
           }}</ion-button>
         </div>

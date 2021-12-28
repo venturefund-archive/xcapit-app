@@ -33,7 +33,7 @@ import { NavController } from '@ionic/angular';
             <ion-text>{{ 'notifications.notifications_list.message' | translate }}</ion-text>
           </div>
           <div class="link ux-font-text-xs">
-            <a href="/tabs/funds">{{ 'notifications.notifications_list.link' | translate }}</a>
+            <a href="/tabs/investments/binance">{{ 'notifications.notifications_list.link' | translate }}</a>
           </div>
         </div>
       </ion-list>

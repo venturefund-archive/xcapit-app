@@ -12,11 +12,14 @@ import { NavController } from '@ionic/angular';
         <div class="ipc__content__title_and_image">
           <div class="title_container">
             <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxdark">{{
-              this.productData?.strategie_type | translate
+              this.productData?.strategy_type | translate
             }}</ion-text>
-            <ion-text class="ux-font-gilroy ux-fweight-extrabold ux-fsize-16" color="uxdark">{{
-              this.productData?.title
-            }}</ion-text>
+            <div class="ipc__content__title_and_badge">
+              <ion-text class="ux-font-header-titulo">{{ this.productData?.title }}</ion-text>
+              <ion-badge *ngIf="this.productData?.new_strategy" class=" ipc__badge ux_badge_new_strategy">{{
+                'funds.fund_investment.card.new_badge' | translate
+              }}</ion-badge>
+            </div>
           </div>
           <div class="ipc__content__title_and_image__image_container">
             <img [src]="this.productData?.image" alt="Strategie image" />
@@ -47,10 +50,10 @@ import { NavController } from '@ionic/angular';
           </div>
           <div class="ipc__footer__capital__number">
             <ion-label>
-              <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-18" color="uxlight"
+              <ion-text class="ipc__mincapital ux-font-text-lg" color="uxlight"
                 >{{ this.productData?.min_capital }}
               </ion-text>
-              <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12" color="uxlight">{{
+              <ion-text class="ux-font-num-subtitulo" color="uxlight">{{
                 'funds.fund_investment.card.currency' | translate
               }}</ion-text>
             </ion-label>
@@ -82,7 +85,6 @@ export class InvestmentProductCardComponent implements OnInit {
   @Input() product: InvestmentProductInterface;
   @Output() save = new EventEmitter<any>();
   apikeys: any = [];
-  strategie: any;
 
   productData = {
     title: '',
@@ -100,7 +102,8 @@ export class InvestmentProductCardComponent implements OnInit {
     more_info: '',
     currency: '',
     image: '',
-    strategie_type: '',
+    strategy_type: '',
+    new_strategy: false,
   };
 
   productType = {
@@ -109,32 +112,47 @@ export class InvestmentProductCardComponent implements OnInit {
       description: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.description',
       more_info: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.more_info',
       image: 'assets/img/investment-products/denali.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.volume_profile_strategies_USDT.strategy_type',
       style: 'green-style',
+      new_strategy: false,
     },
     volume_profile_strategies_BTC: {
       title: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.title',
       description: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.description',
       more_info: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.more_info',
       image: 'assets/img/investment-products/olimpusMoon.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.volume_profile_strategies_BTC.strategy_type',
       style: 'orange-style',
+      new_strategy: false,
     },
+
+    Metaverse_index: {
+      title: 'funds.fund_investment.card.profiles.Metaverse_index.title',
+      description: 'funds.fund_investment.card.profiles.Metaverse_index.description',
+      more_info: 'funds.fund_investment.card.profiles.Metaverse_index.more_info',
+      image: 'assets/img/investment-products/oasis.svg',
+      strategy_type: 'funds.fund_investment.card.profiles.Metaverse_index.strategy_type',
+      style: 'light-blue-style',
+      new_strategy: true,
+    },
+
     DeFi_index: {
       title: 'funds.fund_investment.card.profiles.DeFi_index.title',
       description: 'funds.fund_investment.card.profiles.DeFi_index.description',
       more_info: 'funds.fund_investment.card.profiles.DeFi_index.more_info',
       image: 'assets/img/investment-products/himalayas.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.DeFi_index.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.DeFi_index.strategy_type',
       style: 'light-blue-style',
+      new_strategy: false,
     },
     Mary_index: {
       title: 'funds.fund_investment.card.profiles.Mary_index.title',
       description: 'funds.fund_investment.card.profiles.Mary_index.description',
       more_info: 'funds.fund_investment.card.profiles.Mary_index.more_info',
       image: 'assets/img/investment-products/andes.svg',
-      strategie_type: 'funds.fund_investment.card.profiles.Mary_index.strategie_type',
+      strategy_type: 'funds.fund_investment.card.profiles.Mary_index.strategy_type',
       style: 'purple-style',
+      new_strategy: false,
     },
   };
 

@@ -6,7 +6,6 @@ import uniAbi from './assets-abi-prod/uni-abi-prod.json';
 import usdtAbi from './assets-abi-prod/usdt-abi-prod.json';
 import rifAbi from './assets-abi-prod/rif-abi-prod.json';
 import sovAbi from './assets-abi-prod/sov-abi-prod.json';
-import bnbAbi from './assets-abi-prod/bnb-abi-prod.json';
 import lunaAbi from './assets-abi-prod/luna-abi-prod.json';
 import axsAbi from './assets-abi-prod/axs-abi-prod.json';
 import manaAbi from './assets-abi-prod/mana-abi-prod.json';
@@ -15,6 +14,9 @@ import compoundAbi from './assets-abi-prod/compound-abi-prod.json';
 import zilliqaAbi from './assets-abi-prod/zilliqa-abi-prod.json';
 import enjAbi from './assets-abi-prod/enj-abi-prod.json';
 import batAbi from './assets-abi-prod/bat-abi-prod.json';
+import sandAbi from './assets-abi-prod/sand-abi-prod.json';
+import usdcAbi from './assets-abi-prod/usdc-abi-prod.json';
+import crvAbi from './assets-abi-prod/crv-abi-prod.json';
 
 export const PROD_COINS: Coin[] = [
   {
@@ -82,19 +84,6 @@ export const PROD_COINS: Coin[] = [
   },
   {
     id: 6,
-    name: 'BNB',
-    logoRoute: 'assets/img/coins/BNB.svg',
-    last: false,
-    value: 'BNB',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: environment.ethAlchemyApiUrl,
-    contract: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
-    abi: bnbAbi,
-    decimals: 18,
-  },
-  {
-    id: 7,
     name: 'LUNA',
     logoRoute: 'assets/img/coins/LUNA.png',
     last: false,
@@ -107,7 +96,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 8,
+    id: 7,
     name: 'AXS - Axie Infinity Shard',
     logoRoute: 'assets/img/coins/AXS.png',
     last: false,
@@ -120,7 +109,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 9,
+    id: 8,
     name: 'MANA - Decentraland',
     logoRoute: 'assets/img/coins/MANA.png',
     last: false,
@@ -133,7 +122,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 10,
+    id: 9,
     name: 'SUSHI',
     logoRoute: 'assets/img/coins/SUSHI.png',
     last: false,
@@ -146,7 +135,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 11,
+    id: 10,
     name: 'COMPOUND',
     logoRoute: 'assets/img/coins/COMPOUND.png',
     last: false,
@@ -159,7 +148,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 12,
+    id: 11,
     name: 'ZIL - Zilliqa',
     logoRoute: 'assets/img/coins/ZILLIQA.png',
     last: false,
@@ -172,7 +161,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 13,
+    id: 12,
     name: 'ENJ - EnjinCoin',
     logoRoute: 'assets/img/coins/ENJ.png',
     last: false,
@@ -185,7 +174,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 14,
+    id: 13,
     name: 'BAT',
     logoRoute: 'assets/img/coins/BAT.png',
     last: true,
@@ -198,7 +187,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 15,
+    id: 14,
     name: 'RBTC - Smart Bitcoin',
     logoRoute: 'assets/img/coins/RBTC.png',
     last: false,
@@ -209,7 +198,7 @@ export const PROD_COINS: Coin[] = [
     native: true,
   },
   {
-    id: 16,
+    id: 15,
     name: 'RIF - Rifos',
     logoRoute: 'assets/img/coins/RIF.png',
     last: false,
@@ -222,7 +211,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 17,
+    id: 16,
     name: 'SOV - Sovryn',
     logoRoute: 'assets/img/coins/SOV.png',
     last: true,
@@ -235,7 +224,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 18,
+    id: 17,
     name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
     last: false,
@@ -245,5 +234,104 @@ export const PROD_COINS: Coin[] = [
     rpc: environment.maticApiUrl,
     decimals: 18,
     native: true,
+  },
+  {
+    id: 18,
+    name: 'BNB - Binance Coin',
+    logoRoute: 'assets/img/coins/BNB.svg',
+    last: false,
+    value: 'BNB',
+    network: 'BSC_BEP20',
+    chainId: 56,
+    rpc: environment.bscApiUrl,
+    decimals: 18,
+    native: true,
+  },
+  {
+    id: 19,
+    name: 'CAKE - Pancake Swap',
+    logoRoute: 'assets/img/coins/PANCAKE.png',
+    last: true,
+    value: 'CAKE',
+    network: 'BSC_BEP20',
+    chainId: 56,
+    rpc: environment.bscApiUrl,
+    contract: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
+    decimals: 18,
+  },
+  {
+    id: 20,
+    name: 'ADA - Cardano Token',
+    logoRoute: 'assets/img/coins/ADA.png',
+    last: false,
+    value: 'ADA',
+    network: 'BSC_BEP20',
+    chainId: 56,
+    rpc: environment.bscApiUrl,
+    contract: '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47',
+    decimals: 18,
+  },
+  {
+    id: 21,
+    name: 'BUSD - BUSD Token',
+    logoRoute: 'assets/img/coins/BUSD.png',
+    last: false,
+    value: 'BUSD',
+    network: 'BSC_BEP20',
+    chainId: 56,
+    rpc: environment.bscApiUrl,
+    contract: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+    decimals: 18,
+  },
+  {
+    id: 22,
+    name: 'AVAX - Avalanche Token',
+    logoRoute: 'assets/img/coins/AVAX.png',
+    last: false,
+    value: 'AVAX',
+    network: 'BSC_BEP20',
+    chainId: 56,
+    rpc: environment.bscApiUrl,
+    contract: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
+    decimals: 18,
+  },
+  {
+    id: 23,
+    name: 'SAND - SAND Token',
+    logoRoute: 'assets/img/coins/SAND.png',
+    last: false,
+    value: 'SAND',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    contract: '0xBbba073C31bF03b8ACf7c28EF0738DeCF3695683',
+    abi: sandAbi,
+    decimals: 18,
+  },
+  {
+    id: 24,
+    name: 'USDC - USD Coin',
+    logoRoute: 'assets/img/coins/USDC.png',
+    last: false,
+    value: 'USDC',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+    abi: usdcAbi,
+    decimals: 18,
+  },
+  {
+    id: 25,
+    name: 'CRV - Curve',
+    logoRoute: 'assets/img/coins/CRV.png',
+    last: true,
+    value: 'CRV',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    abi: crvAbi,
+    contract: '0x172370d5cd63279efa6d502dab29171933a610af',
+    decimals: 18,
   },
 ];

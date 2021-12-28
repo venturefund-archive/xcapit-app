@@ -15,10 +15,10 @@ import { ActivatedRoute } from '@angular/router';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
-import { LocalNotification } from '@capacitor/core';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { FakeNavController } from '../../../../../testing/fakes/nav-controller.fake.spec';
 
-const testLocalNotification: LocalNotification = {
+const testLocalNotification: LocalNotificationSchema = {
   id: 1,
   title: 'wallets.send.send_summary.sent_notification.title',
   body: 'wallets.send.send_summary.sent_notification.body',
