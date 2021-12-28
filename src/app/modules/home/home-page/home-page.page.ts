@@ -4,6 +4,9 @@ import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-balance.interface';
 
 @Component({
   selector: 'app-home',
@@ -43,7 +46,10 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       <!-- Content Cards -->
       <div class="ion-padding">
         <div class="wallet-total-balance-card">
-          <app-wallet-total-balance-card></app-wallet-total-balance-card>
+          <app-wallet-total-balance-card
+            [walletExist]="this.walletExist"
+            [totalBalanceWallet]="this.totalBalanceWallet"
+          ></app-wallet-total-balance-card>
         </div>
         <div class="buy-crypto-card">
           <app-buy-crypto-card (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
@@ -63,6 +69,10 @@ export class HomePage implements OnInit {
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
+  totalBalanceWallet: number;
+  balances: Array<AssetBalance> = [];
+  walletExist: boolean;
+  alreadyInitialized = false;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
 
@@ -74,7 +84,9 @@ export class HomePage implements OnInit {
   constructor(
     private navController: NavController,
     private notificationsService: NotificationsService,
-    private refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService,
+    private walletService: WalletService,
+    private walletBalance: WalletBalanceService
   ) {}
 
   ngOnInit() {}
@@ -82,6 +94,7 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
+    this.existWallet();
   }
 
   ionViewDidLeave() {
@@ -123,6 +136,8 @@ export class HomePage implements OnInit {
 
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
+      this.uninitializedWallet();
+      await this.getCoinsBalance();
       this.refreshTimeoutService.lock();
       event.target.complete();
     } else {
@@ -132,5 +147,33 @@ export class HomePage implements OnInit {
 
   goToBuyCrypto() {
     this.navController.navigateForward('/fiat-ramps/operations');
+  }
+
+  existWallet() {
+    this.walletService.walletExist().then((res) => {
+      this.walletExist = res;
+      if (this.walletExist && !this.alreadyInitialized) {
+        this.alreadyInitialized = true;
+        this.getCoinsBalance();
+      }
+    });
+  }
+
+  getCoinsBalance() {
+    this.walletBalance.getWalletsBalances().then((res) => {
+      this.balances = res;
+      this.getTotalBalance();
+      this.uninitializedWallet();
+    });
+  }
+
+  getTotalBalance() {
+    this.walletBalance.getUsdTotalBalance().then((res) => {
+      this.totalBalanceWallet = res;
+    });
+  }
+
+  private uninitializedWallet() {
+    this.alreadyInitialized = false;
   }
 }
