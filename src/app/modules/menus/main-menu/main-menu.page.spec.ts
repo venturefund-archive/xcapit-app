@@ -205,7 +205,7 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(13);
+    expect(elms.length).toBe(14);
   });
 
   it('should show menu-item when "env" is PREPROD', () => {

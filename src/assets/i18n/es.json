@@ -14,7 +14,8 @@
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
       "change_language": "Idioma",
-      "payment": "Planes"
+      "payment": "Planes",
+      "wallet_connect": "WalletConnect"
     }
   },
   "config": {
@@ -1593,6 +1594,88 @@
     "success_wallet_recovery": {
       "title": "¡Genial! Importamos tu wallet con tu frase de recuperación",
       "button": "Ir a mi wallet"
+    },
+    "wallet_connect": {
+      "header": "WalletConnect",
+      "title": "Nueva conexión",
+      "text_before": "Wallet",
+      "QR_label": "Iniciar conexión desde",
+      "QR_placeholder": "Mantén presionado para pegar",
+      "button_continue": "Continuar",
+      "button_wallet": "Usar wallet",
+      "button_connect": "Conectar",
+      "button_disconnect": "Finalizar conexión",
+      "scan_qr": {
+        "header": "Escanea el código QR",
+        "register_manually": "Ingresar manualmente",
+        "errors": {
+          "invalidQR": "El código QR no es válido.",
+          "noContent": "El código QR no tenía ningún contenido.",
+          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
+        }
+      },
+      "qr_scanner": {
+        "title": "Apunta la cámara al código QR",
+        "cancel_label": "Cancelar e ingresar manual",
+        "text": "Apunta la cámara a un código QR."
+      },
+      "init_wallet": {
+        "errors": {
+          "header": "Error en código QR",
+          "message": "La Dapp no responde. Intenta escanear un nuevo código QR.",
+          "close_button": "Aceptar"
+        }
+      },
+      "connection_detail": {
+        "header": "Detalle de conexión",
+        "description": "DESCRIPCIÓN",
+        "permissions": "Ten en cuenta que el protocolo tendrá acceso a tu balance, actividad y podrá solicitar aprobaciones de transacciones.",
+        "connection_status": {
+          "connected": "Conectado",
+          "disconnected": "Desconectado"
+        },
+        "errors": {
+          "header": "Error de conexión",
+          "message": "Hubo problemas al realizar la conexión con la Dapp. Intente nuevamente.",
+          "close_button": "Aceptar"
+        }
+      },
+      "operation_detail": {
+        "header": "Detalle de operación",
+        "sign": "Firmar en",
+        "approval": "Aprobación en",
+        "operation": "Operación en",
+        "sign_message": "Se ha solicitado su firma para lo siguiente:",
+        "date": "Fecha",
+        "from": "De",
+        "to": "Para",
+        "amount": "A pagar",
+        "transaction_fee": "Tarifa de transacción",
+        "transaction_fee_message": "Este monto es estimativo y puede sufrir variaciónes de acuerdo al momento en que realices la transacción.",
+        "sign_button": "Firmar",
+        "approve_button": "Aprobar",
+        "confirm_button": "Confirmar",
+        "cancel_button": "Cancelar",
+        "abort_alert": {
+          "header": "¿Abandonar la operación?",
+          "message": "Si sales ahora, la operación será cancelada.",
+          "cancel_button": "Cancelar",
+          "accept_button": "Abandonar"
+        },
+        "cancel_alert": {
+          "header": "Cancelar operación",
+          "message": "¿Desea cancelar la operación?",
+          "cancel_button": "Volver",
+          "accept_button": "Aceptar"
+        }
+      },
+      "transactions": {
+        "alert": {
+          "header": "Error en operación",
+          "message": "Hubo un error al ejecutar la operación. Por favor vuelva a intentarlo.",
+          "accept_button": "Aceptar"
+        }
+      }
     }
   },
   "apikeys": {

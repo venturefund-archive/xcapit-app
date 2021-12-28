@@ -1,0 +1,51 @@
+:host {
+  .wcsr {
+    padding-left: 32px;
+    padding-right: 32px;
+    &__header {
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+
+      &__text {
+        color: var(--ion-color-uxprimary);
+        padding-top: 6px;
+      }
+
+      &__close_button {
+        margin: 0;
+        font-size: var(--ux-fsize-16);
+        --padding-end: 0;
+        --padding-top: 0;
+      }
+    }
+    &__form {
+      &__input {
+        margin-top: 8px;
+      }
+      &__disclaimer {
+        margin-top: 8px;
+        color: var(--ion-color-infodark);
+        display: flex;
+        flex-direction: row;
+
+        &__icon {
+          margin-top: 5px;
+          font-size: 24px;
+          ion-icon {
+            width: 24px;
+          }
+        }
+
+        &__text {
+          margin-left: 10px;
+        }
+      }
+      &__buttons {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}

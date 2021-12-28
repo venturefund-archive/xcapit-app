@@ -15,6 +15,7 @@ import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.typ
 import { CovalentTransfersResponse } from '../../models/covalent-transfers-response/covalent-transfers-response';
 import { utils, Wallet } from 'ethers';
 import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
+import { personalSign, signTypedData_v4 } from 'eth-sig-util';
 
 @Injectable({
   providedIn: 'root',
@@ -69,6 +70,35 @@ export class WalletTransactionsService {
     return await this.ethersService
       .newContract(currency.contract, abi, wallet)
       .transfer(targetAddress, parseUnits(amount.toString(), currency.decimals));
+  }
+
+  async sendRawTransaction(wallet: Wallet, rawData): Promise<any> {
+    const nonce = await wallet.getTransactionCount();
+    rawData.nonce = nonce;
+
+    try {
+      const transactionResponse = await wallet.sendTransaction(rawData);
+      await transactionResponse.wait();
+
+      return transactionResponse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async signTypedData(wallet: Wallet, dataToSign: any) {
+    const privKey = wallet.privateKey.replace('0x', '');
+
+    const result = signTypedData_v4(Buffer.from(privKey.toString(), 'hex'), { data: JSON.parse(dataToSign) });
+
+    return result;
+  }
+
+  async personalSign(wallet: Wallet, dataToSign: any) {
+    const privKey = wallet.privateKey.replace('0x', '');
+    const result = personalSign(Buffer.from(privKey.toString(), 'hex'), { data: dataToSign });
+
+    return result;
   }
 
   async getAllTransactions(asset: string = null): Promise<any> {

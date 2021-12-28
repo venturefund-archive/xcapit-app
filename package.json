@@ -27,7 +27,8 @@
     "format:fix": "pretty-quick --staged",
     "precommit": "run-s format:fix lint",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "patch:walletconnect": "sh ./walletconnect-patch.sh | echo 'walletconnect patched.'"
   },
   "private": true,
   "dependencies": {
@@ -57,10 +58,13 @@
     "@ionic/storage": "^2.2.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@walletconnect/client": "^1.6.5",
+    "abi-decoder": "^2.4.0",
     "chart.js": "^2.8.0",
     "cordova": "^10.0.0",
     "cordova-plugin-file-opener2": "^3.0.5",
     "core-js": "^3.6.5",
+    "eth-sig-util": "^3.0.1",
     "ethers": "^5.4.3",
     "firebase": "^7.21.0",
     "ionic": "^5.4.16",
@@ -70,6 +74,7 @@
     "lodash": "^4.17.21",
     "qrcode": "^1.4.2",
     "rxjs": "^6.6.2",
+    "stream": "^0.0.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
