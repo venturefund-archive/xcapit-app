@@ -31,20 +31,29 @@ import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/
                     </ion-label>
                   </ion-item>
                   <div class="container" *ngFor="let qu of this.filteredData; let last = last">
-                    <ion-item class="table-header ">
-                      <ion-text class="ux-font-text-xs"> {{ qu.symbol }} </ion-text>
-                      <ion-text class="ux-font-titulo-xs">
-                        {{ qu.lastPrice | currency }}
-                      </ion-text>
-                      <ion-text class="ux-font-text-xs positive" *ngIf="this.qu.priceChangePercent >= 0">
-                        +{{ this.qu.priceChangePercent | number: '1.0-2' }}%
-                      </ion-text>
-                      <ion-text
-                        class="ux-font-text-xs regular extrasmall negative"
-                        *ngIf="this.qu.priceChangePercent < 0"
-                      >
-                        {{ this.qu.priceChangePercent | number: '1.0-2' }}%
-                      </ion-text>
+                    <ion-item>
+                      <div class="table-content">
+                        <div class="symbol">
+                          <ion-text class="ux-font-text-xs"> {{ qu.symbol.slice(0, -4) }}</ion-text>
+                          <ion-text class="ux-font-text-xxs">/USDT</ion-text>
+                        </div>
+                        <div class="lastPrice">
+                          <ion-text class="center ux-font-titulo-xs">
+                            {{ qu.lastPrice | currency }}
+                          </ion-text>
+                        </div>
+                        <div class="percent">
+                          <ion-text class="ux-font-text-xs positive" *ngIf="this.qu.priceChangePercent >= 0">
+                            +{{ this.qu.priceChangePercent | number: '1.0-2' }}%
+                          </ion-text>
+                          <ion-text
+                            class="ux-font-text-xs regular extrasmall negative"
+                            *ngIf="this.qu.priceChangePercent < 0"
+                          >
+                            {{ this.qu.priceChangePercent | number: '1.0-2' }}%
+                          </ion-text>
+                        </div>
+                      </div>
                     </ion-item>
                     <div class="list-divider" *ngIf="!last"></div>
                   </div>
@@ -128,6 +137,7 @@ export class QuotesCardComponent implements OnInit {
     this.filteredData = this.completeData.filter((filteredCoin) => {
       for (const i in filteredNativeCoins) {
         if (filteredCoin.symbol === filteredNativeCoins[i].symbol) {
+          filteredCoin.symbol.slice(0, -4);
           return filteredCoin;
         }
       }
