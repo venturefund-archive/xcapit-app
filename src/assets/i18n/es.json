@@ -2153,6 +2153,12 @@
         "link1": "Hacer test",
         "title2": "¿Sabes qué tipo de inversionista eres?",
         "link2": "Descúbrelo"
+      },
+      "quotes_card": {
+        "title": "Cotizaciones",
+        "table_label1": "Par",
+        "table_label2": "Último Precio",
+        "table_label3": "Cambio % 24 h"
       }
     },
     "shared": {

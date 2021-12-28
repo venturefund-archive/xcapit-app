@@ -20,6 +20,7 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
     native: true,
+    symbol: 'ETHUSDT',
   },
   {
     id: 2,
@@ -33,6 +34,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0xa36085f69e2889c224210f603d836748e7dc0088',
     abi: linkAbi,
     decimals: 18,
+    symbol: 'LINKUSDT',
   },
   {
     id: 3,
@@ -46,6 +48,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0x07de306ff27a2b630b1141956844eb1552b956b5',
     abi: usdtAbi,
     decimals: 6,
+    symbol: 'USDTBTC',
   },
   {
     id: 4,
@@ -83,6 +86,7 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 31,
     rpc: environment.rskApiUrl,
     native: true,
+    symbol: 'BTCUSDT',
   },
   {
     id: 7,
@@ -96,6 +100,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0x19F64674D8A5B4E652319F5e239eFd3bc969A1fE',
     abi: rifAbi,
     decimals: 18,
+    symbol: 'RIFUSDT',
   },
 
   {
@@ -109,6 +114,7 @@ export const NONPROD_COINS: Coin[] = [
     rpc: environment.maticApiUrl,
     decimals: 18,
     native: true,
+    symbol: 'MATICUSDT',
   },
   {
     id: 9,
@@ -134,6 +140,7 @@ export const NONPROD_COINS: Coin[] = [
     rpc: environment.bscApiUrl,
     decimals: 18,
     native: true,
+    symbol: 'BNBUSDT',
   },
   {
     id: 11,
@@ -147,6 +154,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0xF9f93cF501BFaDB6494589Cb4b4C15dE49E85D0e',
     abi: cakeAbi,
     decimals: 18,
+    symbol: 'CAKEUSDT',
   },
   {
     id: 12,
@@ -160,6 +168,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47',
     abi: adaAbi,
     decimals: 18,
+    symbol: 'ADAUSDT',
   },
   {
     id: 13,
@@ -173,6 +182,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0x78867BbEeF44f2326bF8DDd1941a4439382EF2A7',
     abi: busdAbi,
     decimals: 18,
+    symbol: 'BUSDUSDT',
   },
   {
     id: 14,
@@ -184,6 +194,7 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 80001,
     rpc: environment.maticApiUrl,
     decimals: 18,
+    symbol: 'SANDUSDT',
   },
   {
     id: 15,
@@ -195,6 +206,7 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 80001,
     rpc: environment.maticApiUrl,
     decimals: 18,
+    symbol: 'USDCUSDT',
   },
   {
     id: 16,
@@ -206,5 +218,6 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 80001,
     rpc: environment.maticApiUrl,
     decimals: 18,
+    symbol: 'CRVUSDT',
   },
 ];

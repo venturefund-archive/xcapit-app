@@ -93,6 +93,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
             </div>
           </div>
         </div>
+        <app-quotes-card></app-quotes-card>
         <app-need-help-card></app-need-help-card>
         <app-investor-test-cards></app-investor-test-cards>
       </div>
