@@ -1,0 +1,53 @@
+:host {
+  .mnp {
+    margin: 16px 0 24px 0;
+    padding: 16px;
+
+    &__currency-select {
+      form {
+        margin-top: -8px;
+      }
+    }
+
+    &__provider {
+      margin-top: 16px;
+
+      &__content {
+        margin: 8px 0 0 0;
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+
+        &__img {
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 32px;
+          }
+        }
+
+        &__text {
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+
+          &__name {
+            margin-bottom: 4px;
+          }
+        }
+
+        &__icon {
+          ion-icon {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+    }
+
+    &__disclaimer {
+      margin-top: 8px;
+    }
+  }
+}
