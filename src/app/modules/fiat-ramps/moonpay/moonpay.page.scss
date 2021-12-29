@@ -1,7 +1,8 @@
 :host {
   .mnp {
-    margin: 16px 0px 24px 0px;
+    margin: 16px 0 24px 0;
     padding: 16px;
+
     &__currency-select {
       form {
         margin-top: -8px;
@@ -12,10 +13,10 @@
       margin-top: 16px;
 
       &__content {
-        margin: 8px 0px 0px 0px;
+        margin: 8px 0 0 0;
         display: flex;
         align-items: center;
-        padding: 12px 0px;
+        padding: 12px 0;
 
         &__img {
           display: flex;
@@ -35,6 +36,7 @@
             margin-bottom: 4px;
           }
         }
+
         &__icon {
           ion-icon {
             width: 16px;
@@ -43,6 +45,7 @@
         }
       }
     }
+
     &__disclaimer {
       margin-top: 8px;
     }
