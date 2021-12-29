@@ -42,6 +42,10 @@ export class ApiWalletService {
     return Object.keys(environment.derivedPaths);
   }
 
+  getWalletNewNetworks(encryptedWallet: any) {
+    return this.getNetworks().filter((network) => !Object.keys(encryptedWallet.addresses).includes(network));
+  }
+
   getCoin(coin: string, network?: string): Coin {
     if (network) {
       return this.getCoins().find((coinRes) => coinRes.value === coin && coinRes.network === network);

@@ -9,7 +9,6 @@ import sovAbi from './assets-abi/sov-abi.json';
 import busdAbi from './assets-abi/busd-abi.json';
 import cakeAbi from './assets-abi/cake-abi.json';
 import adaAbi from './assets-abi/ada-abi.json';
-
 export const NONPROD_COINS: Coin[] = [
   {
     id: 1,
@@ -180,6 +179,39 @@ export const NONPROD_COINS: Coin[] = [
     rpc: environment.bscApiUrl,
     contract: '0x78867BbEeF44f2326bF8DDd1941a4439382EF2A7',
     abi: busdAbi,
+    decimals: 18,
+  },
+  {
+    id: 14,
+    name: 'SAND - SAND Token',
+    logoRoute: 'assets/img/coins/SAND.png',
+    last: false,
+    value: 'SAND',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: environment.maticApiUrl,
+    decimals: 18,
+  },
+  {
+    id: 15,
+    name: 'USDC - USD Coin',
+    logoRoute: 'assets/img/coins/USDC.png',
+    last: false,
+    value: 'USDC',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: environment.maticApiUrl,
+    decimals: 18,
+  },
+  {
+    id: 16,
+    name: 'CRV - Curve',
+    logoRoute: 'assets/img/coins/CRV.png',
+    last: true,
+    value: 'CRV',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: environment.maticApiUrl,
     decimals: 18,
   },
 ];

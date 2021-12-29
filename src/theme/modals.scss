@@ -90,11 +90,10 @@
 // Portfolio Modal swippeable
 .generic-modal {
   &::part(content) {
-    margin-top: 46vh;
-
-    .ion-page {
-      padding-bottom: calc(46vh / 2);
-    }
+    margin-top: 120px;
+  }
+  .ion-page {
+    padding-bottom: 60px;
   }
 }
 
@@ -184,10 +183,9 @@
 .share-chart-modal {
   &::part(content) {
     margin-top: 35vh;
-
-    .ion-page {
-      padding-bottom: calc(35vh / 2);
-    }
+  }
+  .ion-page {
+    padding-bottom: calc(35vh / 2);
   }
 }
 

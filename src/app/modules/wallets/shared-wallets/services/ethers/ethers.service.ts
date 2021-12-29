@@ -20,4 +20,8 @@ export class EthersService {
   ): Contract {
     return new Contract(addressOrName, contractInterface, signerOrProvider);
   }
+
+  decryptWalletJsonSync(wallet: string, password: string): Wallet {
+    return Wallet.fromEncryptedJsonSync(wallet, password);
+  }
 }

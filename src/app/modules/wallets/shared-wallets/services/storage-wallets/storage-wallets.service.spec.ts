@@ -29,20 +29,6 @@ const testCoins: Coin[] = [
   },
 ];
 
-const testToggleAssets = ['USDT', 'RBTC', 'RSK'];
-const walletResultToggleAssets = {
-  addresses: {
-    ETH: 'testAddress',
-  },
-  assets: {
-    ETH: true,
-    USDT: false,
-    RBTC: true,
-    RSK: true,
-  },
-  updatedAt: '2021-08-23T18:46:47Z',
-};
-
 describe('StorageWalletsService', () => {
   let service: StorageWalletsService;
   let storageSpy: jasmine.SpyObj<Storage>;
@@ -140,21 +126,6 @@ describe('StorageService', () => {
     const addresses = await service.getWalletsAddresses();
 
     expect(addresses).toEqual(testWalletStub.addresses);
-  });
-
-  it('should change assets in wallet that are selected on toggleAssets', async () => {
-    spyOn(service, 'getWalletFromStorage').and.returnValue(Promise.resolve(testWalletStub));
-    const spy = spyOn(service, 'saveWalletToStorage');
-    await service.toggleAssets(testToggleAssets);
-    expect(spy).toHaveBeenCalledOnceWith(walletResultToggleAssets);
-  });
-
-  it('should not change assets in wallet that are selected on toggleAssets if wallet does not exist', async () => {
-    spyOn(service, 'getWalletFromStorage').and.returnValue(Promise.resolve());
-    const spy = spyOn(service, 'saveWalletToStorage');
-    const result = await service.toggleAssets(testToggleAssets);
-    expect(result).toBeFalse();
-    expect(spy).not.toHaveBeenCalled();
   });
 
   it('should return the selected assets by the user from localstorage on getAssestsSelected', async () => {

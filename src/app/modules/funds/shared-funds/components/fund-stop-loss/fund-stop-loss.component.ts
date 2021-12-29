@@ -223,7 +223,7 @@ export class FundStopLossComponent implements OnInit {
 
   handleSubmit() {
     const values = { stop_loss: this.form.value.stop_loss };
-    if (this.form.value.trailing_stop !== 0) {
+    if (this.form.value.trailing_stop) {
       Object.assign(values, { trailing_stop: this.form.value.trailing_stop });
     }
     this.save.emit(values);

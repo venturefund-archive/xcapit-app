@@ -4,6 +4,9 @@ import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-balance.interface';
 
 @Component({
   selector: 'app-home',
@@ -26,10 +29,6 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
     </ion-header>
 
     <ion-content>
-      <div class="toolbar_extend"></div>
-      <div class="overlap_buttons">
-        <app-home-subheader></app-home-subheader>
-      </div>
       <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
         <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="false" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
@@ -46,76 +45,21 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       </ion-refresher>
       <!-- Content Cards -->
       <div class="ion-padding">
-        <div class="wmw" appTrackClick name="Go to Wallet" (click)="this.goToWallet()">
-          <div class="wmw__image">
-            <ion-img src="../assets/img/home/want_my_wallet.svg" alt="Girl with coins"></ion-img>
-          </div>
-          <div class="wmw__content">
-            <div class="wmw__content__title">
-              <ion-text class="ux-font-header-titulo">{{ 'home.home_page.want_my_wallet.title' | translate }}</ion-text>
-            </div>
-            <div class="wmw__content__description">
-              <ion-text class="ux-font-text-xxs">{{
-                'home.home_page.want_my_wallet.description' | translate
-              }}</ion-text>
-            </div>
-          </div>
-          <div class="wmw__arrow">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
-          </div>
+        <div class="wallet-total-balance-card">
+          <app-wallet-total-balance-card
+            [walletExist]="this.walletExist"
+            [totalBalanceWallet]="this.totalBalanceWallet"
+          ></app-wallet-total-balance-card>
         </div>
-
         <div class="buy-crypto-card">
           <app-buy-crypto-card (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
         </div>
-
-        <div class="two_cards">
-          <div
-            class="strategies vertical-card"
-            appTrackClick
-            name="Go to Strategies Cards"
-            (click)="this.goToStrategies()"
-          >
-            <div class="strategies__image">
-              <ion-img src="../assets/img/home/girl_with_screen.svg"></ion-img>
-            </div>
-            <div class="strategies__content">
-              <div class="strategies__content__title">
-                <ion-text class="ux-font-header-titulo">{{ 'home.home_page.strategies.title' | translate }}</ion-text>
-              </div>
-              <div class="strategies__content__description">
-                <ion-text class="ux-font-text-xxs regular">{{
-                  'home.home_page.strategies.description' | translate
-                }}</ion-text>
-              </div>
-            </div>
-            <div class="link">
-              <ion-text class="ux-font-text-xs semibold">{{
-                'home.home_page.strategies.link_text' | translate
-              }}</ion-text>
-            </div>
-          </div>
-          <div class="support vertical-card" appTrackClick name="Go to Support Page" (click)="this.goToSupportPage()">
-            <div class="support__image">
-              <ion-img src="../assets/img/home/high_five.svg"></ion-img>
-            </div>
-            <div class="support__content">
-              <div class="support__content__title">
-                <ion-text class="ux-font-header-titulo">{{ 'home.home_page.support.title' | translate }}</ion-text>
-              </div>
-              <div class="support__content__description">
-                <ion-text class="ux-font-text-xxs regular">{{
-                  'home.home_page.support.description' | translate
-                }}</ion-text>
-              </div>
-            </div>
-            <div class="link">
-              <ion-text class="ux-font-text-xs semibold">{{ 'home.home_page.support.link_text' | translate }}</ion-text>
-            </div>
-          </div>
+        <div class="investor-test-card">
+          <app-investor-test-cards></app-investor-test-cards>
         </div>
-        <app-need-help-card></app-need-help-card>
-        <app-investor-test-cards></app-investor-test-cards>
+        <div class="need-help-card">
+          <app-need-help-card></app-need-help-card>
+        </div>
       </div>
     </ion-content>
   `,
@@ -125,6 +69,10 @@ export class HomePage implements OnInit {
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
+  totalBalanceWallet: number;
+  balances: Array<AssetBalance> = [];
+  walletExist: boolean;
+  alreadyInitialized = false;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
 
@@ -136,7 +84,9 @@ export class HomePage implements OnInit {
   constructor(
     private navController: NavController,
     private notificationsService: NotificationsService,
-    private refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService,
+    private walletService: WalletService,
+    private walletBalance: WalletBalanceService
   ) {}
 
   ngOnInit() {}
@@ -144,6 +94,7 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
+    this.existWallet();
   }
 
   ionViewDidLeave() {
@@ -185,6 +136,8 @@ export class HomePage implements OnInit {
 
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
+      this.uninitializedWallet();
+      await this.getCoinsBalance();
       this.refreshTimeoutService.lock();
       event.target.complete();
     } else {
@@ -192,19 +145,35 @@ export class HomePage implements OnInit {
     }
   }
 
-  async goToWallet() {
-    this.navController.navigateForward('/tabs/wallets');
-  }
-
-  goToSupportPage() {
-    this.navController.navigateForward('/tickets/create-support-ticket');
-  }
-
-  goToStrategies() {
-    this.navController.navigateForward('/funds/fund-investment/show');
-  }
-
   goToBuyCrypto() {
     this.navController.navigateForward('/fiat-ramps/operations');
+  }
+
+  existWallet() {
+    this.walletService.walletExist().then((res) => {
+      this.walletExist = res;
+      if (this.walletExist && !this.alreadyInitialized) {
+        this.alreadyInitialized = true;
+        this.getCoinsBalance();
+      }
+    });
+  }
+
+  getCoinsBalance() {
+    this.walletBalance.getWalletsBalances().then((res) => {
+      this.balances = res;
+      this.getTotalBalance();
+      this.uninitializedWallet();
+    });
+  }
+
+  getTotalBalance() {
+    this.walletBalance.getUsdTotalBalance().then((res) => {
+      this.totalBalanceWallet = res;
+    });
+  }
+
+  private uninitializedWallet() {
+    this.alreadyInitialized = false;
   }
 }

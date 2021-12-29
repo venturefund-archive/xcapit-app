@@ -55,6 +55,8 @@ import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.c
 import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
+import { WalletTotalBalanceCardComponent } from '../modules/home/shared-home/components/wallet-total-balance-card/wallet-total-balance-card.component';
+import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
@@ -110,6 +112,7 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
+    WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     NetworkSelectCardComponent,
     // Pipes
@@ -117,6 +120,7 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     HideReferralPipe,
     SelectStyleDirective,
     SafeURLPipe,
+    HideTextPipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -175,12 +179,14 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
+    WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
     SafeURLPipe,
+    HideTextPipe,
   ],
 })
 export class SharedModule {}
