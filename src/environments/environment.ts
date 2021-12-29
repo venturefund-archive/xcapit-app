@@ -22,6 +22,7 @@ export const environment = {
   },
   appUrl: 'https://dummy.xcapit.com/',
   covalentApiUrl: 'https://covalent.url',
+  moonpayPK: 'dummy_publishable_key',
   walletNetwork: 'testnet',
   ethAlchemyApiUrl: 'alchemy.url',
   covalentApiKey: 'test.key',
