@@ -41,7 +41,6 @@ export class SelectCurrencyPage implements OnInit {
 
   ionViewWillEnter() {
     this.storageService.getAssestsSelected().then((coins) => {
-      console.log(coins);
       this.coins = coins;
     });
   }
