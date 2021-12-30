@@ -16,7 +16,7 @@ import * as moment from 'moment';
     <ion-header>
       <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/operations-new"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/moonpay-new"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.register.header' | translate }}
