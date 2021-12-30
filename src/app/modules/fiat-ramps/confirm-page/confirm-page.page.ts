@@ -10,7 +10,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
     <ion-header>
       <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/moonpay-new"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/moonpay"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.confirm.header' | translate }}
