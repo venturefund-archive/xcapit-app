@@ -83,26 +83,13 @@
     ion-text {
       flex: 1;
     }
+    ion-text.center {
+      flex-direction: column;
+      text-align: start;
+    }
   }
 
-  .table-content {
-    width: 100%;
-    margin-bottom: 0;
-    color: var(--ion-color-uxsemidark);
-    flex-direction: row;
-    display: flex;
-    text-align: start;
-    font-weight: var(--ux-fweight-regular);
-
-    .symbol {
-      align-items: flex-end;
-      margin: 0;
-      flex: 1;
-      width: 75px;
-    }
-
-    .lastPrice {
-      flex: 1;
-    }
+  .symbol {
+    flex: 1;
   }
 }

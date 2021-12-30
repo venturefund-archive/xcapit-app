@@ -48,7 +48,6 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0x07de306ff27a2b630b1141956844eb1552b956b5',
     abi: usdtAbi,
     decimals: 6,
-    symbol: 'USDTBTC',
   },
   {
     id: 4,
@@ -62,6 +61,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
     abi: aaveAbi,
     decimals: 18,
+    symbol: 'AAVEUSDT',
   },
   {
     id: 5,
@@ -75,6 +75,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
     abi: uniAbi,
     decimals: 18,
+    symbol: 'UNIUSDT',
   },
   {
     id: 6,

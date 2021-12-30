@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IonAccordionGroup } from '@ionic/angular';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { Quotes } from '../../interfaces/quotes.interface';
 import { QuotesService } from '../../services/quotes.service';
-import { NONPROD_COINS } from '../../../../wallets/shared-wallets/constants/coins.nonprod';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-quotes-card',
@@ -12,7 +13,7 @@ import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/
     <div class="qc">
       <div class="qc__content">
         <ion-accordion-group class="qc__accordeon">
-          <ion-accordion toggleIcon="" value="quotes">
+          <ion-accordion toggleIcon="" class="accordion" value="quotes">
             <ion-item class="qc__header" slot="header">
               <ion-label>{{ 'home.home_page.quotes_card.title' | translate }}</ion-label>
             </ion-item>
@@ -30,30 +31,27 @@ import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/
                       {{ 'home.home_page.quotes_card.table_label3' | translate }}
                     </ion-label>
                   </ion-item>
+                  <div class="loader" *ngIf="this.waitingQuotes">
+                    <app-ux-loading-block minSize="22px"></app-ux-loading-block>
+                  </div>
                   <div class="container" *ngFor="let qu of this.filteredData; let last = last">
-                    <ion-item>
-                      <div class="table-content">
-                        <div class="symbol">
-                          <ion-text class="ux-font-text-xs"> {{ qu.symbol.slice(0, -4) }}</ion-text>
-                          <ion-text class="ux-font-text-xxs">/USDT</ion-text>
-                        </div>
-                        <div class="lastPrice">
-                          <ion-text class="center ux-font-titulo-xs">
-                            {{ qu.lastPrice | currency }}
-                          </ion-text>
-                        </div>
-                        <div class="percent">
-                          <ion-text class="ux-font-text-xs positive" *ngIf="this.qu.priceChangePercent >= 0">
-                            +{{ this.qu.priceChangePercent | number: '1.0-2' }}%
-                          </ion-text>
-                          <ion-text
-                            class="ux-font-text-xs regular extrasmall negative"
-                            *ngIf="this.qu.priceChangePercent < 0"
-                          >
-                            {{ this.qu.priceChangePercent | number: '1.0-2' }}%
-                          </ion-text>
-                        </div>
+                    <ion-item class="table-header">
+                      <div class="symbol">
+                        <ion-text class="symbol ux-font-text-xs"> {{ qu.symbol.slice(0, -4) }}</ion-text>
+                        <ion-text class="symbol ux-font-text-xxs">/USDT</ion-text>
                       </div>
+                      <ion-text class="center ux-font-titulo-xs">
+                        {{ qu.lastPrice | currency }}
+                      </ion-text>
+                      <ion-text class="ux-font-text-xs positive" *ngIf="this.qu.priceChangePercent >= 0">
+                        +{{ this.qu.priceChangePercent | number: '1.0-2' }}%
+                      </ion-text>
+                      <ion-text
+                        class="ux-font-text-xs regular extrasmall negative"
+                        *ngIf="this.qu.priceChangePercent < 0"
+                      >
+                        {{ this.qu.priceChangePercent | number: '1.0-2' }}%
+                      </ion-text>
                     </ion-item>
                     <div class="list-divider" *ngIf="!last"></div>
                   </div>
@@ -66,7 +64,7 @@ import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/
       <div class="qc__button">
         <ion-button
           *ngIf="!this.openedAccordeon"
-          name="Go To Help"
+          name="Open Accordion"
           class="link ux-link-xs"
           appTrackClick
           fill="clear"
@@ -77,7 +75,7 @@ import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/
         </ion-button>
         <ion-button
           *ngIf="this.openedAccordeon"
-          name="Go To Help"
+          name="Close Accordion"
           class="link ux-link-xs"
           appTrackClick
           fill="clear"
@@ -92,20 +90,26 @@ import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/
   styleUrls: ['./quotes-card.component.scss'],
 })
 export class QuotesCardComponent implements OnInit {
+  @Input() update: Observable<void>;
   @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
   openedAccordeon;
   walletExist: boolean;
   completeData;
   filteredData: Quotes;
+  coins;
+  waitingQuotes = true;
+
   constructor(
     private quotesService: QuotesService,
     private walletService: WalletService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   ngOnInit() {
     this.accordionGroup.value = '';
     this.getPrices();
+    this.getCoins();
   }
 
   existWallet() {
@@ -129,11 +133,16 @@ export class QuotesCardComponent implements OnInit {
           }
         }
       });
+      this.waitingQuotes = false;
     });
   }
 
+  getCoins() {
+    this.coins = this.apiWalletService.getCoins();
+  }
+
   getNativeQuotes() {
-    const filteredNativeCoins = NONPROD_COINS.filter((coin) => coin.native === true);
+    const filteredNativeCoins = this.coins.filter((coin) => coin.native === true);
     this.filteredData = this.completeData.filter((filteredCoin) => {
       for (const i in filteredNativeCoins) {
         if (filteredCoin.symbol === filteredNativeCoins[i].symbol) {
@@ -142,6 +151,7 @@ export class QuotesCardComponent implements OnInit {
         }
       }
     });
+    this.waitingQuotes = false;
   }
 
   getPrices() {
