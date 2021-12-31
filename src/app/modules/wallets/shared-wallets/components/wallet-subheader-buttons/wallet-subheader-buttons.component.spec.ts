@@ -131,7 +131,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Buy');
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/fiat-ramps/operations');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/fiat-ramps/moonpay');
   });
 
   it('should navigate to receive page with the default asset selected when Go to Receive is clicked from HomeWalletPage', () => {

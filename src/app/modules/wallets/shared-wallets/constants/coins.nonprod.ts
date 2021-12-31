@@ -19,7 +19,7 @@ export const NONPROD_COINS: Coin[] = [
     network: 'ERC20',
     chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
-    moonpayCode: 'rinketh',
+    moonpayCode: 'keth',
     native: true,
   },
   {

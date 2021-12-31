@@ -66,7 +66,7 @@ const appPages = [
     id: 6,
     name: 'BuyCrypto',
     title: 'fiat_ramps.operations_list.header',
-    url: '/fiat-ramps/operations',
+    url: '/fiat-ramps/moonpay',
     icon: 'ux-buysell-icon',
     elementClick: 'buyCrypto',
     showInProd: true,

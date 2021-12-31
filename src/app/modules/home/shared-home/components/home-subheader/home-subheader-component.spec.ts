@@ -58,7 +58,7 @@ describe('HomeSubheaderComponent', () => {
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']"));
     button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/operations');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/moonpay');
   });
 
   it('should call trackEvent on trackService when Go to Buy Button clicked', () => {

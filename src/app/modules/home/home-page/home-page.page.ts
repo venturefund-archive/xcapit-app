@@ -146,7 +146,7 @@ export class HomePage implements OnInit {
   }
 
   goToBuyCrypto() {
-    this.navController.navigateForward('/fiat-ramps/operations');
+    this.navController.navigateForward('/fiat-ramps/moonpay');
   }
 
   existWallet() {
