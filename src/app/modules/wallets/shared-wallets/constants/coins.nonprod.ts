@@ -201,6 +201,7 @@ export const NONPROD_COINS: Coin[] = [
     network: 'MATIC',
     chainId: 80001,
     rpc: environment.maticApiUrl,
+    moonpayCode: 'usdc_polygon',
     decimals: 18,
   },
   {

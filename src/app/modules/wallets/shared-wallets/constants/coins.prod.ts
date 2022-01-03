@@ -326,6 +326,7 @@ export const PROD_COINS: Coin[] = [
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
+    moonpayCode: 'usdc_polygon',
     contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
     abi: usdcAbi,
     decimals: 18,
