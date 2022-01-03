@@ -69,7 +69,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
         color="uxsecondary"
         (click)="this.openMoonpay()"
       >
-        {{ 'usuarios.login.login_button_text' | translate }}
+        {{ 'fiat_ramps.moonpay.button_text' | translate }}
       </ion-button>
     </ion-content>
   `,
