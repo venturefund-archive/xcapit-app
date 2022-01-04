@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { componentOnReady } from '@ionic/core';
 import { of } from 'rxjs';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
@@ -134,5 +133,16 @@ describe('ApiWalletService', () => {
     spyOn(service, 'getCoins').and.returnValue(testCoins);
     const coin = service.getCoin('RBTC', 'RSK');
     expect(coin).toEqual(testCoins[1]);
+  });
+
+  it('should get new networks on getWalletNewNetworks', () => {
+    const encryptedWalletTest = {
+      addresses: {
+        MATIC: 'testAddress',
+        RSK: 'testAddress',
+      },
+    };
+    const networks = service.getWalletNewNetworks(encryptedWalletTest);
+    expect(new Set(networks)).toEqual(new Set(['ERC20', 'BSC_BEP20']));
   });
 });

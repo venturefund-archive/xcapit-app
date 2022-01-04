@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { FirebaseLogsService } from './firebase-logs.service';
+import { NativeFirebaseLogsService } from './native-firebase-logs.service';
 
-describe('FirebaseLogsService', () => {
+describe('NativeFirebaseLogsService', () => {
   let firebaseAnalyticsSpy: any;
-  let service: FirebaseLogsService;
+  let service: NativeFirebaseLogsService;
   beforeEach(() => {
-    firebaseAnalyticsSpy = jasmine.createSpyObj('FirebaseService', {
+    firebaseAnalyticsSpy = jasmine.createSpyObj('NativeFirebaseLogsService', {
       init: Promise.resolve(),
       setCollectionEnabled: Promise.resolve(),
       logEvent: Promise.resolve(),
     });
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FirebaseLogsService);
+    service = TestBed.inject(NativeFirebaseLogsService);
     service.firebaseAnalytics = firebaseAnalyticsSpy;
   });
 

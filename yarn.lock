@@ -1375,7 +1375,7 @@
 
 "@capacitor-community/firebase-analytics@^1.0.0":
   version "1.0.0"
-  resolved "https://registry.npmjs.org/@capacitor-community/firebase-analytics/-/firebase-analytics-1.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/firebase-analytics/-/firebase-analytics-1.0.0.tgz#546017a9af199f8dfc6330d2b352c99287a19c80"
   integrity sha512-CSr+0duGOtWYV7zIav1lZNPWFcR7W+f8sIUF8QIBxF9zbLWSr1esQjBY3iWVo+mIcDE0ucH2Gs7IXVUZfO9elg==
   dependencies:
     "@capacitor/core" "^3.0.0"
@@ -1427,7 +1427,14 @@
   resolved "https://registry.npmjs.org/@capacitor/clipboard/-/clipboard-1.0.6.tgz"
   integrity sha512-5vgarkdcFKflJJlX/cMBkpZ5ZRYg1Brl6b8LnM1P257lQbLPXeC5Aa0qVtiS9TFixULZ1rxGkQzWidt3+ngH4Q==
 
-"@capacitor/core@^3.0.0", "@capacitor/core@^3.3.2":
+"@capacitor/core@^3.0.0":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-3.3.3.tgz#a1868a536a0b82381c2eaeb9aeca424ffbc5bca3"
+  integrity sha512-5oN3dUxdVXSvrTvTkmKBoBh7qISi+PVrsxHyjqq7Kr573dQnm8LsZ0/24PpJsGp08lD/+nFtFzOtPODJvYLVgg==
+  dependencies:
+    tslib "^2.1.0"
+
+"@capacitor/core@^3.3.2":
   version "3.3.2"
   resolved "https://registry.npmjs.org/@capacitor/core/-/core-3.3.2.tgz"
   integrity sha512-pyI3dQdQjA1L5iEw0jkeKCogx9t5d5kIFTB5M3CJRg9Uj5MIpU2J5CRj+74A7BflvZJo8IBd6IfMJaOArRumaw==
@@ -5067,6 +5074,11 @@ data-uri-to-buffer@3:
   resolved "https://registry.npmjs.org/data-uri-to-buffer/-/data-uri-to-buffer-3.0.1.tgz"
   integrity sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==
 
+date-fns@^2.27.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.27.0.tgz#e1ff3c3ddbbab8a2eaadbb6106be2929a5a2d92b"
+  integrity sha512-sj+J0Mo2p2X1e306MHq282WS4/A8Pz/95GIFcsPNMPMZVI3EUrAdSv90al1k+p74WGLCruMXk23bfEDZa71X9Q==
+
 date-format@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/date-format/-/date-format-2.1.0.tgz"
@@ -7225,9 +7237,9 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^6.0.0:
+husky@6.0.0:
   version "6.0.0"
-  resolved "https://registry.npmjs.org/husky/-/husky-6.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-6.0.0.tgz#810f11869adf51604c32ea577edbc377d7f9319e"
   integrity sha512-SQS2gDTB7tBN486QSoKPKQItZw97BMOd+Kdb6ghfpBc0yXyzrddI0oDV5MkDAbuB4X2mO3/nj60TRMcYxwzZeQ==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4:
@@ -13526,6 +13538,11 @@ yargs@^17.0.0:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+yarn@^1.22.17:
+  version "1.22.17"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.17.tgz#bf910747d22497b573131f7341c0e1d15c74036c"
+  integrity sha512-H0p241BXaH0UN9IeH//RT82tl5PfNraVpSpEoW+ET7lmopNC61eZ+A+IDvU8FM6Go5vx162SncDL8J1ZjRBriQ==
 
 yauzl@^2.10.0:
   version "2.10.0"

@@ -33,6 +33,60 @@ describe('FiatRampsService', () => {
     });
   });
 
+  it('should call get on http when getUserWallets', () => {
+    fiatRampsService.getUserWallets('ETH').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call get on http when checkUser', () => {
+    fiatRampsService.checkUser().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when createUser', () => {
+    fiatRampsService.createUser().subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when registerUserInfo', () => {
+    fiatRampsService.registerUserInfo({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when registerUserBank', () => {
+    fiatRampsService.registerUserBank({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when registerUserImages', () => {
+    fiatRampsService.registerUserImages({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when createOperation', () => {
+    fiatRampsService.createOperation({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when confirmOperation', () => {
+    fiatRampsService.confirmOperation(0, {}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call get on http when userHasOperations', () => {
+    fiatRampsService.userHasOperations().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it('should call post on http when getLink', () => {
     fiatRampsService.getLink(0).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
@@ -48,6 +102,12 @@ describe('FiatRampsService', () => {
   it('should call get on http when getUserSingleOperation', () => {
     fiatRampsService.getUserSingleOperation(0).subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when getMoonpayLink', () => {
+    fiatRampsService.getMoonpayLink('0x0000', 'eth').subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 });

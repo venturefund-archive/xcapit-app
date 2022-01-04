@@ -15,4 +15,5 @@ export interface Coin {
   selected?: boolean;
   native?: boolean;
   symbol?: string;
+  moonpayCode?: string;
 }

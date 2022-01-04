@@ -43,8 +43,11 @@ export class FundStopLossPage implements OnInit {
 
   ionViewWillEnter() {
     this.fundDataStorage.getData('fundStopLoss').then((data) => {
-      if (data) {
+      if (data && data.stop_loss) {
         this.stopLoss = data.stop_loss;
+      }
+      if (data && data.trailing_stop) {
+        this.trailingStop = data.trailing_stop;
       }
     });
 

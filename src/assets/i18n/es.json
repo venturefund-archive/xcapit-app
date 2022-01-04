@@ -120,7 +120,7 @@
       "reset_password_link": "Olvidé mi contraseña",
       "login_button_text": "Ingresar",
       "title": "Ingresar",
-      "google_auth": "Ingresa con Google",
+      "google_auth": "Continuar con Google",
       "or_text": "o"
     },
     "register": {
@@ -2078,6 +2078,17 @@
       "message": "Agrega una Key para que tus compras se reflejen en tu cuenta de Binance.",
       "btn_back": "Volver",
       "btn_add_apikey": "Agregar Api Key"
+    },
+    "moonpay": {
+      "header": "Comprar cripto",
+      "currency_label": "Moneda",
+      "provider": {
+        "label": "Proveedor",
+        "name": "Moonpay",
+        "description": "Proovedor de terceros"
+      },
+      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
+      "button_text": "Continuar"
     }
   },
   "payment": {
@@ -2417,6 +2428,7 @@
       "risky": "Riesgoso"
     },
     "about_investor_profile": {
+      "of": "de",
       "header": "Perfil de inversionista",
       "button_select": "Este es mi perfil",
       "conservative_profile": {

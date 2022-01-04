@@ -73,7 +73,7 @@ export class HomeSubheaderComponent implements OnInit {
 
   async goToBuy() {
     if (this.apikeys.length > 0) {
-      this.navController.navigateForward('/fiat-ramps/operations');
+      this.navController.navigateForward('/fiat-ramps/moonpay');
     } else {
       await this.openNoApiKeysModal();
     }

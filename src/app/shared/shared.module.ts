@@ -55,12 +55,13 @@ import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.c
 import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
-import { WalletBalanceCardHomeComponent } from '../modules/home/shared-home/components/wallet-balance-card-home/wallet-balance-card-home.component';
+import { WalletTotalBalanceCardComponent } from '../modules/home/shared-home/components/wallet-total-balance-card/wallet-total-balance-card.component';
 import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
 import { QuotesCardComponent } from '../modules/home/shared-home/components/quotes-card/quotes-card.component';
 import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
+import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
 
 @NgModule({
   declarations: [
@@ -115,8 +116,9 @@ import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
-    WalletBalanceCardHomeComponent,
+    WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
+    NetworkSelectCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -147,6 +149,7 @@ import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-
     InvestorTestCardsComponent,
     QuotesCardComponent,
     ItemQuoteComponent,
+    NetworkSelectCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -182,7 +185,7 @@ import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
-    WalletBalanceCardHomeComponent,
+    WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     // Pipes
     LocalizedDatePipe,

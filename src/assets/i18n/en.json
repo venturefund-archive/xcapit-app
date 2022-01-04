@@ -2082,6 +2082,17 @@
       "message": "Add a Key so that your purchases are reflected in your Binance account.",
       "btn_back": "Back",
       "btn_add_apikey": "Add Api Key"
+    },
+    "moonpay": {
+      "header": "Buy cripto",
+      "currency_label": "Currency",
+      "provider": {
+        "label": "Provider",
+        "name": "Moonpay",
+        "description": "Third-party provider"
+      },
+      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+      "button_text": "Continue"
     }
   },
   "payment": {
@@ -2220,6 +2231,7 @@
       "risky": "Risky"
     },
     "about_investor_profile": {
+      "of": "of",
       "header": "Investor Profile",
       "button_select": "This is my profile",
       "conservative_profile": {

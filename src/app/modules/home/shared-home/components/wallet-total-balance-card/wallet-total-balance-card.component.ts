@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { AssetBalance } from 'src/app/modules/wallets/shared-wallets/interfaces/asset-balance.interface';
-import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
-import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
-  selector: 'app-wallet-balance-card-home',
+  selector: 'app-wallet-total-balance-card',
   template: `
     <div class="wbc">
       <div class="wbc__content" *ngIf="!this.walletExist">
@@ -45,23 +42,16 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
       </div>
     </div>
   `,
-  styleUrls: ['./wallet-balance-card-home.component.scss'],
+  styleUrls: ['./wallet-total-balance-card.component.scss'],
 })
-export class WalletBalanceCardHomeComponent implements OnInit {
-  totalBalanceWallet: number;
-  balances: Array<AssetBalance> = [];
-  walletExist: boolean;
+export class WalletTotalBalanceCardComponent implements OnInit {
+  @Input() totalBalanceWallet?: number;
+  @Input() walletExist: boolean;
   hideFundText: boolean;
 
-  constructor(
-    private navController: NavController,
-    private localStorageService: LocalStorageService,
-    private walletService: WalletService,
-    private walletBalance: WalletBalanceService
-  ) {}
+  constructor(private navController: NavController, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.existWallet();
     this.subscribeOnHideFunds();
   }
 
@@ -75,25 +65,5 @@ export class WalletBalanceCardHomeComponent implements OnInit {
 
   goToHomeWallet() {
     this.navController.navigateForward(['tabs/wallets']);
-  }
-
-  existWallet() {
-    this.walletService.walletExist().then((res) => {
-      this.walletExist = res;
-      if (this.walletExist) {
-        this.getCoinsBalance();
-      }
-    });
-  }
-
-  getCoinsBalance() {
-    this.walletBalance.getWalletsBalances().then((res) => {
-      this.balances = res;
-      this.getTotalBalance();
-    });
-  }
-
-  getTotalBalance() {
-    this.walletBalance.getUsdTotalBalance().then((res) => (this.totalBalanceWallet = res));
   }
 }
