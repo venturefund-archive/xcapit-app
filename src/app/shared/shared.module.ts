@@ -60,6 +60,7 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
 import { QuotesCardComponent } from '../modules/home/shared-home/components/quotes-card/quotes-card.component';
+import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { QuotesCardComponent } from '../modules/home/shared-home/components/quot
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
     QuotesCardComponent,
+    ItemQuoteComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -144,6 +146,7 @@ import { QuotesCardComponent } from '../modules/home/shared-home/components/quot
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
     QuotesCardComponent,
+    ItemQuoteComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,

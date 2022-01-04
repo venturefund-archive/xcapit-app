@@ -12,77 +12,71 @@ import { Observable } from 'rxjs';
   template: `
     <div class="qc">
       <div class="qc__content">
-        <ion-accordion-group class="qc__accordeon">
-          <ion-accordion toggleIcon="" class="accordion" value="quotes">
-            <ion-item class="qc__header" slot="header">
-              <ion-label>{{ 'home.home_page.quotes_card.title' | translate }}</ion-label>
-            </ion-item>
-            <ion-list show="true" slot="content">
-              <app-ux-list-inverted>
-                <ion-list>
-                  <ion-item class="table-header ux-font-text-xxs">
-                    <ion-label>
-                      {{ 'home.home_page.quotes_card.table_label1' | translate }}
-                    </ion-label>
-                    <ion-label>
-                      {{ 'home.home_page.quotes_card.table_label2' | translate }}
-                    </ion-label>
-                    <ion-label class="right">
-                      {{ 'home.home_page.quotes_card.table_label3' | translate }}
-                    </ion-label>
-                  </ion-item>
-                  <div class="loader" *ngIf="this.waitingQuotes">
-                    <app-ux-loading-block minSize="22px"></app-ux-loading-block>
-                  </div>
-                  <div class="container" *ngFor="let qu of this.filteredData; let last = last">
-                    <ion-item class="table-header">
-                      <div class="symbol">
-                        <ion-text class="symbol ux-font-text-xs"> {{ qu.symbol.slice(0, -4) }}</ion-text>
-                        <ion-text class="symbol ux-font-text-xxs">/USDT</ion-text>
-                      </div>
-                      <ion-text class="center ux-font-titulo-xs">
-                        {{ qu.lastPrice | currency }}
-                      </ion-text>
-                      <ion-text class="ux-font-text-xs positive" *ngIf="this.qu.priceChangePercent >= 0">
-                        +{{ this.qu.priceChangePercent | number: '1.0-2' }}%
-                      </ion-text>
-                      <ion-text
-                        class="ux-font-text-xs regular extrasmall negative"
-                        *ngIf="this.qu.priceChangePercent < 0"
-                      >
-                        {{ this.qu.priceChangePercent | number: '1.0-2' }}%
-                      </ion-text>
-                    </ion-item>
-                    <div class="list-divider" *ngIf="!last"></div>
-                  </div>
-                </ion-list>
-              </app-ux-list-inverted>
-            </ion-list>
-          </ion-accordion>
-        </ion-accordion-group>
+        <div class="qc__accordeon">
+          <ion-item lines="none" slot="header">
+            <ion-label>{{ 'home.home_page.quotes_card.title' | translate }}</ion-label>
+          </ion-item>
+          <ion-list show="true" slot="content">
+            <app-ux-list-inverted>
+              <ion-list>
+                <ion-item class="table-header ux-font-text-xxs">
+                  <ion-label>
+                    {{ 'home.home_page.quotes_card.table_label1' | translate }}
+                  </ion-label>
+                  <ion-label>
+                    {{ 'home.home_page.quotes_card.table_label2' | translate }}
+                  </ion-label>
+                  <ion-label class="right">
+                    {{ 'home.home_page.quotes_card.table_label3' | translate }}
+                  </ion-label>
+                </ion-item>
+                <div class="loader" *ngIf="this.waitingQuotes">
+                  <app-ux-loading-block minSize="22px"></app-ux-loading-block>
+                </div>
+                <div class="container">
+                  <app-item-quote
+                    *ngFor="let quote of this.firstQuotes; let last = last"
+                    [quote]="quote"
+                  ></app-item-quote>
+                </div>
+                <ion-accordion-group>
+                  <ion-accordion toggleIcon="" class="accordion" value="quotes">
+                    <div slot="content" class="container">
+                      <app-item-quote
+                        *ngFor="let quote of this.remainingQuotes; let last = last"
+                        [quote]="quote"
+                        [last]="last"
+                      ></app-item-quote>
+                    </div>
+                  </ion-accordion>
+                </ion-accordion-group>
+              </ion-list>
+            </app-ux-list-inverted>
+          </ion-list>
+        </div>
       </div>
       <div class="qc__button">
         <ion-button
-          *ngIf="!this.openedAccordeon"
+          *ngIf="!this.openedAccordion"
           name="Open Accordion"
           class="link ux-link-xs"
           appTrackClick
           fill="clear"
           size="small"
-          (click)="openAccordeon()"
+          (click)="openAccordion()"
         >
-          {{ 'Ver más' | translate }}
+          {{ 'home.home_page.quotes_card.more_button' | translate }}
         </ion-button>
         <ion-button
-          *ngIf="this.openedAccordeon"
+          *ngIf="this.openedAccordion"
           name="Close Accordion"
           class="link ux-link-xs"
           appTrackClick
           fill="clear"
           size="small"
-          (click)="closeAccordeon()"
+          (click)="closeAccordion()"
         >
-          {{ 'Ver menos' | translate }}
+          {{ 'home.home_page.quotes_card.less_button' | translate }}
         </ion-button>
       </div>
     </div>
@@ -92,12 +86,14 @@ import { Observable } from 'rxjs';
 export class QuotesCardComponent implements OnInit {
   @Input() update: Observable<void>;
   @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
-  openedAccordeon;
+  openedAccordion;
   walletExist: boolean;
   completeData;
-  filteredData: Quotes;
+  filteredData: Quotes[];
   coins;
   waitingQuotes = true;
+  firstQuotes: Quotes[];
+  remainingQuotes: Quotes[];
 
   constructor(
     private quotesService: QuotesService,
@@ -108,7 +104,7 @@ export class QuotesCardComponent implements OnInit {
 
   ngOnInit() {
     this.accordionGroup.value = '';
-    this.getPrices();
+    this.getAllQuotes();
     this.getCoins();
   }
 
@@ -126,15 +122,21 @@ export class QuotesCardComponent implements OnInit {
   getUserCoinsQuotes() {
     this.storageService.getAssestsSelected().then((coins) => {
       const userCoins = coins;
-      this.filteredData = this.completeData.filter((filteredCoin) => {
+      const filteredData = this.completeData?.filter((filteredCoin) => {
         for (const i in userCoins) {
           if (filteredCoin.symbol === userCoins[i].symbol) {
             return filteredCoin;
           }
         }
       });
+      this.separateFilteredData(filteredData);
       this.waitingQuotes = false;
     });
+  }
+
+  separateFilteredData(allQuotes: Quotes[]) {
+    this.firstQuotes = allQuotes?.slice(0, 3);
+    this.remainingQuotes = allQuotes?.slice(3, allQuotes.length);
   }
 
   getCoins() {
@@ -142,20 +144,20 @@ export class QuotesCardComponent implements OnInit {
   }
 
   getNativeQuotes() {
-    const filteredNativeCoins = this.coins.filter((coin) => coin.native === true);
-    this.filteredData = this.completeData.filter((filteredCoin) => {
+    const filteredNativeCoins = this.coins?.filter((coin) => coin.native === true);
+    const filteredData = this.completeData?.filter((filteredCoin) => {
       for (const i in filteredNativeCoins) {
         if (filteredCoin.symbol === filteredNativeCoins[i].symbol) {
-          filteredCoin.symbol.slice(0, -4);
           return filteredCoin;
         }
       }
     });
+    this.separateFilteredData(filteredData);
     this.waitingQuotes = false;
   }
 
-  getPrices() {
-    this.quotesService.getPrice().subscribe({
+  getAllQuotes() {
+    this.quotesService.getAllQuotes().subscribe({
       next: (res) => {
         this.completeData = res;
       },
@@ -165,13 +167,13 @@ export class QuotesCardComponent implements OnInit {
     });
   }
 
-  openAccordeon() {
+  openAccordion() {
     this.accordionGroup.value = 'quotes';
-    this.openedAccordeon = true;
+    this.openedAccordion = true;
   }
 
-  closeAccordeon() {
+  closeAccordion() {
     this.accordionGroup.value = undefined;
-    this.openedAccordeon = false;
+    this.openedAccordion = false;
   }
 }

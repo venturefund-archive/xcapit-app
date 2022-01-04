@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { QuotesCardComponent } from '../shared-home/components/quotes-card/quotes-card.component';
 
 @Component({
   selector: 'app-home',
@@ -102,6 +103,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
   styleUrls: ['./home-page.page.scss'],
 })
 export class HomePage implements OnInit {
+  @ViewChild(QuotesCardComponent) quotesCardComponent: QuotesCardComponent;
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
@@ -166,6 +168,7 @@ export class HomePage implements OnInit {
   async doRefresh(event) {
     if (this.refreshTimeoutService.isAvailable()) {
       this.refreshTimeoutService.lock();
+      this.quotesCardComponent.ngOnInit();
       event.target.complete();
     } else {
       setTimeout(() => event.target.complete(), 1000);

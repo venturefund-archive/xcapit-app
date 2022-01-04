@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { of, Subscription } from 'rxjs';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { ItemQuoteComponent } from '../shared-home/components/item-quote/item-quote.component';
 
 describe('HomePage', () => {
   let component: HomePage;

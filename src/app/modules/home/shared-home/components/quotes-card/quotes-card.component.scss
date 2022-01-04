@@ -17,33 +17,8 @@
 
   ion-accordion-group {
     width: 100%;
-
     ion-accordion {
       width: 100%;
-      pointer-events: none;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-
-      ion-item::part(native) {
-        background-color: var(--ion-color-uxlight);
-      }
-      ion-list[slot='content'] {
-        app-ux-list-inverted {
-          ion-list {
-          }
-        }
-      }
-      ion-item[slot='header'] {
-        border-bottom: 1px solid var(--ion-color-uxline);
-        ion-label {
-          font-family: var(--ux-font-worksans);
-          font-size: var(--ux-fsize-18);
-          font-weight: var(--ux-fweight-semibold);
-          color: var(--ion-color-uxprimary);
-          line-height: 24px;
-          margin-bottom: 8px;
-        }
-      }
     }
   }
 
@@ -55,6 +30,21 @@
   &__accordeon {
     width: 100%;
     border-radius: 8px;
+    ion-item[slot='header'] {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom: 1px solid var(--ion-color-uxline);
+      background-color: var(--ion-color-uxlight);
+      ion-label {
+        background-color: var(--ion-color-uxlight);
+        font-family: var(--ux-font-worksans);
+        font-size: var(--ux-fsize-18);
+        font-weight: var(--ux-fweight-semibold);
+        color: var(--ion-color-uxprimary);
+        line-height: 24px;
+        margin-bottom: 8px;
+      }
+    }
   }
   &__button {
     display: flex;
@@ -91,5 +81,9 @@
 
   .symbol {
     flex: 1;
+  }
+
+  ion-item::part(native) {
+    background-color: var(--ion-color-uxlight) !important;
   }
 }
