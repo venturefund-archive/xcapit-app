@@ -1387,6 +1387,11 @@
     }
   },
   "wallets": {
+    "no_wallet": {
+      "title": "Aún no tienes tu Wallet Xcapit",
+      "subtitle": "Cada vez que realices una compra, tus criptomonedas se depositarán allí.",
+      "button": "Crear Wallet"
+    },
     "disclaimer": {
       "header": "Crear wallet",
       "title": "¡Empecemos!",
