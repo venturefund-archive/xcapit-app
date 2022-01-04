@@ -48,6 +48,6 @@ export class SuccessPaxfulPage implements OnInit {
   }
 
   goToMyOperations() {
-    this.navController.navigateForward(['/fiat-ramps/operations']);
+    this.navController.navigateForward(['/fiat-ramps/moonpay']);
   }
 }
