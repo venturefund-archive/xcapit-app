@@ -127,7 +127,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Receive');
     component.asset = 'LINK';
     el.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       ['wallets/receive'],
       Object({ queryParams: Object({ asset: 'LINK' }) })
     );
@@ -141,6 +141,6 @@ describe('WalletSubheaderButtonsComponent', () => {
 
   it('should navigate to fiat-ramps moonpay page when Go to Buy button is clicked', async () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/moonpay']);
   });
 });
