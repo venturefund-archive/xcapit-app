@@ -68,6 +68,10 @@ const routes: Routes = [
         path: 'moonpay',
         loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
       },
+      {
+        path: 'no-wallet',
+        loadChildren: () => import('./no-wallet-page/no-wallet/no-wallet.module').then((m) => m.NoWalletPageModule),
+      },
     ],
   },
 ];

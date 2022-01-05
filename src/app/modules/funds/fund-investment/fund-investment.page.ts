@@ -3,10 +3,10 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
-import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-modal/no-apikeys-modal.component';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-fund-investment',
@@ -45,6 +45,8 @@ import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-m
   styleUrls: ['./fund-investment.page.scss'],
 })
 export class FundInvestmentPage implements OnInit {
+  existWallet: boolean;
+
   investmentsProducts = [
     {
       profile: 'Metaverse_index',
@@ -96,7 +98,8 @@ export class FundInvestmentPage implements OnInit {
     private modalController: ModalController,
     private alertController: AlertController,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private walletService: WalletService
   ) {}
 
   ngOnInit() {}
@@ -105,6 +108,7 @@ export class FundInvestmentPage implements OnInit {
     this.readOnly = this.route.snapshot.paramMap.has('show');
     await this.getFundRenewData();
     this.getAllApiKeys();
+    this.walletExist();
   }
 
   async getFundRenewData() {
@@ -147,7 +151,7 @@ export class FundInvestmentPage implements OnInit {
         },
         {
           text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
-          handler: () => this.navController.navigateForward(['/fiat-ramps/select-provider']),
+          handler: () => this.goToBuyCripto(),
         },
       ],
     });
@@ -184,5 +188,17 @@ export class FundInvestmentPage implements OnInit {
       swipeToClose: false,
     });
     await modal.present();
+  }
+
+  walletExist() {
+    this.walletService.walletExist().then((res) => (this.existWallet = res));
+  }
+
+  goToBuyCripto() {
+    if (this.existWallet) {
+      this.navController.navigateForward(['/fiat-ramps/moonpay']);
+    } else {
+      this.navController.navigateForward(['/fiat-ramps/no-wallet']);
+    }
   }
 }

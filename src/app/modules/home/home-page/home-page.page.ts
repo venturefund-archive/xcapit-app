@@ -52,7 +52,7 @@ import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-bala
           ></app-wallet-total-balance-card>
         </div>
         <div class="buy-crypto-card">
-          <app-buy-crypto-card (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
+          <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto($event)"></app-buy-crypto-card>
         </div>
         <div class="investor-test-card">
           <app-investor-test-cards></app-investor-test-cards>
@@ -145,8 +145,12 @@ export class HomePage implements OnInit {
     }
   }
 
-  goToBuyCrypto() {
-    this.navController.navigateForward('/fiat-ramps/moonpay');
+  goToBuyCrypto(value: boolean) {
+    if (value) {
+      this.navController.navigateForward(['/fiat-ramps/moonpay']);
+    } else {
+      this.navController.navigateForward(['/fiat-ramps/no-wallet']);
+    }
   }
 
   existWallet() {
