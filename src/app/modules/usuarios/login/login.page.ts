@@ -19,7 +19,7 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
         <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
       </div>
     </ion-header>
-    <div class="login_title">
+    <div class="login-title">
       <app-ux-title>
         {{ 'usuarios.login.title' | translate }}
       </app-ux-title>
