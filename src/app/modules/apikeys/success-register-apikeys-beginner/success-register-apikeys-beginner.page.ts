@@ -13,7 +13,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 })
 export class SuccessRegisterApikeysBeginnerPage implements OnInit {
   data: any;
-  existWallet;
+  existWallet: boolean;
   constructor(private walletService: WalletService) {}
 
   ngOnInit() {
@@ -22,12 +22,13 @@ export class SuccessRegisterApikeysBeginnerPage implements OnInit {
   }
 
   walletExist() {
+    const data = SUCCESS_TYPES.apikeys_register_success_begginer;
     this.walletService.walletExist().then((res) => {
       this.existWallet = res;
       if (this.existWallet) {
-        SUCCESS_TYPES.apikeys_register_success_begginer.urlThirdAction = '/fiat-ramps/moonpay';
+        data.urlThirdAction = '/fiat-ramps/moonpay';
       } else {
-        SUCCESS_TYPES.apikeys_register_success_begginer.urlThirdAction = '/fiat-ramps/no-wallet';
+        data.urlThirdAction = '/fiat-ramps/no-wallet';
       }
     });
   }

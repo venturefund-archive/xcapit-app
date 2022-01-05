@@ -93,7 +93,6 @@ export class SuccessContentComponent implements OnInit {
   }
 
   thirdAction() {
-    console.log(this.data.urlThirdAction);
     if (this.data.urlThirdAction) {
       this.navController.navigateForward([this.data.urlThirdAction]);
     }

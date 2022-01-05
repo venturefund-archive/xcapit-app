@@ -34,13 +34,11 @@ describe('NoWalletPage', () => {
 
   it('should navigate to wallet menu when Go To Create Wallet button is clicked', async () => {
     fixture.debugElement.query(By.css("ion-button[name='Go To Create Wallet']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['tabs/wallets']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/wallets']);
   });
 
   it('should navigate to home when Close button is clicked', async () => {
     fixture.debugElement.query(By.css("ion-button[name='Close']")).nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['tabs/home']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/home']);
   });
 });

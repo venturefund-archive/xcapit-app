@@ -34,8 +34,11 @@ describe('SuccessRegisterApikeysBeginnerPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set "/fiat-ramps/moonpay" on success types when wallet exist', () => {
-    expect(SUCCESS_TYPES.apikeys_register_success_begginer.urlThirdAction).toEqual('/fiat-ramps/moonpay');
+  it('should set "/fiat-ramps/moonpay" on success types when wallet exist', async () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.data.urlThirdAction).toEqual('/fiat-ramps/moonpay');
   });
 
   it('should set "/fiat-ramps/no-wallet" on success types when wallet not exist', async () => {
@@ -43,7 +46,6 @@ describe('SuccessRegisterApikeysBeginnerPage', () => {
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
-    console.log(component.existWallet);
-    expect(SUCCESS_TYPES.apikeys_register_success_begginer.urlThirdAction).toEqual('/fiat-ramps/no-wallet');
+    expect(component.data.urlThirdAction).toEqual('/fiat-ramps/no-wallet');
   });
 });
