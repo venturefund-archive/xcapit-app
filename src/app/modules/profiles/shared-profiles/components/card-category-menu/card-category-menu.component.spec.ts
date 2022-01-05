@@ -8,8 +8,9 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { CardCategoryMenuComponent } from './card-category-menu.component';
+import { MenuCategory } from '../../interfaces/menu-category.interface';
 
-const itemMenu = {
+const itemMenu: MenuCategory = {
   category_title: 'profiles.user_profile_menu.category_help',
   icon: 'assets/ux-icons/ux-support.svg',
   items: [
@@ -17,17 +18,19 @@ const itemMenu = {
       name: 'Faq',
       text: 'profiles.user_profile_menu.faq_help',
       route: '/support/options',
+      type: 'link',
     },
     {
       name: 'Support',
       text: 'profiles.user_profile_menu.support_help',
       route: 'tickets/create-support-ticket',
+      type: 'link',
     },
     {
       name: 'RecoveryPhrase',
       text: 'profiles.user_profile_menu.security_phrase',
       route: '/wallets/recovery/info',
-      element: 'recoveryPhrase',
+      type: 'link',
     },
   ],
 };
