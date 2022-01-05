@@ -101,10 +101,7 @@ const remainingNativeQuotes = [
   },
 ];
 
-//
-
 //User Quotes
-
 const userQuotes = [
   {
     symbol: 'BNBUSDT',
@@ -153,32 +150,6 @@ const remainingUserQuotes = [
     priceChangePercent: 0.24,
   },
 ];
-
-// const testUserCoins = [
-//   {
-//     id: 4,
-//     name: 'AAVE',
-//     logoRoute: 'assets/img/coins/AAVE.svg',
-//     last: false,
-//     value: 'AAVE',
-//     network: 'ERC20',
-//     chainId: 42,
-//     contract: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
-//     decimals: 18,
-//     symbol: 'AAVEUSDT',
-//   },
-//   {
-//     id: 5,
-//     name: 'UNI - Uniswap',
-//     logoRoute: 'assets/img/coins/UNI.svg',
-//     last: true,
-//     value: 'UNI',
-//     network: 'ERC20',
-//     chainId: 42,
-//     decimals: 18,
-//     symbol: 'UNIUSDT',
-//   },
-// ];
 
 describe('QuotesCardComponent', () => {
   let component: QuotesCardComponent;
