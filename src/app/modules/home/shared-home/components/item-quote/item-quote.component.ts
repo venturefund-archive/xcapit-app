@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Quotes } from '../../interfaces/quotes.interface';
 
 @Component({
   selector: 'app-item-quote',
@@ -23,7 +24,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./item-quote.component.scss'],
 })
 export class ItemQuoteComponent implements OnInit {
-  @Input() quote: any;
+  @Input() quote: Quotes;
   @Input() last: any;
   constructor() {}
 

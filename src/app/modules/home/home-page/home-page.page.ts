@@ -61,9 +61,9 @@ import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-bala
         <div class="need-help-card">
           <app-need-help-card></app-need-help-card>
         </div>
-        <app-quotes-card></app-quotes-card>
-        <app-need-help-card></app-need-help-card>
-        <app-investor-test-cards></app-investor-test-cards>
+        <div class="quotes-card">
+          <app-quotes-card></app-quotes-card>
+        </div>
       </div>
     </ion-content>
   `,

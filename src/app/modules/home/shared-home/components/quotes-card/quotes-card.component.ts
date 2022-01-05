@@ -6,6 +6,7 @@ import { QuotesService } from '../../services/quotes.service';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Observable } from 'rxjs';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 @Component({
   selector: 'app-quotes-card',
@@ -86,11 +87,11 @@ import { Observable } from 'rxjs';
 export class QuotesCardComponent implements OnInit {
   @Input() update: Observable<void>;
   @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
-  openedAccordion;
+  openedAccordion: boolean;
   walletExist: boolean;
   completeData;
   filteredData: Quotes[];
-  coins;
+  coins: Coin[];
   waitingQuotes = true;
   firstQuotes: Quotes[];
   remainingQuotes: Quotes[];
@@ -130,13 +131,13 @@ export class QuotesCardComponent implements OnInit {
         }
       });
       this.separateFilteredData(filteredData);
-      this.waitingQuotes = false;
     });
   }
 
   separateFilteredData(allQuotes: Quotes[]) {
     this.firstQuotes = allQuotes?.slice(0, 3);
     this.remainingQuotes = allQuotes?.slice(3, allQuotes.length);
+    this.waitingQuotes = false;
   }
 
   getCoins() {
@@ -153,7 +154,6 @@ export class QuotesCardComponent implements OnInit {
       }
     });
     this.separateFilteredData(filteredData);
-    this.waitingQuotes = false;
   }
 
   getAllQuotes() {
