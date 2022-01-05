@@ -5,17 +5,24 @@ import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
+import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 
 describe('BuyCryptoCardComponent', () => {
   let component: BuyCryptoCardComponent;
   let fixture: ComponentFixture<BuyCryptoCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<BuyCryptoCardComponent>;
+  let fakeWalletService: FakeWalletService;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   beforeEach(
     waitForAsync(() => {
+      fakeWalletService = new FakeWalletService(true);
+      walletServiceSpy = fakeWalletService.createSpy();
       TestBed.configureTestingModule({
         declarations: [BuyCryptoCardComponent, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [FakeTrackClickDirective],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
+        providers: [{ provide: WalletService, useValue: walletServiceSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(BuyCryptoCardComponent);

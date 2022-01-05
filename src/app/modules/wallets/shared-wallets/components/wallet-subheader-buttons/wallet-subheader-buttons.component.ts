@@ -82,7 +82,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     return this.navController.navigateForward(['wallets/receive'], navigationExtras);
   }
 
-  async goToBuy() {
+  goToBuy() {
     this.navController.navigateForward(['/fiat-ramps/moonpay']);
   }
 
