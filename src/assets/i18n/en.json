@@ -753,7 +753,6 @@
       "country": "Country",
       "country_placeholder": "Select a country"
     },
-
     "user_profile_menu": {
       "header": "My Profile",
       "category_help": "Help",
@@ -768,10 +767,10 @@
       "finished_funds": "Finished funds",
       "manage_apikey": "Manage API Keys",
       "category_preferences": "Preferences",
+      "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out"
     },
-
     "success_profile": {
       "textPrimary": "¡You have setted up your account!",
       "textSecondary": "Now we need you to link your Exchange (Binance) to see your capital.",

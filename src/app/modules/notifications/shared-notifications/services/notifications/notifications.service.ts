@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { NullNotificationsService } from '../null-notifications/null-notifications.service';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +17,12 @@ export class NotificationsService {
   constructor(
     private capacitorNotificationsService: CapacitorNotificationsService,
     private nullNotificationsService: NullNotificationsService,
-    private http: CustomHttpService
+    private http: CustomHttpService,
+    private platformService: PlatformService
   ) {}
 
   getInstance(): INotification {
-    return Capacitor.platform !== 'web' ? this.capacitorNotificationsService : this.nullNotificationsService;
+    return this.platformService.isNative() ? this.capacitorNotificationsService : this.nullNotificationsService;
   }
 
   getNotifications(): Observable<any> {
@@ -33,5 +35,9 @@ export class NotificationsService {
 
   getCountNotifications(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/count`, undefined, undefined, false);
+  }
+
+  toggle(active: boolean): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/toggle/${+active}/`, {});
   }
 }
