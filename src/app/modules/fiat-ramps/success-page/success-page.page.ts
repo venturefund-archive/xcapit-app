@@ -132,7 +132,7 @@ export class SuccessPagePage implements OnInit {
   }
 
   addVoucher() {
-    this.navController.navigateForward(['fiat-ramps/operation-detail/provider/1/operation', this.operationId]);
+    this.navController.navigateForward(['/fiat-ramps/moonpay/provider/1/operation', this.operationId]);
   }
 
   copyToClipboard() {
