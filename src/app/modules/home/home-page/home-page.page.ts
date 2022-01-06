@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { QuotesCardComponent } from '../shared-home/components/quotes-card/quotes-card.component';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-balance.interface';
@@ -61,12 +62,16 @@ import { BalanceCacheService } from '../../wallets/shared-wallets/services/balan
         <div class="need-help-card">
           <app-need-help-card></app-need-help-card>
         </div>
+        <div class="quotes-card">
+          <app-quotes-card></app-quotes-card>
+        </div>
       </div>
     </ion-content>
   `,
   styleUrls: ['./home-page.page.scss'],
 })
 export class HomePage implements OnInit {
+  @ViewChild(QuotesCardComponent) quotesCardComponent: QuotesCardComponent;
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
@@ -146,6 +151,7 @@ export class HomePage implements OnInit {
       this.uninitializedWallet();
       await this.getCoinsBalance();
       this.refreshTimeoutService.lock();
+      this.quotesCardComponent?.ngOnInit();
       event.target.complete();
     } else {
       setTimeout(() => event.target.complete(), 1000);
