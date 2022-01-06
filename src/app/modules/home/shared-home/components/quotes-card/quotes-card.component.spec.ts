@@ -7,11 +7,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
+import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { Quotes } from '../../interfaces/quotes.interface';
 import { QuotesService } from '../../services/quotes.service';
 import { QuotesCardComponent } from './quotes-card.component';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 const totalQuotes: Quotes[] = [
   {
@@ -52,26 +55,60 @@ const totalQuotes: Quotes[] = [
 ];
 
 //Native
-const nativeQuotes = [
+const coins = [
   {
+    id: 6,
+    name: 'RBTC - Smart Bitcoin',
+    logoRoute: 'assets/img/coins/RBTC.png',
+    value: 'RBTC',
+    network: 'RSK',
+    native: true,
     symbol: 'BTCUSDT',
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
   },
   {
+    id: 1,
+    name: 'ETH - Ethereum',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    value: 'ETH',
+    network: 'ERC20',
+    native: true,
     symbol: 'ETHUSDT',
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
   },
   {
+    id: 8,
+    name: 'MATIC - Polygon',
+    logoRoute: 'assets/img/coins/MATIC.png',
+    value: 'MATIC',
+    network: 'MATIC',
+    native: true,
     symbol: 'MATICUSDT',
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
   },
   {
+    id: 10,
+    name: 'BNB - Binance Coin',
+    logoRoute: 'assets/img/coins/BNB.svg',
+    value: 'BNB',
+    network: 'BSC_BEP20',
+    native: true,
     symbol: 'BNBUSDT',
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
+  },
+  {
+    id: 2,
+    name: 'LINK - Chainlink',
+    logoRoute: 'assets/img/coins/LINK.png',
+    last: false,
+    value: 'LINK',
+    network: 'ERC20',
+    decimals: 18,
+    symbol: 'LINKUSDT',
+  },
+  {
+    id: 3,
+    name: 'USDT - Tether',
+    logoRoute: 'assets/img/coins/USDT.svg',
+    last: false,
+    value: 'USDT',
+    network: 'ERC20',
   },
 ];
 
@@ -154,32 +191,6 @@ const remainingUserQuotes = [
   },
 ];
 
-// const testUserCoins = [
-//   {
-//     id: 4,
-//     name: 'AAVE',
-//     logoRoute: 'assets/img/coins/AAVE.svg',
-//     last: false,
-//     value: 'AAVE',
-//     network: 'ERC20',
-//     chainId: 42,
-//     contract: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
-//     decimals: 18,
-//     symbol: 'AAVEUSDT',
-//   },
-//   {
-//     id: 5,
-//     name: 'UNI - Uniswap',
-//     logoRoute: 'assets/img/coins/UNI.svg',
-//     last: true,
-//     value: 'UNI',
-//     network: 'ERC20',
-//     chainId: 42,
-//     decimals: 18,
-//     symbol: 'UNIUSDT',
-//   },
-// ];
-
 describe('QuotesCardComponent', () => {
   let component: QuotesCardComponent;
   let fixture: ComponentFixture<QuotesCardComponent>;
@@ -187,19 +198,26 @@ describe('QuotesCardComponent', () => {
   let quoteServiceSpy: jasmine.SpyObj<QuotesService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let fakeWalletService: FakeWalletService;
   beforeEach(
     waitForAsync(() => {
+      fakeWalletService = new FakeWalletService(true);
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getAssestsSelected: Promise.resolve(userQuotes),
+      });
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getCoins: coins,
       });
       quoteServiceSpy = jasmine.createSpyObj('QuotesService', {
         getAllQuotes: of(totalQuotes),
       });
-      walletServiceSpy = jasmine.createSpyObj('WalletService', { walletExist: Promise.resolve() });
+      walletServiceSpy = fakeWalletService.createSpy();
       TestBed.configureTestingModule({
         declarations: [QuotesCardComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: QuotesService, useValue: quoteServiceSpy },
@@ -259,19 +277,18 @@ describe('QuotesCardComponent', () => {
   });
 
   it('should filter native Quotes of complete Data when wallet dont exist', async () => {
-    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
+    fakeWalletService.modifyReturns(false, {});
+    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(component.waitingQuotes).toBeFalse();
     expect(component.firstQuotes).toEqual(firstNativeQuotes);
     expect(component.remainingQuotes).toEqual(remainingNativeQuotes);
-    expect(walletServiceSpy.walletExist).toHaveBeenCalledTimes(1);
   });
 
-  it('should filter user Quotes of complete Data when wallet dont exist', async () => {
-    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(true));
-    component.ngOnInit();
+  it('should filter user Quotes of complete Data when wallet exist', async () => {
+    fakeWalletService.modifyReturns(true, {});
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();

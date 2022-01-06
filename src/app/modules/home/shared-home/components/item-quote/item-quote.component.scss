@@ -11,12 +11,15 @@
     margin: 0;
     flex: 1;
   }
+
   ion-label.right {
     text-align: end;
   }
+
   ion-text {
     flex: 1;
   }
+
   ion-text.center {
     flex-direction: column;
     text-align: start;
@@ -35,6 +38,7 @@ ion-text.positive {
   color: var(--ion-color-successdark);
   text-align: end;
 }
+
 ion-text.negative {
   color: var(--ion-color-dangerdark);
   text-align: end;
