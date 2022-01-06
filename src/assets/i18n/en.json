@@ -1604,6 +1604,16 @@
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
       },
+      "defi_investment_product":{
+        "performance":"Estimated yield",
+        "liquidity":"Liquidity",
+        "not_min_ammount":"No minimum amount",
+        "immediate_rescue":"Immediate Rescue",
+        "comming_badge":"Comming",
+        "invest_button":"Invest",
+        "annual":"Annual"
+        
+      },
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "scan_unauthorized": "You have no permission to scan"

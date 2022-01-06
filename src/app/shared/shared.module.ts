@@ -60,6 +60,7 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
+import { DefiInvestmentProductComponent } from '../modules/wallets/shared-wallets/components/defi-investment-product/defi-investment-product.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     LoadingModalComponent,
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
+    DefiInvestmentProductComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -144,6 +146,7 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
     NetworkSelectCardComponent,
+    DefiInvestmentProductComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
