@@ -4,7 +4,7 @@ import { CRUD } from './crud';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CrudService {
   constructor(private http: CustomHttpService) {}
@@ -13,10 +13,10 @@ export class CrudService {
     return {
       create: (data: any) => this.http.post(`${environment.apiUrl}/${entity}/`, data),
       get: (id?: any) => this.http.get(`${environment.apiUrl}/${entity}/${id || ''}`),
-      update: (data: any, id?: any) =>
-        this.http.put(`${environment.apiUrl}/${entity}/${data.id || id || ''}`, data),
+      update: (data: any, id?: any) => this.http.put(`${environment.apiUrl}/${entity}/${data.id || id || ''}`, data),
       delete: (id: any) => this.http.delete(`${environment.apiUrl}/${entity}/${id}`),
-      getAll: (options?: any) => this.http.get(`${environment.apiUrl}/${entity}/`, '', options)
+      getAll: (options?: any) => this.http.get(`${environment.apiUrl}/${entity}/`, '', options),
+      patch: (data: any, id?: any) => this.http.patch(`${environment.apiUrl}/${entity}/${data.id || id || ''}`, data),
     };
   }
 }

@@ -6,4 +6,5 @@ export interface CRUD {
   update(data: any, id?: any): Observable<any>;
   delete(id: any): Observable<any>;
   getAll(options?: any): Observable<any>;
+  patch(data: any, id?: any): Observable<any>;
 }

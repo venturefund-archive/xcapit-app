@@ -88,4 +88,21 @@ export class CustomHttpService {
       ? from(this.loadingService.show().then(() => this.doDelete(url, errorMsg, loading).toPromise()))
       : this.doDelete(url, errorMsg, loading);
   }
+
+  private doPatch(url: string, data: any, errorMsg?: string, loading?: boolean): Observable<any> {
+    this.submitButtonService.disabled();
+    return this.http.patch(url, data).pipe(
+      catchError((response: HttpErrorResponse) => this.xhr.error(errorMsg)(response)),
+      finalize(() => {
+        this.submitButtonService.enabled();
+        if (loading) this.loadingService.dismiss();
+      })
+    );
+  }
+
+  patch(url: string, data: any, errorMsg?: string, loading = true): Observable<any> {
+    return loading
+      ? from(this.loadingService.show().then(() => this.doPatch(url, data, errorMsg, loading).toPromise()))
+      : this.doPatch(url, data, errorMsg, loading);
+  }
 }

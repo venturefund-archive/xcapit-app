@@ -1,7 +1,6 @@
+import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import Swiper, { SwiperOptions, Navigation } from 'swiper';
-import { InvestorProfileService } from '../shared-wealth-managements/services/investor-profile/investor-profile.service';
 Swiper.use([Navigation]);
 @Component({
   selector: 'app-about-investor-profiles',
@@ -19,7 +18,7 @@ Swiper.use([Navigation]);
         <ng-template class="template" swiperSlide *ngFor="let profile of this.investorProfiles; let i = index">
           <app-investor-profile-step
             [actualStep]="i + 1"
-            [id]="profile.id"
+            [baseScore]="profile.baseScore"
             [title]="profile.title"
             [subtitle]="profile.subtitle"
             [imagePath]="profile.imagePath"
@@ -38,30 +37,30 @@ export class AboutInvestorProfilesPage implements OnInit {
 
   investorProfiles = [
     {
-      id: 1,
       title: 'wealth_managements.about_investor_profile.conservative_profile.title',
       subtitle: 'wealth_managements.about_investor_profile.conservative_profile.subtitle',
       imagePath: 'assets/img/investor-test/conservative.svg',
+      baseScore: 1,
     },
     {
-      id: 2,
       title: 'wealth_managements.about_investor_profile.moderated_profile.title',
       subtitle: 'wealth_managements.about_investor_profile.moderated_profile.subtitle',
       imagePath: 'assets/img/investor-test/moderated.svg',
+      baseScore: 8,
     },
     {
-      id: 3,
       title: 'wealth_managements.about_investor_profile.aggressive_profile.title',
       subtitle: 'wealth_managements.about_investor_profile.aggressive_profile.subtitle',
       imagePath: 'assets/img/investor-test/aggressive.svg',
+      baseScore: 14,
     },
   ];
 
-  constructor(private translate: TranslateService, private investorProfileService: InvestorProfileService) {}
+  constructor(private apiProfilesService: ApiProfilesService) {}
 
   ngOnInit() {}
 
-  setProfile(value) {
-    this.investorProfileService.setProfile(value);
+  setProfile(score) {
+    this.apiProfilesService.crud.patch({ investor_score: score });
   }
 }
