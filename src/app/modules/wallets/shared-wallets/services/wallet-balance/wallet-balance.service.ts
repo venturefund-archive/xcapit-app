@@ -4,6 +4,7 @@ import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletService } from '../wallet/wallet.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -38,17 +39,19 @@ export class WalletBalanceService {
       const walletAddress = this.walletService.addresses[coin.network];
       if (walletAddress) {
         const balance = this.createBalancesStructure(coin);
-        const raw_balance = await this.walletService.balanceOf(walletAddress, coin.value);
+        // const raw_balance = await this.walletService.balanceOf(walletAddress, coin.value);
+        const raw_balance = '0.0';
         balance.amount = parseFloat(raw_balance);
 
-        if (this.allPrices) {
-          const usdPrice = this.getPrice(balance.symbol);
-          balance.usdAmount = usdPrice * balance.amount;
-        }
+        // if (this.allPrices) {
+        //   const usdPrice = this.getPrice(balance.symbol);
+        //   balance.usdAmount = usdPrice * balance.amount;
+        // }
+        balance.usdAmount = 8;
         this.balances.push(balance);
       }
     }
-    this.orderBalancesByAmount();
+    // this.orderBalancesByAmount();
     return this.balances;
   }
 
@@ -59,11 +62,11 @@ export class WalletBalanceService {
     return this.balances.reduce(sumUSDAmounts, 0);
   }
 
-  private orderBalancesByAmount() {
-    this.balances.sort((a, b) => {
-      return b.usdAmount - a.usdAmount;
-    });
-  }
+  // private orderBalancesByAmount() {
+  //   this.balances.sort((a, b) => {
+  //     return b.usdAmount - a.usdAmount;
+  //   });
+  // }
 
   private getAllPrices() {
     return this.storageService.getAssestsSelected().then((coins) => {
@@ -78,6 +81,17 @@ export class WalletBalanceService {
           });
       });
     });
+  }
+
+  priceOf(aCoin: Coin): Promise<number> {
+    return this.apiWalletService
+      .getPrices([aCoin.value], false)
+      .pipe(map((res) => res.prices[aCoin.value]))
+      .toPromise();
+  }
+
+  balanceOf(aCoin: Coin): Promise<number> {
+    return this.walletService.balanceOf(this.walletService.addresses[aCoin.network], aCoin.value).then(parseFloat);
   }
 
   private getCoinForPrice(symbol: string): string {

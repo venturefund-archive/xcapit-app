@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
@@ -7,6 +7,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { BalanceCacheService, CachedCoin } from '../shared-wallets/services/balance-cache/balance-cache.service';
+import { AssetBalanceClass } from '../shared-wallets/models/asset-balance/asset-balance.class';
 
 @Component({
   selector: 'app-home-wallet',
@@ -60,14 +64,14 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
           <ion-segment mode="md" class="ux-segment" formControlName="tab">
             <ion-segment-button value="assets">
               <ion-label
-                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'assets' }"
+                [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'assets' }"
                 class="ux-font-header-titulo"
                 >{{ 'wallets.home.tab_assets' | translate }}</ion-label
               >
             </ion-segment-button>
             <ion-segment-button value="nft">
               <ion-label
-                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'nft' }"
+                [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'nft' }"
                 class="ux-font-header-titulo"
                 >{{ 'wallets.home.tab_nfts' | translate }}</ion-label
               >
@@ -88,11 +92,36 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
       </div>
       <div
         class="wt__balance ion-padding-start ion-padding-end"
-        *ngIf="this.walletExist && this.balances?.length && this.segmentsForm.value.tab === 'assets'"
+        *ngIf="this.walletExist && this.segmentsForm.value.tab === 'assets'"
       >
         <div class="wt__balance__wallet-balance-card segment-content first-selected">
-          <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
+          <div class="wbc">
+            <div class="wbc__button ion-padding-end">
+              <ion-button
+                appTrackClick
+                name="Edit Tokens"
+                class="ion-no-margin"
+                fill="clear"
+                size="small"
+                (click)="this.goToSelectCoins()"
+              >
+                <ion-icon icon="ux-adjustments"></ion-icon>
+              </ion-button>
+            </div>
+            <app-wallet-balance-card-item
+              *ngFor="let balance of this.balances; let last = last"
+              [balance]="balance"
+              [last]="last"
+            ></app-wallet-balance-card-item>
+          </div>
         </div>
+        <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadMore()">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
+          >
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
         <app-start-investing></app-start-investing>
       </div>
       <div class="wt__button" *ngIf="!this.walletExist">
@@ -113,12 +142,17 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
   totalBalanceWallet = 0;
-  balances: Array<AssetBalance> = [];
+  balances: AssetBalanceClass[] = [];
   nftStatus = '';
   alreadyInitialized = false;
+  selectedAssets: Coin[];
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
+  promises: Promise<any>[];
+  @ViewChild(IonInfiniteScroll, { static: false })
+  infiniteScroll: IonInfiniteScroll;
+  paginationOptions = { pageSize: 3 };
 
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
@@ -130,7 +164,9 @@ export class HomeWalletPage implements OnInit {
     private navController: NavController,
     private formBuilder: FormBuilder,
     private refreshTimeoutService: RefreshTimeoutService,
-    private walletBalance: WalletBalanceService
+    private walletBalance: WalletBalanceService,
+    private storageService: StorageService,
+    private balanceCacheService: BalanceCacheService
   ) {}
 
   ngOnInit() {}
@@ -165,24 +201,15 @@ export class HomeWalletPage implements OnInit {
   async encryptedWalletExist() {
     this.walletService.walletExist().then((res) => {
       this.walletExist = res;
-
       if (!this.alreadyInitialized && res) {
         this.alreadyInitialized = true;
-        this.getCoinsBalance();
+        this.storageService.getAssestsSelected().then((coins) => {
+          this.selectedAssets = coins;
+          this.loadMore();
+          this.uninitializedWallet();
+        });
       }
     });
-  }
-
-  getCoinsBalance() {
-    this.walletBalance.getWalletsBalances().then((res) => {
-      this.balances = res;
-      this.getTotalBalance();
-      this.uninitializedWallet();
-    });
-  }
-
-  getTotalBalance() {
-    this.walletBalance.getUsdTotalBalance().then((res) => (this.totalBalanceWallet = res));
   }
 
   goToRecoveryWallet() {
@@ -191,5 +218,73 @@ export class HomeWalletPage implements OnInit {
 
   private uninitializedWallet() {
     this.alreadyInitialized = false;
+  }
+
+  goToSelectCoins() {
+    this.navController.navigateForward(['wallets/select-coins', 'edit']);
+  }
+
+  loadMore() {
+    this.selectedCoinsPage(this.paginationOptions);
+  }
+
+  getEnd(options: any): number {
+    return this.balances.length + options.pageSize;
+  }
+
+  getLimit(value: number, coins: Coin[]): number {
+    return value > coins.length ? coins.length : value;
+  }
+
+  algo(coin: Coin, assetBalance: AssetBalanceClass) {
+    this.cachedBalance(coin, assetBalance).then(() => {
+      const balancePromise = this.balanceOf(coin, assetBalance);
+      const pricePromise = this.priceOf(coin, assetBalance);
+      this.aggregateBalance(balancePromise, pricePromise);
+    });
+  }
+
+  aggregateBalance(balancePromise: Promise<number>, pricePromise: Promise<number>): void {
+    Promise.all([balancePromise, pricePromise]).then(
+      ([balance, price]) => (this.totalBalanceWallet += balance * price)
+    );
+  }
+
+  priceOf(coin: Coin, assetBalance: AssetBalanceClass): Promise<number> {
+    return this.walletBalance.priceOf(coin).then((price) => {
+      assetBalance.price = price;
+      this.balanceCacheService.updateCoin(coin, { price });
+      return price;
+    });
+  }
+
+  balanceOf(coin: Coin, assetBalance: AssetBalanceClass): Promise<number> {
+    return this.walletBalance.balanceOf(coin).then((balance) => {
+      assetBalance.amount = balance;
+      this.balanceCacheService.updateCoin(coin, { balance });
+      return balance;
+    });
+  }
+
+  cachedBalance(coin: Coin, assetBalance: AssetBalanceClass) {
+    return this.balanceCacheService.coin(coin).then((cachedCoin: CachedCoin) => {
+      assetBalance.amount = cachedCoin.balance;
+      assetBalance.price = cachedCoin.price;
+    });
+  }
+
+  selectedCoinsPage(options: any) {
+    if (this.balances.length !== this.selectedAssets.length) {
+      const end = this.getLimit(this.getEnd(options), this.selectedAssets);
+      const page = this.selectedAssets.slice(this.balances.length, end).map((aCoin) => {
+        const assetBalance = new AssetBalanceClass(aCoin);
+        this.algo(aCoin, assetBalance);
+        return assetBalance;
+      });
+      this.balances = [...this.balances, ...page];
+      this.infiniteScroll && this.infiniteScroll.complete();
+    } else {
+      this.infiniteScroll.disabled = true;
+    }
   }
 }

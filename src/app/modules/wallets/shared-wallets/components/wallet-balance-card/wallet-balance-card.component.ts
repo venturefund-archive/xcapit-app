@@ -6,23 +6,8 @@ import { NavController } from '@ionic/angular';
   selector: 'app-wallet-balance-card',
   template: `
     <div class="wbc">
-      <div class="wbc__button ion-padding-end">
-        <ion-button
-          appTrackClick
-          name="Edit Tokens"
-          class="ion-no-margin"
-          fill="clear"
-          size="small"
-          (click)="this.goToSelectCoins()"
-        >
-          <ion-icon icon="ux-adjustments"></ion-icon>
-        </ion-button>
-      </div>
-      <app-wallet-balance-card-item
-        *ngFor="let balance of this.balances; let last = last"
-        [balance]="balance"
-        [last]="last"
-      ></app-wallet-balance-card-item>
+
+
     </div>
   `,
   styleUrls: ['./wallet-balance-card.component.scss'],
@@ -33,7 +18,5 @@ export class WalletBalanceCardComponent implements OnInit {
 
   ngOnInit() {}
 
-  goToSelectCoins() {
-    this.navController.navigateForward(['wallets/select-coins', 'edit']);
-  }
+
 }
