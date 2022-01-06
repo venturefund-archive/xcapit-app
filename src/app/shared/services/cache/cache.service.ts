@@ -35,7 +35,7 @@ export class CacheService {
     if (storedValue && !this.isExpired(storedValue.expiration_date)) {
       return storedValue;
     } else {
-      this.storage.remove(this.addPrefix(key));
+      await this.storage.remove(this.addPrefix(key));
     }
   }
 }
