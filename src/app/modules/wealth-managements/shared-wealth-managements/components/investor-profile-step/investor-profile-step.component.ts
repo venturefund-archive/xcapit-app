@@ -32,7 +32,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
             type="submit"
             color="uxsecondary"
             size="large"
-            (click)="this.selectProfile(this.id)"
+            (click)="this.selectProfile(this.baseScore)"
           >
             {{ 'wealth_managements.about_investor_profile.button_select' | translate }}
           </ion-button>
@@ -46,7 +46,7 @@ export class InvestorProfileStepComponent implements OnInit {
   @Input() actualStep: number;
   @Input() sliderLength = 3;
   @Input() imagePath: string;
-  @Input() id: number;
+  @Input() baseScore: number;
   @Input() title: string;
   @Input() subtitle: string;
   @Output() setProfileEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -55,7 +55,7 @@ export class InvestorProfileStepComponent implements OnInit {
 
   ngOnInit() {}
 
-  selectProfile(id: number) {
-    this.setProfileEvent.emit(id);
+  selectProfile(score: number) {
+    this.setProfileEvent.emit(score);
   }
 }
