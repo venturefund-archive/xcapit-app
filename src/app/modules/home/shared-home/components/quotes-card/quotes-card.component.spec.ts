@@ -138,10 +138,7 @@ const remainingNativeQuotes = [
   },
 ];
 
-//
-
 //User Quotes
-
 const userQuotes = [
   {
     symbol: 'BNBUSDT',
