@@ -2237,6 +2237,12 @@
         "title": "Aggressive Profile",
         "subtitle": "You seek the highest possible returns, so you are willing to take whatever risk is necessary. It is not advisable to maintain this risk attitude when you do not have sufficient solvency, or if you have important family commitments."
       }
+    },
+    "no_wallet": {
+      "title": "You don't have your Xcapit wallet yet",
+      "subtitle": "Create your wallet to start investing.",
+      "button": "Create Wallet",
+      "link": "Back to investments"
     }
   }
 }

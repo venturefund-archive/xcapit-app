@@ -2441,6 +2441,12 @@
         "title": "Perfil Agresivo",
         "subtitle": "Buscas los mayores rendimientos posibles, por lo que estas dispuesto a asumir el riesgo que sea necesario. No es recomendable mantener esta actitud de riesgo cuando no cuentas con la suficiente solvencia, o si se tienes compromisos familiares importantes."
       }
+    },
+    "no_wallet": {
+      "title": "Aún no tienes tu Wallet Xcapit",
+      "subtitle": "Crea tu wallet para comenzar a invertir.",
+      "button": "Crear Wallet",
+      "link": "Volver a inversiones"
     }
   }
 }
