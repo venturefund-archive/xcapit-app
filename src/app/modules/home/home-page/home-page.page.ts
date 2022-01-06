@@ -7,9 +7,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-balance.interface';
-import { CacheService } from '../../../shared/services/cache/cache.service';
 import { BalanceCacheService } from '../../wallets/shared-wallets/services/balance-cache/balance-cache.service';
-import { log } from 'util';
 
 @Component({
   selector: 'app-home',
