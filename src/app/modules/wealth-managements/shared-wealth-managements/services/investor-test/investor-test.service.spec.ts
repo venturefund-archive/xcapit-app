@@ -1,3 +1,4 @@
+import { ApiProfilesService } from './../../../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import {
@@ -78,14 +79,21 @@ const testQuestionsUnsorted: Question[] = [
 describe('InvestorTestService', () => {
   let service: InvestorTestService;
   let apiWealthManagementsServiceSpy: jasmine.SpyObj<ApiWealthManagementsService>;
+  let apiProfilesServiceMock: any;
 
   beforeEach(() => {
     apiWealthManagementsServiceSpy = jasmine.createSpyObj('ApiWealthManagementsService', {
       getInvestorTestQuestions: of(testQuestions),
-      saveInvestorTestScore: of(),
     });
+
+    apiProfilesServiceMock = {
+      crud: jasmine.createSpyObj('CRUD', ['patch']),
+    };
     TestBed.configureTestingModule({
-      providers: [{ provide: ApiWealthManagementsService, useValue: apiWealthManagementsServiceSpy }],
+      providers: [
+        { provide: ApiWealthManagementsService, useValue: apiWealthManagementsServiceSpy },
+        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+      ],
     });
     service = TestBed.inject(InvestorTestService);
 
@@ -242,13 +250,13 @@ describe('InvestorTestService', () => {
   it('should not call saveInvestorTestScore if hasAnsweredAllQuestions is false on saveAnswers', () => {
     spyOnProperty(service, 'hasAnsweredAllQuestions').and.returnValue(false);
     service.saveAnswers();
-    expect(apiWealthManagementsServiceSpy.saveInvestorTestScore).not.toHaveBeenCalled();
+    expect(apiProfilesServiceMock.crud.patch).not.toHaveBeenCalled();
   });
 
   it('should call saveInvestorTestScore if hasAnsweredAllQuestions is true on saveAnswers', () => {
     spyOnProperty(service, 'hasAnsweredAllQuestions').and.returnValue(true);
     service.saveAnswers();
-    expect(apiWealthManagementsServiceSpy.saveInvestorTestScore).toHaveBeenCalledTimes(1);
+    expect(apiProfilesServiceMock.crud.patch).toHaveBeenCalledTimes(1);
   });
 
   it('should return 0 if has not answered any question on get totalScore', () => {
