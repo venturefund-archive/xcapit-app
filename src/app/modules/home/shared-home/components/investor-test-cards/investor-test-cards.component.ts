@@ -3,12 +3,12 @@ import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-investor-test-cards',
-  template: ` <div class="investor_cards">
-    <div class="take_test_card vertical-card" name="Go Investor Test" (click)="this.goToInvestorTest()">
-      <div class="take_test_card__image">
+  template: ` <div class="investor-cards">
+    <div class="take-test-card vertical-card" name="Go Investor Test" (click)="this.goToInvestorTest()">
+      <div class="take-test-card__image">
         <ion-img src="assets/ux-icons/take-test.svg"></ion-img>
       </div>
-      <div class="take_test_card__title">
+      <div class="take-test-card__title">
         <ion-text class="ux-font-titulo-xs">{{ 'home.home_page.test_investor_cards.title1' | translate }}</ion-text>
       </div>
       <div class="link">
@@ -22,16 +22,16 @@ import { NavController } from '@ionic/angular';
       </div>
     </div>
     <div
-      class="manual_test_card vertical-card"
+      class="manual-test-card vertical-card"
       appTrackClick
       name="Go Investor Profiles"
       (click)="this.goToInvestorProfiles()"
     >
-      <div class="manual_test_card__image">
+      <div class="manual-test-card__image">
         <ion-img src="assets/ux-icons/manual-test.svg"></ion-img>
       </div>
-      <div class="manual_test_card__content">
-        <div class="manual_test_card__content__title">
+      <div class="manual-test-card__content">
+        <div class="manual-test-card__content__title">
           <ion-text class="ux-font-titulo-xs">{{ 'home.home_page.test_investor_cards.title2' | translate }}</ion-text>
         </div>
       </div>

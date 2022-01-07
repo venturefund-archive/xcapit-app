@@ -7,11 +7,11 @@
     --background: var(--ion-color-successlight);
   }
 
-  &investor_cards {
+  .investor-cards {
     display: flex;
     margin-top: 8px;
 
-    &vertical-card {
+    .vertical-card {
       flex-basis: 50%;
       background: var(--ion-color-uxlight);
       display: flex;
@@ -21,7 +21,7 @@
       border-radius: 8px;
       border: 0.5px solid var(--ion-color-uxline);
 
-      &link {
+      .link {
         text-align: left;
         line-height: 16.8px;
         margin-top: 8px;
@@ -37,7 +37,7 @@
     }
   }
 
-  &take_test_card {
+  .take-test-card {
     margin-right: 8px;
 
     &__title {
@@ -52,7 +52,7 @@
     }
   }
 
-  &manual_test_card {
+  .manual-test-card {
     display: flex;
 
     &__content {
