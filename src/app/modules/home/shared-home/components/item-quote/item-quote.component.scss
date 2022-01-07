@@ -1,0 +1,45 @@
+.table-header {
+  width: 100%;
+  margin-bottom: 0;
+  color: var(--ion-color-uxsemidark);
+  flex-direction: row;
+  display: flex;
+  text-align: start;
+  font-weight: var(--ux-fweight-regular);
+
+  ion-label {
+    margin: 0;
+    flex: 1;
+  }
+
+  ion-label.right {
+    text-align: end;
+  }
+
+  ion-text {
+    flex: 1;
+  }
+
+  ion-text.center {
+    flex-direction: column;
+    text-align: start;
+  }
+}
+
+.symbol_group {
+  flex: 1;
+}
+
+ion-item::part(native) {
+  background-color: var(--ion-color-uxlight) !important;
+}
+
+ion-text.positive {
+  color: var(--ion-color-successdark);
+  text-align: end;
+}
+
+ion-text.negative {
+  color: var(--ion-color-dangerdark);
+  text-align: end;
+}

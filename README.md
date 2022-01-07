@@ -1,5 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/gitlab/xcapit-foss/app/badge.svg?branch=develop)](https://coveralls.io/gitlab/xcapit-foss/app?branch=develop)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e37e8361fef04cb0af42e95ec0fce366)](https://www.codacy.com/gl/xcapit-foss/app/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=xcapit-foss/app&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e37e8361fef04cb0af42e95ec0fce366)](https://www.codacy.com/gl/xcapit-foss/app/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=xcapit-foss/app&utm_campaign=Badge_Grade)
 
 # Xcapit Smart Wallet
 
