@@ -69,8 +69,8 @@ const routes: Routes = [
         loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
       },
       {
-        path: 'no-wallet',
-        loadChildren: () => import('./no-wallet-page/no-wallet/no-wallet.module').then((m) => m.NoWalletPageModule),
+        path: 'no-wallet-to-buy',
+        loadChildren: () => import('./no-wallet-to-buy/no-wallet.module').then((m) => m.NoWalletToBuyPageModule),
       },
     ],
   },
