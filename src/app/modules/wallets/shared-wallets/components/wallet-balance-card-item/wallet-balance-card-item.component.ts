@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AssetBalance } from '../../interfaces/asset-balance.interface';
 import { NavController } from '@ionic/angular';
-import { AssetBalanceClass } from '../../models/asset-balance/asset-balance.class';
+import { AssetBalanceModel } from '../../models/asset-balance/asset-balance.class';
 
 @Component({
   selector: 'app-wallet-balance-card-item',
@@ -31,7 +31,7 @@ import { AssetBalanceClass } from '../../models/asset-balance/asset-balance.clas
   styleUrls: ['./wallet-balance-card-item.component.scss'],
 })
 export class WalletBalanceCardItemComponent implements OnInit {
-  @Input() balance: AssetBalanceClass;
+  @Input() balance: AssetBalanceModel;
   @Input() last: boolean;
 
   constructor(private navController: NavController) {}
@@ -39,6 +39,6 @@ export class WalletBalanceCardItemComponent implements OnInit {
   ngOnInit() {}
 
   goToAssetDetail() {
-    this.navController.navigateForward(['wallets/asset-detail/' + this.balance.symbol]);
+    this.navController.navigateForward(['wallets/asset-detail/', this.balance.symbol]);
   }
 }

@@ -2,7 +2,7 @@ import { BalanceCacheService, CachedCoin } from './../../services/balance-cache/
 import { WalletBalanceService } from './../../services/wallet-balance/wallet-balance.service';
 import { Coin } from '../../interfaces/coin.interface';
 
-export class AssetBalanceClass {
+export class AssetBalanceModel {
   coin: Coin;
   icon: string;
   symbol: string;
@@ -45,7 +45,7 @@ export class AssetBalanceClass {
     return this.balancePromise;
   }
 
-  cachedBalance() {
+  cachedBalance(): Promise<void> {
     return this.balanceCacheService.coin(this.coin).then((cachedCoin: CachedCoin) => {
       this.amount = cachedCoin.balance;
       this.price = cachedCoin.price;

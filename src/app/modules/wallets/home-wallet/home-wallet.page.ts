@@ -10,7 +10,7 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService, CachedCoin } from '../shared-wallets/services/balance-cache/balance-cache.service';
-import { AssetBalanceClass } from '../shared-wallets/models/asset-balance/asset-balance.class';
+import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
 
 @Component({
   selector: 'app-home-wallet',
@@ -24,7 +24,7 @@ import { AssetBalanceClass } from '../shared-wallets/models/asset-balance/asset-
     </ion-header>
 
     <ion-content>
-      <ion-refresher (ionRefresh)="refresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
+      <ion-refresher (ionRefresh)="this.refresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
         <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="true" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
           <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
@@ -94,28 +94,26 @@ import { AssetBalanceClass } from '../shared-wallets/models/asset-balance/asset-
         class="wt__balance ion-padding-start ion-padding-end"
         *ngIf="this.walletExist && this.segmentsForm.value.tab === 'assets'"
       >
-        <div class="wt__balance__wallet-balance-card segment-content first-selected">
-          <div class="wbc">
-            <div class="wbc__button ion-padding-end">
-              <ion-button
-                appTrackClick
-                name="Edit Tokens"
-                class="ion-no-margin"
-                fill="clear"
-                size="small"
-                (click)="this.goToSelectCoins()"
-              >
-                <ion-icon icon="ux-adjustments"></ion-icon>
-              </ion-button>
-            </div>
-            <app-wallet-balance-card-item
-              *ngFor="let balance of this.balances; let last = last"
-              [balance]="balance"
-              [last]="last"
-            ></app-wallet-balance-card-item>
+        <div class="wt__balance segment-content first-selected">
+          <div class="wt__balance__button ion-padding-end">
+            <ion-button
+              appTrackClick
+              name="Edit Tokens"
+              class="ion-no-margin"
+              fill="clear"
+              size="small"
+              (click)="this.goToSelectCoins()"
+            >
+              <ion-icon icon="ux-adjustments"></ion-icon>
+            </ion-button>
           </div>
+          <app-wallet-balance-card-item
+            *ngFor="let balance of this.balances; let last = last"
+            [balance]="balance"
+            [last]="last"
+          ></app-wallet-balance-card-item>
         </div>
-        <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadMore()">
+        <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadCoins()">
           <ion-infinite-scroll-content
             loadingSpinner="bubbles"
             loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
@@ -142,7 +140,7 @@ import { AssetBalanceClass } from '../shared-wallets/models/asset-balance/asset-
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
   totalBalanceWallet = 0;
-  balances: AssetBalanceClass[] = [];
+  balances: AssetBalanceModel[] = [];
   nftStatus = '';
   alreadyInitialized = false;
   selectedAssets: Coin[];
@@ -171,16 +169,29 @@ export class HomeWalletPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.encryptedWalletExist();
+  async ionViewDidEnter() {
+    if (!this.alreadyInitialized) {
+      await this.initialize();
+      this.alreadyInitialized = true;
+    }
+  }
+
+  async initialize(): Promise<void> {
+    this.clearBalances();
+    await this.checkWalletExist();
+    await this.getAssetsSelected();
+    this.loadCoins();
     this.getNFTStatus();
   }
 
-  async refresh(event: any) {
+  private clearBalances(): void {
+    this.balances = [];
+    this.totalBalanceWallet = 0;
+  }
+
+  async refresh(event: any): Promise<void> {
     if (this.refreshTimeoutService.isAvailable()) {
-      this.uninitializedWallet();
-      this.getNFTStatus();
-      await this.encryptedWalletExist();
+      await this.initialize();
       this.refreshTimeoutService.lock();
       event.target.complete();
     } else {
@@ -188,36 +199,26 @@ export class HomeWalletPage implements OnInit {
     }
   }
 
-  getNFTStatus() {
+  private getNFTStatus(): void {
     this.apiWalletService.getNFTStatus().subscribe((res) => (this.nftStatus = res.status));
   }
 
-  createNFTRequest() {
+  createNFTRequest(): void {
     this.apiWalletService.createNFTRequest().subscribe(() => {
       this.nftStatus = 'claimed';
     });
   }
 
-  async encryptedWalletExist() {
-    this.walletService.walletExist().then((res) => {
-      this.walletExist = res;
-      if (!this.alreadyInitialized && res) {
-        this.alreadyInitialized = true;
-        this.storageService.getAssestsSelected().then((coins) => {
-          this.selectedAssets = coins;
-          this.loadMore();
-          this.uninitializedWallet();
-        });
-      }
-    });
+  private async checkWalletExist(): Promise<void> {
+    this.walletExist = await this.walletService.walletExist();
+  }
+
+  private async getAssetsSelected(): Promise<void> {
+    this.selectedAssets = await this.storageService.getAssestsSelected();
   }
 
   goToRecoveryWallet(): void {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
-  }
-
-  private uninitializedWallet(): void {
-    this.alreadyInitialized = false;
   }
 
   goToSelectCoins(): void {
@@ -228,7 +229,7 @@ export class HomeWalletPage implements OnInit {
     return this.balances.length === this.selectedAssets.length;
   }
 
-  loadMore(): void {
+  loadCoins(): void {
     if (!this.finishedLoad()) {
       this.loadNextPage();
       this.infiniteScroll && this.infiniteScroll.complete();
@@ -243,7 +244,8 @@ export class HomeWalletPage implements OnInit {
 
   private loadNextPage(): void {
     const page = this.selectedAssets.slice(this.balances.length, this.endPageIndex()).map((aCoin: Coin) => {
-      const assetBalance = new AssetBalanceClass(aCoin, this.walletBalance, this.balanceCacheService);
+      const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
+      assetBalance.cachedBalance();
       assetBalance.balance();
       assetBalance.getPrice();
       assetBalance.quoteBalance().then((quote: number) => (this.totalBalanceWallet += quote));
