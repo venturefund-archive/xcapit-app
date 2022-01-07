@@ -62,6 +62,7 @@ import { InvestorTestCardsComponent } from '../modules/home/shared-home/componen
 import { QuotesCardComponent } from '../modules/home/shared-home/components/quotes-card/quotes-card.component';
 import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
+import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     NetworkSelectCardComponent,
+    NoWalletComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -187,6 +189,7 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     TestOptionItemComponent,
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
+    NoWalletComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
