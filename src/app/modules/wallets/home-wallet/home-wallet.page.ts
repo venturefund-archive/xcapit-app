@@ -152,7 +152,7 @@ export class HomeWalletPage implements OnInit {
   promises: Promise<any>[];
   @ViewChild(IonInfiniteScroll, { static: false })
   infiniteScroll: IonInfiniteScroll;
-  paginationOptions = { pageSize: 3 };
+  pageSize = 3;
 
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
@@ -212,79 +212,43 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
-  goToRecoveryWallet() {
+  goToRecoveryWallet(): void {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
-  private uninitializedWallet() {
+  private uninitializedWallet(): void {
     this.alreadyInitialized = false;
   }
 
-  goToSelectCoins() {
+  goToSelectCoins(): void {
     this.navController.navigateForward(['wallets/select-coins', 'edit']);
   }
 
-  loadMore() {
-    this.selectedCoinsPage(this.paginationOptions);
+  private finishedLoad(): boolean {
+    return this.balances.length === this.selectedAssets.length;
   }
 
-  getEnd(options: any): number {
-    return this.balances.length + options.pageSize;
-  }
-
-  getLimit(value: number, coins: Coin[]): number {
-    return value > coins.length ? coins.length : value;
-  }
-
-  algo(coin: Coin, assetBalance: AssetBalanceClass) {
-    this.cachedBalance(coin, assetBalance).then(() => {
-      const balancePromise = this.balanceOf(coin, assetBalance);
-      const pricePromise = this.priceOf(coin, assetBalance);
-      this.aggregateBalance(balancePromise, pricePromise);
-    });
-  }
-
-  aggregateBalance(balancePromise: Promise<number>, pricePromise: Promise<number>): void {
-    Promise.all([balancePromise, pricePromise]).then(
-      ([balance, price]) => (this.totalBalanceWallet += balance * price)
-    );
-  }
-
-  priceOf(coin: Coin, assetBalance: AssetBalanceClass): Promise<number> {
-    return this.walletBalance.priceOf(coin).then((price) => {
-      assetBalance.price = price;
-      this.balanceCacheService.updateCoin(coin, { price });
-      return price;
-    });
-  }
-
-  balanceOf(coin: Coin, assetBalance: AssetBalanceClass): Promise<number> {
-    return this.walletBalance.balanceOf(coin).then((balance) => {
-      assetBalance.amount = balance;
-      this.balanceCacheService.updateCoin(coin, { balance });
-      return balance;
-    });
-  }
-
-  cachedBalance(coin: Coin, assetBalance: AssetBalanceClass) {
-    return this.balanceCacheService.coin(coin).then((cachedCoin: CachedCoin) => {
-      assetBalance.amount = cachedCoin.balance;
-      assetBalance.price = cachedCoin.price;
-    });
-  }
-
-  selectedCoinsPage(options: any) {
-    if (this.balances.length !== this.selectedAssets.length) {
-      const end = this.getLimit(this.getEnd(options), this.selectedAssets);
-      const page = this.selectedAssets.slice(this.balances.length, end).map((aCoin) => {
-        const assetBalance = new AssetBalanceClass(aCoin);
-        this.algo(aCoin, assetBalance);
-        return assetBalance;
-      });
-      this.balances = [...this.balances, ...page];
+  loadMore(): void {
+    if (!this.finishedLoad()) {
+      this.loadNextPage();
       this.infiniteScroll && this.infiniteScroll.complete();
     } else {
       this.infiniteScroll.disabled = true;
     }
+  }
+
+  private endPageIndex(): number {
+    return Math.min(this.balances.length + this.pageSize, this.selectedAssets.length);
+  }
+
+  private loadNextPage(): void {
+    const page = this.selectedAssets.slice(this.balances.length, this.endPageIndex()).map((aCoin: Coin) => {
+      const assetBalance = new AssetBalanceClass(aCoin, this.walletBalance, this.balanceCacheService);
+      assetBalance.balance();
+      assetBalance.getPrice();
+      assetBalance.quoteBalance().then((quote: number) => (this.totalBalanceWallet += quote));
+      return assetBalance;
+    });
+    this.balances = [...this.balances, ...page];
   }
 }
