@@ -40,31 +40,35 @@ describe('InvestorTestCardsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not render badge if comingSoon is false', async () => {
-    component.comingSoon = false;
+  it('should not render properly badge if testAvailable or manualTestAvailable are true', async () => {
+    component.testAvailable = true;
+    component.manualTestAvailable = true;
     fixture.detectChanges();
     const badgeEl = fixture.debugElement.query(By.css('.badge'));
     expect(badgeEl).toBeNull();
   });
 
-  it('should render badge if comingSoon is true', async () => {
-    component.comingSoon = true;
+  it('should render properly badge if testAvailable or manualTestAvailable are false', async () => {
+    component.manualTestAvailable = false;
+    component.testAvailable = false;
     fixture.detectChanges();
     const badgeEl = fixture.debugElement.query(By.css('.badge'));
     expect(badgeEl.nativeNode.innerHTML).toContain('home.home_page.test_investor_cards.badge_text');
   });
 
-  it('should navigate to investor Test when take_test_card Div is clicked', async () => {
-    component.comingSoon = false;
+  it('should navigate to investor Test when take_test_card Div is clicked and testAvailable', async () => {
+    component.testAvailable = true; 
     const clickeableDiv = fixture.debugElement.query(By.css('div[name="Go Investor Test"]'));
     clickeableDiv.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wealth-management/investor-test-options']);
   });
 
-  it('should navigate to investor Test when manual_test_card Div is clicked', async () => {
-    component.comingSoon = false;
+
+  it('should navigate to manual profile selection when manual_test_card Div is clicked and manualTestAvailable is true', async () => {
+    component.manualTestAvailable = true;
     const clickeableDiv = fixture.debugElement.query(By.css('div[name="Go Investor Profiles"]'));
     clickeableDiv.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wealth-management/about-investor-profiles']);
   });
+
 });
