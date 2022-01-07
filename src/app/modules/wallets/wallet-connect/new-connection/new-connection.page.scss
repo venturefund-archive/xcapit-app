@@ -59,6 +59,8 @@
         --inner-border-width: 0px;
         min-height: 51px;
         display: flex;
+        flex-direction: column;
+        justify-content: center;
         border: 1px solid #606c83;
         border-radius: 4px;
         &.ux-error__item {

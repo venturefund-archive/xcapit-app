@@ -770,7 +770,8 @@
       "manage_apikey": "Manage API Keys",
       "category_preferences": "Preferences",
       "language": "Language",
-      "logout": "Log Out"
+      "logout": "Log Out",
+      "category_walletconnect": "WalletConnect"
     },
 
     "success_profile": {
@@ -2240,6 +2241,10 @@
         "link1": "Take test",
         "title2": "Do you know what type of investor you are?",
         "link2": "Find out"
+      },
+      "wallet_connect_card": {
+        "title": "WalletConnect",
+        "subtitle": "Connect your wallet to the crypto world and stay in control"
       }
     },
     "shared": {

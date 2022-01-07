@@ -58,7 +58,7 @@ export interface PeerMeta {
                       <ion-radio
                         mode="md"
                         slot="start"
-                        [value]="wallet.address"
+                        [value]="wallet.chain_id"
                         (click)="this.setWalletInfo(wallet)"
                       ></ion-radio>
                     </ion-item>

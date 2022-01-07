@@ -3,10 +3,7 @@ import WalletConnect from '@walletconnect/client';
 import { convertHexToNumber } from '@walletconnect/utils';
 import { ModalController } from '@ionic/angular';
 import { WalletTransactionsService } from '../../services/wallet-transactions/wallet-transactions.service';
-import { WalletConnectSignRequestComponent } from '../../components/wallet-connect-sign-request/wallet-connect-sign-request.component';
-import { personalSign, signTypedData_v4 } from 'eth-sig-util';
 import { ethers } from 'ethers';
-import * as AbiDecoder from 'abi-decoder';
 import erc20 from '../../constants/assets-abi/erc20-abi.json';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { NavController } from '@ionic/angular';
@@ -28,12 +25,12 @@ export class WalletConnectService {
   providerSymbol = '';
   rpcUrl = '';
   network = '';
-  private requests: any[] = [];
+  public requests: any[] = [];
   connected = false;
-  private address: string;
-  private activeChainId = 1;
-  private walletId: string;
-  private supportedMethods: string[] = [
+  public address: string;
+  public activeChainId = 1;
+  public walletId: string;
+  public supportedMethods: string[] = [
     'eth_sendTransaction',
     'eth_sign',
     'eth_signTransaction',
@@ -43,8 +40,8 @@ export class WalletConnectService {
     'eth_signTypedData_v4',
     'personal_sign',
   ];
-  private erc20Abi;
-  private isApproveRequest = false;
+  public erc20Abi;
+  public isApproveRequest = false;
 
   constructor(
     private modalController: ModalController,
@@ -52,8 +49,8 @@ export class WalletConnectService {
     private appStorageService: AppStorageService,
     private navController: NavController
   ) {
-    this.erc20Abi = AbiDecoder;
-    this.erc20Abi.addABI(erc20);
+    // this.erc20Abi = AbiDecoder;
+    // this.erc20Abi.addABI(erc20);
   }
 
   async onInit() {}
@@ -220,8 +217,14 @@ export class WalletConnectService {
   }
 
   public async checkIsApproval(request) {
-    const decodedData = this.erc20Abi.decodeMethod(request.params[0].data);
-    this.isApproveRequest = request && decodedData && decodedData.name === 'approve';
+    const iface = new ethers.utils.Interface(erc20);
+
+    try {
+      const res = iface.decodeFunctionData('approve', request.params[0].data);
+      this.isApproveRequest = true;
+    } catch (e) {
+      this.isApproveRequest = false;
+    }
 
     return this.isApproveRequest;
   }

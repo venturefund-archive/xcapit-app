@@ -774,7 +774,8 @@
       "manage_apikey": "Gestión de API Keys",
       "category_preferences": "Preferencias",
       "language": "Idioma",
-      "logout": "Cerrar Sesión"
+      "logout": "Cerrar Sesión",
+      "category_walletconnect": "WalletConnect"
     },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
@@ -2236,6 +2237,10 @@
         "link1": "Hacer test",
         "title2": "¿Sabes qué tipo de inversionista eres?",
         "link2": "Descúbrelo"
+      },
+      "wallet_connect_card": {
+        "title": "WalletConnect",
+        "subtitle": "Conecta tu wallet al mundo cripto y mantén el control"
       }
     },
     "shared": {

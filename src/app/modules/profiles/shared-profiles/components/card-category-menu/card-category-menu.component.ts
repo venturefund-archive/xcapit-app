@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
+import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 
 @Component({
   selector: 'app-card-category-menu',
@@ -8,9 +9,18 @@ import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/w
     <div class="ux-card">
       <div class="card-title">
         <img class="card-title__img" [src]="this.category?.icon" />
-        <ion-text class="ux-font-header-titulo card-title__text">{{
+        <ion-text class="ux-font-header-titulo card-title__text" *ngIf="!this.category?.route">{{
           this.category?.category_title | translate
         }}</ion-text>
+        <ion-button
+          *ngIf="this.category?.route"
+          class="ux-font-header-titulo card-title__button"
+          fill="clear"
+          [id]="this.category?.name"
+          appTrackClick
+          (click)="this.goToRoute(this.category)"
+          >{{ this.category?.category_title | translate }}</ion-button
+        >
       </div>
       <div *ngFor="let item of this.category?.items">
         <ion-button
@@ -29,7 +39,11 @@ import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/w
 })
 export class CardCategoryMenuComponent implements OnInit {
   @Input() category;
-  constructor(private navController: NavController, private walletService: WalletService) {}
+  constructor(
+    private navController: NavController,
+    private walletService: WalletService,
+    private walletConnectService: WalletConnectService
+  ) {}
 
   ngOnInit() {}
 
@@ -37,6 +51,15 @@ export class CardCategoryMenuComponent implements OnInit {
     let url = item.route;
     if (item.element === 'recoveryPhrase' && !(await this.walletService.walletExist())) {
       url = '/wallets/recovery/info-no-wallet';
+    }
+    if (item.element === 'walletconnect') {
+      if (!(await this.walletService.walletExist())) {
+        url = 'tabs/wallets';
+      } else {
+        if (this.walletConnectService.connected) {
+          url = '/wallets/wallet-connect/connection-detail';
+        }
+      }
     }
     this.navController.navigateForward(url);
   }

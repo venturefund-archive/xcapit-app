@@ -54,6 +54,9 @@ import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-bala
         <div class="buy-crypto-card">
           <app-buy-crypto-card (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
         </div>
+        <div class="wallet-connect-card">
+          <app-wallet-connect-card></app-wallet-connect-card>
+        </div>
         <div class="investor-test-card">
           <app-investor-test-cards></app-investor-test-cards>
         </div>
