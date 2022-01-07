@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { NoWalletData } from './no-wallet-data.interface';
 
 @Component({
   selector: 'app-no-wallet',
@@ -36,7 +37,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./no-wallet.component.scss'],
 })
 export class NoWalletComponent implements OnInit {
-  @Input() data: any;
+  @Input() data: NoWalletData;
 
   constructor(private navController: NavController) {}
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NoWalletData } from 'src/app/shared/components/no-wallet/no-wallet-data.interface';
 import { NO_WALLET_TYPES } from 'src/app/shared/components/no-wallet/no-wallet-types.constant';
 
 @Component({
@@ -11,11 +12,13 @@ import { NO_WALLET_TYPES } from 'src/app/shared/components/no-wallet/no-wallet-t
   styleUrls: ['./no-wallet-to-buy.page.scss'],
 })
 export class NoWalletToBuyPage implements OnInit {
-  data: any;
+  data: NoWalletData;
 
   constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.data = NO_WALLET_TYPES.no_wallet_fiat_ramps;
   }
 }
