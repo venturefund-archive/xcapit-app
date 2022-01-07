@@ -38,3 +38,12 @@ variables.env
 docker-compose.yml
 android/app/google-services.json
 ios/App/App/GoogleService-Info.plist
+
+# Yarn 2
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
