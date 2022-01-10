@@ -144,6 +144,15 @@ const routes: Routes = [
         path: 'nft-detail',
         loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
       },
+      {
+        path: 'password-change',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./password/wallet-password-change/wallet-password-change.module').then( m => m.WalletPasswordChangePageModule)
+          },
+        ]
+      }
     ],
   },
 ];

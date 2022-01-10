@@ -36,6 +36,12 @@ export const ITEM_MENU: MenuCategory[] = [
     icon: 'assets/ux-icons/ux-key-outline.svg',
     items: [
       {
+        name: 'WalletPasswordChange',
+        text: 'profiles.user_profile_menu.change_pass',
+        route: '/wallets/password-change',
+        type: 'link',
+      },
+      {
         name: 'RecoveryPhrase',
         text: 'profiles.user_profile_menu.security_phrase',
         route: '/wallets/recovery/info',

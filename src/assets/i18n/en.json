@@ -1389,7 +1389,15 @@
       "subtitle": "Every time you make a purchase, your cryptocurrencies will be deposited there.",
       "button": "Create wallet"
     },
-
+    "password_change": {
+      "header": "Change wallet password",
+      "title": "Before changing your wallet's password keep in mind that:",
+      "description": "You must have your recovery phrase written down. This will help you recover your wallet if you forget your new password.",
+      "old_password": "Write your current password",
+      "new_password": "Write your new password",
+      "repeat_password": "Repeat your new password",
+      "submit_button": "Change"
+    },
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
