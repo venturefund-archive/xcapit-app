@@ -65,11 +65,11 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
           ></app-address-input-card>
         </div>
         <div class="sd__amount-input-card" *ngIf="this.currency">
-          <app-amount-input-card
+          <app-send-amount-input-card
             [title]="'wallets.send.send_detail.amount_input.title' | translate"
             [currencyName]="this.currency.value"
             referenceCurrencyName="USD"
-          ></app-amount-input-card>
+          ></app-send-amount-input-card>
         </div>
       </form>
 

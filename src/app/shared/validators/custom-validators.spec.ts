@@ -4,7 +4,7 @@ import { CustomValidatorErrors } from './custom-validator-errors';
 
 let formBuilder: FormBuilder;
 
-describe('AmountInputCardComponent', () => {
+describe('CustomValidators', () => {
   beforeEach(() => {
     formBuilder = new FormBuilder();
   });

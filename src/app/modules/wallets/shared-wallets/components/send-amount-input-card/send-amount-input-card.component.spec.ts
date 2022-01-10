@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { AmountInputCardComponent } from './amount-input-card.component';
+import { SendAmountInputCardComponent } from './send-amount-input-card.component';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { of } from 'rxjs';
 
-describe('AmountInputCardComponent', () => {
-  let component: AmountInputCardComponent;
-  let fixture: ComponentFixture<AmountInputCardComponent>;
+describe('SendAmountInputCardComponent', () => {
+  let component: SendAmountInputCardComponent;
+  let fixture: ComponentFixture<SendAmountInputCardComponent>;
   let controlContainerMock: FormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
   let apiWalletServiceSpy: any;
@@ -24,7 +24,7 @@ describe('AmountInputCardComponent', () => {
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;
     TestBed.configureTestingModule({
-      declarations: [AmountInputCardComponent],
+      declarations: [SendAmountInputCardComponent],
       imports: [IonicModule, ReactiveFormsModule],
       providers: [
         { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
@@ -33,7 +33,7 @@ describe('AmountInputCardComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AmountInputCardComponent);
+    fixture = TestBed.createComponent(SendAmountInputCardComponent);
     component = fixture.componentInstance;
     component.currencyName = 'LINK';
     component.referenceCurrencyName = 'USDT';

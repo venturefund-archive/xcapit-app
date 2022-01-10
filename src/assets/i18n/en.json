@@ -2258,5 +2258,17 @@
       "button": "Create Wallet",
       "link": "Back to investments"
     }
+  },
+  "defi_investments": {
+    "shared": {
+      "expandable_investment_info": {
+        "TVL": "Total Value Locked",
+        "protocol_type": "Protocol type",
+        "deposit_asset": "Deposit",
+        "receive_asset": "Obtain",
+        "platform": "Platform",
+        "annual": "% Annual"
+      }
+    }
   }
 }

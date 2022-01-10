@@ -3,13 +3,13 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 
 @Component({
-  selector: 'app-amount-input-card',
+  selector: 'app-send-amount-input-card',
   template: `
-    <div class="aic ion-padding">
-      <div class="aic__header__title">
+    <div class="saic ion-padding">
+      <div class="saic__header__title">
         <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14">{{ this.title }}</ion-text>
       </div>
-      <div class="aic__content">
+      <div class="saic__content">
         <app-ux-input-underlined
           [labelRight]="this.currencyName"
           controlName="amount"
@@ -34,9 +34,9 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
       useExisting: FormGroupDirective,
     },
   ],
-  styleUrls: ['./amount-input-card.component.scss'],
+  styleUrls: ['./send-amount-input-card.component.scss'],
 })
-export class AmountInputCardComponent implements OnInit {
+export class SendAmountInputCardComponent implements OnInit {
   @Input() title: string;
   @Input() currencyName: string;
   @Input() referenceCurrencyName: string;

@@ -2456,5 +2456,17 @@
       "button": "Crear Wallet",
       "link": "Volver a inversiones"
     }
+  },
+  "defi_investments": {
+    "shared": {
+      "expandable_investment_info": {
+        "TVL": "Total de Valor Bloqueado",
+        "protocol_type": "Tipo de protocolo",
+        "deposit_asset": "Depositas",
+        "receive_asset": "Obtienes",
+        "platform": "Plataforma",
+        "annual": "% Anual"
+      }
+    }
   }
 }
