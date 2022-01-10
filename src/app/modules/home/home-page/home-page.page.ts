@@ -56,14 +56,14 @@ import { BalanceCacheService } from '../../wallets/shared-wallets/services/balan
         <div class="buy-crypto-card">
           <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto($event)"></app-buy-crypto-card>
         </div>
+        <div class="quotes-card">
+          <app-quotes-card></app-quotes-card>
+        </div>
         <div class="investor-test-card">
           <app-investor-test-cards></app-investor-test-cards>
         </div>
         <div class="need-help-card">
           <app-need-help-card></app-need-help-card>
-        </div>
-        <div class="quotes-card">
-          <app-quotes-card></app-quotes-card>
         </div>
       </div>
     </ion-content>
