@@ -5,7 +5,7 @@ import { Quotes } from '../../interfaces/quotes.interface';
   selector: 'app-item-quote',
   template: `
     <ion-item class="table-header">
-      <div class="symbol_group">
+      <div class="symbol-group">
         <ion-text class="symbol ux-font-text-xs"> {{ quote.symbol?.slice(0, -4) }}</ion-text>
         <ion-text class="pair ux-font-text-xxs">/USDT</ion-text>
       </div>
