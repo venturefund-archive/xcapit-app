@@ -59,7 +59,10 @@ import { WalletTotalBalanceCardComponent } from '../modules/home/shared-home/com
 import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
+import { QuotesCardComponent } from '../modules/home/shared-home/components/quotes-card/quotes-card.component';
+import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
+import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +80,8 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     LoadingModalComponent,
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
+    QuotesCardComponent,
+    ItemQuoteComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -115,6 +120,7 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     NetworkSelectCardComponent,
+    NoWalletComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -143,6 +149,8 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     LoadingModalComponent,
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
+    QuotesCardComponent,
+    ItemQuoteComponent,
     NetworkSelectCardComponent,
     // Ux
     SelectModalNewComponent,
@@ -181,6 +189,7 @@ import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/co
     TestOptionItemComponent,
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
+    NoWalletComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

@@ -2173,6 +2173,14 @@
         "link1": "Take test",
         "title2": "Do you know what type of investor you are?",
         "link2": "Find out"
+      },
+      "quotes_card": {
+        "title": "Quotes",
+        "table_label1": "Pair",
+        "table_label2": "Last price",
+        "table_label3": "Change % 24 h",
+        "more_button": "See more",
+        "less_button": "See less"
       }
     },
     "shared": {
@@ -2243,6 +2251,12 @@
         "title": "Aggressive Profile",
         "subtitle": "You seek the highest possible returns, so you are willing to take whatever risk is necessary. It is not advisable to maintain this risk attitude when you do not have sufficient solvency, or if you have important family commitments."
       }
+    },
+    "no_wallet": {
+      "title": "You don't have your Xcapit wallet yet",
+      "subtitle": "Create your wallet to start investing.",
+      "button": "Create Wallet",
+      "link": "Back to investments"
     }
   }
 }

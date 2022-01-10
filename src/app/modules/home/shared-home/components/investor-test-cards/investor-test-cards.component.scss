@@ -1,60 +1,74 @@
-.badge {
-  --background: var(--ion-color-successlight);
-  color: var(--ion-color-successdark);
-}
-.investor_cards {
-  display: flex;
-  margin-top: 8px;
+:host {
+  .badge {
+    margin-left: 16px;
+    color: var(--ion-color-successdark);
+    margin-bottom: 3px;
 
-  .vertical-card {
-    flex-basis: 50%;
-    background: var(--ion-color-uxlight);
+    --background: var(--ion-color-successlight);
+  }
+
+  .investor-cards {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 10px 5px 10px 5px;
-    border-radius: 8px;
-    border: 0.5px solid var(--ion-color-uxline);
-    .link {
-      text-align: left;
-      line-height: 16.8px;
-      margin-top: 8px;
+    margin-top: 8px;
 
-      .semibold {
-        font-weight: var(--ux-fweight-extrabold);
-      }
+    .vertical-card {
+      flex-basis: 50%;
+      background: var(--ion-color-uxlight);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 5px;
+      border-radius: 8px;
+      border: 0.5px solid var(--ion-color-uxline);
 
-      ion-icon {
-        margin-left: 8px;
+      .link {
+        text-align: left;
+        line-height: 16.8px;
+        margin-top: 8px;
+
+        &semibold {
+          font-weight: var(--ux-fweight-extrabold);
+        }
+
+        &ion-icon {
+          margin-left: 8px;
+        }
       }
     }
   }
-  .take_test_card {
+
+  .take-test-card {
     margin-right: 8px;
+
     &__title {
       text-align: start;
       margin-left: 16px;
       line-height: 19.6px;
       white-space: pre-wrap;
     }
+
     &__image {
       margin-left: 16px;
     }
   }
 
-  .manual_test_card {
+  .manual-test-card {
     display: flex;
+
     &__content {
       width: 95%;
+      height: 100%;
+
       &__title {
         margin-left: 16px;
         line-height: 19.6px;
+
         ion-text {
           white-space: pre-wrap;
         }
       }
     }
+
     &__image {
       margin-left: 16px;
     }

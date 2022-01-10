@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { InvestorProfileService } from '../../services/investor-profile/investor-profile.service';
 
 import { InvestorProfileStepComponent } from './investor-profile-step.component';
 
@@ -42,10 +41,9 @@ describe('InvestorProfileStepComponent', () => {
 
   it('should emit event on Select Profile click', () => {
     const spy = spyOn(component.setProfileEvent, 'emit');
-    component.id = 2;
+    component.baseScore = 4;
     fixture.debugElement.query(By.css('ion-button[name="Select Profile"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(2);
+    expect(spy).toHaveBeenCalledOnceWith(4);
   });
 });
