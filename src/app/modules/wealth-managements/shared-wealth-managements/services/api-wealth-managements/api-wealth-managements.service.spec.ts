@@ -31,21 +31,9 @@ describe('ApiWealthManagementsService', () => {
     expect(service).toBeTruthy();
   });
 
-  // it('should call get on getInvestorTestQuestions', () => {
-  //   service.getInvestorTestQuestions().subscribe(() => {
-  //     expect(customHttpServiceSpy.get).toHaveBeenCalledWith(jasmine.any(String), undefined, undefined, false);
-  //   });
-  // });
-
-  // it('should call post on saveInvestorTestScore with score', () => {
-  //   service.saveInvestorTestScore(10).subscribe(() => {
-  //     expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), { score: 10 }, undefined, false);
-  //   });
-  // });
-
-  // it('should call get on getInvestorProfile', () => {
-  //   service.getInvestorProfile().subscribe(() => {
-  //     expect(customHttpServiceSpy.get).toHaveBeenCalledWith(jasmine.any(String), undefined, undefined, false);
-  //   });
-  // });
+  it('should call get on getInvestorTestQuestions', () => {
+    service.getInvestorTestQuestions().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

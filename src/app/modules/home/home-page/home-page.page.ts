@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { QuotesCardComponent } from '../shared-home/components/quotes-card/quotes-card.component';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-balance.interface';
+import { BalanceCacheService } from '../../wallets/shared-wallets/services/balance-cache/balance-cache.service';
 
 @Component({
   selector: 'app-home',
@@ -52,7 +54,7 @@ import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-bala
           ></app-wallet-total-balance-card>
         </div>
         <div class="buy-crypto-card">
-          <app-buy-crypto-card (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
+          <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto($event)"></app-buy-crypto-card>
         </div>
         <div class="wallet-connect-card">
           <app-wallet-connect-card></app-wallet-connect-card>
@@ -63,12 +65,16 @@ import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-bala
         <div class="need-help-card">
           <app-need-help-card></app-need-help-card>
         </div>
+        <div class="quotes-card">
+          <app-quotes-card></app-quotes-card>
+        </div>
       </div>
     </ion-content>
   `,
   styleUrls: ['./home-page.page.scss'],
 })
 export class HomePage implements OnInit {
+  @ViewChild(QuotesCardComponent) quotesCardComponent: QuotesCardComponent;
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
@@ -89,7 +95,8 @@ export class HomePage implements OnInit {
     private notificationsService: NotificationsService,
     private refreshTimeoutService: RefreshTimeoutService,
     private walletService: WalletService,
-    private walletBalance: WalletBalanceService
+    private walletBalance: WalletBalanceService,
+    private balanceCacheService: BalanceCacheService
   ) {}
 
   ngOnInit() {}
@@ -98,6 +105,10 @@ export class HomePage implements OnInit {
     this.initQtyNotifications();
     this.createNotificationTimer();
     this.existWallet();
+  }
+
+  private getCachedTotalBalance() {
+    this.balanceCacheService.total().then((total) => (this.totalBalanceWallet = total));
   }
 
   ionViewDidLeave() {
@@ -111,6 +122,7 @@ export class HomePage implements OnInit {
 
     this.refreshTimeoutService.unsubscribe();
   }
+
   createNotificationTimer() {
     this.timerSubscription = timer(0, 0.5 * 60000).subscribe(() => {
       this.notificationQtySubject.next();
@@ -142,14 +154,19 @@ export class HomePage implements OnInit {
       this.uninitializedWallet();
       await this.getCoinsBalance();
       this.refreshTimeoutService.lock();
+      this.quotesCardComponent?.ngOnInit();
       event.target.complete();
     } else {
       setTimeout(() => event.target.complete(), 1000);
     }
   }
 
-  goToBuyCrypto() {
-    this.navController.navigateForward('/fiat-ramps/operations');
+  goToBuyCrypto(value: boolean) {
+    if (value) {
+      this.navController.navigateForward(['/fiat-ramps/moonpay']);
+    } else {
+      this.navController.navigateForward(['/fiat-ramps/no-wallet']);
+    }
   }
 
   existWallet() {
@@ -157,6 +174,7 @@ export class HomePage implements OnInit {
       this.walletExist = res;
       if (this.walletExist && !this.alreadyInitialized) {
         this.alreadyInitialized = true;
+        this.getCachedTotalBalance();
         this.getCoinsBalance();
       }
     });
@@ -173,6 +191,7 @@ export class HomePage implements OnInit {
   getTotalBalance() {
     this.walletBalance.getUsdTotalBalance().then((res) => {
       this.totalBalanceWallet = res;
+      this.balanceCacheService.updateTotal(res);
     });
   }
 

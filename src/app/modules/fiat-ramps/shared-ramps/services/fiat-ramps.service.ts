@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 
@@ -105,16 +105,19 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }
 
+  getMoonpayLink(walletAddress: string, currencyCode: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/moonpay/link`, {
+      wallet_address: walletAddress,
+      currency_code: currencyCode,
+      publishable_key: environment.moonpayPK,
+    });
+  }
+
   setProvider(provider: string) {
     this.provider = provider;
   }
 
   userHasOperations(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/on_off_ramps/user_has_operations`,
-      undefined,
-      undefined,
-      true
-    );
+    return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
   }
 }

@@ -1,3 +1,4 @@
+import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UrlSerializer } from '@angular/router';
@@ -18,15 +19,18 @@ describe('SuccessInvestorTestPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let apiWealthManagementsServiceSpy: jasmine.SpyObj<ApiWealthManagementsService>;
+  let apiProfilesServiceMock: any;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
-      apiWealthManagementsServiceSpy = jasmine.createSpyObj('ApiWealthManagementsService', {
-        getInvestorProfile: of({ profile: 'test' }),
-      });
+      apiProfilesServiceMock = {
+        crud: jasmine.createSpyObj('CRUD', {
+          get: of({ investor_category: 'test' }),
+        }),
+      };
       TestBed.configureTestingModule({
         declarations: [SuccessInvestorTestPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -34,6 +38,7 @@ describe('SuccessInvestorTestPage', () => {
           UrlSerializer,
           { provide: NavController, useValue: navControllerSpy },
           { provide: ApiWealthManagementsService, useValue: apiWealthManagementsServiceSpy },
+          { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
         ],
       }).compileComponents();
 
@@ -95,7 +100,7 @@ describe('SuccessInvestorTestPage', () => {
 
   it('should get profile on ionViewWillEnter', () => {
     component.ionViewWillEnter();
-    expect(apiWealthManagementsServiceSpy.getInvestorProfile).toHaveBeenCalledTimes(1);
+    expect(apiProfilesServiceMock.crud.get).toHaveBeenCalledTimes(1);
     expect(component.testResult).toEqual('test');
   });
 });

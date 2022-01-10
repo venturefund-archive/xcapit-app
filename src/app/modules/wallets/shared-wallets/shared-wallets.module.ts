@@ -7,7 +7,6 @@ import { WalletBalanceCardComponent } from './components/wallet-balance-card/wal
 import { WalletTransactionCardItemComponent } from './components/wallet-transaction-card-item/wallet-transaction-card-item.component';
 import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
-import { NetworkSelectCardComponent } from './components/network-select-card/network-select-card.component';
 import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
 import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
@@ -32,7 +31,6 @@ import { SuitePipe } from './pipes/suite.pipe';
     WalletBalanceCardItemComponent,
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
-    NetworkSelectCardComponent,
     AddressInputCardComponent,
     AmountInputCardComponent,
     TransactionSummaryCardComponent,
@@ -58,7 +56,6 @@ import { SuitePipe } from './pipes/suite.pipe';
     WalletBalanceCardItemComponent,
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
-    NetworkSelectCardComponent,
     AddressInputCardComponent,
     AmountInputCardComponent,
     TransactionSummaryCardComponent,

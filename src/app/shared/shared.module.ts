@@ -60,6 +60,10 @@ import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
 import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
 import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
 import { WalletConnectCardComponent } from '../modules/home/shared-home/components/wallet-connect-card/wallet-connect-card.component';
+import { QuotesCardComponent } from '../modules/home/shared-home/components/quotes-card/quotes-card.component';
+import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
+import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
+import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +82,8 @@ import { WalletConnectCardComponent } from '../modules/home/shared-home/componen
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
     WalletConnectCardComponent,
+    QuotesCardComponent,
+    ItemQuoteComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -115,6 +121,8 @@ import { WalletConnectCardComponent } from '../modules/home/shared-home/componen
     TestOptionItemComponent,
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
+    NetworkSelectCardComponent,
+    NoWalletComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -144,6 +152,9 @@ import { WalletConnectCardComponent } from '../modules/home/shared-home/componen
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
     WalletConnectCardComponent,
+    QuotesCardComponent,
+    ItemQuoteComponent,
+    NetworkSelectCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -181,6 +192,7 @@ import { WalletConnectCardComponent } from '../modules/home/shared-home/componen
     TestOptionItemComponent,
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
+    NoWalletComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

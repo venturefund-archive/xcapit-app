@@ -141,4 +141,8 @@ export const CONFIG = {
   chartRangeValues: {
     selected: 'selected',
   },
+  cache: {
+    TTL: 3600,
+    PREFIX: '_cache_'
+  },
 };

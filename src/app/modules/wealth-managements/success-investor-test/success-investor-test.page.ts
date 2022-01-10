@@ -1,3 +1,4 @@
+import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -45,15 +46,15 @@ export class SuccessInvestorTestPage implements OnInit {
   testResult: any;
   constructor(
     private navController: NavController,
-    private apiWealthManagementsService: ApiWealthManagementsService,
+    private apiProfilesService: ApiProfilesService,
     private translateService: TranslateService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.apiWealthManagementsService.getInvestorProfile().subscribe((profile) => {
-      this.testResult = this.translateService.instant(profile.profile);
+    this.apiProfilesService.crud.get().subscribe((profile) => {
+      this.testResult = this.translateService.instant(profile.investor_category);
     });
   }
 

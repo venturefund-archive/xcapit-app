@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiProfilesService } from 'src/app/modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import {
   Answer,
   ApiWealthManagementsService,
@@ -49,7 +50,10 @@ export class InvestorTestService {
     return this.questions.length;
   }
 
-  constructor(private apiWealthManagementsService: ApiWealthManagementsService) {}
+  constructor(
+    private apiWealthManagementsService: ApiWealthManagementsService,
+    private apiProfilesService: ApiProfilesService
+  ) {}
 
   getQuestionByNumber(n: number): Question {
     if (n > this.questions.length) {
@@ -67,12 +71,18 @@ export class InvestorTestService {
     return this.answers.get(question);
   }
 
-  loadQuestions() {
-    if (!this.hasLoadedQuestions) {
-      this.apiWealthManagementsService.getInvestorTestQuestions().subscribe((questions) => {
-        this.questions = questions;
-      });
-    }
+  async loadQuestions() {
+    return Promise.resolve().then(() => {
+      if (!this.hasLoadedQuestions) {
+        return this.apiWealthManagementsService
+          .getInvestorTestQuestions()
+          .toPromise()
+          .then((questions) => {
+            this.questions = questions;
+            return Promise.resolve();
+          });
+      } else return Promise.resolve();
+    });
   }
 
   setAnswer(question: Question, answer: Answer) {
@@ -89,7 +99,7 @@ export class InvestorTestService {
 
   saveAnswers(): Observable<any> {
     if (this.hasAnsweredAllQuestions) {
-      return this.apiWealthManagementsService.saveInvestorTestScore(this.totalScore);
+      return this.apiProfilesService.crud.patch({ investor_score: this.totalScore });
     }
   }
 

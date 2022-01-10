@@ -26,7 +26,6 @@
     "test-ci": "ng test --watch=false --karma-config karma-pipeline.conf.js --code-coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "prepare": "husky install",
     "format:fix": "pretty-quick --staged",
-    "precommit": "run-s format:fix lint",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "patch:walletconnect": "sh ./walletconnect-patch.sh | echo 'walletconnect patched.'"
@@ -90,6 +89,9 @@
     "qrcode": "^1.4.2",
     "rxjs": "^6.6.2",
     "stream": "^0.0.2",
+    "stylelint": "^14.2.0",
+    "stylelint-config-standard": "^24.0.0",
+    "stylelint-config-standard-scss": "^3.0.0",
     "swiper": "^7.3.2",
     "tslib": "^2.0.0",
     "yarn": "^1.22.17",
@@ -130,7 +132,7 @@
     "eslint-plugin-jsdoc": "latest",
     "eslint-plugin-prefer-arrow": "latest",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^6.0.0",
+    "husky": "6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "^6.3.9",
@@ -138,6 +140,7 @@
     "karma-coverage": "^2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "lint-staged": ">=10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.0",
@@ -146,5 +149,13 @@
     "typescript": "4.3.5"
   },
   "postinstall": "jetifier",
-  "description": "An Ionic project"
+  "lint-staged": {
+    "*.js": [
+      "eslint —-fix",
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix"
+    ]
+  }
 }

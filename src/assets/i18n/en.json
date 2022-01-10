@@ -754,7 +754,6 @@
       "country": "Country",
       "country_placeholder": "Select a country"
     },
-
     "user_profile_menu": {
       "header": "My Profile",
       "category_help": "Help",
@@ -769,11 +768,11 @@
       "finished_funds": "Finished funds",
       "manage_apikey": "Manage API Keys",
       "category_preferences": "Preferences",
+      "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out",
       "category_walletconnect": "WalletConnect"
     },
-
     "success_profile": {
       "textPrimary": "¡You have setted up your account!",
       "textSecondary": "Now we need you to link your Exchange (Binance) to see your capital.",
@@ -1387,6 +1386,12 @@
     }
   },
   "wallets": {
+    "no_wallet": {
+      "title": "You don't have your Xcapit Wallet yet",
+      "subtitle": "Every time you make a purchase, your cryptocurrencies will be deposited there.",
+      "button": "Create wallet"
+    },
+
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
@@ -2166,6 +2171,17 @@
       "message": "Add a Key so that your purchases are reflected in your Binance account.",
       "btn_back": "Back",
       "btn_add_apikey": "Add Api Key"
+    },
+    "moonpay": {
+      "header": "Buy cripto",
+      "currency_label": "Currency",
+      "provider": {
+        "label": "Provider",
+        "name": "Moonpay",
+        "description": "Third-party provider"
+      },
+      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+      "button_text": "Continue"
     }
   },
   "payment": {
@@ -2245,6 +2261,14 @@
       "wallet_connect_card": {
         "title": "WalletConnect",
         "subtitle": "Connect your wallet to the crypto world and stay in control"
+      },
+      "quotes_card": {
+        "title": "Quotes",
+        "table_label1": "Pair",
+        "table_label2": "Last price",
+        "table_label3": "Change % 24 h",
+        "more_button": "See more",
+        "less_button": "See less"
       }
     },
     "shared": {
@@ -2315,6 +2339,12 @@
         "title": "Aggressive Profile",
         "subtitle": "You seek the highest possible returns, so you are willing to take whatever risk is necessary. It is not advisable to maintain this risk attitude when you do not have sufficient solvency, or if you have important family commitments."
       }
+    },
+    "no_wallet": {
+      "title": "You don't have your Xcapit wallet yet",
+      "subtitle": "Create your wallet to start investing.",
+      "button": "Create Wallet",
+      "link": "Back to investments"
     }
   }
 }

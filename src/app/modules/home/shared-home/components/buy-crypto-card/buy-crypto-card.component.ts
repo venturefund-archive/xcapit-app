@@ -1,9 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-buy-crypto-card',
   template: `
-    <div class="bcc" (click)="this.emitClicked()" name="Buy Crypto" appTrackClick>
+    <div class="bcc" (click)="this.emitClicked(this.existWallet)" name="Buy Crypto" appTrackClick>
       <div class="bcc__image">
         <img src="assets/img/home/btc-coins.svg" alt="BTC coins" />
       </div>
@@ -18,13 +19,20 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./buy-crypto-card.component.scss'],
 })
 export class BuyCryptoCardComponent implements OnInit {
-  @Output() clicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() clicked: EventEmitter<boolean> = new EventEmitter<boolean>();
+  existWallet: boolean;
 
-  constructor() {}
+  constructor(private walletService: WalletService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.walletExist();
+  }
 
-  emitClicked() {
-    this.clicked.emit();
+  walletExist() {
+    this.walletService.walletExist().then((res) => (this.existWallet = res));
+  }
+
+  emitClicked(value: boolean) {
+    this.clicked.emit(value);
   }
 }

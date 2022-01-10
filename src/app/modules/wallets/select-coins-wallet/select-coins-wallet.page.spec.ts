@@ -305,7 +305,7 @@ describe('SelectCoinsWalletPage', () => {
         component.form.patchValue(formData.valid);
         fixture.detectChanges();
         fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-        expect(walletServiceSpy.coins.length).toEqual(2);
+        expect(walletServiceSpy.coins.length).toEqual(9);
       });
 
       it('should change texts on header and Submit button', async () => {
