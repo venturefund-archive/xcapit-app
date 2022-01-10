@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SuccessInvestmentPage } from './success-investment.page';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedWealthManagementsModule } from '../shared-wealth-managements/shared-wealth-managements.module';
+import { SharedWealthManagementsModule } from '../../../wealth-managements/shared-wealth-managements/shared-wealth-managements.module';
 
 const routes: Routes = [
   {
