@@ -82,6 +82,17 @@
           &__text {
             color: var(--ion-color-uxdark);
           }
+
+          .inline-image {
+            display: flex;
+            align-items: center;
+
+            img {
+              width: 20px;
+              height: 20px;
+              margin-right: 4px;
+            }
+          }
         }
 
         .split-information-item {
