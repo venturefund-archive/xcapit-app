@@ -31,21 +31,6 @@ const routes: Routes = [
             (m) => m.AboutInvestorProfilesPageModule
           ),
       },
-      {
-        path: 'no-wallet-to-invest',
-        loadChildren: () =>
-          import('./no-wallet-to-invest/no-wallet-to-invest.module').then((m) => m.NoWalletToInvestPageModule),
-      },
-      {
-        path: 'success-investment',
-        loadChildren: () =>
-          import('./success-investment/success-investment.module').then((m) => m.SuccessInvestmentPageModule),
-      },
-      {
-        path: 'error-investment',
-        loadChildren: () =>
-          import('./error-investment/error-investment.module').then((m) => m.ErrorInvestmentPageModule),
-      },
     ],
   },
 ];

@@ -146,6 +146,32 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'investments-defi',
+    children: [
+      {
+        path: 'no-wallet-to-invest',
+        loadChildren: () =>
+          import('../wallets/investments/no-wallet-to-invest/no-wallet-to-invest.module').then(
+            (m) => m.NoWalletToInvestPageModule
+          ),
+      },
+      {
+        path: 'success-investment',
+        loadChildren: () =>
+          import('../wallets/investments/success-investment/success-investment.module').then(
+            (m) => m.SuccessInvestmentPageModule
+          ),
+      },
+      {
+        path: 'error-investment',
+        loadChildren: () =>
+          import('../wallets/investments/error-investment/error-investment.module').then(
+            (m) => m.ErrorInvestmentPageModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({
