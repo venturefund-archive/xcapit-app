@@ -44,7 +44,7 @@ describe('ItemQuoteComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const symbolEl = fixture.debugElement.query(By.css('.symbol_group .symbol'));
+    const symbolEl = fixture.debugElement.query(By.css('.symbol'));
     expect(symbolEl.nativeElement.innerHTML).toContain('BTC');
   });
 
@@ -52,7 +52,7 @@ describe('ItemQuoteComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const symbolEl = fixture.debugElement.query(By.css('.symbol_group .pair'));
+    const symbolEl = fixture.debugElement.query(By.css('.pair'));
     expect(symbolEl.nativeElement.innerHTML).toContain('/USDT');
   });
 
