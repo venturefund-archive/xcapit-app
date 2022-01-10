@@ -2345,6 +2345,17 @@
       "subtitle": "Create your wallet to start investing.",
       "button": "Create Wallet",
       "link": "Back to investments"
+    },
+    "success_investment": {
+      "title": "You added money to your investment",
+      "subtitle": "You will get benefits every day.",
+      "primaryButton": "Back to investments",
+      "secondaryButton": "Go to Wallet"
+    },
+    "error_investment": {
+      "title": "It seems that something went wrong",
+      "subtitle": "Remember that you must own tokens to pay investment fees.",
+      "primaryButton": "Try again"
     }
   }
 }

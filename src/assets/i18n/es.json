@@ -2543,6 +2543,17 @@
       "subtitle": "Crea tu wallet para comenzar a invertir.",
       "button": "Crear Wallet",
       "link": "Volver a inversiones"
+    },
+    "success_investment": {
+      "title": "Añadiste dinero a tu inversión",
+      "subtitle": "Obtendrás beneficios todos los días.",
+      "primaryButton": "Volver a inversiones",
+      "secondaryButton": "Ir a Wallet"
+    },
+    "error_investment": {
+      "title": "Parece que algo salió mal",
+      "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
+      "primaryButton": "Intentar nuevamente"
     }
   }
 }
