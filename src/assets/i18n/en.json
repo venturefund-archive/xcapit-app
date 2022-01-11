@@ -1376,9 +1376,7 @@
   "notifications": {
     "notifications_list": {
       "header": "Notifications",
-      "title": "You still have no notifications",
-      "message": "Let's make this space come alive",
-      "link": "Start investing"
+      "title": "You still have no notifications"
     },
     "notification": {
       "header": "Notification"
