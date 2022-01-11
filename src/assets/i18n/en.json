@@ -223,9 +223,10 @@
       "my_account": "My account/Registration",
       "link_binance_account": "Link my binance account",
       "buy_crypto": "Buy Crypto",
-      "subscription_plans": "Subscription Plans",
       "investment_strategies": "Investment strategies",
       "capital_security": "Capital Security",
+      "wallet":"Wallet",
+      "nft":"NFT",
       "others": "Others"
     }
   },

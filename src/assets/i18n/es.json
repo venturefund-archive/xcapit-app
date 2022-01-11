@@ -224,9 +224,10 @@
       "my_account": "Mi cuenta/Registro",
       "link_binance_account": "Vincular mi cuenta de Binance",
       "buy_crypto": "Comprar criptomonedas",
-      "subscription_plans": "Planes de suscripción",
       "investment_strategies": "Estrategias de inversión",
       "capital_security": "Seguridad de mi capital",
+      "wallet":"Wallet",
+      "nft":"NFT",
       "others": "Otros"
     }
   },
