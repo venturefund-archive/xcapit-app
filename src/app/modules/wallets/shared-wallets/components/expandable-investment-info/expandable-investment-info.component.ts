@@ -59,7 +59,7 @@ import { Component, OnInit } from '@angular/core';
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs">{{
                 'defi_investments.shared.expandable_investment_info.receive_asset' | translate
               }}</ion-text>
-              <div class="inline_image">
+              <div class="inline-image">
                 <img src="assets/img/coins/USDC.png" />
                 <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">USDC</ion-text>
               </div>
