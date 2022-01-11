@@ -1,5 +1,3 @@
-import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
-import { ExpandableInvestmentInfoComponent } from './components/expandable-investment-info/expandable-investment-info.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RecoveryPhraseCardComponent } from './components/recovery-phrase-card/recovery-phrase-card.component';
@@ -40,8 +38,6 @@ import { SuitePipe } from './pipes/suite.pipe';
     WalletPasswordSmallComponent,
     StartInvestingComponent,
     ComingSoonInvestmentsComponent,
-    ExpandableInvestmentInfoComponent,
-    AmountInputCardComponent,
     SuitePipe,
   ],
   imports: [SharedModule],
@@ -64,8 +60,6 @@ import { SuitePipe } from './pipes/suite.pipe';
     WalletPasswordSmallComponent,
     StartInvestingComponent,
     ComingSoonInvestmentsComponent,
-    ExpandableInvestmentInfoComponent,
-    AmountInputCardComponent,
   ],
 })
 export class SharedWalletsModule {}

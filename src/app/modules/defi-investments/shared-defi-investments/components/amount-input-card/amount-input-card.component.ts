@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-amount-input-card',
