@@ -107,7 +107,7 @@
     "@angular/compiler-cli": "^12.2.13",
     "@angular/language-service": "^12.2.13",
     "@capacitor/cli": "^3.3.2",
-    "@ionic/angular-toolkit": "^2.3.1",
+    "@ionic/angular-toolkit": "^5.0.3",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/gitlab": "^7.0.4",

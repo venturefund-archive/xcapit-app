@@ -3,6 +3,7 @@ import { UserProfileMenuPage } from './user-profile-menu.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedProfilesModule } from '../shared-profiles/shared-profiles.module';
 import { CardCategoryMenuComponent } from '../shared-profiles/components/card-category-menu/card-category-menu.component';
+import { SharedReferralsModule } from '../../referrals/shared-referrals/shared-referrals.module';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), SharedProfilesModule],
+  imports: [RouterModule.forChild(routes), SharedProfilesModule, SharedReferralsModule],
   declarations: [UserProfileMenuPage, CardCategoryMenuComponent],
 })
 export class UserProfileMenuPageModule {}
