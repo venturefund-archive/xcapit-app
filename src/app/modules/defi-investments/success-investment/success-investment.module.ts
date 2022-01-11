@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SuccessInvestmentPage } from './success-investment.page';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedWealthManagementsModule } from '../shared-wealth-managements/shared-wealth-managements.module';
+import { SharedDefiInvestmentsModule } from '../shared-defi-investments/shared-defi-investments.module';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedWealthManagementsModule ,RouterModule.forChild(routes)],
+  imports: [SharedDefiInvestmentsModule, RouterModule.forChild(routes)],
   declarations: [SuccessInvestmentPage],
 })
 export class SuccessInvestmentPageModule {}
