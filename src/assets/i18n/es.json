@@ -1602,6 +1602,9 @@
     "investments": {
       "coming_soon": {
         "header": "Inversión"
+      },
+      "defi_investment_products":{
+        "header":"Inversiones Defi"
       }
     },
     "shared_wallets": {

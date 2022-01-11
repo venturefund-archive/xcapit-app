@@ -1,4 +1,9 @@
 :host {
+  .cs {
+    padding-left: 20.5px;
+    padding-right: 20.5px;
+  }
+
   .dip {
     padding: 12.5px;
 
@@ -62,7 +67,7 @@
         padding-top: 7px;
         justify-content: space-between;
 
-        &__liq {
+        &__label {
           align-self: flex-end;
           color: var(--ion-color-uxprimary);
           line-height: 18px;
@@ -86,7 +91,7 @@
 
       &__button {
         ion-button {
-          width: 152px;
+          width: 131px;
           height: 45px;
 
           --background: var(--ion-color-uxsecondary);

@@ -30,6 +30,10 @@ const routes: Routes = [
             loadChildren: () =>
               import('../wallets/investments/coming-soon/coming-soon.module').then((m) => m.ComingSoonPageModule),
           },
+          {
+            path: 'defi-investment-products',
+            loadChildren: () => import('../wallets/investments/defi-investment-products/defi-investment-products.module').then( m => m.DefiInvestmentProductsPageModule)
+          },
         ],
       },
       {

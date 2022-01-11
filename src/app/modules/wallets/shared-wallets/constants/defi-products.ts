@@ -1,6 +1,6 @@
 export const DEFI_PRODUCTS = [
     {
-        id:'polygon-matic-aave',
+        id:'polygon-usdc-aave',
         symbol:'USDC',
         subtitle:'USD coin',
         isComming:false
