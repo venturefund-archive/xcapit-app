@@ -1,28 +1,16 @@
 :host {
   .container {
-    margin-top: 150px;
+    margin-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
 
-  .hr {
-    width: 130px;
-    height: 1px;
+    img {
+      width: 100%;
+    }
   }
 
   .title {
-    padding-top: 23px;
-    text-align: center;
-  }
-
-  .message {
-    padding-top: 16px;
-    text-align: center;
-  }
-
-  .link {
-    padding-top: 16px;
     text-align: center;
   }
 }
