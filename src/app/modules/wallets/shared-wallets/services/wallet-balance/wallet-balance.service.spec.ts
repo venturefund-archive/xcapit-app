@@ -41,21 +41,21 @@ const testUserCoins = [
   },
 ];
 
-const OrderedBalances: Array<AssetBalance> = [
-  {
-    icon: 'assets/img/coins/RBTC.png',
-    symbol: 'RBTC',
-    name: 'RBTC - Smart Bitcoin',
-    amount: 20,
-    usdAmount: 1000000,
-    usdSymbol: 'USD',
-  },
+const balances: Array<AssetBalance> = [
   {
     icon: 'assets/img/coins/ETH.svg',
     symbol: 'ETH',
     name: 'ETH - Ethereum',
     amount: 20,
     usdAmount: 60000,
+    usdSymbol: 'USD',
+  },
+  {
+    icon: 'assets/img/coins/RBTC.png',
+    symbol: 'RBTC',
+    name: 'RBTC - Smart Bitcoin',
+    amount: 20,
+    usdAmount: 1000000,
     usdSymbol: 'USD',
   },
   {
@@ -132,9 +132,9 @@ describe('WalletBalanceService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return ordered balances of user selected coins', async () => {
-    const balances = await service.getWalletsBalances();
-    expect(balances).toEqual(OrderedBalances);
+  it('should return balances of user selected coins', async () => {
+    const walletBalances = await service.getWalletsBalances();
+    expect(walletBalances).toEqual(balances);
   });
 
   it('should return total balance in USDT', async () => {
@@ -153,5 +153,13 @@ describe('WalletBalanceService', () => {
     fakeWalletService.modifyAttributes({});
     const balances = await service.getWalletsBalances();
     expect(balances).toEqual([]);
+  });
+
+  it('should return balance of a coin', async () => {
+    await expectAsync(service.balanceOf(testUserCoins[0])).toBeResolvedTo(20);
+  });
+
+  it('should return price of a coin', async () => {
+    await expectAsync(service.priceOf(testUserCoins[0])).toBeResolvedTo(3000);
   });
 });

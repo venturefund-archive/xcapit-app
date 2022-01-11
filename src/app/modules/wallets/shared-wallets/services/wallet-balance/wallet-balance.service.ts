@@ -4,6 +4,7 @@ import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletService } from '../wallet/wallet.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +49,6 @@ export class WalletBalanceService {
         this.balances.push(balance);
       }
     }
-    this.orderBalancesByAmount();
     return this.balances;
   }
 
@@ -57,12 +57,6 @@ export class WalletBalanceService {
       return total + currentBalance.usdAmount;
     };
     return this.balances.reduce(sumUSDAmounts, 0);
-  }
-
-  private orderBalancesByAmount() {
-    this.balances.sort((a, b) => {
-      return b.usdAmount - a.usdAmount;
-    });
   }
 
   private getAllPrices() {
@@ -78,6 +72,17 @@ export class WalletBalanceService {
           });
       });
     });
+  }
+
+  priceOf(aCoin: Coin): Promise<number> {
+    return this.apiWalletService
+      .getPrices([aCoin.value], false)
+      .pipe(map((res) => res.prices[aCoin.value]))
+      .toPromise();
+  }
+
+  balanceOf(aCoin: Coin): Promise<number> {
+    return this.walletService.balanceOf(this.walletService.addresses[aCoin.network], aCoin.value).then(parseFloat);
   }
 
   private getCoinForPrice(symbol: string): string {

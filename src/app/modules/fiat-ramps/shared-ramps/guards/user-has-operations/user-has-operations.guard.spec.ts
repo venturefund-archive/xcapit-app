@@ -49,7 +49,7 @@ describe('UserHasOperationsGuard', () => {
     canActivateResult.subscribe((res) => expect(fiatRampsServiceSpy.userHasOperations).toHaveBeenCalledTimes(1));
   });
 
-  it('should call navigateForward with ["/fiat-ramps/moonpay"], { replaceUrl: true } on navController when userHasOperations is false', () => {
+  it('should navigate to moonpay page', () => {
     fiatRampsServiceSpy.userHasOperations.and.returnValue(of({ user_has_operations: false }));
     const canActivateResult = getObservable(userHasOperationsGuard.canActivate(activatedRouteSnapshotMock));
     canActivateResult.subscribe((res) => {

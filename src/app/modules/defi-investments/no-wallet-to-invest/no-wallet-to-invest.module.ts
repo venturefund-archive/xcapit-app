@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedRampsModule } from 'src/app/modules/fiat-ramps/shared-ramps/shared-ramps.module';
+import { SharedDefiInvestmentsModule } from '../shared-defi-investments/shared-defi-investments.module';
 import { NoWalletToInvestPage } from './no-wallet-to-invest.page';
 
 const routes: Routes = [
@@ -11,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedRampsModule, RouterModule.forChild(routes)],
+  imports: [SharedDefiInvestmentsModule, RouterModule.forChild(routes)],
   declarations: [NoWalletToInvestPage],
 })
 export class NoWalletToInvestPageModule {}
