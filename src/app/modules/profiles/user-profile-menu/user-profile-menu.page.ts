@@ -30,6 +30,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
           <ion-text class="user-mail ux-font-header-titulo">{{ this.profile?.email }}</ion-text>
         </div>
       </div>
+      <div class="referrals-promotion">
+        <app-referral-promotion-card></app-referral-promotion-card>
+      </div>
       <div class="card-item" *ngIf="this.itemMenu">
         <app-card-category-menu *ngFor="let category of this.itemMenu" [category]="category"></app-card-category-menu>
       </div>
