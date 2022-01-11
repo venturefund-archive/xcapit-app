@@ -121,6 +121,13 @@ export const CONFIG = {
         rules: [],
       },
     ],
+    newPassword: [
+      {
+        name: 'newPasswordMatchesOld',
+        text: 'config.field_errors.new_password.new_password_matches_old',
+        rules: [],
+      },
+    ],
     username: [
       {
         name: 'minlength',

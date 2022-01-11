@@ -45,7 +45,10 @@
         "has_small_case": "Se requiere mínimo una minúscula"
       },
       "repeat_password": {
-        "no_password_match": "La password no coincide"
+        "no_password_match": "Las contraseñas no coinciden, vuelve a intentarlo"
+      },
+      "new_password": {
+        "new_password_matches_old": "Tu nueva contraseña no puede ser igual a la anterior, vuelve a intentarlo"
       },
       "repeat_username": {
         "no_fields_match": "El email no coincide"

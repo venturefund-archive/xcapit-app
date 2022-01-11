@@ -19,7 +19,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
     </ion-header>
 
     <ion-content class="ion-padding">
-      <form [formGroup]="this.createPasswordForm" class="ux_main" (ngSubmit)="this.handleSubmit()">
+      <form [formGroup]="this.changePasswordForm" class="ux_main" (ngSubmit)="this.handleSubmit()">
         <div class="ux_content wpc">
           <div class="wpc__title">
             <ion-text name="Title" class="ux-font-text-lg">{{ 'wallets.password_change.title' | translate }}</ion-text>
@@ -75,7 +75,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
+              [disabled]="!this.changePasswordForm.valid || (this.submitButtonService.isDisabled | async)"
             >
               {{ 'wallets.password_change.submit_button' | translate }}
             </ion-button>
@@ -87,7 +87,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
   styleUrls: ['./wallet-password-change.page.scss'],
 })
 export class WalletPasswordChangePage implements OnInit {
-  createPasswordForm: FormGroup = this.formBuilder.group(
+  changePasswordForm: FormGroup = this.formBuilder.group(
     {
       old_password: ['', [Validators.required]],
       password: [
@@ -104,14 +104,15 @@ export class WalletPasswordChangePage implements OnInit {
       repeat_password: ['', [Validators.required]],
     },
     {
-      validators: [CustomValidators.passwordMatchValidator],
+      validators: [CustomValidators.passwordMatchValidator, CustomValidators.newPasswordEqualsOldValidator()],
     }
   );
 
-  passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
-
+  passwordErrors: ItemFormError[] = [...CONFIG.fieldErrors.newPassword, ...CONFIG.fieldErrors.password] ;
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
   constructor(private formBuilder: FormBuilder, public submitButtonService: SubmitButtonService) {}
 
   ngOnInit() {}
+
+  handleSubmit() {}
 }
