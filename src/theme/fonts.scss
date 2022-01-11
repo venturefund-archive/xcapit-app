@@ -33,7 +33,9 @@
   text-decoration: underline;
   line-height: 18.77px;
 }
+
 // Texto normal
+
 .ux-font-text-base {
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-16);
@@ -42,7 +44,23 @@
   line-height: 24px;
 }
 
-//Título XS
+.ux-font-text-base-primary {
+  font-family: var(--ux-font-lato);
+  font-size: var(--ux-fsize-16);
+  font-weight: var(--ux-fweight-regular);
+  color: var(--ion-color-neutro-90);
+  line-height: 24px;
+}
+
+.ux-font-text-base-black {
+  font-family: var(--ux-font-lato);
+  font-size: var(--ux-fsize-16);
+  font-weight: var(--ux-fweight-regular);
+  color: var(--ion-color-uxprimary);
+  line-height: 24px;
+}
+
+// Título XS
 .ux-font-title-xs {
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-14);
