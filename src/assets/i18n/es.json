@@ -2173,7 +2173,7 @@
         "badge_text": "Próximamente",
         "title1": "Descubre tus conocimientos en finanzas",
         "link1": "Hacer test",
-        "title2": "¿Sabes qué tipo de inversionista eres?",
+        "title2": "¿Sabes qué tipo de inversor eres?",
         "link2": "Descúbrelo"
       },
       "quotes_card": {
@@ -2414,22 +2414,22 @@
     }
   },
   "wealth_managements": {
-    "header": "Perfil de inversionista",
-    "title": "¿Qué tipo de inversionista eres?",
-    "subtitle": "Realiza el test de perfil de inversionista, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
+    "header": "Perfil de inversor",
+    "title": "¿Qué tipo de inversor eres?",
+    "subtitle": "Realiza el test de perfil de inversor, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
     "investor_test_options": {
       "title1": "Tomar el test",
-      "description1": "Conoce tu perfil de inversionista haciendo este test.",
+      "description1": "Conoce tu perfil de inversor haciendo este test.",
       "title2": "Escoger manualmente",
-      "description2": "Si ya conoces tu perfil de inversionista, selecciónalo manualmente."
+      "description2": "Si ya conoces tu perfil de inversor, selecciónalo manualmente."
     },
     "success": {
-      "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es {{testResult}} ",
-      "namePrimaryAction": "Ir a mi perfil de inversionista",
+      "textPrimary": "¡Felicitaciones! Tu perfil de inversor es {{testResult}} ",
+      "namePrimaryAction": "Ir a mi perfil de inversor",
       "nameSecondaryAction": "Volver al incio"
     },
     "investor_test": {
-      "header": "Test de inversionista",
+      "header": "Test de inversor",
       "next_button": "Continuar",
       "submit_button": "Finalizar y enviar test"
     },
@@ -2440,7 +2440,7 @@
     },
     "about_investor_profile": {
       "of": "de",
-      "header": "Perfil de inversionista",
+      "header": "Perfil de inversor",
       "button_select": "Este es mi perfil",
       "conservative_profile": {
         "title": "Perfil Conservador",
