@@ -55,6 +55,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
               [errors]="this.passwordErrors"
             ></app-ux-input>
           </div>
+          
           <div class="wpc__repeat_password">
             <app-ux-input
               class="input"
