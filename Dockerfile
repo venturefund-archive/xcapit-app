@@ -4,6 +4,7 @@ COPY . .
 ## Install build toolchain, install node deps and compile native add-ons
 RUN apk add --no-cache git
 RUN npm install yarn
+RUN yarn set version berry
 RUN yarn install
 RUN npm run build:prod:pwa:xcapit
 

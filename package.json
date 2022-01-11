@@ -24,10 +24,10 @@
     "build": "ng build",
     "test": "ng test",
     "test-ci": "ng test --watch=false --karma-config karma-pipeline.conf.js --code-coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "prepare": "husky install",
     "format:fix": "pretty-quick --staged",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -127,7 +127,7 @@
     "eslint-plugin-jsdoc": "latest",
     "eslint-plugin-prefer-arrow": "latest",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "6.0.0",
+    "husky": "^7.0.4",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "^6.3.9",
@@ -152,5 +152,6 @@
     "*.scss": [
       "stylelint"
     ]
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }
