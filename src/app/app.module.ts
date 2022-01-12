@@ -45,6 +45,7 @@ import { HomeModule } from './modules/home/home.module';
 import { SupportModule } from './modules/support/support.module';
 import { WealthManagementsModule } from './modules/wealth-managements/wealth-managements.module';
 import { trackServiceProvider } from './shared/providers/track-service/track-service.provider';
+import { DefiInvestmentsModule } from './modules/defi-investments/defi-investments.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -86,6 +87,7 @@ registerLocaleData(localeEn, 'en');
     HomeModule,
     SupportModule,
     WealthManagementsModule,
+    DefiInvestmentsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

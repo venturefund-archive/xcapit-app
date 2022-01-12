@@ -225,9 +225,10 @@
       "my_account": "Mi cuenta/Registro",
       "link_binance_account": "Vincular mi cuenta de Binance",
       "buy_crypto": "Comprar criptomonedas",
-      "subscription_plans": "Planes de suscripción",
       "investment_strategies": "Estrategias de inversión",
       "capital_security": "Seguridad de mi capital",
+      "wallet":"Wallet",
+      "nft":"NFT",
       "others": "Otros"
     }
   },
@@ -1372,14 +1373,16 @@
       "paragraph_9": "Como condición para participar en el programa, usted da su consentimiento para que la empresa obtenga y entregue su nombre, dirección y otra información a terceros con el fin de administrar este programa y cumplir con las leyes, regulaciones y reglas aplicables. cualquier información que proporcione al patrocinador puede usarse para comunicarse con usted en relación con este programa. La información enviada será tratada de acuerdo con la política de privacidad de la empresa.\n",
       "subtitle_10": "10. Ley aplicable",
       "paragraph_10": "Estas bases y el programa de referidos se gobiernan por las leyes de la república argentina. cualquier controversia derivada del presente acuerdo, su existencia, validez, interpretación, alcance o cumplimiento, será sometida a los tribunales competentes con sede en la ciudad autónoma de buenos aires.\n"
+    },
+    "referral_promotion": {
+      "title": "Invita y gana. ¡Más compañía, más ganancias!",
+      "button": "Compartir código"
     }
   },
   "notifications": {
     "notifications_list": {
       "header": "Notificaciones",
-      "title": "Aún no tienes notificaciones",
-      "message": "Hagamos que este espacio cobre vida",
-      "link": "Empieza a invertir"
+      "title": "Aún no tienes notificaciones"
     },
     "notification": {
       "header": "Notificación"
@@ -2252,7 +2255,7 @@
         "badge_text": "Próximamente",
         "title1": "Descubre tus conocimientos en finanzas",
         "link1": "Hacer test",
-        "title2": "¿Sabes qué tipo de inversionista eres?",
+        "title2": "¿Sabes qué tipo de inversor eres?",
         "link2": "Descúbrelo"
       },
       "wallet_connect_card": {
@@ -2497,22 +2500,22 @@
     }
   },
   "wealth_managements": {
-    "header": "Perfil de inversionista",
-    "title": "¿Qué tipo de inversionista eres?",
-    "subtitle": "Realiza el test de perfil de inversionista, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
+    "header": "Perfil de inversor",
+    "title": "¿Qué tipo de inversor eres?",
+    "subtitle": "Realiza el test de perfil de inversor, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
     "investor_test_options": {
       "title1": "Tomar el test",
-      "description1": "Conoce tu perfil de inversionista haciendo este test.",
+      "description1": "Conoce tu perfil de inversor haciendo este test.",
       "title2": "Escoger manualmente",
-      "description2": "Si ya conoces tu perfil de inversionista, selecciónalo manualmente."
+      "description2": "Si ya conoces tu perfil de inversor, selecciónalo manualmente."
     },
     "success": {
-      "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es {{testResult}} ",
-      "namePrimaryAction": "Ir a mi perfil de inversionista",
+      "textPrimary": "¡Felicitaciones! Tu perfil de inversor es {{testResult}} ",
+      "namePrimaryAction": "Ir a mi perfil de inversor",
       "nameSecondaryAction": "Volver al incio"
     },
     "investor_test": {
-      "header": "Test de inversionista",
+      "header": "Test de inversor",
       "next_button": "Continuar",
       "submit_button": "Finalizar y enviar test"
     },
@@ -2523,7 +2526,7 @@
     },
     "about_investor_profile": {
       "of": "de",
-      "header": "Perfil de inversionista",
+      "header": "Perfil de inversor",
       "button_select": "Este es mi perfil",
       "conservative_profile": {
         "title": "Perfil Conservador",

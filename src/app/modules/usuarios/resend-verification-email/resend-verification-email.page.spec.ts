@@ -75,8 +75,7 @@ describe('ResendVerificationEmailPage', () => {
     const openTicketEl = fixture.debugElement.query(By.css('ion-button[name="Open Ticket"]'));
     expect(resendButtonEl.attributes['ng-reflect-disabled']).toBe('true');
     expect(storageSpy.set).toHaveBeenCalledWith('email', 'test@test.com');
-    expect(storageSpy.set).toHaveBeenCalledWith('numberOfResends', 1);
-    expect(openTicketEl).toBeFalsy();
+    expect(openTicketEl).toBeTruthy();
     expect(component.timerSeconds).toBeGreaterThan(55);
   });
 
@@ -97,42 +96,25 @@ describe('ResendVerificationEmailPage', () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(storageSpy.remove).toHaveBeenCalledWith('email');
-    expect(storageSpy.remove).toHaveBeenCalledWith('numberOfResends');
     expect(component.email).toEqual(null);
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login']);
   });
 
-  it('should render Create Ticket Button after three email resends', fakeAsync(() => {
+  it('should resend email and disable resend button at init when an email is provided', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     const resendButtonEl = fixture.debugElement.query(By.css('ion-button[name="Resend Verification Email"]'));
-    const openTicketEl = fixture.debugElement.query(By.css('ion-button[name="Open Ticket"]'));
     expect(resendButtonEl.attributes['ng-reflect-disabled']).toBe('true');
-    tick(60000);
-    expect(storageSpy.set).toHaveBeenCalledWith('numberOfResends', 1);
-    expect(openTicketEl).toBeFalsy();
-    fixture.detectChanges();
-    resendButtonEl.nativeElement.click();
-    expect(storageSpy.set).toHaveBeenCalledWith('numberOfResends', 2);
-    expect(openTicketEl).toBeFalsy();
-    tick(60000);
-    fixture.detectChanges();
-    resendButtonEl.nativeElement.click();
-    expect(storageSpy.set).toHaveBeenCalledWith('numberOfResends', 3);
-    tick(60000);
-    fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css('ion-button[name="Open Ticket"]'))).toBeTruthy();
-    flush();
-  }));
+    expect(storageSpy.set).toHaveBeenCalledWith('email', 'test@test.com');
+    expect(component.timerSeconds).toBeGreaterThan(55);
+  });
 
   it('should clear storage and navigate to support ticket creation when Open Ticket button is clicked', () => {
     component.ionViewWillEnter();
-    component.hideSendTicket = false;
     fixture.detectChanges();
     const openTicketEl = fixture.debugElement.query(By.css('ion-button[name="Open Ticket"]'));
     openTicketEl.nativeElement.click();
     expect(storageSpy.remove).toHaveBeenCalledWith('email');
-    expect(storageSpy.remove).toHaveBeenCalledWith('numberOfResends');
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/create', 'test@test.com']);
   });
 
@@ -143,4 +125,16 @@ describe('ResendVerificationEmailPage', () => {
     const resendButtonEl = fixture.debugElement.query(By.css('ion-button[name="Resend Verification Email"]'));
     expect(resendButtonEl.attributes['ng-reflect-disabled']).toBe('false');
   });
+
+  it('should activate the resend button when 60 seconds elapsed after the last resend', fakeAsync(() => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const resendButtonEl = fixture.debugElement.query(By.css('ion-button[name="Resend Verification Email"]'));
+    expect(resendButtonEl.attributes['ng-reflect-disabled']).toBe('true');
+    expect(component.timerSeconds).toBeGreaterThan(55);
+    tick(60000);
+    fixture.detectChanges();
+    expect(resendButtonEl.attributes['ng-reflect-disabled']).toBe('false');
+    flush();
+  }));
 });

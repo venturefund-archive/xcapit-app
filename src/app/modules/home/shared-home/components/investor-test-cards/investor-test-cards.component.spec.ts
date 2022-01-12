@@ -42,33 +42,24 @@ describe('InvestorTestCardsComponent', () => {
 
   it('should not render properly badge if testAvailable or manualTestAvailable are true', async () => {
     component.testAvailable = true;
-    component.manualTestAvailable = true;
+    component.optionsTestAvailable = true;
     fixture.detectChanges();
     const badgeEl = fixture.debugElement.query(By.css('.badge'));
     expect(badgeEl).toBeNull();
   });
 
   it('should render properly badge if testAvailable or manualTestAvailable are false', async () => {
-    component.manualTestAvailable = false;
+    component.optionsTestAvailable = false;
     component.testAvailable = false;
     fixture.detectChanges();
     const badgeEl = fixture.debugElement.query(By.css('.badge'));
     expect(badgeEl.nativeNode.innerHTML).toContain('home.home_page.test_investor_cards.badge_text');
   });
 
-  it('should navigate to investor Test when take_test_card Div is clicked and testAvailable', async () => {
-    component.testAvailable = true; 
-    const clickeableDiv = fixture.debugElement.query(By.css('div[name="Go Investor Test"]'));
+  it('should navigate to option select test page when options-test-card Div is clicked and optionsTestAvailable is true', async () => {
+    component.optionsTestAvailable = true;
+    const clickeableDiv = fixture.debugElement.query(By.css('div[name="Go Investor Options"]'));
     clickeableDiv.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wealth-management/investor-test-options']);
   });
-
-
-  it('should navigate to manual profile selection when manual_test_card Div is clicked and manualTestAvailable is true', async () => {
-    component.manualTestAvailable = true;
-    const clickeableDiv = fixture.debugElement.query(By.css('div[name="Go Investor Profiles"]'));
-    clickeableDiv.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wealth-management/about-investor-profiles']);
-  });
-
 });
