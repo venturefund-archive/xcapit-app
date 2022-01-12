@@ -10,6 +10,7 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
+import { QueueService } from '../../../shared/services/queue/queue.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -170,7 +171,8 @@ export class HomeWalletPage implements OnInit {
     private refreshTimeoutService: RefreshTimeoutService,
     private walletBalance: WalletBalanceService,
     private storageService: StorageService,
-    private balanceCacheService: BalanceCacheService
+    private balanceCacheService: BalanceCacheService,
+    private queueService: QueueService
   ) {}
 
   ngOnInit() {}
@@ -183,11 +185,16 @@ export class HomeWalletPage implements OnInit {
   }
 
   async initialize(): Promise<void> {
+    this.subscribeToBalances();
     this.clearBalances();
     await this.checkWalletExist();
     await this.getAssetsSelected();
     this.loadCoins();
     this.getNFTStatus();
+  }
+
+  subscribeToBalances() {
+    this.queueService.results.subscribe();
   }
 
   private clearBalances(): void {
@@ -250,10 +257,14 @@ export class HomeWalletPage implements OnInit {
   private loadNextPage(): void {
     const page = this.selectedAssets.slice(this.balances.length, this.endPageIndex()).map((aCoin: Coin) => {
       const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
-      assetBalance.cachedBalance();
-      assetBalance.balance();
-      assetBalance.getPrice();
-      assetBalance.quoteBalance().then((quote: number) => (this.totalBalanceWallet += quote));
+      const task = (): Promise<any> => {
+        return Promise.all([assetBalance.balance(), assetBalance.getPrice()]);
+      };
+      // assetBalance.cachedBalance();
+      // assetBalance.balance();
+      // assetBalance.getPrice();
+      // assetBalance.quoteBalance().then((quote: number) => (this.totalBalanceWallet += quote));
+      this.queueService.add(task);
       return assetBalance;
     });
     this.balances = [...this.balances, ...page];
