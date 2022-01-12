@@ -1,7 +1,7 @@
 import { BalanceCacheService } from './../shared-wallets/services/balance-cache/balance-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -60,7 +60,7 @@ describe('HomeWalletPage', () => {
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
-
+  let ionInfiniteScrollSpy: jasmine.SpyObj<IonInfiniteScroll>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -95,6 +95,8 @@ describe('HomeWalletPage', () => {
         updateCoin: Promise.resolve(),
       });
 
+      ionInfiniteScrollSpy = jasmine.createSpyObj('IonInfiniteScroll', { complete: Promise.resolve() });
+
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -113,6 +115,7 @@ describe('HomeWalletPage', () => {
       fixture = TestBed.createComponent(HomeWalletPage);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
+      component.infiniteScroll = ionInfiniteScrollSpy;
       fixture.detectChanges();
     })
   );
@@ -130,23 +133,26 @@ describe('HomeWalletPage', () => {
 
   it('should initialize on view did enter', async () => {
     await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
     expect(component.walletExist).toBeTrue();
     expect(component.selectedAssets.length).toBeGreaterThan(0);
     expect(component.nftStatus).toEqual('claimed');
     expect(component.balances.length).toBeGreaterThan(0);
   });
 
-  it('should re-initialize when refresher is triggered', async () => {
+  it('should re-initialize when refresher is triggered', fakeAsync(() => {
     const eventMock = { target: { complete: jasmine.createSpy('complete') } };
     const spy = spyOn(component, 'initialize');
-    await component.ionViewDidEnter();
+    component.ionViewDidEnter();
+    tick();
     fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
     fixture.detectChanges();
-    await fixture.whenStable();
+    tick(1000);
     expect(spy).toHaveBeenCalled();
     expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
     expect(refreshTimeoutServiceSpy.lock).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('should not re-initialize when refresher is not available', fakeAsync(() => {
     component.alreadyInitialized = true;
