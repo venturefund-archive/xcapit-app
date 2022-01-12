@@ -3,8 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ComingSoonPage } from './coming-soon.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule} from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ComingSoonPage', () => {

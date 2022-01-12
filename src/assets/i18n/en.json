@@ -1602,6 +1602,9 @@
     "investments": {
       "coming_soon": {
         "header": "Investment"
+      },
+      "defi_investment_products":{
+        "header":"Defi investments"
       }
     },
     "shared_wallets": {
@@ -1612,6 +1615,16 @@
       "start_investing_card": {
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
+      },
+      "defi_investment_product":{
+        "performance":"Estimated yield",
+        "liquidity":"Liquidity",
+        "not_min_ammount":"No minimum amount",
+        "immediate_rescue":"Immediate Rescue",
+        "coming_badge":"Coming",
+        "invest_button":"Invest",
+        "annual":"Annual"
+        
       },
       "address_input_card": {
         "scan_error": "Error scanning QR code",
