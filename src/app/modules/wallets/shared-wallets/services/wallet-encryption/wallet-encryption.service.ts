@@ -61,6 +61,12 @@ export class WalletEncryptionService {
     });
   }
 
+  getDecryptedWalletForNetwork(password: string, network: string): Promise<Wallet> {
+    return this.getDecryptedWallet(password).then((wallet) => {
+      return Wallet.fromMnemonic(wallet.mnemonic.phrase, environment.derivedPaths[network]);
+    });
+  }
+
   getEncryptedWallet(): Promise<any> {
     return this.storageService.getWalletFromStorage();
   }

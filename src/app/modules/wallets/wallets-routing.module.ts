@@ -144,6 +144,30 @@ const routes: Routes = [
         path: 'nft-detail',
         loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
       },
+      {
+        path: 'wallet-connect',
+        children: [
+          {
+            path: 'new-connection',
+            loadChildren: () =>
+              import('./wallet-connect/new-connection/new-connection.module').then((m) => m.NewConnectionPageModule),
+          },
+          {
+            path: 'connection-detail',
+            loadChildren: () =>
+              import('./wallet-connect/connection-detail/connection-detail.module').then(
+                (m) => m.ConnectionDetailPageModule
+              ),
+          },
+          {
+            path: 'operation-detail',
+            loadChildren: () =>
+              import('./wallet-connect/operation-detail/operation-detail.module').then(
+                (m) => m.OperationDetailPageModule
+              ),
+          },
+        ],
+      },
     ],
   },
 ];

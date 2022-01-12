@@ -1,0 +1,82 @@
+:host {
+  .connect_button {
+    margin-top: 16px;
+    width: 100%;
+  }
+
+  .disconnect_link {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #4a75f7;
+  }
+
+  .wcdc {
+    background: var(--ion-color-uxlight);
+    border-radius: 8px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0.5px solid #b0b6c7;
+
+    &__logo {
+      img {
+        height: 64px;
+      }
+    }
+
+    &__provider_name {
+      font-size: 18px;
+      color: #1c2d5e;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    &__connection {
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 6px;
+
+      &__icon {
+        padding: 2px;
+        margin-right: 5px;
+      }
+
+      &__connected {
+        color: #13532e;
+        display: flex;
+        justify-content: center;
+      }
+
+      &__disconnected {
+        color: #9d0606;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    &__provider_detail {
+      font-size: 14px;
+      color: #1c2d5e;
+      font-weight: 400;
+      padding: 18px 0;
+      display: flex;
+      flex-direction: column;
+      line-height: 18px;
+
+      ion-label {
+        padding: 4px 0;
+      }
+    }
+
+    &__permission_details {
+      margin-top: 18px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #606c8e;
+    }
+  }
+}

@@ -205,7 +205,7 @@ describe('MainMenuPage', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(13);
+    expect(elms.length).toBe(14);
   });
 
   it('should show menu-item when "env" is PREPROD', () => {
@@ -235,6 +235,14 @@ describe('MainMenuPage', () => {
     expect(modalControllerMock.create).toHaveBeenCalledTimes(1);
   });
 
+  xit('should set language when Change Language item is clicked', async () => {
+    const button = fixture.debugElement.query(By.css(`ion-item#ChangeLanguage`));
+    button.nativeElement.click();
+    await fixture.whenStable();
+
+    expect(languageServiceSpy.setLanguage).toHaveBeenCalledTimes(1);
+  });
+
   appPages.forEach((item) => {
     it(`should navigate to ${item.url} when item is clicked`, async () => {
       fiatRampsServiceSpy.userHasOperations.and.returnValue(of({ user_has_operations: true }));
@@ -247,14 +255,6 @@ describe('MainMenuPage', () => {
       await fixture.whenStable();
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(`${item.url}`);
     });
-  });
-
-  it('should set language when Change Language item is clicked', async () => {
-    const button = fixture.debugElement.query(By.css(`ion-item#ChangeLanguage`));
-    button.nativeElement.click();
-    await fixture.whenStable();
-
-    expect(languageServiceSpy.setLanguage).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to "/wallets/recovery/info-no-wallet" when recoveryPhrase is clicked and there is not wallet', async () => {
