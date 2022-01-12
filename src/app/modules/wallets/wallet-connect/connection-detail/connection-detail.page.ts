@@ -82,8 +82,8 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./connection-detail.page.scss'],
 })
 export class ConnectionDetailPage implements OnInit {
-  private peerMeta;
-  private connectionStatus = false;
+  public peerMeta;
+  public connectionStatus = false;
 
   constructor(
     private walletConnectService: WalletConnectService,

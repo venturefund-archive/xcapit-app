@@ -159,17 +159,17 @@ import * as moment from 'moment';
   styleUrls: ['./operation-detail.page.scss'],
 })
 export class OperationDetailPage implements OnInit {
-  private peerMeta;
-  private isSignRequest = true;
-  private isApproval = false;
-  private transactionConfirmed = false;
-  private transactionDetail;
-  private message: any;
-  private date;
-  private time;
-  private totalFeeAmount;
-  private totalAmount = null;
-  private providerSymbol = '';
+  public peerMeta;
+  public isSignRequest = true;
+  public isApproval = false;
+  public transactionConfirmed = false;
+  public transactionDetail;
+  public message: any;
+  public date;
+  public time;
+  public totalFeeAmount;
+  public totalAmount = null;
+  public providerSymbol = '';
 
   constructor(
     private walletConnectService: WalletConnectService,

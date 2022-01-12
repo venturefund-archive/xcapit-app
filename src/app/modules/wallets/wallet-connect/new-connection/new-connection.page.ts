@@ -111,8 +111,8 @@ export class NewConnectionPage implements OnInit {
   public address: string;
   public activeChainId = 1;
   public dappInfo: boolean;
-  private walletsList: any[] = [];
-  private isNative: boolean;
+  public walletsList: any[] = [];
+  public isNative: boolean;
 
   form: FormGroup = this.formBuilder.group({
     wallet: [null, [Validators.required]],

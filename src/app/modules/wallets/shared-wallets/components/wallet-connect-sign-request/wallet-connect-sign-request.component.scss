@@ -2,6 +2,7 @@
   .wcsr {
     padding-left: 32px;
     padding-right: 32px;
+
     &__header {
       padding-top: 24px;
       display: flex;
@@ -15,14 +16,17 @@
       &__close_button {
         margin: 0;
         font-size: var(--ux-fsize-16);
+
         --padding-end: 0;
         --padding-top: 0;
       }
     }
+
     &__form {
       &__input {
         margin-top: 8px;
       }
+
       &__disclaimer {
         margin-top: 8px;
         color: var(--ion-color-infodark);
@@ -32,6 +36,7 @@
         &__icon {
           margin-top: 5px;
           font-size: 24px;
+
           ion-icon {
             width: 24px;
           }
@@ -41,6 +46,7 @@
           margin-left: 10px;
         }
       }
+
       &__buttons {
         margin-top: 24px;
         display: flex;

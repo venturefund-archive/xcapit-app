@@ -8,12 +8,6 @@
     border-radius: 8px;
     padding: 24px 16px;
 
-    &__title {
-    }
-
-    &__text_before {
-    }
-
     &__radio_group {
       --background: var(--ion-color-uxlight);
 
@@ -21,6 +15,7 @@
       ion-label,
       ion-radio {
         --background: var(--ion-color-uxlight);
+
         &.ux-error__item {
           --background: transparent;
         }
@@ -28,11 +23,13 @@
 
       ion-item {
         --background-hover-opacity: 0.03;
-        --inner-border-width: 0px;
+        --inner-border-width: 0;
+
         min-height: 51px;
         background: white;
         display: flex;
         margin-left: -16px;
+
         &.ux-error__item {
           background: transparent;
           min-height: 10px;
@@ -56,13 +53,15 @@
 
       ion-item {
         --background-hover-opacity: 0.03;
-        --inner-border-width: 0px;
+        --inner-border-width: 0;
+
         min-height: 51px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         border: 1px solid #606c83;
         border-radius: 4px;
+
         &.ux-error__item {
           background: transparent;
           min-height: 10px;

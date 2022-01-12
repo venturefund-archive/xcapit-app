@@ -1,3 +1,4 @@
+#!/bin/sh
 sed -i -e 's/readonly/\/\/@ts-ignore\
 readonly/g;s/[[:space:]]get/\/\/@ts-ignore\
 get/g;s/[[:space:]]set/\/\/@ts-ignore\
