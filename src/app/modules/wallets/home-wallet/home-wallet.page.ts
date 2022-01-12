@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, NavController } from '@ionic/angular';
-import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,7 +8,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { BalanceCacheService, CachedCoin } from '../shared-wallets/services/balance-cache/balance-cache.service';
+import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
 
 @Component({
@@ -24,8 +23,15 @@ import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-
     </ion-header>
 
     <ion-content>
-      <ion-refresher (ionRefresh)="this.refresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
-        <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="true" pullingIcon="false">
+      <ion-refresher
+        (ionRefresh)="this.refresh($event)"
+        close-duration="1000ms"
+        slot="fixed"
+        pull-factor="0.6"
+        pull-min="50"
+        pull-max="60"
+      >
+        <ion-refresher-content class="refresher" refreshingSpinner="true" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
           <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
@@ -113,14 +119,9 @@ import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-
             [last]="last"
           ></app-wallet-balance-card-item>
         </div>
-        <ion-infinite-scroll threshold="200px" (ionInfinite)="this.loadCoins()">
-          <ion-infinite-scroll-content
-            loadingSpinner="bubbles"
-            loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
-          >
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-        <app-start-investing></app-start-investing>
+        <div class="wt__start-investing">
+          <app-start-investing></app-start-investing>
+        </div>
       </div>
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
@@ -134,6 +135,13 @@ import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
       </div>
+      <ion-infinite-scroll threshold="10px" (ionInfinite)="this.loadCoins()">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
+        >
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
@@ -147,10 +155,8 @@ export class HomeWalletPage implements OnInit {
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
-  promises: Promise<any>[];
-  @ViewChild(IonInfiniteScroll, { static: false })
-  infiniteScroll: IonInfiniteScroll;
-  pageSize = 3;
+  @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
+  pageSize = 6;
 
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
@@ -191,12 +197,11 @@ export class HomeWalletPage implements OnInit {
 
   async refresh(event: any): Promise<void> {
     if (this.refreshTimeoutService.isAvailable()) {
+      this.infiniteScroll.disabled = false;
       await this.initialize();
       this.refreshTimeoutService.lock();
-      event.target.complete();
-    } else {
-      setTimeout(() => event.target.complete(), 1000);
     }
+    setTimeout(() => event.target.complete(), 1000);
   }
 
   private getNFTStatus(): void {
