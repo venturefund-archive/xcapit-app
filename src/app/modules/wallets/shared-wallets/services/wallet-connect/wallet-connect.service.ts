@@ -48,10 +48,7 @@ export class WalletConnectService {
     private walletTransactionsService: WalletTransactionsService,
     private appStorageService: AppStorageService,
     private navController: NavController
-  ) {
-    // this.erc20Abi = AbiDecoder;
-    // this.erc20Abi.addABI(erc20);
-  }
+  ) {}
 
   async onInit() {}
 

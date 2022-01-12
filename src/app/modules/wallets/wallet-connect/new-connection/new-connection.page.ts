@@ -193,7 +193,7 @@ export class NewConnectionPage implements OnInit {
   }
 
   showBackground() {
-    document.getElementsByTagName('html').item(0).classList.remove('hid∫en');
+    document.getElementsByTagName('html').item(0).classList.remove('hidden');
     document.getElementById('connectionForm').classList.remove('hidden');
   }
 

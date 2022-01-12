@@ -102,8 +102,7 @@ export class WalletConnectQrScanComponent implements OnInit {
     this.toastService
       .showToast({
         message: this.translate.instant(`${errorPrefix}${errorCode}`),
-      })
-      .then();
+      });
   }
 
   async readQRCode() {
@@ -168,7 +167,7 @@ export class WalletConnectQrScanComponent implements OnInit {
   }
 
   isValidQR(content: string): boolean {
-    return content.includes('wc:') && content.includes('bridge');
+    return content.includes('wc:') && content.includes('bridge=');
   }
 
   close() {
