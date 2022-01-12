@@ -32,7 +32,7 @@ const routes: Routes = [
           },
           {
             path: 'defi-investment-products',
-            loadChildren: () => import('../wallets/investments/defi-investment-products/defi-investment-products.module').then( m => m.DefiInvestmentProductsPageModule)
+            loadChildren: () => import('../defi-investments/defi-investment-products/defi-investment-products.module').then( m => m.DefiInvestmentProductsPageModule)
           },
         ],
       },

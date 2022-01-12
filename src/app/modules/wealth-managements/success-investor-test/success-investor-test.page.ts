@@ -1,3 +1,4 @@
+import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,7 +14,7 @@ import { ApiWealthManagementsService } from '../shared-wealth-managements/servic
         </ion-button>
       </div>
       <div class="main__ux_success_image">
-        <img src="../../../../assets/img/wealth_management/success.svg" />
+        <img src="assets/img/wealth_management/success.svg" />
       </div>
       <div class="main__primary_text ux-font-text-xl">
         <ion-text>{{ 'wealth_managements.success.textPrimary' | translate: { testResult: this.testResult } }}</ion-text>
@@ -45,15 +46,15 @@ export class SuccessInvestorTestPage implements OnInit {
   testResult: any;
   constructor(
     private navController: NavController,
-    private apiWealthManagementsService: ApiWealthManagementsService,
+    private apiProfilesService: ApiProfilesService,
     private translateService: TranslateService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.apiWealthManagementsService.getInvestorProfile().subscribe((profile) => {
-      this.testResult = this.translateService.instant(profile.profile);
+    this.apiProfilesService.crud.get().subscribe((profile) => {
+      this.testResult = this.translateService.instant(profile.investor_category);
     });
   }
 

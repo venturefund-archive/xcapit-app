@@ -28,7 +28,7 @@ export class SuccessRegisterApikeysBeginnerPage implements OnInit {
       if (this.existWallet) {
         data.urlThirdAction = '/fiat-ramps/moonpay';
       } else {
-        data.urlThirdAction = '/fiat-ramps/no-wallet';
+        data.urlThirdAction = '/fiat-ramps/no-wallet-to-buy';
       }
     });
   }

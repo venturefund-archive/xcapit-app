@@ -11,11 +11,13 @@ import { By } from '@angular/platform-browser';
 import { of, Subscription } from 'rxjs';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { ItemQuoteComponent } from '../shared-home/components/item-quote/item-quote.component';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-balance.interface';
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
+import { BalanceCacheService } from '../../wallets/shared-wallets/services/balance-cache/balance-cache.service';
 
 const balances: Array<AssetBalance> = [
   {
@@ -56,6 +58,7 @@ describe('HomePage', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
+  let balanceCacheSpy: jasmine.SpyObj<BalanceCacheService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -64,7 +67,10 @@ describe('HomePage', () => {
         getCountNotifications: () => of({ count: 5 }),
       };
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-
+      balanceCacheSpy = jasmine.createSpyObj('BalanceCache', {
+        updateTotal: Promise.resolve(),
+        total: Promise.resolve(50),
+      });
       fakeWalletService = new FakeWalletService(true);
       walletServiceSpy = fakeWalletService.createSpy();
       walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
@@ -99,6 +105,7 @@ describe('HomePage', () => {
             useValue: walletBalanceServiceSpy,
           },
           { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
+          { provide: BalanceCacheService, useValue: balanceCacheSpy}
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -145,6 +152,8 @@ describe('HomePage', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(component.totalBalanceWallet).toEqual(5120);
+    expect(balanceCacheSpy.total).toHaveBeenCalled();
+    expect(balanceCacheSpy.updateTotal).toHaveBeenCalled();
   });
 
   it('should not return total balance in USDT if wallet exist and alreadyInitialized is true', async () => {
@@ -156,17 +165,20 @@ describe('HomePage', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(component.totalBalanceWallet).toEqual(undefined);
+    expect(balanceCacheSpy.total).not.toHaveBeenCalled();
   });
 
   it('should not return total balance in USDT if wallet not exist', async () => {
     component.alreadyInitialized = false;
     fakeWalletService.modifyReturns(false, {});
     fixture.detectChanges();
+
     await component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(component.totalBalanceWallet).toEqual(undefined);
+    expect(balanceCacheSpy.total).not.toHaveBeenCalled();
   });
 
   it('should call getNFTStatus, encryptedWalletExist and alreadyInitialized is set to false on refresh', async () => {

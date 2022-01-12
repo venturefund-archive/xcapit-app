@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AssetBalance } from '../../interfaces/asset-balance.interface';
 import { NavController } from '@ionic/angular';
+import { AssetBalanceModel } from '../../models/asset-balance/asset-balance.class';
 
 @Component({
   selector: 'app-wallet-balance-card-item',
@@ -18,8 +19,9 @@ import { NavController } from '@ionic/angular';
           <ion-label color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">{{
             this.balance.name
           }}</ion-label>
-          <ion-label *ngIf="this.hasPrice()" color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
-            {{ this.balance.usdAmount | number: '1.2-2' }} {{ this.balance.usdSymbol }}
+          <ion-label color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
+            {{ this.balance.price * this.balance.amount | number: '1.2-2' }}
+            {{ this.balance.quoteSymbol }}
           </ion-label>
         </div>
       </div>
@@ -29,18 +31,14 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./wallet-balance-card-item.component.scss'],
 })
 export class WalletBalanceCardItemComponent implements OnInit {
-  @Input() balance: AssetBalance;
+  @Input() balance: AssetBalanceModel;
   @Input() last: boolean;
 
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
-  hasPrice() {
-    return this.balance.usdAmount !== undefined && !(this.balance.amount > 0 && this.balance.usdAmount === 0);
-  }
-
   goToAssetDetail() {
-    this.navController.navigateForward(['wallets/asset-detail/' + this.balance.symbol]);
+    this.navController.navigateForward(['wallets/asset-detail/', this.balance.symbol]);
   }
 }

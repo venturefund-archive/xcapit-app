@@ -115,14 +115,15 @@ export class InvestorTestQuestionPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
-    this.investorTestService.loadQuestions();
     this.currentQuestionNumber = parseInt(this.route.snapshot.paramMap.get('question'));
 
-    if (this.isValidQuestionNumber && !this.isUserSkippingQuestions) {
-      this.loadQuestionAndAnswers();
-    } else {
-      this.navController.navigateRoot([`${this.baseRoute}/1`]);
-    }
+    this.investorTestService.loadQuestions().then(() => {
+      if (this.isValidQuestionNumber && !this.isUserSkippingQuestions) {
+        this.loadQuestionAndAnswers();
+      } else {
+        this.navController.navigateRoot([`${this.baseRoute}/1`]);
+      }
+    });
   }
 
   ngOnInit() {}

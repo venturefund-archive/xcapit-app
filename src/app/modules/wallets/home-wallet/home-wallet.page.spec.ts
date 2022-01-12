@@ -1,3 +1,4 @@
+import { BalanceCacheService } from './../shared-wallets/services/balance-cache/balance-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -16,6 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { TEST_ERC20_COINS } from '../shared-wallets/constants/coins.test';
 
 const balances: Array<AssetBalance> = [
   {
@@ -55,6 +58,8 @@ describe('HomeWalletPage', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -72,11 +77,22 @@ describe('HomeWalletPage', () => {
       walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
         getWalletsBalances: Promise.resolve(balances),
         getUsdTotalBalance: Promise.resolve(5120),
+        balanceOf: Promise.resolve(20),
+        priceOf: Promise.resolve(10),
       });
 
       refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
         isAvailable: true,
         lock: of(),
+      });
+
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        getAssestsSelected: Promise.resolve(TEST_ERC20_COINS),
+      });
+
+      balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
+        coin: Promise.resolve({ balance: 20, price: 5, expiration_date: 1234 }),
+        updateCoin: Promise.resolve(),
       });
 
       TestBed.configureTestingModule({
@@ -88,6 +104,8 @@ describe('HomeWalletPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
           { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
+          { provide: StorageService, useValue: storageServiceSpy },
+          { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -103,128 +121,53 @@ describe('HomeWalletPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check if wallet exist on view will enter and there are a wallet', async () => {
-    await component.ionViewWillEnter();
+  it('should not initialize when page is already initialized', () => {
+    component.alreadyInitialized = true;
+    const spy = spyOn(component, 'initialize');
+    component.ionViewDidEnter();
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should initialize on view did enter', async () => {
+    await component.ionViewDidEnter();
+    expect(component.walletExist).toBeTrue();
+    expect(component.selectedAssets.length).toBeGreaterThan(0);
+    expect(component.nftStatus).toEqual('claimed');
+    expect(component.balances.length).toBeGreaterThan(0);
+  });
+
+  it('should re-initialize when refresher is triggered', async () => {
+    const eventMock = { target: { complete: jasmine.createSpy('complete') } };
+    const spy = spyOn(component, 'initialize');
+    await component.ionViewDidEnter();
+    fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(component.walletExist).toBe(true);
+    expect(spy).toHaveBeenCalled();
+    expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
+    expect(refreshTimeoutServiceSpy.lock).toHaveBeenCalledTimes(1);
   });
 
-  it('should check if wallet exist on view will enter and there are not a wallet', async () => {
-    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    await component.ionViewWillEnter();
-    expect(component.walletExist).toBe(false);
-  });
+  it('should not re-initialize when refresher is not available', fakeAsync(() => {
+    component.alreadyInitialized = true;
+    refreshTimeoutServiceSpy.isAvailable.and.returnValue(false);
+    const eventMock = { target: { complete: jasmine.createSpy('complete') } };
+    const spy = spyOn(component, 'initialize');
+    component.ionViewDidEnter();
+    tick();
+    fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
+    tick(1000);
+    expect(spy).not.toHaveBeenCalled();
+    expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
+    expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();
+  }));
 
-  it('should not render app-wallets-subheader when walletExist is true', () => {
+  it('should not load more balances when ends', async () => {
     component.walletExist = true;
+    component.selectedAssets = [];
     fixture.detectChanges();
-    const subheader = fixture.debugElement.query(By.css('.wt__subheader'));
-    expect(subheader).toBeNull();
-  });
-
-  it('should render app-wallets-buttons-subheader when walletExist is true', () => {
-    component.walletExist = true;
-    fixture.detectChanges();
-    const subheader = fixture.debugElement.query(By.css('.wt__overlap_buttons'));
-    expect(subheader).not.toBeNull();
-  });
-
-  it('should not render app-wallets-buttons-subheader when walletExist is false', () => {
-    component.walletExist = false;
-    fixture.detectChanges();
-    const subheader = fixture.debugElement.query(By.css('.wt__overlap_buttons'));
-    expect(subheader).toBeNull();
-  });
-
-  it('should render app-wallet-balance-card when walletExist and there are balances', () => {
-    component.walletExist = true;
-    component.balances = balances;
-    fixture.detectChanges();
-    const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
-    expect(balanceElement).not.toBeNull();
-  });
-
-  it('should not render app-wallet-balance-card when walletExist is true but there are not balances', () => {
-    component.walletExist = true;
-    component.balances = [];
-    fixture.detectChanges();
-    const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
-    expect(balanceElement).toBeNull();
-  });
-
-  it('should not render app-wallet-balance-card when walletExist is false and have balances', () => {
-    component.walletExist = false;
-    component.balances = balances;
-    fixture.detectChanges();
-    const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
-    expect(balanceElement).toBeNull();
-  });
-
-  it('should get balance when wallet exist and there is balance', async () => {
-    component.alreadyInitialized = false;
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    expect(component.totalBalanceWallet).toEqual(5120);
-  });
-
-  it('should get zero balance when wallet exist and there is not balance', async () => {
-    component.alreadyInitialized = false;
-    walletBalanceServiceSpy.getUsdTotalBalance.and.resolveTo(0);
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    expect(component.totalBalanceWallet).toEqual(0);
-  });
-
-  it('should get zero balance when wallet not exist', async () => {
-    component.alreadyInitialized = false;
-    fakeWalletService.modifyReturns(false, null);
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    expect(component.totalBalanceWallet).toEqual(0);
-  });
-
-  it('should render app-wallet-balance-card if wallet exist and there are balances', async () => {
-    component.alreadyInitialized = false;
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
-    const appWalletBalance = fixture.debugElement.query(By.css('app-wallet-balance-card '));
-    expect(appWalletBalance).toBeTruthy();
-  });
-
-  it('should not render app-wallet-balance-card if wallet not exist', async () => {
-    component.alreadyInitialized = false;
-    fakeWalletService.modifyReturns(false, null);
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
-    const appWalletBalance = fixture.debugElement.query(By.css('app-wallet-balance-card '));
-    expect(appWalletBalance).toBeNull();
-  });
-
-  it('should call getNFTStatus, encryptedWalletExist and alreadyInitialized is set to false on refresh', async () => {
-    const spyEncryptedWallet = spyOn(component, 'encryptedWalletExist');
-    await component.refresh({ target: { complete: () => null } });
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    expect(apiWalletServiceSpy.getNFTStatus).toHaveBeenCalledTimes(1);
-    expect(component.alreadyInitialized).toBe(false);
-    expect(spyEncryptedWallet).toHaveBeenCalledTimes(1);
+    fixture.debugElement.query(By.css('ion-infinite-scroll')).triggerEventHandler('ionInfinite', null);
+    expect(component.infiniteScroll.disabled).toBeTrue();
   });
 
   it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
@@ -236,31 +179,29 @@ describe('HomeWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate when goToRecoveryWallet is called', async () => {
-    component.goToRecoveryWallet();
+  it('should navigate when Import Wallet button is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="Import Wallet"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-first/disclaimer', 'import']);
   });
 
-  it('should render selected tab', async () => {
+  it('should call appTrackEvent on trackService when Edit Tokens clicked', () => {
     component.walletExist = true;
-    component.balances = balances;
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    expect(fixture.debugElement.query(By.css('.wt__balance'))).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('.wt__nfts'))).not.toBeTruthy();
-    component.segmentsForm.patchValue({ tab: 'nft' });
-    fixture.debugElement.query(By.css('ion-segment-button[value="nft"]')).nativeElement.click();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Tokens');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    expect(fixture.debugElement.query(By.css('ion-segment-button[value="nft"]>ion-label.active_tab'))).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('ion-segment-button[value="assets"]>ion-label.active_tab'))
-    ).not.toBeTruthy();
-    expect(fixture.debugElement.query(By.css('.wt__balance'))).not.toBeTruthy();
-    expect(fixture.debugElement.query(By.css('.wt__nfts'))).toBeTruthy();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate when Edit Tokens button is clicked', async () => {
+    component.walletExist = true;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Edit Tokens"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'edit']);
   });
 
   it('should request the nft and update the nft status to claimed when claim event is received', () => {
@@ -268,43 +209,9 @@ describe('HomeWalletPage', () => {
     component.nftStatus = 'unclaimed';
     component.walletExist = true;
     fixture.detectChanges();
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getPrices: of({ prices: { ETH: 3000, BTC: 50000, USDT: 1 } }),
-      getNFTStatus: of({ status: 'claimed' }),
-      createNFTRequest: of({}),
-    });
     const claimNFTCardComponent = fixture.debugElement.query(By.css('app-nft-card'));
     claimNFTCardComponent.triggerEventHandler('nftRequest', null);
     fixture.detectChanges();
     expect(component.nftStatus).toEqual('claimed');
-  });
-
-  it('should render nft card when user have wallet and nft on it', async () => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    component.segmentsForm.patchValue({ tab: 'nft' });
-    component.nftStatus = 'delivered';
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    const nftEl = fixture.debugElement.query(By.css('app-nft-card'));
-    expect(nftEl).toBeTruthy();
-  });
-
-  it('should not render nft card when user doesnt have wallet', async () => {
-    fakeWalletService.modifyReturns(Promise.resolve(false), Promise.resolve('20'));
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    component.segmentsForm.patchValue({ tab: 'nft' });
-    component.nftStatus = 'delivered';
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    const nftEl = fixture.debugElement.query(By.css('app-nft-card'));
-    expect(nftEl).toBeFalsy();
   });
 });

@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
-import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { IonicModule } from '@ionic/angular';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { SuccessRegisterApikeysBeginnerPage } from './success-register-apikeys-beginner.page';
@@ -9,7 +8,6 @@ import { SuccessRegisterApikeysBeginnerPage } from './success-register-apikeys-b
 describe('SuccessRegisterApikeysBeginnerPage', () => {
   let component: SuccessRegisterApikeysBeginnerPage;
   let fixture: ComponentFixture<SuccessRegisterApikeysBeginnerPage>;
-
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
@@ -46,6 +44,6 @@ describe('SuccessRegisterApikeysBeginnerPage', () => {
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(component.data.urlThirdAction).toEqual('/fiat-ramps/no-wallet');
+    expect(component.data.urlThirdAction).toEqual('/fiat-ramps/no-wallet-to-buy');
   });
 });

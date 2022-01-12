@@ -223,9 +223,10 @@
       "my_account": "My account/Registration",
       "link_binance_account": "Link my binance account",
       "buy_crypto": "Buy Crypto",
-      "subscription_plans": "Subscription Plans",
       "investment_strategies": "Investment strategies",
       "capital_security": "Capital Security",
+      "wallet":"Wallet",
+      "nft":"NFT",
       "others": "Others"
     }
   },
@@ -1366,14 +1367,16 @@
       "paragraph_9": "Como condición para participar en el programa, usted da su consentimiento para que la empresa obtenga y entregue su nombre, dirección y otra información a terceros con el fin de administrar este programa y cumplir con las leyes, regulaciones y reglas aplicables. cualquier información que proporcione al patrocinador puede usarse para comunicarse con usted en relación con este programa. La información enviada será tratada de acuerdo con la política de privacidad de la empresa.\n",
       "subtitle_10": "10. Ley aplicable",
       "paragraph_10": "Estas bases y el programa de referidos se gobiernan por las leyes de la república argentina. cualquier controversia derivada del presente acuerdo, su existencia, validez, interpretación, alcance o cumplimiento, será sometida a los tribunales competentes con sede en la ciudad autónoma de buenos aires.\n"
+    },
+    "referral_promotion": {
+      "title": "Invite and win. More company, more profits!",
+      "button": "Share code"
     }
   },
   "notifications": {
     "notifications_list": {
       "header": "Notifications",
-      "title": "You still have no notifications",
-      "message": "Let's make this space come alive",
-      "link": "Start investing"
+      "title": "You still have no notifications"
     },
     "notification": {
       "header": "Notification"
@@ -1384,6 +1387,12 @@
     }
   },
   "wallets": {
+    "no_wallet": {
+      "title": "You don't have your Xcapit Wallet yet",
+      "subtitle": "Every time you make a purchase, your cryptocurrencies will be deposited there.",
+      "button": "Create wallet"
+    },
+
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
@@ -2180,6 +2189,14 @@
         "link1": "Take test",
         "title2": "Do you know what type of investor you are?",
         "link2": "Find out"
+      },
+      "quotes_card": {
+        "title": "Quotes",
+        "table_label1": "Pair",
+        "table_label2": "Last price",
+        "table_label3": "Change % 24 h",
+        "more_button": "See more",
+        "less_button": "See less"
       }
     },
     "shared": {
@@ -2250,6 +2267,23 @@
         "title": "Aggressive Profile",
         "subtitle": "You seek the highest possible returns, so you are willing to take whatever risk is necessary. It is not advisable to maintain this risk attitude when you do not have sufficient solvency, or if you have important family commitments."
       }
+    },
+    "no_wallet": {
+      "title": "You don't have your Xcapit wallet yet",
+      "subtitle": "Create your wallet to start investing.",
+      "button": "Create Wallet",
+      "link": "Back to investments"
+    },
+    "success_investment": {
+      "title": "You added money to your investment",
+      "subtitle": "You will get benefits every day.",
+      "primaryButton": "Back to investments",
+      "secondaryButton": "Go to Wallet"
+    },
+    "error_investment": {
+      "title": "It seems that something went wrong",
+      "subtitle": "Remember that you must own tokens to pay investment fees.",
+      "primaryButton": "Try again"
     }
   }
 }

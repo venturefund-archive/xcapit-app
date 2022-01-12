@@ -15,7 +15,7 @@ export class InvestorProfileStepStubComponent {
   @Input() actualStep: number;
   @Input() sliderLength = 3;
   @Input() imagePath: string;
-  @Input() id: number;
+  @Input() baseScore: number;
   @Input() title: string;
   @Input() subtitle: string;
   @Output() setProfileEvent: EventEmitter<number> = new EventEmitter<number>();

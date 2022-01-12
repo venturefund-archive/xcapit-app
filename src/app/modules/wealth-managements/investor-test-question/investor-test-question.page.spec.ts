@@ -89,7 +89,7 @@ describe('InvestorTestQuestionPage', () => {
           getQuestionByNumber: testQuestions[0],
           getAnswerByQuestion: testQuestions[0].options[0],
           setAnswer: undefined,
-          loadQuestions: undefined,
+          loadQuestions: Promise.resolve(),
           hasAnsweredQuestion: false,
           cancel: undefined,
           saveAnswers: of({}),
@@ -159,8 +159,11 @@ describe('InvestorTestQuestionPage', () => {
     expect(component.isLastQuestion).toBeFalse();
   });
 
-  it('should get question number and show question with answers on ionViewWillEnter', () => {
+  it('should get question number and show question with answers on ionViewWillEnter', async () => {
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const question = fixture.debugElement.query(By.css('ion-text[name="Question"]')).nativeElement.innerHTML;
     expect(component.currentQuestionNumber).toEqual(1);
@@ -169,11 +172,14 @@ describe('InvestorTestQuestionPage', () => {
     expect(component.answers.length).toEqual(testQuestions[0].options.length);
   });
 
-  it('should get question number and show question with answers when previous question has been answered on ionViewWillEnter', () => {
+  it('should get question number and show question with answers when previous question has been answered on ionViewWillEnter', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     investorTestServiceSpy.getQuestionByNumber.and.returnValue(testQuestions[1]);
     activatedRouteMock.snapshot.paramMap.get = (question) => '2';
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const question = fixture.debugElement.query(By.css('ion-text[name="Question"]')).nativeElement.innerHTML;
     expect(component.currentQuestionNumber).toEqual(2);
@@ -182,54 +188,65 @@ describe('InvestorTestQuestionPage', () => {
     expect(component.answers.length).toEqual(testQuestions[1].options.length);
   });
 
-  it('should redirect to first question if question is invalid on ionViewWillEnter', () => {
+  it('should redirect to first question if question is invalid on ionViewWillEnter', async () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => 'test';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(NaN);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
-  it('should redirect to first question if question is undefined on ionViewWillEnter', () => {
+  it('should redirect to first question if question is undefined on ionViewWillEnter', async () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => undefined;
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(NaN);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
-  it('should redirect to first question if question is greater than total questions on ionViewWillEnter', () => {
+  it('should redirect to first question if question is greater than total questions on ionViewWillEnter', async () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => 6;
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(6);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
-  it('should redirect to first question if question is less than total questions on ionViewWillEnter', () => {
+  it('should redirect to first question if question is less than total questions on ionViewWillEnter', async () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => '0';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(0);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
-  it('should redirect to first question if user is trying to skip questions on ionViewWillEnter', () => {
+  it('should redirect to first question if user is trying to skip questions on ionViewWillEnter', async () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => '2';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(2);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
   });
 
-  it('should show next button text when is not last question', () => {
+  it('should show next button text when is not last question', async () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => '2';
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const text = fixture.debugElement.query(By.css('ion-button[name="Submit"]')).nativeElement.innerHTML;
     expect(text).toEqual('wealth_managements.investor_test.next_button');
   });
 
-  it('should show submit button text when is not last question', () => {
+  it('should show submit button text when is not last question', async () => {
     activatedRouteMock.snapshot.paramMap.get = (question) => testQuestions.length.toString();
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const text = fixture.debugElement.query(By.css('ion-button[name="Submit"]')).nativeElement.innerHTML;
     expect(text).toEqual('wealth_managements.investor_test.submit_button');
@@ -242,33 +259,44 @@ describe('InvestorTestQuestionPage', () => {
     expect(investorTestServiceSpy.cancel).toHaveBeenCalledTimes(1);
   });
 
-  it('should load answer if question has already been answered', () => {
+  it('should load answer if question has already been answered', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     activatedRouteMock.snapshot.paramMap.get = (question) => '1';
     component.ionViewWillEnter();
     fixture.detectChanges();
+    await fixture.whenStable();
     expect(component.form.value).toEqual({ answer: testQuestions[0].options[0] });
   });
 
-  it('should not load answer if question has not already been answered', () => {
+  it('should not load answer if question has not already been answered', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(false);
     activatedRouteMock.snapshot.paramMap.get = (question) => '1';
     component.ionViewWillEnter();
     fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    fixture.detectChanges();
     expect(component.form.value).toEqual({ answer: '' });
   });
 
-  it('should redirect to next question when Submit Button clicked', () => {
+  it('should redirect to next question when Submit Button clicked', async () => {
     component.ionViewWillEnter();
     component.form.patchValue({ answer: 'opcion1' });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Submit Button clicked', () => {
+  it('should call trackEvent on trackService when Submit Button clicked', async () => {
     component.ionViewWillEnter();
     component.form.patchValue({ answer: 'opcion1' });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -278,8 +306,12 @@ describe('InvestorTestQuestionPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should disable button if no answer was selected', () => {
+  it('should disable button if no answer was selected', async () => {
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('ion-button[name="Submit"]')).nativeElement;
     component.ionViewWillEnter();
@@ -287,12 +319,15 @@ describe('InvestorTestQuestionPage', () => {
     expect(button.attributes['ng-reflect-disabled']).toBeTruthy();
   });
 
-  it('should send user score on last question and navigate to Success Page when Submit Button clicked', () => {
+  it('should send user score on last question and navigate to Success Page when Submit Button clicked', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     investorTestServiceSpy.getQuestionByNumber.and.returnValue(testQuestions[4]);
     activatedRouteMock.snapshot.paramMap.get = (question) => '5';
     component.ionViewWillEnter();
     component.form.patchValue({ answer: 'opcion1' });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     expect(investorTestServiceSpy.saveAnswers).toHaveBeenCalledTimes(1);
