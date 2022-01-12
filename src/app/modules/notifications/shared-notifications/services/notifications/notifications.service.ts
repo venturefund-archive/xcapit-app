@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CapacitorNotificationsService } from '../capacitor-notifications/capacitor-notifications.service';
-import { INotification } from './notifications.interface';
-import { Capacitor } from '@capacitor/core';
+import { Notification } from './notifications.interface';
 import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
@@ -21,7 +20,7 @@ export class NotificationsService {
     private platformService: PlatformService
   ) {}
 
-  getInstance(): INotification {
+  getInstance(): Notification {
     return this.platformService.isNative() ? this.capacitorNotificationsService : this.nullNotificationsService;
   }
 
