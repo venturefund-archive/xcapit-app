@@ -53,11 +53,11 @@ import { TwoPiService } from '../../services/two-pi/two-pi.service';
           </div>
         </div>
         <div class="dip__footer__button ">
-          <ion-button *ngIf="!this.product?.isComming" appTrackClick (click)="this.invest()" name="Invest" type="button" class="ux-font-button">
+          <ion-button *ngIf="!this.product?.isComing" appTrackClick (click)="this.invest()" name="Invest" type="button" class="ux-font-button">
             {{ 'wallets.shared_wallets.defi_investment_product.invest_button' | translate }}
           </ion-button>
           <ion-badge
-            *ngIf="this.product?.isComming"
+            *ngIf="this.product?.isComing"
             class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge"
             slot="end"
             >{{ 'wallets.shared_wallets.defi_investment_product.comming_badge' | translate }}</ion-badge
