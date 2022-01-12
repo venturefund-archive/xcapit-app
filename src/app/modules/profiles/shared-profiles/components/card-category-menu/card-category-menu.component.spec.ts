@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -50,7 +51,7 @@ describe('CardItemMenuComponent', () => {
       walletServiceSpy = jasmine.createSpyObj('WalletService', { walletExist: Promise.resolve(true) });
       TestBed.configureTestingModule({
         declarations: [CardCategoryMenuComponent, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },

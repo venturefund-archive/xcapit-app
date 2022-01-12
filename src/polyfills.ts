@@ -67,3 +67,7 @@ import 'zone.js'; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+(window as any).global = window;
+/* eslint @typescript-eslint/no-var-requires: "off" */
+global.Buffer = global.Buffer || require('buffer').Buffer;

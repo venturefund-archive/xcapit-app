@@ -2,30 +2,33 @@
 .ux_modal_crm {
   --max-height: 195px;
   --max-width: 85%;
+
   &::part(content) {
     border-radius: 4px;
   }
 }
 
-//Modal editar stop loss
+// Modal editar stop loss
 .ux_modal_stop_loss {
   --max-height: 200px;
   --max-width: 85%;
+
   &::part(content) {
     border-radius: 10px;
   }
 }
 
-//Modal Informativo
+// Modal Informativo
 .ux-modal-informative {
   --max-height: 310px;
   --max-width: 85%;
+
   &::part(content) {
     border-radius: 16px;
   }
 }
 
-//Modal no tienes apikeys
+// Modal no tienes apikeys
 .ux-modal-no-apikeys {
   --max-height: 378px;
   --max-width: 85%;
@@ -36,7 +39,7 @@
   }
 }
 
-//Modal no tienes apikeys (tutorial)
+// Modal no tienes apikeys (tutorial)
 .ux-modal-apikeys-tutorial-no-apikeys {
   --max-height: 549px;
   --max-width: 89%;
@@ -48,7 +51,7 @@
   }
 }
 
-//Modal no tienes cuenta de binance
+// Modal no tienes cuenta de binance
 .ux-modal-apikeys-tutorial-no-binance-account {
   --max-height: 337px;
   --max-width: 89%;
@@ -67,7 +70,7 @@
   }
 }
 
-//Modal Pantalla Completa
+// Modal Pantalla Completa
 .full-screen-modal {
   &::part(content) {
     margin-top: 120px;
@@ -78,7 +81,7 @@
   }
 }
 
-//Modal Contraseña Wallet
+// Modal Contraseña Wallet
 .recovery-phrase-password-modal {
   &::part(content) {
     position: absolute;
@@ -92,6 +95,7 @@
   &::part(content) {
     margin-top: 120px;
   }
+
   .ion-page {
     padding-bottom: 60px;
   }
@@ -105,7 +109,7 @@
   --border-radius: 6px;
 }
 
-//modal alertas
+// modal alertas
 .ux-alert {
   &.bottom {
     align-items: flex-end;
@@ -115,8 +119,9 @@
     border-radius: 6px;
     position: absolute;
     bottom: 79px;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 18%);
   }
+
   --height: auto;
   --max-width: 344px;
 
@@ -128,15 +133,18 @@
     .inner-content {
       max-height: 80vh;
       overflow: auto;
+
       // padding: 10px;
     }
   }
 }
-//modal alertas success
+
+// modal alertas success
 .ux-alert-success {
   --max-height: 52px;
   --max-width: 344px;
   --background: white;
+
   &::part(content) {
     width: 100%;
     height: 100%;
@@ -145,33 +153,39 @@
     bottom: 8.5%;
   }
 }
-//modal alerta atention
+
+// modal alerta atention
 .ux-alert-atention {
   --max-height: 120px;
   --max-width: 344px;
   --background: white;
+
   &::part(content) {
     border-radius: 6px;
     position: absolute;
     bottom: 8.5%;
   }
 }
-//modal alerta information
+
+// modal alerta information
 .ux-alert-information {
   --max-height: 85px;
   --max-width: 344px;
   --background: white;
+
   &::part(content) {
     border-radius: 6px;
     position: absolute;
     bottom: 8.5%;
   }
 }
-//modal alerta items
+
+// modal alerta items
 .ux-alert-items-error {
   --max-height: 144px;
   --max-width: 340px;
   --background: white;
+
   &::part(content) {
     border-radius: 6px;
     position: absolute;
@@ -184,6 +198,7 @@
   &::part(content) {
     margin-top: 35vh;
   }
+
   .ion-page {
     padding-bottom: calc(35vh / 2);
   }
