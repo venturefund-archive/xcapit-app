@@ -34,9 +34,9 @@ install_dependencies:
   image: node:${NODE_VERSION}-alpine
   stage: dependencies
   before_script:
-    - npm install yarn
+    - npm install --silent yarn
   script:
-    - yarn --silent install
+    - yarn install
   cache:
     key:
       files:
