@@ -1,4 +1,4 @@
-export interface INotification {
+export interface Notification {
   init: () => void;
   requestPermission: () => Promise<void>;
   pushNotificationReceived: (callback: any) => void;

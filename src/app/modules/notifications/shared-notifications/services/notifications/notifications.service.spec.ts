@@ -1,23 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { NotificationsService } from './notifications.service';
 import { CapacitorNotificationsService } from '../capacitor-notifications/capacitor-notifications.service';
-import { PwaNotificationsService } from '../pwa-notifications/pwa-notifications.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { NullNotificationsService } from '../null-notifications/null-notifications.service';
 
 describe('NotificationsService', () => {
   let service: NotificationsService;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let capacitorNotificationsServiceSpy: any;
-  let pwaNotificationsServiceSpy: any;
+  let nullNotificationsServiceSpy: any;
   let customHttpServiceSpy: any;
 
   beforeEach(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformService', { isNative: true });
     capacitorNotificationsServiceSpy = jasmine.createSpyObj('CapacitorNotificationsService', ['init']);
-    pwaNotificationsServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
+    nullNotificationsServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init']);
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       get: of({}),
       put: of({}),
@@ -34,8 +34,8 @@ describe('NotificationsService', () => {
           useValue: capacitorNotificationsServiceSpy,
         },
         {
-          provide: PwaNotificationsService,
-          useValue: pwaNotificationsServiceSpy,
+          provide: NullNotificationsService,
+          useValue: nullNotificationsServiceSpy,
         },
       ],
     });
