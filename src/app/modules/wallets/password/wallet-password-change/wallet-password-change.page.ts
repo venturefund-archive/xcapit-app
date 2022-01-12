@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
+import { LoadingModalOptions, LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { WalletEncryptionService } from '../../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
 @Component({
   selector: 'app-wallet-password-change',
@@ -76,7 +80,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="!this.changePasswordForm.valid || (this.submitButtonService.isDisabled | async)"
+              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'wallets.password_change.submit_button' | translate }}
             </ion-button>
@@ -111,9 +115,38 @@ export class WalletPasswordChangePage implements OnInit {
 
   passwordErrors: ItemFormError[] = [...CONFIG.fieldErrors.newPassword, ...CONFIG.fieldErrors.password] ;
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
-  constructor(private formBuilder: FormBuilder, public submitButtonService: SubmitButtonService) {}
 
-  ngOnInit() {}
+  private get modalOptions(): LoadingModalOptions {
+    return {
+      title: this.translate.instant('wallets.change_password.loading.title'),
+      subtitle: this.translate.instant('wallets.change_password.loading.subtitle'),
+      image: 'assets/img/change-password/building.svg',
+    };
+  }
+  constructor(private formBuilder: FormBuilder,
+    public submitButtonService: SubmitButtonService,
+    private loadingService: LoadingService,
+    private navController: NavController,
+    private walletEncryptionService: WalletEncryptionService,
+    private translate: TranslateService
+  ) {}
 
-  handleSubmit() {}
+  ngOnInit() { }
+
+  async handleSubmit() { 
+    if (this.changePasswordForm.valid) {
+      await this.changePassword();
+    } else {
+      this.changePasswordForm.markAllAsTouched();
+    }
+  }
+
+  async changePassword() {
+    // TODO: Create new pages and connect with this
+    await this.loadingService.showModal(this.modalOptions)
+      .then(() => this.walletEncryptionService.changePassword(this.changePasswordForm.value.old_password, this.changePasswordForm.value.password))
+      .then(() => this.navController.navigateForward([]))
+      .catch(() => this.navController.navigateForward([]))
+      .finally(() => this.loadingService.dismissModal());
+  }
 }

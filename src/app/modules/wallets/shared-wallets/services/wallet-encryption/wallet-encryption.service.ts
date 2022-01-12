@@ -95,4 +95,8 @@ export class WalletEncryptionService {
   async encryptedWalletExist(): Promise<boolean> {
     return !!(await this.storageService.getWalletFromStorage());
   }
+
+  async changePassword(oldPassword: string, newPassword: string): Promise<void> {
+    // TODO: Implement this
+  }
 }
