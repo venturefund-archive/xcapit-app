@@ -66,6 +66,7 @@ install_dependencies:
 .nodejs-test: &nodejs-test
   image: markhobson/node-chrome:latest
   stage: test
+  script:
     - npm link @angular/cli@12.2.13
     - npm run test-ci
   cache:
