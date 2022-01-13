@@ -7,7 +7,7 @@ export const NO_WALLET_TYPES = {
     subtitle: 'wallets.no_wallet.subtitle',
     nameButton: 'wallets.no_wallet.button',
   },
-  no_wallet_wealth_managements: {
+  no_wallet_defi_investments: {
     urlClose: '/tabs/home',
     urlPage: '/tabs/wallets',
     urlLink: '/tabs/investments/defi',

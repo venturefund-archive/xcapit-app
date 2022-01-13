@@ -12,13 +12,13 @@ import { NavController } from '@ionic/angular';
           </ion-button>
         </div>
         <div class="main__image">
-          <img src="assets/img/wealth_management/success-investment.svg" />
+          <img src="assets/img/defi-investments/success-investment.svg" />
         </div>
         <div class="main__primary_text ux-font-text-xl">
-          <ion-text>{{ 'wealth_managements.success_investment.title' | translate }}</ion-text>
+          <ion-text>{{ 'defi_investments.success_investment.title' | translate }}</ion-text>
         </div>
         <div class="main__secondary_text ux-font-text-base">
-          <ion-text>{{ 'wealth_managements.success_investment.subtitle' | translate }}</ion-text>
+          <ion-text>{{ 'defi_investments.success_investment.subtitle' | translate }}</ion-text>
         </div>
         <div class="main__buttons">
           <ion-button
@@ -29,7 +29,7 @@ import { NavController } from '@ionic/angular';
             name="Go To Investments"
             (click)="this.goToInvestments()"
           >
-            {{ 'wealth_managements.success_investment.primaryButton' | translate }}
+            {{ 'defi_investments.success_investment.primaryButton' | translate }}
           </ion-button>
           <ion-button
             class="ux-button-outlined secondary"
@@ -39,7 +39,7 @@ import { NavController } from '@ionic/angular';
             (click)="this.goToWallet()"
             appTrackClick
           >
-            {{ 'wealth_managements.success_investment.secondaryButton' | translate }}
+            {{ 'defi_investments.success_investment.secondaryButton' | translate }}
           </ion-button>
         </div>
       </div>

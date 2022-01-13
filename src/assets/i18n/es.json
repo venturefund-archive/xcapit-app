@@ -232,6 +232,41 @@
       "others": "Otros"
     }
   },
+  "defi_investments":{
+    "coming_soon": {
+      "header": "Inversión"
+    },
+    "defi_investment_products":{
+      "header":"Inversiones Defi",
+      "title":"Comienza a invertir"
+    },
+    "success_investment": {
+      "title": "Añadiste dinero a tu inversión",
+      "subtitle": "Obtendrás beneficios todos los días.",
+      "primaryButton": "Volver a inversiones",
+      "secondaryButton": "Ir a Wallet"
+    },
+    "error_investment": {
+      "title": "Parece que algo salió mal",
+      "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
+      "primaryButton": "Intentar nuevamente"
+    },
+    "shared_defi_investments":{
+      "coming_soon_card": {
+        "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
+        "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
+      },
+      "defi_investment_product":{
+        "performance":"Rendimiento estimado",
+        "liquidity":"Liquidez",
+        "not_min_ammount":"Sin monto mínimo",
+        "immediate_rescue":"Rescate inmediato",
+        "coming_badge":"Próximamente",
+        "invest_button":"Invertir",
+        "annual":"Anual"
+      }
+    }
+  },
   "funds": {
     "investments_tab": {
       "header": "Inversiones",
@@ -1604,28 +1639,7 @@
         "namePrimaryAction": "Reintentar"
       }
     },
-    "investments": {
-      "coming_soon": {
-        "header": "Inversión"
-      },
-      "defi_investment_products":{
-        "header":"Inversiones Defi"
-      }
-    },
     "shared_wallets": {
-      "coming_soon_card": {
-        "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
-        "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
-      },
-      "defi_investment_product":{
-        "performance":"Rendimiento estimado",
-        "liquidity":"Liquidez",
-        "not_min_ammount":"Sin monto mínimo",
-        "immediate_rescue":"Rescate inmediato",
-        "coming_badge":"Próximamente",
-        "invest_button":"Invertir",
-        "annual":"Anual"
-      },
       "start_investing_card": {
         "title": "Invierte tus cripto ahora y obtén ganancias diarias",
         "text": "Comenzar a invertir"
@@ -2558,17 +2572,6 @@
       "subtitle": "Crea tu wallet para comenzar a invertir.",
       "button": "Crear Wallet",
       "link": "Volver a inversiones"
-    },
-    "success_investment": {
-      "title": "Añadiste dinero a tu inversión",
-      "subtitle": "Obtendrás beneficios todos los días.",
-      "primaryButton": "Volver a inversiones",
-      "secondaryButton": "Ir a Wallet"
-    },
-    "error_investment": {
-      "title": "Parece que algo salió mal",
-      "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
-      "primaryButton": "Intentar nuevamente"
     }
   }
 }

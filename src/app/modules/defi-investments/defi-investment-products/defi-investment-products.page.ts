@@ -7,19 +7,22 @@ import { DEFI_PRODUCTS } from '../shared-defi-investments/constants/defi-product
    <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.investments.defi_investment_products.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'defi_investments.defi_investment_products.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <div class="dp">
-        <div class="dp__background"></div>
-        <div class="dp__card ion-padding-start ion-padding-end">
-        <app-defi-investment-product
-            *ngFor="let product of this.defiProducts"
-            [product]="product"
-          ></app-defi-investment-product>
+        <div class="dp__background"></div>                               
+        <div class="dp__card ">
+          <ion-item lines="none" slot="header">
+            <ion-label>{{ 'defi_investments.defi_investment_products.title' | translate }}</ion-label>
+          </ion-item>
+          <app-defi-investment-product
+              *ngFor="let product of this.defiProducts"
+              [product]="product"
+            ></app-defi-investment-product>
         </div>
       </div>
     </ion-content>
