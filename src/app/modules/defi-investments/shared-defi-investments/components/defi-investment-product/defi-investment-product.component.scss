@@ -1,0 +1,115 @@
+:host {
+  .cs {
+    padding-left: 20.5px;
+    padding-right: 20.5px;
+  }
+
+  .dip {
+    padding: 12.5px;
+
+    &__badge {
+      margin-left: 8px;
+      align-items: center;
+      justify-content: center;
+      color: var(--ion-color-uxlight);
+      font-family: var(--ux-font-worksans);
+      font-size: var(--ux-fsize-10);
+    }
+
+    &__title_container {
+      flex-basis: 82%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__content {
+      background: var(--ion-color-uxlight);
+      border-radius: 15px 15px 0 0;
+      border: 0.5px solid var(--ion-color-uxmedium);
+      padding: 8px 16px 12px;
+      background-size: cover !important;
+
+      &__title {
+        display: inline-flex;
+
+        .title {
+          color: var(--ion-color-uxsemidark);
+        }
+      }
+
+      &__title_and_image {
+        display: flex;
+        align-items: center;
+
+        &__image_container {
+          display: inline;
+          align-items: center;
+          padding-top: 5px;
+          padding-right: 12px;
+        }
+      }
+
+      &__performance {
+        width: 100%;
+        padding-top: 7px;
+        display: flex;
+        justify-content: space-between;
+
+        &__perf {
+          color: var(--ion-color-uxprimary);
+          line-height: 18px;
+        }
+      }
+
+      &__liquidity {
+        display: flex;
+        align-items: center;
+        padding-top: 7px;
+        justify-content: space-between;
+
+        &__label {
+          align-self: flex-end;
+          color: var(--ion-color-uxprimary);
+          line-height: 18px;
+        }
+      }
+    }
+
+    &__footer {
+      background: var(--ion-color-uxprimary);
+      display: flex;
+      align-items: center;
+      border-radius: 0 0 15px 15px;
+      padding: 12px;
+      justify-content: space-between;
+
+      &__badge {
+        --background: var(--ion-color-successlight);
+        --color: var(--ion-color-successdark);
+        --height: 12px;
+      }
+
+      &__button {
+        ion-button {
+          width: 131px;
+          height: 45px;
+
+          --background: var(--ion-color-uxsecondary);
+          --color: var(--ion-color-uxprimary);
+          --background-hover: var(--background);
+        }
+      }
+
+      &__info {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        &__label {
+          color: var(--ion-color-uxlight);
+          text-align: start;
+        }
+      }
+    }
+  }
+}

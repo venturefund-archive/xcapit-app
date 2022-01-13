@@ -28,7 +28,7 @@ describe('LoginPage', () => {
   let navControllerSpy: any;
   let googleAuthPluginSpy: any;
   let notificationsServiceSpy: any;
-  let pwaNotificationServiceSpy: any;
+  let nullNotificationServiceSpy: any;
   let localNotificationServiceSpy: any;
   let storageSpy: jasmine.SpyObj<Storage>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
@@ -66,9 +66,9 @@ describe('LoginPage', () => {
         get: Promise.resolve(true),
       });
 
-      pwaNotificationServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
+      nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init']);
       notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
-        getInstance: pwaNotificationServiceSpy,
+        getInstance: nullNotificationServiceSpy,
       });
       localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
       TestBed.configureTestingModule({
@@ -106,7 +106,7 @@ describe('LoginPage', () => {
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
-    expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
     expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
@@ -165,7 +165,7 @@ describe('LoginPage', () => {
     await component.googleSingUp();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
-    expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
     expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);

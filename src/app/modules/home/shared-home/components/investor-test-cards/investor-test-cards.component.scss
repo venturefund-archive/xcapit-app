@@ -3,6 +3,7 @@
     margin-left: 16px;
     color: var(--ion-color-successdark);
     margin-bottom: 3px;
+    margin-top: 10px;
 
     --background: var(--ion-color-successlight);
   }
@@ -24,7 +25,6 @@
       .link {
         text-align: left;
         line-height: 16.8px;
-        margin-top: 8px;
 
         &semibold {
           font-weight: var(--ux-fweight-extrabold);
@@ -52,7 +52,7 @@
     }
   }
 
-  .manual-test-card {
+  .options-test-card {
     display: flex;
 
     &__content {

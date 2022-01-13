@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { INotification } from '../notifications/notifications.interface';
+import { Notification } from '../notifications/notifications.interface';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
@@ -7,7 +7,7 @@ import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } fro
 @Injectable({
   providedIn: 'root',
 })
-export class CapacitorNotificationsService implements INotification {
+export class CapacitorNotificationsService implements Notification {
   token = '';
   pushNotifications = PushNotifications;
 

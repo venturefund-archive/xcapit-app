@@ -14,7 +14,7 @@ import { ApiWealthManagementsService } from '../shared-wealth-managements/servic
         </ion-button>
       </div>
       <div class="main__ux_success_image">
-        <img src="../../../../assets/img/wealth_management/success.svg" />
+        <img src="assets/img/wealth_management/success.svg" />
       </div>
       <div class="main__primary_text ux-font-text-xl">
         <ion-text>{{ 'wealth_managements.success.textPrimary' | translate: { testResult: this.testResult } }}</ion-text>
