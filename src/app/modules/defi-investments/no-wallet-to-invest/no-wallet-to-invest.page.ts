@@ -17,6 +17,6 @@ export class NoWalletToInvestPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.data = NO_WALLET_TYPES.no_wallet_wealth_managements;
+    this.data = NO_WALLET_TYPES.no_wallet_defi_investments;
   }
 }
