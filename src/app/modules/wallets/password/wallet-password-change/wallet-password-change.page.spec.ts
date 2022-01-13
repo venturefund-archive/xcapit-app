@@ -244,7 +244,7 @@ fdescribe('WalletPasswordChangePage', () => {
     fixture.detectChanges();
     expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
     expect(walletEncryptionServiceSpy.changePassword).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/password-change/error']);
     expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
   });
 
@@ -255,7 +255,7 @@ fdescribe('WalletPasswordChangePage', () => {
     fixture.detectChanges();
     expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
     expect(walletEncryptionServiceSpy.changePassword).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith([]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/password-change/success']);
     expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
   });
 

@@ -1409,6 +1409,17 @@
         "subtitle": "Estamos procesando tu nueva contraseña."
       }
     },
+    "password_change_success": {
+      "textPrimary": "¡Genial!",
+      "textSecondary": "Cambiaste la contraseña de tu wallet exitosamente.",
+      "namePrimaryAction": "Volver al Home"
+    },
+    "password_change_error": {
+      "textPrimary": "Parece que algo salió mal",
+      "textSecondary": "No pudimos cambiar tu contraseña.",
+      "namePrimaryAction": "Reintentar",
+      "nameSecondaryAction": "Volver al home"
+    },
     "disclaimer": {
       "header": "Crear wallet",
       "title": "¡Empecemos!",

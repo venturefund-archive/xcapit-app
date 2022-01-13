@@ -145,8 +145,8 @@ export class WalletPasswordChangePage implements OnInit {
   async changePassword() {
     await this.loadingService.showModal(this.modalOptions)
       .then(() => this.walletEncryptionService.changePassword(this.changePasswordForm.value.old_password, this.changePasswordForm.value.password))
-      .then(() => this.navController.navigateForward([]))
-      .catch(() => this.navController.navigateForward([]))
+      .then(() => this.navController.navigateForward(['/wallets/password-change/success']))
+      .catch(() => this.navController.navigateForward(['/wallets/password-change/error']))
       .finally(() => this.loadingService.dismissModal());
   }
 }

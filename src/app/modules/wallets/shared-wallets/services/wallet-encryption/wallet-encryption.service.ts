@@ -98,5 +98,6 @@ export class WalletEncryptionService {
 
   async changePassword(oldPassword: string, newPassword: string): Promise<void> {
     // TODO: Implement this
+    return Promise.reject();
   }
 }
