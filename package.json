@@ -27,10 +27,12 @@
     "prepare": "husky install",
     "format:fix": "pretty-quick --staged",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "patch:walletconnect": "sh ./walletconnect-patch.sh | echo 'walletconnect patched.'"
   },
   "private": true,
   "dependencies": {
+    "@2pi-network/sdk": "^0.1.0-alpha.20",
     "@angular/common": "^12.2.13",
     "@angular/compiler": "^12.2.13",
     "@angular/core": "^12.2.13",
@@ -70,13 +72,16 @@
     "@ionic/storage": "^2.2.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@walletconnect/client": "^1.6.5",
+    "assert": "1.5.0",
     "chart.js": "^2.8.0",
     "cordova": "^10.0.0",
     "cordova-plugin-file-opener2": "^3.0.5",
     "core-js": "^3.6.5",
     "date-fns": "^2.27.0",
+    "eth-sig-util": "^3.0.1",
     "ethers": "^5.4.3",
-    "firebase": "^7.21.0",
+    "firebase": "9.6.2",
     "ionic": "^5.4.16",
     "ionicons": "^5.5.0",
     "jetifier": "^1.6.6",
@@ -84,6 +89,7 @@
     "lodash": "^4.17.21",
     "qrcode": "^1.4.2",
     "rxjs": "^6.6.2",
+    "stream": "^0.0.2",
     "stylelint": "^14.2.0",
     "stylelint-config-standard": "^24.0.0",
     "stylelint-config-standard-scss": "^3.0.0",
@@ -150,7 +156,7 @@
       "prettier --write"
     ],
     "*.scss": [
-      "stylelint"
+      "stylelint --fix"
     ]
   }
 }
