@@ -15,10 +15,10 @@ import { NavController } from '@ionic/angular';
           <img src="assets/img/defi_investments/error-investment.svg" />
         </div>
         <div class="main__primary_text ux-font-text-xl">
-          <ion-text>{{ 'defi_invesments.error_investment.title' | translate }}</ion-text>
+          <ion-text>{{ 'defi_investments.error_investment.title' | translate }}</ion-text>
         </div>
         <div class="main__secondary_text ux-font-text-base">
-          <ion-text>{{ 'defi_invesments.error_investment.subtitle' | translate }}</ion-text>
+          <ion-text>{{ 'defi_investments.error_investment.subtitle' | translate }}</ion-text>
         </div>
         <div class="main__buttons">
           <ion-button
@@ -29,7 +29,7 @@ import { NavController } from '@ionic/angular';
             name="Try Again"
             (click)="this.tryAgain()"
           >
-            {{ 'defi_invesments.error_investment.primaryButton' | translate }}
+            {{ 'defi_investments.error_investment.primaryButton' | translate }}
           </ion-button>
         </div>
       </div>

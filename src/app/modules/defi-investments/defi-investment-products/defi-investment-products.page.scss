@@ -41,5 +41,5 @@ ion-item::part(native) {
 }
 
 .no-border {
-  --border-width: 0;
+  --border-width: 0 !important;
 }
