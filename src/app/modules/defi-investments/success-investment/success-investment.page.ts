@@ -12,7 +12,7 @@ import { NavController } from '@ionic/angular';
           </ion-button>
         </div>
         <div class="main__image">
-          <img src="assets/img/wealth_management/success-investment.svg" />
+          <img src="assets/img/defi-investments/success-investment.svg" />
         </div>
         <div class="main__primary_text ux-font-text-xl">
           <ion-text>{{ 'defi_investments.success_investment.title' | translate }}</ion-text>
