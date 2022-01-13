@@ -1,6 +1,6 @@
 :host {
   .mnp {
-    margin: 16px 0 24px 0;
+    margin: 16px 0 24px;
     padding: 16px;
 
     &__currency-select {
@@ -13,7 +13,7 @@
       margin-top: 16px;
 
       &__content {
-        margin: 8px 0 0 0;
+        margin: 8px 0 0;
         display: flex;
         align-items: center;
         padding: 12px 0;

@@ -1,0 +1,92 @@
+* {
+  box-sizing: border-box;
+}
+
+p {
+  color: #fff;
+  font-family: sans-serif;
+  text-align: center;
+  font-weight: 600;
+}
+
+html,
+body,
+.container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+}
+
+.relative {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 16px;
+}
+
+.square {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.square::after {
+  content: '';
+  top: 0;
+  display: block;
+  padding-bottom: 100%;
+}
+
+.square > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.surround-cover {
+  box-shadow: 0 0 0 99999px rgb(0 0 0 / 50%);
+}
+
+.barcode-scanner--area--container {
+  width: 80%;
+  max-width: min(500px, 80vh);
+  margin: auto;
+}
+
+.barcode-scanner--area--outer {
+  display: flex;
+  border-radius: 1em;
+}
+
+.barcode-scanner--area--inner {
+  width: 100%;
+  margin: 1rem;
+  border: 2px solid #fff;
+  box-shadow: 0 0 2px 1px rgb(0 0 0 / 50%), inset 0 0 2px 1px rgb(0 0 0 / 50%);
+  border-radius: 1rem;
+}
+
+.close-button {
+  margin-top: 50px;
+
+  --padding-start: 13px;
+  --padding-end: 13px;
+}
+
+.center {
+  margin: auto;
+}
+
+.title {
+  color: var(--ion-color-uxlight);
+}
+
+.button-text {
+  color: var(--ion-color-uxlight-shade);
+}

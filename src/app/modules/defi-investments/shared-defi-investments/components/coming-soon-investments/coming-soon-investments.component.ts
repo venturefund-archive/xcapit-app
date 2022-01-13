@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <ion-card class="cs ux-card-new ion-no-margin ion-padding" name="Coming Soon Wallet Card">
       <div class="cs__img">
-        <img src="assets/img/defi_investments/coming-soon.svg" alt="Coming Soon" />
+        <img src="assets/img/defi-investments/coming-soon.svg" alt="Coming Soon" />
       </div>
       <div class="cs__title">
         <ion-text class="ux-font-text-xl">

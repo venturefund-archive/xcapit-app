@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.investments.coming_soon.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'defi_investments.coming_soon.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
