@@ -25,12 +25,11 @@
       .link {
         text-align: left;
         line-height: 16.8px;
+        font-weight: var(--ux-fweight-semibold);
+        text-decoration: none;
 
-        &semibold {
-          font-weight: var(--ux-fweight-extrabold);
-        }
-
-        &ion-icon {
+        ion-icon {
+          font-weight: var(--ux-fweight-semibold);
           margin-left: 8px;
         }
       }
