@@ -1,6 +1,5 @@
 import { Coin } from '../interfaces/coin.interface';
 import { environment } from 'src/environments/environment';
-import aaveAbi from './assets-abi/aave-abi.json';
 import linkAbi from './assets-abi/link-abi.json';
 import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
@@ -9,14 +8,7 @@ import sovAbi from './assets-abi/sov-abi.json';
 import busdAbi from './assets-abi/busd-abi.json';
 import cakeAbi from './assets-abi/cake-abi.json';
 import adaAbi from './assets-abi/ada-abi.json';
-import lunaAbi from './assets-abi/luna-abi.json';
-import axsAbi from './assets-abi/axs-abi.json';
-import manaAbi from './assets-abi/mana-abi.json';
-import sushiAbi from './assets-abi/sushi-abi.json';
-import compoundAbi from './assets-abi/compound-abi.json';
-import zilliqaAbi from './assets-abi/zilliqa-abi.json';
-import enjAbi from './assets-abi/enj-abi.json';
-import batAbi from './assets-abi/bat-abi.json';
+
 
 
 export const NONPROD_COINS: Coin[] = [
@@ -85,6 +77,8 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
     moonpayCode: 'uni',
+    contract: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+    abi: uniAbi,
     decimals: 18,
     symbol: 'UNIUSDT',
   },
