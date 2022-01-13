@@ -1403,7 +1403,11 @@
       "old_password": "Escribe tu contraseña actual",
       "new_password": "Escribe tu nueva contraseña",
       "repeat_password": "Repite tu nueva contraseña",
-      "submit_button": "Cambiar"
+      "submit_button": "Cambiar",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos procesando tu nueva contraseña."
+      }
     },
     "disclaimer": {
       "header": "Crear wallet",

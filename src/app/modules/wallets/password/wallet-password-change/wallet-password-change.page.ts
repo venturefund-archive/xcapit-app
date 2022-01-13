@@ -118,11 +118,12 @@ export class WalletPasswordChangePage implements OnInit {
 
   private get modalOptions(): LoadingModalOptions {
     return {
-      title: this.translate.instant('wallets.change_password.loading.title'),
-      subtitle: this.translate.instant('wallets.change_password.loading.subtitle'),
-      image: 'assets/img/change-password/building.svg',
+      title: this.translate.instant('wallets.password_change.loading.title'),
+      subtitle: this.translate.instant('wallets.password_change.loading.subtitle'),
+      image: 'assets/img/wallet-password-change/password-change.svg',
     };
   }
+
   constructor(private formBuilder: FormBuilder,
     public submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
@@ -142,7 +143,6 @@ export class WalletPasswordChangePage implements OnInit {
   }
 
   async changePassword() {
-    // TODO: Create new pages and connect with this
     await this.loadingService.showModal(this.modalOptions)
       .then(() => this.walletEncryptionService.changePassword(this.changePasswordForm.value.old_password, this.changePasswordForm.value.password))
       .then(() => this.navController.navigateForward([]))

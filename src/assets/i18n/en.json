@@ -1399,7 +1399,11 @@
       "old_password": "Write your current password",
       "new_password": "Write your new password",
       "repeat_password": "Repeat your new password",
-      "submit_button": "Change"
+      "submit_button": "Change",
+      "loading": {
+        "title": "Time!",
+        "subtitle": "We are processing your new password."
+      }
     },
     "disclaimer": {
       "header": "Create Wallet",
