@@ -5,7 +5,7 @@ import { TwoPiService } from '../../services/two-pi/two-pi.service';
 @Component({
   selector: 'app-defi-investment-product',
   template: `
-  <ion-card class="cs ux-card-new ion-no-margin ion-padding">
+  
     <div class="dip">
       <div class="dip__content">
         <div class="dip__content__title_and_image">
@@ -21,17 +21,17 @@ import { TwoPiService } from '../../services/two-pi/two-pi.service';
         </div>
         <div class="dip__content__performance">
           <ion-text class="ux-font-text-xxs dip__content__performance__perf">{{
-            'wallets.shared_wallets.defi_investment_product.performance' | translate
+            'defi_investments.shared_defi_investments.defi_investment_product.performance' | translate
           }}</ion-text>
           <ion-badge class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge" slot="end"
             >{{ this.apy | number: '1.2-2' }}%
-            {{ 'wallets.shared_wallets.defi_investment_product.annual' | translate }}</ion-badge
+            {{ 'defi_investments.shared_defi_investments.defi_investment_product.annual' | translate }}</ion-badge
           >
         </div>
         <div class="dip__content__liquidity">
           <div class="dip__content__liquidity__label">
             <ion-text class="ux-font-text-xxs">{{
-              'wallets.shared_wallets.defi_investment_product.liquidity' | translate
+              'defi_investments.shared_defi_investments.defi_investment_product.liquidity' | translate
             }}</ion-text>
           </div>
           <div class="dip__content__liquidity__liq">
@@ -43,29 +43,28 @@ import { TwoPiService } from '../../services/two-pi/two-pi.service';
         <div class="dip__footer__info">
           <div class="dip__footer__info__label">
             <ion-text class="ux-font-text-xxs">{{
-              'wallets.shared_wallets.defi_investment_product.not_min_ammount' | translate
+              'defi_investments.shared_defi_investments.defi_investment_product.not_min_ammount' | translate
             }}</ion-text>
           </div>
           <div class="dip__footer__info__label">
             <ion-text class="ux-font-text-xxs">{{
-              'wallets.shared_wallets.defi_investment_product.immediate_rescue' | translate
+              'defi_investments.shared_defi_investments.defi_investment_product.immediate_rescue' | translate
             }}</ion-text>
           </div>
         </div>
         <div class="dip__footer__button ">
           <ion-button *ngIf="!this.product?.isComing" appTrackClick (click)="this.invest()" name="Invest" type="button" class="ux-font-button">
-            {{ 'wallets.shared_wallets.defi_investment_product.invest_button' | translate }}
+            {{ 'defi_investments.shared_defi_investments.defi_investment_product.invest_button' | translate }}
           </ion-button>
           <ion-badge
             *ngIf="this.product?.isComing"
             class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge"
             slot="end"
-            >{{ 'wallets.shared_wallets.defi_investment_product.comming_badge' | translate }}</ion-badge
+            >{{ 'defi_investments.shared_defi_investments.defi_investment_product.comming_badge' | translate }}</ion-badge
           >
         </div>
       </div>
     </div>
-    </ion-card>
   `,
   styleUrls: ['./defi-investment-product.component.scss'],
 })
@@ -83,8 +82,7 @@ export class DefiInvestmentProductComponent implements OnInit {
     this.getVaultValues();
   }
 
-  invest(){
-    
+  invest(){ 
   }
 
   async getVaultValues() {

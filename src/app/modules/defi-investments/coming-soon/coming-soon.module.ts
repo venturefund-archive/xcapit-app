@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ComingSoonPage } from './coming-soon.page';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedWalletsModule } from '../../shared-wallets/shared-wallets.module';
+import { SharedDefiInvestmentsModule } from '../shared-defi-investments/shared-defi-investments.module';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), SharedWalletsModule],
+  imports: [RouterModule.forChild(routes), SharedDefiInvestmentsModule],
   declarations: [ComingSoonPage],
 })
 export class ComingSoonPageModule {}

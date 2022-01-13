@@ -6,4 +6,5 @@ export const DEFI_PRODUCTS = [
         isComing:false,
         image:'assets/img/coins/USDC.svg'
     },
+
 ];

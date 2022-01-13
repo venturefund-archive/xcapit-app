@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -23,5 +24,12 @@ describe('DefiInvestmentProductsPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render card and components inside', () => {
+    const headerEl = fixture.debugElement.query(By.css('div.dp__card > ion-item'));
+    expect(headerEl).toBeTruthy();
+    const componentEl = fixture.debugElement.query(By.css('div.dp__card > app-defi-investment-product'));
+    expect(componentEl).toBeTruthy();
   });
 });
