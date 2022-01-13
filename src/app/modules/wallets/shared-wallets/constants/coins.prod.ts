@@ -5,7 +5,6 @@ import linkAbi from './assets-abi-prod/link-abi-prod.json';
 import uniAbi from './assets-abi-prod/uni-abi-prod.json';
 import usdtAbi from './assets-abi-prod/usdt-abi-prod.json';
 import rifAbi from './assets-abi-prod/rif-abi-prod.json';
-import sovAbi from './assets-abi-prod/sov-abi-prod.json';
 import lunaAbi from './assets-abi-prod/luna-abi-prod.json';
 import axsAbi from './assets-abi-prod/axs-abi-prod.json';
 import manaAbi from './assets-abi-prod/mana-abi-prod.json';
@@ -230,19 +229,6 @@ export const PROD_COINS: Coin[] = [
     abi: rifAbi,
     decimals: 18,
     symbol: 'RIFUSDT',
-  },
-  {
-    id: 16,
-    name: 'SOV - Sovryn',
-    logoRoute: 'assets/img/coins/SOV.png',
-    last: true,
-    value: 'SOV',
-    network: 'RSK',
-    chainId: 30,
-    rpc: environment.rskApiUrl,
-    contract: '0xefc78fc7d48b64958315949279ba181c2114abbd',
-    abi: sovAbi,
-    decimals: 18,
   },
   {
     id: 17,

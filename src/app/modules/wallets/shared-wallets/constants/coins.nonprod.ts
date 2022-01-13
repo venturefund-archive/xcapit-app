@@ -5,7 +5,6 @@ import linkAbi from './assets-abi/link-abi.json';
 import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
 import rifAbi from './assets-abi/rif-abi.json';
-import sovAbi from './assets-abi/sov-abi.json';
 import busdAbi from './assets-abi/busd-abi.json';
 import cakeAbi from './assets-abi/cake-abi.json';
 import adaAbi from './assets-abi/ada-abi.json';
@@ -122,19 +121,6 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 18,
     native: true,
     symbol: 'MATICUSDT',
-  },
-  {
-    id: 9,
-    name: 'SOV - Sovryn',
-    logoRoute: 'assets/img/coins/SOV.png',
-    last: false,
-    value: 'SOV',
-    network: 'RSK',
-    chainId: 31,
-    rpc: environment.rskApiUrl,
-    contract: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
-    abi: sovAbi,
-    decimals: 18,
   },
   {
     id: 10,
