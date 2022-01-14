@@ -79,11 +79,9 @@ describe('WalletPasswordChangePage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService',
-        {
-          changePassword: Promise.resolve()
-        }
-      );
+      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+        changePassword: Promise.resolve(),
+      });
 
       fakeLoadingService = new FakeLoadingService();
       loadingServiceSpy = fakeLoadingService.createSpy();
@@ -94,7 +92,8 @@ describe('WalletPasswordChangePage', () => {
       TestBed.configureTestingModule({
         declarations: [WalletPasswordChangePage, FakeTrackClickDirective],
         imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
-        providers: [UrlSerializer,
+        providers: [
+          UrlSerializer,
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: LoadingService, useValue: loadingServiceSpy },
@@ -113,131 +112,179 @@ describe('WalletPasswordChangePage', () => {
     expect(component).toBeTruthy();
   });
 
-  [
-    {
-      name: 'no',
-      data: formData.valid,
-      errorsOnForm: undefined,
-      errorsOnOldPassword: undefined,
-      errorsOnPassword: undefined,
-      errorsOnRepeatPassword: undefined,
-    },
-    {
-      name: 'required field (old password)',
-      data: formData.emptyOldPassword,
-      errorsOnForm: undefined,
-      errorsOnOldPassword: ['required'],
-      errorsOnPassword: undefined,
-      errorsOnRepeatPassword: undefined,
-    },
-    // TODO: Bug in errors repeat password
-    // {
-    //   name: 'required field (password and repeat password)',
-    //   data: formData.emptyNewPassword,
-    //   errorsOnForm: undefined,
-    //   errorsOnOldPassword: undefined,
-    //   errorsOnPassword: ['required'],
-    //   errorsOnRepeatPassword: ['required'],
-    // },
-    {
-      name: 'hasNumber password',
-      data: formData.hasNumber,
-      errorsOnForm: undefined,
-      errorsOnOldPassword: undefined,
-      errorsOnPassword: ['hasNumber'],
-      errorsOnRepeatPassword: undefined,
-    },
-    {
-      name: 'hasCapitalCase password',
-      data: formData.hasCapitalCase,
-      errorsOnForm: undefined,
-      errorsOnOldPassword: undefined,
-      errorsOnPassword: ['hasCapitalCase'],
-      errorsOnRepeatPassword: undefined,
-    },
-    {
-      name: 'hasSmallCase password',
-      data: formData.hasSmallCase,
-      errorsOnForm: undefined,
-      errorsOnOldPassword: undefined,
-      errorsOnPassword: ['hasSmallCase'],
-      errorsOnRepeatPassword: undefined,
-    },
-    {
-      name: 'minlength password',
-      data: formData.minlength,
-      errorsOnForm: undefined,
-      errorsOnOldPassword: undefined,
-      errorsOnPassword: ['minlength'],
-      errorsOnRepeatPassword: undefined,
-    },
-    {
-      name: 'maxlength password',
-      data: formData.maxlength,
-      errorsOnForm: undefined,
-      errorsOnOldPassword: undefined,
-      errorsOnPassword: ['maxlength'],
-      errorsOnRepeatPassword: undefined,
-    },
-    {
-      name: 'noPasswordMatch',
-      data: formData.newPasswordDoesNotMatch,
-      errorsOnForm: ['noPasswordMatch'],
-      errorsOnOldPassword: undefined,
-      errorsOnPassword: undefined,
-      errorsOnRepeatPassword: ['noPasswordMatch'],
-    },
-    {
-      name: 'newPasswordMatchesOld',
-      data: formData.newPasswordMatchesOldPassword,
-      errorsOnForm: ['newPasswordMatchesOld'],
-      errorsOnOldPassword: undefined,
-      errorsOnPassword: ['newPasswordMatchesOld'],
-      errorsOnRepeatPassword: undefined,
-    },
-  ].forEach(testCase => {
-    // TODO: Test too big, divide in smaller tests
-    it(`should test for ${testCase.name} errors on form submit`, async () => {
-      component.changePasswordForm.patchValue(testCase.data);
-      const hasError = !!testCase.errorsOnForm || !!testCase.errorsOnOldPassword || !!testCase.errorsOnPassword || !!testCase.errorsOnRepeatPassword;
-      const formSpy = spyOn(component.changePasswordForm, 'markAllAsTouched').and.callThrough();
-      const formGroup = component.changePasswordForm;
-      const oldPasswordControl = component.changePasswordForm.get('old_password');
-      const newPasswordControl = component.changePasswordForm.get('password');
-      const repeatPasswordControl = component.changePasswordForm.get('repeat_password');
+  describe('Form Errors', () => {
+    let markAllAsTouchedSpy: jasmine.Spy;
+    let formGroup: any;
+    let oldPasswordControl: any;
+    let newPasswordControl: any;
+    let repeatPasswordControl: any;
+
+    beforeEach(() => {
+      markAllAsTouchedSpy = spyOn(component.changePasswordForm, 'markAllAsTouched').and.callThrough();
+      formGroup = component.changePasswordForm;
+      oldPasswordControl = component.changePasswordForm.get('old_password');
+      newPasswordControl = component.changePasswordForm.get('password');
+      repeatPasswordControl = component.changePasswordForm.get('repeat_password');
       spyOn(component, 'changePassword');
-      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-      fixture.detectChanges();
-      await fixture.whenStable();
+    });
 
-      expect(formGroup.valid).toBe(!hasError);
+    [
+      {
+        name: 'no',
+        data: formData.valid,
+        errorsOnForm: undefined,
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: undefined,
+        errorsOnRepeatPassword: undefined,
+      },
+      {
+        name: 'required field (old password)',
+        data: formData.emptyOldPassword,
+        errorsOnForm: undefined,
+        errorsOnOldPassword: ['required'],
+        errorsOnPassword: undefined,
+        errorsOnRepeatPassword: undefined,
+      },
+      {
+        name: 'required field (password and repeat password)',
+        data: formData.emptyNewPassword,
+        errorsOnForm: undefined,
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: ['required'],
+        errorsOnRepeatPassword: undefined,
+      },
+      {
+        name: 'hasNumber password',
+        data: formData.hasNumber,
+        errorsOnForm: undefined,
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: ['hasNumber'],
+        errorsOnRepeatPassword: undefined,
+      },
+      {
+        name: 'hasCapitalCase password',
+        data: formData.hasCapitalCase,
+        errorsOnForm: undefined,
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: ['hasCapitalCase'],
+        errorsOnRepeatPassword: undefined,
+      },
+      {
+        name: 'hasSmallCase password',
+        data: formData.hasSmallCase,
+        errorsOnForm: undefined,
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: ['hasSmallCase'],
+        errorsOnRepeatPassword: undefined,
+      },
+      {
+        name: 'minlength password',
+        data: formData.minlength,
+        errorsOnForm: undefined,
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: ['minlength'],
+        errorsOnRepeatPassword: undefined,
+      },
+      {
+        name: 'maxlength password',
+        data: formData.maxlength,
+        errorsOnForm: undefined,
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: ['maxlength'],
+        errorsOnRepeatPassword: undefined,
+      },
+      {
+        name: 'noPasswordMatch',
+        data: formData.newPasswordDoesNotMatch,
+        errorsOnForm: ['noPasswordMatch'],
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: undefined,
+        errorsOnRepeatPassword: ['noPasswordMatch'],
+      },
+      {
+        name: 'newPasswordMatchesOld',
+        data: formData.newPasswordMatchesOldPassword,
+        errorsOnForm: ['newPasswordMatchesOld'],
+        errorsOnOldPassword: undefined,
+        errorsOnPassword: ['newPasswordMatchesOld'],
+        errorsOnRepeatPassword: undefined,
+      },
+    ].forEach((testCase) => {
       if (testCase.errorsOnForm) {
-        expect(formGroup.hasError(testCase.errorsOnForm[0])).toBeTrue();
+        it(`should have ${testCase.name} errors on form group on form submit`, async () => {
+          component.changePasswordForm.patchValue(testCase.data);
+          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+          fixture.detectChanges();
+          await fixture.whenStable();
+          expect(formGroup.valid).toBeFalse();
+          expect(formGroup.hasError(testCase.errorsOnForm[0])).toBeTrue();
+        });
       }
 
-      expect(oldPasswordControl.valid).toBe(!testCase.errorsOnOldPassword);
       if (testCase.errorsOnOldPassword) {
-        expect(oldPasswordControl.hasError(testCase.errorsOnOldPassword[0])).toBeTrue();
+        it(`should have ${testCase.name} errors on old_password field on form submit`, async () => {
+          component.changePasswordForm.patchValue(testCase.data);
+          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+          fixture.detectChanges();
+          await fixture.whenStable();
+          expect(oldPasswordControl.valid).toBeFalse();
+          expect(oldPasswordControl.hasError(testCase.errorsOnOldPassword[0])).toBeTrue();
+        });
       }
 
-      expect(newPasswordControl.valid).toBe(!testCase.errorsOnPassword);
       if (testCase.errorsOnPassword) {
-        expect(newPasswordControl.hasError(testCase.errorsOnPassword[0])).toBeTrue();
+        it(`should have ${testCase.name} errors on password field on form submit`, async () => {
+          component.changePasswordForm.patchValue(testCase.data);
+          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+          fixture.detectChanges();
+          await fixture.whenStable();
+          expect(newPasswordControl.valid).toBeFalse();
+          expect(newPasswordControl.hasError(testCase.errorsOnPassword[0])).toBeTrue();
+        });
       }
 
-      expect(repeatPasswordControl.valid).toBe(!testCase.errorsOnRepeatPassword);
       if (testCase.errorsOnRepeatPassword) {
-        expect(repeatPasswordControl.hasError(testCase.errorsOnRepeatPassword[0])).toBeTrue();
+        it(`should have ${testCase.name} errors on repeat_password field on form submit`, async () => {
+          component.changePasswordForm.patchValue(testCase.data);
+          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+          fixture.detectChanges();
+          await fixture.whenStable();
+          expect(repeatPasswordControl.valid).toBeFalse();
+          expect(repeatPasswordControl.hasError(testCase.errorsOnRepeatPassword[0])).toBeTrue();
+        });
       }
 
-      if (hasError) {
-        expect(formSpy).toHaveBeenCalledTimes(1);
+      if (
+        !!testCase.errorsOnForm ||
+        !!testCase.errorsOnOldPassword ||
+        !!testCase.errorsOnPassword ||
+        !!testCase.errorsOnRepeatPassword
+      ) {
+        it(`should show ${testCase.name} errors message on form submit`, async () => {
+          component.changePasswordForm.patchValue(testCase.data);
+          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+          fixture.detectChanges();
+          await fixture.whenStable();
+          expect(markAllAsTouchedSpy).toHaveBeenCalledTimes(1);
+        });
       }
     });
   });
 
   it('should show error message if old password is incorrect', async () => {
-    walletEncryptionServiceSpy.changePassword.and.rejectWith();
+    walletEncryptionServiceSpy.changePassword.and.rejectWith(new Error('invalid password'));
+    component.changePasswordForm.patchValue(formData.valid);
+    await component.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
+    expect(walletEncryptionServiceSpy.changePassword).toHaveBeenCalledTimes(1);
+    expect(component.changePasswordForm.get('old_password').hasError('walletIncorrectPassword')).toBeTrue();
+    expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
+  });
+
+  it('should go to Error Page if something failed', async () => {
+    walletEncryptionServiceSpy.changePassword.and.rejectWith(new Error());
     component.changePasswordForm.patchValue(formData.valid);
     await component.handleSubmit();
     await fixture.whenStable();
@@ -248,7 +295,7 @@ describe('WalletPasswordChangePage', () => {
     expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
   });
 
-  it('should open modal and change password on handleSubmit', async() => {
+  it('should open modal and change password on handleSubmit', async () => {
     component.changePasswordForm.patchValue(formData.valid);
     await component.handleSubmit();
     await fixture.whenStable();

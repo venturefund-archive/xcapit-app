@@ -44,6 +44,9 @@
         "has_capital_case": "Minimum one capital letter is required ",
         "has_small_case": "Minimum one lowercase required "
       },
+      "old_password": {
+        "wallet_incorrect_password": "Incorrect password, try again"
+      },
       "repeat_password": {
         "no_password_match": "Passwords don't match, try again"
       },

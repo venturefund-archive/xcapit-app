@@ -46,6 +46,7 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
               type="password"
               [label]="'wallets.password_change.old_password' | translate"
               inputmode="password"
+              [errors]="this.oldPasswordErrors"
             ></app-ux-input>
           </div>
 
@@ -113,7 +114,8 @@ export class WalletPasswordChangePage implements OnInit {
     }
   );
 
-  passwordErrors: ItemFormError[] = [...CONFIG.fieldErrors.newPassword, ...CONFIG.fieldErrors.password] ;
+  oldPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.oldPassword];
+  passwordErrors: ItemFormError[] = [...CONFIG.fieldErrors.newPassword, ...CONFIG.fieldErrors.password];
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
   private get modalOptions(): LoadingModalOptions {
@@ -146,7 +148,18 @@ export class WalletPasswordChangePage implements OnInit {
     await this.loadingService.showModal(this.modalOptions)
       .then(() => this.walletEncryptionService.changePassword(this.changePasswordForm.value.old_password, this.changePasswordForm.value.password))
       .then(() => this.navController.navigateForward(['/wallets/password-change/success']))
-      .catch(() => this.navController.navigateForward(['/wallets/password-change/error']))
+      .catch((error) => {
+        if (error.message === 'invalid password') {
+          this.showIncorrectPasswordError();
+        } else {
+          this.navController.navigateForward(['/wallets/password-change/error']);
+        }
+      })
       .finally(() => this.loadingService.dismissModal());
+  }
+
+  async showIncorrectPasswordError() {
+    this.changePasswordForm.get('old_password').setErrors(CustomValidatorErrors.walletIncorrectPassword);
+    this.changePasswordForm.markAllAsTouched();
   }
 }
