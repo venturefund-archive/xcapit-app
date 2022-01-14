@@ -40,31 +40,26 @@ describe('InvestorTestCardsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not render badge if comingSoon is false', async () => {
-    component.comingSoon = false;
+  it('should not render properly badge if testAvailable or manualTestAvailable are true', async () => {
+    component.testAvailable = true;
+    component.optionsTestAvailable = true;
     fixture.detectChanges();
     const badgeEl = fixture.debugElement.query(By.css('.badge'));
     expect(badgeEl).toBeNull();
   });
 
-  it('should render badge if comingSoon is true', async () => {
-    component.comingSoon = true;
+  it('should render properly badge if testAvailable or manualTestAvailable are false', async () => {
+    component.optionsTestAvailable = false;
+    component.testAvailable = false;
     fixture.detectChanges();
     const badgeEl = fixture.debugElement.query(By.css('.badge'));
     expect(badgeEl.nativeNode.innerHTML).toContain('home.home_page.test_investor_cards.badge_text');
   });
 
-  it('should navigate to investor Test when take_test_card Div is clicked', async () => {
-    component.comingSoon = false;
-    const clickeableDiv = fixture.debugElement.query(By.css('div[name="Go Investor Test"]'));
+  it('should navigate to option select test page when options-test-card Div is clicked and optionsTestAvailable is true', async () => {
+    component.optionsTestAvailable = true;
+    const clickeableDiv = fixture.debugElement.query(By.css('div[name="Go Investor Options"]'));
     clickeableDiv.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
-  });
-
-  it('should navigate to investor Test when manual_test_card Div is clicked', async () => {
-    component.comingSoon = false;
-    const clickeableDiv = fixture.debugElement.query(By.css('div[name="Go Investor Profiles"]'));
-    clickeableDiv.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wealth-management/about-investor-profiles']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wealth-management/investor-test-options']);
   });
 });

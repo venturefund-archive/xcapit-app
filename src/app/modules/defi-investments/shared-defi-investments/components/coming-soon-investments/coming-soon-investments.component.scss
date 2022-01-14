@@ -1,0 +1,21 @@
+:host {
+  .cs {
+    padding-left: 20.5px;
+    padding-right: 20.5px;
+
+    &__img {
+      display: flex;
+      justify-content: center;
+    }
+
+    &__title {
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    &__text {
+      margin-top: 8px;
+      text-align: center;
+    }
+  }
+}

@@ -127,4 +127,11 @@ describe('MoonpayPage', () => {
     await fixture.whenStable();
     expect(component.form.value.currency).toEqual(testCoins[2]);
   });
+
+  it('should filter the currencies selected by the user and leave only those with a valid moonpay code on init', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.coins.length).toEqual(2);
+  });
 });

@@ -1,3 +1,4 @@
+import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -7,7 +8,6 @@ import { of } from 'rxjs';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SwiperModule } from 'swiper/angular';
 import { InvestorProfileStepStubComponent } from '../shared-wealth-managements/components/investor-profile-step/investor-profile-step-stub.component.spec';
-import { InvestorProfileService } from '../shared-wealth-managements/services/investor-profile/investor-profile.service';
 
 import { AboutInvestorProfilesPage } from './about-investor-profiles.page';
 
@@ -17,34 +17,36 @@ const fakeInvestorProfiles = [
     title: 'wealth_managements.about_investor_profile.conservative_profile.title',
     subtitle: 'wealth_managements.about_investor_profile.conservative_profile.subtitle',
     imagePath: 'assets/img/investor-test/conservative.svg',
+    baseScore: 3,
   },
   {
     id: 2,
     title: 'wealth_managements.about_investor_profile.moderated_profile.title',
     subtitle: 'wealth_managements.about_investor_profile.moderated_profile.subtitle',
     imagePath: 'assets/img/investor-test/moderated.svg',
+    baseScore: 8,
   },
 ];
 
 describe('AboutInvestorProfilesPage', () => {
   let component: AboutInvestorProfilesPage;
   let fixture: ComponentFixture<AboutInvestorProfilesPage>;
-  let investorProfileServiceSpy: jasmine.SpyObj<InvestorProfileService>;
+  let apiProfilesServiceMock: any;
   let fakeNavController: FakeNavController;
   let navControllerSpy: any;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController({});
       navControllerSpy = fakeNavController.createSpy();
-      investorProfileServiceSpy = jasmine.createSpyObj('investorProfileService', {
-        setProfile: of({}),
-      });
+      apiProfilesServiceMock = {
+        crud: jasmine.createSpyObj('CRUD', ['patch']),
+      };
       TestBed.configureTestingModule({
         declarations: [AboutInvestorProfilesPage, InvestorProfileStepStubComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), SwiperModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: InvestorProfileService, useValue: investorProfileServiceSpy },
+          { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
         ],
       }).compileComponents();
 
@@ -65,7 +67,7 @@ describe('AboutInvestorProfilesPage', () => {
   });
 
   it('should set Profile when setProfile event is received ', async () => {
-    fixture.debugElement.query(By.css('app-investor-profile-step')).triggerEventHandler('setProfileEvent', 1);
-    expect(investorProfileServiceSpy.setProfile).toHaveBeenCalledOnceWith(1);
+    fixture.debugElement.query(By.css('app-investor-profile-step')).triggerEventHandler('setProfileEvent', 3);
+    expect(apiProfilesServiceMock.crud.patch).toHaveBeenCalledOnceWith({ investor_score: 3 });
   });
 });

@@ -1,5 +1,7 @@
+// stylelint-disable
 .ux-font-button,
 .ux_button {
+  // stylelint-enable
   text-transform: none;
   font-family: var(--ux-font-worksans);
   font-weight: var(--ux-fweight-semibold);
@@ -14,11 +16,12 @@
   font-size: var(--ux-fsize-12);
 }
 
-// Estilo de la toolbar para botones ux
+// stylelint-disable-next-line selector-class-pattern
 .ux_button {
-  --border-radius: 7px;
   height: 48px;
   min-width: 116px;
+
+  --border-radius: 7px;
 }
 
 ion-button {
@@ -31,7 +34,7 @@ ion-back-button {
   --margin-start: 7px;
 }
 
-//Button outlined
+// Button outlined
 .ux-button-outlined {
   height: 48px;
   min-width: 116px;
@@ -40,29 +43,41 @@ ion-back-button {
   font-weight: var(--ux-fweight-semibold);
   font-size: var(--ux-fsize-16);
   line-height: 18.77px;
-  --background: var(--ion-color-uxlight);
-  --background-activated: var(--ion-color-uxlight);
   color: var(--ion-color-info);
   border: 1.5px solid var(--ion-color-info);
   border-radius: 7px;
+
+  --background: var(--ion-color-uxlight);
+  --background-activated: var(--ion-color-uxlight);
 }
 
 .ux-button-outlined:hover {
-  --background-hover: var(--ion-color-uxlight);
   color: var(--ion-color-infodark);
   border: 1.5px solid var(--ion-color-infodark);
+
+  --background-hover: var(--ion-color-uxlight);
 }
 
-//Class 'text button' for modals
+// Class 'text button' for modals
 .text-button-primary,
 .text-button-secondary {
   font-family: var(--ux-font-worksans);
   font-weight: var(--ux-fweight-semibold);
   font-size: var(--ux-fsize-16);
 }
+
 .text-button-primary {
   color: var(--ion-color-info);
 }
+
 .text-button-secondary {
   color: var(--ion-color-uxsemidark);
+}
+
+.align-text-start {
+  --padding-start: 0;
+}
+
+.align-text-end {
+  --padding-end: 0;
 }

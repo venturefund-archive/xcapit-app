@@ -12,8 +12,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
-const itemMenu = [
+const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_help',
     icon: 'assets/ux-icons/ux-support.svg',
@@ -22,11 +25,13 @@ const itemMenu = [
         name: 'Faq',
         text: 'profiles.user_profile_menu.faq_help',
         route: '/support/options',
+        type: 'link',
       },
       {
         name: 'Support',
         text: 'profiles.user_profile_menu.support_help',
         route: 'tickets/create-support-ticket',
+        type: 'link',
       },
     ],
   },
@@ -38,6 +43,7 @@ const itemMenu = [
         name: 'PasswordChangeAccount',
         text: 'profiles.user_profile_menu.change_pass',
         route: '/users/password-change',
+        type: 'link',
       },
     ],
   },
@@ -49,7 +55,7 @@ const itemMenu = [
         name: 'RecoveryPhrase',
         text: 'profiles.user_profile_menu.security_phrase',
         route: '/wallets/recovery/info',
-        element: 'recoveryPhrase',
+        type: 'link',
       },
     ],
   },
@@ -61,20 +67,25 @@ const itemMenu = [
         name: 'Funds',
         text: 'profiles.user_profile_menu.funds',
         route: '/tabs/investments',
+        type: 'link',
       },
       {
         name: 'FinishedFunds',
         text: 'profiles.user_profile_menu.finished_funds',
         route: 'funds/funds-finished',
+        type: 'link',
       },
       {
         name: 'ApiKeysList',
         text: 'profiles.user_profile_menu.manage_apikey',
         route: '/apikeys/list',
+        type: 'link',
       },
     ],
   },
 ];
+
+const profile = { notifications_enabled: true };
 
 describe('UserProfileMenuPage', () => {
   let component: UserProfileMenuPage;
@@ -87,15 +98,19 @@ describe('UserProfileMenuPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
-  let languageServiceSpy: any;
+  let languageServiceSpy: jasmine.SpyObj<LanguageService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+        toggle: of({}),
+      });
       apiProfilesServiceSpy = {
         crud: {
-          get: () => of({}),
+          get: () => of(profile),
         },
       };
       authServiceSpy = {
@@ -113,13 +128,14 @@ describe('UserProfileMenuPage', () => {
 
       TestBed.configureTestingModule({
         declarations: [UserProfileMenuPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },
           { provide: AuthService, useValue: authServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: LanguageService, useValue: languageServiceSpy },
+          { provide: NotificationsService, useValue: notificationsServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -184,5 +200,16 @@ describe('UserProfileMenuPage', () => {
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
     expect(menu.length).toBe(4);
+  });
+
+  it('should toggle notifications on toggle click', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const toggleEl = fixture.debugElement.query(By.css('ion-toggle'));
+    component.form.patchValue({ notificationsEnabled: true });
+    await fixture.whenStable();
+    expect(notificationsServiceSpy.toggle).toHaveBeenCalledTimes(1);
   });
 });

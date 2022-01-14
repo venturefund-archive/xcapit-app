@@ -30,6 +30,7 @@ export const PROD_COINS: Coin[] = [
     rpc: environment.ethAlchemyApiUrl,
     moonpayCode: 'eth',
     native: true,
+    symbol: 'ETHUSDT',
   },
   {
     id: 2,
@@ -44,6 +45,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
     abi: linkAbi,
     decimals: 18,
+    symbol: 'LINKUSDT',
   },
   {
     id: 3,
@@ -72,6 +74,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
     abi: aaveAbi,
     decimals: 18,
+    symbol: 'AAVEUSDT',
   },
   {
     id: 5,
@@ -86,6 +89,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
     abi: uniAbi,
     decimals: 18,
+    symbol: 'UNIUSDT',
   },
   {
     id: 6,
@@ -99,6 +103,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0xd2877702675e6ceb975b4a1dff9fb7baf4c91ea9',
     abi: lunaAbi,
     decimals: 18,
+    symbol: 'LUNAUSDT',
   },
   {
     id: 7,
@@ -112,6 +117,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0xbb0e17ef65f82ab018d8edd776e8dd940327b28b',
     abi: axsAbi,
     decimals: 18,
+    symbol: 'AXSUSDT',
   },
   {
     id: 8,
@@ -126,6 +132,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x0f5d2fb29fb7d3cfee444a200298f468908cc942',
     abi: manaAbi,
     decimals: 18,
+    symbol: 'MANAUSDT',
   },
   {
     id: 9,
@@ -139,6 +146,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2',
     abi: sushiAbi,
     decimals: 18,
+    symbol: 'SUSHIUSDT',
   },
   {
     id: 10,
@@ -152,6 +160,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0xc00e94cb662c3520282e6f5717214004a7f26888',
     abi: compoundAbi,
     decimals: 18,
+    symbol: 'COMPUSDT',
   },
   {
     id: 11,
@@ -165,6 +174,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x05f4a42e251f2d52b8ed15e9fedaacfcef1fad27',
     abi: zilliqaAbi,
     decimals: 18,
+    symbol: 'ZILUSDT',
   },
   {
     id: 12,
@@ -179,6 +189,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c',
     abi: enjAbi,
     decimals: 18,
+    symbol: 'ENJUSDT',
   },
   {
     id: 13,
@@ -192,6 +203,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
     abi: batAbi,
     decimals: 18,
+    symbol: 'BATUSDT',
   },
   {
     id: 14,
@@ -203,6 +215,7 @@ export const PROD_COINS: Coin[] = [
     chainId: 30,
     rpc: environment.rskApiUrl,
     native: true,
+    symbol: 'BTCUSDT',
   },
   {
     id: 15,
@@ -216,6 +229,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x2acc95758f8b5f583470ba265eb685a8f45fc9d5',
     abi: rifAbi,
     decimals: 18,
+    symbol: 'RIFUSDT',
   },
   {
     id: 16,
@@ -242,6 +256,7 @@ export const PROD_COINS: Coin[] = [
     moonpayCode: 'matic_polygon',
     decimals: 18,
     native: true,
+    symbol: 'MATICUSDT',
   },
   {
     id: 18,
@@ -255,6 +270,7 @@ export const PROD_COINS: Coin[] = [
     moonpayCode: 'bnb_bsc',
     decimals: 18,
     native: true,
+    symbol: 'BNBUSDT',
   },
   {
     id: 19,
@@ -267,6 +283,7 @@ export const PROD_COINS: Coin[] = [
     rpc: environment.bscApiUrl,
     contract: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
     decimals: 18,
+    symbol: 'CAKEUSDT',
   },
   {
     id: 20,
@@ -279,6 +296,7 @@ export const PROD_COINS: Coin[] = [
     rpc: environment.bscApiUrl,
     contract: '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47',
     decimals: 18,
+    symbol: 'ADAUSDT',
   },
   {
     id: 21,
@@ -291,6 +309,7 @@ export const PROD_COINS: Coin[] = [
     rpc: environment.bscApiUrl,
     contract: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
     decimals: 18,
+    symbol: 'BUSDUSDT',
   },
   {
     id: 22,
@@ -303,6 +322,7 @@ export const PROD_COINS: Coin[] = [
     rpc: environment.bscApiUrl,
     contract: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
     decimals: 18,
+    symbol: 'AVAXUSDT',
   },
   {
     id: 23,
@@ -316,6 +336,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0xBbba073C31bF03b8ACf7c28EF0738DeCF3695683',
     abi: sandAbi,
     decimals: 18,
+    symbol: 'SANDUSDT',
   },
   {
     id: 24,
@@ -326,9 +347,11 @@ export const PROD_COINS: Coin[] = [
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
+    moonpayCode: 'usdc_polygon',
     contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
     abi: usdcAbi,
     decimals: 18,
+    symbol: 'USDCUSDT',
   },
   {
     id: 25,
@@ -342,5 +365,6 @@ export const PROD_COINS: Coin[] = [
     abi: crvAbi,
     contract: '0x172370d5cd63279efa6d502dab29171933a610af',
     decimals: 18,
+    symbol: 'CRVUSDT',
   },
 ];

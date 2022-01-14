@@ -25,11 +25,16 @@ export const environment = {
   covalentApiKey: 'ckey_124a59c33c49457082d54ccaa30',
   moonpayPK: 'pk_test_D6oAj7Lj4vAZV7QhVIi5XpIO0sfJHa3a',
   walletNetwork: 'testnet',
-  ethAlchemyApiUrl: 'https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN',
-  rskApiUrl: "https://public-node.testnet.rsk.co",
-  maticApiUrl: "https://rpc-mumbai.maticvigil.com/v1/5fc0291a70d1714b3595d5a2fb5ceacec81ab086",
-  bscApiUrl: "https://data-seed-prebsc-1-s1.binance.org:8545/",
-    derivedPaths: {
+  ethAlchemyApiUrl: 'alchemy.url',
+  covalentApiKey: 'test.key',
+  rskApiUrl: 'https://rsk.node',
+  maticApiUrl: 'https://matic.url',
+  bscApiUrl: 'https://bsc.url',
+  binanceApiUrl: 'https://binance.url',
+  chainId:{
+    POLYGON: 80001
+  },
+  derivedPaths: {
     ERC20: "m/44'/60'/0'/0/0",
     RSK: "m/44'/37310'/0'/0/0",
     MATIC: "m/44'/80001'/0'/0/0",

@@ -14,7 +14,8 @@
       "notifications": "Notificaciones",
       "api_keys_managment": "Gestión de API Keys",
       "change_language": "Idioma",
-      "payment": "Planes"
+      "payment": "Planes",
+      "wallet_connect": "WalletConnect"
     }
   },
   "config": {
@@ -224,10 +225,46 @@
       "my_account": "Mi cuenta/Registro",
       "link_binance_account": "Vincular mi cuenta de Binance",
       "buy_crypto": "Comprar criptomonedas",
-      "subscription_plans": "Planes de suscripción",
       "investment_strategies": "Estrategias de inversión",
       "capital_security": "Seguridad de mi capital",
+      "wallet":"Wallet",
+      "nft":"NFT",
       "others": "Otros"
+    }
+  },
+  "defi_investments":{
+    "coming_soon": {
+      "header": "Inversión"
+    },
+    "defi_investment_products":{
+      "header":"Inversiones Defi",
+      "title":"Comienza a invertir"
+    },
+    "success_investment": {
+      "title": "Añadiste dinero a tu inversión",
+      "subtitle": "Obtendrás beneficios todos los días.",
+      "primaryButton": "Volver a inversiones",
+      "secondaryButton": "Ir a Wallet"
+    },
+    "error_investment": {
+      "title": "Parece que algo salió mal",
+      "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
+      "primaryButton": "Intentar nuevamente"
+    },
+    "shared_defi_investments":{
+      "coming_soon_card": {
+        "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
+        "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
+      },
+      "defi_investment_product":{
+        "performance":"Rendimiento estimado",
+        "liquidity":"Liquidez",
+        "not_min_ammount":"Sin monto mínimo",
+        "immediate_rescue":"Rescate inmediato",
+        "coming_badge":"Próximamente",
+        "invest_button":"Invertir",
+        "annual":"Anual"
+      }
     }
   },
   "funds": {
@@ -772,8 +809,10 @@
       "finished_funds": "Fondos Finalizados",
       "manage_apikey": "Gestión de API Keys",
       "category_preferences": "Preferencias",
+      "push_notifications": "Notificationes push",
       "language": "Idioma",
-      "logout": "Cerrar Sesión"
+      "logout": "Cerrar Sesión",
+      "category_walletconnect": "WalletConnect"
     },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
@@ -1369,14 +1408,16 @@
       "paragraph_9": "Como condición para participar en el programa, usted da su consentimiento para que la empresa obtenga y entregue su nombre, dirección y otra información a terceros con el fin de administrar este programa y cumplir con las leyes, regulaciones y reglas aplicables. cualquier información que proporcione al patrocinador puede usarse para comunicarse con usted en relación con este programa. La información enviada será tratada de acuerdo con la política de privacidad de la empresa.\n",
       "subtitle_10": "10. Ley aplicable",
       "paragraph_10": "Estas bases y el programa de referidos se gobiernan por las leyes de la república argentina. cualquier controversia derivada del presente acuerdo, su existencia, validez, interpretación, alcance o cumplimiento, será sometida a los tribunales competentes con sede en la ciudad autónoma de buenos aires.\n"
+    },
+    "referral_promotion": {
+      "title": "Invita y gana. ¡Más compañía, más ganancias!",
+      "button": "Compartir código"
     }
   },
   "notifications": {
     "notifications_list": {
       "header": "Notificaciones",
-      "title": "Aún no tienes notificaciones",
-      "message": "Hagamos que este espacio cobre vida",
-      "link": "Empieza a invertir"
+      "title": "Aún no tienes notificaciones"
     },
     "notification": {
       "header": "Notificación"
@@ -1387,6 +1428,11 @@
     }
   },
   "wallets": {
+    "no_wallet": {
+      "title": "Aún no tienes tu Wallet Xcapit",
+      "subtitle": "Cada vez que realices una compra, tus criptomonedas se depositarán allí.",
+      "button": "Crear Wallet"
+    },
     "disclaimer": {
       "header": "Crear wallet",
       "title": "¡Empecemos!",
@@ -1593,16 +1639,7 @@
         "namePrimaryAction": "Reintentar"
       }
     },
-    "investments": {
-      "coming_soon": {
-        "header": "Inversión"
-      }
-    },
     "shared_wallets": {
-      "coming_soon_card": {
-        "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
-        "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
-      },
       "start_investing_card": {
         "title": "Invierte tus cripto ahora y obtén ganancias diarias",
         "text": "Comenzar a invertir"
@@ -1651,6 +1688,88 @@
     "success_wallet_recovery": {
       "title": "¡Genial! Importamos tu wallet con tu frase de recuperación",
       "button": "Ir a wallet"
+    },
+    "wallet_connect": {
+      "header": "WalletConnect",
+      "title": "Nueva conexión",
+      "text_before": "Wallet",
+      "QR_label": "Iniciar conexión desde",
+      "QR_placeholder": "Mantén presionado para pegar",
+      "button_continue": "Continuar",
+      "button_wallet": "Usar wallet",
+      "button_connect": "Conectar",
+      "button_disconnect": "Finalizar conexión",
+      "scan_qr": {
+        "header": "Escanea el código QR",
+        "register_manually": "Ingresar manualmente",
+        "errors": {
+          "invalidQR": "El código QR no es válido.",
+          "noContent": "El código QR no tenía ningún contenido.",
+          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
+        }
+      },
+      "qr_scanner": {
+        "title": "Apunta la cámara al código QR",
+        "cancel_label": "Cancelar e ingresar manual",
+        "text": "Apunta la cámara a un código QR."
+      },
+      "init_wallet": {
+        "errors": {
+          "header": "Error en código QR",
+          "message": "La Dapp no responde. Intenta escanear un nuevo código QR.",
+          "close_button": "Aceptar"
+        }
+      },
+      "connection_detail": {
+        "header": "Detalle de conexión",
+        "description": "DESCRIPCIÓN",
+        "permissions": "Ten en cuenta que el protocolo tendrá acceso a tu balance, actividad y podrá solicitar aprobaciones de transacciones.",
+        "connection_status": {
+          "connected": "Conectado",
+          "disconnected": "Desconectado"
+        },
+        "errors": {
+          "header": "Error de conexión",
+          "message": "Hubo problemas al realizar la conexión con la Dapp. Intente nuevamente.",
+          "close_button": "Aceptar"
+        }
+      },
+      "operation_detail": {
+        "header": "Detalle de operación",
+        "sign": "Firmar en",
+        "approval": "Aprobación en",
+        "operation": "Operación en",
+        "sign_message": "Se ha solicitado su firma para lo siguiente:",
+        "date": "Fecha",
+        "from": "De",
+        "to": "Para",
+        "amount": "A pagar",
+        "transaction_fee": "Tarifa de transacción",
+        "transaction_fee_message": "Este monto es estimativo y puede sufrir variaciónes de acuerdo al momento en que realices la transacción.",
+        "sign_button": "Firmar",
+        "approve_button": "Aprobar",
+        "confirm_button": "Confirmar",
+        "cancel_button": "Cancelar",
+        "abort_alert": {
+          "header": "¿Abandonar la operación?",
+          "message": "Si sales ahora, la operación será cancelada.",
+          "cancel_button": "Cancelar",
+          "accept_button": "Abandonar"
+        },
+        "cancel_alert": {
+          "header": "Cancelar operación",
+          "message": "¿Desea cancelar la operación?",
+          "cancel_button": "Volver",
+          "accept_button": "Aceptar"
+        }
+      },
+      "transactions": {
+        "alert": {
+          "header": "Error en operación",
+          "message": "Hubo un error al ejecutar la operación. Por favor vuelva a intentarlo.",
+          "accept_button": "Aceptar"
+        }
+      }
     }
   },
   "apikeys": {
@@ -2162,8 +2281,20 @@
         "badge_text": "Próximamente",
         "title1": "Descubre tus conocimientos en finanzas",
         "link1": "Hacer test",
-        "title2": "¿Sabes qué tipo de inversionista eres?",
+        "title2": "¿Sabes qué tipo de inversor eres?",
         "link2": "Descúbrelo"
+      },
+      "wallet_connect_card": {
+        "title": "WalletConnect",
+        "subtitle": "Conecta tu wallet al mundo cripto y mantén el control"
+      },
+      "quotes_card": {
+        "title": "Cotizaciones",
+        "table_label1": "Par",
+        "table_label2": "Último Precio",
+        "table_label3": "Cambio % 24 h",
+        "more_button": "Ver más",
+        "less_button": "Ver menos"
       }
     },
     "shared": {
@@ -2189,17 +2320,17 @@
       "question2": "2- Pago y tarifas",
       "answer2": "Xcapit Wallet actualmente no cobra ninguna tarifa por ninguno de sus Servicios. Sin embargo, nos reservamos el derecho a hacerlo en el futuro y, en tal caso, las tarifas aplicables se mostrarán antes de que utilice cualquier servicio al que se aplique una tarifa. Actas. Una vez que se hayan enviado los detalles de la transacción a través de los Servicios, no podemos ayudarlo a cancelar o modificar su transacción. Xcapit Wallet no tiene control sobre ninguna cadena de bloques basada en Ethereum y no tiene la capacidad de facilitar ninguna solicitud de cancelación o modificación. Debe asegurarse de tener un saldo adecuado en su billetera y / o gas para completar las transacciones antes de iniciar una transacción. Usted reconoce y acepta que no seremos responsables por transacciones fallidas debido a fondos insuficientes o gas asociado con su cuenta Xcapit Wallet. Impuestos. Es su responsabilidad determinar qué impuestos, si los hay, se aplican a las transacciones para las que ha enviado los detalles de la transacción a través de los Servicios, y es su responsabilidad informar y remitir el impuesto correcto a la autoridad fiscal correspondiente. Usted acepta que no somos responsables de determinar si los impuestos se aplican a sus transacciones basadas en Ethereum o de cobrar, informar, retener o remitir cualquier impuesto que surja de cualquier transacción relacionada con la moneda virtual.",
       "question3": "3- Los servicios de blockchain",
-      "answer3": "Xcapit Wallet le permite iniciar y administrar transacciones de criptoactivos en la red Ethereum, RSK y Polygon. Negociar o comerciar con criptoactivos es intrínsecamente riesgoso, ya que los precios de las criptomonedas pueden cambiar rápidamente. No podemos garantizar que el valor de los criptoactivos que compre no disminuirá. Por lo tanto, si compra o vende cualquier criptoactivo a través de Xcapit Wallet es bajo su propio riesgo. La finalización de las transacciones que inicie a través de Xcapit Wallet también depende de la disponibilidad y el funcionamiento de la red Ethereum, RSK y Polygon. Los errores o bifurcaciones en la red Ethereum, RSK y Polygon, pueden hacer que las transacciones que inicie a través de la Wallet de Xcapit fallen. Esto puede significar que la transacción que originalmente tenía la intención de realizar ya no estará disponible. Desafortunadamente, debido a la naturaleza descentralizada de la red Ethereum, RSK y Polygon, no hay un solo punto de falla, por lo que ni nosotros ni ninguna parte en particular seremos responsables ante usted por los errores o pérdidas que sufra como resultado. Xcapit Wallet es un software que (a) genera direcciones de Wallet y claves privadas cifradas que puede utilizar para enviar y recibir Ethereum y tokens relacionados con seguridad criptográfica (la \"Moneda virtual\"); (b) facilita el envío de datos de transacciones de Moneda Virtual a cadenas de bloques basadas en Ethereum, RSK y Polygon. La clave privada está conectada a la dirección de Wallet y, en conjunto, se pueden utilizar para autorizar la transferencia de Moneda Virtual hacia y desde esa dirección de Wallet. Usted es el único responsable de mantener la seguridad de su clave privada. Debe mantener segura la dirección de Wallet y la información de acceso a la clave privada. El no hacerlo puede resultar en la pérdida de control de la Moneda Virtual asociada con la Cartera.<b> Xcapit Wallet no puede ayudar con la recuperación de la contraseña. Xcapit Wallet almacena su dirección de Wallet pero no recibe ni almacena su contraseña de Wallet, clave privada cifrada, clave privada no cifrada o frase mnemotécnica (de respaldo) asociada con su Wallet.</b> Por lo tanto, no podemos ayudarlo con la recuperación de la contraseña de Wallet. No podemos generar una nueva contraseña para su Billetera si no recuerda su contraseña original. Si no ha guardado de forma segura una copia de seguridad de cualquier dirección de Wallet y pares de claves privadas mantenidos en su Wallet, acepta y reconoce que cualquier Moneda virtual que haya asociado con dicha dirección de Wallet será inaccesible si no tiene su contraseña de Wallet. Todas las transacciones de moneda virtual propuestas deben confirmarse y registrarse en la cadena de bloques pública asociada de la moneda virtual. Dichas redes son redes descentralizadas, de igual a igual, respaldadas por terceros independientes, de los que no somos propietarios, no controlamos ni operamos. No tenemos control sobre las redes Ethereum, RSK y Polygon y, por lo tanto, no podemos asegurarnos de que los detalles de la transacción que envíe a través de nuestros Servicios sean confirmados y procesados. Al utilizar Xcapit Wallet, usted reconoce y acepta que los detalles de la transacción que envía pueden no ser completados, o pueden retrasarse sustancialmente, por Ethereum Networks. Xcapit Wallet no almacena ni transmite moneda virtual. No almacenamos, enviamos ni recibimos Moneda Virtual. Cualquier transferencia que ocurra en cualquier Moneda Virtual ocurre en las cadenas de bloques basadas en Ethereum, RSK y Polygon y no en una red de nuestra propiedad. Exactitud de la información proporcionada por el usuario. Usted declara y garantiza que cualquier información que proporcione a través de los Servicios es precisa y completa. Acepta y reconoce que no somos responsables de los errores u omisiones que cometa en relación con cualquier transacción de moneda virtual iniciada a través de los Servicios. Le recomendamos encarecidamente que revise los detalles de su transacción detenidamente antes de intentar transferir una moneda virtual.",
+      "answer3": "Xcapit Wallet le permite iniciar y administrar transacciones de criptoactivos en la red Ethereum, RSK, Polygon y BSC. Negociar o comerciar con criptoactivos es intrínsecamente riesgoso, ya que los precios de las criptomonedas pueden cambiar rápidamente. No podemos garantizar que el valor de los criptoactivos que compre no disminuirá. Por lo tanto, si compra o vende cualquier criptoactivo a través de Xcapit Wallet es bajo su propio riesgo. La finalización de las transacciones que inicie a través de Xcapit Wallet también depende de la disponibilidad y el funcionamiento de la red Ethereum, RSK, Polygon y BSC. Los errores o bifurcaciones en la red Ethereum, RSK, Polygon y BSC, pueden hacer que las transacciones que inicie a través de la Wallet de Xcapit fallen. Esto puede significar que la transacción que originalmente tenía la intención de realizar ya no estará disponible. Desafortunadamente, debido a la naturaleza descentralizada de la red Ethereum, RSK, Polygon y BSC no hay un solo punto de falla, por lo que ni nosotros ni ninguna parte en particular seremos responsables ante usted por los errores o pérdidas que sufra como resultado. Xcapit Wallet es un software que (a) genera direcciones de Wallet y claves privadas cifradas que puede utilizar para enviar y recibir Ethereum y tokens relacionados con seguridad criptográfica (la \"Moneda virtual\"); (b) facilita el envío de datos de transacciones de Moneda Virtual a cadenas de bloques basadas en Ethereum, RSK, Polygon y BSC. La clave privada está conectada a la dirección de Wallet y, en conjunto, se pueden utilizar para autorizar la transferencia de Moneda Virtual hacia y desde esa dirección de Wallet. Usted es el único responsable de mantener la seguridad de su clave privada. Debe mantener segura la dirección de Wallet y la información de acceso a la clave privada. El no hacerlo puede resultar en la pérdida de control de la Moneda Virtual asociada con la Cartera.<b> Xcapit Wallet no puede ayudar con la recuperación de la contraseña. Xcapit Wallet almacena su dirección de Wallet pero no recibe ni almacena su contraseña de Wallet, clave privada cifrada, clave privada no cifrada o frase mnemotécnica (de respaldo) asociada con su Wallet.</b> Por lo tanto, no podemos ayudarlo con la recuperación de la contraseña de Wallet. No podemos generar una nueva contraseña para su Billetera si no recuerda su contraseña original. Si no ha guardado de forma segura una copia de seguridad de cualquier dirección de Wallet y pares de claves privadas mantenidos en su Wallet, acepta y reconoce que cualquier Moneda virtual que haya asociado con dicha dirección de Wallet será inaccesible si no tiene su contraseña de Wallet. Todas las transacciones de moneda virtual propuestas deben confirmarse y registrarse en la cadena de bloques pública asociada de la moneda virtual. Dichas redes son redes descentralizadas, de igual a igual, respaldadas por terceros independientes, de los que no somos propietarios, no controlamos ni operamos. No tenemos control sobre las redes Ethereum, RSK, Polygon y BSC y, por lo tanto, no podemos asegurarnos de que los detalles de la transacción que envíe a través de nuestros Servicios sean confirmados y procesados. Al utilizar Xcapit Wallet, usted reconoce y acepta que los detalles de la transacción que envía pueden no ser completados, o pueden retrasarse sustancialmente, por Ethereum Networks. Xcapit Wallet no almacena ni transmite moneda virtual. No almacenamos, enviamos ni recibimos Moneda Virtual. Cualquier transferencia que ocurra en cualquier Moneda Virtual ocurre en las cadenas de bloques basadas en Ethereum, RSK, Polygon y BSC y no en una red de nuestra propiedad. Exactitud de la información proporcionada por el usuario. Usted declara y garantiza que cualquier información que proporcione a través de los Servicios es precisa y completa. Acepta y reconoce que no somos responsables de los errores u omisiones que cometa en relación con cualquier transacción de moneda virtual iniciada a través de los Servicios. Le recomendamos encarecidamente que revise los detalles de su transacción detenidamente antes de intentar transferir una moneda virtual.",
       "question4": "4- Sus responsabilidades",
       "answer4": "Excepto en la medida en que lo cause nuestro incumplimiento de este Acuerdo, (a) usted es responsable de todas las actividades que ocurran en su Cuenta, independientemente de si las actividades están autorizadas por usted o realizadas por usted, sus empleados o un tercero (incluido su contratistas, agentes o usuarios finales) y (b) nosotros y nuestros afiliados no somos responsables del acceso no autorizado a su Cuenta. 4.1 Su uso. Se asegurará de que su uso de los servicios no viole ninguna ley aplicable. 4.2 Su seguridad y respaldo. Usted es responsable de configurar y usar correctamente los Servicios y de tomar las medidas adecuadas para asegurar, proteger y hacer copias de seguridad de sus Cuentas y Su Contenido de una manera que proporcione la seguridad y protección adecuadas, lo que podría incluir el uso de cifrado.",
       "question5": "5- Servicios y contenido de terceros",
-      "answer5": "Xcapit Wallet le permite acceder y utilizar ciertas aplicaciones distribuidas (\"Dapps\") y plataformas de comercio de criptomonedas (\"Crypto Exchanges\") en la red Ethereum, RSK y Polygon, que están integradas o son compatibles con Xcapit Wallet. Estos Dapps y Crypto Exchanges son proporcionados por terceros que no están relacionados con Xcapit. Aunque facilitamos su acceso a estos Dapps y Crypto Exchanges, no somos responsables de ellos de ninguna manera. Su uso de Dapps y Crypto Exchanges estará sujeto a términos y condiciones distintos a los nuestros, que están disponibles en los sitios web correspondientes. No todos los intercambios criptográficos y Dapps admiten todos los tipos de activos criptográficos. Antes de iniciar cualquier transacción a través de Xcapit Wallet, debe asegurarse de que los criptoactivos que está enviando sean compatibles con la billetera del destinatario. No podrá recuperar ningún criptoactivo que haya enviado, y no seremos responsables ante usted de las pérdidas que sufra como resultado de que el destinatario rechace los criptoactivos que envíe como incompatibles o inadecuados.",
+      "answer5": "Xcapit Wallet le permite acceder y utilizar ciertas aplicaciones distribuidas (\"Dapps\") y plataformas de comercio de criptomonedas (\"Crypto Exchanges\") en la red Ethereum, RSK, Polygon y BSC, que están integradas o son compatibles con Xcapit Wallet. Estos Dapps y Crypto Exchanges son proporcionados por terceros que no están relacionados con Xcapit. Aunque facilitamos su acceso a estos Dapps y Crypto Exchanges, no somos responsables de ellos de ninguna manera. Su uso de Dapps y Crypto Exchanges estará sujeto a términos y condiciones distintos a los nuestros, que están disponibles en los sitios web correspondientes. No todos los intercambios criptográficos y Dapps admiten todos los tipos de activos criptográficos. Antes de iniciar cualquier transacción a través de Xcapit Wallet, debe asegurarse de que los criptoactivos que está enviando sean compatibles con la billetera del destinatario. No podrá recuperar ningún criptoactivo que haya enviado, y no seremos responsables ante usted de las pérdidas que sufra como resultado de que el destinatario rechace los criptoactivos que envíe como incompatibles o inadecuados.",
       "question6": "6- Suspensión de la cuenta",
       "answer6": "Generalmente. Podemos suspender Su derecho a acceder o utilizar cualquier parte o todos los Servicios inmediatamente después de que le notifiquemos si determinamos: (a) que su uso de los Servicios (i) plantea un riesgo de seguridad para los Servicios o cualquier tercero, (ii) podría afectar negativamente nuestros sistemas, los Servicios o los sistemas de cualquier otro usuario, (iii) podría someternos a nosotros, a nuestro afiliados, o cualquier tercero a responsabilidad, o (iv) podría ser fraudulento; (b) usted o cualquier Usuario final está incumpliendo este Acuerdo. ",
       "question7": "7- Uso de la wallet de Xcapit",
       "answer7": "No utilice nuestros Servicios para infringir la ley. Acepta que no violará ninguna ley al utilizar nuestros Servicios. Esto incluye cualquier ley local, provincial, estatal, federal, nacional o internacional que pueda aplicarse a usted. Usted acepta que no utilizará nuestros Servicios para pagar, respaldar o participar en actividades ilegales que incluyen, entre otras, apuestas ilegales, fraude, lavado de dinero o actividades terroristas. Si descubrimos que ha violado este Acuerdo u otros requisitos reglamentarios que incluyen, entre otros, la Ley de secreto bancario, al participar en el lavado de dinero o al financiar actividades terroristas, tomaremos medidas disciplinarias proporcionales. Además, acepta no alentar ni inducir a ningún tercero a participar en ninguna de las actividades prohibidas en esta Sección. No interfiera con el uso de los Servicios por parte de terceros. Usted acepta que no usará ni intentará usar la billetera de otro usuario sin autorización ni usará nuestros Servicios de ninguna manera que pueda interferir, interrumpir, afectar negativamente o inhibir a otros usuarios para que la disfruten por completo. No intente dañar nuestro sistema. Acepta no distribuir ningún virus u otro código informático dañino a través de Xcapit Wallet. También acepta no realizar ninguna acción que pueda imponer una carga irrazonable o desproporcionadamente grande en nuestra infraestructura o en la de cualquiera de nuestros proveedores externos. No intente eludir nuestra seguridad. Usted acepta no eludir o intentar eludir cualquier medida que podamos usar para prevenir o restringir el acceso a los Servicios, incluidas, entre otras, otras cuentas, sistemas informáticos o redes conectadas a los Servicios. Cualquier uso de Xcapit Wallet que no sea el autorizado específicamente en este Acuerdo, sin nuestro permiso previo por escrito, está estrictamente prohibido y terminará su licencia para usar Xcapit Wallet. ",
       "question8": "8- Limitación de responsabilidad y renuncia de garantías",
-      "answer8": "Si bien hacemos todo lo posible para asegurarnos de que las características y funcionalidades de la Wallet de Xcapit sean de un nivel razonablemente satisfactorio y coincidan con las descripciones que le hemos proporcionado. Sin embargo, Xcapit Wallet facilita su acceso a aplicaciones, servicios y redes operadas por terceros que están fuera de nuestro control. Como no somos propietarios ni producimos aplicaciones, servicios o redes de terceros, no podemos ser responsables de ellos de ninguna manera ni prometer que Xcapit Wallet siempre será compatible con dichos servicios de terceros. Haremos todo lo posible para asegurarnos de que cualquier elemento de la Wallet de Xcapit que requiera una conexión a Internet y la red Ethereum siempre esté disponible para usted. Sin embargo, debido a la naturaleza de Internet, la red Ethereum y la tecnología en general, es posible que dichas funciones no estén disponibles si necesitamos realizar algún mantenimiento de emergencia o programado en nuestros sistemas. Esto significa que no podemos prometer que el uso de esas funciones de la Wallet será siempre ininterrumpido, sin demoras, sin errores o que cumpla con sus expectativas. Le notificaremos de cualquier interrupción planificada; sin embargo, es posible que no podamos hacer esto si las interrupciones son causadas por circunstancias fuera de nuestro control. En la medida en que podamos hacerlo, excluimos cualquier compromiso que pueda estar implícito por ley. En el caso de reclamos que surjan de la provisión de la Wallet de Xcapit, nuestra responsabilidad hacia usted nunca será mayor que la cantidad que nos haya pagado, en el caso de que no nos haya pagado dinero, no tendremos responsabilidad alguna por usted. En todos los casos, nunca seremos responsables de ninguna pérdida o daño que no sea razonablemente previsible o que sea causado por su incumplimiento de estos Términos de servicio. La pérdida o el daño son previsibles si es obvio que sucederá o si, en el momento en que descargó la Wallet, tanto nosotros como usted sabíamos que podría suceder.  Usted nos libera de toda responsabilidad relacionada con pérdidas, daños o reclamos que surjan de: (a) errores del usuario, como contraseñas olvidadas, transacciones construidas incorrectamente o direcciones de moneda virtual mal escritas; (b) falla del servidor o pérdida de datos; (c) acceso no autorizado a la aplicación Xcapit Wallet; (d) errores u otros errores en el software Xcapit Wallet; y (e) cualquier actividad no autorizada de terceros, incluido, entre otros, el uso de virus, phishing, fuerza bruta u otros medios de ataque contra Xcapit Wallet. No hacemos ninguna declaración con respecto a ningún Contenido de terceros incluido o al que se accede a través de nuestros Servicios. Cualquier otro término, condición, garantía o representación asociada con dicho contenido es únicamente entre usted y dichas organizaciones y / o individuos.",
+      "answer8": "Si bien hacemos todo lo posible para asegurarnos de que las características y funcionalidades de la Wallet de Xcapit sean de un nivel razonablemente satisfactorio y coincidan con las descripciones que le hemos proporcionado. Sin embargo, Xcapit Wallet facilita su acceso a aplicaciones, servicios y redes operadas por terceros que están fuera de nuestro control. Como no somos propietarios ni producimos aplicaciones, servicios o redes de terceros, no podemos ser responsables de ellos de ninguna manera ni prometer que Xcapit Wallet siempre será compatible con dichos servicios de terceros. Haremos todo lo posible para asegurarnos de que cualquier elemento de la Wallet de Xcapit que requiera una conexión a Internet y las redes de Ethereum, RSK, Polygon y BSC, siempre estén disponible para usted. Sin embargo, debido a la naturaleza de Internet, la red Ethereum, RSK, Polygon y BSC y la tecnología en general, es posible que dichas funciones no estén disponibles si necesitamos realizar algún mantenimiento de emergencia o programado en nuestros sistemas. Esto significa que no podemos prometer que el uso de esas funciones de la Wallet será siempre ininterrumpido, sin demoras, sin errores o que cumpla con sus expectativas. Le notificaremos de cualquier interrupción planificada; sin embargo, es posible que no podamos hacer esto si las interrupciones son causadas por circunstancias fuera de nuestro control. En la medida en que podamos hacerlo, excluimos cualquier compromiso que pueda estar implícito por ley. En el caso de reclamos que surjan de la provisión de la Wallet de Xcapit, nuestra responsabilidad hacia usted nunca será mayor que la cantidad que nos haya pagado, en el caso de que no nos haya pagado dinero, no tendremos responsabilidad alguna por usted. En todos los casos, nunca seremos responsables de ninguna pérdida o daño que no sea razonablemente previsible o que sea causado por su incumplimiento de estos Términos de servicio. La pérdida o el daño son previsibles si es obvio que sucederá o si, en el momento en que descargó la Wallet, tanto nosotros como usted sabíamos que podría suceder.  Usted nos libera de toda responsabilidad relacionada con pérdidas, daños o reclamos que surjan de: (a) errores del usuario, como contraseñas olvidadas, transacciones construidas incorrectamente o direcciones de moneda virtual mal escritas; (b) falla del servidor o pérdida de datos; (c) acceso no autorizado a la aplicación Xcapit Wallet; (d) errores u otros errores en el software Xcapit Wallet; y (e) cualquier actividad no autorizada de terceros, incluido, entre otros, el uso de virus, phishing, fuerza bruta u otros medios de ataque contra Xcapit Wallet. No hacemos ninguna declaración con respecto a ningún Contenido de terceros incluido o al que se accede a través de nuestros Servicios. Cualquier otro término, condición, garantía o representación asociada con dicho contenido es únicamente entre usted y dichas organizaciones y / o individuos.",
       "question9": "9- Limitación de tiempo para reclamos",
       "answer9": "Usted acepta que cualquier reclamo que pueda tener que surja de o esté relacionado con su relación con nosotros debe presentarse dentro de un año después de que surja dicho reclamo; de lo contrario, su reclamo quedará excluido permanentemente.",
       "question10": "10- Modificaciones a los términos y condiciones",
@@ -2395,22 +2526,22 @@
     }
   },
   "wealth_managements": {
-    "header": "Perfil de inversionista",
-    "title": "¿Qué tipo de inversionista eres?",
-    "subtitle": "Realiza el test de perfil de inversionista, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
+    "header": "Perfil de inversor",
+    "title": "¿Qué tipo de inversor eres?",
+    "subtitle": "Realiza el test de perfil de inversor, o escogelo manualmente y descubre que inversiones podrían ser adecuadas para ti. ",
     "investor_test_options": {
       "title1": "Tomar el test",
-      "description1": "Conoce tu perfil de inversionista haciendo este test.",
+      "description1": "Conoce tu perfil de inversor haciendo este test.",
       "title2": "Escoger manualmente",
-      "description2": "Si ya conoces tu perfil de inversionista, selecciónalo manualmente."
+      "description2": "Si ya conoces tu perfil de inversor, selecciónalo manualmente."
     },
     "success": {
-      "textPrimary": "¡Felicitaciones! Tu perfil de inversionista es {{testResult}} ",
-      "namePrimaryAction": "Ir a mi perfil de inversionista",
+      "textPrimary": "¡Felicitaciones! Tu perfil de inversor es {{testResult}} ",
+      "namePrimaryAction": "Ir a mi perfil de inversor",
       "nameSecondaryAction": "Volver al incio"
     },
     "investor_test": {
-      "header": "Test de inversionista",
+      "header": "Test de inversor",
       "next_button": "Continuar",
       "submit_button": "Finalizar y enviar test"
     },
@@ -2421,7 +2552,7 @@
     },
     "about_investor_profile": {
       "of": "de",
-      "header": "Perfil de inversionista",
+      "header": "Perfil de inversor",
       "button_select": "Este es mi perfil",
       "conservative_profile": {
         "title": "Perfil Conservador",
@@ -2435,6 +2566,12 @@
         "title": "Perfil Agresivo",
         "subtitle": "Buscas los mayores rendimientos posibles, por lo que estas dispuesto a asumir el riesgo que sea necesario. No es recomendable mantener esta actitud de riesgo cuando no cuentas con la suficiente solvencia, o si se tienes compromisos familiares importantes."
       }
+    },
+    "no_wallet": {
+      "title": "Aún no tienes tu Wallet Xcapit",
+      "subtitle": "Crea tu wallet para comenzar a invertir.",
+      "button": "Crear Wallet",
+      "link": "Volver a inversiones"
     }
   }
 }

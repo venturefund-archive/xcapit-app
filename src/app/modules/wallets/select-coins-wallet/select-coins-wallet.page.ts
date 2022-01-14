@@ -248,7 +248,7 @@ export class SelectCoinsWalletPage implements OnInit {
   setUserCoins() {
     this.getSuiteFormGroupKeys().forEach((network) => {
       this.getCoinFormGroupKeys(network).forEach((coinKey) => {
-        if (this.form.value[network][coinKey]) {
+        if (this.form.value[network][coinKey] !== undefined) {
           const coin = this.apiWalletService.getCoin(coinKey, network);
           if (coin) this.walletService.coins.push(coin);
         }
