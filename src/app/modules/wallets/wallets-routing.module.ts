@@ -141,10 +141,6 @@ const routes: Routes = [
         loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
       },
       {
-        path: 'nft-detail',
-        loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
-      },
-      {
         path: 'password-change',
         children: [
           {
@@ -160,7 +156,11 @@ const routes: Routes = [
             loadChildren: () => import('./password/wallet-password-change-error/wallet-password-change-error.module').then( m => m.WalletPasswordChangeErrorPageModule)
           },
         ]
-      }
+      },
+      {
+        path: 'nft-detail',
+        loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
+      },
     ],
   },
 ];
