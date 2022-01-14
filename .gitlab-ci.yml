@@ -1,7 +1,4 @@
 ---
-include:
-  - template: Code-Quality.gitlab-ci.yml
-
 stages:
   - syntax
   - test
@@ -22,8 +19,11 @@ variables:
   NODE_VERSION: '14'
 
 cache:
+  key:
+    files:
+      - yarn.lock
   paths:
-    - node_modules/
+    - node_modules
 
 ###########################################################################
 ###########################################################################
@@ -32,13 +32,14 @@ cache:
 ### Syntax check
 .syntax-check: &syntax-check
   stage: syntax
-  # tags:
-  #   - foss
-  #   - gitlab-org
   image: node:${NODE_VERSION}-alpine
   cache:
-    untracked: true
-    key: ${CI_COMMIT_REF_SLUG}
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - node_modules
+    policy: pull
   before_script:
     - cd ${SRC_DIR}
   script:
@@ -48,40 +49,38 @@ cache:
 ### NodeJS test
 .nodejs-test: &nodejs-test
   stage: test
-  # tags:
-  #   - foss
-  #   - gitlab-org
   image: node:${NODE_VERSION}
   cache:
-    untracked: true
-    key: ${CI_COMMIT_REF_SLUG}
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - node_modules
+    policy: pull
   variables:
     CI: 'true'
     COVERALLS_REPO_TOKEN: $COVERALLS_REPO_TOKEN
 
   before_script:
     - cd ${SRC_DIR}
-    - apt-get update -y
+    - apt-get update -yqq
     - apt-get -qq install --no-install-recommends -y xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps default-jre fonts-liberation xdg-utils
     - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list
     - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-    - apt-get update -y
+    - apt-get update -yqq
     - apt-get -qq install --no-install-recommends -y google-chrome-stable
     - Xvfb :0 -ac -screen 0 1024x768x24 &
     - export DISPLAY=:99
-    - npm install --silent --unsafe-perm -g @angular/cli@1.1.2
-    - npm install --silent yarn
+  script:
+    - npm install --silent yarn 
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
-  script:
     - npm run test-ci
+    
 
 ### Docker lint
 .docker-lint: &docker-lint
   stage: syntax
-  # tags:
-  #   - foss
-  #   - gitlab-org
   image: '${HADOLINT_REPO}:${HADOLINT_TAG}'
   before_script:
     - hadolint --version
@@ -92,9 +91,6 @@ cache:
 ### Semantic release
 .semantic-release: &semantic-release
   stage: release
-  # tags:
-  #   - foss
-  #   - gitlab-org
   image: node:${NODE_VERSION}
   before_script:
     - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D
@@ -115,14 +111,6 @@ docker_lint:
 ### Syntax check
 syntax_checking:
   <<: *syntax-check
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
-
-code_quality:
-  stage: test
-  artifacts:
-    paths: [gl-code-quality-report.json]
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
