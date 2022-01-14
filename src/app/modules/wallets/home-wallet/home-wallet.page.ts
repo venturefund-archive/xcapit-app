@@ -152,7 +152,6 @@ export class HomeWalletPage implements OnInit {
   totalBalanceWallet = 0;
   balances: AssetBalanceModel[] = [];
   nftStatus = '';
-  alreadyInitialized = false;
   selectedAssets: Coin[];
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
@@ -180,10 +179,7 @@ export class HomeWalletPage implements OnInit {
   ngOnInit() {}
 
   async ionViewDidEnter() {
-    if (!this.alreadyInitialized) {
-      await this.initialize();
-      this.alreadyInitialized = true;
-    }
+    await this.initialize();
   }
 
   async initialize(): Promise<void> {
@@ -264,8 +260,9 @@ export class HomeWalletPage implements OnInit {
   private loadNextPage(): void {
     const page = this.selectedAssets.slice(this.balances.length, this.endPageIndex()).map((aCoin: Coin) => {
       const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
-      assetBalance.cachedBalance();
-      this.enqueue(assetBalance);
+      assetBalance.cachedBalance().then(() => {
+        this.enqueue(assetBalance);
+      });
       this.sumTotalBalance(assetBalance);
       return assetBalance;
     });

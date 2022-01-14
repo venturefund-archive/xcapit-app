@@ -135,13 +135,6 @@ describe('HomeWalletPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not initialize when page is already initialized', () => {
-    component.alreadyInitialized = true;
-    const spy = spyOn(component, 'initialize');
-    component.ionViewDidEnter();
-    expect(spy).not.toHaveBeenCalled();
-  });
-
   it('should initialize on view did enter', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
@@ -166,11 +159,9 @@ describe('HomeWalletPage', () => {
   }));
 
   it('should not re-initialize when refresher is not available', fakeAsync(() => {
-    component.alreadyInitialized = true;
     refreshTimeoutServiceSpy.isAvailable.and.returnValue(false);
     const eventMock = { target: { complete: jasmine.createSpy('complete') } };
     const spy = spyOn(component, 'initialize');
-    component.ionViewDidEnter();
     tick();
     fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
     tick(1000);
