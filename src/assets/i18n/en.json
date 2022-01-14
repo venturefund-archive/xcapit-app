@@ -226,8 +226,8 @@
       "buy_crypto": "Buy Crypto",
       "investment_strategies": "Investment strategies",
       "capital_security": "Capital Security",
-      "wallet":"Wallet",
-      "nft":"NFT",
+      "wallet": "Wallet",
+      "nft": "NFT",
       "others": "Others"
     }
   },
@@ -1605,8 +1605,8 @@
       "coming_soon": {
         "header": "Investment"
       },
-      "defi_investment_products":{
-        "header":"Defi investments"
+      "defi_investment_products": {
+        "header": "Defi investments"
       }
     },
     "shared_wallets": {
@@ -1618,15 +1618,14 @@
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
       },
-      "defi_investment_product":{
-        "performance":"Estimated yield",
-        "liquidity":"Liquidity",
-        "not_min_ammount":"No minimum amount",
-        "immediate_rescue":"Immediate Rescue",
-        "coming_badge":"Coming",
-        "invest_button":"Invest",
-        "annual":"Annual"
-        
+      "defi_investment_product": {
+        "performance": "Estimated yield",
+        "liquidity": "Liquidity",
+        "not_min_ammount": "No minimum amount",
+        "immediate_rescue": "Immediate Rescue",
+        "coming_badge": "Coming",
+        "invest_button": "Invest",
+        "annual": "Annual"
       },
       "address_input_card": {
         "scan_error": "Error scanning QR code",
@@ -2382,7 +2381,8 @@
         "deposit_asset": "Deposit",
         "receive_asset": "Obtain",
         "platform": "Platform",
-        "annual": "% Annual"
+        "annual": "% Annual",
+        "blockchain": "Blockchain"
       }
     }
   }

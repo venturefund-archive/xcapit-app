@@ -2579,7 +2579,8 @@
         "deposit_asset": "Depositas",
         "receive_asset": "Obtienes",
         "platform": "Plataforma",
-        "annual": "% Anual"
+        "annual": "% Anual",
+        "blockchain": "Blockchain"
       }
     }
   }
