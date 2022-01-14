@@ -67,7 +67,7 @@ const formData = {
   },
 };
 
-fdescribe('WalletPasswordChangePage', () => {
+describe('WalletPasswordChangePage', () => {
   let component: WalletPasswordChangePage;
   let fixture: ComponentFixture<WalletPasswordChangePage>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;

@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
+import { EthersService } from '../ethers/ethers.service'
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class WalletEncryptionService {
   constructor(
     private walletService: WalletService,
     private storageService: StorageService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private ethersService: EthersService
   ) {}
 
   encryptWallet(password: string): Promise<any> {
@@ -97,7 +99,9 @@ export class WalletEncryptionService {
   }
 
   async changePassword(oldPassword: string, newPassword: string): Promise<void> {
-    // TODO: Implement this
-    return Promise.reject();
+    const encryptedWallet = await this.storageService.getWalletFromStorage();
+    const wallet = this.ethersService.decryptWalletJsonSync(encryptedWallet.wallet, oldPassword);
+    encryptedWallet.wallet = await this.ethersService.encryptWallet(wallet, newPassword);
+    await this.storageService.saveWalletToStorage(encryptedWallet);
   }
 }
