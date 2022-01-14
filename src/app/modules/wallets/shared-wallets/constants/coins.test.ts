@@ -101,6 +101,19 @@ export const TEST_MATIC_COINS: Coin[] = [
     decimals: 18,
     native: true,
   },
+  {
+    id: 8,
+    name: 'USDC - USD Coin',
+    logoRoute: 'assets/img/coins/USDC.png',
+    last: false,
+    value: 'USDC',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: 'http://testrpc.text/',
+    moonpayCode: 'usdc_polygon',
+    decimals: 6,
+    symbol: 'USDCUSDT',
+  },
 ];
 
 export const TEST_BSC_BEP20_COINS: Coin[] = [

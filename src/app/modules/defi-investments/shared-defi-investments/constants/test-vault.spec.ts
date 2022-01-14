@@ -21,6 +21,6 @@ export const TEST_VAULTS = [
     pid: 1,
     token: 'DAI',
     token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
-    tvl: 967067802215235921660857,
+    tvl: 123456789,
   } as Vault,
 ];
