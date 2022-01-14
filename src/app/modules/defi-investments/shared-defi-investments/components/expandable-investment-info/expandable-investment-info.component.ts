@@ -13,12 +13,16 @@ import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/t
             </div>
             <div class="eif__accordion__header__content__text">
               <ion-label>
-                <ion-text class="eif__accordion__header__content__text__token-symbol ux-font-text-lg">{{
-                  (this.investmentProduct?.token.name | splitString: ' - ')[0]
-                }}</ion-text>
-                <ion-text class="eif__accordion__header__content__text__token-name ux-font-text-base">{{
-                  (this.investmentProduct?.token.name | splitString: ' - ')[1]
-                }}</ion-text>
+                <ion-text
+                  *ngIf="this.investmentProduct?.token.name"
+                  class="eif__accordion__header__content__text__token-symbol ux-font-text-lg"
+                  >{{ (this.investmentProduct?.token.name | splitString: ' - ')[0] }}</ion-text
+                >
+                <ion-text
+                  *ngIf="this.investmentProduct?.token.name"
+                  class="eif__accordion__header__content__text__token-name ux-font-text-base"
+                  >{{ (this.investmentProduct?.token.name | splitString: ' - ')[1] }}</ion-text
+                >
               </ion-label>
               <ion-badge class="ux-font-num-subtitulo">
                 {{ this.investmentProduct?.apy | number: '1.2-2'

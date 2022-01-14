@@ -19,7 +19,7 @@ const testInvestmentProduct = {
   provider: '2PI',
 } as TwoPiInvestmentProduct;
 
-fdescribe('ExpandableInvestmentInfoComponent', () => {
+describe('ExpandableInvestmentInfoComponent', () => {
   let component: ExpandableInvestmentInfoComponent;
   let fixture: ComponentFixture<ExpandableInvestmentInfoComponent>;
   let twoPiInvestmentProductSpy: jasmine.SpyObj<TwoPiInvestmentProduct>;
