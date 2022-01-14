@@ -1,52 +1,24 @@
 import { Injectable } from '@angular/core';
-import { defer, isObservable, Observable, of, Subject } from 'rxjs';
-import { delay, mergeAll } from 'rxjs/operators';
-
-type Task = Observable<any> | (() => Promise<any>);
-
-export class Queue {}
-
+import { Observable } from 'rxjs';
+import { Queue } from './queue';
+import { Task } from './task.type';
 @Injectable({
   providedIn: 'root',
 })
 export class QueueService {
-  private _concurrency: number = 2;
-  queue: Subject<any>;
-  results: any;
+  queues: { [name: string]: Queue } = {};
 
-  constructor() {
-    this.clear();
-    this.setResults();
+  constructor() {}
+
+  create(name: string, concurrency: number): void {
+    this.queues[name] = new Queue(concurrency);
   }
 
-  private setResults() {
-    this.results = this.queue.pipe(mergeAll(this._concurrency));
+  enqueue(queue: string, task: Task): void {
+    this.queues[queue].enqueue(task);
   }
 
-  set concurrency(concurrency: number) {
-    this._concurrency = concurrency;
-    this.setResults();
-  }
-
-  add(aTask: Task): void {
-    this.queue.next(isObservable(aTask) ? aTask : defer(() => aTask()));
-  }
-
-  clear(): void {
-    this.queue = new Subject();
-  }
-
-  async test() {
-    // Subscribe to results
-    this.results.subscribe((res) => {
-      console.log(res);
-    });
-
-    for (let i = 0; i < 10; i++) {
-      // function that returns promise
-      this.add(() => new Promise<string>((resolve) => setTimeout(() => resolve('Promise ' + i), 3000)));
-      // observable
-      this.add(of('observable ' + i).pipe(delay(3000)));
-    }
+  results(queue: string): Observable<any> {
+    return this.queues[queue].results;
   }
 }
