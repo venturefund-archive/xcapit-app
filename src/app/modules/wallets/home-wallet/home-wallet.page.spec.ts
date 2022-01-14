@@ -1,6 +1,6 @@
-import { BalanceCacheService } from './../shared-wallets/services/balance-cache/balance-cache.service';
+import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
@@ -8,7 +8,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { of } from 'rxjs';
+import { isObservable, of } from 'rxjs';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
@@ -19,6 +19,7 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { TEST_ERC20_COINS } from '../shared-wallets/constants/coins.test';
+import { QueueService } from '../../../shared/services/queue/queue.service';
 
 const balances: Array<AssetBalance> = [
   {
@@ -61,6 +62,7 @@ describe('HomeWalletPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let ionInfiniteScrollSpy: jasmine.SpyObj<IonInfiniteScroll>;
+  let queueServiceSpy: jasmine.SpyObj<QueueService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -69,6 +71,7 @@ describe('HomeWalletPage', () => {
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getNFTStatus: of({ status: 'claimed' }),
         createNFTRequest: of({}),
+        getNetworks: ['ERC20'],
       });
 
       fakeWalletService = new FakeWalletService(true);
@@ -97,6 +100,13 @@ describe('HomeWalletPage', () => {
 
       ionInfiniteScrollSpy = jasmine.createSpyObj('IonInfiniteScroll', { complete: Promise.resolve() });
 
+      queueServiceSpy = jasmine.createSpyObj('QueueService', {
+        create: null,
+        enqueue: null,
+        results: of({}),
+      });
+      queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
+
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -108,6 +118,7 @@ describe('HomeWalletPage', () => {
           { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
+          { provide: QueueService, useValue: queueServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -219,5 +230,13 @@ describe('HomeWalletPage', () => {
     claimNFTCardComponent.triggerEventHandler('nftRequest', null);
     fixture.detectChanges();
     expect(component.nftStatus).toEqual('claimed');
+  });
+
+  it('should unsubscribe on did leave', () => {
+    const spy = jasmine.createSpyObj('Subscription', { unsubscribe: null });
+    component.subscriptions$ = [spy];
+    fixture.detectChanges();
+    component.ionViewDidLeave();
+    expect(spy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });
