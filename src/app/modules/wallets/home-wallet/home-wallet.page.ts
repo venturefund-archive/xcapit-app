@@ -11,7 +11,7 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
 import { QueueService } from '../../../shared/services/queue/queue.service';
-import { interval, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-wallet',
