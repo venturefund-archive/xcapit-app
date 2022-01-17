@@ -27,15 +27,15 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
             icon="ux-money-flow"
           ></app-icon-button-card>
         </div>
-        <div class="wsb__card-buttons__buy-card card">
-          <app-icon-button-card
-            (click)="this.goToBuy()"
-            appTrackClick
-            name="Go to Buy"
-            [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
-            icon="ux-buy-sell"
-          ></app-icon-button-card>
-        </div>
+<!--        <div class="wsb__card-buttons__buy-card card">-->
+<!--          <app-icon-button-card-->
+<!--            (click)="this.goToBuy()"-->
+<!--            appTrackClick-->
+<!--            name="Go to Buy"-->
+<!--            [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"-->
+<!--            icon="ux-buy-sell"-->
+<!--          ></app-icon-button-card>-->
+<!--        </div>-->
         <div class="wsb__card-buttons__performance card">
           <app-icon-button-card
             (click)="this.goToPerformance()"

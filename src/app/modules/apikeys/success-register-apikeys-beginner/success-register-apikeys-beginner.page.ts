@@ -22,14 +22,14 @@ export class SuccessRegisterApikeysBeginnerPage implements OnInit {
   }
 
   walletExist() {
-    const data = SUCCESS_TYPES.apikeys_register_success_begginer;
+    // const data = SUCCESS_TYPES.apikeys_register_success_begginer;
     this.walletService.walletExist().then((res) => {
       this.existWallet = res;
-      if (this.existWallet) {
-        data.urlThirdAction = '/fiat-ramps/moonpay';
-      } else {
-        data.urlThirdAction = '/fiat-ramps/no-wallet-to-buy';
-      }
+      // if (this.existWallet) {
+      //   data.urlThirdAction = '/fiat-ramps/moonpay';
+      // } else {
+      //   data.urlThirdAction = '/fiat-ramps/no-wallet-to-buy';
+      // }
     });
   }
 

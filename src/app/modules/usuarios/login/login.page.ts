@@ -9,7 +9,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+// import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 @Component({
   selector: 'app-login',
@@ -56,24 +56,24 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
           </ion-button>
         </div>
       </app-auth-form>
-      <div class="ion-text-center">
-        <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
-      </div>
+<!--      <div class="ion-text-center">-->
+<!--        <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>-->
+<!--      </div>-->
 
-      <ion-button
-        appTrackClick
-        name="Google Auth"
-        expand="block"
-        fill="clear"
-        size="large"
-        type="button"
-        class="ux_button google-auth color"
-        [disabled]="this.submitButtonService.isDisabled | async"
-        (click)="this.googleSingUp()"
-      >
-        <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
-        <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
-      </ion-button>
+<!--      <ion-button-->
+<!--        appTrackClick-->
+<!--        name="Google Auth"-->
+<!--        expand="block"-->
+<!--        fill="clear"-->
+<!--        size="large"-->
+<!--        type="button"-->
+<!--        class="ux_button google-auth color"-->
+<!--        [disabled]="this.submitButtonService.isDisabled | async"-->
+<!--        (click)="this.googleSingUp()"-->
+<!--      >-->
+<!--        <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />-->
+<!--        <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>-->
+<!--      </ion-button>-->
       <div class="auth-link-reset-password main__reset_password">
         <ion-button
           class="main__reset_password__button ux-link-xs"
@@ -94,7 +94,7 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 })
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
-  googleAuthPlugin: any = GoogleAuth;
+  // googleAuthPlugin: any = GoogleAuth;
   alreadyOnboarded: boolean;
 
   constructor(
@@ -112,20 +112,20 @@ export class LoginPage implements OnInit {
 
   ionViewWillEnter() {
     this.storage.get('FINISHED_ONBOARDING').then((res) => (this.alreadyOnboarded = res));
-    this.googleAuthPlugin.init();
+    // this.googleAuthPlugin.init();
   }
 
-  async googleSingUp() {
-    let googleUser;
-
-    try {
-      googleUser = await this.googleAuthPlugin.signIn();
-    } catch (e) {
-      return;
-    }
-
-    this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
-  }
+  // async googleSingUp() {
+  //   let googleUser;
+  //
+  //   try {
+  //     googleUser = await this.googleAuthPlugin.signIn();
+  //   } catch (e) {
+  //     return;
+  //   }
+  //
+  //   this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
+  // }
 
   loginUser(data: any) {
     this.loadingService.show().then(() => {

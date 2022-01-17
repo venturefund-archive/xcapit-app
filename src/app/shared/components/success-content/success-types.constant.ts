@@ -62,13 +62,10 @@ export const SUCCESS_TYPES = {
     urlClose: '/tabs/home',
     urlPrimaryAction: '/funds/fund-name',
     urlSecondaryAction: '/tabs/home',
-    urlThirdAction: '/fiat-ramps/moonpay',
     textPrimary: 'apikeys.register_success_beginner.textPrimary',
     textSecondary: 'apikeys.register_success_beginner.textSecondary',
-    textThird: 'apikeys.register_success_beginner.textThird',
     namePrimaryAction: 'apikeys.register_success_beginner.namePrimaryAction',
     nameSecondaryAction: 'apikeys.register_success_beginner.nameSecondaryAction',
-    nameThirdAction: 'apikeys.register_success_beginner.nameThirdAction',
   },
   apikeys_register_success: {
     urlClose: '/tabs/home',
