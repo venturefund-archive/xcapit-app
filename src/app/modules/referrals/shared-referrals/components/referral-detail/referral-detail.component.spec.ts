@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
 import { ReferralDetailComponent } from './referral-detail.component';
 import { By } from '@angular/platform-browser';
 
@@ -37,16 +36,7 @@ describe('ReferralDetailComponent', () => {
     const subtitleEl = fixture.debugElement.query(By.css('.rd__subtitle'));
     expect(subtitleEl.nativeElement.innerHTML).toContain('testSubtitle');
 
-    const rewardEl = fixture.debugElement.query(By.css('.rd__reward'));
-    expect(rewardEl).not.toBeTruthy();
-  });
-
-  it('should render reward when reward is set', async () => {
-    component.reward = 1;
-    fixture.detectChanges();
-    await fixture.whenRenderingDone();
-
-    const rewardElWithReward = fixture.debugElement.query(By.css('.rd__reward'));
-    expect(rewardElWithReward.nativeElement.innerHTML).toContain('10');
+    const quantityEl = fixture.debugElement.query(By.css('.rd__quantity'));
+    expect(quantityEl).toBeTruthy();
   });
 });
