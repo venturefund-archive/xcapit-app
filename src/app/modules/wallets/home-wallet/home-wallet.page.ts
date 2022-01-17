@@ -185,6 +185,7 @@ export class HomeWalletPage implements OnInit {
 
   async initialize(): Promise<void> {
     await this.content.scrollToTop(0);
+    this.infiniteScrollDisabled();
     this.clearBalances();
     await this.checkWalletExist();
     await this.getAssetsSelected();
