@@ -20,6 +20,7 @@ import { ToastService } from '../../services/toast/toast.service';
           [placeholder]="this.placeholder"
           [maxlength]="this.maxlength"
           [readonly]="this.readonly"
+          [clearOnEdit]="false"
         ></ion-input>
 
         <ion-icon
