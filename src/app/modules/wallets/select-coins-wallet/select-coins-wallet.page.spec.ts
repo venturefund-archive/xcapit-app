@@ -189,6 +189,7 @@ describe('SelectCoinsWalletPage', () => {
         'WalletService',
         {
           create: Promise.resolve({}),
+          selectedCoins: false,
         },
         { coins: JSON.parse(JSON.stringify(testSelectedTokens)) }
       );
@@ -292,20 +293,6 @@ describe('SelectCoinsWalletPage', () => {
       it('should set mode on ionViewWillEnter when mode exists', () => {
         component.ionViewWillEnter();
         expect(component.mode).toEqual(testCase.mode.value);
-      });
-
-      it('should set coins in wallet service on handleSubmit and valid form', () => {
-        (Object.getOwnPropertyDescriptor(walletServiceSpy, 'coins').get as jasmine.Spy).and.returnValue([]);
-        component.almostOneChecked = true;
-        component.userCoinsLoaded = true;
-        spyOn(component, 'editTokens').and.returnValue(Promise.resolve());
-        spyOn(component, 'importWallet').and.returnValue(undefined);
-        spyOn(component, 'createWallet').and.returnValue(undefined);
-        component.createForm();
-        component.form.patchValue(formData.valid);
-        fixture.detectChanges();
-        fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-        expect(walletServiceSpy.coins.length).toEqual(9);
       });
 
       it('should change texts on header and Submit button', async () => {
@@ -431,6 +418,27 @@ describe('SelectCoinsWalletPage', () => {
           });
         });
       } else {
+        it('should set coins in wallet service on handleSubmit and valid form', () => {
+          (Object.getOwnPropertyDescriptor(walletServiceSpy, 'coins').get as jasmine.Spy).and.returnValue([]);
+          component.almostOneChecked = true;
+          component.userCoinsLoaded = true;
+          component.createForm();
+          component.form.patchValue(formData.valid);
+          fixture.detectChanges();
+          fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
+          expect(walletServiceSpy.coins.length).toEqual(2);
+        });
+
+        it(`should load prevoiusly selected assets if user came back from other page`, () => {
+          (Object.getOwnPropertyDescriptor(walletServiceSpy, 'coins').get as jasmine.Spy).and.returnValue([
+            TEST_ERC20_COINS[0],
+            TEST_ERC20_COINS[3],
+          ]);
+          walletServiceSpy.selectedCoins.and.returnValue(true);
+          component.ionViewWillEnter();
+          expect(component.form.value).toEqual(formData.valid);
+        });
+
         it(`should show loader, ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
           testCase.onSubmit.navigateTo.pageName
         } on form submit`, fakeAsync(() => {

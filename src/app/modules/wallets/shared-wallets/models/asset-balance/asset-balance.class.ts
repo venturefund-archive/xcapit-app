@@ -61,8 +61,10 @@ export class AssetBalanceModel {
 
   cachedBalance(): Promise<void> {
     return this.balanceCacheService.coin(this.coin).then((cachedCoin: CachedCoin) => {
-      this.amount = cachedCoin.balance;
-      this.price = cachedCoin.price;
+      if (cachedCoin) {
+        this.amount = cachedCoin.balance;
+        this.price = cachedCoin.price;
+      }
     });
   }
 }
