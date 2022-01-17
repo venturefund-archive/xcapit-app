@@ -1,4 +1,4 @@
-import { BalanceCacheService } from './../../services/balance-cache/balance-cache.service';
+import { BalanceCacheService } from '../../services/balance-cache/balance-cache.service';
 import { WalletBalanceService } from '../../services/wallet-balance/wallet-balance.service';
 import { AssetBalanceModel } from './asset-balance.class';
 import { Coin } from '../../interfaces/coin.interface';
@@ -57,9 +57,9 @@ describe('AssetBalanceModel', () => {
     expect(balanceCacheServiceSpy.coin).toHaveBeenCalledOnceWith(testCoin);
   });
 
-  it('should return cached balance', async () => {
-    assetBalanceModel.balance();
-    assetBalanceModel.getPrice();
-    await expectAsync(assetBalanceModel.quoteBalance()).toBeResolvedTo(50);
+  it('should set quote balance', async () => {
+    await assetBalanceModel.balance();
+    await assetBalanceModel.getPrice();
+    await expectAsync(assetBalanceModel.quoteBalance.toPromise()).toBeResolvedTo(50);
   });
 });

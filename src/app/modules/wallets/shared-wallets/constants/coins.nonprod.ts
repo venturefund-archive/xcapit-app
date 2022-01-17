@@ -1,6 +1,5 @@
 import { Coin } from '../interfaces/coin.interface';
 import { environment } from 'src/environments/environment';
-import aaveAbi from './assets-abi/aave-abi.json';
 import linkAbi from './assets-abi/link-abi.json';
 import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
@@ -9,6 +8,9 @@ import sovAbi from './assets-abi/sov-abi.json';
 import busdAbi from './assets-abi/busd-abi.json';
 import cakeAbi from './assets-abi/cake-abi.json';
 import adaAbi from './assets-abi/ada-abi.json';
+
+
+
 export const NONPROD_COINS: Coin[] = [
   {
     id: 1,
@@ -62,8 +64,6 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
     moonpayCode: 'aave',
-    contract: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
-    abi: aaveAbi,
     decimals: 18,
     symbol: 'AAVEUSDT',
   },
@@ -84,6 +84,104 @@ export const NONPROD_COINS: Coin[] = [
   },
   {
     id: 6,
+    name: 'LUNA',
+    logoRoute: 'assets/img/coins/LUNA.png',
+    last: false,
+    value: 'LUNA',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: environment.ethAlchemyApiUrl,
+    decimals: 18,
+    symbol: 'LUNAUSDT',
+  },
+  {
+    id: 7,
+    name: 'AXS - Axie Infinity Shard',
+    logoRoute: 'assets/img/coins/AXS.png',
+    last: false,
+    value: 'AXS',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: environment.ethAlchemyApiUrl,
+    decimals: 18,
+    symbol: 'AXSUSDT',
+  },
+  {
+    id: 8,
+    name: 'MANA - Decentraland',
+    logoRoute: 'assets/img/coins/MANA.png',
+    last: false,
+    value: 'MANA',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: environment.ethAlchemyApiUrl,
+    moonpayCode: 'mana',
+    decimals: 18,
+    symbol: 'MANAUSDT',
+  },
+  {
+    id: 9,
+    name: 'SUSHI',
+    logoRoute: 'assets/img/coins/SUSHI.png',
+    last: false,
+    value: 'SUSHI',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: environment.ethAlchemyApiUrl,
+    decimals: 18,
+    symbol: 'SUSHIUSDT',
+  },
+  {
+    id: 10,
+    name: 'COMPOUND',
+    logoRoute: 'assets/img/coins/COMPOUND.png',
+    last: false,
+    value: 'COMP',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: environment.ethAlchemyApiUrl,
+    decimals: 18,
+    symbol: 'COMPUSDT',
+  },
+  {
+    id: 11,
+    name: 'ZIL - Zilliqa',
+    logoRoute: 'assets/img/coins/ZILLIQA.png',
+    last: false,
+    value: 'ZIL',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: environment.ethAlchemyApiUrl,
+    decimals: 18,
+    symbol: 'ZILUSDT',
+  },
+  {
+    id: 12,
+    name: 'ENJ - EnjinCoin',
+    logoRoute: 'assets/img/coins/ENJ.png',
+    last: false,
+    value: 'ENJ',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: environment.ethAlchemyApiUrl,
+    moonpayCode: 'enj',
+    decimals: 18,
+    symbol: 'ENJUSDT',
+  },
+  {
+    id: 13,
+    name: 'BAT',
+    logoRoute: 'assets/img/coins/BAT.png',
+    last: true,
+    value: 'BAT',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: environment.ethAlchemyApiUrl,
+    decimals: 18,
+    symbol: 'BATUSDT',
+  },
+  {
+    id: 14,
     name: 'RBTC - Smart Bitcoin',
     logoRoute: 'assets/img/coins/RBTC.png',
     last: false,
@@ -95,7 +193,7 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'BTCUSDT',
   },
   {
-    id: 7,
+    id: 15,
     name: 'RIF - Rifos',
     logoRoute: 'assets/img/coins/RIF.png',
     last: true,
@@ -110,7 +208,7 @@ export const NONPROD_COINS: Coin[] = [
   },
 
   {
-    id: 8,
+    id: 16,
     name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
     last: false,
@@ -124,7 +222,7 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'MATICUSDT',
   },
   {
-    id: 9,
+    id: 17,
     name: 'SOV - Sovryn',
     logoRoute: 'assets/img/coins/SOV.png',
     last: false,
@@ -137,7 +235,7 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 18,
   },
   {
-    id: 10,
+    id: 18,
     name: 'BNB - Binance Coin',
     logoRoute: 'assets/img/coins/BNB.svg',
     last: false,
@@ -151,7 +249,7 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'BNBUSDT',
   },
   {
-    id: 11,
+    id: 19,
     name: 'CAKE - Pancake Swap',
     logoRoute: 'assets/img/coins/PANCAKE.png',
     last: false,
@@ -165,7 +263,7 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'CAKEUSDT',
   },
   {
-    id: 12,
+    id: 20,
     name: 'ADA - Cardano Token',
     logoRoute: 'assets/img/coins/ADA.png',
     last: false,
@@ -179,7 +277,7 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'ADAUSDT',
   },
   {
-    id: 13,
+    id: 21,
     name: 'BUSD - Binance USD',
     logoRoute: 'assets/img/coins/BUSD.png',
     last: false,
@@ -193,7 +291,19 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'BUSDUSDT',
   },
   {
-    id: 14,
+    id: 22,
+    name: 'AVAX - Avalanche Token',
+    logoRoute: 'assets/img/coins/AVAX.png',
+    last: false,
+    value: 'AVAX',
+    network: 'BSC_BEP20',
+    chainId: 56,
+    rpc: environment.bscApiUrl,
+    decimals: 18,
+    symbol: 'AVAXUSDT',
+  },
+  {
+    id: 23,
     name: 'SAND - SAND Token',
     logoRoute: 'assets/img/coins/SAND.png',
     last: false,
@@ -205,7 +315,7 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'SANDUSDT',
   },
   {
-    id: 15,
+    id: 24,
     name: 'USDC - USD Coin',
     logoRoute: 'assets/img/coins/USDC.png',
     last: false,
@@ -218,7 +328,7 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'USDCUSDT',
   },
   {
-    id: 16,
+    id: 25,
     name: 'CRV - Curve',
     logoRoute: 'assets/img/coins/CRV.png',
     last: true,

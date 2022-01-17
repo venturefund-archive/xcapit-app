@@ -10,6 +10,8 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
+import { QueueService } from '../../../shared/services/queue/queue.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-wallet',
@@ -150,13 +152,13 @@ export class HomeWalletPage implements OnInit {
   totalBalanceWallet = 0;
   balances: AssetBalanceModel[] = [];
   nftStatus = '';
-  alreadyInitialized = false;
   selectedAssets: Coin[];
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
   pageSize = 6;
+  subscriptions$: Subscription[] = [];
 
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
@@ -170,24 +172,32 @@ export class HomeWalletPage implements OnInit {
     private refreshTimeoutService: RefreshTimeoutService,
     private walletBalance: WalletBalanceService,
     private storageService: StorageService,
-    private balanceCacheService: BalanceCacheService
+    private balanceCacheService: BalanceCacheService,
+    private queueService: QueueService
   ) {}
 
   ngOnInit() {}
 
   async ionViewDidEnter() {
-    if (!this.alreadyInitialized) {
-      await this.initialize();
-      this.alreadyInitialized = true;
-    }
+    await this.initialize();
   }
 
   async initialize(): Promise<void> {
     this.clearBalances();
     await this.checkWalletExist();
     await this.getAssetsSelected();
+    this.createQueues();
     this.loadCoins();
     this.getNFTStatus();
+  }
+
+  private createQueues(): void {
+    for (const network of this.apiWalletService.getNetworks()) {
+      this.queueService.create(network, 2);
+      this.subscriptions$.push(this.queueService.results(network).subscribe());
+    }
+    this.queueService.create('prices', 2);
+    this.subscriptions$.push(this.queueService.results('prices').subscribe());
   }
 
   private clearBalances(): void {
@@ -250,12 +260,31 @@ export class HomeWalletPage implements OnInit {
   private loadNextPage(): void {
     const page = this.selectedAssets.slice(this.balances.length, this.endPageIndex()).map((aCoin: Coin) => {
       const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
-      assetBalance.cachedBalance();
-      assetBalance.balance();
-      assetBalance.getPrice();
-      assetBalance.quoteBalance().then((quote: number) => (this.totalBalanceWallet += quote));
+      assetBalance.cachedBalance().then(() => {
+        this.enqueue(assetBalance);
+      });
+      this.sumTotalBalance(assetBalance);
       return assetBalance;
     });
     this.balances = [...this.balances, ...page];
+  }
+
+  private sumTotalBalance(assetBalance: AssetBalanceModel): void {
+    assetBalance.quoteBalance.subscribe((quote: number) => (this.totalBalanceWallet += quote));
+  }
+
+  private enqueue(assetBalance: AssetBalanceModel): void {
+    this.queueService.enqueue(assetBalance.coin.network, () => assetBalance.balance());
+    this.queueService.enqueue('prices', () => assetBalance.getPrice());
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribe();
+  }
+
+  private unsubscribe(): void {
+    for (const subscription of this.subscriptions$) {
+      subscription.unsubscribe();
+    }
   }
 }

@@ -1,11 +1,8 @@
 :host {
-  .cs {
-    padding-left: 20.5px;
-    padding-right: 20.5px;
-  }
-
   .dip {
-    padding: 12.5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-top: 8px;
 
     &__badge {
       margin-left: 8px;
@@ -91,7 +88,7 @@
 
       &__button {
         ion-button {
-          width: 131px;
+          width: 120px;
           height: 45px;
 
           --background: var(--ion-color-uxsecondary);
@@ -101,7 +98,7 @@
       }
 
       &__info {
-        align-items: center;
+        align-items: flex-start;
         display: flex;
         flex-direction: column;
 

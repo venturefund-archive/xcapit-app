@@ -231,6 +231,42 @@
       "others": "Others"
     }
   },
+  "defi_investments":{
+    "coming_soon": {
+      "header": "Investment"
+    },
+    
+    "defi_investment_products":{
+      "header":"Defi investments",
+      "title":"Start investing"    
+    },
+    "success_investment": {
+      "title": "You added money to your investment",
+      "subtitle": "You will get benefits every day.",
+      "primaryButton": "Back to investments",
+      "secondaryButton": "Go to Wallet"
+    },
+    "error_investment": {
+      "title": "It seems that something went wrong",
+      "subtitle": "Remember that you must own tokens to pay investment fees.",
+      "primaryButton": "Try again"
+    },
+    "shared_defi_investments":{
+      "coming_soon_card": {
+        "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
+        "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
+      },
+      "defi_investment_product":{
+        "performance":"Estimated yield",
+        "liquidity":"Liquidity",
+        "not_min_ammount":"No minimum amount",
+        "immediate_rescue":"Immediate Rescue",
+        "coming_badge":"Coming",
+        "invest_button":"Invest",
+        "annual":"Annual"
+      }
+    }
+  },
   "funds": {
     "investments_tab": {
       "header": "Investments",
@@ -1610,10 +1646,6 @@
       }
     },
     "shared_wallets": {
-      "coming_soon_card": {
-        "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
-        "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
-      },
       "start_investing_card": {
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
@@ -2360,17 +2392,6 @@
       "subtitle": "Create your wallet to start investing.",
       "button": "Create Wallet",
       "link": "Back to investments"
-    },
-    "success_investment": {
-      "title": "You added money to your investment",
-      "subtitle": "You will get benefits every day.",
-      "primaryButton": "Back to investments",
-      "secondaryButton": "Go to Wallet"
-    },
-    "error_investment": {
-      "title": "It seems that something went wrong",
-      "subtitle": "Remember that you must own tokens to pay investment fees.",
-      "primaryButton": "Try again"
     }
   },
   "defi_investments": {
