@@ -1,0 +1,39 @@
+:host {
+  .user-data {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-mail {
+    margin-left: 16px;
+  }
+
+  .ux-card {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .toggle {
+    ion-text {
+      color: var(--ion-color-uxdark);
+    }
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .card-title {
+    display: flex;
+    align-content: center;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-left: 16px;
+
+    &__text {
+      margin-left: 12px;
+    }
+  }
+}

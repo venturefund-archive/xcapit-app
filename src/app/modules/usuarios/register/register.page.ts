@@ -5,10 +5,9 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
-import { Plugins } from '@capacitor/core';
 import { TrackService } from '../../../shared/services/track/track.service';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
 
-const { Browser } = Plugins;
 @Component({
   selector: 'app-register',
   template: `
@@ -17,7 +16,7 @@ const { Browser } = Plugins;
         <div class="app_header_register">
           <div class="app_header_register__content">
             <div class="app_header_register__content__app_xcapit_logo">
-              <app-xcapit-logo></app-xcapit-logo>
+              <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
             </div>
           </div>
         </div>
@@ -96,12 +95,9 @@ export class RegisterPage implements OnInit {
     private translate: TranslateService,
     private route: ActivatedRoute,
     private navController: NavController,
-    private trackService: TrackService
-  ) {
-    Browser.prefetch({
-      urls: ['https://www.info.xcapit.com/terms'],
-    });
-  }
+    private trackService: TrackService,
+    private browserService: BrowserService
+  ) {}
 
   ngOnInit() {}
 
@@ -183,15 +179,13 @@ export class RegisterPage implements OnInit {
   }
 
   async openTOS() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
+    await this.browserService.open({
       url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
     });
   }
 
   async openWaitingList() {
-    await Browser.open({
-      toolbarColor: '#ff9100',
+    await this.browserService.open({
       url: 'https://www.xcapit.com/waiting-list',
     });
   }

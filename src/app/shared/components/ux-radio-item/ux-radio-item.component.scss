@@ -1,0 +1,41 @@
+:host {
+  .ri {
+    margin-top: 4px;
+
+    &__text {
+      color: var(--ion-color-uxdark);
+    }
+
+    ion-label,
+    ion-radio {
+      --background: transparent;
+    }
+
+    ion-item {
+      --padding-start: 16px;
+      --padding-end: 16px;
+      --padding-top: 10px;
+      --padding-bottom: 10px;
+      --background-hover-opacity: 0;
+      --inner-border-width: 0px;
+      --border-radius: 8px;
+      --border-width: 0.5px;
+      --border-style: solid;
+      --border-color: var(--ion-color-uxmedium);
+      --inner-padding-top: 0;
+      --inner-padding-bottom: 0;
+      --background: var(--ion-color-uxlight);
+    }
+
+    ion-radio {
+      margin-right: 16px;
+      --color-checked: var(--ion-color-info);
+      --color: var(--ion-color-info);
+    }
+
+    ion-radio-disabled {
+      --color-checked: var(--ion-color-infolight);
+      --color: var(--ion-color-infolight);
+    }
+  }
+}

@@ -20,14 +20,21 @@ export const environment = {
   },
   appUrl: 'https://dummy.xcapit.com/',
   covalentApiUrl: 'https://covalent.url',
+  moonpayPK: 'dummy_publishable_key',
   walletNetwork: 'testnet',
   ethAlchemyApiUrl: 'alchemy.url',
   covalentApiKey: 'test.key',
   rskApiUrl: 'https://rsk.node',
   maticApiUrl: 'https://matic.url',
+  bscApiUrl: 'https://bsc.url',
+  binanceApiUrl: 'https://binance.url',
+  chainId:{
+    POLYGON: 80001
+  },
   derivedPaths: {
     ERC20: "m/44'/60'/0'/0/0",
     RSK: "m/44'/37310'/0'/0/0",
     MATIC: "m/44'/80001'/0'/0/0",
+    BSC_BEP20: "m/44'/60'/0'/0/0",
   },
 };

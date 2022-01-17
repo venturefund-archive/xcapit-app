@@ -64,6 +64,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('./information-paxful/information-paxful.module').then((m) => m.InformationPaxfulPageModule),
       },
+      {
+        path: 'moonpay',
+        loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
+      },
+      {
+        path: 'no-wallet-to-buy',
+        loadChildren: () => import('./no-wallet-to-buy/no-wallet.module').then((m) => m.NoWalletToBuyPageModule),
+      },
     ],
   },
 ];

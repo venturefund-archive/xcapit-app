@@ -1,0 +1,9 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "scss/at-import-partial-extension": "always",
+    "selector-class-pattern": ["", { "resolveNestedSelectors": false }],
+    "no-descending-specificity": null,
+    "string-quotes": "single"
+  }
+}

@@ -28,7 +28,7 @@ describe('LoginPage', () => {
   let navControllerSpy: any;
   let googleAuthPluginSpy: any;
   let notificationsServiceSpy: any;
-  let pwaNotificationServiceSpy: any;
+  let nullNotificationServiceSpy: any;
   let localNotificationServiceSpy: any;
   let storageSpy: jasmine.SpyObj<Storage>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
@@ -66,9 +66,9 @@ describe('LoginPage', () => {
         get: Promise.resolve(true),
       });
 
-      pwaNotificationServiceSpy = jasmine.createSpyObj('PwaNotificationsService', ['init']);
+      nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init']);
       notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
-        getInstance: pwaNotificationServiceSpy,
+        getInstance: nullNotificationServiceSpy,
       });
       localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
       TestBed.configureTestingModule({
@@ -91,7 +91,7 @@ describe('LoginPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
-    component.googleAuthPlugin = googleAuthPluginSpy;
+    // component.googleAuthPlugin = googleAuthPluginSpy;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
   });
@@ -106,7 +106,7 @@ describe('LoginPage', () => {
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
-    expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
     expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
@@ -150,39 +150,39 @@ describe('LoginPage', () => {
     expect(url).toEqual(['tutorials/first-steps']);
   });
 
-  it('should call signIn on googleSingUp', async () => {
-    await component.googleSingUp();
-    expect(googleAuthPluginSpy.signIn).toHaveBeenCalledTimes(1);
-  });
+  // it('should call signIn on googleSingUp', async () => {
+  //   await component.googleSingUp();
+  //   expect(googleAuthPluginSpy.signIn).toHaveBeenCalledTimes(1);
+  // });
+  //
+  // it('should call loginWithGoogle on googleSingUp', async () => {
+  //   await component.googleSingUp();
+  //   expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
+  // });
+  //
+  // it('should set up login with Google', async () => {
+  //   const spy = spyOn(component.loginForm.form, 'reset');
+  //   await component.googleSingUp();
+  //   expect(spy).toHaveBeenCalledTimes(1);
+  //   expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+  //   expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+  //   expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
+  //   expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
+  //   expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+  //   expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
+  // });
 
-  it('should call loginWithGoogle on googleSingUp', async () => {
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
-  });
+  // it('should not call login with google if user closed login with Google window', async () => {
+  //   googleAuthPluginSpy.signIn.and.throwError('User closed window');
+  //   await component.googleSingUp();
+  //   expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
+  // });
 
-  it('should set up login with Google', async () => {
-    const spy = spyOn(component.loginForm.form, 'reset');
-    await component.googleSingUp();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
-    expect(pwaNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-    expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
-    expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
-    expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not call login with google if user closed login with Google window', async () => {
-    googleAuthPluginSpy.signIn.and.throwError('User closed window');
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
-  });
-
-  it('should not call loginWithGoogle if user closed login with Google window', async () => {
-    googleAuthPluginSpy.signIn.and.throwError('User closed window');
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
-  });
+  // it('should not call loginWithGoogle if user closed login with Google window', async () => {
+  //   googleAuthPluginSpy.signIn.and.throwError('User closed window');
+  //   await component.googleSingUp();
+  //   expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
+  // });
 
   // it('should call trackEvent on trackService when Google Auth button clicked', () => {
   //   fixture.detectChanges();

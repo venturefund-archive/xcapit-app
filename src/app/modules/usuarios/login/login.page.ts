@@ -5,22 +5,21 @@ import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
-import '@codetrix-studio/capacitor-google-auth';
-import { Plugins } from '@capacitor/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+// import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 @Component({
   selector: 'app-login',
   template: `
     <ion-header>
       <div class="xcapit-logo">
-        <app-xcapit-logo></app-xcapit-logo>
+        <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
       </div>
     </ion-header>
-    <div class="login_title">
+    <div class="login-title">
       <app-ux-title>
         {{ 'usuarios.login.title' | translate }}
       </app-ux-title>
@@ -56,49 +55,46 @@ import { Storage } from '@ionic/storage';
             {{ 'usuarios.login.register_link' | translate }}
           </ion-button>
         </div>
-        <div class="auth-link-reset-password main__reset_password">
-          <ion-button
-            class="main__reset_password__button ux-link-xs"
-            appTrackClick
-            name="Reset Password"
-            fill="clear"
-            size="small"
-            type="button"
-            color="info"
-            (click)="this.goToResetPassword()"
-          >
-            {{ 'usuarios.login.reset_password_link' | translate }}
-          </ion-button>
-        </div>
       </app-auth-form>
-      <!-- <div class="ion-text-center">
-        <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
-      </div> -->
-      <!-- <div class="google-auth">
+<!--      <div class="ion-text-center">-->
+<!--        <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>-->
+<!--      </div>-->
+
+<!--      <ion-button-->
+<!--        appTrackClick-->
+<!--        name="Google Auth"-->
+<!--        expand="block"-->
+<!--        fill="clear"-->
+<!--        size="large"-->
+<!--        type="button"-->
+<!--        class="ux_button google-auth color"-->
+<!--        [disabled]="this.submitButtonService.isDisabled | async"-->
+<!--        (click)="this.googleSingUp()"-->
+<!--      >-->
+<!--        <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />-->
+<!--        <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>-->
+<!--      </ion-button>-->
+      <div class="auth-link-reset-password main__reset_password">
         <ion-button
+          class="main__reset_password__button ux-link-xs"
           appTrackClick
-          name="Google Auth"
-          expand="block"
-          fill="solid"
-          size="large"
+          name="Reset Password"
+          fill="clear"
+          size="small"
           type="button"
-          class="ux_button google-auth__button"
-          [disabled]="this.submitButtonService.isDisabled | async"
-          (click)="this.googleSingUp()"
+          color="info"
+          (click)="this.goToResetPassword()"
         >
-          <img [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google Logo" />
-          <span class="google-auth__button__text ux-font-text-base">{{
-            'usuarios.login.google_auth' | translate
-          }}</span>
+          {{ 'usuarios.login.reset_password_link' | translate }}
         </ion-button>
-      </div> -->
+      </div>
     </div>
   `,
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
-  googleAuthPlugin: any = Plugins.GoogleAuth;
+  // googleAuthPlugin: any = GoogleAuth;
   alreadyOnboarded: boolean;
 
   constructor(
@@ -116,19 +112,20 @@ export class LoginPage implements OnInit {
 
   ionViewWillEnter() {
     this.storage.get('FINISHED_ONBOARDING').then((res) => (this.alreadyOnboarded = res));
+    // this.googleAuthPlugin.init();
   }
 
-  async googleSingUp() {
-    let googleUser;
-
-    try {
-      googleUser = await this.googleAuthPlugin.signIn();
-    } catch (e) {
-      return;
-    }
-
-    this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
-  }
+  // async googleSingUp() {
+  //   let googleUser;
+  //
+  //   try {
+  //     googleUser = await this.googleAuthPlugin.signIn();
+  //   } catch (e) {
+  //     return;
+  //   }
+  //
+  //   this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
+  // }
 
   loginUser(data: any) {
     this.loadingService.show().then(() => {

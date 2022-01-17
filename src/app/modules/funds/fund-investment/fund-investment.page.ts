@@ -3,10 +3,10 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
-import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-modal/no-apikeys-modal.component';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-fund-investment',
@@ -36,7 +36,7 @@ import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-m
       </div>
       <div *ngFor="let product of this.investmentsProducts">
         <app-investment-product-card
-          [product]="this.product"
+          [product]="product"
           (save)="this.handleSubmit($event)"
         ></app-investment-product-card>
       </div>
@@ -45,14 +45,16 @@ import { NoApikeysModalComponent } from '../shared-funds/components/no-apikeys-m
   styleUrls: ['./fund-investment.page.scss'],
 })
 export class FundInvestmentPage implements OnInit {
+  existWallet: boolean;
+
   investmentsProducts = [
-    // {
-    //   profile: 'Metaverse_index',
-    //   min_capital: '500',
-    //   link_info: '',
-    //   risk: 5,
-    //   currency: 'USDT',
-    // },
+    {
+      profile: 'Metaverse_index',
+      min_capital: '500',
+      link_info: '',
+      risk: 5,
+      currency: 'USDT',
+    },
     {
       profile: 'volume_profile_strategies_USDT',
       min_capital: '150',
@@ -94,10 +96,10 @@ export class FundInvestmentPage implements OnInit {
     private navController: NavController,
     private apiApiKeysService: ApiApikeysService,
     private modalController: ModalController,
-    private storageApiKeysService: StorageApikeysService,
     private alertController: AlertController,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private walletService: WalletService
   ) {}
 
   ngOnInit() {}
@@ -106,6 +108,7 @@ export class FundInvestmentPage implements OnInit {
     this.readOnly = this.route.snapshot.paramMap.has('show');
     await this.getFundRenewData();
     this.getAllApiKeys();
+    this.walletExist();
   }
 
   async getFundRenewData() {
@@ -119,12 +122,12 @@ export class FundInvestmentPage implements OnInit {
     });
   }
 
-  getDataToCheckBalance(): any {
+  async getDataToCheckBalance() {
     let result: any;
     if (this.fundRenew) {
       result = this.fundName;
-    } else if (this.storageApiKeysService.data) {
-      result = { id: this.storageApiKeysService.data.id };
+    } else {
+      result = { id: (await this.fundDataStorage.getData('apiKeyId')).api_key_id };
     }
     return result;
   }
@@ -133,7 +136,7 @@ export class FundInvestmentPage implements OnInit {
     return await this.apiApiKeysService
       .checkMinBalance({
         profile: riskLevel,
-        ...this.getDataToCheckBalance(),
+        ...(await this.getDataToCheckBalance()),
       })
       .toPromise();
   }
@@ -147,8 +150,8 @@ export class FundInvestmentPage implements OnInit {
           text: this.translate.instant('funds.fund_investment.balance_not_enough.cancel_text'),
         },
         {
-          text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
-          handler: () => this.navController.navigateForward(['/fiat-ramps/select-provider']),
+          text: this.translate.instant('funds.fund_investment.balance_not_enough.accept_text'),
+          // handler: () => this.goToBuyCripto(),
         },
       ],
     });
@@ -162,17 +165,17 @@ export class FundInvestmentPage implements OnInit {
 
   async handleSubmit(data: any) {
     if (this.apikeys.length === 0) {
-      this.openModal();
-      return;
+      await this.openModal();
+    } else {
+      this.readOnly ? await this.navController.navigateForward('/apikeys/list') : await this.handleCreation(data);
     }
-    this.readOnly ? this.navController.navigateForward('/apikeys/list') : this.handleCreation(data);
   }
 
   async handleCreation(data: any) {
     const response = await this.checkMinBalance(data.risk_level);
     if (response.balance_is_enough) {
       this.saveProfileAndCurrency(data);
-      this.navController.navigateForward(['funds/fund-take-profit']);
+      await this.navController.navigateForward(['funds/fund-take-profit']);
     } else {
       await this.showNotEnoughBalanceAlert(response.min_balance);
     }
@@ -185,5 +188,17 @@ export class FundInvestmentPage implements OnInit {
       swipeToClose: false,
     });
     await modal.present();
+  }
+
+  walletExist() {
+    this.walletService.walletExist().then((res) => (this.existWallet = res));
+  }
+
+  goToBuyCripto() {
+    if (this.existWallet) {
+      this.navController.navigateForward(['/fiat-ramps/moonpay']);
+    } else {
+      this.navController.navigateForward(['/fiat-ramps/no-wallet']);
+    }
   }
 }

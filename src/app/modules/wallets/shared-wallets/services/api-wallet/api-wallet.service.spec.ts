@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { componentOnReady } from '@ionic/core';
 import { of } from 'rxjs';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { NONPROD_COINS } from '../../constants/coins.nonprod';
 import { PROD_COINS } from '../../constants/coins.prod';
+import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from './api-wallet.service';
 const wallets = [
   {
@@ -16,6 +16,34 @@ const wallets = [
     address: 'testRSKAddress',
   },
 ];
+
+const testCoins: Coin[] = [
+  {
+    id: 5,
+    name: 'UNI - Uniswap',
+    logoRoute: 'assets/img/coins/UNI.svg',
+    last: true,
+    value: 'UNI',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'testRpc',
+    contract: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+    abi: 'testAbi',
+    decimals: 18,
+  },
+  {
+    id: 6,
+    name: 'RBTC - Smart Bitcoin',
+    logoRoute: 'assets/img/coins/RBTC.png',
+    last: false,
+    value: 'RBTC',
+    network: 'RSK',
+    chainId: 31,
+    rpc: 'testRpc',
+    native: true,
+  },
+];
+
 describe('ApiWalletService', () => {
   let service: ApiWalletService;
   let crudSpy;
@@ -82,5 +110,39 @@ describe('ApiWalletService', () => {
     service.saveWalletAddresses(wallets).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledWith(jasmine.any(String), wallets);
     });
+  });
+
+  it('should get ERC20 coins on getCoinsFromNetwork', () => {
+    spyOn(service, 'getCoins').and.returnValue(testCoins);
+    const coins = service.getCoinsFromNetwork('ERC20');
+    expect(coins).toEqual([testCoins[0]]);
+  });
+
+  it('should get networks on getNetworks', () => {
+    const networks = service.getNetworks();
+    expect(new Set(networks)).toEqual(new Set(['ERC20', 'RSK', 'BSC_BEP20', 'MATIC']));
+  });
+
+  it('should get coin by coin on getCoin', () => {
+    spyOn(service, 'getCoins').and.returnValue(testCoins);
+    const coin = service.getCoin('RBTC');
+    expect(coin).toEqual(testCoins[1]);
+  });
+
+  it('should get coin by coin and network on getCoin', () => {
+    spyOn(service, 'getCoins').and.returnValue(testCoins);
+    const coin = service.getCoin('RBTC', 'RSK');
+    expect(coin).toEqual(testCoins[1]);
+  });
+
+  it('should get new networks on getWalletNewNetworks', () => {
+    const encryptedWalletTest = {
+      addresses: {
+        MATIC: 'testAddress',
+        RSK: 'testAddress',
+      },
+    };
+    const networks = service.getWalletNewNetworks(encryptedWalletTest);
+    expect(new Set(networks)).toEqual(new Set(['ERC20', 'BSC_BEP20']));
   });
 });

@@ -70,12 +70,12 @@ describe('IsSubscribedGuard', () => {
     canActivateResult.subscribe((res) => expect(apiFundsServiceSpy.isSubscribed).toHaveBeenCalledTimes(1));
   });
 
-  it('should call navigateBack with ["/tabs/funds"], { replaceUrl: true } on navController when isSubscribed is false', () => {
+  it('should call navigateBack with ["/tabs/investments/binance"], { replaceUrl: true } on navController when isSubscribed is false', () => {
     apiFundsServiceSpy.isSubscribed.and.returnValue(of({ is_subscribed: false }));
     const canActivateResult = getObservable(isSubscribedGuard.canActivate(activatedRouteSnapshotMock));
     canActivateResult.subscribe((res) => {
       expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/funds'], { replaceUrl: true });
+      expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/investments/binance'], { replaceUrl: true });
     });
   });
 });

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import '@firebase/messaging';
-import { INotification } from '../notifications/notifications.interface';
+import { Notification } from '../notifications/notifications.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NullNotificationsService implements INotification {
+export class NullNotificationsService implements Notification {
   constructor() {}
 
   init(): void {}
@@ -14,7 +13,7 @@ export class NullNotificationsService implements INotification {
     return Promise.resolve();
   }
 
-  pushNotificationReceived(callback: any): void {}
+  pushNotificationReceived(): void {}
 
-  pushNotificationActionPerformed(callback: any): void {}
+  pushNotificationActionPerformed(): void {}
 }

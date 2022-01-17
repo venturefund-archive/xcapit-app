@@ -6,13 +6,14 @@ import { Storage } from '@ionic/storage';
 })
 export class FundDataStorageService {
   pageKeys = {
+    '/funds/fund-name': 'apiKeyId',
     '/funds/fund-investment': 'fundName',
     '/funds/fund-take-profit': 'fundRiskLevel',
     '/funds/fund-stop-loss': 'fundTakeProfit',
     '/funds/summary': 'fundStopLoss',
   };
 
-  allKeys = ['fundName', 'fundRiskLevel', 'fundCurrency', 'fundTakeProfit', 'fundStopLoss', 'fundRenew'];
+  allKeys = ['apiKeyId', 'fundName', 'fundRiskLevel', 'fundCurrency', 'fundTakeProfit', 'fundStopLoss', 'fundRenew'];
 
   constructor(private storage: Storage) {}
 

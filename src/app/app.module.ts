@@ -42,10 +42,10 @@ import { httpLoaderFactory } from './shared/factories/translate/translate.factor
 import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
 import { WalletsModule } from './modules/wallets/wallets.module';
 import { HomeModule } from './modules/home/home.module';
-import { TrackService } from './shared/services/track/track.service';
-import { FirebaseLogsService } from './shared/services/firebase-logs/firebase-logs.service';
 import { SupportModule } from './modules/support/support.module';
 import { WealthManagementsModule } from './modules/wealth-managements/wealth-managements.module';
+import { trackServiceProvider } from './shared/providers/track-service/track-service.provider';
+import { DefiInvestmentsModule } from './modules/defi-investments/defi-investments.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -87,6 +87,7 @@ registerLocaleData(localeEn, 'en');
     HomeModule,
     SupportModule,
     WealthManagementsModule,
+    DefiInvestmentsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
@@ -118,13 +119,13 @@ registerLocaleData(localeEn, 'en');
     },
     FileOpener,
     updateServiceProvider,
+    trackServiceProvider,
     {
       provide: APP_INITIALIZER,
       useFactory: AppInitializerFactory,
       deps: [TranslateService],
       multi: true,
     },
-    { provide: TrackService, useClass: FirebaseLogsService },
   ],
   bootstrap: [AppComponent],
 })

@@ -1,5 +1,8 @@
+import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { ApiWealthManagementsService } from '../shared-wealth-managements/services/api-wealth-managements/api-wealth-managements.service';
 
 @Component({
   selector: 'app-success-investor-test',
@@ -11,7 +14,7 @@ import { NavController } from '@ionic/angular';
         </ion-button>
       </div>
       <div class="main__ux_success_image">
-        <img src="../../../../assets/img/wealth_management/success.svg" />
+        <img src="assets/img/wealth_management/success.svg" />
       </div>
       <div class="main__primary_text ux-font-text-xl">
         <ion-text>{{ 'wealth_managements.success.textPrimary' | translate: { testResult: this.testResult } }}</ion-text>
@@ -40,10 +43,20 @@ import { NavController } from '@ionic/angular';
 })
 export class SuccessInvestorTestPage implements OnInit {
   data: any;
-  testResult = 'Moderado';
-  constructor(private navController: NavController) {}
+  testResult: any;
+  constructor(
+    private navController: NavController,
+    private apiProfilesService: ApiProfilesService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.apiProfilesService.crud.get().subscribe((profile) => {
+      this.testResult = this.translateService.instant(profile.investor_category);
+    });
+  }
 
   continue() {
     this.navController.navigateForward(['']);

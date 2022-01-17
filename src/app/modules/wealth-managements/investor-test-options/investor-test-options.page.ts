@@ -6,7 +6,7 @@ import { INVESTOR_TEST_OPTIONS } from '../shared-wealth-managements/constants/te
   template: ` <ion-header>
       <ion-toolbar color="uxprimary" class="ito__toolbar ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/funds"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wealth_managements.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -15,7 +15,7 @@ import { INVESTOR_TEST_OPTIONS } from '../shared-wealth-managements/constants/te
       <div class="ito ux_main">
         <div class="ux_content">
           <div class="ito__contain_image">
-            <img class="ito__image" src="../assets/img/investor-test/investor-options.svg" alt="" />
+            <img class="ito__image" src="assets/img/investor-test/investor-options.svg" alt="" />
           </div>
           <div class="ito__title_and_subtitle">
             <ion-text class="ito__title ux-font-text-lg">

@@ -1,23 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonContent, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
+import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
+import { QueueService } from '../../../shared/services/queue/queue.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-wallet',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar"> </ion-toolbar>
+      <ion-toolbar color="uxprimary" class="ux_toolbar">
+        <div class="header">
+          <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
+        </div>
+        <app-avatar-profile></app-avatar-profile>
+      </ion-toolbar>
     </ion-header>
 
     <ion-content>
-      <ion-refresher (ionRefresh)="refresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
-        <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="true" pullingIcon="false">
+      <ion-refresher
+        (ionRefresh)="this.refresh($event)"
+        close-duration="1000ms"
+        slot="fixed"
+        pull-factor="0.6"
+        pull-min="50"
+        pull-max="60"
+      >
+        <ion-refresher-content class="refresher" refreshingSpinner="true" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
           <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
@@ -56,14 +72,14 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           <ion-segment mode="md" class="ux-segment" formControlName="tab">
             <ion-segment-button value="assets">
               <ion-label
-                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'assets' }"
+                [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'assets' }"
                 class="ux-font-header-titulo"
                 >{{ 'wallets.home.tab_assets' | translate }}</ion-label
               >
             </ion-segment-button>
             <ion-segment-button value="nft">
               <ion-label
-                [ngClass]="{ active_tab: this.segmentsForm.value.tab === 'nft' }"
+                [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'nft' }"
                 class="ux-font-header-titulo"
                 >{{ 'wallets.home.tab_nfts' | translate }}</ion-label
               >
@@ -84,12 +100,30 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
       </div>
       <div
         class="wt__balance ion-padding-start ion-padding-end"
-        *ngIf="this.walletExist && this.balances?.length && this.segmentsForm.value.tab === 'assets'"
+        *ngIf="this.walletExist && this.segmentsForm.value.tab === 'assets'"
       >
-        <div class="wt__balance__wallet-balance-card segment-content first-selected">
-          <app-wallet-balance-card [balances]="this.balances"></app-wallet-balance-card>
+        <div class="wt__balance segment-content first-selected">
+          <div class="wt__balance__button ion-padding-end">
+            <ion-button
+              appTrackClick
+              name="Edit Tokens"
+              class="ion-no-margin"
+              fill="clear"
+              size="small"
+              (click)="this.goToSelectCoins()"
+            >
+              <ion-icon icon="ux-adjustments"></ion-icon>
+            </ion-button>
+          </div>
+          <app-wallet-balance-card-item
+            *ngFor="let balance of this.balances; let last = last"
+            [balance]="balance"
+            [last]="last"
+          ></app-wallet-balance-card-item>
         </div>
-        <app-start-investing></app-start-investing>
+        <div class="wt__start-investing">
+          <app-start-investing></app-start-investing>
+        </div>
       </div>
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
@@ -103,145 +137,161 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
       </div>
+      <ion-infinite-scroll threshold="10px" (ionInfinite)="this.loadCoins()">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
+        >
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
   totalBalanceWallet = 0;
-  walletAddress = null;
-  balances: Array<AssetBalance> = [];
-  allPrices: any;
-  userCoins: Coin[];
-  alreadyInitialized = false;
+  balances: AssetBalanceModel[] = [];
+  nftStatus = '';
+  selectedAssets: Coin[];
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
+  @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonContent, { static: true }) content: IonContent;
+  pageSize = 6;
+  subscriptions$: Subscription[] = [];
 
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
-  nftStatus = '';
 
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private storageService: StorageService,
     private navController: NavController,
     private formBuilder: FormBuilder,
-    private refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService,
+    private walletBalance: WalletBalanceService,
+    private storageService: StorageService,
+    private balanceCacheService: BalanceCacheService,
+    private queueService: QueueService
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.encryptedWalletExist();
+  async ionViewDidEnter() {
+    await this.initialize();
+  }
+
+  async initialize(): Promise<void> {
+    await this.content.scrollToTop(0);
+    this.infiniteScrollDisabled();
+    this.clearBalances();
+    await this.checkWalletExist();
+    await this.getAssetsSelected();
+    this.createQueues();
+    this.loadCoins();
     this.getNFTStatus();
   }
 
-  async refresh(event: any) {
-    if (this.refreshTimeoutService.isAvailable()) {
-      this.uninitializedWallet();
-      this.getNFTStatus();
-      await this.encryptedWalletExist();
-      this.refreshTimeoutService.lock();
-      event.target.complete();
-    } else {
-      setTimeout(() => event.target.complete(), 1000);
-    }
+  private infiniteScrollDisabled() {
+    this.infiniteScroll.disabled = false;
   }
 
-  getNFTStatus() {
+  private createQueues(): void {
+    for (const network of this.apiWalletService.getNetworks()) {
+      this.queueService.create(network, 2);
+      this.subscriptions$.push(this.queueService.results(network).subscribe());
+    }
+    this.queueService.create('prices', 2);
+    this.subscriptions$.push(this.queueService.results('prices').subscribe());
+  }
+
+  private clearBalances(): void {
+    this.balances = [];
+    this.totalBalanceWallet = 0;
+  }
+
+  async refresh(event: any): Promise<void> {
+    if (this.refreshTimeoutService.isAvailable()) {
+      this.infiniteScrollDisabled();
+      await this.initialize();
+      this.refreshTimeoutService.lock();
+    }
+    setTimeout(() => event.target.complete(), 1000);
+  }
+
+  private getNFTStatus(): void {
     this.apiWalletService.getNFTStatus().subscribe((res) => (this.nftStatus = res.status));
   }
 
-  createNFTRequest() {
+  createNFTRequest(): void {
     this.apiWalletService.createNFTRequest().subscribe(() => {
       this.nftStatus = 'claimed';
     });
   }
 
-  createBalancesStructure(coin: Coin): AssetBalance {
-    return {
-      icon: coin.logoRoute,
-      symbol: coin.value,
-      name: coin.name,
-      amount: 0,
-      usdAmount: 0,
-      usdSymbol: 'USD',
-    };
+  private async checkWalletExist(): Promise<void> {
+    this.walletExist = await this.walletService.walletExist();
   }
 
-  async encryptedWalletExist() {
-    this.walletService.walletExist().then((res) => {
-      this.walletExist = res;
-
-      if (!this.alreadyInitialized && res) {
-        this.alreadyInitialized = true;
-        this.getAllPrices();
-      }
-    });
+  private async getAssetsSelected(): Promise<void> {
+    this.selectedAssets = await this.storageService.getAssestsSelected();
   }
 
-  goToRecoveryWallet() {
+  goToRecoveryWallet(): void {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
-  getWalletsBalances() {
-    this.balances = [];
-    this.totalBalanceWallet = 0;
-    for (const coin of this.userCoins) {
-      const walletAddress = this.walletService.addresses[coin.network];
+  goToSelectCoins(): void {
+    this.navController.navigateForward(['wallets/select-coins', 'edit']);
+  }
 
-      if (walletAddress) {
-        const balance = this.createBalancesStructure(coin);
-        this.walletService.balanceOf(walletAddress, coin.value).then((res) => {
-          balance.amount = parseFloat(res);
+  private finishedLoad(): boolean {
+    return this.balances.length === this.selectedAssets.length;
+  }
 
-          if (this.allPrices) {
-            const usdPrice = this.getPrice(balance.symbol);
-
-            balance.usdAmount = usdPrice * balance.amount;
-            this.totalBalanceWallet += balance.usdAmount;
-          }
-          this.balances.push(balance);
-          this.orderBalancesByAmount();
-        });
-      }
+  loadCoins(): void {
+    if (!this.finishedLoad()) {
+      this.loadNextPage();
+      this.infiniteScroll && this.infiniteScroll.complete();
+    } else {
+      this.infiniteScroll.disabled = true;
     }
   }
 
-  orderBalancesByAmount() {
-    this.balances.sort((a, b) => {
-      return b.usdAmount - a.usdAmount;
-    });
+  private endPageIndex(): number {
+    return Math.min(this.balances.length + this.pageSize, this.selectedAssets.length);
   }
 
-  getAllPrices() {
-    this.storageService.getAssestsSelected().then((coins) => {
-      this.userCoins = coins;
-      this.storageService.updateAssetsList().then(() => {
-        this.apiWalletService
-          .getPrices(this.userCoins.map((coin) => this.getCoinForPrice(coin.value)))
-          .toPromise()
-          .then((res) => (this.allPrices = res))
-          .finally(async () => {
-            this.getWalletsBalances();
-            this.uninitializedWallet();
-          });
+  private loadNextPage(): void {
+    const page = this.selectedAssets.slice(this.balances.length, this.endPageIndex()).map((aCoin: Coin) => {
+      const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
+      assetBalance.cachedBalance().then(() => {
+        this.enqueue(assetBalance);
       });
+      this.sumTotalBalance(assetBalance);
+      return assetBalance;
     });
+    this.balances = [...this.balances, ...page];
   }
 
-  private uninitializedWallet() {
-    this.alreadyInitialized = false;
+  private sumTotalBalance(assetBalance: AssetBalanceModel): void {
+    assetBalance.quoteBalance.subscribe((quote: number) => (this.totalBalanceWallet += quote));
   }
 
-  private getCoinForPrice(symbol: string): string {
-    return symbol === 'RBTC' ? 'BTC' : symbol;
+  private enqueue(assetBalance: AssetBalanceModel): void {
+    this.queueService.enqueue(assetBalance.coin.network, () => assetBalance.balance());
+    this.queueService.enqueue('prices', () => assetBalance.getPrice());
   }
 
-  private getPrice(symbol: string): number {
-    return this.allPrices.prices[this.getCoinForPrice(symbol)];
+  ionViewDidLeave() {
+    this.unsubscribe();
+  }
+
+  private unsubscribe(): void {
+    for (const subscription of this.subscriptions$) {
+      subscription.unsubscribe();
+    }
   }
 }

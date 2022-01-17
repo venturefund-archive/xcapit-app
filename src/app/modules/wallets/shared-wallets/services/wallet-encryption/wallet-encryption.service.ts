@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Wallet } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import { WalletService } from '../wallet/wallet.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import * as moment from 'moment';
@@ -11,7 +11,7 @@ import { ApiWalletService } from '../api-wallet/api-wallet.service';
   providedIn: 'root',
 })
 export class WalletEncryptionService {
-  private ethWallet: any = null;
+  private ethWallet: Wallet = null;
   private walletsAddresses = {};
   private selectedCoins = {};
   coins: Coin[];
@@ -29,6 +29,7 @@ export class WalletEncryptionService {
     wallets.forEach((wallet) => {
       if (wallet.mnemonic.path === derivedPaths.ERC20) {
         this.ethWallet = wallet;
+        this.walletsAddresses['BSC_BEP20'] = wallet.address;
       }
 
       const key = Object.keys(derivedPaths).filter((keyName) => derivedPaths[keyName] === wallet.mnemonic.path);
@@ -39,8 +40,8 @@ export class WalletEncryptionService {
     return this.saveEncryptedWallet(password);
   }
 
-  private saveEncryptedWallet(password: string): Promise<any> {
-    return new Promise<any>(async (resolve) => {
+  private saveEncryptedWallet(password: string): Promise<boolean> {
+    return new Promise<boolean>(async (resolve) => {
       this.ethWallet.encrypt(password).then(async (wallet) => {
         const structure = this.storageStructure(wallet);
         await this.storageService.saveWalletToStorage(structure);
@@ -57,6 +58,12 @@ export class WalletEncryptionService {
   getDecryptedWalletForCurrency(password: string, currency: Coin): Promise<Wallet> {
     return this.getDecryptedWallet(password).then((wallet) => {
       return Wallet.fromMnemonic(wallet.mnemonic.phrase, environment.derivedPaths[currency.network]);
+    });
+  }
+
+  getDecryptedWalletForNetwork(password: string, network: string): Promise<Wallet> {
+    return this.getDecryptedWallet(password).then((wallet) => {
+      return Wallet.fromMnemonic(wallet.mnemonic.phrase, environment.derivedPaths[network]);
     });
   }
 

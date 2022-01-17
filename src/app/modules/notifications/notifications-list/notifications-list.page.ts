@@ -23,17 +23,10 @@ import { NavController } from '@ionic/angular';
         ></app-notification-item>
         <div *ngIf="!notifications.length">
           <div class="container">
-            <img src="../../assets/img/notifications/Notifications-logo.svg" alt="Notifications logo" />
+            <img src="assets/img/notifications/Notifications-logo.svg" alt="Notifications logo" />
           </div>
-          <hr />
-          <div class="title ux-font-header-titulo">
+          <div class="title ux-font-text-lg">
             <ion-text>{{ 'notifications.notifications_list.title' | translate }}</ion-text>
-          </div>
-          <div class="message ux-font-text-xs">
-            <ion-text>{{ 'notifications.notifications_list.message' | translate }}</ion-text>
-          </div>
-          <div class="link ux-font-text-xs">
-            <a href="/tabs/funds">{{ 'notifications.notifications_list.link' | translate }}</a>
           </div>
         </div>
       </ion-list>

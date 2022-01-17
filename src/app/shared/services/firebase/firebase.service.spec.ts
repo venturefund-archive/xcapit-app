@@ -1,7 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { FirebaseAnalyticsWeb } from '@capacitor-community/firebase-analytics';
-import { FirebaseNamespace } from '@firebase/app-types';
-import { of } from 'rxjs';
 import { PlatformService } from '../platform/platform.service';
 import { FirebaseService } from './firebase.service';
 
@@ -11,7 +8,10 @@ describe('FirebaseService', () => {
   let platformSpy: jasmine.SpyObj<PlatformService>;
   let firebaseAnalyticsSpy: any;
   beforeEach(() => {
-    firebaseSpy = jasmine.createSpyObj('FirebaseNamespace', ['initializeApp', 'app'], { apps: [] });
+    firebaseSpy = jasmine.createSpyObj(
+      'FirebaseNamespace',
+      { initializeApp: null, getApp: {}, getApps: [] },
+    );
     firebaseAnalyticsSpy = jasmine.createSpyObj('FirebaseAnalytics', {
       initializeFirebase: Promise.resolve(),
     });
@@ -33,7 +33,7 @@ describe('FirebaseService', () => {
   });
 
   it('should only get app and not initialize firebase if there is firebase app', () => {
-    firebaseSpy = jasmine.createSpyObj('FirebaseNamespace', ['initializeApp', 'app'], { apps: ['app1', 'app2'] });
+    firebaseSpy.getApps.and.returnValue(['app1', 'app2'])
     service.importedFirebase = firebaseSpy;
     service.init();
     expect(service.importedFirebase.initializeApp).toHaveBeenCalledTimes(0);

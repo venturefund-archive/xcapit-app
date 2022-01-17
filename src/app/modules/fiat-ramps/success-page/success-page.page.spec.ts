@@ -13,6 +13,8 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
 const storageData = {
   valid: {
@@ -52,22 +54,27 @@ const operationId = 6;
 describe('SuccessPagePage', () => {
   let component: SuccessPagePage;
   let fixture: ComponentFixture<SuccessPagePage>;
-  let storageOperationServiceMock: any;
-  let storageOperationService: any;
-  let navControllerSpy: any;
-  let toastServiceSpy: any;
-  let clipboardServiceSpy: any;
+  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SuccessPagePage>;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      storageOperationServiceMock = {
-        data: of(storageData.valid.data),
-        valid: storageData.valid.valid,
-        clear: () => of({}),
-        getOperationId: () => of(operationId),
-      };
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
+      storageOperationServiceSpy = jasmine.createSpyObj(
+        'StorageOperationService',
+        {
+          clear: of({}),
+          getOperationId: of(operationId),
+        },
+        { data: of(storageData.valid.data), valid: storageData.valid.valid }
+      );
       toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
       clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', ['write']);
       clipboardServiceSpy.write.and.returnValue(Promise.resolve());
@@ -75,19 +82,13 @@ describe('SuccessPagePage', () => {
       TestBed.configureTestingModule({
         declarations: [SuccessPagePage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          RouterTestingModule.withRoutes([
-            { path: 'operation-detail/provider/:provider_id/operation/:operation_id', component: DummyComponent },
-          ]),
-          HttpClientTestingModule,
-          IonicModule,
-          TranslateModule.forRoot(),
-        ],
+        imports: [IonicModule, TranslateModule.forRoot()],
         providers: [
-          { provide: StorageOperationService, useValue: storageOperationServiceMock },
+          { provide: StorageOperationService, useValue: storageOperationServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: ClipboardService, useValue: clipboardServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
         ],
       }).compileComponents();
     })
@@ -97,7 +98,6 @@ describe('SuccessPagePage', () => {
     fixture = TestBed.createComponent(SuccessPagePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    storageOperationService = TestBed.inject(StorageOperationService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -106,9 +106,8 @@ describe('SuccessPagePage', () => {
   });
 
   it('should call window.open when launchChat is called', () => {
-    spyOn(window, 'open');
     component.launchChat();
-    expect(window.open).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://t.me/kriptonmarket' });
   });
 
   it('should call write with cbu when copyToClipboard is called', async () => {
