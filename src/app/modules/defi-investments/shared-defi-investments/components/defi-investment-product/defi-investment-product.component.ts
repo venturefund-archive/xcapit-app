@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { BigNumber, ethers, FixedNumber } from 'ethers';
+import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { TwoPiService } from '../../services/two-pi/two-pi.service';
 
 @Component({
@@ -76,13 +78,19 @@ export class DefiInvestmentProductComponent implements OnInit {
   tvl: BigNumber;
   formattedTvl;
 
-  constructor(private twoPiService: TwoPiService) {}
+  constructor(private twoPiService: TwoPiService,
+    private navController: NavController,
+    private walletService: WalletService
+    ) {}
 
   ngOnInit() {
     this.getVaultValues();
   }
 
-  invest(){ 
+  async invest(){
+    if (!(await this.walletService.walletExist())) {
+      this.navController.navigateForward(['/defi/no-wallet-to-invest']);
+    }
   }
 
   async getVaultValues() {
