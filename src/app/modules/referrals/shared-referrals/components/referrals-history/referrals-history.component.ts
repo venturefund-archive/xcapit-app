@@ -9,7 +9,7 @@ import { ReferralsCount } from '../../interfaces/referrals-info.interface';
         <ion-text class="ux-font-text-lg">{{ 'referrals.referrals_history.title' | translate }}</ion-text>
       </div>
       <div class="rh__summary ion-padding-start ion-padding-end">
-        <div class="rh__summary__first-order">
+        <div class="rh__summary__referrals">
           <app-referral-detail
             [title]="'referrals.referrals_history.referrals_title' | translate"
             [subtitle]="
