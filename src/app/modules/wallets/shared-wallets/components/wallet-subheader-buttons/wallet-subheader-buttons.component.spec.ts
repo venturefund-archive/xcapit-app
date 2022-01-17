@@ -8,7 +8,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
-import { of } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('WalletSubheaderButtonsComponent', () => {
@@ -78,14 +77,14 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Go to Buy Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Buy');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+  // it('should call trackEvent on trackService when Go to Buy Button clicked', () => {
+  //   const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Buy');
+  //   const directive = trackClickDirectiveHelper.getDirective(el);
+  //   const spy = spyOn(directive, 'clickEvent');
+  //   el.nativeElement.click();
+  //   fixture.detectChanges();
+  //   expect(spy).toHaveBeenCalledTimes(1);
+  // });
 
   it('should call trackEvent on trackService when Go to Performance Button clicked', () => {
     fixture.detectChanges();
@@ -138,9 +137,9 @@ describe('WalletSubheaderButtonsComponent', () => {
     performanceButtonEl.nativeElement.click();
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
   });
-
-  it('should navigate to fiat-ramps moonpay page when Go to Buy button is clicked', async () => {
-    fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/moonpay']);
-  });
+  //
+  // it('should navigate to fiat-ramps moonpay page when Go to Buy button is clicked', async () => {
+  //   fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']")).nativeElement.click();
+  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/moonpay']);
+  // });
 });
