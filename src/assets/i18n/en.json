@@ -1355,10 +1355,8 @@
     },
     "referrals_share": {
       "title": "Refer and Win!",
-      "first_order_referrals_title": "Add primary referrals",
-      "first_order_referrals_text": "For each friend who signs up using your link you will receive the value of ${{amount}} USD.",
-      "second_order_referrals_title": "Add secondary referrals",
-      "second_order_referrals_text": "If in turn, your friend refers other people, you will receive ${{amount}} USD for each of them.",
+      "first_order_referrals_title": "Invite persons",
+      "first_order_referrals_text": "For each person who creates an Xcapit wallet using your link you will receive 1 point.",
       "share": "Share my link",
       "copy": "Copy my link",
       "copied": "Copied",
@@ -1366,16 +1364,14 @@
     },
     "referrals_pending": {
       "title": "Pending",
-      "first_order_title": "Primary to Xcapit wallet",
-      "first_order_subtitle": "{{quantity}} Recommended",
-      "second_order_title": "Secondary to Xcapit wallet",
-      "second_order_subtitle": "{{quantity}} Recommended",
-      "total_title": "Total reward",
-      "claim_button": "Claim",
-      "disclaimer": "Rewards are credited to MATIC (Polygon). You will be able to claim them from 2021/12/01."
+      "first_order_title": "Referrals to Xcapit wallet",
+      "first_order_subtitle": "{{quantity}} Referrals",
+      "points": "{{quantity}} points"
     },
     "referrals_history": {
       "title": "History",
+      "referrals_title": "Referrals to Xcapit wallet",
+      "referrals_subtitle": "{{quantity}} Referrals",
       "first_order_title": "Primary to Xcapit wallet",
       "first_order_subtitle": "{{quantity}} Recommended",
       "second_order_title": "Secondary to Xcapit wallet",
