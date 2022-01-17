@@ -105,6 +105,8 @@ export class SelectCoinsWalletPage implements OnInit {
 
     if (this.mode === 'edit') {
       this.getUserCoins();
+    } else {
+      this.loadPreviousSelection();
     }
   }
 
@@ -151,25 +153,26 @@ export class SelectCoinsWalletPage implements OnInit {
   async handleSubmit() {
     if (this.almostOneChecked) {
       this.txInProgress = true;
-      this.walletService.coins = [];
-      this.setUserCoins();
-
+      
       switch (this.mode) {
         case 'import':
           this.importWallet();
           break;
-        case 'edit':
-          this.editTokens();
-          break;
+          case 'edit':
+            this.editTokens();
+            break;
         default:
           this.createWallet();
           break;
       }
+
       this.txInProgress = false;
     }
   }
 
   importWallet() {
+    this.walletService.coins = [];
+    this.setUserCoins();
     this.loadingService
       .showModal(this.modalOptions())
       .then(() => this.walletService.create())
@@ -216,6 +219,8 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   createWallet() {
+    this.walletService.coins = [];
+    this.setUserCoins();
     this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
   }
 
@@ -248,7 +253,7 @@ export class SelectCoinsWalletPage implements OnInit {
   setUserCoins() {
     this.getSuiteFormGroupKeys().forEach((network) => {
       this.getCoinFormGroupKeys(network).forEach((coinKey) => {
-        if (this.form.value[network][coinKey] !== undefined) {
+        if (this.form.value[network][coinKey]) {
           const coin = this.apiWalletService.getCoin(coinKey, network);
           if (coin) this.walletService.coins.push(coin);
         }
@@ -276,7 +281,7 @@ export class SelectCoinsWalletPage implements OnInit {
   private getChangedAssets(): string[] {
     const changedAssets = [];
 
-    this.walletService.coins.forEach((coin) => {
+    this.apiWalletService.getCoins().forEach((coin) => {
       if (this.form.value[coin.network][coin.value] !== this.originalFormData[coin.network][coin.value]) {
         changedAssets.push(coin.value);
       }
@@ -301,6 +306,22 @@ export class SelectCoinsWalletPage implements OnInit {
         this.headerText = 'wallets.select_coin.header';
         this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
         return;
+    }
+  }
+
+  loadPreviousSelection() {
+    if (this.walletService.selectedCoins()) {
+      const selectedCoinsValue = {};
+
+      this.walletService.coins.forEach((coin) => {
+        if (!selectedCoinsValue[coin.network]) {
+          selectedCoinsValue[coin.network] = {};
+        }
+
+        selectedCoinsValue[coin.network][coin.value] = true;
+      });
+
+      this.form.patchValue(selectedCoinsValue);
     }
   }
 }
