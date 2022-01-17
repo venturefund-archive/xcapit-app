@@ -9,10 +9,9 @@ export class TwoPiApi {
     return await this.instance.getVaults();
   }
 
-  vault(vaultID: string): Vault {
+  vault(vaultID: string): Promise<Vault> {
     return this.vaults().then((vaults) => {
-      console.log(vaults);
-      return vaults.find((vault) => vault.identifier === vaultID);
+      return Promise.resolve(vaults.find((vault) => vault.identifier === vaultID));
     });
   }
 }

@@ -1,18 +1,29 @@
-import { SplitStringPipe } from './../../../../../shared/pipes/split-string/split-string.pipe';
-import { TEST_VAULTS } from './../../constants/test-vault.spec';
-import { TEST_MATIC_COINS } from 'src/app/modules/wallets/shared-wallets/constants/coins.test';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 
 import { ExpandableInvestmentInfoComponent } from './expandable-investment-info.component';
-import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.class';
+import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
+import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
+
+const usdc_coin = {
+  id: 8,
+  name: 'USDC - USD Coin',
+  logoRoute: 'assets/img/coins/USDC.png',
+  last: false,
+  value: 'USDC',
+  network: 'MATIC',
+  chainId: 80001,
+  rpc: 'http://testrpc.text/',
+  moonpayCode: 'usdc_polygon',
+  decimals: 6,
+  symbol: 'USDCUSDT',
+};
 
 const testInvestmentProduct = {
   name: 'usdc_aave',
-  vault: TEST_VAULTS[1],
-  token: TEST_MATIC_COINS[1],
+  token: usdc_coin,
   apy: 12.66,
   tvl: 15800500,
   type: 'Vault',

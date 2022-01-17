@@ -2383,6 +2383,10 @@
         "platform": "Platform",
         "annual": "% Annual",
         "blockchain": "Blockchain"
+      },
+      "amount_input_card": {
+        "available": "Available",
+        "disclaimer": "Please note that transaction fees will be charged in"
       }
     }
   }

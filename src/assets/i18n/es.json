@@ -2581,6 +2581,10 @@
         "platform": "Plataforma",
         "annual": "% Anual",
         "blockchain": "Blockchain"
+      },
+      "amount_input_card": {
+        "available": "Disponible",
+        "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
       }
     }
   }

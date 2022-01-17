@@ -6,7 +6,6 @@ import { FixedNumber, BigNumber } from 'ethers';
 
 export class TwoPiInvestmentProduct implements InvestmentProduct {
   name: string;
-  vault: Vault;
   token: Coin;
   apy: number;
   tvl: any;
@@ -14,8 +13,7 @@ export class TwoPiInvestmentProduct implements InvestmentProduct {
   provider = '2PI';
 
   constructor(aVault: Vault, private apiWalletService: ApiWalletService) {
-    this.vault = aVault;
-    this.name = aVault.id;
+    this.name = aVault.identifier;
     this.token = this.setToken(aVault.token);
     this.apy = aVault.apy * 100;
     this.tvl = this.formatTVL(aVault.tvl);

@@ -56,16 +56,4 @@ describe('SendAmountInputCardComponent', () => {
     expect(spy).toHaveBeenCalledWith({ amount: 20 });
     expect(spy).toHaveBeenCalledWith({ referenceAmount: 510 });
   });
-
-  it('should call with BTC as base when currency is RBTC', async () => {
-    component.currencyName = 'RBTC';
-    const spy = spyOn(component.form, 'patchValue').and.callThrough();
-    component.ngOnInit();
-    component.form.patchValue({ amount: 20 });
-    await fixture.whenStable();
-
-    expect(apiWalletServiceSpy.getPrices).toHaveBeenCalledOnceWith(['BTC'], false);
-    expect(spy).toHaveBeenCalledWith({ amount: 20 });
-    expect(spy).toHaveBeenCalledWith({ referenceAmount: 1000000 });
-  });
 });
