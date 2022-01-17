@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@2pi-network/sdk@^0.1.0-alpha.20":
-  version "0.1.0-alpha.20"
-  resolved "https://registry.yarnpkg.com/@2pi-network/sdk/-/sdk-0.1.0-alpha.20.tgz#3746cd64e79b78c3cc6002c39c745762482994d2"
-  integrity sha512-9lX54lCgH069ZYcH6Bmo2pTqgUTYElTNhxNBQ0hNaHahcQL0yKTQM/MCRP82p8fBUoisQUhyILoJE04QJMMxBA==
+"@2pi-network/sdk@^0.1.0-alpha.23":
+  version "0.1.0-alpha.23"
+  resolved "https://registry.yarnpkg.com/@2pi-network/sdk/-/sdk-0.1.0-alpha.23.tgz#2400ae523e3eb475aef3a960f3fdba31cf1ae411"
+  integrity sha512-5GkQdoLdSJDh8m3nmCaIIdNsdX/EKFPdE51ljRbKi0M1vrqxbpwAZQbEKv0vx1Uqc64rnkuez+6GagZ1GoMegg==
   dependencies:
     axios "^0.24.0"
     ethers "^5.5.3"

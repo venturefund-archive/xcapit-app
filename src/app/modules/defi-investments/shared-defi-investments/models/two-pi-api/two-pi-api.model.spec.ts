@@ -47,4 +47,16 @@ describe('TwoPiApi', () => {
     twoPiApi.instance = twoPiInstanceSpy;
     const vault = await expectAsync(twoPiApi.vault('polygon_usdc')).toBeResolvedTo(testVaultUSDC[0]);
   });
+
+  it('should return mainnet networks when environment is production', () => {
+    twoPiApi.env = 'PRODUCCION';
+    const networks = twoPiApi.getNetworks();
+    expect(networks).toEqual({ networks: ['polygon'] });
+  });
+
+  it('should return testnet networks when environment is not production', () => {
+    twoPiApi.env = 'PREPROD';
+    const networks = twoPiApi.getNetworks();
+    expect(networks).toEqual({ networks: ['mumbai'] });
+  });
 });
