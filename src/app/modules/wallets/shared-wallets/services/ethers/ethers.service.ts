@@ -24,4 +24,8 @@ export class EthersService {
   decryptWalletJsonSync(wallet: string, password: string): Wallet {
     return Wallet.fromEncryptedJsonSync(wallet, password);
   }
+
+  encryptWallet(wallet: Wallet, password: string): Promise<string> {
+    return wallet.encrypt(password);
+  }
 }
