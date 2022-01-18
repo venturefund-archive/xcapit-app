@@ -8,7 +8,6 @@ export class TwoPiApi {
   }
 
   getNetworks(): { networks: string[] } {
-    console.log(this.env);
     return this.env === 'PRODUCCION' ? { networks: ['polygon'] } : { networks: ['mumbai'] };
   }
 

@@ -48,6 +48,7 @@ import { NavController } from '@ionic/angular';
     </ion-content>
   `,
   styleUrls: ['./new-investment.page.scss'],
+  providers: [TwoPiApi]
 })
 export class NewInvestmentPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
@@ -55,7 +56,6 @@ export class NewInvestmentPage implements OnInit {
     quoteAmount: ['', [Validators.required]],
   });
   investmentProduct: InvestmentProduct;
-  feeCoin: string;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
