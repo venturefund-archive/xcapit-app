@@ -34,6 +34,26 @@ export class ApiWalletService {
     return this.env === 'PRODUCCION' ? PROD_COINS : NONPROD_COINS;
   }
 
+  getCoinsFromNetwork(network: string): Coin[] {
+    return this.getCoins().filter((coin) => coin.network === network);
+  }
+
+  getNetworks(): string[] {
+    return Object.keys(environment.derivedPaths);
+  }
+
+  getWalletNewNetworks(encryptedWallet: any) {
+    return this.getNetworks().filter((network) => !Object.keys(encryptedWallet.addresses).includes(network));
+  }
+
+  getCoin(coin: string, network?: string): Coin {
+    if (network) {
+      return this.getCoins().find((coinRes) => coinRes.value === coin && coinRes.network === network);
+    }
+
+    return this.getCoins().find((coinRes) => coinRes.value === coin);
+  }
+
   createNFTRequest() {
     return this.http.post(`${environment.apiUrl}/${this.entity}/create_nft_request/`, undefined, undefined, false);
   }

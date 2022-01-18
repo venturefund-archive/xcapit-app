@@ -1,11 +1,9 @@
 import { Directive, HostListener, Input, ElementRef } from '@angular/core';
 import { TrackService } from '../../services/track/track.service';
-import { FirebaseLogsService } from '../../services/firebase-logs/firebase-logs.service';
 import { ITrackClickDirective } from './track-click.interface';
 
 @Directive({
   selector: '[appTrackClick]',
-  providers: [{ provide: TrackService, useClass: FirebaseLogsService }],
 })
 export class TrackClickDirective implements ITrackClickDirective {
   @Input()

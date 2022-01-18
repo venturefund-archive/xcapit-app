@@ -4,20 +4,20 @@ import { FundInvestmentPage } from './fund-investment.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
-import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { of } from 'rxjs';
-import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
-import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
+import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { By } from '@angular/platform-browser';
 
-const storageApiKeysData = { alias: '', nombre_bot: '', id: 1 };
 const testApiKey = [
   {
     id: 778,
@@ -25,19 +25,23 @@ const testApiKey = [
     nombre_bot: '',
   },
 ];
+
 const checkMinBalanceFalse = {
   min_balance: 500,
   balance_is_enough: false,
 };
+
 const checkMinBalanceTrue = {
   min_balance: 500,
   balance_is_enough: true,
 };
+
 const paramShowTrue = {
   paramMap: convertToParamMap({
     show: true,
   }),
 };
+
 const paramShowFalse = {
   paramMap: convertToParamMap({}),
 };
@@ -47,45 +51,48 @@ describe('FundInvestmentPage', () => {
   let fixture: ComponentFixture<FundInvestmentPage>;
   let fundDataStorageServiceSpy;
   let apiApiKeysService: ApiApikeysService;
-  let storageApiKeysServiceMock;
-  let storageApiKeysService: StorageApikeysService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FundInvestmentPage>;
   let alertControllerSpy: any;
   let apiApiKeysServiceSpy: any;
   let activatedRouteSpy: any;
-  let modalControllerSpy: any;
-  let navControllerSpy: any;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+  let fakeWalletService: FakeWalletService;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
   beforeEach(
     waitForAsync(() => {
-      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
-      storageApiKeysServiceMock = { data: storageApiKeysData };
-      fundDataStorageServiceSpy = jasmine.createSpyObj('FundDataStorageService', ['getData', 'setData']);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+      fundDataStorageServiceSpy = jasmine.createSpyObj('FundDataStorageService', {
+        getData: Promise.resolve(),
+        setData: Promise.resolve(),
+      });
+      fundDataStorageServiceSpy.getData.withArgs('apiKeyId').and.returnValue({ api_key_id: 1 });
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['params']);
       apiApiKeysServiceSpy = jasmine.createSpyObj('ApiApikeysService', ['checkMinBalance', 'getAll']);
       navControllerSpy = jasmine.createSpyObj('NavController', ['navigateForward']);
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+
+      fakeWalletService = new FakeWalletService(true);
+      walletServiceSpy = fakeWalletService.createSpy();
+
       TestBed.configureTestingModule({
-        declarations: [FundInvestmentPage, TrackClickDirective, DummyComponent],
-        imports: [
-          TranslateModule.forRoot(),
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          RouterTestingModule.withRoutes([
-            { path: 'funds/fund-name', component: DummyComponent },
-            { path: 'funds/fund-take-profit', component: DummyComponent },
-          ]),
-          IonicModule,
-        ],
+        declarations: [FundInvestmentPage, FakeTrackClickDirective],
+        imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule, HttpClientTestingModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           { provide: FundDataStorageService, useValue: fundDataStorageServiceSpy },
           { provide: ApiApikeysService, useValue: apiApiKeysServiceSpy },
-          { provide: StorageApikeysService, useValue: storageApiKeysServiceMock },
           { provide: AlertController, useValue: alertControllerSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: ModalController, useValue: modalControllerSpy },
+          { provide: WalletService, useValue: walletServiceSpy },
         ],
       }).compileComponents();
     })
@@ -96,7 +103,6 @@ describe('FundInvestmentPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     apiApiKeysService = TestBed.inject(ApiApikeysService);
-    storageApiKeysService = TestBed.inject(StorageApikeysService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
@@ -132,8 +138,7 @@ describe('FundInvestmentPage', () => {
 
     fixture.detectChanges();
     await component.ionViewWillEnter();
-    const result = component.getDataToCheckBalance();
-
+    const result = await component.getDataToCheckBalance();
     expect(result).toBe('testFund');
   });
 
@@ -144,7 +149,7 @@ describe('FundInvestmentPage', () => {
 
     fixture.detectChanges();
     await component.ionViewWillEnter();
-    const result = component.getDataToCheckBalance();
+    const result = await component.getDataToCheckBalance();
 
     expect(result).toEqual({ id: 1 });
   });
@@ -176,5 +181,19 @@ describe('FundInvestmentPage', () => {
     await component.ionViewWillEnter();
     await component.handleSubmit({ risk_level: 'prueba', currency: 'USDT' });
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/apikeys/list');
+  });
+
+  it('should navigate to moonpay page when buy button is clicked in alert and exist wallet', () => {
+    component.existWallet = true;
+    fixture.detectChanges();
+    component.goToBuyCripto();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
+  });
+
+  it('should navigate to intermediate page when buy button is clicked in alert and not exist wallet', () => {
+    component.existWallet = false;
+    fixture.detectChanges();
+    component.goToBuyCripto();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/no-wallet']);
   });
 });

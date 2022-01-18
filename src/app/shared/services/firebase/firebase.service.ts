@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
-import { firebase } from '@firebase/app';
+import * as firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { PlatformService } from '../platform/platform.service';
-import { FirebaseApp } from '@firebase/app-types';
-import { Plugins } from '@capacitor/core';
-import { FirebaseNamespace } from '@firebase/app-types';
+import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  firebaseAnalytics = Plugins.FirebaseAnalytics;
-  importedFirebase: FirebaseNamespace = firebase;
+  firebaseAnalytics = FirebaseAnalytics;
+  importedFirebase = firebase;
   constructor(private platformService: PlatformService) {}
 
-  init(): FirebaseApp {
-    if (this.platformService.isWeb() && !this.importedFirebase.apps.length) {
+  init(): firebase.FirebaseApp {
+    if (this.platformService.isWeb() && !this.importedFirebase.getApps().length) {
       this.firebaseAnalytics.initializeFirebase(environment.firebase);
     }
 
-    return !this.importedFirebase.apps.length
+    return !this.importedFirebase.getApps().length
       ? this.importedFirebase.initializeApp(environment.firebase)
-      : this.importedFirebase.app();
+      : this.importedFirebase.getApp();
   }
 }

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { NullNotificationsService } from './null-notifications.service';
 
-describe('PwaNotificationsService', () => {
+describe('NullNotificationsService', () => {
   let service: NullNotificationsService;
   beforeEach(() => {});
 

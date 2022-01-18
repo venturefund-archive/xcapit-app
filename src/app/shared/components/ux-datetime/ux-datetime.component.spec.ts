@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UxDatetimeComponent } from './ux-datetime.component';
 import { FormGroupDirective } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';

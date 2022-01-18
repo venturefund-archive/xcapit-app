@@ -58,7 +58,7 @@ describe('HomeSubheaderComponent', () => {
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']"));
     button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/operations');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/moonpay');
   });
 
   it('should call trackEvent on trackService when Go to Buy Button clicked', () => {
@@ -83,10 +83,10 @@ describe('HomeSubheaderComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to tabs/funds operations when Go to Investments is clicked', () => {
+  it('should navigate to tabs/investments operations when Go to Investments is clicked', () => {
     const button = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Investments']"));
     button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/funds');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/investments');
   });
 
   it('should call trackEvent on trackService when Go to Investments Button clicked', () => {

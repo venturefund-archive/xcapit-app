@@ -70,12 +70,12 @@ describe('IsOwnerGuard', () => {
     canActivateResult.subscribe((res) => expect(apiFundsServiceSpy.isOwner).toHaveBeenCalledTimes(1));
   });
 
-  it('should call navigateBack with ["/tabs/funds"], { replaceUrl: true } on navController when isOwner is false', () => {
+  it('should call navigateBack with ["/tabs/investments/binance"], { replaceUrl: true } on navController when isOwner is false', () => {
     apiFundsServiceSpy.isOwner.and.returnValue(of({ is_owner: false }));
     const canActivateResult = getObservable(isOwnerGuard.canActivate(activatedRouteSnapshotMock));
     canActivateResult.subscribe((res) => {
       expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
-      expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/funds'], { replaceUrl: true });
+      expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/investments/binance'], { replaceUrl: true });
     });
   });
 });

@@ -1,11 +1,14 @@
+import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UrlSerializer } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { ApiWealthManagementsService } from '../shared-wealth-managements/services/api-wealth-managements/api-wealth-managements.service';
 
 import { SuccessInvestorTestPage } from './success-investor-test.page';
 
@@ -13,17 +16,30 @@ describe('SuccessInvestorTestPage', () => {
   let component: SuccessInvestorTestPage;
   let fixture: ComponentFixture<SuccessInvestorTestPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SuccessInvestorTestPage>;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+  let apiWealthManagementsServiceSpy: jasmine.SpyObj<ApiWealthManagementsService>;
+  let apiProfilesServiceMock: any;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
-      navControllerSpy.navigateBack.and.returnValue(Promise.resolve());
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+
+      apiProfilesServiceMock = {
+        crud: jasmine.createSpyObj('CRUD', {
+          get: of({ investor_category: 'test' }),
+        }),
+      };
       TestBed.configureTestingModule({
         declarations: [SuccessInvestorTestPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [UrlSerializer, { provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          UrlSerializer,
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ApiWealthManagementsService, useValue: apiWealthManagementsServiceSpy },
+          { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SuccessInvestorTestPage);
@@ -80,5 +96,11 @@ describe('SuccessInvestorTestPage', () => {
     const goToHomeButton = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Home');
     goToHomeButton.nativeElement.click();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/home']);
+  });
+
+  it('should get profile on ionViewWillEnter', () => {
+    component.ionViewWillEnter();
+    expect(apiProfilesServiceMock.crud.get).toHaveBeenCalledTimes(1);
+    expect(component.testResult).toEqual('test');
   });
 });

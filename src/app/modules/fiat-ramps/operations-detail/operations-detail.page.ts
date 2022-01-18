@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
+import { Filesystem } from '@capacitor/filesystem';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-operations-detail',
@@ -11,7 +12,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
     <ion-header>
       <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/operations"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/moonpay"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.operation_detail.header' | translate }}
@@ -209,8 +210,6 @@ export class OperationsDetailPage implements OnInit {
   ngOnInit() {}
 
   async addPhoto() {
-    const { Filesystem, Camera } = Plugins;
-
     const filePermissions = await Filesystem.requestPermissions();
     const cameraPermissions = await Camera.requestPermissions();
 
@@ -274,6 +273,6 @@ export class OperationsDetailPage implements OnInit {
   }
 
   navigateBackToOperations() {
-    this.navController.navigateBack(['/fiat-ramps/operations']);
+    this.navController.navigateBack(['/fiat-ramps/moonpay']);
   }
 }

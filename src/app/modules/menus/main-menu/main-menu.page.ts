@@ -9,6 +9,7 @@ import { InformativeModalComponent } from './components/informative-modal/inform
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 import { environment } from 'src/environments/environment';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -92,7 +93,7 @@ export class MainMenuPage implements OnInit {
       id: 2,
       name: 'Funds',
       title: 'app.main_menu.funds',
-      url: '/tabs/funds',
+      url: '/tabs/investments/binance',
       icon: 'ux-myfund-icon',
       routeDirection: 'root',
       showInProd: true,
@@ -129,7 +130,7 @@ export class MainMenuPage implements OnInit {
       id: 6,
       name: 'BuyCrypto',
       title: 'fiat_ramps.operations_list.header',
-      url: '/fiat-ramps/operations',
+      url: '/fiat-ramps/moonpay',
       icon: 'ux-buysell-icon',
       elementClick: 'buyCrypto',
       showInProd: true,
@@ -179,6 +180,16 @@ export class MainMenuPage implements OnInit {
       routeDirection: 'forward',
       showInProd: false,
     },
+    {
+      id: 12,
+      name: 'WalletConnect',
+      title: 'app.main_menu.wallet_connect',
+      url: '/wallets/wallet-connect/new-connection',
+      icon: 'wallet-connect-icon',
+      elementClick: 'walletconnect',
+      routeDirection: 'forward',
+      showInProd: false,
+    },
   ];
 
   constructor(
@@ -189,7 +200,8 @@ export class MainMenuPage implements OnInit {
     private modalController: ModalController,
     private apiFiatRampsService: FiatRampsService,
     public navController: NavController,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private walletConnectService: WalletConnectService
   ) {}
 
   ngOnInit() {
@@ -264,6 +276,16 @@ export class MainMenuPage implements OnInit {
     if (item.elementClick === 'recoveryPhrase' && !(await this.walletService.walletExist())) {
       url = '/wallets/recovery/info-no-wallet';
     }
+    if (item.elementClick === 'walletconnect') {
+      if (!(await this.walletService.walletExist())) {
+        url = 'tabs/wallets';
+      } else {
+        if (this.walletConnectService.connected) {
+          url = 'wallets/wallet-connect/connection-detail';
+        }
+      }
+    }
+
     this.navController.navigateForward(url);
   }
 }

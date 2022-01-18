@@ -1,68 +1,25 @@
+import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { IonicModule, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { of } from 'rxjs';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { isObservable, of } from 'rxjs';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
-
-const testCoins = {
-  test: [
-    {
-      id: 1,
-      name: 'coinTest',
-      logoRoute: '../../assets/img/coins/ETH.svg',
-      last: false,
-      value: 'coinTest',
-      network: 'ERC20',
-      chainId: 42,
-      rpc: 'http://testrpc.test',
-    },
-  ],
-  usdBalanceTest: [
-    {
-      id: 2,
-      name: 'ETH - Ethereum',
-      logoRoute: '../../assets/img/coins/ETH.svg',
-      last: false,
-      value: 'ETH',
-      network: 'ETH',
-      chainId: 42,
-      rpc: 'http://testrpc.test',
-    },
-    {
-      id: 6,
-      name: 'RBTC - Smart Bitcoin',
-      logoRoute: '../../assets/img/coins/RBTC.png',
-      last: false,
-      value: 'RBTC',
-      network: 'RSK',
-      chainId: 31,
-      rpc: 'http://testrpc.test',
-    },
-    {
-      id: 3,
-      name: 'USDT - Tether',
-      logoRoute: '../../assets/img/coins/USDT.svg',
-      last: false,
-      value: 'USDT',
-      network: 'ETH',
-      chainId: 42,
-      rpc: 'http://testrpc.test',
-      decimals: 6,
-    },
-  ],
-};
+import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
+import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { TEST_ERC20_COINS } from '../shared-wallets/constants/coins.test';
+import { QueueService } from '../../../shared/services/queue/queue.service';
 
 const balances: Array<AssetBalance> = [
   {
@@ -91,59 +48,64 @@ const balances: Array<AssetBalance> = [
   },
 ];
 
-const OrderedBalances: Array<AssetBalance> = [
-  {
-    icon: '../../assets/img/coins/RBTC.png',
-    symbol: 'RBTC',
-    name: 'RBTC - Smart Bitcoin',
-    amount: 20,
-    usdAmount: 1000000,
-    usdSymbol: 'USD',
-  },
-  {
-    icon: '../../assets/img/coins/ETH.svg',
-    symbol: 'ETH',
-    name: 'ETH - Ethereum',
-    amount: 20,
-    usdAmount: 60000,
-    usdSymbol: 'USD',
-  },
-  {
-    icon: '../../assets/img/coins/USDT.svg',
-    symbol: 'USDT',
-    name: 'USDT - Tether',
-    amount: 20,
-    usdAmount: 20,
-    usdSymbol: 'USD',
-  },
-];
-
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
-
+  let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
+  let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
+  let ionInfiniteScrollSpy: jasmine.SpyObj<IonInfiniteScroll>;
+  let queueServiceSpy: jasmine.SpyObj<QueueService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getPrices: of({ prices: { ETH: 3000, BTC: 50000, USDT: 1 } }),
         getNFTStatus: of({ status: 'claimed' }),
         createNFTRequest: of({}),
+        getNetworks: ['ERC20'],
       });
-      fakeWalletService = new FakeWalletService(Promise.resolve(true), Promise.resolve('20'), { ERC20: 'testAddress' });
+
+      fakeWalletService = new FakeWalletService(true);
       walletServiceSpy = fakeWalletService.createSpy();
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssestsSelected: Promise.resolve(testCoins.test),
-        updateAssetsList: Promise.resolve(true),
+
+      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
+        getWalletsBalances: Promise.resolve(balances),
+        getUsdTotalBalance: Promise.resolve(5120),
+        balanceOf: Promise.resolve(20),
+        priceOf: Promise.resolve(10),
       });
+
+      refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
+        isAvailable: true,
+        lock: of(),
+      });
+
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        getAssestsSelected: Promise.resolve(TEST_ERC20_COINS),
+      });
+
+      balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
+        coin: Promise.resolve({ balance: 20, price: 5, expiration_date: 1234 }),
+        updateCoin: Promise.resolve(),
+      });
+
+      ionInfiniteScrollSpy = jasmine.createSpyObj('IonInfiniteScroll', { complete: Promise.resolve() });
+
+      queueServiceSpy = jasmine.createSpyObj('QueueService', {
+        create: null,
+        enqueue: null,
+        results: of({}),
+      });
+      queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
 
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
@@ -152,7 +114,11 @@ describe('HomeWalletPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
+          { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
+          { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
+          { provide: QueueService, useValue: queueServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -160,8 +126,7 @@ describe('HomeWalletPage', () => {
       fixture = TestBed.createComponent(HomeWalletPage);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
-      component.allPrices = undefined;
-      component.userCoins = testCoins.test;
+      component.infiniteScroll = ionInfiniteScrollSpy;
       fixture.detectChanges();
     })
   );
@@ -170,88 +135,47 @@ describe('HomeWalletPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check if wallet exist on view will enter and there are a wallet', async () => {
-    await component.ionViewWillEnter();
+  it('should initialize on view did enter', async () => {
+    await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(component.walletExist).toBe(true);
+    expect(component.walletExist).toBeTrue();
+    expect(component.selectedAssets.length).toBeGreaterThan(0);
+    expect(component.nftStatus).toEqual('claimed');
+    expect(component.balances.length).toBeGreaterThan(0);
   });
 
-  it('should check if wallet exist on view will enter and there are not a wallet', async () => {
-    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    await component.ionViewWillEnter();
-    expect(component.walletExist).toBe(false);
-  });
+  it('should re-initialize when refresher is triggered', fakeAsync(() => {
+    const eventMock = { target: { complete: jasmine.createSpy('complete') } };
+    const spy = spyOn(component, 'initialize');
+    component.ionViewDidEnter();
+    tick();
+    fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
+    fixture.detectChanges();
+    tick(1000);
+    expect(spy).toHaveBeenCalled();
+    expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
+    expect(refreshTimeoutServiceSpy.lock).toHaveBeenCalledTimes(1);
+  }));
 
-  it('should not render app-wallets-subheader when walletExist is true', () => {
+  it('should not re-initialize when refresher is not available', fakeAsync(() => {
+    refreshTimeoutServiceSpy.isAvailable.and.returnValue(false);
+    const eventMock = { target: { complete: jasmine.createSpy('complete') } };
+    const spy = spyOn(component, 'initialize');
+    tick();
+    fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
+    tick(1000);
+    expect(spy).not.toHaveBeenCalled();
+    expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
+    expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();
+  }));
+
+  it('should not load more balances when ends', async () => {
     component.walletExist = true;
+    component.selectedAssets = [];
     fixture.detectChanges();
-    const subheader = fixture.debugElement.query(By.css('.wt__subheader'));
-    expect(subheader).toBeNull();
-  });
-
-  it('should order balances by amount', async () => {
-    fakeWalletService.modifyAttributes({
-      ETH: 'testAddressEth',
-      RSK: 'testAddressRsk',
-    });
-    component.userCoins = testCoins.usdBalanceTest;
-    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
-    fixture.detectChanges();
-    await component.getWalletsBalances();
-    expect(component.balances).toEqual(OrderedBalances);
-  });
-
-  it('should render app-wallets-buttons-subheader when walletExist is true', () => {
-    component.walletExist = true;
-    fixture.detectChanges();
-    const subheader = fixture.debugElement.query(By.css('.wt__overlap_buttons'));
-    expect(subheader).not.toBeNull();
-  });
-
-  it('should not render app-wallets-buttons-subheader when walletExist is false', () => {
-    component.walletExist = false;
-    fixture.detectChanges();
-    const subheader = fixture.debugElement.query(By.css('.wt__overlap_buttons'));
-    expect(subheader).toBeNull();
-  });
-
-  it('should render app-wallet-balance-card when walletExist and there are balances', () => {
-    component.walletExist = true;
-    component.balances = balances;
-    fixture.detectChanges();
-    const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
-    expect(balanceElement).not.toBeNull();
-  });
-
-  it('should not render app-wallet-balance-card when walletExist is true but there are not balances', () => {
-    component.walletExist = true;
-    component.balances = [];
-    fixture.detectChanges();
-    const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
-    expect(balanceElement).toBeNull();
-  });
-
-  it('should not render app-wallet-balance-card when walletExist is false and have balances', () => {
-    component.walletExist = false;
-    component.balances = balances;
-    fixture.detectChanges();
-    const balanceElement = fixture.debugElement.query(By.css('.wt__balance'));
-    expect(balanceElement).toBeNull();
-  });
-
-  it('should show the total balance in USD on getWalletsBalances', async () => {
-    fakeWalletService.modifyAttributes({
-      ETH: 'testAddressEth',
-      RSK: 'testAddressRsk',
-    });
-    component.userCoins = testCoins.usdBalanceTest;
-    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
-    const expectedBalance = 1060020;
-
-    await component.getWalletsBalances();
-
-    expect(component.totalBalanceWallet).toBe(expectedBalance);
+    fixture.debugElement.query(By.css('ion-infinite-scroll')).triggerEventHandler('ionInfinite', null);
+    expect(component.infiniteScroll.disabled).toBeTrue();
   });
 
   it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
@@ -263,79 +187,29 @@ describe('HomeWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate when goToRecoveryWallet is called', async () => {
-    component.goToRecoveryWallet();
+  it('should navigate when Import Wallet button is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="Import Wallet"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-first/disclaimer', 'import']);
   });
 
-  it('should show the total balance in USD on ionViewWillEnter', fakeAsync(() => {
-    storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));
-    fakeWalletService.modifyAttributes({
-      ETH: 'testAddressEth',
-      RSK: 'testAddressRsk',
-    });
-    const expectedBalance = 1060020;
-
-    component.ionViewWillEnter();
-    tick(350);
-
-    expect(component.totalBalanceWallet).toBe(expectedBalance);
-    flush();
-  }));
-
-  it('should show the equivalent of each coin balance in USD on getWalletsBalances', async () => {
-    component.userCoins = testCoins.usdBalanceTest;
-    fakeWalletService.modifyAttributes({
-      ETH: 'testAddressEth',
-      RSK: 'testAddressRsk',
-    });
-    component.allPrices = { prices: { ETH: 3000, BTC: 50000, USDT: 1 } };
-
-    const expectedBalanceRBTC = 1000000;
-    const expectedBalanceETH = 60000;
-    const expectedBalanceUSDT = 20;
-
-    await component.getWalletsBalances();
-    expect(component.balances[0].usdAmount).toBe(expectedBalanceRBTC);
-    expect(component.balances[1].usdAmount).toBe(expectedBalanceETH);
-    expect(component.balances[2].usdAmount).toBe(expectedBalanceUSDT);
+  it('should call appTrackEvent on trackService when Edit Tokens clicked', () => {
+    component.walletExist = true;
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Tokens');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not sum USD balances if coin price was not found on ionViewWillEnter', fakeAsync(() => {
-    storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve(testCoins.usdBalanceTest));
-    fakeWalletService.modifyAttributes({
-      ETH: 'testAddressEth',
-      RSK: 'testAddressRsk',
-    });
-    apiWalletServiceSpy.getPrices.and.returnValue(of({ prices: { ETH: null, BTC: null, USDT: 1 } }));
-    const expectedBalance = 20;
-
-    component.ionViewWillEnter();
-    tick(350);
-
-    expect(component.totalBalanceWallet).toBe(expectedBalance);
-  }));
-
-  it('should render selected tab', async () => {
+  it('should navigate when Edit Tokens button is clicked', async () => {
     component.walletExist = true;
-    component.balances = balances;
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    expect(fixture.debugElement.query(By.css('.wt__balance'))).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('.wt__nfts'))).not.toBeTruthy();
-    component.segmentsForm.patchValue({ tab: 'nft' });
-    fixture.debugElement.query(By.css('ion-segment-button[value="nft"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="Edit Tokens"]')).nativeElement.click();
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    expect(fixture.debugElement.query(By.css('ion-segment-button[value="nft"]>ion-label.active_tab'))).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('ion-segment-button[value="assets"]>ion-label.active_tab'))
-    ).not.toBeTruthy();
-    expect(fixture.debugElement.query(By.css('.wt__balance'))).not.toBeTruthy();
-    expect(fixture.debugElement.query(By.css('.wt__nfts'))).toBeTruthy();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'edit']);
   });
 
   it('should request the nft and update the nft status to claimed when claim event is received', () => {
@@ -343,43 +217,17 @@ describe('HomeWalletPage', () => {
     component.nftStatus = 'unclaimed';
     component.walletExist = true;
     fixture.detectChanges();
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getPrices: of({ prices: { ETH: 3000, BTC: 50000, USDT: 1 } }),
-      getNFTStatus: of({ status: 'claimed' }),
-      createNFTRequest: of({}),
-    });
     const claimNFTCardComponent = fixture.debugElement.query(By.css('app-nft-card'));
     claimNFTCardComponent.triggerEventHandler('nftRequest', null);
     fixture.detectChanges();
     expect(component.nftStatus).toEqual('claimed');
   });
 
-  it('should render nft card when user have wallet and nft on it', async () => {
-    component.ionViewWillEnter();
+  it('should unsubscribe on did leave', () => {
+    const spy = jasmine.createSpyObj('Subscription', { unsubscribe: null });
+    component.subscriptions$ = [spy];
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    component.segmentsForm.patchValue({ tab: 'nft' });
-    component.nftStatus = 'delivered';
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    const nftEl = fixture.debugElement.query(By.css('app-nft-card'));
-    expect(nftEl).toBeTruthy();
-  });
-
-  it('should not render nft card when user doesnt have wallet', async () => {
-    fakeWalletService.modifyReturns(Promise.resolve(false), Promise.resolve('20'));
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    component.segmentsForm.patchValue({ tab: 'nft' });
-    component.nftStatus = 'delivered';
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    const nftEl = fixture.debugElement.query(By.css('app-nft-card'));
-    expect(nftEl).toBeFalsy();
+    component.ionViewDidLeave();
+    expect(spy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

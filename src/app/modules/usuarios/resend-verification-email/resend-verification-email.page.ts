@@ -42,7 +42,7 @@ import { Storage } from '@ionic/storage';
               }}
             </ion-button>
           </div>
-          <div class="main__actions__secondary" *ngIf="!this.hideSendTicket">
+          <div class="main__actions__secondary">
             <ion-button class="ux-link-xl" appTrackClick fill="clear" name="Open Ticket" (click)="this.openTicket()">
               {{ 'usuarios.register.resend_verification_email.open_ticket_button' | translate }}
             </ion-button>
@@ -55,11 +55,6 @@ import { Storage } from '@ionic/storage';
 })
 export class ResendVerificationEmailPage implements OnInit {
   disableResendEmail = true;
-  hideSendTicket = true;
-
-  private numberOfResends = 0;
-  minimumNumberOfTriesForTicket = 3;
-
   timerText = '';
   timerSeconds: number;
   private timer: any;
@@ -67,31 +62,27 @@ export class ResendVerificationEmailPage implements OnInit {
   email: string;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private apiUsuariosService: ApiUsuariosService,
     private navController: NavController,
     private storage: Storage
-  ) {
-    this.route.queryParams.subscribe((params) => {
-      const extras = this.router.getCurrentNavigation()?.extras;
-      if (extras?.state && extras?.state.email) {
-        this.email = extras.state.email;
-        this.updateStorage();
-        this.resendEmail();
-      } else {
-        this.checkStorage();
-      }
-    });
-  }
+  ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.email = this.route.snapshot.paramMap.get('email');
+    if (this.email) {
+      this.updateStorage();
+      this.resendEmail();
+    } else {
+      this.checkStorage();
+    }
+  }
 
   async checkStorage() {
     this.storage.get('email').then(async (email) => {
       if (email) {
-        this.numberOfResends = await this.storage.get('numberOfResends');
-        this.canShowCreateTicket();
         this.email = email;
         this.startTimer();
       } else {
@@ -102,15 +93,10 @@ export class ResendVerificationEmailPage implements OnInit {
 
   updateStorage() {
     this.updateEmailStorage();
-    this.updateNumberOfResendsStorage();
   }
 
   updateEmailStorage() {
     this.storage.set('email', this.email);
-  }
-
-  updateNumberOfResendsStorage() {
-    this.storage.set('numberOfResends', this.numberOfResends);
   }
 
   async startTimer() {
@@ -138,9 +124,6 @@ export class ResendVerificationEmailPage implements OnInit {
 
   async resendEmail() {
     this.disableResendEmail = true;
-    this.numberOfResends++;
-    this.updateNumberOfResendsStorage();
-    this.canShowCreateTicket();
 
     this.apiUsuariosService.sendEmailValidationByEmail(this.email).subscribe(
       () => {
@@ -152,18 +135,10 @@ export class ResendVerificationEmailPage implements OnInit {
 
   openTicket() {
     this.clearStorage();
-    const params = { state: { email: this.email } };
-    this.navController.navigateForward(['/tickets/create'], params);
-  }
-
-  canShowCreateTicket() {
-    if (this.numberOfResends >= this.minimumNumberOfTriesForTicket) {
-      this.hideSendTicket = false;
-    }
+    this.navController.navigateForward(['/tickets/create', this.email]);
   }
 
   clearStorage() {
     this.storage.remove('email');
-    this.storage.remove('numberOfResends');
   }
 }

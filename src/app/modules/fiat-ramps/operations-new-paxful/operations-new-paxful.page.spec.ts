@@ -13,6 +13,8 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { OperationsNewPaxfulPage } from './operations-new-paxful.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
 const userWallets = {
   aliasDeEstasKey: {
@@ -47,48 +49,34 @@ describe('OperationsNewPaxfulPage', () => {
   let fixture: ComponentFixture<OperationsNewPaxfulPage>;
   let platformServiceSpy: any;
   let fiatRampsServiceSpy: any;
-  let navControllerSpy: any;
-  let browserSpy: any;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsNewPaxfulPage>;
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      navControllerSpy.navigateForward.and.returnValue(Promise.resolve());
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       platformServiceSpy = jasmine.createSpyObj('PlatformServiceSpy', ['isWeb']);
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', ['getUserWallets', 'getLink', 'setProvider']);
       fiatRampsServiceSpy.getUserWallets.and.returnValue(of({}));
       fiatRampsServiceSpy.getLink.and.returnValue(of({}));
-      browserSpy = jasmine.createSpyObj('Browser', ['open']);
-      browserSpy.open.and.returnValue(Promise.resolve());
-
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       TestBed.configureTestingModule({
         declarations: [OperationsNewPaxfulPage, FakeTrackClickDirective],
-        imports: [
-          RouterTestingModule.withRoutes([
-            { path: 'apikeys/list', component: DummyComponent },
-            { path: 'fiat-ramps/new-operation/success-paxful', component: DummyComponent },
-            { path: 'fiat-ramps/operations', component: DummyComponent },
-          ]),
-          TranslateModule.forRoot(),
-          IonicModule,
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-        ],
+        imports: [TranslateModule.forRoot(), IonicModule, ReactiveFormsModule, HttpClientTestingModule],
         providers: [
           { provide: PlatformService, useValue: platformServiceSpy },
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(OperationsNewPaxfulPage);
       component = fixture.componentInstance;
-
-      component.browser = browserSpy;
-
       fixture.detectChanges();
-
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -143,7 +131,7 @@ describe('OperationsNewPaxfulPage', () => {
 
   it('should not open in app browser on handleSubmit and form invalid', () => {
     component.handleSubmit();
-    expect(browserSpy.open).toHaveBeenCalledTimes(0);
+    expect(browserServiceSpy.open).toHaveBeenCalledTimes(0);
   });
 
   it('should call getLink on openPaxfulLink', async () => {
@@ -158,14 +146,14 @@ describe('OperationsNewPaxfulPage', () => {
     fixture.detectChanges();
     component.handleSubmit();
     fixture.whenStable().then(() => {
-      expect(browserSpy.open).toHaveBeenCalledTimes(1);
+      expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
     });
   });
 
   it('should open in app browser on openPaxfulLink with Paxful link', async () => {
     fiatRampsServiceSpy.getLink.and.returnValue(of({ url: 'url' }));
     await component.openPaxfulLink(0);
-    expect(browserSpy.open).toHaveBeenCalledWith({ url: 'url' });
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'url' });
   });
 
   it('should call success on openPaxfulLink', async () => {

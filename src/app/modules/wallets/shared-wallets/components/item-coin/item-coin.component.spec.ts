@@ -46,7 +46,7 @@ describe('ItemCoinComponent', () => {
 
       fixture = TestBed.createComponent(ItemCoinComponent);
       component = fixture.componentInstance;
-      component.suite = 'ETH';
+      component.network = 'ETH';
       component.coin = NONPROD_COINS[0];
       fixture.detectChanges();
     })

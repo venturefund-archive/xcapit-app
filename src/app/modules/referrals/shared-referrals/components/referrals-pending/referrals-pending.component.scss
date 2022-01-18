@@ -1,20 +1,14 @@
 :host {
   .rp {
     &__title {
-      border-bottom: #eeeeee solid 1px;
+      border-bottom: #eee solid 1px;
     }
 
     &__summary {
       margin-top: 24px;
-      &__second-order {
-        margin-top: 16px;
-      }
-    }
 
-    &__claim {
-      margin-top: 24px;
-      ion-button {
-        width: 100%;
+      &__first-order {
+        margin-bottom: 16px;
       }
     }
 

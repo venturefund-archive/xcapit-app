@@ -14,4 +14,6 @@ export interface Coin {
   decimals?: number;
   selected?: boolean;
   native?: boolean;
+  symbol?: string;
+  moonpayCode?: string;
 }

@@ -5,6 +5,7 @@ import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.servic
 import { WalletService } from './wallet.service';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { NONPROD_COINS } from '../../constants/coins.nonprod';
+import { StorageService } from '../storage-wallets/storage-wallets.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -19,7 +20,6 @@ const testCoins = {
 };
 
 const testWallet: Wallet = { address: 'testAddress' } as Wallet;
-const testCreatedWallets: Wallet[] = [testWallet];
 
 describe('WalletService', () => {
   let service: WalletService;
@@ -27,6 +27,7 @@ describe('WalletService', () => {
   let walletMnemonicServiceMock;
   let blockchainProviderServiceMock;
   let blockchainProviderService: BlockchainProviderService;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
   beforeEach(() => {
     walletMnemonicServiceMock = {
       mnemonic: testMnemonic,
@@ -34,10 +35,14 @@ describe('WalletService', () => {
     blockchainProviderServiceMock = {
       getFormattedBalanceOf: (address: string, asset: string) => Promise.resolve('20'),
     };
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletFromStorage: Promise.resolve(testWallet),
+    });
     TestBed.configureTestingModule({
       providers: [
         { provide: WalletMnemonicService, useValue: walletMnemonicServiceMock },
         { provide: BlockchainProviderService, useValue: blockchainProviderServiceMock },
+        { provide: StorageService, useValue: storageServiceSpy },
       ],
     });
     service = TestBed.inject(WalletService);

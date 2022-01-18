@@ -10,7 +10,8 @@
     height: 100%;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: top;
+    margin-top: 105px;
 
     &__close_button {
       position: absolute;
@@ -29,7 +30,7 @@
 
     &__ux_success_image {
       max-width: 60%;
-      margin: 0px;
+      margin-top: 40px;
     }
 
     &__primary_text {
@@ -38,19 +39,22 @@
     }
 
     &__secondary_text {
-      margin-top: 16px;
+      margin-top: 8px;
       text-align: center;
-      color: var(--ion-color-gray1);
+      color: var(--ion-color-uxprimary);
     }
 
     &__actions {
       padding-left: 13px;
       padding-right: 13px;
       width: 100%;
-      margin-top: 24px;
+      margin-top: 40px;
       text-align: center;
+
       ion-button {
-        width: 22%;
+        flex-direction: column;
+        display: flex;
+        align-items: flex-end;
       }
     }
   }

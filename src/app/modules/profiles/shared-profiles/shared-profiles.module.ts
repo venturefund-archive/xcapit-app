@@ -3,9 +3,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [],
-  imports: [
-    SharedModule
-  ],
-  exports: [SharedModule]
+  imports: [SharedModule],
+  exports: [SharedModule],
 })
-export class SharedProfilesModule { }
+export class SharedProfilesModule {}

@@ -6,6 +6,7 @@ import { ReferralsShareComponent } from './components/referrals-share/referrals-
 import { ReferralsPendingComponent } from './components/referrals-pending/referrals-pending.component';
 import { ReferralsHistoryComponent } from './components/referrals-history/referrals-history.component';
 import { ReferralDetailComponent } from './components/referral-detail/referral-detail.component';
+import { ReferralPromotionCardComponent } from './components/referral-promotion-card/referral-promotion-card.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { ReferralDetailComponent } from './components/referral-detail/referral-d
     ReferralsPendingComponent,
     ReferralsHistoryComponent,
     ReferralDetailComponent,
+    ReferralPromotionCardComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -21,6 +23,7 @@ import { ReferralDetailComponent } from './components/referral-detail/referral-d
     ReferralsPendingComponent,
     ReferralsHistoryComponent,
     ReferralDetailComponent,
+    ReferralPromotionCardComponent,
   ],
   providers: [DatePipe, HideReferralPipe],
 })

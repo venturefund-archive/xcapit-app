@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
+import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-select-currency',
@@ -34,12 +35,14 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
 })
 export class SelectCurrencyPage implements OnInit {
   coins: Coin[];
-  constructor(private navController: NavController, private apiWalletService: ApiWalletService) {}
+  constructor(private navController: NavController, private storageService: StorageService) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.coins = this.apiWalletService.getCoins();
+    this.storageService.getAssestsSelected().then((coins) => {
+      this.coins = coins;
+    });
   }
 
   selectCurrency(currency) {

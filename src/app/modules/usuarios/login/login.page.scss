@@ -1,5 +1,6 @@
 :host {
   justify-content: flex-start !important;
+
   .xcapit-logo {
     display: flex;
     justify-content: center;
@@ -10,6 +11,7 @@
   .main {
     margin-top: 8px;
     overflow: auto;
+
     &__reset_password__button {
       display: flex;
       justify-content: center;
@@ -27,7 +29,7 @@
     margin-top: 24px;
   }
 
-  .login_title {
+  .login-title {
     margin-top: 24px;
     margin-left: 16px;
   }
@@ -37,19 +39,22 @@
   }
 
   .google-auth {
-    padding-bottom: 16px;
-    margin-top: 16px;
+    margin-bottom: 10px;
+    margin-top: 24px;
+    border: 1.5px solid var(--ion-color-info);
+    border-radius: 10px;
+    display: flex;
 
     &__button {
-      --background: white;
+      --background: transparent;
       --color: black;
-      --background-hover: lightgray;
-      --background-focused: lightgray;
-      --background-activated: lightgray;
       --border-radius: 0;
+
+      width: 100%;
 
       &__text {
         margin-left: 8px;
+        color: var(--ion-color-info);
       }
 
       &__icon {
