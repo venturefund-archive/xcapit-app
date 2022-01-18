@@ -19,16 +19,6 @@ const formData = {
     password: 'newTestPassword0',
     repeat_password: 'newTestPassword0',
   },
-  emptyOldPassword: {
-    old_password: '',
-    password: 'newTestPassword0',
-    repeat_password: 'newTestPassword0',
-  },
-  emptyNewPassword: {
-    old_password: 'oldTestPassword0',
-    password: '',
-    repeat_password: '',
-  },
   hasNumber: {
     old_password: 'oldTestPassword0',
     password: 'newTestPassword',
@@ -43,17 +33,6 @@ const formData = {
     old_password: 'oldTestPassword0',
     password: 'NEWTESTPASSWORD0',
     repeat_password: 'NEWTESTPASSWORD0',
-  },
-  minlength: {
-    old_password: 'oldTestPassword0',
-    password: 'Test0',
-    repeat_password: 'Test0',
-  },
-  maxlength: {
-    old_password: 'oldTestPassword0',
-    password: 'veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongPassword0',
-    repeat_password:
-      'veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongPassword0',
   },
   newPasswordDoesNotMatch: {
     old_password: 'oldTestPassword0',
@@ -115,159 +94,78 @@ describe('WalletPasswordChangePage', () => {
   describe('Form Errors', () => {
     let markAllAsTouchedSpy: jasmine.Spy;
     let formGroup: any;
-    let oldPasswordControl: any;
     let newPasswordControl: any;
     let repeatPasswordControl: any;
+    let changePasswordSpy: jasmine.Spy;
 
     beforeEach(() => {
       markAllAsTouchedSpy = spyOn(component.changePasswordForm, 'markAllAsTouched').and.callThrough();
       formGroup = component.changePasswordForm;
-      oldPasswordControl = component.changePasswordForm.get('old_password');
       newPasswordControl = component.changePasswordForm.get('password');
       repeatPasswordControl = component.changePasswordForm.get('repeat_password');
-      spyOn(component, 'changePassword');
+      changePasswordSpy = spyOn(component, 'changePassword');
     });
 
-    [
-      {
-        name: 'no',
-        data: formData.valid,
-        errorsOnForm: undefined,
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: undefined,
-        errorsOnRepeatPassword: undefined,
-      },
-      {
-        name: 'required field (old password)',
-        data: formData.emptyOldPassword,
-        errorsOnForm: undefined,
-        errorsOnOldPassword: ['required'],
-        errorsOnPassword: undefined,
-        errorsOnRepeatPassword: undefined,
-      },
-      {
-        name: 'required field (password and repeat password)',
-        data: formData.emptyNewPassword,
-        errorsOnForm: undefined,
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: ['required'],
-        errorsOnRepeatPassword: undefined,
-      },
-      {
-        name: 'hasNumber password',
-        data: formData.hasNumber,
-        errorsOnForm: undefined,
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: ['hasNumber'],
-        errorsOnRepeatPassword: undefined,
-      },
-      {
-        name: 'hasCapitalCase password',
-        data: formData.hasCapitalCase,
-        errorsOnForm: undefined,
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: ['hasCapitalCase'],
-        errorsOnRepeatPassword: undefined,
-      },
-      {
-        name: 'hasSmallCase password',
-        data: formData.hasSmallCase,
-        errorsOnForm: undefined,
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: ['hasSmallCase'],
-        errorsOnRepeatPassword: undefined,
-      },
-      {
-        name: 'minlength password',
-        data: formData.minlength,
-        errorsOnForm: undefined,
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: ['minlength'],
-        errorsOnRepeatPassword: undefined,
-      },
-      {
-        name: 'maxlength password',
-        data: formData.maxlength,
-        errorsOnForm: undefined,
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: ['maxlength'],
-        errorsOnRepeatPassword: undefined,
-      },
-      {
-        name: 'noPasswordMatch',
-        data: formData.newPasswordDoesNotMatch,
-        errorsOnForm: ['noPasswordMatch'],
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: undefined,
-        errorsOnRepeatPassword: ['noPasswordMatch'],
-      },
-      {
-        name: 'newPasswordMatchesOld',
-        data: formData.newPasswordMatchesOldPassword,
-        errorsOnForm: ['newPasswordMatchesOld'],
-        errorsOnOldPassword: undefined,
-        errorsOnPassword: ['newPasswordMatchesOld'],
-        errorsOnRepeatPassword: undefined,
-      },
-    ].forEach((testCase) => {
-      if (testCase.errorsOnForm) {
-        it(`should have ${testCase.name} errors on form group on form submit`, async () => {
-          component.changePasswordForm.patchValue(testCase.data);
-          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-          fixture.detectChanges();
-          await fixture.whenStable();
-          expect(formGroup.valid).toBeFalse();
-          expect(formGroup.hasError(testCase.errorsOnForm[0])).toBeTrue();
-        });
-      }
+    it(`should have no errors on valid form on form submit`, async () => {
+      component.changePasswordForm.patchValue(formData.valid);
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(formGroup.valid).toBeTrue();
+      expect(markAllAsTouchedSpy).toHaveBeenCalledTimes(0);
+      expect(changePasswordSpy).toHaveBeenCalledTimes(1);
+    });
 
-      if (testCase.errorsOnOldPassword) {
-        it(`should have ${testCase.name} errors on old_password field on form submit`, async () => {
-          component.changePasswordForm.patchValue(testCase.data);
-          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-          fixture.detectChanges();
-          await fixture.whenStable();
-          expect(oldPasswordControl.valid).toBeFalse();
-          expect(oldPasswordControl.hasError(testCase.errorsOnOldPassword[0])).toBeTrue();
-        });
-      }
+    it(`should have hasNumber error on password on form submit`, async () => {
+      component.changePasswordForm.patchValue(formData.hasNumber);
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(newPasswordControl.hasError('hasNumber')).toBeTrue();
+      expect(markAllAsTouchedSpy).toHaveBeenCalledTimes(1);
+      expect(changePasswordSpy).toHaveBeenCalledTimes(0);
+    });
 
-      if (testCase.errorsOnPassword) {
-        it(`should have ${testCase.name} errors on password field on form submit`, async () => {
-          component.changePasswordForm.patchValue(testCase.data);
-          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-          fixture.detectChanges();
-          await fixture.whenStable();
-          expect(newPasswordControl.valid).toBeFalse();
-          expect(newPasswordControl.hasError(testCase.errorsOnPassword[0])).toBeTrue();
-        });
-      }
+    it(`should have hasCapitalCase error on password on form submit`, async () => {
+      component.changePasswordForm.patchValue(formData.hasCapitalCase);
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(newPasswordControl.hasError('hasCapitalCase')).toBeTrue();
+      expect(markAllAsTouchedSpy).toHaveBeenCalledTimes(1);
+      expect(changePasswordSpy).toHaveBeenCalledTimes(0);
+    });
 
-      if (testCase.errorsOnRepeatPassword) {
-        it(`should have ${testCase.name} errors on repeat_password field on form submit`, async () => {
-          component.changePasswordForm.patchValue(testCase.data);
-          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-          fixture.detectChanges();
-          await fixture.whenStable();
-          expect(repeatPasswordControl.valid).toBeFalse();
-          expect(repeatPasswordControl.hasError(testCase.errorsOnRepeatPassword[0])).toBeTrue();
-        });
-      }
+    it(`should have hasSmallCase error on password on form submit`, async () => {
+      component.changePasswordForm.patchValue(formData.hasSmallCase);
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(newPasswordControl.hasError('hasSmallCase')).toBeTrue();
+      expect(markAllAsTouchedSpy).toHaveBeenCalledTimes(1);
+      expect(changePasswordSpy).toHaveBeenCalledTimes(0);
+    });
 
-      if (
-        !!testCase.errorsOnForm ||
-        !!testCase.errorsOnOldPassword ||
-        !!testCase.errorsOnPassword ||
-        !!testCase.errorsOnRepeatPassword
-      ) {
-        it(`should show ${testCase.name} errors message on form submit`, async () => {
-          component.changePasswordForm.patchValue(testCase.data);
-          fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-          fixture.detectChanges();
-          await fixture.whenStable();
-          expect(markAllAsTouchedSpy).toHaveBeenCalledTimes(1);
-        });
-      }
+    it(`should have noPasswordMatch error on password on form submit`, async () => {
+      component.changePasswordForm.patchValue(formData.newPasswordDoesNotMatch);
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(formGroup.hasError('noPasswordMatch')).toBeTrue();
+      expect(repeatPasswordControl.hasError('noPasswordMatch')).toBeTrue();
+      expect(markAllAsTouchedSpy).toHaveBeenCalledTimes(1);
+      expect(changePasswordSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it(`should have newPasswordMatchesOld error on password on form submit`, async () => {
+      component.changePasswordForm.patchValue(formData.newPasswordMatchesOldPassword);
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(formGroup.hasError('newPasswordMatchesOld')).toBeTrue();
+      expect(newPasswordControl.hasError('newPasswordMatchesOld')).toBeTrue();
+      expect(markAllAsTouchedSpy).toHaveBeenCalledTimes(1);
+      expect(changePasswordSpy).toHaveBeenCalledTimes(0);
     });
   });
 
