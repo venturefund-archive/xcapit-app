@@ -16,7 +16,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           {{ this.subtitle }}
         </ion-text>
       </div>
-      <div class="step__content_slide__button_back slide_button" *ngIf="this.actualStep > 1">
+      <div class="step__content_slide__button_back slide-button" *ngIf="this.actualStep > 1">
         <ion-button
           appTrackClick
           name="Ion Slide Back Button"

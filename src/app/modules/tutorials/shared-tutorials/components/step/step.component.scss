@@ -9,18 +9,21 @@
 
     &__logo {
       svg {
-        fill: #000000 !important;
+        fill: #000 !important;
       }
     }
+
     &__image {
       width: inherit;
       height: auto;
+
       img {
         width: inherit;
         height: 100%;
         margin-bottom: -5px;
       }
     }
+
     &__text {
       display: flex;
       flex-direction: column;
@@ -35,6 +38,7 @@
         ion-text {
           color: var(--ion-color-uxprimary);
         }
+
         margin-top: 23px;
       }
 
@@ -42,28 +46,33 @@
         ion-text {
           color: var(--ion-color-gray1);
         }
+
         margin-top: 45px;
-        padding: 0px 44px;
+        padding: 44px;
       }
     }
 
     &__button_skip {
       position: absolute;
       bottom: 8px;
+
       ion-button {
-        color: var(--ion-color-primary-contrast);
+        color: white;
         text-decoration: underline;
       }
     }
+
     &__button_finish {
       position: absolute;
       bottom: 8px;
       width: inherit;
+
       ion-button {
         color: var(--ion-color-primary-contrast);
-        margin: 0px 16px;
+        margin: 16px;
       }
     }
+
     &__button_next {
       position: absolute;
       right: 16px;
@@ -72,6 +81,7 @@
     &__button_back {
       position: absolute;
       left: 16px;
+
       ion-icon {
         transform: rotate(180deg);
       }
@@ -89,6 +99,7 @@
       position: absolute;
       right: 19px;
       top: 15px;
+
       ion-text {
         color: var(--ion-color-uxprimary);
       }
@@ -96,8 +107,9 @@
   }
 }
 
-.slide_button {
+.slide-button {
   top: 50%;
+
   ion-button {
     --padding-bottom: 17px;
     --padding-top: 17px;
