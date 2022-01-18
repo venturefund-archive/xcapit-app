@@ -7,7 +7,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-c
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
-describe('ReferralPromotionCardComponent', () => {
+fdescribe('ReferralPromotionCardComponent', () => {
   let component: ReferralPromotionCardComponent;
   let fixture: ComponentFixture<ReferralPromotionCardComponent>;
   let fakeNavController: FakeNavController;
@@ -35,14 +35,10 @@ describe('ReferralPromotionCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to referrals page on button click', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Go To Referrals"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/referrals/summary');
-  });
 
   it('should navigate to referrals page on card click', () => {
     fixture.debugElement.query(By.css('div[name="Go To Referrals"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/referrals/summary');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/referrals/summary');
   });
 
   it('should call trackEvent on trackService when Go To Referrals link clicked', () => {

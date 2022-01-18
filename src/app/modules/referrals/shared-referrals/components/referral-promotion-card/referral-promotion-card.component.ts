@@ -17,7 +17,6 @@ import { NavController } from '@ionic/angular';
           class="text-button-primary align-text-start"
           size="small"
           color="uxprimary"
-          (click)="this.goToReferrals()"
         >
           {{ 'referrals.referral_promotion.button' | translate }}
           <ion-icon name="ux-forward"></ion-icon>
