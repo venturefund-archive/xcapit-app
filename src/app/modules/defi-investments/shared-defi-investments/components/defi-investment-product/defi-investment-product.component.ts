@@ -26,7 +26,7 @@ import { NavController } from '@ionic/angular';
             'defi_investments.shared_defi_investments.defi_investment_product.performance' | translate
           }}</ion-text>
           <ion-badge class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge" slot="end"
-            >{{ this.product?.apy | number: '1.2-2' }}%
+            >{{ this.investmentProduct?.apy | number: '1.2-2' }}%
             {{ 'defi_investments.shared_defi_investments.defi_investment_product.annual' | translate }}</ion-badge
           >
         </div>
@@ -37,7 +37,7 @@ import { NavController } from '@ionic/angular';
             }}</ion-text>
           </div>
           <div class="dip__content__liquidity__liq">
-            <ion-text class="ux-font-text-xxs">{{ this.product?.formattedTvl | number: '1.2-2' }} USD</ion-text>
+            <ion-text class="ux-font-text-xxs">{{ this.investmentProduct?.tvl | number: '1.2-2' }} USD</ion-text>
           </div>
         </div>
       </div>

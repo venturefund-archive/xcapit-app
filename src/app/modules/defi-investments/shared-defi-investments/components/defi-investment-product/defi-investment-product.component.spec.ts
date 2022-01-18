@@ -1,6 +1,5 @@
-import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { Vault, TwoPi } from '@2pi-network/sdk';
+import { Vault } from '@2pi-network/sdk';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -10,7 +9,6 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { TwoPiApi } from '../../models/two-pi-api/two-pi-api.model';
 import { DefiInvestmentProductComponent } from './defi-investment-product.component';
-import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 
 const defiProduct = {
   id: 'polygon_usdc',
@@ -48,12 +46,11 @@ const testVault = {
 describe('DefiInvestmentProductComponent', () => {
   let component: DefiInvestmentProductComponent;
   let fixture: ComponentFixture<DefiInvestmentProductComponent>;
-  let twoPiApiSpy: jasmine.SpyObj<TwoPi>;
+  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DefiInvestmentProductComponent>;
-
 
   beforeEach(
     waitForAsync(() => {

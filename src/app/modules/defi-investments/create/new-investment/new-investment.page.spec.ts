@@ -14,7 +14,6 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { NewInvestmentPage } from './new-investment.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { TwoPiInvestmentService } from '../../shared-defi-investments/services/two-pi-investment/two-pi-investment.service';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -62,6 +61,7 @@ describe('NewInvestmentPage', () => {
       navControllerSpy = fakeNavController.createSpy();
 
       twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
+        vaults: Promise.resolve([testVault]),
         vault: Promise.resolve(testVault),
       });
 

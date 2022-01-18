@@ -48,7 +48,6 @@ import { NavController } from '@ionic/angular';
     </ion-content>
   `,
   styleUrls: ['./new-investment.page.scss'],
-  providers: [TwoPiApi]
 })
 export class NewInvestmentPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
