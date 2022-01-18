@@ -17,7 +17,7 @@ import { NoWalletData } from './no-wallet-data.interface';
       <div class="main__primary_text ux-font-text-xl">
         <ion-text>{{ this.data?.title | translate }}</ion-text>
       </div>
-      <div class="main__secondary_text ux-font-text-base">
+      <div class="main__secondary_text ux-font-text-base-black">
         <ion-text>{{ this.data?.subtitle | translate }}</ion-text>
       </div>
       <div class="main__button">
