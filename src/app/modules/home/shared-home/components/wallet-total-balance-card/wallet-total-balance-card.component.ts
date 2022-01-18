@@ -19,7 +19,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
       </div>
       <div class="wbc__content_balance" *ngIf="this.walletExist">
         <div class="wbc__content_balance__body">
-          <img src="assets/ux-icons/ux-wallet-circle.svg" />
+          <img src="assets/ux-icons/ux-wallet-circle-lightinfo.svg" />
           <div class="ux-font-text-xl wbc__content_balance__body__balance">
             {{
               (this.totalBalanceWallet ? this.totalBalanceWallet : '0.00')
@@ -37,7 +37,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           </a>
         </div>
       </div>
-      <div class="wbc__arrow" name="Go To Home Wallet" (click)="this.goToHomeWallet()" appTrackClick>
+      <div [ngClass]="{ walletArrow: this.walletExist }" class="wbc__arrow" name="Go To Home Wallet" (click)="this.goToHomeWallet()" appTrackClick>
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </div>
     </div>
