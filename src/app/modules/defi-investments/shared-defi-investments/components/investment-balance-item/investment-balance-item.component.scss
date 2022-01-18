@@ -1,0 +1,50 @@
+.ibi {
+  display: flex;
+  align-items: center;
+  background: var(--ion-color-uxlight);
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 0.5px solid var(--ion-color-uxmedium);
+  padding: 8px 16px 12px;
+  background-size: cover !important;
+
+  &__image {
+    margin-right: 10px;
+    justify-content: center;
+    width: fit-content;
+
+    &__img {
+      margin: 2px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__content {
+    width: 100%;
+    justify-content: space-between;
+
+    &__group {
+      align-items: center;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0;
+
+      &__badge {
+        --background: var(--ion-color-successlight);
+        --color: var(--ion-color-successdark);
+        --height: 12px;
+
+        margin-top: 4px;
+      }
+
+
+      .converted_balance {
+        color: var(--ion-color-uxsemidark);
+      }
+    }
+  }
+}
