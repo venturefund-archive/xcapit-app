@@ -141,6 +141,23 @@ const routes: Routes = [
         loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
       },
       {
+        path: 'password-change',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./password/wallet-password-change/wallet-password-change.module').then( m => m.WalletPasswordChangePageModule)
+          },
+          {
+            path: 'success',
+            loadChildren: () => import('./password/wallet-password-change-success/wallet-password-change-success.module').then( m => m.WalletPasswordChangeSuccessPageModule)
+          },
+          {
+            path: 'error',
+            loadChildren: () => import('./password/wallet-password-change-error/wallet-password-change-error.module').then( m => m.WalletPasswordChangeErrorPageModule)
+          },
+        ]
+      },
+      {
         path: 'nft-detail',
         loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
       },

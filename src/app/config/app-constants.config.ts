@@ -107,6 +107,13 @@ export const CONFIG = {
         rules: [],
       },
     ],
+    oldPassword: [
+      {
+        name: 'walletIncorrectPassword',
+        text: 'config.field_errors.old_password.wallet_incorrect_password',
+        rules: [],
+      }
+    ],
     repeatPassword: [
       {
         name: 'noPasswordMatch',
@@ -118,6 +125,13 @@ export const CONFIG = {
       {
         name: 'noFieldsMatch',
         text: 'config.field_errors.repeat_username.no_fields_match',
+        rules: [],
+      },
+    ],
+    newPassword: [
+      {
+        name: 'newPasswordMatchesOld',
+        text: 'config.field_errors.new_password.new_password_matches_old',
         rules: [],
       },
     ],
