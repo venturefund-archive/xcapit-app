@@ -45,8 +45,14 @@
         "has_capital_case": "Se requiere mínimo una mayúscula",
         "has_small_case": "Se requiere mínimo una minúscula"
       },
+      "old_password": {
+        "wallet_incorrect_password": "La contraseña es incorrecta, vuelve a intentarlo"
+      },
       "repeat_password": {
-        "no_password_match": "La password no coincide"
+        "no_password_match": "Las contraseñas no coinciden, vuelve a intentarlo"
+      },
+      "new_password": {
+        "new_password_matches_old": "Tu nueva contraseña no puede ser igual a la anterior, vuelve a intentarlo"
       },
       "repeat_username": {
         "no_fields_match": "El email no coincide"
@@ -1429,6 +1435,30 @@
       "title": "Aún no tienes tu Wallet Xcapit",
       "subtitle": "Cada vez que realices una compra, tus criptomonedas se depositarán allí.",
       "button": "Crear Wallet"
+    },
+    "password_change": {
+      "header": "Cambiar contraseña wallet",
+      "title": "Antes de cambiar la contraseña de tu wallet ten en cuenta que:",
+      "description": "Debes tener anotada tu frase de recuperación. Esto te ayudará a recuperar tu wallet si olvidas tu nueva contraseña.",
+      "old_password": "Escribe tu contraseña actual",
+      "new_password": "Escribe tu nueva contraseña",
+      "repeat_password": "Repite tu nueva contraseña",
+      "submit_button": "Cambiar",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos procesando tu nueva contraseña."
+      }
+    },
+    "password_change_success": {
+      "textPrimary": "¡Genial!",
+      "textSecondary": "Cambiaste la contraseña de tu wallet exitosamente.",
+      "namePrimaryAction": "Volver al Home"
+    },
+    "password_change_error": {
+      "textPrimary": "Parece que algo salió mal",
+      "textSecondary": "No pudimos cambiar tu contraseña.",
+      "namePrimaryAction": "Reintentar",
+      "nameSecondaryAction": "Volver al home"
     },
     "disclaimer": {
       "header": "Crear wallet",

@@ -45,8 +45,14 @@
         "has_capital_case": "Minimum one capital letter is required ",
         "has_small_case": "Minimum one lowercase required "
       },
+      "old_password": {
+        "wallet_incorrect_password": "Incorrect password, try again"
+      },
       "repeat_password": {
-        "no_password_match": "La password no coincide"
+        "no_password_match": "Passwords don't match, try again"
+      },
+      "new_password": {
+        "new_password_matches_old": "Your new password can't match the old one, try again"
       },
       "repeat_username": {
         "no_fields_match": "El email no coincide"
@@ -1427,7 +1433,30 @@
       "subtitle": "Every time you make a purchase, your cryptocurrencies will be deposited there.",
       "button": "Create wallet"
     },
-
+    "password_change": {
+      "header": "Change wallet password",
+      "title": "Before changing your wallet's password keep in mind that:",
+      "description": "You must have your recovery phrase written down. This will help you recover your wallet if you forget your new password.",
+      "old_password": "Write your current password",
+      "new_password": "Write your new password",
+      "repeat_password": "Repeat your new password",
+      "submit_button": "Change",
+      "loading": {
+        "title": "Time!",
+        "subtitle": "We are processing your new password."
+      }
+    },
+    "password_change_success": {
+      "textPrimary": "Great!",
+      "textSecondary": "You changed your wallet password successfully.",
+      "namePrimaryAction": "Go back to Home"
+    },
+    "password_change_error": {
+      "textPrimary": "It seems like something went wrong",
+      "textSecondary": "We couldn't change your password.",
+      "namePrimaryAction": "Retry",
+      "nameSecondaryAction": "Go back to home"
+    },
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
