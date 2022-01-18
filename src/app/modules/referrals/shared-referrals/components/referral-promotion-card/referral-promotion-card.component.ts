@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-referral-promotion-card',
   template: `
-    <div class="rpc">
+    <div class="rpc" (click)="this.goToReferrals()" name="Go To Referrals">
       <div class="rpc__left">
         <ion-text class="ux-font-text-lg" color="uxprimary">{{
           'referrals.referral_promotion.title' | translate
@@ -17,7 +17,6 @@ import { NavController } from '@ionic/angular';
           class="text-button-primary align-text-start"
           size="small"
           color="uxprimary"
-          (click)="this.goToReferrals()"
         >
           {{ 'referrals.referral_promotion.button' | translate }}
           <ion-icon name="ux-forward"></ion-icon>

@@ -1,3 +1,4 @@
+import { WalletService } from './../../../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Vault } from '@2pi-network/sdk';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -51,6 +52,7 @@ describe('DefiInvestmentProductComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DefiInvestmentProductComponent>;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -62,6 +64,10 @@ describe('DefiInvestmentProductComponent', () => {
       fakeNavController = new FakeNavController({});
       navControllerSpy = fakeNavController.createSpy();
 
+      walletServiceSpy = jasmine.createSpyObj('WalletService', {
+        walletExist: Promise.resolve(true),
+      });
+
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
         getCoins: [usdc_coin],
       });
@@ -72,6 +78,7 @@ describe('DefiInvestmentProductComponent', () => {
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: WalletService, useValue: walletServiceSpy },
           { provide: TwoPiApi, useValue: twoPiApiSpy },
         ],
       }).compileComponents();
@@ -105,5 +112,12 @@ describe('DefiInvestmentProductComponent', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should redirect user to defi/no-wallet-to-invest if user has no wallet on Invest button click', async () => {
+    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
+    fixture.debugElement.query(By.css('ion-button[name="Invest"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
   });
 });

@@ -9,8 +9,8 @@ import { Component, Input, OnInit } from '@angular/core';
         <br />
         <ion-text class="rd__subtitle ux-font-text-xxs">{{ this.subtitle }}</ion-text>
       </div>
-      <div *ngIf="this.reward">
-        <ion-text class="rd__reward ux-font-text-xxs">$ {{ this.quantity * this.reward }}</ion-text>
+      <div>
+        <ion-text class="rd__quantity ux-font-text-xxs">{{ this.quantity }}</ion-text>
       </div>
     </div>
   `,

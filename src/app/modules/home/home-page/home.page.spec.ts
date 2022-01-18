@@ -11,7 +11,6 @@ import { By } from '@angular/platform-browser';
 import { of, Subscription } from 'rxjs';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { ItemQuoteComponent } from '../shared-home/components/item-quote/item-quote.component';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
@@ -191,17 +190,17 @@ describe('HomePage', () => {
     expect(component.alreadyInitialized).toBe(false);
   });
 
-  it('should navigate to moonpay page when Buy Cripto Card is clicked and wallet exist', async () => {
-    fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
-    fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
-  });
+  // it('should navigate to moonpay page when Buy Cripto Card is clicked and wallet exist', async () => {
+  //   fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
+  //   fixture.detectChanges();
+  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
+  // });
 
-  it('should navigate to intermediate page when Buy Cripto Card is clicked and not wallet exist', async () => {
-    fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', '');
-    fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/no-wallet']);
-  });
+  // it('should navigate to intermediate page when Buy Cripto Card is clicked and not wallet exist', async () => {
+  //   fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', '');
+  //   fixture.detectChanges();
+  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/no-wallet']);
+  // });
 });

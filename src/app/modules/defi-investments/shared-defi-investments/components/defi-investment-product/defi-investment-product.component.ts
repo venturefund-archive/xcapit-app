@@ -1,3 +1,4 @@
+import { WalletService } from './../../../../wallets/shared-wallets/services/wallet/wallet.service';
 import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
 import { ApiWalletService } from '../../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiApi } from '../../models/two-pi-api/two-pi-api.model';
@@ -78,6 +79,7 @@ export class DefiInvestmentProductComponent implements OnInit {
   constructor(
     private apiWalletService: ApiWalletService,
     private navController: NavController,
+    private walletService: WalletService,
     private twoPiApi: TwoPiApi
   ) {}
 
@@ -85,8 +87,10 @@ export class DefiInvestmentProductComponent implements OnInit {
     this.getInvestmentProduct();
   }
 
-  invest() {
-    this.navController.navigateForward(['defi/new/insert-amount/', this.product.id]);
+  async invest(){
+    if (!(await this.walletService.walletExist())) {
+      this.navController.navigateForward(['/defi/no-wallet-to-invest']);
+    }
   }
 
   getInvestmentProduct() {

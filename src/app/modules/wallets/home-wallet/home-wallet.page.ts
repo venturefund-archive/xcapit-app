@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, NavController } from '@ionic/angular';
+import { IonContent, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -156,7 +156,8 @@ export class HomeWalletPage implements OnInit {
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
-  @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonContent, { static: true }) content: IonContent;
   pageSize = 6;
   subscriptions$: Subscription[] = [];
 
@@ -183,12 +184,18 @@ export class HomeWalletPage implements OnInit {
   }
 
   async initialize(): Promise<void> {
+    await this.content.scrollToTop(0);
+    this.infiniteScrollDisabled();
     this.clearBalances();
     await this.checkWalletExist();
     await this.getAssetsSelected();
     this.createQueues();
     this.loadCoins();
     this.getNFTStatus();
+  }
+
+  private infiniteScrollDisabled() {
+    this.infiniteScroll.disabled = false;
   }
 
   private createQueues(): void {
@@ -207,7 +214,7 @@ export class HomeWalletPage implements OnInit {
 
   async refresh(event: any): Promise<void> {
     if (this.refreshTimeoutService.isAvailable()) {
-      this.infiniteScroll.disabled = false;
+      this.infiniteScrollDisabled();
       await this.initialize();
       this.refreshTimeoutService.lock();
     }

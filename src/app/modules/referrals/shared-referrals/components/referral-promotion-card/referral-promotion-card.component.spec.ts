@@ -35,8 +35,9 @@ describe('ReferralPromotionCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to referrals page on button click', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Go To Referrals"]')).nativeElement.click();
+
+  it('should navigate to referrals page on card click', () => {
+    fixture.debugElement.query(By.css('div[name="Go To Referrals"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/referrals/summary');
   });
 
