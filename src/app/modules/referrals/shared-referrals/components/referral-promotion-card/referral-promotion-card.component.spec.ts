@@ -7,7 +7,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-c
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
-fdescribe('ReferralPromotionCardComponent', () => {
+describe('ReferralPromotionCardComponent', () => {
   let component: ReferralPromotionCardComponent;
   let fixture: ComponentFixture<ReferralPromotionCardComponent>;
   let fakeNavController: FakeNavController;
