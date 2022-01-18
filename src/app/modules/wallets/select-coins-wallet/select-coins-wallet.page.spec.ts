@@ -429,16 +429,6 @@ describe('SelectCoinsWalletPage', () => {
           expect(walletServiceSpy.coins.length).toEqual(2);
         });
 
-        it(`should load prevoiusly selected assets if user came back from other page`, () => {
-          (Object.getOwnPropertyDescriptor(walletServiceSpy, 'coins').get as jasmine.Spy).and.returnValue([
-            TEST_ERC20_COINS[0],
-            TEST_ERC20_COINS[3],
-          ]);
-          walletServiceSpy.selectedCoins.and.returnValue(true);
-          component.ionViewWillEnter();
-          expect(component.form.value).toEqual(formData.valid);
-        });
-
         it(`should show loader, ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
           testCase.onSubmit.navigateTo.pageName
         } on form submit`, fakeAsync(() => {

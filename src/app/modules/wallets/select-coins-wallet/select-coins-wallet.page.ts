@@ -81,8 +81,8 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   almostOneChecked = false;
-  allChecked = false;
   originalFormData: any;
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -105,23 +105,23 @@ export class SelectCoinsWalletPage implements OnInit {
 
     if (this.mode === 'edit') {
       this.getUserCoins();
-    } else {
-      this.loadPreviousSelection();
     }
   }
 
   ngOnInit() {}
 
   createForm() {
-    const formGroup = {};
+    if (!this.form) {
+      const formGroup = {};
 
-    this.networks.forEach((network) => {
-      formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
-    });
+      this.networks.forEach((network) => {
+        formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
+      });
 
-    this.form = this.formBuilder.group(formGroup);
+      this.form = this.formBuilder.group(formGroup);
 
-    this.form.valueChanges.subscribe(() => this.setContinueButtonState());
+      this.form.valueChanges.subscribe(() => this.setContinueButtonState());
+    }
   }
 
   getCoinsFromNetwork(network: string) {
@@ -153,14 +153,14 @@ export class SelectCoinsWalletPage implements OnInit {
   async handleSubmit() {
     if (this.almostOneChecked) {
       this.txInProgress = true;
-      
+
       switch (this.mode) {
         case 'import':
           this.importWallet();
           break;
-          case 'edit':
-            this.editTokens();
-            break;
+        case 'edit':
+          this.editTokens();
+          break;
         default:
           this.createWallet();
           break;
@@ -306,22 +306,6 @@ export class SelectCoinsWalletPage implements OnInit {
         this.headerText = 'wallets.select_coin.header';
         this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
         return;
-    }
-  }
-
-  loadPreviousSelection() {
-    if (this.walletService.selectedCoins()) {
-      const selectedCoinsValue = {};
-
-      this.walletService.coins.forEach((coin) => {
-        if (!selectedCoinsValue[coin.network]) {
-          selectedCoinsValue[coin.network] = {};
-        }
-
-        selectedCoinsValue[coin.network][coin.value] = true;
-      });
-
-      this.form.patchValue(selectedCoinsValue);
     }
   }
 }
