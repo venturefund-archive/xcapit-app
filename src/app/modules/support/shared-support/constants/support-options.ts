@@ -6,6 +6,12 @@ export const SUPPORT_OPTIONS = [
     route: '/support/wallet',
   },
   {
+    title: 'support.support_options.title_nft',
+    description: 'support.support_options.description_nft',
+    icon: '../../assets/ux-icons/ux-nft.svg',
+    route: '/support/nft',
+  },
+  {
     title: 'support.support_options.title_buy',
     description: 'support.support_options.description_buy',
     icon: '../../assets/ux-icons/ux-buy.svg',
