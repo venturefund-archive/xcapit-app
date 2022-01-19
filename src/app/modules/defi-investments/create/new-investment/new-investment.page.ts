@@ -2,7 +2,6 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiInvestmentProduct } from '../../shared-defi-investments/models/two-pi-investment-product/two-pi-investment-product.model';
-import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
@@ -55,7 +54,7 @@ export class NewInvestmentPage implements OnInit {
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required]],
   });
-  investmentProduct: InvestmentProduct;
+  investmentProduct: TwoPiInvestmentProduct;
   token: Coin;
   constructor(
     private formBuilder: FormBuilder,
@@ -92,8 +91,10 @@ export class NewInvestmentPage implements OnInit {
 
   saveAmount() {
     if (this.form.valid) {
-      this.twoPiInvestmentService.depositAmount = this.form.value.amount;
-      this.navController.navigateForward(['defi/new/summary']);
+      this.twoPiInvestmentService.amount = this.form.value.amount;
+      this.twoPiInvestmentService.quoteAmount = this.form.value.quoteAmount;
+      this.twoPiInvestmentService.product = this.investmentProduct;
+      this.navController.navigateForward(['defi/new/confirmation']);
     }
   }
 }
