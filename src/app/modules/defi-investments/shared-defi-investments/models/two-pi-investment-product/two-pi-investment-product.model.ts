@@ -5,25 +5,37 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
 import { FixedNumber, BigNumber } from 'ethers';
 
 export class TwoPiInvestmentProduct implements InvestmentProduct {
-  name: string;
-  token: Coin;
-  apy: number;
-  tvl: any;
-  type = 'Vault';
-  provider = '2PI';
+  private readonly vault: Vault;
 
   constructor(aVault: Vault, private apiWalletService: ApiWalletService) {
-    this.name = aVault.identifier;
-    this.token = this.setToken(aVault.token);
-    this.apy = aVault.apy * 100;
-    this.tvl = this.formatTVL(aVault.tvl);
+    this.vault = aVault;
   }
 
-  private setToken(tokenName: string): Coin {
-    return this.apiWalletService.getCoins().find((token) => token.value === tokenName);
+  name(): string {
+    return this.vault.identifier;
   }
 
-  private formatTVL(tvl: number): string {
-    return FixedNumber.fromValue(BigNumber.from(tvl), this.token.decimals, 'fixed')._value;
+  token(): Coin {
+    return this.apiWalletService.getCoins().find((token) => token.value === this.vault.token);
+  }
+
+  apy(): number {
+    return this.vault.apy * 100;
+  }
+
+  type(): string {
+    return 'Vault';
+  }
+
+  provider(): string {
+    return '2PI';
+  }
+
+  tvl(): string {
+    if (this.vault.tvl < Number.MAX_SAFE_INTEGER) {
+      return FixedNumber.fromValue(BigNumber.from(this.vault.tvl), this.token().decimals, 'fixed')._value;
+    } else {
+      return this.vault.tvl.toString();
+    }
   }
 }

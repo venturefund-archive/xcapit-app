@@ -339,4 +339,15 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 18,
     symbol: 'CRVUSDT',
   },
+  {
+    id: 26,
+    name: 'DAI',
+    logoRoute: 'assets/img/coins/DAI.png',
+    last: true,
+    value: 'DAI',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: environment.maticApiUrl,
+    decimals: 18,
+  },
 ];

@@ -21,22 +21,19 @@ const usdc_coin = {
   symbol: 'USDCUSDT',
 };
 
-const testInvestmentProduct = {
-  name: 'usdc_aave',
-  token: usdc_coin,
-  apy: 12.66,
-  tvl: 15800500,
-  type: 'Vault',
-  provider: '2PI',
-} as TwoPiInvestmentProduct;
-
 describe('ExpandableInvestmentInfoComponent', () => {
   let component: ExpandableInvestmentInfoComponent;
   let fixture: ComponentFixture<ExpandableInvestmentInfoComponent>;
   let twoPiInvestmentProductSpy: jasmine.SpyObj<TwoPiInvestmentProduct>;
   beforeEach(
     waitForAsync(() => {
-      twoPiInvestmentProductSpy = jasmine.createSpyObj('TwoPiInvestmentProduct', {}, testInvestmentProduct);
+      twoPiInvestmentProductSpy = jasmine.createSpyObj('TwoPiInvestmentProduct', {
+        token: usdc_coin,
+        tvl: 15800500,
+        apy: 12.66,
+        type: 'Vault',
+        provider: '2PI',
+      });
       TestBed.configureTestingModule({
         declarations: [ExpandableInvestmentInfoComponent, SplitStringPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],

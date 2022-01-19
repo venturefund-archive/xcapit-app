@@ -1,5 +1,10 @@
 import { TwoPi, Vault } from '@2pi-network/sdk';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root',
+})
 export class TwoPiApi {
   instance: TwoPi;
   env = environment.environment;

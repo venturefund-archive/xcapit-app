@@ -1,3 +1,4 @@
+import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
 import { WalletService } from './../../../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Vault } from '@2pi-network/sdk';
@@ -73,7 +74,7 @@ describe('DefiInvestmentProductComponent', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [DefiInvestmentProductComponent, FakeTrackClickDirective],
+        declarations: [DefiInvestmentProductComponent, FakeTrackClickDirective, SplitStringPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },

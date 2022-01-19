@@ -1,3 +1,4 @@
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiInvestmentProduct } from '../../shared-defi-investments/models/two-pi-investment-product/two-pi-investment-product.model';
@@ -27,8 +28,8 @@ import { NavController } from '@ionic/angular';
       <ion-card class="ux-card">
         <form [formGroup]="this.form">
           <app-amount-input-card
-            title="Monto a invertir"
-            [baseCurrency]="this.investmentProduct.token"
+            title="{{ 'defi_investments.shared.amount_input_card.amount_to_invest' | translate }}"
+            [baseCurrency]="this.token"
           ></app-amount-input-card>
         </form>
       </ion-card>
@@ -55,6 +56,7 @@ export class NewInvestmentPage implements OnInit {
     quoteAmount: ['', [Validators.required]],
   });
   investmentProduct: InvestmentProduct;
+  token: Coin;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -75,10 +77,12 @@ export class NewInvestmentPage implements OnInit {
     return this.route.snapshot.paramMap.get('vault');
   }
 
-  getInvestmentProduct() {
-    this.twoPiApi.vault(this.vaultID()).then((vault) => {
-      this.investmentProduct = new TwoPiInvestmentProduct(vault, this.apiWalletService);
-    });
+  async getInvestmentProduct() {
+    this.investmentProduct = new TwoPiInvestmentProduct(
+      await this.twoPiApi.vault(this.vaultID()),
+      this.apiWalletService
+    );
+    this.token = this.investmentProduct.token();
   }
 
   saveAmount() {

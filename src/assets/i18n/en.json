@@ -231,14 +231,14 @@
       "others": "Others"
     }
   },
-  "defi_investments":{
+  "defi_investments": {
     "coming_soon": {
       "header": "Investment"
     },
-    
-    "defi_investment_products":{
-      "header":"Defi investments",
-      "title":"Start investing"    
+
+    "defi_investment_products": {
+      "header": "Defi investments",
+      "title": "Start investing"
     },
     "success_investment": {
       "title": "You added money to your investment",
@@ -251,19 +251,34 @@
       "subtitle": "Remember that you must own tokens to pay investment fees.",
       "primaryButton": "Try again"
     },
-    "shared_defi_investments":{
+    "shared": {
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
         "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
       },
-      "defi_investment_product":{
-        "performance":"Estimated yield",
-        "liquidity":"Liquidity",
-        "not_min_ammount":"No minimum amount",
-        "immediate_rescue":"Immediate Rescue",
-        "coming_badge":"Coming",
-        "invest_button":"Invest",
-        "annual":"Annual"
+      "defi_investment_product": {
+        "performance": "Estimated yield",
+        "liquidity": "Liquidity",
+        "not_min_ammount": "No minimum amount",
+        "immediate_rescue": "Immediate Rescue",
+        "coming_badge": "Coming",
+        "invest_button": "Invest",
+        "annual": "Annual"
+      },
+
+      "expandable_investment_info": {
+        "TVL": "Total Value Locked",
+        "protocol_type": "Protocol type",
+        "deposit_asset": "Deposit",
+        "receive_asset": "Obtain",
+        "platform": "Platform",
+        "annual": "% Annual",
+        "blockchain": "Blockchain"
+      },
+      "amount_input_card": {
+        "amount_to_invest": "Amount to invest",
+        "available": "Available",
+        "disclaimer": "Please note that transaction fees will be charged in"
       }
     }
   },
@@ -2389,23 +2404,6 @@
       "subtitle": "Create your wallet to start investing.",
       "button": "Create Wallet",
       "link": "Back to investments"
-    }
-  },
-  "defi_investments": {
-    "shared": {
-      "expandable_investment_info": {
-        "TVL": "Total Value Locked",
-        "protocol_type": "Protocol type",
-        "deposit_asset": "Deposit",
-        "receive_asset": "Obtain",
-        "platform": "Platform",
-        "annual": "% Annual",
-        "blockchain": "Blockchain"
-      },
-      "amount_input_card": {
-        "available": "Available",
-        "disclaimer": "Please note that transaction fees will be charged in"
-      }
     }
   }
 }
