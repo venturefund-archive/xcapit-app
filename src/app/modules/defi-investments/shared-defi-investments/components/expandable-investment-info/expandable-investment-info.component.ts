@@ -1,6 +1,6 @@
+import { InvestmentProduct } from './../../interfaces/investment-product.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit } from '@angular/core';
-import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
 
 @Component({
   selector: 'app-expandable-investment-info',
@@ -111,9 +111,9 @@ import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/t
   styleUrls: ['./expandable-investment-info.component.scss'],
 })
 export class ExpandableInvestmentInfoComponent implements OnInit {
-  @Input() investmentProduct: TwoPiInvestmentProduct;
+  @Input() investmentProduct: InvestmentProduct;
   token: Coin;
-  tvl: string;
+  tvl: number;
   apy: number;
   provider: string;
   type: string;

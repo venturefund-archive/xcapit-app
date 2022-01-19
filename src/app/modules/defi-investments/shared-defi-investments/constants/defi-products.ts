@@ -1,9 +1,4 @@
-import { environment } from 'src/environments/environment';
-
-export interface defiProduct {
-  id: string;
-  isComing: boolean;
-}
+import { defiProduct } from '../interfaces/defi-product.interface';
 
 export const PROD_DEFI_PRODUCTS: defiProduct[] = [
   {
@@ -18,9 +13,3 @@ export const NONPROD_DEFI_PRODUCTS: defiProduct[] = [
     isComing: false,
   },
 ];
-
-export class availableDefiProducts {
-  static value(): defiProduct[] {
-    return environment.environment === 'PRODUCCION' ? PROD_DEFI_PRODUCTS : NONPROD_DEFI_PRODUCTS;
-  }
-}

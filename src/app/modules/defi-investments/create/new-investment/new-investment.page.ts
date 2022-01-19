@@ -69,8 +69,9 @@ export class NewInvestmentPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.getInvestmentProduct();
+  async ionViewDidEnter() {
+    await this.getInvestmentProduct();
+    this.getToken();
   }
 
   private vaultID() {
@@ -82,6 +83,10 @@ export class NewInvestmentPage implements OnInit {
       await this.twoPiApi.vault(this.vaultID()),
       this.apiWalletService
     );
+    this.getToken();
+  }
+
+  getToken() {
     this.token = this.investmentProduct.token();
   }
 

@@ -93,7 +93,7 @@ describe('NewInvestmentPage', () => {
   });
 
   it('should call trackEvent when Submit Amount is clicked', async () => {
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit Amount');
@@ -105,7 +105,7 @@ describe('NewInvestmentPage', () => {
   });
 
   it('should save amount and redirect if form is valid', async () => {
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     component.form.patchValue({ amount: 20, quoteAmount: 20 });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
@@ -114,7 +114,7 @@ describe('NewInvestmentPage', () => {
   });
 
   it('should not save amount nor redirect if form is not valid', async () => {
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();

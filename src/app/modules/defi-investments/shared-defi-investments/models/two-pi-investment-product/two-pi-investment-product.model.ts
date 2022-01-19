@@ -2,7 +2,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Vault } from '@2pi-network/sdk';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
-import { FixedNumber, BigNumber } from 'ethers';
+import { FixedNumber, BigNumber, BigNumberish } from 'ethers';
 
 export class TwoPiInvestmentProduct implements InvestmentProduct {
   private readonly vault: Vault;
@@ -13,6 +13,10 @@ export class TwoPiInvestmentProduct implements InvestmentProduct {
 
   name(): string {
     return this.vault.identifier;
+  }
+
+  id(): number {
+    return this.vault.pid;
   }
 
   token(): Coin {
@@ -31,11 +35,11 @@ export class TwoPiInvestmentProduct implements InvestmentProduct {
     return '2PI';
   }
 
-  tvl(): string {
-    if (this.vault.tvl < Number.MAX_SAFE_INTEGER) {
-      return FixedNumber.fromValue(BigNumber.from(this.vault.tvl), this.token().decimals, 'fixed')._value;
-    } else {
-      return this.vault.tvl.toString();
-    }
+  private tokenDecimals(): number {
+    return this.vault.tokenDecimals;
+  }
+
+  tvl(): number {
+    return this.vault.tvl / 10 ** this.tokenDecimals();
   }
 }

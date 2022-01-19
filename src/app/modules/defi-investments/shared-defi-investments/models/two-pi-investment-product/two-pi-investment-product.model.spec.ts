@@ -1,3 +1,4 @@
+import { InvestmentProduct } from './../../interfaces/investment-product.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Vault } from '@2pi-network/sdk';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -23,18 +24,13 @@ const testVaultUSDC = {
   apy: 0.12392847454895217,
   identifier: 'polygon_usdc',
   token: 'USDC',
-  tvl: 15800500,
-} as Vault;
-
-const vaultWithoutValidTVL = {
-  apy: 0.12392847454895217,
-  identifier: 'polygon_usdc',
-  token: 'USDC',
-  tvl: 158005000000000000000000,
+  tvl: '15800500',
+  tokenDecimals: '6',
+  pid: 2,
 } as Vault;
 
 describe('TwoPiInvestmentProduct', () => {
-  let twoPiInvestmentProduct: TwoPiInvestmentProduct;
+  let twoPiInvestmentProduct: InvestmentProduct;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   beforeEach(() => {
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: coins });
@@ -61,15 +57,15 @@ describe('TwoPiInvestmentProduct', () => {
     expect(twoPiInvestmentProduct.type()).toEqual('Vault');
   });
 
+  it('should return product id when id method is called', () => {
+    expect(twoPiInvestmentProduct.id()).toEqual(2);
+  });
+
   it('should return provider when provider method is called', () => {
     expect(twoPiInvestmentProduct.provider()).toEqual('2PI');
   });
 
   it('should return formatted tvl when tvl method is called and tvl is in safe integer range', () => {
-    expect(twoPiInvestmentProduct.tvl()).toEqual('15.8005');
-  });
-
-  it('should return input tvl as output when tvl method is called and tvl is greather than max safe integer', () => {
-    expect(new TwoPiInvestmentProduct(vaultWithoutValidTVL, apiWalletServiceSpy).tvl()).toEqual('1.58005e+23');
+    expect(twoPiInvestmentProduct.tvl()).toEqual(15.8005);
   });
 });

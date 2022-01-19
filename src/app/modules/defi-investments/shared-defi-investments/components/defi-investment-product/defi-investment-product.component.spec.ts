@@ -33,13 +33,10 @@ const usdc_coin = {
 
 const testVault = {
   apy: 0.227843965358873,
-  balances: [],
-  contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
-  deposits: [],
   identifier: 'polygon_usdc',
+  tokenDecimals: 6,
   pid: 1,
   token: 'USDC',
-  token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
   tvl: 1301621680000,
 } as Vault;
 

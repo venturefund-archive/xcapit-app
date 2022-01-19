@@ -1,3 +1,4 @@
+import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { WalletService } from './../../../../wallets/shared-wallets/services/wallet/wallet.service';
 import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
@@ -80,9 +81,8 @@ import { NavController } from '@ionic/angular';
 })
 export class DefiInvestmentProductComponent implements OnInit {
   @Input() product;
-  investmentProduct: TwoPiInvestmentProduct;
   apy: number;
-  tvl: string;
+  tvl: number;
   token: Coin;
 
   constructor(
@@ -106,12 +106,12 @@ export class DefiInvestmentProductComponent implements OnInit {
   }
 
   async getInvestmentProduct() {
-    this.investmentProduct = new TwoPiInvestmentProduct(
+    const investmentProduct = new TwoPiInvestmentProduct(
       await this.twoPiApi.vault(this.product.id),
       this.apiWalletService
     );
-    this.apy = this.investmentProduct.apy();
-    this.tvl = this.investmentProduct.tvl();
-    this.token = this.investmentProduct.token();
+    this.apy = investmentProduct.apy();
+    this.tvl = investmentProduct.tvl();
+    this.token = investmentProduct.token();
   }
 }

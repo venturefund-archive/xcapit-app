@@ -1,6 +1,5 @@
-import { availableDefiProducts } from './../shared-defi-investments/constants/defi-products';
 import { Component, OnInit } from '@angular/core';
-import { PROD_DEFI_PRODUCTS } from '../shared-defi-investments/constants/defi-products';
+import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -33,7 +32,7 @@ import { PROD_DEFI_PRODUCTS } from '../shared-defi-investments/constants/defi-pr
   styleUrls: ['./defi-investment-products.page.scss'],
 })
 export class DefiInvestmentProductsPage implements OnInit {
-  defiProducts = availableDefiProducts.value();
+  defiProducts = new AvailableDefiProducts().value();
   constructor() {}
 
   ngOnInit() {}
