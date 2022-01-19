@@ -7,7 +7,7 @@ import { WalletTransactionCardItemComponent } from './components/wallet-transact
 import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
 import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
-import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
+import { SendAmountInputCardComponent } from './components/send-amount-input-card/send-amount-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
 import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
@@ -29,7 +29,7 @@ import { SuitePipe } from './pipes/suite.pipe';
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
     AddressInputCardComponent,
-    AmountInputCardComponent,
+    SendAmountInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
@@ -52,7 +52,7 @@ import { SuitePipe } from './pipes/suite.pipe';
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
     AddressInputCardComponent,
-    AmountInputCardComponent,
+    SendAmountInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,

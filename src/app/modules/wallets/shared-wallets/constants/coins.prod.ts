@@ -350,7 +350,7 @@ export const PROD_COINS: Coin[] = [
     moonpayCode: 'usdc_polygon',
     contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
     abi: usdcAbi,
-    decimals: 18,
+    decimals: 6,
     symbol: 'USDCUSDT',
   },
   {

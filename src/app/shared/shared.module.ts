@@ -1,3 +1,4 @@
+import { SplitStringPipe } from './pipes/split-string/split-string.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -129,6 +130,7 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
+    SplitStringPipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -199,6 +201,7 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
+    SplitStringPipe,
   ],
 })
 export class SharedModule {}
