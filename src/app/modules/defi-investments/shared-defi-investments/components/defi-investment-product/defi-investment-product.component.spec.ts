@@ -14,8 +14,6 @@ import { DefiInvestmentProductComponent } from './defi-investment-product.compon
 
 const defiProduct = {
   id: 'polygon_usdc',
-  symbol: 'USDC',
-  subtitle: 'USD coin',
   isComing: false,
 };
 
@@ -45,7 +43,7 @@ const testVault = {
   tvl: 1301621680000,
 } as Vault;
 
-describe('DefiInvestmentProductComponent', () => {
+fdescribe('DefiInvestmentProductComponent', () => {
   let component: DefiInvestmentProductComponent;
   let fixture: ComponentFixture<DefiInvestmentProductComponent>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
@@ -120,5 +118,11 @@ describe('DefiInvestmentProductComponent', () => {
     fixture.debugElement.query(By.css('ion-button[name="Invest"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
+  });
+
+  it('should redirect user to new investment page when Invest button is clicked if user has wallet', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="Invest"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/new/insert-amount', 'polygon_usdc']);
   });
 });
