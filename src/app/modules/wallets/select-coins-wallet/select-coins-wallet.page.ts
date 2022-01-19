@@ -20,7 +20,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding sc">
       <form
         [formGroup]="this.form"
         (ngSubmit)="this.handleSubmit()"
@@ -43,13 +43,13 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               {{ 'wallets.select_coin.recordatory' | translate }}
             </div>
           </app-ux-text>
-          <ion-item>
-            <ion-label class="icg__label ux-font-text-xs">{{
-              'wallets.select_coin.title' | translate 
-            }}</ion-label>
+          <ion-item lines="none" class="sc__toggle_all ux-font-title-xs ion-no-padding">
+            <ion-label class="sc__toggle_all__label ion-no-margin">
+              <ion-text>{{ 'wallets.select_coin.toggle_all_text' | translate }}</ion-text>
+            </ion-label>
             <ion-toggle
               name="Toggle All Coins"
-              class="icg__toggle"
+              class="sc__toggle_all__toggle ux-toggle"
               [checked]="this.allSelected"
               (click)="this.toggleAll($event)"
               mode="ios"
@@ -120,7 +120,6 @@ export class SelectCoinsWalletPage implements OnInit {
 
     if (this.mode === 'edit') {
       this.getUserCoins();
-      this.setAllSelected();
     }
   }
 
@@ -287,6 +286,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
       this.form.patchValue(this.originalFormData);
       this.userCoinsLoaded = true;
+      this.setAllSelected();
     });
   }
 
@@ -333,7 +333,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
     this.getSuiteFormGroupKeys().forEach((network) => {
       this.getCoinFormGroupKeys(network).forEach((coin) => {
-        this.form.get(network).get(coin).setValue(setAll)
+        this.form.get(network).get(coin).setValue(setAll);
       });
     });
 

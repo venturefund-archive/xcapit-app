@@ -5,14 +5,18 @@
       height: 33px;
       width: 47px;
     }
+
     &__toggle {
-      --background-checked: var(--ion-color-uxsecondary);
+      --background-checked: var(--ion-color-info);
       --background: var(--ion-color-uxline);
+
       height: 22px;
       width: 42px;
+
       --handle-width: 17.66px;
       --handle-height: 17.66px;
     }
+
     &__badge {
       margin-top: 2px;
       align-items: center;
