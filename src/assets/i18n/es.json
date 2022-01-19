@@ -233,6 +233,11 @@
     }
   },
   "defi_investments": {
+    "new": {
+      "header": "Nueva inversión",
+      "amount_to_invest": "Monto a invertir",
+      "button": "Continuar"
+    },
     "coming_soon": {
       "header": "Inversión"
     },
@@ -275,7 +280,6 @@
         "blockchain": "Blockchain"
       },
       "amount_input_card": {
-        "amount_to_invest": "Monto a invertir",
         "available": "Disponible",
         "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
       }

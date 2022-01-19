@@ -43,7 +43,7 @@ const testVault = {
   tvl: 1301621680000,
 } as Vault;
 
-fdescribe('DefiInvestmentProductComponent', () => {
+describe('DefiInvestmentProductComponent', () => {
   let component: DefiInvestmentProductComponent;
   let fixture: ComponentFixture<DefiInvestmentProductComponent>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;

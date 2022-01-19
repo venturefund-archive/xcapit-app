@@ -232,6 +232,11 @@
     }
   },
   "defi_investments": {
+    "new": {
+      "header": "New investment",
+      "amount_to_invest": "Amount to invest",
+      "button": "Continue"
+    },
     "coming_soon": {
       "header": "Investment"
     },
@@ -276,7 +281,6 @@
         "blockchain": "Blockchain"
       },
       "amount_input_card": {
-        "amount_to_invest": "Amount to invest",
         "available": "Available",
         "disclaimer": "Please note that transaction fees will be charged in"
       }

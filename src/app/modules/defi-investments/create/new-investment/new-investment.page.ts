@@ -18,7 +18,7 @@ import { NavController } from '@ionic/angular';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'Nueva inversión' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'defi_investments.new.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
@@ -28,7 +28,7 @@ import { NavController } from '@ionic/angular';
       <ion-card class="ux-card">
         <form [formGroup]="this.form">
           <app-amount-input-card
-            title="{{ 'defi_investments.shared.amount_input_card.amount_to_invest' | translate }}"
+            title="{{ 'defi_investments.new.amount_to_invest' | translate }}"
             [baseCurrency]="this.token"
           ></app-amount-input-card>
         </form>
@@ -44,7 +44,7 @@ import { NavController } from '@ionic/angular';
         (click)="this.saveAmount()"
         [disabled]="!this.form.valid"
       >
-        {{ 'Continuar' | translate }}
+        {{ 'defi_investments.new.button' | translate }}
       </ion-button>
     </ion-content>
   `,

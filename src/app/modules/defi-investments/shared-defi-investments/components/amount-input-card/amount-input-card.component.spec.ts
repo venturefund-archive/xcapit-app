@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 
 import { AmountInputCardComponent } from './amount-input-card.component';
-import { TEST_ERC20_COINS } from 'src/app/modules/wallets/shared-wallets/constants/coins.test';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 
 const testCoins = [
   {
@@ -39,6 +39,8 @@ describe('AmountInputCardComponent', () => {
   let controlContainerMock: FormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
+
   beforeEach(
     waitForAsync(() => {
       controlContainerMock = new FormBuilder().group({
@@ -49,6 +51,12 @@ describe('AmountInputCardComponent', () => {
         getPrices: of({ prices: { ETH: 4000 } }),
         getCoins: testCoins,
       });
+      walletBalanceServiceSpy = jasmine.createSpyObj(
+        'WalletBalanceService',
+        { balanceOf: Promise.resolve('20') },
+        { addresses: { ERC20: 'testAddress' } }
+      );
+
       formGroupDirectiveMock = new FormGroupDirective([], []);
       formGroupDirectiveMock.form = controlContainerMock;
       TestBed.configureTestingModule({
@@ -57,6 +65,7 @@ describe('AmountInputCardComponent', () => {
         providers: [
           { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         ],
       }).compileComponents();
 

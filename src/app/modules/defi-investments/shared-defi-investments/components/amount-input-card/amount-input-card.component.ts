@@ -1,3 +1,4 @@
+import { WalletBalanceService } from './../../../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { interval, Subscription } from 'rxjs';
 import { Coin } from './../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
@@ -27,8 +28,8 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
         </div>
         <div class="aic__content__available">
           <ion-text class="ux-font-text-xxs">
-            {{ 'defi_investments.shared.amount_input_card.available' | translate }} {{ this.available }}
-            {{ this.baseCurrency.value }}</ion-text
+            {{ 'defi_investments.shared.amount_input_card.available' | translate }}
+            {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
         </div>
         <div class="aic__content__disclaimer">
@@ -51,16 +52,21 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() baseCurrency: Coin;
   @Input() quoteCurrency = 'USD';
-  @Input() available: number;
+  available: number;
   feeCoin: string;
   priceSubscription$: Subscription;
   price: number;
   form: FormGroup;
 
-  constructor(private formGroupDirective: FormGroupDirective, private apiWalletService: ApiWalletService) {}
+  constructor(
+    private formGroupDirective: FormGroupDirective,
+    private apiWalletService: ApiWalletService,
+    private walletBalance: WalletBalanceService
+  ) {}
 
   ngOnInit() {
     this.getPrice();
+    this.balanceAvailable();
     this.setFeeCoin();
     this.subscribeToPrice();
     this.subscribeToFormChanges();
@@ -83,6 +89,10 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
     this.apiWalletService
       .getPrices([this.baseCurrency.value], false)
       .subscribe((res) => (this.price = res.prices[this.baseCurrency.value]));
+  }
+
+  private async balanceAvailable() {
+    this.available = await this.walletBalance.balanceOf(this.baseCurrency);
   }
 
   private setFeeCoin() {
