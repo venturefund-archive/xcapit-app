@@ -19,7 +19,9 @@ import { DEFI_PRODUCTS } from '../shared-defi-investments/constants/defi-product
           <ion-item lines="none" slot="header">
             <ion-label>{{ 'defi_investments.defi_investment_products.title_investments' | translate }}</ion-label>
           </ion-item>
-            <app-investment-balance-item></app-investment-balance-item>
+            <app-investment-balance-item
+            *ngFor="let product of this.defiProducts"
+              [product]="product"></app-investment-balance-item>
         </div>
       </div>
       <div class="dp">
@@ -55,6 +57,7 @@ export class DefiInvestmentProductsPage implements OnInit {
     this.haveInvestments = true;
     this.setTitle();
   }
+  
   setTitle(){
     this.settedTitle =  !this.haveInvestments ? 'defi_investments.defi_investment_products.title' : 'defi_investments.defi_investment_products.recommendations';
   }
