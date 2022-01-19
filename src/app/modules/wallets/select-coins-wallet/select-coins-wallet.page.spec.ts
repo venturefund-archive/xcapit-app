@@ -469,4 +469,81 @@ describe('SelectCoinsWalletPage', () => {
       }
     });
   });
+
+  it('should set all values to true when Toggle All Coins clicked and all values are false', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.invalid);
+    component.setAllSelected();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.form.value).toEqual(formData.allTrue);
+  });
+
+  it('should set all values to true when Toggle All Coins clicked and some values are true', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.valid);
+    component.setAllSelected();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.form.value).toEqual(formData.allTrue);
+  });
+
+  it('should set all values to false when Toggle All Coins clicked and all values are true', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.allTrue);
+    component.setAllSelected();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.form.value).toEqual(formData.invalid);
+  });
+
+  it('should change activate toggle when toggle changes and all values are true', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.allTrue);
+    fixture.detectChanges();
+    fixture.debugElement.queryAll(By.css('app-items-coin-group'))[0].triggerEventHandler('changed', { detail: { checked: true, value: TEST_ERC20_COINS[0] } });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]'));
+    expect(toggle.nativeElement.checked).toBeTrue();
+  })
+
+  it('should change the toggle value when at least one element is not true', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    fixture.debugElement.queryAll(By.css('app-items-coin-group'))[0].triggerEventHandler('changed', { detail: { checked: true, value: TEST_ERC20_COINS[0] } });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]'));
+    expect(toggle.nativeElement.checked).toBeFalse();
+  })
 });

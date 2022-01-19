@@ -43,9 +43,23 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               {{ 'wallets.select_coin.recordatory' | translate }}
             </div>
           </app-ux-text>
+          <ion-item>
+            <ion-label class="icg__label ux-font-text-xs">{{
+              'wallets.select_coin.title' | translate 
+            }}</ion-label>
+            <ion-toggle
+              name="Toggle All Coins"
+              class="icg__toggle"
+              [checked]="this.allSelected"
+              (click)="this.toggleAll($event)"
+              mode="ios"
+              slot="end"
+            ></ion-toggle>
+          </ion-item>
           <app-items-coin-group
             [network]="network"
             [coins]="this.getCoinsFromNetwork(network)"
+            (changed)="this.setAllSelected()"
             *ngFor="let network of this.networks"
           ></app-items-coin-group>
         </div>
@@ -75,6 +89,7 @@ export class SelectCoinsWalletPage implements OnInit {
   userCoinsLoaded: boolean;
   txInProgress: boolean;
   form: FormGroup;
+  allSelected = false;
 
   get networks(): string[] {
     return this.apiWalletService.getNetworks();
@@ -105,6 +120,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
     if (this.mode === 'edit') {
       this.getUserCoins();
+      this.setAllSelected();
     }
   }
 
@@ -307,5 +323,30 @@ export class SelectCoinsWalletPage implements OnInit {
         this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
         return;
     }
+  }
+
+  toggleAll(event) {
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.preventDefault();
+    const setAll = !this.allSelected;
+
+    this.getSuiteFormGroupKeys().forEach((network) => {
+      this.getCoinFormGroupKeys(network).forEach((coin) => {
+        this.form.get(network).get(coin).setValue(setAll)
+      });
+    });
+
+    this.setAllSelected();
+  }
+
+  setAllSelected() {
+    const networkToggledStates = [];
+
+    this.getSuiteFormGroupKeys().forEach((network) => {
+      networkToggledStates.push(Object.values(this.form.value[network]).every(Boolean));
+    });
+
+    this.allSelected = Object.values(networkToggledStates).every(Boolean);
   }
 }

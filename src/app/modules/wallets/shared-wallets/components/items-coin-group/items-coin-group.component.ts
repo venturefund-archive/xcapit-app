@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { Coin } from '../../interfaces/coin.interface';
 
@@ -41,6 +41,7 @@ export class ItemsCoinGroupComponent implements OnInit {
   mode: string;
   @Input() coins: Coin[];
   @Input() network: string;
+  @Output() changed = new EventEmitter<any>();
   form: FormGroup;
 
   constructor(private formGroup: FormGroupDirective) {}
@@ -53,6 +54,7 @@ export class ItemsCoinGroupComponent implements OnInit {
   }
 
   validate(event) {
+    this.changed.emit(event);
     this.checkIfNativeCoinFromNetworkIsChecked(event);
     this.setToggleAllState();
   }
@@ -71,6 +73,7 @@ export class ItemsCoinGroupComponent implements OnInit {
     event.preventDefault();
     this.allToggled() ? this.selectAll(false) : this.selectAll(true);
     this.setToggleAllState();
+    this.changed.emit(event);
   }
 
   selectAll(select: boolean) {

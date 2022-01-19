@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -196,6 +196,20 @@ describe('ItemsCoinGroupComponent', () => {
   it('should check if all tokens were selected on ngOnInit', () => {
     const spy = spyOn(component, 'setToggleAllState');
     component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should emit changed event on validate', () => {
+    const spy = spyOn(component.changed, 'emit');
+    fixture.debugElement
+      .queryAll(By.css('app-item-coin'))[0]
+      .triggerEventHandler('changed', { detail: { checked: false, value: testCoins[0] } });
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should emit changed event on toggleAll', () => {
+    const spy = spyOn(component.changed, 'emit');
+    component.toggleAll(new Event('click'));
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });
