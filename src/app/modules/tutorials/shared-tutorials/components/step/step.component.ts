@@ -29,7 +29,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           <ion-icon name="ux-long-arrow"></ion-icon>
         </ion-button>
       </div>
-      <div class="step__content_slide__button_next slide_button" *ngIf="this.actualStep < this.sliderLength">
+      <div class="step__content_slide__button_next slide-button" *ngIf="this.actualStep < this.sliderLength">
         <ion-button
           appTrackClick
           name="Ion Slide Next Button"
