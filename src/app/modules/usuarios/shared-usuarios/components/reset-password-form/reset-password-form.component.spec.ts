@@ -7,19 +7,26 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 
-describe('ResetPasswordFormComponent', () => {
+fdescribe('ResetPasswordFormComponent', () => {
   let component: ResetPasswordFormComponent;
   let fixture: ComponentFixture<ResetPasswordFormComponent>;
   const formData = {
-    valid: {
-      email: 'email@email.com',
+    validNoEmail: {
       password: 'asdfF1',
       repeat_password: 'asdfF1'
+    },
+    validNoPassword: {
+      email: 'email@email.com',
     },
     invalid: {
       email: 'fdaas',
       password: 'dsfaaa',
       repeat_password: 'dsfaa'
+    },
+    empty: {
+      email: '',
+      password: '',
+      repeat_password: ''
     }
   };
 
@@ -29,56 +36,60 @@ describe('ResetPasswordFormComponent', () => {
       declarations: [ResetPasswordFormComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordFormComponent);
     component = fixture.componentInstance;
+    component.form.enable();
+    component.form.patchValue(formData.empty);
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call handleSubmit on submit event, valid form', () => {
-    component.form.patchValue(formData.valid);
-    const spy = spyOn(component, 'handleSubmit').and.returnValue(null);
+  it('should call send event when isReset is true and form valid on form submit', () => {
+    console.log(component.form);
+    const spy = spyOn(component.send, 'emit').and.returnValue(null);
+    component.isReset = true;
+    component.initForm();
+    console.log(component.form);
+    component.form.patchValue(formData.validNoEmail);
     fixture.detectChanges();
-    fixture.debugElement
-      .query(By.css('form'))
-      .triggerEventHandler('ngSubmit', null);
+    console.log(component.form);
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  // it('should call emit on send, valid form, isReset false', () => {
-  //   component.form.patchValue(formData.valid);
-  //   const spy = spyOn(component.send, 'emit').and.returnValue(null);
-  //   fixture.detectChanges();
-  //   component.handleSubmit();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+  it('should call send event when isReset is false and form valid on form submit', () => {
+    const spy = spyOn(component.send, 'emit').and.returnValue(null);
+    component.isReset = false;
+    component.initForm();
+    component.form.patchValue(formData.validNoPassword);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
-  // it('should call emit on send, valid form, isReset true', () => {
-  //   const spy = spyOn(component.send, 'emit').and.returnValue(null);
-  //   component.isReset = true;
-  //   component.initForm();
-  //   component.form.get('password').setValue(formData.valid.password);
-  //   component.form
-  //     .get('repeat_password')
-  //     .setValue(formData.valid.repeat_password);
-  //   fixture.detectChanges();
-  //   fixture.whenStable().then(() => {
-  //     component.handleSubmit();
-  //     expect(spy).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+  it('should not call send event when isReset is false and form invalid', () => {
+    const spy = spyOn(component.send, 'emit').and.returnValue(null);
+    component.isReset = false;
+    component.initForm();
+    component.form.patchValue(formData.invalid);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
 
-  // it('should not call emit on send, valid form', () => {
-  //   const spy = spyOn(component.send, 'emit').and.returnValue(null);
-  //   component.form.patchValue(formData.invalid);
-  //   fixture.detectChanges();
-  //   component.handleSubmit();
-  //   expect(spy).toHaveBeenCalledTimes(0);
-  // });
+
+
+  it('should not call send event when isReset is true and form invalid', () => {
+    const spy = spyOn(component.send, 'emit').and.returnValue(null);
+    component.isReset = true;
+    component.initForm();
+    component.form.patchValue(formData.invalid);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
 });
