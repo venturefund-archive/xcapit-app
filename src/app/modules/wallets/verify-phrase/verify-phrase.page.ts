@@ -4,8 +4,6 @@ import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recovery-phrase-card/recovery-phrase-card.component';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
-import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-verify-phrase',
   template: `
@@ -18,54 +16,59 @@ import { TranslateService } from '@ngx-translate/core';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div name="Content" class="ux-content">
-        <div class="title">
-          <ion-text class="ux-font-text-xl">{{ 'wallets.verify_phrase.title' | translate }}</ion-text>
+      <div class="ux_main">
+        <div class="ux_content">
+          <div class="title">
+            <ion-text class="ux-font-text-xl">{{ 'wallets.verify_phrase.title' | translate }}</ion-text>
+          </div>
+          <ion-slides [options]="options">
+            <ion-slide class="slide" *ngFor="let word of this.phrase; let i = index">
+              <ion-card>
+                <div class="div-input">
+                  <div class="hidden-input" *ngIf="!this.verificationPhrase[i]"></div>
+                  <ion-button
+                    class="input-word ux-font-text-xxs"
+                    [id]="i"
+                    [ngClass]="{ active: this.verificationPhrase[i] }"
+                    size="small"
+                    fill="clear"
+                    *ngIf="this.verificationPhrase[i]"
+                    (click)="this.deleteWord(i)"
+                    >{{ this.verificationPhrase[i] }}
+                    <ion-icon name="close" slot="end"></ion-icon>
+                  </ion-button>
+                </div>
+                <ion-label class="label-card">{{ i + 1 + '/' + this.countWords }}</ion-label>
+              </ion-card>
+            </ion-slide>
+          </ion-slides>
+          <div class="text1">
+            <ion-text class="text1 ux-font-text-base">{{ 'wallets.verify_phrase.text1' | translate }}</ion-text>
+          </div>
+          <div *ngIf="this.phrase">
+            <app-recovery-phrase-card
+              [phrase]="this.phrase"
+              [ordered]="true"
+              [clickable]="true"
+              [showOrder]="false"
+              (useButtonClicked)="this.addWord($event)"
+            ></app-recovery-phrase-card>
+          </div>
         </div>
-        <ion-slides [options]="options">
-          <ion-slide class="slide" *ngFor="let word of this.phrase; let i = index">
-            <ion-card>
-              <div class="div-input">
-                <div class="hidden-input" *ngIf="!this.verificationPhrase[i]"></div>
-                <ion-button
-                  class="input-word ux-font-text-xxs"
-                  [id]="i"
-                  [ngClass]="{ active: this.verificationPhrase[i] }"
-                  size="small"
-                  fill="clear"
-                  *ngIf="this.verificationPhrase[i]"
-                  (click)="this.deleteWord(i)"
-                  >{{ this.verificationPhrase[i] }}
-                  <ion-icon name="close" slot="end"></ion-icon>
-                </ion-button>
-              </div>
-              <ion-label class="label-card">{{ i + 1 + '/' + this.countWords }}</ion-label>
-            </ion-card>
-          </ion-slide>
-        </ion-slides>
-        <div class="text1">
-          <ion-text class="text1 ux-font-text-base">{{ 'wallets.verify_phrase.text1' | translate }}</ion-text>
-        </div>
-        <div *ngIf="this.phrase">
-          <app-recovery-phrase-card
-            [phrase]="this.phrase"
-            [ordered]="true"
-            [clickable]="true"
-            [showOrder]="false"
-            (useButtonClicked)="this.addWord($event)"
-          ></app-recovery-phrase-card>
-        </div>
-        <div class="create_button">
-          <ion-button
-            color="uxsecondary"
-            *ngIf="this.activated"
-            class="ux_button"
-            appTrackClick
-            name="Create Wallet"
-            (click)="this.createWallet()"
-          >
-            {{ 'wallets.verify_phrase.btn_create' | translate }}
-          </ion-button>
+        <div class="ux_footer">
+          <div class="create_button">
+            <ion-button
+              color="uxsecondary"
+              class="ux_button"
+              appTrackClick
+              name="Create Wallet"
+              (click)="this.createWallet()"
+              [appLoading]="this.loading"
+              [loadingText]="'wallets.verify_phrase.verifying' | translate"
+            >
+              {{ 'wallets.verify_phrase.btn_create' | translate }}
+            </ion-button>
+          </div>
         </div>
       </div>
     </ion-content>
@@ -86,13 +89,12 @@ export class VerifyPhrasePage {
   countWords: number;
   mnemonic: Mnemonic;
   slide = 0;
+  loading = false;
 
   constructor(
     private navController: NavController,
     private walletMnemonicService: WalletMnemonicService,
-    private walletService: WalletService,
-    private loadingService: LoadingService,
-    private translate: TranslateService
+    private walletService: WalletService
   ) {}
 
   ionViewWillEnter() {
@@ -147,23 +149,16 @@ export class VerifyPhrasePage {
   }
 
   createWallet() {
+    this.loading = true;
     if (this.validPhrase()) {
-      this.loadingService
-        .showModal(this.modalOptions())
-        .then(() => this.walletService.create())
+      this.loading = true;
+      this.walletService
+        .create()
         .then(() => this.navController.navigateForward(['/wallets/create-password']))
-        .then(() => this.loadingService.dismissModal());
+        .finally(() => (this.loading = false));
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
-  }
-
-  private modalOptions() {
-    return {
-      title: this.translate.instant('wallets.verify_phrase.loading.title'),
-      subtitle: this.translate.instant('wallets.verify_phrase.loading.subtitle'),
-      image: 'assets/img/verify-phrase/map.svg',
-    };
   }
 
   getActiveIndex() {
