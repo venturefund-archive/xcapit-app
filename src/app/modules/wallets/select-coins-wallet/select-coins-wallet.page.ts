@@ -38,18 +38,13 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               {{ 'wallets.select_coin.subtitle' | translate }}
             </div>
           </app-ux-text>
-          <app-ux-text>
-            <div class="sc__recordatory ux-font-text-xxs">
-              {{ 'wallets.select_coin.recordatory' | translate }}
-            </div>
-          </app-ux-text>
           <ion-item lines="none" class="sc__toggle_all ux-font-title-xs ion-no-padding">
-            <ion-label class="sc__toggle_all__label ion-no-margin">
-              <ion-text>{{ 'wallets.select_coin.toggle_all_text' | translate }}</ion-text>
+            <ion-label class="sc__toggle_all__label ion-no-margin ion-no-padding">
+              {{ 'wallets.select_coin.toggle_all_text' | translate }}
             </ion-label>
             <ion-toggle
               name="Toggle All Coins"
-              class="sc__toggle_all__toggle ux-toggle"
+              class="sc__toggle_all__toggle ux-toggle ion-no-padding"
               [checked]="this.allSelected"
               (click)="this.toggleAll($event)"
               mode="ios"

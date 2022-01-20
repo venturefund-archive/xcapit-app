@@ -1518,11 +1518,11 @@
       "header": "Crear wallet",
       "header_edit": "Editar activos",
       "title": "Selecciona los activos",
-      "subtitle": "Elige los activos que quieres visualizar en tu wallet",
+      "subtitle": "Elige los activos que quieres visualizar en tu wallet. Recuerda que para operar en cada red debes poseer su moneda nativa",
       "suite": "Suite {{suiteName}}",
-      "recordatory": "Recuerda que para operar en cada red debes poseer su moneda nativa.",
       "native": "NATIVA",
       "submit_edit": "Guardar cambios",
+      "toggle_all_text": "Seleccionar todo",
       "loading": {
         "title": "¡Tiempo!",
         "subtitle": "Estamos verificando tu frase"

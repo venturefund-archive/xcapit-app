@@ -5,7 +5,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
   selector: 'app-item-coin',
   template: `
     <div [formGroupName]="this.network">
-      <ion-item>
+      <ion-item class="ic__item ion-no-padding ion-no-margin">
         <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
         <div>
           <ion-label class="ic__label">{{ this.coin.name }}</ion-label>

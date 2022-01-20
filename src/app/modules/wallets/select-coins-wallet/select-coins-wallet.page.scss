@@ -15,31 +15,29 @@
       color: var(--ion-color-uxdark);
     }
 
-    &__recordatory {
-      padding-top: 4px;
-      padding-right: 16px;
-    }
-
     &__toggle_all {
       --background: transparent;
+      --inner-padding-start: 0;
+      --inner-padding-end: 0;
+      --inner-padding-top: 0;
+      --inner-padding-bottom: 0;
 
       margin-bottom: -8px;
+      margin-top: 16px;
 
       &__label {
         margin-left: 16px;
         padding-top: 13px;
         padding-bottom: 18px;
+        font-weight: var(--ux-fweight-bold);
 
-        ion-text {
-          font-weight: var(--ux-fweight-bold);
-
-          --color: var(--ion-color-dark);
-        }
+        --color: var(--ion-color-uxdark);
       }
 
       &__toggle {
         padding-top: 13px;
         padding-bottom: 13px;
+        padding-right: 16px;
 
         --background-checked: var(--ion-color-info);
         --background: var(--ion-color-uxline);

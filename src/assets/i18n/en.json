@@ -1515,11 +1515,11 @@
       "header": "Create Wallet",
       "header_edit": "Edit assets",
       "title": "Select assets",
-      "subtitle": "Choose the assets you want to view in your wallet",
+      "subtitle": "Choose the assets you want to view in your wallet. Remember that to operate on each network you must have its native currency",
       "suite": "Suite {{suiteName}}",
-      "recordatory": "Remember that to operate on each network you must have its native currency.",
       "native": "NATIVE",
       "submit_edit": "Save changes",
+      "toggle_all_text": "Select all",
       "loading": {
         "title": "Time!",
         "subtitle": "We are verifying your phrase"

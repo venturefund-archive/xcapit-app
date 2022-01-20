@@ -1,15 +1,29 @@
 :host {
   .ic {
     &__img {
-      padding-right: 14px;
+      margin-right: 16px;
+      padding-left: 16px;
       height: 33px;
       width: 47px;
+    }
+
+    &__item {
+      --inner-padding-start: 0;
+      --inner-padding-end: 0;
+      --inner-padding-top: 0;
+      --inner-padding-bottom: 0;
+      --background: transparent;
+
+      background-color: transparent;
     }
 
     &__toggle {
       --background-checked: var(--ion-color-info);
       --background: var(--ion-color-uxline);
 
+      padding-top: 13px;
+      padding-bottom: 13px;
+      padding-right: 16px;
       height: 22px;
       width: 42px;
 
@@ -19,11 +33,13 @@
 
     &__badge {
       margin-top: 2px;
-      align-items: center;
-      justify-content: center;
+      padding: 2px 4px;
       color: var(--ion-color-infodark);
       font-family: var(--ux-font-worksans);
-      font-size: var(--ux-fsize-10);
+      font-size: var(--ux-fsize-12);
+      line-height: 14px;
+      font-weight: var(--ux-fweight-semibold);
+      border-radius: 4px;
     }
   }
 }

@@ -9,7 +9,7 @@ import { Coin } from '../../interfaces/coin.interface';
       <ion-list class="list">
         <ion-radio-group>
           <div class="container">
-            <ion-item>
+            <ion-item class="icg__item ion-no-padding ion-no-margin">
               <ion-label class="icg__label ux-font-text-xs">{{
                 'wallets.select_coin.suite' | translate: { suiteName: (this.network | suite) }
               }}</ion-label>

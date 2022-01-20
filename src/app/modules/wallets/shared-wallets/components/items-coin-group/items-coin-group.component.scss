@@ -7,10 +7,22 @@
     border-radius: 8px;
     border: 0.5px solid #b0b6c7;
     box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
-    padding: 4px;
   }
 
   .icg {
+    &__item {
+      --inner-padding-start: 0;
+      --inner-padding-end: 0;
+      --inner-padding-top: 0;
+      --inner-padding-bottom: 0;
+
+      padding-top: 8px;
+
+      --background: transparent;
+
+      background-color: transparent;
+    }
+
     &__radio_text {
       font-size: 12px;
     }
@@ -24,6 +36,9 @@
       --background-checked: var(--ion-color-info);
       --background: var(--ion-color-uxline);
 
+      padding-top: 13px;
+      padding-bottom: 13px;
+      padding-right: 16px;
       height: 22px;
       width: 42px;
 
@@ -33,7 +48,11 @@
 
     &__label {
       font-weight: var(--ux-fweight-bold);
-      color: var(--ion-color-dark);
+      color: var(--ion-color-uxdark);
+      margin: 0;
+      margin-left: 16px;
+      padding-top: 13px;
+      padding-bottom: 18px;
     }
   }
 }
