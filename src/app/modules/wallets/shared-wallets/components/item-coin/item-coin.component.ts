@@ -5,7 +5,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
   selector: 'app-item-coin',
   template: `
     <div [formGroupName]="this.network">
-      <ion-item class="ic__item ion-no-padding ion-no-margin">
+      <ion-item class="ic__item ion-no-padding ion-no-margin" [lines]="this.isLast ? 'none' : 'full'" [ngClass]="this.isLast ? 'last' : ''">
         <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
         <div>
           <ion-label class="ic__label">{{ this.coin.name }}</ion-label>
@@ -23,7 +23,6 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
           slot="end"
         ></ion-toggle>
       </ion-item>
-      <div *ngIf="this.coin.last === false" class="list-divider"></div>
     </div>
   `,
   styleUrls: ['./item-coin.component.scss'],
@@ -38,6 +37,7 @@ export class ItemCoinComponent implements OnInit {
   @Input() coin: any;
   @Input() isChecked: boolean;
   @Input() network = '';
+  @Input() isLast: boolean;
   @Output() changed: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}

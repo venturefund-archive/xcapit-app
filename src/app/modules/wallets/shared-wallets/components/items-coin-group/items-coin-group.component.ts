@@ -9,7 +9,7 @@ import { Coin } from '../../interfaces/coin.interface';
       <ion-list class="list">
         <ion-radio-group>
           <div class="container">
-            <ion-item class="icg__item ion-no-padding ion-no-margin">
+            <ion-item class="icg__item ion-no-padding ion-no-margin" lines="full">
               <ion-label class="icg__label ux-font-text-xs">{{
                 'wallets.select_coin.suite' | translate: { suiteName: (this.network | suite) }
               }}</ion-label>
@@ -27,8 +27,9 @@ import { Coin } from '../../interfaces/coin.interface';
               [network]="this.network"
               (changed)="this.validate($event)"
               [isChecked]="this.form.value.coin"
-              *ngFor="let coin of coins"
+              *ngFor="let coin of coins; let last = last"
               [coin]="coin"
+              [isLast]="last"
             ></app-item-coin>
           </div>
         </ion-radio-group>
