@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TwoPiService } from '../../services/two-pi/two-pi.service';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { defiProduct } from '../../interfaces/defi-product.interface';
+import { InvestmentProduct } from '../../interfaces/investment-product.interface';
+import { TwoPiApi } from '../../models/two-pi-api/two-pi-api.model';
+import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
+import { TwoPiContractService } from '../../services/two-pi-contract/two-pi-contract.service';
 
 @Component({
   selector: 'app-investment-balance-item',
@@ -39,23 +44,26 @@ import { TwoPiService } from '../../services/two-pi/two-pi.service';
   styleUrls: ['./investment-balance-item.component.scss'],
 })
 export class InvestmentBalanceItemComponent implements OnInit {
-  constructor(private twoPiService : TwoPiService) {}
-  @Input() product;
-  balance
-  vaults = [];
+  constructor(private twoPiContractService: TwoPiContractService, private twoPiApi: TwoPiApi, private apiWalletService : ApiWalletService) {}
+  @Input() product : defiProduct;
+  balance : number;
+  investmentProduct : InvestmentProduct;
   apy: number;
   ngOnInit() {
+    this.getInvestmentProduct();
     this.getProductBalance();
-    this.getProductApy();
   }
 
   async getProductBalance(){
-    this.balance = parseInt(await this.twoPiService.getBalance(this.product));
+    this.balance = parseInt(await this.twoPiContractService.getBalance(this.investmentProduct));
   }
-
-  async getProductApy(){
-    const vault =  this.twoPiService.getVaults().find((vault) => (vault.id === this.product.id));
-    this.apy = await vault.apy() * 100;
+  
+  async getInvestmentProduct() {
+    this.investmentProduct = new TwoPiInvestmentProduct(
+      await this.twoPiApi.vault(this.product.id),
+      this.apiWalletService
+    );
+    this.apy = this.investmentProduct.apy()
   }
 
 }

@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         <ion-text class="ux-font-text-xs">{{ this.actualStep }} de {{ this.sliderLength }}</ion-text>
       </div>
       <div class="step__content_slide__text">
-        <app-xcapit-logo></app-xcapit-logo>
+      <app-xcapit-logo [whiteLogo]="false"></app-xcapit-logo>
         <ion-text class="step__content_slide__text__primary_text ux-font-text-xl">
           {{ this.title }}
         </ion-text>
@@ -16,7 +16,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           {{ this.subtitle }}
         </ion-text>
       </div>
-      <div class="step__content_slide__button_back slide_button" *ngIf="this.actualStep > 1">
+      <div class="step__content_slide__button_back slide-button" *ngIf="this.actualStep > 1">
         <ion-button
           appTrackClick
           name="Ion Slide Back Button"
@@ -29,7 +29,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           <ion-icon name="ux-long-arrow"></ion-icon>
         </ion-button>
       </div>
-      <div class="step__content_slide__button_next slide_button" *ngIf="this.actualStep < this.sliderLength">
+      <div class="step__content_slide__button_next slide-button" *ngIf="this.actualStep < this.sliderLength">
         <ion-button
           appTrackClick
           name="Ion Slide Next Button"

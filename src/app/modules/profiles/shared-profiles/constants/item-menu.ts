@@ -1,12 +1,12 @@
 import { MenuCategory } from '../interfaces/menu-category.interface';
 
 export const ITEM_MENU: MenuCategory[] = [
-  {
-    category_title: 'profiles.user_profile_menu.category_walletconnect',
-    icon: 'assets/ux-icons/wallet-connect-icon.svg',
-    route: '/wallets/wallet-connect/new-connection',
-    name: 'WalletConnect',
-  },
+  // {
+  //   category_title: 'profiles.user_profile_menu.category_walletconnect',
+  //   icon: 'assets/ux-icons/wallet-connect-icon.svg',
+  //   route: '/wallets/wallet-connect/new-connection',
+  //   name: 'WalletConnect',
+  // },
   {
     category_title: 'profiles.user_profile_menu.category_help',
     icon: 'assets/ux-icons/ux-support.svg',
@@ -41,6 +41,12 @@ export const ITEM_MENU: MenuCategory[] = [
     category_title: 'profiles.user_profile_menu.category_security_wallet',
     icon: 'assets/ux-icons/ux-key-outline.svg',
     items: [
+      {
+        name: 'WalletPasswordChange',
+        text: 'profiles.user_profile_menu.change_pass',
+        route: '/wallets/password-change',
+        type: 'link',
+      },
       {
         name: 'RecoveryPhrase',
         text: 'profiles.user_profile_menu.security_phrase',

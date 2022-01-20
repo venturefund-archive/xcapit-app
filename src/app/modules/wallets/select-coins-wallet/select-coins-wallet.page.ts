@@ -81,8 +81,8 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   almostOneChecked = false;
-  allChecked = false;
   originalFormData: any;
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -111,15 +111,17 @@ export class SelectCoinsWalletPage implements OnInit {
   ngOnInit() {}
 
   createForm() {
-    const formGroup = {};
+    if (!this.form) {
+      const formGroup = {};
 
-    this.networks.forEach((network) => {
-      formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
-    });
+      this.networks.forEach((network) => {
+        formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
+      });
 
-    this.form = this.formBuilder.group(formGroup);
+      this.form = this.formBuilder.group(formGroup);
 
-    this.form.valueChanges.subscribe(() => this.setContinueButtonState());
+      this.form.valueChanges.subscribe(() => this.setContinueButtonState());
+    }
   }
 
   getCoinsFromNetwork(network: string) {
@@ -151,8 +153,6 @@ export class SelectCoinsWalletPage implements OnInit {
   async handleSubmit() {
     if (this.almostOneChecked) {
       this.txInProgress = true;
-      this.walletService.coins = [];
-      this.setUserCoins();
 
       switch (this.mode) {
         case 'import':
@@ -165,11 +165,14 @@ export class SelectCoinsWalletPage implements OnInit {
           this.createWallet();
           break;
       }
+
       this.txInProgress = false;
     }
   }
 
   importWallet() {
+    this.walletService.coins = [];
+    this.setUserCoins();
     this.loadingService
       .showModal(this.modalOptions())
       .then(() => this.walletService.create())
@@ -216,6 +219,8 @@ export class SelectCoinsWalletPage implements OnInit {
   }
 
   createWallet() {
+    this.walletService.coins = [];
+    this.setUserCoins();
     this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
   }
 
@@ -248,7 +253,7 @@ export class SelectCoinsWalletPage implements OnInit {
   setUserCoins() {
     this.getSuiteFormGroupKeys().forEach((network) => {
       this.getCoinFormGroupKeys(network).forEach((coinKey) => {
-        if (this.form.value[network][coinKey] !== undefined) {
+        if (this.form.value[network][coinKey]) {
           const coin = this.apiWalletService.getCoin(coinKey, network);
           if (coin) this.walletService.coins.push(coin);
         }
@@ -276,7 +281,7 @@ export class SelectCoinsWalletPage implements OnInit {
   private getChangedAssets(): string[] {
     const changedAssets = [];
 
-    this.walletService.coins.forEach((coin) => {
+    this.apiWalletService.getCoins().forEach((coin) => {
       if (this.form.value[coin.network][coin.value] !== this.originalFormData[coin.network][coin.value]) {
         changedAssets.push(coin.value);
       }

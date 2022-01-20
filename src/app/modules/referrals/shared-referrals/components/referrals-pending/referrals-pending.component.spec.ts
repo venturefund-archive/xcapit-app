@@ -40,30 +40,9 @@ describe('ReferralsPendingComponent', () => {
     await fixture.whenRenderingDone();
 
     const firstOrderEl = fixture.debugElement.query(By.css('.rp__summary__first-order'));
-    expect(firstOrderEl.nativeElement.innerHTML).toContain('4');
     expect(firstOrderEl.nativeElement.innerHTML).toContain('referrals.referrals_pending.first_order_title');
     expect(firstOrderEl.nativeElement.innerHTML).toContain('referrals.referrals_pending.first_order_subtitle');
 
-    const secondOrderEl = fixture.debugElement.query(By.css('.rp__summary__second-order'));
-    expect(secondOrderEl.nativeElement.innerHTML).toContain('2');
-    expect(secondOrderEl.nativeElement.innerHTML).toContain('referrals.referrals_pending.second_order_title');
-    expect(secondOrderEl.nativeElement.innerHTML).toContain('referrals.referrals_pending.second_order_subtitle');
-
-    const totalEl = fixture.debugElement.query(By.css('.rp__total'));
-    expect(totalEl.nativeElement.innerHTML).toContain('5');
-    expect(totalEl.nativeElement.innerHTML).toContain('referrals.referrals_pending.total_title');
-
-    const claimButtonEl = fixture.debugElement.query(By.css('.rp__claim ion-button'));
-    expect(claimButtonEl.nativeElement.innerHTML).toContain('referrals.referrals_pending.claim_button');
-    expect(claimButtonEl.nativeElement.attributes['ng-reflect-disabled']).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Claim button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Claim');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
 });

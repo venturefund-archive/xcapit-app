@@ -324,7 +324,7 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 80001,
     rpc: environment.maticApiUrl,
     moonpayCode: 'usdc_polygon',
-    decimals: 18,
+    decimals: 6,
     symbol: 'USDCUSDT',
   },
   {
@@ -338,5 +338,16 @@ export const NONPROD_COINS: Coin[] = [
     rpc: environment.maticApiUrl,
     decimals: 18,
     symbol: 'CRVUSDT',
+  },
+  {
+    id: 26,
+    name: 'DAI',
+    logoRoute: 'assets/img/coins/DAI.png',
+    last: true,
+    value: 'DAI',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: environment.maticApiUrl,
+    decimals: 18,
   },
 ];

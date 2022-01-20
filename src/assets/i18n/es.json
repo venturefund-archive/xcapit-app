@@ -45,8 +45,14 @@
         "has_capital_case": "Se requiere mínimo una mayúscula",
         "has_small_case": "Se requiere mínimo una minúscula"
       },
+      "old_password": {
+        "wallet_incorrect_password": "La contraseña es incorrecta, vuelve a intentarlo"
+      },
       "repeat_password": {
-        "no_password_match": "La password no coincide"
+        "no_password_match": "Las contraseñas no coinciden, vuelve a intentarlo"
+      },
+      "new_password": {
+        "new_password_matches_old": "Tu nueva contraseña no puede ser igual a la anterior, vuelve a intentarlo"
       },
       "repeat_username": {
         "no_fields_match": "El email no coincide"
@@ -227,12 +233,17 @@
       "buy_crypto": "Comprar criptomonedas",
       "investment_strategies": "Estrategias de inversión",
       "capital_security": "Seguridad de mi capital",
-      "wallet":"Wallet",
-      "nft":"NFT",
+      "wallet": "Wallet",
+      "nft": "NFT",
       "others": "Otros"
     }
   },
-  "defi_investments":{
+  "defi_investments": {
+    "new": {
+      "header": "Nueva inversión",
+      "amount_to_invest": "Monto a invertir",
+      "button": "Continuar"
+    },
     "coming_soon": {
       "header": "Inversión"
     },
@@ -253,19 +264,32 @@
       "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
       "primaryButton": "Intentar nuevamente"
     },
-    "shared_defi_investments":{
+    "shared": {
       "coming_soon_card": {
         "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
         "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
       },
-      "defi_investment_product":{
-        "performance":"Rendimiento estimado",
-        "liquidity":"Liquidez",
-        "not_min_ammount":"Sin monto mínimo",
-        "immediate_rescue":"Rescate inmediato",
-        "coming_badge":"Próximamente",
-        "invest_button":"Invertir",
-        "annual":"Anual"
+      "defi_investment_product": {
+        "performance": "Rendimiento estimado",
+        "liquidity": "Liquidez",
+        "not_min_ammount": "Sin monto mínimo",
+        "immediate_rescue": "Rescate inmediato",
+        "coming_badge": "Próximamente",
+        "invest_button": "Invertir",
+        "annual": "Anual"
+      },
+      "expandable_investment_info": {
+        "TVL": "Total de Valor Bloqueado",
+        "protocol_type": "Tipo de protocolo",
+        "deposit_asset": "Depositas",
+        "receive_asset": "Obtienes",
+        "platform": "Plataforma",
+        "annual": "% Anual",
+        "blockchain": "Blockchain"
+      },
+      "amount_input_card": {
+        "available": "Disponible",
+        "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
       }
     }
   },
@@ -559,6 +583,7 @@
         "title": "Necesitás USD${{minBalance}} en tu cuenta de Binance para comenzar a invertir.",
         "message": "Comprar cripto en Xcapit",
         "cancel_text": "Cancelar",
+        "accept_text": "Aceptar",
         "ok_text": "Comprar"
       },
       "no_apikeys_modal": {
@@ -1360,27 +1385,23 @@
     },
     "referrals_share": {
       "title": "¡Refiere y gana!",
-      "first_order_referrals_title": "Suma referidos primarios",
-      "first_order_referrals_text": "Por cada amigo que se registre usando tu link recibirás el valor de ${{amount}} USD.",
-      "second_order_referrals_title": "Suma referidos secundarios",
-      "second_order_referrals_text": "Si a su vez, tu amigo refiere a otras personas, recibiras ${{amount}} USD por cada una de ellas.",
+      "first_order_referrals_title": "Invita personas",
+      "first_order_referrals_text": "Por cada persona que se cree una wallet de Xcapit usando tu link recibirás 1 punto.",
       "share": "Compartir mi Link",
       "copy": "Copiar mi link",
       "copied": "Copiado",
-      "tos": "Ver terminos y condiciones"
+      "tos": "Ver términos y condiciones"
     },
     "referrals_pending": {
       "title": "Pendientes",
-      "first_order_title": "Primarios a wallet Xcapit",
-      "first_order_subtitle": "{{quantity}} Recomendados",
-      "second_order_title": "Secundarios a wallet Xcapit",
-      "second_order_subtitle": "{{quantity}} Recomendados",
-      "total_title": "Total recompensa",
-      "claim_button": "Reclamar",
-      "disclaimer": "Las recompensas se acreditan en MATIC (Polygon). Podras reclamarlas a partir del 1/12/2021."
+      "first_order_title": "Referidos a wallet Xcapit",
+      "first_order_subtitle": "{{quantity}} Referidos",
+      "points": "{{quantity}} puntos"
     },
     "referrals_history": {
       "title": "Historial",
+      "referrals_title": "Referidos a wallet Xcapit",
+      "referrals_subtitle": "{{quantity}} Referidos",
       "first_order_title": "Primarios a cuenta Xcapit",
       "first_order_subtitle": "{{quantity}} Recomendados",
       "second_order_title": "Secundarios a cuenta Xcapit",
@@ -1434,6 +1455,30 @@
       "title": "Aún no tienes tu Wallet Xcapit",
       "subtitle": "Cada vez que realices una compra, tus criptomonedas se depositarán allí.",
       "button": "Crear Wallet"
+    },
+    "password_change": {
+      "header": "Cambiar contraseña wallet",
+      "title": "Antes de cambiar la contraseña de tu wallet ten en cuenta que:",
+      "description": "Debes tener anotada tu frase de recuperación. Esto te ayudará a recuperar tu wallet si olvidas tu nueva contraseña.",
+      "old_password": "Escribe tu contraseña actual",
+      "new_password": "Escribe tu nueva contraseña",
+      "repeat_password": "Repite tu nueva contraseña",
+      "submit_button": "Cambiar",
+      "loading": {
+        "title": "¡Tiempo!",
+        "subtitle": "Estamos procesando tu nueva contraseña."
+      }
+    },
+    "password_change_success": {
+      "textPrimary": "¡Genial!",
+      "textSecondary": "Cambiaste la contraseña de tu wallet exitosamente.",
+      "namePrimaryAction": "Volver al Home"
+    },
+    "password_change_error": {
+      "textPrimary": "Parece que algo salió mal",
+      "textSecondary": "No pudimos cambiar tu contraseña.",
+      "namePrimaryAction": "Reintentar",
+      "nameSecondaryAction": "Volver al home"
     },
     "disclaimer": {
       "header": "Crear wallet",

@@ -1,15 +1,17 @@
-import { Component, OnInit, setTestabilityGetter } from '@angular/core';
-import { DEFI_PRODUCTS } from '../shared-defi-investments/constants/defi-products';
+import { Component, OnInit } from '@angular/core';
+import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 
 @Component({
   selector: 'app-defi-investment-products',
-  template:`
-   <ion-header>
+  template: `
+    <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'defi_investments.defi_investment_products.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{
+          'defi_investments.defi_investment_products.header' | translate
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -45,7 +47,7 @@ import { DEFI_PRODUCTS } from '../shared-defi-investments/constants/defi-product
   styleUrls: ['./defi-investment-products.page.scss'],
 })
 export class DefiInvestmentProductsPage implements OnInit {
-  defiProducts = DEFI_PRODUCTS;
+  defiProducts = new AvailableDefiProducts().value();
   constructor() { }
   haveInvestments 
   settedTitle

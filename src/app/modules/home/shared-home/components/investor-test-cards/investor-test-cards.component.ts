@@ -49,7 +49,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./investor-test-cards.component.scss'],
 })
 export class InvestorTestCardsComponent implements OnInit {
-  optionsTestAvailable = true;
+  optionsTestAvailable = false;
   testAvailable = false;
   constructor(private navController: NavController) {}
   ngOnInit() {}

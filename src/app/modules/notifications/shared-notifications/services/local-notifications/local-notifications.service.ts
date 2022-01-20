@@ -5,31 +5,18 @@ import { LocalNotifications, LocalNotificationSchema } from '@capacitor/local-no
   providedIn: 'root',
 })
 export class LocalNotificationsService {
-  private readonly localNotifications = LocalNotifications;
+  localNotifications = LocalNotifications;
+  private hasPermission = false;
 
   constructor() {}
 
   init(): void {
     this.localNotifications.requestPermissions().then((result) => {
-      if (result.display == 'granted') {
-        this.addListeners();
-      } else {
-        console.log('Notifications permission not granted');
-      }
+      this.hasPermission = result.display == 'granted';
     });
   }
 
-  addListeners() {
-    this.localNotifications.addListener('localNotificationReceived', (notification: LocalNotificationSchema) =>
-      this.localNotificationReceived(notification)
-    );
-  }
-
-  private localNotificationReceived(notification: LocalNotificationSchema) {
-    console.log('NOTIFICATION RECEIVED', notification);
-  }
-
   async send(notifications: LocalNotificationSchema[]) {
-    await this.localNotifications.schedule({ notifications });
+    if (this.hasPermission) await this.localNotifications.schedule({ notifications });
   }
 }

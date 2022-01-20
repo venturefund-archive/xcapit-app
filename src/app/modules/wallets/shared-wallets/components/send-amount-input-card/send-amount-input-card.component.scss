@@ -1,13 +1,16 @@
 :host {
-  .aic {
+  .saic {
     background: var(--ion-color-uxlight);
-    --ion-background-color: var(--ion-color-uxlight);
     border-radius: 8px;
+
+    --ion-background-color: var(--ion-color-uxlight);
+
     &__header {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     &__content {
       display: flex;
     }
