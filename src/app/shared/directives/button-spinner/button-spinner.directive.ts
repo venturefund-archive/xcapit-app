@@ -1,12 +1,12 @@
 import { Directive, Input, ElementRef, HostBinding, OnInit, OnChanges, AfterViewInit } from '@angular/core';
 
 @Directive({
-  selector: 'ion-button[loading]',
+  selector: 'ion-button[appLoading]',
 })
 export class ButtonSpinnerDirective implements OnChanges, AfterViewInit {
   @Input() loadingText: string;
-  @Input() spinnerColor: string = 'uxprimary';
-  @Input() loading: boolean;
+  @Input() spinnerColor = 'uxprimary';
+  @Input() appLoading: boolean;
   @HostBinding('disabled') disabled = false;
 
   private originalHTML: string;
@@ -19,7 +19,7 @@ export class ButtonSpinnerDirective implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges() {
-    if (this.loading) {
+    if (this.appLoading) {
       this.loadingStarted();
     } else if (this.originalHTML) {
       this.loadingFinished();

@@ -13,8 +13,6 @@ import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { IonSlidesMock } from 'src/testing/spies/ion-slides-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { LoadingService } from '../../../shared/services/loading/loading.service';
-import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 
 const phrase = ['insecto', 'puerta', 'vestido'];
 const phrase_1 = [

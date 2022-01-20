@@ -1,16 +1,14 @@
 import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { ButtonSpinnerDirective } from './button-spinner.directive';
-import { delay } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
   template: `
     <div>
-      <ion-button [loading]="this.loadingB1" (click)="this.toggleB1()" id="b1">Button 1</ion-button>
-      <ion-button [loading]="this.loadingB2" loadingText="Loading..." (click)="this.toggleB2()" id="b2"
+      <ion-button [appLoading]="this.loadingB1" (click)="this.toggleB1()" id="b1">Button 1</ion-button>
+      <ion-button [appLoading]="this.loadingB2" loadingText="Loading..." (click)="this.toggleB2()" id="b2"
         >Button 2</ion-button
       >
     </div>
