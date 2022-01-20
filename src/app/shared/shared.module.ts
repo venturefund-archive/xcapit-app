@@ -64,6 +64,7 @@ import { QuotesCardComponent } from '../modules/home/shared-home/components/quot
 import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
 import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
+import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinner.directive';
 
 @NgModule({
   declarations: [
@@ -129,6 +130,7 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
+    ButtonSpinnerDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -199,6 +201,7 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
+    ButtonSpinnerDirective,
   ],
 })
 export class SharedModule {}
