@@ -28,7 +28,9 @@ const routes: Routes = [
           {
             path: 'defi',
             loadChildren: () =>
-              import('../defi-investments/defi-investment-products/defi-investment-products.module').then((m) => m.DefiInvestmentProductsPageModule),
+              import('../defi-investments/defi-investment-products/defi-investment-products.module').then(
+                (m) => m.DefiInvestmentProductsPageModule
+              ),
           },
         ],
       },

@@ -190,17 +190,17 @@ describe('HomePage', () => {
     expect(component.alreadyInitialized).toBe(false);
   });
 
-  // it('should navigate to moonpay page when Buy Cripto Card is clicked and wallet exist', async () => {
-  //   fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
-  //   fixture.detectChanges();
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
-  // });
+  it('should navigate to moonpay page when Buy Cripto Card is clicked and wallet exist', async () => {
+    fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
+  });
 
-  // it('should navigate to intermediate page when Buy Cripto Card is clicked and not wallet exist', async () => {
-  //   fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', '');
-  //   fixture.detectChanges();
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/no-wallet']);
-  // });
+  it('should navigate to intermediate page when Buy Cripto Card is clicked and not wallet exist', async () => {
+    fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', '');
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/no-wallet']);
+  });
 });

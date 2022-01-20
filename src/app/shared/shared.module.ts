@@ -1,3 +1,4 @@
+import { SplitStringPipe } from './pipes/split-string/split-string.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -130,6 +131,7 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
     SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
+    SplitStringPipe,
     ButtonSpinnerDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
@@ -202,6 +204,7 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
     SafeURLPipe,
     HideTextPipe,
     ButtonSpinnerDirective,
+    SplitStringPipe,
   ],
 })
 export class SharedModule {}

@@ -8,7 +8,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/menus/main-menu"></ion-back-button>
+          <ion-back-button defaultHref="/profiles/menu"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.recovery_phrase_information.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -17,7 +17,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
       <div class="ux_main">
         <div class="ux_content">
           <div class="rpi__img_container">
-            <img class="rpi__img_container__img" src="../../../../assets/img/wallets/lock-security-success.svg" />
+            <img class="rpi__img_container__img" src="assets/img/wallets/lock-security-success.svg" />
           </div>
           <div class="rpi__list">
             <ion-list class="rpi__list__list">

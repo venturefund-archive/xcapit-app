@@ -9,12 +9,12 @@ import { Component, OnInit } from '@angular/core';
       </div>
       <div class="cs__title">
         <ion-text class="ux-font-text-xl">
-          {{ 'defi_investments.shared_defi_investments.coming_soon_card.title' | translate }}
+          {{ 'defi_investments.shared.coming_soon_card.title' | translate }}
         </ion-text>
       </div>
       <div class="cs__text">
         <ion-text class="ux-font-text-base">
-          {{ 'defi_investments.shared_defi_investments.coming_soon_card.text' | translate }}
+          {{ 'defi_investments.shared.coming_soon_card.text' | translate }}
         </ion-text>
       </div>
     </ion-card>

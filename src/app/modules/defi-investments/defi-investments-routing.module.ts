@@ -24,6 +24,16 @@ const routes: Routes = [
         loadChildren: () =>
           import('./error-investment/error-investment.module').then((m) => m.ErrorInvestmentPageModule),
       },
+      {
+        path: 'new',
+        children: [
+          {
+            path: 'insert-amount/:vault',
+            loadChildren: () =>
+              import('./create/new-investment/new-investment.module').then((m) => m.NewInvestmentPageModule),
+          },
+        ],
+      },
     ],
   },
 ];
