@@ -46,12 +46,8 @@ describe('VerifyPhrasePage', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
-  let fakeLoadingService: FakeLoadingService;
   beforeEach(
     waitForAsync(() => {
-      fakeLoadingService = new FakeLoadingService();
-      loadingServiceSpy = fakeLoadingService.createSpy();
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       walletMnemonicServiceSpy = jasmine.createSpyObj(
@@ -70,7 +66,6 @@ describe('VerifyPhrasePage', () => {
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: IonSlides, useValue: IonSlidesMock },
-          { provide: LoadingService, useValue: loadingServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

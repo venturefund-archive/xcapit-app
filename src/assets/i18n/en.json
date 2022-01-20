@@ -1427,7 +1427,6 @@
       "subtitle": "Every time you make a purchase, your cryptocurrencies will be deposited there.",
       "button": "Create wallet"
     },
-
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
@@ -1514,11 +1513,9 @@
       "header": "Create Wallet",
       "title": "Check your phrase",
       "text1": "Tap the words in the corresponding order",
-      "btn_create": "Next",
-      "loading": {
-        "title": "Time!",
-        "subtitle": "We are verifying your phrase"
-      }
+      "btn_create": "Verify my 12 words",
+      "verifying": "Verifying..."
+
     },
     "create_password": {
       "header": "Create Wallet",
@@ -1634,7 +1631,6 @@
         "namePrimaryAction": "Retry"
       }
     },
-
     "shared_wallets": {
       "start_investing_card": {
         "title": "Invest your cryptos now and get daily profit",

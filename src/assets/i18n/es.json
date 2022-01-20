@@ -227,18 +227,18 @@
       "buy_crypto": "Comprar criptomonedas",
       "investment_strategies": "Estrategias de inversión",
       "capital_security": "Seguridad de mi capital",
-      "wallet":"Wallet",
-      "nft":"NFT",
+      "wallet": "Wallet",
+      "nft": "NFT",
       "others": "Otros"
     }
   },
-  "defi_investments":{
+  "defi_investments": {
     "coming_soon": {
       "header": "Inversión"
     },
-    "defi_investment_products":{
-      "header":"Inversiones Defi",
-      "title":"Comienza a invertir"
+    "defi_investment_products": {
+      "header": "Inversiones Defi",
+      "title": "Comienza a invertir"
     },
     "success_investment": {
       "title": "Añadiste dinero a tu inversión",
@@ -251,19 +251,19 @@
       "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
       "primaryButton": "Intentar nuevamente"
     },
-    "shared_defi_investments":{
+    "shared_defi_investments": {
       "coming_soon_card": {
         "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
         "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
       },
-      "defi_investment_product":{
-        "performance":"Rendimiento estimado",
-        "liquidity":"Liquidez",
-        "not_min_ammount":"Sin monto mínimo",
-        "immediate_rescue":"Rescate inmediato",
-        "coming_badge":"Próximamente",
-        "invest_button":"Invertir",
-        "annual":"Anual"
+      "defi_investment_product": {
+        "performance": "Rendimiento estimado",
+        "liquidity": "Liquidez",
+        "not_min_ammount": "Sin monto mínimo",
+        "immediate_rescue": "Rescate inmediato",
+        "coming_badge": "Próximamente",
+        "invest_button": "Invertir",
+        "annual": "Anual"
       }
     }
   },
@@ -1516,11 +1516,8 @@
       "header": "Crear wallet",
       "title": "Verifica tu frase",
       "text1": "Toca las palabras en el orden correspondiente",
-      "btn_create": "Siguiente",
-      "loading": {
-        "title": "¡Tiempo!",
-        "subtitle": "Estamos verificando tu frase"
-      }
+      "btn_create": "Verificar mis 12 palabras",
+      "verifying": "Verificando..."
     },
     "create_password": {
       "header": "Crear wallet",

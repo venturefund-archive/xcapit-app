@@ -1,24 +1,25 @@
-import { Directive, Input, ElementRef, HostBinding, OnInit } from '@angular/core';
+import { Directive, Input, ElementRef, HostBinding, OnInit, OnChanges, AfterViewInit } from '@angular/core';
 
 @Directive({
   selector: 'ion-button[loading]',
 })
-export class ButtonSpinnerDirective implements OnInit {
+export class ButtonSpinnerDirective implements OnChanges, AfterViewInit {
   @Input() loadingText: string;
+  @Input() spinnerColor: string = 'uxprimary';
+  @Input() loading: boolean;
   @HostBinding('disabled') disabled = false;
 
   private originalHTML: string;
-  private spinnerHTML = '<ion-spinner name="crescent"></ion-spinner>';
+  private spinnerHTML = `<ion-spinner style="margin-right: 10px" color="${this.spinnerColor}" name="crescent"></ion-spinner>`;
 
   constructor(private el: ElementRef) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.saveOriginal();
   }
 
-  @Input()
-  set loading(loading: boolean) {
-    if (loading) {
+  ngOnChanges() {
+    if (this.loading) {
       this.loadingStarted();
     } else if (this.originalHTML) {
       this.loadingFinished();

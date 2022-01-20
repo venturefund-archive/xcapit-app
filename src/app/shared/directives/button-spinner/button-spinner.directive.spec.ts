@@ -29,7 +29,7 @@ class TestComponent {
   }
 }
 
-fdescribe('ButtonSpinnerDirective', () => {
+describe('ButtonSpinnerDirective', () => {
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
   beforeEach(
@@ -45,23 +45,27 @@ fdescribe('ButtonSpinnerDirective', () => {
     })
   );
 
-  fit('should toggle loading on button 1', () => {
+  it('should toggle loading on button 1', () => {
     const button = fixture.debugElement.query(By.css('#b1')).nativeElement;
     expect(button.innerHTML).toContain('Button 1');
     button.click();
     fixture.detectChanges();
-    expect(button.innerHTML).toContain('<ion-spinner name="crescent"></ion-spinner> Button 1');
+    expect(button.innerHTML).toContain(
+      '<ion-spinner style="margin-right: 10px" color="uxprimary" name="crescent"></ion-spinner> Button 1'
+    );
     component.toggleB1();
     fixture.detectChanges();
     expect(button.innerHTML).toContain('Button 1');
   });
 
-  fit('should toggle loading on button 2', () => {
+  it('should toggle loading on button 2', () => {
     const button = fixture.debugElement.query(By.css('#b2')).nativeElement;
     expect(button.innerHTML).toContain('Button 2');
     button.click();
     fixture.detectChanges();
-    expect(button.innerHTML).toContain('<ion-spinner name="crescent"></ion-spinner> Loading...');
+    expect(button.innerHTML).toContain(
+      '<ion-spinner style="margin-right: 10px" color="uxprimary" name="crescent"></ion-spinner> Loading...'
+    );
     component.toggleB2();
     fixture.detectChanges();
     expect(button.innerHTML).toContain('Button 2');
