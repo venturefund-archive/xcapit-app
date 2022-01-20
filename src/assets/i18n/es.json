@@ -244,6 +244,11 @@
       "amount_to_invest": "Monto a invertir",
       "button": "Continuar"
     },
+    "confirmation": {
+      "header": "Nueva inversión",
+      "amount_to_invest": "Monto a invertir",
+      "transaction_fee": "Fee de transacción"
+    },
     "coming_soon": {
       "header": "Inversión"
     },

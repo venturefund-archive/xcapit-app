@@ -1,6 +1,11 @@
+import { WalletService } from './../../../wallets/shared-wallets/services/wallet/wallet.service';
+import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Component, OnInit } from '@angular/core';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { TwoPiInvestmentService } from '../../shared-defi-investments/services/two-pi-investment/two-pi-investment.service';
+import { BlockchainProviderService } from 'src/app/modules/wallets/shared-wallets/services/blockchain-provider/blockchain-provider.service';
+import { environment } from 'src/environments/environment';
+import twoPiAbi from '../../shared-defi-investments/abi/2pi.json';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -10,17 +15,17 @@ import { TwoPiInvestmentService } from '../../shared-defi-investments/services/t
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'Nueva inversión' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'defi_investments.confirmation.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
       <ion-card class="ux-card">
         <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
         <div class="summary">
-          <ion-item class="summary__amount">
+          <div class="summary__amount">
             <div class="summary__amount__label">
               <ion-text class="ux-font-titulo-xs">{{
-                'defi_investments.shared.amount_input_card.amount_to_invest' | translate
+                'defi_investments.confirmation.amount_to_invest' | translate
               }}</ion-text>
             </div>
 
@@ -32,9 +37,22 @@ import { TwoPiInvestmentService } from '../../shared-defi-investments/services/t
                 >{{ this.quoteAmount.qty | number: '1.2-2' }} {{ this.quoteAmount.unit }}
               </ion-text>
             </div>
-          </ion-item>
+          </div>
           <div class="summary__fee">
-            <ion-text class="ux-font-titulo-xs">{{ 'Fee de transacción' }}</ion-text>
+            <div class="summary__fee__label">
+              <ion-text class="ux-font-titulo-xs">{{
+                'defi_investments.confirmation.transaction_fee' | translate
+              }}</ion-text>
+            </div>
+
+            <div class="summary__fee__qty">
+              <ion-text class="ux-font-text-base"
+                >{{ this.amount.qty | number: '1.2-2' }} {{ this.amount.unit }}</ion-text
+              >
+              <ion-text class="ux-font-text-base"
+                >{{ this.quoteAmount.qty | number: '1.2-2' }} {{ this.quoteAmount.unit }}
+              </ion-text>
+            </div>
           </div>
         </div>
       </ion-card>
@@ -60,20 +78,35 @@ export class InvestmentConfirmationPage implements OnInit {
   amount: { qty: number; unit: string };
   quoteAmount: { qty: number; unit: string };
 
-  constructor(private twoPiInvestmentService: TwoPiInvestmentService) {}
+  fee: { qty: number; unit: string };
+  quoteFee: { qty: number; unit: string };
+
+  constructor(
+    private twoPiInvestmentService: TwoPiInvestmentService,
+    private twoPiApi: TwoPiApi,
+    private blockchainProviderService: BlockchainProviderService,
+    private walletService: WalletService
+  ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.getInvestmentInfo();
+    await this.walletService.walletExist();
   }
 
   getInvestmentInfo() {
     this.investmentProduct = this.twoPiInvestmentService.product;
     this.amount = { qty: this.twoPiInvestmentService.amount, unit: this.investmentProduct.token().value };
-    // this.quoteAmount = this.twoPiInvestmentService.quoteAmount;
     this.quoteAmount = { qty: this.twoPiInvestmentService.quoteAmount, unit: 'USD' };
   }
 
-  confirm() {}
+  confirm() {
+    const contract = this.blockchainProviderService.createContract(
+      '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
+      twoPiAbi,
+      this.blockchainProviderService.createProvider(environment.maticApiUrl)
+    );
+    console.log(contract);
+  }
 }

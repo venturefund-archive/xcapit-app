@@ -243,6 +243,11 @@
       "amount_to_invest": "Amount to invest",
       "button": "Continue"
     },
+    "confirmation": {
+      "header": "New investment",
+      "amount_to_invest": "Amount to invest",
+      "transaction_fee": "Transaction fee"
+    },
     "coming_soon": {
       "header": "Investment"
     },

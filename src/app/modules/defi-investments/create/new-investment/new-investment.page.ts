@@ -1,3 +1,4 @@
+import { InvestmentProduct } from './../../shared-defi-investments/interfaces/investment-product.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -54,7 +55,7 @@ export class NewInvestmentPage implements OnInit {
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required]],
   });
-  investmentProduct: TwoPiInvestmentProduct;
+  investmentProduct: InvestmentProduct;
   token: Coin;
   constructor(
     private formBuilder: FormBuilder,
@@ -94,7 +95,7 @@ export class NewInvestmentPage implements OnInit {
       this.twoPiInvestmentService.amount = this.form.value.amount;
       this.twoPiInvestmentService.quoteAmount = this.form.value.quoteAmount;
       this.twoPiInvestmentService.product = this.investmentProduct;
-      this.navController.navigateForward(['defi/new/confirmation']);
+      this.navController.navigateForward('/defi/new/confirmation');
     }
   }
 }
