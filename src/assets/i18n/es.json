@@ -1564,11 +1564,8 @@
       "header": "Crear wallet",
       "title": "Verifica tu frase",
       "text1": "Toca las palabras en el orden correspondiente",
-      "btn_create": "Siguiente",
-      "loading": {
-        "title": "¡Tiempo!",
-        "subtitle": "Estamos verificando tu frase"
-      }
+      "btn_create": "Verificar mis 12 palabras",
+      "verifying": "Verificando..."
     },
     "create_password": {
       "header": "Crear wallet",
