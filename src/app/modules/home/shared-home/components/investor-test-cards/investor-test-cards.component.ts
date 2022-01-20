@@ -12,7 +12,14 @@ import { NavController } from '@ionic/angular';
         <ion-text class="ux-font-titulo-xs">{{ 'home.home_page.test_investor_cards.title1' | translate }}</ion-text>
       </div>
       <div>
-        <ion-button *ngIf="this.testAvailable" appTrackClick class="link ux-link-xl" name="Manage" fill="clear" size="small">
+        <ion-button
+          *ngIf="this.testAvailable"
+          appTrackClick
+          class="link ux-link-xl"
+          name="Manage"
+          fill="clear"
+          size="small"
+        >
           {{ 'home.home_page.test_investor_cards.link1' | translate }}
           <ion-icon slot="end" color="info" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
@@ -36,7 +43,14 @@ import { NavController } from '@ionic/angular';
         </div>
       </div>
       <div>
-        <ion-button *ngIf="this.optionsTestAvailable" appTrackClick class="link ux-link-xl" name="Manage" fill="clear" size="small">
+        <ion-button
+          *ngIf="this.optionsTestAvailable"
+          appTrackClick
+          class="link ux-link-xl"
+          name="Manage"
+          fill="clear"
+          size="small"
+        >
           {{ 'home.home_page.test_investor_cards.link2' | translate }}
           <ion-icon slot="end" color="info" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
@@ -49,7 +63,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./investor-test-cards.component.scss'],
 })
 export class InvestorTestCardsComponent implements OnInit {
-  optionsTestAvailable = false;
+  optionsTestAvailable = true;
   testAvailable = false;
   constructor(private navController: NavController) {}
   ngOnInit() {}
@@ -65,5 +79,4 @@ export class InvestorTestCardsComponent implements OnInit {
       this.navController.navigateForward(['']);
     }
   }
-  
 }
