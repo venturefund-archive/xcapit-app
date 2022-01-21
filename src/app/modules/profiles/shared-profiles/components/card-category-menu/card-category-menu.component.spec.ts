@@ -14,6 +14,7 @@ import { MenuCategory } from '../../interfaces/menu-category.interface';
 const itemMenu: MenuCategory = {
   category_title: 'profiles.user_profile_menu.category_help',
   icon: 'assets/ux-icons/ux-support.svg',
+  show_category: true,
   items: [
     {
       name: 'Faq',
@@ -72,6 +73,7 @@ describe('CardItemMenuComponent', () => {
   });
 
   it('should call trackEvent on trackService when elements with the directive are clicked', () => {
+    component.category.show_category = true;
     fixture.detectChanges();
     const elms = trackClickDirectiveHelper.getAllElementsWithTheDirective();
     for (const el of elms) {
@@ -86,6 +88,8 @@ describe('CardItemMenuComponent', () => {
 
   for (const item of itemMenu.items) {
     it(`should navigate to ${item.route} when button ${item.name} is clicked`, async () => {
+      component.category.show_category = true;
+      fixture.detectChanges();
       const button = fixture.debugElement.query(By.css(`ion-button#${item.name}`));
       button.nativeElement.click();
       await fixture.whenStable();
@@ -93,12 +97,15 @@ describe('CardItemMenuComponent', () => {
     });
   }
 
-  it('should navigate to "/wallets/recovery/info-no-wallet" when recoveryPhrase is clicked and there is not wallet', async () => {
-    walletServiceSpy.walletExist.and.resolveTo(false);
-    const button = fixture.debugElement.query(By.css(`ion-button#RecoveryPhrase`));
-    button.nativeElement.click();
+  it('should render category when atributte show_category is true', async () => {
+    const divEl = fixture.debugElement.query(By.css('div.ux-card'));
+    expect(divEl).toBeTruthy();
+  });
+
+  it('should not render category when atributte show_category is false', async () => {
+    component.category.show_category = false;
     fixture.detectChanges();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/recovery/info-no-wallet');
+    const divEl = fixture.debugElement.query(By.css('div.ux-card'));
+    expect(divEl).toBeFalsy();
   });
 });

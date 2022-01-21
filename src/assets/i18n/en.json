@@ -806,6 +806,7 @@
       "category_security_account": "Security Xcapit account",
       "change_pass": "Password Change",
       "category_security_wallet": "Security Xcapit wallet",
+      "remove_wallet":"Remove Wallet",
       "security_phrase": "Security phrase",
       "category_binance_investment": "Binance investments",
       "funds": "Funds",
@@ -1428,6 +1429,21 @@
     }
   },
   "wallets": {
+    "remove_success":{
+      "title":"Your wallet was removed",
+      "subtitle":"You can create a new wallet or import an existing one whenever you wish.",
+      "create_button":"Create new Wallet",
+      "import_button":"Import Wallet",
+      "home_link":"Go to home"
+    },
+    "remove":{
+      "header":"Remove wallet",
+      "title":"When removing your wallet remember",
+      "item1":"You will not lose your past transactions, they are stored by the network.",
+      "item2":"If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item3":"You will be able to again create a new wallet in Xcapit or import an existing one.",
+      "tos":"I read and understand that I will remove my wallet."
+    },
     "no_wallet": {
       "title": "You don't have your Xcapit Wallet yet",
       "subtitle": "Every time you make a purchase, your cryptocurrencies will be deposited there.",

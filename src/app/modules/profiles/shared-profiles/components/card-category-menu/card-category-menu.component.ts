@@ -2,12 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { MenuCategory } from '../../interfaces/menu-category.interface';
 
 @Component({
   selector: 'app-card-category-menu',
   template: `
-    <div class="ux-card">
+    <div class="ux-card" *ngIf="this.category.show_category">
       <div class="card-title">
         <img class="card-title__img" [src]="this.category.icon" />
         <ion-text class="ux-font-header-titulo card-title__text" *ngIf="!this.category.route">{{
@@ -40,19 +39,17 @@ import { MenuCategory } from '../../interfaces/menu-category.interface';
 })
 export class CardCategoryMenuComponent implements OnInit {
   @Input() category;
+
   constructor(
     private navController: NavController,
     private walletService: WalletService,
     private walletConnectService: WalletConnectService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async goToRoute(item) {
     let url = item.route;
-    if (item.name === 'RecoveryPhrase' && !(await this.walletService.walletExist())) {
-      url = '/wallets/recovery/info-no-wallet';
-    }
     if (item.name === 'WalletConnect') {
       if (!(await this.walletService.walletExist())) {
         url = 'tabs/wallets';

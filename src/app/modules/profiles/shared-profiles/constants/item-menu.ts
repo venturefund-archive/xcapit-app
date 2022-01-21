@@ -9,6 +9,7 @@ export const ITEM_MENU: MenuCategory[] = [
   // },
   {
     category_title: 'profiles.user_profile_menu.category_help',
+    show_category: true,
     icon: 'assets/ux-icons/ux-support.svg',
     items: [
       {
@@ -27,6 +28,7 @@ export const ITEM_MENU: MenuCategory[] = [
   },
   {
     category_title: 'profiles.user_profile_menu.category_security_account',
+    show_category: true,
     icon: 'assets/ux-icons/ux-lock-outline.svg',
     items: [
       {
@@ -40,6 +42,7 @@ export const ITEM_MENU: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_security_wallet',
     icon: 'assets/ux-icons/ux-key-outline.svg',
+    show_category: false,
     items: [
       {
         name: 'WalletPasswordChange',
@@ -53,10 +56,17 @@ export const ITEM_MENU: MenuCategory[] = [
         route: '/wallets/recovery/info',
         type: 'link',
       },
+      {
+        name: 'RemoveWallet',
+        text: 'profiles.user_profile_menu.remove_wallet',
+        route: '/wallets/remove',
+        type: 'link',
+      },
     ],
   },
   {
     category_title: 'profiles.user_profile_menu.category_binance_investment',
+    show_category: true,
     icon: 'assets/ux-icons/ux-trending-up.svg',
     items: [
       {
