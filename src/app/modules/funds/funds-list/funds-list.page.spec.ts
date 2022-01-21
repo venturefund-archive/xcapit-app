@@ -8,7 +8,7 @@ import { of, Subscription } from 'rxjs';
 import { IonicModule, NavController } from '@ionic/angular';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';

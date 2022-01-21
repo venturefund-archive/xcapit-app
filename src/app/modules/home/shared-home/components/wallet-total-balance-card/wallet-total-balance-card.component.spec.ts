@@ -8,7 +8,7 @@ import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { WalletTotalBalanceCardComponent } from './wallet-total-balance-card.component';
 
 describe('WalletTotalBalanceCardComponent', () => {

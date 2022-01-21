@@ -4,7 +4,7 @@ import { MainMenuPage } from './main-menu.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
 import { ReplaySubject, of } from 'rxjs';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';

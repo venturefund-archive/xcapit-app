@@ -4,7 +4,7 @@ import { ReferralsShareComponent } from './referrals-share.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
 import { ShareService } from '../../../../../shared/services/share/share.service';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { By } from '@angular/platform-browser';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';

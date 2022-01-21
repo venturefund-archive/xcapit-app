@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { SelectCoinsWalletPage } from './select-coins-wallet.page';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ItemCoinComponent } from '../shared-wallets/components/item-coin/item-coin.component';

@@ -9,7 +9,7 @@ import { UrlSerializer } from '@angular/router';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from '../../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { FakeLoadingService } from 'src/testing/fakes/loading.fake.spec';
 

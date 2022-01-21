@@ -12,7 +12,7 @@ import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { TrackService } from '../../../shared/services/track/track.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { BrowserService } from '../../../shared/services/browser/browser.service';

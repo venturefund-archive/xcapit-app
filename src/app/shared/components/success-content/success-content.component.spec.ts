@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { NavController } from '@ionic/angular';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 
 describe('SuccessContentComponent', () => {
   let component: SuccessContentComponent;
