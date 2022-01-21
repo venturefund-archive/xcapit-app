@@ -246,10 +246,11 @@
     "coming_soon": {
       "header": "Investment"
     },
-
-    "defi_investment_products": {
-      "header": "Defi investments",
-      "title": "Start investing"
+    "defi_investment_products":{
+      "header":"Defi investments",
+      "title":"Start investing",
+      "title_investments":"My investments",
+      "recommendations":"You may be interested in"  
     },
     "success_investment": {
       "title": "You added money to your investment",

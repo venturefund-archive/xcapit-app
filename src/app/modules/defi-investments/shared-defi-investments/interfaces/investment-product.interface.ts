@@ -8,4 +8,5 @@ export interface InvestmentProduct {
   provider(): string;
   apy(): number;
   tvl(): number;
+  contractAddress(): string;
 }
