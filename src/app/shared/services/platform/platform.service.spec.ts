@@ -3,18 +3,19 @@ import { PlatformService } from './platform.service';
 
 describe('PlatformService', () => {
   let service: PlatformService;
-  let capacitorMock: any;
+  let capacitorSpy: jasmine.SpyObj<any>;
 
   beforeEach(() => {
-    capacitorMock = {
-      platform: 'web'
-    };
+    capacitorSpy = jasmine.createSpyObj('Capacitor', {
+      getPlatform: 'web',
+      isNativePlatform: false
+    });
 
     TestBed.configureTestingModule({
-      providers: []
+      providers: [],
     });
     service = TestBed.inject(PlatformService);
-    service.capacitor = capacitorMock;
+    service.capacitor = capacitorSpy;
   });
 
   it('should be created', () => {
@@ -25,9 +26,22 @@ describe('PlatformService', () => {
     expect(service.isWeb()).toBeTrue();
   });
 
-  it('should isWeb return false on web platform', () => {
-    service.capacitor.platform = 'aosdika';
+  it('should isWeb return false on android platform', () => {
+    capacitorSpy.getPlatform.and.returnValue('android');
     expect(service.isWeb()).toBeFalse();
   });
 
+  it('should isNative return true on native platform', () => {
+    capacitorSpy.isNativePlatform.and.returnValue(true);
+    expect(service.isNative()).toBeTrue();
+  });
+
+  it('should isNative return false on no native platform', () => {
+    capacitorSpy.isNativePlatform.and.returnValue(false);
+    expect(service.isNative()).toBeFalse();
+  });
+
+  it('should platform return web', () => {
+    expect(service.platform()).toEqual('web');
+  });
 });
