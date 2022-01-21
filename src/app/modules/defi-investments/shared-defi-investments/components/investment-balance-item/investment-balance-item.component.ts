@@ -1,10 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { defiProduct } from '../../interfaces/defi-product.interface';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
-import { TwoPiApi } from '../../models/two-pi-api/two-pi-api.model';
-import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
-import { TwoPiContractService } from '../../services/two-pi-contract/two-pi-contract.service';
 
 @Component({
   selector: 'app-investment-balance-item',
@@ -12,30 +9,30 @@ import { TwoPiContractService } from '../../services/two-pi-contract/two-pi-cont
       <div class="ibi">
         <div class="ibi__image">
           <div>
-            <img class="ibi__image__img" [src]="this.product.image" alt="Product Image" />
+            <img class="ibi__image__img" [src]="this.token?.logoRoute" alt="Product Image" />
           </div>
         </div>
         <div class="ibi__content">
           <div class="ibi__content__group">
             <ion-text class="ux-font-text-lg symbol">{{
-              this.product.symbol 
+              this.token?.value
             }}</ion-text>
             <ion-text class="ux-font-text-lg balance">{{
-              this.balance| number: '1.8-8'
+              this.balance| number: '1.2-8'
             }}</ion-text>
           </div>
           <div class="ibi__content__group">
             <ion-text class="ux-font-text-xs description">{{
-              this.product.subtitle 
+              (this.token?.name | splitString: ' - ')[1]  
             }}</ion-text>
             <ion-text class="ux-font-text-xs converted-balance">{{
-             0
+             this.referenceBalance
             }}{{' USD'}}</ion-text>
           </div>
           <div class="ibi__content__group">
             <ion-badge class="ux-font-num-subtitulo ux_badge_coming ibi__content__group__badge" slot="end"
               >{{ this.apy  | number: '1.2-2' }}%
-              {{ 'defi_investments.shared_defi_investments.defi_investment_product.annual' | translate }}</ion-badge
+              {{ 'defi_investments.shared.defi_investment_product.annual' | translate }}</ion-badge
             >
           </div>
         </div>
@@ -44,26 +41,22 @@ import { TwoPiContractService } from '../../services/two-pi-contract/two-pi-cont
   styleUrls: ['./investment-balance-item.component.scss'],
 })
 export class InvestmentBalanceItemComponent implements OnInit {
-  constructor(private twoPiContractService: TwoPiContractService, private twoPiApi: TwoPiApi, private apiWalletService : ApiWalletService) {}
-  @Input() product : defiProduct;
-  balance : number;
-  investmentProduct : InvestmentProduct;
+  constructor(private apiWalletService : ApiWalletService) {}
+  @Input() balance : number;
+  referenceBalance: number;
+  token : Coin;
+  @Input() investmentProduct : InvestmentProduct;
   apy: number;
-  ngOnInit() {
-    this.getInvestmentProduct();
-    this.getProductBalance();
+  async ngOnInit() {
+    this.apy = this.investmentProduct.apy();
+    this.token = this.investmentProduct.token();
+    this.getPrice();
   }
 
-  async getProductBalance(){
-    this.balance = parseInt(await this.twoPiContractService.getBalance(this.investmentProduct));
-  }
-  
-  async getInvestmentProduct() {
-    this.investmentProduct = new TwoPiInvestmentProduct(
-      await this.twoPiApi.vault(this.product.id),
-      this.apiWalletService
-    );
-    this.apy = this.investmentProduct.apy()
-  }
 
+  private getPrice() {
+    this.apiWalletService
+      .getPrices([this.token.value], false)
+      .subscribe((res) => (this.referenceBalance = res.prices[this.token.value] * this.balance));
+  }
 }

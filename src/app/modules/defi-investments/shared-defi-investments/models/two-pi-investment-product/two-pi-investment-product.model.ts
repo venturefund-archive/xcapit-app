@@ -43,6 +43,6 @@ export class TwoPiInvestmentProduct implements InvestmentProduct {
   }
 
   contractAddress(): string {
-      return this.vault.contractAddress;
+      return this.vault.address;
   }
 }

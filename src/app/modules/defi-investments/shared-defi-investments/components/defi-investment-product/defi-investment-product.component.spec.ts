@@ -9,13 +9,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
-import { TwoPiApi } from '../../models/two-pi-api/two-pi-api.model';
 import { DefiInvestmentProductComponent } from './defi-investment-product.component';
-
-const defiProduct = {
-  id: 'polygon_usdc',
-  isComing: false,
-};
+import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
 
 const usdc_coin = {
   id: 8,
@@ -43,7 +38,7 @@ const testVault = {
 describe('DefiInvestmentProductComponent', () => {
   let component: DefiInvestmentProductComponent;
   let fixture: ComponentFixture<DefiInvestmentProductComponent>;
-  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
+
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
@@ -52,36 +47,27 @@ describe('DefiInvestmentProductComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
-        vaults: Promise.resolve([testVault]),
-        vault: Promise.resolve(testVault),
-      });
-
-      fakeNavController = new FakeNavController({});
-      navControllerSpy = fakeNavController.createSpy();
-
-      walletServiceSpy = jasmine.createSpyObj('WalletService', {
-        walletExist: Promise.resolve(true),
-      });
-
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
         getCoins: [usdc_coin],
       });
-
+      fakeNavController = new FakeNavController({});
+      navControllerSpy = fakeNavController.createSpy();
+      walletServiceSpy = jasmine.createSpyObj('WalletService', {
+        walletExist: Promise.resolve(true),
+      });
       TestBed.configureTestingModule({
         declarations: [DefiInvestmentProductComponent, FakeTrackClickDirective, SplitStringPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
-          { provide: TwoPiApi, useValue: twoPiApiSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(DefiInvestmentProductComponent);
       component = fixture.componentInstance;
-      component.product = defiProduct;
+      component.investmentProduct = new TwoPiInvestmentProduct(testVault, apiWalletServiceSpy);
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })

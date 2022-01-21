@@ -1,9 +1,6 @@
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { WalletService } from './../../../../wallets/shared-wallets/services/wallet/wallet.service';
-import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
-import { ApiWalletService } from '../../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { TwoPiApi } from '../../models/two-pi-api/two-pi-api.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
@@ -58,7 +55,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="dip__footer__button ">
           <ion-button
-            *ngIf="!this.product?.isComing"
+            *ngIf="!this.isComing"
             appTrackClick
             (click)="this.invest()"
             name="Invest"
@@ -68,7 +65,7 @@ import { NavController } from '@ionic/angular';
             {{ 'defi_investments.shared.defi_investment_product.invest_button' | translate }}
           </ion-button>
           <ion-badge
-            *ngIf="this.product?.isComing"
+            *ngIf="this.isComing"
             class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge"
             slot="end"
             >{{ 'defi_investments.shared.defi_investment_product.comming_badge' | translate }}</ion-badge
@@ -80,38 +77,30 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./defi-investment-product.component.scss'],
 })
 export class DefiInvestmentProductComponent implements OnInit {
-  @Input() product;
+  @Input() investmentProduct : InvestmentProduct;
+  @Input() isComing : boolean;
   apy: number;
   tvl: number;
   token: Coin;
 
   constructor(
-    private apiWalletService: ApiWalletService,
     private navController: NavController,
     private walletService: WalletService,
-    private twoPiApi: TwoPiApi
   ) {}
 
   ngOnInit() {
-    this.getInvestmentProduct();
+    this.apy = this.investmentProduct.apy();
+    this.tvl = this.investmentProduct.tvl();
+    this.token = this.investmentProduct.token();
   }
 
   async invest() {
     const walletExist = await this.walletService.walletExist();
     if (walletExist) {
-      this.navController.navigateForward(['/defi/new/insert-amount', this.product.id]);
+      this.navController.navigateForward(['/defi/new/insert-amount', this.investmentProduct.name()]);
     } else {
       this.navController.navigateForward(['/defi/no-wallet-to-invest']);
     }
   }
 
-  async getInvestmentProduct() {
-    const investmentProduct = new TwoPiInvestmentProduct(
-      await this.twoPiApi.vault(this.product.id),
-      this.apiWalletService
-    );
-    this.apy = investmentProduct.apy();
-    this.tvl = investmentProduct.tvl();
-    this.token = investmentProduct.token();
-  }
 }
