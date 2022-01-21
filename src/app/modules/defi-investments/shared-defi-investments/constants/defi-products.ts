@@ -1,3 +1,4 @@
+
 import { defiProduct } from '../interfaces/defi-product.interface';
 
 export const PROD_DEFI_PRODUCTS: defiProduct[] = [
