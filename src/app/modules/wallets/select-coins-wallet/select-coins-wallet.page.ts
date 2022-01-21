@@ -200,6 +200,7 @@ export class SelectCoinsWalletPage implements OnInit {
       this.walletMaintenanceService.password = await this.askForPassword();
 
       if (!this.walletMaintenanceService.password) {
+        this.txInProgress = false;
         return;
       }
 
