@@ -22,7 +22,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_help',
     icon: 'assets/ux-icons/ux-support.svg',
-    show_category: true,
+    showCategory: true,
     items: [
       {
         name: 'Faq',
@@ -41,7 +41,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_security_account',
     icon: 'assets/ux-icons/ux-lock-outline.svg',
-    show_category: true,
+    showCategory: true,
     items: [
       {
         name: 'PasswordChangeAccount',
@@ -54,7 +54,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_security_wallet',
     icon: 'assets/ux-icons/ux-key-outline.svg',
-    show_category: true,
+    showCategory: true,
     items: [
       {
         name: 'RecoveryPhrase',
@@ -67,7 +67,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_binance_investment',
     icon: 'assets/ux-icons/ux-trending-up.svg',
-    show_category: true,
+    showCategory: true,
     items: [
       {
         name: 'Funds',

@@ -2,7 +2,8 @@ import { MenuItem } from './menu-item.interface';
 
 export interface MenuCategory {
   category_title: string;
-  show_category?: boolean;
+  showCategory?: boolean;
+  id?: string;
   icon: string;
   items?: MenuItem[];
   route?: string;

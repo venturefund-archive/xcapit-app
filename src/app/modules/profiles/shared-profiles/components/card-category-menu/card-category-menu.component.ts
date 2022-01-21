@@ -6,7 +6,7 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
 @Component({
   selector: 'app-card-category-menu',
   template: `
-    <div class="ux-card" *ngIf="this.category.show_category">
+    <div class="ux-card" *ngIf="this.category.showCategory">
       <div class="card-title">
         <img class="card-title__img" [src]="this.category.icon" />
         <ion-text class="ux-font-header-titulo card-title__text" *ngIf="!this.category.route">{{

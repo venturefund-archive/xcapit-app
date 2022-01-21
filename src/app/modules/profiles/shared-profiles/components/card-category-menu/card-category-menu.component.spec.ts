@@ -10,11 +10,12 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { CardCategoryMenuComponent } from './card-category-menu.component';
 import { MenuCategory } from '../../interfaces/menu-category.interface';
+import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 
 const itemMenu: MenuCategory = {
   category_title: 'profiles.user_profile_menu.category_help',
   icon: 'assets/ux-icons/ux-support.svg',
-  show_category: true,
+  showCategory: true,
   items: [
     {
       name: 'Faq',
@@ -43,13 +44,15 @@ describe('CardItemMenuComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CardCategoryMenuComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      walletServiceSpy = jasmine.createSpyObj('WalletService', { walletExist: Promise.resolve(true) });
+      fakeWalletService = new FakeWalletService(true, {});
+      walletServiceSpy = fakeWalletService.createSpy();
       TestBed.configureTestingModule({
         declarations: [CardCategoryMenuComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -73,7 +76,7 @@ describe('CardItemMenuComponent', () => {
   });
 
   it('should call trackEvent on trackService when elements with the directive are clicked', () => {
-    component.category.show_category = true;
+    component.category.showCategory = true;
     fixture.detectChanges();
     const elms = trackClickDirectiveHelper.getAllElementsWithTheDirective();
     for (const el of elms) {
@@ -88,7 +91,7 @@ describe('CardItemMenuComponent', () => {
 
   for (const item of itemMenu.items) {
     it(`should navigate to ${item.route} when button ${item.name} is clicked`, async () => {
-      component.category.show_category = true;
+      component.category.showCategory = true;
       fixture.detectChanges();
       const button = fixture.debugElement.query(By.css(`ion-button#${item.name}`));
       button.nativeElement.click();
@@ -97,13 +100,13 @@ describe('CardItemMenuComponent', () => {
     });
   }
 
-  it('should render category when atributte show_category is true', async () => {
+  it('should render category when atributte showCategory is true', async () => {
     const divEl = fixture.debugElement.query(By.css('div.ux-card'));
     expect(divEl).toBeTruthy();
   });
 
-  it('should not render category when atributte show_category is false', async () => {
-    component.category.show_category = false;
+  it('should not render category when atributte showCategory is false', async () => {
+    component.category.showCategory = false;
     fixture.detectChanges();
     const divEl = fixture.debugElement.query(By.css('div.ux-card'));
     expect(divEl).toBeFalsy();

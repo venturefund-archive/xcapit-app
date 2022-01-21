@@ -26,7 +26,7 @@ import { NavController } from '@ionic/angular';
           <div class="buttons">
             <ion-button
               class="ux_button"
-              name="go-to-create-wallet"
+              name="go_to_create_wallet"
               type="button"
               color="uxsecondary"
               expand="block"
@@ -37,7 +37,7 @@ import { NavController } from '@ionic/angular';
             </ion-button>
             <ion-button
               class="ux-button-outlined"
-              name="go-to-import-wallet"
+              name="go_to_import_wallet"
               type="button"
               expand="block"
               (click)="this.goToImportWallet()"
@@ -47,7 +47,7 @@ import { NavController } from '@ionic/angular';
             </ion-button>
             <ion-button
               class="ux-link-xl"
-              name="go-to-home"
+              name="go_to_home"
               type="button"
               fill="clear"
               (click)="this.goToHome()"

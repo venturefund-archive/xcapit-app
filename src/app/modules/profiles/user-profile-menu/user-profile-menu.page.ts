@@ -158,7 +158,9 @@ export class UserProfileMenuPage implements OnInit {
 
   existWallet() {
     this.walletService.walletExist().then((res) => {
-      this.itemMenu[2].show_category = res;
+      const item = this.itemMenu.find((item) => item.id === 'wallet');
+      console.log(item);
+      item.showCategory = res;
     });
   }
 }

@@ -74,7 +74,7 @@ import { WalletService } from '../../shared-wallets/services/wallet/wallet.servi
           <ion-button
             [disabled]="!this.aceptTos"
             class="ux_button"
-            name="remove-wallet"
+            name="remove_wallet"
             type="button"
             color="uxsecondary"
             expand="block"

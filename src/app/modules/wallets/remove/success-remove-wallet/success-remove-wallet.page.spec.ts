@@ -44,8 +44,8 @@ describe('SuccessRemoveWalletPage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when go-to-create-wallet is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go-to-create-wallet');
+  it('should call trackEvent on trackService when go_to_create_wallet is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go_to_create_wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -53,8 +53,8 @@ describe('SuccessRemoveWalletPage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when go-to-import-wallet is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go-to-import-wallet');
+  it('should call trackEvent on trackService when go_to_import_wallet is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go_to_import_wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -62,8 +62,8 @@ describe('SuccessRemoveWalletPage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when go-to-home is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go-to-home');
+  it('should call trackEvent on trackService when go_to_home is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go_to_home');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -77,20 +77,20 @@ describe('SuccessRemoveWalletPage', () => {
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/home']);
   });
 
-  it('should navigate to create wallet page when go-to-create-wallet is clicked', () => {
-    const closeButton = fixture.debugElement.query(By.css("ion-button[name='go-to-create-wallet']"));
+  it('should navigate to create wallet page when go_to_create_wallet is clicked', () => {
+    const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_create_wallet']"));
     closeButton.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer']);
   });
 
-  it('should navigate to import wallet page when go-to-import-wallet is clicked', () => {
-    const closeButton = fixture.debugElement.query(By.css("ion-button[name='go-to-import-wallet']"));
+  it('should navigate to import wallet page when go_to_import_wallet is clicked', () => {
+    const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_import_wallet']"));
     closeButton.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
   });
 
-    it('should navigate to home when go-to-home is clicked', () => {
-    const closeButton = fixture.debugElement.query(By.css("ion-button[name='go-to-home']"));
+    it('should navigate to home when go_to_home is clicked', () => {
+    const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_home']"));
     closeButton.nativeElement.click();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/home']);
   });
