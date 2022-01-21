@@ -2370,6 +2370,8 @@
     "header": "Help",
     "title": "How can we help you?",
     "support_options": {
+      "title_nft":"NFTs",
+      "description_nft":"View, Transfer and Receive",
       "title_account": "XCAPIT Account",
       "description_account": "Create account, configure and deposit money.",
       "title_wallet": "Wallet",
