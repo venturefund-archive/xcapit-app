@@ -6,6 +6,7 @@ export const AUTH = {
 export const CONFIG = {
   app: {
     defaultLanguage: 'es',
+    statusBarColor: '#1c2d5e'
   },
   loadingService: {
     defaultMessage: 'config.loading_service.default_message',
