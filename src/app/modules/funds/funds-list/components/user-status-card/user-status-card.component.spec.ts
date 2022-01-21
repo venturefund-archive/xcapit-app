@@ -80,22 +80,4 @@ describe('UserStatusCardComponent', () => {
       expect(component.newFundUrl).toBe(expectedUrl);
     });
   });
-
-  it('should call trackEvent on trackService when Action Button button clicked', () => {
-    component.userStatus = {
-      profile_valid: true,
-      empty_linked_keys: true,
-      has_own_funds: false,
-      has_subscribed_funds: false,
-      status_name: 'BEGINNER',
-    };
-    fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Action Button');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    spyOn(component, 'doActionButton');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
 });

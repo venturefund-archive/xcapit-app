@@ -304,7 +304,7 @@
       },
       "binance": {
         "title": "Binance Investments",
-        "text": "Connect our smart Trading and Indexes Bot to your Binance Wallet generating yields every day."
+        "text": "It is currently not possible to create new investments on Binance. If you have active funds you will see it from: Profile > Binance Investments > Funds"
       }
     },
     "fund_balance": {
@@ -324,9 +324,7 @@
         "change_currency": "Change currency"
       },
       "user_status": {
-        "title": "Start investing",
-        "action_button": "Get started by linking with binance",
-        "link_strategies_button": "Investment strategies"
+        "title": "You don't have any investment"
       },
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
