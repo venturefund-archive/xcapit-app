@@ -20,7 +20,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding sc">
       <form
         [formGroup]="this.form"
         (ngSubmit)="this.handleSubmit()"
@@ -38,14 +38,23 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               {{ 'wallets.select_coin.subtitle' | translate }}
             </div>
           </app-ux-text>
-          <app-ux-text>
-            <div class="sc__recordatory ux-font-text-xxs">
-              {{ 'wallets.select_coin.recordatory' | translate }}
-            </div>
-          </app-ux-text>
+          <ion-item lines="none" class="sc__toggle_all ux-font-title-xs ion-no-padding">
+            <ion-label class="sc__toggle_all__label ion-no-margin ion-no-padding">
+              {{ 'wallets.select_coin.toggle_all_text' | translate }}
+            </ion-label>
+            <ion-toggle
+              name="Toggle All Coins"
+              class="sc__toggle_all__toggle ux-toggle ion-no-padding"
+              [checked]="this.allSelected"
+              (click)="this.toggleAll($event)"
+              mode="ios"
+              slot="end"
+            ></ion-toggle>
+          </ion-item>
           <app-items-coin-group
             [network]="network"
             [coins]="this.getCoinsFromNetwork(network)"
+            (changed)="this.setAllSelected()"
             *ngFor="let network of this.networks"
           ></app-items-coin-group>
         </div>
@@ -75,6 +84,7 @@ export class SelectCoinsWalletPage implements OnInit {
   userCoinsLoaded: boolean;
   txInProgress: boolean;
   form: FormGroup;
+  allSelected = false;
 
   get networks(): string[] {
     return this.apiWalletService.getNetworks();
@@ -271,6 +281,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
       this.form.patchValue(this.originalFormData);
       this.userCoinsLoaded = true;
+      this.setAllSelected();
     });
   }
 
@@ -307,5 +318,30 @@ export class SelectCoinsWalletPage implements OnInit {
         this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
         return;
     }
+  }
+
+  toggleAll(event) {
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.preventDefault();
+    const setAll = !this.allSelected;
+
+    this.getSuiteFormGroupKeys().forEach((network) => {
+      this.getCoinFormGroupKeys(network).forEach((coin) => {
+        this.form.get(network).get(coin).setValue(setAll);
+      });
+    });
+
+    this.setAllSelected();
+  }
+
+  setAllSelected() {
+    const networkToggledStates = [];
+
+    this.getSuiteFormGroupKeys().forEach((network) => {
+      networkToggledStates.push(Object.values(this.form.value[network]).every(Boolean));
+    });
+
+    this.allSelected = Object.values(networkToggledStates).every(Boolean);
   }
 }

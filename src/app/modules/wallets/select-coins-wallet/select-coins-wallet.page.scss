@@ -1,19 +1,51 @@
 :host {
   .sc {
+    --background: var(--ion-background-colorwhite);
+
     &__content {
       margin-bottom: 16px;
     }
+
     &__title {
       color: var(--ion-color-uxprimary);
     }
+
     &__subtitle {
       padding-top: 16px;
       color: var(--ion-color-uxdark);
     }
-    &__recordatory {
-      padding-top: 4px;
-      padding-right: 16px;
+
+    &__toggle_all {
+      --background: transparent;
+      --inner-padding-start: 0;
+      --inner-padding-end: 0;
+      --inner-padding-top: 0;
+      --inner-padding-bottom: 0;
+
+      margin-bottom: -8px;
+      margin-top: 16px;
+
+      &__label {
+        margin-left: 16px;
+        padding-top: 13px;
+        padding-bottom: 18px;
+        font-weight: var(--ux-fweight-bold);
+
+        --color: var(--ion-color-uxdark);
+      }
+
+      &__toggle {
+        padding-top: 13px;
+        padding-bottom: 13px;
+        padding-right: 16px;
+
+        --background-checked: var(--ion-color-info);
+        --background: var(--ion-color-uxline);
+        --handle-width: 17.66px;
+        --handle-height: 17.66px;
+      }
     }
+
     &__radio_text {
       font-size: 12px;
     }
@@ -22,13 +54,16 @@
       display: flex;
       flex-direction: column;
     }
+
     &__img {
       padding-right: 14px;
       height: 33px;
     }
+
     &__toggle {
       height: 22px;
       width: 42px;
+
       --handle-width: 17.66px;
       --handle-height: 17.66px;
     }
