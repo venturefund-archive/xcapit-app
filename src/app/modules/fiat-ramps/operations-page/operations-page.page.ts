@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { InformativeModalComponent } from 'src/app/modules/menus/main-menu/components/informative-modal/informative-modal.component';
+import { InformativeModalComponent } from 'src/app/modules/home/shared-home/components/informative-modal/informative-modal.component';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 
 @Component({
