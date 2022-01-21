@@ -1,7 +1,7 @@
 import { InvestmentProduct } from "./investment-product.interface";
 
 export interface DefiInvestment {
-    product: InvestmentProduct,
+    product: InvestmentProduct;
     isComing: boolean;
     balance: number;
   }

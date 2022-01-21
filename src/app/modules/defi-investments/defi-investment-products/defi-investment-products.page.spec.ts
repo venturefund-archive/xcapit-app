@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -44,7 +43,6 @@ describe('DefiInvestmentProductsPage', () => {
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   beforeEach(waitForAsync(() => {
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
-      // vaults: Promise.resolve([testVault]),
       vault: Promise.resolve(testVault),
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
