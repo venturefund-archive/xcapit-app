@@ -27,41 +27,6 @@ export const ABOUT_BINANCE = [
   {
     title: 'support.support_binance.question6',
     answer: 'support.support_binance.answer6',
-    last: false,
-  },
-  {
-    title: 'support.support_binance.question7',
-    answer: 'support.support_binance.answer7',
-    last: false,
-  },
-  {
-    title: 'support.support_binance.question8',
-    answer: 'support.support_binance.answer8',
-    last: false,
-  },
-  {
-    title: 'support.support_binance.question9',
-    answer: 'support.support_binance.answer9',
-    last: false,
-  },
-  {
-    title: 'support.support_binance.question10',
-    answer: 'support.support_binance.answer10',
-    last: false,
-  },
-  {
-    title: 'support.support_binance.question11',
-    answer: 'support.support_binance.answer11',
-    last: false,
-  },
-  {
-    title: 'support.support_binance.question12',
-    answer: 'support.support_binance.answer12',
-    last: false,
-  },
-  {
-    title: 'support.support_binance.question13',
-    answer: 'support.support_binance.answer13',
     last: true,
   },
 ];
