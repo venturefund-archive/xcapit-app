@@ -834,7 +834,10 @@
       "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out",
-      "category_walletconnect": "WalletConnect"
+      "category_walletconnect": "WalletConnect",
+      "profile_footer": {
+        "investor_profile_button": "Investor profile"
+      }
     },
     "success_profile": {
       "textPrimary": "¡You have setted up your account!",
