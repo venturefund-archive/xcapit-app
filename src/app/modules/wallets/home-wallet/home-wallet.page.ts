@@ -156,7 +156,7 @@ export class HomeWalletPage implements OnInit {
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
-  @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonContent, { static: true }) content: IonContent;
   pageSize = 6;
   subscriptions$: Subscription[] = [];
@@ -194,7 +194,7 @@ export class HomeWalletPage implements OnInit {
     this.getNFTStatus();
   }
 
-  private infiniteScrollDisabled() {
+  private infiniteScrollDisabled(): void {
     this.infiniteScroll.disabled = false;
   }
 
@@ -285,7 +285,7 @@ export class HomeWalletPage implements OnInit {
     this.queueService.enqueue('prices', () => assetBalance.getPrice());
   }
 
-  ionViewDidLeave() {
+  ionViewDidLeave(): void {
     this.unsubscribe();
   }
 

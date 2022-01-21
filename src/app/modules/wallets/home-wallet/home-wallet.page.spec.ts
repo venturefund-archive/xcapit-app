@@ -1,7 +1,15 @@
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, IonInfiniteScroll, NavController } from '@ionic/angular';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  flushMicrotasks,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
+import { IonContent, IonicModule, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -63,6 +71,7 @@ describe('HomeWalletPage', () => {
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let ionInfiniteScrollSpy: jasmine.SpyObj<IonInfiniteScroll>;
   let queueServiceSpy: jasmine.SpyObj<QueueService>;
+  let contentSpy: jasmine.SpyObj<IonContent>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -106,7 +115,7 @@ describe('HomeWalletPage', () => {
         results: of({}),
       });
       queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
-
+      contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -127,6 +136,7 @@ describe('HomeWalletPage', () => {
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
       component.infiniteScroll = ionInfiniteScrollSpy;
+      component.content = contentSpy;
       fixture.detectChanges();
     })
   );

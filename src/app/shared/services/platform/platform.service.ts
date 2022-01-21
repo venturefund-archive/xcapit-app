@@ -9,11 +9,15 @@ export class PlatformService {
 
   constructor() {}
 
-  isWeb() {
-    return this.capacitor.platform === 'web';
+  isWeb(): boolean {
+    return this.capacitor.getPlatform() === 'web';
   }
 
-  isNative() {
-    return this.capacitor.isNative;
+  isNative(): boolean {
+    return this.capacitor.isNativePlatform();
+  }
+
+  platform(): string {
+    return this.capacitor.getPlatform();
   }
 }
