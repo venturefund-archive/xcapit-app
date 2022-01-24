@@ -101,6 +101,7 @@ describe('CardItemMenuComponent', () => {
   }
 
   it('should render category when atributte showCategory is true', async () => {
+    await fixture.whenRenderingDone();
     const divEl = fixture.debugElement.query(By.css('div.ux-card'));
     expect(divEl).toBeTruthy();
   });
