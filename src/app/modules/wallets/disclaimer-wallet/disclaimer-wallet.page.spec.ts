@@ -10,10 +10,10 @@ import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spe
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
-
 import { DisclaimerWalletPage } from './disclaimer-wallet.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { By } from '@angular/platform-browser';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 describe('DisclaimerWalletPage', () => {
   let component: DisclaimerWalletPage;
@@ -22,12 +22,14 @@ describe('DisclaimerWalletPage', () => {
   let navControllerSpy: any;
   let storageWalletsServiceSpy: any;
   let modalControllerSpy: any;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   beforeEach(
     waitForAsync(() => {
       modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       storageWalletsServiceSpy = jasmine.createSpyObj('StorageWalletsService', ['acceptToS']);
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
       TestBed.configureTestingModule({
         declarations: [DisclaimerWalletPage, FakeTrackClickDirective, DummyComponent],
@@ -42,6 +44,7 @@ describe('DisclaimerWalletPage', () => {
           { provide: StorageWalletsService, useValue: storageWalletsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -81,11 +84,6 @@ describe('DisclaimerWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to Wallet Terms when Terms of Use is clicked', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Terms of Use"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/wallet-info']);
-  });
-
   it('should call trackEvent on trackService when Submit Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -93,5 +91,12 @@ describe('DisclaimerWalletPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open in app browser when Terms of Use is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="Terms of Use"]')).nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://xcapit.com/tyc/' });
   });
 });
