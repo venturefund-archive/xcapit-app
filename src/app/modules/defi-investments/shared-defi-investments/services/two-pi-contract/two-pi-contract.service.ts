@@ -1,17 +1,17 @@
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { BlockchainProviderService } from 'src/app/modules/wallets/shared-wallets/services/blockchain-provider/blockchain-provider.service';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { environment } from 'variables.env';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
-import twoPiAbi from '../../abi/twoPi-abi.json';
+import TwoPiMainnetABI from '../../abi/two-pi/two-pi-mainnet.json';
+import TwoPiTestnetABI from '../../abi/two-pi/two-pi-testnet.json';
 import { Contract } from 'ethers';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TwoPiContractService {
-
-  constructor(private blockchainProviderService: BlockchainProviderService, private storageService: StorageService) {
-  }
+  private env = environment.environment;
+  constructor(private blockchainProviderService: BlockchainProviderService, private storageService: StorageService) {}
 
   async balance(product: InvestmentProduct): Promise<number> {
     const contract = this.createContract(product);
@@ -20,7 +20,14 @@ export class TwoPiContractService {
   }
 
   private createContract(product: InvestmentProduct): Contract {
-    return this.blockchainProviderService.createContract(product.contractAddress(), twoPiAbi, this.blockchainProviderService.createProvider(environment.maticApiUrl));
+    return this.blockchainProviderService.createContract(
+      product.contractAddress(),
+      this.getABI(),
+      this.blockchainProviderService.createProvider(product.token().rpc)
+    );
   }
 
+  getABI() {
+    return this.env === 'PRODUCCION' ? TwoPiMainnetABI : TwoPiTestnetABI;
+  }
 }
