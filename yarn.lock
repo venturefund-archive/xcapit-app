@@ -2375,20 +2375,6 @@
   dependencies:
     "@types/cordova" latest
 
-"@ionic-native/splash-screen@^5.0.0":
-  version "5.36.0"
-  resolved "https://registry.npmjs.org/@ionic-native/splash-screen/-/splash-screen-5.36.0.tgz"
-  integrity sha512-BfNknY1rrGE8JRnCdKfL5wz8yFLhpPU5FRr8/LA3L+EncvPvcb9LGidePoeH3gVLMkolm2DI2a/rCelNrJ1Sxw==
-  dependencies:
-    "@types/cordova" latest
-
-"@ionic-native/status-bar@^5.0.0":
-  version "5.36.0"
-  resolved "https://registry.npmjs.org/@ionic-native/status-bar/-/status-bar-5.36.0.tgz"
-  integrity sha512-OXC1z+4Iba4lo1dc2+0h4Gvpud3z0XQmEbw0ny9UflCuSkLqBxvmiNRU7CRQwPnT1KaGVXkaSokdwxO8H9IlNg==
-  dependencies:
-    "@types/cordova" latest
-
 "@ionic/angular-server@^6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@ionic/angular-server/-/angular-server-6.0.1.tgz#1278dc2c00852e42e31e2237d133768bf134d8be"
