@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
@@ -118,7 +119,8 @@ export class DisclaimerWalletPage implements OnInit {
     private modalController: ModalController,
     private navController: NavController,
     private translate: TranslateService,
-    private storageWalletsService: StorageWalletsService
+    private storageWalletsService: StorageWalletsService,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {
@@ -151,8 +153,10 @@ export class DisclaimerWalletPage implements OnInit {
     await modal.present();
   }
 
-  showTermsOfUse() {
-    this.navController.navigateForward(['/support/wallet-info']);
+  async showTermsOfUse() {
+    await this.browserService.open({
+      url: 'http://xcapit.com/tyc/',
+    });
   }
 
   acceptToS() {
