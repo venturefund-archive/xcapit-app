@@ -155,7 +155,7 @@ export class DisclaimerWalletPage implements OnInit {
 
   async showTermsOfUse() {
     await this.browserService.open({
-      url: 'http://xcapit.com/tyc/',
+      url: 'https://xcapit.com/tyc/',
     });
   }
 

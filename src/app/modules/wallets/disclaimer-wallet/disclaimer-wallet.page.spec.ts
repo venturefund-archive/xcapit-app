@@ -97,6 +97,6 @@ describe('DisclaimerWalletPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Terms of Use"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'http://xcapit.com/tyc/' });
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://xcapit.com/tyc/' });
   });
 });
