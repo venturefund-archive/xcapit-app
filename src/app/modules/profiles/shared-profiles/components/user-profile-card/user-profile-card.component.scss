@@ -1,0 +1,36 @@
+:host {
+  .user-profile-card {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+
+    .user-data {
+      display: flex;
+      align-items: center;
+
+      .user-img {
+        height: 48px;
+        width: 48px;
+      }
+
+      .user-mail {
+        margin-left: 16px;
+      }
+    }
+
+    .footer {
+      margin-top: 8px;
+
+      .option-button {
+        display: flex;
+        align-items: center;
+        height: 44px;
+        width: 100%;
+
+        ion-text {
+          margin-right: auto;
+        }
+      }
+    }
+  }
+}
