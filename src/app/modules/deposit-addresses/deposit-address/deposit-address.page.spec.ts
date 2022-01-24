@@ -10,7 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ToastService } from '../../../shared/services/toast/toast.service';

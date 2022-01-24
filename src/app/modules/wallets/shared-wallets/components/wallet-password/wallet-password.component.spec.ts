@@ -4,7 +4,7 @@ import { WalletPasswordComponent } from './wallet-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';
 import { By } from '@angular/platform-browser';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

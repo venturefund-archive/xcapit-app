@@ -4,7 +4,7 @@ import { AlertController, IonicModule, NavController } from '@ionic/angular';
 import { FundCardComponent } from './fund-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbsoluteValuePipe } from '../../pipes/absolute-value/absolute-value.pipe';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';

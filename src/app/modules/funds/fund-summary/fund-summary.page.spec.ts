@@ -11,7 +11,7 @@ import { StrategyNamePipe } from '../shared-funds/pipes/strategy-name/strategy-n
 import { StopLossTakeProfitSummaryComponent } from './components/stop-loss-take-profit-summary/stop-loss-take-profit-summary.component';
 import { StorageApikeysService } from '../../apikeys/shared-apikeys/services/storage-apikeys/storage-apikeys.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { CurrencyFormatPipe } from '../shared-funds/pipes/currency-format/currency-format.pipe';
 import { DecimalPipe } from '@angular/common';

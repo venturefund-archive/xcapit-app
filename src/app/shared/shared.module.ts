@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ErrorsFormItemComponent } from './components/errors-form-item/errors-form-item.component';
-import { GooglePlacesDirective } from './directives/google-places.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
@@ -13,7 +12,6 @@ import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
 import { UxInputComponent } from './components/ux-input/ux-input.component';
-import { UxInputGooglePlacesComponent } from './components/ux-input-google-places/ux-input-google-places.component';
 import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
 import { UxCenterImgComponent } from './components/ux-center-img/ux-center-img.component';
 import { SuccessContentComponent } from './components/success-content/success-content.component';
@@ -70,7 +68,6 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
 @NgModule({
   declarations: [
     ErrorsFormItemComponent,
-    GooglePlacesDirective,
     LanguagePopoverComponent,
     LanguageButtonComponent,
     IsSubscribedComponent,
@@ -89,7 +86,6 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
-    UxInputGooglePlacesComponent,
     UxCenterImgComponent,
     UxTitleComponent,
     UxTextComponent,
@@ -142,7 +138,6 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
-    GooglePlacesDirective,
     TranslateModule,
     LanguageButtonComponent,
     TrackClickModule,
@@ -162,7 +157,6 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
-    UxInputGooglePlacesComponent,
     UxCenterImgComponent,
     UxTitleComponent,
     UxTextComponent,
