@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-profile-card',
@@ -12,10 +13,14 @@ import { Component, Input, OnInit } from '@angular/core';
           <ion-text class="ux-font-header-titulo">{{ this.profile.email }}</ion-text>
         </div>
       </div>
-      <div class="footer" *ngIf="this.hasDoneInvestorTest">
+      <div class="footer">
         <ion-button
-          class="investor-profile-button ux_button ion-no-padding ion-no-margin"
-          fill="clear">
+          *ngIf="this.hasDoneInvestorTest"
+          appTrackClick
+          class="option-button ux_button ion-no-padding ion-no-margin"
+          fill="clear"
+          name="Investor Profile"
+          (click)="this.goToInvestorTestStart()">
           <ion-text>{{ 'profiles.user_profile_menu.profile_footer.investor_profile_button' | translate }}</ion-text>
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>
@@ -28,10 +33,13 @@ export class UserProfileCardComponent implements OnInit {
   @Input() profile: any;
 
   get hasDoneInvestorTest(): boolean {
-    return true;
     return this.profile.investor_category !== 'wealth_managements.profiles.no_category';
   }
-  constructor() {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
+
+  goToInvestorTestStart() {
+    this.navController.navigateForward(['/wealth-management/investor-test-options']);
+  }
 }

@@ -21,16 +21,14 @@
     .footer {
       margin-top: 8px;
 
-      .investor-profile-button {
+      .option-button {
+        display: flex;
+        align-items: center;
         height: 44px;
         width: 100%;
 
         ion-text {
-          align-self: start;
-        }
-
-        ion-icon {
-          align-self: end;
+          margin-right: auto;
         }
       }
     }
