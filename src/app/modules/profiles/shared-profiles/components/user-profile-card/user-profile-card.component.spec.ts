@@ -20,7 +20,7 @@ const testProfiles = {
   },
 };
 
-fdescribe('UserProfileCardComponent', () => {
+describe('UserProfileCardComponent', () => {
   let component: UserProfileCardComponent;
   let fixture: ComponentFixture<UserProfileCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileCardComponent>;
@@ -70,16 +70,5 @@ fdescribe('UserProfileCardComponent', () => {
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('ion-button[name="Investor Profile"]'));
     expect(button).toBeNull();
-  });
-
-  describe('hasDoneInvestorTest property', () => {
-    it('should be true if user has taken Investor Test', () => {
-      expect(component.hasDoneInvestorTest).toBeTrue();
-    });
-
-    it('should be false if user has not taken Investor Test', () => {
-      component.profile = testProfiles.noTest;
-      expect(component.hasDoneInvestorTest).toBeFalse();
-    });
   });
 });
