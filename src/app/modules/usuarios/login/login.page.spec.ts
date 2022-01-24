@@ -11,7 +11,7 @@ import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/s
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';

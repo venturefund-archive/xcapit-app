@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-subscriptions/services/api-subscriptions/api-subscriptions.service';
 import { ShareService } from 'src/app/shared/services/share/share.service';
 import { FundSummaryInterface } from './fund-summary.interface';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DecimalPipe } from '@angular/common';
 import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';

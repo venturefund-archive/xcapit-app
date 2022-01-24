@@ -3,7 +3,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { ReferralPromotionCardComponent } from './referral-promotion-card.component';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 

@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 import { DisclaimerWalletPage } from './disclaimer-wallet.page';

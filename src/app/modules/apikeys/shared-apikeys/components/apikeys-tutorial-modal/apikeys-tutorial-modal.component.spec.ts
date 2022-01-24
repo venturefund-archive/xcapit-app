@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ApikeysTutorialModalComponent } from './apikeys-tutorial-modal.component';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 

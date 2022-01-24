@@ -9,7 +9,7 @@ import { of, throwError } from 'rxjs';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
 import { CreateEmailValidationTicketPage } from './create-email-validation-ticket.page';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';

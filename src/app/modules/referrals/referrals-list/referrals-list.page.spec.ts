@@ -6,7 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { ApiReferralsService } from '../shared-referrals/services/api-referrals/api-referrals.service';
 import { ReferralsListPage } from './referrals-list.page';

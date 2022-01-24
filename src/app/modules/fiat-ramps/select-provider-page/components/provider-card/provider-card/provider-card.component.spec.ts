@@ -3,7 +3,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { ProviderCardComponent } from './provider-card.component';
 import { navControllerMock } from '../../../../../../../testing/spies/nav-controller-mock.spec';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeTrackClickDirective } from '../../../../../../../testing/fakes/track-click-directive.fake.spec';
 

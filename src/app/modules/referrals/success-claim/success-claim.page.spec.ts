@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { SuccessClaimPage } from './success-claim.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';

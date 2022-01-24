@@ -8,7 +8,7 @@ import { ApiFundsService } from '../shared-funds/services/api-funds/api-funds.se
 import { of } from 'rxjs';
 import { FundPercentageEvolutionChartInterface } from '../shared-funds/components/performance-chart-card/fund-performance-chart.interface';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from '../../../../testing/dummy.component.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';

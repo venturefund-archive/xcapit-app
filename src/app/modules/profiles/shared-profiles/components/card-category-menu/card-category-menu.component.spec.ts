@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { CardCategoryMenuComponent } from './card-category-menu.component';
 import { MenuCategory } from '../../interfaces/menu-category.interface';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';

@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ApiWealthManagementsService } from '../shared-wealth-managements/services/api-wealth-managements/api-wealth-managements.service';
 
 import { SuccessInvestorTestPage } from './success-investor-test.page';
