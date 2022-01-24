@@ -24,7 +24,7 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
         <div class="aic__content__input">
           <ion-input formControlName="amount" type="number" inputmode="numeric" placeholder="0.000144"></ion-input>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
-          <ion-input formControlName="quoteAmount" type="number" inputmode="numeric" readonly></ion-input>
+          <ion-input class="read-only" formControlName="quoteAmount" type="number" inputmode="numeric" readonly></ion-input>
         </div>
         <div class="aic__content__available">
           <ion-text class="ux-font-text-xxs">
