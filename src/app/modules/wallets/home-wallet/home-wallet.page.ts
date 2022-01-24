@@ -208,6 +208,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private clearBalances(): void {
+    this.unsubscribe();
     this.balances = [];
     this.totalBalanceWallet = 0;
   }
@@ -277,7 +278,9 @@ export class HomeWalletPage implements OnInit {
   }
 
   private sumTotalBalance(assetBalance: AssetBalanceModel): void {
-    assetBalance.quoteBalance.subscribe((quote: number) => (this.totalBalanceWallet += quote));
+    this.subscriptions$.push(
+      assetBalance.quoteBalance.subscribe((quote: number) => (this.totalBalanceWallet += quote))
+    );
   }
 
   private enqueue(assetBalance: AssetBalanceModel): void {
@@ -293,5 +296,10 @@ export class HomeWalletPage implements OnInit {
     for (const subscription of this.subscriptions$) {
       subscription.unsubscribe();
     }
+    this.clearSubscriptions();
+  }
+
+  private clearSubscriptions() {
+    this.subscriptions$ = [];
   }
 }

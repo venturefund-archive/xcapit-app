@@ -4,7 +4,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { SuccessRemoveWalletPage } from './success-remove-wallet.page';
 
 describe('SuccessRemoveWalletPage', () => {
@@ -89,7 +89,7 @@ describe('SuccessRemoveWalletPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
   });
 
-    it('should navigate to home when go_to_home is clicked', () => {
+  it('should navigate to home when go_to_home is clicked', () => {
     const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_home']"));
     closeButton.nativeElement.click();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/home']);
