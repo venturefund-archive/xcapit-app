@@ -23,13 +23,8 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="user-data ux-card ion-padding">
-        <div class="user-img">
-          <img src="assets/img/user-profile/avatar-user.svg" />
-        </div>
-        <div>
-          <ion-text class="user-mail ux-font-header-titulo">{{ this.profile?.email }}</ion-text>
-        </div>
+      <div class="user-profile-card" *ngIf="this.profile">
+        <app-user-profile-card [profile]="this.profile"></app-user-profile-card>
       </div>
       <div class="referrals-promotion">
         <app-referral-promotion-card></app-referral-promotion-card>

@@ -840,7 +840,10 @@
       "push_notifications": "Notificationes push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
-      "category_walletconnect": "WalletConnect"
+      "category_walletconnect": "WalletConnect",
+      "profile_footer": {
+        "investor_profile_button": "Perfil de inversor"
+      }
     },
     "success_profile": {
       "textPrimary": "¡Ya configuraste tu cuenta!",
