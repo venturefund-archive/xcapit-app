@@ -3,7 +3,7 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { Vault } from '@2pi-network/sdk';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 
-export class TwoPiInvestmentProduct implements InvestmentProduct {
+export class TwoPiProduct implements InvestmentProduct {
   private readonly vault: Vault;
 
   constructor(aVault: Vault, private apiWalletService: ApiWalletService) {

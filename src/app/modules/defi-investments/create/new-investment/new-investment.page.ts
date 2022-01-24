@@ -2,7 +2,7 @@ import { InvestmentProduct } from './../../shared-defi-investments/interfaces/in
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { TwoPiInvestmentProduct } from '../../shared-defi-investments/models/two-pi-investment-product/two-pi-investment-product.model';
+import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-investment-product/two-pi-product.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
@@ -79,7 +79,7 @@ export class NewInvestmentPage implements OnInit {
   }
 
   async getInvestmentProduct() {
-    this.investmentProduct = new TwoPiInvestmentProduct(
+    this.investmentProduct = new TwoPiProduct(
       await this.twoPiApi.vault(this.vaultID()),
       this.apiWalletService
     );

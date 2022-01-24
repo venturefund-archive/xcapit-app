@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
+import { TwoPiProduct } from '../../models/two-pi-investment-product/two-pi-product.model';
 import { Vault } from '@2pi-network/sdk';
 import { InvestmentBalanceItemComponent } from './investment-balance-item.component';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -57,7 +57,7 @@ describe('InvestmentBalanceItemComponent', () => {
 
     fixture = TestBed.createComponent(InvestmentBalanceItemComponent);
     component = fixture.componentInstance;
-    component.investmentProduct = new TwoPiInvestmentProduct(testVault, apiWalletServiceSpy);
+    component.investmentProduct = new TwoPiProduct(testVault, apiWalletServiceSpy);
     component.balance = 50;
     fixture.detectChanges();
   }));

@@ -1,7 +1,7 @@
 import { ApiWalletService } from './../../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Vault } from '@2pi-network/sdk';
 import { InvestmentProduct } from './../../interfaces/investment-product.interface';
-import { TwoPiInvestmentProduct } from './../../models/two-pi-investment-product/two-pi-investment-product.model';
+import { TwoPiProduct } from '../../models/two-pi-investment-product/two-pi-product.model';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class TwoPiInvestmentService {
   product: InvestmentProduct;
 
   constructor(private apiWalletService: ApiWalletService) {
-    this.product = new TwoPiInvestmentProduct(
+    this.product = new TwoPiProduct(
       {
         apy: 0.12392847454895217,
         identifier: 'polygon_usdc',

@@ -2,7 +2,7 @@ import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { Vault } from '@2pi-network/sdk';
 import { TwoPiContractService } from './two-pi-contract.service';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
+import { TwoPiProduct } from '../../models/two-pi-investment-product/two-pi-product.model';
 import { BlockchainProviderService } from 'src/app/modules/wallets/shared-wallets/services/blockchain-provider/blockchain-provider.service';
 import { BigNumber, Contract } from 'ethers';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -61,7 +61,7 @@ describe('TwoPiContractService', () => {
   });
 
   it('should return the users balance for an investment product when balance method is executed.',async () => {
-    const investmentProduct = new TwoPiInvestmentProduct(testVault, apiWalletServiceSpy);
+    const investmentProduct = new TwoPiProduct(testVault, apiWalletServiceSpy);
     await expectAsync(service.balance(investmentProduct)).toBeResolvedTo(50);
   });
 });

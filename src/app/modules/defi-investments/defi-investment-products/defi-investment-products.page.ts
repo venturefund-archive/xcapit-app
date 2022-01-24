@@ -5,7 +5,7 @@ import { defiProduct } from '../shared-defi-investments/interfaces/defi-product.
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
-import { TwoPiInvestmentProduct } from '../shared-defi-investments/models/two-pi-investment-product/two-pi-investment-product.model';
+import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-investment-product/two-pi-product.model';
 import { TwoPiContractService } from '../shared-defi-investments/services/two-pi-contract/two-pi-contract.service';
 
 
@@ -85,7 +85,7 @@ export class DefiInvestmentProductsPage implements OnInit {
   }
   
   async getInvestmentProduct(product : defiProduct) {
-    return new TwoPiInvestmentProduct(
+    return new TwoPiProduct(
       await this.twoPiApi.vault(product.id),
       this.apiWalletService
     );
