@@ -100,13 +100,14 @@ describe('CardItemMenuComponent', () => {
     });
   }
 
-  it('should render category when atributte showCategory is true', async () => {
-    await fixture.whenRenderingDone();
+  it('should render category when attribute showCategory is true', () => {
+    component.category.showCategory = true;
+    fixture.detectChanges();
     const divEl = fixture.debugElement.query(By.css('div.ux-card'));
     expect(divEl).toBeTruthy();
   });
 
-  it('should not render category when atributte showCategory is false', async () => {
+  it('should not render category when attribute showCategory is false', async () => {
     component.category.showCategory = false;
     fixture.detectChanges();
     const divEl = fixture.debugElement.query(By.css('div.ux-card'));
