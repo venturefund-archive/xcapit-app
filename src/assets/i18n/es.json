@@ -304,7 +304,7 @@
       },
       "binance": {
         "title": "Inversiones con Binance",
-        "text": "Conecta nuestro Bot inteligente de Trading e Índices a tu Wallet de Binance para generar rendimientos todos los días."
+        "text": "Actualmente no es posible crear nuevas inversiones en Binance. Si tienes fondos activos lo veras desde: Perfil > Inversiones en Binance > Fondos."
       }
     },
     "fund_balance": {
@@ -326,9 +326,7 @@
         "change_currency": "Cambiar moneda"
       },
       "user_status": {
-        "title": "Comienza a invertir",
-        "action_button": "Empezar vinculando con binance",
-        "link_strategies_button": "Estrategias de inversión"
+        "title": "No tienes fondos activos"
       },
       "funds_title": "MIS FONDOS",
       "shared_funds_title": "FONDOS COMPARTIDOS",

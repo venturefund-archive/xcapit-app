@@ -16,30 +16,8 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
         <div class="ux-font-text-xl user-status__title">
           <ion-text>{{ 'funds.funds_list.user_status.title' | translate }}</ion-text>
         </div>
-
         <div class="user-status__img">
           <img src="assets/img/fund-list/start-invest.svg" alt="Start invest" />
-        </div>
-
-        <div class="user-status__buttons">
-          <ion-button
-            appTrackClick
-            [dataToTrack]="{ description: this.actionButtonName }"
-            name="Action Button"
-            class="ux_button"
-            type="button"
-            color="uxsecondary"
-            expand="block"
-            size="medium"
-            (click)="this.doActionButton()"
-          >
-            {{ 'funds.funds_list.user_status.action_button' | translate }}
-          </ion-button>
-          <div class="user-status__link_strategies">
-            <ion-text (click)="this.goToStrategies()" class="ux-link-xs" color="uxsecondary">{{
-              'funds.funds_list.user_status.link_strategies_button' | translate
-            }}</ion-text>
-          </div>
         </div>
       </div>
     </div>
@@ -57,37 +35,9 @@ export class UserStatusCardComponent implements OnInit {
   constructor(private navController: NavController, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.setActionButtonName();
-    this.setNewFundUrl();
   }
 
   async hideText() {
     this.localStorageService.toggleHideFunds();
-  }
-
-  goToStrategies() {
-    this.navController.navigateForward(['/funds/fund-investment/show']);
-  }
-
-  setActionButtonName() {
-    if (!this.userStatus.profile_valid) {
-      this.actionButtonName = 'Configure Account';
-    } else if (!this.userStatus.empty_linked_keys) {
-      this.actionButtonName = 'Link with Binance';
-    } else {
-      this.actionButtonName = 'Create New Fund';
-    }
-  }
-
-  setNewFundUrl() {
-    if (this.userStatus.status_name === 'CREATOR' || this.userStatus.status_name === 'COMPLETE') {
-      this.newFundUrl = 'apikeys/list';
-    } else {
-      this.newFundUrl = 'apikeys/tutorial/exchange';
-    }
-  }
-
-  doActionButton() {
-    this.navController.navigateForward(this.newFundUrl).then();
   }
 }
