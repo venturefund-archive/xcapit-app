@@ -830,6 +830,7 @@
       "category_security_account": "Seguridad cuenta Xcapit",
       "change_pass": "Cambiar contraseña",
       "category_security_wallet": "Seguridad wallet Xcapit",
+      "remove_wallet":"Eliminar Wallet",
       "security_phrase": "Frase de seguridad",
       "category_binance_investment": "Inversiones Binance",
       "funds": "Fondos",
@@ -1451,6 +1452,21 @@
     }
   },
   "wallets": {
+    "remove_success":{
+      "title":"Tu wallet fue eliminada",
+      "subtitle":"Puedes crear nuevamente una wallet o importar una existente cuando lo desees.",
+      "create_button":"Crear nueva Wallet",
+      "import_button":"Importar wallet",
+      "home_link":"Ir al home"
+    },
+    "remove":{
+      "header":"Eliminar wallet",
+      "title":"Al eliminar tu wallet recuerda",
+      "item1":"No perderás tus transacciones pasadas, éstas son almacenadas por la red.",
+      "item2":"Si eliminas tu wallet y no posees una copia de tu frase de seguridad, podrías perder tus activos.",
+      "item3":"Podrás crear nuevamente una nueva wallet en Xcapit o importar una existente.",
+      "tos":"Leí y comprendo que eliminaré mi wallet."
+    },
     "no_wallet": {
       "title": "Aún no tienes tu Wallet Xcapit",
       "subtitle": "Cada vez que realices una compra, tus criptomonedas se depositarán allí.",
