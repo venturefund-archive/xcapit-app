@@ -59,25 +59,4 @@ describe('UserStatusCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should call setNewFundUrl on ngOnInit', () => {
-    const spy = spyOn(component, 'setNewFundUrl');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  [
-    ['BEGINNER', 'apikeys/tutorial/exchange'],
-    ['EXPLORER', 'apikeys/tutorial/exchange'],
-    ['COMPLETE', 'apikeys/list'],
-    ['CREATOR', 'apikeys/list'],
-  ].forEach(([statusName, expectedUrl]) => {
-    it(`should set url to ${expectedUrl} when status is ${statusName}`, () => {
-      component.userStatus.status_name = statusName;
-      fixture.detectChanges();
-      component.setNewFundUrl();
-      fixture.detectChanges();
-      expect(component.newFundUrl).toBe(expectedUrl);
-    });
-  });
 });

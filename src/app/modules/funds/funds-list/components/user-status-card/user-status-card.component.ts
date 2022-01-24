@@ -35,37 +35,9 @@ export class UserStatusCardComponent implements OnInit {
   constructor(private navController: NavController, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.setActionButtonName();
-    this.setNewFundUrl();
   }
 
   async hideText() {
     this.localStorageService.toggleHideFunds();
-  }
-
-  goToStrategies() {
-    this.navController.navigateForward(['/funds/fund-investment/show']);
-  }
-
-  setActionButtonName() {
-    if (!this.userStatus.profile_valid) {
-      this.actionButtonName = 'Configure Account';
-    } else if (!this.userStatus.empty_linked_keys) {
-      this.actionButtonName = 'Link with Binance';
-    } else {
-      this.actionButtonName = 'Create New Fund';
-    }
-  }
-
-  setNewFundUrl() {
-    if (this.userStatus.status_name === 'CREATOR' || this.userStatus.status_name === 'COMPLETE') {
-      this.newFundUrl = 'apikeys/list';
-    } else {
-      this.newFundUrl = 'apikeys/tutorial/exchange';
-    }
-  }
-
-  doActionButton() {
-    this.navController.navigateForward(this.newFundUrl).then();
   }
 }
