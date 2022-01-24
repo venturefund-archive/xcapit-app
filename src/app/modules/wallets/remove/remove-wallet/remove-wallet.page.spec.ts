@@ -46,14 +46,15 @@ describe('RemoveWalletPage', () => {
 
   it('should activated button when checkbox is checked', async () => {
     fixture.debugElement.query(By.css("ion-checkbox[name='checkbox-condition']")).nativeElement.click();
+    fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css("ion-button[name='remove_wallet']"));
     fixture.detectChanges();
-    expect(buttonEl.properties.disabled).toBe(false);
+    expect(buttonEl.attributes['ng-reflect-disabled']).toBe('false');
   });
 
   it('should disabled button when checkbox is not checked', () => {
     const buttonEl = fixture.debugElement.query(By.css("ion-button[name='remove_wallet']"));
-    expect(buttonEl.properties.disabled).toBe(true);
+    expect(buttonEl.attributes['ng-reflect-disabled']).toBe('true');
   });
 
   it('should remove wallet and navigate to success page when checkbox is checked and button remove_wallet is clicked', () => {
