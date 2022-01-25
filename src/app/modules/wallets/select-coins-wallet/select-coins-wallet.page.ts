@@ -68,6 +68,8 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               name="Next"
               type="submit"
               size="large"
+              [appLoading]="this.loading"
+              [loadingText]="'wallets.select_coin.loading' | translate"
             >
               {{ this.submitButtonText | translate }}
             </ion-button>
@@ -85,6 +87,7 @@ export class SelectCoinsWalletPage implements OnInit {
   txInProgress: boolean;
   form: FormGroup;
   allSelected = false;
+  loading = false;
 
   get networks(): string[] {
     return this.apiWalletService.getNetworks();
@@ -163,7 +166,6 @@ export class SelectCoinsWalletPage implements OnInit {
   async handleSubmit() {
     if (this.almostOneChecked) {
       this.txInProgress = true;
-
       switch (this.mode) {
         case 'import':
           this.importWallet();
@@ -175,19 +177,18 @@ export class SelectCoinsWalletPage implements OnInit {
           this.createWallet();
           break;
       }
-
       this.txInProgress = false;
     }
   }
 
   importWallet() {
+    this.loading = true;
     this.walletService.coins = [];
     this.setUserCoins();
-    this.loadingService
-      .showModal(this.modalOptions())
-      .then(() => this.walletService.create())
+    this.walletService
+      .create()
       .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']))
-      .then(() => this.loadingService.dismissModal());
+      .finally(() => (this.loading = false));
   }
 
   async editTokens() {
@@ -233,14 +234,6 @@ export class SelectCoinsWalletPage implements OnInit {
     this.walletService.coins = [];
     this.setUserCoins();
     this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
-  }
-
-  private modalOptions() {
-    return {
-      title: this.translate.instant('wallets.verify_phrase.loading.title'),
-      subtitle: this.translate.instant('wallets.verify_phrase.loading.subtitle'),
-      image: 'assets/img/verify-phrase/map.svg',
-    };
   }
 
   async askForPassword(): Promise<string> {

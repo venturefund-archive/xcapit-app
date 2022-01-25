@@ -1560,10 +1560,7 @@
       "native": "NATIVA",
       "submit_edit": "Guardar cambios",
       "toggle_all_text": "Seleccionar todo",
-      "loading": {
-        "title": "¡Tiempo!",
-        "subtitle": "Estamos verificando tu frase"
-      }
+      "loading": "Cargando..."
     },
     "success_creation": {
       "title": "¡Genial!",
