@@ -87,7 +87,7 @@ export class RecoveryPhraseInformationPage implements OnInit {
   async continue() {
     const modal = await this.modalController.create({
       component: WalletPasswordSmallComponent,
-      cssClass: 'recovery-phrase-password-modal ux-routeroutlet-modal',
+      cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
       swipeToClose: false,
     });
 
