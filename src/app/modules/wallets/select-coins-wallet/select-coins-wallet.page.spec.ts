@@ -429,7 +429,7 @@ describe('SelectCoinsWalletPage', () => {
           expect(walletServiceSpy.coins.length).toEqual(2);
         });
 
-        it(`should show loader, ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
+        it(`should ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
           testCase.onSubmit.navigateTo.pageName
         } on form submit`, fakeAsync(() => {
           component.almostOneChecked = true;
@@ -444,8 +444,6 @@ describe('SelectCoinsWalletPage', () => {
           expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(testCase.onSubmit.navigateTo.route);
           if (testCase.mode.value === 'import') {
             expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
-            expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
-            expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
           }
         }));
 
