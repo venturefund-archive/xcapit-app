@@ -82,7 +82,7 @@ export class WalletBalanceService {
   }
 
   balanceOf(aCoin: Coin): Promise<number> {
-    return this.walletService.balanceOf(this.walletService.addresses[aCoin.network], aCoin.value).then(parseFloat);
+    return this.walletService.getBalanceFromCoin(aCoin).then(parseFloat);
   }
 
   private getCoinForPrice(symbol: string): string {
