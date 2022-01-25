@@ -1,6 +1,6 @@
 import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -39,7 +39,7 @@ describe('AboutInvestorProfilesPage', () => {
       fakeNavController = new FakeNavController({});
       navControllerSpy = fakeNavController.createSpy();
       apiProfilesServiceMock = {
-        crud: jasmine.createSpyObj('CRUD', ['patch']),
+        crud: jasmine.createSpyObj('CRUD', { patch: of({}) }),
       };
       TestBed.configureTestingModule({
         declarations: [AboutInvestorProfilesPage, InvestorProfileStepStubComponent],
@@ -48,6 +48,7 @@ describe('AboutInvestorProfilesPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
 
       fixture = TestBed.createComponent(AboutInvestorProfilesPage);
@@ -66,8 +67,9 @@ describe('AboutInvestorProfilesPage', () => {
     expect(appProfileInvestor.length).toBe(2);
   });
 
-  it('should set Profile when setProfile event is received ', async () => {
+  it('should set Profile and redirect when setProfile event is received ', async () => {
     fixture.debugElement.query(By.css('app-investor-profile-step')).triggerEventHandler('setProfileEvent', 3);
     expect(apiProfilesServiceMock.crud.patch).toHaveBeenCalledOnceWith({ investor_score: 3 });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments/defi']);
   });
 });
