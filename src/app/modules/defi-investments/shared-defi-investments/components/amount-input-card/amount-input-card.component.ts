@@ -4,6 +4,7 @@ import { Coin } from './../../../../wallets/shared-wallets/interfaces/coin.inter
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { formatNumber } from '@angular/common';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -61,7 +62,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   constructor(
     private formGroupDirective: FormGroupDirective,
     private apiWalletService: ApiWalletService,
-    private walletBalance: WalletBalanceService
+    private walletBalance: WalletBalanceService,
   ) {}
 
   ngOnInit() {
@@ -82,7 +83,9 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   }
 
   private amountChange(value: number) {
-    this.form.patchValue({ quoteAmount: value * this.price });
+    this.form.patchValue({ 
+      quoteAmount: formatNumber(value * this.price, 'en-US', '1.2-20') 
+    });
   }
 
   private getPrice() {
