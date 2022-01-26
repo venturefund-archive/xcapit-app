@@ -1,14 +1,14 @@
 import { InvestmentDataService } from './investment-data.service';
 import { TestBed } from '@angular/core/testing';
-import { Investment } from '../../models/two-pi-investment/two-pi-investment.model';
+import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 
 describe('TwoPiInvestmentService', () => {
   let service: InvestmentDataService;
-  let investmentSpy: jasmine.SpyObj<Investment>;
+  let productSpy: jasmine.SpyObj<InvestmentProduct>;
 
   beforeEach(() => {
-    investmentSpy = jasmine.createSpyObj('Investment', {
-      balance: Promise.resolve(),
+    productSpy = jasmine.createSpyObj('InvestmentProduct', {
+      id: 1,
     });
     TestBed.configureTestingModule({});
     service = TestBed.inject(InvestmentDataService);
@@ -21,10 +21,10 @@ describe('TwoPiInvestmentService', () => {
   it('should store investment data', () => {
     service.amount = 20;
     service.quoteAmount = 30;
-    service.investment = investmentSpy;
+    service.product = productSpy;
 
     expect(service.amount).toEqual(20);
     expect(service.quoteAmount).toEqual(30);
-    expect(service.investment).toEqual(investmentSpy);
+    expect(service.product).toEqual(productSpy);
   });
 });

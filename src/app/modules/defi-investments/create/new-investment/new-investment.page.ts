@@ -4,7 +4,7 @@ import { InvestmentProduct } from './../../shared-defi-investments/interfaces/in
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-investment-product/two-pi-product.model';
+import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
@@ -100,7 +100,7 @@ export class NewInvestmentPage implements OnInit {
     if (this.form.valid) {
       this.investmentDataService.amount = this.form.value.amount;
       this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
-      this.investmentDataService.investment = new TwoPiInvestment(this.investmentProduct);
+      this.investmentDataService.product = this.investmentProduct;
 
       this.navController.navigateForward('/defi/new/confirmation');
     }

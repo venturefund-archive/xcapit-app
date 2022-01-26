@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 
 import { ExpandableInvestmentInfoComponent } from './expandable-investment-info.component';
-import { TwoPiProduct } from '../../models/two-pi-investment-product/two-pi-product.model';
+import { TwoPiProduct } from '../../models/two-pi-product/two-pi-product.model';
 import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
 
 const usdc_coin = {

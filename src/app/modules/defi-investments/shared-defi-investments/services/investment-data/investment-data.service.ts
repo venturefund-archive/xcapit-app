@@ -1,5 +1,5 @@
+import { InvestmentProduct } from './../../interfaces/investment-product.interface';
 import { Injectable } from '@angular/core';
-import { Investment } from '../../models/two-pi-investment/two-pi-investment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +7,7 @@ import { Investment } from '../../models/two-pi-investment/two-pi-investment.mod
 export class InvestmentDataService {
   amount: number;
   quoteAmount: number;
-  investment: Investment;
+  product: InvestmentProduct;
 
   constructor() {}
 }

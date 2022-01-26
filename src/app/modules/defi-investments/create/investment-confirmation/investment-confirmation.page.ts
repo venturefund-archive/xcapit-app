@@ -1,11 +1,13 @@
+import { TwoPiInvestment } from './../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
+import { InvestmentProduct } from './../../shared-defi-investments/interfaces/investment-product.interface';
+import { TranslateService } from '@ngx-translate/core';
+import { WalletPasswordComponent } from './../../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
+import { ModalController } from '@ionic/angular';
 import { WalletService } from './../../../wallets/shared-wallets/services/wallet/wallet.service';
-import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Component, OnInit } from '@angular/core';
-import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
-import { TwoPiInvestmentService } from '../../shared-defi-investments/services/two-pi-investment/two-pi-investment.service';
-import { BlockchainProviderService } from 'src/app/modules/wallets/shared-wallets/services/blockchain-provider/blockchain-provider.service';
-import { environment } from 'src/environments/environment';
-import twoPiAbi from '../../shared-defi-investments/abi/2pi.json';
+import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
+import { Amount } from '../../shared-defi-investments/types/amount.type';
+import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -18,9 +20,9 @@ import twoPiAbi from '../../shared-defi-investments/abi/2pi.json';
         <ion-title class="ion-text-center">{{ 'defi_investments.confirmation.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content *ngIf="this.investmentProduct">
+    <ion-content *ngIf="this.product">
       <ion-card class="ux-card">
-        <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
+        <app-expandable-investment-info [investmentProduct]="this.product"></app-expandable-investment-info>
         <div class="summary">
           <div class="summary__amount">
             <div class="summary__amount__label">
@@ -31,10 +33,10 @@ import twoPiAbi from '../../shared-defi-investments/abi/2pi.json';
 
             <div class="summary__amount__qty">
               <ion-text class="ux-font-text-base"
-                >{{ this.amount.qty | number: '1.2-2' }} {{ this.amount.unit }}</ion-text
+                >{{ this.amount.value | number: '1.2-2' }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base"
-                >{{ this.quoteAmount.qty | number: '1.2-2' }} {{ this.quoteAmount.unit }}
+                >{{ this.quoteAmount.value | number: '1.2-2' }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>
@@ -47,10 +49,10 @@ import twoPiAbi from '../../shared-defi-investments/abi/2pi.json';
 
             <div class="summary__fee__qty">
               <ion-text class="ux-font-text-base"
-                >{{ this.amount.qty | number: '1.2-2' }} {{ this.amount.unit }}</ion-text
+                >{{ this.amount.value | number: '1.2-2' }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base"
-                >{{ this.quoteAmount.qty | number: '1.2-2' }} {{ this.quoteAmount.unit }}
+                >{{ this.quoteAmount.value | number: '1.2-2' }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>
@@ -65,7 +67,7 @@ import twoPiAbi from '../../shared-defi-investments/abi/2pi.json';
         type="submit"
         class="ion-padding-start ion-padding-end ux_button"
         color="uxsecondary"
-        (click)="this.confirm()"
+        (click)="this.requestPassword()"
       >
         {{ 'Continuar' | translate }}
       </ion-button>
@@ -74,18 +76,19 @@ import twoPiAbi from '../../shared-defi-investments/abi/2pi.json';
   styleUrls: ['./investment-confirmation.page.scss'],
 })
 export class InvestmentConfirmationPage implements OnInit {
-  investmentProduct: InvestmentProduct;
-  amount: { qty: number; unit: string };
-  quoteAmount: { qty: number; unit: string };
+  product: InvestmentProduct;
+  amount: Amount;
+  quoteAmount: Amount;
 
-  fee: { qty: number; unit: string };
-  quoteFee: { qty: number; unit: string };
+  fee: Amount;
+  quoteFee: Amount;
 
   constructor(
-    private twoPiInvestmentService: TwoPiInvestmentService,
-    private twoPiApi: TwoPiApi,
-    private blockchainProviderService: BlockchainProviderService,
-    private walletService: WalletService
+    private investmentDataService: InvestmentDataService,
+    private walletService: WalletService,
+    private modalController: ModalController,
+    private translate: TranslateService,
+    private walletEncryptionService: WalletEncryptionService
   ) {}
 
   ngOnInit() {}
@@ -96,17 +99,31 @@ export class InvestmentConfirmationPage implements OnInit {
   }
 
   getInvestmentInfo() {
-    this.investmentProduct = this.twoPiInvestmentService.product;
-    this.amount = { qty: this.twoPiInvestmentService.amount, unit: this.investmentProduct.token().value };
-    this.quoteAmount = { qty: this.twoPiInvestmentService.quoteAmount, unit: 'USD' };
+    this.amount = {
+      value: this.investmentDataService.amount,
+      token: this.investmentDataService.product.token().value,
+    };
+    this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' };
   }
 
-  confirm() {
-    const contract = this.blockchainProviderService.createContract(
-      '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
-      twoPiAbi,
-      this.blockchainProviderService.createProvider(environment.maticApiUrl)
-    );
-    console.log(contract);
+  async requestPassword() {
+    const modal = await this.modalController.create({
+      component: WalletPasswordComponent,
+      componentProps: {
+        title: this.translate.instant('defi_investments.confirmation.password_modal.title'),
+        description: this.translate.instant('defi_investments.confirmation.password_modal.description'),
+        inputLabel: this.translate.instant('defi_investments.confirmation.password_modal.input_label'),
+        submitButtonText: this.translate.instant('defi_investments.confirmation.password_modal.confirm_button'),
+        disclaimer: '',
+      },
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.confirm(data);
+  }
+
+  async confirm(data: string) {
+    const investment = new TwoPiInvestment(this.product, await this.walletEncryptionService.getDecryptedWallet(data));
   }
 }

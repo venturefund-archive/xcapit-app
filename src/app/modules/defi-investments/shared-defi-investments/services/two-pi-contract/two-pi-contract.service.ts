@@ -9,25 +9,26 @@ import { Contract } from 'ethers';
 @Injectable({
   providedIn: 'root',
 })
-export class TwoPiContractService {
+export class TwoPiContract {
   private env = environment.environment;
   constructor(private blockchainProviderService: BlockchainProviderService, private storageService: StorageService) {}
 
-  async balance(product: InvestmentProduct): Promise<number> {
-    const contract = this.createContract(product);
-    const wallets = await this.storageService.getWalletFromStorage();
-    return parseInt(await contract.balanceOf(product.id(), wallets.addresses.MATIC));
-  }
+  // TODO
+  // async balance(product: InvestmentProduct): Promise<number> {
+  //   const contract = this.createContract(product);
+  //   const wallets = await this.storageService.getWalletFromStorage();
+  //   return parseInt(await contract.balanceOf(product.id(), wallets.addresses.MATIC));
+  // }
 
-  private createContract(product: InvestmentProduct): Contract {
+  valueOf(aProduct: InvestmentProduct): Contract {
     return this.blockchainProviderService.createContract(
-      product.contractAddress(),
+      aProduct.contractAddress(),
       this.getABI(),
-      this.blockchainProviderService.createProvider(product.token().rpc)
+      this.blockchainProviderService.createProvider(aProduct.token().rpc)
     );
   }
 
-  getABI() {
+  private getABI() {
     return this.env === 'PRODUCCION' ? TwoPiMainnetABI : TwoPiTestnetABI;
   }
 }
