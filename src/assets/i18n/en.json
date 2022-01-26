@@ -1557,10 +1557,7 @@
       "native": "NATIVE",
       "submit_edit": "Save changes",
       "toggle_all_text": "Select all",
-      "loading": {
-        "title": "Time!",
-        "subtitle": "We are verifying your phrase"
-      }
+      "loading": "Loading..."
     },
     "success_creation": {
       "title": "Nice!",
