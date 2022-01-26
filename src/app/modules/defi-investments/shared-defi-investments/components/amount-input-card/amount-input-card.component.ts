@@ -84,8 +84,22 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
 
   private amountChange(value: number) {
     this.form.patchValue({ 
-      quoteAmount: formatNumber(value * this.price, 'en-US', '1.2-20') 
+      quoteAmount: this.parseQuoteAmount(value * this.price) 
     });
+  }
+
+  private parseQuoteAmount(value: number): string {
+    let stringValue = value.toString();
+    
+    if (stringValue.includes("e")) {
+      stringValue = parseFloat(stringValue).toFixed(20);
+    } 
+    
+    if (stringValue.includes(".")) {
+      stringValue = stringValue.replace(/\.?0+$/,"");
+    }
+
+    return stringValue;
   }
 
   private getPrice() {
