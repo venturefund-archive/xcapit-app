@@ -341,7 +341,7 @@ export const NONPROD_COINS: Coin[] = [
   },
   {
     id: 26,
-    name: 'DAI',
+    name: 'DAI - DAI',
     logoRoute: 'assets/img/coins/DAI.png',
     last: true,
     value: 'DAI',
