@@ -264,6 +264,12 @@
       "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
       "primaryButton": "Intentar nuevamente"
     },
+    "invest_detail":{
+      "header":"Mi inversión",
+      "button":"Añadir monto",
+      "button_link":"Finalizar inversión",
+      "invested_amount":"Balance invertido"
+    },
     "shared": {
       "coming_soon_card": {
         "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
@@ -278,6 +284,7 @@
         "invest_button": "Invertir",
         "annual": "Anual"
       },
+      
       "expandable_investment_info": {
         "TVL": "Total de Valor Bloqueado",
         "protocol_type": "Tipo de protocolo",
