@@ -50,7 +50,7 @@ describe('ERC20Contract', () => {
         _isProvider: true,
       }
     );
-    erc20ProviderSpy = jasmine.createSpyObj('ERC20Contract', {
+    erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', {
       value: providerSpy,
       coin: coin,
     });
@@ -61,14 +61,14 @@ describe('ERC20Contract', () => {
     expect(erc20Contract).toBeTruthy();
   });
 
-  it('should create a contract without signer', async () => {
+  it('should create a contract without signer', () => {
     const contract = erc20Contract.value();
     expect(contract.signer).toBeInstanceOf(VoidSigner);
     expect(contract.address).toEqual(coin.contract);
     expect(contract).toBeInstanceOf(Contract);
   });
 
-  it('should create a contract with signer', async () => {
+  it('should create a contract with signer', () => {
     const wallet = Wallet.fromMnemonic(
       'clever brain critic belt soldier daring own luxury begin plate orange banana',
       "m/44'/80001'/0'/0/0"

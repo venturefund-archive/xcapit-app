@@ -1,10 +1,10 @@
-import { TwoPiInvestment } from './../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { InvestmentProduct } from './../../shared-defi-investments/interfaces/investment-product.interface';
+import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
+import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { WalletPasswordComponent } from './../../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
-import { ModalController } from '@ionic/angular';
-import { WalletService } from './../../../wallets/shared-wallets/services/wallet/wallet.service';
-import { Component, OnInit } from '@angular/core';
+import { WalletPasswordComponent } from '../../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
+import { ModalController, NavController } from '@ionic/angular';
+import { WalletService } from '../../../wallets/shared-wallets/services/wallet/wallet.service';
+import { Component } from '@angular/core';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { Amount } from '../../shared-defi-investments/types/amount.type';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
@@ -60,6 +60,8 @@ import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/
       </ion-card>
 
       <ion-button
+        [appLoading]="this.loading"
+        [loadingText]="'defi_investments.confirmation.submit_loading' | translate"
         appTrackClick
         name="Confirm Investment"
         expand="block"
@@ -69,36 +71,36 @@ import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/
         color="uxsecondary"
         (click)="this.requestPassword()"
       >
-        {{ 'Continuar' | translate }}
+        {{ 'defi_investments.confirmation.submit' | translate }}
       </ion-button>
     </ion-content>
   `,
   styleUrls: ['./investment-confirmation.page.scss'],
 })
-export class InvestmentConfirmationPage implements OnInit {
+export class InvestmentConfirmationPage {
   product: InvestmentProduct;
   amount: Amount;
   quoteAmount: Amount;
-
   fee: Amount;
   quoteFee: Amount;
+  loading = false;
 
   constructor(
     private investmentDataService: InvestmentDataService,
     private walletService: WalletService,
     private modalController: ModalController,
     private translate: TranslateService,
-    private walletEncryptionService: WalletEncryptionService
+    private walletEncryptionService: WalletEncryptionService,
+    private navController: NavController
   ) {}
 
-  ngOnInit() {}
-
-  async ionViewWillEnter() {
+  async ionViewDidEnter() {
     this.getInvestmentInfo();
     await this.walletService.walletExist();
   }
 
   getInvestmentInfo() {
+    this.product = this.investmentDataService.product;
     this.amount = {
       value: this.investmentDataService.amount,
       token: this.investmentDataService.product.token().value,
@@ -120,10 +122,26 @@ export class InvestmentConfirmationPage implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    this.confirm(data);
+    this.loadingEnabled(true);
+    await this.deposit(data);
   }
 
-  async confirm(data: string) {
-    const investment = new TwoPiInvestment(this.product, await this.walletEncryptionService.getDecryptedWallet(data));
+  async deposit(data: string) {
+    const investment = TwoPiInvestment.create(
+      this.product,
+      await this.walletEncryptionService.getDecryptedWalletForCurrency(data, this.product.token())
+    );
+    try {
+      await (await investment.deposit(this.amount.value)).wait();
+      await this.navController.navigateForward('/defi/success-investment');
+    } catch {
+      await this.navController.navigateForward('/defi/error-investment');
+    } finally {
+      this.loadingEnabled(false);
+    }
+  }
+
+  private loadingEnabled(enabled: boolean) {
+    this.loading = enabled;
   }
 }

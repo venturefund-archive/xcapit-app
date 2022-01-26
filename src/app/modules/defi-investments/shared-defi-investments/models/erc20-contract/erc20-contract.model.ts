@@ -1,26 +1,18 @@
-import { Contract, Signer, VoidSigner } from 'ethers';
+import { constants, Contract, Signer, VoidSigner } from 'ethers';
 import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
 
-const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-
 export class ERC20Contract {
-  private readonly _signer: Signer;
-  private readonly _provider: ERC20Provider;
+  constructor(private readonly _aProvider: ERC20Provider, private readonly _aSigner: Signer) {}
 
-  constructor(aProvider: ERC20Provider, aSigner: Signer) {
-    this._provider = aProvider;
-    this._signer = aSigner;
+  static create(aProvider: ERC20Provider): ERC20Contract {
+    return new this(aProvider, new VoidSigner(constants.AddressZero));
   }
 
-  static create(aProvider: ERC20Provider) {
-    return new this(aProvider, new VoidSigner(ZERO_ADDRESS));
-  }
-
-  private signer() {
-    return this._signer.connect(this._provider.value());
+  private signer(): Signer {
+    return this._aSigner.connect(this._aProvider.value());
   }
 
   value(): Contract {
-    return new Contract(this._provider.coin().contract, this._provider.coin().abi, this.signer());
+    return new Contract(this._aProvider.coin().contract, this._aProvider.coin().abi, this.signer());
   }
 }

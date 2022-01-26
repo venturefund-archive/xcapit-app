@@ -1,14 +1,11 @@
-import { Transaction } from 'ethers';
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
+import { BigNumber } from '@ethersproject/bignumber';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 
 export class ERC20Token {
-  private readonly _contract: ERC20Contract;
+  constructor(private readonly _aContract: ERC20Contract) {}
 
-  constructor(aContract: ERC20Contract) {
-    this._contract = aContract;
-  }
-
-  approve(spender: string, amount: number): Promise<Transaction | string> {
-    return this._contract.value().approve(spender, amount);
+  approve(spender: string, wei: BigNumber): Promise<TransactionResponse | string> {
+    return this._aContract.value().approve(spender, wei);
   }
 }
