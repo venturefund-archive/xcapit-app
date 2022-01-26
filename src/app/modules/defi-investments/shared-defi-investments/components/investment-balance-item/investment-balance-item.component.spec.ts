@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
 import { Vault } from '@2pi-network/sdk';
@@ -8,6 +8,7 @@ import { InvestmentBalanceItemComponent } from './investment-balance-item.compon
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { of } from 'rxjs';
 import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -39,7 +40,11 @@ describe('InvestmentBalanceItemComponent', () => {
   let component: InvestmentBalanceItemComponent;
   let fixture: ComponentFixture<InvestmentBalanceItemComponent>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let navControllerSpy: any;
+  let fakeNavController: FakeNavController;
   beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController({});
+    navControllerSpy = fakeNavController.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
       getPrices: of({ prices: { USDC: 1 } }),
       getCoins: [usdc_coin],
@@ -47,7 +52,7 @@ describe('InvestmentBalanceItemComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ InvestmentBalanceItemComponent, SplitStringPipe ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers:[{ provide: ApiWalletService, useValue: apiWalletServiceSpy },]
+      providers:[{ provide: NavController, useValue: navControllerSpy },{ provide: ApiWalletService, useValue: apiWalletServiceSpy },]
     }).compileComponents();
 
     fixture = TestBed.createComponent(InvestmentBalanceItemComponent);
@@ -85,6 +90,13 @@ describe('InvestmentBalanceItemComponent', () => {
   it('should render image properly', () => {
     const imageEl = fixture.debugElement.query(By.css('.ibi__image .ibi__image__img'));
     expect(imageEl.attributes.src).toContain('assets/img/coins/USDC.png');
+  });
+
+  it('should navigate to investment detail when go_to_invest_detail div is clicked', async () => {
+    const clickeableDiv = fixture.debugElement.query(By.css('div[name="go_to_invest_detail"]'));
+    clickeableDiv.nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/investment-detail', component.investmentProduct.name()]);
   });
   
 });

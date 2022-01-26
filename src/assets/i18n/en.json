@@ -263,6 +263,12 @@
       "subtitle": "Remember that you must own tokens to pay investment fees.",
       "primaryButton": "Try again"
     },
+    "invest_detail":{
+      "header":"My investment",
+      "button":"Add amount",
+      "button_link":"Finalize investment",
+      "invested_amount":"Invested balance"
+    },
     "shared": {
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
