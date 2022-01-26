@@ -4,7 +4,6 @@ import { Coin } from './../../../../wallets/shared-wallets/interfaces/coin.inter
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { formatNumber } from '@angular/common';
 
 @Component({
   selector: 'app-amount-input-card',

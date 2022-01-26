@@ -14,7 +14,7 @@ export class FakeWalletService implements Fake {
   }
 
   createSpy() {
-    this.spy = jasmine.createSpyObj('WalletService', ['walletExist', 'balanceOf', 'getBalanceFromCoin'], ['addresses']);
+    this.spy = jasmine.createSpyObj('WalletService', ['walletExist', 'balanceOf'], ['addresses']);
     this.modifyReturns(this.walletExistResponse, this.balanceOfResponse);
     this.modifyAttributes(this.addresses);
     return this.spy;
@@ -23,7 +23,6 @@ export class FakeWalletService implements Fake {
   modifyReturns(walletExistResponse, balanceOfResponse) {
     this.spy.walletExist.and.returnValue(Promise.resolve(walletExistResponse));
     this.spy.balanceOf.and.returnValue(Promise.resolve(balanceOfResponse));
-    this.spy.getBalanceFromCoin.and.returnValue(Promise.resolve(balanceOfResponse));
   }
   modifyAttributes(addresses) {
     (Object.getOwnPropertyDescriptor(this.spy, 'addresses').get as jasmine.Spy).and.returnValue(addresses);
