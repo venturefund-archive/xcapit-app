@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from 
 import { IonicModule } from '@ionic/angular';
 import { of } from 'rxjs';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { By } from '@angular/platform-browser';
 
 const testCoins = [
   {
@@ -92,7 +92,15 @@ describe('AmountInputCardComponent', () => {
   it('should calculate usd price when amount changes', fakeAsync(() => {
     fixture.detectChanges();
     component.form.patchValue({ amount: 20 });
-    expect(component.form.value.quoteAmount).toEqual(80000);
+    expect(component.form.value.quoteAmount).toEqual('80000');
+    component.ngOnDestroy();
+    flush();
+  }));
+
+  it('should not show cientific notation on USD amount', fakeAsync(() => {
+    fixture.detectChanges();
+    component.form.patchValue({ amount: 1e-7 });
+    expect(component.form.value.quoteAmount).not.toContain("e");
     component.ngOnDestroy();
     flush();
   }));

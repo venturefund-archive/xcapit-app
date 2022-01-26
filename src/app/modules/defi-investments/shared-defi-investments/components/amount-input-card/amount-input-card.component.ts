@@ -24,7 +24,7 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
         <div class="aic__content__input">
           <ion-input formControlName="amount" type="number" inputmode="numeric" placeholder="0.000144"></ion-input>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
-          <ion-input formControlName="quoteAmount" type="number" inputmode="numeric" readonly></ion-input>
+          <ion-input class="read-only" formControlName="quoteAmount" type="number" inputmode="numeric" readonly></ion-input>
         </div>
         <div class="aic__content__available">
           <ion-text class="ux-font-text-xxs">
@@ -61,7 +61,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   constructor(
     private formGroupDirective: FormGroupDirective,
     private apiWalletService: ApiWalletService,
-    private walletBalance: WalletBalanceService
+    private walletBalance: WalletBalanceService,
   ) {}
 
   ngOnInit() {
@@ -82,7 +82,23 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   }
 
   private amountChange(value: number) {
-    this.form.patchValue({ quoteAmount: value * this.price });
+    this.form.patchValue({ 
+      quoteAmount: this.parseQuoteAmount(value * this.price) 
+    });
+  }
+
+  private parseQuoteAmount(value: number): string {
+    let stringValue = value.toString();
+    
+    if (stringValue.includes("e")) {
+      stringValue = parseFloat(stringValue).toFixed(20);
+    } 
+    
+    if (stringValue.includes(".")) {
+      stringValue = stringValue.replace(/\.?0+$/,"");
+    }
+
+    return stringValue;
   }
 
   private getPrice() {
