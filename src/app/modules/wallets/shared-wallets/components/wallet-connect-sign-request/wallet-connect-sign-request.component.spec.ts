@@ -27,8 +27,8 @@ describe('WalletConnectSignRequestComponent', () => {
   let fakeModalController: FakeModalController;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService> = null;
-  let walletServiceSpy: jasmine.SpyObj<WalletService> = null;
-  let blockchainProviderServiceMock = null;
+  const walletServiceSpy: jasmine.SpyObj<WalletService> = null;
+  const blockchainProviderServiceMock = null;
   let connectedWalletSpy;
   let fakeConnectedWallet: FakeConnectedWallet;
   let walletConnectServiceSpy: any;
