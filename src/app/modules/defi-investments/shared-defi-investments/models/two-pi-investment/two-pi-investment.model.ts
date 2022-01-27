@@ -1,4 +1,3 @@
-import { ethers, Wallet } from 'ethers';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
 import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
@@ -7,24 +6,26 @@ import { TwoPiContract } from '../two-pi-contract/two-pi-contract.model';
 import { environment } from '../../../../../../environments/environment';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { BigNumber } from '@ethersproject/bignumber';
+import { Signer } from 'ethers';
+import { parseUnits } from 'ethers/lib/utils';
 
 export interface Investment {
-  balance(): number;
-  deposit(amount: number): any;
+  balance(): Promise<number>;
+  deposit(amount: number): Promise<TransactionResponse>;
   withdraw(): any;
 }
 
 export class TwoPiInvestment implements Investment {
   constructor(
     private readonly _aProduct: InvestmentProduct,
-    private readonly _aWallet: Wallet,
+    private readonly _aWallet: Signer,
     private readonly _anErc20Token: ERC20Token,
     private readonly _anErc20Provider: ERC20Provider,
     private readonly _aTwoPiContract: TwoPiContract,
     private readonly _aReferralAddress: string
   ) {}
 
-  static create(_aProduct: InvestmentProduct, _aWallet: Wallet): TwoPiInvestment {
+  static create(_aProduct: InvestmentProduct, _aWallet: Signer): TwoPiInvestment {
     const erc20Provider = new ERC20Provider(_aProduct.token());
     const erc20Token = new ERC20Token(new ERC20Contract(erc20Provider, _aWallet));
     const twoPiContract = new TwoPiContract(_aProduct.contractAddress(), erc20Provider, _aWallet);
@@ -33,18 +34,23 @@ export class TwoPiInvestment implements Investment {
   }
 
   private _weiOf(amount: number): BigNumber {
-    return ethers.utils.parseUnits(amount.toString(), this._aProduct.token().decimals);
+    return parseUnits(amount.toString(), this._aProduct.token().decimals);
   }
 
   private _approve(wei: BigNumber): Promise<string | TransactionResponse> {
     return this._anErc20Token.approve(this._aProduct.contractAddress(), wei);
   }
 
-  balance(): number {
-    // const contract = this.createContract(product);
-    // const wallets = await this.storageService.getWalletFromStorage();
-    // return parseInt(await contract.balanceOf(product.id(), wallets.addresses.MATIC));
-    return;
+  async balance(): Promise<number> {
+    const userShares = await this._aTwoPiContract.value().balanceOf(this._aProduct.id(), this._aWallet.getAddress());
+    const pricePerShare = await this._aTwoPiContract.value().getPricePerFullShare(this._aProduct.id());
+    const vaultDecimals = BigNumber.from('10').pow(this._aProduct.decimals());
+    const tokenDecimals = BigNumber.from('10').pow(this._aProduct.token().decimals);
+    return userShares.mul(pricePerShare).div(vaultDecimals).div(tokenDecimals).toNumber();
+  }
+
+  private formatOf(value: BigNumber): number {
+    return value.toNumber() / 10 ** this._aProduct.decimals();
   }
 
   async deposit(amount: number): Promise<TransactionResponse> {

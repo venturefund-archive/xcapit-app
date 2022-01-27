@@ -10,5 +10,5 @@ export interface InvestmentProduct {
   apy(): number;
   tvl(): number;
   contractAddress(): string;
-  contract(): Contract;
+  decimals(): number;
 }

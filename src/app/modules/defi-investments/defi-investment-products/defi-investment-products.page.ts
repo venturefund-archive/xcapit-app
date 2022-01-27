@@ -1,4 +1,5 @@
-import { BlockchainProviderService } from 'src/app/modules/wallets/shared-wallets/services/blockchain-provider/blockchain-provider.service';
+import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { TwoPiInvestment } from './../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { Component, OnInit } from '@angular/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DefiInvestment } from '../shared-defi-investments/interfaces/defi-investment.interface';
@@ -6,7 +7,8 @@ import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
-import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
+import { VoidSigner } from 'ethers';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -66,12 +68,11 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
   styleUrls: ['./defi-investment-products.page.scss'],
 })
 export class DefiInvestmentProductsPage implements OnInit {
-  defiProducts = new AvailableDefiProducts().value();
+  defiProducts: DefiProduct[];
   constructor(
     private apiWalletService: ApiWalletService,
     private twoPiApi: TwoPiApi,
-    private blockchainProviderService: BlockchainProviderService,
-    private storageService: StorageService
+    private walletEncryptionService: WalletEncryptionService
   ) {}
   haveInvestments = true;
   activeInvestments: DefiInvestment[] = [];
@@ -79,35 +80,35 @@ export class DefiInvestmentProductsPage implements OnInit {
 
   ngOnInit() {}
 
-  async ionViewWillEnter() {
-    // this.getInvestments();
-    this.availableInvestments = [
-      { product: await this.getInvestmentProduct(this.defiProducts[0]), isComing: false, balance: 0 },
-    ];
+  ionViewWillEnter() {
+    this.getAvailableDefiProducts();
+    this.getInvestments();
   }
 
-  // async getInvestments() {
-  //   this.defiProducts.forEach(async (product) => {
-  //     const investmentProduct = await this.getInvestmentProduct(product);
-  //     const balance = await this.getProductBalance(investmentProduct);
-  //     this.filterUserInvestments({ product: investmentProduct, balance: balance, isComing: product.isComing });
-  //   });
-  // }
+  getAvailableDefiProducts(): void {
+    this.defiProducts = new AvailableDefiProducts().value();
+  }
 
-  // async getProductBalance(investmentProduct: InvestmentProduct) {
-  //   return await this.twoPiContractService.balance(investmentProduct);
-  // }
+  async getInvestments(): Promise<void> {
+    for (const product of this.defiProducts) {
+      const investmentProduct = await this.getInvestmentProduct(product);
+      const balance = await this.getProductBalance(investmentProduct);
+      this.filterUserInvestments({ product: investmentProduct, balance: balance, isComing: product.isComing });
+    }
+  }
+
+  async getProductBalance(investmentProduct: InvestmentProduct) {
+    const wallet = await this.walletEncryptionService.getEncryptedWallet();
+    const address = wallet.addresses[investmentProduct.token().network];
+    const investment = TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
+    return await investment.balance();
+  }
 
   filterUserInvestments(investment: DefiInvestment) {
     investment.balance > 0 ? this.activeInvestments.push(investment) : this.availableInvestments.push(investment);
   }
 
   async getInvestmentProduct(product: DefiProduct) {
-    return new TwoPiProduct(
-      await this.twoPiApi.vault(product.id),
-      this.apiWalletService,
-      this.blockchainProviderService,
-      this.storageService
-    );
+    return new TwoPiProduct(await this.twoPiApi.vault(product.id), this.apiWalletService);
   }
 }
