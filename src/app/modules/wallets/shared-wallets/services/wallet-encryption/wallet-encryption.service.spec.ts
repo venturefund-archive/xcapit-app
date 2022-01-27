@@ -153,4 +153,10 @@ describe('WalletEncryptionService', () => {
     const currencyWallet = await service.getDecryptedWalletForCurrency('TestPass1234', testCoins[2]);
     expect(currencyWallet.mnemonic.path).toBe("m/44'/37310'/0'/0/0");
   });
+
+  it('should get decrypted wallet for Ethereum network', async () => {
+    storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(storageWallet));
+    const currencyWallet = await service.getDecryptedWalletForNetwork('TestPass1234', 'ETH');
+    expect(currencyWallet.mnemonic.path).toBe("m/44'/60'/0'/0/0");
+  });
 });

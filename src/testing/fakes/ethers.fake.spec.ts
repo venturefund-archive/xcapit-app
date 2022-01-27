@@ -9,7 +9,7 @@ export class FakeEthersService implements Fake {
   }
 
   createSpy(): any {
-    this.spy = jasmine.createSpyObj('EthersService', ['ethers', 'newContract']);
+    this.spy = jasmine.createSpyObj('EthersService', ['ethers', 'newContract', 'newProvider']);
     this.modifyReturns(this.transferResponse);
     return this.spy;
   }
@@ -21,5 +21,9 @@ export class FakeEthersService implements Fake {
       },
       transfer: () => Promise.resolve(transferResponse),
     });
+
+    this.spy.newProvider.and.returnValue({
+      provider: 'testProvider'
+    })
   }
 }

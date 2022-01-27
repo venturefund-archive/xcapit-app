@@ -12,7 +12,7 @@ import { NavController } from '@ionic/angular';
   providedIn: 'root',
 })
 export class WalletConnectService {
-  private walletConnector: WalletConnect | null = null;
+  public walletConnector: WalletConnect | null = null;
   uri = '';
   peerMeta: {
     description: string;
@@ -61,7 +61,7 @@ export class WalletConnectService {
       const isConnected = await this.ping();
       if (isConnected) return;
     }
-
+    
     await this.appStorageService.remove('walletconnect');
   }
 

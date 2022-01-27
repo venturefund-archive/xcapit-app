@@ -259,6 +259,7 @@ export class OperationDetailPage implements OnInit {
   }
 
   htmlFormatParse(obj, child = false) {
+    console.log(obj);
     let res;
     const html = document.createElement('div');
 
