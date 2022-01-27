@@ -33,7 +33,7 @@
     width: 100%;
     border-radius: 8px;
 
-    ion-item[slot="header"] {
+    ion-item[slot='header'] {
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
       border-bottom: 1px solid var(--ion-color-uxline);
@@ -75,6 +75,7 @@
     }
 
     ion-label.right {
+      margin-right: 0;
       text-align: end;
     }
 

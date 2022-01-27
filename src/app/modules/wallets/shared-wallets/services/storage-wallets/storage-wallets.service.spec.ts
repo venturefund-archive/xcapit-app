@@ -83,7 +83,7 @@ describe('StorageService', () => {
   let testWalletStub: jasmine.SpyObj<any>;
 
   beforeEach(() => {
-    appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', ['get', 'set']);
+    appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', ['get', 'set', 'remove']);
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: NONPROD_COINS,
     });
@@ -119,6 +119,11 @@ describe('StorageService', () => {
   it('should get the wallet from the localstorage on getWalletFromStorage', async () => {
     await service.getWalletFromStorage();
     expect(appStorageServiceSpy.get).toHaveBeenCalledWith('enc_wallet');
+  });
+
+  it('should remove the wallet from the localstorage on removeWalletFromStorage', async () => {
+    await service.removeWalletFromStorage();
+    expect(appStorageServiceSpy.remove).toHaveBeenCalledWith('enc_wallet');
   });
 
   it('should return the wallet addresses from localstorage on getWalletsAddresses', async () => {

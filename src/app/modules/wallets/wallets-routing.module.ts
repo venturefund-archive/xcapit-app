@@ -141,6 +141,32 @@ const routes: Routes = [
         loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
       },
       {
+        path: 'password-change',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./password/wallet-password-change/wallet-password-change.module').then(
+                (m) => m.WalletPasswordChangePageModule
+              ),
+          },
+          {
+            path: 'success',
+            loadChildren: () =>
+              import('./password/wallet-password-change-success/wallet-password-change-success.module').then(
+                (m) => m.WalletPasswordChangeSuccessPageModule
+              ),
+          },
+          {
+            path: 'error',
+            loadChildren: () =>
+              import('./password/wallet-password-change-error/wallet-password-change-error.module').then(
+                (m) => m.WalletPasswordChangeErrorPageModule
+              ),
+          },
+        ],
+      },
+      {
         path: 'nft-detail',
         loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
       },
@@ -164,6 +190,22 @@ const routes: Routes = [
             loadChildren: () =>
               import('./wallet-connect/operation-detail/operation-detail.module').then(
                 (m) => m.OperationDetailPageModule
+              ),
+          },
+        ],
+      },
+      {
+        path: 'remove',
+        loadChildren: () => import('./remove/remove-wallet/remove-wallet.module').then((m) => m.RemoveWalletPageModule),
+      },
+      {
+        path: 'remove',
+        children: [
+          {
+            path: 'success',
+            loadChildren: () =>
+              import('./remove/success-remove-wallet/success-remove-wallet.module').then(
+                (m) => m.SuccessRemoveWalletPageModule
               ),
           },
         ],

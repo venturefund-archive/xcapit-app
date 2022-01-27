@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('./support-wallet/support-wallet.module').then((m) => m.SupportWalletPageModule),
       },
       {
+        path: 'nft',
+        loadChildren: () => import('./support-nft/support-nft.module').then( m => m.SupportNftPageModule)
+      },
+      {
         path: 'security',
         loadChildren: () =>
           import('./support-security/support-security.module').then((m) => m.SupportSecurityPageModule),
@@ -63,6 +67,7 @@ const routes: Routes = [
       },
     ],
   },
+
 ];
 
 @NgModule({

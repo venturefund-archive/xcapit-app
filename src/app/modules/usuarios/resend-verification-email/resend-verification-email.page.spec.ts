@@ -8,7 +8,7 @@ import { of, throwError } from 'rxjs';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { Storage } from '@ionic/storage';
 import { ResendVerificationEmailPage } from './resend-verification-email.page';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';

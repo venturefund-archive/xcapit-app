@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
 

@@ -6,7 +6,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { barcodeScannerMock } from 'src/testing/spies/barcode-scanner-mock.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { WalletConnectQrScanComponent } from './wallet-connect-qr-scan.component';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';

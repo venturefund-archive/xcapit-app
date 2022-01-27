@@ -56,24 +56,24 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
           </ion-button>
         </div>
       </app-auth-form>
-      <div class="ion-text-center">
-        <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
-      </div>
+     <div class="ion-text-center">
+       <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
+     </div>
 
-      <ion-button
-        appTrackClick
-        name="Google Auth"
-        expand="block"
-        fill="clear"
-        size="large"
-        type="button"
-        class="ux_button google-auth color"
-        [disabled]="this.submitButtonService.isDisabled | async"
-        (click)="this.googleSingUp()"
-      >
-        <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
-        <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
-      </ion-button>
+     <ion-button
+       appTrackClick
+       name="Google Auth"
+       expand="block"
+       fill="clear"
+       size="large"
+       type="button"
+       class="ux_button google-auth color"
+       [disabled]="this.submitButtonService.isDisabled | async"
+       (click)="this.googleSingUp()"
+     >
+       <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
+       <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
+     </ion-button>
       <div class="auth-link-reset-password main__reset_password">
         <ion-button
           class="main__reset_password__button ux-link-xs"
@@ -117,13 +117,13 @@ export class LoginPage implements OnInit {
 
   async googleSingUp() {
     let googleUser;
-
+  
     try {
       googleUser = await this.googleAuthPlugin.signIn();
     } catch (e) {
       return;
     }
-
+  
     this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
   }
 

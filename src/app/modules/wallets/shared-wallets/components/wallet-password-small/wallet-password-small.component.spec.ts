@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordSmallComponent } from './wallet-password-small.component';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

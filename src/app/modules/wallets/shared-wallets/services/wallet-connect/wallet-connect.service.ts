@@ -255,6 +255,10 @@ export class WalletConnectService {
               gasPrice,
             };
 
+            if(request.params[0].value && request.params[0].value > 0) {
+              data["value"] = request.params[0].value;
+            }
+
             try {
               const result = await this.walletTransactionsService.sendRawTransaction(wallet, data);
               await this.approveRequest(request.id, result.hash);

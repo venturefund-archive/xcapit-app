@@ -8,6 +8,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'investment-detail/:vault',
+        loadChildren: () => import('./investment-detail/investment-detail.module').then( m => m.InvestmentDetailPageModule)
+      },
+      {
         path: 'no-wallet-to-invest',
         loadChildren: () =>
           import('../defi-investments/no-wallet-to-invest/no-wallet-to-invest.module').then(
@@ -24,8 +28,19 @@ const routes: Routes = [
         loadChildren: () =>
           import('./error-investment/error-investment.module').then((m) => m.ErrorInvestmentPageModule),
       },
+      {
+        path: 'new',
+        children: [
+          {
+            path: 'insert-amount/:vault',
+            loadChildren: () =>
+              import('./create/new-investment/new-investment.module').then((m) => m.NewInvestmentPageModule),
+          },
+        ],
+      },
     ],
   },
+
 ];
 
 @NgModule({

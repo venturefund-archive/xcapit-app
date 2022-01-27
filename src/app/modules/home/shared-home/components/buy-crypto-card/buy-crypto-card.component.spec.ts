@@ -4,7 +4,7 @@ import { BuyCryptoCardComponent } from './buy-crypto-card.component';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';

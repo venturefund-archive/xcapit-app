@@ -28,4 +28,8 @@ export class EthersService {
   newProvider(rpcUrl) {
     return new providers.JsonRpcProvider(rpcUrl);
   }
+  
+  encryptWallet(wallet: Wallet, password: string): Promise<string> {
+    return wallet.encrypt(password);
+  }
 }

@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, IonSlides, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { VerifyPhrasePage } from './verify-phrase.page';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { Mnemonic } from '@ethersproject/hdnode';
@@ -13,8 +13,6 @@ import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { IonSlidesMock } from 'src/testing/spies/ion-slides-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { LoadingService } from '../../../shared/services/loading/loading.service';
-import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 
 const phrase = ['insecto', 'puerta', 'vestido'];
 const phrase_1 = [
@@ -46,12 +44,8 @@ describe('VerifyPhrasePage', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
-  let fakeLoadingService: FakeLoadingService;
   beforeEach(
     waitForAsync(() => {
-      fakeLoadingService = new FakeLoadingService();
-      loadingServiceSpy = fakeLoadingService.createSpy();
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       walletMnemonicServiceSpy = jasmine.createSpyObj(
@@ -70,7 +64,6 @@ describe('VerifyPhrasePage', () => {
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: IonSlides, useValue: IonSlidesMock },
-          { provide: LoadingService, useValue: loadingServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

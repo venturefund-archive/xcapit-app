@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule, NavController } from '@ionic/angular';
 import { FundFinishComponent } from './fund-finish.component';
 import { ApiFundsService } from '../../services/api-funds/api-funds.service';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { of } from 'rxjs';
 import { DummyComponent } from '../../../../../../testing/dummy.component.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

@@ -31,14 +31,14 @@ describe('SuccessRegisterApikeysBeginnerPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
+  
   it('should set "/fiat-ramps/moonpay" on success types when wallet exist', async () => {
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.data.urlThirdAction).toEqual('/fiat-ramps/moonpay');
   });
-
+  
   it('should set "/fiat-ramps/no-wallet" on success types when wallet not exist', async () => {
     fakeWalletService.modifyReturns(false, {});
     component.ngOnInit();

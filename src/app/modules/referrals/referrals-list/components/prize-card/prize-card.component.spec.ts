@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
 import { PrizeCardComponent } from './prize-card.component';
 import { modalControllerMock } from '../../../../../../testing/spies/modal-controller-mock.spec';

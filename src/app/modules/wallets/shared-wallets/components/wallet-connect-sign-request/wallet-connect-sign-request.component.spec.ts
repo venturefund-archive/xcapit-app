@@ -8,7 +8,7 @@ import { WalletService } from '../../../../wallets/shared-wallets/services/walle
 import { BlockchainProviderService } from '../../services/blockchain-provider/blockchain-provider.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';

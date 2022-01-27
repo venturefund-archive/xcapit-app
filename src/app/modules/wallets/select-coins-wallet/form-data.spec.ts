@@ -37,6 +37,25 @@ export const SELECT_COINS_FORM_DATA = {
       BNB: false,
     },
   },
+  allTrue: {
+    ERC20: {
+      ETH: true,
+      UNI: true,
+      USDT: true,
+      LINK: true,
+    },
+    MATIC: {
+      MATIC: true,
+    },
+    RSK: {
+      RBTC: true,
+      RIF: true,
+      SOV: true,
+    },
+    BSC_BEP20: {
+      BNB: true,
+    },
+  },  
   editTokensOriginal: {
     ERC20: {
       ETH: true,

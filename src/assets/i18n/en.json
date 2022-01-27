@@ -45,8 +45,14 @@
         "has_capital_case": "Minimum one capital letter is required ",
         "has_small_case": "Minimum one lowercase required "
       },
+      "old_password": {
+        "wallet_incorrect_password": "Incorrect password, try again"
+      },
       "repeat_password": {
-        "no_password_match": "La password no coincide"
+        "no_password_match": "Passwords don't match, try again"
+      },
+      "new_password": {
+        "new_password_matches_old": "Your new password can't match the old one, try again"
       },
       "repeat_username": {
         "no_fields_match": "El email no coincide"
@@ -226,9 +232,71 @@
       "buy_crypto": "Buy Crypto",
       "investment_strategies": "Investment strategies",
       "capital_security": "Capital Security",
-      "wallet":"Wallet",
-      "nft":"NFT",
+      "wallet": "Wallet",
+      "nft": "NFT",
       "others": "Others"
+    }
+  },
+  "defi_investments": {
+    "new": {
+      "header": "New investment",
+      "amount_to_invest": "Amount to invest",
+      "button": "Continue"
+    },
+    "coming_soon": {
+      "header": "Investment"
+    },
+    "defi_investment_products":{
+      "header":"Defi investments",
+      "title":"Start investing",
+      "title_investments":"My investments",
+      "recommendations":"You may be interested in"  
+    },
+    "success_investment": {
+      "title": "You added money to your investment",
+      "subtitle": "You will get benefits every day.",
+      "primaryButton": "Back to investments",
+      "secondaryButton": "Go to Wallet"
+    },
+    "error_investment": {
+      "title": "It seems that something went wrong",
+      "subtitle": "Remember that you must own tokens to pay investment fees.",
+      "primaryButton": "Try again"
+    },
+    "invest_detail":{
+      "header":"My investment",
+      "button":"Add amount",
+      "button_link":"Finalize investment",
+      "invested_amount":"Invested balance"
+    },
+    "shared": {
+      "coming_soon_card": {
+        "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
+        "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
+      },
+      "defi_investment_product": {
+        "performance": "Estimated yield",
+        "liquidity": "Liquidity",
+        "not_min_ammount": "No minimum amount",
+        "immediate_rescue": "Immediate Rescue",
+        "coming_badge": "Coming",
+        "invest_button": "Invest",
+        "annual": "Annual"
+      },
+
+      "expandable_investment_info": {
+        "TVL": "Total Value Locked",
+        "protocol_type": "Protocol type",
+        "deposit_asset": "Deposit",
+        "receive_asset": "Obtain",
+        "platform": "Platform",
+        "annual": "% Annual",
+        "blockchain": "Blockchain"
+      },
+      "amount_input_card": {
+        "available": "Available",
+        "disclaimer": "Please note that transaction fees will be charged in"
+      }
     }
   },
   "funds": {
@@ -242,7 +310,7 @@
       },
       "binance": {
         "title": "Binance Investments",
-        "text": "Connect our smart Trading and Indexes Bot to your Binance Wallet generating yields every day."
+        "text": "It is currently not possible to create new investments on Binance. If you have active funds you will see it from: Profile > Binance Investments > Funds"
       }
     },
     "fund_balance": {
@@ -262,9 +330,7 @@
         "change_currency": "Change currency"
       },
       "user_status": {
-        "title": "Start investing",
-        "action_button": "Get started by linking with binance",
-        "link_strategies_button": "Investment strategies"
+        "title": "You don't have any investment"
       },
       "funds_title": "MY FUNDS",
       "shared_funds_title": "SHARED FUNDS",
@@ -519,6 +585,7 @@
         "title": "You need USD${{minBalance}} in your Binance account to start investing.",
         "message": "Buy crypto at Xcapit",
         "cancel_text": "Cancel",
+        "accept_text": "Accept",
         "ok_text": "Buy"
       },
       "no_apikeys_modal": {
@@ -763,6 +830,7 @@
       "category_security_account": "Security Xcapit account",
       "change_pass": "Password Change",
       "category_security_wallet": "Security Xcapit wallet",
+      "remove_wallet":"Remove Wallet",
       "security_phrase": "Security phrase",
       "category_binance_investment": "Binance investments",
       "funds": "Funds",
@@ -772,7 +840,10 @@
       "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out",
-      "category_walletconnect": "WalletConnect"
+      "category_walletconnect": "WalletConnect",
+      "profile_footer": {
+        "investor_profile_button": "Investor profile"
+      }
     },
     "success_profile": {
       "textPrimary": "¡You have setted up your account!",
@@ -1319,10 +1390,8 @@
     },
     "referrals_share": {
       "title": "Refer and Win!",
-      "first_order_referrals_title": "Add primary referrals",
-      "first_order_referrals_text": "For each friend who signs up using your link you will receive the value of ${{amount}} USD.",
-      "second_order_referrals_title": "Add secondary referrals",
-      "second_order_referrals_text": "If in turn, your friend refers other people, you will receive ${{amount}} USD for each of them.",
+      "first_order_referrals_title": "Invite persons",
+      "first_order_referrals_text": "For each person who creates an Xcapit wallet using your link you will receive 1 point.",
       "share": "Share my link",
       "copy": "Copy my link",
       "copied": "Copied",
@@ -1330,16 +1399,14 @@
     },
     "referrals_pending": {
       "title": "Pending",
-      "first_order_title": "Primary to Xcapit wallet",
-      "first_order_subtitle": "{{quantity}} Recommended",
-      "second_order_title": "Secondary to Xcapit wallet",
-      "second_order_subtitle": "{{quantity}} Recommended",
-      "total_title": "Total reward",
-      "claim_button": "Claim",
-      "disclaimer": "Rewards are credited to MATIC (Polygon). You will be able to claim them from 2021/12/01."
+      "first_order_title": "Referrals to Xcapit wallet",
+      "first_order_subtitle": "{{quantity}} Referrals",
+      "points": "{{quantity}} points"
     },
     "referrals_history": {
       "title": "History",
+      "referrals_title": "Referrals to Xcapit wallet",
+      "referrals_subtitle": "{{quantity}} Referrals",
       "first_order_title": "Primary to Xcapit wallet",
       "first_order_subtitle": "{{quantity}} Recommended",
       "second_order_title": "Secondary to Xcapit wallet",
@@ -1389,12 +1456,50 @@
     }
   },
   "wallets": {
+    "remove_success":{
+      "title":"Your wallet was removed",
+      "subtitle":"You can create a new wallet or import an existing one whenever you wish.",
+      "create_button":"Create new Wallet",
+      "import_button":"Import Wallet",
+      "home_link":"Go to home"
+    },
+    "remove":{
+      "header":"Remove wallet",
+      "title":"When removing your wallet remember",
+      "item1":"You will not lose your past transactions, they are stored by the network.",
+      "item2":"If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item3":"You will be able to again create a new wallet in Xcapit or import an existing one.",
+      "tos":"I read and understand that I will remove my wallet."
+    },
     "no_wallet": {
       "title": "You don't have your Xcapit Wallet yet",
       "subtitle": "Every time you make a purchase, your cryptocurrencies will be deposited there.",
       "button": "Create wallet"
     },
-
+    "password_change": {
+      "header": "Change wallet password",
+      "title": "Before changing your wallet's password keep in mind that:",
+      "description": "You must have your recovery phrase written down. This will help you recover your wallet if you forget your new password.",
+      "old_password": "Write your current password",
+      "new_password": "Write your new password",
+      "repeat_password": "Repeat your new password",
+      "submit_button": "Change",
+      "loading": {
+        "title": "Time!",
+        "subtitle": "We are processing your new password."
+      }
+    },
+    "password_change_success": {
+      "textPrimary": "Great!",
+      "textSecondary": "You changed your wallet password successfully.",
+      "namePrimaryAction": "Go back to Home"
+    },
+    "password_change_error": {
+      "textPrimary": "It seems like something went wrong",
+      "textSecondary": "We couldn't change your password.",
+      "namePrimaryAction": "Retry",
+      "nameSecondaryAction": "Go back to home"
+    },
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
@@ -1453,15 +1558,12 @@
       "header": "Create Wallet",
       "header_edit": "Edit assets",
       "title": "Select assets",
-      "subtitle": "Choose the assets you want to view in your wallet",
+      "subtitle": "Choose the assets you want to view in your wallet. Remember that to operate on each network you must have its native currency",
       "suite": "Suite {{suiteName}}",
-      "recordatory": "Remember that to operate on each network you must have its native currency.",
       "native": "NATIVE",
       "submit_edit": "Save changes",
-      "loading": {
-        "title": "Time!",
-        "subtitle": "We are verifying your phrase"
-      }
+      "toggle_all_text": "Select all",
+      "loading": "Loading..."
     },
     "success_creation": {
       "title": "Nice!",
@@ -1481,11 +1583,8 @@
       "header": "Create Wallet",
       "title": "Check your phrase",
       "text1": "Tap the words in the corresponding order",
-      "btn_create": "Next",
-      "loading": {
-        "title": "Time!",
-        "subtitle": "We are verifying your phrase"
-      }
+      "btn_create": "Verify my 12 words",
+      "verifying": "Verifying..."
     },
     "create_password": {
       "header": "Create Wallet",
@@ -1605,28 +1704,23 @@
       "coming_soon": {
         "header": "Investment"
       },
-      "defi_investment_products":{
-        "header":"Defi investments"
+      "defi_investment_products": {
+        "header": "Defi investments"
       }
     },
     "shared_wallets": {
-      "coming_soon_card": {
-        "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
-        "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
-      },
       "start_investing_card": {
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
       },
-      "defi_investment_product":{
-        "performance":"Estimated yield",
-        "liquidity":"Liquidity",
-        "not_min_ammount":"No minimum amount",
-        "immediate_rescue":"Immediate Rescue",
-        "coming_badge":"Coming",
-        "invest_button":"Invest",
-        "annual":"Annual"
-        
+      "defi_investment_product": {
+        "performance": "Estimated yield",
+        "liquidity": "Liquidity",
+        "not_min_ammount": "No minimum amount",
+        "immediate_rescue": "Immediate Rescue",
+        "coming_badge": "Coming",
+        "invest_button": "Invest",
+        "annual": "Annual"
       },
       "address_input_card": {
         "scan_error": "Error scanning QR code",
@@ -2297,6 +2391,8 @@
     "header": "Help",
     "title": "How can we help you?",
     "support_options": {
+      "title_nft":"NFTs",
+      "description_nft":"View, Transfer and Receive",
       "title_account": "XCAPIT Account",
       "description_account": "Create account, configure and deposit money.",
       "title_wallet": "Wallet",
@@ -2361,17 +2457,6 @@
       "subtitle": "Create your wallet to start investing.",
       "button": "Create Wallet",
       "link": "Back to investments"
-    },
-    "success_investment": {
-      "title": "You added money to your investment",
-      "subtitle": "You will get benefits every day.",
-      "primaryButton": "Back to investments",
-      "secondaryButton": "Go to Wallet"
-    },
-    "error_investment": {
-      "title": "It seems that something went wrong",
-      "subtitle": "Remember that you must own tokens to pay investment fees.",
-      "primaryButton": "Try again"
     }
   }
 }

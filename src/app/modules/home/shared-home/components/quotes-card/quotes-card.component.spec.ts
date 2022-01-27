@@ -9,7 +9,7 @@ import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { Quotes } from '../../interfaces/quotes.interface';
 import { QuotesService } from '../../services/quotes.service';
 import { QuotesCardComponent } from './quotes-card.component';

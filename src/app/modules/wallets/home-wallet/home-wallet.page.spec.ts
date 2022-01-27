@@ -1,16 +1,24 @@
-import { BalanceCacheService } from './../shared-wallets/services/balance-cache/balance-cache.service';
+import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, IonInfiniteScroll, NavController } from '@ionic/angular';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  flushMicrotasks,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
+import { IonContent, IonicModule, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { of } from 'rxjs';
+import { isObservable, of } from 'rxjs';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +27,7 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { TEST_ERC20_COINS } from '../shared-wallets/constants/coins.test';
+import { QueueService } from '../../../shared/services/queue/queue.service';
 
 const balances: Array<AssetBalance> = [
   {
@@ -61,6 +70,8 @@ describe('HomeWalletPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let ionInfiniteScrollSpy: jasmine.SpyObj<IonInfiniteScroll>;
+  let queueServiceSpy: jasmine.SpyObj<QueueService>;
+  let contentSpy: jasmine.SpyObj<IonContent>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -69,6 +80,7 @@ describe('HomeWalletPage', () => {
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getNFTStatus: of({ status: 'claimed' }),
         createNFTRequest: of({}),
+        getNetworks: ['ERC20'],
       });
 
       fakeWalletService = new FakeWalletService(true);
@@ -97,6 +109,13 @@ describe('HomeWalletPage', () => {
 
       ionInfiniteScrollSpy = jasmine.createSpyObj('IonInfiniteScroll', { complete: Promise.resolve() });
 
+      queueServiceSpy = jasmine.createSpyObj('QueueService', {
+        create: null,
+        enqueue: null,
+        results: of({}),
+      });
+      queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
+      contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -108,6 +127,7 @@ describe('HomeWalletPage', () => {
           { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
+          { provide: QueueService, useValue: queueServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -116,19 +136,13 @@ describe('HomeWalletPage', () => {
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
       component.infiniteScroll = ionInfiniteScrollSpy;
+      component.content = contentSpy;
       fixture.detectChanges();
     })
   );
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should not initialize when page is already initialized', () => {
-    component.alreadyInitialized = true;
-    const spy = spyOn(component, 'initialize');
-    component.ionViewDidEnter();
-    expect(spy).not.toHaveBeenCalled();
   });
 
   it('should initialize on view did enter', async () => {
@@ -155,11 +169,9 @@ describe('HomeWalletPage', () => {
   }));
 
   it('should not re-initialize when refresher is not available', fakeAsync(() => {
-    component.alreadyInitialized = true;
     refreshTimeoutServiceSpy.isAvailable.and.returnValue(false);
     const eventMock = { target: { complete: jasmine.createSpy('complete') } };
     const spy = spyOn(component, 'initialize');
-    component.ionViewDidEnter();
     tick();
     fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
     tick(1000);
@@ -219,5 +231,13 @@ describe('HomeWalletPage', () => {
     claimNFTCardComponent.triggerEventHandler('nftRequest', null);
     fixture.detectChanges();
     expect(component.nftStatus).toEqual('claimed');
+  });
+
+  it('should unsubscribe on did leave', () => {
+    const spy = jasmine.createSpyObj('Subscription', { unsubscribe: null });
+    component.subscriptions$ = [spy];
+    fixture.detectChanges();
+    component.ionViewDidLeave();
+    expect(spy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

@@ -26,6 +26,20 @@ export class CustomValidators {
     return CustomValidators.fieldsMatchValidator(control, pass, rPass, CustomValidatorErrors.noPasswordMatch);
   }
 
+  static newPasswordEqualsOldValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const oldPassword: string = control.get('old_password').value;
+      const newPassword: string = control.get('password').value;
+
+      if (oldPassword === newPassword) {
+        control.get('password').setErrors(CustomValidatorErrors.newPasswordMatchesOld);
+        return CustomValidatorErrors.newPasswordMatchesOld
+      }
+
+      return null;
+    };
+  }
+
   static fieldsMatchValidator(
     control: AbstractControl,
     controlName1: string,

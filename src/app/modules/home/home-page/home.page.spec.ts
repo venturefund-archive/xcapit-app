@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HomePage } from './home-page.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
@@ -11,7 +11,6 @@ import { By } from '@angular/platform-browser';
 import { of, Subscription } from 'rxjs';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { ItemQuoteComponent } from '../shared-home/components/item-quote/item-quote.component';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';

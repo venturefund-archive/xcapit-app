@@ -1,14 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { WalletSubheaderButtonsComponent } from './wallet-subheader-buttons.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
-import { of } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('WalletSubheaderButtonsComponent', () => {

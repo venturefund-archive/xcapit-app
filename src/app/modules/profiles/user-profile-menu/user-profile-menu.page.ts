@@ -9,6 +9,7 @@ import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -22,13 +23,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="user-data ux-card ion-padding">
-        <div class="user-img">
-          <img src="assets/img/user-profile/avatar-user.svg" />
-        </div>
-        <div>
-          <ion-text class="user-mail ux-font-header-titulo">{{ this.profile?.email }}</ion-text>
-        </div>
+      <div class="user-profile-card" *ngIf="this.profile">
+        <app-user-profile-card [profile]="this.profile"></app-user-profile-card>
       </div>
       <div class="referrals-promotion">
         <app-referral-promotion-card></app-referral-promotion-card>
@@ -88,6 +84,7 @@ export class UserProfileMenuPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
     notificationsEnabled: [false, []],
   });
+
   constructor(
     private apiProfiles: ApiProfilesService,
     private authService: AuthService,
@@ -96,13 +93,15 @@ export class UserProfileMenuPage implements OnInit {
     private translate: TranslateService,
     private language: LanguageService,
     private notificationsService: NotificationsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private walletService: WalletService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
     this.getProfile();
+    this.existWallet();
   }
 
   private subscribeToFormChanges() {
@@ -149,6 +148,13 @@ export class UserProfileMenuPage implements OnInit {
   togglePushNotifications() {
     this.notificationsService.toggle(!this.profile.notifications_enabled).subscribe(() => {
       this.profile.notifications_enabled = !this.profile.notifications_enabled;
+    });
+  }
+
+  existWallet() {
+    this.walletService.walletExist().then((res) => {
+      const item = this.itemMenu.find((item) => item.id === 'wallet');
+      item.showCategory = res;
     });
   }
 }

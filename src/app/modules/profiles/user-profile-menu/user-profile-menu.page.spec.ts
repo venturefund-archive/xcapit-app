@@ -9,17 +9,20 @@ import { LanguageService } from '../../../shared/services/language/language.serv
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_help',
     icon: 'assets/ux-icons/ux-support.svg',
+    showCategory: true,
     items: [
       {
         name: 'Faq',
@@ -38,6 +41,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_security_account',
     icon: 'assets/ux-icons/ux-lock-outline.svg',
+    showCategory: true,
     items: [
       {
         name: 'PasswordChangeAccount',
@@ -50,6 +54,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_security_wallet',
     icon: 'assets/ux-icons/ux-key-outline.svg',
+    showCategory: true,
     items: [
       {
         name: 'RecoveryPhrase',
@@ -62,6 +67,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_binance_investment',
     icon: 'assets/ux-icons/ux-trending-up.svg',
+    showCategory: true,
     items: [
       {
         name: 'Funds',
@@ -100,6 +106,8 @@ describe('UserProfileMenuPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let fakeWalletService: FakeWalletService;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -126,6 +134,9 @@ describe('UserProfileMenuPage', () => {
         'setLanguage',
       ]);
 
+      fakeWalletService = new FakeWalletService(true, {});
+      walletServiceSpy = fakeWalletService.createSpy();
+
       TestBed.configureTestingModule({
         declarations: [UserProfileMenuPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -136,6 +147,7 @@ describe('UserProfileMenuPage', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: LanguageService, useValue: languageServiceSpy },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
+          { provide: WalletService, useValue: walletServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

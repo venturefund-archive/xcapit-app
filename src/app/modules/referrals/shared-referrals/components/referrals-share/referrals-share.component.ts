@@ -26,16 +26,6 @@ import { NavController } from '@ionic/angular';
         </ion-text>
       </div>
 
-      <div class="rs__second-order">
-        <ion-text class="ux-font-header-titulo">
-          {{ 'referrals.referrals_share.second_order_referrals_title' | translate }}</ion-text
-        >
-        <br />
-        <ion-text class="ux-font-text-base">
-          {{ 'referrals.referrals_share.second_order_referrals_text' | translate: { amount: this.secondOrderReward } }}
-        </ion-text>
-      </div>
-
       <div class="rs__buttons">
         <ion-button
           *ngIf="this.isNative"
@@ -58,7 +48,7 @@ import { NavController } from '@ionic/angular';
         >
       </div>
 
-      <div class="rs__tos">
+      <div class="rs__tos ux-link-xs">
         <a (click)="this.goToToS()">{{ 'referrals.referrals_share.tos' | translate }}</a>
       </div>
     </div>

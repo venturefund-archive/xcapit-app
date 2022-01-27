@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { UxCardInfoRobotComponent } from './ux-card-info-robot.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';

@@ -135,4 +135,20 @@ export const SUCCESS_TYPES = {
     textPrimary: 'wallets.send.error_wrong_address.textPrimary',
     namePrimaryAction: 'wallets.send.error_wrong_address.namePrimaryAction',
   },
+  success_wallet_password_change: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.password_change_success.textPrimary',
+    textSecondary: 'wallets.password_change_success.textSecondary',
+    namePrimaryAction: 'wallets.password_change_success.namePrimaryAction',
+    urlPrimaryAction: '/tabs/wallets',
+  },
+  error_wallet_password_change: {
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.password_change_error.textPrimary',
+    textSecondary: 'wallets.password_change_success.textSecondary',
+    namePrimaryAction: 'wallets.password_change_error.namePrimaryAction',
+    urlPrimaryAction: '/wallets/password-change',
+    nameSecondaryAction: 'wallets.password_change_error.nameSecondaryAction',
+    urlSecondaryAction: '/tabs/wallets',
+  },
 };

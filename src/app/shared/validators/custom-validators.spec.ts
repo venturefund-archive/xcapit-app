@@ -4,7 +4,7 @@ import { CustomValidatorErrors } from './custom-validator-errors';
 
 let formBuilder: FormBuilder;
 
-describe('AmountInputCardComponent', () => {
+describe('CustomValidators', () => {
   beforeEach(() => {
     formBuilder = new FormBuilder();
   });
@@ -79,6 +79,28 @@ describe('AmountInputCardComponent', () => {
     form.patchValue({ repeat_password: 'asd' });
     expect(form.valid).toBe(true);
     expect(form.get('repeat_password').hasError('noPasswordMatch')).toBe(false);
+  });
+
+  it('should validate that new password is different from old password', () => {
+    const form: FormGroup = formBuilder.group(
+      {
+        old_password: ['', []],
+        password: ['', []],
+      },
+      {
+        validators: [CustomValidators.newPasswordEqualsOldValidator()],
+      }
+    );
+
+    form.patchValue({ old_password: 'asd' });
+    form.patchValue({ password: 'asd123' });
+    expect(form.valid).toBe(true);
+    expect(form.get('password').hasError('newPasswordMatchesOld')).toBe(false);
+
+    form.patchValue({ old_password: 'asd' });
+    form.patchValue({ password: 'asd' });
+    expect(form.valid).toBe(false);
+    expect(form.get('password').hasError('newPasswordMatchesOld')).toBe(true);
   });
 
   it('should validate pattern', () => {
