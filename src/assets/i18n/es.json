@@ -250,6 +250,7 @@
       "transaction_fee": "Fee de transacción",
       "submit": "Invertir",
       "submit_loading": "Invirtiendo",
+      "password_error": "La contraseña ingresada no es correcta.",
       "password_modal": {
         "title": "Por seguridad",
         "description": "Para habilitar tu inversión, ingresa la contraseña de tu wallet Xcapit.",
