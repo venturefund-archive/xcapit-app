@@ -28,7 +28,7 @@ const requestSign = {
 
 const requestTypedData = {
   method: 'eth_signTypedData_v4',
-  params:['', '{\"types\":{},\"domain\":{\"name\":\"Test\"},\"primaryType\":\"TestRequest\",\"message\":{\"target\":\"0x00000000001\",\"gasData\":{\"gasLimit\":\"21000\",\"gasPrice\":\"1700000000\"}}}']
+  params:['', '{"types":{},"domain":{"name":"Test"},"primaryType":"TestRequest","message":{"target":"0x00000000001","gasData":{"gasLimit":"21000","gasPrice":"1700000000"}}}']
 }
 
 describe('OperationDetailPage', () => {
