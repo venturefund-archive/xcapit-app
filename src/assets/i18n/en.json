@@ -1648,7 +1648,9 @@
           "help_text": "{{currency}} address or alias"
         },
         "amount_input": {
-          "title": "Amount to send"
+          "title": "Amount to send",
+          "fee_title": "Transaction fee*",
+          "fee_text": "*This amount is an estimate and can vary depending on the moment you complete the transaction."
         },
         "alert": {
           "title": "Attention",

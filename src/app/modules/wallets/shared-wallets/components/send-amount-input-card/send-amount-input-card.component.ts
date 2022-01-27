@@ -26,6 +26,24 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
           [loading]="this.loading"
         ></app-ux-input-underlined>
       </div>
+      <div class="saic__fee">
+        <div class="saic__fee__title">
+          <ion-text class="ux-font-title-xs">
+            {{ 'wallets.send.send_detail.amount_input.fee_title' | translate }}
+          </ion-text>
+        </div>
+        <div class="saic__fee__text">
+          <ion-text class="ux-font-text-xxs">
+            {{ 'wallets.send.send_detail.amount_input.fee_text' | translate }}
+          </ion-text>
+        </div>
+        <div class="saic__fee__fee">
+          <ion-text class="saic__fee__fee__amount ux-font-text-base">{{ this.fee + ' ' + this.currencyName }}</ion-text>
+          <ion-text class="saic__fee__fee__reference_amount ux-font-text-base">{{
+            this.referenceFee + ' ' + this.referenceCurrencyName
+          }}</ion-text>
+        </div>
+      </div>
     </div>
   `,
   viewProviders: [
@@ -40,6 +58,8 @@ export class SendAmountInputCardComponent implements OnInit {
   @Input() title: string;
   @Input() currencyName: string;
   @Input() referenceCurrencyName: string;
+  fee: string;
+  referenceFee: string;
   form: FormGroup;
   loading = false;
 

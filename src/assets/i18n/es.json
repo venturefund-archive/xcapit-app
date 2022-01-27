@@ -1651,7 +1651,9 @@
           "help_text": "{{currency}} direccion o alias"
         },
         "amount_input": {
-          "title": "Monto a enviar"
+          "title": "Monto a enviar",
+          "fee_title": "Tarifa de transacción*",
+          "fee_text": "*Este monto es estimativo y puede sufrir variaciones de acuerdo al momento en que realices la transacción."
         },
         "alert": {
           "title": "Atención",
