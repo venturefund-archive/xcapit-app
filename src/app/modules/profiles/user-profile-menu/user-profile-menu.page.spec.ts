@@ -17,6 +17,14 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { ReactiveFormsModule } from '@angular/forms';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+
+const testStatus = {
+  has_own_funds: true,
+  empty_linked_keys: true,
+  has_subscribed_funds: false,
+  status_name: 'CREATOR',
+};
 
 const itemMenu: MenuCategory[] = [
   {
@@ -108,9 +116,12 @@ describe('UserProfileMenuPage', () => {
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
-
+  let apiUsuariosServiceSpy: jasmine.SpyObj<ApiUsuariosService>;
   beforeEach(
     waitForAsync(() => {
+      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', {
+        status: of(testStatus),
+      });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
@@ -148,6 +159,7 @@ describe('UserProfileMenuPage', () => {
           { provide: LanguageService, useValue: languageServiceSpy },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy }
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -172,6 +184,26 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should set hasFunds to true if user has own funds or subscribed funds', async () => {
+      component.ionViewWillEnter();
+      fixture.detectChanges();
+      expect(component.hasFunds).toEqual(true);
+  });
+
+
+  it('should set hasFunds to false if user dont have own funds or subscribed funds', async () => {
+    apiUsuariosServiceSpy.status.and.returnValue(of({
+      has_own_funds: false,
+      empty_linked_keys: true,
+      has_subscribed_funds: false,
+      status_name: 'CREATOR',
+    }))
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.hasFunds).toEqual(false);
+});
 
   it('should call trackEvent on trackService when Log Out button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Log Out');
