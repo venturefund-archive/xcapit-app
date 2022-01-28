@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { WalletEncryptionService } from '../../services/wallet-encryption/wallet-encryption.service';
 import { WalletConnectService } from '../../services/wallet-connect/wallet-connect.service';
+import { EthersService } from '../../services/ethers/ethers.service';
 import { LoadingService } from '../../../../../shared/services/loading/loading.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ethers } from 'ethers';
@@ -75,7 +76,8 @@ export class WalletConnectSignRequestComponent implements OnInit {
     private walletConnectService: WalletConnectService,
     private loadingService: LoadingService,
     private alertController: AlertController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private ethersService: EthersService
   ) {}
 
   ngOnInit() {}
@@ -86,7 +88,7 @@ export class WalletConnectSignRequestComponent implements OnInit {
       this.walletEncryptionService
         .getDecryptedWalletForNetwork(this.form.value.password, this.walletConnectService.network)
         .then(async (wallet) => {
-          const provider = new ethers.providers.JsonRpcProvider(this.walletConnectService.rpcUrl);
+          const provider = this.ethersService.newProvider(this.walletConnectService.rpcUrl);
           wallet = wallet.connect(provider);
           const res = await this.walletConnectService.checkRequest(this.walletConnectService.requestInfo, wallet);
 

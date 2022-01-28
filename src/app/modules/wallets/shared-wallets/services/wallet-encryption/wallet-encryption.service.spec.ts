@@ -184,10 +184,16 @@ describe('WalletEncryptionService', () => {
     expect(currencyWallet.mnemonic.path).toBe("m/44'/37310'/0'/0/0");
   });
 
+  it('should get decrypted wallet for Ethereum network', async () => {
+    storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(storageWallet));
+    const currencyWallet = await service.getDecryptedWalletForNetwork('TestPass1234', 'ETH');
+    expect(currencyWallet.mnemonic.path).toBe("m/44'/60'/0'/0/0");
+  });
+
   it('should change password if oldPassword is correct on changePassword', async () => {
     const wallet = JSON.parse(JSON.stringify(storageWallet));
     storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(wallet));
-    fakeEthers.modifyReturns(null, wallet, modifiedPasswordWallet.wallet);
+    fakeEthers.modifyReturns(null, wallet, modifiedPasswordWallet.wallet, null);
     await service.changePassword('TestPass1234', 'TestPassword2');
     expect(storageSpy.saveWalletToStorage).toHaveBeenCalledWith(modifiedPasswordWallet);
   });
