@@ -36,6 +36,13 @@ const routes: Routes = [
             loadChildren: () =>
               import('./create/new-investment/new-investment.module').then((m) => m.NewInvestmentPageModule),
           },
+          {
+            path: 'confirmation',
+            loadChildren: () =>
+              import('./create/investment-confirmation/investment-confirmation.module').then(
+                (m) => m.InvestmentConfirmationPageModule
+              ),
+          },
         ],
       },
     ],
