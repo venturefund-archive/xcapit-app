@@ -1,0 +1,39 @@
+.summary {
+  padding: 8px 16px;
+
+  &__amount {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+
+    &__label {
+      margin-bottom: 4px;
+    }
+
+    &__qty {
+      display: flex;
+      justify-content: space-between;
+
+      ion-text {
+        color: var(--ion-color-uxdark);
+      }
+    }
+  }
+
+  &__fee {
+    padding-top: 12px;
+    padding-bottom: 16px;
+
+    &__label {
+      margin-bottom: 4px;
+    }
+
+    &__qty {
+      display: flex;
+      justify-content: space-between;
+
+      ion-text {
+        color: var(--ion-color-uxdark);
+      }
+    }
+  }
+}

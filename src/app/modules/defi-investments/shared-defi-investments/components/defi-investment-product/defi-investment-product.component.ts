@@ -11,12 +11,12 @@ import { NavController } from '@ionic/angular';
       <div class="dip__content">
         <div class="dip__content__title_and_image">
           <div class="dip__content__title_and_image__image_container">
-            <img [src]="this.token?.logoRoute" alt="Product Image" />
+            <img [src]="this.token.logoRoute" alt="Product Image" />
           </div>
           <div class="dip__title_container">
-            <ion-text class="ux-font-text-lg">{{ this.token?.value }}</ion-text>
+            <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>
             <div class="dip__content__title">
-              <ion-text class="ux-font-text-xs title">{{ this.token?.name | splitString: ' - '[1] }}</ion-text>
+              <ion-text class="ux-font-text-xs title">{{ this.token.name | splitString: ' - '[1] }}</ion-text>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@ import { NavController } from '@ionic/angular';
             }}</ion-text>
           </div>
           <div class="dip__content__liquidity__liq">
-            <ion-text class="ux-font-text-xxs">{{ tvl | number: '1.2-2' }} USD</ion-text>
+            <ion-text class="ux-font-text-xxs">{{ this.tvl | number: '1.2-2' }} USD</ion-text>
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@ import { NavController } from '@ionic/angular';
             *ngIf="this.isComing"
             class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge"
             slot="end"
-            >{{ 'defi_investments.shared.defi_investment_product.comming_badge' | translate }}</ion-badge
+            >{{ 'defi_investments.shared.defi_investment_product.coming_badge' | translate }}</ion-badge
           >
         </div>
       </div>

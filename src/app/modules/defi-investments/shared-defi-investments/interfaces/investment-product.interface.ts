@@ -1,3 +1,4 @@
+import { Contract } from 'ethers';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 export interface InvestmentProduct {
@@ -9,4 +10,5 @@ export interface InvestmentProduct {
   apy(): number;
   tvl(): number;
   contractAddress(): string;
+  decimals(): number;
 }
