@@ -39,6 +39,7 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
 })
 export class CardCategoryMenuComponent implements OnInit {
   @Input() category;
+  @Input() hasFunds;
 
   constructor(
     private navController: NavController,
@@ -46,10 +47,13 @@ export class CardCategoryMenuComponent implements OnInit {
     private walletConnectService: WalletConnectService
   ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async goToRoute(item) {
     let url = item.route;
+    if (item.name === 'Funds') {
+      url = this.hasFunds ? 'tabs/investments/binance' : 'tabs/investments';
+    }
     if (item.name === 'WalletConnect') {
       if (!(await this.walletService.walletExist())) {
         url = 'tabs/wallets';
