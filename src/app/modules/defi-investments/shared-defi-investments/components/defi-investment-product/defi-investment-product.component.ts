@@ -68,7 +68,7 @@ import { NavController } from '@ionic/angular';
             *ngIf="this.isComing"
             class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge"
             slot="end"
-            >{{ 'defi_investments.shared.defi_investment_product.comming_badge' | translate }}</ion-badge
+            >{{ 'defi_investments.shared.defi_investment_product.coming_badge' | translate }}</ion-badge
           >
         </div>
       </div>

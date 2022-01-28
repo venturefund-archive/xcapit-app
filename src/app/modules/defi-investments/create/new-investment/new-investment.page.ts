@@ -65,8 +65,6 @@ export class NewInvestmentPage implements OnInit {
     private route: ActivatedRoute,
     public submitButtonService: SubmitButtonService,
     private apiWalletService: ApiWalletService,
-    private blockchainProviderService: BlockchainProviderService,
-    private storageService: StorageService,
     private twoPiApi: TwoPiApi,
     private investmentDataService: InvestmentDataService,
     private navController: NavController
@@ -84,12 +82,7 @@ export class NewInvestmentPage implements OnInit {
   }
 
   async getInvestmentProduct() {
-    this.investmentProduct = new TwoPiProduct(
-      await this.twoPiApi.vault(this.vaultID()),
-      this.apiWalletService,
-      this.blockchainProviderService,
-      this.storageService
-    );
+    this.investmentProduct = new TwoPiProduct(await this.twoPiApi.vault(this.vaultID()), this.apiWalletService);
   }
 
   getToken() {
