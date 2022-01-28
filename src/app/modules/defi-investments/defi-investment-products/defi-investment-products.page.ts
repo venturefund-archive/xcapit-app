@@ -1,7 +1,7 @@
 import { InvestmentProduct } from './../shared-defi-investments/interfaces/investment-product.interface';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { TwoPiInvestment } from './../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DefiInvestment } from '../shared-defi-investments/interfaces/defi-investment.interface';
 import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.interface';
@@ -24,9 +24,12 @@ import { VoidSigner } from 'ethers';
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div *ngIf="this.activeInvestments.length > 0" class="dp">
-        <div class="dp__background"></div>
-        <div class="dp__card ">
+      <div
+        class="header-background"
+        *ngIf="this.activeInvestments.length || this.availableInvestments.length"
+      ></div>
+      <div class="dp">
+        <div class="dp__active-card" *ngIf="this.activeInvestments.length">
           <ion-item lines="none" slot="header">
             <ion-label>{{
               'defi_investments.defi_investment_products.title_investments' | translate
@@ -38,18 +41,7 @@ import { VoidSigner } from 'ethers';
             [balance]="investment.balance"
           ></app-investment-balance-item>
         </div>
-      </div>
-      <div class="dp">
-        <div
-          [ngClass]="{
-            dp__background:
-              this.availableInvestments.length > 0 && !this.activeInvestments.length,
-            'dp__background-off':
-              this.availableInvestments.length > 0 && this.activeInvestments.length
-          }"
-          class="dp__background"
-        ></div>
-        <div class="dp__card">
+        <div class="dp__available-card" *ngIf="this.availableInvestments.length">
           <ion-item lines="none" slot="header">
             <ion-label
               >{{
@@ -71,7 +63,7 @@ import { VoidSigner } from 'ethers';
   `,
   styleUrls: ['./defi-investment-products.page.scss'],
 })
-export class DefiInvestmentProductsPage implements OnInit {
+export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
   constructor(
     private apiWalletService: ApiWalletService,
@@ -82,31 +74,31 @@ export class DefiInvestmentProductsPage implements OnInit {
   activeInvestments: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
 
-  ngOnInit() {}
-
-  ionViewWillEnter() {
+  async ionViewDidEnter() {
     this.getAvailableDefiProducts();
-    this.getInvestments();
+    await this.getInvestments();
   }
 
-  getAvailableDefiProducts(): void {
-    this.defiProducts = new AvailableDefiProducts().value();
+  private getAvailableDefiProducts(): void {
+    this.defiProducts = this.createAvailableDefiProducts().value();
+  }
+
+  createAvailableDefiProducts(): AvailableDefiProducts {
+    return new AvailableDefiProducts();
   }
 
   async getInvestments(): Promise<void> {
     for (const product of this.defiProducts) {
       const investmentProduct = await this.getInvestmentProduct(product);
-      const balance = await this.getProductBalance(investmentProduct);
-      console.log(balance);
       this.filterUserInvestments({
         product: investmentProduct,
-        balance: balance,
+        balance: await this.getProductBalance(investmentProduct),
         isComing: product.isComing,
       });
     }
   }
 
-  async getProductBalance(investmentProduct: InvestmentProduct) {
+  async getProductBalance(investmentProduct: InvestmentProduct): Promise<number> {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[investmentProduct.token().network];
     const investment = this.createInvestment(investmentProduct, address);
@@ -117,17 +109,16 @@ export class DefiInvestmentProductsPage implements OnInit {
     investmentProduct: InvestmentProduct,
     address: string
   ): TwoPiInvestment {
-    console.log('No estare entrando aca?');
     return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
   }
 
-  filterUserInvestments(investment: DefiInvestment) {
+  filterUserInvestments(investment: DefiInvestment): void {
     investment.balance > 0
       ? this.activeInvestments.push(investment)
       : this.availableInvestments.push(investment);
   }
 
-  async getInvestmentProduct(product: DefiProduct) {
+  async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
     return new TwoPiProduct(await this.twoPiApi.vault(product.id), this.apiWalletService);
   }
 }
