@@ -8,6 +8,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { RemoveWalletPage } from './remove-wallet.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('RemoveWalletPage', () => {
   let component: RemoveWalletPage;
@@ -31,6 +32,7 @@ describe('RemoveWalletPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: StorageService, useValue: storageServiceSpy },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(RemoveWalletPage);
@@ -45,10 +47,13 @@ describe('RemoveWalletPage', () => {
   });
 
   it('should activated button when checkbox is checked', async () => {
-    fixture.debugElement.query(By.css("ion-checkbox[name='checkbox-condition']")).nativeElement.click();
+    fixture.debugElement
+      .query(By.css("ion-checkbox[name='checkbox-condition']"))
+      .triggerEventHandler('ionChange', { target: {} });
     fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     const buttonEl = fixture.debugElement.query(By.css("ion-button[name='remove_wallet']"));
-    fixture.detectChanges();
     expect(buttonEl.attributes['ng-reflect-disabled']).toBe('false');
   });
 

@@ -1,3 +1,4 @@
+import { InvestmentDataService } from './../../shared-defi-investments/services/investment-data/investment-data.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
@@ -51,9 +52,20 @@ describe('NewInvestmentPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewInvestmentPage>;
+  let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
 
   beforeEach(
     waitForAsync(() => {
+      investmentDataServiceSpy = jasmine.createSpyObj(
+        'InvestmentDataService',
+        {},
+        {
+          amount: 10,
+          quoteAmount: 12,
+          investment: {},
+        }
+      );
+
       fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
@@ -77,6 +89,7 @@ describe('NewInvestmentPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: TwoPiApi, useValue: twoPiApiSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -110,7 +123,7 @@ describe('NewInvestmentPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['defi/new/summary']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/new/confirmation');
   });
 
   it('should not save amount nor redirect if form is not valid', async () => {

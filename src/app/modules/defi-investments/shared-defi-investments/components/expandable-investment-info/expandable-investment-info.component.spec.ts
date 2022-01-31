@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 
 import { ExpandableInvestmentInfoComponent } from './expandable-investment-info.component';
-import { TwoPiInvestmentProduct } from '../../models/two-pi-investment-product/two-pi-investment-product.model';
+import { TwoPiProduct } from '../../models/two-pi-product/two-pi-product.model';
 import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
 
 const usdc_coin = {
@@ -24,10 +24,10 @@ const usdc_coin = {
 describe('ExpandableInvestmentInfoComponent', () => {
   let component: ExpandableInvestmentInfoComponent;
   let fixture: ComponentFixture<ExpandableInvestmentInfoComponent>;
-  let twoPiInvestmentProductSpy: jasmine.SpyObj<TwoPiInvestmentProduct>;
+  let twoPiProductSpy: jasmine.SpyObj<TwoPiProduct>;
   beforeEach(
     waitForAsync(() => {
-      twoPiInvestmentProductSpy = jasmine.createSpyObj('TwoPiInvestmentProduct', {
+      twoPiProductSpy = jasmine.createSpyObj('TwoPiProduct', {
         token: usdc_coin,
         tvl: 15800500,
         apy: 12.66,
@@ -41,7 +41,7 @@ describe('ExpandableInvestmentInfoComponent', () => {
 
       fixture = TestBed.createComponent(ExpandableInvestmentInfoComponent);
       component = fixture.componentInstance;
-      component.investmentProduct = twoPiInvestmentProductSpy;
+      component.investmentProduct = twoPiProductSpy;
       fixture.detectChanges();
     })
   );

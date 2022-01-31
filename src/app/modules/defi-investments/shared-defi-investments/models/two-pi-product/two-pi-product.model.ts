@@ -3,11 +3,12 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { Vault } from '@2pi-network/sdk';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 
-export class TwoPiInvestmentProduct implements InvestmentProduct {
+export class TwoPiProduct implements InvestmentProduct {
   private readonly vault: Vault;
 
   constructor(aVault: Vault, private apiWalletService: ApiWalletService) {
     this.vault = aVault;
+    this.apiWalletService = apiWalletService;
   }
 
   name(): string {
@@ -34,15 +35,15 @@ export class TwoPiInvestmentProduct implements InvestmentProduct {
     return '2PI';
   }
 
-  private tokenDecimals(): number {
-    return this.vault.tokenDecimals;
+  decimals(): number {
+    return parseInt(this.vault.vaultDecimals);
   }
 
   tvl(): number {
-    return this.vault.tvl / 10 ** this.tokenDecimals();
+    return this.vault.tvl / 10 ** this.decimals();
   }
 
   contractAddress(): string {
-      return this.vault.address;
+    return this.vault.address;
   }
 }
