@@ -12,11 +12,11 @@ import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TwoPiInvestmentProduct } from '../shared-defi-investments/models/two-pi-investment-product/two-pi-investment-product.model';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
 import { of } from 'rxjs';
 import { TwoPiContractService } from '../shared-defi-investments/services/two-pi-contract/two-pi-contract.service';
 import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
 const testVault = {
   apy: 0.227843965358873,
