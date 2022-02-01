@@ -16,6 +16,9 @@ import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
+import { of } from 'rxjs';
+import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 
 describe('InvestmentConfirmationPage', () => {
   let component: InvestmentConfirmationPage;
@@ -31,6 +34,10 @@ describe('InvestmentConfirmationPage', () => {
   let productSpy: jasmine.SpyObj<InvestmentProduct>;
   let investmentSpy: jasmine.SpyObj<Investment>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let createDynamicPriceSpy: jasmine.Spy<any>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+
   beforeEach(
     waitForAsync(() => {
       fakeModalController = new FakeModalController({ data: 'fake_password' });
@@ -64,6 +71,11 @@ describe('InvestmentConfirmationPage', () => {
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
         showErrorToast: Promise.resolve(),
       });
+      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getPrices: of({ prices: { ETH: 4000 } }),
+        getCoins: [],
+      });
       TestBed.configureTestingModule({
         declarations: [InvestmentConfirmationPage],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -74,13 +86,14 @@ describe('InvestmentConfirmationPage', () => {
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ToastService, useValue: toastServiceSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
-
       fixture = TestBed.createComponent(InvestmentConfirmationPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      createDynamicPriceSpy = spyOn(component, 'createDynamicPrice').and.returnValue(dynamicPriceSpy);
     })
   );
 
@@ -89,7 +102,7 @@ describe('InvestmentConfirmationPage', () => {
   });
 
   it('should render transaction data properly', async () => {
-    component.ionViewDidEnter();
+    await component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
 
@@ -148,5 +161,19 @@ describe('InvestmentConfirmationPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     expect(component.investment(wallet)).toBeInstanceOf(TwoPiInvestment);
+  });
+
+  it('should create dynamic price', async () => {
+    await component.ionViewDidEnter();
+    createDynamicPriceSpy.and.callThrough();
+    expect(component.createDynamicPrice()).toBeTruthy();
+  });
+
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.leave$, 'next');
+    const completeSpy = spyOn(component.leave$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 });

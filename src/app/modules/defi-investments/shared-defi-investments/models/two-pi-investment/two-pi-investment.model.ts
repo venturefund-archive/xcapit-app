@@ -25,28 +25,12 @@ export class TwoPiInvestment implements Investment {
     private readonly _aReferralAddress: string
   ) {}
 
-  static create(
-    _aProduct: InvestmentProduct,
-    _aWallet: Signer
-  ): TwoPiInvestment {
+  static create(_aProduct: InvestmentProduct, _aWallet: Signer): TwoPiInvestment {
     const erc20Provider = new ERC20Provider(_aProduct.token());
-    const erc20Token = new ERC20Token(
-      new ERC20Contract(erc20Provider, _aWallet)
-    );
-    const twoPiContract = new TwoPiContract(
-      _aProduct.contractAddress(),
-      erc20Provider,
-      _aWallet
-    );
+    const erc20Token = new ERC20Token(new ERC20Contract(erc20Provider, _aWallet));
+    const twoPiContract = new TwoPiContract(_aProduct.contractAddress(), erc20Provider, _aWallet);
     const referralAddress = environment.twoPiReferralAddress;
-    return new this(
-      _aProduct,
-      _aWallet,
-      erc20Token,
-      erc20Provider,
-      twoPiContract,
-      referralAddress
-    );
+    return new this(_aProduct, _aWallet, erc20Token, erc20Provider, twoPiContract, referralAddress);
   }
 
   private _weiOf(amount: number): BigNumber {
@@ -58,15 +42,11 @@ export class TwoPiInvestment implements Investment {
   }
 
   private async _walletShares(): Promise<BigNumber> {
-    return this._aTwoPiContract
-      .value()
-      .balanceOf(this._aProduct.id(), await this._aWallet.getAddress());
+    return this._aTwoPiContract.value().balanceOf(this._aProduct.id(), await this._aWallet.getAddress());
   }
 
   private _sharePrice(): Promise<BigNumber> {
-    return this._aTwoPiContract
-      .value()
-      .getPricePerFullShare(this._aProduct.id());
+    return this._aTwoPiContract.value().getPricePerFullShare(this._aProduct.id());
   }
 
   private _exp(value: number): BigNumber {
@@ -74,27 +54,16 @@ export class TwoPiInvestment implements Investment {
   }
 
   private _tokenValueOf(aWei: BigNumber) {
-    return aWei
-      .div(this._exp(this._aProduct.decimals()))
-      .div(this._exp(this._aProduct.token().decimals))
-      .toNumber();
+    return aWei.div(this._exp(this._aProduct.decimals())).div(this._exp(this._aProduct.token().decimals)).toNumber();
   }
 
   async balance(): Promise<number> {
-    return this._tokenValueOf(
-      (await this._walletShares()).mul(await this._sharePrice())
-    );
+    return this._tokenValueOf((await this._walletShares()).mul(await this._sharePrice()));
   }
 
   async deposit(amount: number): Promise<TransactionResponse> {
     await this._approve(this._weiOf(amount));
-    return this._aTwoPiContract
-      .value()
-      .deposit(
-        this._aProduct.id(),
-        this._weiOf(amount),
-        this._aReferralAddress
-      );
+    return this._aTwoPiContract.value().deposit(this._aProduct.id(), this._weiOf(amount), this._aReferralAddress);
   }
 
   withdraw(): any {
