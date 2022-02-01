@@ -143,7 +143,7 @@ const testSuites = {
   BSC_BEP20: TEST_BSC_BEP20_COINS,
 };
 
-describe('SelectCoinsWalletPage', () => {
+fdescribe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
@@ -250,7 +250,7 @@ describe('SelectCoinsWalletPage', () => {
 
   it('should not activate the Next button when no token is selected', async () => {
     component.userCoinsLoaded = true;
-    component.txInProgress = false;
+    component.txInProgress = true;
     component.createForm();
     fixture.detectChanges();
     component.form.patchValue(formData.invalid);
@@ -426,7 +426,7 @@ describe('SelectCoinsWalletPage', () => {
           component.form.patchValue(formData.valid);
           fixture.detectChanges();
           fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-          expect(walletServiceSpy.coins.length).toEqual(2);
+          expect(walletServiceSpy.coins.length).toEqual(3);
         });
 
         it(`should ${testCase.mode.text.toLowerCase()} wallet and navigate to ${

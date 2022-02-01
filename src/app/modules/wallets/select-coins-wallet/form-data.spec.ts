@@ -7,12 +7,11 @@ export const SELECT_COINS_FORM_DATA = {
       USDT: false,
     },
     MATIC: {
-      MATIC: false,
+      MATIC: true,
     },
     RSK: {
       RBTC: false,
       RIF: false,
-      SOV: false,
     },
     BSC_BEP20: {
       BNB: false,
@@ -31,10 +30,9 @@ export const SELECT_COINS_FORM_DATA = {
     RSK: {
       RBTC: false,
       RIF: false,
-      SOV: false,
     },
     BSC_BEP20: {
-      BNB: false,
+      BNB: true,
     },
   },
   allTrue: {
@@ -50,7 +48,6 @@ export const SELECT_COINS_FORM_DATA = {
     RSK: {
       RBTC: true,
       RIF: true,
-      SOV: true,
     },
     BSC_BEP20: {
       BNB: true,
@@ -69,7 +66,6 @@ export const SELECT_COINS_FORM_DATA = {
     RSK: {
       RBTC: true,
       RIF: true,
-      SOV: false,
     },
     BSC_BEP20: {
       BNB: false,
