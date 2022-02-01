@@ -11,10 +11,15 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
+import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
+import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
+import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 
 const testVault = {
   apy: 0.227843965358873,
