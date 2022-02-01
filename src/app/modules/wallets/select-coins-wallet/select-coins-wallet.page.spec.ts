@@ -143,7 +143,7 @@ const testSuites = {
   BSC_BEP20: TEST_BSC_BEP20_COINS,
 };
 
-fdescribe('SelectCoinsWalletPage', () => {
+describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
   let fixture: ComponentFixture<SelectCoinsWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
