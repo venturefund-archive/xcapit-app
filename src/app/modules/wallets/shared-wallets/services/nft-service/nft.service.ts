@@ -45,7 +45,7 @@ export class NftService {
 
   async getNFTMetadata() {
     const nfts = [];
-    for (let item of this.data) {
+    for (const item of this.data) {
       const contract = await this.createContract(item);
       const nftList = await contract.walletOfOwner(this.getUserWalletAddress());
       if (nftList.length) {
