@@ -12,7 +12,7 @@ import { NavController } from '@ionic/angular';
           </ion-text>
         </div>
         <div class="wsc__img">
-          <img src="assets/img/fund-list/start-invest.svg" alt="Start invest" />
+          <img src="assets/img/wallets/create-wallet.svg" alt="Start invest" />
         </div>
         <div class="wsc__buttons">
           <ion-button
