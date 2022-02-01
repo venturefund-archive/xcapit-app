@@ -81,8 +81,8 @@
   }
 }
 
-// Modal Contraseña Wallet
-.recovery-phrase-password-modal {
+// Small wallet password modal
+.small-wallet-password-modal {
   &::part(content) {
     position: absolute;
     height: 330px !important;

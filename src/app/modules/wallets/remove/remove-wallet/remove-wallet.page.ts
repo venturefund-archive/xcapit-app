@@ -59,18 +59,23 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
                   {{ 'wallets.remove.item3' | translate }}
                 </ion-label>
               </ion-item>
-                <ion-item class="last ux-font-text-xs">
-                  <ion-label>
-                    {{ 'wallets.remove.tos' | translate }}
-                  </ion-label>
-                  <ion-checkbox mode="md" slot="start" name="checkbox-condition" (ionChange)="this.enableButton()"></ion-checkbox>
-                </ion-item>
+              <ion-item class="last ux-font-text-xs">
+                <ion-label>
+                  {{ 'wallets.remove.tos' | translate }}
+                </ion-label>
+                <ion-checkbox
+                  mode="md"
+                  slot="start"
+                  name="checkbox-condition"
+                  (ionChange)="this.enableButton()"
+                ></ion-checkbox>
+              </ion-item>
             </ion-list>
           </div>
         </div>
         <div class="rw__footer ux_footer">
           <ion-button
-            [disabled]="!this.aceptTos"
+            [disabled]="!this.acceptTos"
             class="ux_button"
             name="remove_wallet"
             type="button"
@@ -88,22 +93,22 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
   styleUrls: ['./remove-wallet.page.scss'],
 })
 export class RemoveWalletPage implements OnInit {
-  aceptTos: boolean;
- 
-  constructor(private navController: NavController,   private storageService: StorageService) {}
+  acceptTos = false;
 
-  ngOnInit() { }
+  constructor(private navController: NavController, private storageService: StorageService) {}
+
+  ngOnInit() {}
 
   remove() {
     this.storageService.removeWalletFromStorage();
     this.goToSuccessPage();
   }
 
-  enableButton(){
-    return this.aceptTos = !this.aceptTos
+  enableButton() {
+    return (this.acceptTos = !this.acceptTos);
   }
 
-  goToSuccessPage(){
+  goToSuccessPage() {
     this.navController.navigateForward(['wallets/remove/success']);
   }
 }

@@ -5,90 +5,135 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { TwoPiContractService } from '../shared-defi-investments/services/two-pi-contract/two-pi-contract.service';
 import { DefiInvestmentProductsPage } from './defi-investment-products.page';
-import { Vault } from '@2pi-network/sdk';
-import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
+import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
+import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
+import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.interface';
+import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
+import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 
-const testVault = {
-  apy: 0.227843965358873,
-  balances: [],
-  contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
-  deposits: [],
-  identifier: 'polygon_usdc',
-  pid: 1,
-  token: 'USDC',
-  token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
-  tvl: 1301621680000,
-} as Vault;
+const testCoins = [
+  jasmine.createSpyObj(
+    {},
+    {
+      name: 'USDC - USD Coin',
+      value: 'USDC',
+      network: 'MATIC',
+      decimals: 6,
+    }
+  ),
+];
 
-const usdc_coin = {
-  id: 8,
-  name: 'USDC - USD Coin',
-  logoRoute: 'assets/img/coins/USDC.png',
-  last: false,
-  value: 'USDC',
-  network: 'MATIC',
-  chainId: 80001,
-  rpc: 'http://testrpc.text/',
-  moonpayCode: 'usdc_polygon',
-  decimals: 6,
-  symbol: 'USDCUSDT',
-};
 describe('DefiInvestmentProductsPage', () => {
   let component: DefiInvestmentProductsPage;
   let fixture: ComponentFixture<DefiInvestmentProductsPage>;
-  let twoPiContractServiceSpy: jasmine.SpyObj<TwoPiContractService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
-  beforeEach(waitForAsync(() => {
-    twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
-      vault: Promise.resolve(testVault),
-    });
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
-      getCoins: [usdc_coin],
-    });
-    twoPiContractServiceSpy = jasmine.createSpyObj('TwoPiContractService', {
-      balance: Promise.resolve()
-    })
-    TestBed.configureTestingModule({
-      declarations: [ DefiInvestmentProductsPage ],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot(),  RouterTestingModule],
-      providers:[{provide: TwoPiContractService, useValue: twoPiContractServiceSpy}, { provide: ApiWalletService, useValue: apiWalletServiceSpy },],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+  let investmentSpy: jasmine.SpyObj<TwoPiInvestment>;
+  let availableDefiProductsSpy: jasmine.SpyObj<AvailableDefiProducts>;
+  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
+  let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
+  beforeEach(
+    waitForAsync(() => {
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
+        getCoins: testCoins,
+      });
 
-    fixture = TestBed.createComponent(DefiInvestmentProductsPage);
-    component = fixture.componentInstance;
-  }));
-  
+      walletEncryptionServiceSpy = jasmine.createSpyObj(
+        'WalletEncryptionServiceSpy',
+        {
+          getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
+        },
+        {
+          addresses: { MATIC: '0x0000001' },
+        }
+      );
+
+      investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
+        balance: Promise.resolve(50),
+      });
+
+      investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
+        token: testCoins[0],
+        contractAddress: '0x00001',
+      });
+
+      availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
+        value: [{ id: 'mumbai_usdc', isComing: false }],
+      });
+
+      TestBed.configureTestingModule({
+        declarations: [DefiInvestmentProductsPage],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule],
+        providers: [
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(DefiInvestmentProductsPage);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    })
+  );
+
   it('should create', () => {
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should render active investment card when have balance in at least one defi product', async () => {
-    twoPiContractServiceSpy.balance.and.resolveTo(50);
-    component.ngOnInit();
+  it('should render active investment card', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    await component.ionViewDidEnter();
     fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
-    const headerEl = fixture.debugElement.query(By.css('div.dp__card > ion-item > ion-label'));
-    expect(headerEl.nativeElement.innerHTML).toContain('defi_investments.defi_investment_products.title_investments');
-    const componentEl = fixture.debugElement.query(By.css('app-investment-balance-item'));
-    expect(componentEl).toBeTruthy();
+    await fixture.whenRenderingDone();
+    const activeEl = fixture.debugElement.query(
+      By.css('div.dp__active-card > ion-item > ion-label')
+    );
+    expect(activeEl.nativeElement.innerHTML).toContain(
+      'defi_investments.defi_investment_products.title_investments'
+    );
+
+    const balanceEl = fixture.debugElement.query(By.css('app-investment-balance-item'));
+    expect(balanceEl).toBeTruthy();
   });
 
-  it('should display the available investment product card when the user has no balance on the product', async () => {
-    twoPiContractServiceSpy.balance.and.resolveTo(0);
-    component.ngOnInit();
+  it('should render available investment card', async () => {
+    investmentSpy.balance.and.resolveTo(0);
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    await component.ionViewDidEnter();
     fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
-  
-    const headerEl = fixture.debugElement.query(By.css('div.dp__card > ion-item > ion-label'));
-    expect(headerEl.nativeElement.innerHTML).toContain('defi_investments.defi_investment_products.title');
-    const componentEl = fixture.debugElement.query(By.css('app-defi-investment-product'));
-    expect(componentEl).toBeTruthy();
+    await fixture.whenRenderingDone();
+
+    const availableEl = fixture.debugElement.query(
+      By.css('div.dp__available-card > ion-item > ion-label')
+    );
+    expect(availableEl.nativeElement.innerHTML).toContain(
+      'defi_investments.defi_investment_products.title'
+    );
+    const productEl = fixture.debugElement.query(By.css('app-defi-investment-product'));
+    expect(productEl).toBeTruthy();
+  });
+
+  it('should create available defi products', () => {
+    expect(component.createAvailableDefiProducts()).toBeInstanceOf(AvailableDefiProducts);
+  });
+
+  it('should create investment product', async () => {
+    expect(await component.getInvestmentProduct({} as DefiProduct)).toBeInstanceOf(
+      TwoPiProduct
+    );
+  });
+
+  it('should create investment', async () => {
+    expect(await component.createInvestment(investmentProductSpy, '0x')).toBeInstanceOf(
+      TwoPiInvestment
+    );
   });
 });

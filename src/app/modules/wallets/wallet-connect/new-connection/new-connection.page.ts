@@ -77,6 +77,7 @@ export interface PeerMeta {
                     [disabled]="!this.form.value.wallet"
                   ></ion-input>
                   <ion-icon
+                    class="qr-code"
                     name="qr-code-outline"
                     slot="end"
                     (click)="this.openQRScanner()"
@@ -113,6 +114,7 @@ export class NewConnectionPage implements OnInit {
   public dappInfo: boolean;
   public walletsList: any[] = [];
   public isNative: boolean;
+  public providers: any[] = [];
 
   form: FormGroup = this.formBuilder.group({
     wallet: [null, [Validators.required]],
@@ -141,6 +143,7 @@ export class NewConnectionPage implements OnInit {
     if (this.walletConnectService.connected) {
       this.navController.navigateRoot(['wallets/wallet-connect/connection-detail']);
     } else {
+      this.providers = supportedProviders;
       this.setWalletsInfo();
       this.isNative = this.platformService.isNative();
       this.form.controls.uri.setValue(this.walletConnectService.uri);
@@ -149,9 +152,8 @@ export class NewConnectionPage implements OnInit {
 
   public async setWalletsInfo() {
     const walletsAddrs = await this.storageService.getWalletsAddresses();
-
     this.walletsList = Object.keys(walletsAddrs).map((AddrKey) => {
-      const provider = supportedProviders.filter(
+      const provider = this.providers.filter(
         (prov) => prov.network === environment.walletNetwork && prov.chain === AddrKey
       )[0];
       return {

@@ -6,8 +6,12 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
-import { TwoPiInvestmentProduct } from '../shared-defi-investments/models/two-pi-investment-product/two-pi-investment-product.model';
-import { TwoPiContractService } from '../shared-defi-investments/services/two-pi-contract/two-pi-contract.service';
+import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
+import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
+import { VoidSigner } from 'ethers';
+import {
+  WalletEncryptionService
+} from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
 @Component({
   selector: 'app-investment-detail',
@@ -16,7 +20,9 @@ import { TwoPiContractService } from '../shared-defi-investments/services/two-pi
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'defi_investments.invest_detail.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{
+          'defi_investments.invest_detail.header' | translate
+        }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
@@ -30,10 +36,14 @@ import { TwoPiContractService } from '../shared-defi-investments/services/two-pi
               {{ 'defi_investments.invest_detail.invested_amount' | translate }}
             </ion-text>
             <div class="invested-balance__content__balance">
-              <ion-text class="invested-balance__content__balance__text ux-font-text-base ">
+              <ion-text
+                class="invested-balance__content__balance__text ux-font-text-base "
+              >
                 {{ this.balance | number: '1.2-8' }} {{ this.token?.value }}
               </ion-text>
-              <ion-text class="invested-balance__content__balance__text ux-font-text-base">
+              <ion-text
+                class="invested-balance__content__balance__text ux-font-text-base"
+              >
                 {{ this.referenceBalance }}{{ ' USD' }}
               </ion-text>
             </div>
@@ -75,7 +85,7 @@ export class InvestmentDetailPage implements OnInit {
     private navController: NavController,
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private twoPiContractService: TwoPiContractService
+    private walletEncryptionService: WalletEncryptionService
   ) {}
 
   ngOnInit() {}
@@ -89,7 +99,7 @@ export class InvestmentDetailPage implements OnInit {
   }
 
   async getInvestmentProduct() {
-    this.investmentProduct = new TwoPiInvestmentProduct(
+    this.investmentProduct = new TwoPiProduct(
       await this.twoPiApi.vault(this.vaultID()),
       this.apiWalletService
     );
@@ -101,21 +111,36 @@ export class InvestmentDetailPage implements OnInit {
     this.token = this.investmentProduct.token();
   }
 
-  async getProductBalance(investmentProduct: InvestmentProduct) {
-    this.balance = await this.twoPiContractService.balance(investmentProduct);
+  async getProductBalance(investmentProduct: InvestmentProduct): Promise<void> {
+    const wallet = await this.walletEncryptionService.getEncryptedWallet();
+    const address = wallet.addresses[investmentProduct.token().network];
+    const investment = this.createInvestment(investmentProduct, address);
+    this.balance = await investment.balance();
     this.getPrice();
+  }
+
+  createInvestment(
+    investmentProduct: InvestmentProduct,
+    address: string
+  ): TwoPiInvestment {
+    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
   }
 
   private getPrice() {
     this.apiWalletService
       .getPrices([this.token.value], false)
-      .subscribe((res) => (this.referenceBalance = res.prices[this.token.value] * this.balance));
+      .subscribe(
+        (res) => (this.referenceBalance = res.prices[this.token.value] * this.balance)
+      );
   }
 
   async addAmount() {
     const walletExist = await this.walletService.walletExist();
     if (walletExist) {
-      this.navController.navigateForward(['/defi/new/insert-amount', this.investmentProduct.name()]);
+      this.navController.navigateForward([
+        '/defi/new/insert-amount',
+        this.investmentProduct.name(),
+      ]);
     } else {
       this.navController.navigateForward(['/defi/no-wallet-to-invest']);
     }

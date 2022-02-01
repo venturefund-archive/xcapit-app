@@ -243,6 +243,20 @@
       "amount_to_invest": "Amount to invest",
       "button": "Continue"
     },
+    "confirmation": {
+      "header": "New investment",
+      "amount_to_invest": "Amount to invest",
+      "transaction_fee": "Transaction fee",
+      "submit": "Invest",
+      "submit_loading": "Investing",
+      "password_error": "The password entered is not valid.",
+      "password_modal": {
+        "title": "For security",
+        "description": "To enable your investment, enter your Xcapit wallet password.",
+        "input_label": "Password",
+        "confirm_button": "Accept"
+      }
+    },
     "coming_soon": {
       "header": "Investment"
     },

@@ -310,6 +310,8 @@ export const NONPROD_COINS: Coin[] = [
     chainId: 80001,
     rpc: environment.maticApiUrl,
     moonpayCode: 'usdc_polygon',
+    contract: '0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e',
+    abi: linkAbi,
     decimals: 6,
     symbol: 'USDCUSDT',
   },
