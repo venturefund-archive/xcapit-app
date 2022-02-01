@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
+import { TransactionDataService } from '../../services/transaction-data/transaction-data.service';
+import { WalletTransactionsService } from '../../services/wallet-transactions/wallet-transactions.service';
 
 @Component({
   selector: 'app-send-amount-input-card',
@@ -38,7 +40,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
           </ion-text>
         </div>
         <div class="saic__fee__fee">
-          <ion-text class="saic__fee__fee__amount ux-font-text-base">{{ this.fee + ' ' + this.currencyName }}</ion-text>
+          <ion-text class="saic__fee__fee__amount ux-font-text-base">{{ this.fee + ' ' + this.nativeTokenName }}</ion-text>
           <ion-text class="saic__fee__fee__reference_amount ux-font-text-base">{{
             this.referenceFee + ' ' + this.referenceCurrencyName
           }}</ion-text>
@@ -56,14 +58,18 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 })
 export class SendAmountInputCardComponent implements OnInit {
   @Input() title: string;
+  @Input() nativeTokenName: string;
   @Input() currencyName: string;
   @Input() referenceCurrencyName: string;
-  fee: string;
-  referenceFee: string;
+  fee = '0.0';
+  referenceFee = '0.0';
   form: FormGroup;
   loading = false;
 
-  constructor(private formGroupDirective: FormGroupDirective, private apiWalletService: ApiWalletService) {}
+  constructor(private formGroupDirective: FormGroupDirective,
+    private apiWalletService: ApiWalletService,
+    private transactionDataService: TransactionDataService,
+    private walletTransactionsService: WalletTransactionsService) {}
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
@@ -72,9 +78,15 @@ export class SendAmountInputCardComponent implements OnInit {
 
   private amountChange(value: number) {
     this.loading = true;
-    this.apiWalletService.getPrices([this.currencyName], false).subscribe((res) => {
+    this.apiWalletService.getPrices([this.currencyName, this.nativeTokenName], false).subscribe(async (res) => { 
       this.form.patchValue({ referenceAmount: value * res.prices[this.currencyName] });
+      await this.estimateFee(res.prices[this.nativeTokenName]);
       this.loading = false;
     });
+  }
+
+  async estimateFee(nativePrice: number) {
+    this.fee = await this.walletTransactionsService.estimateFee(this.transactionDataService.transactionData);
+    this.referenceFee = (nativePrice * parseFloat(this.fee)).toString();
   }
 }

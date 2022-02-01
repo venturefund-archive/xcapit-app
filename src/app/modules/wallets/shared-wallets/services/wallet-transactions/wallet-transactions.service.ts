@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 import { Amount } from '../../types/amount.type';
 import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.type';
 import { CovalentTransfersResponse } from '../../models/covalent-transfers-response/covalent-transfers-response';
-import { utils, Wallet } from 'ethers';
+import { BigNumber, utils, Wallet } from 'ethers';
 import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 import { personalSign, signTypedData_v4 } from 'eth-sig-util';
 
@@ -263,8 +263,7 @@ export class WalletTransactionsService {
   }
 
   async canNotAffordFee(summaryData: SummaryData): Promise<boolean> {
-    const rawTx = await this.createRawTxFromSummaryData(summaryData);
-    const fee = await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency);
+    const fee = await this.estimateFee(summaryData);
 
     if (summaryData.currency.native) {
       return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
@@ -273,21 +272,51 @@ export class WalletTransactionsService {
     }
   }
 
-  async createRawTxFromSummaryData(summaryData: SummaryData): Promise<utils.Deferrable<TransactionRequest>> {
+  // async createRawTxFromSummaryData(summaryData: SummaryData): Promise<utils.Deferrable<TransactionRequest>> {
+  //   const data = {
+  //     to: summaryData.address,
+  //     value: parseUnits(
+  //       summaryData.amount.toString(),
+  //       summaryData.currency.decimals ? summaryData.currency.decimals : 18
+  //     ),
+  //   };
+
+  //   if (summaryData.currency.native) {
+  //     return Promise.resolve(data);
+  //   }
+
+  //   const provider = await this.blockchainProviderService.getProvider(summaryData.currency.value);
+  //   const contract = await this.ethersService.newContract(provider.contract, provider.abi, provider.provider);
+  //   const addressFrom = await this.storageService.getWalletsAddresses(summaryData.network);
+  //   return await contract.populateTransaction.transferFrom(addressFrom, data.to, data.value);
+  // }
+
+  // async estimateFee(summaryData: SummaryData) {
+  //   const rawTx = await this.createRawTxFromSummaryData(summaryData);
+  //   return await (await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency)).toString();
+  // }
+
+  async estimateFee(summaryData: SummaryData): Promise<string> {
+    const addressFrom = await this.storageService.getWalletsAddresses(summaryData.network);
     const data = {
       to: summaryData.address,
       value: parseUnits(
         summaryData.amount.toString(),
         summaryData.currency.decimals ? summaryData.currency.decimals : 18
       ),
+      data: undefined,
+      from: addressFrom
     };
 
-    if (summaryData.currency.native) {
-      return Promise.resolve(data);
-    }
+    // if (summaryData.currency.native) {
+    //   return Promise.resolve(data);
+    // }
 
     const provider = await this.blockchainProviderService.getProvider(summaryData.currency.value);
     const contract = await this.ethersService.newContract(provider.contract, provider.abi, provider.provider);
-    return await contract.populateTransaction.transfer(data.to, data.value);
+    const gas = (await contract.estimateGas.transfer(data.to, data.value)).toNumber();
+    const gasPrice = await provider.provider.getGasPrice();
+    const fee = (gas * gasPrice.toNumber()).toString();
+    return Promise.resolve(parseUnits(fee, provider.decimals).toString());
   }
 }
