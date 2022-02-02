@@ -21,7 +21,6 @@ import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-invest
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 
-
 const testVault = {
   apy: 0.227843965358873,
   balances: [],
