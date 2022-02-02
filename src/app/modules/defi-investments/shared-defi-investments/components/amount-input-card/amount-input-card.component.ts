@@ -1,9 +1,11 @@
 import { WalletBalanceService } from './../../../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
-import { interval, Subscription } from 'rxjs';
+import { interval, Subject, Subscription } from 'rxjs';
 import { Coin } from './../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { take, takeUntil } from 'rxjs/operators';
+import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic-price.model';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -24,7 +26,13 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
         <div class="aic__content__input">
           <ion-input formControlName="amount" type="number" inputmode="numeric" placeholder="0.000144"></ion-input>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
-          <ion-input class="read-only" formControlName="quoteAmount" type="number" inputmode="numeric" readonly></ion-input>
+          <ion-input
+            class="read-only"
+            formControlName="quoteAmount"
+            type="number"
+            inputmode="numeric"
+            readonly
+          ></ion-input>
         </div>
         <div class="aic__content__available">
           <ion-text class="ux-font-text-xxs">
@@ -54,26 +62,33 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   @Input() quoteCurrency = 'USD';
   available: number;
   feeCoin: string;
-  priceSubscription$: Subscription;
+  private destroy$ = new Subject<void>();
   price: number;
   form: FormGroup;
+  @Input() priceRefreshInterval = 15000;
 
   constructor(
     private formGroupDirective: FormGroupDirective,
     private apiWalletService: ApiWalletService,
-    private walletBalance: WalletBalanceService,
+    private walletBalance: WalletBalanceService
   ) {}
 
   ngOnInit() {
-    this.getPrice();
     this.balanceAvailable();
     this.setFeeCoin();
-    this.subscribeToPrice();
+    this.dynamicPrice();
     this.subscribeToFormChanges();
   }
 
-  subscribeToPrice() {
-    this.priceSubscription$ = interval(15000).subscribe(() => this.getPrice());
+  private dynamicPrice() {
+    this.createDynamicPrice()
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => (this.price = price));
+  }
+
+  createDynamicPrice(): DynamicPrice {
+    return DynamicPrice.create(this.priceRefreshInterval, this.baseCurrency, this.apiWalletService);
   }
 
   subscribeToFormChanges() {
@@ -82,29 +97,23 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   }
 
   private amountChange(value: number) {
-    this.form.patchValue({ 
-      quoteAmount: this.parseQuoteAmount(value * this.price) 
+    this.form.patchValue({
+      quoteAmount: this.parseQuoteAmount(value * this.price),
     });
   }
 
   private parseQuoteAmount(value: number): string {
     let stringValue = value.toString();
-    
-    if (stringValue.includes("e")) {
+
+    if (stringValue.includes('e')) {
       stringValue = parseFloat(stringValue).toFixed(20);
-    } 
-    
-    if (stringValue.includes(".")) {
-      stringValue = stringValue.replace(/\.?0+$/,"");
+    }
+
+    if (stringValue.includes('.')) {
+      stringValue = stringValue.replace(/\.?0+$/, '');
     }
 
     return stringValue;
-  }
-
-  private getPrice() {
-    this.apiWalletService
-      .getPrices([this.baseCurrency.value], false)
-      .subscribe((res) => (this.price = res.prices[this.baseCurrency.value]));
   }
 
   private async balanceAvailable() {
@@ -118,6 +127,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.priceSubscription$.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -8,4 +8,8 @@ export class ERC20Token {
   approve(spender: string, wei: BigNumber): Promise<TransactionResponse | string> {
     return this._aContract.value().approve(spender, wei);
   }
+
+  approveFee(spender: string, wei: BigNumber): Promise<BigNumber> {
+    return this._aContract.value().estimateGas.approve(spender, wei);
+  }
 }

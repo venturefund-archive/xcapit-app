@@ -11,8 +11,21 @@ import { Component } from '@angular/core';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { Amount } from '../../shared-defi-investments/types/amount.type';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { Wallet } from 'ethers';
+import { BigNumber, ethers, VoidSigner, Wallet } from 'ethers';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { Subject } from 'rxjs';
+import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
+import { takeUntil } from 'rxjs/operators';
+import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
+import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
+import { FakeContract } from '../../shared-defi-investments/models/fake-contract/fake-contract.model';
+import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface';
+import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
+import { TotalFeeOf } from '../../shared-defi-investments/models/total-fee-of/total-fee-of.model';
+import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
+import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -54,10 +67,10 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
             <div class="summary__fee__qty">
               <ion-text class="ux-font-text-base summary__fee__qty__amount"
-                >{{ this.amount.value | number: '1.2-2' }} {{ this.amount.token }}</ion-text
+                >{{ this.fee.value | number: '1.2-6' }} {{ this.fee.token }}</ion-text
               >
               <ion-text class="ux-font-text-base summary__fee__qty__quoteFee"
-                >{{ this.quoteAmount.value | number: '1.2-2' }} {{ this.quoteAmount.token }}
+                >{{ this.quoteFee.value | number: '1.2-6' }} {{ this.quoteFee.token }}
               </ion-text>
             </div>
           </div>
@@ -86,9 +99,11 @@ export class InvestmentConfirmationPage {
   product: InvestmentProduct;
   amount: Amount;
   quoteAmount: Amount;
-  fee: Amount;
-  quoteFee: Amount;
+  fee: Amount = { value: undefined, token: 'USD' };
+  quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
+  leave$ = new Subject<void>();
+  private readonly priceRefreshInterval = 15000;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -97,24 +112,88 @@ export class InvestmentConfirmationPage {
     private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
     private navController: NavController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   async ionViewDidEnter() {
-    this.getInvestmentInfo();
+    await this.getInvestmentInfo();
+    this.dynamicPrice();
     await this.walletService.walletExist();
   }
 
-  getInvestmentInfo() {
+  private dynamicPrice() {
+    this.createDynamicPrice()
+      .value()
+      .pipe(takeUntil(this.leave$))
+      .subscribe((price: number) => {
+        this.quoteFee.value = price * this.fee.value;
+      });
+  }
+
+  createDynamicPrice(): DynamicPrice {
+    return DynamicPrice.create(this.priceRefreshInterval, this.native(), this.apiWalletService);
+  }
+
+  private async getInvestmentInfo() {
+    this.getProduct();
+    this.getAmount();
+    this.getQuoteAmount();
+    await this.getFee();
+  }
+
+  private getProduct() {
     this.product = this.investmentDataService.product;
+  }
+
+  private getAmount() {
     this.amount = {
       value: this.investmentDataService.amount,
       token: this.investmentDataService.product.token().value,
     };
+  }
+
+  private getQuoteAmount(): void {
     this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' };
   }
 
-  async requestPassword() {
+  createErc20Provider() {
+    return new ERC20Provider(this.product.token());
+  }
+
+  async approveFeeContract(): Promise<ERC20Contract> {
+    return new ERC20Contract(
+      this.createErc20Provider(),
+      new VoidSigner((await this.walletEncryptionService.getEncryptedWallet()).addresses[this.product.token().network])
+    );
+  }
+
+  private native(): Coin {
+    return this.apiWalletService.getCoinsFromNetwork(this.product.token().network).find((coin) => coin.native);
+  }
+
+  private async approvalFee(): Promise<Fee> {
+    return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [
+      this.product.contractAddress(),
+      this.amount.value,
+    ]);
+  }
+
+  private async depositFee(): Promise<Fee> {
+    return new GasFeeOf(new FakeContract({ deposit: () => BigNumber.from('1993286') }), 'deposit', []);
+  }
+
+  private async getFee() {
+    const fee = new FormattedFee(
+      new NativeFeeOf(
+        new TotalFeeOf([await this.approvalFee(), await this.depositFee()]),
+        this.createErc20Provider().value()
+      )
+    );
+    this.fee = { value: await fee.value(), token: this.native().value };
+  }
+
+  async requestPassword(): Promise<any> {
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
       componentProps: {
@@ -145,6 +224,7 @@ export class InvestmentConfirmationPage {
       });
     }
   }
+
   async wallet(): Promise<Wallet | void> {
     const password = await this.requestPassword();
     if (password) {
@@ -169,5 +249,10 @@ export class InvestmentConfirmationPage {
 
   private loadingEnabled(enabled: boolean) {
     this.loading = enabled;
+  }
+
+  ionViewWillLeave() {
+    this.leave$.next();
+    this.leave$.complete();
   }
 }
