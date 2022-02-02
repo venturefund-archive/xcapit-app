@@ -7,6 +7,7 @@ import rifAbi from './assets-abi/rif-abi.json';
 import busdAbi from './assets-abi/busd-abi.json';
 import cakeAbi from './assets-abi/cake-abi.json';
 import adaAbi from './assets-abi/ada-abi.json';
+import { last } from 'rxjs/operators';
 
 
 
@@ -331,8 +332,19 @@ export const NONPROD_COINS: Coin[] = [
     id: 26,
     name: 'DAI - DAI',
     logoRoute: 'assets/img/coins/DAI.png',
-    last: true,
+    last: false,
     value: 'DAI',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: environment.maticApiUrl,
+    decimals: 18,
+  },
+  {
+    id: 27,
+    name: 'WETH - Wrapped Ether',
+    logoRoute: 'assets/img/coins/WETH.svg',
+    last: true,
+    value: 'WETH',
     network: 'MATIC',
     chainId: 80001,
     rpc: environment.maticApiUrl,

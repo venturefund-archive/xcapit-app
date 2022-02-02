@@ -16,6 +16,8 @@ import batAbi from './assets-abi-prod/bat-abi-prod.json';
 import sandAbi from './assets-abi-prod/sand-abi-prod.json';
 import usdcAbi from './assets-abi-prod/usdc-abi-prod.json';
 import crvAbi from './assets-abi-prod/crv-abi-prod.json';
+import daiAbi from './assets-abi-prod/dai-abi-prod.json';
+import wethAbi from './assets-abi-prod/weth-abi-prod.json';
 
 export const PROD_COINS: Coin[] = [
   {
@@ -343,7 +345,7 @@ export const PROD_COINS: Coin[] = [
     id: 25,
     name: 'CRV - Curve',
     logoRoute: 'assets/img/coins/CRV.png',
-    last: true,
+    last: false,
     value: 'CRV',
     network: 'MATIC',
     chainId: 137,
@@ -352,5 +354,31 @@ export const PROD_COINS: Coin[] = [
     contract: '0x172370d5cd63279efa6d502dab29171933a610af',
     decimals: 18,
     symbol: 'CRVUSDT',
+  },
+  {
+    id: 26,
+    name: 'DAI - DAI',
+    logoRoute: 'assets/img/coins/DAI.png',
+    last: false,
+    value: 'DAI',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    abi: daiAbi,
+    contract: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
+    decimals: 18,
+  },
+  {
+    id: 27,
+    name: 'WETH - Wrapped Ether',
+    logoRoute: 'assets/img/coins/WETH.svg',
+    last: true,
+    value: 'WETH',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    abi: wethAbi,
+    contract: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+    decimals: 18,
   },
 ];
