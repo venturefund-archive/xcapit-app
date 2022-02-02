@@ -14,51 +14,14 @@ import { NftService } from '../../services/nft-service/nft.service';
         </ion-text>
         <img class="cnc__base__image" src="assets/img/wallets/growing_rafiki.svg" alt="" />
       </div>
-
-      <div class="cnc__claim" *ngIf="this.card === 'claim'">
-        <ion-button class="close_claim" name="Close" size="small" fill="clear" (click)="this.close()">
-          <ion-icon name="ux-close"></ion-icon>
-        </ion-button>
-        <ion-text class="cnc__claim__title ux-font-text-xl">
-          {{
-            (this.nftStatus === 'claimed'
-              ? 'wallets.shared_wallets.claim_nft_card.claimed_title'
-              : 'wallets.shared_wallets.claim_nft_card.unclaimed_title'
-            ) | translate
-          }}
-        </ion-text>
-        <ion-text class="cnc__claim__subtitle ux-font-text-base">
-          {{
-            (this.nftStatus === 'claimed'
-              ? 'wallets.shared_wallets.claim_nft_card.claimed_subtitle'
-              : 'wallets.shared_wallets.claim_nft_card.unclaimed_subtitle'
-            ) | translate
-          }}
-        </ion-text>
-        <ion-text class="cnc__claim__note ux-font-text-xxs">
-          {{
-            (this.nftStatus === 'claimed'
-              ? 'wallets.shared_wallets.claim_nft_card.claimed_note'
-              : 'wallets.shared_wallets.claim_nft_card.unclaimed_note'
-            ) | translate
-          }}
-        </ion-text>
-        <ion-button
-          appTrackClick
-          name="Claim"
-          class="cnc__claim__button-claim"
-          (click)="this.createNFTRequest()"
-          *ngIf="this.nftStatus === 'unclaimed'"
-        >
-          {{ 'wallets.shared_wallets.claim_nft_card.button_claim' | translate }}
-        </ion-button>
-      </div>
       <app-nft-card-skeleton *ngIf="this.card === 'skeleton'"></app-nft-card-skeleton>
-    <div class="cnc__showNFT ion-padding" (click)="this.goToDetail()" *ngIf="this.card === 'showNFT'">
-        <img class="cnc__showNFT__img" [src]="this.NFTdata?.image" />
-        <div class="cnc__showNFT__content">
-          <ion-text class="ux-font-titulo-xs title" color="uxprimary">{{ this.NFTdata?.name }}</ion-text>
-          <ion-text class="ux-font-text-xs subtitle">{{ 'XcapitMexico' }}</ion-text>
+      <div *ngIf="this.card === 'showNFT'">
+        <div class="cnc__showNFT ion-padding" (click)="this.goToDetail(nft)" *ngFor="let nft of this.NFTdata" >
+          <img class="cnc__showNFT__img" [src]="this.nft?.image" />
+          <div class="cnc__showNFT__content">
+            <ion-text class="ux-font-titulo-xs title" color="uxprimary">{{ this.nft?.name }}</ion-text>
+            <ion-text class="ux-font-text-xs subtitle">{{ 'XcapitMexico' }}</ion-text>
+          </div>
         </div>
       </div>
     </div>
@@ -67,7 +30,7 @@ import { NftService } from '../../services/nft-service/nft.service';
 })
 export class NftCardComponent implements OnInit {
   card : string;
-  NFTdata: NFTMetadata;
+  NFTdata: any = [];
   @Input() nftStatus = 'unclaimed';
   @Output() nftRequest = new EventEmitter<any>();
   constructor(private navController: NavController, private nftService: NftService) {}
@@ -76,41 +39,29 @@ export class NftCardComponent implements OnInit {
     this.setCard();
   }
 
-  close() {
-    this.card = 'base';
-  }
-
   setCard() {
     if (this.nftStatus === 'delivered') {
       this.getNFTInfo().then(() => {
-       if(this.NFTdata){
+       if(this.NFTdata.length > 0){
          this.card = 'showNFT'
        }else{
          this.card = 'base'
         }
       });
-    } else {
-      this.card = 'claim';
-    }
-  }
-
-  createNFTRequest() {
-    if (this.nftStatus === 'unclaimed') {
-      this.nftRequest.emit();
     }
   }
 
   getNFTInfo() {
     this.card = 'skeleton';
-    return this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => {
+    return this.nftService.getNFTMetadata().then((metadata) => {
       this.NFTdata = metadata;
     });
   }
 
-  goToDetail() {
+  goToDetail(nft) {
     const navigationExtras: NavigationExtras = {
       state: {
-        nftMetadata: this.NFTdata,
+        nftMetadata: nft,
       },
     };
     this.navController.navigateForward(['/wallets/nft-detail'], navigationExtras);

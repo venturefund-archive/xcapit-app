@@ -12,68 +12,6 @@
     }
   }
 
-  &__claim {
-    margin: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    border: 0.5px solid;
-    border-color: var(--ion-color-uxmedium);
-    box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
-    border-radius: 4px;
-
-    &__title {
-      color: var(--ion-color-uxprimary);
-      font-weight: var(--ux-fweight-semibold);
-      margin: 40px 0 16px;
-    }
-
-    &__subtitle {
-      color: var(--ion-color-uxprimary);
-      margin-bottom: 8px;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-
-    &__note {
-      color: var(--ion-color-uxsemidark);
-      margin-bottom: 16px;
-    }
-
-    &__button-claim {
-      --color: var(--ion-color-uxprimary);
-      --border-color: var(--ion-color-uxprimary);
-      --border-width: 1px;
-      --border-radius: 8px;
-      --border-style: solid;
-      --background: none;
-      --background-activated: var(--ion-color-uxsecondary);
-
-      font-family: var(--ux-font-worksans);
-      font-weight: var(--ux-fweight-semibold);
-      font-size: var(--ux-fsize-16);
-      margin-bottom: 16px;
-    }
-
-    &__button-claimed {
-      --color: var(--ion-color-uxprimary);
-      --border-color: var(--ion-color-uxsecondary);
-      --border-width: 1px;
-      --border-radius: 8px;
-      --border-style: solid;
-      --background: var(--ion-color-uxsecondary);
-      --background-activated: var(--ion-color-uxsecondary);
-
-      font-family: var(--ux-font-worksans);
-      font-weight: var(--ux-fweight-semibold);
-      font-size: var(--ux-fsize-16);
-      margin-bottom: 16px;
-    }
-  }
-
   &__showNFT {
     display: flex;
     align-items: center;
@@ -97,17 +35,5 @@
         color: var(--ion-color-uxsemidark);
       }
     }
-  }
-}
-
-.close_claim {
-  align-self: end;
-  color: var(--ion-color-uxsemidark);
-  position: absolute;
-  right: -12px;
-  top: -3px;
-
-  ion-icon {
-    font-size: 25px;
   }
 }
