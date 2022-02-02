@@ -11,12 +11,21 @@ import { Component } from '@angular/core';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { Amount } from '../../shared-defi-investments/types/amount.type';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { Wallet } from 'ethers';
+import { BigNumber, ethers, VoidSigner, Wallet } from 'ethers';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Subject } from 'rxjs';
 import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
 import { takeUntil } from 'rxjs/operators';
+import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
+import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
+import { FakeContract } from '../../shared-defi-investments/models/fake-contract/fake-contract.model';
+import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface';
+import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
+import { TotalFeeOf } from '../../shared-defi-investments/models/total-fee-of/total-fee-of.model';
+import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
+import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -108,7 +117,7 @@ export class InvestmentConfirmationPage {
   ) {}
 
   async ionViewDidEnter() {
-    this.getInvestmentInfo();
+    await this.getInvestmentInfo();
     this.dynamicPrice();
     await this.walletService.walletExist();
   }
@@ -123,14 +132,14 @@ export class InvestmentConfirmationPage {
   }
 
   createDynamicPrice(): DynamicPrice {
-    return DynamicPrice.create(this.priceRefreshInterval, this.product.token(), this.apiWalletService);
+    return DynamicPrice.create(this.priceRefreshInterval, this.native(), this.apiWalletService);
   }
 
-  private getInvestmentInfo() {
+  private async getInvestmentInfo() {
     this.getProduct();
     this.getAmount();
     this.getQuoteAmount();
-    this.getEstimatedFee();
+    await this.getFee();
   }
 
   private getProduct() {
@@ -144,15 +153,43 @@ export class InvestmentConfirmationPage {
     };
   }
 
-  private getQuoteAmount():void {
+  private getQuoteAmount(): void {
     this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' };
   }
 
-  private getEstimatedFee():void {
-    this.fee = { value: 0.025, token: this.product.token().value };
+  private async approveFeeContract(): Promise<ERC20Contract> {
+    return new ERC20Contract(
+      new ERC20Provider(this.product.token()),
+      new VoidSigner((await this.walletEncryptionService.getEncryptedWallet()).addresses[this.product.token().network])
+    );
   }
 
-  async requestPassword():Promise<any> {
+  private native(): Coin {
+    return this.apiWalletService.getCoinsFromNetwork(this.product.token().network).find((coin) => coin.native);
+  }
+
+  private async approvalFee(): Promise<Fee> {
+    return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [
+      this.product.contractAddress(),
+      this.amount.value,
+    ]);
+  }
+
+  private async depositFee(): Promise<Fee> {
+    return new GasFeeOf(new FakeContract({ deposit: () => BigNumber.from('1993286') }), 'deposit', []);
+  }
+
+  private async getFee() {
+    const fee = new FormattedFee(
+      new NativeFeeOf(
+        new TotalFeeOf([await this.approvalFee(), await this.depositFee()]),
+        new ethers.providers.JsonRpcProvider(this.product.token().rpc)
+      )
+    );
+    this.fee = { value: await fee.value(), token: this.native().value };
+  }
+
+  async requestPassword(): Promise<any> {
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
       componentProps: {
