@@ -19,9 +19,11 @@ import { StartInvestingComponent } from './components/start-investing/start-inve
 import { WalletConnectSignRequestComponent } from './components/wallet-connect-sign-request/wallet-connect-sign-request.component';
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
 import { SuitePipe } from './pipes/suite.pipe';
+import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
 
 @NgModule({
   declarations: [
+    NftCardSkeletonComponent,
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
@@ -45,6 +47,7 @@ import { SuitePipe } from './pipes/suite.pipe';
   imports: [SharedModule],
   exports: [
     SharedModule,
+    NftCardSkeletonComponent,
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,

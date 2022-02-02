@@ -6,6 +6,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { NftService } from '../../services/nft-service/nft.service';
 import { NavigationExtras } from '@angular/router';
 import { NftCardComponent } from './nft-card.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const nftData = {
   name: 'testName',
@@ -47,6 +48,7 @@ describe('NftCardComponent', () => {
           { provide: NftService, useValue: nftServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
         ],
+        schemas:[CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
 
       fixture = TestBed.createComponent(NftCardComponent);
@@ -82,9 +84,21 @@ describe('NftCardComponent', () => {
 
   it('should render properly the base page when the nft status is delivered but the wallet dont have nft', async () => {
     component.nftStatus = 'delivered';
+    nftServiceSpy.getNFTMetadata.and.resolveTo([]);
+    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.cnc__base'))).toBeTruthy();
   });
+
+  it('should render properly the skeleton when NFTData are not chargued yet', async () => {
+    component.nftStatus = 'delivered';
+    nftServiceSpy.getNFTMetadata.and.resolveTo([]);
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('app-nft-card-skeleton'))).toBeTruthy();
+  });
+
 });

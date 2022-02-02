@@ -1,0 +1,42 @@
+.skeleton {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 16px 0 16px 16px;
+
+  ion-avatar {
+    --border-radius: 8px;
+
+    height: 56px;
+    width: 56px;
+    margin: 0;
+  }
+
+  ion-label {
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+
+    ion-skeleton-text {
+      margin-bottom: 2px;
+
+      --width: 100%;
+
+      height: 16px;
+      border-radius: 16px;
+    }
+
+    ion-skeleton-text:last-child {
+      --width: 50%;
+
+      border-radius: 16px;
+      height: 16px;
+    }
+  }
+}
+
+ion-item::part(native) {
+  --background: var(--ion-color-uxlight);
+
+  padding: 0;
+}
