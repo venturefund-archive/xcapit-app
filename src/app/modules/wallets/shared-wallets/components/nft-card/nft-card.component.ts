@@ -41,13 +41,11 @@ export class NftCardComponent implements OnInit {
   setCard() {
     if (this.nftStatus === 'delivered') {
       this.getNFTInfo().then(() => {
-       if(this.NFTdata.length > 0){
-         this.card = 'showNFT'
-       }else{
-         this.card = 'base'
-        }
+      this.card = this.NFTdata.length > 0 ? 'showNFT' : 'base';
       });
-    }
+    }else{
+      this.card = 'base'
+     }
   }
 
   getNFTInfo() {
