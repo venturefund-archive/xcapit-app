@@ -157,9 +157,13 @@ export class InvestmentConfirmationPage {
     this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' };
   }
 
-  private async approveFeeContract(): Promise<ERC20Contract> {
+  createErc20Provider() {
+    return new ERC20Provider(this.product.token());
+  }
+
+  async approveFeeContract(): Promise<ERC20Contract> {
     return new ERC20Contract(
-      new ERC20Provider(this.product.token()),
+      this.createErc20Provider(),
       new VoidSigner((await this.walletEncryptionService.getEncryptedWallet()).addresses[this.product.token().network])
     );
   }
@@ -183,7 +187,7 @@ export class InvestmentConfirmationPage {
     const fee = new FormattedFee(
       new NativeFeeOf(
         new TotalFeeOf([await this.approvalFee(), await this.depositFee()]),
-        new ethers.providers.JsonRpcProvider(this.product.token().rpc)
+        this.createErc20Provider().value()
       )
     );
     this.fee = { value: await fee.value(), token: this.native().value };

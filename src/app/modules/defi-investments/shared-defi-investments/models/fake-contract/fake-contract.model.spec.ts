@@ -1,7 +1,7 @@
 import { FakeContract } from './fake-contract.model';
 import { BigNumber } from 'ethers';
 
-fdescribe('FakeContract', () => {
+describe('FakeContract', () => {
   let fakeContract: FakeContract;
 
   beforeEach(() => {
