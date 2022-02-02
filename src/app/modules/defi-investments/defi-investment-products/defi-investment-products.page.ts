@@ -9,6 +9,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
 import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { VoidSigner } from 'ethers';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -68,7 +69,8 @@ export class DefiInvestmentProductsPage {
   constructor(
     private apiWalletService: ApiWalletService,
     private twoPiApi: TwoPiApi,
-    private walletEncryptionService: WalletEncryptionService
+    private walletEncryptionService: WalletEncryptionService,
+    private walletService: WalletService
   ) {}
   haveInvestments = true;
   activeInvestments: DefiInvestment[] = [];
@@ -88,11 +90,13 @@ export class DefiInvestmentProductsPage {
   }
 
   async getInvestments(): Promise<void> {
+    const walletExist = await this.walletService.walletExist();
     for (const product of this.defiProducts) {
       const investmentProduct = await this.getInvestmentProduct(product);
+      const balance = walletExist ? await this.getProductBalance(investmentProduct) : 0;
       this.filterUserInvestments({
         product: investmentProduct,
-        balance: await this.getProductBalance(investmentProduct),
+        balance : balance,
         isComing: product.isComing,
       });
     }

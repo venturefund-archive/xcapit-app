@@ -12,6 +12,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
 import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.interface';
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -33,8 +34,12 @@ describe('DefiInvestmentProductsPage', () => {
   let availableDefiProductsSpy: jasmine.SpyObj<AvailableDefiProducts>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   beforeEach(
     waitForAsync(() => {
+      walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy',{
+        walletExist: Promise.resolve(true),
+      })
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
         getCoins: testCoins,
       });
@@ -68,6 +73,7 @@ describe('DefiInvestmentProductsPage', () => {
         providers: [
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+          { provide: WalletService, useValue: walletServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -90,6 +96,7 @@ describe('DefiInvestmentProductsPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
+    fixture.detectChanges();
     const activeEl = fixture.debugElement.query(
       By.css('div.dp__active-card > ion-item > ion-label')
     );
@@ -99,6 +106,26 @@ describe('DefiInvestmentProductsPage', () => {
 
     const balanceEl = fixture.debugElement.query(By.css('app-investment-balance-item'));
     expect(balanceEl).toBeTruthy();
+  });
+
+  it('should render available investment card', async () => {
+    investmentSpy.balance.and.resolveTo(0);
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+
+    const availableEl = fixture.debugElement.query(
+      By.css('div.dp__available-card > ion-item > ion-label')
+    );
+    expect(availableEl.nativeElement.innerHTML).toContain(
+      'defi_investments.defi_investment_products.title'
+    );
+    const productEl = fixture.debugElement.query(By.css('app-defi-investment-product'));
+    expect(productEl).toBeTruthy();
   });
 
   it('should render available investment card', async () => {
