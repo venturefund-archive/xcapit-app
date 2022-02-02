@@ -105,7 +105,6 @@ import { WalletTransactionsService } from '../../shared-wallets/services/wallet-
 })
 export class SendDetailPage {
   alertType = UX_ALERT_TYPES.warning;
-  coins: Coin[];
   currency: Coin;
   networks: string[];
   selectedNetwork: string;
@@ -130,7 +129,6 @@ export class SendDetailPage {
   ) {}
 
   ionViewWillEnter() {
-    this.coins = this.apiWalletService.getCoins();
     this.form.get('amount').valueChanges
       .pipe(debounceTime(250))
       .subscribe(() => this.updateTransactionData() );
@@ -141,8 +139,8 @@ export class SendDetailPage {
     this.updateTransactionData();
   }
 
-  getNativeToken() {
-    this.nativeToken = this.coins.find((c) => c.network === this.selectedNetwork && c.native);
+  private getNativeToken() {
+    this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
   }
 
   checkTokensAmounts() {
@@ -158,7 +156,7 @@ export class SendDetailPage {
   }
 
   private getCurrency() {
-    this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
+    this.currency = this.apiWalletService.getCoin(this.route.snapshot.paramMap.get('currency'), this.selectedNetwork);
   }
 
   private setCurrencyNetworks() {

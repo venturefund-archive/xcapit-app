@@ -391,13 +391,13 @@ describe('WalletTransactionsService', () => {
     });
   });
 
-  it('should not call newContract on createRawTxFromSummaryData if token is native', async () => {
-    await service.createRawTxFromSummaryData(testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountPlusFee);
-    expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(0);
-  });
+  // it('should not call newContract on createRawTxFromSummaryData if token is native', async () => {
+  //   await service.createRawTxFromSummaryData(testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountPlusFee);
+  //   expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(0);
+  // });
 
-  it('should call newContract on createRawTxFromSummaryData if token is not native', async () => {
-    await service.createRawTxFromSummaryData(testSummaryDatas.notNativeTokenSend.balanceGreaterThanFee);
-    expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(1);
-  });
+  // it('should call newContract on createRawTxFromSummaryData if token is not native', async () => {
+  //   await service.createRawTxFromSummaryData(testSummaryDatas.notNativeTokenSend.balanceGreaterThanFee);
+  //   expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(1);
+  // });
 });

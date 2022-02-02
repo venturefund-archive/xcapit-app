@@ -44,7 +44,7 @@ const testCoins: Coin[] = [
   },
 ];
 
-describe('ApiWalletService', () => {
+fdescribe('ApiWalletService', () => {
   let service: ApiWalletService;
   let crudSpy;
   let customHttpServiceSpy: jasmine.SpyObj<CustomHttpService>;
@@ -145,4 +145,10 @@ describe('ApiWalletService', () => {
     const networks = service.getWalletNewNetworks(encryptedWalletTest);
     expect(new Set(networks)).toEqual(new Set(['ERC20', 'BSC_BEP20']));
   });
+
+  it('should get native token from network on getNativeTokenFromNetwork', () => {
+    spyOn(service, 'getCoins').and.returnValue(testCoins);
+    const coin = service.getNativeTokenFromNetwork('RSK');
+    expect(coin.value).toEqual(testCoins[1].value);
+  })
 });
