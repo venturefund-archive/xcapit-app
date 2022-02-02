@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { NFTMetadata } from '../../interfaces/nft-metadata.interface';
 import { NftService } from '../../services/nft-service/nft.service';
 
 @Component({
@@ -14,7 +13,7 @@ import { NftService } from '../../services/nft-service/nft.service';
         </ion-text>
         <img class="cnc__base__image" src="assets/img/wallets/growing_rafiki.svg" alt="" />
       </div>
-      <app-nft-card-skeleton *ngIf="this.card === 'skeleton'"></app-nft-card-skeleton>
+      <app-nft-card-skeleton *ngIf="!this.card"></app-nft-card-skeleton>
       <div *ngIf="this.card === 'showNFT'">
         <div class="cnc__showNFT ion-padding" (click)="this.goToDetail(nft)" *ngFor="let nft of this.NFTdata" >
           <img class="cnc__showNFT__img" [src]="this.nft?.image" />
@@ -52,7 +51,6 @@ export class NftCardComponent implements OnInit {
   }
 
   getNFTInfo() {
-    this.card = 'skeleton';
     return this.nftService.getNFTMetadata().then((metadata) => {
       this.NFTdata = metadata;
     });
