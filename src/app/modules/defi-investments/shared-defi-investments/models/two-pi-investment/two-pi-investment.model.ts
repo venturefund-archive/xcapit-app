@@ -37,6 +37,7 @@ export class TwoPiInvestment implements Investment {
     return parseUnits(amount.toString(), this._aProduct.token().decimals);
   }
 
+
   private _approve(wei: BigNumber): Promise<string | TransactionResponse> {
     return this._anErc20Token.approve(this._aProduct.contractAddress(), wei);
   }

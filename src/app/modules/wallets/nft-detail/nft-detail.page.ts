@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Navigation, Router } from '@angular/router';
 import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
-import { NFT } from '../shared-wallets/interfaces/nft.interface';
 import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
   template: ` <ion-header>
       <ion-toolbar color="uxprimary" class="nd__toolbar ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.nft_detail.title' | translate }}</ion-title>
       </ion-toolbar>
@@ -78,8 +77,7 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
   styleUrls: ['./nft-detail.page.scss'],
 })
 export class NftDetailPage {
-  NFTMetadata: NFTMetadata;
-  NFT: NFT;
+  NFTMetadata: any = [];
   nav: Navigation;
   form: FormGroup = this.formBuilder.group({
     contractAddress: [''],
@@ -92,7 +90,6 @@ export class NftDetailPage {
   }
 
   ionViewWillEnter() {
-    this.getContractAddress();
     this.getNFTInfo();
   }
 
@@ -101,20 +98,16 @@ export class NftDetailPage {
       this.NFTMetadata = this.nav.extras.state.nftMetadata as NFTMetadata;
       this.setFormValue();
     } else {
-      this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => {
+      this.nftService.getNFTMetadata().then((metadata) => {
         this.NFTMetadata = metadata;
         this.setFormValue();
       });
     }
   }
 
-  getContractAddress() {
-    this.NFT = this.nftService.getNFTMexico();
-  }
-
   setFormValue() {
     this.form.patchValue({
-      contractAddress: this.NFT.contractAddress,
+      contractAddress: this.NFTMetadata.contractAddress,
       tokenID: this.NFTMetadata.tokenID,
       blockchain: 'Polygon',
     });
