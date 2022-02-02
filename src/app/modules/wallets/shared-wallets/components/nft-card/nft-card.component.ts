@@ -53,8 +53,8 @@ import { NftService } from '../../services/nft-service/nft.service';
           {{ 'wallets.shared_wallets.claim_nft_card.button_claim' | translate }}
         </ion-button>
       </div>
-
-      <div class="cnc__showNFT ion-padding" (click)="this.goToDetail()" *ngIf="this.card === 'showNFT'">
+      <app-nft-card-skeleton *ngIf="this.card === 'skeleton'"></app-nft-card-skeleton>
+    <div class="cnc__showNFT ion-padding" (click)="this.goToDetail()" *ngIf="this.card === 'showNFT'">
         <img class="cnc__showNFT__img" [src]="this.NFTdata?.image" />
         <div class="cnc__showNFT__content">
           <ion-text class="ux-font-titulo-xs title" color="uxprimary">{{ this.NFTdata?.name }}</ion-text>
@@ -66,7 +66,7 @@ import { NftService } from '../../services/nft-service/nft.service';
   styleUrls: ['./nft-card.component.scss'],
 })
 export class NftCardComponent implements OnInit {
-  card = 'base';
+  card : string;
   NFTdata: NFTMetadata;
   @Input() nftStatus = 'unclaimed';
   @Output() nftRequest = new EventEmitter<any>();
@@ -83,8 +83,10 @@ export class NftCardComponent implements OnInit {
   setCard() {
     if (this.nftStatus === 'delivered') {
       this.getNFTInfo().then(() => {
-        if (this.NFTdata) {
-          this.card = 'showNFT';
+       if(this.NFTdata){
+         this.card = 'showNFT'
+       }else{
+         this.card = 'base'
         }
       });
     } else {
@@ -99,6 +101,7 @@ export class NftCardComponent implements OnInit {
   }
 
   getNFTInfo() {
+    this.card = 'skeleton';
     return this.nftService.getNFTMetadata().then((metadata: NFTMetadata) => {
       this.NFTdata = metadata;
     });
