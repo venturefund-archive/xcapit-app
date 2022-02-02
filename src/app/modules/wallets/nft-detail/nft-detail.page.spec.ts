@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Navigation, NavigationCancel, Router, UrlTree } from '@angular/router';
+import { Navigation, Router, UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,6 +16,7 @@ const NFTMetadata = {
   description: 'Test',
   name: 'testName',
   image: 'assets/test_image.svg',
+  contractAddress: '0x9592a6cb3a9d53ff9967610e12b503e53929ffaf',
   tokenID: 1234,
   attributes: [
     {
@@ -100,7 +101,7 @@ describe('NftDetailPage', () => {
       expect(titleEl.nativeElement.innerHTML).toContain(NFTMetadata.name);
       expect(descriptionEl.nativeElement.innerHTML).toContain(NFTMetadata.description);
       expect(component.form.value.tokenID).toEqual(NFTMetadata.tokenID);
-      expect(component.form.value.contractAddress).toEqual(NFT_DATA_NONPROD.contractAddress);
+      expect(component.form.value.contractAddress).toEqual(NFT_DATA_NONPROD[0].contractAddress);
       expect(nftServiceSpy.getNFTMetadata).toHaveBeenCalledTimes(stateCase.getNFTMetadataCalledTimes);
     });
   });
