@@ -6,13 +6,14 @@
   /** ux primary **/
   --ion-color-uxprimary: #1c2d5e;
   --ion-color-uxprimary-rgb: 28, 45, 94;
-  --ion-color-uxprimary-contrast: #ffffff;
+  --ion-color-uxprimary-contrast: #fff;
   --ion-color-uxprimary-contrast-rgb: 255, 255, 255;
   --ion-color-uxprimary-matiz: #192853;
   --ion-color-uxprimary-tint: #33426e;
 
-  /** ux primary hover**/
+  /** ux primary hover **/
   --ion-color-uxprimary-hover: #38499f;
+
   /** ux secondary hover **/
   --ion-color-uxsecondary-hover: #b2c610;
 
@@ -27,7 +28,7 @@
   /** ux danger **/
   --ion-color-uxdanger: #ef170e;
   --ion-color-uxdanger-rgb: 239, 23, 14;
-  --ion-color-uxdanger-contrast: #ffffff;
+  --ion-color-uxdanger-contrast: #fff;
   --ion-color-uxdanger-contrast-rgb: 255, 255, 255;
   --ion-color-uxdanger-shade: #d2140c;
   --ion-color-uxdanger-tint: #f12e26;
@@ -35,15 +36,15 @@
   /** ux success **/
   --ion-color-uxsuccess: #21dd62;
   --ion-color-uxsuccess-rgb: 33, 221, 98;
-  --ion-color-uxsuccess-contrast: #000000;
+  --ion-color-uxsuccess-contrast: #000;
   --ion-color-uxsuccess-contrast-rgb: 0, 0, 0;
   --ion-color-uxsuccess-shade: #1dc256;
   --ion-color-uxsuccess-tint: #37e072;
 
-  /** ux medium (Neutro-50)**/
+  /** ux medium (Neutro-50) **/
   --ion-color-uxmedium: #b0b6c7;
   --ion-color-uxmedium-rgb: 176, 182, 199;
-  --ion-color-uxmedium-contrast: #000000;
+  --ion-color-uxmedium-contrast: #000;
   --ion-color-uxmedium-contrast-rgb: 0, 0, 0;
   --ion-color-uxmedium-shade: #9ba0af;
   --ion-color-uxmedium-tint: #b8bdcd;
@@ -51,7 +52,7 @@
   /** ux semidark (Neutro-80) **/
   --ion-color-uxsemidark: #606c8e;
   --ion-color-uxsemidark-rgb: 96, 108, 142;
-  --ion-color-uxsemidark-contrast: #ffffff;
+  --ion-color-uxsemidark-contrast: #fff;
   --ion-color-uxsemidark-contrast-rgb: 255, 255, 255;
   --ion-color-uxsemidark-shade: #545f7d;
   --ion-color-uxsemidark-tint: #707b99;
@@ -59,23 +60,23 @@
   /** ux dark (Neutro-90) **/
   --ion-color-uxdark: #263238;
   --ion-color-uxdark-rgb: 38, 50, 56;
-  --ion-color-uxdark-contrast: #ffffff;
+  --ion-color-uxdark-contrast: #fff;
   --ion-color-uxdark-contrast-rgb: 255, 255, 255;
   --ion-color-uxdark-shade: #212c31;
   --ion-color-uxdark-tint: #3c474c;
 
   /** ux light **/
-  --ion-color-uxlight: #ffffff;
+  --ion-color-uxlight: #fff;
   --ion-color-uxlight-rgb: 255, 255, 255;
-  --ion-color-uxlight-contrast: #000000;
+  --ion-color-uxlight-contrast: #000;
   --ion-color-uxlight-contrast-rgb: 0, 0, 0;
   --ion-color-uxlight-shade: #e0e0e0;
-  --ion-color-uxlight-tint: #ffffff;
+  --ion-color-uxlight-tint: #fff;
 
   /** ux combination green-white **/
   --ion-color-uxcombination: #65b168;
   --ion-color-uxcombination-rgb: 33, 221, 98;
-  --ion-color-uxcombination-contrast: #ffffff;
+  --ion-color-uxcombination-contrast: #fff;
   --ion-color-uxcombination-contrast-rgb: 0, 0, 0;
   --ion-color-uxcombination-shade: #65b168;
   --ion-color-uxcombination-tint: #65b168;
@@ -84,9 +85,10 @@
   --ion-color-uxline: #b0b6c7;
 
   /** Gray 1 **/
-  --ion-color-gray1: #333333;
+  --ion-color-gray1: #333;
 
   /** alerts color **/
+
   /** warning **/
   --ion-color-warninglight: #feecaa;
   --ion-color-warning: #fccf2b;
@@ -127,10 +129,13 @@
   --ion-color-infodark-tint: #1a3075;
 
   /** Fondos **/
+
   /** Neutro-10 **/
   --ion-background-color: #f5f5f5;
+  --ion-color-neutro10: #f5f5f5;
+
   /** Blanco **/
-  --ion-background-colorwhite: #ffffff;
+  --ion-background-colorwhite: #fff;
 
   /** Fuentes **/
   --ux-font-worksans: 'Work Sans';
@@ -157,7 +162,6 @@
   --ux-fsize-22: 22px;
   --ux-fsize-24: 24px;
   --ux-fsize-40: 40px;
-
   --ion-font-family: var(--ux-font-lato);
   --ion-text-color: var(--ion-color-uxdark);
 }
@@ -197,6 +201,7 @@
   --ion-color-shade: var(--ion-color-uxsuccess-shade);
   --ion-color-tint: var(--ion-color-uxsuccess-tint);
 }
+
 .ion-color-uxcombination {
   --ion-color-base: var(--ion-color-uxcombination);
   --ion-color-base-rgb: var(--ion-color-uxcombination);
@@ -205,6 +210,7 @@
   --ion-color-shade: var(--ion-color-uxcombination-shade);
   --ion-color-tint: var(--ion-color-uxcombination-tint);
 }
+
 .ion-color-uxmedium {
   --ion-color-base: var(--ion-color-uxmedium);
   --ion-color-base-rgb: var(--ion-color-uxmedium-rgb);
@@ -281,14 +287,14 @@
 // 900    Extra Black, Fat, Poster or Ultra Black
 
 @font-face {
-  font-family: 'Gilroy';
+  font-family: var(--ux-font-gilroy);
   font-style: normal;
   font-weight: normal;
   src: url('../assets/fonts/Gilroy/Gilroy-Light.otf');
 }
 
 @font-face {
-  font-family: 'Gilroy';
+  font-family: var(--ux-font-gilroy);
   font-style: normal;
   font-weight: 800;
   src: url('../assets/fonts/Gilroy/Gilroy-ExtraBold.otf');
@@ -296,63 +302,63 @@
 
 // Lato
 @font-face {
-  font-family: 'Lato';
+  font-family: var(--ux-font-lato);
   font-style: normal;
   font-weight: 600;
   src: url('../assets/fonts/Lato/Lato-Semibold.ttf');
 }
 
 @font-face {
-  font-family: 'Lato';
+  font-family: var(--ux-font-lato);
   font-style: normal;
   font-weight: 700;
   src: url('../assets/fonts/Lato/Lato-Bold.ttf');
 }
 
 @font-face {
-  font-family: 'Lato';
+  font-family: var(--ux-font-lato);
   font-style: normal;
   font-weight: 200;
   src: url('../assets/fonts/Lato/Lato-Light.ttf');
 }
 
 @font-face {
-  font-family: 'Lato';
+  font-family: var(--ux-font-lato);
   font-style: normal;
   font-weight: 400;
   src: url('../assets/fonts/Lato/Lato-Regular.ttf');
 }
 
 @font-face {
-  font-family: 'Lato';
+  font-family: var(--ux-font-lato);
   font-style: italic;
   font-weight: normal;
   src: url('../assets/fonts/Lato/Lato-Italic.ttf');
 }
 
 @font-face {
-  font-family: 'Work Sans';
+  font-family: var(--ux-font-worksans);
   font-style: normal;
   font-weight: normal;
   src: url('../assets/fonts/WorkSans/WorkSans-Regular.ttf');
 }
 
 @font-face {
-  font-family: 'Work Sans';
+  font-family: var(--ux-font-worksans);
   font-style: normal;
   font-weight: 600;
   src: url('../assets/fonts/WorkSans/WorkSans-SemiBold.ttf');
 }
 
 @font-face {
-  font-family: 'Work Sans';
+  font-family: var(--ux-font-worksans);
   font-style: normal;
   font-weight: 700;
   src: url('../assets/fonts/WorkSans/WorkSans-Bold.ttf');
 }
 
 @font-face {
-  font-family: 'Work Sans';
+  font-family: var(--ux-font-worksans);
   font-style: normal;
   font-weight: 800;
   src: url('../assets/fonts/WorkSans/WorkSans-ExtraBold.ttf');

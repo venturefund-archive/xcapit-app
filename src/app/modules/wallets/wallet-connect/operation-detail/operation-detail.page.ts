@@ -322,7 +322,7 @@ export class OperationDetailPage implements OnInit {
   public async confirmOperation() {
     const modal = await this.modalController.create({
       component: WalletConnectSignRequestComponent,
-      cssClass: 'recovery-phrase-password-modal ux-routeroutlet-modal',
+      cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
       swipeToClose: false,
     });
 

@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from 
 import { IonicModule } from '@ionic/angular';
 import { of } from 'rxjs';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic-price.model';
 
 const testCoins = [
   {
@@ -40,9 +40,11 @@ describe('AmountInputCardComponent', () => {
   let formGroupDirectiveMock: FormGroupDirective;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
-
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let createDynamicPriceSpy: jasmine.Spy<any>;
   beforeEach(
     waitForAsync(() => {
+      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
       controlContainerMock = new FormBuilder().group({
         amount: ['', []],
         quoteAmount: ['', []],
@@ -72,28 +74,34 @@ describe('AmountInputCardComponent', () => {
       fixture = TestBed.createComponent(AmountInputCardComponent);
       component = fixture.componentInstance;
       component.baseCurrency = testCoins[0];
+      createDynamicPriceSpy = spyOn(component, 'createDynamicPrice').and.returnValue(dynamicPriceSpy);
+      fixture.detectChanges();
     })
   );
 
   it('should create', () => {
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should get the initial price and initialize the price subscription on init', fakeAsync(() => {
-    fixture.detectChanges();
-    tick(20000);
-    expect(component.priceSubscription$).toBeTruthy();
-    expect(apiWalletServiceSpy.getPrices).toHaveBeenCalledTimes(2);
+  it('should get token price on init', () => {
+    expect(component.price).toEqual(4000);
     component.ngOnDestroy();
-    flush();
-  }));
+  });
 
-  it('should calculate usd price when amount changes', fakeAsync(() => {
-    fixture.detectChanges();
+  it('should calculate usd price when amount changes', () => {
     component.form.patchValue({ amount: 20 });
-    expect(component.form.value.quoteAmount).toEqual(80000);
+    expect(component.form.value.quoteAmount).toEqual('80000');
     component.ngOnDestroy();
-    flush();
-  }));
+  });
+
+  it('should not show scientific notation on USD amount', () => {
+    component.form.patchValue({ amount: 1e-7 });
+    expect(component.form.value.quoteAmount).not.toContain('e');
+    component.ngOnDestroy();
+  });
+
+  it('should create dynamic price', () => {
+    createDynamicPriceSpy.and.callThrough();
+    expect(component.createDynamicPrice()).toBeTruthy();
+  });
 });

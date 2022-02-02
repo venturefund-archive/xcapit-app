@@ -10,6 +10,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { CardCategoryMenuComponent } from './card-category-menu.component';
 import { MenuCategory } from '../../interfaces/menu-category.interface';
+import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 
 const itemMenu: MenuCategory = {
@@ -21,6 +22,12 @@ const itemMenu: MenuCategory = {
       name: 'Faq',
       text: 'profiles.user_profile_menu.faq_help',
       route: '/support/options',
+      type: 'link',
+    },
+    {
+      name: 'Funds',
+      text: 'profiles.user_profile_menu.funds',
+      route: 'tabs/investments',
       type: 'link',
     },
     {
@@ -38,6 +45,13 @@ const itemMenu: MenuCategory = {
   ],
 };
 
+const menuCategoryClickable: MenuCategory = {
+  category_title: 'profiles.user_profile_menu.category_walletconnect',
+  icon: 'assets/ux-icons/wallet-connect-icon.svg',
+  route: '/wallets/wallet-connect/new-connection',
+  name: 'WalletConnect',
+}
+
 describe('CardItemMenuComponent', () => {
   let component: CardCategoryMenuComponent;
   let fixture: ComponentFixture<CardCategoryMenuComponent>;
@@ -46,11 +60,13 @@ describe('CardItemMenuComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
       fakeWalletService = new FakeWalletService(true, {});
       walletServiceSpy = fakeWalletService.createSpy();
       TestBed.configureTestingModule({
@@ -59,6 +75,7 @@ describe('CardItemMenuComponent', () => {
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy }
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -86,8 +103,30 @@ describe('CardItemMenuComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(3);
+    expect(elms.length).toBe(4);
   });
+
+
+  it(`should navigate to /tabs/investments/binance when button Funds is clicked and have Funds`, async () => {
+    component.category.showCategory = true;
+    component.hasFunds = true;
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css(`ion-button#${itemMenu.items[1].name}`));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('tabs/investments/binance');
+  });
+
+  it(`should navigate to /tabs/investments when button Funds is clicked and dont have Funds`, async () => {
+    component.category.showCategory = true;
+    component.hasFunds = false;
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css(`ion-button#${itemMenu.items[1].name}`));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('tabs/investments');
+  });
+
 
   for (const item of itemMenu.items) {
     it(`should navigate to ${item.route} when button ${item.name} is clicked`, async () => {
@@ -113,4 +152,29 @@ describe('CardItemMenuComponent', () => {
     const divEl = fixture.debugElement.query(By.css('div.ux-card'));
     expect(divEl).toBeFalsy();
   });
+
+  it('should navigate to "tabs/wallets" when WalletConnect is clicked and there is not wallet', async () => {
+    component.category = menuCategoryClickable;
+    component.category.showCategory = true;
+    fixture.detectChanges();
+    walletServiceSpy.walletExist.and.resolveTo(false);
+    const button = fixture.debugElement.query(By.css(`ion-button#WalletConnect`));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('tabs/wallets');
+  });
+
+  it('should navigate to "/wallets/wallet-connect/connection-detail" when WalletConnect is clicked and there is wallet and walletconnect is connected', async () => {
+    component.category = menuCategoryClickable;
+    walletServiceSpy.walletExist.and.resolveTo(true);
+    walletConnectServiceSpy.connected = true
+    component.category.showCategory = true;
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css(`ion-button#WalletConnect`));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
+  })
 });

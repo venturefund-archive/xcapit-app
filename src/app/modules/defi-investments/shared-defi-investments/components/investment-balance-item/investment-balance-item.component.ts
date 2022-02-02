@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
@@ -6,7 +7,7 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
 @Component({
   selector: 'app-investment-balance-item',
   template: `
-      <div class="ibi">
+      <div (click)="this.goToDetail()" class="ibi" name="go_to_invest_detail">
         <div class="ibi__image">
           <div>
             <img class="ibi__image__img" [src]="this.token?.logoRoute" alt="Product Image" />
@@ -41,7 +42,7 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
   styleUrls: ['./investment-balance-item.component.scss'],
 })
 export class InvestmentBalanceItemComponent implements OnInit {
-  constructor(private apiWalletService : ApiWalletService) {}
+  constructor(private navController : NavController, private apiWalletService : ApiWalletService) {}
   @Input() balance : number;
   referenceBalance: number;
   token : Coin;
@@ -53,10 +54,13 @@ export class InvestmentBalanceItemComponent implements OnInit {
     this.getPrice();
   }
 
-
   private getPrice() {
     this.apiWalletService
       .getPrices([this.token.value], false)
       .subscribe((res) => (this.referenceBalance = res.prices[this.token.value] * this.balance));
+  }
+
+  goToDetail(){
+    this.navController.navigateForward(['/defi/investment-detail',this.investmentProduct.name()])
   }
 }

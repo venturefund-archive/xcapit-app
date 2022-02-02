@@ -11,6 +11,9 @@ import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interf
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
+
 @Component({
   selector: 'app-user-profile-menu',
   template: `
@@ -30,7 +33,11 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
         <app-referral-promotion-card></app-referral-promotion-card>
       </div>
       <div class="card-item" *ngIf="this.itemMenu">
-        <app-card-category-menu *ngFor="let category of this.itemMenu" [category]="category"></app-card-category-menu>
+        <app-card-category-menu
+          [hasFunds]="this.hasFunds"
+          *ngFor="let category of this.itemMenu"
+          [category]="category"
+        ></app-card-category-menu>
       </div>
       <div>
         <div class="ux-card">
@@ -80,6 +87,8 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 })
 export class UserProfileMenuPage implements OnInit {
   profile: any;
+  status: any;
+  hasFunds: boolean;
   itemMenu: MenuCategory[] = ITEM_MENU;
   form: FormGroup = this.formBuilder.group({
     notificationsEnabled: [false, []],
@@ -94,7 +103,8 @@ export class UserProfileMenuPage implements OnInit {
     private language: LanguageService,
     private notificationsService: NotificationsService,
     private formBuilder: FormBuilder,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private apiUsers: ApiUsuariosService
   ) {}
 
   ngOnInit() {}
@@ -102,6 +112,18 @@ export class UserProfileMenuPage implements OnInit {
   ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
+    this.getUserStatus();
+  }
+
+  getUserStatus() {
+    this.apiUsers.status(false).subscribe((res) => {
+      const userStatus = res;
+      this.hasFunds = this.checkFunds(userStatus);
+    });
+  }
+
+  checkFunds(status) {
+    return status.has_own_funds === true || status.has_subscribed_funds === true ? true : false;
   }
 
   private subscribeToFormChanges() {

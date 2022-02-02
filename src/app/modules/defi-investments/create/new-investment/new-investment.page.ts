@@ -1,15 +1,16 @@
+import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { TwoPiInvestmentProduct } from '../../shared-defi-investments/models/two-pi-investment-product/two-pi-investment-product.model';
-import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
-import { Component, OnInit } from '@angular/core';
+import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-product/two-pi-product.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ActivatedRoute } from '@angular/router';
-import { TwoPiInvestmentService } from '../../shared-defi-investments/services/two-pi-investment/two-pi-investment.service';
 import { NavController } from '@ionic/angular';
+import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
+import { AmountInputCardComponent } from '../../shared-defi-investments/components/amount-input-card/amount-input-card.component';
 @Component({
   selector: 'app-new-investment',
   template: `
@@ -57,13 +58,14 @@ export class NewInvestmentPage implements OnInit {
   });
   investmentProduct: InvestmentProduct;
   token: Coin;
+  @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     public submitButtonService: SubmitButtonService,
     private apiWalletService: ApiWalletService,
     private twoPiApi: TwoPiApi,
-    private twoPiInvestmentService: TwoPiInvestmentService,
+    private investmentDataService: InvestmentDataService,
     private navController: NavController
   ) {}
 
@@ -79,11 +81,7 @@ export class NewInvestmentPage implements OnInit {
   }
 
   async getInvestmentProduct() {
-    this.investmentProduct = new TwoPiInvestmentProduct(
-      await this.twoPiApi.vault(this.vaultID()),
-      this.apiWalletService
-    );
-    this.getToken();
+    this.investmentProduct = new TwoPiProduct(await this.twoPiApi.vault(this.vaultID()), this.apiWalletService);
   }
 
   getToken() {
@@ -92,8 +90,15 @@ export class NewInvestmentPage implements OnInit {
 
   saveAmount() {
     if (this.form.valid) {
-      this.twoPiInvestmentService.depositAmount = this.form.value.amount;
-      this.navController.navigateForward(['defi/new/summary']);
+      this.investmentDataService.amount = this.form.value.amount;
+      this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
+      this.investmentDataService.product = this.investmentProduct;
+
+      this.navController.navigateForward('/defi/new/confirmation');
     }
+  }
+
+  ionViewWillLeave() {
+    this.amountInputCard.ngOnDestroy();
   }
 }

@@ -139,7 +139,7 @@ export class LoginPage implements OnInit {
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
+     await this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
     } else {
       await this.loadingService.dismiss();
     }

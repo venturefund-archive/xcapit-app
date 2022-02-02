@@ -244,14 +244,28 @@
       "amount_to_invest": "Monto a invertir",
       "button": "Continuar"
     },
+    "confirmation": {
+      "header": "Nueva inversión",
+      "amount_to_invest": "Monto a invertir",
+      "transaction_fee": "Fee de transacción",
+      "submit": "Invertir",
+      "submit_loading": "Invirtiendo",
+      "password_error": "La contraseña ingresada no es correcta.",
+      "password_modal": {
+        "title": "Por seguridad",
+        "description": "Para habilitar tu inversión, ingresa la contraseña de tu wallet Xcapit.",
+        "input_label": "Contraseña",
+        "confirm_button": "Aceptar"
+      }
+    },
     "coming_soon": {
       "header": "Inversión"
     },
-    "defi_investment_products":{
-      "header":"Inversiones Defi",
-      "title":"Comienza a invertir",
-      "title_investments":"Mis inversiones",
-      "recommendations":"Podrían interesarte"  
+    "defi_investment_products": {
+      "header": "Inversiones Defi",
+      "title": "Comienza a invertir",
+      "title_investments": "Mis inversiones",
+      "recommendations": "Podrían interesarte"
     },
     "success_investment": {
       "title": "Añadiste dinero a tu inversión",
@@ -263,6 +277,12 @@
       "title": "Parece que algo salió mal",
       "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
       "primaryButton": "Intentar nuevamente"
+    },
+    "invest_detail":{
+      "header":"Mi inversión",
+      "button":"Añadir monto",
+      "button_link":"Finalizar inversión",
+      "invested_amount":"Balance invertido"
     },
     "shared": {
       "coming_soon_card": {
@@ -828,7 +848,7 @@
       "category_security_account": "Seguridad cuenta Xcapit",
       "change_pass": "Cambiar contraseña",
       "category_security_wallet": "Seguridad wallet Xcapit",
-      "remove_wallet":"Eliminar Wallet",
+      "remove_wallet": "Eliminar Wallet",
       "security_phrase": "Frase de seguridad",
       "category_binance_investment": "Inversiones Binance",
       "funds": "Fondos",
@@ -1453,20 +1473,20 @@
     }
   },
   "wallets": {
-    "remove_success":{
-      "title":"Tu wallet fue eliminada",
-      "subtitle":"Puedes crear nuevamente una wallet o importar una existente cuando lo desees.",
-      "create_button":"Crear nueva Wallet",
-      "import_button":"Importar wallet",
-      "home_link":"Ir al home"
+    "remove_success": {
+      "title": "Tu wallet fue eliminada",
+      "subtitle": "Puedes crear nuevamente una wallet o importar una existente cuando lo desees.",
+      "create_button": "Crear nueva Wallet",
+      "import_button": "Importar wallet",
+      "home_link": "Ir al home"
     },
-    "remove":{
-      "header":"Eliminar wallet",
-      "title":"Al eliminar tu wallet recuerda",
-      "item1":"No perderás tus transacciones pasadas, éstas son almacenadas por la red.",
-      "item2":"Si eliminas tu wallet y no posees una copia de tu frase de seguridad, podrías perder tus activos.",
-      "item3":"Podrás crear nuevamente una nueva wallet en Xcapit o importar una existente.",
-      "tos":"Leí y comprendo que eliminaré mi wallet."
+    "remove": {
+      "header": "Eliminar wallet",
+      "title": "Al eliminar tu wallet recuerda",
+      "item1": "No perderás tus transacciones pasadas, éstas son almacenadas por la red.",
+      "item2": "Si eliminas tu wallet y no posees una copia de tu frase de seguridad, podrías perder tus activos.",
+      "item3": "Podrás crear nuevamente una nueva wallet en Xcapit o importar una existente.",
+      "tos": "Leí y comprendo que eliminaré mi wallet."
     },
     "no_wallet": {
       "title": "Aún no tienes tu Wallet Xcapit",
@@ -2422,8 +2442,8 @@
       "answer8": "Si tiene alguna pregunta con respecto a esta Política de privacidad, si desea ejercer alguno de sus derechos establecidos anteriormente o si cree que no se ha seguido la Política de privacidad, comuníquese con nosotros enviando un correo electrónico a <a class='ux-link-xl' href='mailto:legal@xcapit.com'>legal@xcapit.com</a>. "
     },
     "support_options": {
-      "title_nft":"NFTs",
-      "description_nft":"Visualizar, Transferir y Recibir",
+      "title_nft": "NFTs",
+      "description_nft": "Visualizar, Transferir y Recibir",
       "title_account": "Cuenta XCAPIT",
       "description_account": "Crear cuenta, configurar e ingresar dinero.",
       "title_wallet": "Wallet",
@@ -2450,7 +2470,7 @@
       "question3": "¿Cuál es el riesgo de invertir con Xcapit?",
       "answer3": "Cada producto de inversión que ofrecemos tiene su métrica correspondiente de riesgo a la cual debes estar seguro o segura que vas a tomarlo, puedes ver los términos y condiciones de cada producto al momento de poner tus activos en un producto de inversión."
     },
-    "support_nft":{
+    "support_nft": {
       "header": "Ayuda",
       "title": "Ayuda sobre NFTs",
       "question1": "Ya reclamé mi NFT de regalo ¿Cuándo lo tendré disponible?",
@@ -2472,7 +2492,7 @@
       "question9": "¿Cuándo recibiré mi NFT  “Financial Freedom México”?",
       "answer9": "Una vez hayas “Reclamado” tu NFT desde la Aplicación, verificaremos que tu e-mail se encuentre en la Waiting list y, de ser así, lo estaremos enviando a tu Wallet, recibirás una notificación en cuanto lo recibas.",
       "question10": "¿Cómo puedo visualizar mi NFT “Financial Freedom México”?",
-      "answer10": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo.", 
+      "answer10": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo.",
       "question11": "¿Todavía puedo obtener mi NFT Freedom México?",
       "answer11": "Hola! Ya nos quedamos sin NFTs. Estos eran para las primeras 16.921 personas que se registren y ya alcanzamos ese número. No te preocupes, próximamente haremos más acciones del estilo para quienes no llegaron a participar."
     },
@@ -2499,10 +2519,10 @@
       "answer9": "Podrás restablecerla con tus 12 palabras de seguridad.",
       "question10": "¿Qué pasa si pierdo mis 12 palabras de seguridad?",
       "answer10": "Es MUY importante que no se pierdan, ya que es el único medio para acceder a tu wallet digital, es lo que te da la tranquilidad de que nadie más que vos va a tener acceso a tus ahorros.",
-      "question11":"¿Puedo hacer dos wallets con la misma cuenta?",
-      "answer11":"Hola! Sí, se puede crear dos wallets distintas con la misma cuenta. Desde la opción crear o importar. Ten en cuenta que si te anotaste para recibir tu NFT de regalo el mismo se depositara en la última wallet creada.",
-      "question12":"Creé una wallet desde el navegador y después instalé la app y ahora tengo dos seeds ¿Qué hago?.",
-      "answer12":"Hola! Lo que debés hacer para mantener la wallet que creaste inicialmente desde el navegador es importarla desde la App. No crear una nueva.",
+      "question11": "¿Puedo hacer dos wallets con la misma cuenta?",
+      "answer11": "Hola! Sí, se puede crear dos wallets distintas con la misma cuenta. Desde la opción crear o importar. Ten en cuenta que si te anotaste para recibir tu NFT de regalo el mismo se depositara en la última wallet creada.",
+      "question12": "Creé una wallet desde el navegador y después instalé la app y ahora tengo dos seeds ¿Qué hago?.",
+      "answer12": "Hola! Lo que debés hacer para mantener la wallet que creaste inicialmente desde el navegador es importarla desde la App. No crear una nueva.",
       "question13": "¿Qué costo tienen las transacciones a otra wallet?",
       "answer13": "<ul><li>El costo de transferencia va a depender de la moneda transferida y a través de qué red se esté transfiriendo.</li><li>Los tokens que se van a poder alojar, recibir y transferir son todos los de la red de ethereum, polygon y RSK.</li><li>Polygon y RSK son las redes con menor costo de transacción.</li></ul>",
       "question14": "¿Por qué me aparece un mensaje de fondo insuficiente para realizar el pago de comisiones si yo tengo cripto?",
@@ -2527,22 +2547,21 @@
     "support_buy": {
       "header": "Ayuda",
       "title": "Ayuda sobre Compra",
-      "question1":"¿Cómo comprar cripto?",
-      "answer1":"Desde la pantalla principal haz clic en “Compra cripto”.",
-      "question2":"¿Qué es Moonpay?",
-      "answer2":"Moonpay ofrece una vía para convertir tu moneda local en criptomonedas. Es un proveedor externo a Xcapit.",
-      "question3":"¿Desde qué países puedo comprar cripto?",
-      "answer3":"Brasil, Colombia, México, España.",
+      "question1": "¿Cómo comprar cripto?",
+      "answer1": "Desde la pantalla principal haz clic en “Compra cripto”.",
+      "question2": "¿Qué es Moonpay?",
+      "answer2": "Moonpay ofrece una vía para convertir tu moneda local en criptomonedas. Es un proveedor externo a Xcapit.",
+      "question3": "¿Desde qué países puedo comprar cripto?",
+      "answer3": "Brasil, Colombia, México, España.",
       "question4": "¿Por qué no se acreditan las criptos que compré?",
       "answer4": "Las acreditaciones pueden demorar algunas horas. Para ayuda podés consultar en:<ul><li>Soporte Xcapit (link a soporte en la app).</li><li>Soporte de Moonpay.</li></ul>",
-      "question5":"¿Cuál es la comisión al comprar en Moonpay?",
-      "answer5":"La comisión es de 1% sobre el monto total de compra.",
-      "question6":"¿Puedo comprar cripto con tarjeta de crédito?",
-      "answer6":"Sí.",
-      "question7":"¿Cuánto es el mínimo y máximo para comprar en Moonpay?",
-      "answer7":"El monto mínimo de transacción para cada cripto admitida es el siguiente:<ul><li>0,001 BTC, ETH: 0,01, BCH: 0,05, USDC: 30, USDT: 30</li><li>*La cantidad mínima puede cambiar debido a la fluctuación del precio de las criptomonedas y se reflejará en nuestro widget.</li></ul>"
+      "question5": "¿Cuál es la comisión al comprar en Moonpay?",
+      "answer5": "La comisión es de 1% sobre el monto total de compra.",
+      "question6": "¿Puedo comprar cripto con tarjeta de crédito?",
+      "answer6": "Sí.",
+      "question7": "¿Cuánto es el mínimo y máximo para comprar en Moonpay?",
+      "answer7": "El monto mínimo de transacción para cada cripto admitida es el siguiente:<ul><li>0,001 BTC, ETH: 0,01, BCH: 0,05, USDC: 30, USDT: 30</li><li>*La cantidad mínima puede cambiar debido a la fluctuación del precio de las criptomonedas y se reflejará en nuestro widget.</li></ul>"
     },
-    
     "support_binance": {
       "header": "Ayuda",
       "title": "Ayuda sobre Inversiones en Binance",

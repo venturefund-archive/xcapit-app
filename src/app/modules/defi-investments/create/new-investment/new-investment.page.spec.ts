@@ -1,8 +1,9 @@
+import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { TwoPiApi } from './../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
+import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -51,9 +52,20 @@ describe('NewInvestmentPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewInvestmentPage>;
+  let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
 
   beforeEach(
     waitForAsync(() => {
+      investmentDataServiceSpy = jasmine.createSpyObj(
+        'InvestmentDataService',
+        {},
+        {
+          amount: 10,
+          quoteAmount: 12,
+          investment: {},
+        }
+      );
+
       fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
@@ -77,6 +89,7 @@ describe('NewInvestmentPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: TwoPiApi, useValue: twoPiApiSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -84,6 +97,7 @@ describe('NewInvestmentPage', () => {
       fixture = TestBed.createComponent(NewInvestmentPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      component.amountInputCard = jasmine.createSpyObj('AmountInputCardComponent', { ngOnDestroy: null });
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -93,7 +107,7 @@ describe('NewInvestmentPage', () => {
   });
 
   it('should call trackEvent when Submit Amount is clicked', async () => {
-    component.ionViewDidEnter();
+    await component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit Amount');
@@ -105,19 +119,24 @@ describe('NewInvestmentPage', () => {
   });
 
   it('should save amount and redirect if form is valid', async () => {
-    component.ionViewDidEnter();
+    await component.ionViewDidEnter();
     component.form.patchValue({ amount: 20, quoteAmount: 20 });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['defi/new/summary']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/new/confirmation');
   });
 
   it('should not save amount nor redirect if form is not valid', async () => {
-    component.ionViewDidEnter();
+    await component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
+  });
+
+  it('should destroy amount input card on leave', () => {
+    component.ionViewWillLeave();
+    expect(component.amountInputCard.ngOnDestroy).toHaveBeenCalledTimes(1);
   });
 });
