@@ -95,8 +95,8 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
   styleUrls: ['./remove-wallet.page.scss'],
 })
 export class RemoveWalletPage implements OnInit {
-  acceptTos: boolean = false;
-  loading: boolean = false;
+  acceptTos = false;
+  loading = false;
 
   constructor(private navController: NavController, private storageService: StorageService) {}
 
@@ -107,11 +107,11 @@ export class RemoveWalletPage implements OnInit {
     this.storageService.removeWalletFromStorage();
     this.goToSuccessPage();
   }
-  
+
   enableButton() {
     return (this.acceptTos = !this.acceptTos);
   }
-  
+
   goToSuccessPage() {
     this.loading = false;
     this.navController.navigateForward(['wallets/remove/success']);

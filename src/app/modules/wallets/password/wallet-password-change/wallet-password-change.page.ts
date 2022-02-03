@@ -93,8 +93,8 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
   styleUrls: ['./wallet-password-change.page.scss'],
 })
 export class WalletPasswordChangePage implements OnInit {
-  loading: boolean = false;
-  disable: boolean = false;
+  loading = false;
+  disable = false;
   changePasswordForm: FormGroup = this.formBuilder.group(
     {
       old_password: ['', [Validators.required]],
@@ -124,7 +124,7 @@ export class WalletPasswordChangePage implements OnInit {
     private formBuilder: FormBuilder,
     public submitButtonService: SubmitButtonService,
     private navController: NavController,
-    private walletEncryptionService: WalletEncryptionService,
+    private walletEncryptionService: WalletEncryptionService
   ) {}
 
   ngOnInit() {}
@@ -136,7 +136,7 @@ export class WalletPasswordChangePage implements OnInit {
       this.changePasswordForm.markAllAsTouched();
     }
   }
-  
+
   async changePassword() {
     this.loading = true;
     this.walletEncryptionService
