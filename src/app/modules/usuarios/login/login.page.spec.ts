@@ -16,7 +16,6 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { Storage } from '@ionic/storage';
-import { LoadingService } from '../../../shared/services/loading/loading.service';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -31,7 +30,6 @@ describe('LoginPage', () => {
   let nullNotificationServiceSpy: any;
   let localNotificationServiceSpy: any;
   let storageSpy: jasmine.SpyObj<Storage>;
-  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   const formData = {
     valid: {
       email: 'test@test.com',
@@ -43,10 +41,6 @@ describe('LoginPage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
-        show: Promise.resolve(),
-        dismiss: Promise.resolve(),
-      });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeNavController.modifyReturns({}, {}, {}, {});
@@ -82,7 +76,6 @@ describe('LoginPage', () => {
           { provide: NotificationsService, useValue: notificationsServiceSpy },
           { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
           { provide: Storage, useValue: storageSpy },
-          { provide: LoadingService, useValue: loadingServiceSpy },
         ],
       }).compileComponents();
     })
@@ -110,8 +103,6 @@ describe('LoginPage', () => {
     expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
     expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   }));
 
   it('should not call user service status when stored link', fakeAsync(() => {
@@ -119,8 +110,6 @@ describe('LoginPage', () => {
     component.loginUser({});
     tick();
     expect(apiUsuariosSpy.status).not.toHaveBeenCalled();
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   }));
 
   it('should redirect to gome when status is COMPLETE', () => {
@@ -154,12 +143,12 @@ describe('LoginPage', () => {
     await component.googleSingUp();
     expect(googleAuthPluginSpy.signIn).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should call loginWithGoogle on googleSingUp', async () => {
     await component.googleSingUp();
     expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should set up login with Google', async () => {
     const spy = spyOn(component.loginForm.form, 'reset');
     await component.googleSingUp();
@@ -184,18 +173,18 @@ describe('LoginPage', () => {
     expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
   });
 
-  // it('should call trackEvent on trackService when Google Auth button clicked', () => {
-  //   fixture.detectChanges();
-  //   component.loginForm.form.patchValue(formData.valid);
-  //   fixture.detectChanges();
-  //   expect(component.loginForm.form.valid).toBeTruthy();
-  //   const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+  it('should call trackEvent on trackService when Google Auth button clicked', () => {
+    fixture.detectChanges();
+    component.loginForm.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    expect(component.loginForm.form.valid).toBeTruthy();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
   it('should call trackEvent on trackService when Login button clicked', () => {
     fixture.detectChanges();

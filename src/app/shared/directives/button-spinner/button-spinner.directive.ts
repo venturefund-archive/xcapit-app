@@ -7,7 +7,7 @@ export class ButtonSpinnerDirective implements OnChanges, AfterViewInit {
   @Input() loadingText: string;
   @Input() spinnerColor = 'uxprimary';
   @Input() appLoading: boolean;
-  @HostBinding('disabled') disabled = false;
+  @HostBinding('[disabled]') disabled = false;
 
   private originalHTML: string;
   private spinnerHTML = `<ion-spinner style="margin-right: 10px" color="${this.spinnerColor}" name="crescent"></ion-spinner>`;
