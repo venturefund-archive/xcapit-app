@@ -128,8 +128,8 @@ describe('DefiInvestmentProductsPage', () => {
     expect(productEl).toBeTruthy();
   });
 
-  it('should render available investment card', async () => {
-    investmentSpy.balance.and.resolveTo(0);
+  it('should render available investment card when dont have wallet', async () => {
+    walletServiceSpy.walletExist.and.resolveTo(false);
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
