@@ -8,7 +8,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -16,22 +15,15 @@ describe('WalletSubheaderButtonsComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletSubheaderButtonsComponent>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      toastServiceSpy = jasmine.createSpyObj('ToastService', {
-        showInfoToast: Promise.resolve(),
-      });
       TestBed.configureTestingModule({
         declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ToastService, useValue: toastServiceSpy },
-        ],
+        providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
@@ -132,14 +124,13 @@ describe('WalletSubheaderButtonsComponent', () => {
     );
   });
 
-  it('should show a toast when Go to Performance button is clicked', async () => {
-    const performanceButtonEl = fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Performance']"));
-    performanceButtonEl.nativeElement.click();
-    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
+  it('should navigate to tabs/investments/defi when Go to Performance button is clicked', async () => {
+    fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Performance']")).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments/defi']);
   });
 
   it('should navigate to fiat-ramps moonpay page when Go to Buy button is clicked', async () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/moonpay']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/moonpay']);
   });
 });

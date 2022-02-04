@@ -48,7 +48,7 @@ export class ErrorInvestmentPage implements OnInit {
   }
 
   tryAgain(){
-    this.navController.navigateForward(['']);
+    this.navController.navigateForward(['tabs/investments/defi']);
   }
 
 }
