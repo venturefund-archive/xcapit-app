@@ -171,7 +171,7 @@ describe('InvestmentDetailPage', () => {
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',
-      'polygon_usdc',
+      'polygon_usdc', 'add'
     ]);
   });
 
