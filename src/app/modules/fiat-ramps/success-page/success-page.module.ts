@@ -12,10 +12,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    SharedModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [SuccessPagePage]
+  imports: [SharedModule, RouterModule.forChild(routes)],
+  exports: [SuccessPagePage],
+  declarations: [SuccessPagePage],
 })
 export class SuccessPagePageModule {}

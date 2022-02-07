@@ -151,4 +151,15 @@ export const SUCCESS_TYPES = {
     nameSecondaryAction: 'wallets.password_change_error.nameSecondaryAction',
     urlSecondaryAction: '/tabs/wallets',
   },
+  success_defi_withdraw: {
+    image: 'assets/img/defi-investments/success-withdraw.svg',
+    urlClose: '/tabs/investments/defi',
+    textPrimary: 'defi_investments.withdraw.success_withdraw.title',
+    textSecondary: 'defi_investments.withdraw.success_withdraw.subtitle',
+    namePrimaryAction: 'defi_investments.withdraw.success_withdraw.button_primary',
+    urlPrimaryAction: '/tabs/investments/defi',
+    nameThirdAction: 'defi_investments.withdraw.success_withdraw.button_secondary',
+    urlThirdAction: '/tabs/wallets',
+    disclaimer: 'defi_investments.withdraw.success_withdraw.disclaimer',
+  },
 };

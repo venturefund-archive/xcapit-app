@@ -5,6 +5,7 @@ import { ComingSoonInvestmentsComponent } from './components/coming-soon-investm
 import { DefiInvestmentProductComponent } from './components/defi-investment-product/defi-investment-product.component';
 import { InvestmentBalanceItemComponent } from './components/investment-balance-item/investment-balance-item.component';
 import { ExpandableInvestmentInfoComponent } from './components/expandable-investment-info/expandable-investment-info.component';
+import { DefiInvestmentWithdrawComponent } from './components/defi-investment-withdraw/defi-investment-withdraw.component';
 @NgModule({
   declarations: [
     AmountInputCardComponent,
@@ -12,6 +13,7 @@ import { ExpandableInvestmentInfoComponent } from './components/expandable-inves
     DefiInvestmentProductComponent,
     InvestmentBalanceItemComponent,
     ComingSoonInvestmentsComponent,
+    DefiInvestmentWithdrawComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -21,6 +23,7 @@ import { ExpandableInvestmentInfoComponent } from './components/expandable-inves
     DefiInvestmentProductComponent,
     InvestmentBalanceItemComponent,
     ComingSoonInvestmentsComponent,
+    DefiInvestmentWithdrawComponent,
   ],
 })
 export class SharedDefiInvestmentsModule {}

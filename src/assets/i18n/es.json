@@ -314,6 +314,25 @@
       "amount_input_card": {
         "available": "Disponible",
         "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
+      },
+      "withdraw_card": {
+        "title": "Recibir",
+        "transaction_details": "Detalles de la transacción",
+        "transaction_fee": "Tarifa de transacción",
+        "confirm": "Confirmar",
+        "confirm_loading": "Confirmando..."
+      }
+    },
+    "withdraw": {
+      "success_withdraw": {
+        "title": "Dejaste de invertir *",
+        "subtitle": "Puedes volver a invertir cuando quieras",
+        "button_primary": "Volver a inversiones Defi",
+        "button_secondary": "Ir a wallet",
+        "disclaimer": "* Tus fondos pueden demorar en visualizarse en tu wallet hasta 5 minutos."
+      },
+      "withdraw": {
+        "header": "Finalizar inversión"
       }
     }
   },

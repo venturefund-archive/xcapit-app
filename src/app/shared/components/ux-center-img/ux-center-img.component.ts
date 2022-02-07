@@ -12,14 +12,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class UxCenterImgComponent implements OnInit {
   @Input() imageName = 'ux-success.svg';
   @Input() imageAlt = 'Success img';
-  imagePath = '';
+  @Input() imagePath = 'assets/img/ux-success.svg';
+
   constructor() {}
 
-  ngOnInit() {
-    this.getImagePath();
-  }
-
-  getImagePath() {
-    this.imagePath = `../../assets/img/${this.imageName}`;
-  }
+  ngOnInit() {}
 }

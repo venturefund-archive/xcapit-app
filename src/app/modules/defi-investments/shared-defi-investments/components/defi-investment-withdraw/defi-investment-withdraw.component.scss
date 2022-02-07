@@ -1,0 +1,94 @@
+:host {
+  .diw {
+    background: var(--ion-color-uxlight);
+    border: 0.5px solid var(--ion-color-uxmedium);
+    background-size: cover !important;
+    border-radius: 8px;
+    padding-bottom: 16px;
+
+    &__withdraw-title {
+      margin: 16px 16px 0;
+    }
+
+    &__content {
+      padding: 16px;
+
+      &__image {
+        margin-right: 10px;
+        justify-content: center;
+        width: fit-content;
+
+        &__img {
+          margin: 2px;
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      display: flex;
+      align-items: center;
+
+      &__info {
+        width: 100%;
+        justify-content: space-between;
+
+        &__group {
+          align-items: center;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 0;
+
+          &__badge {
+            --background: var(--ion-color-successlight);
+            --color: var(--ion-color-successdark);
+            --height: 12px;
+
+            margin-top: 4px;
+          }
+
+          .converted_balance {
+            color: var(--ion-color-uxsemidark);
+          }
+        }
+      }
+    }
+
+    &__separator {
+      height: 1px;
+      background-color: var(--ion-color-neutro10);
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    &__details {
+      padding: 16px;
+
+      ion-text {
+        color: var(--ion-color-uxprimary);
+      }
+
+      &__fee {
+        margin-top: 16px;
+
+        ion-text {
+          color: var(--ion-color-uxprimary);
+        }
+
+        &__amount {
+          margin-top: 4px;
+          display: flex;
+          justify-content: space-between;
+
+          ion-text {
+            color: var(--ion-color-uxdark);
+          }
+        }
+      }
+    }
+
+    &__confirm-button {
+      margin-top: 24px;
+    }
+  }
+}

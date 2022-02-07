@@ -68,6 +68,6 @@ export class TwoPiInvestment implements Investment {
   }
 
   withdraw(): any {
-    return;
+    return this._aTwoPiContract.value().withdrawAll(this._aProduct.id());
   }
 }

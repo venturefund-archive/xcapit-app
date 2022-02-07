@@ -9,7 +9,8 @@ const routes: Routes = [
     children: [
       {
         path: 'investment-detail/:vault',
-        loadChildren: () => import('./investment-detail/investment-detail.module').then( m => m.InvestmentDetailPageModule)
+        loadChildren: () =>
+          import('./investment-detail/investment-detail.module').then((m) => m.InvestmentDetailPageModule),
       },
       {
         path: 'no-wallet-to-invest',
@@ -45,9 +46,16 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'withdraw',
+        loadChildren: () => import('./withdraw/withdraw.module').then((m) => m.WithdrawModule),
+      },
     ],
   },
-
+  {
+    path: 'defi-investment-success-withdraw',
+    loadChildren: () => import('./withdraw/defi-investment-success-withdraw/defi-investment-success-withdraw.module').then( m => m.DefiInvestmentSuccessWithdrawPageModule)
+  },
 ];
 
 @NgModule({

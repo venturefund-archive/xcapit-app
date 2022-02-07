@@ -1,6 +1,6 @@
-import { InvestmentProduct } from './../shared-defi-investments/interfaces/investment-product.interface';
+import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { TwoPiInvestment } from './../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
+import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { Component } from '@angular/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DefiInvestment } from '../shared-defi-investments/interfaces/defi-investment.interface';
@@ -25,16 +25,11 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div
-        class="header-background"
-        *ngIf="this.activeInvestments.length || this.availableInvestments.length"
-      ></div>
+      <div class="header-background" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></div>
       <div class="dp">
         <div class="dp__active-card" *ngIf="this.activeInvestments.length">
           <ion-item lines="none" slot="header">
-            <ion-label>{{
-              'defi_investments.defi_investment_products.title_investments' | translate
-            }}</ion-label>
+            <ion-label>{{ 'defi_investments.defi_investment_products.title_investments' | translate }}</ion-label>
           </ion-item>
           <app-investment-balance-item
             *ngFor="let investment of this.activeInvestments"
@@ -96,7 +91,7 @@ export class DefiInvestmentProductsPage {
       const balance = walletExist ? await this.getProductBalance(investmentProduct) : 0;
       this.filterUserInvestments({
         product: investmentProduct,
-        balance : balance,
+        balance: balance,
         isComing: product.isComing,
       });
     }
@@ -109,17 +104,12 @@ export class DefiInvestmentProductsPage {
     return await investment.balance();
   }
 
-  createInvestment(
-    investmentProduct: InvestmentProduct,
-    address: string
-  ): TwoPiInvestment {
+  createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
     return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
   }
 
   filterUserInvestments(investment: DefiInvestment): void {
-    investment.balance > 0
-      ? this.activeInvestments.push(investment)
-      : this.availableInvestments.push(investment);
+    investment.balance > 0 ? this.activeInvestments.push(investment) : this.availableInvestments.push(investment);
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
