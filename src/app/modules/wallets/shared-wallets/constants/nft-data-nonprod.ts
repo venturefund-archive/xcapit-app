@@ -8,7 +8,7 @@ export const NFT_DATA_NONPROD = [
     abi: nftAbi,
   },
   {
-    contractAddress: '0x9592a6cb3a9d53ff9967610e12b503e53929ffaf',
+    contractAddress: '0x662a663177881F230C96E1E9d22783Dd800A778d',
     rpc: environment.maticApiUrl,
     abi: nftAbi,
   }
