@@ -30,7 +30,9 @@ import { Amount } from '../../types/amount.type';
       </div>
       <div class="diw__separator"></div>
       <div class="diw__details">
-        <ion-text class="ux-font-header-titulo">{{'defi_investments.shared.withdraw_card.transaction_details' | translate }}</ion-text>
+        <ion-text class="ux-font-header-titulo">{{
+          'defi_investments.shared.withdraw_card.transaction_details' | translate
+        }}</ion-text>
         <div class="diw__details__fee">
           <ion-text class="diw__details__fee__title ux-font-title-xs">{{
             'defi_investments.shared.withdraw_card.transaction_fee' | translate
@@ -65,8 +67,8 @@ import { Amount } from '../../types/amount.type';
 })
 export class DefiInvestmentWithdrawComponent implements OnInit {
   @Input() token: Coin;
-  @Input() fee: Amount = { value: 19, token: 'MATIC' };
-  @Input() quoteFee: Amount = { value: 40, token: 'USD' };
+  @Input() fee: Amount;
+  @Input() quoteFee: Amount;
   @Input() amount: Amount;
   @Input() quoteAmount: Amount;
   @Input() loading = false;

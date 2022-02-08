@@ -315,7 +315,7 @@
         "disclaimer": "Please note that transaction fees will be charged in"
       },
       "withdraw_card": {
-        "title": "Receive",
+        "title": "Withdraw",
         "transaction_details": "Transaction details",
         "transaction_fee": "Transaction fee",
         "confirm": "Confirm",

@@ -316,7 +316,7 @@
         "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
       },
       "withdraw_card": {
-        "title": "Recibir",
+        "title": "Retiro",
         "transaction_details": "Detalles de la transacción",
         "transaction_fee": "Tarifa de transacción",
         "confirm": "Confirmar",
