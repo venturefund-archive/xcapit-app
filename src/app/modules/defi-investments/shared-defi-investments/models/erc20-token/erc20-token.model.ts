@@ -1,7 +1,6 @@
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-
 export class ERC20Token {
   constructor(private readonly _aContract: ERC20Contract) {}
 
@@ -19,5 +18,13 @@ export class ERC20Token {
 
   transferFee(to: string, value: BigNumber): Promise<BigNumber> {
     return this._aContract.value().estimateGas.transfer(to, value);
+  }
+
+  getGasPrice(): Promise<BigNumber> {
+    return this._aContract.getGasPrice();
+  }
+
+  balanceOf(address: string): Promise<BigNumber> {
+    return this._aContract.value().balanceOf(address);
   }
 }
