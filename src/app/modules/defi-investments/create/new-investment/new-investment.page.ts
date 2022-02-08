@@ -19,7 +19,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'defi_investments.new.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{  this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
@@ -29,7 +29,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
       <ion-card class="ux-card">
         <form [formGroup]="this.form">
           <app-amount-input-card
-            title="{{ 'defi_investments.new.amount_to_invest' | translate }}"
+            title="{{ this.labelText | translate }}"
             [baseCurrency]="this.token"
           ></app-amount-input-card>
         </form>
@@ -58,6 +58,9 @@ export class NewInvestmentPage implements OnInit {
   });
   investmentProduct: InvestmentProduct;
   token: Coin;
+  mode: string;
+  headerText: string;
+  labelText: string;
   @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
   constructor(
     private formBuilder: FormBuilder,
@@ -74,6 +77,8 @@ export class NewInvestmentPage implements OnInit {
   async ionViewDidEnter() {
     await this.getInvestmentProduct();
     this.getToken();
+    this.mode = this.route.snapshot.paramMap.get('mode');
+    this.updateTexts();
   }
 
   private vaultID() {
@@ -100,5 +105,18 @@ export class NewInvestmentPage implements OnInit {
 
   ionViewWillLeave() {
     this.amountInputCard.ngOnDestroy();
+  }
+
+  private updateTexts() {
+    switch (this.mode) {
+      case 'invest':
+        this.headerText = 'defi_investments.new.header';
+        this.labelText = 'defi_investments.new.amount_to_invest';
+        return;
+      case 'add':
+        this.headerText = 'defi_investments.add.header';
+        this.labelText = 'defi_investments.add.amount_to_add';
+        return;
+    }
   }
 }

@@ -139,7 +139,7 @@ export class InvestmentDetailPage implements OnInit {
     if (walletExist) {
       this.navController.navigateForward([
         '/defi/new/insert-amount',
-        this.investmentProduct.name(),
+        this.investmentProduct.name(), 'add'
       ]);
     } else {
       this.navController.navigateForward(['/defi/no-wallet-to-invest']);

@@ -243,6 +243,10 @@
       "amount_to_invest": "Amount to invest",
       "button": "Continue"
     },
+    "add": {
+      "header": "Add amount",
+      "amount_to_add": "Amount to add"
+    },
     "confirmation": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
