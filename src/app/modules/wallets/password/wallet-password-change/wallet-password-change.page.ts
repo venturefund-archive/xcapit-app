@@ -79,7 +79,6 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="this.loading"
               [appLoading]="this.loading"
               [loadingText]="'wallets.password_change.loading' | translate"
             >

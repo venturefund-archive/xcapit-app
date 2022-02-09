@@ -78,7 +78,6 @@ import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/
       </ion-card>
 
       <ion-button
-        [disabled]="this.loading"
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.confirmation.submit_loading' | translate"
         appTrackClick

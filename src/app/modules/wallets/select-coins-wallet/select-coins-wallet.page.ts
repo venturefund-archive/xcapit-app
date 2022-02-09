@@ -61,7 +61,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <div class="ux_footer">
           <div class="sc__next_button">
             <ion-button
-              [disabled]="!this.almostOneChecked || this.txInProgress || this.loading"
+              [disabled]="!this.almostOneChecked || this.txInProgress"
               color="uxsecondary"
               class="ux_button"
               appTrackClick

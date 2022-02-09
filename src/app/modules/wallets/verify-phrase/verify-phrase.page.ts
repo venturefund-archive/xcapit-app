@@ -63,7 +63,6 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
               appTrackClick
               name="Create Wallet"
               (click)="this.createWallet()"
-              [disabled]="this.loading"
               [appLoading]="this.loading"
               [loadingText]="'wallets.verify_phrase.verifying' | translate"
             >
