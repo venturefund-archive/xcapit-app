@@ -84,8 +84,10 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
             size="large"
             (click)="this.remove()"
             appTrackClick
+            [appLoading]="this.loading"
+            [loadingText]="'wallets.remove.loading' | translate"
           >
-            {{ 'wallets.recovery_phrase_information.button_text' | translate }}
+            {{ 'wallets.remove.button_text' | translate }}
           </ion-button>
         </div>
       </div>
@@ -94,12 +96,14 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 })
 export class RemoveWalletPage implements OnInit {
   acceptTos = false;
+  loading = false;
 
   constructor(private navController: NavController, private storageService: StorageService) {}
 
   ngOnInit() {}
 
   remove() {
+    this.loading = true;
     this.storageService.removeWalletFromStorage();
     this.goToSuccessPage();
   }
@@ -109,6 +113,7 @@ export class RemoveWalletPage implements OnInit {
   }
 
   goToSuccessPage() {
+    this.loading = false;
     this.navController.navigateForward(['wallets/remove/success']);
   }
 }

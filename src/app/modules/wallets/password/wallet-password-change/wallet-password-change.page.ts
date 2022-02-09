@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
-import { LoadingModalOptions, LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
@@ -60,7 +58,7 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
               [errors]="this.passwordErrors"
             ></app-ux-input>
           </div>
-          
+
           <div class="wpc__repeat_password">
             <app-ux-input
               class="input"
@@ -81,7 +79,8 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
               type="submit"
               color="uxsecondary"
               size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
+              [appLoading]="this.loading"
+              [loadingText]="'wallets.password_change.loading' | translate"
             >
               {{ 'wallets.password_change.submit_button' | translate }}
             </ion-button>
@@ -93,6 +92,8 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
   styleUrls: ['./wallet-password-change.page.scss'],
 })
 export class WalletPasswordChangePage implements OnInit {
+  loading = false;
+  disable = false;
   changePasswordForm: FormGroup = this.formBuilder.group(
     {
       old_password: ['', [Validators.required]],
@@ -118,25 +119,16 @@ export class WalletPasswordChangePage implements OnInit {
   passwordErrors: ItemFormError[] = [...CONFIG.fieldErrors.newPassword, ...CONFIG.fieldErrors.password];
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
-  private get modalOptions(): LoadingModalOptions {
-    return {
-      title: this.translate.instant('wallets.password_change.loading.title'),
-      subtitle: this.translate.instant('wallets.password_change.loading.subtitle'),
-      image: 'assets/img/wallet-password-change/password-change.svg',
-    };
-  }
-
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     public submitButtonService: SubmitButtonService,
-    private loadingService: LoadingService,
     private navController: NavController,
-    private walletEncryptionService: WalletEncryptionService,
-    private translate: TranslateService
+    private walletEncryptionService: WalletEncryptionService
   ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
-  async handleSubmit() { 
+  async handleSubmit() {
     if (this.changePasswordForm.valid) {
       await this.changePassword();
     } else {
@@ -145,8 +137,9 @@ export class WalletPasswordChangePage implements OnInit {
   }
 
   async changePassword() {
-    await this.loadingService.showModal(this.modalOptions)
-      .then(() => this.walletEncryptionService.changePassword(this.changePasswordForm.value.old_password, this.changePasswordForm.value.password))
+    this.loading = true;
+    this.walletEncryptionService
+      .changePassword(this.changePasswordForm.value.old_password, this.changePasswordForm.value.password)
       .then(() => this.navController.navigateForward(['/wallets/password-change/success']))
       .catch((error) => {
         if (error.message === 'invalid password') {
@@ -155,7 +148,7 @@ export class WalletPasswordChangePage implements OnInit {
           this.navController.navigateForward(['/wallets/password-change/error']);
         }
       })
-      .finally(() => this.loadingService.dismissModal());
+      .finally(() => (this.loading = false));
   }
 
   async showIncorrectPasswordError() {
