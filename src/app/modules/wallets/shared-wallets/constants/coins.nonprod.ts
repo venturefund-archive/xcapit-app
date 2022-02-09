@@ -7,7 +7,6 @@ import rifAbi from './assets-abi/rif-abi.json';
 import busdAbi from './assets-abi/busd-abi.json';
 import cakeAbi from './assets-abi/cake-abi.json';
 import adaAbi from './assets-abi/ada-abi.json';
-import { last } from 'rxjs/operators';
 
 
 
