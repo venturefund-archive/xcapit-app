@@ -99,7 +99,7 @@ export class InvestmentConfirmationPage {
   product: InvestmentProduct;
   amount: Amount;
   quoteAmount: Amount;
-  fee: Amount = { value: undefined, token: 'USD' };
+  fee: Amount = { value: undefined, token: 'MATIC' };
   quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
   leave$ = new Subject<void>();

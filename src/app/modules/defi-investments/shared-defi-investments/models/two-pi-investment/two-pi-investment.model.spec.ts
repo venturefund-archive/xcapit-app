@@ -21,6 +21,7 @@ describe('TwoPiInvestment', () => {
   beforeEach(() => {
     contractSpy = jasmine.createSpyObj('Contract', {
       deposit: Promise.resolve({} as TransactionResponse),
+      withdrawAll: Promise.resolve({} as TransactionResponse),
       balanceOf: Promise.resolve(BigNumber.from('50000000')),
       getPricePerFullShare: Promise.resolve(BigNumber.from('1000000')),
     });
@@ -77,7 +78,16 @@ describe('TwoPiInvestment', () => {
     expect(balance).toEqual(50);
   });
 
-  it('should withdraw', () => {
-    expect(twoPiInvestment.withdraw()).toBeUndefined();
+  it('should withdraw', async () => {
+    twoPiInvestment = new TwoPiInvestment(
+      productSpy,
+      new VoidSigner(testAddress),
+      erc20TokenSpy,
+      erc20ProviderSpy,
+      twoPiContractSpy,
+      referralAddress
+    );
+    await twoPiInvestment.withdraw();
+    expect(contractSpy.withdrawAll).toHaveBeenCalledTimes(1);
   });
 });

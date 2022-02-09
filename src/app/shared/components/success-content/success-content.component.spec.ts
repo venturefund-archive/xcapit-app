@@ -31,10 +31,14 @@ describe('SuccessContentComponent', () => {
     nameSecondaryAction: 'test.test.nameSecondaryAction',
     urlThirdAction: '/tabs/investments/binance',
     nameThirdAction: 'test.test.nameThirdAction',
+    disclaimer: 'test.test.disclaimer',
+    image: 'assets/img/defi-investments/success-withdraw.svg',
   };
+  let testDataSpy: jasmine.SpyObj<any>;
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      testDataSpy = jasmine.createSpyObj('TestData', {}, testData);
       TestBed.configureTestingModule({
         providers: [{ provide: NavController, useValue: navControllerSpy }],
         declarations: [SuccessContentComponent, FakeTrackClickDirective, DummyComponent],
@@ -44,7 +48,7 @@ describe('SuccessContentComponent', () => {
 
       fixture = TestBed.createComponent(SuccessContentComponent);
       component = fixture.componentInstance;
-      component.data = testData;
+      component.data = testDataSpy;
       fixture.detectChanges();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
@@ -53,6 +57,7 @@ describe('SuccessContentComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   describe('Buttons should call trackEvent on TrackService when they are clicked', () => {
     it('should call trackEvent on trackService when Close Success is clicked', () => {
       const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close Success');
@@ -136,5 +141,6 @@ describe('SuccessContentComponent', () => {
       actionThirdButton.nativeElement.click();
       expect(spy).toHaveBeenCalledTimes(1);
     });
+
   });
 });
