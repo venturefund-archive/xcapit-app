@@ -175,7 +175,7 @@ export class InvestmentConfirmationPage {
   private async approvalFee(): Promise<Fee> {
     return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [
       this.product.contractAddress(),
-      this.amount.value,
+      0,
     ]);
   }
 
