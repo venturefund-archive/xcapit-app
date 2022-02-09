@@ -32,7 +32,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
                   </ion-label>
                 </ion-item>
                 <div class="loader" *ngIf="this.waitingQuotes">
-                  <app-ux-loading-block minSize="22px"></app-ux-loading-block>
+                  <app-ux-loading-block minSize="30px"></app-ux-loading-block>
                 </div>
                 <div class="container">
                   <app-item-quote

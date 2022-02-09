@@ -128,7 +128,8 @@
       "login_button_text": "Login",
       "title": "Login",
       "google_auth": "Sign in with Google",
-      "or_text": "or"
+      "or_text": "or",
+      "loading":"Logging"
     },
     "register": {
       "card_header": "Create your account",
@@ -1492,20 +1493,22 @@
     }
   },
   "wallets": {
-    "remove_success": {
-      "title": "Your wallet was removed",
-      "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
-      "create_button": "Create new Wallet",
-      "import_button": "Import Wallet",
-      "home_link": "Go to home"
+    "remove_success":{
+      "title":"Your wallet was removed",
+      "subtitle":"You can create a new wallet or import an existing one whenever you wish.",
+      "create_button":"Create new Wallet",
+      "import_button":"Import Wallet",
+      "home_link":"Go to home"
     },
-    "remove": {
-      "header": "Remove wallet",
-      "title": "When removing your wallet remember",
-      "item1": "You will not lose your past transactions, they are stored by the network.",
-      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
-      "item3": "You will be able to again create a new wallet in Xcapit or import an existing one.",
-      "tos": "I read and understand that I will remove my wallet."
+    "remove":{
+      "header":"Remove wallet",
+      "title":"When removing your wallet remember",
+      "item1":"You will not lose your past transactions, they are stored by the network.",
+      "item2":"If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item3":"You will be able to again create a new wallet in Xcapit or import an existing one.",
+      "tos":"I read and understand that I will remove my wallet.",
+      "button_text": "Continue",
+      "loading":"Removing wallet..."
     },
     "no_wallet": {
       "title": "You don't have your Xcapit Wallet yet",
@@ -1520,10 +1523,7 @@
       "new_password": "Write your new password",
       "repeat_password": "Repeat your new password",
       "submit_button": "Change",
-      "loading": {
-        "title": "Time!",
-        "subtitle": "We are processing your new password."
-      }
+      "loading": "Changing..."
     },
     "password_change_success": {
       "textPrimary": "Great!",

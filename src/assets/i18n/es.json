@@ -128,7 +128,8 @@
       "login_button_text": "Ingresar",
       "title": "Ingresar",
       "google_auth": "Continuar con Google",
-      "or_text": "o"
+      "or_text": "o",
+      "loading":"Ingresando"
     },
     "register": {
       "card_header": "Crea tu cuenta",
@@ -1509,7 +1510,9 @@
       "item1": "No perderás tus transacciones pasadas, éstas son almacenadas por la red.",
       "item2": "Si eliminas tu wallet y no posees una copia de tu frase de seguridad, podrías perder tus activos.",
       "item3": "Podrás crear nuevamente una nueva wallet en Xcapit o importar una existente.",
-      "tos": "Leí y comprendo que eliminaré mi wallet."
+      "tos": "Leí y comprendo que eliminaré mi wallet.",
+      "button_text": "Continuar",
+      "loading":"Eliminando wallet..."
     },
     "no_wallet": {
       "title": "Aún no tienes tu Wallet Xcapit",
@@ -1524,10 +1527,7 @@
       "new_password": "Escribe tu nueva contraseña",
       "repeat_password": "Repite tu nueva contraseña",
       "submit_button": "Cambiar",
-      "loading": {
-        "title": "¡Tiempo!",
-        "subtitle": "Estamos procesando tu nueva contraseña."
-      }
+      "loading": "Cambiando..."
     },
     "password_change_success": {
       "textPrimary": "¡Genial!",

@@ -3,7 +3,6 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
-import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
@@ -37,6 +36,8 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
             class="main__login_button ux_button"
             color="uxsecondary"
             [disabled]="this.submitButtonService.isDisabled | async"
+            [appLoading]="this.loading"
+            [loadingText]="'usuarios.login.loading' | translate"
           >
             {{ 'usuarios.login.login_button_text' | translate }}
           </ion-button>
@@ -56,24 +57,24 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
           </ion-button>
         </div>
       </app-auth-form>
-     <div class="ion-text-center">
-       <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
-     </div>
+      <div class="ion-text-center">
+        <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
+      </div>
 
-     <ion-button
-       appTrackClick
-       name="Google Auth"
-       expand="block"
-       fill="clear"
-       size="large"
-       type="button"
-       class="ux_button google-auth color"
-       [disabled]="this.submitButtonService.isDisabled | async"
-       (click)="this.googleSingUp()"
-     >
-       <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
-       <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
-     </ion-button>
+      <ion-button
+        appTrackClick
+        name="Google Auth"
+        expand="block"
+        fill="clear"
+        size="large"
+        type="button"
+        class="ux_button google-auth color"
+        [disabled]="this.submitButtonService.isDisabled | async"
+        (click)="this.googleSingUp()"
+      >
+        <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
+        <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
+      </ion-button>
       <div class="auth-link-reset-password main__reset_password">
         <ion-button
           class="main__reset_password__button ux-link-xs"
@@ -96,12 +97,12 @@ export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
   googleAuthPlugin: any = GoogleAuth;
   alreadyOnboarded: boolean;
+  loading: boolean;
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
     private subscriptionsService: SubscriptionsService,
-    private loadingService: LoadingService,
     private notificationsService: NotificationsService,
     private localNotificationsService: LocalNotificationsService,
     private navController: NavController,
@@ -117,19 +118,20 @@ export class LoginPage implements OnInit {
 
   async googleSingUp() {
     let googleUser;
-  
+
     try {
       googleUser = await this.googleAuthPlugin.signIn();
     } catch (e) {
       return;
     }
-  
+
     this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
   }
 
   loginUser(data: any) {
-    this.loadingService.show().then(() => {
-      this.apiUsuarios.login(data).subscribe(() => this.success());
+    this.loading = true;
+    this.apiUsuarios.login(data).subscribe(() => {
+      this.success();
     });
   }
 
@@ -139,9 +141,10 @@ export class LoginPage implements OnInit {
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-     await this.apiUsuarios.status(false).subscribe((res) => this.redirectByStatus(res));
-    } else {
-      await this.loadingService.dismiss();
+      await this.apiUsuarios.status(false).subscribe((res) => {
+        this.redirectByStatus(res);
+        this.loading = false;
+      });
     }
   }
 
@@ -174,7 +177,7 @@ export class LoginPage implements OnInit {
 
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.status_name);
-    this.navController.navigateForward(url).then(() => this.loadingService.dismiss());
+    this.navController.navigateForward(url);
   }
 
   async goToResetPassword() {
