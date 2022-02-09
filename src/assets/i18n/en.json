@@ -264,11 +264,11 @@
     "coming_soon": {
       "header": "Investment"
     },
-    "defi_investment_products":{
-      "header":"Defi investments",
-      "title":"Start investing",
-      "title_investments":"My investments",
-      "recommendations":"You may be interested in"  
+    "defi_investment_products": {
+      "header": "Defi investments",
+      "title": "Start investing",
+      "title_investments": "My investments",
+      "recommendations": "You may be interested in"
     },
     "success_investment": {
       "title": "You added money to your investment",
@@ -281,11 +281,11 @@
       "subtitle": "Remember that you must own tokens to pay investment fees.",
       "primaryButton": "Try again"
     },
-    "invest_detail":{
-      "header":"My investment",
-      "button":"Add amount",
-      "button_link":"Finalize investment",
-      "invested_amount":"Invested balance"
+    "invest_detail": {
+      "header": "My investment",
+      "button": "Add amount",
+      "button_link": "Finalize investment",
+      "invested_amount": "Invested balance"
     },
     "shared": {
       "coming_soon_card": {
@@ -301,7 +301,6 @@
         "invest_button": "Invest",
         "annual": "Annual"
       },
-
       "expandable_investment_info": {
         "TVL": "Total Value Locked",
         "protocol_type": "Protocol type",
@@ -314,6 +313,25 @@
       "amount_input_card": {
         "available": "Available",
         "disclaimer": "Please note that transaction fees will be charged in"
+      },
+      "withdraw_card": {
+        "title": "Withdraw",
+        "transaction_details": "Transaction details",
+        "transaction_fee": "Transaction fee",
+        "confirm": "Confirm",
+        "confirm_loading": "Confirming..."
+      }
+    },
+    "withdraw": {
+      "success_withdraw": {
+        "title": "You stopped investing *",
+        "subtitle": "You can reinvest whenever you want",
+        "button_primary": "Return to Defi investments",
+        "button_secondary": "Go to wallet",
+        "disclaimer": "* Your funds can take up to 5 minutes to be displayed in your wallet."
+      },
+      "withdraw": {
+        "header": "Finish investment"
       }
     }
   },
@@ -848,7 +866,7 @@
       "category_security_account": "Security Xcapit account",
       "change_pass": "Password Change",
       "category_security_wallet": "Security Xcapit wallet",
-      "remove_wallet":"Remove Wallet",
+      "remove_wallet": "Remove Wallet",
       "security_phrase": "Security phrase",
       "category_binance_investment": "Binance investments",
       "funds": "Funds",
@@ -1474,20 +1492,20 @@
     }
   },
   "wallets": {
-    "remove_success":{
-      "title":"Your wallet was removed",
-      "subtitle":"You can create a new wallet or import an existing one whenever you wish.",
-      "create_button":"Create new Wallet",
-      "import_button":"Import Wallet",
-      "home_link":"Go to home"
+    "remove_success": {
+      "title": "Your wallet was removed",
+      "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
+      "create_button": "Create new Wallet",
+      "import_button": "Import Wallet",
+      "home_link": "Go to home"
     },
-    "remove":{
-      "header":"Remove wallet",
-      "title":"When removing your wallet remember",
-      "item1":"You will not lose your past transactions, they are stored by the network.",
-      "item2":"If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
-      "item3":"You will be able to again create a new wallet in Xcapit or import an existing one.",
-      "tos":"I read and understand that I will remove my wallet."
+    "remove": {
+      "header": "Remove wallet",
+      "title": "When removing your wallet remember",
+      "item1": "You will not lose your past transactions, they are stored by the network.",
+      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item3": "You will be able to again create a new wallet in Xcapit or import an existing one.",
+      "tos": "I read and understand that I will remove my wallet."
     },
     "no_wallet": {
       "title": "You don't have your Xcapit Wallet yet",
@@ -2409,8 +2427,8 @@
     "header": "Help",
     "title": "How can we help you?",
     "support_options": {
-      "title_nft":"NFTs",
-      "description_nft":"View, Transfer and Receive",
+      "title_nft": "NFTs",
+      "description_nft": "View, Transfer and Receive",
       "title_account": "XCAPIT Account",
       "description_account": "Create account, configure and deposit money.",
       "title_wallet": "Wallet",

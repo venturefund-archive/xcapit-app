@@ -67,7 +67,7 @@ export class TwoPiInvestment implements Investment {
     return this._aTwoPiContract.value().deposit(this._aProduct.id(), this._weiOf(amount), this._aReferralAddress);
   }
 
-  withdraw(): any {
-    return;
+  withdraw(): Promise<TransactionResponse> {
+    return this._aTwoPiContract.value().withdrawAll(this._aProduct.id());
   }
 }
