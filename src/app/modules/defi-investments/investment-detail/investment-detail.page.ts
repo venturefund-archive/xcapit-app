@@ -23,7 +23,9 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
       <ion-card class="ux-card">
-        <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
+        <app-expandable-investment-info
+          [investmentProduct]="this.investmentProduct"
+        ></app-expandable-investment-info>
         <ion-item lines="none" class="invested-balance">
           <ion-label class="invested-balance__content">
             <ion-text class="invested-balance__content__label ux-font-titulo-xs">
@@ -89,10 +91,14 @@ export class InvestmentDetailPage implements OnInit {
     return this.route.snapshot.paramMap.get('vault');
   }
 
+  async createInvestmentProduct(): Promise<InvestmentProduct> {
+    return new TwoPiProduct(await this.twoPiApi.vault(this.vaultID()), this.apiWalletService);
+  }
+
   async getInvestmentProduct() {
-    this.investmentProduct = new TwoPiProduct(await this.twoPiApi.vault(this.vaultID()), this.apiWalletService);
+    this.investmentProduct = await this.createInvestmentProduct();
     this.getToken();
-    this.getProductBalance(this.investmentProduct);
+    await this.getProductBalance(this.investmentProduct);
   }
 
   getToken() {
@@ -120,10 +126,7 @@ export class InvestmentDetailPage implements OnInit {
   async addAmount() {
     const walletExist = await this.walletService.walletExist();
     if (walletExist) {
-      this.navController.navigateForward([
-        '/defi/new/insert-amount',
-        this.investmentProduct.name(), 'add'
-      ]);
+      this.navController.navigateForward(['/defi/new/insert-amount', this.investmentProduct.name(), 'add']);
     } else {
       this.navController.navigateForward(['/defi/no-wallet-to-invest']);
     }
