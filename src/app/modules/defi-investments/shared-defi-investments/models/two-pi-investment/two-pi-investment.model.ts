@@ -7,7 +7,7 @@ import { environment } from '../../../../../../environments/environment';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Signer } from 'ethers';
-import { parseUnits } from 'ethers/lib/utils';
+import { formatUnits, parseUnits } from 'ethers/lib/utils';
 
 export interface Investment {
   balance(): Promise<number>;
@@ -50,12 +50,8 @@ export class TwoPiInvestment implements Investment {
     return this._aTwoPiContract.value().getPricePerFullShare(this._aProduct.id());
   }
 
-  private _exp(value: number): BigNumber {
-    return BigNumber.from('10').pow(value);
-  }
-
   private _tokenValueOf(aWei: BigNumber) {
-    return aWei.div(this._exp(this._aProduct.decimals())).div(this._exp(this._aProduct.token().decimals)).toNumber();
+    return parseFloat(formatUnits(aWei.toString(), this._aProduct.decimals() + this._aProduct.token().decimals));
   }
 
   async balance(): Promise<number> {
