@@ -16,7 +16,6 @@ import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -47,6 +46,7 @@ describe('InvestmentDetailPage', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let investmentSpy: jasmine.SpyObj<TwoPiInvestment>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
+  let createInvestmentProductSpy: jasmine.Spy<any>;
   let coinSpy: jasmine.SpyObj<Coin>;
   beforeEach(
     waitForAsync(() => {
@@ -92,8 +92,10 @@ describe('InvestmentDetailPage', () => {
       );
 
       investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
+        id: 3,
         token: coinSpy,
         contractAddress: '0x00001',
+        name: 'polygon_usdc',
       });
 
       TestBed.configureTestingModule({
@@ -112,8 +114,8 @@ describe('InvestmentDetailPage', () => {
 
       fixture = TestBed.createComponent(InvestmentDetailPage);
       component = fixture.componentInstance;
-      component.investmentProduct = new TwoPiProduct(testVault, apiWalletServiceSpy);
       fixture.detectChanges();
+      createInvestmentProductSpy = spyOn(component, 'createInvestmentProduct').and.resolveTo(investmentProductSpy);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -127,9 +129,7 @@ describe('InvestmentDetailPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    const componentEl = fixture.debugElement.query(
-      By.css('app-expandable-investment-info')
-    );
+    const componentEl = fixture.debugElement.query(By.css('app-expandable-investment-info'));
     expect(componentEl).toBeTruthy();
   });
 
@@ -138,44 +138,43 @@ describe('InvestmentDetailPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    const titleEl = fixture.debugElement.query(
-      By.css('ion-item.invested-balance > ion-label > ion-text')
-    );
-    expect(titleEl.nativeElement.innerHTML).toContain(
-      'defi_investments.invest_detail.invested_amount'
-    );
+    const titleEl = fixture.debugElement.query(By.css('ion-item.invested-balance > ion-label > ion-text'));
+    expect(titleEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.invested_amount');
     const [balanceEl, referenceBalanceEl] = fixture.debugElement.queryAll(
-      By.css(
-        'div.invested-balance__content__balance ion-text.invested-balance__content__balance__text'
-      )
+      By.css('div.invested-balance__content__balance ion-text.invested-balance__content__balance__text')
     );
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
     expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50 USD ');
   });
 
   it('should redirect user to defi/no-wallet-to-invest if user has no wallet on add_mount button click', async () => {
+    component.investmentProduct = investmentProductSpy;
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
     walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    fixture.debugElement
-      .query(By.css('ion-button[name="add_amount"]'))
-      .nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="add_amount"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/defi/no-wallet-to-invest',
-    ]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
   });
 
   it('should redirect user to new investment page when add_mount button is clicked if user has wallet', async () => {
-    fixture.debugElement
-      .query(By.css('ion-button[name="add_amount"]'))
-      .nativeElement.click();
+    component.investmentProduct = investmentProductSpy;
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    fixture.debugElement.query(By.css('ion-button[name="add_amount"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',
-      'polygon_usdc', 'add'
+      'polygon_usdc',
+      'add',
     ]);
   });
 
-  it('should call trackEvent when add_amount button is clicked', () => {
+  it('should call trackEvent when add_amount button is clicked', async () => {
+    spyOn(component, 'addAmount');
+    component.investmentProduct = investmentProductSpy;
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'add_amount');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -184,11 +183,11 @@ describe('InvestmentDetailPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent when finalize_invest button is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName(
-      'ion-button',
-      'finalize_invest'
-    );
+  it('should call trackEvent when finalize_invest button is clicked', async () => {
+    component.investmentProduct = investmentProductSpy;
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'finalize_invest');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -197,8 +196,6 @@ describe('InvestmentDetailPage', () => {
   });
 
   it('should create investment', async () => {
-    expect(await component.createInvestment(investmentProductSpy, '0x')).toBeInstanceOf(
-      TwoPiInvestment
-    );
+    expect(await component.createInvestment(investmentProductSpy, '0x')).toBeInstanceOf(TwoPiInvestment);
   });
 });
