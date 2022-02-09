@@ -86,7 +86,7 @@ export const ITEM_MENU: MenuCategory[] = [
       {
         name: 'ApiKeysList',
         text: 'profiles.user_profile_menu.manage_apikey',
-        route: '/apikeys/list',
+        route: '/tabs/investments',
         type: 'link',
       },
     ],
