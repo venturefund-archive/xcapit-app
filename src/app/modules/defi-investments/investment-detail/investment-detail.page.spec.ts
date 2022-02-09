@@ -144,7 +144,7 @@ describe('InvestmentDetailPage', () => {
       By.css('div.invested-balance__content__balance ion-text.invested-balance__content__balance__text')
     );
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
-    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50 USD ');
+    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50.00 USD ');
   });
 
   it('should redirect user to defi/no-wallet-to-invest if user has no wallet on add_mount button click', async () => {
