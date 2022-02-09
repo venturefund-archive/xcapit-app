@@ -44,7 +44,7 @@ const testCoins: Coin[] = [
   },
 ];
 
-fdescribe('ApiWalletService', () => {
+describe('ApiWalletService', () => {
   let service: ApiWalletService;
   let crudSpy;
   let customHttpServiceSpy: jasmine.SpyObj<CustomHttpService>;

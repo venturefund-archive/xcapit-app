@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { EthersService } from '../ethers/ethers.service';
 import { environment } from '../../../../../../environments/environment';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.type';
 import { CovalentTransfersResponse } from '../../models/covalent-transfers-response/covalent-transfers-response';
 import { BigNumber, Wallet } from 'ethers';
-import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 import { personalSign, signTypedData_v4 } from 'eth-sig-util';
 import { TokenSend } from '../../models/token-send/token-send.model';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
-import { WalletService } from '../wallet/wallet.service';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.model';
@@ -34,12 +30,9 @@ export class WalletTransactionsService {
 
   constructor(
     private walletEncryptionService: WalletEncryptionService,
-    private blockchainProviderService: BlockchainProviderService,
     private storageService: StorageService,
     private http: CustomHttpService,
-    private ethersService: EthersService,
     private apiWalletService: ApiWalletService,
-    private walletService: WalletService
   ) {}
 
   async send(password: string, amount: string, to: string, coin: Coin): Promise<string | TransactionResponse> {
@@ -238,41 +231,6 @@ export class WalletTransactionsService {
       .get(this.getUrl(asset, address, quoteCurrency), { headers: this.authHeaders })
       .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
   }
-
-  async canNotAffordFee(summaryData: SummaryData): Promise<boolean> {
-    throw new Error();
-    // const fee = await this.sendEstimateFee();
-
-    // if (summaryData.currency.native) {
-    //   return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
-    // } else {
-    //   return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
-    // }
-  }
-
-  // async createRawTxFromSummaryData(summaryData: SummaryData): Promise<utils.Deferrable<TransactionRequest>> {
-  //   const data = {
-  //     to: summaryData.address,
-  //     value: parseUnits(
-  //       summaryData.amount.toString(),
-  //       summaryData.currency.decimals ? summaryData.currency.decimals : 18
-  //     ),
-  //   };
-
-  //   if (summaryData.currency.native) {
-  //     return Promise.resolve(data);
-  //   }
-
-  //   const provider = await this.blockchainProviderService.getProvider(summaryData.currency.value);
-  //   const contract = await this.ethersService.newContract(provider.contract, provider.abi, provider.provider);
-  //   const addressFrom = await this.storageService.getWalletsAddresses(summaryData.network);
-  //   return await contract.populateTransaction.transferFrom(addressFrom, data.to, data.value);
-  // }
-
-  // async estimateFee(summaryData: SummaryData) {
-  //   const rawTx = await this.createRawTxFromSummaryData(summaryData);
-  //   return await (await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency)).toString();
-  // }
 
   async canAffordSendTx(from: string, to: string, amount: string, coin: Coin): Promise<boolean> {
     const fee = this.sendEstimatedFee(from, to, amount, coin);

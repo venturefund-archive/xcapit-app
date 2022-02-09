@@ -13,8 +13,11 @@ import { EthersService } from '../ethers/ethers.service';
 import { FakeEthersService } from '../../../../../../testing/fakes/ethers.fake.spec';
 import { FakeTokenSend } from 'src/testing/fakes/token-send.fake.spec';
 import { FakeERC20Provider } from 'src/testing/fakes/erc20-provider.fake.spec';
-import { parseUnits } from 'ethers/lib/utils';
+import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
+import { TokenSend } from '../../models/token-send/token-send.model';
+import linkAbi from '../../constants/assets-abi-prod/link-abi-prod.json';
 
 const ETH: Coin = {
   id: 1,
@@ -53,94 +56,7 @@ const LINK: Coin = {
   rpc: '',
   contract: 'testContractAddress',
   decimals: 18,
-  abi: JSON.parse(JSON.stringify({ test: 'abi' })),
-};
-
-const testSummaryDatas = {
-  notNativeTokenSend: {
-    balanceLessThanFee: {
-      currency: USDT,
-      address: 'testAddress',
-      amount: 1,
-      referenceAmount: 1,
-      network: 'ERC20',
-      balanceNativeToken: 1,
-    },
-    balanceGreaterThanFee: {
-      currency: USDT,
-      address: 'testAddress',
-      amount: 1,
-      referenceAmount: 1,
-      network: 'ERC20',
-      balanceNativeToken: 6,
-    },
-    balanceZero: {
-      currency: USDT,
-      address: 'testAddress',
-      amount: 1,
-      referenceAmount: 1,
-      network: 'ERC20',
-      balanceNativeToken: 0,
-    },
-    feeUndefinedWithBalanceGreaterThanZero: {
-      currency: USDT,
-      address: 'testAddress',
-      amount: 1,
-      referenceAmount: 1,
-      network: 'ERC20',
-      balanceNativeToken: 1,
-    },
-    feeUndefinedWithBalanceZero: {
-      currency: USDT,
-      address: 'testAddress',
-      amount: 1,
-      referenceAmount: 1,
-      network: 'ERC20',
-      balanceNativeToken: 0,
-    },
-  },
-  nativeTokenSend: {
-    balanceGreaterThanAmountLessThanFee: {
-      currency: ETH,
-      address: 'testAddress',
-      amount: 1,
-      referenceAmount: 3000,
-      network: 'ERC20',
-      balanceNativeToken: 2,
-    },
-    balanceGreaterThanAmountPlusFee: {
-      currency: ETH,
-      address: 'testAddress',
-      amount: 1,
-      referenceAmount: 3000,
-      network: 'ERC20',
-      balanceNativeToken: 7,
-    },
-    balanceZero: {
-      currency: ETH,
-      address: 'testAddress',
-      amount: 1,
-      referenceAmount: 3000,
-      network: 'ERC20',
-      balanceNativeToken: 0,
-    },
-    balanceLessThanFeeAndLessThanAmount: {
-      currency: ETH,
-      address: 'testAddress',
-      amount: 2,
-      referenceAmount: 6000,
-      network: 'ERC20',
-      balanceNativeToken: 1,
-    },
-    balanceLessThanAmountPlusFee: {
-      currency: ETH,
-      address: 'testAddress',
-      amount: 10,
-      referenceAmount: 30000,
-      network: 'ERC20',
-      balanceNativeToken: 11,
-    },
-  },
+  abi: JSON.parse(JSON.stringify(linkAbi)),
 };
 
 const testAddresses = { ETH_TEST: 'testAddress' };
@@ -249,7 +165,6 @@ class ERC20TokenMock {
 
 describe('WalletTransactionsService', () => {
   let service: WalletTransactionsService;
-  let blockchainProviderServiceMock: any;
   let storageServiceMock: any;
   let storageService: StorageService;
   let storageSpy: any;
@@ -264,8 +179,12 @@ describe('WalletTransactionsService', () => {
   let fakeTokenSend: FakeTokenSend;
   let tokenSendMockClass: any;
   let erc20TokenClass: any;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(() => {
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getNativeTokenFromNetwork: ETH,
+    });
     erc20TokenClass = ERC20TokenMock;
 
     fakeTokenSend = new FakeTokenSend();
@@ -282,15 +201,10 @@ describe('WalletTransactionsService', () => {
       getDecryptedWalletForCurrency: Promise.resolve({ connect: () => connectedWalletSpy }),
     });
 
-    blockchainProviderServiceMock = {
-      getProvider: () => Promise.resolve({ contract: {}, provider: {}, abi: LINK.abi }),
-      estimateFee: (summaryData) => Promise.resolve(BigNumber.from('5000000000000000000')),
-    };
-
     storageSpy = jasmine.createSpyObj('Storage', ['get', 'set']);
 
     storageServiceMock = {
-      getWalletsAddresses: () => Promise.resolve(testAddresses),
+      getWalletsAddresses: (network) => network ? Promise.resolve(testAddresses.ETH_TEST) : Promise.resolve(testAddresses),
     };
 
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
@@ -299,11 +213,10 @@ describe('WalletTransactionsService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-        { provide: BlockchainProviderService, useValue: blockchainProviderServiceMock },
         { provide: Storage, useValue: storageSpy },
         { provide: StorageService, useValue: storageServiceMock },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
-        { provide: EthersService, useValue: ethersServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
     });
     service = TestBed.inject(WalletTransactionsService);
@@ -317,28 +230,25 @@ describe('WalletTransactionsService', () => {
     expect(service).toBeTruthy();
   });
 
-  // it('should send native token transaction', async () => {
-  //   await service.send('testPassword', '20', 'testAddress', ETH);
-  //   expect(connectedWalletSpy.sendTransaction).toHaveBeenCalledOnceWith({
-  //     to: 'testAddress',
-  //     value: ethers.utils.parseEther('20'),
-  //   });
-  //   expect(walletEncryptionServiceSpy.getDecryptedWalletForCurrency).toHaveBeenCalledOnceWith('testPassword', ETH);
-  // });
+  it('should send native token transaction', async () => {
+    service.tokenSendClass = TokenSend;
+    await service.send('testPassword', '20', 'testAddress', ETH);
+    expect(connectedWalletSpy.sendTransaction).toHaveBeenCalledOnceWith({
+      to: 'testAddress',
+      value: parseEther('20'),
+    });
+    expect(walletEncryptionServiceSpy.getDecryptedWalletForCurrency).toHaveBeenCalledOnceWith('testPassword', ETH);
+  });
 
-  // it('should send no native token transaction', async () => {
-  //   await service.send('testPassword', '20', 'testAddress', LINK);
-  //   expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
-  //   expect(ethersServiceSpy.newContract).toHaveBeenCalledOnceWith('testContractAddress', LINK.abi, connectedWalletSpy);
-  // });
+  it('should call send with no native token transaction', async () => {
+    await service.send('testPassword', '20', 'testAddress', LINK);
+    expect(fakeTokenSend.spy.send).toHaveBeenCalledTimes(1);
+  });
 
-  // it('should not call loading when loading is false', async () => {
-  //   await service.send('testPassword', '20', 'testAddress', ETH);
-  //   expect(connectedWalletSpy.sendTransaction).toHaveBeenCalledOnceWith({
-  //     to: 'testAddress',
-  //     value: ethers.utils.parseEther('20'),
-  //   });
-  // });
+  it('should call send with native token transaction', async () => {
+    await service.send('testPassword', '20', 'testAddress', ETH);
+    expect(fakeTokenSend.spy.send).toHaveBeenCalledTimes(1);
+  });
 
   it('should be return a mapped structure when mapResponse', () => {
     const mapResponse = service.mapResponse(alchemyTransaction1.result.transfers, 'received');
@@ -363,13 +273,13 @@ describe('WalletTransactionsService', () => {
     expect(allTransactions).toEqual(testStructure);
   });
 
-  // it('should not send if password was invalid', async () => {
-  //   walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.throwError('invalid password');
-  //   await expectAsync(service.send('wrongPassword', '20', 'testAddress', ETH)).toBeRejected();
-  //   expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
-  // });
+  it('should not send if password was invalid', async () => {
+    walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.throwError('invalid password');
+    await expectAsync(service.send('wrongPassword', '20', 'testAddress', ETH)).toBeRejected();
+    expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
+  });
 
-  fdescribe('when user sends not native token', () => {
+  describe('when user sends not native token', () => {
     let fee = '0.00012';
     let amount = '1';
 
@@ -439,7 +349,7 @@ describe('WalletTransactionsService', () => {
     });
   })
 
-  fdescribe('when user sends native token', () => {
+  describe('when user sends native token', () => {
     let fee = '0.00008';
     let amount = '0.003';
     it('should return false if user is trying to send more amount + fee than balance in wallet', async () => {
@@ -498,14 +408,4 @@ describe('WalletTransactionsService', () => {
       expect(canAffordFee).toBeFalse();
     });
   });
-
-  // it('should not call newContract on createRawTxFromSummaryData if token is native', async () => {
-  //   await service.createRawTxFromSummaryData(testSummaryDatas.nativeTokenSend.balanceGreaterThanAmountPlusFee);
-  //   expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(0);
-  // });
-
-  // it('should call newContract on createRawTxFromSummaryData if token is not native', async () => {
-  //   await service.createRawTxFromSummaryData(testSummaryDatas.notNativeTokenSend.balanceGreaterThanFee);
-  //   expect(ethersServiceSpy.newContract).toHaveBeenCalledTimes(1);
-  // });
 });
