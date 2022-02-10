@@ -36,7 +36,7 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
                 {{ this.balance | number: '1.2-8' }} {{ this.token?.value }}
               </ion-text>
               <ion-text class="invested-balance__content__balance__text ux-font-text-base">
-                {{ this.referenceBalance }}{{ ' USD' }}
+                {{ this.referenceBalance | number: '1.2-2'  }}{{ ' USD' }}
               </ion-text>
             </div>
           </ion-label>

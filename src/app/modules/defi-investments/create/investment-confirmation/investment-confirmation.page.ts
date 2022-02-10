@@ -54,7 +54,7 @@ import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/
                 >{{ this.amount.value | number: '1.2-6' }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base summary__amount__qty__quoteAmount"
-                >{{ this.quoteAmount.value | number: '1.2-6' }} {{ this.quoteAmount.token }}
+                >{{ this.quoteAmount.value | number: '1.2-2' }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>
