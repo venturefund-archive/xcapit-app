@@ -19,7 +19,7 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
               this.token?.value
             }}</ion-text>
             <ion-text class="ux-font-text-lg balance">{{
-              this.balance| number: '1.2-8'
+              this.balance| number: '1.2-2'
             }}</ion-text>
           </div>
           <div class="ibi__content__group">
@@ -61,6 +61,6 @@ export class InvestmentBalanceItemComponent implements OnInit {
   }
 
   goToDetail(){
-    this.navController.navigateForward(['/defi/investment-detail',this.investmentProduct.name()])
+    this.navController.navigateForward(['/defi/investment-detail', this.investmentProduct.name()], {replaceUrl : true})
   }
 }

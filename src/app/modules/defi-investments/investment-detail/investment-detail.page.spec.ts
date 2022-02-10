@@ -154,7 +154,7 @@ describe('InvestmentDetailPage', () => {
     walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
     fixture.debugElement.query(By.css('ion-button[name="add_amount"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest'], {replaceUrl : true});
   });
 
   it('should redirect user to new investment page when add_mount button is clicked if user has wallet', async () => {
@@ -167,7 +167,7 @@ describe('InvestmentDetailPage', () => {
       '/defi/new/insert-amount',
       'polygon_usdc',
       'add',
-    ]);
+    ], {replaceUrl : true});
   });
 
   it('should call trackEvent when add_amount button is clicked', async () => {

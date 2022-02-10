@@ -126,13 +126,13 @@ export class InvestmentDetailPage implements OnInit {
   async addAmount() {
     const walletExist = await this.walletService.walletExist();
     if (walletExist) {
-      this.navController.navigateForward(['/defi/new/insert-amount', this.investmentProduct.name(), 'add']);
+      this.navController.navigateForward(['/defi/new/insert-amount', this.investmentProduct.name(), 'add'], {replaceUrl : true});
     } else {
-      this.navController.navigateForward(['/defi/no-wallet-to-invest']);
+      this.navController.navigateForward(['/defi/no-wallet-to-invest'], {replaceUrl : true});
     }
   }
 
   goToWithdraw() {
-    this.navController.navigateForward(['/defi/withdraw', this.investmentProduct.name()]);
+    this.navController.navigateForward(['/defi/withdraw', this.investmentProduct.name()], {replaceUrl : true});
   }
 }

@@ -71,7 +71,7 @@ describe('SuccessInvestmentPage', () => {
   it('should navigate to urlPage when Go To Investments is clicked', () => {
     const pageButton = fixture.debugElement.query(By.css("ion-button[name='Go To Investments']"));
     pageButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments/defi']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments/defi'], {replaceUrl : true});
   });
 
   it('should navigate to urlLink when Go To Wallet is clicked', () => {

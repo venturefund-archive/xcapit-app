@@ -52,6 +52,6 @@ export class NoWalletComponent implements OnInit {
   }
 
   goToLink() {
-    this.navController.navigateForward([this.data.urlLink]);
+    this.navController.navigateForward([this.data.urlLink],{replaceUrl: true});
   }
 }

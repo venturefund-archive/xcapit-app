@@ -10,14 +10,15 @@ import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-ap
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { VoidSigner } from 'ethers';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-defi-investment-products',
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
+        <ion-buttons (click)="this.back()" slot="start">
+          <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'defi_investments.defi_investment_products.header' | translate
@@ -65,15 +66,26 @@ export class DefiInvestmentProductsPage {
     private apiWalletService: ApiWalletService,
     private twoPiApi: TwoPiApi,
     private walletEncryptionService: WalletEncryptionService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private navController : NavController
   ) {}
   haveInvestments = true;
   activeInvestments: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
 
-  async ionViewDidEnter() {
+  async ionViewWillEnter() {
+    this.emptyArrays();
     this.getAvailableDefiProducts();
     await this.getInvestments();
+  }
+
+  emptyArrays(){
+    this.activeInvestments = [];
+    this.availableInvestments = [];
+  }
+
+  back(){
+    this.navController.back();
   }
 
   private getAvailableDefiProducts(): void {

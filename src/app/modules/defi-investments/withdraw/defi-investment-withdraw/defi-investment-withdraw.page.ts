@@ -213,9 +213,9 @@ export class DefiInvestmentWithdrawPage implements OnInit {
     if (wallet) {
       try {
         await (await this.investment(wallet).withdraw()).wait();
-        await this.navController.navigateForward('/defi/withdraw/success');
+        await this.navController.navigateForward(['/defi/withdraw/success'], {replaceUrl : true});
       } catch {
-        await this.navController.navigateForward('/defi/withdraw/error');
+        await this.navController.navigateForward(['/defi/withdraw/error'], {replaceUrl : true});
       } finally {
         this.loadingEnabled(false);
       }

@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DefiInvestmentProductsPage } from './defi-investment-products.page';
@@ -13,6 +13,7 @@ import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -35,8 +36,12 @@ describe('DefiInvestmentProductsPage', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController : FakeNavController;
   beforeEach(
     waitForAsync(() => {
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy',{
         walletExist: Promise.resolve(true),
       })
@@ -74,6 +79,7 @@ describe('DefiInvestmentProductsPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
+          {provide: NavController, useValue: navControllerSpy}
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -93,7 +99,7 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    await component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
@@ -114,7 +120,7 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    await component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
 
@@ -134,7 +140,7 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    await component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
 
@@ -147,6 +153,7 @@ describe('DefiInvestmentProductsPage', () => {
     const productEl = fixture.debugElement.query(By.css('app-defi-investment-product'));
     expect(productEl).toBeTruthy();
   });
+
 
   it('should create available defi products', () => {
     expect(component.createAvailableDefiProducts()).toBeInstanceOf(AvailableDefiProducts);

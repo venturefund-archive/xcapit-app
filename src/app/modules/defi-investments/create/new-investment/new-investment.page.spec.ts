@@ -124,7 +124,7 @@ describe('NewInvestmentPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/new/confirmation');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/new/confirmation'], {replaceUrl : true});
   });
 
   it('should not save amount nor redirect if form is not valid', async () => {

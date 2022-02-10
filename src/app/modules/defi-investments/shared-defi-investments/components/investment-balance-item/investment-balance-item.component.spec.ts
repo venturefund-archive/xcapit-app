@@ -108,6 +108,6 @@ describe('InvestmentBalanceItemComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/investment-detail',
       component.investmentProduct.name(),
-    ]);
+    ], {replaceUrl : true});
   });
 });
