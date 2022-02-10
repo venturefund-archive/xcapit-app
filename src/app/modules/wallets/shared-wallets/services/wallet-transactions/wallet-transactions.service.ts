@@ -232,7 +232,8 @@ export class WalletTransactionsService {
       .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
   }
 
-  async canAffordSendTx(from: string, to: string, amount: string, coin: Coin): Promise<boolean> {
+  async canAffordSendTx(to: string, amount: string, coin: Coin): Promise<boolean> {
+    const from = await this.storageService.getWalletsAddresses(coin.network);
     const fee = this.sendEstimatedFee(from, to, amount, coin);
     const balanceNativeCoin = this.balanceOfNativeCoin(from, coin);
     const balanceNotNativeCoin = this.balanceOfNotNativeCoin(from, coin);
@@ -253,7 +254,27 @@ export class WalletTransactionsService {
       .catch(() => false);
   }
 
-  async sendEstimatedFee(from: string, to: string, amount: string, coin: Coin): Promise<string> {
+  async canAffordSendFee(to: string, amount: string, coin: Coin): Promise<boolean> {
+    const from = await this.storageService.getWalletsAddresses(coin.network);
+    const fee = this.sendEstimatedFee(from, to, amount, coin);
+    const balanceNativeCoin = this.balanceOfNativeCoin(from, coin);
+
+    return Promise.all([fee, balanceNativeCoin])
+      .then((values) => {
+        const fee = parseEther(values[0]);
+        const balanceNativeCoin = values[1];
+
+        if (balanceNativeCoin.gte(fee)) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(() => false);
+  }
+
+  async sendEstimatedFee(from: string = undefined, to: string, amount: string, coin: Coin): Promise<string> {
+    from = from ? from : await this.storageService.getWalletsAddresses(coin.network);
     const txWithVoidSigner = this.tokenSendClass.create(from, to, amount, coin, this.apiWalletService);
     await txWithVoidSigner.sendEstimateFee();
     return txWithVoidSigner.formatFee();

@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { BigNumber, ethers } from 'ethers';
+import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { TransactionDataService } from '../../services/transaction-data/transaction-data.service';
 import { WalletTransactionsService } from '../../services/wallet-transactions/wallet-transactions.service';
@@ -69,7 +74,9 @@ export class SendAmountInputCardComponent implements OnInit {
   constructor(private formGroupDirective: FormGroupDirective,
     private apiWalletService: ApiWalletService,
     private transactionDataService: TransactionDataService,
-    private walletTransactionsService: WalletTransactionsService) {}
+    private walletTransactionsService: WalletTransactionsService,
+    private toastService: ToastService,
+    private translate: TranslateService) {}
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
@@ -78,7 +85,7 @@ export class SendAmountInputCardComponent implements OnInit {
 
   private amountChange(value: number) {
     this.loading = true;
-    this.apiWalletService.getPrices([this.currencyName, this.nativeTokenName], false).subscribe(async (res) => { 
+    this.apiWalletService.getPrices([this.currencyName, this.nativeTokenName], false).subscribe(async (res) => {
       this.form.patchValue({ referenceAmount: value * res.prices[this.currencyName] });
       await this.estimateFee(res.prices[this.nativeTokenName]);
       this.loading = false;
@@ -86,7 +93,30 @@ export class SendAmountInputCardComponent implements OnInit {
   }
 
   async estimateFee(nativePrice: number) {
-    this.fee = await this.walletTransactionsService.estimateFee(this.transactionDataService.transactionData);
-    this.referenceFee = (nativePrice * parseFloat(this.fee)).toString();
+    const txData = this.getTxData();
+    if (ethers.utils.isAddress(txData.to)) {
+      this.fee = await this.walletTransactionsService.sendEstimatedFee(undefined, txData.to, txData.amount, txData.coin);
+      this.referenceFee = formatUnits((BigNumber.from(this.convertToUSDTUnit(nativePrice)).mul(parseEther(this.fee))).div(parseEther('1')), 6);
+    } else {
+      await this.showErrorInvalidAddress();
+    }
+  }
+
+  private async showErrorInvalidAddress() {
+    await this.toastService.showErrorToast({
+      message: this.translate.instant('wallets.send.send_detail.amount_input.wrong_address'),
+    });
+  }
+
+  private getTxData() {
+    return {
+      to: this.transactionDataService.transactionData.address,
+      amount: this.transactionDataService.transactionData.amount,
+      coin: this.transactionDataService.transactionData.currency,
+    }
+  }
+
+  private convertToUSDTUnit(amount: number): BigNumber {
+    return BigNumber.from(parseUnits(amount.toString(), 6));
   }
 }

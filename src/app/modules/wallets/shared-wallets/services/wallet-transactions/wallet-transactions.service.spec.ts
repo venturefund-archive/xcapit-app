@@ -336,7 +336,7 @@ describe('WalletTransactionsService', () => {
           ERC20TokenMock.decimals = USDT.decimals;
           fakeTokenSend.modifyReturns(fee);
           fakeErc20Provider.modifyReturns(nb.balance);
-          const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, USDT);
+          const canAffordFee = await service.canAffordSendTx('testAddress2', amount, USDT);
           expect(canAffordFee).toBe(nb.canAffordFees && nnb.canAffordAmount);
         });
       });
@@ -344,7 +344,7 @@ describe('WalletTransactionsService', () => {
 
     it('should return false when estimateFee throws an error on canAffordFee', async () => {
       fakeTokenSend.rejectPromises();
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, USDT);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, USDT);
       expect(canAffordFee).toBeFalse();
     });
   })
@@ -355,56 +355,56 @@ describe('WalletTransactionsService', () => {
     it('should return false if user is trying to send more amount + fee than balance in wallet', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns('0.00000001');
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, ETH);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return true if user is trying to send exactly amount + fee than balance in wallet', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns('0.00308');
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, ETH);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeTrue();
     });
 
     it('should return true if user is trying to send less amount + fee than balance in wallet', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns('0.1');
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, ETH);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeTrue();
     });
     
     it('should return false if user is trying to send with balance zero in wallet', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns('0');
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, ETH);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return false if user can afford amount to send but not amount + fee', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns('0.0030001');
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, ETH);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return false if user can afford fee to send but not amount + fee', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns('0.00009');
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, ETH);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return false if wallet balance is equal to the amount to send', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns(amount);
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, ETH);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
     
     it('should return false if wallet balance is equal to the fee to send', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns(fee);
-      const canAffordFee = await service.canAffordSendTx('testAddress1', 'testAddress2', amount, ETH);
+      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
   });
