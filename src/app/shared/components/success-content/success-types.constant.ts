@@ -153,11 +153,11 @@ export const SUCCESS_TYPES = {
   },
   success_defi_withdraw: {
     image: 'assets/img/defi-investments/success-withdraw.svg',
-    urlClose: '/tabs/investments/defi',
+    urlClose: '/tabs/investments/defi/options',
     textPrimary: 'defi_investments.withdraw.success_withdraw.title',
     textSecondary: 'defi_investments.withdraw.success_withdraw.subtitle',
     namePrimaryAction: 'defi_investments.withdraw.success_withdraw.button_primary',
-    urlPrimaryAction: '/tabs/investments/defi',
+    urlPrimaryAction: '/tabs/investments/defi/options',
     nameThirdAction: 'defi_investments.withdraw.success_withdraw.button_secondary',
     urlThirdAction: '/tabs/wallets',
     disclaimer: 'defi_investments.withdraw.success_withdraw.disclaimer',

@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DefiInvestmentProductsPage } from './defi-investment-products.page';
@@ -13,6 +13,20 @@ import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+
+const previousTest = [
+  {
+    previous: 'home',
+    url: ['/tabs/wallets']
+  },
+
+  {
+    previous: 'options',
+    url: ['/tabs/investments']
+  }
+]
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -35,9 +49,19 @@ describe('DefiInvestmentProductsPage', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let activatedRouteMock: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
   beforeEach(
     waitForAsync(() => {
-      walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy',{
+
+      activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['params']);
+
+
+      fakeNavController = new FakeNavController({});
+      navControllerSpy = fakeNavController.createSpy();
+
+      walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy', {
         walletExist: Promise.resolve(true),
       })
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
@@ -74,12 +98,15 @@ describe('DefiInvestmentProductsPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: NavController, useValue: navControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(DefiInvestmentProductsPage);
       component = fixture.componentInstance;
+
       fixture.detectChanges();
     })
   );
@@ -88,12 +115,49 @@ describe('DefiInvestmentProductsPage', () => {
     expect(component).toBeTruthy();
   });
 
+  previousTest.forEach((testCase) => {
+    describe(`${testCase.previous} Previous`, () => {
+      beforeEach(() => {
+        activatedRouteMock.snapshot = {
+          paramMap: convertToParamMap({
+            previous: testCase.previous,
+          }),
+        };
+
+      });
+
+      it('should navigate back to properly previous page', async () => {
+        fixture.detectChanges();
+        const buttonEl = fixture.debugElement.query(By.css('ion-buttons'));
+        buttonEl.nativeElement.click();
+        fixture.detectChanges();
+        expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(testCase.url)
+      });
+    });
+
+  });
+
+  it('should navigate back to properly asset detail when previous page is asset/detail', async () => {
+    activatedRouteMock.snapshot = {
+      queryParamMap: convertToParamMap({
+        asset: 'USDT',
+      }),
+      paramMap: convertToParamMap({
+        previous: 'detail',
+      }),
+    };
+    const buttonEl = fixture.debugElement.query(By.css('ion-buttons'));
+    buttonEl.nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/asset-detail/' , 'USDT'])
+  });
+
   it('should render active investment card', async () => {
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    await component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
@@ -114,7 +178,7 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    await component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
 
@@ -134,7 +198,7 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    await component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
 
@@ -151,6 +215,9 @@ describe('DefiInvestmentProductsPage', () => {
   it('should create available defi products', () => {
     expect(component.createAvailableDefiProducts()).toBeInstanceOf(AvailableDefiProducts);
   });
+
+
+
 
   it('should create investment product', async () => {
     expect(await component.getInvestmentProduct({} as DefiProduct)).toBeInstanceOf(

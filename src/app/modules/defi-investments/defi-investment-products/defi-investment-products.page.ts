@@ -10,14 +10,16 @@ import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-ap
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { VoidSigner } from 'ethers';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-defi-investment-products',
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
+        <ion-buttons (click)="this.goBack()"slot="start">
+          <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{
           'defi_investments.defi_investment_products.header' | translate
@@ -61,19 +63,28 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 })
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
+  url : string;
   constructor(
     private apiWalletService: ApiWalletService,
     private twoPiApi: TwoPiApi,
     private walletEncryptionService: WalletEncryptionService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private navController: NavController,
+    private route: ActivatedRoute
   ) {}
   haveInvestments = true;
   activeInvestments: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
 
-  async ionViewDidEnter() {
+  async ionViewWillEnter() {
+    this.emptyArrays()
     this.getAvailableDefiProducts();
     await this.getInvestments();
+  }
+
+  emptyArrays(){
+    this.activeInvestments = [];
+    this.availableInvestments = [];
   }
 
   private getAvailableDefiProducts(): void {
@@ -82,6 +93,29 @@ export class DefiInvestmentProductsPage {
 
   createAvailableDefiProducts(): AvailableDefiProducts {
     return new AvailableDefiProducts();
+  }
+
+  getPreviousUrl(){
+    let url: string[];
+    switch (this.route.snapshot.paramMap.get('previous')) {
+      case 'home': {
+        url = ['/tabs/wallets'];
+        break;
+      }
+      case 'detail': {
+        url = ['/wallets/asset-detail/' , this.route.snapshot.queryParamMap.get('asset')];
+        break;
+      }
+      case 'options': {
+        url = ['/tabs/investments'];
+        break;
+      }
+    }
+    return url
+  }
+
+  goBack(){
+    this.navController.navigateBack(this.getPreviousUrl());
   }
 
   async getInvestments(): Promise<void> {
@@ -110,6 +144,7 @@ export class DefiInvestmentProductsPage {
 
   filterUserInvestments(investment: DefiInvestment): void {
     investment.balance > 0 ? this.activeInvestments.push(investment) : this.availableInvestments.push(investment);
+    
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
