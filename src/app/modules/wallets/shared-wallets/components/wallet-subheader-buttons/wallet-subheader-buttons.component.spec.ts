@@ -124,9 +124,19 @@ describe('WalletSubheaderButtonsComponent', () => {
     );
   });
 
-  it('should navigate to tabs/investments/defi when Go to Performance button is clicked', async () => {
+  it('should navigate to tabs/investments/defi/home when Go to Performance button is clicked from home', async () => {
+    component.asset = '';
     fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Performance']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments/defi']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments/defi/home']);
+  });
+
+  it('should navigate to tabs/investments/defi/detail when Go to Performance button is clicked from asset detail', async () => {
+    component.asset = 'LINK';
+    fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Performance']")).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      ['tabs/investments/defi/detail'],
+      Object({ queryParams: Object({ asset: 'LINK' }) })
+    );
   });
 
   it('should navigate to fiat-ramps moonpay page when Go to Buy button is clicked', async () => {

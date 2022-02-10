@@ -83,7 +83,7 @@ describe('SuccessInvestorTestPage', () => {
   it('should navigate to investment defi page when Continue button is clicked', () => {
     const continueButton = trackClickDirectiveHelper.getByElementByName('ion-button', 'Continue');
     continueButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments/defi']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments/defi/options']);
   });
 
   it('should navigate to home page when Close button is clicked', () => {

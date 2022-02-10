@@ -43,7 +43,7 @@ export class InvestmentsTabCardComponent implements OnInit {
   ngOnInit() {
     this.title = `funds.investments_tab.${this.optionName}.title`;
     this.text = `funds.investments_tab.${this.optionName}.text`;
-    this.navigationRoute = `/tabs/investments/${this.optionName}`;
+    this.navigationRoute = `/tabs/investments/${this.optionName}/options`;
     this.checkOptionName();
   }
  

@@ -26,7 +26,7 @@ const routes: Routes = [
             loadChildren: () => import('../funds/funds-list/funds-list.module').then((m) => m.FundsListPageModule),
           },
           {
-            path: 'defi',
+            path: 'defi/:previous',
             loadChildren: () =>
               import('../defi-investments/defi-investment-products/defi-investment-products.module').then(
                 (m) => m.DefiInvestmentProductsPageModule
