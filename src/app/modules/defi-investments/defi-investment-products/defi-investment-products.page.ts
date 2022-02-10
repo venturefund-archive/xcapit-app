@@ -63,9 +63,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
-  previous : string;
   url : string;
-  queryParamAsset: string;
   constructor(
     private apiWalletService: ApiWalletService,
     private twoPiApi: TwoPiApi,
