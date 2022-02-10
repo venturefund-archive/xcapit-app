@@ -155,7 +155,7 @@ describe('DefiInvestmentWithdrawPage', () => {
     await component.withdraw();
     await fixture.whenStable();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/success'], {replaceUrl : true});
   });
 
   it('should not withdraw if invalid password', async () => {
@@ -180,7 +180,7 @@ describe('DefiInvestmentWithdrawPage', () => {
     await component.withdraw();
     await fixture.whenStable();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/error');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/error'], {replaceUrl : true});
   });
 
   it('should create invesment', () => {

@@ -57,7 +57,8 @@ export class SuccessInvestmentPage implements OnInit {
   }
 
   goToInvestments() {
-    this.navController.navigateForward(['tabs/investments/defi']);
+    
+    this.navController.navigateForward(['tabs/investments/defi'], {replaceUrl : true});
   }
 
   goToWallet() {

@@ -49,7 +49,7 @@ export class InvestmentsTabCardComponent implements OnInit {
  
   navigateToOption() {
     if(!this.disabledCard){
-        this.navController.navigateForward([this.navigationRoute]);
+        this.navController.navigateRoot([this.navigationRoute]);
      }
   }
 

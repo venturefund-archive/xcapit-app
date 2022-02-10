@@ -238,9 +238,9 @@ export class InvestmentConfirmationPage {
     if (wallet) {
       try {
         await (await this.investment(wallet).deposit(this.amount.value)).wait();
-        await this.navController.navigateForward('/defi/success-investment');
+        await this.navController.navigateForward(['/defi/success-investment'],{replaceUrl : true});
       } catch {
-        await this.navController.navigateForward('/defi/error-investment');
+        await this.navController.navigateForward(['/defi/error-investment'],{replaceUrl : true});
       } finally {
         this.loadingEnabled(false);
       }

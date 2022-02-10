@@ -98,7 +98,7 @@ describe('DefiInvestmentProductComponent', () => {
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/no-wallet-to-invest',
-    ]);
+    ], {replaceUrl : true});
   });
 
   it('should redirect user to new investment page when Invest button is clicked if user has wallet', async () => {
@@ -107,6 +107,6 @@ describe('DefiInvestmentProductComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',
       'polygon_usdc', 'invest'
-    ]);
+    ],{replaceUrl : true});
   });
 });

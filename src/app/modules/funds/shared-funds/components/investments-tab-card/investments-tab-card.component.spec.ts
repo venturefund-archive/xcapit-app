@@ -43,7 +43,7 @@ describe('InvestmentsTabCardComponent', () => {
   it('should navigate to option page when Navigate to Option Button clicked', () => {
     component.ngOnInit();
     fixture.debugElement.query(By.css('ion-card[name="Navigate to Option"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments/test-option']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments/test-option']);
   });
 
   it('should call trackEvent on trackService when Navigate to Option Card is clicked', () => {

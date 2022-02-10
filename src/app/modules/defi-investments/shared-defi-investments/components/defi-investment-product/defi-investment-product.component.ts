@@ -97,9 +97,9 @@ export class DefiInvestmentProductComponent implements OnInit {
   async invest() {
     const walletExist = await this.walletService.walletExist();
     if (walletExist) {
-      this.navController.navigateForward(['/defi/new/insert-amount', this.investmentProduct.name(), 'invest']);
+      this.navController.navigateForward(['/defi/new/insert-amount', this.investmentProduct.name(), 'invest'], {replaceUrl : true});
     } else {
-      this.navController.navigateForward(['/defi/no-wallet-to-invest']);
+      this.navController.navigateForward(['/defi/no-wallet-to-invest'], {replaceUrl : true});
     }
   }
 

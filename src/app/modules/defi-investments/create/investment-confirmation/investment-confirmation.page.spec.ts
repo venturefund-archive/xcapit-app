@@ -147,7 +147,7 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/success-investment');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/success-investment'], {replaceUrl : true});
   });
 
   it('should not make deposit when password is valid but deposit fails', async () => {
@@ -158,7 +158,7 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/error-investment');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/error-investment'], {replaceUrl : true});
   });
 
   it('should not make deposit when modal closes', async () => {
