@@ -378,7 +378,7 @@ export const PROD_COINS: Coin[] = [
     chainId: 137,
     rpc: environment.maticApiUrl,
     abi: wethAbi,
-    contract: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+    contract: '0x3C68CE8504087f89c640D02d133646d98e64ddd9',
     decimals: 18,
   },
 ];

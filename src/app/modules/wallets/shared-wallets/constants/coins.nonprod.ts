@@ -7,6 +7,8 @@ import rifAbi from './assets-abi/rif-abi.json';
 import busdAbi from './assets-abi/busd-abi.json';
 import cakeAbi from './assets-abi/cake-abi.json';
 import adaAbi from './assets-abi/ada-abi.json';
+import wethAbi from './assets-abi/weth-abi.json';
+import daiAbi from './assets-abi/dai-abi.json';
 
 
 
@@ -334,9 +336,11 @@ export const NONPROD_COINS: Coin[] = [
     last: false,
     value: 'DAI',
     network: 'MATIC',
+    contract: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
     chainId: 80001,
     rpc: environment.maticApiUrl,
     decimals: 18,
+    abi: daiAbi,
   },
   {
     id: 27,
@@ -345,8 +349,10 @@ export const NONPROD_COINS: Coin[] = [
     last: true,
     value: 'WETH',
     network: 'MATIC',
+    contract: '0x3C68CE8504087f89c640D02d133646d98e64ddd9',
     chainId: 80001,
     rpc: environment.maticApiUrl,
     decimals: 18,
+    abi: wethAbi,
   },
 ];
