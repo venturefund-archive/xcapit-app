@@ -110,12 +110,19 @@ export class SendAmountInputCardComponent implements OnInit {
       try {
         this.fee = await this.walletTransactionsService.sendEstimatedFee(undefined, txData.to, txData.amount, txData.coin);
       } catch {
+        await this.showErrorCantEstimateFee();
         return;
       }
       this.referenceFee = formatUnits((BigNumber.from(this.convertToUSDTUnit(nativePrice)).mul(parseEther(this.fee))).div(parseEther('1')), 6);
     } else {
       await this.showErrorInvalidAddress();
     }
+  }
+
+  private async showErrorCantEstimateFee() {
+    await this.toastService.showErrorToast({
+      message: this.translate.instant('wallets.send.send_detail.amount_input.cant_estimate_fee'),
+    });
   }
 
   private async showErrorInvalidAddress() {

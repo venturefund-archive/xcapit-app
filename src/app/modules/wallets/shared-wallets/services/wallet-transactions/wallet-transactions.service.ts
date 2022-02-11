@@ -37,7 +37,7 @@ export class WalletTransactionsService {
 
   async send(password: string, amount: string, to: string, coin: Coin): Promise<TransactionResponse> {
     const from = await this.storageService.getWalletsAddresses(coin.network);
-    let wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, coin);
+    const wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, coin);
     const tx = this.tokenSendClass.create(from, to, amount, coin, this.apiWalletService, wallet);
     return tx.send();
   }

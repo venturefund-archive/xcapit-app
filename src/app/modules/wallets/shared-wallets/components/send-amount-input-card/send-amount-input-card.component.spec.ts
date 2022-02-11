@@ -86,11 +86,25 @@ describe('SendAmountInputCardComponent', () => {
     expect(component.referenceFee).toEqual('0.50417');
   })
 
-  it('should show toast error if address to is invalid', async () => {
+  it('should show error toast if address to is invalid', async () => {
     const txData = {
       currency: JSON.parse(JSON.stringify(TEST_ERC20_COINS[1]))
     };
     (Object.getOwnPropertyDescriptor(transactionDataServiceSpy, 'transactionData').get as jasmine.Spy).and.returnValue(txData);
+    component.ngOnInit();
+    await fixture.whenStable();
+    component.form.patchValue({ address: 'invalid' }, { emitEvent: false });
+    component.form.patchValue({ amount: '20' });
+    await fixture.whenStable();
+    expect(toastService.showErrorToast).toHaveBeenCalledTimes(2);
+  });
+
+  it('should show error toast if couldnt estimate fee', async () => {
+    const txData = {
+      currency: JSON.parse(JSON.stringify(TEST_ERC20_COINS[1]))
+    };
+    (Object.getOwnPropertyDescriptor(transactionDataServiceSpy, 'transactionData').get as jasmine.Spy).and.returnValue(txData);
+    walletTransactionsServiceSpy.sendEstimatedFee.and.rejectWith('insufficient funds');
     component.ngOnInit();
     await fixture.whenStable();
     component.form.patchValue({ address: 'invalid' }, { emitEvent: false });

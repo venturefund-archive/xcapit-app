@@ -12,7 +12,7 @@ export class NativeTokenSend implements Send {
 
   get fee(): BigNumber {
     return this._aFee;
-  };
+  }
 
   get tokenDecimals(): number {
     return this._aCoin.decimals ? this._aCoin.decimals : 18;

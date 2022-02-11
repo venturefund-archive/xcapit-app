@@ -280,8 +280,8 @@ describe('WalletTransactionsService', () => {
   });
 
   describe('when user sends not native token', () => {
-    let fee = '0.00012';
-    let amount = '1';
+    const fee = '0.00012';
+    const amount = '1';
 
     const nativeBalances = [
       {
@@ -350,8 +350,8 @@ describe('WalletTransactionsService', () => {
   })
 
   describe('when user sends native token', () => {
-    let fee = '0.00008';
-    let amount = '0.003';
+    const fee = '0.00008';
+    const amount = '0.003';
     it('should return false if user is trying to send more amount + fee than balance in wallet', async () => {
       fakeTokenSend.modifyReturns(fee);
       fakeErc20Provider.modifyReturns('0.00000001');
