@@ -107,7 +107,11 @@ export class SendAmountInputCardComponent implements OnInit {
 
     const txData = this.getTxData();
     if (ethers.utils.isAddress(txData.to)) {
-      this.fee = await this.walletTransactionsService.sendEstimatedFee(undefined, txData.to, txData.amount, txData.coin);
+      try {
+        this.fee = await this.walletTransactionsService.sendEstimatedFee(undefined, txData.to, txData.amount, txData.coin);
+      } catch {
+        return;
+      }
       this.referenceFee = formatUnits((BigNumber.from(this.convertToUSDTUnit(nativePrice)).mul(parseEther(this.fee))).div(parseEther('1')), 6);
     } else {
       await this.showErrorInvalidAddress();
