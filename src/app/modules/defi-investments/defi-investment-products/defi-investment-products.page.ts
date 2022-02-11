@@ -16,9 +16,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
-        </ion-buttons>
+        
         <ion-title class="ion-text-center">{{
           'defi_investments.defi_investment_products.header' | translate
         }}</ion-title>
@@ -71,9 +69,15 @@ export class DefiInvestmentProductsPage {
   activeInvestments: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
 
-  async ionViewDidEnter() {
+  async ionViewWillEnter() {
+    this.emptyArrays();
     this.getAvailableDefiProducts();
     await this.getInvestments();
+  }
+
+  emptyArrays(){
+    this.availableInvestments =[];
+    this.activeInvestments = [];
   }
 
   private getAvailableDefiProducts(): void {
