@@ -209,6 +209,19 @@ describe('SendSummaryPage', () => {
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
+  it('should cancel transaction if user closed modal', async () => {
+    component.summaryData = summaryData;
+    fakeModalController.modifyReturns(null, Promise.resolve({}));
+    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(walletTransactionsServiceSpy.send).not.toHaveBeenCalled();
+    expect(component.isSending).toBeFalse();
+    expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
+    expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
+  });
+
   it('should show loader at the start of transaction and dismiss it afterwards', fakeAsync(() => {
     component.summaryData = summaryData;
     component.handleSubmit();

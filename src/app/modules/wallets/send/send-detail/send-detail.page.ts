@@ -129,10 +129,6 @@ export class SendDetailPage {
   ) {}
 
   ionViewWillEnter() {
-    this.form.get('amount').valueChanges
-      .pipe(debounceTime(250))
-      .subscribe(() => this.updateTransactionData() );
-
     this.getCurrency();
     this.setCurrencyNetworks();
     this.checkTokensAmounts();
@@ -157,6 +153,7 @@ export class SendDetailPage {
 
   private getCurrency() {
     this.currency = this.apiWalletService.getCoin(this.route.snapshot.paramMap.get('currency'), this.selectedNetwork);
+    this.updateTransactionData();
   }
 
   private setCurrencyNetworks() {

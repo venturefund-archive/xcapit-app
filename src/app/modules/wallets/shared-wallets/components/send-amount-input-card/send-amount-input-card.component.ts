@@ -81,9 +81,17 @@ export class SendAmountInputCardComponent implements OnInit {
   ngOnInit() {
     this.form = this.formGroupDirective.form;
     this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));
+    this.form.get('address').valueChanges.subscribe(() => {
+      const value = this.form.get('amount').value;
+      this.amountChange(value)
+    });
   }
 
   private amountChange(value: number) {
+    if(this.form.get('amount').value === '') {
+      return;
+    }
+
     this.loading = true;
     this.apiWalletService.getPrices([this.currencyName, this.nativeTokenName], false).subscribe(async (res) => {
       this.form.patchValue({ referenceAmount: value * res.prices[this.currencyName] });
@@ -93,6 +101,10 @@ export class SendAmountInputCardComponent implements OnInit {
   }
 
   async estimateFee(nativePrice: number) {
+    if (this.form.get('address').value === '') {
+      return;
+    }
+
     const txData = this.getTxData();
     if (ethers.utils.isAddress(txData.to)) {
       this.fee = await this.walletTransactionsService.sendEstimatedFee(undefined, txData.to, txData.amount, txData.coin);
@@ -110,8 +122,8 @@ export class SendAmountInputCardComponent implements OnInit {
 
   private getTxData() {
     return {
-      to: this.transactionDataService.transactionData.address,
-      amount: this.transactionDataService.transactionData.amount,
+      to: this.form.get('address').value,
+      amount: this.form.get('amount').value,
       coin: this.transactionDataService.transactionData.currency,
     }
   }
