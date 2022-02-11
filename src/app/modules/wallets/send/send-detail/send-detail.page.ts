@@ -9,8 +9,6 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
 import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
-import { debounceTime } from "rxjs/operators";
-import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 
 @Component({
   selector: 'app-send-detail',
