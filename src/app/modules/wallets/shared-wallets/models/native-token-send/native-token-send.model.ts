@@ -40,7 +40,7 @@ export class NativeTokenSend implements Send {
     return new this(from, to, amount, _aToken, coin, canSignTx);
   }
 
-  send(): Promise<string | TransactionResponse> {
+  send(): Promise<TransactionResponse> {
     return this._aToken.transfer(this._anAddressTo, this.amount);
   }
 

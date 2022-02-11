@@ -13,7 +13,7 @@ export class NativeToken {
     return this._aSigner.connect(this._aProvider.value());
   }
 
-  transfer(to: string, value: BigNumber): Promise<TransactionResponse | string> {
+  transfer(to: string, value: BigNumber): Promise<TransactionResponse> {
     return this.signer().sendTransaction({ to, value });
   }
 

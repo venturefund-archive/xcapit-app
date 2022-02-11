@@ -11,6 +11,7 @@ import { LocalNotificationsService } from '../../../notifications/shared-notific
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { isAddress } from 'ethers/lib/utils';
 
 @Component({
   selector: 'app-send-summary',
@@ -42,7 +43,7 @@ import { LocalNotificationSchema } from '@capacitor/local-notifications';
           appTrackClick
           name="Send"
           [disabled]="(this.submitButtonService.isDisabled | async) || this.isSending"
-          (click)="this.canAffordFee()"
+          (click)="this.handleSubmit()"
           >{{ 'wallets.send.send_summary.send_button' | translate }}</ion-button
         >
       </div>
@@ -77,70 +78,69 @@ export class SendSummaryPage implements OnInit {
   checkMode() {
     const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
     if (mode) {
-      this.canAffordFee().then();
+      this.handleSubmit(true).then();
     }
   }
 
   async askForPassword() {
+    await this.loadingService.dismiss();
+
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
       cssClass: 'ux-routeroutlet-modal full-screen-modal',
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    return data;
-  }
 
-  beginSend() {
-    this.askForPassword().then((password: string) => this.send(password));
+    await this.loadingService.show();
+    return data;
   }
 
   private goToSuccess(response: TransactionResponse) {
     this.navController.navigateForward(['/wallets/send/success']).then(() => this.notifyWhenTransactionMined(response));
   }
 
-  private send(password: string) {
-    this.loadingService.show().then(() => {
-      if (this.summaryData.balance >= this.summaryData.amount) {
-        this.walletTransactionsService
-          .send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency)
-          .then((response: TransactionResponse) => this.goToSuccess(response))
-          .catch((error) => this.handleSendError(error))
-          .finally(() => {
-            this.loadingService.dismiss();
-            this.isSending = false;
-          });
-      } else {
-        this.loadingService.dismiss();
-        this.isSending = false;
-        this.navController.navigateForward(['/wallets/send/error/wrong-amount']);
-      }
-    });
+  private async send(password: string) {
+    const response = await this.walletTransactionsService.send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency);
+    await this.goToSuccess(response);
   }
 
-  async canAffordFee() {
-    this.isSending = true;
-    await this.loadingService.show();
-    let cannotAffordFee;
+  private async checksBeforeSend(): Promise<boolean> {
+    if (!this.addressIsValid()) {
+      await this.handleInvalidAddress();
+      return false;
+    }
+
+    if (!(await this.userCanAffordFees())) {
+      await this.handleUserCantAffordFees();
+      return false;
+    }
+
+    if (!(await this.userCanAffordTx())) {
+      await this.handleUserCantAffordTx();
+      return false;
+    }
+
+    return true;
+  }
+
+  async handleSubmit(skipChecksBeforeSend: boolean = false) {
+    await this.startTx();
+    
+    if (!skipChecksBeforeSend) {
+      if (!(await this.checksBeforeSend())) {
+        await this.endTx();
+        return;
+      }
+    }
 
     try {
-      cannotAffordFee = await this.walletTransactionsService.canNotAffordFee(this.summaryData);
-
-      await this.loadingService.dismiss();
-
-      if (cannotAffordFee) {
-        await this.showAlertNotEnoughNativeToken();
-      } else {
-        this.beginSend();
-      }
-    } catch (e) {
-      this.isSending = false;
-      if (this.isInvalidAddressError(e)) {
-        await this.loadingService.dismiss();
-        await this.showAlertInvalidAddress();
-      } else {
-        throw e;
-      }
+      const password = await this.askForPassword();
+      await this.send(password);
+    } catch(error) {
+      await this.handleSendError(error);
+    } finally {
+      await this.endTx();
     }
   }
 
@@ -164,11 +164,6 @@ export class SendSummaryPage implements OnInit {
     await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
-  async showAlertInvalidAddress() {
-    const route = 'wallets.send.send_summary.alert_invalid_address';
-    await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
-  }
-
   private createNotification(transaction: TransactionReceipt): LocalNotificationSchema[] {
     return [
       {
@@ -188,28 +183,71 @@ export class SendSummaryPage implements OnInit {
       .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification));
   }
 
-  private handleSendError(error) {
-    let url: string;
-
-    if (error.message === 'invalid password') {
-      url = '/wallets/send/error/incorrect-password';
-    } else if (this.isInvalidAddressError(error)) {
-      url = '/wallets/send/error/wrong-address';
-    } else if (error.message.startsWith('cannot estimate gas') || error.message.startsWith('insufficient funds')) {
-      url = '/wallets/send/error/wrong-amount';
+  private async handleSendError(error) {
+    if (this.isInvalidPasswordError(error)) {
+      await this.handleInvalidPassword();
+    } else if (this.isNotEnoughBalanceError(error)) {
+      await this.handleNotEnoughBalance();
     } else {
       throw error;
     }
-
-    this.navController.navigateForward([url]).then();
   }
 
-  private isInvalidAddressError(error) {
-    return (
-      error.message.startsWith('provided ENS name resolves to null') ||
-      error.message.startsWith('invalid address') ||
-      error.message.startsWith('bad address checksum') ||
-      error.message.startsWith('resolver or addr is not configured for ENS name')
+  private isInvalidPasswordError(error) {
+    return error.message === 'invalid password';
+  }
+
+  private isNotEnoughBalanceError(error) {
+    return error.message.startsWith('cannot estimate gas') || error.message.startsWith('insufficient funds');
+  }
+
+  private async startTx() {
+    this.isSending = true;
+    await this.loadingService.show();
+  }
+
+  private async endTx() {
+    this.isSending = false;
+    await this.loadingService.dismiss();
+  }
+
+  private userCanAffordFees(): Promise<boolean> {
+    return this.walletTransactionsService.canAffordSendFee(
+      this.summaryData.address,
+      this.summaryData.amount,
+      this.summaryData.currency
     );
+  }
+
+  private userCanAffordTx(): Promise<boolean> {
+    return this.walletTransactionsService.canAffordSendTx(
+      this.summaryData.address,
+      this.summaryData.amount,
+      this.summaryData.currency
+    );
+  }
+
+  private addressIsValid() {
+    return isAddress(this.summaryData.address);
+  }
+
+  private async handleInvalidAddress() {
+    await this.navController.navigateForward(['/wallets/send/error/wrong-address']);
+  }
+
+  private async handleUserCantAffordFees() {
+    await this.showAlertNotEnoughNativeToken();
+  }
+
+  private async handleUserCantAffordTx() {
+    await this.handleNotEnoughBalance();
+  }
+
+  private async handleInvalidPassword() {
+    await this.navController.navigateForward(['/wallets/send/error/incorrect-password']);
+  }
+
+  private async handleNotEnoughBalance() {
+    await this.navController.navigateForward(['/wallets/send/error/wrong-amount']);
   }
 }

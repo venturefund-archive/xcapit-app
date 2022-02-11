@@ -46,7 +46,7 @@ export class ERC20TokenSend implements Send {
     return new this(from, to, amount, token, coin, nativeCoin, canSignTx);
   }
 
-  send(): Promise<string | TransactionResponse> {
+  send(): Promise<TransactionResponse> {
     return this._aToken.transfer(this._anAddressTo, this.amount);
   }
 

@@ -1,6 +1,7 @@
 import { parseEther } from "ethers/lib/utils";
 import { ERC20TokenSend } from "src/app/modules/wallets/shared-wallets/models/erc20-token-send/erc20-token-send.model";
 import { NativeTokenSend } from "src/app/modules/wallets/shared-wallets/models/native-token-send/native-token-send.model";
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { Fake } from "./fake.spec";
 
 export class FakeTokenSend implements Fake {
@@ -19,7 +20,7 @@ export class FakeTokenSend implements Fake {
   modifyReturns(fee: string = '0') {
     this._aSpy.sendEstimateFee.and.returnValue(Promise.resolve(parseEther(fee)));
     this._aSpy.formatFee.and.returnValue(fee);
-    this._aSpy.send.and.returnValue(Promise.resolve(''));
+    this._aSpy.send.and.returnValue(Promise.resolve({} as TransactionResponse));
   }
 
   rejectPromises() {

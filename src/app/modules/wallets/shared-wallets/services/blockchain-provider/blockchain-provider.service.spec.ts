@@ -62,6 +62,7 @@ describe('BlockchainProviderService', () => {
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: testCoins,
+      getCoin: testCoins[0]
     });
     TestBed.configureTestingModule({
       providers: [{ provide: ApiWalletService, useValue: apiWalletServiceSpy }],
@@ -93,12 +94,14 @@ describe('BlockchainProviderService', () => {
   [
     {
       coinValue: 'ETH',
+      testCoin: testCoins[0],
       contract: undefined,
       abi: undefined,
       decimals: 18,
     },
     {
       coinValue: 'USDT',
+      testCoin: testCoins[1],
       contract: '0x00000000000000',
       abi: tokenAbi,
       decimals: 6,
@@ -107,6 +110,7 @@ describe('BlockchainProviderService', () => {
     it(`should returns contract: ${data.contract},  abi: ${JSON.stringify(data.abi)} and decimals: ${
       data.decimals
     } for ${data.coinValue} when getProvider() is called`, async () => {
+      apiWalletServiceSpy.getCoin.and.returnValue(data.testCoin);
       service.createProvider = () => providerMock;
       service.createContract = () => providerMock;
       const response = await service.getProvider(data.coinValue);
@@ -120,14 +124,17 @@ describe('BlockchainProviderService', () => {
   [
     {
       coinValue: 'ETH',
+      testCoin: testCoins[0],
       balance: '1.152921504606846975',
     },
     {
       coinValue: 'USDT',
+      testCoin: testCoins[1],
       balance: '1.0',
     },
   ].forEach((data) => {
     it(`should obtain ${data.coinValue} balance and format output when formattedBalanceOf() is called`, async () => {
+      apiWalletServiceSpy.getCoin.and.returnValue(data.testCoin);
       service.createProvider = () => providerMock;
       service.createContract = () => providerMock;
 
@@ -135,42 +142,5 @@ describe('BlockchainProviderService', () => {
 
       expect(response).toEqual(data.balance);
     });
-  });
-
-  it('should calculate the fee for native token on estimateFee', async () => {
-    const gas = 2;
-    const gasPrice = 10;
-    const providerSpy = jasmine.createSpyObj('Provider', {
-      estimateGas: BigNumber.from(gas),
-      getGasPrice: BigNumber.from(gasPrice),
-    });
-    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
-    const expectedFee = BigNumber.from(gas * gasPrice);
-    const estimatedFee = await service.estimateFee(testTx[0], testCoins[0]);
-    expect(estimatedFee).toEqual(expectedFee);
-  });
-
-  it('should calculate the fee for not native token on estimateFee', async () => {
-    const gas = 2;
-    const gasPrice = 10;
-    const providerSpy = jasmine.createSpyObj('Provider', {
-      estimateGas: BigNumber.from(gas),
-      getGasPrice: BigNumber.from(gasPrice),
-    });
-    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
-    const expectedFee = BigNumber.from(gas * gasPrice);
-    const estimatedFee = await service.estimateFee(testTx[1], testCoins[0]);
-    expect(estimatedFee).toEqual(expectedFee);
-  });
-
-  it('should retun zero fee when estimateGas fails to calculate the fee for tokens', async () => {
-    const gasPrice = 10;
-    const providerSpy = jasmine.createSpyObj('Provider', {
-      estimateGas: Promise.reject(),
-      getGasPrice: BigNumber.from(gasPrice),
-    });
-    spyOn(service, 'getProvider').and.returnValue(Promise.resolve({ provider: providerSpy }));
-    const estimatedFee = await service.estimateFee(testTx[1], testCoins[1]);
-    expect(estimatedFee).toEqual(BigNumber.from(0));
   });
 });
