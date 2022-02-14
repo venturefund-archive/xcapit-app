@@ -93,7 +93,8 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    await component.ionViewWillEnter();
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
@@ -114,7 +115,7 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    await component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
 
@@ -132,9 +133,9 @@ describe('DefiInvestmentProductsPage', () => {
     walletServiceSpy.walletExist.and.resolveTo(false);
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
-      availableDefiProductsSpy
+      availableDefiProductsSpy 
     );
-    await component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
 
@@ -148,11 +149,6 @@ describe('DefiInvestmentProductsPage', () => {
     expect(productEl).toBeTruthy();
   });
 
-  it('should empty arrays', async () => {
-    component.ionViewWillEnter();
-    expect(component.activeInvestments).toEqual([]);
-    expect(component.availableInvestments).toEqual([]);
-  });
   
   it('should create available defi products', () => {
     expect(component.createAvailableDefiProducts()).toBeInstanceOf(AvailableDefiProducts);

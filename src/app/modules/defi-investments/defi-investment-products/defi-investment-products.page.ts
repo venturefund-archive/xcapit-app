@@ -65,18 +65,21 @@ export class DefiInvestmentProductsPage {
     private walletEncryptionService: WalletEncryptionService,
     private walletService: WalletService
   ) {}
-  haveInvestments = true;
   activeInvestments: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
-
-  async ionViewWillEnter() {
+  haveInvestments = true;
+  
+  ionViewWillEnter(){
     this.emptyArrays();
+  }
+
+  async ionViewDidEnter() {
     this.getAvailableDefiProducts();
     await this.getInvestments();
   }
 
   emptyArrays(){
-    this.availableInvestments =[];
+    this.availableInvestments = [];
     this.activeInvestments = [];
   }
 
@@ -89,16 +92,21 @@ export class DefiInvestmentProductsPage {
   }
 
   async getInvestments(): Promise<void> {
+    const investments : DefiInvestment[] = [];
     const walletExist = await this.walletService.walletExist();
     for (const product of this.defiProducts) {
       const investmentProduct = await this.getInvestmentProduct(product);
       const balance = walletExist ? await this.getProductBalance(investmentProduct) : 0;
-      this.filterUserInvestments({
-        product: investmentProduct,
-        balance: balance,
-        isComing: product.isComing,
-      });
+      investments.push(
+        {
+          product: investmentProduct,
+          balance: balance,
+          isComing: product.isComing,
+          
+        }
+      )
     }
+    this.filterUserInvestments(investments);
   }
 
   async getProductBalance(investmentProduct: InvestmentProduct): Promise<number> {
@@ -112,8 +120,9 @@ export class DefiInvestmentProductsPage {
     return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
   }
 
-  filterUserInvestments(investment: DefiInvestment): void {
-    investment.balance > 0 ? this.activeInvestments.push(investment) : this.availableInvestments.push(investment);
+  filterUserInvestments(investments: DefiInvestment[]): void {
+    this.activeInvestments = investments.filter((investment) => investment.balance > 0);
+    this.availableInvestments = investments.filter((investment) => investment.balance === 0);
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
