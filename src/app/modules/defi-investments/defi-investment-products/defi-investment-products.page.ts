@@ -16,9 +16,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/investments"></ion-back-button>
-        </ion-buttons>
+        
         <ion-title class="ion-text-center">{{
           'defi_investments.defi_investment_products.header' | translate
         }}</ion-title>
@@ -67,13 +65,22 @@ export class DefiInvestmentProductsPage {
     private walletEncryptionService: WalletEncryptionService,
     private walletService: WalletService
   ) {}
-  haveInvestments = true;
   activeInvestments: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
+  haveInvestments = true;
+  
+  ionViewWillEnter(){
+    this.emptyArrays();
+  }
 
   async ionViewDidEnter() {
     this.getAvailableDefiProducts();
     await this.getInvestments();
+  }
+
+  emptyArrays(){
+    this.availableInvestments = [];
+    this.activeInvestments = [];
   }
 
   private getAvailableDefiProducts(): void {
@@ -85,16 +92,21 @@ export class DefiInvestmentProductsPage {
   }
 
   async getInvestments(): Promise<void> {
+    const investments : DefiInvestment[] = [];
     const walletExist = await this.walletService.walletExist();
     for (const product of this.defiProducts) {
       const investmentProduct = await this.getInvestmentProduct(product);
       const balance = walletExist ? await this.getProductBalance(investmentProduct) : 0;
-      this.filterUserInvestments({
-        product: investmentProduct,
-        balance: balance,
-        isComing: product.isComing,
-      });
+      investments.push(
+        {
+          product: investmentProduct,
+          balance: balance,
+          isComing: product.isComing,
+          
+        }
+      )
     }
+    this.filterUserInvestments(investments);
   }
 
   async getProductBalance(investmentProduct: InvestmentProduct): Promise<number> {
@@ -108,8 +120,9 @@ export class DefiInvestmentProductsPage {
     return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
   }
 
-  filterUserInvestments(investment: DefiInvestment): void {
-    investment.balance > 0 ? this.activeInvestments.push(investment) : this.availableInvestments.push(investment);
+  filterUserInvestments(investments: DefiInvestment[]): void {
+    this.activeInvestments = investments.filter((investment) => investment.balance > 0);
+    this.availableInvestments = investments.filter((investment) => investment.balance === 0);
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
