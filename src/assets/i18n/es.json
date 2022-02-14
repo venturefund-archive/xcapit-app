@@ -1839,6 +1839,23 @@
           "message": "¿Desea cancelar la operación?",
           "cancel_button": "Volver",
           "accept_button": "Aceptar"
+        },
+        "types": {
+          "swap": {
+            "swap": "Intercambiar Tokens",
+            "amount_to_send": "Monto a enviar",
+            "amount_to_send_max": "Monto máximo a enviar",
+            "amount_to_receive": "Monto a recibir",
+            "amount_to_receive_min": "Monto mínimo a recibir"
+          },
+          "liquidity": {
+            "add_liquidity": "Agregar liquidez",
+            "remove_liquidity": "Remover liquidez",
+            "liquidity": "Liquidez",
+            "amount_token_0": "Monto token 0",
+            "amount_token_1": "Monto token 1",
+            "amount_to_receive_min": "Monto mínimo a recibir"
+          }
         }
       },
       "transactions": {
