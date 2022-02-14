@@ -89,6 +89,6 @@ describe('NoWalletComponent', () => {
   it('should navigate to urlLink when Go To Link is clicked', () => {
     const pageButton = fixture.debugElement.query(By.css("ion-button[name='Go To Link']"));
     pageButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlLink]);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.data.urlLink]);
   });
 });
