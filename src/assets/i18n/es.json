@@ -261,7 +261,8 @@
         "description": "Para habilitar tu inversión, ingresa la contraseña de tu wallet Xcapit.",
         "input_label": "Contraseña",
         "confirm_button": "Aceptar"
-      }
+      },
+      "informative_modal":"No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos."
     },
     "coming_soon": {
       "header": "Inversión"
