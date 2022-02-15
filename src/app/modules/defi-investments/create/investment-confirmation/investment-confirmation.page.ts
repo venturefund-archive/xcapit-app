@@ -125,8 +125,6 @@ export class InvestmentConfirmationPage {
     await this.getInvestmentInfo();
     this.dynamicPrice();
     await this.walletService.walletExist();
-    await this.getToken();
-    await this.getTokenBalanceAvailable();
   }
 
   private dynamicPrice() {
@@ -268,10 +266,12 @@ export class InvestmentConfirmationPage {
   }
 
   async invest() {
+    await this.getToken();
+    await this.getTokenBalanceAvailable();
+    this.loadingEnabled(true);
     const wallet = await this.wallet();
     if (wallet) {
       if (this.checkTokenBalance()) {
-        this.loadingEnabled(true);
         try {
           await (await this.investment(wallet).deposit(this.amount.value)).wait();
           await this.navController.navigateForward('/defi/success-investment');
@@ -283,6 +283,7 @@ export class InvestmentConfirmationPage {
       } else {
         this.openModalTokenBalance();
       }
+      this.loadingEnabled(false);
     }
   }
 

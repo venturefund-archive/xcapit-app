@@ -260,7 +260,8 @@
         "description": "To enable your investment, enter your Xcapit wallet password.",
         "input_label": "Password",
         "confirm_button": "Accept"
-      }
+      },
+      "informative_modal":"You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some."
     },
     "coming_soon": {
       "header": "Investment"
