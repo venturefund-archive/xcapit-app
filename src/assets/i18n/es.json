@@ -276,7 +276,21 @@
       "header": "Inversiones Defi",
       "title": "Comienza a invertir",
       "title_investments": "Mis inversiones",
-      "recommendations": "Podrían interesarte"
+      "recommendations": "Podrían interesarte",
+      "choose_investor_profile": {
+        "complete_test": {
+          "title": "Quiero elegir mi perfil nuevamente",
+          "description": "¿Crees que has cambiado tu perfil? Puedes volver a seleccionarlo.",
+          "button_primary": "Seleccionar nuevamente",
+          "button_secondary": "Tomar el test"
+        },
+        "incomplete_test": {
+          "title": "¿Qué tipo de inversor eres?",
+          "description": "Realiza el test de inversor, o escógelo manualmente y descubre qué inversiones podrían ser adecuadas para tí.",
+          "button_primary": "Tomar el test",
+          "button_secondary": "Escoger manualmente"
+        }
+      }
     },
     "success_investment": {
       "title": "Añadiste dinero a tu inversión",
