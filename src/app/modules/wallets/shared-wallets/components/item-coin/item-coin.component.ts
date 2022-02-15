@@ -9,7 +9,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
         <ion-img class="ic__img" [src]="this.coin.logoRoute"></ion-img>
         <div>
           <ion-label class="ic__label">{{ this.coin.name }}</ion-label>
-          <ion-badge *ngIf="this.coin.native" class="ic__badge ux_badge_native" slot="end">{{
+          <ion-badge *ngIf="this.coin.native" class="ic__badge ux-badge-native" slot="end">{{
             'wallets.select_coin.native' | translate
           }}</ion-badge>
         </div>
