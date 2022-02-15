@@ -103,11 +103,7 @@ describe('InvestmentConfirmationPage', () => {
         getCoins: [],
         getCoinsFromNetwork: [{ native: true, value: 'MATIC' }],
       });
-      walletBalanceServiceSpy = jasmine.createSpyObj(
-        'WalletBalanceService',
-        { balanceOf: Promise.resolve('51') },
-        { addresses: { ERC20: 'testAddress' } }
-      );
+      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
       TestBed.configureTestingModule({
         declarations: [InvestmentConfirmationPage],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -225,7 +221,7 @@ describe('InvestmentConfirmationPage', () => {
   });
 
   it('should show informative modal when password is valid but the available balance is lower than the set value ', async () => {
-    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(49))
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(49));
     await component.ionViewDidEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
