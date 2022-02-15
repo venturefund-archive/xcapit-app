@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { ApiUsuariosService } from 'src/app/modules/usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
-
 @Component({
   selector: 'app-choose-investor-profile-card',
   template: `
