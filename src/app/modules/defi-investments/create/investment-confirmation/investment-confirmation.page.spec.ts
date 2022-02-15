@@ -1,3 +1,5 @@
+import { LINKS } from 'src/app/config/static-links';
+import { IonicStorageService } from './../../../../shared/services/ionic-storage/ionic-storage.service';
 import {
   Investment,
   TwoPiInvestment,
@@ -22,6 +24,9 @@ import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-w
 import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { Provider } from '@ethersproject/abstract-provider';
 import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 describe('InvestmentConfirmationPage', () => {
   let component: InvestmentConfirmationPage;
@@ -45,6 +50,9 @@ describe('InvestmentConfirmationPage', () => {
   let createErc20ProviderSpy: jasmine.Spy<any>;
   let approveFeeContractSpy: jasmine.Spy<any>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
+  let storageSpy: jasmine.SpyObj<IonicStorageService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -90,6 +98,7 @@ describe('InvestmentConfirmationPage', () => {
       });
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
         showErrorToast: Promise.resolve(),
+        showWarningToast: Promise.resolve(),
       });
       dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
       erc20ContractSpy = jasmine.createSpyObj('ERC20Contract', {
@@ -100,9 +109,19 @@ describe('InvestmentConfirmationPage', () => {
         getCoins: [],
         getCoinsFromNetwork: [{ native: true, value: 'MATIC' }],
       });
+      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
+
+      storageSpy = jasmine.createSpyObj('IonicStorageService', {
+        set: Promise.resolve(),
+        get: Promise.resolve(true),
+      });
+
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', {
+        open: Promise.resolve(),
+      });
       TestBed.configureTestingModule({
         declarations: [InvestmentConfirmationPage],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
@@ -111,6 +130,9 @@ describe('InvestmentConfirmationPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
+          { provide: IonicStorageService, useValue: storageSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -147,6 +169,7 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('_agreement_2PI_T&C', true);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/success-investment');
   });
 
@@ -158,6 +181,7 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
+    expect(storageSpy.set).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/error-investment');
   });
 
@@ -213,5 +237,38 @@ describe('InvestmentConfirmationPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show informative modal when password is valid but the available balance is lower than the set value ', async () => {
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(49));
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
+  });
+
+  it('should check agreements automatically when 2PI T&C agreement exists on cache', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]'));
+    expect(component.form.valid).toBeTrue();
+    expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('false');
+  });
+
+  it('should show empty agreement checkboxes when investing for first time', async () => {
+    storageSpy.get.and.resolveTo(false);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]'));
+    expect(component.form.valid).toBeFalse();
+    expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('true');
+  });
+
+  it('should open 2PI T&C when T&C link is clicked', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-label.checkbox-link > ion-text:last-child')).nativeElement.click();
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: LINKS.twoPiTermsAndConditions });
   });
 });

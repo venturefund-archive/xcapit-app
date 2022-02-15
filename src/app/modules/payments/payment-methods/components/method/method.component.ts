@@ -43,7 +43,7 @@ import { BrowserService } from '../../../../../shared/services/browser/browser.s
             >
               <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-button>
-            <ion-badge *ngIf="this.paymentMethod?.status === 'soon'" class="ux_badge_coming" slot="end"
+            <ion-badge *ngIf="this.paymentMethod?.status === 'soon'" class="ux-badge-coming" slot="end"
               >{{ 'payment.methods.coming_badge' | translate }}
             </ion-badge>
           </div>

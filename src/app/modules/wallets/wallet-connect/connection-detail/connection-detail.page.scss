@@ -13,6 +13,24 @@
     color: #4a75f7;
   }
 
+  .disclaimer {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ion-color-uxsemidark);
+    margin-top: 30px;
+
+    &__button {
+      height: auto;
+
+      --padding-start: 0 !important;
+
+      margin-top: -5px;
+    }
+  }
+
   .wcdc {
     background: var(--ion-color-uxlight);
     border-radius: 8px;

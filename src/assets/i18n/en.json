@@ -260,6 +260,12 @@
         "description": "To enable your investment, enter your Xcapit wallet password.",
         "input_label": "Password",
         "confirm_button": "Accept"
+      },
+      "informative_modal":"You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
+      "terms": {
+        "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
+        "i_have_read": "I have read and agree to ",
+        "link_to_terms": "2PI's Terms and Conditions."
       }
     },
     "coming_soon": {
@@ -1507,20 +1513,20 @@
     }
   },
   "wallets": {
-    "remove_success":{
-      "title":"Your wallet was removed",
-      "subtitle":"You can create a new wallet or import an existing one whenever you wish.",
-      "create_button":"Create new Wallet",
-      "import_button":"Import Wallet",
-      "home_link":"Go to home"
+    "remove_success": {
+      "title": "Your wallet was removed",
+      "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
+      "create_button": "Create new Wallet",
+      "import_button": "Import Wallet",
+      "home_link": "Go to home"
     },
-    "remove":{
-      "header":"Remove wallet",
-      "title":"When removing your wallet remember",
-      "item1":"You will not lose your past transactions, they are stored by the network.",
-      "item2":"If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
-      "item3":"You will be able to again create a new wallet in Xcapit or import an existing one.",
-      "tos":"I read and understand that I will remove my wallet.",
+    "remove": {
+      "header": "Remove wallet",
+      "title": "When removing your wallet remember",
+      "item1": "You will not lose your past transactions, they are stored by the network.",
+      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item3": "You will be able to again create a new wallet in Xcapit or import an existing one.",
+      "tos": "I read and understand that I will remove my wallet.",
       "button_text": "Continue",
       "loading":"Removing wallet..."
     },
@@ -1897,7 +1903,10 @@
           "message": "There was an error executing the operation. Please try again.",
           "accept_button": "Accept"
         }
-      }
+      },
+      "disclaimer_1": "WalletConnect is in a Beta stage, so there may be problems in the connection process.",
+      "disclaimer_2": " If you had a problem connecting your wallet, you can contact with ",
+      "disclaimer_support": "support."
     }
   },
   "apikeys": {

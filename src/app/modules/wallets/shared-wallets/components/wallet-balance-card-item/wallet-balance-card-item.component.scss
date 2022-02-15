@@ -4,9 +4,11 @@
     display: flex;
     align-items: stretch;
     border-radius: 8px;
+
     &__img {
       height: 33px;
     }
+
     &__content {
       display: flex;
       flex-direction: column;
@@ -17,7 +19,16 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        &__name-label {
+          display: flex;
+
+          ion-badge {
+            margin-left: 8px;
+          }
+        }
       }
+
       &__bottom {
         display: flex;
         justify-content: space-between;

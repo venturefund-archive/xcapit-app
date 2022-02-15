@@ -144,6 +144,7 @@ fdescribe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
@@ -183,7 +184,7 @@ fdescribe('DefiInvestmentProductsPage', () => {
     walletServiceSpy.walletExist.and.resolveTo(false);
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
-      availableDefiProductsSpy
+      availableDefiProductsSpy 
     );
     await component.ionViewDidEnter();
     fixture.detectChanges();
@@ -199,6 +200,7 @@ fdescribe('DefiInvestmentProductsPage', () => {
     expect(productEl).toBeTruthy();
   });
 
+  
   it('should create available defi products', () => {
     expect(component.createAvailableDefiProducts()).toBeInstanceOf(AvailableDefiProducts);
   });

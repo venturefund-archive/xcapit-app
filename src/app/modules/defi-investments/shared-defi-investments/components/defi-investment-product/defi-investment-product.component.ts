@@ -24,7 +24,7 @@ import { NavController } from '@ionic/angular';
           <ion-text class="ux-font-text-xxs dip__content__performance__perf">{{
             'defi_investments.shared.defi_investment_product.performance' | translate
           }}</ion-text>
-          <ion-badge class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge" slot="end"
+          <ion-badge class="ux-font-num-subtitulo ux-badge-coming dip__footer__badge" slot="end"
             >{{ this.apy | number: '1.2-2' }}%
             {{ 'defi_investments.shared.defi_investment_product.annual' | translate }}</ion-badge
           >
@@ -66,7 +66,7 @@ import { NavController } from '@ionic/angular';
           </ion-button>
           <ion-badge
             *ngIf="this.isComing"
-            class="ux-font-num-subtitulo ux_badge_coming dip__footer__badge"
+            class="ux-font-num-subtitulo ux-badge-coming dip__footer__badge"
             slot="end"
             >{{ 'defi_investments.shared.defi_investment_product.coming_badge' | translate }}</ion-badge
           >
