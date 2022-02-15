@@ -1,3 +1,7 @@
+import { IonicStorageService } from './../../../../shared/services/ionic-storage/ionic-storage.service';
+import { LINKS } from 'src/app/config/static-links';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { FormBuilder, Validators } from '@angular/forms';
 import {
   Investment,
   TwoPiInvestment,
@@ -77,7 +81,28 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
           </div>
         </div>
       </ion-card>
+      <form [formGroup]="this.form" class="ion-padding-horizontal ion-padding-bottom">
+        <ion-item class="term-item ion-no-padding ion-no-margin">
+          <ion-checkbox formControlName="thirdPartyDisclaimer" mode="md" slot="start"></ion-checkbox>
+          <ion-label class="ion-no-padding ion-no-margin">
+            <ion-text class="ux-font-text-xxs" color="uxsemidark">
+              {{ 'defi_investments.confirmation.terms.third_party_disclaimer' | translate }}
+            </ion-text>
+          </ion-label>
+        </ion-item>
 
+        <ion-item class="term-item ion-no-padding ion-no-margin">
+          <ion-checkbox formControlName="termsAndConditions" mode="md" slot="start"></ion-checkbox>
+          <ion-label class="ion-no-padding ion-no-margin checkbox-link">
+            <ion-text class="ux-font-text-xxs" color="uxsemidark">{{
+              'defi_investments.confirmation.terms.i_have_read' | translate
+            }}</ion-text>
+            <ion-text class="ux-link-xs" (click)="this.openTOS()">{{
+              'defi_investments.confirmation.terms.link_to_terms' | translate
+            }}</ion-text>
+          </ion-label>
+        </ion-item>
+      </form>
       <ion-button
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.confirmation.submit_loading' | translate"
@@ -89,6 +114,7 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
         class="ion-padding-start ion-padding-end ux_button"
         color="uxsecondary"
         (click)="this.invest()"
+        [disabled]="!this.form.valid"
       >
         {{ 'defi_investments.confirmation.submit' | translate }}
       </ion-button>
@@ -97,6 +123,10 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
   styleUrls: ['./investment-confirmation.page.scss'],
 })
 export class InvestmentConfirmationPage {
+  form = this.formBuilder.group({
+    thirdPartyDisclaimer: [false, Validators.requiredTrue],
+    termsAndConditions: [false, Validators.requiredTrue],
+  });
   product: InvestmentProduct;
   token: Coin;
   available: number;
@@ -108,6 +138,7 @@ export class InvestmentConfirmationPage {
   loading = false;
   leave$ = new Subject<void>();
   private readonly priceRefreshInterval = 15000;
+  links = LINKS;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -118,12 +149,16 @@ export class InvestmentConfirmationPage {
     private navController: NavController,
     private toastService: ToastService,
     private apiWalletService: ApiWalletService,
-    private walletBalance: WalletBalanceService
+    private walletBalance: WalletBalanceService,
+    private formBuilder: FormBuilder,
+    private browserService: BrowserService,
+    private storage: IonicStorageService
   ) {}
 
   async ionViewDidEnter() {
     await this.getInvestmentInfo();
     this.dynamicPrice();
+    this.checkTwoPiAgreement();
     await this.walletService.walletExist();
   }
 
@@ -274,6 +309,7 @@ export class InvestmentConfirmationPage {
       if (this.checkTokenBalance()) {
         try {
           await (await this.investment(wallet).deposit(this.amount.value)).wait();
+          await this.saveTwoPiAgreement();
           await this.navController.navigateForward('/defi/success-investment');
         } catch {
           await this.navController.navigateForward('/defi/error-investment');
@@ -294,5 +330,20 @@ export class InvestmentConfirmationPage {
   ionViewWillLeave() {
     this.leave$.next();
     this.leave$.complete();
+  }
+
+  openTOS(): void {
+    this.browserService.open({ url: this.links.twoPiTermsAndConditions });
+  }
+
+  async checkTwoPiAgreement(): Promise<void> {
+    const agreement = await this.storage.get('_agreement_2PI_T&C');
+    if (agreement) {
+      this.form.patchValue({ thirdPartyDisclaimer: true, termsAndConditions: true });
+    }
+  }
+
+  saveTwoPiAgreement(): Promise<any> {
+    return this.storage.set('_agreement_2PI_T&C', true);
   }
 }
