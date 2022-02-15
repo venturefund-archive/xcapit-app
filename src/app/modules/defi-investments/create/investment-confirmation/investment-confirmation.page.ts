@@ -26,6 +26,7 @@ import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fe
 import { TotalFeeOf } from '../../shared-defi-investments/models/total-fee-of/total-fee-of.model';
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -97,6 +98,9 @@ import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/
 })
 export class InvestmentConfirmationPage {
   product: InvestmentProduct;
+  token: Coin;
+  available: number;
+  nativeTokenBalance: number;
   amount: Amount;
   quoteAmount: Amount;
   fee: Amount = { value: undefined, token: 'MATIC' };
@@ -113,13 +117,16 @@ export class InvestmentConfirmationPage {
     private walletEncryptionService: WalletEncryptionService,
     private navController: NavController,
     private toastService: ToastService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private walletBalance: WalletBalanceService
   ) {}
 
   async ionViewDidEnter() {
     await this.getInvestmentInfo();
     this.dynamicPrice();
     await this.walletService.walletExist();
+    await this.getToken();
+    await this.getTokenBalanceAvailable();
   }
 
   private dynamicPrice() {
@@ -173,10 +180,7 @@ export class InvestmentConfirmationPage {
   }
 
   private async approvalFee(): Promise<Fee> {
-    return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [
-      this.product.contractAddress(),
-      0,
-    ]);
+    return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [this.product.contractAddress(), 0]);
   }
 
   private async depositFee(): Promise<Fee> {
@@ -228,21 +232,56 @@ export class InvestmentConfirmationPage {
   async wallet(): Promise<Wallet | void> {
     const password = await this.requestPassword();
     if (password) {
-      this.loadingEnabled(true);
       return await this.decryptedWallet(password);
     }
+  }
+
+  getToken() {
+    return (this.token = this.product.token());
+  }
+
+  async getTokenBalanceAvailable() {
+    return (this.available = await this.walletBalance.balanceOf(this.token));
+  }
+
+  checkTokenBalance() {
+    return this.available >= this.amount.value ? true : false;
+  }
+
+  openModalTokenBalance() {
+    this.toastService.showWarningToast({
+      message: this.translate.instant(
+        this.translate.instant('defi_investments.confirmation.informative_modal', { token: this.token.value })
+      ),
+    });
+  }
+  async getNativeTokenBalance() {
+    const nativeToken = this.apiWalletService
+      .getCoins()
+      .find((coin) => coin.native && coin.network === this.token.network);
+    this.nativeTokenBalance = await this.walletBalance.balanceOf(nativeToken);
+    return this.nativeTokenBalance;
+  }
+
+  checkNativeTokenBalance() {
+    return this.nativeTokenBalance >= this.fee.value ? true : false;
   }
 
   async invest() {
     const wallet = await this.wallet();
     if (wallet) {
-      try {
-        await (await this.investment(wallet).deposit(this.amount.value)).wait();
-        await this.navController.navigateForward('/defi/success-investment');
-      } catch {
-        await this.navController.navigateForward('/defi/error-investment');
-      } finally {
-        this.loadingEnabled(false);
+      if (this.checkTokenBalance()) {
+        this.loadingEnabled(true);
+        try {
+          await (await this.investment(wallet).deposit(this.amount.value)).wait();
+          await this.navController.navigateForward('/defi/success-investment');
+        } catch {
+          await this.navController.navigateForward('/defi/error-investment');
+        } finally {
+          this.loadingEnabled(false);
+        }
+      } else {
+        this.openModalTokenBalance();
       }
     }
   }
