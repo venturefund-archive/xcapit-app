@@ -188,7 +188,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private async cachedTotalBalance() {
-    this.totalBalance = await this.balanceCacheService.total();
+    this.totalBalance = (await this.balanceCacheService.total()) ?? 0.0;
   }
 
   private resetRequestOnUnsubscribe() {

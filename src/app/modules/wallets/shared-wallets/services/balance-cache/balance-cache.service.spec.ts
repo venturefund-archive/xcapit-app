@@ -29,6 +29,7 @@ describe('BalanceCacheService', () => {
     cacheServiceSpy = jasmine.createSpyObj('CacheService', {
       update: Promise.resolve(),
       get: Promise.resolve({ value: 50, expiration_date: 123456 }),
+      remove: Promise.resolve(),
     });
     TestBed.configureTestingModule({
       providers: [{ provide: CacheService, useValue: cacheServiceSpy }],
@@ -75,5 +76,10 @@ describe('BalanceCacheService', () => {
 
     expect(cacheServiceSpy.get).toHaveBeenCalledOnceWith('balance_ERC20_ETH');
     expect(cacheServiceSpy.update).toHaveBeenCalledWith('balance_ERC20_ETH', { balance: 2, price: undefined });
+  });
+
+  it('should remove total balance', async () => {
+    await service.removeTotal();
+    expect(cacheServiceSpy.remove).toHaveBeenCalledWith('balance_total');
   });
 });

@@ -193,4 +193,14 @@ describe('HomeWalletPage', () => {
     expect(spyNext).toHaveBeenCalledTimes(1);
     expect(spyComplete).toHaveBeenCalledTimes(1);
   });
+
+  it('should show 0.0 balance when no wallet or cache is present', async () => {
+    balanceCacheServiceSpy.total.and.resolveTo(undefined);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    component.walletExist = false;
+    const balanceEl = fixture.debugElement.query(By.css('div.wt__amount > ion-text'));
+    expect(balanceEl.nativeElement.innerHTML).toContain('0.00 USD');
+  });
 });

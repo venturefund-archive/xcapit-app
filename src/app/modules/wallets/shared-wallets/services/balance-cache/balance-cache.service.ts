@@ -24,6 +24,10 @@ export class BalanceCacheService {
     return this.cacheService.update(this.addPrefix('total'), { value });
   }
 
+  removeTotal(): Promise<void> {
+    return this.cacheService.remove(this.addPrefix('total'));
+  }
+
   coin(aCoin: Coin): Promise<CachedCoin> {
     return this.cacheService.get(this.addPrefix(`${aCoin.network}_${aCoin.value}`));
   }
