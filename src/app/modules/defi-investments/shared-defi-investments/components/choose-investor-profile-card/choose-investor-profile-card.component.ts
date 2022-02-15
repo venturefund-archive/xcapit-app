@@ -14,13 +14,13 @@ import { Component, OnInit } from '@angular/core';
           {{ this.descriptionText | translate }}
         </ion-text>
       </div>
-      <div class="cipc__button_primary">
+      <div class="cipc__button_primary button-container">
         <ion-button class="ux_button ion-no-padding" size="small" color="uxsecondary">
           {{ this.buttonPrimaryText | translate }}
         </ion-button>
       </div>
-      <div class="cipc__button_secondary">
-        <ion-button class="ux_button ion-no-padding" size="small" fill="clear" color="primary">
+      <div class="cipc__button_secondary button-container">
+        <ion-button class="ux_button ion-no-padding" size="small" fill="clear" color="info">
           {{ this.buttonSecondaryText | translate }}
         </ion-button>
       </div>
@@ -29,10 +29,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./choose-investor-profile-card.component.scss'],
 })
 export class ChooseInvestorProfileCardComponent implements OnInit {
-  titleText: string = 'defi_investments.defi_investment_products.choose_investor_profile.completed_test.title';
-  descriptionText: string = 'defi_investments.defi_investment_products.choose_investor_profile.completed_test.description';
-  buttonPrimaryText: string = 'defi_investments.defi_investment_products.choose_investor_profile.completed_test.button_primary';
-  buttonSecondaryText: string = 'defi_investments.defi_investment_products.choose_investor_profile.completed_test.button_secondary';
+  titleText: string = 'defi_investments.defi_investment_products.choose_investor_profile.complete_test.title';
+  descriptionText: string = 'defi_investments.defi_investment_products.choose_investor_profile.complete_test.description';
+  buttonPrimaryText: string = 'defi_investments.defi_investment_products.choose_investor_profile.complete_test.button_primary';
+  buttonSecondaryText: string = 'defi_investments.defi_investment_products.choose_investor_profile.complete_test.button_secondary';
   constructor() {}
 
   ngOnInit() {}

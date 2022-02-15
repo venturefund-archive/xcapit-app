@@ -55,7 +55,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
           ></app-defi-investment-product>
         </div>
       </div>
-      <app-choose-investor-profile-card></app-choose-investor-profile-card>
+      <app-choose-investor-profile-card *ngIf="this.activeInvestments.length || this.availableInvestments.length"></app-choose-investor-profile-card>
     </ion-content>
   `,
   styleUrls: ['./defi-investment-products.page.scss'],

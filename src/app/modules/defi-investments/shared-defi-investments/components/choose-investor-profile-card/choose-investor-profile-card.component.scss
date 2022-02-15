@@ -1,5 +1,6 @@
 :host {
   .cipc {
+    margin-top: 4px;
     padding: 24px 12px 16px;
     box-shadow: none;
     border: 0.5px solid var(--ion-color-uxmedium);
@@ -7,36 +8,43 @@
 
     &__title {
       width: 100%;
+
+      ion-text {
+        color: var(--ion-color-uxprimary);
+      }
     }
 
     &__text {
-      margin: 24px 7.5px 12px;
+      margin: 24px 7.5px 20px;
+
+      ion-text {
+        color: var(--ion-color-uxsemidark);
+      }
     }
 
     &__button_primary {
-      width: 100%;
-
-      ion-button {
-        margin: 0;
-        height: 44px;
-
-        --padding-top: 12.5px;
-        --padding-bottom: 12.5px;
-        --padding-start: 16px;
-        --padding-end: 16px;
-      }
+      margin-bottom: 8px;
     }
+  }
 
-    &__button_secondary {
-      ion-button {
-        margin: 0;
-        height: 44px;
+  .button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 
-        --padding-top: 12.5px;
-        --padding-bottom: 12.5px;
-        --padding-start: 16px;
-        --padding-end: 16px;
-      }
-    }
+  ion-button {
+    margin: 0;
+    height: 44px;
+
+    --padding-top: 12.5px;
+    --padding-bottom: 12.5px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+
+  ion-text {
+    display: block;
+    text-align: center;
   }
 }
