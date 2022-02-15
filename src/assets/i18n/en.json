@@ -1884,7 +1884,10 @@
           "message": "There was an error executing the operation. Please try again.",
           "accept_button": "Accept"
         }
-      }
+      },
+      "disclaimer_1": "WalletConnect is in a Beta stage, so there may be problems in the connection process.",
+      "disclaimer_2": " If you had a problem connecting your wallet, you can contact with ",
+      "disclaimer_support": "support."
     }
   },
   "apikeys": {
