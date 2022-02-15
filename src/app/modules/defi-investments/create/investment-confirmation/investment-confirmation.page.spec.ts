@@ -22,6 +22,7 @@ import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-w
 import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { Provider } from '@ethersproject/abstract-provider';
 import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 
 describe('InvestmentConfirmationPage', () => {
   let component: InvestmentConfirmationPage;
@@ -45,6 +46,7 @@ describe('InvestmentConfirmationPage', () => {
   let createErc20ProviderSpy: jasmine.Spy<any>;
   let approveFeeContractSpy: jasmine.Spy<any>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -90,6 +92,7 @@ describe('InvestmentConfirmationPage', () => {
       });
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
         showErrorToast: Promise.resolve(),
+        showWarningToast: Promise.resolve(),
       });
       dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
       erc20ContractSpy = jasmine.createSpyObj('ERC20Contract', {
@@ -100,6 +103,7 @@ describe('InvestmentConfirmationPage', () => {
         getCoins: [],
         getCoinsFromNetwork: [{ native: true, value: 'MATIC' }],
       });
+      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
       TestBed.configureTestingModule({
         declarations: [InvestmentConfirmationPage],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -111,6 +115,7 @@ describe('InvestmentConfirmationPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -213,5 +218,14 @@ describe('InvestmentConfirmationPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show informative modal when password is valid but the available balance is lower than the set value ', async () => {
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(49));
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
   });
 });
