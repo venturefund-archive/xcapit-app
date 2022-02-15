@@ -72,7 +72,7 @@ const testUserWithTest = {
   },
 };
 
-fdescribe('DefiInvestmentProductsPage', () => {
+describe('DefiInvestmentProductsPage', () => {
   let component: DefiInvestmentProductsPage;
   let fixture: ComponentFixture<DefiInvestmentProductsPage>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
