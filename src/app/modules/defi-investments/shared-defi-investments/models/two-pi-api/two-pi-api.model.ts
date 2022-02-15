@@ -17,7 +17,7 @@ export class TwoPiApi {
   }
 
   async vaults(): Promise<Vault[]> {
-    return await this.instance.getVaults(this.getNetworks());
+    return await this.instance.getVaults({ ...this.getNetworks(), partner: 'xcapit' });
   }
 
   vault(vaultID: string): Promise<Vault> {
