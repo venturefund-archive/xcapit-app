@@ -47,7 +47,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
                   <ion-item>
                     <ion-label>{{ 'funds.fund_stop_loss.inteligent_stop_loss' | translate }}</ion-label>
                     <ion-radio mode="md" slot="start" value="inteligentStopLoss"></ion-radio>
-                    <ion-badge *ngIf="this.selected !== 'inteligentStopLoss'" class="ux_badge_primary" slot="end">{{
+                    <ion-badge *ngIf="this.selected !== 'inteligentStopLoss'" class="ux-badge-primary" slot="end">{{
                       'funds.fund_stop_loss.most_chosen' | translate
                     }}</ion-badge>
                     <ion-button

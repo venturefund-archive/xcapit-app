@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
         </div>
       </div>
       <div class="ric__content__right">
-        <ion-badge class="badge ux_badge_coming" slot="end">{{
+        <ion-badge class="badge ux-badge-coming" slot="end">{{
           'referrals.new_referral_page.points_card.coming_badge' | translate
         }}</ion-badge>
       </div>
