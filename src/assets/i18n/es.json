@@ -262,7 +262,12 @@
         "input_label": "Contraseña",
         "confirm_button": "Aceptar"
       },
-      "informative_modal":"No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos."
+      "informative_modal":"No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
+      "terms": {
+        "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
+        "i_have_read": "He leído y acepto los ",
+        "link_to_terms": "Términos y condiciones de 2PI"
+      }
     },
     "coming_soon": {
       "header": "Inversión"
