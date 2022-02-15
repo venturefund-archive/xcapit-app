@@ -98,6 +98,17 @@ export interface PeerMeta {
             >
               {{ 'wallets.wallet_connect.button_continue' | translate }}
             </ion-button>
+
+            <div class="wcnc__disclaimer ion-margin-top">
+              <span>{{ 'wallets.wallet_connect.disclaimer_1' | translate }}</span>
+              <span>
+                {{ 'wallets.wallet_connect.disclaimer_2' | translate }}
+
+                <ion-button name="Support Help" class="ux-link-xs wcnc__disclaimer__button" (click)="this.supportHelp()" appTrackClick fill="clear">
+                  {{ 'wallets.wallet_connect.disclaimer_support' | translate}}
+                </ion-button>
+              </span>
+            </div>
           </form>
         </div>
       </div>
@@ -254,5 +265,9 @@ export class NewConnectionPage implements OnInit {
 
   public async killSession() {
     await this.walletConnectService.killSession();
+  }
+
+  supportHelp() {
+    this.navController.navigateForward('/tickets/create-support-ticket');
   }
 }

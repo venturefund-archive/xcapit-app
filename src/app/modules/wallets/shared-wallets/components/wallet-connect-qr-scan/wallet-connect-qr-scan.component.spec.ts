@@ -165,12 +165,4 @@ describe('WalletConnectQrScanComponent', () => {
     fixture.detectChanges();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
-
-  it('should call stopQRScan on close when scanningQR is true', () => {
-    const spy = spyOn(component, 'stopQRScan');
-    component.scanningQR = true;
-    fixture.detectChanges();
-    component.close();
-    expect(spy).toHaveBeenCalledTimes(1);
-  })
 });
