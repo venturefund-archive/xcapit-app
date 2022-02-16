@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-form.component';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -16,6 +16,7 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { Storage } from '@ionic/storage';
+import { By } from '@angular/platform-browser';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -215,5 +216,17 @@ describe('LoginPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should disable loading button when login fails', () => {
+    apiUsuariosSpy.login.and.returnValue(throwError(''));
+    fixture.debugElement.query(By.css('app-auth-form')).triggerEventHandler('send', {
+      email: 'email@email.com',
+      password: 'asdfF1',
+      referral_code: 'asd123',
+      tos: true,
+    });
+    fixture.detectChanges();
+    expect(component.loading).toBeFalse();
   });
 });
