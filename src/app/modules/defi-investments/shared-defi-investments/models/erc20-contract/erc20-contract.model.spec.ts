@@ -1,5 +1,5 @@
 import { Provider } from '@ethersproject/abstract-provider';
-import { Contract, Signer, VoidSigner, Wallet } from 'ethers';
+import { BigNumber, Contract, Signer, VoidSigner, Wallet } from 'ethers';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
 import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
@@ -77,5 +77,14 @@ describe('ERC20Contract', () => {
     expect(contract.signer).toBeInstanceOf(Signer);
     expect(contract.address).toEqual(coin.contract);
     expect(contract).toBeInstanceOf(Contract);
+  });
+
+  it('should call getGasPrice on getGasPrice',  async () => {
+    const provider = jasmine.createSpyObj('Provider', { value: {} });
+    const connectedSignerSpy = jasmine.createSpyObj('Signer', { getGasPrice: Promise.resolve(BigNumber.from(1)), connect: {} });
+    const signerSpy = jasmine.createSpyObj('Signer', { getGasPrice: Promise.resolve(BigNumber.from(1)), connect: connectedSignerSpy });
+    const erc20Contract = new ERC20Contract(provider, signerSpy);
+    await erc20Contract.getGasPrice();
+    expect(connectedSignerSpy.getGasPrice).toHaveBeenCalledTimes(1);
   });
 });
