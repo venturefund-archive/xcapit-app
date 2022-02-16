@@ -130,9 +130,10 @@ export class LoginPage implements OnInit {
 
   loginUser(data: any) {
     this.loading = true;
-    this.apiUsuarios.login(data).subscribe(() => {
-      this.success();
-    });
+    this.apiUsuarios.login(data).subscribe(
+      () => this.success(),
+      () => (this.loading = false)
+    );
   }
 
   private async success() {
