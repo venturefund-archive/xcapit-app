@@ -10,8 +10,8 @@ const routes: Routes = [
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
-    SharedDefiInvestmentsModule
+    RouterModule.forChild(routes),
+    SharedDefiInvestmentsModule,
   ],
   declarations: [DefiInvestmentProductsPage]
 })

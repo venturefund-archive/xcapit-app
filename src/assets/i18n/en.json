@@ -275,7 +275,21 @@
       "header": "Defi investments",
       "title": "Start investing",
       "title_investments": "My investments",
-      "recommendations": "You may be interested in"
+      "recommendations": "You may be interested in",
+      "choose_investor_profile": {
+        "complete_test": {
+          "title": "I want to choose my profile again",
+          "description": "You think your profile has changed? You can select it again.",
+          "button_primary": "Select it again",
+          "button_secondary": "Take the test"
+        },
+        "incomplete_test": {
+          "title": "What kind of investor are you?",
+          "description": "Take the investor test, or choose it manually and discover what investments may be suitable for you.",
+          "button_primary": "Take the test",
+          "button_secondary": "Choose manually"
+        }
+      }
     },
     "success_investment": {
       "title": "You added money to your investment",
