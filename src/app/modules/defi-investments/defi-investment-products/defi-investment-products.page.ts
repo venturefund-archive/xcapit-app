@@ -17,14 +17,13 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
-        
         <ion-title class="ion-text-center">{{
           'defi_investments.defi_investment_products.header' | translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div class="header-background" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></div>
+      <div class="header-background"></div>
       <div class="dp">
         <div class="dp__active-card" *ngIf="this.activeInvestments.length">
           <ion-item lines="none" slot="header">
@@ -36,8 +35,19 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
             [balance]="investment.balance"
           ></app-investment-balance-item>
         </div>
-        <div class="dp__available-card" *ngIf="this.availableInvestments.length">
-          <ion-item lines="none" slot="header">
+        <div class="dp__available-card">
+          <ion-skeleton-text
+            class="skeleton"
+            style="width:55%"
+            *ngIf="!this.activeInvestments.length && !this.availableInvestments.length"
+            slot="header"
+            animated
+          ></ion-skeleton-text>
+          <ion-item
+            *ngIf="this.activeInvestments.length || this.availableInvestments.length"
+            lines="none"
+            slot="header"
+          >
             <ion-label
               >{{
                 (!this.activeInvestments.length
@@ -47,15 +57,24 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
               }}
             </ion-label>
           </ion-item>
-          <app-defi-investment-product
-            *ngFor="let investment of this.availableInvestments"
-            [investmentProduct]="investment.product"
-            [isComing]="investment.isComing"
-          ></app-defi-investment-product>
+          <div *ngIf="this.activeInvestments.length || this.availableInvestments.length">
+            <app-defi-investment-product
+              *ngFor="let investment of this.availableInvestments"
+              [investmentProduct]="investment.product"
+              [isComing]="investment.isComing"
+            ></app-defi-investment-product>
+          </div>
+          <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
+            <app-defi-investment-product-skeleton *ngFor="let i of [1, 2, 3]"></app-defi-investment-product-skeleton>
+          </div>
         </div>
+      </div>
+      <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
+        <app-choose-investor-profile-skeleton></app-choose-investor-profile-skeleton>
       </div>
       <app-choose-investor-profile-card [hasDoneInvestorTest]="this.hasDoneInvestorTest" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></app-choose-investor-profile-card>
     </ion-content>
+
   `,
   styleUrls: ['./defi-investment-products.page.scss'],
 })
@@ -77,8 +96,11 @@ export class DefiInvestmentProductsPage {
     return this.investorCategory !== 'wealth_managements.profiles.no_category';
   }
 
-  ionViewWillEnter() {
+  ionViewDidLeave(){
     this.emptyArrays();
+  }
+  
+  ionViewWillEnter() {
     this.getUser();
   }
 
@@ -107,19 +129,16 @@ export class DefiInvestmentProductsPage {
   }
 
   async getInvestments(): Promise<void> {
-    const investments : DefiInvestment[] = [];
+    const investments: DefiInvestment[] = [];
     const walletExist = await this.walletService.walletExist();
     for (const product of this.defiProducts) {
       const investmentProduct = await this.getInvestmentProduct(product);
       const balance = walletExist ? await this.getProductBalance(investmentProduct) : 0;
-      investments.push(
-        {
-          product: investmentProduct,
-          balance: balance,
-          isComing: product.isComing,
-          
-        }
-      )
+      investments.push({
+        product: investmentProduct,
+        balance: balance,
+        isComing: product.isComing,
+      });
     }
     this.filterUserInvestments(investments);
   }
