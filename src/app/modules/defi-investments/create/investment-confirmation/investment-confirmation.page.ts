@@ -89,6 +89,7 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
         class="ion-padding-start ion-padding-end ux_button"
         color="uxsecondary"
         (click)="this.invest()"
+        [disabled]="this.disable"
       >
         {{ 'defi_investments.confirmation.submit' | translate }}
       </ion-button>
@@ -100,6 +101,7 @@ export class InvestmentConfirmationPage {
   product: InvestmentProduct;
   token: Coin;
   available: number;
+  nativeToken: Coin;
   nativeTokenBalance: number;
   amount: Amount;
   quoteAmount: Amount;
@@ -107,6 +109,7 @@ export class InvestmentConfirmationPage {
   quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
   leave$ = new Subject<void>();
+  disable = true;
   private readonly priceRefreshInterval = 15000;
 
   constructor(
@@ -125,6 +128,8 @@ export class InvestmentConfirmationPage {
     await this.getInvestmentInfo();
     this.dynamicPrice();
     await this.walletService.walletExist();
+    await this.getNativeTokenBalance();
+    this.checkNativeTokenBalance();
   }
 
   private dynamicPrice() {
@@ -254,19 +259,33 @@ export class InvestmentConfirmationPage {
     });
   }
   async getNativeTokenBalance() {
-    const nativeToken = this.apiWalletService
+    await this.getToken();
+    this.nativeToken = this.apiWalletService
       .getCoins()
       .find((coin) => coin.native && coin.network === this.token.network);
-    this.nativeTokenBalance = await this.walletBalance.balanceOf(nativeToken);
+    this.nativeTokenBalance = await this.walletBalance.balanceOf(this.nativeToken);
     return this.nativeTokenBalance;
   }
 
   checkNativeTokenBalance() {
-    return this.nativeTokenBalance >= this.fee.value ? true : false;
+    if (this.nativeTokenBalance <= this.fee.value) {
+      this.openModalNativeTokenBalance();
+    } else {
+      this.disable = false;
+    }
+  }
+
+  openModalNativeTokenBalance() {
+    this.toastService.showWarningToast({
+      message: this.translate.instant(
+        this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+          nativeToken: this.nativeToken?.value,
+        })
+      ),
+    });
   }
 
   async invest() {
-    await this.getToken();
     await this.getTokenBalanceAvailable();
     this.loadingEnabled(true);
     const wallet = await this.wallet();
