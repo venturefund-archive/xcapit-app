@@ -10,6 +10,7 @@ import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-ap
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { VoidSigner } from 'ethers';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -71,6 +72,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
       <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
         <app-choose-investor-profile-skeleton></app-choose-investor-profile-skeleton>
       </div>
+      <app-choose-investor-profile-card [hasDoneInvestorTest]="this.hasDoneInvestorTest" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></app-choose-investor-profile-card>
     </ion-content>
 
   `,
@@ -78,8 +80,10 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 })
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
+  investorCategory: string;
   constructor(
     private apiWalletService: ApiWalletService,
+    private apiUsuariosService: ApiUsuariosService,
     private twoPiApi: TwoPiApi,
     private walletEncryptionService: WalletEncryptionService,
     private walletService: WalletService
@@ -88,8 +92,16 @@ export class DefiInvestmentProductsPage {
   availableInvestments: DefiInvestment[] = [];
   haveInvestments = true;
 
-  ionViewDidLeave() {
+  get hasDoneInvestorTest(): boolean {
+    return this.investorCategory !== 'wealth_managements.profiles.no_category';
+  }
+
+  ionViewDidLeave(){
     this.emptyArrays();
+  }
+  
+  ionViewWillEnter() {
+    this.getUser();
   }
 
   async ionViewDidEnter() {
@@ -97,7 +109,13 @@ export class DefiInvestmentProductsPage {
     await this.getInvestments();
   }
 
-  emptyArrays() {
+  getUser() {
+    this.apiUsuariosService.getUser().subscribe(user => {
+      this.investorCategory = user.profile.investor_category;
+    });
+  }
+  
+  emptyArrays(){
     this.availableInvestments = [];
     this.activeInvestments = [];
   }

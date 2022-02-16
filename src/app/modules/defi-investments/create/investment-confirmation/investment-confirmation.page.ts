@@ -1,3 +1,7 @@
+import { IonicStorageService } from './../../../../shared/services/ionic-storage/ionic-storage.service';
+import { LINKS } from 'src/app/config/static-links';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { FormBuilder, Validators } from '@angular/forms';
 import {
   Investment,
   TwoPiInvestment,
@@ -26,6 +30,7 @@ import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fe
 import { TotalFeeOf } from '../../shared-defi-investments/models/total-fee-of/total-fee-of.model';
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -76,7 +81,28 @@ import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/
           </div>
         </div>
       </ion-card>
+      <form [formGroup]="this.form" class="ion-padding-horizontal ion-padding-bottom">
+        <ion-item class="term-item ion-no-padding ion-no-margin">
+          <ion-checkbox formControlName="thirdPartyDisclaimer" mode="md" slot="start"></ion-checkbox>
+          <ion-label class="ion-no-padding ion-no-margin">
+            <ion-text class="ux-font-text-xxs" color="uxsemidark">
+              {{ 'defi_investments.confirmation.terms.third_party_disclaimer' | translate }}
+            </ion-text>
+          </ion-label>
+        </ion-item>
 
+        <ion-item class="term-item ion-no-padding ion-no-margin">
+          <ion-checkbox formControlName="termsAndConditions" mode="md" slot="start"></ion-checkbox>
+          <ion-label class="ion-no-padding ion-no-margin checkbox-link">
+            <ion-text class="ux-font-text-xxs" color="uxsemidark">{{
+              'defi_investments.confirmation.terms.i_have_read' | translate
+            }}</ion-text>
+            <ion-text class="ux-link-xs" (click)="this.openTOS()">{{
+              'defi_investments.confirmation.terms.link_to_terms' | translate
+            }}</ion-text>
+          </ion-label>
+        </ion-item>
+      </form>
       <ion-button
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.confirmation.submit_loading' | translate"
@@ -88,6 +114,7 @@ import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/
         class="ion-padding-start ion-padding-end ux_button"
         color="uxsecondary"
         (click)="this.invest()"
+        [disabled]="!this.form.valid"
       >
         {{ 'defi_investments.confirmation.submit' | translate }}
       </ion-button>
@@ -96,7 +123,14 @@ import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/
   styleUrls: ['./investment-confirmation.page.scss'],
 })
 export class InvestmentConfirmationPage {
+  form = this.formBuilder.group({
+    thirdPartyDisclaimer: [false, Validators.requiredTrue],
+    termsAndConditions: [false, Validators.requiredTrue],
+  });
   product: InvestmentProduct;
+  token: Coin;
+  available: number;
+  nativeTokenBalance: number;
   amount: Amount;
   quoteAmount: Amount;
   fee: Amount = { value: undefined, token: 'MATIC' };
@@ -104,6 +138,7 @@ export class InvestmentConfirmationPage {
   loading = false;
   leave$ = new Subject<void>();
   private readonly priceRefreshInterval = 15000;
+  links = LINKS;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -113,12 +148,17 @@ export class InvestmentConfirmationPage {
     private walletEncryptionService: WalletEncryptionService,
     private navController: NavController,
     private toastService: ToastService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private walletBalance: WalletBalanceService,
+    private formBuilder: FormBuilder,
+    private browserService: BrowserService,
+    private storage: IonicStorageService
   ) {}
 
   async ionViewDidEnter() {
     await this.getInvestmentInfo();
     this.dynamicPrice();
+    this.checkTwoPiAgreement();
     await this.walletService.walletExist();
   }
 
@@ -173,10 +213,7 @@ export class InvestmentConfirmationPage {
   }
 
   private async approvalFee(): Promise<Fee> {
-    return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [
-      this.product.contractAddress(),
-      0,
-    ]);
+    return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [this.product.contractAddress(), 0]);
   }
 
   private async depositFee(): Promise<Fee> {
@@ -228,22 +265,61 @@ export class InvestmentConfirmationPage {
   async wallet(): Promise<Wallet | void> {
     const password = await this.requestPassword();
     if (password) {
-      this.loadingEnabled(true);
       return await this.decryptedWallet(password);
     }
   }
 
+  getToken() {
+    return (this.token = this.product.token());
+  }
+
+  async getTokenBalanceAvailable() {
+    return (this.available = await this.walletBalance.balanceOf(this.token));
+  }
+
+  checkTokenBalance() {
+    return this.available >= this.amount.value ? true : false;
+  }
+
+  openModalTokenBalance() {
+    this.toastService.showWarningToast({
+      message: this.translate.instant(
+        this.translate.instant('defi_investments.confirmation.informative_modal', { token: this.token.value })
+      ),
+    });
+  }
+  async getNativeTokenBalance() {
+    const nativeToken = this.apiWalletService
+      .getCoins()
+      .find((coin) => coin.native && coin.network === this.token.network);
+    this.nativeTokenBalance = await this.walletBalance.balanceOf(nativeToken);
+    return this.nativeTokenBalance;
+  }
+
+  checkNativeTokenBalance() {
+    return this.nativeTokenBalance >= this.fee.value ? true : false;
+  }
+
   async invest() {
+    await this.getToken();
+    await this.getTokenBalanceAvailable();
+    this.loadingEnabled(true);
     const wallet = await this.wallet();
     if (wallet) {
-      try {
-        await (await this.investment(wallet).deposit(this.amount.value)).wait();
-        await this.navController.navigateForward('/defi/success-investment');
-      } catch {
-        await this.navController.navigateForward('/defi/error-investment');
-      } finally {
-        this.loadingEnabled(false);
+      if (this.checkTokenBalance()) {
+        try {
+          await (await this.investment(wallet).deposit(this.amount.value)).wait();
+          await this.saveTwoPiAgreement();
+          await this.navController.navigateForward('/defi/success-investment');
+        } catch {
+          await this.navController.navigateForward('/defi/error-investment');
+        } finally {
+          this.loadingEnabled(false);
+        }
+      } else {
+        this.openModalTokenBalance();
       }
+      this.loadingEnabled(false);
     }
   }
 
@@ -254,5 +330,20 @@ export class InvestmentConfirmationPage {
   ionViewWillLeave() {
     this.leave$.next();
     this.leave$.complete();
+  }
+
+  openTOS(): void {
+    this.browserService.open({ url: this.links.twoPiTermsAndConditions });
+  }
+
+  async checkTwoPiAgreement(): Promise<void> {
+    const agreement = await this.storage.get('_agreement_2PI_T&C');
+    if (agreement) {
+      this.form.patchValue({ thirdPartyDisclaimer: true, termsAndConditions: true });
+    }
+  }
+
+  saveTwoPiAgreement(): Promise<any> {
+    return this.storage.set('_agreement_2PI_T&C', true);
   }
 }

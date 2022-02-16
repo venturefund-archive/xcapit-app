@@ -132,6 +132,7 @@ export class WalletConnectService {
       window.addEventListener('beforeunload', async () => {
         await this.killSession();
       });
+
     } else {
       throw new Error();
     }
@@ -190,7 +191,11 @@ export class WalletConnectService {
 
       this.peerMeta = null;
       this.connected = false;
-      await this.walletConnector.killSession();
+
+      if (this.walletConnector.session.connected) {
+        await this.walletConnector.killSession();
+      }
+
       this.walletConnector = null;
     }
   }

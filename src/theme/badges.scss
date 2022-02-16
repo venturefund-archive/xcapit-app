@@ -1,53 +1,71 @@
-//Badge Principal
+// Badge Principal
 .ux-font-badge-primary,
-.ux_badge_primary {
+.ux-badge-primary {
   text-transform: uppercase;
+
   --color: var(--ion-color-warningdark);
+
   font-family: var(--ux-font-worksans);
   font-weight: var(--ux-fweight-extrabold);
   font-size: var(--ux-fsize-10);
 }
 
-//Badge Proximamente
+// Badge Proximamente
 .ux-font-badge-coming,
-.ux_badge_coming {
+.ux-badge-coming {
   font-family: var(--ux-font-lato);
   font-weight: var(--ux-fweight-semibold);
   font-size: var(--ux-fsize-12);
-  --color: rgb(114, 62, 163);
+
+  --color: rgb(114 62 163);
 }
 
-//Badge Proximamente - Violeta
-.ux_badge_coming {
+// Badge Proximamente - Violeta
+.ux-badge-coming {
   border-radius: 3px;
   height: 21px;
-  --background: rgba(187, 107, 217, 0.4);
+
+  --background: rgb(187 107 217 / 40%);
   --padding-top: 6px;
   --padding-bottom: 6px;
+
   line-height: 9.6px;
 }
 
 // Badge color naranja para la opcion mas seleccionada
-.ux_badge_primary {
+.ux-badge-primary {
   border-radius: 4px;
   height: 21px;
+
   --background: var(--ion-color-warninglight);
   --padding-top: 6px;
 }
 
-//Badge Coin Nativa
-.ux_badge_native {
+// Badge Coin Nativa
+.ux-badge-native {
   border-radius: 4px;
+
   --background: var(--ion-color-infolight);
   --padding-top: 6px;
   --padding-bottom: 6px;
+
   line-height: 9.6px;
 }
 
-//Badge Nueva Estrategia
-.ux_badge_new_strategy {
+// Badge Nueva Estrategia
+.ux-badge-new-strategy {
   border-radius: 4px;
+
   --background: #065f46;
   --padding-top: 4px;
   --padding-bottom: 2px;
+}
+
+.ux-badge {
+  border-radius: 4px;
+
+  --padding-top: 2px;
+  --padding-bottom: 2px;
+  --padding-start: 4px;
+  --padding-end: 4px;
 }

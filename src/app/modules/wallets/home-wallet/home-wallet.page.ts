@@ -54,8 +54,8 @@ import { takeUntil } from 'rxjs/operators';
           </ion-text>
         </div>
         <div class="wt__amount ux-font-num-titulo">
-          <ion-spinner color="uxlight" name="crescent" *ngIf="!this.totalBalance"></ion-spinner>
-          <ion-text *ngIf="this.totalBalance"> {{ this.totalBalance | number: '1.2-2' }} USD </ion-text>
+          <ion-spinner color="uxlight" name="crescent" *ngIf="this.totalBalance === undefined"></ion-spinner>
+          <ion-text *ngIf="this.totalBalance !== undefined"> {{ this.totalBalance | number: '1.2-2' }} USD </ion-text>
         </div>
       </div>
       <div class="wt__subheader" *ngIf="!this.walletExist">

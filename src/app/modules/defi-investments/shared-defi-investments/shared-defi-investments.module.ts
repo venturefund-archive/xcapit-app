@@ -7,7 +7,8 @@ import { InvestmentBalanceItemComponent } from './components/investment-balance-
 import { ExpandableInvestmentInfoComponent } from './components/expandable-investment-info/expandable-investment-info.component';
 import { DefiInvestmentWithdrawComponent } from './components/defi-investment-withdraw/defi-investment-withdraw.component';
 import { DefiInvestmentProductSkeletonComponent } from './components/defi-investment-product/defi-investment-product-skeleton/defi-investment-product-skeleton.component';
-import { ChooseInvestorProfileSkeletonComponent } from './components/defi-investment-product/choose-investor-profile-card-skeleton/choose-investor-profile-skeleton.component';
+import { ChooseInvestorProfileSkeletonComponent } from './components/choose-investor-profile-card/choose-investor-profile-card-skeleton/choose-investor-profile-skeleton.component';
+import { ChooseInvestorProfileCardComponent } from './components/choose-investor-profile-card/choose-investor-profile-card.component';
 @NgModule({
   declarations: [
     AmountInputCardComponent,
@@ -18,6 +19,7 @@ import { ChooseInvestorProfileSkeletonComponent } from './components/defi-invest
     InvestmentBalanceItemComponent,
     ComingSoonInvestmentsComponent,
     DefiInvestmentWithdrawComponent,
+    ChooseInvestorProfileCardComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -30,6 +32,7 @@ import { ChooseInvestorProfileSkeletonComponent } from './components/defi-invest
     InvestmentBalanceItemComponent,
     ComingSoonInvestmentsComponent,
     DefiInvestmentWithdrawComponent,
+    ChooseInvestorProfileCardComponent,
   ],
 })
 export class SharedDefiInvestmentsModule {}
