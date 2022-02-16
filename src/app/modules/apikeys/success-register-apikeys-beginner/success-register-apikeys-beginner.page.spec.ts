@@ -1,3 +1,4 @@
+import { SUCCESS_TYPES } from './../../../shared/components/success-content/success-types.constant';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
@@ -13,13 +14,11 @@ describe('SuccessRegisterApikeysBeginnerPage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      fakeWalletService = new FakeWalletService(true, {});
-      walletServiceSpy = fakeWalletService.createSpy();
       TestBed.configureTestingModule({
         declarations: [SuccessRegisterApikeysBeginnerPage],
         imports: [IonicModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [{ provide: WalletService, useValue: walletServiceSpy }],
+        providers: [],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SuccessRegisterApikeysBeginnerPage);
@@ -31,19 +30,10 @@ describe('SuccessRegisterApikeysBeginnerPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
-  it('should set "/fiat-ramps/moonpay" on success types when wallet exist', async () => {
+
+  it('should set data on init', () => {
     component.ngOnInit();
     fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component.data.urlThirdAction).toEqual('/fiat-ramps/moonpay');
-  });
-  
-  it('should set "/fiat-ramps/no-wallet" on success types when wallet not exist', async () => {
-    fakeWalletService.modifyReturns(false, {});
-    component.ngOnInit();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component.data.urlThirdAction).toEqual('/fiat-ramps/no-wallet-to-buy');
+    expect(component.data).toEqual(SUCCESS_TYPES.apikeys_register_success_beginner);
   });
 });

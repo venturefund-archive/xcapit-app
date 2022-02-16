@@ -58,7 +58,7 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/investments/binance',
     namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction',
   },
-  apikeys_register_success_begginer: {
+  apikeys_register_success_beginner: {
     urlClose: '/tabs/home',
     urlPrimaryAction: '/funds/fund-name',
     urlSecondaryAction: '/tabs/home',
