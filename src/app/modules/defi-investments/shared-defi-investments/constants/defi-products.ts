@@ -18,6 +18,6 @@ export const NONPROD_DEFI_PRODUCTS: DefiProduct[] = [
   },
   {
     id: 'mumbai_eth',
-    isComing: false,
+    isComing: true,
   },
 ];
