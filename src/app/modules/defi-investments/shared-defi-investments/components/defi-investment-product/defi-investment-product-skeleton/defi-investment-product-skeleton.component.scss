@@ -1,0 +1,147 @@
+:host {
+  .skl_dip {
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-top: 8px;
+
+    &__badge {
+      margin-left: 8px;
+      align-items: center;
+      justify-content: center;
+      color: var(--ion-color-uxlight);
+      font-family: var(--ux-font-worksans);
+      font-size: var(--ux-fsize-10);
+    }
+
+
+
+    &__content {
+      background: var(--ion-color-uxlight);
+      border-radius: 15px 15px 0 0;
+      border: 0.5px solid var(--ion-color-uxmedium);
+      padding: 8px 16px 12px;
+      background-size: cover !important;
+
+      &__content_1 {
+        display: flex;
+        align-items: center;
+
+        &__avatar {
+          display: inline;
+          align-items: center;
+          padding-top: 5px;
+          padding-right: 12px;
+        }
+
+        &__title_and_subtitle {
+          flex-basis: 82%;
+          display: flex;
+          flex-direction: column;
+
+          &__title {
+            height: 18px;
+            border-radius: 8px;
+          }
+        }
+
+        &__subtitle {
+          display: inline-flex;
+          height: 12px;
+          border-radius: 8px;
+
+          .title {
+            color: var(--ion-color-uxsemidark);
+          }
+        }
+      }
+
+      &__content_2 {
+        width: 100%;
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between;
+
+        ion-skeleton-text {
+          width: 120px;
+          border-radius: 8px;
+          height: 18px;
+        }
+
+        ion-skeleton-text:last-child {
+          width: 54px;
+          border-radius: 8px;
+          height: 12px;
+        }
+      }
+
+      &__content_3 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &__label_1 {
+          align-self: flex-end;
+          color: var(--ion-color-uxprimary);
+          line-height: 18px;
+
+          ion-skeleton-text {
+            width: 81px;
+            border-radius: 8px;
+            height: 18px;
+          }
+        }
+
+        &__label_2 {
+          ion-skeleton-text {
+            width: 81px;
+            border-radius: 8px;
+            height: 12px;
+          }
+        }
+      }
+    }
+
+    &__footer {
+      border-top: none !important;
+      background: var(--ion-color-uxlight);
+      display: flex;
+      align-items: center;
+      border: 0.5px solid var(--ion-color-uxmedium);
+      border-radius: 0 0 8px 8px;
+      padding: 12px;
+      justify-content: space-between;
+
+      &__badge {
+        --background: var(--ion-color-successlight);
+        --color: var(--ion-color-successdark);
+        --height: 12px;
+      }
+
+      &__button {
+        ion-skeleton-text {
+          width: 120px;
+          height: 45px;
+          border-radius: 8px;
+        }
+      }
+
+      &__info {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+
+        ion-skeleton-text {
+          width: 105px;
+          border-radius: 8px;
+          height: 18px;
+        }
+
+        ion-skeleton-text:last-child {
+          width: 54px;
+          border-radius: 8px;
+          height: 12px;
+        }
+      }
+    }
+  }
+}
