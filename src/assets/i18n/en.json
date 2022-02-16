@@ -129,7 +129,7 @@
       "title": "Login",
       "google_auth": "Sign in with Google",
       "or_text": "or",
-      "loading":"Logging"
+      "loading": "Logging"
     },
     "register": {
       "card_header": "Create your account",
@@ -261,7 +261,8 @@
         "input_label": "Password",
         "confirm_button": "Accept"
       },
-      "informative_modal":"You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
+      "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
+      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay transaction fees. Buy some {{nativeToken}} or deposit them from another account.",
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
@@ -1528,7 +1529,7 @@
       "item3": "You will be able to again create a new wallet in Xcapit or import an existing one.",
       "tos": "I read and understand that I will remove my wallet.",
       "button_text": "Continue",
-      "loading":"Removing wallet..."
+      "loading": "Removing wallet..."
     },
     "no_wallet": {
       "title": "You don't have your Xcapit Wallet yet",
@@ -2354,7 +2355,7 @@
         "description": "Third-party provider"
       },
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
-      "information":"*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
+      "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
       "button_text": "Continue"
     }
   },

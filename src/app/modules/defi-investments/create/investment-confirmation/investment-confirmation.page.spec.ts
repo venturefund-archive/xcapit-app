@@ -248,6 +248,27 @@ describe('InvestmentConfirmationPage', () => {
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
   });
 
+  it('should not show informative modal of fees and button enable on view did enter when the native token balance is bigger than the cost of fees', async () => {
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.001));
+    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('100000')));
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(0);
+    expect(component.disable).toBeFalsy();
+  });
+  
+  it('should show informative modal of fees and button disable on view did enter when the native token balance is lower than the cost of fees', async () => {
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.001));
+    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('1000000000')));
+    fixture.detectChanges();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
+    expect(component.disable).toBeTruthy();
+  });
+
   it('should check agreements automatically when 2PI T&C agreement exists on cache', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
