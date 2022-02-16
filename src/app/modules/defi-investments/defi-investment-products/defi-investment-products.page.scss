@@ -21,6 +21,12 @@
       border: 0.5px solid var(--ion-color-uxmedium);
       min-height: 28px;
 
+      ion-skeleton-text {
+        margin: 16px;
+        height: 29px;
+        padding-bottom: 8px;
+      }
+
       ion-item[slot='header'] {
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
