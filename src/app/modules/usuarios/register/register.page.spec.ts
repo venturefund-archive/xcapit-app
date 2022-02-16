@@ -18,7 +18,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
-describe('RegisterPage', () => {
+fdescribe('RegisterPage', () => {
   let component: RegisterPage;
   let fixture: ComponentFixture<RegisterPage>;
   let apiUsuariosMock: any;
@@ -166,7 +166,6 @@ describe('RegisterPage', () => {
       };
       component.ionViewWillEnter();
       expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
-      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual('test@test.com');
     });
 
@@ -179,7 +178,6 @@ describe('RegisterPage', () => {
       };
       component.ionViewWillEnter();
       expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
-      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual('');
     });
   });

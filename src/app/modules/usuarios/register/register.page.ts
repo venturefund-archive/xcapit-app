@@ -110,7 +110,6 @@ export class RegisterPage implements OnInit {
     const code = this.route.snapshot.paramMap.get('code');
     if (code) {
       this.registerForm.form.patchValue({
-        manual_referral: true,
         referral_code: code,
       });
     }
