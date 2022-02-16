@@ -12,12 +12,12 @@ export class TwoPiApi {
     this.instance = new TwoPi({});
   }
 
-  getNetworks(): { networks: string[] } {
-    return this.env === 'PRODUCCION' ? { networks: ['polygon'] } : { networks: ['mumbai'] };
+  getParams(): { networks: string[]; partner?: string } {
+    return this.env === 'PRODUCCION' ? { networks: ['polygon'], partner: 'xcapit' } : { networks: ['mumbai'] };
   }
 
   async vaults(): Promise<Vault[]> {
-    return await this.instance.getVaults({ ...this.getNetworks(), partner: 'xcapit' });
+    return await this.instance.getVaults(this.getParams());
   }
 
   vault(vaultID: string): Promise<Vault> {
