@@ -8,7 +8,6 @@ import { CustomValidators } from '../../../../shared/validators/custom-validator
 import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
 import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { BigNumber } from 'ethers';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
@@ -68,6 +67,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
           <app-send-amount-input-card
             [title]="'wallets.send.send_detail.amount_input.title' | translate"
             [currencyName]="this.currency.value"
+            [nativeTokenName]="this.nativeToken.value"
             referenceCurrencyName="USD"
           ></app-send-amount-input-card>
         </div>
@@ -103,11 +103,9 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
 })
 export class SendDetailPage {
   alertType = UX_ALERT_TYPES.warning;
-  coins: Coin[];
   currency: Coin;
   networks: string[];
   selectedNetwork: string;
-  estimatedGas: BigNumber;
   nativeToken: Coin;
   balanceNativeToken: number;
   balance: number;
@@ -125,18 +123,18 @@ export class SendDetailPage {
     private transactionDataService: TransactionDataService,
     private walletService: WalletService,
     private storageService: StorageService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
   ) {}
 
   ionViewWillEnter() {
-    this.coins = this.apiWalletService.getCoins();
     this.getCurrency();
     this.setCurrencyNetworks();
     this.checkTokensAmounts();
+    this.updateTransactionData();
   }
 
-  getNativeToken() {
-    this.nativeToken = this.coins.find((c) => c.network === this.selectedNetwork && c.native);
+  private getNativeToken() {
+    this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
   }
 
   checkTokensAmounts() {
@@ -152,7 +150,8 @@ export class SendDetailPage {
   }
 
   private getCurrency() {
-    this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
+    this.currency = this.apiWalletService.getCoin(this.route.snapshot.paramMap.get('currency'), this.selectedNetwork);
+    this.updateTransactionData();
   }
 
   private setCurrencyNetworks() {
@@ -172,6 +171,11 @@ export class SendDetailPage {
   }
 
   async goToSummary() {
+    this.updateTransactionData();
+    await this.navController.navigateForward(['/wallets/send/summary']);
+  }
+
+  private updateTransactionData() {
     this.transactionDataService.transactionData = {
       network: this.selectedNetwork,
       currency: this.currency,
@@ -179,6 +183,5 @@ export class SendDetailPage {
       balanceNativeToken: this.balanceNativeToken,
       balance: this.balance,
     };
-    await this.navController.navigateForward(['/wallets/send/summary']);
   }
 }

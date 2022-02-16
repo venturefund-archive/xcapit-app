@@ -29,6 +29,10 @@ export class CacheService {
     return this.storage.set(this.addPrefix(key), Object.assign(value, { expiration_date: this.expirationDate() }));
   }
 
+  remove(key: string): Promise<any> {
+    return this.storage.remove(this.addPrefix(key));
+  }
+
   async get(key: string): Promise<any> {
     const storedValue = await this.storage.get(this.addPrefix(key));
 

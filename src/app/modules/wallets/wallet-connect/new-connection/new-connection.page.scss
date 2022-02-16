@@ -59,7 +59,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        border: 1px solid #606c83;
+        border: 1px solid var(--ion-color-uxsemidark);
         border-radius: 4px;
 
         &.ux-error__item {
@@ -76,6 +76,23 @@
         font-size: 14px;
         font-weight: 700;
         padding-bottom: 8px;
+      }
+    }
+
+    &__disclaimer {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ion-color-uxsemidark);
+
+      &__button {
+        height: auto;
+
+        --padding-start: 0 !important;
+
+        margin-top: -5px;
       }
     }
   }

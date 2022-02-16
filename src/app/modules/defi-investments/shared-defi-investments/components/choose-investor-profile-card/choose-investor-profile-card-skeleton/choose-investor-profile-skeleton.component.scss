@@ -1,0 +1,17 @@
+:host {
+  .card {
+    display: flex;
+    margin-top: 8px;
+    margin-right: 16px;
+    margin-left: 16px;
+    background-color: var(--ion-color-uxlight);
+    border-radius: 8px;
+    border: 0.5px solid var(--ion-color-uxmedium);
+    min-height: 28px;
+
+    ion-skeleton-text {
+      margin: 21px 16px 16px;
+      height: 48px;
+    }
+  }
+}

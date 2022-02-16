@@ -13,6 +13,8 @@ import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { of } from 'rxjs';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -26,6 +28,50 @@ const testCoins = [
   ),
 ];
 
+const testUser = {
+  id: 1,
+  email: 'test@test.com',
+  is_active: true,
+  is_superuser: false,
+  referral_id: 'TeS7',
+  profile: {
+    email: 'test@test.com',
+    first_name: 'Test Test',
+    cellphone: '353000000',
+    condicion_iva: 'IVA Responsable Inscripto',
+    tipo_factura: 'A',
+    cuit: '20100000009',
+    direccion: 'Calle Falsa 123',
+    pais: 'Argentina',
+    lang: 'es',
+    notifications_enabled: false,
+    investor_score: 0,
+    investor_category: 'wealth_managements.profiles.no_category',
+  },
+};
+
+const testUserWithTest = {
+  id: 1,
+  email: 'test@test.com',
+  is_active: true,
+  is_superuser: false,
+  referral_id: 'TeS7',
+  profile: {
+    email: 'test@test.com',
+    first_name: 'Test Test',
+    cellphone: '353000000',
+    condicion_iva: 'IVA Responsable Inscripto',
+    tipo_factura: 'A',
+    cuit: '20100000009',
+    direccion: 'Calle Falsa 123',
+    pais: 'Argentina',
+    lang: 'es',
+    notifications_enabled: false,
+    investor_score: 1,
+    investor_category: 'wealth_managements.profiles.conservative',
+  },
+};
+
 describe('DefiInvestmentProductsPage', () => {
   let component: DefiInvestmentProductsPage;
   let fixture: ComponentFixture<DefiInvestmentProductsPage>;
@@ -35,8 +81,12 @@ describe('DefiInvestmentProductsPage', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let apiUsuariosServiceSpy: jasmine.SpyObj<ApiUsuariosService>;
+
   beforeEach(
     waitForAsync(() => {
+      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', { getUser: of(testUser) });
+
       walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy',{
         walletExist: Promise.resolve(true),
       })
@@ -72,6 +122,7 @@ describe('DefiInvestmentProductsPage', () => {
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
         ],
@@ -93,7 +144,7 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    component.ionViewWillEnter();
+    component.ionViewDidLeave();
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
@@ -149,7 +200,22 @@ describe('DefiInvestmentProductsPage', () => {
     expect(productEl).toBeTruthy();
   });
 
+  it('should render header skeleton when active or available products are not yet loaded yet.', async () => {
+    availableDefiProductsSpy.value.and.returnValue([]);
+    expect(fixture.debugElement.query(By.css('.skeleton'))).toBeTruthy();
+  });
   
+  it('should render defi-product skeleton when active or available products are not loaded yet.', async () => {
+    availableDefiProductsSpy.value.and.returnValue([]);
+    expect(fixture.debugElement.query(By.css('app-defi-investment-product-skeleton'))).toBeTruthy();
+  });
+
+    
+  it('should render choose investor skeleton when active or available products are not loaded yet.', async () => {
+    availableDefiProductsSpy.value.and.returnValue([]);
+    expect(fixture.debugElement.query(By.css('app-choose-investor-profile-skeleton'))).toBeTruthy();
+  });
+
   it('should create available defi products', () => {
     expect(component.createAvailableDefiProducts()).toBeInstanceOf(AvailableDefiProducts);
   });
@@ -164,5 +230,44 @@ describe('DefiInvestmentProductsPage', () => {
     expect(await component.createInvestment(investmentProductSpy, '0x')).toBeInstanceOf(
       TwoPiInvestment
     );
+  });
+
+  it('should get user investor score on ionViewWillEnter', async () => {
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    expect(apiUsuariosServiceSpy.getUser).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render investor test card when user did the investor test', async () => {
+    apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserWithTest));
+    walletServiceSpy.walletExist.and.resolveTo(false);
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const cardEl = fixture.debugElement.query(By.css('app-choose-investor-profile-card'));
+    expect(cardEl.nativeElement.hasDoneInvestorTest).toBeTrue();   
+    expect(cardEl).toBeTruthy();
+  });
+
+  it('should render investor test card when user did not take the investor test', async () => {
+    walletServiceSpy.walletExist.and.resolveTo(false);
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const cardEl = fixture.debugElement.query(By.css('app-choose-investor-profile-card'));
+    expect(cardEl.nativeElement.hasDoneInvestorTest).toBeFalse();   
+    expect(cardEl).toBeTruthy();
   });
 });

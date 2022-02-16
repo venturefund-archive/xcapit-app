@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { environment } from 'variables.env';
+import { environment } from 'src/environments/environment';
 
 export interface Answer {
   text: string;

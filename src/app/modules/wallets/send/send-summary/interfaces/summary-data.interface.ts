@@ -2,8 +2,8 @@ import { Coin } from '../../../shared-wallets/interfaces/coin.interface';
 
 export interface SummaryData {
   address: string;
-  amount: number;
-  referenceAmount: number;
+  amount: string;
+  referenceAmount: string;
   currency: Coin;
   network: string;
   balanceNativeToken?: number;

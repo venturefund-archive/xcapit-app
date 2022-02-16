@@ -10,20 +10,20 @@ import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-ap
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { VoidSigner } from 'ethers';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 @Component({
   selector: 'app-defi-investment-products',
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
-        
         <ion-title class="ion-text-center">{{
           'defi_investments.defi_investment_products.header' | translate
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div class="header-background" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></div>
+      <div class="header-background"></div>
       <div class="dp">
         <div class="dp__active-card" *ngIf="this.activeInvestments.length">
           <ion-item lines="none" slot="header">
@@ -35,8 +35,19 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
             [balance]="investment.balance"
           ></app-investment-balance-item>
         </div>
-        <div class="dp__available-card" *ngIf="this.availableInvestments.length">
-          <ion-item lines="none" slot="header">
+        <div class="dp__available-card">
+          <ion-skeleton-text
+            class="skeleton"
+            style="width:55%"
+            *ngIf="!this.activeInvestments.length && !this.availableInvestments.length"
+            slot="header"
+            animated
+          ></ion-skeleton-text>
+          <ion-item
+            *ngIf="this.activeInvestments.length || this.availableInvestments.length"
+            lines="none"
+            slot="header"
+          >
             <ion-label
               >{{
                 (!this.activeInvestments.length
@@ -46,21 +57,33 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
               }}
             </ion-label>
           </ion-item>
-          <app-defi-investment-product
-            *ngFor="let investment of this.availableInvestments"
-            [investmentProduct]="investment.product"
-            [isComing]="investment.isComing"
-          ></app-defi-investment-product>
+          <div *ngIf="this.activeInvestments.length || this.availableInvestments.length">
+            <app-defi-investment-product
+              *ngFor="let investment of this.availableInvestments"
+              [investmentProduct]="investment.product"
+              [isComing]="investment.isComing"
+            ></app-defi-investment-product>
+          </div>
+          <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
+            <app-defi-investment-product-skeleton *ngFor="let i of [1, 2, 3]"></app-defi-investment-product-skeleton>
+          </div>
         </div>
       </div>
+      <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
+        <app-choose-investor-profile-skeleton></app-choose-investor-profile-skeleton>
+      </div>
+      <app-choose-investor-profile-card [hasDoneInvestorTest]="this.hasDoneInvestorTest" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></app-choose-investor-profile-card>
     </ion-content>
+
   `,
   styleUrls: ['./defi-investment-products.page.scss'],
 })
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
+  investorCategory: string;
   constructor(
     private apiWalletService: ApiWalletService,
+    private apiUsuariosService: ApiUsuariosService,
     private twoPiApi: TwoPiApi,
     private walletEncryptionService: WalletEncryptionService,
     private walletService: WalletService
@@ -68,9 +91,17 @@ export class DefiInvestmentProductsPage {
   activeInvestments: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
   haveInvestments = true;
-  
-  ionViewWillEnter(){
+
+  get hasDoneInvestorTest(): boolean {
+    return this.investorCategory !== 'wealth_managements.profiles.no_category';
+  }
+
+  ionViewDidLeave(){
     this.emptyArrays();
+  }
+  
+  ionViewWillEnter() {
+    this.getUser();
   }
 
   async ionViewDidEnter() {
@@ -78,6 +109,12 @@ export class DefiInvestmentProductsPage {
     await this.getInvestments();
   }
 
+  getUser() {
+    this.apiUsuariosService.getUser().subscribe(user => {
+      this.investorCategory = user.profile.investor_category;
+    });
+  }
+  
   emptyArrays(){
     this.availableInvestments = [];
     this.activeInvestments = [];
@@ -92,19 +129,16 @@ export class DefiInvestmentProductsPage {
   }
 
   async getInvestments(): Promise<void> {
-    const investments : DefiInvestment[] = [];
+    const investments: DefiInvestment[] = [];
     const walletExist = await this.walletService.walletExist();
     for (const product of this.defiProducts) {
       const investmentProduct = await this.getInvestmentProduct(product);
       const balance = walletExist ? await this.getProductBalance(investmentProduct) : 0;
-      investments.push(
-        {
-          product: investmentProduct,
-          balance: balance,
-          isComing: product.isComing,
-          
-        }
-      )
+      investments.push({
+        product: investmentProduct,
+        balance: balance,
+        isComing: product.isComing,
+      });
     }
     this.filterUserInvestments(investments);
   }

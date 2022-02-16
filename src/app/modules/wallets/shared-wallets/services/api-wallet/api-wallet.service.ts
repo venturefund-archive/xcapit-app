@@ -34,6 +34,10 @@ export class ApiWalletService {
     return this.env === 'PRODUCCION' ? PROD_COINS : NONPROD_COINS;
   }
 
+  getNativeTokenFromNetwork(network: string): Coin {
+    return this.getCoins().find((coin) => coin.network === network && coin.native);
+  }
+
   getCoinsFromNetwork(network: string): Coin[] {
     return this.getCoins().filter((coin) => coin.network === network);
   }

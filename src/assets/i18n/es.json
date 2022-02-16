@@ -129,7 +129,7 @@
       "title": "Ingresar",
       "google_auth": "Continuar con Google",
       "or_text": "o",
-      "loading":"Ingresando"
+      "loading": "Ingresando"
     },
     "register": {
       "card_header": "Crea tu cuenta",
@@ -262,8 +262,13 @@
         "input_label": "Contraseña",
         "confirm_button": "Aceptar"
       },
-      "informative_modal":"No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
-      "informative_modal_fee":"No tienes suficientes {{nativeToken}} en tu cuenta para pagar las comisiones de transacción. Compra algunos {{nativeToken}} o deposítalos desde otra cuenta."
+      "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
+      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar las comisiones de transacción. Compra algunos {{nativeToken}} o deposítalos desde otra cuenta.",
+      "terms": {
+        "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
+        "i_have_read": "He leído y acepto los ",
+        "link_to_terms": "Términos y condiciones de 2PI"
+      }
     },
     "coming_soon": {
       "header": "Inversión"
@@ -272,7 +277,21 @@
       "header": "Inversiones Defi",
       "title": "Comienza a invertir",
       "title_investments": "Mis inversiones",
-      "recommendations": "Podrían interesarte"
+      "recommendations": "Podrían interesarte",
+      "choose_investor_profile": {
+        "complete_test": {
+          "title": "Quiero elegir mi perfil nuevamente",
+          "description": "¿Crees que has cambiado tu perfil? Puedes volver a seleccionarlo.",
+          "button_primary": "Seleccionar nuevamente",
+          "button_secondary": "Tomar el test"
+        },
+        "incomplete_test": {
+          "title": "¿Qué tipo de inversor eres?",
+          "description": "Realiza el test de inversor, o escógelo manualmente y descubre qué inversiones podrían ser adecuadas para tí.",
+          "button_primary": "Tomar el test",
+          "button_secondary": "Escoger manualmente"
+        }
+      }
     },
     "success_investment": {
       "title": "Añadiste dinero a tu inversión",
@@ -1514,7 +1533,7 @@
       "item3": "Podrás crear nuevamente una nueva wallet en Xcapit o importar una existente.",
       "tos": "Leí y comprendo que eliminaré mi wallet.",
       "button_text": "Continuar",
-      "loading":"Eliminando wallet..."
+      "loading": "Eliminando wallet..."
     },
     "no_wallet": {
       "title": "Aún no tienes tu Wallet Xcapit",
@@ -1696,7 +1715,11 @@
           "help_text": "{{currency}} direccion o alias"
         },
         "amount_input": {
-          "title": "Monto a enviar"
+          "title": "Monto a enviar",
+          "fee_title": "Tarifa de transacción*",
+          "fee_text": "*Este monto es estimativo y puede sufrir variaciones de acuerdo al momento en que realices la transacción.",
+          "wrong_address": "No se pudo estimar la tarifa de transacción. La dirección ingresada es inválida",
+          "cant_estimate_fee": "No se pudo estimar la tarifa de transacción. Puede que no tengas fondos suficientes"
         },
         "alert": {
           "title": "Atención",
@@ -1872,7 +1895,10 @@
           "message": "Hubo un error al ejecutar la operación. Por favor vuelva a intentarlo.",
           "accept_button": "Aceptar"
         }
-      }
+      },
+      "disclaimer_1": "WalletConnect está en una etapa Beta por lo que puede presentar inconvenientes en el proceso de conexión.",
+      "disclaimer_2": "Si tuviste un problema al conectar tu wallet puedes comunicarte con ",
+      "disclaimer_support": "soporte."
     }
   },
   "apikeys": {
@@ -2310,7 +2336,7 @@
         "description": "Proovedor de terceros"
       },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
-      "information":"*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
+      "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
       "button_text": "Continuar"
     }
   },

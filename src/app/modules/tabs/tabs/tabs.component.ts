@@ -17,6 +17,17 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
         </ion-tab-button>
 
         <ion-tab-button
+          tab="wallets"
+          appTrackClick
+          name="Tab Wallet"
+          (click)="this.goToWallet()"
+          layout="{{ this.selectedTab === 'wallets' ? 'icon-start' : 'label-hide' }}"
+        >
+          <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
+          <ion-label class="label ux-font-text-xxs">{{ 'tabs.wallet' | translate }}</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button
           tab="investments"
           appTrackClick
           (click)="this.goToInvestments()"
@@ -26,17 +37,6 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
         >
           <ion-icon src="assets/img/tabs/Trending-up.svg"></ion-icon>
           <ion-label class="label ux-font-text-xxs">{{ 'tabs.new_fund' | translate }}</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button
-          tab="wallets"
-          appTrackClick
-          name="Tab Wallet"
-          (click)="this.goToWallet()"
-          layout="{{ this.selectedTab === 'wallets' ? 'icon-start' : 'label-hide' }}"
-        >
-          <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
-          <ion-label class="label ux-font-text-xxs">{{ 'tabs.wallet' | translate }}</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

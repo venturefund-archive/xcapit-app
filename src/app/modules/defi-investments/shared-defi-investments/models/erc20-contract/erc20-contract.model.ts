@@ -1,4 +1,4 @@
-import { constants, Contract, Signer, VoidSigner } from 'ethers';
+import { BigNumber, constants, Contract, Signer, VoidSigner } from 'ethers';
 import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
 
 export class ERC20Contract {
@@ -14,5 +14,9 @@ export class ERC20Contract {
 
   value(): Contract {
     return new Contract(this._aProvider.coin().contract, this._aProvider.coin().abi, this.signer());
+  }
+
+  getGasPrice(): Promise<BigNumber> {
+    return this.signer().getGasPrice();
   }
 }

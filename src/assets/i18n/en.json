@@ -129,7 +129,7 @@
       "title": "Login",
       "google_auth": "Sign in with Google",
       "or_text": "or",
-      "loading":"Logging"
+      "loading": "Logging"
     },
     "register": {
       "card_header": "Create your account",
@@ -261,8 +261,13 @@
         "input_label": "Password",
         "confirm_button": "Accept"
       },
-      "informative_modal":"You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
-      "informative_modal_fee":"You do not have enough {{nativeToken}} in your account to pay transaction fees. Buy some {{nativeToken}} or deposit them from another account."
+      "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
+      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay transaction fees. Buy some {{nativeToken}} or deposit them from another account.",
+      "terms": {
+        "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
+        "i_have_read": "I have read and agree to ",
+        "link_to_terms": "2PI's Terms and Conditions."
+      }
     },
     "coming_soon": {
       "header": "Investment"
@@ -271,7 +276,21 @@
       "header": "Defi investments",
       "title": "Start investing",
       "title_investments": "My investments",
-      "recommendations": "You may be interested in"
+      "recommendations": "You may be interested in",
+      "choose_investor_profile": {
+        "complete_test": {
+          "title": "I want to choose my profile again",
+          "description": "You think your profile has changed? You can select it again.",
+          "button_primary": "Select it again",
+          "button_secondary": "Take the test"
+        },
+        "incomplete_test": {
+          "title": "What kind of investor are you?",
+          "description": "Take the investor test, or choose it manually and discover what investments may be suitable for you.",
+          "button_primary": "Take the test",
+          "button_secondary": "Choose manually"
+        }
+      }
     },
     "success_investment": {
       "title": "You added money to your investment",
@@ -1495,22 +1514,22 @@
     }
   },
   "wallets": {
-    "remove_success":{
-      "title":"Your wallet was removed",
-      "subtitle":"You can create a new wallet or import an existing one whenever you wish.",
-      "create_button":"Create new Wallet",
-      "import_button":"Import Wallet",
-      "home_link":"Go to home"
+    "remove_success": {
+      "title": "Your wallet was removed",
+      "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
+      "create_button": "Create new Wallet",
+      "import_button": "Import Wallet",
+      "home_link": "Go to home"
     },
-    "remove":{
-      "header":"Remove wallet",
-      "title":"When removing your wallet remember",
-      "item1":"You will not lose your past transactions, they are stored by the network.",
-      "item2":"If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
-      "item3":"You will be able to again create a new wallet in Xcapit or import an existing one.",
-      "tos":"I read and understand that I will remove my wallet.",
+    "remove": {
+      "header": "Remove wallet",
+      "title": "When removing your wallet remember",
+      "item1": "You will not lose your past transactions, they are stored by the network.",
+      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item3": "You will be able to again create a new wallet in Xcapit or import an existing one.",
+      "tos": "I read and understand that I will remove my wallet.",
       "button_text": "Continue",
-      "loading":"Removing wallet..."
+      "loading": "Removing wallet..."
     },
     "no_wallet": {
       "title": "You don't have your Xcapit Wallet yet",
@@ -1692,7 +1711,11 @@
           "help_text": "{{currency}} address or alias"
         },
         "amount_input": {
-          "title": "Amount to send"
+          "title": "Amount to send",
+          "fee_title": "Transaction fee*",
+          "fee_text": "*This amount is an estimate and can vary depending on the moment you complete the transaction.",
+          "wrong_address": "We could not estimate the transaction fee. Invalid address",
+          "cant_estimate_fee": "We could not estimate the transaction fee. You might not have enough funds"
         },
         "alert": {
           "title": "Attention",
@@ -1885,7 +1908,10 @@
           "message": "There was an error executing the operation. Please try again.",
           "accept_button": "Accept"
         }
-      }
+      },
+      "disclaimer_1": "WalletConnect is in a Beta stage, so there may be problems in the connection process.",
+      "disclaimer_2": " If you had a problem connecting your wallet, you can contact with ",
+      "disclaimer_support": "support."
     }
   },
   "apikeys": {
@@ -2329,7 +2355,7 @@
         "description": "Third-party provider"
       },
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
-      "information":"*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
+      "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
       "button_text": "Continue"
     }
   },
