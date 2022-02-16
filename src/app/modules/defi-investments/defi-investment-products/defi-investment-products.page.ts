@@ -99,7 +99,7 @@ export class DefiInvestmentProductsPage {
   ionViewDidLeave(){
     this.emptyArrays();
   }
-  
+
   ionViewWillEnter() {
     this.getUser();
   }
@@ -110,12 +110,12 @@ export class DefiInvestmentProductsPage {
   }
 
   getUser() {
-    this.apiUsuariosService.getUser().subscribe(user => {
+    this.apiUsuariosService.getUser().subscribe((user) => {
       this.investorCategory = user.profile.investor_category;
     });
   }
-  
-  emptyArrays(){
+
+  emptyArrays() {
     this.availableInvestments = [];
     this.activeInvestments = [];
   }
