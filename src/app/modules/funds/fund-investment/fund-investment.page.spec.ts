@@ -189,11 +189,4 @@ describe('FundInvestmentPage', () => {
     component.goToBuyCripto();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
   });
-
-  it('should navigate to intermediate page when buy button is clicked in alert and not exist wallet', () => {
-    component.existWallet = false;
-    fixture.detectChanges();
-    component.goToBuyCripto();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/no-wallet']);
-  });
 });
