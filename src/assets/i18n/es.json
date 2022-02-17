@@ -127,7 +127,7 @@
       "third": {
         "badge": "Nueva función",
         "title": "Wallet Connect",
-        "description": "Conecta tu wallet al mundo cripto y mantén el control"
+        "description": "Conecta tu wallet al mundo cripto y mantén el control de tus tokens"
       }
     }
   },
@@ -2434,7 +2434,7 @@
       },
       "wallet_connect_card": {
         "title": "WalletConnect",
-        "subtitle": "Conecta tu wallet al mundo cripto y mantén el control"
+        "subtitle": "Conecta tu wallet al mundo cripto y mantén el control de tus tokens"
       },
       "quotes_card": {
         "title": "Cotizaciones",
