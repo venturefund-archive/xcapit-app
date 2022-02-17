@@ -127,7 +127,7 @@
       "third": {
         "badge": "New feature",
         "title": "Wallet Connect",
-        "description": "Connect your wallet to the crypto world and stay in control"
+        "description": "Connect your wallet to the crypto world and stay in control with your tokens"
       }
   },
   "usuarios": {
@@ -2452,7 +2452,7 @@
       },
       "wallet_connect_card": {
         "title": "WalletConnect",
-        "subtitle": "Connect your wallet to the crypto world and stay in control"
+        "subtitle": "Connect your wallet to the crypto world and stay in control with your tokens"
       },
       "quotes_card": {
         "title": "Quotes",
