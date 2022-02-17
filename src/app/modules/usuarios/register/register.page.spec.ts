@@ -18,7 +18,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
-fdescribe('RegisterPage', () => {
+describe('RegisterPage', () => {
   let component: RegisterPage;
   let fixture: ComponentFixture<RegisterPage>;
   let apiUsuariosMock: any;
