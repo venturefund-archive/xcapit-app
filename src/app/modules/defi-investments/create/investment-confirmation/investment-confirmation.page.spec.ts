@@ -27,6 +27,8 @@ import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contra
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { ActivatedRoute } from '@angular/router';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 
 describe('InvestmentConfirmationPage', () => {
   let component: InvestmentConfirmationPage;
@@ -53,6 +55,8 @@ describe('InvestmentConfirmationPage', () => {
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
 
   beforeEach(
     waitForAsync(() => {
@@ -119,6 +123,9 @@ describe('InvestmentConfirmationPage', () => {
       browserServiceSpy = jasmine.createSpyObj('BrowserService', {
         open: Promise.resolve(),
       });
+
+      fakeActivatedRoute = new FakeActivatedRoute({ mode: 'invest' });
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
       TestBed.configureTestingModule({
         declarations: [InvestmentConfirmationPage],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -133,6 +140,7 @@ describe('InvestmentConfirmationPage', () => {
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
           { provide: IonicStorageService, useValue: storageSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -257,7 +265,7 @@ describe('InvestmentConfirmationPage', () => {
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(0);
     expect(component.disable).toBeFalsy();
   });
-  
+
   it('should show informative modal of fees and button disable on view did enter when the native token balance is lower than the cost of fees', async () => {
     walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.001));
     providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('1000000000')));
@@ -291,5 +299,26 @@ describe('InvestmentConfirmationPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-label.checkbox-link > ion-text:last-child')).nativeElement.click();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: LINKS.twoPiTermsAndConditions });
+  });
+
+  it('should render the correct text according to mode "invest"', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const headerEl = fixture.debugElement.query(By.css('.ion-text-center'));
+    const labelEl = fixture.debugElement.query(By.css('.summary__amount__label ion-text'));
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(headerEl.nativeElement.innerHTML).toContain('defi_investments.confirmation.header');
+    expect(labelEl.nativeElement.innerHTML).toContain('defi_investments.confirmation.amount_to_invest');
+  });
+
+  it('should render the correct text according to mode "add"', async () => {
+    fakeActivatedRoute.modifySnapshotParams({mode : 'add'});
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const headerEl = fixture.debugElement.query(By.css('.ion-text-center'));
+    const labelEl = fixture.debugElement.query(By.css('.summary__amount__label ion-text'));
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(headerEl.nativeElement.innerHTML).toContain('defi_investments.add.header');
+    expect(labelEl.nativeElement.innerHTML).toContain('defi_investments.add.amount_to_add');
   });
 });

@@ -99,7 +99,7 @@ export class NewInvestmentPage implements OnInit {
       this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
       this.investmentDataService.product = this.investmentProduct;
 
-      this.navController.navigateForward('/defi/new/confirmation');
+      this.navController.navigateForward(['/defi/new/confirmation', this.mode]);
     }
   }
 
