@@ -16,21 +16,26 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { Storage } from '@ionic/storage';
+import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { By } from '@angular/platform-browser';
 
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
-  let apiUsuariosSpy: any;
-  let subscriptionsServiceSpy: any;
+  let apiUsuariosSpy: jasmine.SpyObj<ApiUsuariosService>;
+  let subscriptionsServiceSpy: jasmine.SpyObj<SubscriptionsService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginPage>;
   let fakeNavController: FakeNavController;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let googleAuthPluginSpy: any;
-  let notificationsServiceSpy: any;
-  let nullNotificationServiceSpy: any;
-  let localNotificationServiceSpy: any;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+  let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let storageSpy: jasmine.SpyObj<Storage>;
+  let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   const formData = {
     valid: {
       email: 'test@test.com',
@@ -45,16 +50,20 @@ describe('LoginPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeNavController.modifyReturns({}, {}, {}, {});
+
       apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', {
         login: of({}),
         loginWithGoogle: of({}),
         status: of({ status_name: 'COMPLETE' }),
       });
+
       subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', {
         checkStoredLink: Promise.resolve(false),
       });
+
       googleAuthPluginSpy = jasmine.createSpyObj('GoogleAuth', {
         signIn: Promise.resolve({ authentication: { idToken: '' } }),
+        init: null,
       });
 
       storageSpy = jasmine.createSpyObj('Storage', {
@@ -62,10 +71,15 @@ describe('LoginPage', () => {
       });
 
       nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init']);
+
       notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
         getInstance: nullNotificationServiceSpy,
       });
+
       localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
+      updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
+      platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
+
       TestBed.configureTestingModule({
         declarations: [LoginPage, AuthFormComponent, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -77,6 +91,8 @@ describe('LoginPage', () => {
           { provide: NotificationsService, useValue: notificationsServiceSpy },
           { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
           { provide: Storage, useValue: storageSpy },
+          { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
+          { provide: PlatformService, useValue: platformServiceSpy },
         ],
       }).compileComponents();
     })
@@ -85,9 +101,9 @@ describe('LoginPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
-    component.googleAuthPlugin = googleAuthPluginSpy;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
+    component.googleAuthPlugin = googleAuthPluginSpy;
   });
 
   it('should create', () => {
@@ -216,6 +232,27 @@ describe('LoginPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should redirect to home if status request fails', fakeAsync(() => {
+    apiUsuariosSpy.status.and.returnValue(of());
+    component.loginUser({});
+    tick();
+    expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/home');
+  }));
+
+  it('should init google if web platform', async () => {
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    expect(googleAuthPluginSpy.init).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not init google if native platform', async () => {
+    platformServiceSpy.isWeb.and.returnValue(false);
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    expect(googleAuthPluginSpy.init).not.toHaveBeenCalled();
   });
 
   it('should disable loading button when login fails', () => {

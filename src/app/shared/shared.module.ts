@@ -64,6 +64,8 @@ import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
 import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
 import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinner.directive';
+import { UpdateNewsComponent } from './components/update-news/update-news.component';
+import { NewsItemComponent } from './components/news-item/news-item.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +123,8 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
     AvatarProfileComponent,
     NetworkSelectCardComponent,
     NoWalletComponent,
+    UpdateNewsComponent,
+    NewsItemComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -191,6 +195,8 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     NoWalletComponent,
+    UpdateNewsComponent,
+    NewsItemComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

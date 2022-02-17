@@ -6,7 +6,8 @@ export const AUTH = {
 export const CONFIG = {
   app: {
     defaultLanguage: 'es',
-    statusBarColor: '#1c2d5e'
+    statusBarColor: '#1c2d5e',
+    storageVersionKey: 'appVersion',
   },
   loadingService: {
     defaultMessage: 'config.loading_service.default_message',
@@ -113,7 +114,7 @@ export const CONFIG = {
         name: 'walletIncorrectPassword',
         text: 'config.field_errors.old_password.wallet_incorrect_password',
         rules: [],
-      }
+      },
     ],
     repeatPassword: [
       {
@@ -158,6 +159,6 @@ export const CONFIG = {
   },
   cache: {
     TTL: 3600,
-    PREFIX: '_cache_'
+    PREFIX: '_cache_',
   },
 };

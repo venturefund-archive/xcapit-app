@@ -47,7 +47,6 @@ describe('UxCenterImgComponent', () => {
 
   it('should render non default image in div', () => {
     const imageEl = fixture.debugElement.query(By.css('img'));
-    console.log(imageEl.nativeElement.src);
     expect(imageEl.nativeElement.src).toContain('assets/img/non-default.svg');
   });
 });

@@ -12,6 +12,7 @@ import { SubmitButtonService } from './shared/services/submit-button/submit-butt
 import { FakeNavController } from '../testing/fakes/nav-controller.fake.spec';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { of } from 'rxjs';
+import { UpdateNewsService } from './shared/services/update-news/update-news.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -28,6 +29,7 @@ describe('AppComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let statusBarSpy: jasmine.SpyObj<any>;
   let translateSpy: jasmine.SpyObj<TranslateService>;
+  let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -42,6 +44,8 @@ describe('AppComponent', () => {
       authServiceSpy = jasmine.createSpyObj('AuthService', { logout: Promise.resolve() });
       statusBarSpy = jasmine.createSpyObj('StatusBar', { setBackgroundColor: Promise.resolve() });
       translateSpy = jasmine.createSpyObj('TranslateService', {}, { onLangChange: of({}) });
+      updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
+
       TestBed.configureTestingModule({
         declarations: [AppComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -56,6 +60,7 @@ describe('AppComponent', () => {
           { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: TranslateService, useValue: translateSpy },
+          { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         ],
         imports: [TranslateModule.forRoot()],
       }).compileComponents();
@@ -80,6 +85,7 @@ describe('AppComponent', () => {
     expect(platformSpy.ready).toHaveBeenCalledTimes(1);
     expect(languageServiceSpy.setInitialAppLanguage).toHaveBeenCalledTimes(1);
     expect(statusBarSpy.setBackgroundColor).not.toHaveBeenCalled();
+    expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
   });
 
   it('should call set background if android platform', async () => {

@@ -111,7 +111,24 @@
     },
     "step_counter": {
       "of": "of"
-    }
+    },
+    "update_news": {
+      "title": "We have news!",
+      "first": {
+        "badge": "New feature",
+        "title": "Moonpay",
+        "description": "Buy crypto with your local currency!"
+      },
+      "second": {
+        "badge": "New feature",
+        "title": "DeFi Investments",
+        "description": "Invest with cryptocurrencies quickly, freely and without intermediaries."
+      },
+      "third": {
+        "badge": "New feature",
+        "title": "Wallet Connect",
+        "description": "Connect your wallet to the crypto world and stay in control"
+      }
   },
   "usuarios": {
     "email_validation": {

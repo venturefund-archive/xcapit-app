@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { CONFIG } from './config/app-constants.config';
+import { UpdateNewsService } from './shared/services/update-news/update-news.service';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit {
     private updateService: UpdateService,
     private translate: TranslateService,
     private el: ElementRef,
-    private platformService: PlatformService
+    private platformService: PlatformService,
+    private updateNewsService: UpdateNewsService
   ) {}
 
   ngOnInit() {
@@ -49,12 +51,17 @@ export class AppComponent implements OnInit {
     this.checkForUpdate();
   }
 
+  private showUpdateModal() {
+    this.updateNewsService.showModal();
+  }
+
   private checkForUpdate() {
     this.updateService.checkForUpdate();
   }
 
   private initializeApp() {
     this.platform.ready().then(() => {
+      this.showUpdateModal();
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
     });
