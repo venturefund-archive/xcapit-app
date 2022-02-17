@@ -20,6 +20,7 @@ import { WalletConnectSignRequestComponent } from './components/wallet-connect-s
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
 import { SuitePipe } from './pipes/suite/suite.pipe';
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
+import { InformativeCardComponent } from './components/informative-card/informative-card.component';
 import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     StartInvestingComponent,
     WalletConnectSignRequestComponent,
     WalletConnectQrScanComponent,
+    InformativeCardComponent,
     SuitePipe,
     FormattedNetworkPipe
   ],
@@ -68,6 +70,7 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     StartInvestingComponent,
     WalletConnectSignRequestComponent,
     WalletConnectQrScanComponent,
+    InformativeCardComponent,
     SuitePipe,
     FormattedNetworkPipe
   ],
