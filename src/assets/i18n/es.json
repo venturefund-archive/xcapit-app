@@ -1843,6 +1843,8 @@
       "button_wallet": "Usar wallet",
       "button_connect": "Conectar",
       "button_disconnect": "Finalizar conexión",
+      "card_title": "Configura tu conexión",
+      "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
       "scan_qr": {
         "header": "Escanea el código QR",
         "register_manually": "Ingresar manualmente",
@@ -1876,7 +1878,11 @@
           "header": "Error de conexión",
           "message": "Hubo problemas al realizar la conexión con la Dapp. Intente nuevamente.",
           "close_button": "Aceptar"
-        }
+        },
+        "card_title_disconnected": "Conéctate a la Dapp",
+        "card_description_disconnected": "La Dapp tendrá acceso a tu wallet. Para realizar transacciones, te pedirá tu aprobación.",
+        "card_title_connected": "Opera en la Dapp",
+        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas."
       },
       "operation_detail": {
         "header": "Detalle de operación",
@@ -1905,7 +1911,11 @@
           "message": "¿Desea cancelar la operación?",
           "cancel_button": "Volver",
           "accept_button": "Aceptar"
-        }
+        },
+        "card_title_sign": "Firma en la Dapp",
+        "card_description_sign": "Este paso es para comprobar que eres tú quien está operando en la Dapp.",
+        "card_title_operation": "Confirma tu operación",
+        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp."
       },
       "transactions": {
         "alert": {
