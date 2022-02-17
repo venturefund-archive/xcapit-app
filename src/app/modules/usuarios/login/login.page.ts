@@ -9,6 +9,8 @@ import { LocalNotificationsService } from '../../notifications/shared-notificati
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { UpdateNewsService } from 'src/app/shared/services/update-news/update-news.service';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-login',
@@ -95,7 +97,7 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 })
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
-  googleAuthPlugin: any = GoogleAuth;
+  googleAuthPlugin = GoogleAuth;
   alreadyOnboarded: boolean;
   loading: boolean;
 
@@ -106,14 +108,24 @@ export class LoginPage implements OnInit {
     private notificationsService: NotificationsService,
     private localNotificationsService: LocalNotificationsService,
     private navController: NavController,
-    private storage: Storage
+    private storage: Storage,
+    private updateNewsService: UpdateNewsService,
+    private platformService: PlatformService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.getFinishedOnboard();
+    this.initGoogleAuth();
+  }
+
+  private getFinishedOnboard() {
     this.storage.get('FINISHED_ONBOARDING').then((res) => (this.alreadyOnboarded = res));
-    this.googleAuthPlugin.init();
+  }
+
+  private initGoogleAuth() {
+    if (this.platformService.isWeb()) this.googleAuthPlugin.init();
   }
 
   async googleSingUp() {
@@ -142,43 +154,23 @@ export class LoginPage implements OnInit {
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      await this.apiUsuarios.status(false).subscribe((res) => {
-        this.redirectByStatus(res);
-        this.loading = false;
-      });
+      try {
+        const userStatus = await this.apiUsuarios.status(false).toPromise();
+        await this.redirectByStatus(userStatus);
+      } catch {
+        await this.navController.navigateForward('/tabs/home');
+      }
     }
+    this.loading = false;
+    await this.updateNewsService.showModal();
   }
 
   getUrlByStatus(statusName) {
-    let url: string[];
-    switch (statusName) {
-      case UserStatus.COMPLETE: {
-        url = ['tabs/home'];
-        break;
-      }
-      case UserStatus.EXPLORER: {
-        url = ['tabs/home'];
-        break;
-      }
-      case UserStatus.CREATOR: {
-        url = ['tabs/home'];
-        break;
-      }
-      case UserStatus.BEGINNER: {
-        url = this.alreadyOnboarded ? ['tabs/home'] : ['tutorials/first-steps'];
-        break;
-      }
-      default: {
-        url = ['tabs/home'];
-        break;
-      }
-    }
-    return url;
+    return statusName === UserStatus.BEGINNER && !this.alreadyOnboarded ? ['tutorials/first-steps'] : ['tabs/home'];
   }
 
-  redirectByStatus(userStatus) {
-    const url = this.getUrlByStatus(userStatus.status_name);
-    this.navController.navigateForward(url);
+  async redirectByStatus(userStatus) {
+    await this.navController.navigateForward(this.getUrlByStatus(userStatus.status_name));
   }
 
   async goToResetPassword() {
