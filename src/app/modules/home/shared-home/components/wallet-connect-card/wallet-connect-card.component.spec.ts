@@ -48,11 +48,11 @@ describe('WalletConnectCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should navigate to home wallet when wallet does not exists', async () => {
+  it('Should navigate to no wallet when wallet does not exists', async () => {
     fakeWalletService.modifyReturns(false, {});
     fixture.debugElement.query(By.css('div[name="Go To WalletConnect"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['tabs/wallets']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/no-wallet']);
   })
 
   it('shoud navigate to WalletConnect new-connection when wallet exists and walletconnect service is not connected', async () => {
