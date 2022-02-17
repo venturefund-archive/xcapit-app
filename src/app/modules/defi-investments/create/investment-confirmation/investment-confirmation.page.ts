@@ -245,6 +245,7 @@ export class InvestmentConfirmationPage {
         disclaimer: '',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
+      backdropDismiss: false
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
@@ -269,6 +270,7 @@ export class InvestmentConfirmationPage {
   async wallet(): Promise<Wallet | void> {
     const password = await this.requestPassword();
     if (password) {
+      this.loadingEnabled(true);
       return await this.decryptedWallet(password);
     }
   }
@@ -321,7 +323,6 @@ export class InvestmentConfirmationPage {
 
   async invest() {
     await this.getTokenBalanceAvailable();
-    this.loadingEnabled(true);
     const wallet = await this.wallet();
     if (wallet) {
       if (this.checkTokenBalance()) {
