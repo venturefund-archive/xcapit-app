@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
-import { SuitePipe } from '../../pipes/suite.pipe';
+import { SuitePipe } from '../../pipes/suite/suite.pipe';
 
 import { ItemsCoinGroupComponent } from './items-coin-group.component';
 const testCoins = [

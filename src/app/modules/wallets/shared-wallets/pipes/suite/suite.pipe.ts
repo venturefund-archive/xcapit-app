@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SUITE_NAMES } from '../constants/suites-names';
+import { SUITE_NAMES } from '../../constants/suites-names';
 
 @Pipe({
   name: 'suite',
