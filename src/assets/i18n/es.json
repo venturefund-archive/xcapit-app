@@ -111,6 +111,24 @@
     },
     "step_counter": {
       "of": "de"
+    },
+    "update_news": {
+      "title": "¡Tenemos novedades!",
+      "first": {
+        "badge": "Nueva función",
+        "title": "Moonpay",
+        "description": "¡Compra cripto con tu moneda local!"
+      },
+      "second": {
+        "badge": "Nueva función",
+        "title": "Inversiones DeFi",
+        "description": "Invierte con criptomonedas de forma rápida, libre y sin intermediarios."
+      },
+      "third": {
+        "badge": "Nueva función",
+        "title": "Wallet Connect",
+        "description": "Conecta tu wallet al mundo cripto y mantén el control"
+      }
     }
   },
   "usuarios": {
