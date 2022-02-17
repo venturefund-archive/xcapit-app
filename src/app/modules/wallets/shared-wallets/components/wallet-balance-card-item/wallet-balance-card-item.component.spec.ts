@@ -5,6 +5,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { WalletBalanceCardItemComponent } from './wallet-balance-card-item.component';
 import { AssetBalanceModel } from '../../models/asset-balance/asset-balance.class';
 import { By } from '@angular/platform-browser';
+import { FormattedNetworkPipe } from '../../pipes/formatted-network-name/formatted-network.pipe';
 
 const testBalances: any = {
   icon: 'assets/img/coins/ETH.svg',
@@ -27,7 +28,7 @@ describe('WalletBalanceCardItemComponent', () => {
       navControllerSpy = fakeNavController.createSpy();
 
       TestBed.configureTestingModule({
-        declarations: [WalletBalanceCardItemComponent],
+        declarations: [WalletBalanceCardItemComponent, FormattedNetworkPipe],
         imports: [IonicModule],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
