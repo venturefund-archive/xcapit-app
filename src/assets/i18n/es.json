@@ -127,7 +127,7 @@
       "third": {
         "badge": "Nueva función",
         "title": "Wallet Connect",
-        "description": "Conecta tu wallet al mundo cripto y mantén el control"
+        "description": "Conecta tu wallet al mundo cripto y mantén el control de tus tokens"
       }
     }
   },
@@ -158,7 +158,7 @@
       "resend_email_button": "No recibí el mail",
       "referral_code_text": "Código de Referido",
       "manual_referral": "Ingresar código de referido",
-      "referral_code_label": "Código de referido",
+      "referral_code_label": "Código de referido (Opcional)",
       "back_login": "¿Ya tienes cuenta? Ingresa a Xcapit",
       "accept_tos": "Acepto",
       "link_tos": "Términos y condiciones",
@@ -2444,7 +2444,7 @@
       },
       "wallet_connect_card": {
         "title": "WalletConnect",
-        "subtitle": "Conecta tu wallet al mundo cripto y mantén el control"
+        "subtitle": "Conecta tu wallet al mundo cripto y mantén el control de tus tokens"
       },
       "quotes_card": {
         "title": "Cotizaciones",

@@ -127,16 +127,27 @@
       "third": {
         "badge": "New feature",
         "title": "Wallet Connect",
-        "description": "Connect your wallet to the crypto world and stay in control"
+        "description": "Connect your wallet to the crypto world and stay in control with your tokens"
       }
     },
-    "usuarios": {
-      "email_validation": {
-        "error_title": "No pudimos verificar el Email!",
-        "error_text": "Intenta enviar nuevamente el email de validación.",
-        "error_button": "Enviar",
-        "register_link": "Volver al registro",
-        "ok_text": "Email Verificado correctamente!"
+    "register": {
+      "card_header": "Create your account",
+      "submit_button": "Sign Up",
+      "success_title": "You just need to validate your email address!",
+      "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
+      "accept_button": "Accept",
+      "resend_email_button": "I didn't receive the email",
+      "referral_code_text": "Referral Code",
+      "manual_referral": "Enter referral code",
+      "referral_code_label": "Referral code (Optional)",
+      "back_login": "Already have account? Sign in to Xcapit",
+      "accept_tos": "I agree",
+      "link_tos": "Terms and conditions",
+      "waiting_list_alert": {
+        "alert_header": "Do you want to try the App?",
+        "alert_message": "To enter, join the waiting list and be one of the first to try it.",
+        "alert_cancel_button": "Cancel",
+        "alert_join_button": "Join"
       },
       "login": {
         "password_label": "Password",
@@ -2425,131 +2436,204 @@
         "textBtn": "Continue"
       }
     },
-    "home": {
-      "home_page": {
-        "want_my_wallet": {
-          "title": "I want my wallet!",
-          "subtitle": "Create your wallet and start taking control of your finances.",
-          "description": "In your wallet"
-        },
-        "strategies": {
-          "title": "Strategies",
-          "description": "Learn about our investment proposal and choose the one that best suits you",
-          "link_text": "View strategies"
-        },
-        "support": {
-          "title": "Support",
-          "description": "Need help? Our experts will contact you to guide you",
-          "link_text": "Write us"
-        },
-        "subheader_component": {
-          "wallet": "Wallet",
-          "buy_card": "Buy",
-          "investments": "Investments",
-          "objectives": "Objectives",
-          "coming_soon_alert": "This option will be available soon"
-        },
-        "need_help_card": {
-          "title": "Need help?",
-          "subtitle": "See frequently asked questions"
-        },
-        "test_investor_cards": {
-          "badge_text": "Coming soon",
-          "title1": "Discover your knowledge in finance",
-          "link1": "Take test",
-          "title2": "Do you know what type of investor you are?",
-          "link2": "Find out"
-        },
-        "wallet_connect_card": {
-          "title": "WalletConnect",
-          "subtitle": "Connect your wallet to the crypto world and stay in control"
-        },
-        "quotes_card": {
-          "title": "Quotes",
-          "table_label1": "Pair",
-          "table_label2": "Last price",
-          "table_label3": "Change % 24 h",
-          "more_button": "See more",
-          "less_button": "See less"
-        }
+    "paxful": {
+      "header": "Buy",
+      "title": "Buy BTC with Paxful",
+      "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
+      "label-wallet": "Deposit Address",
+      "placeholder-wallet": "Receiving address",
+      "button-text": "Go to Paxful",
+      "modal_title": "Deposit Address",
+      "recordatory_info": "By clicking on Go to Paxful, you will exit Xcapit."
+    },
+    "paxful_success": {
+      "textPrimary": "We've redirect you to Paxful",
+      "textSecondary": "Fill in the details to complete the transaction",
+      "namePrimaryAction": "Go to my operations",
+      "nameSecondaryAction": "Buy more cripto"
+    },
+    "wallet_comprobation": {
+      "title": "To buy cryptocurrencies you need to associate an Api Key",
+      "message": "Add a Key so that your purchases are reflected in your Binance account.",
+      "btn_back": "Back",
+      "btn_add_apikey": "Add Api Key"
+    },
+    "moonpay": {
+      "header": "Buy cripto",
+      "currency_label": "Currency",
+      "provider": {
+        "label": "Provider",
+        "name": "Moonpay",
+        "description": "Third-party provider"
       },
-      "shared": {
-        "buy_crypto_card": {
-          "title": "Buy crypto at best price"
-        }
+      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+      "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
+      "button_text": "Continue"
+    }
+  },
+  "payment": {
+    "methods": {
+      "header": "Payment methods",
+      "title": "Payment method to start the process",
+      "coming_badge": "Coming soon",
+      "all_countries": "All the countries",
+      "arg": "Argentina"
+    },
+    "contact": {
+      "title": "Contact us to be Premium!",
+      "textPrimary": "We would love to know a little more about your investment to be able to give you your ideal plan. We will be communicating with you as soon as possible.",
+      "label_email": "EMAIL",
+      "placeholder_email": "example@email.com",
+      "label_message": "TELL US A LITTLE MORE ABOUT YOUR INVESTMENT",
+      "placeholder_message": "Tell us more about your investment here",
+      "submit_button": "Send"
+    },
+    "licenses": {
+      "header": "Annual payments",
+      "title": "Choose your plan",
+      "textPrimary": "Try all plans for 30 days for free!",
+      "textSecondary": "You can cancel whenever you want.",
+      "btnAnnual": "Annual plans",
+      "btnMonthly": "Monthly plans",
+      "infoExplorer": "You can invest up to USD$300",
+      "infoAdvanced": "Invest up to USD$10,000",
+      "infoExpert": "Invest up to USD$50,000",
+      "infoPremium": "For investments greater than USD$50,000",
+      "contact": "Contact us",
+      "monthly": "monthly",
+      "annual": "annual",
+      "free": "FREE"
+    },
+    "success": {
+      "textPrimary": "Your plan is active!",
+      "textSecondary": "Keep configuring your investment",
+      "textBtn": "Continue"
+    }
+  },
+  "home": {
+    "home_page": {
+      "want_my_wallet": {
+        "title": "I want my wallet!",
+        "subtitle": "Create your wallet and start taking control of your finances.",
+        "description": "In your wallet"
+      },
+      "strategies": {
+        "title": "Strategies",
+        "description": "Learn about our investment proposal and choose the one that best suits you",
+        "link_text": "View strategies"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Need help? Our experts will contact you to guide you",
+        "link_text": "Write us"
+      },
+      "subheader_component": {
+        "wallet": "Wallet",
+        "buy_card": "Buy",
+        "investments": "Investments",
+        "objectives": "Objectives",
+        "coming_soon_alert": "This option will be available soon"
+      },
+      "need_help_card": {
+        "title": "Need help?",
+        "subtitle": "See frequently asked questions"
+      },
+      "test_investor_cards": {
+        "badge_text": "Coming soon",
+        "title1": "Discover your knowledge in finance",
+        "link1": "Take test",
+        "title2": "Do you know what type of investor you are?",
+        "link2": "Find out"
+      },
+      "wallet_connect_card": {
+        "title": "WalletConnect",
+        "subtitle": "Connect your wallet to the crypto world and stay in control with your tokens"
+      },
+      "quotes_card": {
+        "title": "Quotes",
+        "table_label1": "Pair",
+        "table_label2": "Last price",
+        "table_label3": "Change % 24 h",
+        "more_button": "See more",
+        "less_button": "See less"
       }
     },
-    "support": {
-      "header": "Help",
-      "title": "How can we help you?",
-      "support_options": {
-        "title_nft": "NFTs",
-        "description_nft": "View, Transfer and Receive",
-        "title_account": "XCAPIT Account",
-        "description_account": "Create account, configure and deposit money.",
-        "title_wallet": "Wallet",
-        "description_wallet": "Create, import, receive, send and more.",
-        "title_buy": "Buy",
-        "description_buy": "Steps, providers and costs.",
-        "title_investment": "Binance investments",
-        "description_investment": "Types of strategies, terms and profitability.",
-        "title_apikeys": "Binance and API Keys",
-        "description_apikeys": "Create account, connect to binance and manage APY Keys.",
-        "title_security": "Security ",
-        "description_security": "About my data and my capital."
-      },
-      "contact_support": {
-        "title": "Write to support"
+    "shared": {
+      "buy_crypto_card": {
+        "title": "Buy crypto at best price"
       }
+    }
+  },
+  "support": {
+    "header": "Help",
+    "title": "How can we help you?",
+    "support_options": {
+      "title_nft": "NFTs",
+      "description_nft": "View, Transfer and Receive",
+      "title_account": "XCAPIT Account",
+      "description_account": "Create account, configure and deposit money.",
+      "title_wallet": "Wallet",
+      "description_wallet": "Create, import, receive, send and more.",
+      "title_buy": "Buy",
+      "description_buy": "Steps, providers and costs.",
+      "title_investment": "Binance investments",
+      "description_investment": "Types of strategies, terms and profitability.",
+      "title_apikeys": "Binance and API Keys",
+      "description_apikeys": "Create account, connect to binance and manage APY Keys.",
+      "title_security": "Security ",
+      "description_security": "About my data and my capital."
     },
-    "wealth_managements": {
+    "contact_support": {
+      "title": "Write to support"
+    }
+  },
+  "wealth_managements": {
+    "header": "Investor Profile",
+    "title": "What type of investor are you?",
+    "subtitle": "Take the investor profile test, or choose it manually and discover which investments might be right for you.",
+    "investor_test_options": {
+      "title1": "Take the test",
+      "description1": "Know your investor profile by doing this test.",
+      "title2": "Choose manually",
+      "description2": "If you already know your investor profile, select it manually."
+    },
+    "success": {
+      "textPrimary": "Congratulations! Your investor profile is {{testResult}}",
+      "namePrimaryAction": "Go to my investor profile",
+      "nameSecondaryAction": "Back to home"
+    },
+    "investor_test": {
+      "header": "Investor test",
+      "next_button": "Continue",
+      "submit_button": "Finish and send test"
+    },
+    "profiles": {
+      "conservative": "Conservative",
+      "medium": "Medium",
+      "risky": "Risky"
+    },
+    "about_investor_profile": {
+      "of": "of",
       "header": "Investor Profile",
-      "title": "What type of investor are you?",
-      "subtitle": "Take the investor profile test, or choose it manually and discover which investments might be right for you.",
-      "investor_test_options": {
-        "title1": "Take the test",
-        "description1": "Know your investor profile by doing this test.",
-        "title2": "Choose manually",
-        "description2": "If you already know your investor profile, select it manually."
+      "button_select": "This is my profile",
+      "conservative_profile": {
+        "title": "Conservative Profile",
+        "subtitle": "You characterize yourself for being little risk-tolerant and valuing safety. Therefore, you prefer investment instruments that give you the certainty that you will not lose part or all of the money that you will invest. You do not care that the gains (performance) obtained are low."
       },
-      "success": {
-        "textPrimary": "Congratulations! Your investor profile is {{testResult}}",
-        "namePrimaryAction": "Go to my investor profile",
-        "nameSecondaryAction": "Back to home"
+      "moderated_profile": {
+        "title": "Moderate Profile",
+        "subtitle": "You are a cautious person with your decisions, but you are willing to tolerate a moderate risk to increase your profits. You try to maintain a balance between profitability and security."
       },
-      "investor_test": {
-        "header": "Investor test",
-        "next_button": "Continue",
-        "submit_button": "Finish and send test"
-      },
-      "profiles": {
-        "conservative": "Conservative",
-        "medium": "Medium",
-        "risky": "Risky"
-      },
-      "about_investor_profile": {
-        "of": "of",
-        "header": "Investor Profile",
-        "button_select": "This is my profile",
-        "conservative_profile": {
-          "title": "Conservative Profile",
-          "subtitle": "You characterize yourself for being little risk-tolerant and valuing safety. Therefore, you prefer investment instruments that give you the certainty that you will not lose part or all of the money that you will invest. You do not care that the gains (performance) obtained are low."
-        },
-        "moderated_profile": {
-          "title": "Moderate Profile",
-          "subtitle": "You are a cautious person with your decisions, but you are willing to tolerate a moderate risk to increase your profits. You try to maintain a balance between profitability and security."
-        },
-        "aggressive_profile": {
-          "title": "Aggressive Profile",
-          "subtitle": "You seek the highest possible returns, so you are willing to take whatever risk is necessary. It is not advisable to maintain this risk attitude when you do not have sufficient solvency, or if you have important family commitments."
-        }
-      },
-      "no_wallet": {
-        "title": "You don't have your Xcapit wallet yet",
-        "subtitle": "Create your wallet to start investing.",
-        "button": "Create Wallet",
-        "link": "Back to investments"
+      "aggressive_profile": {
+        "title": "Aggressive Profile",
+        "subtitle": "You seek the highest possible returns, so you are willing to take whatever risk is necessary. It is not advisable to maintain this risk attitude when you do not have sufficient solvency, or if you have important family commitments."
       }
+    },
+    "no_wallet": {
+      "title": "You don't have your Xcapit wallet yet",
+      "subtitle": "Create your wallet to start investing.",
+      "button": "Create Wallet",
+      "link": "Back to investments"
     }
   }
 }

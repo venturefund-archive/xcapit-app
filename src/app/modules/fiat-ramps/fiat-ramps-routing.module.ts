@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
-import { HasWalletToBuyGuard } from './shared-ramps/guards/has-wallet-to-buy/has-wallet-to-buy.guard';
 import { UserHasOperationsGuard } from './shared-ramps/guards/user-has-operations/user-has-operations.guard';
+import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
   {
@@ -67,12 +67,8 @@ const routes: Routes = [
       },
       {
         path: 'moonpay',
-        canActivate: [HasWalletToBuyGuard],
+        canActivate: [HasWallet],
         loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
-      },
-      {
-        path: 'no-wallet-to-buy',
-        loadChildren: () => import('./no-wallet-to-buy/no-wallet.module').then((m) => m.NoWalletToBuyPageModule),
       },
     ],
   },

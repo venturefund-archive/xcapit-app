@@ -15,7 +15,7 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="footer">
         <ion-button
-          *ngIf="this.hasDoneInvestorTest"
+          *ngIf="false"
           appTrackClick
           class="option-button ux_button ion-no-padding ion-no-margin"
           fill="clear"

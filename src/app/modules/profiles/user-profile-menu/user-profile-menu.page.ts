@@ -10,9 +10,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
-import { UserStatus } from '../../usuarios/shared-usuarios/enums/user-status.enum';
 
 @Component({
   selector: 'app-user-profile-menu',
