@@ -28,7 +28,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
         </ion-text>
       </div>
 
-      <div class="sd__selected-currency" *ngIf="this.currency">
+      <div class="sd__selected-currency" *ngIf="this.currency" (click)="this.changeCurrency()">
         <div class="sd__selected-currency__text">
           <ion-text>{{ this.currency.name }}</ion-text>
         </div>
@@ -183,5 +183,9 @@ export class SendDetailPage {
       balanceNativeToken: this.balanceNativeToken,
       balance: this.balance,
     };
+  }
+
+  changeCurrency() {
+    this.navController.navigateBack(['/wallets/send/select-currency']);
   }
 }
