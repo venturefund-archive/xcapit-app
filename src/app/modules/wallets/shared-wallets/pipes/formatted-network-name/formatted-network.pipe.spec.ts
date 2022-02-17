@@ -13,7 +13,7 @@ describe('FormattedNetworkPipe', () => {
     },
     {
       network: 'BSC_BEP20',
-      formatted: 'BEP20',
+      formatted: 'BSC BEP20',
     },
     {
       network: 'MATIC',
