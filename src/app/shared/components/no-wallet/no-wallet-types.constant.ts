@@ -1,5 +1,5 @@
 export const NO_WALLET_TYPES = {
-  no_wallet_fiat_ramps: {
+  generic: {
     urlClose: '/tabs/home',
     urlPage: '/tabs/wallets',
     img: 'assets/img/wallets/no-wallet.svg',

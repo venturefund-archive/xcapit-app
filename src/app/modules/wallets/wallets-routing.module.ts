@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 import { AcceptedToSGuard } from './shared-wallets/guards/accepted-tos/accepted-tos.guard';
 import { CreatedWalletGuard } from './shared-wallets/guards/created-wallet/created-wallet.guard';
+import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
         path: 'select-coins',
         loadChildren: () =>
           import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
+      },
+      {
+        path: 'no-wallet',
+        loadChildren: () => import('./no-wallet/no-wallet.module').then((m) => m.NoWalletPageModule),
       },
       {
         canActivate: [AcceptedToSGuard],
@@ -172,6 +177,7 @@ const routes: Routes = [
       },
       {
         path: 'wallet-connect',
+        canActivate: [HasWallet],
         children: [
           {
             path: 'new-connection',

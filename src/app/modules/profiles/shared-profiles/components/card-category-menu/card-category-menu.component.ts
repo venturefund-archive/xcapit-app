@@ -56,7 +56,7 @@ export class CardCategoryMenuComponent implements OnInit {
     }
     if (item.name === 'WalletConnect') {
       if (!(await this.walletService.walletExist())) {
-        url = 'tabs/wallets';
+        url = '/wallets/no-wallet';
       } else {
         if (this.walletConnectService.connected) {
           url = '/wallets/wallet-connect/connection-detail';
