@@ -59,7 +59,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
           </ion-button>
         </div>
       </app-auth-form>
-      <div class="ion-text-center">
+      <!-- <div class="ion-text-center">
         <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
       </div>
 
@@ -76,7 +76,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
       >
         <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
         <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
-      </ion-button>
+      </ion-button> -->
       <div class="auth-link-reset-password main__reset_password">
         <ion-button
           class="main__reset_password__button ux-link-xs"
