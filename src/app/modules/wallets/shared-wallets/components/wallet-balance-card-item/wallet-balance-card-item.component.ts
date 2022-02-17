@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AssetBalance } from '../../interfaces/asset-balance.interface';
 import { NavController } from '@ionic/angular';
 import { AssetBalanceModel } from '../../models/asset-balance/asset-balance.class';
 import { NETWORK_COLORS } from '../../constants/network-colors.constant';
@@ -13,7 +12,9 @@ import { NETWORK_COLORS } from '../../constants/network-colors.constant';
         <div class="wbci__content__top">
           <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-bold wbci__content__top__name-label"
             >{{ this.balance.symbol }}
-            <ion-badge [color]="this.networkColors[this.balance.network]" class="ux-badge ux-font-num-subtitulo">{{ this.balance.network }}</ion-badge>
+            <ion-badge [color]="this.networkColors[this.balance.network]" class="ux-badge ux-font-num-subtitulo">{{
+              this.balance.network | formattedNetwork | uppercase
+            }}</ion-badge>
           </ion-label>
           <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold"
             >{{ this.balance.amount | number: '1.2-6' }} {{ this.balance.symbol }}</ion-label
