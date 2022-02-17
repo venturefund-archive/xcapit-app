@@ -31,13 +31,6 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           tabindex="1"
         ></app-ux-input>
 
-        <app-ux-checkbox
-          *ngIf="!this.isLogin"
-          [label]="'usuarios.register.manual_referral' | translate"
-          controlName="manual_referral"
-          slot="start"
-        ></app-ux-checkbox>
-
         <app-ux-input
           class="ux-font-text-xs"
           *ngIf="this.showReferralCode"
@@ -70,7 +63,7 @@ export class AuthFormComponent implements OnInit {
   @Output()
   send = new EventEmitter<any>();
 
-  showReferralCode: boolean;
+  showReferralCode: boolean = true;
 
   emailErrors: ItemFormError[] = CONFIG.fieldErrors.username;
 
@@ -89,8 +82,7 @@ export class AuthFormComponent implements OnInit {
         CustomValidators.patternValidator(/[a-z]/, CustomValidatorErrors.hasSmallCase),
       ],
     ],
-    referral_code: ['', Validators.required],
-    manual_referral: [false],
+    referral_code: [''],
     tos: [false, [Validators.required, CustomValidators.mustBeTrue]],
   });
 
@@ -98,23 +90,12 @@ export class AuthFormComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.toggleReferralCode();
   }
 
-  toggleReferralCode() {
-    this.form.get('referral_code').disable();
-    this.form.get('manual_referral').valueChanges.subscribe((val) => {
-      this.showReferralCode = val;
-      if (this.showReferralCode) {
-        this.form.get('referral_code').enable();
-      } else {
-        this.form.get('referral_code').disable();
-      }
-    });
-  }
 
   private initForm() {
     if (this.isLogin) {
+      this.showReferralCode = false;
       this.form.get('tos').disable();
     }
   }
