@@ -129,14 +129,26 @@
         "title": "Wallet Connect",
         "description": "Connect your wallet to the crypto world and stay in control with your tokens"
       }
+    }
   },
-  "usuarios": {
-    "email_validation": {
-      "error_title": "No pudimos verificar el Email!",
-      "error_text": "Intenta enviar nuevamente el email de validación.",
-      "error_button": "Enviar",
-      "register_link": "Volver al registro",
-      "ok_text": "Email Verificado correctamente!"
+  "register": {
+    "card_header": "Create your account",
+    "submit_button": "Sign Up",
+    "success_title": "You just need to validate your email address!",
+    "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
+    "accept_button": "Accept",
+    "resend_email_button": "I didn't receive the email",
+    "referral_code_text": "Referral Code",
+    "manual_referral": "Enter referral code",
+    "referral_code_label": "Referral code (Optional)",
+    "back_login": "Already have account? Sign in to Xcapit",
+    "accept_tos": "I agree",
+    "link_tos": "Terms and conditions",
+    "waiting_list_alert": {
+      "alert_header": "Do you want to try the App?",
+      "alert_message": "To enter, join the waiting list and be one of the first to try it.",
+      "alert_cancel_button": "Cancel",
+      "alert_join_button": "Join"
     },
     "login": {
       "password_label": "Password",
@@ -157,7 +169,7 @@
       "resend_email_button": "I didn't receive the email",
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
-      "referral_code_label": "Referral code (Optional)",
+      "referral_code_label": "Referral code",
       "back_login": "Already have account? Sign in to Xcapit",
       "accept_tos": "I agree",
       "link_tos": "Terms and conditions",
@@ -1855,6 +1867,8 @@
       "button_wallet": "Use wallet",
       "button_connect": "Connect",
       "button_disconnect": "End connection",
+      "card_title": "Configure your connection",
+      "card_description": "Choose the network from which you want to take the funds. Then scan the QR code on the Dapp.",
       "scan_qr": {
         "header": "Scan QR code",
         "register_manually": "Enter manually",
@@ -1888,7 +1902,11 @@
           "header": "Connection error",
           "message": "There were problems connecting to the Dapp. Please try again.",
           "close_button": "Accept"
-        }
+        },
+        "card_title_disconnected": "Connect to the Dapp",
+        "card_description_disconnected": "The Dapp will have access to your wallet. To make transactions, it will ask for your approval.",
+        "card_title_connected": "Operates in Dapp",
+        "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them."
       },
       "operation_detail": {
         "header": "Operation detail",
@@ -1917,7 +1935,11 @@
           "message": "Do you wish to cancel the operation?",
           "cancel_button": "Back",
           "accept_button": "Accept"
-        }
+        },
+        "card_title_sign": "Signature in the Dapp",
+        "card_description_sign": "This step is to verify that you are the one operating in the Dapp.",
+        "card_title_operation": "Confirm your operation",
+        "card_description_operation": "Confirm the transaction you want to perform in the Dapp."
       },
       "transactions": {
         "alert": {
@@ -2376,6 +2398,40 @@
       "button_text": "Continue"
     }
   },
+  "paxful": {
+    "header": "Buy",
+    "title": "Buy BTC with Paxful",
+    "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
+    "label-wallet": "Deposit Address",
+    "placeholder-wallet": "Receiving address",
+    "button-text": "Go to Paxful",
+    "modal_title": "Deposit Address",
+    "recordatory_info": "By clicking on Go to Paxful, you will exit Xcapit."
+  },
+  "paxful_success": {
+    "textPrimary": "We've redirect you to Paxful",
+    "textSecondary": "Fill in the details to complete the transaction",
+    "namePrimaryAction": "Go to my operations",
+    "nameSecondaryAction": "Buy more cripto"
+  },
+  "wallet_comprobation": {
+    "title": "To buy cryptocurrencies you need to associate an Api Key",
+    "message": "Add a Key so that your purchases are reflected in your Binance account.",
+    "btn_back": "Back",
+    "btn_add_apikey": "Add Api Key"
+  },
+  "moonpay": {
+    "header": "Buy cripto",
+    "currency_label": "Currency",
+    "provider": {
+      "label": "Provider",
+      "name": "Moonpay",
+      "description": "Third-party provider"
+    },
+    "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+    "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
+    "button_text": "Continue"
+  },
   "payment": {
     "methods": {
       "header": "Payment methods",
@@ -2541,5 +2597,4 @@
       "link": "Back to investments"
     }
   }
-}
 }

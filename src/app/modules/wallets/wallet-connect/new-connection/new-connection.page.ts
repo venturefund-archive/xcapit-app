@@ -35,7 +35,11 @@ export interface PeerMeta {
 
     <ion-content class="ion-padding">
       <div class="ux_content">
-        <div *ngIf="walletsList?.length > 0">
+        <app-informative-card
+          [title]="'wallets.wallet_connect.card_title'"
+          [description]="'wallets.wallet_connect.card_description'"
+        ></app-informative-card>
+        <div *ngIf="walletsList?.length > 0" class="ux-card">
           <form [formGroup]="this.form" (ngSubmit)="this.initWallet()" id="connectionForm">
             <div class="wcnc">
               <app-ux-title class="ion-padding-top ion-margin-top">
@@ -89,23 +93,30 @@ export interface PeerMeta {
             </div>
 
             <ion-button
-              class="ux_button next_button"
+              class="ion-padding-start ion-padding-end ux_button"
               appTrackClick
               name="Next"
               type="submit"
               color="uxsecondary"
               size="large"
+              expand="block"
             >
               {{ 'wallets.wallet_connect.button_continue' | translate }}
             </ion-button>
 
-            <div class="wcnc__disclaimer ion-margin-top">
+            <div class="wcnc__disclaimer ion-padding">
               <span>{{ 'wallets.wallet_connect.disclaimer_1' | translate }}</span>
               <span>
                 {{ 'wallets.wallet_connect.disclaimer_2' | translate }}
 
-                <ion-button name="Support Help" class="ux-link-xs wcnc__disclaimer__button" (click)="this.supportHelp()" appTrackClick fill="clear">
-                  {{ 'wallets.wallet_connect.disclaimer_support' | translate}}
+                <ion-button
+                  name="Support Help"
+                  class="ux-link-xs wcnc__disclaimer__button"
+                  (click)="this.supportHelp()"
+                  appTrackClick
+                  fill="clear"
+                >
+                  {{ 'wallets.wallet_connect.disclaimer_support' | translate }}
                 </ion-button>
               </span>
             </div>
