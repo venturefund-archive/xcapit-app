@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: InvestmentConfirmationPage,
   },
+  {
+    path: ':mode',
+    component: InvestmentConfirmationPage,
+  },
 ];
 
 @NgModule({
