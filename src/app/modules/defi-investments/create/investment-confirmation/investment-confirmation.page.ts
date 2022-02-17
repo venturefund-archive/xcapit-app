@@ -31,6 +31,7 @@ import { TotalFeeOf } from '../../shared-defi-investments/models/total-fee-of/to
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -40,7 +41,7 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'defi_investments.confirmation.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.product">
@@ -50,7 +51,7 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
           <div class="summary__amount">
             <div class="summary__amount__label">
               <ion-text class="ux-font-titulo-xs">{{
-                'defi_investments.confirmation.amount_to_invest' | translate
+                this.labelText | translate
               }}</ion-text>
             </div>
 
@@ -141,6 +142,9 @@ export class InvestmentConfirmationPage {
   disable = true;
   private readonly priceRefreshInterval = 15000;
   links = LINKS;
+  mode: string;
+  headerText: string;
+  labelText: string;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -154,10 +158,13 @@ export class InvestmentConfirmationPage {
     private walletBalance: WalletBalanceService,
     private formBuilder: FormBuilder,
     private browserService: BrowserService,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private route: ActivatedRoute,
   ) {}
 
   async ionViewDidEnter() {
+    this.mode = this.route.snapshot.paramMap.get('mode');
+    this.updateTexts();
     await this.getInvestmentInfo();
     this.dynamicPrice();
     this.checkTwoPiAgreement();
@@ -363,5 +370,18 @@ export class InvestmentConfirmationPage {
 
   saveTwoPiAgreement(): Promise<any> {
     return this.storage.set('_agreement_2PI_T&C', true);
+  }
+
+  private updateTexts() {
+    switch (this.mode) {
+      case 'invest':
+        this.headerText = 'defi_investments.confirmation.header';
+        this.labelText = 'defi_investments.confirmation.amount_to_invest';
+        return;
+      case 'add':
+        this.headerText = 'defi_investments.add.header';
+        this.labelText = 'defi_investments.add.amount_to_add';
+        return;
+    }
   }
 }
