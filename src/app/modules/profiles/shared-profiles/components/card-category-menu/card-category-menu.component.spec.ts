@@ -153,7 +153,7 @@ describe('CardItemMenuComponent', () => {
     expect(divEl).toBeFalsy();
   });
 
-  it('should navigate to "tabs/wallets" when WalletConnect is clicked and there is not wallet', async () => {
+  it('should navigate to "/wallets/no-wallet" when WalletConnect is clicked and there is not wallet', async () => {
     component.category = menuCategoryClickable;
     component.category.showCategory = true;
     fixture.detectChanges();
@@ -162,7 +162,7 @@ describe('CardItemMenuComponent', () => {
     button.nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('tabs/wallets');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/no-wallet');
   });
 
   it('should navigate to "/wallets/wallet-connect/connection-detail" when WalletConnect is clicked and there is wallet and walletconnect is connected', async () => {

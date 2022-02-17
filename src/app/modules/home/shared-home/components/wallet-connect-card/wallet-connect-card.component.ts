@@ -33,7 +33,7 @@ export class WalletConnectCardComponent implements OnInit {
 
   async goToWalletConnect() {
     if (!(await this.walletService.walletExist())) {
-      this.navController.navigateForward(['tabs/wallets']);
+      this.navController.navigateForward(['/wallets/no-wallet']);
     } else {
       if (!this.walletConnectService.connected) {
         this.navController.navigateForward(['wallets/wallet-connect/new-connection']);
