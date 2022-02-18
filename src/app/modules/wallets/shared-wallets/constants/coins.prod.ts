@@ -16,8 +16,6 @@ import batAbi from './assets-abi-prod/bat-abi-prod.json';
 import sandAbi from './assets-abi-prod/sand-abi-prod.json';
 import usdcAbi from './assets-abi-prod/usdc-abi-prod.json';
 import crvAbi from './assets-abi-prod/crv-abi-prod.json';
-import daiAbi from './assets-abi-prod/dai-abi-prod.json';
-import wethAbi from './assets-abi-prod/weth-abi-prod.json';
 
 export const PROD_COINS: Coin[] = [
   {
@@ -364,9 +362,10 @@ export const PROD_COINS: Coin[] = [
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
-    abi: daiAbi,
-    contract: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
+    abi: linkAbi,
+    contract: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
     decimals: 18,
+    symbol: 'DAIUSDT',
   },
   {
     id: 27,
@@ -377,8 +376,9 @@ export const PROD_COINS: Coin[] = [
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
-    abi: wethAbi,
+    abi: linkAbi,
     contract: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
     decimals: 18,
+    symbol: 'ETHUSDT',
   },
 ];
