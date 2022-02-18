@@ -4,5 +4,5 @@ export interface DefiInvestment {
   product: InvestmentProduct;
   isComing: boolean;
   balance: number;
-  weeklyProfit: boolean;
+  weeklyEarning: boolean;
 }

@@ -70,7 +70,7 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
               *ngFor="let investment of this.availableInvestments"
               [investmentProduct]="investment.product"
               [isComing]="investment.isComing"
-              [weeklyProfit]="investment.weeklyProfit"
+              [weeklyEarning]="investment.weeklyEarning"
             ></app-defi-investment-product>
           </div>
           <div
@@ -154,7 +154,7 @@ export class DefiInvestmentProductsPage {
         product: investmentProduct,
         balance: balance,
         isComing: product.isComing,
-        weeklyProfit: product.weeklyProfit,
+        weeklyEarning: product.weeklyEarning,
       });
     }
     this.filterUserInvestments(investments);
