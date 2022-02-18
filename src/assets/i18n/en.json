@@ -351,7 +351,7 @@
         "immediate_rescue": "Immediate Rescue",
         "weekly_earnings": "Weekly earnings",
         "weekly_earnings_disclaimer_active": "*Your balance is updated on Monday of each week.",
-        "weekly_earnings_disclaimer_available": "*Earnings are updated on Saturday of each week.",
+        "weekly_earnings_disclaimer_available": "*Earnings are updated on Monday of each week.",
         "coming_badge": "Coming soon",
         "invest_button": "Invest",
         "annual": "Annual"
