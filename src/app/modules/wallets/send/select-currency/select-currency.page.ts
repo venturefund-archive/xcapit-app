@@ -17,17 +17,12 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
     </ion-header>
     <ion-content class="sc ion-padding">
       <div class="sc__title">
-        <ion-text class="ux-font-text-lg">
+        <ion-label class="ux-font-text-lg">
           {{ 'wallets.send.select_currency.title' | translate }}
-        </ion-text>
+        </ion-label>
       </div>
       <div class="sc__list">
-        <app-ux-list-card
-          (itemClicked)="this.selectCurrency($event)"
-          [data]="this.coins"
-          iconName="logoRoute"
-          labelName="name"
-        ></app-ux-list-card>
+        <app-token-selection-list></app-token-selection-list>
       </div>
     </ion-content>
   `,

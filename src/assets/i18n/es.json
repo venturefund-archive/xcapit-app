@@ -1718,7 +1718,8 @@
     "send": {
       "select_currency": {
         "header": "Enviar",
-        "title": "Selecciona moneda"
+        "title": "Selecciona la moneda que deseas enviar",
+        "suite":"Red {{suiteName}}"
       },
       "send_detail": {
         "header": "Enviar",
