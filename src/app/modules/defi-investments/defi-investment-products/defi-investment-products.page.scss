@@ -49,6 +49,11 @@
     &__available-card {
       margin-top: 8px;
     }
+
+    &__weekly-profit-disclaimer {
+      padding: 0 10px;
+      margin-top: 8px;
+    }
   }
 
   ion-item::part(native) {
