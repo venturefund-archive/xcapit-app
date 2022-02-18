@@ -1,12 +1,13 @@
-import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController, AlertController } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { UrlSerializer } from '@angular/router';
 import { ConnectionDetailPage } from './connection-detail.page';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ConnectionDetailPage', () => {
   let component: ConnectionDetailPage;
@@ -18,17 +19,17 @@ describe('ConnectionDetailPage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
         connected: false,
-        peerMeta: {url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon']},
+        peerMeta: { url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon'] },
         approveSession: Promise.resolve({}),
-        killSession: Promise.resolve({})
+        killSession: Promise.resolve({}),
       });
       fakeNavController = new FakeNavController();
       navControllerSpy = jasmine.createSpyObj('NavController', {
         pop: Promise.resolve(null),
         navigateBack: Promise.resolve(null),
-        navigateRoot: Promise.resolve(null)
+        navigateRoot: Promise.resolve(null),
       });
 
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
@@ -38,10 +39,11 @@ describe('ConnectionDetailPage', () => {
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           UrlSerializer,
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ConnectionDetailPage);
@@ -111,7 +113,7 @@ describe('ConnectionDetailPage', () => {
     component.approveSession();
     await fixture.whenStable();
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('should call walletConnect killSession, set false connectionStatus and navigate to wallets/wallet-connect/new-connection when killSession is called', async () => {
     component.killSession();
@@ -122,10 +124,10 @@ describe('ConnectionDetailPage', () => {
   });
 
   it('should shows in console an error when killSession is called and fails', async () => {
-    console.log = jasmine.createSpy("log");
+    console.log = jasmine.createSpy('log');
     walletConnectServiceSpy.killSession.and.returnValue(Promise.reject('testError'));
     component.killSession();
     await fixture.whenStable();
-    expect(console.log).toHaveBeenCalledWith('Wallet Connect - killSession error: ', 'testError')
+    expect(console.log).toHaveBeenCalledWith('Wallet Connect - killSession error: ', 'testError');
   });
 });
