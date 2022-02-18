@@ -1,25 +1,44 @@
 :host {
-  .invested-balance {
-    margin-top: 0;
-    margin-bottom: 16px;
+  .id {
+    &__card {
+      margin-bottom: 0;
+    }
 
-    &__content {
-      display: flex;
-      flex-direction: column;
+    .invested-balance {
+      margin-top: 0;
+      margin-bottom: 16px;
 
-      &__label {
-        margin-bottom: 4px;
-      }
-
-      &__balance {
-        width: 100%;
+      &__content {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
 
-        &__text {
-          color: var(--ion-color-uxdark);
+        &__label {
+          margin-bottom: 4px;
+        }
+
+        &__balance {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          &__text {
+            color: var(--ion-color-uxdark);
+          }
         }
       }
+    }
+
+    &__weekly-profit-disclaimer {
+      margin-top: 8px;
+    }
+
+    &__add-amount {
+      margin-top: 24px;
+      margin-bottom: 0;
+    }
+
+    &__finish-btn {
+      margin-top: 20.5px;
     }
   }
 

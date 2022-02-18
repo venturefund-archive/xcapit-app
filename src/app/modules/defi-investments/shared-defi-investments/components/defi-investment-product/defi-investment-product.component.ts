@@ -42,18 +42,16 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="dip__footer">
         <div class="dip__footer__info">
-          <div class="dip__footer__info__label">
+          <div class="dip__footer__info__label" [ngClass]="{ 'single-row-footer': this.isComing }">
             <ion-text class="ux-font-text-xxs">{{
               'defi_investments.shared.defi_investment_product.not_min_ammount' | translate
             }}</ion-text>
           </div>
-          <div class="dip__footer__info__label">
-            <ion-text class="ux-font-text-xxs">{{
-              'defi_investments.shared.defi_investment_product.immediate_rescue' | translate
-            }}</ion-text>
+          <div class="dip__footer__info__label" *ngIf="!this.isComing">
+            <ion-text class="ux-font-text-xxs">{{ this.secondFooterLabel | translate }}</ion-text>
           </div>
         </div>
-        <div class="dip__footer__button ">
+        <div class="dip__footer__button" [ngClass]="{ 'single-row-footer': this.isComing }">
           <ion-button
             *ngIf="!this.isComing"
             appTrackClick
@@ -77,21 +75,24 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./defi-investment-product.component.scss'],
 })
 export class DefiInvestmentProductComponent implements OnInit {
-  @Input() investmentProduct : InvestmentProduct;
-  @Input() isComing : boolean;
+  @Input() investmentProduct: InvestmentProduct;
+  @Input() isComing: boolean;
+  @Input() weeklyProfit: boolean;
   apy: number;
   tvl: number;
   token: Coin;
+  secondFooterLabel: string;
 
-  constructor(
-    private navController: NavController,
-    private walletService: WalletService,
-  ) {}
+  constructor(private navController: NavController, private walletService: WalletService) {}
 
   ngOnInit() {
     this.apy = this.investmentProduct.apy();
     this.tvl = this.investmentProduct.tvl();
     this.token = this.investmentProduct.token();
+    this.secondFooterLabel =
+      this.weeklyProfit
+        ? 'defi_investments.shared.defi_investment_product.weekly_earnings'
+        : 'defi_investments.shared.defi_investment_product.immediate_rescue';
   }
 
   async invest() {
@@ -102,5 +103,4 @@ export class DefiInvestmentProductComponent implements OnInit {
       this.navController.navigateForward(['/defi/no-wallet-to-invest']);
     }
   }
-
 }
