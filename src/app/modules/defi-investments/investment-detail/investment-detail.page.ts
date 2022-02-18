@@ -10,6 +10,7 @@ import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/t
 import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { VoidSigner } from 'ethers';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 
 @Component({
   selector: 'app-investment-detail',
@@ -21,11 +22,9 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
         <ion-title class="ion-text-center">{{ 'defi_investments.invest_detail.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content *ngIf="this.investmentProduct">
-      <ion-card class="ux-card">
-        <app-expandable-investment-info
-          [investmentProduct]="this.investmentProduct"
-        ></app-expandable-investment-info>
+    <ion-content *ngIf="this.investmentProduct" class="id">
+      <ion-card class="id__card ux-card">
+        <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
         <ion-item lines="none" class="invested-balance">
           <ion-label class="invested-balance__content">
             <ion-text class="invested-balance__content__label ux-font-titulo-xs">
@@ -36,18 +35,23 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
                 {{ this.balance | number: '1.2-8' }} {{ this.token?.value }}
               </ion-text>
               <ion-text class="invested-balance__content__balance__text ux-font-text-base">
-                {{ this.referenceBalance | number: '1.2-2'  }}{{ ' USD' }}
+                {{ this.referenceBalance | number: '1.2-2' }}{{ ' USD' }}
               </ion-text>
             </div>
           </ion-label>
         </ion-item>
       </ion-card>
+      <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
+        <ion-label class=" ux-font-text-xs" color="uxsemidark">
+          {{ 'defi_investments.invest_detail.weekly_earnings_disclaimer' | translate }}
+        </ion-label>
+      </div>
       <ion-button
         appTrackClick
         name="add_amount"
         expand="block"
         size="large"
-        class="ion-padding-start ion-padding-end ux_button"
+        class="ion-padding-start ion-padding-end ux_button id__add-amount"
         color="uxsecondary"
         (click)="this.addAmount()"
       >
@@ -59,7 +63,7 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
         expand="block"
         fill="clear"
         size="small"
-        class="link ux-link-xl ion-padding-start ion-padding-end"
+        class="link ux-link-xl ion-padding-start ion-padding-end id__finish-btn"
         (click)="this.goToWithdraw()"
       >
         {{ 'defi_investments.invest_detail.button_link' | translate }}
@@ -72,6 +76,7 @@ export class InvestmentDetailPage implements OnInit {
   token: Coin;
   referenceBalance: number;
   balance: number;
+  disclaimer = false;
   constructor(
     private route: ActivatedRoute,
     private twoPiApi: TwoPiApi,
@@ -85,6 +90,7 @@ export class InvestmentDetailPage implements OnInit {
 
   async ionViewDidEnter() {
     await this.getInvestmentProduct();
+    this.setDisclaimer();
   }
 
   private vaultID() {
@@ -134,5 +140,16 @@ export class InvestmentDetailPage implements OnInit {
 
   goToWithdraw() {
     this.navController.navigateForward(['/defi/withdraw', this.investmentProduct.name()]);
+  }
+
+  setDisclaimer() {
+    const product = this.createAvailableDefiProducts()
+      .value()
+      .find((product) => product.id === this.investmentProduct.name());
+    if (product) this.disclaimer = true;
+  }
+
+  createAvailableDefiProducts(): AvailableDefiProducts {
+    return new AvailableDefiProducts();
   }
 }
