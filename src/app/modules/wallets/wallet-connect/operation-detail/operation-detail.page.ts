@@ -193,7 +193,7 @@ export class OperationDetailPage implements OnInit {
       case 'eth_sendTransaction': {
         this.isSignRequest = false;
         this.decodedData = await this.walletConnectService.getTransactionType(request);
-        this.isApproval = this.decodedData && this.decodedData.name === 'approve';;
+        this.isApproval = this.decodedData && this.decodedData.name === 'approve';
         const gasLimit = !request.params[0].gas ? '70000' : request.params[0].gas;
 
         this.getTotalFeeAmount(gasLimit);

@@ -233,7 +233,7 @@ export class WalletConnectService {
     const decodedData = this.contractsAbi.decodeMethod(request.params[0].data);
 
     if (decodedData && decodedData.name) {
-      let type = this.transactionTypes.filter((type) => type.name === decodedData.name)[0];
+      const type = this.transactionTypes.filter((type) => type.name === decodedData.name)[0];
       if (type) {
         type.data = decodedData.params
 
@@ -274,7 +274,7 @@ export class WalletConnectService {
   }
 
   public async getPairTokens(routerAddress, token0, token1 = null) {
-    let symbols = [];
+    const symbols = [];
 
     const provider = new ethers.providers.JsonRpcProvider(this.rpcUrl);
     const routerContract = new ethers.Contract(routerAddress, routerAbi, provider);
