@@ -192,6 +192,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private resetRequestOnUnsubscribe() {
+    if (this.unsubscribe$.isStopped) this.unsubscribe$ = new Subject<void>();
     this.unsubscribe$.subscribe(() => (this.requestQuantity = 0));
   }
 
@@ -288,7 +289,6 @@ export class HomeWalletPage implements OnInit {
   }
 
   ionViewDidLeave(): void {
-    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 }
