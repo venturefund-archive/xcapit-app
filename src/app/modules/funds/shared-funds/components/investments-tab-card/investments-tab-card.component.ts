@@ -17,7 +17,7 @@ import { NavController } from '@ionic/angular';
           </ion-text>
         </div>
         <div class="itc__text_col__text_ct">
-          <ion-text class="itc__text_col__text_ct__text ux-font-text-xxs"[ngClass]="{itc__text_col__text: !this.disabledCard , 'itc__text_col__text_off': this.disabledCard}">>
+          <ion-text class="itc__text_col__text_ct__text ux-font-text-xxs"[ngClass]="{itc__text_col__text: !this.disabledCard , 'itc__text_col__text_off': this.disabledCard}">
             {{ this.text | translate }}
           </ion-text>
         </div>
