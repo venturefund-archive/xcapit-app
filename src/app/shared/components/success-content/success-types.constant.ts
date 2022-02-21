@@ -58,7 +58,7 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/investments/binance',
     namePrimaryAction: 'funds.fund_success_renew.namePrimaryAction',
   },
-  apikeys_register_success_begginer: {
+  apikeys_register_success_beginner: {
     urlClose: '/tabs/home',
     urlPrimaryAction: '/funds/fund-name',
     urlSecondaryAction: '/tabs/home',
@@ -150,5 +150,16 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/wallets/password-change',
     nameSecondaryAction: 'wallets.password_change_error.nameSecondaryAction',
     urlSecondaryAction: '/tabs/wallets',
+  },
+  success_defi_withdraw: {
+    image: 'assets/img/defi-investments/success-withdraw.svg',
+    urlClose: '/tabs/investments/defi',
+    textPrimary: 'defi_investments.withdraw.success_withdraw.title',
+    textSecondary: 'defi_investments.withdraw.success_withdraw.subtitle',
+    namePrimaryAction: 'defi_investments.withdraw.success_withdraw.button_primary',
+    urlPrimaryAction: '/tabs/investments/defi',
+    nameThirdAction: 'defi_investments.withdraw.success_withdraw.button_secondary',
+    urlThirdAction: '/tabs/wallets',
+    disclaimer: 'defi_investments.withdraw.success_withdraw.disclaimer',
   },
 };

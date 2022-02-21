@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, IonInfiniteScroll, NavController } from '@ionic/angular';
+import { IonContent, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,7 +11,8 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
 import { QueueService } from '../../../shared/services/queue/queue.service';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home-wallet',
@@ -53,10 +54,8 @@ import { Subscription } from 'rxjs';
           </ion-text>
         </div>
         <div class="wt__amount ux-font-num-titulo">
-          <ion-text>
-            {{ this.totalBalanceWallet | number: '1.2-2' }}
-            USD
-          </ion-text>
+          <ion-spinner color="uxlight" name="crescent" *ngIf="this.totalBalance === undefined"></ion-spinner>
+          <ion-text *ngIf="this.totalBalance !== undefined"> {{ this.totalBalance | number: '1.2-2' }} USD </ion-text>
         </div>
       </div>
       <div class="wt__subheader" *ngIf="!this.walletExist">
@@ -137,33 +136,26 @@ import { Subscription } from 'rxjs';
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
       </div>
-      <ion-infinite-scroll threshold="10px" (ionInfinite)="this.loadCoins()">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="{{ 'funds.fund_operations.loading_infinite_scroll' | translate }}"
-        >
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
-  totalBalanceWallet = 0;
+  totalBalanceAccum = 0;
   balances: AssetBalanceModel[] = [];
   nftStatus = '';
   selectedAssets: Coin[];
   NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
-  @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonContent, { static: true }) content: IonContent;
   pageSize = 6;
-  subscriptions$: Subscription[] = [];
-
+  unsubscribe$ = new Subject<void>();
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
+  requestQuantity = 0;
+  totalBalance: number;
 
   constructor(
     private walletService: WalletService,
@@ -180,12 +172,13 @@ export class HomeWalletPage implements OnInit {
   ngOnInit() {}
 
   async ionViewDidEnter() {
+    this.resetRequestOnUnsubscribe();
     await this.initialize();
   }
 
   async initialize(): Promise<void> {
     await this.content.scrollToTop(0);
-    this.infiniteScrollDisabled();
+    await this.cachedTotalBalance();
     this.clearBalances();
     await this.checkWalletExist();
     await this.getAssetsSelected();
@@ -194,28 +187,32 @@ export class HomeWalletPage implements OnInit {
     this.getNFTStatus();
   }
 
-  private infiniteScrollDisabled(): void {
-    this.infiniteScroll.disabled = false;
+  private async cachedTotalBalance() {
+    this.totalBalance = (await this.balanceCacheService.total()) ?? 0.0;
+  }
+
+  private resetRequestOnUnsubscribe() {
+    if (this.unsubscribe$.isStopped) this.unsubscribe$ = new Subject<void>();
+    this.unsubscribe$.subscribe(() => (this.requestQuantity = 0));
   }
 
   private createQueues(): void {
     for (const network of this.apiWalletService.getNetworks()) {
       this.queueService.create(network, 2);
-      this.subscriptions$.push(this.queueService.results(network).subscribe());
+      this.queueService.results(network).pipe(takeUntil(this.unsubscribe$)).subscribe();
     }
     this.queueService.create('prices', 2);
-    this.subscriptions$.push(this.queueService.results('prices').subscribe());
+    this.queueService.results('prices').pipe(takeUntil(this.unsubscribe$)).subscribe();
   }
 
   private clearBalances(): void {
-    this.unsubscribe();
+    this.unsubscribe$.next();
     this.balances = [];
-    this.totalBalanceWallet = 0;
+    this.totalBalanceAccum = 0;
   }
 
   async refresh(event: any): Promise<void> {
     if (this.refreshTimeoutService.isAvailable()) {
-      this.infiniteScrollDisabled();
       await this.initialize();
       this.refreshTimeoutService.lock();
     }
@@ -248,39 +245,42 @@ export class HomeWalletPage implements OnInit {
     this.navController.navigateForward(['wallets/select-coins', 'edit']);
   }
 
-  private finishedLoad(): boolean {
-    return this.balances.length === this.selectedAssets.length;
-  }
-
   loadCoins(): void {
-    if (!this.finishedLoad()) {
-      this.loadNextPage();
-      this.infiniteScroll && this.infiniteScroll.complete();
-    } else {
-      this.infiniteScroll.disabled = true;
-    }
-  }
-
-  private endPageIndex(): number {
-    return Math.min(this.balances.length + this.pageSize, this.selectedAssets.length);
-  }
-
-  private loadNextPage(): void {
-    const page = this.selectedAssets.slice(this.balances.length, this.endPageIndex()).map((aCoin: Coin) => {
+    this.balances = this.selectedAssets.map((aCoin: Coin) => {
       const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
-      assetBalance.cachedBalance().then(() => {
+      assetBalance.cachedBalance().then((cachedCoin) => {
         this.enqueue(assetBalance);
+        if (cachedCoin) {
+          this.orderBalances();
+        }
       });
       this.sumTotalBalance(assetBalance);
       return assetBalance;
     });
-    this.balances = [...this.balances, ...page];
+  }
+
+  private orderBalances() {
+    this.balances.sort((a, b) => b.amount * b.price - a.amount * a.price);
   }
 
   private sumTotalBalance(assetBalance: AssetBalanceModel): void {
-    this.subscriptions$.push(
-      assetBalance.quoteBalance.subscribe((quote: number) => (this.totalBalanceWallet += quote))
-    );
+    assetBalance.quoteBalance.pipe(takeUntil(this.unsubscribe$)).subscribe((quote: number) => {
+      this.totalBalanceAccum += quote;
+      this.addRequestQuantity();
+      this.orderBalances();
+    });
+  }
+
+  private addRequestQuantity() {
+    this.requestQuantity++;
+    if (this.requestQuantity === this.selectedAssets.length) {
+      this.cacheTotalBalance();
+      this.totalBalance = this.totalBalanceAccum;
+    }
+  }
+
+  private cacheTotalBalance() {
+    this.balanceCacheService.updateTotal(this.totalBalanceAccum);
   }
 
   private enqueue(assetBalance: AssetBalanceModel): void {
@@ -289,17 +289,6 @@ export class HomeWalletPage implements OnInit {
   }
 
   ionViewDidLeave(): void {
-    this.unsubscribe();
-  }
-
-  private unsubscribe(): void {
-    for (const subscription of this.subscriptions$) {
-      subscription.unsubscribe();
-    }
-    this.clearSubscriptions();
-  }
-
-  private clearSubscriptions() {
-    this.subscriptions$ = [];
+    this.unsubscribe$.complete();
   }
 }

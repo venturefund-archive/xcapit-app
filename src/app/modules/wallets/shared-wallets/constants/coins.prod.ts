@@ -5,7 +5,6 @@ import linkAbi from './assets-abi-prod/link-abi-prod.json';
 import uniAbi from './assets-abi-prod/uni-abi-prod.json';
 import usdtAbi from './assets-abi-prod/usdt-abi-prod.json';
 import rifAbi from './assets-abi-prod/rif-abi-prod.json';
-import sovAbi from './assets-abi-prod/sov-abi-prod.json';
 import lunaAbi from './assets-abi-prod/luna-abi-prod.json';
 import axsAbi from './assets-abi-prod/axs-abi-prod.json';
 import manaAbi from './assets-abi-prod/mana-abi-prod.json';
@@ -232,19 +231,6 @@ export const PROD_COINS: Coin[] = [
     symbol: 'RIFUSDT',
   },
   {
-    id: 16,
-    name: 'SOV - Sovryn',
-    logoRoute: 'assets/img/coins/SOV.png',
-    last: true,
-    value: 'SOV',
-    network: 'RSK',
-    chainId: 30,
-    rpc: environment.rskApiUrl,
-    contract: '0xefc78fc7d48b64958315949279ba181c2114abbd',
-    abi: sovAbi,
-    decimals: 18,
-  },
-  {
     id: 17,
     name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
@@ -357,7 +343,7 @@ export const PROD_COINS: Coin[] = [
     id: 25,
     name: 'CRV - Curve',
     logoRoute: 'assets/img/coins/CRV.png',
-    last: true,
+    last: false,
     value: 'CRV',
     network: 'MATIC',
     chainId: 137,
@@ -366,5 +352,33 @@ export const PROD_COINS: Coin[] = [
     contract: '0x172370d5cd63279efa6d502dab29171933a610af',
     decimals: 18,
     symbol: 'CRVUSDT',
+  },
+  {
+    id: 26,
+    name: 'DAI - DAI',
+    logoRoute: 'assets/img/coins/DAI.png',
+    last: false,
+    value: 'DAI',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    abi: linkAbi,
+    contract: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
+    decimals: 18,
+    symbol: 'DAIUSDT',
+  },
+  {
+    id: 27,
+    name: 'WETH - Wrapped Ether',
+    logoRoute: 'assets/img/coins/WETH.svg',
+    last: true,
+    value: 'WETH',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    abi: linkAbi,
+    contract: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+    decimals: 18,
+    symbol: 'ETHUSDT',
   },
 ];

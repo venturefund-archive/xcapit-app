@@ -111,15 +111,44 @@
     },
     "step_counter": {
       "of": "of"
+    },
+    "update_news": {
+      "title": "We have news!",
+      "first": {
+        "badge": "New feature",
+        "title": "Moonpay",
+        "description": "Buy crypto with your local currency!"
+      },
+      "second": {
+        "badge": "New feature",
+        "title": "DeFi Investments",
+        "description": "Invest with cryptocurrencies quickly, freely and without intermediaries."
+      },
+      "third": {
+        "badge": "New feature",
+        "title": "Wallet Connect",
+        "description": "Connect your wallet to the crypto world and stay in control with your tokens"
+      }
     }
   },
-  "usuarios": {
-    "email_validation": {
-      "error_title": "No pudimos verificar el Email!",
-      "error_text": "Intenta enviar nuevamente el email de validación.",
-      "error_button": "Enviar",
-      "register_link": "Volver al registro",
-      "ok_text": "Email Verificado correctamente!"
+  "register": {
+    "card_header": "Create your account",
+    "submit_button": "Sign Up",
+    "success_title": "You just need to validate your email address!",
+    "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
+    "accept_button": "Accept",
+    "resend_email_button": "I didn't receive the email",
+    "referral_code_text": "Referral Code",
+    "manual_referral": "Enter referral code",
+    "referral_code_label": "Referral code (Optional)",
+    "back_login": "Already have account? Sign in to Xcapit",
+    "accept_tos": "I agree",
+    "link_tos": "Terms and conditions",
+    "waiting_list_alert": {
+      "alert_header": "Do you want to try the App?",
+      "alert_message": "To enter, join the waiting list and be one of the first to try it.",
+      "alert_cancel_button": "Cancel",
+      "alert_join_button": "Join"
     },
     "login": {
       "password_label": "Password",
@@ -128,7 +157,8 @@
       "login_button_text": "Login",
       "title": "Login",
       "google_auth": "Sign in with Google",
-      "or_text": "or"
+      "or_text": "or",
+      "loading": "Logging"
     },
     "register": {
       "card_header": "Create your account",
@@ -243,6 +273,10 @@
       "amount_to_invest": "Amount to invest",
       "button": "Continue"
     },
+    "add": {
+      "header": "Add amount",
+      "amount_to_add": "Amount to add"
+    },
     "confirmation": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
@@ -255,16 +289,37 @@
         "description": "To enable your investment, enter your Xcapit wallet password.",
         "input_label": "Password",
         "confirm_button": "Accept"
+      },
+      "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
+      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay transaction fees. Buy some {{nativeToken}} or deposit them from another account.",
+      "terms": {
+        "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
+        "i_have_read": "I have read and agree to ",
+        "link_to_terms": "2PI's Terms and Conditions."
       }
     },
     "coming_soon": {
       "header": "Investment"
     },
-    "defi_investment_products":{
-      "header":"Defi investments",
-      "title":"Start investing",
-      "title_investments":"My investments",
-      "recommendations":"You may be interested in"  
+    "defi_investment_products": {
+      "header": "Defi investments",
+      "title": "Start investing",
+      "title_investments": "My investments",
+      "recommendations": "You may be interested in",
+      "choose_investor_profile": {
+        "complete_test": {
+          "title": "I want to choose my profile again",
+          "description": "You think your profile has changed? You can select it again.",
+          "button_primary": "Select it again",
+          "button_secondary": "Take the test"
+        },
+        "incomplete_test": {
+          "title": "What kind of investor are you?",
+          "description": "Take the investor test, or choose it manually and discover what investments may be suitable for you.",
+          "button_primary": "Take the test",
+          "button_secondary": "Choose manually"
+        }
+      }
     },
     "success_investment": {
       "title": "You added money to your investment",
@@ -277,11 +332,12 @@
       "subtitle": "Remember that you must own tokens to pay investment fees.",
       "primaryButton": "Try again"
     },
-    "invest_detail":{
-      "header":"My investment",
-      "button":"Add amount",
-      "button_link":"Finalize investment",
-      "invested_amount":"Invested balance"
+    "invest_detail": {
+      "header": "My investment",
+      "button": "Add amount",
+      "button_link": "Finalize investment",
+      "invested_amount": "Balance*",
+      "weekly_earnings_disclaimer": "*Your balance is updated on Monday of each week."
     },
     "shared": {
       "coming_soon_card": {
@@ -293,11 +349,13 @@
         "liquidity": "Liquidity",
         "not_min_ammount": "No minimum amount",
         "immediate_rescue": "Immediate Rescue",
-        "coming_badge": "Coming",
+        "weekly_earnings": "Weekly earnings",
+        "weekly_earnings_disclaimer_active": "*Your balance is updated on Monday of each week.",
+        "weekly_earnings_disclaimer_available": "*Earnings are updated on Monday of each week.",
+        "coming_badge": "Coming soon",
         "invest_button": "Invest",
         "annual": "Annual"
       },
-
       "expandable_investment_info": {
         "TVL": "Total Value Locked",
         "protocol_type": "Protocol type",
@@ -310,6 +368,25 @@
       "amount_input_card": {
         "available": "Available",
         "disclaimer": "Please note that transaction fees will be charged in"
+      },
+      "withdraw_card": {
+        "title": "Withdraw",
+        "transaction_details": "Transaction details",
+        "transaction_fee": "Transaction fee",
+        "confirm": "Confirm",
+        "confirm_loading": "Confirming..."
+      }
+    },
+    "withdraw": {
+      "success_withdraw": {
+        "title": "You stopped investing *",
+        "subtitle": "You can reinvest whenever you want",
+        "button_primary": "Return to Defi investments",
+        "button_secondary": "Go to wallet",
+        "disclaimer": "* Your funds can take up to 5 minutes to be displayed in your wallet."
+      },
+      "withdraw": {
+        "header": "Finish investment"
       }
     }
   },
@@ -844,7 +921,7 @@
       "category_security_account": "Security Xcapit account",
       "change_pass": "Password Change",
       "category_security_wallet": "Security Xcapit wallet",
-      "remove_wallet":"Remove Wallet",
+      "remove_wallet": "Remove Wallet",
       "security_phrase": "Security phrase",
       "category_binance_investment": "Binance investments",
       "funds": "Funds",
@@ -1470,20 +1547,22 @@
     }
   },
   "wallets": {
-    "remove_success":{
-      "title":"Your wallet was removed",
-      "subtitle":"You can create a new wallet or import an existing one whenever you wish.",
-      "create_button":"Create new Wallet",
-      "import_button":"Import Wallet",
-      "home_link":"Go to home"
+    "remove_success": {
+      "title": "Your wallet was removed",
+      "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
+      "create_button": "Create new Wallet",
+      "import_button": "Import Wallet",
+      "home_link": "Go to home"
     },
-    "remove":{
-      "header":"Remove wallet",
-      "title":"When removing your wallet remember",
-      "item1":"You will not lose your past transactions, they are stored by the network.",
-      "item2":"If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
-      "item3":"You will be able to again create a new wallet in Xcapit or import an existing one.",
-      "tos":"I read and understand that I will remove my wallet."
+    "remove": {
+      "header": "Remove wallet",
+      "title": "When removing your wallet remember",
+      "item1": "You will not lose your past transactions, they are stored by the network.",
+      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item3": "You will be able to again create a new wallet in Xcapit or import an existing one.",
+      "tos": "I read and understand that I will remove my wallet.",
+      "button_text": "Continue",
+      "loading": "Removing wallet..."
     },
     "no_wallet": {
       "title": "You don't have your Xcapit Wallet yet",
@@ -1498,10 +1577,7 @@
       "new_password": "Write your new password",
       "repeat_password": "Repeat your new password",
       "submit_button": "Change",
-      "loading": {
-        "title": "Time!",
-        "subtitle": "We are processing your new password."
-      }
+      "loading": "Changing..."
     },
     "password_change_success": {
       "textPrimary": "Great!",
@@ -1668,7 +1744,11 @@
           "help_text": "{{currency}} address or alias"
         },
         "amount_input": {
-          "title": "Amount to send"
+          "title": "Amount to send",
+          "fee_title": "Transaction fee*",
+          "fee_text": "*This amount is an estimate and can vary depending on the moment you complete the transaction.",
+          "wrong_address": "We could not estimate the transaction fee. Invalid address",
+          "cant_estimate_fee": "We could not estimate the transaction fee. You might not have enough funds"
         },
         "alert": {
           "title": "Attention",
@@ -1727,15 +1807,7 @@
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
       },
-      "defi_investment_product": {
-        "performance": "Estimated yield",
-        "liquidity": "Liquidity",
-        "not_min_ammount": "No minimum amount",
-        "immediate_rescue": "Immediate Rescue",
-        "coming_badge": "Coming",
-        "invest_button": "Invest",
-        "annual": "Annual"
-      },
+
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "scan_unauthorized": "You have no permission to scan"
@@ -1791,6 +1863,8 @@
       "button_wallet": "Use wallet",
       "button_connect": "Connect",
       "button_disconnect": "End connection",
+      "card_title": "Configure your connection",
+      "card_description": "Choose the network from which you want to take the funds. Then scan the QR code on the Dapp.",
       "scan_qr": {
         "header": "Scan QR code",
         "register_manually": "Enter manually",
@@ -1824,7 +1898,11 @@
           "header": "Connection error",
           "message": "There were problems connecting to the Dapp. Please try again.",
           "close_button": "Accept"
-        }
+        },
+        "card_title_disconnected": "Connect to the Dapp",
+        "card_description_disconnected": "The Dapp will have access to your wallet. To make transactions, it will ask for your approval.",
+        "card_title_connected": "Operates in Dapp",
+        "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them."
       },
       "operation_detail": {
         "header": "Operation detail",
@@ -1853,7 +1931,11 @@
           "message": "Do you wish to cancel the operation?",
           "cancel_button": "Back",
           "accept_button": "Accept"
-        }
+        },
+        "card_title_sign": "Signature in the Dapp",
+        "card_description_sign": "This step is to verify that you are the one operating in the Dapp.",
+        "card_title_operation": "Confirm your operation",
+        "card_description_operation": "Confirm the transaction you want to perform in the Dapp."
       },
       "transactions": {
         "alert": {
@@ -1861,7 +1943,10 @@
           "message": "There was an error executing the operation. Please try again.",
           "accept_button": "Accept"
         }
-      }
+      },
+      "disclaimer_1": "WalletConnect is in a Beta stage, so there may be problems in the connection process.",
+      "disclaimer_2": " If you had a problem connecting your wallet, you can contact with ",
+      "disclaimer_support": "support."
     }
   },
   "apikeys": {
@@ -2305,8 +2390,43 @@
         "description": "Third-party provider"
       },
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+      "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
       "button_text": "Continue"
     }
+  },
+  "paxful": {
+    "header": "Buy",
+    "title": "Buy BTC with Paxful",
+    "text": "Paxful will only let you buy BTC. We will redirect you to Paxful's page to complete the transaction.",
+    "label-wallet": "Deposit Address",
+    "placeholder-wallet": "Receiving address",
+    "button-text": "Go to Paxful",
+    "modal_title": "Deposit Address",
+    "recordatory_info": "By clicking on Go to Paxful, you will exit Xcapit."
+  },
+  "paxful_success": {
+    "textPrimary": "We've redirect you to Paxful",
+    "textSecondary": "Fill in the details to complete the transaction",
+    "namePrimaryAction": "Go to my operations",
+    "nameSecondaryAction": "Buy more cripto"
+  },
+  "wallet_comprobation": {
+    "title": "To buy cryptocurrencies you need to associate an Api Key",
+    "message": "Add a Key so that your purchases are reflected in your Binance account.",
+    "btn_back": "Back",
+    "btn_add_apikey": "Add Api Key"
+  },
+  "moonpay": {
+    "header": "Buy cripto",
+    "currency_label": "Currency",
+    "provider": {
+      "label": "Provider",
+      "name": "Moonpay",
+      "description": "Third-party provider"
+    },
+    "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+    "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
+    "button_text": "Continue"
   },
   "payment": {
     "methods": {
@@ -2384,7 +2504,7 @@
       },
       "wallet_connect_card": {
         "title": "WalletConnect",
-        "subtitle": "Connect your wallet to the crypto world and stay in control"
+        "subtitle": "Connect your wallet to the crypto world and stay in control with your tokens"
       },
       "quotes_card": {
         "title": "Quotes",
@@ -2405,8 +2525,8 @@
     "header": "Help",
     "title": "How can we help you?",
     "support_options": {
-      "title_nft":"NFTs",
-      "description_nft":"View, Transfer and Receive",
+      "title_nft": "NFTs",
+      "description_nft": "View, Transfer and Receive",
       "title_account": "XCAPIT Account",
       "description_account": "Create account, configure and deposit money.",
       "title_wallet": "Wallet",

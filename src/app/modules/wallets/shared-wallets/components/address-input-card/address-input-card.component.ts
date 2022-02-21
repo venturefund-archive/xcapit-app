@@ -42,6 +42,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
       <div class="aic__content">
         <app-ux-input-underlined
           [labelLeft]="this.helpText"
+          debounce="1000"
           controlName="address"
           type="text"
           id="address-input"

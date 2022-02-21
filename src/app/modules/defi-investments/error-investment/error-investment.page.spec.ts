@@ -64,6 +64,6 @@ describe('ErrorInvestmentPage', () => {
   it('should navigate to urlPage when Try Again is clicked', () => {
     const pageButton = fixture.debugElement.query(By.css("ion-button[name='Try Again']"));
     pageButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['tabs/investments/defi']);
   });
 });

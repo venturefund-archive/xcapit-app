@@ -4,22 +4,19 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'app-ux-center-img',
   template: `
     <div class="text-center">
-      <img [src]="this.imagePath" [alt]="imageAlt" />
+      <img [src]="this.path" [alt]="imageAlt" />
     </div>
   `,
   styleUrls: ['./ux-center-img.component.scss'],
 })
 export class UxCenterImgComponent implements OnInit {
-  @Input() imageName = 'ux-success.svg';
   @Input() imageAlt = 'Success img';
-  imagePath = '';
+  path: string;
+  @Input() set imagePath(path) {
+    this.path = path ?? 'assets/img/ux-success.svg';
+  }
+
   constructor() {}
 
-  ngOnInit() {
-    this.getImagePath();
-  }
-
-  getImagePath() {
-    this.imagePath = `../../assets/img/${this.imageName}`;
-  }
+  ngOnInit() {}
 }

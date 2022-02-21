@@ -217,7 +217,7 @@ describe('FundTakeProfitComponent', () => {
     expect(createCustomButton).toBeTruthy();
     expect(createCustomButton.nativeElement.innerText).toContain('funds.fund_take_profit.custom_tp_button');
 
-    const badgeMostChosenSL = fixture.debugElement.query(By.css('ion-radio-group ion-badge.ux_badge_primary'));
+    const badgeMostChosenSL = fixture.debugElement.query(By.css('ion-radio-group ion-badge.ux-badge-primary'));
     expect(badgeMostChosenSL.nativeElement.innerText).toContain('funds.fund_take_profit.most_chosen');
   });
 

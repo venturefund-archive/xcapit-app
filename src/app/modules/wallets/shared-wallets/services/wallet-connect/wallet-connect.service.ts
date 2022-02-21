@@ -143,6 +143,7 @@ export class WalletConnectService {
       window.addEventListener('beforeunload', async () => {
         await this.killSession();
       });
+
     } else {
       throw new Error();
     }

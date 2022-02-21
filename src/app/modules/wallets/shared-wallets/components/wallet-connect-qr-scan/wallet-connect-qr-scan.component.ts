@@ -56,7 +56,6 @@ export class WalletConnectQrScanComponent implements OnInit {
   @Output() scannedQREvent = new EventEmitter<any>();
   @Output() stoppedScan = new EventEmitter<any>();
   scannedQR: any;
-  scanningQR = false;
   error: boolean;
   barcodeScanner = Plugins.BarcodeScanner;
 
@@ -127,7 +126,6 @@ export class WalletConnectQrScanComponent implements OnInit {
   }
 
   async scanQR() {
-    this.scanningQR = true;
     this.hideBackground();
 
     const result = await this.barcodeScanner.startScan({
@@ -135,7 +133,6 @@ export class WalletConnectQrScanComponent implements OnInit {
     });
 
     this.showBackground();
-    this.scanningQR = false;
 
     return result;
   }
@@ -162,7 +159,6 @@ export class WalletConnectQrScanComponent implements OnInit {
   stopQRScan() {
     this.barcodeScanner.stopScan();
     this.showBackground();
-    this.scanningQR = false;
     this.modalController.dismiss();
   }
 
@@ -171,8 +167,6 @@ export class WalletConnectQrScanComponent implements OnInit {
   }
 
   close() {
-    if (this.scanningQR) {
-      this.stopQRScan();
-    }
+    this.stopQRScan();
   }
 }

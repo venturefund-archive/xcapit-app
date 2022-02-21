@@ -1,3 +1,4 @@
+import { BalanceCacheService } from './../../shared-wallets/services/balance-cache/balance-cache.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -84,8 +85,10 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
             size="large"
             (click)="this.remove()"
             appTrackClick
+            [appLoading]="this.loading"
+            [loadingText]="'wallets.remove.loading' | translate"
           >
-            {{ 'wallets.recovery_phrase_information.button_text' | translate }}
+            {{ 'wallets.remove.button_text' | translate }}
           </ion-button>
         </div>
       </div>
@@ -94,13 +97,20 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 })
 export class RemoveWalletPage implements OnInit {
   acceptTos = false;
+  loading = false;
 
-  constructor(private navController: NavController, private storageService: StorageService) {}
+  constructor(
+    private navController: NavController,
+    private storageService: StorageService,
+    private balanceCacheService: BalanceCacheService
+  ) {}
 
   ngOnInit() {}
 
   remove() {
+    this.loading = true;
     this.storageService.removeWalletFromStorage();
+    this.balanceCacheService.removeTotal();
     this.goToSuccessPage();
   }
 
@@ -109,6 +119,7 @@ export class RemoveWalletPage implements OnInit {
   }
 
   goToSuccessPage() {
+    this.loading = false;
     this.navController.navigateForward(['wallets/remove/success']);
   }
 }

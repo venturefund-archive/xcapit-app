@@ -50,13 +50,13 @@ describe('TwoPiApi', () => {
 
   it('should return mainnet networks when environment is production', () => {
     twoPiApi.env = 'PRODUCCION';
-    const networks = twoPiApi.getNetworks();
-    expect(networks).toEqual({ networks: ['polygon'] });
+    const networks = twoPiApi.getParams();
+    expect(networks).toEqual({ networks: ['polygon'], partner: 'xcapit' });
   });
 
   it('should return testnet networks when environment is not production', () => {
     twoPiApi.env = 'PREPROD';
-    const networks = twoPiApi.getNetworks();
+    const networks = twoPiApi.getParams();
     expect(networks).toEqual({ networks: ['mumbai'] });
   });
 });

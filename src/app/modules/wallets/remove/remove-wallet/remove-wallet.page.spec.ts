@@ -9,6 +9,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { RemoveWalletPage } from './remove-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BalanceCacheService } from '../../shared-wallets/services/balance-cache/balance-cache.service';
 
 describe('RemoveWalletPage', () => {
   let component: RemoveWalletPage;
@@ -17,6 +18,7 @@ describe('RemoveWalletPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -25,12 +27,17 @@ describe('RemoveWalletPage', () => {
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         removeWalletFromStorage: Promise.resolve(),
       });
+
+      balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
+        removeTotal: Promise.resolve(),
+      });
       TestBed.configureTestingModule({
         declarations: [RemoveWalletPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: StorageService, useValue: storageServiceSpy },
+          { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -66,6 +73,7 @@ describe('RemoveWalletPage', () => {
     fixture.debugElement.query(By.css("ion-checkbox[name='checkbox-condition']")).nativeElement.click();
     fixture.debugElement.query(By.css("ion-button[name='remove_wallet']")).nativeElement.click();
     expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
+    expect(balanceCacheServiceSpy.removeTotal).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
   });
 });

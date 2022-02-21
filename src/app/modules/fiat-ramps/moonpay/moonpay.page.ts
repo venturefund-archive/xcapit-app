@@ -57,6 +57,9 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
         </div>
         <div class="mnp__disclaimer">
           <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.moonpay.disclaimer' | translate }}</ion-text>
+        </div> 
+         <div class="mnp__information">
+          <ion-text class="ux-font-text-xxs" color="uxmedium">{{ 'fiat_ramps.moonpay.information' | translate }}</ion-text>
         </div>
       </ion-card>
       <ion-button

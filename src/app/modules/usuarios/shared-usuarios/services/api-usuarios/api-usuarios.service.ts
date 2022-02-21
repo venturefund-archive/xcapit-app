@@ -38,9 +38,9 @@ export class ApiUsuariosService {
     });
   }
 
-  login(data: any): Observable<any> {
+  login(data: any, loading = false): Observable<any> {
     return this.http
-      .post(`${environment.apiUrl}/${this.entity}/login`, data)
+      .post(`${environment.apiUrl}/${this.entity}/login`, data, undefined, loading)
       .pipe(tap((response) => this.authService.handleLoginResponse(response)));
   }
 
@@ -68,7 +68,7 @@ export class ApiUsuariosService {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_user`);
   }
 
-  status(loading = true): Observable<any> {
+  status(loading = false): Observable<any> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/status`, undefined, undefined, loading);
   }
 }

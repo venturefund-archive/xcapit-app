@@ -36,7 +36,7 @@ import { TranslateService } from '@ngx-translate/core';
             {{ this.disclaimer }}
           </ion-text>
         </div>
-        <div class="wp__form__buttons">
+        <div class="wp__form__buttons ux-font-button">
           <ion-button
             color="uxsecondary"
             appTrackClick

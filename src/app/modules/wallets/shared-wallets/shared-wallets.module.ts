@@ -18,10 +18,14 @@ import { WalletPasswordSmallComponent } from './components/wallet-password-small
 import { StartInvestingComponent } from './components/start-investing/start-investing.component';
 import { WalletConnectSignRequestComponent } from './components/wallet-connect-sign-request/wallet-connect-sign-request.component';
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
-import { SuitePipe } from './pipes/suite.pipe';
+import { SuitePipe } from './pipes/suite/suite.pipe';
+import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
+import { InformativeCardComponent } from './components/informative-card/informative-card.component';
+import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
 
 @NgModule({
   declarations: [
+    NftCardSkeletonComponent,
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
@@ -40,11 +44,14 @@ import { SuitePipe } from './pipes/suite.pipe';
     StartInvestingComponent,
     WalletConnectSignRequestComponent,
     WalletConnectQrScanComponent,
+    InformativeCardComponent,
     SuitePipe,
+    FormattedNetworkPipe
   ],
   imports: [SharedModule],
   exports: [
     SharedModule,
+    NftCardSkeletonComponent,
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
@@ -63,6 +70,9 @@ import { SuitePipe } from './pipes/suite.pipe';
     StartInvestingComponent,
     WalletConnectSignRequestComponent,
     WalletConnectQrScanComponent,
+    InformativeCardComponent,
+    SuitePipe,
+    FormattedNetworkPipe
   ],
 })
 export class SharedWalletsModule {}

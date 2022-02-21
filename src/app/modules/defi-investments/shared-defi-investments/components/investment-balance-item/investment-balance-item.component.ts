@@ -19,7 +19,7 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
               this.token?.value
             }}</ion-text>
             <ion-text class="ux-font-text-lg balance">{{
-              this.balance| number: '1.2-8'
+              this.balance| number: '1.2-2'
             }}</ion-text>
           </div>
           <div class="ibi__content__group">
@@ -27,11 +27,11 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
               (this.token?.name | splitString: ' - ')[1]  
             }}</ion-text>
             <ion-text class="ux-font-text-xs converted-balance">{{
-             this.referenceBalance
+             this.referenceBalance | number: '1.2-2'
             }}{{' USD'}}</ion-text>
           </div>
           <div class="ibi__content__group">
-            <ion-badge class="ux-font-num-subtitulo ux_badge_coming ibi__content__group__badge" slot="end"
+            <ion-badge class="ux-font-num-subtitulo ux-badge-coming ibi__content__group__badge" slot="end"
               >{{ this.apy  | number: '1.2-2' }}%
               {{ 'defi_investments.shared.defi_investment_product.annual' | translate }}</ion-badge
             >

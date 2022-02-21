@@ -4,10 +4,11 @@ import linkAbi from './assets-abi/link-abi.json';
 import uniAbi from './assets-abi/uni-abi.json';
 import usdtAbi from './assets-abi/usdt-abi.json';
 import rifAbi from './assets-abi/rif-abi.json';
-import sovAbi from './assets-abi/sov-abi.json';
 import busdAbi from './assets-abi/busd-abi.json';
 import cakeAbi from './assets-abi/cake-abi.json';
 import adaAbi from './assets-abi/ada-abi.json';
+import wethAbi from './assets-abi/weth-abi.json';
+import daiAbi from './assets-abi/dai-abi.json';
 
 
 
@@ -222,19 +223,6 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'MATICUSDT',
   },
   {
-    id: 17,
-    name: 'SOV - Sovryn',
-    logoRoute: 'assets/img/coins/SOV.png',
-    last: false,
-    value: 'SOV',
-    network: 'RSK',
-    chainId: 31,
-    rpc: environment.rskApiUrl,
-    contract: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
-    abi: sovAbi,
-    decimals: 18,
-  },
-  {
     id: 18,
     name: 'BNB - Binance Coin',
     logoRoute: 'assets/img/coins/BNB.svg',
@@ -345,11 +333,28 @@ export const NONPROD_COINS: Coin[] = [
     id: 26,
     name: 'DAI - DAI',
     logoRoute: 'assets/img/coins/DAI.png',
-    last: true,
+    last: false,
     value: 'DAI',
     network: 'MATIC',
+    contract: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
     chainId: 80001,
     rpc: environment.maticApiUrl,
     decimals: 18,
+    abi: daiAbi,
+    symbol: 'DAIUSDT',
+  },
+  {
+    id: 27,
+    name: 'WETH - Wrapped Ether',
+    logoRoute: 'assets/img/coins/WETH.svg',
+    last: true,
+    value: 'WETH',
+    network: 'MATIC',
+    contract: '0x3C68CE8504087f89c640D02d133646d98e64ddd9',
+    chainId: 80001,
+    rpc: environment.maticApiUrl,
+    decimals: 18,
+    abi: wethAbi,
+    symbol: 'ETHUSDT',
   },
 ];

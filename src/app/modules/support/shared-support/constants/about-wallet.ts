@@ -87,6 +87,16 @@ export const ABOUT_WALLET = [
     {
     title: 'support.support_wallet.question18',
     answer: 'support.support_wallet.answer18',
+    last:false,
+  },
+  {
+    title: 'support.support_wallet.question19',
+    answer: 'support.support_wallet.answer19',
+    last:false,
+  },
+  {
+    title: 'support.support_wallet.question20',
+    answer: 'support.support_wallet.answer20',
     last:true,
   },
 ];

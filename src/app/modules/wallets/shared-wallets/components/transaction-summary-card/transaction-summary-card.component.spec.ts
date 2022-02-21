@@ -17,8 +17,8 @@ const summaryData: SummaryData = {
     rpc: '',
   },
   address: 'asdlkfjasd56lfjasdpodlfkj',
-  amount: 1,
-  referenceAmount: 50000,
+  amount: '1',
+  referenceAmount: '50000',
 };
 describe('TransactionSummaryCardComponent', () => {
   let component: TransactionSummaryCardComponent;

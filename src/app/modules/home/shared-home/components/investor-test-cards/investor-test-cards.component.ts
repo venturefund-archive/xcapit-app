@@ -23,7 +23,7 @@ import { NavController } from '@ionic/angular';
           {{ 'home.home_page.test_investor_cards.link1' | translate }}
           <ion-icon slot="end" color="info" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
-        <ion-badge *ngIf="!this.testAvailable" class="badge ux_badge_coming ux-font-num-subtitulo">{{
+        <ion-badge *ngIf="!this.testAvailable" class="badge ux-badge-coming ux-font-num-subtitulo">{{
           'home.home_page.test_investor_cards.badge_text' | translate
         }}</ion-badge>
       </div>
@@ -54,7 +54,7 @@ import { NavController } from '@ionic/angular';
           {{ 'home.home_page.test_investor_cards.link2' | translate }}
           <ion-icon slot="end" color="info" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
-        <ion-badge *ngIf="!this.optionsTestAvailable" class="badge ux_badge_coming ux-font-num-subtitulo" slot="end">{{
+        <ion-badge *ngIf="!this.optionsTestAvailable" class="badge ux-badge-coming ux-font-num-subtitulo" slot="end">{{
           'home.home_page.test_investor_cards.badge_text' | translate
         }}</ion-badge>
       </div>
@@ -63,7 +63,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./investor-test-cards.component.scss'],
 })
 export class InvestorTestCardsComponent implements OnInit {
-  optionsTestAvailable = true;
+  optionsTestAvailable = false;
   testAvailable = false;
   constructor(private navController: NavController) {}
   ngOnInit() {}

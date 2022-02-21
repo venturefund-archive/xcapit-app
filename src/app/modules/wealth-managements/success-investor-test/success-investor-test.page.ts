@@ -59,7 +59,7 @@ export class SuccessInvestorTestPage implements OnInit {
   }
 
   continue() {
-    this.navController.navigateForward(['']);
+    this.navController.navigateForward(['/tabs/investments/defi']);
   }
 
   close() {

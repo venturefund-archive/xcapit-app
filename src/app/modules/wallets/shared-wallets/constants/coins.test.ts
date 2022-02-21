@@ -74,18 +74,6 @@ export const TEST_RSK_COINS: Coin[] = [
     contract: '0x19F64674D8A5B4E652319F5e239eFd3bc969A1fE',
     decimals: 18,
   },
-  {
-    id: 6,
-    name: 'SOV - Sovryn',
-    logoRoute: 'assets/img/coins/SOV.png',
-    last: true,
-    value: 'SOV',
-    network: 'RSK',
-    chainId: 31,
-    rpc: 'http://testrpc.text/',
-    contract: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
-    decimals: 18,
-  },
 ];
 
 export const TEST_MATIC_COINS: Coin[] = [

@@ -10,8 +10,6 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from '../../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
-import { FakeLoadingService } from 'src/testing/fakes/loading.fake.spec';
 
 const formData = {
   valid: {
@@ -50,8 +48,6 @@ describe('WalletPasswordChangePage', () => {
   let component: WalletPasswordChangePage;
   let fixture: ComponentFixture<WalletPasswordChangePage>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
-  let fakeLoadingService: FakeLoadingService;
-  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletPasswordChangePage>;
@@ -61,9 +57,6 @@ describe('WalletPasswordChangePage', () => {
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
         changePassword: Promise.resolve(),
       });
-
-      fakeLoadingService = new FakeLoadingService();
-      loadingServiceSpy = fakeLoadingService.createSpy();
 
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
@@ -75,7 +68,6 @@ describe('WalletPasswordChangePage', () => {
           UrlSerializer,
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
-          { provide: LoadingService, useValue: loadingServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -175,10 +167,8 @@ describe('WalletPasswordChangePage', () => {
     await component.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
     expect(walletEncryptionServiceSpy.changePassword).toHaveBeenCalledTimes(1);
     expect(component.changePasswordForm.get('old_password').hasError('walletIncorrectPassword')).toBeTrue();
-    expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
   });
 
   it('should go to Error Page if something failed', async () => {
@@ -187,21 +177,8 @@ describe('WalletPasswordChangePage', () => {
     await component.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
     expect(walletEncryptionServiceSpy.changePassword).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/password-change/error']);
-    expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
-  });
-
-  it('should open modal and change password on handleSubmit', async () => {
-    component.changePasswordForm.patchValue(formData.valid);
-    await component.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
-    expect(walletEncryptionServiceSpy.changePassword).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/password-change/success']);
-    expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Submit button clicked', () => {

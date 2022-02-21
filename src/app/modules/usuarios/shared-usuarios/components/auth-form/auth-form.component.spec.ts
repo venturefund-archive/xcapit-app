@@ -98,29 +98,20 @@ describe('AuthFormComponent', () => {
       expect(component.form.valid).toBeFalsy();
     });
 
-    it('form should be invalid when manual_referral is true and referral_code is empty', async () => {
-      component.form.get('email').setValue(formData.valid.email);
-      component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('tos').setValue(formData.valid.rTOS);
-      component.form.get('manual_referral').setValue(true);
-      component.form.get('referral_code').setValue(formData.invalid.rCode);
-      expect(component.form.valid).toBeFalsy();
-    });
 
-    it('form should be valid when manual_referral is true and referral_code is valid', async () => {
+    it('form should be valid when referral_code is valid', async () => {
       component.form.get('email').setValue(formData.valid.email);
       component.form.get('password').setValue(formData.valid.pass);
       component.form.get('tos').setValue(formData.valid.rTOS);
-      component.form.get('manual_referral').setValue(true);
       component.form.get('referral_code').setValue(formData.valid.rCode);
       expect(component.form.valid).toBeTruthy();
     });
 
-    it('form should be valid when manual_referral is False', async () => {
+    it('form should be valid when referrals_code is invalid or empty', async () => {
       component.form.get('email').setValue(formData.valid.email);
       component.form.get('password').setValue(formData.valid.pass);
       component.form.get('tos').setValue(formData.valid.rTOS);
-      component.form.get('manual_referral').setValue(false);
+      component.form.get('referral_code').setValue(formData.invalid.rCode);
       expect(component.form.valid).toBeTruthy();
     });
   });
