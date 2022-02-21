@@ -189,6 +189,7 @@ export class OperationDetailPage implements OnInit {
 
   public async checkRequestInfo(request) {
     switch (request.method) {
+      case 'eth_signTransaction':
       case 'eth_sendTransaction': {
         this.isSignRequest = false;
         this.decodedData = await this.walletConnectService.getTransactionType(request);

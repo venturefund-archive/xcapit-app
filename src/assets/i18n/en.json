@@ -1932,6 +1932,23 @@
           "cancel_button": "Back",
           "accept_button": "Accept"
         },
+        "types": {
+          "swap": {
+            "swap": "Swap Tokens",
+            "amount_to_send": "Amount to send",
+            "amount_to_send_max": "Max amount to send",
+            "amount_to_receive": "Amount to receive",
+            "amount_to_receive_min": "Min amount to receive"
+          },
+          "liquidity": {
+            "add_liquidity": "Add Liquidity",
+            "remove_liquidity": "Remove Liquidity",
+            "liquidity": "Liquidity",
+            "amount_token_0": "Token 0 amount",
+            "amount_token_1": "Token 1 amount",
+            "amount_to_receive_min": "Min amount to receive"
+          }
+        },
         "card_title_sign": "Signature in the Dapp",
         "card_description_sign": "This step is to verify that you are the one operating in the Dapp.",
         "card_title_operation": "Confirm your operation",

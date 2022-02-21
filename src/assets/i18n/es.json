@@ -1925,8 +1925,8 @@
             "amount_to_receive_min": "Monto mínimo a recibir"
           },
           "liquidity": {
-            "add_liquidity": "Agregar liquidez",
-            "remove_liquidity": "Remover liquidez",
+            "add_liquidity": "Agregar Liquidez",
+            "remove_liquidity": "Remover Liquidez",
             "liquidity": "Liquidez",
             "amount_token_0": "Monto token 0",
             "amount_token_1": "Monto token 1",

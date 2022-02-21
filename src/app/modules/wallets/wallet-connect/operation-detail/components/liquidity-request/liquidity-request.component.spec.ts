@@ -117,7 +117,7 @@ describe('LiquidityRequestComponent', () => {
   it('should use value from request when parseInfo is called and decodedData hasValue is true', () => {
     walletConnectServiceSpy.providerSymbol = 'trBTC';
     component.symbols = ['trBTC', 'tRIF'];
-    const data = Object.assign(decodedData);
+    const data = { ...decodedData };
     data.hasValue = true;
     component.decodedData = data;
     fixture.detectChanges();
@@ -129,7 +129,7 @@ describe('LiquidityRequestComponent', () => {
   it('should set tokens amount inverted when symbols are inverted', () => {
     walletConnectServiceSpy.providerSymbol = 'trBTC';
     component.symbols = ['tRIF', 'trBTC'];
-    const data = Object.assign(decodedData);
+    const data = { ...decodedData };
     data.hasValue = true;
     component.decodedData = data;
     fixture.detectChanges();
@@ -155,7 +155,7 @@ describe('LiquidityRequestComponent', () => {
   });
 
   it('should set liquidity provided value when decodedData liquidity is true', () => {
-    const data = Object.assign(decodedDataNoNative);
+    const data = { ...decodedDataNoNative };
     data.liquidity = true;
     component.decodedData = data;
     fixture.detectChanges();
@@ -167,7 +167,7 @@ describe('LiquidityRequestComponent', () => {
   it('should set amount token information in the same order than symbols ["trBTC", "tRIF"]', () => {
     walletConnectServiceSpy.providerSymbol = 'trBTC';
     component.symbols = ['trBTC', 'tRIF'];
-    const data = Object.assign(decodedDataNoNative);
+    const data = { ...decodedDataNoNative };
     data.amount1 = 'amountETHMin';
     data.amount0 = 'amountTokenMin';
     component.decodedData = data;
@@ -180,7 +180,7 @@ describe('LiquidityRequestComponent', () => {
   it('should set amount token information in the same order than symbols ["tRIF", "trBTC"]', () => {
     walletConnectServiceSpy.providerSymbol = 'trBTC';
     component.symbols = ['tRIF', 'trBTC'];
-    const data = Object.assign(decodedDataNoNative);
+    const data = { ...decodedDataNoNative };
     data.amount1 = 'amountETHMin';
     data.amount0 = 'amountTokenMin';
     component.decodedData = data;

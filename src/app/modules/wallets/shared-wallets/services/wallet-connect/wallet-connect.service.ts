@@ -309,6 +309,7 @@ export class WalletConnectService {
       const gasPrice = await this.getGasPrice();
 
       switch (request.method) {
+        case 'eth_signTransaction':
         case 'eth_sendTransaction':
           addressRequested = request.params[0].from;
 

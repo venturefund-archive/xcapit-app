@@ -64,7 +64,7 @@ describe('DefaultRequestComponent', () => {
   });
 
   it('shuould set totalAmount with the request value if exists', () => {
-    const req = request;
+    const req = {...request, params: [...request.params]};
     req.params[0]['value'] = '5000000000000000000';
     component.request = req;
     fixture.detectChanges();
