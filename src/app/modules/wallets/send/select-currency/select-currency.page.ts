@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
-import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
