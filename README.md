@@ -7,6 +7,7 @@ Xcapit Smart Wallet is an Ethereum, RSK and Polygon wallet app that offers an ea
 
 ## Community
 
+- [Discord](https://discord.gg/AnGXcZ8P)
 - [Project Charter](https://xcapit-foss.gitlab.io/documentation/docs/project_charter)
 - [Code of Conduct](https://gitlab.com/xcapit-foss/app/-/blob/develop/CODE_OF_CONDUCT.md)
 
