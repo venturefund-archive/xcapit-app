@@ -187,11 +187,15 @@ describe('HomeWalletPage', () => {
   });
 
   it('should unsubscribe on did leave', () => {
-    const spyNext = spyOn(component.unsubscribe$, 'next');
     const spyComplete = spyOn(component.unsubscribe$, 'complete');
     component.ionViewDidLeave();
-    expect(spyNext).toHaveBeenCalledTimes(1);
     expect(spyComplete).toHaveBeenCalledTimes(1);
+  });
+
+  it('should re-initialize subscription if the same its stopped on init', () => {
+    component.ionViewDidLeave();
+    component.ionViewDidEnter();
+    expect(component.unsubscribe$.isStopped).toBeFalse();
   });
 
   it('should show 0.0 balance when no wallet or cache is present', async () => {
