@@ -96,7 +96,7 @@ describe('ApiUsuariosService', () => {
   });
 
   it('should call get on http when getUser', () => {
-    service.getUser().subscribe(() => {
+    service.getUser(true).subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });

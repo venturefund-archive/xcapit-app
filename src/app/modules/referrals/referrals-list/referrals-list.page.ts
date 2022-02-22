@@ -110,7 +110,7 @@ export class ReferralsListPage implements OnInit {
   }
 
   getReferralId() {
-    this.apiUsuarios.getUser().subscribe((data: any) => (this.referralId = data.referral_id));
+    this.apiUsuarios.getUser(true).subscribe((data: any) => (this.referralId = data.referral_id));
   }
 
   getUserReferrals(options: any = null, hasInfiniteScroll?: boolean) {

@@ -126,7 +126,7 @@ export class DefiInvestmentProductsPage {
   }
 
   getUser() {
-    this.apiUsuariosService.getUser().subscribe((user) => {
+    this.apiUsuariosService.getUser(false).subscribe((user) => {
       this.investorCategory = user.profile.investor_category;
     });
   }

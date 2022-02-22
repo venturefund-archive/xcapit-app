@@ -52,7 +52,7 @@ export class CreateSupportTicketPage implements OnInit {
   }
 
   getUserEmail() {
-    this.apiUsuarios.getUser().subscribe((data: any) => (this.userEmail = data.email));
+    this.apiUsuarios.getUser(true).subscribe((data: any) => (this.userEmail = data.email));
   }
 
   success() {
