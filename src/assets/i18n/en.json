@@ -1902,7 +1902,13 @@
         "card_title_disconnected": "Connect to the Dapp",
         "card_description_disconnected": "The Dapp will have access to your wallet. To make transactions, it will ask for your approval.",
         "card_title_connected": "Operates in Dapp",
-        "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them."
+        "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them.",
+        "disconnect": {
+          "header": "¿Terminate connection?",
+          "message": "If you terminate the connection, you will not be able to receive operations from the Dapp.",
+          "cancel_button": "Cancel",
+          "accept_button": "Terminate"
+        }
       },
       "operation_detail": {
         "header": "Operation detail",
@@ -1946,7 +1952,12 @@
       },
       "disclaimer_1": "WalletConnect is in a Beta stage, so there may be problems in the connection process.",
       "disclaimer_2": " If you had a problem connecting your wallet, you can contact with ",
-      "disclaimer_support": "support."
+      "disclaimer_support": "support.",
+      "dapp_disconnection": {
+        "header": "WalletConnect connection terminated",
+        "message": "The connection from the Dapp with which it was operating has been terminated.",
+        "accept_button": "Accept"
+      }
     }
   },
   "apikeys": {

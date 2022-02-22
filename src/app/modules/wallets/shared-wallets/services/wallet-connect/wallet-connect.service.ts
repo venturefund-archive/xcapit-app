@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import WalletConnect from '@walletconnect/client';
-import { convertHexToNumber } from '@walletconnect/utils';
-import { ModalController } from '@ionic/angular';
 import { WalletTransactionsService } from '../../services/wallet-transactions/wallet-transactions.service';
 import { ethers } from 'ethers';
 import erc20 from '../../constants/assets-abi/erc20-abi.json';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { NavController } from '@ionic/angular';
+import { ToastService } from '../../../../../shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -44,10 +45,12 @@ export class WalletConnectService {
   public isApproveRequest = false;
 
   constructor(
-    private modalController: ModalController,
     private walletTransactionsService: WalletTransactionsService,
     private appStorageService: AppStorageService,
-    private navController: NavController
+    private navController: NavController,
+    private toastService: ToastService,
+    private translate: TranslateService,
+    private router: Router
   ) {}
 
   async onInit() {}
@@ -177,7 +180,25 @@ export class WalletConnectService {
         throw error;
       }
 
-      await this.killSession();
+      await this.checkActiveScreen();
+    });
+  }
+
+  public async checkActiveScreen() {
+    const url = this.router.url.split('/').pop();
+    
+    if (url === 'connection-detail') {
+      this.navController.navigateBack(['wallets/wallet-connect/new-connection']);
+    }
+    
+    const dapp = this.peerMeta.name
+    await this.killSession();
+    this.showDisconnectionToast(this.translate.instant('wallets.wallet_connect.dapp_disconnection.message', {dapp}))
+  }
+
+  private showDisconnectionToast(text: string) {
+    this.toastService.showErrorToast({
+      message: this.translate.instant(text),
     });
   }
 
