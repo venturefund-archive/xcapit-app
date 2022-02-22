@@ -77,7 +77,7 @@ describe('WalletConnectService', () => {
   let alertControllerSpy: any;
   let toastServiceMock: any;
   let toastService: ToastService;
-  let router = {
+  const router = {
     url: ''
   }
 
