@@ -1,0 +1,35 @@
+:host {
+  .cs {
+    &__selector {
+      &__item {
+        margin-top: 8px;
+        border: 1px solid var(--ion-color-uxsemidark);
+        border-radius: 8px;
+
+        --background: var(--ion-background-colorwhite);
+        --inner-padding-top: 6px;
+        --inner-padding-bottom: 6px;
+        --inner-padding-start: 10px;
+        --inner-padding-end: 10px;
+
+        &__logo {
+          width: 32px;
+          height: 32px;
+        }
+
+        &__label {
+          margin-left: 8px;
+          font-family: var(--ux-font-lato);
+          font-size: 15px;
+          font-weight: var(--ux-fweight-regular);
+          line-height: 18px;
+          color: var(--ion-color-uxprimary);
+        }
+
+        &__chevron {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

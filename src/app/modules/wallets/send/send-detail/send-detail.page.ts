@@ -28,30 +28,31 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
         </ion-text>
       </div>
 
-      <div class="sd__selected-currency" *ngIf="this.currency" (click)="this.changeCurrency()">
-        <div class="sd__selected-currency__text">
-          <ion-text>{{ this.currency.name }}</ion-text>
+      <div class="sd__network-select-card ion-padding" *ngIf="this.networks">
+        <div class="sd__network-select-card__title">
+          <ion-text class="ux-font-text-lg">{{ 'wallets.send.send_detail.network_select.title' | translate }}</ion-text>
         </div>
-        <div class="sd__selected-currency__icon">
-          <img [src]="this.currency.logoRoute" alt="icon" />
+        <div class="sd__network-select-card__selected-coin">
+          <app-coin-selector
+            [selectedCoin]="this.currency"
+            (changeCurrency)="this.changeCurrency()"
+          ></app-coin-selector>
         </div>
-      </div>
-
-      <div class="sd__network-select-card" *ngIf="this.networks">
-        <app-network-select-card
-          (networkChanged)="this.selectedNetworkChanged($event)"
-          [title]="'wallets.send.send_detail.network_select.title' | translate"
-          [networks]="this.networks"
-          [disclaimer]="
-            'wallets.send.send_detail.network_select.disclaimer'
-              | translate
-                : {
-                    network: this.selectedNetwork
-                  }
-          "
-          selectorStyle="classic"
-          [selectedNetwork]="this.selectedNetwork"
-        ></app-network-select-card>
+        <div class="sd__network-select-card__networks">
+          <app-network-select-card
+            (networkChanged)="this.selectedNetworkChanged($event)"
+            [title]="'wallets.send.send_detail.network_select.network' | translate"
+            [networks]="this.networks"
+            [disclaimer]="
+              'wallets.send.send_detail.network_select.disclaimer'
+                | translate
+                  : {
+                      network: this.selectedNetwork
+                    }
+            "
+            [selectedNetwork]="this.selectedNetwork"
+          ></app-network-select-card>
+        </div>
       </div>
 
       <form [formGroup]="this.form">
@@ -123,7 +124,7 @@ export class SendDetailPage {
     private transactionDataService: TransactionDataService,
     private walletService: WalletService,
     private storageService: StorageService,
-    private apiWalletService: ApiWalletService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   ionViewWillEnter() {

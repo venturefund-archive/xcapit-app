@@ -20,6 +20,7 @@ import { WalletConnectSignRequestComponent } from './components/wallet-connect-s
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
 import { SuitePipe } from './pipes/suite.pipe';
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
+import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleto
     WalletConnectSignRequestComponent,
     WalletConnectQrScanComponent,
     SuitePipe,
+    CoinSelectorComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -66,6 +68,7 @@ import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleto
     StartInvestingComponent,
     WalletConnectSignRequestComponent,
     WalletConnectQrScanComponent,
+    CoinSelectorComponent,
   ],
 })
 export class SharedWalletsModule {}

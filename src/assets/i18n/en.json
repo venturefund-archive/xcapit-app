@@ -129,6 +129,7 @@
         "title": "Wallet Connect",
         "description": "Connect your wallet to the crypto world and stay in control with your tokens"
       }
+    }
   },
   "usuarios": {
     "email_validation": {
@@ -1719,7 +1720,8 @@
         "header": "Send",
         "title": "Transfer data",
         "network_select": {
-          "title": "Network",
+          "title": "Transfer data",
+          "network": "Network",
           "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
         },
         "continue_button": "Continue",
