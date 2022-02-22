@@ -61,7 +61,7 @@ describe('ExpandableInvestmentInfoComponent', () => {
       By.css('ion-text.eif__accordion__header__content__text__token-name')
     );
     const apyEl = fixture.debugElement.query(By.css('ion-badge.ux-font-num-subtitulo'));
-    const [tvlEl, typeEl, depositAssetEl, withdrawAssetEl, blockchainEl, providerEl] = fixture.debugElement.queryAll(
+    const [typeEl, depositAssetEl, withdrawAssetEl, blockchainEl, providerEl] = fixture.debugElement.queryAll(
       By.css(
         'ion-label.eif__accordion__content__information-item ion-text.eif__accordion__content__information-item__text'
       )
@@ -72,7 +72,7 @@ describe('ExpandableInvestmentInfoComponent', () => {
     expect(tokenSymbolEl.nativeElement.innerHTML).toEqual('USDC');
     expect(tokenNameEl.nativeElement.innerHTML).toEqual('USD Coin');
     expect(apyEl.nativeElement.innerHTML).toContain('12.66');
-    expect(tvlEl.nativeElement.innerHTML).toContain('$15,800,500.00');
+    // expect(tvlEl.nativeElement.innerHTML).toContain('$15,800,500.00');
     expect(typeEl.nativeElement.innerHTML).toContain('Vault');
     expect(depositAssetEl.nativeElement.innerHTML).toContain('USDC');
     expect(depositAssetImgEl.attributes.src).toEqual('assets/img/coins/USDC.png');

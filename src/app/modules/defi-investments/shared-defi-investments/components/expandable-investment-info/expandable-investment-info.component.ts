@@ -40,7 +40,7 @@ import { Component, Input, OnInit } from '@angular/core';
           ></ion-icon>
         </ion-item>
         <ion-list lines="none" slot="content" class="eif__accordion__content">
-          <ion-item>
+          <!-- <ion-item>
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
                 {{ 'defi_investments.shared.expandable_investment_info.TVL' | translate }}
@@ -49,7 +49,7 @@ import { Component, Input, OnInit } from '@angular/core';
                 {{ '$' }}{{ this.tvl | number: '1.2-2' }}
               </ion-text>
             </ion-label>
-          </ion-item>
+          </ion-item> -->
           <ion-item>
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
