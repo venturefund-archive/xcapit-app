@@ -1,3 +1,4 @@
+import { QueueService } from './../../../../shared/services/queue/queue.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -19,6 +20,7 @@ describe('RemoveWalletPage', () => {
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
+  let queueServiceSpy: jasmine.SpyObj<QueueService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -31,6 +33,10 @@ describe('RemoveWalletPage', () => {
       balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
         removeTotal: Promise.resolve(),
       });
+
+      queueServiceSpy = jasmine.createSpyObj('QueueService', {
+        dequeueAll: Promise.resolve(),
+      });
       TestBed.configureTestingModule({
         declarations: [RemoveWalletPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -38,6 +44,7 @@ describe('RemoveWalletPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
+          { provide: QueueService, useValue: queueServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -74,6 +81,7 @@ describe('RemoveWalletPage', () => {
     fixture.debugElement.query(By.css("ion-button[name='remove_wallet']")).nativeElement.click();
     expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
     expect(balanceCacheServiceSpy.removeTotal).toHaveBeenCalledTimes(1);
+    expect(queueServiceSpy.dequeueAll).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
   });
 });

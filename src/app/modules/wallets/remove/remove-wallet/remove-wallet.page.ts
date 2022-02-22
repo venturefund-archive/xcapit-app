@@ -1,3 +1,4 @@
+import { QueueService } from './../../../../shared/services/queue/queue.service';
 import { BalanceCacheService } from './../../shared-wallets/services/balance-cache/balance-cache.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
@@ -102,7 +103,8 @@ export class RemoveWalletPage implements OnInit {
   constructor(
     private navController: NavController,
     private storageService: StorageService,
-    private balanceCacheService: BalanceCacheService
+    private balanceCacheService: BalanceCacheService,
+    private queueService: QueueService
   ) {}
 
   ngOnInit() {}
@@ -110,6 +112,7 @@ export class RemoveWalletPage implements OnInit {
   remove() {
     this.loading = true;
     this.storageService.removeWalletFromStorage();
+    this.queueService.dequeueAll();
     this.balanceCacheService.removeTotal();
     this.goToSuccessPage();
   }
