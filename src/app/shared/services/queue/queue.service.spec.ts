@@ -36,4 +36,9 @@ describe('QueueService', () => {
     service.enqueue('testQ', of(2));
     expect(result).toEqual([1, 2]);
   });
+
+  it('should dequeue all tasks', () => {
+    service.dequeueAll();
+    expect(service.queues).toEqual({});
+  });
 });
