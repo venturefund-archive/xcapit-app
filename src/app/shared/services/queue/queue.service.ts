@@ -21,4 +21,8 @@ export class QueueService {
   results(queue: string): Observable<any> {
     return this.queues[queue].results;
   }
+
+  dequeueAll() {
+    this.queues = {};
+  }
 }
