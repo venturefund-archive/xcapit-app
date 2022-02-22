@@ -64,7 +64,7 @@ export class ApiUsuariosService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/change_password`, data);
   }
 
-  getUser(loading: boolean): Observable<any> {
+  getUser(loading = true): Observable<any> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_user`, undefined, undefined, loading);
   }
 

@@ -51,7 +51,7 @@ export class ReferralsSummaryPage implements OnInit {
   }
 
   getReferralLink() {
-    this.apiUsuariosService.getUser(true).subscribe((user: any) => {
+    this.apiUsuariosService.getUser().subscribe((user: any) => {
       this.referralLink = `${environment.appUrl}users/register/${user.referral_id}`;
     });
   }
