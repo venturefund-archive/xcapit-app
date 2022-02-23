@@ -34,10 +34,7 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
             [investmentProduct]="investment.product"
             [balance]="investment.balance"
           ></app-investment-balance-item>
-          <div
-            class="dp__weekly-profit-disclaimer"
-            *ngIf="this.activeInvestments.length"
-          >
+          <div class="dp__weekly-profit-disclaimer" *ngIf="this.activeInvestments.length">
             <ion-label class=" ux-font-text-xxs" color="uxsemidark">
               {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_active' | translate }}
             </ion-label>
@@ -168,7 +165,7 @@ export class DefiInvestmentProductsPage {
   }
 
   createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
-    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
+    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 
   filterUserInvestments(investments: DefiInvestment[]): void {
