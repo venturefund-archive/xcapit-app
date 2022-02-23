@@ -9,6 +9,8 @@ import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract
 import { BigNumber } from '@ethersproject/bignumber';
 import { Signer } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
+import { Task } from '../../../../../shared/models/task/task';
+import { Retry } from '../../../../../shared/models/retry/retry';
 
 export interface Investment {
   balance(): Promise<number>;
@@ -83,9 +85,15 @@ export class TwoPiInvestment implements Investment {
   async deposit(amount: number): Promise<TransactionResponse> {
     const gasPrice = await this._gasPrice();
     await this._approve(this._weiOf(amount), gasPrice);
-    return this._aTwoPiContract
-      .value()
-      .deposit(this._aProduct.id(), this._weiOf(amount), this._aReferralAddress, { gasPrice });
+    return new Retry(
+      new Task(() =>
+        this._aTwoPiContract
+          .value()
+          .deposit(this._aProduct.id(), this._weiOf(amount), this._aReferralAddress, { gasPrice })
+      )
+    )
+      .execute()
+      .toPromise();
   }
 
   async withdraw(): Promise<TransactionResponse> {

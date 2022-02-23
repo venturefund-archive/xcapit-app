@@ -71,6 +71,6 @@ export class ApiWalletService {
   }
 
   getGasPrice() {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/gas_price`, undefined, undefined, false)
+    return this.http.get(`${environment.apiUrl}/${this.entity}/gas_price`, undefined, undefined, false);
   }
 }
