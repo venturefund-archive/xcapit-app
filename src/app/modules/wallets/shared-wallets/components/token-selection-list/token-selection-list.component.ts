@@ -45,7 +45,7 @@ export class TokenSelectionListComponent implements OnInit {
   @Output() clickedCoin: EventEmitter<Coin> = new EventEmitter<Coin>();
 
   get networks(): string[] {
-    return this.apiWalletService.getNetworks();
+    return [...new Set(this.userCoins.map(coin => coin.network))];
   }
   constructor(private apiWalletService: ApiWalletService) {}
 

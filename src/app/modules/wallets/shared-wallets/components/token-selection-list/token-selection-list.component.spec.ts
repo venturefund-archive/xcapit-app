@@ -16,8 +16,7 @@ describe('TokenSelectionListComponent', () => {
   beforeEach(waitForAsync(() => {
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', 
       {
-        getNetworks: ['ERC20'],
-        getCoins: TEST_RSK_COINS
+        getCoins: [...TEST_ERC20_COINS, ...TEST_RSK_COINS]
       }
     );
     TestBed.configureTestingModule({
@@ -42,7 +41,7 @@ describe('TokenSelectionListComponent', () => {
   it('should get user coins if no coins where provided', () => {
     component.userCoins = undefined;
     component.ngOnInit();
-    expect(component.userCoins).toEqual(TEST_RSK_COINS);
+    expect(component.userCoins).toEqual([...TEST_ERC20_COINS, ...TEST_RSK_COINS]);
   });
 
   it('should render a list of coins', () => {
@@ -60,5 +59,11 @@ describe('TokenSelectionListComponent', () => {
       coinEl.nativeElement.click();
       expect(spy).toHaveBeenCalledWith(TEST_ERC20_COINS[i]);
     });
+  });
+
+  it('should only show networks that user has at least a coin from', () => {
+    const allSuitesEl = fixture.debugElement.queryAll(By.css('.tsl__suite-container'));
+    expect(allSuitesEl.length).toEqual(1);
+    expect(component.networks).toEqual(['ERC20']);
   });
 });
