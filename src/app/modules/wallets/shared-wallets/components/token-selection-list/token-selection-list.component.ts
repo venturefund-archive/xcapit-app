@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 
 @Component({
@@ -15,6 +16,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
           <div *ngFor="let coin of this.getCoinsFromNetwork(network); let last = last">
             <ion-item
               class="tsl__suite-container__suite__coin-container ion-no-padding ion-no-margin"
+              (click)="this.selectCurrency(coin)"
               [lines]="last ? 'none' : 'full'"
             >
               <div class="tsl__suite-container__suite__coin-container__coin">
@@ -39,14 +41,26 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
   styleUrls: ['./token-selection-list.component.scss'],
 })
 export class TokenSelectionListComponent implements OnInit {
+  @Input() userCoins: Coin[];
+  @Output() clickedCoin: EventEmitter<Coin> = new EventEmitter<Coin>();
+
   get networks(): string[] {
     return this.apiWalletService.getNetworks();
   }
   constructor(private apiWalletService: ApiWalletService) {}
 
-  getCoinsFromNetwork(network: string) {
-    return this.apiWalletService.getCoinsFromNetwork(network);
+  ngOnInit() {
+    if (!this.userCoins) {
+      this.userCoins = this.apiWalletService.getCoins();
+    }
   }
 
-  ngOnInit() {}
+  getCoinsFromNetwork(network: string) {
+    return this.userCoins.filter((coin) => coin.network === network);
+  }
+
+  selectCurrency(coin: Coin) {
+    this.clickedCoin.emit(coin);
+  }
+
 }

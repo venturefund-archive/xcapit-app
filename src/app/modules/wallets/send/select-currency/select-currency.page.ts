@@ -20,8 +20,8 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
           {{ 'wallets.send.select_currency.title' | translate }}
         </ion-label>
       </div>
-      <div class="sc__list">
-        <app-token-selection-list></app-token-selection-list>
+      <div class="sc__list" *ngIf="this.coins">
+        <app-token-selection-list [userCoins]="this.coins" (clickedCoin)="this.selectCurrency($event)"></app-token-selection-list>
       </div>
     </ion-content>
   `,
@@ -39,7 +39,7 @@ export class SelectCurrencyPage implements OnInit {
     });
   }
 
-  selectCurrency(currency) {
+  selectCurrency(currency: Coin) {
     this.navController.navigateForward(['/wallets/send/detail', currency.value]);
   }
 }
