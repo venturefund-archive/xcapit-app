@@ -1726,7 +1726,7 @@
       "select_currency": {
         "header": "Send",
         "title": "Select the currency you want to send",
-        "suite":"{{suiteName}} nWetwork"
+        "suite":"{{suiteName}} network"
       },
       "send_detail": {
         "header": "Send",
