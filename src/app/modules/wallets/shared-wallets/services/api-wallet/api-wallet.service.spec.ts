@@ -150,5 +150,11 @@ describe('ApiWalletService', () => {
     spyOn(service, 'getCoins').and.returnValue(testCoins);
     const coin = service.getNativeTokenFromNetwork('RSK');
     expect(coin.value).toEqual(testCoins[1].value);
-  })
+  });
+
+  it('should get gas price', () => {
+    service.getGasPrice().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

@@ -153,7 +153,7 @@ export class DefiInvestmentWithdrawPage implements OnInit {
   }
 
   investment(wallet: Wallet): Investment {
-    return TwoPiInvestment.create(this.investmentProduct, wallet);
+    return TwoPiInvestment.create(this.investmentProduct, wallet, this.apiWalletService);
   }
 
   async getProductBalance(investmentProduct: InvestmentProduct): Promise<void> {
@@ -165,7 +165,7 @@ export class DefiInvestmentWithdrawPage implements OnInit {
   }
 
   createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
-    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
+    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 
   async requestPassword(): Promise<any> {
