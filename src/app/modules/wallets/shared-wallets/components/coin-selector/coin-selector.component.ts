@@ -5,7 +5,7 @@ import { Coin } from '../../interfaces/coin.interface';
 @Component({
   selector: 'app-coin-selector',
   template: `
-    <div class="cs" (click)="this.emitEventChangeCurrency()">
+    <div appTrackClick name="Coin Selector Component" class="cs" (click)="this.emitEventChangeCurrency()">
       <div class="cs__label">
         <ion-label class="ux-font-titulo-xs">{{ 'wallets.receive.currency_select' | translate }}</ion-label>
       </div>
@@ -23,7 +23,7 @@ import { Coin } from '../../interfaces/coin.interface';
   styleUrls: ['./coin-selector.component.scss'],
 })
 export class CoinSelectorComponent implements OnInit {
-  @Input() selectedCoin: Coin = PROD_COINS[1];
+  @Input() selectedCoin: Coin;
   @Output() changeCurrency: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}

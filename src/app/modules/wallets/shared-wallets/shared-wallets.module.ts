@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
 import { RecoveryPhraseCardComponent } from './components/recovery-phrase-card/recovery-phrase-card.component';
 import { RecoveryWordComponent } from './components/recovery-word/recovery-word.component';
 import { WalletBalanceCardItemComponent } from './components/wallet-balance-card-item/wallet-balance-card-item.component';
@@ -20,11 +21,11 @@ import { WalletConnectSignRequestComponent } from './components/wallet-connect-s
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
 import { SuitePipe } from './pipes/suite.pipe';
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
-import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
 
 @NgModule({
   declarations: [
     NftCardSkeletonComponent,
+    CoinSelectorComponent,
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
@@ -44,11 +45,11 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
     WalletConnectSignRequestComponent,
     WalletConnectQrScanComponent,
     SuitePipe,
-    CoinSelectorComponent,
   ],
   imports: [SharedModule],
   exports: [
     SharedModule,
+    CoinSelectorComponent,
     NftCardSkeletonComponent,
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
@@ -68,7 +69,6 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
     StartInvestingComponent,
     WalletConnectSignRequestComponent,
     WalletConnectQrScanComponent,
-    CoinSelectorComponent,
   ],
 })
 export class SharedWalletsModule {}

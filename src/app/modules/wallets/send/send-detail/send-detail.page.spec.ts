@@ -211,7 +211,7 @@ describe('SendDetailPage', () => {
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('.sd__selected-currency')).nativeElement.click();
+    fixture.debugElement.query(By.css('.sd__network-select-card__selected-coin > app-coin-selector')).triggerEventHandler('changeCurrency', {});
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/send/select-currency']);
   });
 });
