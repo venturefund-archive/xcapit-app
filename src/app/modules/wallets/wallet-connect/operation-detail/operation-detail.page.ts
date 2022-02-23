@@ -19,6 +19,16 @@ import * as moment from 'moment';
     </ion-header>
 
     <ion-content class="ion-padding">
+      <app-informative-card
+        *ngIf="this.isSignRequest"
+        [title]="'wallets.wallet_connect.operation_detail.card_title_sign'"
+        [description]="'wallets.wallet_connect.operation_detail.card_description_sign'"
+      ></app-informative-card>
+      <app-informative-card
+        *ngIf="!this.isSignRequest && !this.isApproval"
+        [title]="'wallets.wallet_connect.operation_detail.card_title_operation'"
+        [description]="'wallets.wallet_connect.operation_detail.card_description_operation'"
+      ></app-informative-card>
       <div class="ux_content">
         <div class="wcod">
           <div class="wcod__logo">
@@ -322,7 +332,7 @@ export class OperationDetailPage implements OnInit {
   public async confirmOperation() {
     const modal = await this.modalController.create({
       component: WalletConnectSignRequestComponent,
-      cssClass: 'recovery-phrase-password-modal ux-routeroutlet-modal',
+      cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
       swipeToClose: false,
     });
 

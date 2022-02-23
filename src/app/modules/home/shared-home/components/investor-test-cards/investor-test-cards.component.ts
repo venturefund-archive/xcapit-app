@@ -12,11 +12,18 @@ import { NavController } from '@ionic/angular';
         <ion-text class="ux-font-titulo-xs">{{ 'home.home_page.test_investor_cards.title1' | translate }}</ion-text>
       </div>
       <div>
-        <ion-button *ngIf="this.testAvailable" appTrackClick class="link ux-link-xl" name="Manage" fill="clear" size="small">
+        <ion-button
+          *ngIf="this.testAvailable"
+          appTrackClick
+          class="link ux-link-xl"
+          name="Manage"
+          fill="clear"
+          size="small"
+        >
           {{ 'home.home_page.test_investor_cards.link1' | translate }}
           <ion-icon slot="end" color="info" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
-        <ion-badge *ngIf="!this.testAvailable" class="badge ux_badge_coming ux-font-num-subtitulo">{{
+        <ion-badge *ngIf="!this.testAvailable" class="badge ux-badge-coming ux-font-num-subtitulo">{{
           'home.home_page.test_investor_cards.badge_text' | translate
         }}</ion-badge>
       </div>
@@ -36,11 +43,18 @@ import { NavController } from '@ionic/angular';
         </div>
       </div>
       <div>
-        <ion-button *ngIf="this.optionsTestAvailable" appTrackClick class="link ux-link-xl" name="Manage" fill="clear" size="small">
+        <ion-button
+          *ngIf="this.optionsTestAvailable"
+          appTrackClick
+          class="link ux-link-xl"
+          name="Manage"
+          fill="clear"
+          size="small"
+        >
           {{ 'home.home_page.test_investor_cards.link2' | translate }}
           <ion-icon slot="end" color="info" name="ux-forward" class="ux-link-xl"></ion-icon>
         </ion-button>
-        <ion-badge *ngIf="!this.optionsTestAvailable" class="badge ux_badge_coming ux-font-num-subtitulo" slot="end">{{
+        <ion-badge *ngIf="!this.optionsTestAvailable" class="badge ux-badge-coming ux-font-num-subtitulo" slot="end">{{
           'home.home_page.test_investor_cards.badge_text' | translate
         }}</ion-badge>
       </div>
@@ -65,5 +79,4 @@ export class InvestorTestCardsComponent implements OnInit {
       this.navController.navigateForward(['']);
     }
   }
-  
 }

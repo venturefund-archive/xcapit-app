@@ -30,11 +30,6 @@ export const routes: Routes = [
         loadChildren: () => import('./fund-investment/fund-investment.module').then((m) => m.FundInvestmentPageModule),
       },
       {
-        path: 'fund-duration',
-        canActivate: [BeforeStepDataGuard],
-        loadChildren: () => import('./fund-duration/fund-duration.module').then((m) => m.FundDurationPageModule),
-      },
-      {
         path: 'fund-take-profit',
         canActivate: [BeforeStepDataGuard],
         loadChildren: () =>

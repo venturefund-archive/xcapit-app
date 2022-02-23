@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ApiWealthManagementsService } from '../shared-wealth-managements/services/api-wealth-managements/api-wealth-managements.service';
 
 import { SuccessInvestorTestPage } from './success-investor-test.page';
@@ -80,22 +80,22 @@ describe('SuccessInvestorTestPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call navigateForward in continue', () => {
+  it('should navigate to investment defi page when Continue button is clicked', () => {
     const continueButton = trackClickDirectiveHelper.getByElementByName('ion-button', 'Continue');
     continueButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments/defi']);
   });
 
-  it('should call navigateBack in close', () => {
+  it('should navigate to home page when Close button is clicked', () => {
     const closeButton = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close');
     closeButton.nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/home']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/tabs/home']);
   });
 
-  it('should call navigateBack in goToHome', () => {
+  it('should navigate to home page when Go To Home button is clicked', () => {
     const goToHomeButton = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Home');
     goToHomeButton.nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tabs/home']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/tabs/home']);
   });
 
   it('should get profile on ionViewWillEnter', () => {

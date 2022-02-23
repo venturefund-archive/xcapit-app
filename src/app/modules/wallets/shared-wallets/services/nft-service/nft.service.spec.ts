@@ -45,9 +45,12 @@ describe('NftService', () => {
   });
 
   it('should get matadata when getNFTMetadata is called', async () => {
-    const metadata = await service.getNFTMetadata();
-    expect(metadata.description).toEqual('Test');
-    expect(metadata.name).toEqual('testName');
-    expect(metadata.image).toEqual('testImage');
+    const nfts = await service.getNFTMetadata();
+    expect(nfts.length).toEqual(2);
+    nfts.forEach((data) =>{
+      expect(data.description).toEqual('Test');
+      expect(data.name).toEqual('testName');
+      expect(data.image).toEqual('testImage');
+    })
   });
 });

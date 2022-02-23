@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
 import { AcceptedToSGuard } from './shared-wallets/guards/accepted-tos/accepted-tos.guard';
 import { CreatedWalletGuard } from './shared-wallets/guards/created-wallet/created-wallet.guard';
+import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
         path: 'select-coins',
         loadChildren: () =>
           import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
+      },
+      {
+        path: 'no-wallet',
+        loadChildren: () => import('./no-wallet/no-wallet.module').then((m) => m.NoWalletPageModule),
       },
       {
         canActivate: [AcceptedToSGuard],
@@ -141,11 +146,38 @@ const routes: Routes = [
         loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
       },
       {
+        path: 'password-change',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./password/wallet-password-change/wallet-password-change.module').then(
+                (m) => m.WalletPasswordChangePageModule
+              ),
+          },
+          {
+            path: 'success',
+            loadChildren: () =>
+              import('./password/wallet-password-change-success/wallet-password-change-success.module').then(
+                (m) => m.WalletPasswordChangeSuccessPageModule
+              ),
+          },
+          {
+            path: 'error',
+            loadChildren: () =>
+              import('./password/wallet-password-change-error/wallet-password-change-error.module').then(
+                (m) => m.WalletPasswordChangeErrorPageModule
+              ),
+          },
+        ],
+      },
+      {
         path: 'nft-detail',
         loadChildren: () => import('./nft-detail/nft-detail.module').then((m) => m.NftDetailPageModule),
       },
       {
         path: 'wallet-connect',
+        canActivate: [HasWallet],
         children: [
           {
             path: 'new-connection',
@@ -164,6 +196,22 @@ const routes: Routes = [
             loadChildren: () =>
               import('./wallet-connect/operation-detail/operation-detail.module').then(
                 (m) => m.OperationDetailPageModule
+              ),
+          },
+        ],
+      },
+      {
+        path: 'remove',
+        loadChildren: () => import('./remove/remove-wallet/remove-wallet.module').then((m) => m.RemoveWalletPageModule),
+      },
+      {
+        path: 'remove',
+        children: [
+          {
+            path: 'success',
+            loadChildren: () =>
+              import('./remove/success-remove-wallet/success-remove-wallet.module').then(
+                (m) => m.SuccessRemoveWalletPageModule
               ),
           },
         ],

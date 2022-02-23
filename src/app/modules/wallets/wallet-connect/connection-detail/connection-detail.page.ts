@@ -19,6 +19,16 @@ import { TranslateService } from '@ngx-translate/core';
     </ion-header>
 
     <ion-content class="ion-padding">
+      <app-informative-card
+        *ngIf="this.connectionStatus"
+        [title]="'wallets.wallet_connect.connection_detail.card_title_connected'"
+        [description]="'wallets.wallet_connect.connection_detail.card_description_connected'"
+      ></app-informative-card>
+      <app-informative-card
+        *ngIf="!this.connectionStatus"
+        [title]="'wallets.wallet_connect.connection_detail.card_title_disconnected'"
+        [description]="'wallets.wallet_connect.connection_detail.card_description_disconnected'"
+      ></app-informative-card>
       <div class="ux_content">
         <div class="wcdc">
           <div class="wcdc__logo">
@@ -75,6 +85,23 @@ import { TranslateService } from '@ngx-translate/core';
 
         <div class="disconnect_link" *ngIf="this.connectionStatus">
           <a (click)="this.killSession()">{{ 'wallets.wallet_connect.button_disconnect' | translate }}</a>
+        </div>
+
+        <div class="disclaimer ion-margin-top">
+          <span>{{ 'wallets.wallet_connect.disclaimer_1' | translate }}</span>
+          <span>
+            {{ 'wallets.wallet_connect.disclaimer_2' | translate }}
+
+            <ion-button
+              name="Support Help"
+              class="ux-link-xs disclaimer__button"
+              (click)="this.supportHelp()"
+              appTrackClick
+              fill="clear"
+            >
+              {{ 'wallets.wallet_connect.disclaimer_support' | translate }}
+            </ion-button>
+          </span>
         </div>
       </div>
     </ion-content>
@@ -143,11 +170,16 @@ export class ConnectionDetailPage implements OnInit {
 
   public async killSession() {
     try {
-      await this.walletConnectService.killSession();
       this.connectionStatus = false;
-      this.navController.navigateRoot(['wallets/wallet-connect/new-connection']);
+      await this.walletConnectService.killSession();
     } catch (error) {
       console.log('Wallet Connect - killSession error: ', error);
+    } finally {
+      this.navController.navigateRoot(['wallets/wallet-connect/new-connection']);
     }
+  }
+
+  supportHelp() {
+    this.navController.navigateForward('/tickets/create-support-ticket');
   }
 }

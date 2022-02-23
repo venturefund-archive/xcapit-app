@@ -3,7 +3,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { ScanQrPage } from './scan-qr.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { TrackClickDirective } from '../../../shared/directives/track-click/track-click.directive';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastService } from '../../../shared/services/toast/toast.service';

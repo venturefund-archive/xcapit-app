@@ -4,7 +4,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
 @Component({
   selector: 'app-tabs',
   template: `
-    <ion-tabs #tabs (ionTabsDidChange)="this.tabChange(tabs)">
+    <ion-tabs #tabs (ionTabsDidChange)="this.tabChange()">
       <ion-tab-bar slot="bottom">
         <ion-tab-button
           tab="home"
@@ -14,6 +14,17 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
         >
           <ion-icon src="assets/img/tabs/Home.svg"></ion-icon>
           <ion-label class="label ux-font-text-xxs">{{ 'tabs.home' | translate }}</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button
+          tab="wallets"
+          appTrackClick
+          name="Tab Wallet"
+          (click)="this.goToWallet()"
+          layout="{{ this.selectedTab === 'wallets' ? 'icon-start' : 'label-hide' }}"
+        >
+          <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
+          <ion-label class="label ux-font-text-xxs">{{ 'tabs.wallet' | translate }}</ion-label>
         </ion-tab-button>
 
         <ion-tab-button
@@ -27,31 +38,20 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
           <ion-icon src="assets/img/tabs/Trending-up.svg"></ion-icon>
           <ion-label class="label ux-font-text-xxs">{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
-
-        <ion-tab-button
-          tab="wallets"
-          appTrackClick
-          name="Tab Wallet"
-          (click)="this.goToWallet()"
-          layout="{{ this.selectedTab === 'wallets' ? 'icon-start' : 'label-hide' }}"
-        >
-          <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
-          <ion-label class="label ux-font-text-xxs">{{ 'tabs.wallet' | translate }}</ion-label>
-        </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
   `,
   styleUrls: ['./tabs.component.scss'],
 })
 export class TabsComponent {
-  @ViewChild('tabs', { static: false }) tabs: IonTabs;
-  private activeTab?: HTMLElement;
+  @ViewChild('tabs', { static: true }) tabs: IonTabs;
+  activeTab?: HTMLElement;
   selectedTab: any;
   constructor(private navController: NavController) {}
 
-  tabChange(tabsRef: IonTabs) {
+  tabChange() {
     this.selectedTab = this.tabs.getSelected();
-    this.activeTab = tabsRef.outlet.activatedView.element;
+    this.activeTab = this.tabs.outlet.activatedView.element;
   }
 
   ionViewWillLeave() {

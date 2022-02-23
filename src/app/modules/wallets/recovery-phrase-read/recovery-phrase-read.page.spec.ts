@@ -6,7 +6,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
 import { ClipboardService } from '../../../shared/services/clipboard/clipboard.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../shared/services/toast/toast.service';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

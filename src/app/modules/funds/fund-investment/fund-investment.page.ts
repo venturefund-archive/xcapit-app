@@ -150,8 +150,8 @@ export class FundInvestmentPage implements OnInit {
           text: this.translate.instant('funds.fund_investment.balance_not_enough.cancel_text'),
         },
         {
-          text: this.translate.instant('funds.fund_investment.balance_not_enough.accept_text'),
-          // handler: () => this.goToBuyCripto(),
+          text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
+          handler: () => this.goToBuyCripto(),
         },
       ],
     });
@@ -195,10 +195,6 @@ export class FundInvestmentPage implements OnInit {
   }
 
   goToBuyCripto() {
-    if (this.existWallet) {
-      this.navController.navigateForward(['/fiat-ramps/moonpay']);
-    } else {
-      this.navController.navigateForward(['/fiat-ramps/no-wallet']);
-    }
+    this.navController.navigateForward(['/fiat-ramps/moonpay']);
   }
 }

@@ -4,7 +4,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { NoWalletComponent } from './no-wallet.component';
 
 const testData = {
@@ -89,6 +89,6 @@ describe('NoWalletComponent', () => {
   it('should navigate to urlLink when Go To Link is clicked', () => {
     const pageButton = fixture.debugElement.query(By.css("ion-button[name='Go To Link']"));
     pageButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlLink]);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.data.urlLink]);
   });
 });

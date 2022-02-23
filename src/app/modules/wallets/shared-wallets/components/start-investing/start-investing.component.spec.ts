@@ -4,7 +4,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { StartInvestingComponent } from './start-investing.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';

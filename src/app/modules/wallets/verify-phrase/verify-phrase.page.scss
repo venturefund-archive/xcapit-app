@@ -5,9 +5,7 @@
 
   .create_button {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-bottom: 40px;
+    justify-content: center;
   }
 
   ion-card {
@@ -26,6 +24,7 @@
     ion-icon {
       color: var(--ion-color-uxlight);
     }
+
     .hidden-input {
       height: 35px;
     }

@@ -40,4 +40,9 @@ describe('CacheService', () => {
     expect(storageSpy.remove).not.toHaveBeenCalled();
     expect(getResponse).toEqual({ balance: 1.23456, expiration_date: 99999999999999999 });
   });
+
+  it('should call storage service remove on remove', async () => {
+    await service.remove('ERC20_ETH');
+    expect(storageSpy.remove).toHaveBeenCalledOnceWith('_cache_ERC20_ETH');
+  });
 });

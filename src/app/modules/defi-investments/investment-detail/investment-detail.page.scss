@@ -1,0 +1,53 @@
+:host {
+  .id {
+    &__card {
+      margin-bottom: 0;
+    }
+
+    .invested-balance {
+      margin-top: 0;
+      margin-bottom: 16px;
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+
+        &__label {
+          margin-bottom: 4px;
+        }
+
+        &__balance {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          &__text {
+            color: var(--ion-color-uxdark);
+          }
+        }
+      }
+    }
+
+    &__weekly-profit-disclaimer {
+      margin-top: 8px;
+    }
+
+    &__add-amount {
+      margin-top: 24px;
+      margin-bottom: 0;
+    }
+
+    &__finish-btn {
+      margin-top: 20.5px;
+    }
+  }
+
+  .link {
+    text-decoration: none;
+    font-weight: var(--ux-fweight-semibold);
+  }
+
+  ion-item::part(native) {
+    padding-left: 16px;
+  }
+}

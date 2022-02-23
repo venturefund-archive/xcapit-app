@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-wallet-password',
   template: `
-    <div class="wp ion-padding">
+    <div class="wp">
       <div class="wp__header">
         <ion-text class="ux-font-text-lg wp__header__text" color="uxdark">
           {{ this.title }}
@@ -22,6 +22,11 @@ import { TranslateService } from '@ngx-translate/core';
           <ion-icon name="close-outline"></ion-icon>
         </ion-button>
       </div>
+      <div class="wp__description">
+        <ion-text class="ux-font-text-base">
+          {{ this.description }}
+        </ion-text>
+      </div>
       <form class="wp__form" [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <div class="wp__form__input">
           <app-ux-input [label]="this.inputLabel" type="password" controlName="password"></app-ux-input>
@@ -31,7 +36,7 @@ import { TranslateService } from '@ngx-translate/core';
             {{ this.disclaimer }}
           </ion-text>
         </div>
-        <div class="wp__form__buttons">
+        <div class="wp__form__buttons ux-font-button">
           <ion-button
             color="uxsecondary"
             appTrackClick
@@ -47,10 +52,11 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./wallet-password.component.scss'],
 })
 export class WalletPasswordComponent implements OnInit {
-  title: string = this.translate.instant('wallets.shared_wallets.wallet_password.title');
-  disclaimer: string = this.translate.instant('wallets.shared_wallets.wallet_password.disclaimer');
-  submitButtonText: string = this.translate.instant('wallets.shared_wallets.wallet_password.submit_button_text');
-  inputLabel: string = this.translate.instant('wallets.shared_wallets.wallet_password.input_label');
+  title = this.translate.instant('wallets.shared_wallets.wallet_password.title');
+  disclaimer = this.translate.instant('wallets.shared_wallets.wallet_password.disclaimer');
+  submitButtonText = this.translate.instant('wallets.shared_wallets.wallet_password.submit_button_text');
+  inputLabel = this.translate.instant('wallets.shared_wallets.wallet_password.input_label');
+  description = '';
 
   form: FormGroup = this.formBuilder.group({
     password: ['', [Validators.required]],

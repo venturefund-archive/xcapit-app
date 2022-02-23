@@ -3,7 +3,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { ReferralPromotionCardComponent } from './referral-promotion-card.component';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
@@ -35,8 +35,9 @@ describe('ReferralPromotionCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to referrals page on button click', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Go To Referrals"]')).nativeElement.click();
+
+  it('should navigate to referrals page on card click', () => {
+    fixture.debugElement.query(By.css('div[name="Go To Referrals"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/referrals/summary');
   });
 

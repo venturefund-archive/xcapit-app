@@ -12,7 +12,7 @@ import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { TrackService } from '../../../shared/services/track/track.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
@@ -166,7 +166,6 @@ describe('RegisterPage', () => {
       };
       component.ionViewWillEnter();
       expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
-      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual('test@test.com');
     });
 
@@ -179,7 +178,6 @@ describe('RegisterPage', () => {
       };
       component.ionViewWillEnter();
       expect(component.registerForm.form.get('referral_code').value).toEqual('asfd12');
-      expect(component.registerForm.form.get('manual_referral').value).toBeTruthy();
       expect(component.registerForm.form.get('email').value).toEqual('');
     });
   });

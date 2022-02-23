@@ -1,0 +1,49 @@
+:host {
+  .srw {
+    &__button_content {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &__close_button {
+      position: absolute;
+      top: 16px;
+      right: 3px;
+
+      &__icon {
+        width: 23px;
+        height: 23px;
+      }
+    }
+
+    &__img_container {
+      margin-top: 170px;
+      display: flex;
+      justify-content: center;
+
+      &__img {
+        width: 58%;
+        max-width: 250px;
+      }
+    }
+
+    &__content {
+      text-align: center;
+
+      .title {
+        margin-top: 80px;
+        margin-bottom: 16px;
+      }
+
+      .ux_button {
+        margin-top: 24px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .ux-link-xl {
+    text-decoration: none;
+  }
+}

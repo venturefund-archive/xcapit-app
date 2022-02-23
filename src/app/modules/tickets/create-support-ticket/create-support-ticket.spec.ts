@@ -12,7 +12,7 @@ import { ApiTicketsService } from '../shared-tickets/services/api-tickets.servic
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { CreateSupportTicketPage } from './create-support-ticket.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 
 const formData = {
   valid: {

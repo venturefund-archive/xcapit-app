@@ -7,12 +7,11 @@ export const SELECT_COINS_FORM_DATA = {
       USDT: false,
     },
     MATIC: {
-      MATIC: false,
+      MATIC: true,
     },
     RSK: {
       RBTC: false,
       RIF: false,
-      SOV: false,
     },
     BSC_BEP20: {
       BNB: false,
@@ -31,12 +30,29 @@ export const SELECT_COINS_FORM_DATA = {
     RSK: {
       RBTC: false,
       RIF: false,
-      SOV: false,
     },
     BSC_BEP20: {
       BNB: false,
     },
   },
+  allTrue: {
+    ERC20: {
+      ETH: true,
+      UNI: true,
+      USDT: true,
+      LINK: true,
+    },
+    MATIC: {
+      MATIC: true,
+    },
+    RSK: {
+      RBTC: true,
+      RIF: true,
+    },
+    BSC_BEP20: {
+      BNB: true,
+    },
+  },  
   editTokensOriginal: {
     ERC20: {
       ETH: true,
@@ -45,15 +61,14 @@ export const SELECT_COINS_FORM_DATA = {
       LINK: false,
     },
     MATIC: {
-      MATIC: true,
+      MATIC: false,
     },
     RSK: {
       RBTC: true,
       RIF: true,
-      SOV: false,
     },
     BSC_BEP20: {
-      BNB: false,
+      BNB: true,
     },
   },
 };

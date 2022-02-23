@@ -5,18 +5,18 @@ import { NavController } from '@ionic/angular';
   selector: 'app-success-content',
   template: `
     <div class="main">
-      <div class="main__close_button">
+      <div class="main__close-button">
         <ion-button fill="clear" appTrackClick name="Close Success" (click)="this.close()">
           <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
         </ion-button>
       </div>
-      <div class="main__ux_success_image">
-        <app-ux-center-img [imageName]="this.imageName" [imageAlt]="this.imageAlt"></app-ux-center-img>
+      <div class="main__ux-success-image">
+        <app-ux-center-img [imagePath]="this.data.image" [imageAlt]="this.imageAlt"></app-ux-center-img>
       </div>
-      <div class="main__primary_text">
+      <div class="main__primary-text">
         <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
       </div>
-      <div class="main__secondary_text">
+      <div class="main__secondary-text">
         <ion-text class="ux-font-text-xs" color="uxsemidark">{{ this.data?.textSecondary | translate }}</ion-text>
       </div>
       <div class="main__actions">
@@ -57,6 +57,9 @@ import { NavController } from '@ionic/angular';
           </ion-button>
         </div>
       </div>
+      <div class="main__disclaimer" *ngIf="this.data.disclaimer">
+        <ion-text class="ux-font-text-xs">{{ this.data.disclaimer | translate }}</ion-text>
+      </div>
     </div>
   `,
   styleUrls: ['./success-content.component.scss'],
@@ -64,7 +67,6 @@ import { NavController } from '@ionic/angular';
 export class SuccessContentComponent implements OnInit {
   @Input() data: any;
   @Input() unauth: any = false;
-  @Input() imageName = 'ux-success.svg';
   @Input() imageAlt = 'Success Image';
   @Output() primaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() secondaryActionEvent: EventEmitter<void> = new EventEmitter<void>();

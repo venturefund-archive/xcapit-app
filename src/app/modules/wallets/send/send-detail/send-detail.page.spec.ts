@@ -4,7 +4,7 @@ import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { TrackClickDirectiveTestHelper } from '../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -88,6 +88,8 @@ describe('SendDetailPage', () => {
     };
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: coins,
+      getCoin: JSON.parse(JSON.stringify(coins[2])),
+      getNativeTokenFromNetwork: JSON.parse(JSON.stringify(coins[1])),
     });
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
@@ -111,7 +113,6 @@ describe('SendDetailPage', () => {
 
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
-    component.coins = coins;
     component.balanceNativeToken = 1;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
@@ -125,11 +126,11 @@ describe('SendDetailPage', () => {
     component.ionViewWillEnter();
     tick();
     fixture.detectChanges();
-    expect(component.networks).toEqual([coins[0].network]);
-    expect(component.selectedNetwork).toEqual(coins[0].network);
-    expect(component.nativeToken).toEqual(coins[0]);
+    expect(component.networks).toEqual([coins[2].network]);
+    expect(component.selectedNetwork).toEqual(coins[2].network);
+    expect(component.nativeToken).toEqual(coins[1]);
     expect(component.balanceNativeToken).toEqual(10);
-    expect(component.currency).toEqual(coins[0]);
+    expect(component.currency).toEqual(coins[2]);
   }));
 
   it('should change selected network on event emited', () => {

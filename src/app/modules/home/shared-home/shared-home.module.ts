@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { HomeSubheaderComponent } from './components/home-subheader/home-subheader.component';
 import { BuyCryptoCardComponent } from './components/buy-crypto-card/buy-crypto-card.component';
+import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
 
 @NgModule({
-  declarations: [HomeSubheaderComponent, BuyCryptoCardComponent],
+  declarations: [BuyCryptoCardComponent, InformativeModalComponent],
   imports: [SharedModule],
-  exports: [SharedModule, HomeSubheaderComponent, BuyCryptoCardComponent],
+  exports: [SharedModule, BuyCryptoCardComponent, InformativeModalComponent],
 })
 export class SharedHomeModule {}

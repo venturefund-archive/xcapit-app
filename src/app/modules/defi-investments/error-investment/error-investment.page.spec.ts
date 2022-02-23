@@ -4,7 +4,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ErrorInvestmentPage } from './error-investment.page';
 
 describe('ErrorInvestmentPage', () => {
@@ -64,6 +64,6 @@ describe('ErrorInvestmentPage', () => {
   it('should navigate to urlPage when Try Again is clicked', () => {
     const pageButton = fixture.debugElement.query(By.css("ion-button[name='Try Again']"));
     pageButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['tabs/investments/defi']);
   });
 });

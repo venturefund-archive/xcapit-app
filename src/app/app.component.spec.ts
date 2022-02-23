@@ -1,66 +1,72 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
 import { NavController, Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
 import { TrackService } from './shared/services/track/track.service';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { UpdateService } from './shared/services/update/update.service';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { FakeNavController } from '../testing/fakes/nav-controller.fake.spec';
+import { PlatformService } from './shared/services/platform/platform.service';
+import { of } from 'rxjs';
+import { UpdateNewsService } from './shared/services/update-news/update-news.service';
 
 describe('AppComponent', () => {
-  let statusBarSpy: any;
-  let splashScreenSpy: any;
-  let platformSpy: any;
+  let platformSpy: jasmine.SpyObj<Platform>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let languageServiceSpy: any;
-  let loadingServiceSpy: any;
-  let authServiceSpy: any;
-  let trackServiceSpy: any;
-  let updateServiceSpy: any;
-  let submitButtonServiceSpy: any;
+  let languageServiceSpy: jasmine.SpyObj<LanguageService>;
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let updateServiceSpy: jasmine.SpyObj<UpdateService>;
+  let submitButtonServiceSpy: jasmine.SpyObj<SubmitButtonService>;
   let fakeNavController: FakeNavController;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let statusBarSpy: jasmine.SpyObj<any>;
+  let translateSpy: jasmine.SpyObj<TranslateService>;
+  let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web' });
       submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
       trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
       updateServiceSpy = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
-      statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
-      splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
       loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
       platformSpy = jasmine.createSpyObj('Platform', { ready: Promise.resolve() });
       languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
       authServiceSpy = jasmine.createSpyObj('AuthService', { logout: Promise.resolve() });
+      statusBarSpy = jasmine.createSpyObj('StatusBar', { setBackgroundColor: Promise.resolve() });
+      translateSpy = jasmine.createSpyObj('TranslateService', {}, { onLangChange: of({}) });
+      updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
 
       TestBed.configureTestingModule({
-        declarations: [AppComponent, DummyComponent],
+        declarations: [AppComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           { provide: TrackService, useValue: trackServiceSpy },
-          { provide: StatusBar, useValue: statusBarSpy },
-          { provide: SplashScreen, useValue: splashScreenSpy },
           { provide: Platform, useValue: platformSpy },
+          { provide: PlatformService, useValue: platformServiceSpy },
           { provide: LanguageService, useValue: languageServiceSpy },
           { provide: LoadingService, useValue: loadingServiceSpy },
           { provide: AuthService, useValue: authServiceSpy },
           { provide: UpdateService, useValue: updateServiceSpy },
           { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: TranslateService, useValue: translateSpy },
+          { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         ],
         imports: [TranslateModule.forRoot()],
       }).compileComponents();
       fixture = TestBed.createComponent(AppComponent);
       component = fixture.componentInstance;
+      component.statusBar = statusBarSpy;
     })
   );
 
@@ -78,8 +84,15 @@ describe('AppComponent', () => {
     expect(trackServiceSpy.startTracker).toHaveBeenCalledTimes(1);
     expect(platformSpy.ready).toHaveBeenCalledTimes(1);
     expect(languageServiceSpy.setInitialAppLanguage).toHaveBeenCalledTimes(1);
-    expect(statusBarSpy.styleDefault).toHaveBeenCalledTimes(1);
-    expect(splashScreenSpy.hide).toHaveBeenCalledTimes(1);
+    expect(statusBarSpy.setBackgroundColor).not.toHaveBeenCalled();
+    expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call set background if android platform', async () => {
+    platformServiceSpy.platform.and.returnValue('android');
+    component.ngOnInit();
+    await fixture.whenStable();
+    expect(statusBarSpy.setBackgroundColor).toHaveBeenCalledOnceWith({ color: '#1c2d5e' });
   });
 
   it('should logout', async () => {

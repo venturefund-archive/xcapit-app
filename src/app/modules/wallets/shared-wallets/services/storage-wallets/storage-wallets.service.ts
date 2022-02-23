@@ -45,6 +45,10 @@ export class StorageService {
     return await this.appStorageService.set('enc_wallet', wallet);
   }
 
+  async removeWalletFromStorage(){
+    return await this.appStorageService.remove('enc_wallet');
+  }
+
   async getWalletsAddresses(network: string = null) {
     const wallets = await this.getWalletFromStorage();
 
