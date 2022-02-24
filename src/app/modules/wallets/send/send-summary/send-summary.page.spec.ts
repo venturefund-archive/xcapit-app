@@ -184,7 +184,7 @@ describe('SendSummaryPage', () => {
     expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
@@ -204,7 +204,7 @@ describe('SendSummaryPage', () => {
     expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/incorrect-password']);
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
@@ -218,7 +218,7 @@ describe('SendSummaryPage', () => {
     expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
   });
 
@@ -226,7 +226,7 @@ describe('SendSummaryPage', () => {
     component.summaryData = summaryData;
     component.handleSubmit();
     tick(50);
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(2);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
   }));
 

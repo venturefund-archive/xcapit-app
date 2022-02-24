@@ -1754,6 +1754,7 @@
         "amounts_title": "Monto a enviar",
         "send_button": "Enviar",
         "wrong_password": "Password incorrecto",
+        "loader": "Enviando",
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
