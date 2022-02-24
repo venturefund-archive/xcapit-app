@@ -1540,6 +1540,10 @@
     }
   },
   "wallets": {
+    "receive_select_currency": {
+      "header": "Recibir",
+      "title": "Selecciona la moneda que quieres recibir"
+    },
     "remove_success": {
       "title": "Tu wallet fue eliminada",
       "subtitle": "Puedes crear nuevamente una wallet o importar una existente cuando lo desees.",

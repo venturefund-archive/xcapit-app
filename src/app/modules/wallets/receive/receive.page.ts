@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QRCodeService } from '../../../shared/services/qr-code/qr-code.service';
 import { ShareService } from '../../../shared/services/share/share.service';
 import { ClipboardService } from '../../../shared/services/clipboard/clipboard.service';
@@ -8,9 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { ActivatedRoute } from '@angular/router';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-receive',
   template: `
@@ -26,22 +25,11 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
       <div class="wr__title">
         <ion-text class="ux-font-text-lg">{{ 'wallets.receive.title' | translate }}</ion-text>
       </div>
-      <div class="wr__currency-select">
-        <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-12">{{
-          'wallets.receive.currency_select' | translate
-        }}</ion-text>
-        <form [formGroup]="this.form">
-          <app-input-select
-            [modalTitle]="'wallets.receive.currency_select_modal_title' | translate"
-            [placeholder]="'wallets.receive.currency_select_modal_title' | translate"
-            controlName="currency"
-            [data]="this.currencies"
-            key="name"
-            valueKey="value"
-            imageKey="logoRoute"
-            selectorStyle="white"
-          ></app-input-select>
-        </form>
+      <div class="wr__currency-select" *ngIf="this.currency">
+        <app-coin-selector
+            [selectedCoin]="this.currency"
+            (changeCurrency)="this.changeCurrency()"
+          ></app-coin-selector>
       </div>
       <div class="wr__network-select-card" *ngIf="this.networks">
         <app-network-select-card
@@ -85,17 +73,17 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
           >{{ 'wallets.receive.share' | translate }} <ion-icon name="ux-share" style="margin-left: 8px;"></ion-icon
         ></ion-button>
       </div>
-      <div class="wr__disclaimer">
+      <div class="wr__disclaimer" *ngIf="this.currency">
         <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
           {{
             'wallets.receive.disclaimer_header'
-              | translate: { currency: this.form.value.currency.value, network: this.selectedNetwork }
+              | translate: { currency: this.currency.value, network: this.selectedNetwork }
           }}
         </ion-text>
         <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
           {{
             'wallets.receive.disclaimer_body'
-              | translate: { currency: this.form.value.currency.value, network: this.selectedNetwork }
+              | translate: { currency: this.currency.value, network: this.selectedNetwork }
           }}
         </ion-text>
       </div>
@@ -104,19 +92,14 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
   styleUrls: ['./receive.page.scss'],
 })
 export class ReceivePage {
-  form: FormGroup = this.formBuilder.group({
-    currency: ['', Validators.required],
-  });
+  currency: Coin;
   selectedNetwork: string;
   networks: string[];
   isNativePlatform: boolean;
-  currencies: Coin[];
   address: string;
   addressQr: string;
-  coins: Coin[];
-  queryParamAsset: string;
+
   constructor(
-    private formBuilder: FormBuilder,
     private qrCodeService: QRCodeService,
     private clipboardService: ClipboardService,
     private shareService: ShareService,
@@ -125,44 +108,43 @@ export class ReceivePage {
     private walletEncryptionService: WalletEncryptionService,
     private route: ActivatedRoute,
     private platformService: PlatformService,
-    private storageService: StorageService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private navController: NavController
   ) {}
 
   ionViewWillEnter() {
-    this.coins = this.apiWalletService.getCoins();
-    this.queryParamAsset = this.route.snapshot.queryParamMap.get('asset');
     this.checkPlatform();
-    this.subscribeToFormChanges();
-    this.getUserAssets();
+    this.getSelectedCoinAndNetworks();
+    this.getAddress();
+  }
+
+  private getSelectedCoinAndNetworks() {
+    const coin = this.route.snapshot.queryParamMap.get('asset');
+    const network = this.route.snapshot.queryParamMap.get('network');
+    
+    this.currency = this.apiWalletService.getCoin(coin, network);
+    this.networks = this.apiWalletService.getNetworks(coin);
+    this.selectedNetwork = network;
+  }
+
+  changeCurrency() {
+    this.navController.navigateForward(['/wallets/receive/select-currency']);
   }
 
   checkPlatform() {
     this.isNativePlatform = this.platformService.isNative();
   }
 
-  subscribeToFormChanges() {
-    this.form.get('currency').valueChanges.subscribe((value) => {
-      this.setCurrencyNetworks(value);
-      this.getAddress(value);
-    });
-  }
-
-  getAddress(currency: Coin) {
+  getAddress() {
     this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      const network = this.coins.find((coin) => coin.value === currency.value).network;
-      this.address = wallet.addresses[network];
+      this.address = wallet.addresses[this.selectedNetwork];
       this.generateAddressQR();
     });
   }
 
-  private setCurrencyNetworks(value) {
-    this.networks = [value.network];
-    this.selectedNetworkChanged(this.networks[0]);
-  }
-
   selectedNetworkChanged(network) {
     this.selectedNetwork = network;
+    this.getAddress();
   }
 
   async copyAddress() {
@@ -194,16 +176,5 @@ export class ReceivePage {
 
   generateAddressQR() {
     this.qrCodeService.generateQRFromText(this.address).then((qr) => (this.addressQr = qr));
-  }
-
-  getUserAssets() {
-    this.storageService.getAssestsSelected().then((coins) => {
-      this.currencies = coins;
-      if (this.queryParamAsset) {
-        this.form.patchValue({ currency: this.currencies.find((coin) => coin.value === this.queryParamAsset) });
-      } else {
-        this.form.patchValue({ currency: this.currencies[0] });
-      }
-    });
   }
 }

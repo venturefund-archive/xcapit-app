@@ -1547,6 +1547,10 @@
     }
   },
   "wallets": {
+    "receive_select_currency": {
+      "header": "Receive",
+      "title": "Select the currency you want to send"
+    },
     "remove_success": {
       "title": "Your wallet was removed",
       "subtitle": "You can create a new wallet or import an existing one whenever you wish.",

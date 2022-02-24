@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { IonicModule, NavController } from '@ionic/angular';
 import { ReceivePage } from './receive.page';
 import { QRCodeService } from '../../../shared/services/qr-code/qr-code.service';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -17,7 +16,8 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 const testCurrencies: Coin[] = [
   {
@@ -58,12 +58,17 @@ describe('ReceivePage', () => {
   let toastService: ToastService;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReceivePage>;
   let activatedRouteMock: any;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
 
   beforeEach(
     waitForAsync(() => {
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssestsSelected: Promise.resolve(testCurrencies),
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getCoin: testCurrencies[0],
+        getNetworks: ['ERC20', 'RSK']
       });
       qrCodeServiceMock = {
         generateQRFromText: () => Promise.resolve('test_qr'),
@@ -78,20 +83,22 @@ describe('ReceivePage', () => {
         showInfoToast: () => Promise.resolve(),
       };
       walletEncryptionServiceMock = {
-        getEncryptedWallet: () => Promise.resolve({ addresses: { ERC20: 'test_address' } }),
+        getEncryptedWallet: () => Promise.resolve({ addresses: { ERC20: 'test_address', RSK: 'other_address' } }),
       };
       platformServiceSpy = jasmine.createSpyObj('PlatformService', {
         isNative: true,
       });
       activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['get']);
       activatedRouteMock.snapshot = {
-        queryParamMap: convertToParamMap({}),
+        queryParamMap: convertToParamMap({
+          asset: 'ETH',
+          network: 'ERC20'
+        }),
       };
       TestBed.configureTestingModule({
         declarations: [ReceivePage, FakeTrackClickDirective],
         imports: [
           IonicModule,
-          ReactiveFormsModule,
           HttpClientTestingModule,
           RouterTestingModule,
           TranslateModule.forRoot(),
@@ -104,7 +111,8 @@ describe('ReceivePage', () => {
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
           { provide: PlatformService, useValue: platformServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteMock },
-          { provide: StorageService, useValue: storageServiceSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -112,7 +120,6 @@ describe('ReceivePage', () => {
       fixture = TestBed.createComponent(ReceivePage);
       component = fixture.componentInstance;
       component.address = 'test_address';
-      component.currencies = testCurrencies;
       fixture.detectChanges();
       qrCodeService = TestBed.inject(QRCodeService);
       clipboardService = TestBed.inject(ClipboardService);
@@ -197,24 +204,36 @@ describe('ReceivePage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should retrieve user assets on ionViewWillEnter when route parameter is empty', async () => {
-    component.ionViewWillEnter();
-    await fixture.whenStable();
-    expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
-    expect(component.form.value.currency).toEqual(testCurrencies[0]);
-  });
-
-  it('should retrieve user selected asset on ionViewWillEnter when route parameter is not empty', async () => {
-    activatedRouteMock.snapshot = {
-      queryParamMap: convertToParamMap({
-        asset: 'USDT',
-      }),
-    };
+  it('should retrieve user selected asset and networks on ionViewWillEnter', async () => {
     fixture.detectChanges();
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
-    expect(component.form.value.currency).toEqual(testCurrencies[1]);
+    expect(component.currency).toEqual(testCurrencies[0]);
+    expect(component.networks).toEqual(['ERC20', 'RSK']);
+    expect(component.selectedNetwork).toEqual('ERC20');
+  });
+
+  it('should change network when network is changed', async () => {
+    component.currency = testCurrencies[0];
+    component.address = 'test_address';
+    component.selectedNetwork = 'ERC20';
+    component.networks = ['ERC20', 'RSK'];
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-network-select-card')).triggerEventHandler('networkChanged', 'RSK');
+    await fixture.whenStable();
+    expect(component.selectedNetwork).toEqual('RSK');
+    expect(component.address).toEqual('other_address');
+  });
+
+  it('should redirect to coin selection when coin is clicked', async() => {
+    component.currency = testCurrencies[0];
+    component.address = 'test_address';
+    component.selectedNetwork = 'ERC20';
+    component.networks = ['ERC20', 'RSK'];
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-coin-selector')).triggerEventHandler('changeCurrency', undefined);
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/receive/select-currency']);
   });
 });
