@@ -37,12 +37,12 @@ import { TranslateService } from '@ngx-translate/core';
 export class UpdateNewsComponent implements OnInit {
   image = 'assets/img/update-news/news.svg';
   items: News[] = [
-    {
-      badge: this.translate.instant('shared.update_news.first.badge'),
-      title: this.translate.instant('shared.update_news.first.title'),
-      description: this.translate.instant('shared.update_news.first.description'),
-      url: '/fiat-ramps/moonpay',
-    },
+    // {
+    //   badge: this.translate.instant('shared.update_news.first.badge'),
+    //   title: this.translate.instant('shared.update_news.first.title'),
+    //   description: this.translate.instant('shared.update_news.first.description'),
+    //   url: '/fiat-ramps/moonpay',
+    // },
     {
       badge: this.translate.instant('shared.update_news.second.badge'),
       title: this.translate.instant('shared.update_news.second.title'),
