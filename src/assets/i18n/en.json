@@ -1954,9 +1954,7 @@
       "disclaimer_2": " If you had a problem connecting your wallet, you can contact with ",
       "disclaimer_support": "support.",
       "dapp_disconnection": {
-        "header": "WalletConnect connection terminated",
-        "message": "The connection from the Dapp with which it was operating has been terminated.",
-        "accept_button": "Accept"
+        "message": "The connection to {{dapp}} was lost. This can happen if you disconnect manually or if the connection is unstable."
       }
     }
   },
