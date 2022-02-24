@@ -23,6 +23,7 @@ import { SuitePipe } from './pipes/suite/suite.pipe';
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
 import { InformativeCardComponent } from './components/informative-card/informative-card.component';
 import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
+import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     WalletConnectQrScanComponent,
     InformativeCardComponent,
     SuitePipe,
-    FormattedNetworkPipe
+    FormattedNetworkPipe,
+    TokenSelectionListComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -75,7 +77,8 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     WalletConnectQrScanComponent,
     InformativeCardComponent,
     SuitePipe,
-    FormattedNetworkPipe
+    FormattedNetworkPipe,
+    TokenSelectionListComponent
   ],
 })
 export class SharedWalletsModule {}

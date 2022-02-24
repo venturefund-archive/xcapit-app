@@ -2,13 +2,14 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { SelectCurrencyPage } from './select-currency.page';
-import { UxListCardComponent } from '../../../../shared/components/ux-list-card/ux-list-card.component';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { TokenSelectionListComponent } from '../../shared-wallets/components/token-selection-list/token-selection-list.component';
+import { SuitePipe } from '../../shared-wallets/pipes/suite/suite.pipe';
 
 const coins: Coin[] = [
   {
@@ -56,7 +57,7 @@ describe('SelectCurrencyPage', () => {
       getAssestsSelected: Promise.resolve(coins),
     });
     TestBed.configureTestingModule({
-      declarations: [SelectCurrencyPage, FakeTrackClickDirective, UxListCardComponent],
+      declarations: [SelectCurrencyPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
       imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
@@ -84,14 +85,15 @@ describe('SelectCurrencyPage', () => {
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    const list = fixture.debugElement.query(By.css('app-ux-list-card'));
-    expect(list.nativeElement.innerText).toContain('BTC - Bitcoin');
-    expect(list.nativeElement.innerText).toContain('USDT - Tether');
+    const list = fixture.debugElement.query(By.css('app-token-selection-list'));
+    expect(list).toBeTruthy();
   });
 
-  it('should navigate when itemClicked event fired', () => {
+  it('should navigate when itemClicked event fired', async () => {
     component.ionViewWillEnter();
-    fixture.debugElement.query(By.css('app-ux-list-card')).triggerEventHandler('itemClicked', coinClicked);
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/detail', 'BTC']);
   });
 });
