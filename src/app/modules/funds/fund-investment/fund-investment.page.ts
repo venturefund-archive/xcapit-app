@@ -144,15 +144,15 @@ export class FundInvestmentPage implements OnInit {
   async showNotEnoughBalanceAlert(minBalance: number) {
     const alert = await this.alertController.create({
       header: this.translate.instant('funds.fund_investment.balance_not_enough.title', { minBalance }),
-      message: this.translate.instant('funds.fund_investment.balance_not_enough.message'),
+      // message: this.translate.instant('funds.fund_investment.balance_not_enough.message'),
       buttons: [
         {
-          text: this.translate.instant('funds.fund_investment.balance_not_enough.cancel_text'),
+          text: this.translate.instant('funds.fund_investment.balance_not_enough.accept_text'),
         },
-        {
-          text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
-          handler: () => this.goToBuyCripto(),
-        },
+        // {
+        //   text: this.translate.instant('funds.fund_investment.balance_not_enough.ok_text'),
+        //   handler: () => this.goToBuyCripto(),
+        // },
       ],
     });
     await alert.present();
