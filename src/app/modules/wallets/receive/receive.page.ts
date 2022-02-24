@@ -46,7 +46,7 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
       <div class="wr__network-select-card" *ngIf="this.networks">
         <app-network-select-card
           (networkChanged)="this.selectedNetworkChanged($event)"
-          [title]="'wallets.send.send_detail.network_select.title' | translate"
+          [title]="'wallets.send.send_detail.network_select.network' | translate"
           [networks]="this.networks"
           selectorStyle="receive"
           [selectedNetwork]="this.selectedNetwork"

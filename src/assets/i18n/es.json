@@ -1728,7 +1728,8 @@
         "header": "Enviar",
         "title": "Datos de la transferencia",
         "network_select": {
-          "title": "Red",
+          "title": "Datos de la transferencia",
+          "network": "Red",
           "disclaimer": "Asegúrese que la wallet de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
         },
         "continue_button": "Continuar",

@@ -204,4 +204,14 @@ describe('SendDetailPage', () => {
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
   });
+
+  it('should let user change currency on selected currency click', async () => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
+    walletServiceSpy.balanceOf.and.resolveTo('0');
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('.sd__network-select-card__selected-coin > app-coin-selector')).triggerEventHandler('changeCurrency', {});
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/send/select-currency']);
+  });
 });
