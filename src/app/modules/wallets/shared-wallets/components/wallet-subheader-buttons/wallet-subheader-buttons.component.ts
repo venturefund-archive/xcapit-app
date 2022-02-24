@@ -25,7 +25,7 @@ import { NavigationExtras } from '@angular/router';
             icon="ux-money-flow"
           ></app-icon-button-card>
         </div>
-        <div class="wsb__card-buttons__buy-card card">
+        <!-- <div class="wsb__card-buttons__buy-card card">
           <app-icon-button-card
             (click)="this.goToBuy()"
             appTrackClick
@@ -33,7 +33,7 @@ import { NavigationExtras } from '@angular/router';
             [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
             icon="ux-buy-sell"
           ></app-icon-button-card>
-        </div>
+        </div> -->
         <div class="wsb__card-buttons__performance card">
           <app-icon-button-card
             (click)="this.goToPerformance()"
