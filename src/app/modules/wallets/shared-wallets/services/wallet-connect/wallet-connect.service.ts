@@ -248,15 +248,6 @@ export class WalletConnectService {
     const decodedData = this.contractsAbi.decodeMethod(request.params[0].data);
     this.isApproveRequest = request && decodedData && decodedData.name === 'approve';
 
-    /*const iface = new ethers.utils.Interface(erc20);
-
-    try {
-      const res = iface.decodeFunctionData('approve', request.params[0].data);
-      this.isApproveRequest = true;
-    } catch (e) {
-      this.isApproveRequest = false;
-    }*/
-
     return this.isApproveRequest;
   }
 
