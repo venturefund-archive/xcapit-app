@@ -39,7 +39,6 @@ import { Coin } from '../../interfaces/coin.interface';
   styleUrls: ['./items-coin-group.component.scss'],
 })
 export class ItemsCoinGroupComponent implements OnInit {
-  mode: string;
   @Input() coins: Coin[];
   @Input() network: string;
   @Output() changed = new EventEmitter<any>();
