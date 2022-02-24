@@ -145,4 +145,16 @@ describe('ApiWalletService', () => {
     const networks = service.getWalletNewNetworks(encryptedWalletTest);
     expect(new Set(networks)).toEqual(new Set(['ERC20', 'BSC_BEP20']));
   });
+
+  it('should get native token from network on getNativeTokenFromNetwork', () => {
+    spyOn(service, 'getCoins').and.returnValue(testCoins);
+    const coin = service.getNativeTokenFromNetwork('RSK');
+    expect(coin.value).toEqual(testCoins[1].value);
+  });
+
+  it('should get gas price', () => {
+    service.getGasPrice().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

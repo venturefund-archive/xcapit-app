@@ -1,75 +1,45 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
-import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
-import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { parseEther, parseUnits } from 'ethers/lib/utils';
-import { EthersService } from '../ethers/ethers.service';
 import { environment } from '../../../../../../environments/environment';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Amount } from '../../types/amount.type';
 import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.type';
 import { CovalentTransfersResponse } from '../../models/covalent-transfers-response/covalent-transfers-response';
-import { utils, Wallet } from 'ethers';
-import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
+import { BigNumber, Wallet } from 'ethers';
 import { personalSign, signTypedData_v4 } from 'eth-sig-util';
+import { TokenSend } from '../../models/token-send/token-send.model';
+import { ApiWalletService } from '../api-wallet/api-wallet.service';
+import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { parseEther, parseUnits } from 'ethers/lib/utils';
+import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.model';
+import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletTransactionsService {
+  tokenSendClass = TokenSend;
+  erc20ProviderClass = ERC20Provider;
+  erc20TokenClass = ERC20Token;
+  
   authHeaders = { Authorization: `Basic ${btoa(environment.covalentApiKey + ':')}` };
 
   constructor(
     private walletEncryptionService: WalletEncryptionService,
-    private blockchainProviderService: BlockchainProviderService,
     private storageService: StorageService,
     private http: CustomHttpService,
-    private ethersService: EthersService
+    private apiWalletService: ApiWalletService,
   ) {}
 
-  async send(
-    password: string,
-    amount: number | string,
-    targetAddress: string,
-    currency: Coin
-  ): Promise<TransactionResponse> {
-    const providerData = await this.blockchainProviderService.getProvider(currency.value);
-    let wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, currency);
-    wallet = wallet.connect(providerData.provider);
-    let transactionResponse: TransactionResponse;
-    if (!currency.contract) {
-      transactionResponse = await this.transferNativeToken(wallet, targetAddress, amount);
-    } else {
-      transactionResponse = await this.transferNoNativeToken(wallet, amount, targetAddress, currency, providerData.abi);
-    }
-    return transactionResponse;
-  }
-
-  private async transferNativeToken(
-    wallet: Wallet,
-    targetAddress: string,
-    amount: Amount
-  ): Promise<TransactionResponse> {
-    return await wallet.sendTransaction({
-      to: targetAddress,
-      value: parseEther(amount.toString()),
-    });
-  }
-
-  private async transferNoNativeToken(
-    wallet: Wallet,
-    amount: Amount,
-    targetAddress: string,
-    currency: Coin,
-    abi
-  ): Promise<TransactionResponse> {
-    return await this.ethersService
-      .newContract(currency.contract, abi, wallet)
-      .transfer(targetAddress, parseUnits(amount.toString(), currency.decimals));
+  async send(password: string, amount: string, to: string, coin: Coin): Promise<TransactionResponse> {
+    const from = await this.storageService.getWalletsAddresses(coin.network);
+    const wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, coin);
+    const tx = this.tokenSendClass.create(from, to, amount, coin, this.apiWalletService, wallet);
+    return tx.send();
   }
 
   async sendRawTransaction(wallet: Wallet, rawData): Promise<any> {
@@ -262,32 +232,66 @@ export class WalletTransactionsService {
       .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
   }
 
-  async canNotAffordFee(summaryData: SummaryData): Promise<boolean> {
-    const rawTx = await this.createRawTxFromSummaryData(summaryData);
-    const fee = await this.blockchainProviderService.estimateFee(rawTx, summaryData.currency);
+  async canAffordSendTx(to: string, amount: string, coin: Coin): Promise<boolean> {
+    const from = await this.storageService.getWalletsAddresses(coin.network);
+    const fee = this.sendEstimatedFee(from, to, amount, coin);
+    const balanceNativeCoin = this.balanceOfNativeCoin(from, coin);
+    const balanceNotNativeCoin = this.balanceOfNotNativeCoin(from, coin);
 
-    if (summaryData.currency.native) {
-      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken - summaryData.amount;
-    } else {
-      return parseFloat(utils.formatUnits(fee)) > summaryData.balanceNativeToken;
-    }
+    return Promise.all([fee, balanceNativeCoin, balanceNotNativeCoin])
+      .then((values) => {
+        const totalNativeCoin = coin.native ? parseEther(values[0]).add(parseEther(amount)) : parseEther(values[0]);
+        const totalNotNativeCoin = coin.native ? 0 : parseUnits(amount, coin.decimals);
+        const balanceNativeCoin = values[1];
+        const balanceNotNativeCoin = values[2];
+
+        if (balanceNativeCoin.gte(totalNativeCoin) && balanceNotNativeCoin.gte(totalNotNativeCoin)) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(() => false);
   }
 
-  async createRawTxFromSummaryData(summaryData: SummaryData): Promise<utils.Deferrable<TransactionRequest>> {
-    const data = {
-      to: summaryData.address,
-      value: parseUnits(
-        summaryData.amount.toString(),
-        summaryData.currency.decimals ? summaryData.currency.decimals : 18
-      ),
-    };
+  async canAffordSendFee(to: string, amount: string, coin: Coin): Promise<boolean> {
+    const from = await this.storageService.getWalletsAddresses(coin.network);
+    const fee = this.sendEstimatedFee(from, to, amount, coin);
+    const balanceNativeCoin = this.balanceOfNativeCoin(from, coin);
 
-    if (summaryData.currency.native) {
-      return Promise.resolve(data);
+    return Promise.all([fee, balanceNativeCoin])
+      .then((values) => {
+        const fee = parseEther(values[0]);
+        const balanceNativeCoin = values[1];
+
+        if (balanceNativeCoin.gte(fee)) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(() => false);
+  }
+
+  async sendEstimatedFee(from: string = undefined, to: string, amount: string, coin: Coin): Promise<string> {
+    from = from ? from : await this.storageService.getWalletsAddresses(coin.network);
+    const txWithVoidSigner = this.tokenSendClass.create(from, to, amount, coin, this.apiWalletService);
+    await txWithVoidSigner.sendEstimateFee();
+    return txWithVoidSigner.formatFee();
+  }
+
+  private balanceOfNativeCoin(address: string, coin: Coin): Promise<BigNumber> {
+    const nativeCoin = coin.native ? coin : this.apiWalletService.getNativeTokenFromNetwork(coin.network);
+    return new this.erc20ProviderClass(nativeCoin).value().getBalance(address);
+  }
+
+  private balanceOfNotNativeCoin(address: string, coin: Coin): Promise<BigNumber> {
+    if (coin.native) {
+      return Promise.resolve(BigNumber.from(0));
     }
 
-    const provider = await this.blockchainProviderService.getProvider(summaryData.currency.value);
-    const contract = await this.ethersService.newContract(provider.contract, provider.abi, provider.provider);
-    return await contract.populateTransaction.transfer(data.to, data.value);
+    const provider = new this.erc20ProviderClass(coin);
+    const contract = ERC20Contract.create(provider);
+    return new this.erc20TokenClass(contract).balanceOf(address);
   }
 }

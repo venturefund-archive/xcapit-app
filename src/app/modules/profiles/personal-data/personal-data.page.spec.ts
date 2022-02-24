@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { By } from '@angular/platform-browser';
 import { PersonalDataPage } from './personal-data.page';
 import { DummyComponent } from 'src/testing/dummy.component.spec';

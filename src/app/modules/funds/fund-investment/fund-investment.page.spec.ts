@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FundDataStorageService } from '../shared-funds/services/fund-data-storage/fund-data-storage.service';
 import { AlertController, IonicModule, ModalController, NavController } from '@ionic/angular';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { of } from 'rxjs';
@@ -188,12 +188,5 @@ describe('FundInvestmentPage', () => {
     fixture.detectChanges();
     component.goToBuyCripto();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
-  });
-
-  it('should navigate to intermediate page when buy button is clicked in alert and not exist wallet', () => {
-    component.existWallet = false;
-    fixture.detectChanges();
-    component.goToBuyCripto();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/no-wallet']);
   });
 });

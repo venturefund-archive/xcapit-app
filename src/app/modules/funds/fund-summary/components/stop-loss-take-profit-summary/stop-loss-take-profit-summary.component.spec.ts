@@ -4,7 +4,7 @@ import { StopLossTakeProfitSummaryComponent } from './stop-loss-take-profit-summ
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('StopLossTakeProfitSummaryComponent', () => {

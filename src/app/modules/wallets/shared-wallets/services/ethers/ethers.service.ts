@@ -1,4 +1,4 @@
-import { Contract, ContractInterface, ethers, Signer, Wallet } from 'ethers';
+import { Contract, ContractInterface, ethers, Signer, Wallet, providers } from 'ethers';
 import { Injectable } from '@angular/core';
 import { Provider } from '@ethersproject/abstract-provider';
 
@@ -23,5 +23,13 @@ export class EthersService {
 
   decryptWalletJsonSync(wallet: string, password: string): Wallet {
     return Wallet.fromEncryptedJsonSync(wallet, password);
+  }
+
+  newProvider(rpcUrl) {
+    return new providers.JsonRpcProvider(rpcUrl);
+  }
+  
+  encryptWallet(wallet: Wallet, password: string): Promise<string> {
+    return wallet.encrypt(password);
   }
 }

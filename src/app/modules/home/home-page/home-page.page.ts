@@ -53,12 +53,12 @@ import { BalanceCacheService } from '../../wallets/shared-wallets/services/balan
             [totalBalanceWallet]="this.totalBalanceWallet"
           ></app-wallet-total-balance-card>
         </div>
-        <!--        <div class="buy-crypto-card">-->
-        <!--          <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto($event)"></app-buy-crypto-card>-->
-        <!--        </div>-->
-        <!--        <div class="wallet-connect-card">-->
-        <!--          <app-wallet-connect-card></app-wallet-connect-card>-->
-        <!--        </div>-->
+        <div class="buy-crypto-card">
+          <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
+        </div>
+        <div class="wallet-connect-card">
+          <app-wallet-connect-card></app-wallet-connect-card>
+        </div>
         <div class="quotes-card">
           <app-quotes-card></app-quotes-card>
         </div>
@@ -161,12 +161,8 @@ export class HomePage implements OnInit {
     }
   }
 
-  goToBuyCrypto(value: boolean) {
-    if (value) {
-      this.navController.navigateForward(['/fiat-ramps/moonpay']);
-    } else {
-      this.navController.navigateForward(['/fiat-ramps/no-wallet']);
-    }
+  goToBuyCrypto() {
+    this.navController.navigateForward(['/fiat-ramps/moonpay']);
   }
 
   existWallet() {

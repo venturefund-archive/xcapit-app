@@ -4,7 +4,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { RegisterApikeysPage } from './register-apikeys.page';
 import { ApiApikeysService } from '../shared-apikeys/services/api-apikeys/api-apikeys.service';
 import { of } from 'rxjs';

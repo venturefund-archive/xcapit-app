@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormGroupDirective } from '@angular/forms';
 import { Coin } from '../../interfaces/coin.interface';
 
@@ -9,7 +9,7 @@ import { Coin } from '../../interfaces/coin.interface';
       <ion-list class="list">
         <ion-radio-group>
           <div class="container">
-            <ion-item>
+            <ion-item class="icg__item ion-no-padding ion-no-margin" lines="full">
               <ion-label class="icg__label ux-font-text-xs">{{
                 'wallets.select_coin.suite' | translate: { suiteName: (this.network | suite) }
               }}</ion-label>
@@ -27,8 +27,9 @@ import { Coin } from '../../interfaces/coin.interface';
               [network]="this.network"
               (changed)="this.validate($event)"
               [isChecked]="this.form.value.coin"
-              *ngFor="let coin of coins"
+              *ngFor="let coin of coins; let last = last"
               [coin]="coin"
+              [isLast]="last"
             ></app-item-coin>
           </div>
         </ion-radio-group>
@@ -41,6 +42,7 @@ export class ItemsCoinGroupComponent implements OnInit {
   mode: string;
   @Input() coins: Coin[];
   @Input() network: string;
+  @Output() changed = new EventEmitter<any>();
   form: FormGroup;
 
   constructor(private formGroup: FormGroupDirective) {}
@@ -53,6 +55,7 @@ export class ItemsCoinGroupComponent implements OnInit {
   }
 
   validate(event) {
+    this.changed.emit(event);
     this.checkIfNativeCoinFromNetworkIsChecked(event);
     this.setToggleAllState();
   }
@@ -71,6 +74,7 @@ export class ItemsCoinGroupComponent implements OnInit {
     event.preventDefault();
     this.allToggled() ? this.selectAll(false) : this.selectAll(true);
     this.setToggleAllState();
+    this.changed.emit(event);
   }
 
   selectAll(select: boolean) {

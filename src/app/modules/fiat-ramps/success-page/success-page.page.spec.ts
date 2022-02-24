@@ -11,7 +11,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';

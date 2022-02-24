@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FundShareChartComponent } from './fund-share-chart.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ModalController } from '@ionic/angular';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';

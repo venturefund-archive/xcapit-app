@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { ClipboardService } from '../../../shared/services/clipboard/clipboard.service';
 import { ShareService } from '../../../shared/services/share/share.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';

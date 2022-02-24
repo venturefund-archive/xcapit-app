@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.service';
 
 import { ApikeysEditModalComponent } from './apikeys-edit-modal.component';

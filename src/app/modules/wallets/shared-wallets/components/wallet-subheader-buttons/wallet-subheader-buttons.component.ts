@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -27,15 +25,15 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
             icon="ux-money-flow"
           ></app-icon-button-card>
         </div>
-<!--        <div class="wsb__card-buttons__buy-card card">-->
-<!--          <app-icon-button-card-->
-<!--            (click)="this.goToBuy()"-->
-<!--            appTrackClick-->
-<!--            name="Go to Buy"-->
-<!--            [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"-->
-<!--            icon="ux-buy-sell"-->
-<!--          ></app-icon-button-card>-->
-<!--        </div>-->
+        <div class="wsb__card-buttons__buy-card card">
+          <app-icon-button-card
+            (click)="this.goToBuy()"
+            appTrackClick
+            name="Go to Buy"
+            [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
+            icon="ux-buy-sell"
+          ></app-icon-button-card>
+        </div>
         <div class="wsb__card-buttons__performance card">
           <app-icon-button-card
             (click)="this.goToPerformance()"
@@ -53,11 +51,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
 
-  constructor(
-    private navController: NavController,
-    private translate: TranslateService,
-    private toastService: ToastService
-  ) {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
@@ -83,12 +77,10 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   goToBuy() {
-    this.navController.navigateForward(['/fiat-ramps/moonpay']);
+    this.navController.navigateForward(['fiat-ramps/moonpay']);
   }
 
-  async goToPerformance() {
-    this.toastService.showInfoToast({
-      message: this.translate.instant(this.translate.instant('home.home_page.subheader_component.coming_soon_alert')),
-    });
+  goToPerformance() {
+    this.navController.navigateForward(['tabs/investments/defi']);
   }
 }

@@ -20,7 +20,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
         <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding sc">
       <form
         [formGroup]="this.form"
         (ngSubmit)="this.handleSubmit()"
@@ -38,14 +38,23 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               {{ 'wallets.select_coin.subtitle' | translate }}
             </div>
           </app-ux-text>
-          <app-ux-text>
-            <div class="sc__recordatory ux-font-text-xxs">
-              {{ 'wallets.select_coin.recordatory' | translate }}
-            </div>
-          </app-ux-text>
+          <ion-item lines="none" class="sc__toggle_all ux-font-title-xs ion-no-padding">
+            <ion-label class="sc__toggle_all__label ion-no-margin ion-no-padding">
+              {{ 'wallets.select_coin.toggle_all_text' | translate }}
+            </ion-label>
+            <ion-toggle
+              name="Toggle All Coins"
+              class="sc__toggle_all__toggle ux-toggle ion-no-padding"
+              [checked]="this.allSelected"
+              (click)="this.toggleAll($event)"
+              mode="ios"
+              slot="end"
+            ></ion-toggle>
+          </ion-item>
           <app-items-coin-group
             [network]="network"
             [coins]="this.getCoinsFromNetwork(network)"
+            (changed)="this.setAllSelected()"
             *ngFor="let network of this.networks"
           ></app-items-coin-group>
         </div>
@@ -59,6 +68,8 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               name="Next"
               type="submit"
               size="large"
+              [appLoading]="this.loading"
+              [loadingText]="'wallets.select_coin.loading' | translate"
             >
               {{ this.submitButtonText | translate }}
             </ion-button>
@@ -75,14 +86,16 @@ export class SelectCoinsWalletPage implements OnInit {
   userCoinsLoaded: boolean;
   txInProgress: boolean;
   form: FormGroup;
+  allSelected = false;
+  loading = false;
 
   get networks(): string[] {
     return this.apiWalletService.getNetworks();
   }
 
   almostOneChecked = false;
-  allChecked = false;
   originalFormData: any;
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -105,23 +118,23 @@ export class SelectCoinsWalletPage implements OnInit {
 
     if (this.mode === 'edit') {
       this.getUserCoins();
-    } else {
-      this.loadPreviousSelection();
     }
   }
 
   ngOnInit() {}
 
   createForm() {
-    const formGroup = {};
+    if (!this.form) {
+      const formGroup = {};
 
-    this.networks.forEach((network) => {
-      formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
-    });
+      this.networks.forEach((network) => {
+        formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
+      });
 
-    this.form = this.formBuilder.group(formGroup);
+      this.form = this.formBuilder.group(formGroup);
 
-    this.form.valueChanges.subscribe(() => this.setContinueButtonState());
+      this.form.valueChanges.subscribe(() => this.setContinueButtonState());
+    }
   }
 
   getCoinsFromNetwork(network: string) {
@@ -153,31 +166,29 @@ export class SelectCoinsWalletPage implements OnInit {
   async handleSubmit() {
     if (this.almostOneChecked) {
       this.txInProgress = true;
-      
       switch (this.mode) {
         case 'import':
           this.importWallet();
           break;
-          case 'edit':
-            this.editTokens();
-            break;
+        case 'edit':
+          this.editTokens();
+          break;
         default:
           this.createWallet();
           break;
       }
-
       this.txInProgress = false;
     }
   }
 
   importWallet() {
+    this.loading = true;
     this.walletService.coins = [];
     this.setUserCoins();
-    this.loadingService
-      .showModal(this.modalOptions())
-      .then(() => this.walletService.create())
+    this.walletService
+      .create()
       .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']))
-      .then(() => this.loadingService.dismissModal());
+      .finally(() => (this.loading = false));
   }
 
   async editTokens() {
@@ -190,6 +201,7 @@ export class SelectCoinsWalletPage implements OnInit {
       this.walletMaintenanceService.password = await this.askForPassword();
 
       if (!this.walletMaintenanceService.password) {
+        this.txInProgress = false;
         return;
       }
 
@@ -222,14 +234,6 @@ export class SelectCoinsWalletPage implements OnInit {
     this.walletService.coins = [];
     this.setUserCoins();
     this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
-  }
-
-  private modalOptions() {
-    return {
-      title: this.translate.instant('wallets.verify_phrase.loading.title'),
-      subtitle: this.translate.instant('wallets.verify_phrase.loading.subtitle'),
-      image: 'assets/img/verify-phrase/map.svg',
-    };
   }
 
   async askForPassword(): Promise<string> {
@@ -271,6 +275,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
       this.form.patchValue(this.originalFormData);
       this.userCoinsLoaded = true;
+      this.setAllSelected();
     });
   }
 
@@ -309,19 +314,28 @@ export class SelectCoinsWalletPage implements OnInit {
     }
   }
 
-  loadPreviousSelection() {
-    if (this.walletService.selectedCoins()) {
-      const selectedCoinsValue = {};
+  toggleAll(event) {
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.preventDefault();
+    const setAll = !this.allSelected;
 
-      this.walletService.coins.forEach((coin) => {
-        if (!selectedCoinsValue[coin.network]) {
-          selectedCoinsValue[coin.network] = {};
-        }
-
-        selectedCoinsValue[coin.network][coin.value] = true;
+    this.getSuiteFormGroupKeys().forEach((network) => {
+      this.getCoinFormGroupKeys(network).forEach((coin) => {
+        this.form.get(network).get(coin).setValue(setAll);
       });
+    });
 
-      this.form.patchValue(selectedCoinsValue);
-    }
+    this.setAllSelected();
+  }
+
+  setAllSelected() {
+    const networkToggledStates = [];
+
+    this.getSuiteFormGroupKeys().forEach((network) => {
+      networkToggledStates.push(Object.values(this.form.value[network]).every(Boolean));
+    });
+
+    this.allSelected = Object.values(networkToggledStates).every(Boolean);
   }
 }

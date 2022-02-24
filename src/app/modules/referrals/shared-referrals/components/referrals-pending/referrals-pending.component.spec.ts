@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { ReferralsPendingComponent } from './referrals-pending.component';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { ReferralDetailComponent } from '../referral-detail/referral-detail.component';
 

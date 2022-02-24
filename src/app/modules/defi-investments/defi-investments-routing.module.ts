@@ -8,6 +8,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'investment-detail/:vault',
+        loadChildren: () =>
+          import('./investment-detail/investment-detail.module').then((m) => m.InvestmentDetailPageModule),
+      },
+      {
         path: 'no-wallet-to-invest',
         loadChildren: () =>
           import('../defi-investments/no-wallet-to-invest/no-wallet-to-invest.module').then(
@@ -24,7 +29,32 @@ const routes: Routes = [
         loadChildren: () =>
           import('./error-investment/error-investment.module').then((m) => m.ErrorInvestmentPageModule),
       },
+      {
+        path: 'new',
+        children: [
+          {
+            path: 'insert-amount/:vault',
+            loadChildren: () =>
+              import('./create/new-investment/new-investment.module').then((m) => m.NewInvestmentPageModule),
+          },
+          {
+            path: 'confirmation',
+            loadChildren: () =>
+              import('./create/investment-confirmation/investment-confirmation.module').then(
+                (m) => m.InvestmentConfirmationPageModule
+              ),
+          },
+        ],
+      },
+      {
+        path: 'withdraw',
+        loadChildren: () => import('./withdraw/withdraw.module').then((m) => m.WithdrawModule),
+      },
     ],
+  },
+  {
+    path: 'defi-investment-success-withdraw',
+    loadChildren: () => import('./withdraw/defi-investment-success-withdraw/defi-investment-success-withdraw.module').then( m => m.DefiInvestmentSuccessWithdrawPageModule)
   },
 ];
 

@@ -5,7 +5,7 @@ import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
 import { FundInvestmentInfoPage } from './fund-investment-info.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';

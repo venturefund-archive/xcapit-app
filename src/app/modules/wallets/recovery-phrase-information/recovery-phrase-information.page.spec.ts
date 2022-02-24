@@ -4,7 +4,7 @@ import { RecoveryPhraseInformationPage } from './recovery-phrase-information.pag
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';

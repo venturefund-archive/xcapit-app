@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { SelectCoinsWalletPage } from './select-coins-wallet.page';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ItemCoinComponent } from '../shared-wallets/components/item-coin/item-coin.component';
@@ -250,7 +250,7 @@ describe('SelectCoinsWalletPage', () => {
 
   it('should not activate the Next button when no token is selected', async () => {
     component.userCoinsLoaded = true;
-    component.txInProgress = false;
+    component.txInProgress = true;
     component.createForm();
     fixture.detectChanges();
     component.form.patchValue(formData.invalid);
@@ -426,20 +426,10 @@ describe('SelectCoinsWalletPage', () => {
           component.form.patchValue(formData.valid);
           fixture.detectChanges();
           fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-          expect(walletServiceSpy.coins.length).toEqual(2);
+          expect(walletServiceSpy.coins.length).toEqual(3);
         });
 
-        it(`should load prevoiusly selected assets if user came back from other page`, () => {
-          (Object.getOwnPropertyDescriptor(walletServiceSpy, 'coins').get as jasmine.Spy).and.returnValue([
-            TEST_ERC20_COINS[0],
-            TEST_ERC20_COINS[3],
-          ]);
-          walletServiceSpy.selectedCoins.and.returnValue(true);
-          component.ionViewWillEnter();
-          expect(component.form.value).toEqual(formData.valid);
-        });
-
-        it(`should show loader, ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
+        it(`should ${testCase.mode.text.toLowerCase()} wallet and navigate to ${
           testCase.onSubmit.navigateTo.pageName
         } on form submit`, fakeAsync(() => {
           component.almostOneChecked = true;
@@ -454,8 +444,6 @@ describe('SelectCoinsWalletPage', () => {
           expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(testCase.onSubmit.navigateTo.route);
           if (testCase.mode.value === 'import') {
             expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
-            expect(loadingServiceSpy.showModal).toHaveBeenCalledTimes(1);
-            expect(loadingServiceSpy.dismissModal).toHaveBeenCalledTimes(1);
           }
         }));
 
@@ -479,4 +467,81 @@ describe('SelectCoinsWalletPage', () => {
       }
     });
   });
+
+  it('should set all values to true when Toggle All Coins clicked and all values are false', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.invalid);
+    component.setAllSelected();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.form.value).toEqual(formData.allTrue);
+  });
+
+  it('should set all values to true when Toggle All Coins clicked and some values are true', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.valid);
+    component.setAllSelected();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.form.value).toEqual(formData.allTrue);
+  });
+
+  it('should set all values to false when Toggle All Coins clicked and all values are true', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.allTrue);
+    component.setAllSelected();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(component.form.value).toEqual(formData.invalid);
+  });
+
+  it('should change activate toggle when toggle changes and all values are true', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.allTrue);
+    fixture.detectChanges();
+    fixture.debugElement.queryAll(By.css('app-items-coin-group'))[0].triggerEventHandler('changed', { detail: { checked: true, value: TEST_ERC20_COINS[0] } });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]'));
+    expect(toggle.nativeElement.checked).toBeTrue();
+  })
+
+  it('should change the toggle value when at least one element is not true', async () => {
+    activatedRouteSpy.snapshot = {
+      paramMap: convertToParamMap({
+        mode: 'import',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    fixture.debugElement.queryAll(By.css('app-items-coin-group'))[0].triggerEventHandler('changed', { detail: { checked: true, value: TEST_ERC20_COINS[0] } });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]'));
+    expect(toggle.nativeElement.checked).toBeFalse();
+  })
 });

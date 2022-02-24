@@ -1,7 +1,7 @@
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, IonInfiniteScroll, NavController } from '@ionic/angular';
+import { IonContent, IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -9,8 +9,7 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { isObservable, of } from 'rxjs';
-import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -20,33 +19,6 @@ import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/r
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { TEST_ERC20_COINS } from '../shared-wallets/constants/coins.test';
 import { QueueService } from '../../../shared/services/queue/queue.service';
-
-const balances: Array<AssetBalance> = [
-  {
-    icon: 'assets/img/coins/LINK.svg',
-    symbol: 'LINK',
-    name: 'LINK - Chainlink',
-    amount: 0.005,
-    usdAmount: 120,
-    usdSymbol: 'USD',
-  },
-  {
-    icon: 'assets/img/coins/ETH.svg',
-    symbol: 'ETH',
-    name: 'ETH - Ethereum',
-    amount: 1,
-    usdAmount: 2000,
-    usdSymbol: 'USD',
-  },
-  {
-    icon: 'assets/img/coins/USDT.svg',
-    symbol: 'USDT',
-    name: 'USDT - Tether',
-    amount: 2,
-    usdAmount: 3000,
-    usdSymbol: 'USD',
-  },
-];
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -61,8 +33,8 @@ describe('HomeWalletPage', () => {
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
-  let ionInfiniteScrollSpy: jasmine.SpyObj<IonInfiniteScroll>;
   let queueServiceSpy: jasmine.SpyObj<QueueService>;
+  let contentSpy: jasmine.SpyObj<IonContent>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -78,7 +50,6 @@ describe('HomeWalletPage', () => {
       walletServiceSpy = fakeWalletService.createSpy();
 
       walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
-        getWalletsBalances: Promise.resolve(balances),
         getUsdTotalBalance: Promise.resolve(5120),
         balanceOf: Promise.resolve(20),
         priceOf: Promise.resolve(10),
@@ -96,9 +67,9 @@ describe('HomeWalletPage', () => {
       balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
         coin: Promise.resolve({ balance: 20, price: 5, expiration_date: 1234 }),
         updateCoin: Promise.resolve(),
+        total: Promise.resolve(5000),
+        updateTotal: Promise.resolve(),
       });
-
-      ionInfiniteScrollSpy = jasmine.createSpyObj('IonInfiniteScroll', { complete: Promise.resolve() });
 
       queueServiceSpy = jasmine.createSpyObj('QueueService', {
         create: null,
@@ -106,7 +77,7 @@ describe('HomeWalletPage', () => {
         results: of({}),
       });
       queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
-
+      contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -126,7 +97,7 @@ describe('HomeWalletPage', () => {
       fixture = TestBed.createComponent(HomeWalletPage);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
-      component.infiniteScroll = ionInfiniteScrollSpy;
+      component.content = contentSpy;
       fixture.detectChanges();
     })
   );
@@ -169,14 +140,6 @@ describe('HomeWalletPage', () => {
     expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
     expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();
   }));
-
-  it('should not load more balances when ends', async () => {
-    component.walletExist = true;
-    component.selectedAssets = [];
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-infinite-scroll')).triggerEventHandler('ionInfinite', null);
-    expect(component.infiniteScroll.disabled).toBeTrue();
-  });
 
   it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Import Wallet');
@@ -224,10 +187,24 @@ describe('HomeWalletPage', () => {
   });
 
   it('should unsubscribe on did leave', () => {
-    const spy = jasmine.createSpyObj('Subscription', { unsubscribe: null });
-    component.subscriptions$ = [spy];
-    fixture.detectChanges();
+    const spyComplete = spyOn(component.unsubscribe$, 'complete');
     component.ionViewDidLeave();
-    expect(spy.unsubscribe).toHaveBeenCalledTimes(1);
+    expect(spyComplete).toHaveBeenCalledTimes(1);
+  });
+
+  it('should re-initialize subscription if the same its stopped on init', () => {
+    component.ionViewDidLeave();
+    component.ionViewDidEnter();
+    expect(component.unsubscribe$.isStopped).toBeFalse();
+  });
+
+  it('should show 0.0 balance when no wallet or cache is present', async () => {
+    balanceCacheServiceSpy.total.and.resolveTo(undefined);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    component.walletExist = false;
+    const balanceEl = fixture.debugElement.query(By.css('div.wt__amount > ion-text'));
+    expect(balanceEl.nativeElement.innerHTML).toContain('0.00 USD');
   });
 });

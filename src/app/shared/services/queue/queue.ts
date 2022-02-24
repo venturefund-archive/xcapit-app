@@ -1,6 +1,6 @@
 import { defer, isObservable, Observable, Subject } from 'rxjs';
 import { mergeAll } from 'rxjs/operators';
-import { Task } from './task.type';
+import { ObservableOrPromise } from '../../types/observable-or-promise.type';
 
 export class Queue {
   private readonly _concurrency: number = 2;
@@ -21,7 +21,7 @@ export class Queue {
     this.results = this.queue.pipe(mergeAll(this._concurrency));
   }
 
-  enqueue(aTask: Task): void {
+  enqueue(aTask: ObservableOrPromise): void {
     this.queue.next(isObservable(aTask) ? aTask : defer(() => aTask()));
   }
 }

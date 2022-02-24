@@ -1,6 +1,7 @@
 import { ApiProfilesService } from './../../profiles/shared-profiles/services/api-profiles/api-profiles.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import Swiper, { SwiperOptions, Navigation } from 'swiper';
+import { NavController } from '@ionic/angular';
 Swiper.use([Navigation]);
 @Component({
   selector: 'app-about-investor-profiles',
@@ -56,11 +57,14 @@ export class AboutInvestorProfilesPage implements OnInit {
     },
   ];
 
-  constructor(private apiProfilesService: ApiProfilesService) {}
+  constructor(private apiProfilesService: ApiProfilesService,
+    private navController: NavController) {}
 
   ngOnInit() {}
 
   setProfile(score) {
-    this.apiProfilesService.crud.patch({ investor_score: score });
+    this.apiProfilesService.crud.patch({ investor_score: score }).subscribe(() => {
+      this.navController.navigateForward(['/tabs/investments/defi']);
+    });
   }
 }

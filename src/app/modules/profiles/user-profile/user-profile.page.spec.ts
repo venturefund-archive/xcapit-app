@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { Storage } from '@ionic/storage';

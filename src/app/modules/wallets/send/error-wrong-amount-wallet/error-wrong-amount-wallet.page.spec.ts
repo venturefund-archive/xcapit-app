@@ -1,5 +1,7 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { ErrorWrongAmountWalletPage } from './error-wrong-amount-wallet.page';
@@ -20,11 +22,12 @@ describe('ErrorWrongAmountWalletPage', () => {
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
         declarations: [ErrorWrongAmountWalletPage],
-        imports: [IonicModule.forRoot()],
+        imports: [IonicModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: TransactionDataService, useValue: transactionDataServiceSpy },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
 
       fixture = TestBed.createComponent(ErrorWrongAmountWalletPage);

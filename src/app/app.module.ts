@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
@@ -28,7 +26,6 @@ import { ApikeysModule } from './modules/apikeys/apikeys.module';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
-import { MenusModule } from './modules/menus/menus.module';
 import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addresses.module';
 import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
@@ -79,7 +76,6 @@ registerLocaleData(localeEn, 'en');
     ApikeysModule,
     NotificationsModule,
     WalletsModule,
-    MenusModule,
     TicketsModule,
     DepositAddressesModule,
     FiatRampsModule,
@@ -109,8 +105,6 @@ registerLocaleData(localeEn, 'en');
     WildcardRoutingModule, // always to last!
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
-import { NavController } from '@ionic/angular';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-referrals-share',
@@ -68,7 +68,7 @@ export class ReferralsShareComponent implements OnInit {
     private shareService: ShareService,
     private clipboardService: ClipboardService,
     private platformService: PlatformService,
-    private navController: NavController
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {
@@ -86,7 +86,9 @@ export class ReferralsShareComponent implements OnInit {
     });
   }
 
-  goToToS() {
-    this.navController.navigateForward('/referrals/tos');
+  async goToToS() {
+    await this.browserService.open({
+      url: 'https://xcapit.com/financial-freedom-tyc/',
+    });
   }
 }

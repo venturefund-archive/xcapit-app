@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { barcodeScannerMock } from 'src/testing/spies/barcode-scanner-mock.spec';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { QrScannerComponent } from './qr-scanner.component';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 

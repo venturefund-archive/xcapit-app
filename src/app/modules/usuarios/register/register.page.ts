@@ -84,7 +84,6 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
 export class RegisterPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true })
   registerForm: AuthFormComponent;
-
   referralCode: string;
   manualReferral = true;
 
@@ -110,7 +109,6 @@ export class RegisterPage implements OnInit {
     const code = this.route.snapshot.paramMap.get('code');
     if (code) {
       this.registerForm.form.patchValue({
-        manual_referral: true,
         referral_code: code,
       });
     }
@@ -141,9 +139,6 @@ export class RegisterPage implements OnInit {
   }
 
   registerUser(data: any) {
-    if (data && !data.manual_referral) {
-      delete data.referral_code;
-    }
     this.apiUsuarios.crud.create(data).subscribe((response) => this.success(response));
   }
 

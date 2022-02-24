@@ -9,6 +9,8 @@ import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -22,19 +24,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="user-data ux-card ion-padding">
-        <div class="user-img">
-          <img src="assets/img/user-profile/avatar-user.svg" />
-        </div>
-        <div>
-          <ion-text class="user-mail ux-font-header-titulo">{{ this.profile?.email }}</ion-text>
-        </div>
+      <div class="user-profile-card" *ngIf="this.profile">
+        <app-user-profile-card [profile]="this.profile"></app-user-profile-card>
       </div>
       <div class="referrals-promotion">
         <app-referral-promotion-card></app-referral-promotion-card>
       </div>
       <div class="card-item" *ngIf="this.itemMenu">
-        <app-card-category-menu *ngFor="let category of this.itemMenu" [category]="category"></app-card-category-menu>
+        <app-card-category-menu
+          [hasFunds]="this.hasFunds"
+          *ngFor="let category of this.itemMenu"
+          [category]="category"
+        ></app-card-category-menu>
       </div>
       <div>
         <div class="ux-card">
@@ -84,10 +85,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class UserProfileMenuPage implements OnInit {
   profile: any;
+  status: any;
+  hasFunds: boolean;
   itemMenu: MenuCategory[] = ITEM_MENU;
   form: FormGroup = this.formBuilder.group({
     notificationsEnabled: [false, []],
   });
+
   constructor(
     private apiProfiles: ApiProfilesService,
     private authService: AuthService,
@@ -96,13 +100,28 @@ export class UserProfileMenuPage implements OnInit {
     private translate: TranslateService,
     private language: LanguageService,
     private notificationsService: NotificationsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private walletService: WalletService,
+    private apiUsers: ApiUsuariosService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
     this.getProfile();
+    this.existWallet();
+    this.getUserStatus();
+  }
+
+  getUserStatus() {
+    this.apiUsers.status(false).subscribe((res) => {
+      const userStatus = res;
+      this.hasFunds = this.checkFunds(userStatus);
+    });
+  }
+
+  checkFunds(status) {
+    return status.has_own_funds === true || status.has_subscribed_funds === true ? true : false;
   }
 
   private subscribeToFormChanges() {
@@ -149,6 +168,13 @@ export class UserProfileMenuPage implements OnInit {
   togglePushNotifications() {
     this.notificationsService.toggle(!this.profile.notifications_enabled).subscribe(() => {
       this.profile.notifications_enabled = !this.profile.notifications_enabled;
+    });
+  }
+
+  existWallet() {
+    this.walletService.walletExist().then((res) => {
+      const item = this.itemMenu.find((item) => item.id === 'wallet');
+      item.showCategory = res;
     });
   }
 }

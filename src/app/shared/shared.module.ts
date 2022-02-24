@@ -1,9 +1,9 @@
+import { SplitStringPipe } from './pipes/split-string/split-string.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ErrorsFormItemComponent } from './components/errors-form-item/errors-form-item.component';
-import { GooglePlacesDirective } from './directives/google-places.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
 import { LanguageButtonComponent } from './components/language-button/language-button.component';
@@ -12,7 +12,6 @@ import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
 import { UxInputComponent } from './components/ux-input/ux-input.component';
-import { UxInputGooglePlacesComponent } from './components/ux-input-google-places/ux-input-google-places.component';
 import { BinanceLogoComponent } from './components/binance-logo/binance-logo.component';
 import { UxCenterImgComponent } from './components/ux-center-img/ux-center-img.component';
 import { SuccessContentComponent } from './components/success-content/success-content.component';
@@ -64,11 +63,13 @@ import { QuotesCardComponent } from '../modules/home/shared-home/components/quot
 import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
 import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
+import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinner.directive';
+import { UpdateNewsComponent } from './components/update-news/update-news.component';
+import { NewsItemComponent } from './components/news-item/news-item.component';
 
 @NgModule({
   declarations: [
     ErrorsFormItemComponent,
-    GooglePlacesDirective,
     LanguagePopoverComponent,
     LanguageButtonComponent,
     IsSubscribedComponent,
@@ -87,7 +88,6 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
-    UxInputGooglePlacesComponent,
     UxCenterImgComponent,
     UxTitleComponent,
     UxTextComponent,
@@ -123,12 +123,16 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     AvatarProfileComponent,
     NetworkSelectCardComponent,
     NoWalletComponent,
+    UpdateNewsComponent,
+    NewsItemComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
+    SplitStringPipe,
+    ButtonSpinnerDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -138,7 +142,6 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
-    GooglePlacesDirective,
     TranslateModule,
     LanguageButtonComponent,
     TrackClickModule,
@@ -158,7 +161,6 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
-    UxInputGooglePlacesComponent,
     UxCenterImgComponent,
     UxTitleComponent,
     UxTextComponent,
@@ -193,12 +195,16 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     NoWalletComponent,
+    UpdateNewsComponent,
+    NewsItemComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
     SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
+    ButtonSpinnerDirective,
+    SplitStringPipe,
   ],
 })
 export class SharedModule {}

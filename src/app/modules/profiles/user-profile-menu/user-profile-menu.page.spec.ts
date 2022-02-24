@@ -9,17 +9,28 @@ import { LanguageService } from '../../../shared/services/language/language.serv
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+
+const testStatus = {
+  has_own_funds: true,
+  empty_linked_keys: true,
+  has_subscribed_funds: false,
+  status_name: 'CREATOR',
+};
 
 const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_help',
     icon: 'assets/ux-icons/ux-support.svg',
+    showCategory: true,
     items: [
       {
         name: 'Faq',
@@ -38,6 +49,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_security_account',
     icon: 'assets/ux-icons/ux-lock-outline.svg',
+    showCategory: true,
     items: [
       {
         name: 'PasswordChangeAccount',
@@ -50,6 +62,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_security_wallet',
     icon: 'assets/ux-icons/ux-key-outline.svg',
+    showCategory: true,
     items: [
       {
         name: 'RecoveryPhrase',
@@ -62,6 +75,7 @@ const itemMenu: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_binance_investment',
     icon: 'assets/ux-icons/ux-trending-up.svg',
+    showCategory: true,
     items: [
       {
         name: 'Funds',
@@ -78,7 +92,7 @@ const itemMenu: MenuCategory[] = [
       {
         name: 'ApiKeysList',
         text: 'profiles.user_profile_menu.manage_apikey',
-        route: '/apikeys/list',
+        route: '/tabs/investments',
         type: 'link',
       },
     ],
@@ -100,9 +114,14 @@ describe('UserProfileMenuPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
-
+  let fakeWalletService: FakeWalletService;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let apiUsuariosServiceSpy: jasmine.SpyObj<ApiUsuariosService>;
   beforeEach(
     waitForAsync(() => {
+      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', {
+        status: of(testStatus),
+      });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
@@ -126,6 +145,9 @@ describe('UserProfileMenuPage', () => {
         'setLanguage',
       ]);
 
+      fakeWalletService = new FakeWalletService(true, {});
+      walletServiceSpy = fakeWalletService.createSpy();
+
       TestBed.configureTestingModule({
         declarations: [UserProfileMenuPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -136,6 +158,8 @@ describe('UserProfileMenuPage', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: LanguageService, useValue: languageServiceSpy },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
+          { provide: WalletService, useValue: walletServiceSpy },
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy }
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -160,6 +184,26 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should set hasFunds to true if user has own funds or subscribed funds', async () => {
+      component.ionViewWillEnter();
+      fixture.detectChanges();
+      expect(component.hasFunds).toEqual(true);
+  });
+
+
+  it('should set hasFunds to false if user dont have own funds or subscribed funds', async () => {
+    apiUsuariosServiceSpy.status.and.returnValue(of({
+      has_own_funds: false,
+      empty_linked_keys: true,
+      has_subscribed_funds: false,
+      status_name: 'CREATOR',
+    }))
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.hasFunds).toEqual(false);
+});
 
   it('should call trackEvent on trackService when Log Out button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Log Out');

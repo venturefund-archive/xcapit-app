@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InvestmentProductCardComponent } from './investment-product-card.component';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -70,14 +70,14 @@ describe('InvestmentProductCardComponent', () => {
   it('should show new badge when strategy is new', () => {
     component.productData.new_strategy = true;
     fixture.detectChanges();
-    const newBadge = fixture.debugElement.query(By.css('ion-badge.ux_badge_new_strategy'));
+    const newBadge = fixture.debugElement.query(By.css('ion-badge.ux-badge-new-strategy'));
     expect(newBadge.properties.hidden).toBeFalse();
   });
 
   it('should disable new badge when strategy Isn’t new ', () => {
     component.productData.new_strategy = false;
     fixture.detectChanges();
-    const newBadge = fixture.debugElement.query(By.css('ion-badge.ux_badge_new_strategy'));
+    const newBadge = fixture.debugElement.query(By.css('ion-badge.ux-badge-new-strategy'));
     expect(newBadge).toBeNull();
   });
 });

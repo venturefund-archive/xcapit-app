@@ -5,7 +5,7 @@ import { CustomRangeModalComponent } from './custom-range-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.helper';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';

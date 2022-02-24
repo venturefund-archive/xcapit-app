@@ -14,6 +14,7 @@ export class AssetBalanceModel {
   private pricePromise: Promise<number>;
   private balancePromise: Promise<number>;
   quoteBalance: Subject<number>;
+  network: string;
 
   constructor(
     aCoin: Coin,
@@ -24,6 +25,7 @@ export class AssetBalanceModel {
     this.icon = aCoin.logoRoute;
     this.symbol = aCoin.value;
     this.name = aCoin.name;
+    this.network = aCoin.network;
     this.amount = 0;
     this.price = 0;
     this.quoteSymbol = 'USD';
@@ -59,12 +61,13 @@ export class AssetBalanceModel {
     }
   }
 
-  cachedBalance(): Promise<void> {
+  cachedBalance(): Promise<CachedCoin> {
     return this.balanceCacheService.coin(this.coin).then((cachedCoin: CachedCoin) => {
       if (cachedCoin) {
         this.amount = cachedCoin.balance;
         this.price = cachedCoin.price;
       }
+      return cachedCoin;
     });
   }
 }
