@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-select-currency',
@@ -40,6 +41,13 @@ export class SelectCurrencyPage implements OnInit {
   }
 
   selectCurrency(currency: Coin) {
-    this.navController.navigateForward(['/wallets/send/detail', currency.value]);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        asset: currency.value,
+        network: currency.network
+      },
+    };
+    
+    this.navController.navigateForward(['/wallets/send/detail'], navigationExtras);
   }
 }

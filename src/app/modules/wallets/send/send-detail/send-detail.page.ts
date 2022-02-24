@@ -38,7 +38,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
             (changeCurrency)="this.changeCurrency()"
           ></app-coin-selector>
         </div>
-        <div class="sd__network-select-card__networks">
+        <div class="sd__network-select-card__networks" *ngIf="this.selectedNetwork">
           <app-network-select-card
             (networkChanged)="this.selectedNetworkChanged($event)"
             [title]="'wallets.send.send_detail.network_select.network' | translate"
@@ -128,8 +128,7 @@ export class SendDetailPage {
   ) {}
 
   ionViewWillEnter() {
-    this.getCurrency();
-    this.setCurrencyNetworks();
+    this.getCurrencyAndNetworks();
     this.checkTokensAmounts();
     this.updateTransactionData();
   }
@@ -150,15 +149,14 @@ export class SendDetailPage {
     });
   }
 
-  private getCurrency() {
-    this.currency = this.apiWalletService.getCoin(this.route.snapshot.paramMap.get('currency'), this.selectedNetwork);
+  private getCurrencyAndNetworks() {
+    const coin = this.route.snapshot.queryParamMap.get('asset');
+    const network = this.route.snapshot.queryParamMap.get('network');
+    
+    this.currency = this.apiWalletService.getCoin(coin, network);
+    this.networks = this.apiWalletService.getNetworks(coin);
+    this.selectedNetwork = network;
     this.updateTransactionData();
-  }
-
-  private setCurrencyNetworks() {
-    this.networks = [this.currency.network];
-
-    this.selectedNetworkChanged(this.networks[0]);
   }
 
   selectedNetworkChanged(network) {
