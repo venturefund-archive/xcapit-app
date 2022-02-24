@@ -10,6 +10,7 @@ import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-clic
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { TokenSelectionListComponent } from '../../shared-wallets/components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from '../../shared-wallets/pipes/suite/suite.pipe';
+import { NavigationExtras } from '@angular/router';
 
 const coins: Coin[] = [
   {
@@ -18,7 +19,7 @@ const coins: Coin[] = [
     logoRoute: 'assets/img/coins/BTC.svg',
     last: false,
     value: 'BTC',
-    network: '',
+    network: 'RSK',
     chainId: 42,
     rpc: '',
   },
@@ -28,7 +29,7 @@ const coins: Coin[] = [
     logoRoute: 'assets/img/coins/USDT.svg',
     last: false,
     value: 'USDT',
-    network: '',
+    network: 'ERC20',
     chainId: 42,
     rpc: '',
   },
@@ -40,6 +41,9 @@ const coinClicked = {
   logoRoute: 'assets/img/coins/BTC.svg',
   last: false,
   value: 'BTC',
+  network: 'RSK',
+  chainId: 42,
+  rpc: '',
 };
 
 describe('SelectCurrencyPage', () => {
@@ -90,10 +94,16 @@ describe('SelectCurrencyPage', () => {
   });
 
   it('should navigate when itemClicked event fired', async () => {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        asset: 'BTC',
+        network: 'RSK'
+      },
+    };
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/detail', 'BTC']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/detail'], navigationExtras);
   });
 });

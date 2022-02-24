@@ -234,6 +234,6 @@ describe('ReceivePage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-coin-selector')).triggerEventHandler('changeCurrency', undefined);
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/receive/select-currency']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/receive/select-currency']);
   });
 });

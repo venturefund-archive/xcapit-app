@@ -128,7 +128,7 @@ export class ReceivePage {
   }
 
   changeCurrency() {
-    this.navController.navigateForward(['/wallets/receive/select-currency']);
+    this.navController.navigateBack(['/wallets/receive/select-currency']);
   }
 
   checkPlatform() {
